@@ -246,6 +246,8 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="icon.ico" />
+    <None Include="Resources\text\de\lang_de.txt" />
+    <None Include="Resources\text\fr\lang_fr.txt" />
     <None Include="Resources\img\misc\rare_icon.png" />
     <None Include="Resources\img\misc\else_icon.png" />
     <None Include="Resources\img\misc\box_mark_06.png" />
