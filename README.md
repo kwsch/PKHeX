@@ -6,6 +6,7 @@ Supports binary file loading of:
 
 	Decrypted Save files (1MB) 
 	Individual entity files (232/260 byte)
+	Obsoleted: Unencrypted Network Packets containing entity files.
 	
 Data is then displayed in a meaningful view, and can be edited and saved back to Binary data.
 For save files, re-saving is possible (using SHA256 hashes; AES MAC cannot be emulated).
