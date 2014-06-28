@@ -1,0 +1,170 @@
+－－－－－－－－－－
+
+Mysteriöser Ort
+
+Entfernter Ort
+
+Escissia
+
+Route 1
+Escissia-Pfad
+Aquarellia
+
+Route 2
+Progrès-Weg
+Nouvaria-Wald
+
+Route 3
+Ouvert-Weg
+Nouvaria City
+
+Route 4
+Parterre-Weg
+Illumina City
+
+Prismaturm
+
+Labor von Flordelis
+
+Route 5
+Coteau-Weg
+Vanitéa
+
+Château Tristesse
+
+Route 6
+Palais-Allee
+Magnum-Opus-Palast
+
+Route 7
+Rivière-Promenade
+Relievera City
+
+Route 8
+Muraille-Küstenpfad
+Petrophia
+
+Route 9
+Rihorn-Pass
+Kampfschloss
+
+Route 10
+Menhir-Weg
+Cromlexia
+
+Route 11
+Miroir-Weg
+Spiegelhöhle
+
+Yantara City
+
+Turm der Erkenntnis
+
+Route 12
+Fourrage-Weg
+Tempera City
+
+Route 13
+Illumina-Steppe
+Route 14
+Romantia-Waldweg
+Romantia City
+
+Pokéball-Fabrik
+
+Route 15
+Brun-Weg
+Frescora
+
+Route 16
+Tristesse-Weg
+\x10\x02뷿P
+\x10\x02뷿Q
+Frosthöhle
+
+Route 17
+Mamutel-Weg
+Fluxia City
+
+Route 18
+Vallée-Étroite-Weg
+Mosaia
+
+Route 19
+Vallée-Large-Weg
+Fractalia City
+
+Route 20
+Irrwald
+Pokémon-Dorf
+
+Route 21
+Dernier-Weg
+Route 22
+Détourné-Weg
+Siegesstraße
+
+Pokémon Liga
+
+Batika City
+
+Kampfhaus
+
+Azurbucht
+
+Frescora-Tor
+
+Mosaia-Tor
+
+Petrophia-Tor
+
+Illumina-Tor
+
+Yantara-Tor
+
+Tempera-Tor
+
+Romantia-Tor
+
+Fluxia-Tor
+
+Fractalia-Tor
+
+Leuchthöhle
+
+Geolinkhöhle
+Zubat-Nest
+Kalos-Kraftwerk
+
+Flare-Geheimbasis
+
+Omega-Höhle
+
+Hotelruine
+
+Kammer der Leere
+
+Meerestitanenhöhle
+
+Kontaktsafari
+
+Flammen-Saal
+
+Schleusen-Saal
+
+Rüstungs-Saal
+
+Draco-Saal
+
+Licht-Saal
+
+Tor zur Pokémon Liga
+
+Bahnhof von Illumina
+
+Bahnhof von Batika
+
+Petrophia-Aquarium
+
+Geheimdungeon
+

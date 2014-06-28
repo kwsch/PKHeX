@@ -1,0 +1,154 @@
+﻿－－－－－－－－－－
+Mysteriöser Ort
+Entfernter Ort
+\xf000ą\x0001\x0001 von \xf000Ā\x0001\x0000
+Avenitia
+Gavina
+Orion City
+Septerna City
+Stratos City
+Rayono City
+Marea City
+Panaero City
+Nevaio City
+Twindrake City
+Route 1
+Route 2
+Route 3
+Route 4
+Route 5
+Route 6
+Route 7
+Route 8
+Route 9
+Route 10
+Route 11
+Route 12
+Route 13
+Route 14
+Route 15
+Route 16
+Route 17
+Route 18
+Traumbrache
+Ewigenwald
+Wüstenresort
+Alter Palast
+PWT
+Elektrolithhöhle
+Wendelberg
+Drachenstiege
+Siegesstraße
+Tessera
+Ondula
+Ferrula
+Pokémon Liga
+Schloss von N
+MS Einall Royal
+Weichenstation
+Kampfmetro
+Musiktheater
+Schwarze Stadt
+Weißer Wald
+Turm der Einheit
+Grundwassersenke
+Panaero-Höhle
+Feld der Besinnung
+Turm des Himmels
+Moor von Nevaio
+Kaufhaus
+Höhle der Schulung
+Porterlabor
+Riesengrotte
+Freiheitsgarten
+P2-Labor
+Himmelspfeilbrücke
+Marea-Zugbrücke
+Zylinderbrücke
+Dorfbrücke
+Wunderbrücke
+Kontaktebene
+Schrein der Ernte
+Bucht von Ondula
+Hain der Täuschung
+Kammer der Prüfung
+Kammer der Weisung
+Kontaktebenenhain
+Rayono City
+Marea City
+Panaero City
+Nevaio City
+Twindrake City
+Avenitia
+Weißer Wald
+Schwarze Stadt
+Tiefkühlcontainer
+Elektrolithhöhle
+Wendelberg
+Drachenstiege
+Riesengrotte
+Marea-Zugbrücke
+Zylinderbrücke
+Dorfbrücke
+Wunderbrücke
+Route 5
+Route 6
+Route 7
+Route 8
+Route 9
+Route 11
+Route 12
+Route 13
+Route 14
+Route 15
+Route 16
+Tessera
+Ondula
+Gavina-Tor
+Ondula-Tor
+Septerna-Tor
+Stratos-Tor
+Rayono-Tor
+Twindrake-Tor
+Schwarztor
+Weißtor
+Brückentor
+Routentor
+Unterwasserruine
+Eventura City
+Vapydro City
+Abidaya City
+Pokéwood
+Einklangspassage
+Dausing
+Monsentiero
+Route 19
+Route 20
+Route 21
+Route 22
+Route 23
+Stratos-Kanalisation
+Dausing-Hof
+Vapydro-Werke
+Janusberg
+Bizarro-Haus
+Siegesstraße
+Plasma-Fregatte
+Alter Fluchtweg
+Turner-Pfad
+－－－－－－－－－－
+Weiße Baumhöhle
+Schwarzes Hochhaus
+Strandgrotte
+Beschwörungshöhle
+Versteckte Lichtung
+Unterseetunnel
+Vapydro-Tor
+Eventura-Tor
+Naturschutzgebiet
+Medaillenamt
+Unterirdische Ruine
+Steingipfelkammer
+Eisbergkammer
+Eisenkammer
+Schwurhain

@@ -1,0 +1,170 @@
+----------
+
+Mystery Zone
+
+Faraway Place
+
+Vaniville Town
+
+Route 1
+Vaniville Pathway
+Aquacorde Town
+
+Route 2
+Avance Trail
+Santalune Forest
+
+Route 3
+Ouvert Way
+Santalune City
+
+Route 4
+Parterre Way
+Lumiose City
+
+Prism Tower
+
+Lysandre Labs
+
+Route 5
+Versant Road
+Camphrier Town
+
+Shabboneau Castle
+
+Route 6
+Palais Lane
+Parfum Palace
+
+Route 7
+Rivière Walk
+Cyllage City
+
+Route 8
+Muraille Coast
+Ambrette Town
+
+Route 9
+Spikes Passage
+Battle Chateau
+
+Route 10
+Menhir Trail
+Geosenge Town
+
+Route 11
+Miroir Way
+Reflection Cave
+
+Shalour City
+
+Tower of Mastery
+
+Route 12
+Fourrage Road
+Coumarine City
+
+Route 13
+Lumiose Badlands
+Route 14
+Laverre Nature Trail
+Laverre City
+
+Poké Ball Factory
+
+Route 15
+Brun Way
+Dendemille Town
+
+Route 16
+Mélancolie Path
+\x10\x02뷿P
+\x10\x02뷿Q
+Frost Cavern
+
+Route 17
+Mamoswine Road
+Anistar City
+
+Route 18
+Vallée Étroite Way
+Couriway Town
+
+Route 19
+Grande Vallée Way
+Snowbelle City
+
+Route 20
+Winding Woods
+Pokémon Village
+
+Route 21
+Dernière Way
+Route 22
+Détourner Way
+Victory Road
+
+Pokémon League
+
+Kiloude City
+
+Battle Maison
+
+Azure Bay
+
+Dendemille Gate
+
+Couriway Gate
+
+Ambrette Gate
+
+Lumiose Gate
+
+Shalour Gate
+
+Coumarine Gate
+
+Laverre Gate
+
+Anistar Gate
+
+Snowbelle Gate
+
+Glittering Cave
+
+Connecting Cave
+Zubat Roost
+Kalos Power Plant
+
+Team Flare Secret HQ
+
+Terminus Cave
+
+Lost Hotel
+
+Chamber of Emptiness
+
+Sea Spirit’s Den
+
+Friend Safari
+
+Blazing Chamber
+
+Flood Chamber
+
+Ironworks Chamber
+
+Dragonmark Chamber
+
+Radiant Chamber
+
+Pokémon League Gate
+
+Lumiose Station
+
+Kiloude Station
+
+Ambrette Aquarium
+
+Unknown Dungeon
+

@@ -1,0 +1,262 @@
+﻿! PKHeX Interface Customization File
+! Languages: Save this file accordingly and put it in the same folder as PKHeX's executable.
+! lang_en.txt = English
+! lang_jp.txt = Japanese
+! lang_fr.txt = French
+! lang_de.txt = German
+! lang_es.txt = Spanish
+! lang_it.txt = Italian
+! lang_ko.txt = Korean
+! Make sure that each edit has a ' = ' between Control name and new Text!
+! For the Menu Bar, separate the DropDown Item names with ' ; '
+!
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
+! Form1
+- Change stuff below this line, not above.
+----------------Overall PKX Interface------------------
+Menu_File = File ; Open... ; Save as... ; Exit
+Menu_Tools = Tools ; Toggle Box Interface ; Import Gen5 PKM ; Load/Dump Boxes
+Menu_Options = Options ; Language ; About PKHeX
+--------------------Main Tab Data----------------------
+Tab_Main = Main
+Label_PID = PID:
+Label_IsShiny = Shiny
+BTN_RerollPID = Reroll
+Label_Species = Species:
+CHK_Nicknamed = Nickname:
+Label_EXP = EXP:
+Label_CurLevel = Level:
+Label_Nature = Nature:
+Label_HeldItem = Held Item:
+Label_Friendship = Friendship:
+Label_Form = Form:
+Label_Ability = Ability:
+Label_Language = Language:
+CHK_IsEgg = Is Egg
+CHK_Infected = Infected
+CHK_Cured = Cured
+Label_PKRS = PkRs:
+Label_PKRSdays = d:
+Label_Country = Country:
+Label_SubRegion = Sub Region:
+Label_3DSRegion = 3DS Region:
+---------------------Met Tab Data-----------------------
+Tab_Met = Met
+Label_OriginGame = Origin Game:
+Label_MetLocation = Met Location:
+Label_Ball = Ball:
+Label_MetLevel = Met Level:
+Label_MetDate = Met Date:
+Label_EncounterType = Encounter:
+CHK_Fateful = Fateful Encounter
+---------------------Egg Met Data-----------------------
+CHK_AsEgg = As Egg
+GB_EggConditions = Egg Met Conditions
+Label_EggLocation = Location:
+Label_EggDate = Date:
+--------------------Stats Tab Data----------------------
+Tab_Stats = Stats
+Label_IVs = IVs
+Label_EVs = EVs
+Label_Stats = Stats
+Label_HP = HP:
+Label_ATK = Atk:
+Label_DEF = Def:
+Label_SPA = SpA:
+Label_SPD = SpD:
+Label_SPE = Spe:
+Label_Total = Total:
+Label_HiddenPowerPrefix = Hidden Power Type:
+Label_CharacteristicPrefix = Characteristic:
+BTN_RandomIVs = Randomize IVs
+BTN_RandomEVs = Randomize EVs
+Label_ContestStats = Contest Stats
+Label_Cool = Cool
+Label_Beauty = Beauty
+Label_Cute = Cute
+Label_Smart = Smart
+Label_Tough = Tough
+Label_Sheen = Sheen
+-------------------Attacks Tab Data---------------------
+Tab_Attacks = Attacks
+GB_CurrentMoves = Current Moves
+Label_CurPP = PP
+Label_PPups = PP Ups
+GB_RelearnMoves = Relearn Moves
+-------------------OT/Misc Tab Data---------------------
+Tab_OTMisc = OT/Misc
+GB_OT = Trainer Information
+Label_TID = TID:
+Label_SID = SID:
+Label_OT = OT:
+RB_OTM = M
+RB_OTF = F
+GB_nOT = Latest (not OT) Handler
+Label_PrevOT = OT:
+RB_nOTM = M
+RB_nOTF = F
+GB_ExtraBytes = Extra Bytes
+GB_Markings = Markings
+BTN_Ribbons = Ribbons/Medals
+BTN_History = Memories/Amie
+Label_EncryptionConstant = Encryption Constant:
+BTN_RerollEC = Reroll
+-----------------Save Data Interface--------------------
+Tab_Box = Box
+Tab_PartyBattle = Party-Battle Box
+Tab_Other = Other
+Tab_Tools = Tools
+Tab_SAV = SAV
+B_OpenPokePuffs = ‎Poké Puffs
+B_OpenItemPouch = Items
+B_OpenTrainerInfo = Trainer Info
+B_OpenBoxLayout = Box Layout
+B_OpenWondercards = Wondercard
+B_OpenBerryField = Berry Field
+B_OpenOPowers = O-Powers
+B_OpenEventFlags = Event Flags
+B_OpenPokedex = Pokédex
+--------------------Tab Internals-----------------------
+L_Party = Party:
+L_BattleBox = Battle Box:
+GB_Daycare = Daycare
+GB_GTS = GTS
+GB_Fused = Fused
+GB_SUBE = Old Man
+DayCare_HasEgg = Egg Available
+L_DaycareSeed = Seed
+L_ReadOnlyOther = This tab is read only.
+B_BoxIO = Open/Save Box Content
+B_JPEG = Save PGL .JPEG
+B_OUTHallofFame = Hall of Fame
+B_OUTPasserby = Passerby
+L_IntegrityCheck = Integrity Check:
+B_VerifyCHK = Checksums
+B_VerifySHA = Hashes
+L_SAVManipulation = Save File Manipulation:
+B_SwitchSAV = Switch SAV
+B_ExportSAV = Export SAV
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
+! RibbonMedal
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+BTN_All = Give All
+BTN_None = Remove All
+BTN_Cancel = Cancel
+BTN_Save = Save
+-------------------Ribbons/Medals----------------------
+Tab_Kalos = Common Ribbons
+Tab_Extra = Extra Ribbons
+Tab_Medals = Training Medals
+GB_Kalos12 = Set 12
+Kalos1a_0 = Kalos Champ
+Kalos1a_1 = Hoenn Champ
+Kalos1a_2 = Sinnoh Champ
+Kalos1a_3 = Best Friends
+Kalos1a_4 = Training
+Kalos1a_5 = Skillful Battler
+Kalos1a_6 = Expert Battler
+Kalos1a_7 = Effort
+---
+Kalos1b_0 = Alert
+Kalos1b_1 = Shock
+Kalos1b_2 = Downcast
+Kalos1b_3 = Careless
+Kalos1b_4 = Relax
+Kalos1b_5 = Snooze
+Kalos1b_6 = Smile
+Kalos1b_7 = Gorgeous
+---
+GB_Kalos34 = Set 2
+Kalos2a_0 = Royal
+Kalos2a_1 = Gorgeous Royal
+Kalos2a_2 = Artist
+Kalos2a_3 = Footprint
+Kalos2a_4 = Record
+Kalos2a_5 = Legend
+Kalos2a_6 = Country
+Kalos2a_7 = National
+---
+Kalos2b_0 = Earth
+Kalos2b_1 = World
+Kalos2b_2 = Classic
+Kalos2b_3 = Premier
+Kalos2b_4 = Event
+Kalos2b_5 = Birthday
+Kalos2b_6 = Special
+Kalos2b_7 = Souvenir
+---
+GB_Extra1 = Set 3
+Extra1_0 = Wishing
+Extra1_1 = Battle Champ
+Extra1_2 = Regional Champ
+Extra1_3 = National Champ
+Extra1_4 = World Champ
+L_PastContest = Past Contest Ribbons:
+L_PastBattle = Past Battle Ribbons:
+------------------Super Training---------------------
+L_SuperTraining = Normal Super Training
+L_Rank1 = Rank 1
+TMedal1_3 = HP
+TMedal1_4 = Atk
+TMedal1_7 = Def
+TMedal1_2 = SpA
+TMedal1_5 = SpD
+TMedal1_6 = Spe
+L_Rank2 = Rank 2
+TMedal2_1 = HP
+TMedal2_2 = Atk
+TMedal2_5 = Def
+TMedal2_0 = SpA
+TMedal2_3 = SpD
+TMedal2_4 = Spe
+L_Rank3 = Rank 3
+TMedal2_7 = HP
+TMedal3_0 = Atk
+TMedal3_3 = Def
+TMedal2_6 = SpA
+TMedal3_1 = SpD
+TMedal3_2 = Spe
+CHK_Secret = Secret Training Enabled
+L_Rank3 = Rank 4
+TMedal3_4 = Troubles
+L_Rank3 = Rank 5
+TMedal3_5 = Leaf
+TMedal3_6 = Fire
+TMedal3_7 = Water
+TMedal4_0 = Fleeing
+L_Rank3 = Rank 6
+TMedal4_1 = Second
+TMedal4_2 = Quick
+TMedal4_3 = Long
+L_Rank3 = Rank 7
+TMedal4_4 = Scatter
+TMedal4_5 = Barrage
+TMedal4_6 = Hydreigon
+L_Rank3 = Rank 8
+TMedal4_7 = X/Y
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
+! MemoryAmie
+- Change stuff below this line, not above.
+---------------------Bottom UI-------------------------
+BTN_Cancel = Cancel
+BTN_Save = Save
+L_Handler = Current Handler:
+-
+Tab_OTMemory = Memories with: OT
+L_OT_Friendship = Friendship:
+L_OT_Affection = Affection:
+Tab_CTMemory = Memories with: notOT
+L_CT_Friendship = Friendship:
+L_cT_Affection = Affection:
+Tab_Residence = Residence
+--
+- **Please leave the {0} in your line. The OT name will show instead.
+--
+L_Arguments = Disabled ; Never left ; OT ; Past Gen ; Memories with
+! End

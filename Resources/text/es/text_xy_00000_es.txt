@@ -1,0 +1,170 @@
+－
+
+Lugar misterioso
+
+Lugar lejano
+
+Pueblo Boceto
+
+Ruta 1
+Sendero Boceto
+Pueblo Acuarela
+
+Ruta 2
+Vía del Avance
+Bosque de Novarte
+
+Ruta 3
+Senda Despejada
+Ciudad Novarte
+
+Ruta 4
+Senda del Parterre
+Ciudad Luminalia
+
+Torre Prisma
+
+Laboratorios Lysson
+
+Ruta 5
+Vía Repecho
+Pueblo Vánitas
+
+Castillo Caduco
+
+Ruta 6
+Alameda del Palacio
+Palacio Cénit
+
+Ruta 7
+Paseo de la Ribera
+Ciudad Relieve
+
+Ruta 8
+Muralla Costera
+Pueblo Petroglifo
+
+Ruta 9
+Paso de Rhyhorn
+Bastión Batalla
+
+Ruta 10
+Camino Menhires
+Pueblo Crómlech
+
+Ruta 11
+Senda Reflejos
+Cueva Reflejos
+
+Ciudad Yantra
+
+Torre Maestra
+
+Ruta 12
+Vereda del Heno
+Ciudad Témpera
+
+Ruta 13
+Páramo de Luminalia
+Ruta 14
+Arboleda Romantis
+Ciudad Romantis
+
+Fábrica Poké Balls
+
+Ruta 15
+Sendero Hojarasca
+Pueblo Fresco
+
+Ruta 16
+Senda Melancolía
+\x10\x02뷿P
+\x10\x02뷿Q
+Gruta Helada
+
+Ruta 17
+Sendero Mamoswine
+Ciudad Fluxus
+
+Ruta 18
+Senda Valle Angosto
+Pueblo Mosaico
+
+Ruta 19
+Senda del Gran Valle
+Ciudad Fractal
+
+Ruta 20
+Bosque Errantes
+Villa Pokémon
+
+Ruta 21
+Vía Ultimia
+Ruta 22
+Vía Desvío
+Calle Victoria
+
+Liga Pokémon
+
+Ciudad Batik
+
+Mansión Batalla
+
+Bahía Azul
+
+Acceso a Fresco
+
+Acceso a Mosaico
+
+Acceso a Petroglifo
+
+Acceso a Luminalia
+
+Acceso a Yantra
+
+Acceso a Témpera
+
+Acceso a Romantis
+
+Acceso a Fluxus
+
+Acceso a Fractal
+
+Cueva Brillante
+
+Gruta Tierraunida
+Escondrijo Zubat
+Central de Kalos
+
+Guarida Team Flare
+
+Cueva Desenlace
+
+Hotel Desolación
+
+Estancia Vacua
+
+Cueva Talasia
+
+Safari Amistad
+
+Sala de las Llamas
+
+Sala de la Esclusa
+
+Sala del Metal
+
+Sala del Draco
+
+Sala de la Luz
+
+Acceso Liga Pokémon
+
+Estación Luminalia
+
+Estación Batik
+
+Acuario Petroglifo
+
+Mazmorra Rara
+

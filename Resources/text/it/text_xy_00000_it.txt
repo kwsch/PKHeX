@@ -1,0 +1,170 @@
+----------
+
+Zona Misteriosa
+
+Luogo Remoto
+
+Borgo Bozzetto
+
+Percorso 1
+Vicolo Bozzetto
+Rio Acquerello
+
+Percorso 2
+Via Progresso
+Bosco Novartopoli
+
+Percorso 3
+Via Aperta
+Novartopoli
+
+Percorso 4
+Viale Parterre
+Luminopoli
+
+Torre Prisma
+
+Laboratori Elisio
+
+Percorso 5
+Via Versante
+Castel Vanità
+
+Maniero Sottotono
+
+Percorso 6
+Boulevard Palazzo
+Reggia Aurea
+
+Percorso 7
+Via Fiume
+Altoripoli
+
+Percorso 8
+Muraglia Costiera
+Petroglifari
+
+Percorso 9
+Sentiero Punzoni
+Castello Lotta
+
+Percorso 10
+Strada dei Menhir
+Cromleburgo
+
+Percorso 11
+Via dei Riflessi
+Grotta dei Riflessi
+
+Yantaropoli
+
+Torre Maestra
+
+Percorso 12
+Via dei Pascoli
+Temperopoli
+
+Percorso 13
+Landa di Luminopoli
+Percorso 14
+Sentiero Romantopoli
+Romantopoli
+
+Fabbrica Poké Ball
+
+Percorso 15
+Via Fogliebrune
+Frescovilla
+
+Percorso 16
+Via Malinconia
+\x10\x02뷿P
+\x10\x02뷿Q
+Caverna Gelata
+
+Percorso 17
+Passo Mamoswine
+Fluxopoli
+
+Percorso 18
+Via Valle Stretta
+Ponte Mosaico
+
+Percorso 19
+Via Valle Larga
+Fractalopoli
+
+Percorso 20
+Bosco Passoperso
+Valle dei Pokémon
+
+Percorso 21
+Via Ultima
+Percorso 22
+Via Detour
+Via Vittoria
+
+Lega Pokémon
+
+Batikopoli
+
+Villa Lotta
+
+Baia Azzurra
+
+Varco Frescovilla
+
+Varco Ponte Mosaico
+
+Varco Petroglifari
+
+Varco Luminopoli
+
+Varco Yantaropoli
+
+Varco Temperopoli
+
+Varco Romantopoli
+
+Varco Fluxopoli
+
+Varco Fractalopoli
+
+Grotta dei Bagliori
+
+Grotta Trait d’Union
+Tana degli Zubat
+Centrale di Kalos
+
+Covo del Team Flare
+
+Grotta Climax
+
+Albergo Diroccato
+
+Stanza Vacua
+
+Antro Talassico
+
+Safari Amici
+
+Sala delle Fiamme
+
+Sala delle Chiuse
+
+Sala del Metallo
+
+Sala del Dragone
+
+Sala della Luce
+
+Varco Lega Pokémon
+
+Stazione Luminopoli
+
+Stazione Batikopoli
+
+Acquario
+
+Grotta Ignota
+
