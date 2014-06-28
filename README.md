@@ -2,7 +2,8 @@ PKHeX
 =====
 
 Pokémon X/Y SAV/PKX file editor, programmed in C#.
-Supports binary file loading of
+Supports binary file loading of:
+
 	Decrypted Save files (1MB) 
 	Individual entity files (232/260 byte)
 	
