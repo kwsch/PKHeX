@@ -27,8 +27,10 @@ namespace PKHeX
             m_parent = frm1;
             TranslateInterface("MemoryAmie");
             string[] arguments = Regex.Split(L_Arguments.Text, " ; ");
-            for (int i = 5; i < Math.Min(arguments.Length,vartypes.Length) + 5; i++)
+
+            for (int i = 5; i < Math.Min(arguments.Length,vartypes.Length+5); i++)
             {
+                if (arguments[i] == null) continue;
                 vartypes[i - 5] = arguments[i] + ":";
             }
             disabled = arguments[0];
