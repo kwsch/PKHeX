@@ -216,6 +216,10 @@ namespace PKHeX
 
             return input.Substring(0, index);
         }
+        private static string CleanFileName(string fileName)
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+        }
 
         #region //// PKX WINDOW FUNCTIONS ////
         // Randomization //
@@ -4101,7 +4105,7 @@ namespace PKHeX
                 Label_IsShiny.Visible = false;
             }
 
-            updateMarkings();
+            getMarkings();
         }
         private void getForms(int species)
         {
@@ -4387,6 +4391,19 @@ namespace PKHeX
             }
             else { Label_Gender.Text = "-"; }
         }
+        private void getMarkings()
+        {
+            PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
+            CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
+            for (int i = 0; i < 6; i++)
+            {
+                pba[i].Image = ImageTransparency.ChangeOpacity(pba[i].InitialImage, (float)(Convert.ToUInt16(cba[i].Checked)) * 0.9 + 0.1);
+            }
+
+            PB_MarkShiny.Image = ImageTransparency.ChangeOpacity(PB_MarkShiny.InitialImage, (float)(Convert.ToUInt16(!BTN_Shinytize.Enabled)) * 0.9 + 0.1);
+            PB_MarkCured.Image = ImageTransparency.ChangeOpacity(PB_MarkCured.InitialImage, (float)(Convert.ToUInt16(CHK_Cured.Checked)) * 0.9 + 0.1);
+            PB_MarkPentagon.Image = ImageTransparency.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(getIndex(CB_GameOrigin) == 24 || getIndex(CB_GameOrigin) == 25)) * 0.9 + 0.1);
+        }
         private int getMovePP(int move)
         {
             int pp = 0;
@@ -4582,6 +4599,38 @@ namespace PKHeX
                 else
                     Label_Gender.Text = "♂";
             }
+        }
+        private void Label_PPups_Click(object sender, EventArgs e)
+        {
+            int index = 3;
+            if (ModifierKeys == Keys.Control)
+            {
+                index = 0;
+            }
+            CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = index;
+
+        }
+        private void Label_OTGender_Click(object sender, EventArgs e)
+        {
+            if (Label_OTGender.Text == "♂")
+                Label_OTGender.Text = "♀";
+            else Label_OTGender.Text = "♂";
+        }
+        private void Label_CTGender_Click(object sender, EventArgs e)
+        {
+            if (Label_CTGender.Text == "") return;
+            else if (Label_CTGender.Text == "♂")
+                Label_CTGender.Text = "♀";
+            else Label_CTGender.Text = "♂";
+        }
+        private void Marking_Click(object sender, EventArgs e)
+        {
+            PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
+            CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
+
+            CheckBox cb = cba[Array.IndexOf(pba, sender as PictureBox)];
+            cb.Checked = !cb.Checked;
+            getMarkings();
         }
         // Prompted Updates of PKX Functions // 
         public static string RemoveTroublesomeCharacters(TextBox tb)
@@ -5080,7 +5129,7 @@ namespace PKHeX
 
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
-                updateNicknameSpecies(sender, e);
+                updateNickname(sender, e);
         }
         private void updateOriginGame(object sender, EventArgs e)
         {
@@ -5103,7 +5152,7 @@ namespace PKHeX
                 CB_EncounterType.SelectedIndex = 0;
             }
             updateLocations(gameorigin);
-            updateMarkings();
+            getMarkings();
         }
         private void updateLocations(int gameorigin)
         {
@@ -5445,6 +5494,39 @@ namespace PKHeX
             // Byte changed, need to refresh the Text box for the byte's value.
             TB_ExtraByte.Text = buff[offset].ToString();
         }
+        private void updateNickname(object sender, EventArgs e)
+        {
+
+            if (!CHK_Nicknamed.Checked)
+            {
+                // Fetch Current Species and set it as Nickname Text
+                int species = getIndex(CB_Species);
+                if (species == 0 || species > 721)
+                {
+                    TB_Nickname.Text = "";
+                }
+                else
+                {
+                    // get language
+                    int lang = getIndex(CB_Language);
+                    string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko" };
+
+                    string l = "";
+                    switch (lang)
+                    {
+                        case 1: l = "ja"; break;
+                        case 2: l = "en"; break;
+                        case 3: l = "fr"; break;
+                        case 4: l = "it"; break;
+                        case 5: l = "de"; break;
+                        case 7: l = "es"; break;
+                        case 8: l = "ko"; break;
+                        default: l = curlanguage; break;
+                    }
+                    TB_Nickname.Text = getStringList("Species", l)[species];
+                }
+            }
+        }
         private void updateNotOT(object sender, EventArgs e)
         {
             if (TB_OTt2.Text == "")
@@ -5490,7 +5572,7 @@ namespace PKHeX
             if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) CB_PKRSDays.SelectedIndex++;
         
 
-            updateMarkings();
+            getMarkings();
         }
         private void updatePKRSInfected(object sender, EventArgs e)
         {
@@ -5541,7 +5623,7 @@ namespace PKHeX
             {
                 if (!CHK_Nicknamed.Checked)
                 {
-                    updateNicknameSpecies(null, null);
+                    updateNickname(null, null);
                 }
                 TB_Friendship.Text = ((int)Friendship().Rows[getIndex(CB_Species)][1]).ToString();
                 
@@ -5569,36 +5651,6 @@ namespace PKHeX
                 CAL_EggDate.Value = new DateTime(2000, 01, 01);
                 CB_EggLocation.SelectedValue = 0;
             }
-        }
-        private void updateNicknameSpecies(object sender, EventArgs e)
-        {
-            // Fetch Current Species and set it as Nickname Text
-            int species = getIndex(CB_Species);
-            if (species == 0 || species > 721)
-            {
-                TB_Nickname.Text = "";
-            }
-            else 
-            {
-                // get language
-                int lang = getIndex(CB_Language);
-                string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko" };
-                
-                string l = "";
-                switch (lang)
-                {
-                    case 1: l = "ja"; break;
-                    case 2: l = "en"; break;
-                    case 3: l = "fr"; break;
-                    case 4: l = "it"; break;
-                    case 5: l = "de"; break;
-                    case 7: l = "es"; break;
-                    case 8: l = "ko"; break;
-                    default: l = curlanguage; break;
-                }
-                TB_Nickname.Text = getStringList("Species", l)[species];
-            }
-            CHK_Nicknamed.Checked = false;
         }
         private void updateShinyPID(object sender, EventArgs e)
         {
@@ -6553,20 +6605,25 @@ namespace PKHeX
                     //MessageBox.Show("The PKX Data has errors. Please fix them.", "Error");
                     System.Media.SystemSounds.Exclamation.Play();
 
-                    if (i < 6)
+                    if (i < 6) // Main Tab
                     {
                         tabMain.SelectedIndex = 0;
                     }
-                    else if (i < 9)
+                    else if (i < 9) // Met Tab
                     {
                         tabMain.SelectedIndex = 1;
                     }
-                    else
+                    else // Moves
                     {
                         tabMain.SelectedIndex = 3;
                     }
                     return false;
                 }
+            }
+            // Further logic checking
+            if (Convert.ToUInt32(TB_EVTotal.Text) > 510)
+            {
+                tabMain.SelectedIndex = 2;
             }
             return true;
         }
@@ -8090,7 +8147,7 @@ namespace PKHeX
                             Array.Resize(ref pkxdata, 232);
                             if (!File.Exists(path + "\\" + savedname))
                             {
-                                File.WriteAllBytes(path + "\\" + savedname, pkxdata);
+                                File.WriteAllBytes(CleanFileName(path + "\\" + savedname), pkxdata);
                             }
                         }
                     }
@@ -8422,54 +8479,6 @@ namespace PKHeX
             origintrack = "";
 
             UpdateIVs(null, null); // Prompt an update for the characteristics
-        }
-
-        private void Label_PPups_Click(object sender, EventArgs e)
-        {
-            int index = 3;
-            if (ModifierKeys == Keys.Control)
-            {
-                index = 0;
-            }
-            CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = index;
-
-        }
-
-        private void Label_OTGender_Click(object sender, EventArgs e)
-        {
-            if (Label_OTGender.Text == "♂")
-                Label_OTGender.Text = "♀";
-            else Label_OTGender.Text = "♂";
-        }
-        private void Label_CTGender_Click(object sender, EventArgs e)
-        {
-            if (Label_CTGender.Text == "") return;
-            else if (Label_CTGender.Text == "♂")
-                Label_CTGender.Text = "♀";
-            else Label_CTGender.Text = "♂";
-        }
-
-        private void Marking_Click(object sender, EventArgs e)
-        {
-            PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
-            CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
-            
-            CheckBox cb = cba[Array.IndexOf(pba, sender as PictureBox)];
-            cb.Checked = !cb.Checked;
-            updateMarkings();
-        }
-        private void updateMarkings()
-        {
-            PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
-            CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
-            for (int i = 0; i < 6; i++)
-            {
-                pba[i].Image = ImageTransparency.ChangeOpacity(pba[i].InitialImage, (float)(Convert.ToUInt16(cba[i].Checked)) * 0.9 + 0.1);
-            }
-
-            PB_MarkShiny.Image = ImageTransparency.ChangeOpacity(PB_MarkShiny.InitialImage, (float)(Convert.ToUInt16(!BTN_Shinytize.Enabled)) * 0.9 + 0.1);
-            PB_MarkCured.Image = ImageTransparency.ChangeOpacity(PB_MarkCured.InitialImage, (float)(Convert.ToUInt16(CHK_Cured.Checked)) * 0.9 + 0.1);
-            PB_MarkPentagon.Image = ImageTransparency.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(getIndex(CB_GameOrigin) == 24 || getIndex(CB_GameOrigin) == 25)) * 0.9 + 0.1);
         }
     }
     #region Structs & Classes

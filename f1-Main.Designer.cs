@@ -36,7 +36,6 @@
             this.CB_Ability = new System.Windows.Forms.ComboBox();
             this.TB_PID = new System.Windows.Forms.TextBox();
             this.TB_AbilityNumber = new System.Windows.Forms.MaskedTextBox();
-            this.BTN_Shinytize = new System.Windows.Forms.Button();
             this.CHK_Nicknamed = new System.Windows.Forms.CheckBox();
             this.Label_Gender = new System.Windows.Forms.Label();
             this.CB_Form = new System.Windows.Forms.ComboBox();
@@ -70,9 +69,10 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.Label_EXP = new System.Windows.Forms.Label();
             this.Label_Species = new System.Windows.Forms.Label();
-            this.Label_PID = new System.Windows.Forms.Label();
-            this.BTN_NickSpecies = new System.Windows.Forms.Button();
             this.Label_HatchCounter = new System.Windows.Forms.Label();
+            this.Label_IsShiny = new System.Windows.Forms.PictureBox();
+            this.BTN_Shinytize = new System.Windows.Forms.Button();
+            this.Label_PID = new System.Windows.Forms.Label();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.CHK_Fateful = new System.Windows.Forms.CheckBox();
@@ -320,9 +320,9 @@
             this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
-            this.Label_IsShiny = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
             this.Tab_Met.SuspendLayout();
             this.GB_EggConditions.SuspendLayout();
             this.Tab_Stats.SuspendLayout();
@@ -404,7 +404,6 @@
             this.Tab_Tools.SuspendLayout();
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -461,7 +460,6 @@
             this.Tab_Main.Controls.Add(this.CB_Species);
             this.Tab_Main.Controls.Add(this.Label_EXP);
             this.Tab_Main.Controls.Add(this.Label_Species);
-            this.Tab_Main.Controls.Add(this.BTN_NickSpecies);
             this.Tab_Main.Controls.Add(this.Label_HatchCounter);
             this.Tab_Main.Controls.Add(this.Label_IsShiny);
             this.Tab_Main.Controls.Add(this.BTN_Shinytize);
@@ -522,16 +520,6 @@
             this.TB_AbilityNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_AbilityNumber.Visible = false;
             // 
-            // BTN_Shinytize
-            // 
-            this.BTN_Shinytize.Location = new System.Drawing.Point(30, 6);
-            this.BTN_Shinytize.Name = "BTN_Shinytize";
-            this.BTN_Shinytize.Size = new System.Drawing.Size(26, 22);
-            this.BTN_Shinytize.TabIndex = 58;
-            this.BTN_Shinytize.Text = "☆";
-            this.BTN_Shinytize.UseVisualStyleBackColor = true;
-            this.BTN_Shinytize.Click += new System.EventHandler(this.updateShinyPID);
-            // 
             // CHK_Nicknamed
             // 
             this.CHK_Nicknamed.Location = new System.Drawing.Point(5, 51);
@@ -541,6 +529,7 @@
             this.CHK_Nicknamed.Text = "Nickname:";
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Nicknamed.UseVisualStyleBackColor = true;
+            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.updateNickname);
             // 
             // Label_Gender
             // 
@@ -864,7 +853,7 @@
             this.TB_Nickname.Location = new System.Drawing.Point(85, 49);
             this.TB_Nickname.MaxLength = 12;
             this.TB_Nickname.Name = "TB_Nickname";
-            this.TB_Nickname.Size = new System.Drawing.Size(72, 20);
+            this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
             this.TB_Nickname.TabIndex = 5;
             // 
             // CB_Species
@@ -898,26 +887,7 @@
             this.Label_Species.TabIndex = 1;
             this.Label_Species.Text = "Species:";
             this.Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Label_PID
-            // 
-            this.Label_PID.Location = new System.Drawing.Point(5, 11);
-            this.Label_PID.Name = "Label_PID";
-            this.Label_PID.Size = new System.Drawing.Size(77, 13);
-            this.Label_PID.TabIndex = 0;
-            this.Label_PID.Text = "PID:";
-            this.Label_PID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // BTN_NickSpecies
-            // 
-            this.BTN_NickSpecies.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_NickSpecies.Location = new System.Drawing.Point(158, 48);
-            this.BTN_NickSpecies.Name = "BTN_NickSpecies";
-            this.BTN_NickSpecies.Size = new System.Drawing.Size(50, 22);
-            this.BTN_NickSpecies.TabIndex = 6;
-            this.BTN_NickSpecies.Text = "Species";
-            this.BTN_NickSpecies.UseVisualStyleBackColor = true;
-            this.BTN_NickSpecies.Click += new System.EventHandler(this.updateNicknameSpecies);
+            this.Label_Species.Click += new System.EventHandler(this.updateNickname);
             // 
             // Label_HatchCounter
             // 
@@ -927,6 +897,37 @@
             this.Label_HatchCounter.TabIndex = 61;
             this.Label_HatchCounter.Text = "Hatch Counter:";
             this.Label_HatchCounter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Label_IsShiny
+            // 
+            this.Label_IsShiny.Image = global::PKHeX.Properties.Resources.rare_icon;
+            this.Label_IsShiny.InitialImage = global::PKHeX.Properties.Resources.rare_icon;
+            this.Label_IsShiny.Location = new System.Drawing.Point(33, 7);
+            this.Label_IsShiny.Name = "Label_IsShiny";
+            this.Label_IsShiny.Size = new System.Drawing.Size(20, 20);
+            this.Label_IsShiny.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.Label_IsShiny.TabIndex = 62;
+            this.Label_IsShiny.TabStop = false;
+            this.Label_IsShiny.Visible = false;
+            // 
+            // BTN_Shinytize
+            // 
+            this.BTN_Shinytize.Location = new System.Drawing.Point(30, 6);
+            this.BTN_Shinytize.Name = "BTN_Shinytize";
+            this.BTN_Shinytize.Size = new System.Drawing.Size(26, 22);
+            this.BTN_Shinytize.TabIndex = 58;
+            this.BTN_Shinytize.Text = "☆";
+            this.BTN_Shinytize.UseVisualStyleBackColor = true;
+            this.BTN_Shinytize.Click += new System.EventHandler(this.updateShinyPID);
+            // 
+            // Label_PID
+            // 
+            this.Label_PID.Location = new System.Drawing.Point(5, 11);
+            this.Label_PID.Name = "Label_PID";
+            this.Label_PID.Size = new System.Drawing.Size(77, 13);
+            this.Label_PID.TabIndex = 0;
+            this.Label_PID.Text = "PID:";
+            this.Label_PID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Tab_Met
             // 
@@ -2327,7 +2328,6 @@
             this.CB_ExtraBytes.Items.AddRange(new object[] {
             "0x16",
             "0x17",
-            "0x34",
             "0x35",
             "0x36",
             "0x37",
@@ -3777,18 +3777,6 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
-            // Label_IsShiny
-            // 
-            this.Label_IsShiny.Image = global::PKHeX.Properties.Resources.rare_icon;
-            this.Label_IsShiny.InitialImage = global::PKHeX.Properties.Resources.rare_icon;
-            this.Label_IsShiny.Location = new System.Drawing.Point(33, 7);
-            this.Label_IsShiny.Name = "Label_IsShiny";
-            this.Label_IsShiny.Size = new System.Drawing.Size(20, 20);
-            this.Label_IsShiny.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.Label_IsShiny.TabIndex = 62;
-            this.Label_IsShiny.TabStop = false;
-            this.Label_IsShiny.Visible = false;
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -3812,6 +3800,7 @@
             this.tabMain.ResumeLayout(false);
             this.Tab_Main.ResumeLayout(false);
             this.Tab_Main.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).EndInit();
             this.Tab_Met.ResumeLayout(false);
             this.Tab_Met.PerformLayout();
             this.GB_EggConditions.ResumeLayout(false);
@@ -3908,7 +3897,6 @@
             this.Tab_SAV.ResumeLayout(false);
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4061,7 +4049,6 @@
         private System.Windows.Forms.CheckBox CHK_Infected;
         private System.Windows.Forms.ComboBox CB_Form;
         private System.Windows.Forms.Label Label_Gender;
-        private System.Windows.Forms.Button BTN_NickSpecies;
         private System.Windows.Forms.CheckBox CHK_Nicknamed;
         private System.Windows.Forms.Button BTN_Shinytize;
         private System.Windows.Forms.MaskedTextBox TB_AbilityNumber;
