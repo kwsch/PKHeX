@@ -6913,19 +6913,20 @@ namespace PKHeX
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make File
+                string newfile = basepath + "\\" + CleanFileName(filename);
                 try
                 {
-                    File.WriteAllBytes(basepath + "\\" + filename, dragdata);
+                    File.WriteAllBytes(newfile, dragdata);
 
-                    string[] filesToDrag = { basepath + "\\" + filename };
+                    string[] filesToDrag = { newfile };
                     dragout.DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
-                    File.Delete(basepath + "\\" + filename);
+                    File.Delete(newfile);
                 }
                 catch (ArgumentException x)
                 {
                     MessageBox.Show("Drag&Drop Error\r\n" + x, "Error");
                 }
-                File.Delete(basepath + "\\" + filename);
+                File.Delete(newfile);
             }
         }
         private void dragout_DragOver(object sender, DragEventArgs e)
@@ -6947,19 +6948,20 @@ namespace PKHeX
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make file
+                string newfile = basepath + "\\" + CleanFileName(filename);
                 try
                 {
-                    File.WriteAllBytes(basepath + "\\" + filename, dragdata);
+                    File.WriteAllBytes(newfile, dragdata);
 
-                    string[] filesToDrag = { basepath + "\\" + filename };
+                    string[] filesToDrag = { newfile };
                     dragout.DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
-                    File.Delete(basepath + "\\" + filename);
+                    File.Delete(newfile);
                 }
                 catch (ArgumentException x)
                 {
                     MessageBox.Show("Drag&Drop Error\r\n" + x, "Error");
                 }
-                File.Delete(basepath + "\\" + filename);
+                File.Delete(newfile);
             }
         }
         private void eragout_DragOver(object sender, DragEventArgs e)
@@ -8147,7 +8149,7 @@ namespace PKHeX
                             Array.Resize(ref pkxdata, 232);
                             if (!File.Exists(path + "\\" + savedname))
                             {
-                                File.WriteAllBytes(CleanFileName(path + "\\" + savedname), pkxdata);
+                                File.WriteAllBytes(path + "\\" + CleanFileName(savedname), pkxdata);
                             }
                         }
                     }
