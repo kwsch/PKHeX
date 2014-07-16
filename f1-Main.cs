@@ -2064,7 +2064,7 @@ namespace PKHeX
             table.Rows.Add(197, 5);
             table.Rows.Add(198, 10);
             table.Rows.Add(199, 5);
-            table.Rows.Add(200, 15);
+            table.Rows.Add(200, 10);
             table.Rows.Add(201, 10);
             table.Rows.Add(202, 10);
             table.Rows.Add(203, 10);
@@ -4060,14 +4060,20 @@ namespace PKHeX
         private static int ToInt32(String value)
         {
             if (String.IsNullOrEmpty(value))
-                return 0;
-            return Int32.Parse(value);
+            { return 0; }
+            try
+            {return Int32.Parse(value);}
+            catch 
+            { return 0; }
         }
         private static uint ToUInt32(String value)
         {
             if (String.IsNullOrEmpty(value))
-                return 0;
-            return UInt32.Parse(value);
+            { return 0; }
+            try
+            { return UInt32.Parse(value); }
+            catch
+            { return 0; }
         }
         private uint getHEXval(TextBox tb)
         {
@@ -6590,21 +6596,17 @@ namespace PKHeX
         private bool verifiedpkx()
         {
             // Make sure the PKX Fields are filled out properly (color check)
-
+            #region ComboBoxes
             ComboBox[] cba = {
                                  CB_Species, CB_Nature, CB_HeldItem, CB_Ability, CB_Country, CB_SubRegion, // Main Tab
                                  CB_MetLocation, CB_EggLocation, CB_Ball,   // Met Tab
                                  CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
-                                 CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4
+                                 CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
                              };
-
             for (int i = 0; i < cba.Length; i++)
             {
                 if (cba[i].BackColor != defaultwhite)
                 {
-                    //MessageBox.Show("The PKX Data has errors. Please fix them.", "Error");
-                    System.Media.SystemSounds.Exclamation.Play();
-
                     if (i < 6) // Main Tab
                     {
                         tabMain.SelectedIndex = 0;
@@ -6617,15 +6619,41 @@ namespace PKHeX
                     {
                         tabMain.SelectedIndex = 3;
                     }
-                    return false;
+                    goto invalid;
                 }
             }
+            #endregion
+            #region TextBoxes
             // Further logic checking
+            MaskedTextBox[] tba = new MaskedTextBox[] 
+                { 
+                    TB_HPEV,TB_ATKEV,TB_DEFEV,TB_SPAEV,TB_SPDEV,TB_SPEEV,
+                };
+            for (int i = 0; i < 6; i++)
+            {
+                if (ToInt32(tba[i].Text) > 252)
+                {
+                    tabMain.SelectedIndex = 2;
+                    goto invalid;
+                }
+            }
             if (Convert.ToUInt32(TB_EVTotal.Text) > 510)
             {
                 tabMain.SelectedIndex = 2;
+                goto invalid;
             }
+            #endregion
+
+            // If no errors detected...
             return true;
+            // else...
+        invalid:
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                return false;
+            }
+            
+            
         }
         private byte[] preparepkx(byte[] buff)
         {

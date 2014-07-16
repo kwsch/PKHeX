@@ -153,10 +153,6 @@
             this.GB_CurrentMoves = new System.Windows.Forms.GroupBox();
             this.Label_CurPP = new System.Windows.Forms.Label();
             this.Label_PPups = new System.Windows.Forms.Label();
-            this.TB_PP4 = new System.Windows.Forms.TextBox();
-            this.TB_PP3 = new System.Windows.Forms.TextBox();
-            this.TB_PP2 = new System.Windows.Forms.TextBox();
-            this.TB_PP1 = new System.Windows.Forms.TextBox();
             this.CB_PPu4 = new System.Windows.Forms.ComboBox();
             this.CB_PPu3 = new System.Windows.Forms.ComboBox();
             this.CB_PPu2 = new System.Windows.Forms.ComboBox();
@@ -320,6 +316,10 @@
             this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
+            this.TB_PP4 = new System.Windows.Forms.TextBox();
+            this.TB_PP3 = new System.Windows.Forms.TextBox();
+            this.TB_PP2 = new System.Windows.Forms.TextBox();
+            this.TB_PP1 = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -1846,38 +1846,6 @@
             this.Label_PPups.Text = "PP Ups";
             this.Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Label_PPups.Click += new System.EventHandler(this.Label_PPups_Click);
-            // 
-            // TB_PP4
-            // 
-            this.TB_PP4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP4.Location = new System.Drawing.Point(133, 93);
-            this.TB_PP4.Name = "TB_PP4";
-            this.TB_PP4.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP4.TabIndex = 11;
-            // 
-            // TB_PP3
-            // 
-            this.TB_PP3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP3.Location = new System.Drawing.Point(133, 71);
-            this.TB_PP3.Name = "TB_PP3";
-            this.TB_PP3.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP3.TabIndex = 8;
-            // 
-            // TB_PP2
-            // 
-            this.TB_PP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP2.Location = new System.Drawing.Point(133, 49);
-            this.TB_PP2.Name = "TB_PP2";
-            this.TB_PP2.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP2.TabIndex = 5;
-            // 
-            // TB_PP1
-            // 
-            this.TB_PP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP1.Location = new System.Drawing.Point(133, 27);
-            this.TB_PP1.Name = "TB_PP1";
-            this.TB_PP1.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP1.TabIndex = 2;
             // 
             // CB_PPu4
             // 
@@ -3777,6 +3745,42 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
+            // TB_PP4
+            // 
+            this.TB_PP4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP4.Location = new System.Drawing.Point(133, 93);
+            this.TB_PP4.MaxLength = 2;
+            this.TB_PP4.Name = "TB_PP4";
+            this.TB_PP4.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP4.TabIndex = 11;
+            // 
+            // TB_PP3
+            // 
+            this.TB_PP3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP3.Location = new System.Drawing.Point(133, 71);
+            this.TB_PP3.MaxLength = 2;
+            this.TB_PP3.Name = "TB_PP3";
+            this.TB_PP3.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP3.TabIndex = 8;
+            // 
+            // TB_PP2
+            // 
+            this.TB_PP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP2.Location = new System.Drawing.Point(133, 49);
+            this.TB_PP2.MaxLength = 2;
+            this.TB_PP2.Name = "TB_PP2";
+            this.TB_PP2.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP2.TabIndex = 5;
+            // 
+            // TB_PP1
+            // 
+            this.TB_PP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP1.Location = new System.Drawing.Point(133, 27);
+            this.TB_PP1.MaxLength = 2;
+            this.TB_PP1.Name = "TB_PP1";
+            this.TB_PP1.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP1.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -3955,10 +3959,6 @@
         private System.Windows.Forms.Label Label_EncryptionConstant;
         private System.Windows.Forms.GroupBox GB_RelearnMoves;
         private System.Windows.Forms.GroupBox GB_CurrentMoves;
-        private System.Windows.Forms.TextBox TB_PP4;
-        private System.Windows.Forms.TextBox TB_PP3;
-        private System.Windows.Forms.TextBox TB_PP2;
-        private System.Windows.Forms.TextBox TB_PP1;
         private System.Windows.Forms.ComboBox CB_PPu4;
         private System.Windows.Forms.ComboBox CB_PPu3;
         private System.Windows.Forms.ComboBox CB_PPu2;
@@ -4194,6 +4194,10 @@
         private System.Windows.Forms.PictureBox PB_Mark2;
         private System.Windows.Forms.PictureBox PB_Mark1;
         private System.Windows.Forms.PictureBox Label_IsShiny;
+        private System.Windows.Forms.TextBox TB_PP4;
+        private System.Windows.Forms.TextBox TB_PP3;
+        private System.Windows.Forms.TextBox TB_PP2;
+        private System.Windows.Forms.TextBox TB_PP1;
     }
 }
 
