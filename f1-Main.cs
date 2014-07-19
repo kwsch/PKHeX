@@ -5721,6 +5721,8 @@ namespace PKHeX
                 updateAbilityNumber();
             else if ((cb == CB_Move1) || (cb == CB_Move2) || (cb == CB_Move3) || (cb == CB_Move4))
                 updatePP(sender, e);
+
+            UpdateIVs(null, null); // updating Nature will trigger stats to update as well
         }
         private void removedropCB(object sender, KeyEventArgs e)
         {

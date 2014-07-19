@@ -244,7 +244,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="favicon.ico" />
     <Content Include="icon.ico" />
     <None Include="Resources\text\de\lang_de.txt" />
     <None Include="Resources\text\fr\lang_fr.txt" />

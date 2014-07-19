@@ -33,12 +33,15 @@ namespace PKHeX
                 if (arguments[i] == null) continue;
                 vartypes[i - 5] = arguments[i] + ":";
             }
-            disabled = arguments[0];
-            notleft = arguments[1];
-            ot = arguments[2];
-            past = arguments[3];
-            withOT = arguments[4];
-            
+            try
+            {
+                disabled = arguments[0];
+                notleft = arguments[1];
+                ot = arguments[2];
+                past = arguments[3];
+                withOT = arguments[4];
+            }
+            catch { };
             h = m_parent.buff;
 
             // Set the current friendship from main window
