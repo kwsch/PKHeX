@@ -56,6 +56,12 @@ namespace PKHeX
                         + CB_Box.SelectedIndex * (232 * 30) // Box Shift
                         + CB_Slot.SelectedIndex * 232,      // Slot Shift
                     newdata, 0, 0xE8);
+
+                if (newdata.SequenceEqual(new Byte[0xE8]))
+                {
+                    System.Media.SystemSounds.Exclamation.Play();
+                    return false;
+                }
             }
             else if (CB_Source.SelectedIndex == 2)
             {
@@ -120,10 +126,6 @@ namespace PKHeX
 
                 CB_Slot.SelectedIndex = 0;
             }
-        }
-
-        private void changeSourceIndex(object sender, EventArgs e)
-        {
         }
 
         public static string RemoveTroublesomeCharacters(TextBox tb)

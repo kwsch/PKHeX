@@ -135,7 +135,6 @@
             this.CB_Slot.Name = "CB_Slot";
             this.CB_Slot.Size = new System.Drawing.Size(35, 21);
             this.CB_Slot.TabIndex = 12;
-            this.CB_Slot.SelectedIndexChanged += new System.EventHandler(this.changeSourceIndex);
             // 
             // CB_Box
             // 
@@ -177,7 +176,6 @@
             this.CB_Box.Name = "CB_Box";
             this.CB_Box.Size = new System.Drawing.Size(35, 21);
             this.CB_Box.TabIndex = 13;
-            this.CB_Box.SelectedIndexChanged += new System.EventHandler(this.changeSourceIndex);
             // 
             // B_Load
             // 
