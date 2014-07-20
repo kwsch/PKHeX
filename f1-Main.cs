@@ -3626,23 +3626,24 @@ namespace PKHeX
             List<cbItem> origin_list = new List<cbItem>();
             // lazy text table... 8 columns
             string[] langlistorigin = new string[] {
+                // ID       // EN       // JP               // FR       // IT           // DE       // ES               // KO
                     "24",	"X",	    "X",	            "X",	    "X",	        "X",	    "X",	            "X",
                     "25",	"Y",	    "Y",	            "Y",	    "Y",	        "Y",	    "Y",	            "Y",
                     "20",	"White",	"ホワイト",	        "Blanche",	"Bianca",	    "Weiße",	"Blanca",	        "화이트",
                     "21",	"Black",	"ブラック",	        "Noire",	"Nera",	        "Schwarze",	"Negra",	        "블랙",
-                    "22",	"White2",	"ホワイト2",	        "Blanche2",	"Bianca2",	    "Weiße2",	"Blanca2",	        "화이트2",
-                    "23",	"Black2",	"ブラック2",	        "Noire2",	"Nera2",	    "Schwarze2","Negra2",	        "블랙2",
+                    "22",	"White2",	"ホワイト2",	        "Blanche 2",	"Bianca2",	    "Weiße2",	"Blanca2",	        "화이트2",
+                    "23",	"Black2",	"ブラック2",	        "Noire 2",	"Nera2",	    "Schwarze2","Negra2",	        "블랙2",
                     "10",	"Diamond",	"ダイヤモンド",	    "Diamant",	"Diamante", 	"Diamant",	"Diamante",	        "디아루가",
                     "11",	"Pearl",	"パール",	        "Perle",	"Perla",	    "Perl",	    "Perla",	        "펄기아",
                     "12",	"Platinum",	"プラチナ",	        "Platine",	"Platino",	    "Platin",	"Platino",	        "Pt 기라티나",
-                    "7",	"HeartGold","ハートゴールド",	"HeartGold","HeartGold",	"HeartGold","HeartGold",	    "하트골드",
-                    "8",	"SoulSilver","ソウルシルバー ",	"SoulSilver","SoulSilver",	"SoulSilver","SoulSilver",	    "소울실버",
+                    "7",	"HeartGold","ハートゴールド",	"Or HeartGold","HeartGold",	"HeartGold","HeartGold",	    "하트골드",
+                    "8",	"SoulSilver","ソウルシルバー ",	"Argent SoulSilver","SoulSilver",	"SoulSilver","SoulSilver",	    "소울실버",
                     "2",	"Ruby",	    "ルビー",	        "Rubis",    "Rubino",	    "Rubin",	"Rubí",	            "루비",
                     "1",	"Sapphire",	"サファイア",	    "Saphir",	"Zaffiro",	    "Saphir",	"Zafiro",	        "사파이어",
                     "3",	"Emerald",	"エメラルド",	    "Émeraude",	"Smeraldo",	    "Smaragd",	"Esmeralda",	    "에메랄드",
-                    "4",	"FireRed",	"ファイアレッド",	"Rouge-Feu","Rosso Fuoco",	"Feuerrote ","Rojo Fuego",	    "파이어레드",
-                    "5",	"LeafGreen",	"リーフグリーン","Vert-Feuille","Verde Foglia","Blattgrüne ","Verde Hoja",	"리프그린",
-                    "15",	"Colosseum/XD",	"コロシアム/XD",	"Colisée/XD","Colosseo/XD",	"Kolosseum/XD",	"Colosseum/XD",	"세움/XD",
+                    "4",	"FireRed",	"ファイアレッド",	"Rouge Feu","Rosso Fuoco",	"Feuerrote ","Rojo Fuego",	    "파이어레드",
+                    "5",	"LeafGreen",	"リーフグリーン","Vert Feuille","Verde Foglia","Blattgrüne ","Verde Hoja",	"리프그린",
+                    "15",	"Colosseum/XD",	"コロシアム/XD",	"Colosseum/XD","Colosseo/XD",	"Kolosseum/XD",	"Colosseum/XD",	"세움/XD",
                 };
             // populate the list
             for (int i = 0; i < langlistorigin.Length / 8; i++)
