@@ -6262,7 +6262,7 @@ namespace PKHeX
             f4.ShowDialog();
         }
         // Open/Save Array Manipulation // 
-        private byte[] shuffleArray(byte[] pkx, uint sv)
+        public byte[] shuffleArray(byte[] pkx, uint sv)
         {
             byte[] ekx = new Byte[260];
             Array.Copy(pkx, ekx, 8);
@@ -6291,7 +6291,7 @@ namespace PKHeX
             }
             return ekx;
         }
-        private byte[] decryptArray(byte[] ekx)
+        public byte[] decryptArray(byte[] ekx)
         {
             byte[] pkx = ekx;
             uint pv = BitConverter.ToUInt32(pkx, 0);
@@ -6327,7 +6327,7 @@ namespace PKHeX
 
             return pkx;
         }
-        private byte[] encryptArray(byte[] pkx)
+        public byte[] encryptArray(byte[] pkx)
         {
             // Shuffle
             uint pv = BitConverter.ToUInt32(pkx, 0);
@@ -6595,7 +6595,7 @@ namespace PKHeX
 
             return pkx; // Done!
         }
-        private bool verifiedpkx()
+        public bool verifiedpkx()
         {
             // Make sure the PKX Fields are filled out properly (color check)
             #region ComboBoxes
@@ -6657,7 +6657,7 @@ namespace PKHeX
             
             
         }
-        private byte[] preparepkx(byte[] buff)
+        public byte[] preparepkx(byte[] buff)
         {
             // Stuff the Buff 
             // Create a new storage so we don't muck up things with the original
@@ -8511,6 +8511,13 @@ namespace PKHeX
             origintrack = "";
 
             UpdateIVs(null, null); // Prompt an update for the characteristics
+        }
+
+        private void codeGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Open Code Generator
+            CodeGenerator CodeGen = new PKHeX.CodeGenerator(this);
+            CodeGen.Show();
         }
     }
     #region Structs & Classes

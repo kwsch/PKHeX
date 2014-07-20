@@ -153,6 +153,10 @@
             this.GB_CurrentMoves = new System.Windows.Forms.GroupBox();
             this.Label_CurPP = new System.Windows.Forms.Label();
             this.Label_PPups = new System.Windows.Forms.Label();
+            this.TB_PP4 = new System.Windows.Forms.TextBox();
+            this.TB_PP3 = new System.Windows.Forms.TextBox();
+            this.TB_PP2 = new System.Windows.Forms.TextBox();
+            this.TB_PP1 = new System.Windows.Forms.TextBox();
             this.CB_PPu4 = new System.Windows.Forms.ComboBox();
             this.CB_PPu3 = new System.Windows.Forms.ComboBox();
             this.CB_PPu2 = new System.Windows.Forms.ComboBox();
@@ -316,10 +320,7 @@
             this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
-            this.TB_PP4 = new System.Windows.Forms.TextBox();
-            this.TB_PP3 = new System.Windows.Forms.TextBox();
-            this.TB_PP2 = new System.Windows.Forms.TextBox();
-            this.TB_PP1 = new System.Windows.Forms.TextBox();
+            this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -1847,6 +1848,42 @@
             this.Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Label_PPups.Click += new System.EventHandler(this.Label_PPups_Click);
             // 
+            // TB_PP4
+            // 
+            this.TB_PP4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP4.Location = new System.Drawing.Point(133, 93);
+            this.TB_PP4.MaxLength = 2;
+            this.TB_PP4.Name = "TB_PP4";
+            this.TB_PP4.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP4.TabIndex = 11;
+            // 
+            // TB_PP3
+            // 
+            this.TB_PP3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP3.Location = new System.Drawing.Point(133, 71);
+            this.TB_PP3.MaxLength = 2;
+            this.TB_PP3.Name = "TB_PP3";
+            this.TB_PP3.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP3.TabIndex = 8;
+            // 
+            // TB_PP2
+            // 
+            this.TB_PP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP2.Location = new System.Drawing.Point(133, 49);
+            this.TB_PP2.MaxLength = 2;
+            this.TB_PP2.Name = "TB_PP2";
+            this.TB_PP2.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP2.TabIndex = 5;
+            // 
+            // TB_PP1
+            // 
+            this.TB_PP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_PP1.Location = new System.Drawing.Point(133, 27);
+            this.TB_PP1.MaxLength = 2;
+            this.TB_PP1.Name = "TB_PP1";
+            this.TB_PP1.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP1.TabIndex = 2;
+            // 
             // CB_PPu4
             // 
             this.CB_PPu4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -2503,7 +2540,8 @@
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenBoxUI,
             this.Menu_ImportGen5,
-            this.Menu_BoxIO});
+            this.Menu_BoxIO,
+            this.codeGeneratorToolStripMenuItem});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
@@ -3745,41 +3783,12 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
-            // TB_PP4
+            // codeGeneratorToolStripMenuItem
             // 
-            this.TB_PP4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP4.Location = new System.Drawing.Point(133, 93);
-            this.TB_PP4.MaxLength = 2;
-            this.TB_PP4.Name = "TB_PP4";
-            this.TB_PP4.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP4.TabIndex = 11;
-            // 
-            // TB_PP3
-            // 
-            this.TB_PP3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP3.Location = new System.Drawing.Point(133, 71);
-            this.TB_PP3.MaxLength = 2;
-            this.TB_PP3.Name = "TB_PP3";
-            this.TB_PP3.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP3.TabIndex = 8;
-            // 
-            // TB_PP2
-            // 
-            this.TB_PP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP2.Location = new System.Drawing.Point(133, 49);
-            this.TB_PP2.MaxLength = 2;
-            this.TB_PP2.Name = "TB_PP2";
-            this.TB_PP2.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP2.TabIndex = 5;
-            // 
-            // TB_PP1
-            // 
-            this.TB_PP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP1.Location = new System.Drawing.Point(133, 27);
-            this.TB_PP1.MaxLength = 2;
-            this.TB_PP1.Name = "TB_PP1";
-            this.TB_PP1.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP1.TabIndex = 2;
+            this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
+            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
+            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.codeGeneratorToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -4198,6 +4207,7 @@
         private System.Windows.Forms.TextBox TB_PP3;
         private System.Windows.Forms.TextBox TB_PP2;
         private System.Windows.Forms.TextBox TB_PP1;
+        private System.Windows.Forms.ToolStripMenuItem codeGeneratorToolStripMenuItem;
     }
 }
 

@@ -34,18 +34,20 @@
             this.L_Write = new System.Windows.Forms.Label();
             this.L_Source = new System.Windows.Forms.Label();
             this.CB_Source = new System.Windows.Forms.ComboBox();
-            this.B_CnE = new System.Windows.Forms.Button();
+            this.B_Save = new System.Windows.Forms.Button();
             this.L_Box = new System.Windows.Forms.Label();
             this.L_Slot = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.L_Info = new System.Windows.Forms.Label();
+            this.CB_Slot = new System.Windows.Forms.ComboBox();
+            this.CB_Box = new System.Windows.Forms.ComboBox();
+            this.B_Load = new System.Windows.Forms.Button();
+            this.B_Add = new System.Windows.Forms.Button();
+            this.B_Clear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // RTB_Code
             // 
             this.RTB_Code.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_Code.Location = new System.Drawing.Point(12, 71);
+            this.RTB_Code.Location = new System.Drawing.Point(12, 100);
             this.RTB_Code.Name = "RTB_Code";
             this.RTB_Code.ReadOnly = true;
             this.RTB_Code.Size = new System.Drawing.Size(210, 175);
@@ -85,21 +87,22 @@
             this.CB_Source.FormattingEnabled = true;
             this.CB_Source.Items.AddRange(new object[] {
             "Loaded EKX (Tabs)",
-            "Box EKX ",
-            "Wondercard"});
+            "Box EKX "});
             this.CB_Source.Location = new System.Drawing.Point(90, 23);
             this.CB_Source.Name = "CB_Source";
             this.CB_Source.Size = new System.Drawing.Size(132, 21);
             this.CB_Source.TabIndex = 6;
+            this.CB_Source.SelectedIndexChanged += new System.EventHandler(this.changeDataSource);
             // 
-            // B_CnE
+            // B_Save
             // 
-            this.B_CnE.Location = new System.Drawing.Point(37, 252);
-            this.B_CnE.Name = "B_CnE";
-            this.B_CnE.Size = new System.Drawing.Size(157, 23);
-            this.B_CnE.TabIndex = 9;
-            this.B_CnE.Text = "Create && Export Code File";
-            this.B_CnE.UseVisualStyleBackColor = true;
+            this.B_Save.Location = new System.Drawing.Point(12, 71);
+            this.B_Save.Name = "B_Save";
+            this.B_Save.Size = new System.Drawing.Size(69, 23);
+            this.B_Save.TabIndex = 9;
+            this.B_Save.Text = "Save Code";
+            this.B_Save.UseVisualStyleBackColor = true;
+            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
             // L_Box
             // 
@@ -119,52 +122,105 @@
             this.L_Slot.TabIndex = 11;
             this.L_Slot.Text = "Slot:";
             // 
-            // comboBox2
+            // CB_Slot
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.CB_Slot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Slot.FormattingEnabled = true;
+            this.CB_Slot.Items.AddRange(new object[] {
             "Loaded EKX (Tabs)",
             "Box EKX ",
             "Wondercard"});
-            this.comboBox2.Location = new System.Drawing.Point(187, 44);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(35, 21);
-            this.comboBox2.TabIndex = 12;
+            this.CB_Slot.Location = new System.Drawing.Point(187, 44);
+            this.CB_Slot.Name = "CB_Slot";
+            this.CB_Slot.Size = new System.Drawing.Size(35, 21);
+            this.CB_Slot.TabIndex = 12;
+            this.CB_Slot.SelectedIndexChanged += new System.EventHandler(this.changeSourceIndex);
             // 
-            // comboBox3
+            // CB_Box
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "Loaded EKX (Tabs)",
-            "Box EKX ",
-            "Wondercard"});
-            this.comboBox3.Location = new System.Drawing.Point(115, 44);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(35, 21);
-            this.comboBox3.TabIndex = 13;
+            this.CB_Box.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Box.FormattingEnabled = true;
+            this.CB_Box.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"});
+            this.CB_Box.Location = new System.Drawing.Point(120, 44);
+            this.CB_Box.Name = "CB_Box";
+            this.CB_Box.Size = new System.Drawing.Size(35, 21);
+            this.CB_Box.TabIndex = 13;
+            this.CB_Box.SelectedIndexChanged += new System.EventHandler(this.changeSourceIndex);
             // 
-            // L_Info
+            // B_Load
             // 
-            this.L_Info.AutoSize = true;
-            this.L_Info.Location = new System.Drawing.Point(12, 48);
-            this.L_Info.Name = "L_Info";
-            this.L_Info.Size = new System.Drawing.Size(31, 13);
-            this.L_Info.TabIndex = 14;
-            this.L_Info.Text = "(Info)";
+            this.B_Load.Location = new System.Drawing.Point(12, 48);
+            this.B_Load.Name = "B_Load";
+            this.B_Load.Size = new System.Drawing.Size(69, 23);
+            this.B_Load.TabIndex = 14;
+            this.B_Load.Text = "Load Code";
+            this.B_Load.UseVisualStyleBackColor = true;
+            this.B_Load.Click += new System.EventHandler(this.B_Load_Click);
+            // 
+            // B_Add
+            // 
+            this.B_Add.Location = new System.Drawing.Point(162, 71);
+            this.B_Add.Name = "B_Add";
+            this.B_Add.Size = new System.Drawing.Size(60, 23);
+            this.B_Add.TabIndex = 15;
+            this.B_Add.Text = "Add ↓";
+            this.B_Add.UseVisualStyleBackColor = true;
+            this.B_Add.Click += new System.EventHandler(this.B_Add_Click);
+            // 
+            // B_Clear
+            // 
+            this.B_Clear.Location = new System.Drawing.Point(90, 71);
+            this.B_Clear.Name = "B_Clear";
+            this.B_Clear.Size = new System.Drawing.Size(60, 23);
+            this.B_Clear.TabIndex = 16;
+            this.B_Clear.Text = "Clear All";
+            this.B_Clear.UseVisualStyleBackColor = true;
+            this.B_Clear.Click += new System.EventHandler(this.B_Clear_Click);
             // 
             // CodeGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(230, 282);
-            this.Controls.Add(this.L_Info);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.B_Clear);
+            this.Controls.Add(this.B_Add);
+            this.Controls.Add(this.B_Load);
+            this.Controls.Add(this.CB_Box);
+            this.Controls.Add(this.CB_Slot);
             this.Controls.Add(this.L_Slot);
             this.Controls.Add(this.L_Box);
-            this.Controls.Add(this.B_CnE);
+            this.Controls.Add(this.B_Save);
             this.Controls.Add(this.CB_Source);
             this.Controls.Add(this.L_Source);
             this.Controls.Add(this.L_Write);
@@ -175,6 +231,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CodeGenerator";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CodeGenerator";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -188,11 +245,13 @@
         private System.Windows.Forms.Label L_Write;
         private System.Windows.Forms.Label L_Source;
         private System.Windows.Forms.ComboBox CB_Source;
-        private System.Windows.Forms.Button B_CnE;
+        private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Label L_Box;
         private System.Windows.Forms.Label L_Slot;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Label L_Info;
+        private System.Windows.Forms.ComboBox CB_Slot;
+        private System.Windows.Forms.ComboBox CB_Box;
+        private System.Windows.Forms.Button B_Load;
+        private System.Windows.Forms.Button B_Add;
+        private System.Windows.Forms.Button B_Clear;
     }
 }
