@@ -6638,10 +6638,11 @@ namespace PKHeX
             MaskedTextBox[] tba = new MaskedTextBox[] 
                 { 
                     TB_HPEV,TB_ATKEV,TB_DEFEV,TB_SPAEV,TB_SPDEV,TB_SPEEV,
+                    TB_HPIV,TB_ATKIV,TB_DEFIV,TB_SPAIV,TB_SPDIV,TB_SPEIV,
                 };
             for (int i = 0; i < 6; i++)
             {
-                if (ToInt32(tba[i].Text) > 252)
+                if ((ToInt32(tba[i].Text) > 252) || (ToInt32(tba[i+6].Text) > 31))
                 {
                     tabMain.SelectedIndex = 2;
                     goto invalid;
