@@ -38,13 +38,13 @@
             this.Region2 = new System.Windows.Forms.MaskedTextBox();
             this.M_OT_Friendship = new System.Windows.Forms.MaskedTextBox();
             this.L_OT_Friendship = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.L_Geo0 = new System.Windows.Forms.Label();
+            this.L_Geo1 = new System.Windows.Forms.Label();
+            this.L_Region = new System.Windows.Forms.Label();
+            this.L_Country = new System.Windows.Forms.Label();
+            this.L_Geo2 = new System.Windows.Forms.Label();
+            this.L_Geo3 = new System.Windows.Forms.Label();
+            this.L_Geo4 = new System.Windows.Forms.Label();
             this.L_OT_Quality = new System.Windows.Forms.Label();
             this.L_OT_TextLine = new System.Windows.Forms.Label();
             this.LOTV = new System.Windows.Forms.Label();
@@ -190,68 +190,68 @@
             this.L_OT_Friendship.TabIndex = 52;
             this.L_OT_Friendship.Text = "Friendship:";
             // 
-            // label2
+            // L_Geo0
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 29);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 13);
-            this.label2.TabIndex = 68;
-            this.label2.Text = "Previous Geolocation 0:";
+            this.L_Geo0.AutoSize = true;
+            this.L_Geo0.Location = new System.Drawing.Point(6, 29);
+            this.L_Geo0.Name = "L_Geo0";
+            this.L_Geo0.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo0.TabIndex = 68;
+            this.L_Geo0.Text = "Previous Geolocation 0:";
             // 
-            // label3
+            // L_Geo1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 62);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(120, 13);
-            this.label3.TabIndex = 69;
-            this.label3.Text = "Previous Geolocation 1:";
+            this.L_Geo1.AutoSize = true;
+            this.L_Geo1.Location = new System.Drawing.Point(7, 62);
+            this.L_Geo1.Name = "L_Geo1";
+            this.L_Geo1.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo1.TabIndex = 69;
+            this.L_Geo1.Text = "Previous Geolocation 1:";
             // 
-            // label7
+            // L_Region
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(272, 10);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 13);
-            this.label7.TabIndex = 73;
-            this.label7.Text = "Region";
+            this.L_Region.AutoSize = true;
+            this.L_Region.Location = new System.Drawing.Point(272, 10);
+            this.L_Region.Name = "L_Region";
+            this.L_Region.Size = new System.Drawing.Size(41, 13);
+            this.L_Region.TabIndex = 73;
+            this.L_Region.Text = "Region";
             // 
-            // label8
+            // L_Country
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(161, 10);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(43, 13);
-            this.label8.TabIndex = 74;
-            this.label8.Text = "Country";
+            this.L_Country.AutoSize = true;
+            this.L_Country.Location = new System.Drawing.Point(161, 10);
+            this.L_Country.Name = "L_Country";
+            this.L_Country.Size = new System.Drawing.Size(43, 13);
+            this.L_Country.TabIndex = 74;
+            this.L_Country.Text = "Country";
             // 
-            // label4
+            // L_Geo2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 95);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 13);
-            this.label4.TabIndex = 76;
-            this.label4.Text = "Previous Geolocation 2:";
+            this.L_Geo2.AutoSize = true;
+            this.L_Geo2.Location = new System.Drawing.Point(7, 95);
+            this.L_Geo2.Name = "L_Geo2";
+            this.L_Geo2.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo2.TabIndex = 76;
+            this.L_Geo2.Text = "Previous Geolocation 2:";
             // 
-            // label5
+            // L_Geo3
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 128);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(120, 13);
-            this.label5.TabIndex = 77;
-            this.label5.Text = "Previous Geolocation 3:";
+            this.L_Geo3.AutoSize = true;
+            this.L_Geo3.Location = new System.Drawing.Point(7, 128);
+            this.L_Geo3.Name = "L_Geo3";
+            this.L_Geo3.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo3.TabIndex = 77;
+            this.L_Geo3.Text = "Previous Geolocation 3:";
             // 
-            // label6
+            // L_Geo4
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 160);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(120, 13);
-            this.label6.TabIndex = 78;
-            this.label6.Text = "Previous Geolocation 4:";
+            this.L_Geo4.AutoSize = true;
+            this.L_Geo4.Location = new System.Drawing.Point(6, 160);
+            this.L_Geo4.Name = "L_Geo4";
+            this.L_Geo4.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo4.TabIndex = 78;
+            this.L_Geo4.Text = "Previous Geolocation 4:";
             // 
             // L_OT_Quality
             // 
@@ -418,13 +418,13 @@
             this.GB_Residence.Controls.Add(this.CB_Country2);
             this.GB_Residence.Controls.Add(this.CB_Country1);
             this.GB_Residence.Controls.Add(this.CB_Country0);
-            this.GB_Residence.Controls.Add(this.label6);
-            this.GB_Residence.Controls.Add(this.label5);
-            this.GB_Residence.Controls.Add(this.label4);
-            this.GB_Residence.Controls.Add(this.label8);
-            this.GB_Residence.Controls.Add(this.label7);
-            this.GB_Residence.Controls.Add(this.label3);
-            this.GB_Residence.Controls.Add(this.label2);
+            this.GB_Residence.Controls.Add(this.L_Geo4);
+            this.GB_Residence.Controls.Add(this.L_Geo3);
+            this.GB_Residence.Controls.Add(this.L_Geo2);
+            this.GB_Residence.Controls.Add(this.L_Country);
+            this.GB_Residence.Controls.Add(this.L_Region);
+            this.GB_Residence.Controls.Add(this.L_Geo1);
+            this.GB_Residence.Controls.Add(this.L_Geo0);
             this.GB_Residence.Controls.Add(this.Region4);
             this.GB_Residence.Controls.Add(this.Region3);
             this.GB_Residence.Controls.Add(this.Region2);
@@ -815,13 +815,13 @@
         private System.Windows.Forms.MaskedTextBox Region2;
         private System.Windows.Forms.MaskedTextBox M_OT_Friendship;
         private System.Windows.Forms.Label L_OT_Friendship;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label L_Geo0;
+        private System.Windows.Forms.Label L_Geo1;
+        private System.Windows.Forms.Label L_Region;
+        private System.Windows.Forms.Label L_Country;
+        private System.Windows.Forms.Label L_Geo2;
+        private System.Windows.Forms.Label L_Geo3;
+        private System.Windows.Forms.Label L_Geo4;
         private System.Windows.Forms.Label L_OT_Quality;
         private System.Windows.Forms.Label L_OT_TextLine;
         private System.Windows.Forms.Label LOTV;
