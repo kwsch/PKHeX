@@ -208,7 +208,7 @@ namespace PKHeX
             // Gotta read in the textbox.
             if (RTB_Code.Text.Length < 1) return;
 
-            byte[] ncf = new Byte[4 + RTB_Code.Lines.Count() * (3 * 4)];
+            byte[] ncf = new Byte[4 + (RTB_Code.Lines.Count()-1) * (3 * 4)];
             Array.Copy(BitConverter.GetBytes(ncf.Length - 4), ncf, 4);
 
             for (int i = 0; i < RTB_Code.Lines.Count()-1; i++)
@@ -221,11 +221,21 @@ namespace PKHeX
                 Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[1], NumberStyles.HexNumber)),0,ncf,4+i*12+4,4);
                 Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[2], NumberStyles.HexNumber)),0,ncf,4+i*12+8,4);
             }
-            int z = 0;
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "code.bin";
             sfd.Filter = "Code File|*.bin";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string path = sfd.FileName;
+                if (File.Exists(path))
+                {
+                    // File already exists, save a .bak
+                    byte[] backupfile = File.ReadAllBytes(path);
+                    File.WriteAllBytes(path + ".bak", backupfile);
+                }
+                File.WriteAllBytes(path, ncf);
+            }
         }
     }
 }
