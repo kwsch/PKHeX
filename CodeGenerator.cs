@@ -64,7 +64,13 @@ namespace PKHeX
                 // Wondercard #
                 int wcn = CB_Slot.SelectedIndex;
                 // copy from save, the chosen wondercard offset, to new data
-                Array.Copy(m_parent.savefile, SaveGame.Wondercard + wcn * 0x108, newdata, 0, 0x108);
+                Array.Copy(m_parent.savefile, SaveGame.Wondercard + wcn * 0x108 + 0x100, newdata, 0, 0x108);
+                byte[] zerodata = new Byte[0x108];
+                if (newdata.SequenceEqual(zerodata))
+                {
+                    System.Media.SystemSounds.Exclamation.Play();
+                    return false;
+                }
             }
             return true;
         }

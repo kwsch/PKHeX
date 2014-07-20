@@ -87,7 +87,8 @@
             this.CB_Source.FormattingEnabled = true;
             this.CB_Source.Items.AddRange(new object[] {
             "Loaded EKX (Tabs)",
-            "Box EKX "});
+            "Box EKX",
+            "Wondercard"});
             this.CB_Source.Location = new System.Drawing.Point(90, 23);
             this.CB_Source.Name = "CB_Source";
             this.CB_Source.Size = new System.Drawing.Size(132, 21);
