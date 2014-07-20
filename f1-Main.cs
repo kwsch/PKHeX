@@ -4087,7 +4087,10 @@ namespace PKHeX
         {
             int val = 0;
             try { val = ToInt32(cb.SelectedValue.ToString()); }
-            catch { };
+            catch { 
+                val = cb.SelectedIndex;
+                if (val < 0) val = 0;
+                };
             return val;
         }
         private void getIsShiny()
@@ -4328,7 +4331,11 @@ namespace PKHeX
             CB_Form.ValueMember = "Value";
 
             // Mega List
-            int[] mspec = { 3, 9, 65, 94, 115, 127, 130, 142, 154, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 469 };
+            int[] mspec = {     // XY
+                              3, 9, 65, 94, 115, 127, 130, 142, 154, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 469, 
+                                // ORAS
+                              254, 260, 376, 719,
+                          };
             for (int i = 0; i < mspec.Length; i++)
             {
                 if (mspec[i] == species)
@@ -6708,7 +6715,7 @@ namespace PKHeX
             markings += Convert.ToInt32(CHK_Star.Checked) * 16;
             markings += Convert.ToInt32(CHK_Diamond.Checked) * 32;
             pkx[0x2A] = (byte)markings;
-            pkx[0x2B] = (byte)(getIndex(CB_PKRSDays) + getIndex(CB_PKRSStrain) * 0x10);
+            pkx[0x2B] = (byte)(CB_PKRSDays.SelectedIndex + CB_PKRSStrain.SelectedIndex * 0x10);
 
             // Already in buff (then transferred to new pkx)
             // 0x2C, 0x2D, 0x2E, 0x2F

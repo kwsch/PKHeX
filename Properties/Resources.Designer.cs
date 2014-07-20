@@ -1544,6 +1544,13 @@ namespace PKHeX.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap _254_1 {
+            get {
+                object obj = ResourceManager.GetObject("_254_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap _255 {
             get {
                 object obj = ResourceManager.GetObject("_255", resourceCulture);
@@ -1596,6 +1603,13 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _260 {
             get {
                 object obj = ResourceManager.GetObject("_260", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _260_1 {
+            get {
+                object obj = ResourceManager.GetObject("_260_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2569,6 +2583,13 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _376 {
             get {
                 object obj = ResourceManager.GetObject("_376", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _376_1 {
+            get {
+                object obj = ResourceManager.GetObject("_376_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -6349,6 +6370,13 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _719 {
             get {
                 object obj = ResourceManager.GetObject("_719", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap _719_1 {
+            get {
+                object obj = ResourceManager.GetObject("_719_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
