@@ -214,6 +214,8 @@
             this.Menu_OpenBoxUI = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ImportGen5 = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_BoxIO = new System.Windows.Forms.ToolStripMenuItem();
+            this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
@@ -320,7 +322,6 @@
             this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
-            this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -2044,7 +2045,7 @@
             this.CHK_Star.AutoSize = true;
             this.CHK_Star.Location = new System.Drawing.Point(182, 213);
             this.CHK_Star.Name = "CHK_Star";
-            this.CHK_Star.Size = new System.Drawing.Size(38, 17);
+            this.CHK_Star.Size = new System.Drawing.Size(35, 17);
             this.CHK_Star.TabIndex = 13;
             this.CHK_Star.Text = "★";
             this.CHK_Star.UseVisualStyleBackColor = true;
@@ -2066,7 +2067,7 @@
             this.CHK_Square.AutoSize = true;
             this.CHK_Square.Location = new System.Drawing.Point(6, 227);
             this.CHK_Square.Name = "CHK_Square";
-            this.CHK_Square.Size = new System.Drawing.Size(38, 17);
+            this.CHK_Square.Size = new System.Drawing.Size(35, 17);
             this.CHK_Square.TabIndex = 11;
             this.CHK_Square.Text = "■";
             this.CHK_Square.UseVisualStyleBackColor = true;
@@ -2133,7 +2134,7 @@
             this.CHK_Triangle.AutoSize = true;
             this.CHK_Triangle.Location = new System.Drawing.Point(6, 213);
             this.CHK_Triangle.Name = "CHK_Triangle";
-            this.CHK_Triangle.Size = new System.Drawing.Size(38, 17);
+            this.CHK_Triangle.Size = new System.Drawing.Size(35, 17);
             this.CHK_Triangle.TabIndex = 10;
             this.CHK_Triangle.Text = "▲";
             this.CHK_Triangle.UseVisualStyleBackColor = true;
@@ -2541,7 +2542,8 @@
             this.Menu_OpenBoxUI,
             this.Menu_ImportGen5,
             this.Menu_BoxIO,
-            this.codeGeneratorToolStripMenuItem});
+            this.codeGeneratorToolStripMenuItem,
+            this.reportToolStripMenuItem});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
@@ -2568,6 +2570,21 @@
             this.Menu_BoxIO.Size = new System.Drawing.Size(174, 22);
             this.Menu_BoxIO.Text = "Load/Dump Boxes";
             this.Menu_BoxIO.Click += new System.EventHandler(this.Menu_DumpLoadBoxes_Click);
+            // 
+            // codeGeneratorToolStripMenuItem
+            // 
+            this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
+            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
+            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.codeGeneratorToolStripMenuItem_Click);
+            // 
+            // reportToolStripMenuItem
+            // 
+            this.reportToolStripMenuItem.Enabled = false;
+            this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.reportToolStripMenuItem.Text = "Report";
+            this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
             // 
             // Menu_Options
             // 
@@ -3783,13 +3800,6 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
-            // codeGeneratorToolStripMenuItem
-            // 
-            this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
-            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
-            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.codeGeneratorToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -4208,6 +4218,7 @@
         private System.Windows.Forms.TextBox TB_PP2;
         private System.Windows.Forms.TextBox TB_PP1;
         private System.Windows.Forms.ToolStripMenuItem codeGeneratorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
     }
 }
 

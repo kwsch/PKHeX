@@ -6046,6 +6046,7 @@ namespace PKHeX
             {
                 B_ExportSAV.Enabled = false;
                 B_SwitchSAV.Enabled = false;
+                reportToolStripMenuItem.Enabled = false;
                 B_OUTPasserby.Enabled = B_OUTHallofFame.Enabled = B_JPEG.Enabled = false;
                 if ((BitConverter.ToUInt32(input, 0x100) != 0x41534944) && (BitConverter.ToUInt32(input, 0x5234) != 0x6E69616D))
                 {
@@ -6092,6 +6093,7 @@ namespace PKHeX
                 {
                     B_ExportSAV.Enabled = true;
                     B_SwitchSAV.Enabled = true;
+                    reportToolStripMenuItem.Enabled = true;
                     savindex = detectSAVIndex(input);
                     opensave(input, path, ext);
                 }
@@ -8061,6 +8063,7 @@ namespace PKHeX
         {
             getPKXBoxes();
         }
+
         private void getTSV(object sender, EventArgs e)
         {
             uint TID = ToUInt32(TB_TID.Text);
@@ -8527,6 +8530,13 @@ namespace PKHeX
             // Open Code Generator
             CodeGenerator CodeGen = new PKHeX.CodeGenerator(this);
             CodeGen.Show();
+        }
+
+        private void reportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmReport ReportForm = new frmReport();
+            ReportForm.PopulateData(savefile);
+            ReportForm.ShowDialog();
         }
     }
     #region Structs & Classes
