@@ -16,7 +16,7 @@
 - Change stuff below this line, not above.
 ----------------Overall PKX Interface------------------
 Menu_File = Fichier ; Ouvrir... ; Enregistrer sous... ; Quitter
-Menu_Tools = Outils ; Afficher l'interface avancée ; Importer fichier .pkm 5G ; Charger / Dumper Boîtes ; Générateur Code
+Menu_Tools = Outils ; Afficher l'interface avancée ; Charger / Dumper Boîtes ; Rapport de données Box; Générateur Code
 Menu_Options = Options ; Langue ; A propos de PKHeX
 --------------------Main Tab Data----------------------
 Tab_Main = Général

@@ -16,7 +16,7 @@
 - Change stuff below this line, not above.
 ----------------Overall PKX Interface------------------
 Menu_File = File ; Open... ; Save as... ; Exit
-Menu_Tools = Tools ; Toggle Box Interface ; Import Gen5 PKM ; Load/Dump Boxes
+Menu_Tools = Tools ; Toggle Box Interface ;  Load/Dump Boxes ; Box Data Report ; Code Generator
 Menu_Options = Options ; Language ; About PKHeX
 --------------------Main Tab Data----------------------
 Tab_Main = Main
