@@ -92,8 +92,8 @@ namespace PKHeX
                 L_Box.Visible = false;
                 CB_Slot.Visible = false;
                 L_Slot.Visible = false;
-
-                B_Add.Enabled = m_parent.verifiedpkx();
+                
+                TB_Write.Text = (0x27A00 - 0x5400).ToString("X8"); // Box 1, Slot 1
             }
             else if (sourceindex == 1)
             {
@@ -109,6 +109,8 @@ namespace PKHeX
                     CB_Slot.Items.Add(i.ToString());
 
                 CB_Slot.SelectedIndex = 0;
+
+                TB_Write.Text = (0x27A00 - 0x5400).ToString("X8"); // Box 1, Slot 1
             }
             else if (sourceindex == 2)
             {
@@ -125,6 +127,7 @@ namespace PKHeX
                     CB_Slot.Items.Add(i.ToString());
 
                 CB_Slot.SelectedIndex = 0;
+                TB_Write.Text = (0x22000 - 0x5400).ToString("X8"); // WC Slot 1
             }
         }
 
@@ -164,14 +167,22 @@ namespace PKHeX
             // Add the new code to the textbox.
             if (!loaddata()) return;
             uint writeoffset = getHEXval(TB_Write);
-            for (int i = 0; i < newdata.Length / (4); i++)
-            {
-                // Add Operator
 
-                RTB_Code.AppendText("00000001 ");   // 01 00 00 00
-                RTB_Code.AppendText((writeoffset + i * 4).ToString("X8") + " ");
+            for (int i = 0; i < newdata.Length / 4; i++)
+            {
+                RTB_Code.AppendText((writeoffset + i * 4 + 0x20000000).ToString("X8") + " ");
                 RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + "\n");
             }
+
+            // Mat's Code - Unfinished
+            //for (int i = 0; i < newdata.Length / (4); i++)
+            //{
+            //    // Add Operator
+
+            //    RTB_Code.AppendText("00000001 ");   // 01 00 00 00
+            //    RTB_Code.AppendText((writeoffset + i * 4).ToString("X8") + " ");
+            //    RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + "\n");
+            //}
         }
 
         private void B_Clear_Click(object sender, EventArgs e)
