@@ -212,7 +212,6 @@
             this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenBoxUI = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ImportGen5 = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_BoxIO = new System.Windows.Forms.ToolStripMenuItem();
             this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2540,10 +2539,9 @@
             // 
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenBoxUI,
-            this.Menu_ImportGen5,
             this.Menu_BoxIO,
-            this.codeGeneratorToolStripMenuItem,
-            this.reportToolStripMenuItem});
+            this.reportToolStripMenuItem,
+            this.codeGeneratorToolStripMenuItem});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
@@ -2551,37 +2549,28 @@
             // Menu_OpenBoxUI
             // 
             this.Menu_OpenBoxUI.Name = "Menu_OpenBoxUI";
-            this.Menu_OpenBoxUI.Size = new System.Drawing.Size(174, 22);
-            this.Menu_OpenBoxUI.Text = "Open Box Interface";
+            this.Menu_OpenBoxUI.Size = new System.Drawing.Size(182, 22);
+            this.Menu_OpenBoxUI.Text = "Toggle Box Interface";
             this.Menu_OpenBoxUI.Click += new System.EventHandler(this.mainmenuWiden);
-            // 
-            // Menu_ImportGen5
-            // 
-            this.Menu_ImportGen5.Name = "Menu_ImportGen5";
-            this.Menu_ImportGen5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.Menu_ImportGen5.ShowShortcutKeys = false;
-            this.Menu_ImportGen5.Size = new System.Drawing.Size(174, 22);
-            this.Menu_ImportGen5.Text = "&Import Gen5 PKM";
-            this.Menu_ImportGen5.Click += new System.EventHandler(this.mainmenug5pkm);
             // 
             // Menu_BoxIO
             // 
             this.Menu_BoxIO.Name = "Menu_BoxIO";
-            this.Menu_BoxIO.Size = new System.Drawing.Size(174, 22);
+            this.Menu_BoxIO.Size = new System.Drawing.Size(182, 22);
             this.Menu_BoxIO.Text = "Load/Dump Boxes";
             this.Menu_BoxIO.Click += new System.EventHandler(this.Menu_DumpLoadBoxes_Click);
             // 
             // codeGeneratorToolStripMenuItem
             // 
             this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
-            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
             this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.codeGeneratorToolStripMenuItem_Click);
             // 
             // reportToolStripMenuItem
             // 
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.reportToolStripMenuItem.Text = "Box Data Report";
             this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
             // 
@@ -4189,7 +4178,6 @@
         private System.Windows.Forms.Label Label_CharacteristicPrefix;
         private System.Windows.Forms.ToolStripMenuItem Menu_Tools;
         private System.Windows.Forms.ToolStripMenuItem Menu_OpenBoxUI;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ImportGen5;
         private System.Windows.Forms.ToolStripMenuItem Menu_Options;
         private System.Windows.Forms.ToolStripMenuItem Menu_Language;
         private System.Windows.Forms.ToolStripComboBox CB_MainLanguage;

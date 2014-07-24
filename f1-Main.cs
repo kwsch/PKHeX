@@ -5678,7 +5678,7 @@ namespace PKHeX
             uint XOR = TSV ^ PSV;
 
             // Check to see if we actually did it right...
-            if (((XOR > 8) && (CB_GameOrigin.SelectedIndex < 24)) || ((XOR > 16) && (CB_GameOrigin.SelectedIndex > 24)))
+            if (((XOR > 8) && (CB_GameOrigin.SelectedIndex < 24)) || ((XOR > 16) && (CB_GameOrigin.SelectedIndex >= 24)))
             {
                 TB_PID.Text = ((UID ^ XOR) * 0x10000 + LID).ToString("X8");
             }
@@ -5689,6 +5689,11 @@ namespace PKHeX
             // Trim out nonhex characters
             RemoveTroublesomeCharacters(TB_PID);
             RemoveTroublesomeCharacters(TB_EC);
+
+            if (ToUInt32(TB_TID.Text) > 0xFFFF)
+                TB_TID.Text = TB_TID.Text.Remove(TB_TID.Text.Length - 1);
+            if (ToUInt32(TB_TID.Text) > 0xFFFF)
+                TB_SID.Text = TB_SID.Text.Remove(TB_SID.Text.Length - 1);
             
             getIsShiny();
             UpdateIVs(sender, e);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
@@ -6001,10 +6006,6 @@ namespace PKHeX
             string caption = "About";
             string message = "PKHeX - By Kaphotics.\n\nUI Inspiried by Codr's PokeGen.\n\nThanks to all the researchers!";
             MessageBox.Show(message, caption);
-        }
-        private void mainmenug5pkm(object sender, EventArgs e)
-        {
-            openg5pkm();
         }
         private void mainmenuWiden(object sender, EventArgs e)
         {
@@ -8178,7 +8179,7 @@ namespace PKHeX
                             uint PSV = UID ^ LID;
                             uint TSV = ToUInt32(TB_TID.Text) ^ ToUInt32(TB_SID.Text);
                             uint XOR = TSV ^ PSV;
-                            if (((XOR < 8) && (gamevers < 24)) || ((XOR < 16) && (gamevers > 24)))
+                            if (((XOR < 8) && (gamevers < 24)) || ((XOR < 16) && (gamevers >= 24)))
                             {   // Is Shiny
                                 isshiny = " ★";
                             }
