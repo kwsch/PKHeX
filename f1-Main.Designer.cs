@@ -2045,7 +2045,7 @@
             this.CHK_Star.AutoSize = true;
             this.CHK_Star.Location = new System.Drawing.Point(182, 213);
             this.CHK_Star.Name = "CHK_Star";
-            this.CHK_Star.Size = new System.Drawing.Size(35, 17);
+            this.CHK_Star.Size = new System.Drawing.Size(38, 17);
             this.CHK_Star.TabIndex = 13;
             this.CHK_Star.Text = "★";
             this.CHK_Star.UseVisualStyleBackColor = true;
@@ -2067,7 +2067,7 @@
             this.CHK_Square.AutoSize = true;
             this.CHK_Square.Location = new System.Drawing.Point(6, 227);
             this.CHK_Square.Name = "CHK_Square";
-            this.CHK_Square.Size = new System.Drawing.Size(35, 17);
+            this.CHK_Square.Size = new System.Drawing.Size(38, 17);
             this.CHK_Square.TabIndex = 11;
             this.CHK_Square.Text = "■";
             this.CHK_Square.UseVisualStyleBackColor = true;
@@ -2134,7 +2134,7 @@
             this.CHK_Triangle.AutoSize = true;
             this.CHK_Triangle.Location = new System.Drawing.Point(6, 213);
             this.CHK_Triangle.Name = "CHK_Triangle";
-            this.CHK_Triangle.Size = new System.Drawing.Size(35, 17);
+            this.CHK_Triangle.Size = new System.Drawing.Size(38, 17);
             this.CHK_Triangle.TabIndex = 10;
             this.CHK_Triangle.Text = "▲";
             this.CHK_Triangle.UseVisualStyleBackColor = true;
@@ -2580,10 +2580,9 @@
             // 
             // reportToolStripMenuItem
             // 
-            this.reportToolStripMenuItem.Enabled = false;
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
             this.reportToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.reportToolStripMenuItem.Text = "Report";
+            this.reportToolStripMenuItem.Text = "Box Data Report";
             this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
             // 
             // Menu_Options

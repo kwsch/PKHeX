@@ -8534,7 +8534,7 @@ namespace PKHeX
 
         private void reportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmReport ReportForm = new frmReport();
+            frmReport ReportForm = new frmReport(this);
             ReportForm.PopulateData(savefile);
             ReportForm.ShowDialog();
         }

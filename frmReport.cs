@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Reflection;
+using System.Text.RegularExpressions;
 namespace PKHeX
 {
     public partial class frmReport : Form
@@ -15,9 +17,12 @@ namespace PKHeX
         private const int PIDOFFSET = 0x18;
         private const int TIDOFFSET = 0x0C;
         private const int SIDOFFSET = 0x0E;
-        public frmReport()
+        static Form1 m_parent;
+        public frmReport(Form1 frm1)
         {
             InitializeComponent();
+            m_parent = frm1;
+            dgData.DoubleBuffered(true);
         }
         private static uint LCRNG(uint seed)
         {
@@ -136,6 +141,7 @@ namespace PKHeX
             PokemonList PL = new PokemonList();
             SaveGames.SaveStruct SaveGame = new SaveGames.SaveStruct("XY");
             int savindex = detectSAVIndex(SaveData);
+            if (savindex > 1) savindex = 0;
             for (int BoxNum = 0; BoxNum < 31; BoxNum++)
             {
                 int boxoffset = 0x27A00 + 0x7F000 * savindex + BoxNum * (0xE8 * 30);
@@ -146,6 +152,7 @@ namespace PKHeX
                     Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
                     byte[] dslotdata = decryptArray(slotdata);
                     PKX pkm = new PKX(dslotdata);
+                    if ((pkm.EC == "00000000") && (pkm.Checksum == 0)) continue;
                     PL.Add(pkm);
                 }
             }
@@ -162,6 +169,7 @@ namespace PKHeX
         }
         public class PKX
         {
+            #region Define
             private uint mEC, mPID, mIV32,
 
                 mexp,
@@ -171,7 +179,8 @@ namespace PKHeX
                 mmarkings, mhptype;
 
             private string
-                mnicknamestr, mnotOT, mot, mgenderstring;
+                mnicknamestr, mgenderstring, mnotOT, mot, mSpeciesName, mNatureName, mHPName, mAbilityName,
+                mMove1N, mMove2N, mMove3N, mMove4N;
 
             private int
                 mability, mabilitynum, mnature, mfeflag, mgenderflag, maltforms, mPKRS_Strain, mPKRS_Duration,
@@ -195,9 +204,27 @@ namespace PKHeX
                 mball, mencountertype,
                 mgamevers, mcountryID, mregionID, mdsregID, motlang;
 
-            public uint EC { get { return mEC; } }
-            public uint PID { get { return mPID; } }
-            public uint IVs { get { return mIV32; } }
+            #endregion
+            public string Nickname { get { return mnicknamestr; } }
+            public string Species { get { return mSpeciesName; } }
+            public string Nature { get { return mNatureName; } }
+            public string Gender { get { return mgenderstring; } }
+            public string ESV { get { return mESV.ToString("0000"); } }
+            public string HP_Type { get { return mHPName; } }
+            public string Ability { get { return mAbilityName; } }
+            public string Move1 { get { return mMove1N; } }
+            public string Move2 { get { return mMove2N; } }
+            public string Move3 { get { return mMove3N; } }
+            public string Move4 { get { return mMove4N; } }
+            #region Extraneous
+            public string EC { get { return mEC.ToString("X8"); } }
+            public string PID { get { return mPID.ToString("X8"); } }
+            public uint HP_IV { get { return mHP_IV; } }
+            public uint ATK_IV { get { return mATK_IV; } }
+            public uint DEF_IV { get { return mDEF_IV; } }
+            public uint SPA_IV { get { return mSPA_IV; } }
+            public uint SPD_IV { get { return mSPD_IV; } }
+            public uint SPE_IV { get { return mSPE_IV; } }
             public uint EXP { get { return mexp; } }
             public uint HP_EV { get { return mHP_EV; } }
             public uint ATK_EV { get { return mATK_EV; } }
@@ -205,12 +232,6 @@ namespace PKHeX
             public uint SPA_EV { get { return mSPA_EV; } }
             public uint SPD_EV { get { return mSPD_EV; } }
             public uint SPE_EV { get { return mSPE_EV; } }
-            public uint HP_IV { get { return mHP_IV; } }
-            public uint ATK_IV { get { return mATK_IV; } }
-            public uint DEF_IV { get { return mDEF_IV; } }
-            public uint SPA_IV { get { return mSPA_IV; } }
-            public uint SPD_IV { get { return mSPD_IV; } }
-            public uint SPE_IV { get { return mSPE_IV; } }
             public uint Cool { get { return mcnt_cool; } }
             public uint Beauty { get { return mcnt_beauty; } }
             public uint Cute { get { return mcnt_cute; } }
@@ -218,16 +239,11 @@ namespace PKHeX
             public uint Tough { get { return mcnt_tough; } }
             public uint Sheen { get { return mcnt_sheen; } }
             public uint Markings { get { return mmarkings; } }
-            public uint HP_Type { get { return mhptype; } }
 
-            public string Nickname { get { return mnicknamestr; } }
             public string NotOT { get { return mnotOT; } }
             public string OT { get { return mot; } }
-            public string Gender { get { return mgenderstring; } }
 
-            public int Ability { get { return mability; } }
             public int AbilityNum { get { return mabilitynum; } }
-            public int Nature { get { return mnature; } }
             public int FatefulFlag { get { return mfeflag; } }
             public int GenderFlag { get { return mgenderflag; } }
             public int AltForms { get { return maltforms; } }
@@ -240,16 +256,10 @@ namespace PKHeX
             public bool IsNicknamed { get { return misnick; } }
             public bool IsShiny { get { return misshiny; } }
 
-            public ushort Species { get { return mspecies; } }
             public ushort HeldItem { get { return mhelditem; } }
             public ushort TID { get { return mTID; } }
             public ushort SID { get { return mSID; } }
             public ushort TSV { get { return mTSV; } }
-            public ushort ESV { get { return mESV; } }
-            public ushort Move1 { get { return mmove1; } }
-            public ushort Move2 { get { return mmove2; } }
-            public ushort Move3 { get { return mmove3; } }
-            public ushort Move4 { get { return mmove4; } }
             public ushort Move1_PP { get { return mmove1_pp; } }
             public ushort Move2_PP { get { return mmove2_pp; } }
             public ushort Move3_PP { get { return mmove3_pp; } }
@@ -281,6 +291,7 @@ namespace PKHeX
             public ushort DSRegionID { get { return mdsregID; } }
             public ushort OTLang { get { return motlang; } }
 
+            #endregion
             public PKX(byte[] pkx)
             {
                 mnicknamestr = "";
@@ -396,8 +407,41 @@ namespace PKHeX
                 mESV = (ushort)(((mPID >> 16) ^ (mPID & 0xFFFF)) >> 4);
 
                 misshiny = (mTSV == mESV);
+                // Nidoran Gender Fixing Text
+                if (!Convert.ToBoolean(misnick))
+                {
+                    if (mnicknamestr.Contains((char)0xE08F))
+                    {
+                        mnicknamestr = Regex.Replace(mnicknamestr, "\uE08F", "\u2640");
+                    }
+                    else if (mnicknamestr.Contains((char)0xE08E))
+                    {
+                        mnicknamestr = Regex.Replace(mnicknamestr, "\uE08E", "\u2642");
+                    }
+                }
+                try
+                {
+                    mSpeciesName = m_parent.specieslist[mspecies];
+                    mNatureName = m_parent.natures[mnature];
+                    mHPName = m_parent.types[mhptype];
+                    mAbilityName = m_parent.abilitylist[mability];
+                    mMove1N = m_parent.movelist[mmove1];
+                    mMove2N = m_parent.movelist[mmove2];
+                    mMove3N = m_parent.movelist[mmove3];
+                    mMove4N = m_parent.movelist[mmove4];
+                }
+                catch { return; }
             }
         }
         public class PokemonList : System.Collections.ObjectModel.ObservableCollection<PKX> { }
+    }
+    public static class ExtensionMethods    // Speed up scrolling
+    {
+        public static void DoubleBuffered(this DataGridView dgv, bool setting)
+        {
+            Type dgvType = dgv.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, setting, null);
+        }
     }
 }
