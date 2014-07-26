@@ -20,14 +20,15 @@ namespace PKHeX
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
             getComboBoxes();
-            getBadges();
             getTextBoxes();
+            getBadges();
         }
         string Game;
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
         public int savindex;
         public bool editing = false;
+        public byte badgeval = 0;
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip(); 
 
@@ -35,7 +36,11 @@ namespace PKHeX
         {
             if (String.IsNullOrEmpty(value))
                 return 0;
-            return UInt32.Parse(value);
+            try
+            {
+                return UInt32.Parse(value);
+            }
+            catch { return 0; }
         }
         private void getComboBoxes()
         {
@@ -186,30 +191,29 @@ namespace PKHeX
             CheckBox[] cba = {cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8,};
             PictureBox[] pba = {pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8,};
 
-            byte badgeval = sav[0x960C + savindex * 0x7F000];
-
             for (int i = 0; i < 8; i++)
             {
-                if ((badgeval & (1 << i)) == 0)
+                if (!cba[i].Checked)
                 {
                     pba[i].Image = ImageTransparency.ChangeOpacity(bma[i], 0.1);
-                    cba[i].Checked = false;
                 }
                 else
                 {
                     pba[i].Image = ImageTransparency.ChangeOpacity(bma[i], 1);
-                    cba[i].Checked = true;
                 }
             }
         }
         private void getTextBoxes()
         {
             int savshift = savindex * 0x7F000;
+            byte badgeval = sav[0x960C + savindex * 0x7F000];
+            CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
+            for (int i = 0; i < 8; i++)
+                cba[i].Checked = !((badgeval & (1 << i)) == 0);
 
             // Get Data
             string OT_NAME = Encoding.Unicode.GetString(sav, 0x19448 + savshift, 0x1A);
             string RIV_NAME = Encoding.Unicode.GetString(sav, 0x9610 + savshift, 0x1A);
-
             
             CB_Game.SelectedIndex = sav[0x19404 + savshift]-0x18;
             CB_Gender.SelectedIndex = sav[0x19405 + savshift];
@@ -284,6 +288,10 @@ namespace PKHeX
             TB_CoordX.Text = BitConverter.ToSingle(sav, savshift + 0x6810).ToString("0.0");
             TB_CoordZ.Text = BitConverter.ToSingle(sav, savshift + 0x6814).ToString("0.0");
             TB_CoordY.Text = BitConverter.ToSingle(sav, savshift + 0x6818).ToString("0.0");
+
+            // Load BP and PokeMiles
+            TB_BP.Text = BitConverter.ToUInt32(sav, savshift + 0x963C).ToString();
+            TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
         }
         private void save()
         {
@@ -340,6 +348,41 @@ namespace PKHeX
             byte[] s5 = Encoding.Unicode.GetBytes(saying5);
             Array.Resize(ref s5, 0x22);
             Array.Copy(s5, 0, sav, 0x19504 + savshift, 0x22);
+
+            // New stuff.
+            // Copy Maison Data in
+            TextBox[] tba = new TextBox[] {
+                TB_MCSN,TB_MCSS,TB_MBSN,TB_MBSS,
+                TB_MCDN,TB_MCDS,TB_MBDN,TB_MBDS,
+                TB_MCTN,TB_MCTS,TB_MBTN,TB_MBTS,
+                TB_MCRN,TB_MCRS,TB_MBRN,TB_MBRS,
+                TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
+            };
+            for (int i = 0; i < tba.Length; i++)
+            {
+                byte[] streak = BitConverter.GetBytes(ToUInt32(tba[i].Text));
+                Array.Resize(ref streak, 2);
+                Array.Copy(streak, 0, sav, 0x205C0 + 2 * i + savshift, 2);
+            }
+
+            // Copy Position
+            byte[] m = BitConverter.GetBytes( Int16.Parse(TB_CoordM.Text)); Array.Resize(ref m, 2); Array.Copy(m,0,sav, savshift + 0x6802,2);
+            byte[] x = BitConverter.GetBytes(Single.Parse(TB_CoordX.Text)); Array.Resize(ref x, 4); Array.Copy(x,0,sav, savshift + 0x6810,4);
+            byte[] z = BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)); Array.Resize(ref z, 4); Array.Copy(z,0,sav, savshift + 0x6814,4);
+            byte[] y = BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)); Array.Resize(ref y, 4); Array.Copy(y,0,sav, savshift + 0x6818,4);
+            TB_BP.Text = BitConverter.ToUInt32(sav, savshift + 0x963C).ToString();
+            TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
+            byte[] bp = BitConverter.GetBytes(ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C, 2);
+            byte[] pm = BitConverter.GetBytes(ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + 0x238FC, 4); Array.Copy(pm, 0, sav, savshift + 0x23900, 4);
+
+            // Copy Badges
+            badgeval = 0;
+            CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
+            for (int i = 0; i < 8; i++)
+            {
+                badgeval |= (byte)(Convert.ToByte(cba[i].Checked) << i);
+            }
+            sav[0x960C + savindex * 0x7F000] = badgeval;
         }
 
         private void showTSV(object sender, EventArgs e)
@@ -365,6 +408,11 @@ namespace PKHeX
         private void B_MaxCash_Click(object sender, EventArgs e)
         {
             MT_Money.Text = "9,999,999";
+        }
+
+        private void changeBadge(object sender, EventArgs e)
+        {
+            getBadges();
         }
 
     }

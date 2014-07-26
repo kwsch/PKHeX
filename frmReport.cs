@@ -152,7 +152,7 @@ namespace PKHeX
                     Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
                     byte[] dslotdata = decryptArray(slotdata);
                     PKX pkm = new PKX(dslotdata);
-                    if ((pkm.EC == "00000000") && (pkm.Checksum == 0)) continue;
+                    if ((pkm.EC == "00000000") && (pkm.Species == "---")) continue;
                     PL.Add(pkm);
                 }
             }
@@ -170,6 +170,7 @@ namespace PKHeX
         public class PKX
         {
             #region Define
+            private Image pksprite;
             private uint mEC, mPID, mIV32,
 
                 mexp,
@@ -205,6 +206,7 @@ namespace PKHeX
                 mgamevers, mcountryID, mregionID, mdsregID, motlang;
 
             #endregion
+            public Image pkimg { get { return pksprite; } }
             public string Nickname { get { return mnicknamestr; } }
             public string Species { get { return mSpeciesName; } }
             public string Nature { get { return mNatureName; } }
@@ -418,6 +420,33 @@ namespace PKHeX
                     {
                         mnicknamestr = Regex.Replace(mnicknamestr, "\uE08E", "\u2642");
                     }
+                }
+                {
+                    int species = BitConverter.ToInt16(pkx, 0x08); // Get Species
+                    uint isegg = (BitConverter.ToUInt32(pkx, 0x74) >> 30) & 1;
+
+                    int altforms = (pkx[0x1D] >> 3);
+                    int gender = (pkx[0x1D] >> 1) & 0x3;
+
+                    string file;
+                    if (isegg == 1)
+                    { file = "egg"; }
+                    else
+                    {
+                        file = "_" + species.ToString();
+                        if (altforms > 0) // Alt Form Handling
+                        {
+                            file = file + "_" + altforms.ToString();
+                        }
+                        else if ((species == 521) && (gender == 1))   // Unfezant
+                        {
+                            file = file = "_" + species.ToString() + "f";
+                        }
+                    }
+                    if (species == 0)
+                        file = "_0";
+
+                    pksprite = (Image)Properties.Resources.ResourceManager.GetObject(file);
                 }
                 try
                 {

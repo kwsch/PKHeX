@@ -29,6 +29,7 @@
         
         public void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabMain = new System.Windows.Forms.TabControl();
             this.Tab_Main = new System.Windows.Forms.TabPage();
@@ -213,8 +214,8 @@
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenBoxUI = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_BoxIO = new System.Windows.Forms.ToolStripMenuItem();
-            this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
@@ -321,6 +322,7 @@
             this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -2560,19 +2562,19 @@
             this.Menu_BoxIO.Text = "Load/Dump Boxes";
             this.Menu_BoxIO.Click += new System.EventHandler(this.Menu_DumpLoadBoxes_Click);
             // 
-            // codeGeneratorToolStripMenuItem
-            // 
-            this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
-            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
-            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.codeGeneratorToolStripMenuItem_Click);
-            // 
             // reportToolStripMenuItem
             // 
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
             this.reportToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.reportToolStripMenuItem.Text = "Box Data Report";
             this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
+            // 
+            // codeGeneratorToolStripMenuItem
+            // 
+            this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
+            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
+            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.codeGeneratorToolStripMenuItem_Click);
             // 
             // Menu_Options
             // 
@@ -3123,11 +3125,11 @@
             // L_ReadOnlyPBB
             // 
             this.L_ReadOnlyPBB.ForeColor = System.Drawing.Color.Red;
-            this.L_ReadOnlyPBB.Location = new System.Drawing.Point(3, 93);
+            this.L_ReadOnlyPBB.Location = new System.Drawing.Point(3, 173);
             this.L_ReadOnlyPBB.Name = "L_ReadOnlyPBB";
             this.L_ReadOnlyPBB.Size = new System.Drawing.Size(250, 13);
             this.L_ReadOnlyPBB.TabIndex = 15;
-            this.L_ReadOnlyPBB.Text = "This tab is read only.";
+            this.L_ReadOnlyPBB.Text = "This is read only.";
             this.L_ReadOnlyPBB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // L_BattleBox
@@ -3788,6 +3790,11 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -4206,6 +4213,7 @@
         private System.Windows.Forms.TextBox TB_PP1;
         private System.Windows.Forms.ToolStripMenuItem codeGeneratorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 

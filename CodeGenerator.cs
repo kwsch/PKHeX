@@ -92,7 +92,7 @@ namespace PKHeX
                 L_Box.Visible = false;
                 CB_Slot.Visible = false;
                 L_Slot.Visible = false;
-                
+
                 TB_Write.Text = (0x27A00 - 0x5400).ToString("X8"); // Box 1, Slot 1
             }
             else if (sourceindex == 1)
@@ -162,6 +162,7 @@ namespace PKHeX
             string str = RemoveTroublesomeCharacters(tb);
             return UInt32.Parse(str, NumberStyles.HexNumber);
         }
+
         private void B_Add_Click(object sender, EventArgs e)
         {
             // Add the new code to the textbox.
@@ -254,6 +255,29 @@ namespace PKHeX
                     File.WriteAllBytes(path + ".bak", backupfile);
                 }
                 File.WriteAllBytes(path, ncf);
+            }
+        }
+
+        private void B_Copy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(RTB_Code.Text);
+        }
+
+        private void B_Diff_Click(object sender, EventArgs e)
+        {
+            RTB_Code.Clear();
+            byte[] cybersav = m_parent.cyberSAV;
+            byte[] editedsav = m_parent.savefile;
+            byte[] newcyber = new Byte[0x65600];
+            Array.Copy(editedsav, 0x5400, newcyber, 0, 0x65600);
+
+            for (int i = 0; i < 0x65400; i += 4)
+            {
+                if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
+                {
+                    RTB_Code.AppendText((0x20000000 + i).ToString("X8") + " ");
+                    RTB_Code.AppendText(BitConverter.ToUInt32(newcyber, i).ToString("X8") + "\n");
+                }
             }
         }
     }

@@ -83,6 +83,8 @@ namespace PKHeX
                                    bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
                                    bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
                                    bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
+
+                                    ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
                                };
             ContextMenuStrip mnu = new ContextMenuStrip();
             ToolStripMenuItem mnuView = new ToolStripMenuItem("View"); 
@@ -101,7 +103,6 @@ namespace PKHeX
             }
             // Add ContextMenus to the PictureBoxes that are read only
             PictureBox[] pba2 = {
-                                    ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
                                     bbpkx1,bbpkx2,bbpkx3,bbpkx4,bbpkx5,bbpkx6,
 
                                     dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
@@ -166,6 +167,8 @@ namespace PKHeX
         #region Global Variables: Always Visible!
         public byte[] buff = new Byte[260];
         public byte[] savefile = new Byte[0x100000];
+        public byte[] cyberSAV = new Byte[0x65600];
+        public bool cybergadget = false;
         public int gt = 258;
         public int genderflag, species;
         public int savindex;
@@ -6025,7 +6028,7 @@ namespace PKHeX
         // Main Menu Subfunctions // 
         private void openfile(byte[] input, string path, string ext)
         {
-
+            // Trade Packets
             if ((input.Length == 363) && (input[0x6B] == 0) && (input[0x6C] == 00))
             {
                 // EAD Packet of 363 length
@@ -6040,7 +6043,42 @@ namespace PKHeX
                 Array.Copy(input, 0x93, c, 0, 260);
                 input = c;
             }
+            else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input,0x65410) == 0x42454546)
+            {
+                // Load CyberGadget
+                this.savindex = 0;
+                this.savefile = new Byte[0x100000];
+                this.cyberSAV = input;
+                cybergadget = true;
 
+                B_ExportSAV.Enabled = true;
+                Array.Copy(input, 0, savefile, 0x5400, input.Length);
+                SaveGame = new SaveGames.SaveStruct("XY");
+                GB_SAVtools.Enabled =
+                    B_JPEG.Enabled =
+                    B_BoxIO.Enabled =
+                    B_OUTPasserby.Enabled =
+                    B_VerifyCHK.Enabled =
+                    B_OUTHallofFame.Enabled = true;
+                    B_VerifySHA.Enabled = false;
+                reportToolStripMenuItem.Enabled = true;
+                B_SwitchSAV.Enabled = false;
+                tabBoxMulti.Enabled = true;
+                C_BoxSelect.SelectedIndex = 0;
+                tabBoxMulti.SelectedIndex = 0;
+                L_Save.Text = "SAV: " + Path.GetFileName(path);
+
+                getBoxNames();   // Display the Box Names
+                getPKXBoxes();   // Reload all of the PKX Windows
+                getSAVLabel();   // Reload the label indicating current save
+
+                if (Width < Height) // SAV Interface Not Open
+                {
+                    int newwidth = (this.Width * (54000 / 260)) / 100 + 2;
+                    this.Width = newwidth;
+                }
+                return;
+            }
             // Verify the Data Input Size is Proper
             #region SAVE FILE LOADING
             if (input.Length == 0x100000)
@@ -6185,7 +6223,7 @@ namespace PKHeX
             C_BoxSelect.SelectedIndex = 0;
             tabBoxMulti.SelectedIndex = 0;
 
-            getBoxNames();      // Display the Box Names
+            getBoxNames();   // Display the Box Names
             getPKXBoxes();   // Reload all of the PKX Windows
             getSAVLabel();   // Reload the label indicating current save
 
@@ -6304,7 +6342,8 @@ namespace PKHeX
         }
         public byte[] decryptArray(byte[] ekx)
         {
-            byte[] pkx = ekx;
+            byte[] pkx = new Byte[0x104];
+            Array.Copy(ekx,pkx,ekx.Length);
             uint pv = BitConverter.ToUInt32(pkx, 0);
             uint sv = (((pv & 0x3E000) >> 0xD) % 24);
 
@@ -6680,9 +6719,7 @@ namespace PKHeX
 
             Array.Copy(BitConverter.GetBytes(0), 0, pkx, 0x4, 4);  // 0 CHK for now
 
-            //
             // Block A
-            //
             Array.Copy(BitConverter.GetBytes(getSpecies()), 0, pkx, 0x08, 2);           // Species
             Array.Copy(BitConverter.GetBytes(getIndex(CB_HeldItem)), 0, pkx, 0x0A, 2);  // Held Item
             Array.Copy(BitConverter.GetBytes(ToUInt32(TB_TID.Text)), 0, pkx, 0x0C, 2);   // TID
@@ -6731,29 +6768,23 @@ namespace PKHeX
             // 0x3A, 0x3B
             // 0x3C, 0x3D, 0x3E, 0x3F
 
-            // 
-            // Block B
-            //
 
+            // Block B
             // Convert Nickname field back to bytes
             string nicknamestr = TB_Nickname.Text;
 
             if (!CHK_Nicknamed.Checked) // get the correct private use gender sign
             {
                 if (nicknamestr.Contains((char)0x2640))
-                {
                     nicknamestr = Regex.Replace(nicknamestr, "\u2640", "\uE08F");
-                }
                 else if (nicknamestr.Contains((char)0x2642))
-                {
                     nicknamestr = Regex.Replace(nicknamestr, "\u2642", "\uE08E");
-                }
             }
             byte[] nicknamebytes = Encoding.Unicode.GetBytes(nicknamestr);
             Array.Resize(ref nicknamebytes, 24);
             Array.Copy(nicknamebytes, 0, pkx, 0x40, nicknamebytes.Length);
 
-            // 0x58, 0x59
+            // 0x58, 0x59 unused
             Array.Copy(BitConverter.GetBytes(getIndex(CB_Move1)), 0, pkx, 0x5A, 2);  // Move 1
             Array.Copy(BitConverter.GetBytes(getIndex(CB_Move2)), 0, pkx, 0x5C, 2);  // Move 2
             Array.Copy(BitConverter.GetBytes(getIndex(CB_Move3)), 0, pkx, 0x5E, 2);  // Move 3
@@ -6764,7 +6795,7 @@ namespace PKHeX
             pkx[0x64] = (byte)(ToInt32(TB_PP3.Text) & 0xFF);
             pkx[0x65] = (byte)(ToInt32(TB_PP4.Text) & 0xFF);
 
-            pkx[0x66] = (byte)(CB_PPu1.SelectedIndex);              // PP Ups
+            pkx[0x66] = (byte)(CB_PPu1.SelectedIndex);          // PP Ups
             pkx[0x67] = (byte)(CB_PPu2.SelectedIndex);
             pkx[0x68] = (byte)(CB_PPu3.SelectedIndex);
             pkx[0x69] = (byte)(CB_PPu4.SelectedIndex);
@@ -6791,10 +6822,8 @@ namespace PKHeX
             pkx[0x76] = (byte)((IV32 >> 16) & 0xFF);
             pkx[0x77] = (byte)((IV32 >> 24) & 0xFF);
 
-            // 
-            // Block C
-            // 
 
+            // Block C
             // Convert OTT2 field back to bytes
             byte[] OT2 = Encoding.Unicode.GetBytes(TB_OTt2.Text);
             Array.Resize(ref OT2, 24);
@@ -6804,23 +6833,17 @@ namespace PKHeX
             pkx[0x92] = Convert.ToByte(Label_CTGender.Text == "♀");
             //Plus more, set by MemoryAmie (already in buff)
 
-            //
-            // Block D
-            //
 
+            // Block D
             // Convert OT field back to bytes
             byte[] OT = Encoding.Unicode.GetBytes(TB_OT.Text);
             Array.Resize(ref OT, 24);
             Array.Copy(OT, 0, pkx, 0xB0, OT.Length);
 
             if (pkx[0x93] == 0)
-            {
                 pkx[0xCA] = (byte)(ToInt32(TB_Friendship.Text) & 0xFF);
-            }
-            else //1
-            {
+            else          // 1
                 pkx[0xA2] = (byte)(ToInt32(TB_Friendship.Text) & 0xFF);
-            }
 
             int egg_year = 2000;                                   // Dates
             int egg_month = 0;
@@ -7596,6 +7619,37 @@ namespace PKHeX
             // File Integrity has been restored as well as it can. Export!
             // Write the active save index
             editedsav[0x168] = (byte)(savindex^1);
+
+
+            // If CyberGadget
+            if (BitConverter.ToUInt32(editedsav, 0x100) != 0x41534944)
+            {
+                byte[] cybersav = new Byte[0x65600];
+                Array.Copy(editedsav, 0x5400, cybersav, 0, 0x65600);
+
+                SaveFileDialog cySAV = new SaveFileDialog();
+                cySAV.Filter = "Cyber SAV|*.*";
+                cySAV.FileName = Regex.Split(L_Save.Text, ": ")[1];
+                DialogResult sdr = cySAV.ShowDialog();
+                if (sdr == DialogResult.OK)
+                {
+                    string path = cySAV.FileName;
+                    string ext = Path.GetExtension(path);
+
+                    if (File.Exists(path))
+                    {
+                        // File already exists, save a .bak
+                        byte[] backupfile = File.ReadAllBytes(path);
+                        File.WriteAllBytes(path + ".bak", backupfile);
+                    }
+
+                    File.WriteAllBytes(path, cybersav);
+                    MessageBox.Show("Saved Cyber SAV.", "Alert");
+                }
+                return;
+            }
+
+
             // Save Save File
             SaveFileDialog savesav = new SaveFileDialog();
             savesav.Filter = "SAV|*.bin;*.sav";
@@ -7697,21 +7751,75 @@ namespace PKHeX
             if (!verifiedpkx()) { return; }
             int slot = getSlot(sender);
             int offset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
-            byte[] pkxdata = preparepkx(buff);
-            byte[] ekxdata = encryptArray(pkxdata);
-            Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
+
+            if (slot >= 30 && slot < 36) // Party
+            {
+                if (slot == 30 && CB_Species.SelectedIndex == 0) { MessageBox.Show("Can't have empty first slot.", "Alert"); return; }
+                offset = SaveGame.Party + 0x7F000 * savindex + (slot - 30) * (0x104);
+                byte[] pkxdata = preparepkx(buff);
+                byte[] ekxdata = encryptArray(pkxdata);
+                Array.Copy(ekxdata, 0, savefile, offset, 0x104);
+                fixparty();
+            }
+            else
+            {
+                byte[] pkxdata = preparepkx(buff);
+                byte[] ekxdata = encryptArray(pkxdata);
+                Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
+            }
             getPKXBoxes();
             savedited = true;
 
             getSlotColor(slot, Color.Honeydew);
         }
+        private void fixparty()
+        {
+            byte partymembers = 0;
+            int offset = SaveGame.Party + 0x7F000 * savindex;
+            for (int i = 0; i < 6; i++)
+            {
+                // Gather all the species
+                byte[] data = new Byte[0x104];
+                Array.Copy(savefile, offset + i * 0x104, data, 0, 0x104);
+                byte[] decdata = decryptArray(data);
+                int species = BitConverter.ToInt16(decdata,8);
+                if ((species != 0) && (species < 722))
+                {
+                    partymembers++; // Copy in our party member
+                    Array.Copy(data, 0, savefile, offset + (partymembers-1) * 0x104, 0x104);
+                }
+            }
+            // Write in the current party count
+            savefile[0x19C18 + savindex * 0x7F000] = partymembers;
+            // Zero out the party slots that are empty.
+            for (int i = 0; i < 6; i++)
+            {
+                if (i >= partymembers)
+                {
+                    Array.Copy(encryptArray(new Byte[0x104]), 0, savefile, offset + (i * 0x104), 0x104);
+                }
+            }
+        }
         private void rcmDelete_Click(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
+            
             int offset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
-            byte[] pkxdata = new Byte[0xE8];
-            byte[] ekxdata = encryptArray(pkxdata);
-            Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
+            if (slot >= 30 && slot < 36) // Party
+            {
+                if (slot == 30) { MessageBox.Show("Can't delete first slot.", "Alert"); return; }
+                offset = SaveGame.Party + 0x7F000 * savindex + (slot - 30) * (0x104);
+                byte[] pkxdata = new Byte[0x104];
+                byte[] ekxdata = encryptArray(pkxdata);
+                Array.Copy(ekxdata, 0, savefile, offset, 0x104);
+                fixparty();
+            }
+            else
+            {
+                byte[] pkxdata = new Byte[0xE8];
+                byte[] ekxdata = encryptArray(pkxdata);
+                Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
+            }
             getPKXBoxes();
             savedited = true;
 
