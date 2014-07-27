@@ -6972,6 +6972,28 @@ namespace PKHeX.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to ! PKHeX Interface Customization File
+        ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
+        ///! lang_en.txt = English
+        ///! lang_jp.txt = Japanese
+        ///! lang_fr.txt = French
+        ///! lang_de.txt = German
+        ///! lang_es.txt = Spanish
+        ///! lang_it.txt = Italian
+        ///! lang_ko.txt = Korean
+        ///! Make sure that each edit has a &apos; = &apos; between Control name and new Text!
+        ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
+        ///!
+        ///! -----------------------------------------------------
+        ///- DO NO [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string lang_ja {
+            get {
+                return ResourceManager.GetString("lang_ja", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap legend {
             get {
                 object obj = ResourceManager.GetObject("legend", resourceCulture);

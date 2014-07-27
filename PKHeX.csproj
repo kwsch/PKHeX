@@ -272,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\text\ja\lang_ja.txt" />
     <None Include="Resources\img\Pokemon Sprites\719-1.png" />
     <None Include="Resources\img\Pokemon Sprites\376-1.png" />
     <None Include="Resources\img\Pokemon Sprites\260-1.png" />

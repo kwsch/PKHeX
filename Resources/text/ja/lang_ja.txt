@@ -1,0 +1,271 @@
+﻿! PKHeX Interface Customization File
+! Languages: Save this file accordingly and put it in the same folder as PKHeX's executable.
+! lang_en.txt = English
+! lang_jp.txt = Japanese
+! lang_fr.txt = French
+! lang_de.txt = German
+! lang_es.txt = Spanish
+! lang_it.txt = Italian
+! lang_ko.txt = Korean
+! Make sure that each edit has a ' = ' between Control name and new Text!
+! For the Menu Bar, separate the DropDown Item names with ' ; '
+!
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
+! Form1
+- Change stuff below this line, not above.
+----------------Overall PKX Interface------------------
+Menu_File = ファイル ; 読み込み... ; 保存... ; やめる
+Menu_Tools = ツール ; トグルボックスインタフェース ;  ロード/ダンプボックス ; ボックスデータレポート ; コード生成
+Menu_Options = 設定 ; 言語 ; PKHeXについて
+--------------------Main Tab Data----------------------
+Tab_Main = メイン
+Label_PID = PID:
+BTN_RerollPID = 新規作成
+Label_Species = 種類
+CHK_Nicknamed = ニックネーム
+Label_EXP = 経験値
+Label_CurLevel = LV
+Label_Nature = 性格
+Label_HeldItem = 持ち物
+Label_Friendship = なつき度
+Label_Form = フォルム
+Label_Ability = 特性
+Label_Language = 言語
+CHK_IsEgg = 卵
+CHK_Infected = 感染する
+CHK_Cured = 硬化した
+Label_PKRS = ポケルス
+Label_PKRSdays = 日:
+Label_Country = 国:
+Label_SubRegion = 地域:
+Label_3DSRegion = 3DS地域:
+---------------------Met Tab Data-----------------------
+Tab_Met = であった
+Label_OriginGame = 出身地
+Label_MetLocation = 場所
+Label_Ball = ボール
+Label_MetLevel = であったレベル
+Label_MetDate = であった日
+Label_EncounterType = 出会いの種類
+CHK_Fateful = うんめいてき であい
+---------------------Egg Met Data-----------------------
+CHK_AsEgg = 卵として
+GB_EggConditions = 卵メット条件
+Label_EggLocation = 場所
+Label_EggDate = であった日
+--------------------Stats Tab Data----------------------
+Tab_Stats = 統計
+Label_IVs = 個体値
+Label_EVs = 努力値
+Label_Stats = ステータス
+Label_HP = HP:
+Label_ATK = 攻撃
+Label_DEF = 防御
+Label_SPA = 特攻
+Label_SPD = 特防
+Label_SPE = 素早さ
+Label_Total = 努力値合計
+Label_HiddenPowerPrefix = めざめるパワー:
+Label_CharacteristicPrefix = 個性
+BTN_RandomIVs = ランダム 個体値
+BTN_RandomEVs = ランダム 努力値
+Label_ContestStats = コンディション
+Label_Cool = かっこよさ
+Label_Beauty = うつくしさ
+Label_Cute = かわいさ
+Label_Smart = かしこさ
+Label_Tough = たくましさ
+Label_Sheen = けづや
+-------------------Attacks Tab Data---------------------
+Tab_Attacks = わざ
+GB_CurrentMoves = わざ
+Label_CurPP = PP
+Label_PPups = PU回数
+GB_RelearnMoves = 学び直すわざ
+-------------------OT/Misc Tab Data---------------------
+Tab_OTMisc = 親など
+GB_OT = 親の情報
+Label_TID = 主人公ID
+Label_SID = 主人公裏ID
+Label_OT = 親のなまえ
+GB_nOT = 最新の（非親）ハンドラ
+Label_PrevOT = 親のなまえ
+GB_ExtraBytes = 余分なバイト
+GB_Markings = マーキング
+BTN_Ribbons = リボン/スーパートレーニング
+BTN_History = メモリ/ポケパルレ
+Label_EncryptionConstant = 暗号化定数
+BTN_RerollEC = 新規作成
+-----------------Save Data Interface--------------------
+Tab_Box = ボックス
+Tab_PartyBattle = パーティバトル
+Tab_Other = その他
+Tab_Tools = ツール
+Tab_SAV = SAV
+B_OpenPokePuffs = ‎ポフレ
+B_OpenItemPouch = アイテム
+B_OpenTrainerInfo = トレーナー情報
+B_OpenBoxLayout = ボックスのレイアウト
+B_OpenWondercards = ふしぎなカード
+B_OpenBerryField = きのみ畑
+B_OpenOPowers =  Oパワー
+B_OpenEventFlags = イベントフラグ
+B_OpenPokedex = ポケモン図鑑
+--------------------Tab Internals-----------------------
+L_Party = 手持ちポケモン
+L_BattleBox = バトルボックス
+GB_Daycare = 育て屋 
+GB_GTS = GTS
+GB_Fused = ヒューズ
+GB_SUBE = オールド·マン
+DayCare_HasEgg = 利用可能な卵
+L_DaycareSeed = Seed
+L_ReadOnlyOther = このタブは読み取り専用です。
+B_BoxIO = 開く/保存パッケージ内容
+B_JPEG = 保存PGL。JPEG
+B_OUTHallofFame = 殿堂入り
+B_OUTPasserby = 通行人
+L_IntegrityCheck = 整合性チェック
+B_VerifyCHK = チェックサム
+B_VerifySHA = ハッシュ
+L_SAVManipulation = ファイル操作を保存
+B_SwitchSAV = 変わるSAV
+B_ExportSAV = 輸出SAV
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
+! RibbonMedal
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+BTN_All = すべてを許可する
+BTN_None = すべての取り外し
+BTN_Cancel = キャンセル
+BTN_Save = 保存
+-------------------Ribbons/Medals----------------------
+Tab_Kalos = 共通リボン
+Tab_Extra = 余分なリボン
+Tab_Medals = トレーニングのメダル
+GB_Kalos12 = 設定1
+Kalos1a_0 = カロス チャンプ
+Kalos1a_1 = ホウエン チャンプ
+Kalos1a_2 = シンオウ チャンプ
+Kalos1a_3 = なかよし
+Kalos1a_4 = しゅぎょう
+Kalos1a_5 = グレートバトル
+Kalos1a_6 = マスターバトル
+Kalos1a_7 = がんば
+---
+Kalos1b_0 = しゃっき
+Kalos1b_1 = どっき
+Kalos1b_2 = しょんぼ
+Kalos1b_3 = うっか
+Kalos1b_4 = すっき
+Kalos1b_5 = ぐっす
+Kalos1b_6 = にっこ
+Kalos1b_7 = ゴージャス
+---
+GB_Kalos34 = 設定2
+Kalos2a_0 = ロイヤル
+Kalos2a_1 = ゴージャスロイヤル
+Kalos2a_2 = ブロマイド
+Kalos2a_3 = あしあと
+Kalos2a_4 = レコード
+Kalos2a_5 = レジェンド
+Kalos2a_6 = カントリー
+Kalos2a_7 = ナショナル
+---
+Kalos2b_0 = アース
+Kalos2b_1 = ワールド
+Kalos2b_2 = クラシック
+Kalos2b_3 = プレミア
+Kalos2b_4 = イベント
+Kalos2b_5 = バースデー
+Kalos2b_6 = スペシャル
+Kalos2b_7 = メモリアル
+---
+GB_Extra1 = 設定3
+Extra1_0 = ウィッシュ
+Extra1_1 = バトルチャンプ
+Extra1_2 = エリアチャンプ
+Extra1_3 = ナショナルチャンプ
+Extra1_4 = ワールドチャンプ
+L_PastContest = 過去のコンテストリボン
+L_PastBattle = 過去のバトルリボン
+------------------Super Training---------------------
+L_SuperTraining = 通常のトレーニング
+L_Rank1 = ランク1
+TMedal1_3 = HP
+TMedal1_4 = 攻撃
+TMedal1_7 = 防御
+TMedal1_2 = 特攻
+TMedal1_5 = 特防
+TMedal1_6 = 素早さ
+L_Rank2 = ランク2
+TMedal2_1 = HP
+TMedal2_2 = 攻撃
+TMedal2_5 = 防御
+TMedal2_0 = 特攻
+TMedal2_3 = 特防
+TMedal2_4 = 素早さ
+L_Rank3 = ランク3
+TMedal2_7 = HP
+TMedal3_0 = 攻撃
+TMedal3_3 = 防御
+TMedal2_6 = 特攻
+TMedal3_1 = 特防
+TMedal3_2 = 素早さ
+CHK_Secret = 秘密の訓練
+L_Rank3 = ランク4
+TMedal3_4 = Troubles
+L_Rank3 = ランク5
+TMedal3_5 = Leaf
+TMedal3_6 = Fire
+TMedal3_7 = Water
+TMedal4_0 = Fleeing
+L_Rank3 = ランク6
+TMedal4_1 = Second
+TMedal4_2 = Quick
+TMedal4_3 = Long
+L_Rank3 = ランク7
+TMedal4_4 = Scatter
+TMedal4_5 = Barrage
+TMedal4_6 = Hydreigon
+L_Rank3 = ランク8
+TMedal4_7 = X/Y
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
+! MemoryAmie
+- Change stuff below this line, not above.
+---------------------Bottom UI-------------------------
+BTN_Cancel = キャンセル
+BTN_Save = 保存
+L_Handler = 現在のハンドラ
+L_Fullness = 豊かさ
+L_Enjoyment = 楽しみ
+-
+Tab_OTMemory = との思い出 OT
+L_OT_Friendship = なつき度
+L_OT_Affection = あい
+L_OT_TextLine = メモリタイプ
+L_OT_Quality = 強度
+L_OT_Feeling = 気持ち
+Tab_CTMemory = との思い出 notOT
+L_CT_Friendship = なつき度
+L_cT_Affection = あい
+L_CT_TextLine = メモリタイプ
+L_CT_Quality = 強度
+L_CT_Feeling = 気持ち
+Tab_Residence = 住まい
+GB_Residence = ポケモンに住んでいます
+L_Geo0 = 以前のジオロケーション0
+L_Geo1 = 以前のジオロケーション1
+L_Geo2 = 以前のジオロケーション2
+L_Geo3 = 以前のジオロケーション3
+L_Geo4 = 以前のジオロケーション4
+L_Region = 地域
+L_Country = 国
+--
+L_Arguments = 使用禁止 ; 左はありませんでした ; OT ; 前回のゲーム ; との思い出 ; ポケモン ; エリア ; 項目 ; わざ ; 場所 ;
+! End
