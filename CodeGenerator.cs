@@ -265,27 +265,35 @@ namespace PKHeX
 
         private void B_Diff_Click(object sender, EventArgs e)
         {
+            string result = ""; 
             RTB_Code.Clear();
             byte[] cybersav = m_parent.cyberSAV;
             byte[] editedsav = m_parent.savefile;
             byte[] newcyber = new Byte[0x65600];
             Array.Copy(editedsav, 0x5400, newcyber, 0, 0x65600);
+            if (!m_parent.cybergadget) Array.Copy(editedsav, m_parent.savindex * 0x7F000 + 0x5400, newcyber, 0, 0x65600);
 
             int lines = 0;
             for (int i = 0; i < 0x65400; i += 4)
             {
                 if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
                 {
-                    RTB_Code.AppendText((0x20000000 + i).ToString("X8") + " ");
-                    RTB_Code.AppendText(BitConverter.ToUInt32(newcyber, i).ToString("X8") + "\n");
+                    result += ((0x20000000 + i).ToString("X8") + " ");
+                    result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + "\n");
                     lines++;
                     if (lines % 128 == 0)
-                    { RTB_Code.AppendText("\r\n--- Segment " + (lines/128 + 1).ToString() + " ---\r\n\r\n"); }
+                    { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                    if (lines > 10000) goto toomany;
                 }
             }
             if (lines / 128 > 0)
             {
                 MessageBox.Show((1+ (lines / 128)).ToString() + " Code Segments","Alert");
+            }
+            RTB_Code.Text = result; return;
+        toomany:
+            {
+                MessageBox.Show("Too many differences. Export your save instead.", "Alert");
             }
         }
     }

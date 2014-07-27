@@ -212,7 +212,7 @@
             this.Menu_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_OpenBoxUI = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ToggleBoxUI = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_BoxIO = new System.Windows.Forms.ToolStripMenuItem();
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2540,7 +2540,7 @@
             // Menu_Tools
             // 
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_OpenBoxUI,
+            this.Menu_ToggleBoxUI,
             this.Menu_BoxIO,
             this.reportToolStripMenuItem,
             this.codeGeneratorToolStripMenuItem});
@@ -2548,12 +2548,12 @@
             this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
             // 
-            // Menu_OpenBoxUI
+            // Menu_ToggleBoxUI
             // 
-            this.Menu_OpenBoxUI.Name = "Menu_OpenBoxUI";
-            this.Menu_OpenBoxUI.Size = new System.Drawing.Size(182, 22);
-            this.Menu_OpenBoxUI.Text = "Toggle Box Interface";
-            this.Menu_OpenBoxUI.Click += new System.EventHandler(this.mainmenuWiden);
+            this.Menu_ToggleBoxUI.Name = "Menu_ToggleBoxUI";
+            this.Menu_ToggleBoxUI.Size = new System.Drawing.Size(182, 22);
+            this.Menu_ToggleBoxUI.Text = "Toggle Box Interface";
+            this.Menu_ToggleBoxUI.Click += new System.EventHandler(this.mainmenuWiden);
             // 
             // Menu_BoxIO
             // 
@@ -4184,7 +4184,7 @@
         private System.Windows.Forms.ComboBox CB_EggLocation;
         private System.Windows.Forms.Label Label_CharacteristicPrefix;
         private System.Windows.Forms.ToolStripMenuItem Menu_Tools;
-        private System.Windows.Forms.ToolStripMenuItem Menu_OpenBoxUI;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ToggleBoxUI;
         private System.Windows.Forms.ToolStripMenuItem Menu_Options;
         private System.Windows.Forms.ToolStripMenuItem Menu_Language;
         private System.Windows.Forms.ToolStripComboBox CB_MainLanguage;

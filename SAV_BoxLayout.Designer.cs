@@ -37,9 +37,10 @@
             this.L_Flags = new System.Windows.Forms.Label();
             this.MT_BG1 = new System.Windows.Forms.MaskedTextBox();
             this.MT_BG2 = new System.Windows.Forms.MaskedTextBox();
-            this.MT_BG3 = new System.Windows.Forms.MaskedTextBox();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CB_Unlocked = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // LB_BoxSelect
@@ -79,7 +80,7 @@
             "Box 31"});
             this.LB_BoxSelect.Location = new System.Drawing.Point(12, 14);
             this.LB_BoxSelect.Name = "LB_BoxSelect";
-            this.LB_BoxSelect.Size = new System.Drawing.Size(78, 134);
+            this.LB_BoxSelect.Size = new System.Drawing.Size(78, 212);
             this.LB_BoxSelect.TabIndex = 0;
             this.LB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.changeBox);
             // 
@@ -124,7 +125,7 @@
             // L_Flags
             // 
             this.L_Flags.AutoSize = true;
-            this.L_Flags.Location = new System.Drawing.Point(104, 82);
+            this.L_Flags.Location = new System.Drawing.Point(103, 112);
             this.L_Flags.Name = "L_Flags";
             this.L_Flags.Size = new System.Drawing.Size(102, 13);
             this.L_Flags.TabIndex = 5;
@@ -132,7 +133,7 @@
             // 
             // MT_BG1
             // 
-            this.MT_BG1.Location = new System.Drawing.Point(106, 98);
+            this.MT_BG1.Location = new System.Drawing.Point(117, 128);
             this.MT_BG1.Mask = "00";
             this.MT_BG1.Name = "MT_BG1";
             this.MT_BG1.Size = new System.Drawing.Size(29, 20);
@@ -142,7 +143,7 @@
             // 
             // MT_BG2
             // 
-            this.MT_BG2.Location = new System.Drawing.Point(142, 98);
+            this.MT_BG2.Location = new System.Drawing.Point(157, 128);
             this.MT_BG2.Mask = "00";
             this.MT_BG2.Name = "MT_BG2";
             this.MT_BG2.Size = new System.Drawing.Size(29, 20);
@@ -150,19 +151,9 @@
             this.MT_BG2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_BG2.TextChanged += new System.EventHandler(this.changeBoxDetails);
             // 
-            // MT_BG3
-            // 
-            this.MT_BG3.Location = new System.Drawing.Point(177, 98);
-            this.MT_BG3.Mask = "00";
-            this.MT_BG3.Name = "MT_BG3";
-            this.MT_BG3.Size = new System.Drawing.Size(29, 20);
-            this.MT_BG3.TabIndex = 8;
-            this.MT_BG3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_BG3.TextChanged += new System.EventHandler(this.changeBoxDetails);
-            // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(157, 127);
+            this.B_Save.Location = new System.Drawing.Point(157, 203);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(50, 23);
             this.B_Save.TabIndex = 9;
@@ -172,7 +163,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(101, 127);
+            this.B_Cancel.Location = new System.Drawing.Point(96, 203);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(50, 23);
             this.B_Cancel.TabIndex = 10;
@@ -180,14 +171,66 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(103, 179);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(56, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Unlocked:";
+            // 
+            // CB_Unlocked
+            // 
+            this.CB_Unlocked.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Unlocked.FormattingEnabled = true;
+            this.CB_Unlocked.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"});
+            this.CB_Unlocked.Location = new System.Drawing.Point(165, 176);
+            this.CB_Unlocked.Name = "CB_Unlocked";
+            this.CB_Unlocked.Size = new System.Drawing.Size(40, 21);
+            this.CB_Unlocked.TabIndex = 12;
+            this.CB_Unlocked.TextChanged += new System.EventHandler(this.changeBoxDetails);
+            // 
             // SAV_BoxLayout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(219, 162);
+            this.ClientSize = new System.Drawing.Size(219, 239);
+            this.Controls.Add(this.CB_Unlocked);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.MT_BG3);
             this.Controls.Add(this.MT_BG2);
             this.Controls.Add(this.MT_BG1);
             this.Controls.Add(this.L_Flags);
@@ -218,8 +261,9 @@
         private System.Windows.Forms.Label L_Flags;
         private System.Windows.Forms.MaskedTextBox MT_BG1;
         private System.Windows.Forms.MaskedTextBox MT_BG2;
-        private System.Windows.Forms.MaskedTextBox MT_BG3;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox CB_Unlocked;
     }
 }

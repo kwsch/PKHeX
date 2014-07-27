@@ -90,7 +90,7 @@
             this.L_1.Name = "L_1";
             this.L_1.Size = new System.Drawing.Size(70, 13);
             this.L_1.TabIndex = 1;
-            this.L_1.Text = "Power 1:";
+            this.L_1.Text = "?Bargain:";
             this.L_1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_2
@@ -99,7 +99,7 @@
             this.L_2.Name = "L_2";
             this.L_2.Size = new System.Drawing.Size(70, 13);
             this.L_2.TabIndex = 3;
-            this.L_2.Text = "Power 2:";
+            this.L_2.Text = "?EXP:";
             this.L_2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_2
@@ -123,7 +123,7 @@
             this.L_3.Name = "L_3";
             this.L_3.Size = new System.Drawing.Size(70, 13);
             this.L_3.TabIndex = 5;
-            this.L_3.Text = "Power 3:";
+            this.L_3.Text = "?Prize:";
             this.L_3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_3
@@ -147,7 +147,7 @@
             this.L_4.Name = "L_4";
             this.L_4.Size = new System.Drawing.Size(70, 13);
             this.L_4.TabIndex = 7;
-            this.L_4.Text = "Power 4:";
+            this.L_4.Text = "?Hatch:";
             this.L_4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_4
@@ -195,7 +195,7 @@
             this.L_6.Name = "L_6";
             this.L_6.Size = new System.Drawing.Size(70, 13);
             this.L_6.TabIndex = 11;
-            this.L_6.Text = "Power 6:";
+            this.L_6.Text = "?Encounter";
             this.L_6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_6
@@ -218,7 +218,7 @@
             this.L_7.Name = "L_7";
             this.L_7.Size = new System.Drawing.Size(70, 13);
             this.L_7.TabIndex = 13;
-            this.L_7.Text = "Power 7:";
+            this.L_7.Text = "?Stealth:";
             this.L_7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_7
@@ -264,7 +264,7 @@
             this.L_17.Name = "L_17";
             this.L_17.Size = new System.Drawing.Size(70, 13);
             this.L_17.TabIndex = 31;
-            this.L_17.Text = "Power 17:";
+            this.L_17.Text = "?Accuracy:";
             this.L_17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_17
@@ -287,7 +287,7 @@
             this.L_16.Name = "L_16";
             this.L_16.Size = new System.Drawing.Size(70, 13);
             this.L_16.TabIndex = 29;
-            this.L_16.Text = "Power 16:";
+            this.L_16.Text = "?Critical Hit:";
             this.L_16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_16
@@ -310,7 +310,7 @@
             this.L_15.Name = "L_15";
             this.L_15.Size = new System.Drawing.Size(70, 13);
             this.L_15.TabIndex = 27;
-            this.L_15.Text = "Power 15:";
+            this.L_15.Text = "?Speed:";
             this.L_15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_15
@@ -333,7 +333,7 @@
             this.L_14.Name = "L_14";
             this.L_14.Size = new System.Drawing.Size(70, 13);
             this.L_14.TabIndex = 25;
-            this.L_14.Text = "Power 14:";
+            this.L_14.Text = "?Sp. Def:";
             this.L_14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_14
@@ -356,7 +356,7 @@
             this.L_13.Name = "L_13";
             this.L_13.Size = new System.Drawing.Size(70, 13);
             this.L_13.TabIndex = 23;
-            this.L_13.Text = "Power 13:";
+            this.L_13.Text = "?Sp. Atk:";
             this.L_13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_13
@@ -379,7 +379,7 @@
             this.L_12.Name = "L_12";
             this.L_12.Size = new System.Drawing.Size(70, 13);
             this.L_12.TabIndex = 21;
-            this.L_12.Text = "Power 12:";
+            this.L_12.Text = "?Defense:";
             this.L_12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_12
@@ -402,7 +402,7 @@
             this.L_11.Name = "L_11";
             this.L_11.Size = new System.Drawing.Size(70, 13);
             this.L_11.TabIndex = 19;
-            this.L_11.Text = "Power 11:";
+            this.L_11.Text = "?Attack:";
             this.L_11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_11
@@ -425,7 +425,7 @@
             this.L_10.Name = "L_10";
             this.L_10.Size = new System.Drawing.Size(70, 13);
             this.L_10.TabIndex = 17;
-            this.L_10.Text = "Power 10:";
+            this.L_10.Text = "?Befriend:";
             this.L_10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_10
@@ -449,7 +449,7 @@
             this.L_9.Name = "L_9";
             this.L_9.Size = new System.Drawing.Size(70, 13);
             this.L_9.TabIndex = 33;
-            this.L_9.Text = "Power 9:";
+            this.L_9.Text = "?PP:";
             this.L_9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_9

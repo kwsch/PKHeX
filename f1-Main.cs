@@ -5940,6 +5940,11 @@ namespace PKHeX
             {
                 string path = OpenPKX.FileName;
                 string ext = Path.GetExtension(path);
+                if (new FileInfo(path).Length > 0x10009C)
+                {
+                    MessageBox.Show("Input file is too large.", "Alert"); return;
+                }
+
                 byte[] input = File.ReadAllBytes(path);
                 try
                 {
@@ -6061,7 +6066,6 @@ namespace PKHeX
                     B_VerifyCHK.Enabled =
                     B_OUTHallofFame.Enabled = true;
                     B_VerifySHA.Enabled = false;
-                reportToolStripMenuItem.Enabled = true;
                 B_SwitchSAV.Enabled = false;
                 tabBoxMulti.Enabled = true;
                 C_BoxSelect.SelectedIndex = 0;
@@ -6085,7 +6089,6 @@ namespace PKHeX
             {
                 B_ExportSAV.Enabled = false;
                 B_SwitchSAV.Enabled = false;
-                reportToolStripMenuItem.Enabled = false;
                 B_OUTPasserby.Enabled = B_OUTHallofFame.Enabled = B_JPEG.Enabled = false;
                 if ((BitConverter.ToUInt32(input, 0x100) != 0x41534944) && (BitConverter.ToUInt32(input, 0x5234) != 0x6E69616D))
                 {
@@ -6132,7 +6135,6 @@ namespace PKHeX
                 {
                     B_ExportSAV.Enabled = true;
                     B_SwitchSAV.Enabled = true;
-                    reportToolStripMenuItem.Enabled = true;
                     savindex = detectSAVIndex(input);
                     opensave(input, path, ext);
                 }
@@ -6202,6 +6204,7 @@ namespace PKHeX
                     MessageBox.Show(message, caption);
                 }
             }
+            GC.Collect();
         }
         private void opensave(byte[] input, string path, string ext)
         {
@@ -6210,7 +6213,7 @@ namespace PKHeX
                 int newwidth = (this.Width * (54000 / 260)) / 100 + 2;
                 this.Width = newwidth;
             }
-            Menu_OpenBoxUI.Visible = false;
+            Menu_ToggleBoxUI.Visible = false;
             savefile = input;
             savedited = false;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
@@ -6246,6 +6249,8 @@ namespace PKHeX
 
             B_SwitchSAV.Enabled = (hashValue1.SequenceEqual(realHash1) && hashValue2.SequenceEqual(realHash2));
             getSAVOffsets();
+            Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
+            cybergadget = false;
         }
         private void openg5pkm()
         {
@@ -6936,6 +6941,11 @@ namespace PKHeX
             }
 
             string ext = Path.GetExtension(path);
+            FileInfo fi = new FileInfo(path);
+            if (fi.Length > 0x10009C)
+            {
+                MessageBox.Show("Input file is too large.", "Alert"); return;
+            }
             byte[] input = File.ReadAllBytes(path);
             try
             {

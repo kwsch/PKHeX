@@ -15,6 +15,7 @@ namespace PKHeX
         {
             InitializeComponent();
             m_parent = frm1;
+            editing = true;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
             LB_BoxSelect.SelectedIndex = 0;
@@ -41,8 +42,10 @@ namespace PKHeX
             MT_BG.Text = sav[0x9C1E + savindex * 0x7F000 + index].ToString();
 
             MT_BG1.Text = sav[0x9C3D + savindex * 0x7F000].ToString();
-            MT_BG2.Text = sav[0x9C3E + savindex * 0x7F000].ToString();
-            MT_BG3.Text = sav[0x9C3F + savindex * 0x7F000].ToString();
+            MT_BG2.Text = sav[0x9C3F + savindex * 0x7F000].ToString();
+
+            CB_Unlocked.SelectedIndex = sav[0x9C3E + savindex * 0x7F000] - 1;
+                
             editing = false; 
         }
         private void changeBoxDetails(object sender, EventArgs e)
@@ -60,8 +63,9 @@ namespace PKHeX
 
                 sav[0x9C1E + savindex * 0x7F000 + index] = (byte)ToUInt32(MT_BG.Text);
                 sav[0x9C3D + savindex * 0x7F000] = (byte)ToUInt32(MT_BG1.Text);
-                sav[0x9C3E + savindex * 0x7F000] = (byte)ToUInt32(MT_BG2.Text);
-                sav[0x9C3F + savindex * 0x7F000] = (byte)ToUInt32(MT_BG3.Text);
+                sav[0x9C3F + savindex * 0x7F000] = (byte)ToUInt32(MT_BG2.Text);
+
+                sav[0x9C3E + savindex * 0x7F000] = (byte)ToUInt32(CB_Unlocked.Text);
             }
         }
         private void B_Cancel_Click(object sender, EventArgs e)
