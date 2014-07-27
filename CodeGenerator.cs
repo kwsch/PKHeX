@@ -271,13 +271,21 @@ namespace PKHeX
             byte[] newcyber = new Byte[0x65600];
             Array.Copy(editedsav, 0x5400, newcyber, 0, 0x65600);
 
+            int lines = 0;
             for (int i = 0; i < 0x65400; i += 4)
             {
                 if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
                 {
                     RTB_Code.AppendText((0x20000000 + i).ToString("X8") + " ");
                     RTB_Code.AppendText(BitConverter.ToUInt32(newcyber, i).ToString("X8") + "\n");
+                    lines++;
+                    if (lines % 128 == 0)
+                    { RTB_Code.AppendText("\r\n--- Segment " + (lines/128 + 1).ToString() + " ---\r\n\r\n"); }
                 }
+            }
+            if (lines / 128 > 0)
+            {
+                MessageBox.Show((1+ (lines / 128)).ToString() + " Code Segments","Alert");
             }
         }
     }

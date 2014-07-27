@@ -8417,6 +8417,12 @@ namespace PKHeX
             SAV_EventFlags eventflags = new PKHeX.SAV_EventFlags(this);
             eventflags.ShowDialog();
         }
+        private void B_OpenOPowers_Click(object sender, EventArgs e)
+        {
+            // Open O-Power Menu
+            SAV_OPower opower = new PKHeX.SAV_OPower(this);
+            opower.ShowDialog();
+        }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
             RTB_T.Text = "PSS List\r\n\r\n";
@@ -8647,6 +8653,8 @@ namespace PKHeX
             ReportForm.PopulateData(savefile);
             ReportForm.ShowDialog();
         }
+
+        
     }
     #region Structs & Classes
     public class cbItem

@@ -3695,13 +3695,13 @@
             // 
             // B_OpenOPowers
             // 
-            this.B_OpenOPowers.Enabled = false;
             this.B_OpenOPowers.Location = new System.Drawing.Point(13, 70);
             this.B_OpenOPowers.Name = "B_OpenOPowers";
             this.B_OpenOPowers.Size = new System.Drawing.Size(75, 23);
             this.B_OpenOPowers.TabIndex = 8;
             this.B_OpenOPowers.Text = "O-Powers";
             this.B_OpenOPowers.UseVisualStyleBackColor = true;
+            this.B_OpenOPowers.Click += new System.EventHandler(this.B_OpenOPowers_Click);
             // 
             // B_OpenItemPouch
             // 

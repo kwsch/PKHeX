@@ -144,6 +144,12 @@
     <Compile Include="SAV_Inventory.Designer.cs">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
     </Compile>
+    <Compile Include="SAV_OPower.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SAV_OPower.Designer.cs">
+      <DependentUpon>SAV_OPower.cs</DependentUpon>
+    </Compile>
     <Compile Include="SAV_Pokepuff.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SAV_Inventory.resx">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SAV_OPower.resx">
+      <DependentUpon>SAV_OPower.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV_Pokepuff.resx">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
