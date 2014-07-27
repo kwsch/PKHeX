@@ -128,6 +128,8 @@
             this.TB_PM = new System.Windows.Forms.MaskedTextBox();
             this.L_BP = new System.Windows.Forms.Label();
             this.L_PM = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.TB_Style = new System.Windows.Forms.MaskedTextBox();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -442,7 +444,7 @@
             this.GB_Sayings.Controls.Add(this.TB_Saying1);
             this.GB_Sayings.Location = new System.Drawing.Point(235, 12);
             this.GB_Sayings.Name = "GB_Sayings";
-            this.GB_Sayings.Size = new System.Drawing.Size(175, 128);
+            this.GB_Sayings.Size = new System.Drawing.Size(175, 120);
             this.GB_Sayings.TabIndex = 27;
             this.GB_Sayings.TabStop = false;
             this.GB_Sayings.Text = "Saved Sayings";
@@ -450,7 +452,7 @@
             // L_Saying5
             // 
             this.L_Saying5.AutoSize = true;
-            this.L_Saying5.Location = new System.Drawing.Point(13, 104);
+            this.L_Saying5.Location = new System.Drawing.Point(13, 99);
             this.L_Saying5.Name = "L_Saying5";
             this.L_Saying5.Size = new System.Drawing.Size(16, 13);
             this.L_Saying5.TabIndex = 9;
@@ -459,7 +461,7 @@
             // L_Saying4
             // 
             this.L_Saying4.AutoSize = true;
-            this.L_Saying4.Location = new System.Drawing.Point(13, 84);
+            this.L_Saying4.Location = new System.Drawing.Point(13, 79);
             this.L_Saying4.Name = "L_Saying4";
             this.L_Saying4.Size = new System.Drawing.Size(16, 13);
             this.L_Saying4.TabIndex = 8;
@@ -468,7 +470,7 @@
             // L_Saying3
             // 
             this.L_Saying3.AutoSize = true;
-            this.L_Saying3.Location = new System.Drawing.Point(13, 64);
+            this.L_Saying3.Location = new System.Drawing.Point(13, 59);
             this.L_Saying3.Name = "L_Saying3";
             this.L_Saying3.Size = new System.Drawing.Size(16, 13);
             this.L_Saying3.TabIndex = 7;
@@ -477,7 +479,7 @@
             // L_Saying2
             // 
             this.L_Saying2.AutoSize = true;
-            this.L_Saying2.Location = new System.Drawing.Point(13, 44);
+            this.L_Saying2.Location = new System.Drawing.Point(13, 39);
             this.L_Saying2.Name = "L_Saying2";
             this.L_Saying2.Size = new System.Drawing.Size(16, 13);
             this.L_Saying2.TabIndex = 6;
@@ -486,7 +488,7 @@
             // L_Saying1
             // 
             this.L_Saying1.AutoSize = true;
-            this.L_Saying1.Location = new System.Drawing.Point(13, 24);
+            this.L_Saying1.Location = new System.Drawing.Point(13, 19);
             this.L_Saying1.Name = "L_Saying1";
             this.L_Saying1.Size = new System.Drawing.Size(16, 13);
             this.L_Saying1.TabIndex = 5;
@@ -495,7 +497,7 @@
             // TB_Saying5
             // 
             this.TB_Saying5.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying5.Location = new System.Drawing.Point(35, 101);
+            this.TB_Saying5.Location = new System.Drawing.Point(35, 96);
             this.TB_Saying5.MaxLength = 16;
             this.TB_Saying5.Name = "TB_Saying5";
             this.TB_Saying5.Size = new System.Drawing.Size(126, 20);
@@ -506,7 +508,7 @@
             // TB_Saying4
             // 
             this.TB_Saying4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying4.Location = new System.Drawing.Point(35, 81);
+            this.TB_Saying4.Location = new System.Drawing.Point(35, 76);
             this.TB_Saying4.MaxLength = 16;
             this.TB_Saying4.Name = "TB_Saying4";
             this.TB_Saying4.Size = new System.Drawing.Size(126, 20);
@@ -517,7 +519,7 @@
             // TB_Saying3
             // 
             this.TB_Saying3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying3.Location = new System.Drawing.Point(35, 61);
+            this.TB_Saying3.Location = new System.Drawing.Point(35, 56);
             this.TB_Saying3.MaxLength = 16;
             this.TB_Saying3.Name = "TB_Saying3";
             this.TB_Saying3.Size = new System.Drawing.Size(126, 20);
@@ -528,7 +530,7 @@
             // TB_Saying2
             // 
             this.TB_Saying2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying2.Location = new System.Drawing.Point(35, 41);
+            this.TB_Saying2.Location = new System.Drawing.Point(35, 36);
             this.TB_Saying2.MaxLength = 16;
             this.TB_Saying2.Name = "TB_Saying2";
             this.TB_Saying2.Size = new System.Drawing.Size(126, 20);
@@ -539,7 +541,7 @@
             // TB_Saying1
             // 
             this.TB_Saying1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying1.Location = new System.Drawing.Point(35, 21);
+            this.TB_Saying1.Location = new System.Drawing.Point(35, 16);
             this.TB_Saying1.MaxLength = 16;
             this.TB_Saying1.Name = "TB_Saying1";
             this.TB_Saying1.Size = new System.Drawing.Size(126, 20);
@@ -1089,20 +1091,22 @@
             // 
             // GB_Currency
             // 
+            this.GB_Currency.Controls.Add(this.TB_Style);
+            this.GB_Currency.Controls.Add(this.label21);
             this.GB_Currency.Controls.Add(this.TB_BP);
             this.GB_Currency.Controls.Add(this.TB_PM);
             this.GB_Currency.Controls.Add(this.L_BP);
             this.GB_Currency.Controls.Add(this.L_PM);
-            this.GB_Currency.Location = new System.Drawing.Point(235, 139);
+            this.GB_Currency.Location = new System.Drawing.Point(235, 132);
             this.GB_Currency.Name = "GB_Currency";
-            this.GB_Currency.Size = new System.Drawing.Size(175, 56);
+            this.GB_Currency.Size = new System.Drawing.Size(175, 63);
             this.GB_Currency.TabIndex = 50;
             this.GB_Currency.TabStop = false;
-            this.GB_Currency.Text = "Currency";
+            this.GB_Currency.Text = "Misc";
             // 
             // TB_BP
             // 
-            this.TB_BP.Location = new System.Drawing.Point(96, 32);
+            this.TB_BP.Location = new System.Drawing.Point(53, 16);
             this.TB_BP.Mask = "0000";
             this.TB_BP.Name = "TB_BP";
             this.TB_BP.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1113,7 +1117,7 @@
             // 
             // TB_PM
             // 
-            this.TB_PM.Location = new System.Drawing.Point(96, 12);
+            this.TB_PM.Location = new System.Drawing.Point(105, 39);
             this.TB_PM.Mask = "0000000";
             this.TB_PM.Name = "TB_PM";
             this.TB_PM.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1124,21 +1128,42 @@
             // 
             // L_BP
             // 
-            this.L_BP.Location = new System.Drawing.Point(9, 35);
+            this.L_BP.Location = new System.Drawing.Point(3, 19);
             this.L_BP.Name = "L_BP";
-            this.L_BP.Size = new System.Drawing.Size(80, 13);
+            this.L_BP.Size = new System.Drawing.Size(50, 13);
             this.L_BP.TabIndex = 1;
             this.L_BP.Text = "BP:";
             this.L_BP.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // L_PM
             // 
-            this.L_PM.Location = new System.Drawing.Point(9, 15);
+            this.L_PM.Location = new System.Drawing.Point(13, 42);
             this.L_PM.Name = "L_PM";
             this.L_PM.Size = new System.Drawing.Size(80, 13);
             this.L_PM.TabIndex = 0;
             this.L_PM.Text = "PokeMiles:";
             this.L_PM.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label21
+            // 
+            this.label21.Location = new System.Drawing.Point(90, 19);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(46, 13);
+            this.label21.TabIndex = 7;
+            this.label21.Text = "Style:";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // TB_Style
+            // 
+            this.TB_Style.Location = new System.Drawing.Point(135, 16);
+            this.TB_Style.Mask = "000";
+            this.TB_Style.Name = "TB_Style";
+            this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TB_Style.Size = new System.Drawing.Size(26, 20);
+            this.TB_Style.TabIndex = 8;
+            this.TB_Style.Text = "123";
+            this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Style.TextChanged += new System.EventHandler(this.changeStyle);
             // 
             // SAV_Trainer
             // 
@@ -1294,5 +1319,7 @@
         private System.Windows.Forms.MaskedTextBox TB_PM;
         private System.Windows.Forms.Label L_BP;
         private System.Windows.Forms.Label L_PM;
+        private System.Windows.Forms.MaskedTextBox TB_Style;
+        private System.Windows.Forms.Label label21;
     }
 }

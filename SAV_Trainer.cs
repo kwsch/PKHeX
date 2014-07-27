@@ -292,6 +292,8 @@ namespace PKHeX
             // Load BP and PokeMiles
             TB_BP.Text = BitConverter.ToUInt32(sav, savshift + 0x963C).ToString();
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
+
+            TB_Style.Text = sav[0x694D + savshift].ToString();
         }
         private void save()
         {
@@ -372,8 +374,10 @@ namespace PKHeX
             byte[] y = BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)); Array.Resize(ref y, 4); Array.Copy(y,0,sav, savshift + 0x6818,4);
             TB_BP.Text = BitConverter.ToUInt32(sav, savshift + 0x963C).ToString();
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
+            
             byte[] bp = BitConverter.GetBytes(ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C, 2);
             byte[] pm = BitConverter.GetBytes(ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + 0x238FC, 4); Array.Copy(pm, 0, sav, savshift + 0x23900, 4);
+            sav[0x694D+savshift] = Byte.Parse(TB_Style.Text);
 
             // Copy Badges
             badgeval = 0;
@@ -413,6 +417,11 @@ namespace PKHeX
         private void changeBadge(object sender, EventArgs e)
         {
             getBadges();
+        }
+
+        private void changeStyle(object sender, EventArgs e)
+        {
+            if (int.Parse(TB_Style.Text) > 255) TB_Style.Text = "255";
         }
 
     }
