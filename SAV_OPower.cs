@@ -52,7 +52,7 @@ namespace PKHeX
             CB_9.SelectedIndex = getIndex(o, 3); o += 3; // 23
 
             o++;
-            CB_10.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 27
+            CB_10.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 27-
 
             CB_11.SelectedIndex = getIndex(o, 3); o += 3; // 2C-2E
             CB_12.SelectedIndex = getIndex(o, 3); o += 3; // 2F-31
@@ -61,6 +61,16 @@ namespace PKHeX
             CB_15.SelectedIndex = getIndex(o, 3); o += 3; // 38-3A
             CB_16.SelectedIndex = getIndex(o, 3); o += 3; // 3B-3D
             CB_17.SelectedIndex = getIndex(o, 3); o += 3; // 3E-40
+
+            // Load Maxes
+            CHK_1.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x00]);
+            CHK_2.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x05]);
+            CHK_3.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x0A]);
+            CHK_4.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x0F]);
+            CHK_5.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x14]);
+            CHK_6.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x19]);
+            CHK_7.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x26]);
+            CHK_8.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x2B]);
         }
         private void SaveData()
         {
@@ -85,10 +95,17 @@ namespace PKHeX
                 }
                 Array.Copy(data, 0, m_parent.savefile, o + offsets[i], data.Length);
             }
-        }
-        private void setindex(int o, int l, int v)
-        {
 
+            // Save Maxes
+
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x00] = Convert.ToByte(CHK_1.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x05] = Convert.ToByte(CHK_2.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x0A] = Convert.ToByte(CHK_3.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x0F] = Convert.ToByte(CHK_4.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x14] = Convert.ToByte(CHK_5.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x19] = Convert.ToByte(CHK_6.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x26] = Convert.ToByte(CHK_7.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x2B] = Convert.ToByte(CHK_8.Checked);
         }
         private int getIndex(int o, int l)
         {
@@ -123,15 +140,23 @@ namespace PKHeX
                 CB_1, CB_2, CB_3, CB_4, CB_5, CB_6, CB_7, CB_8, CB_9,
                 CB_10, CB_11, CB_12, CB_13, CB_14, CB_15, CB_16, CB_17,
             };
-            if (s)
+            CheckBox[] echk = new CheckBox[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8 };
+            
             {
                 for (int i = 0; i < cba.Length; i++)
-                    cba[i].SelectedIndex = cba[i].Items.Count-1;
+                    cba[i].SelectedIndex = (cba[i].Items.Count-1);
             }
-            else
+            if (!s)
+            {
+                for (int i = 0; i < echk.Length; i++)
+                    echk[i].Checked = !(ModifierKeys == Keys.Control);
+            }
+            else if (ModifierKeys == Keys.Control)
             {
                 for (int i = 0; i < cba.Length; i++)
-                    cba[i].SelectedIndex = 3;
+                    cba[i].SelectedIndex = 0;
+                for (int i = 0; i < echk.Length; i++)
+                    echk[i].Checked = false;
             }
         }
     }

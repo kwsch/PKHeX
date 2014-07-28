@@ -67,6 +67,18 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.B_MaxP = new System.Windows.Forms.Button();
             this.B_AllMax = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.CHK_1 = new System.Windows.Forms.CheckBox();
+            this.CHK_2 = new System.Windows.Forms.CheckBox();
+            this.CHK_3 = new System.Windows.Forms.CheckBox();
+            this.CHK_4 = new System.Windows.Forms.CheckBox();
+            this.CHK_5 = new System.Windows.Forms.CheckBox();
+            this.CHK_6 = new System.Windows.Forms.CheckBox();
+            this.CHK_7 = new System.Windows.Forms.CheckBox();
+            this.CHK_8 = new System.Windows.Forms.CheckBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_1
@@ -79,14 +91,14 @@
             "2",
             "3",
             "S"});
-            this.CB_1.Location = new System.Drawing.Point(78, 8);
+            this.CB_1.Location = new System.Drawing.Point(86, 20);
             this.CB_1.Name = "CB_1";
             this.CB_1.Size = new System.Drawing.Size(37, 21);
             this.CB_1.TabIndex = 0;
             // 
             // L_1
             // 
-            this.L_1.Location = new System.Drawing.Point(4, 11);
+            this.L_1.Location = new System.Drawing.Point(12, 23);
             this.L_1.Name = "L_1";
             this.L_1.Size = new System.Drawing.Size(70, 13);
             this.L_1.TabIndex = 1;
@@ -95,7 +107,7 @@
             // 
             // L_2
             // 
-            this.L_2.Location = new System.Drawing.Point(4, 38);
+            this.L_2.Location = new System.Drawing.Point(12, 50);
             this.L_2.Name = "L_2";
             this.L_2.Size = new System.Drawing.Size(70, 13);
             this.L_2.TabIndex = 3;
@@ -112,14 +124,14 @@
             "2",
             "3",
             "S"});
-            this.CB_2.Location = new System.Drawing.Point(78, 35);
+            this.CB_2.Location = new System.Drawing.Point(86, 47);
             this.CB_2.Name = "CB_2";
             this.CB_2.Size = new System.Drawing.Size(37, 21);
             this.CB_2.TabIndex = 2;
             // 
             // L_3
             // 
-            this.L_3.Location = new System.Drawing.Point(4, 65);
+            this.L_3.Location = new System.Drawing.Point(12, 77);
             this.L_3.Name = "L_3";
             this.L_3.Size = new System.Drawing.Size(70, 13);
             this.L_3.TabIndex = 5;
@@ -136,14 +148,14 @@
             "2",
             "3",
             "S"});
-            this.CB_3.Location = new System.Drawing.Point(78, 62);
+            this.CB_3.Location = new System.Drawing.Point(86, 74);
             this.CB_3.Name = "CB_3";
             this.CB_3.Size = new System.Drawing.Size(37, 21);
             this.CB_3.TabIndex = 4;
             // 
             // L_4
             // 
-            this.L_4.Location = new System.Drawing.Point(4, 92);
+            this.L_4.Location = new System.Drawing.Point(12, 104);
             this.L_4.Name = "L_4";
             this.L_4.Size = new System.Drawing.Size(70, 13);
             this.L_4.TabIndex = 7;
@@ -160,14 +172,14 @@
             "2",
             "3",
             "S"});
-            this.CB_4.Location = new System.Drawing.Point(78, 89);
+            this.CB_4.Location = new System.Drawing.Point(86, 101);
             this.CB_4.Name = "CB_4";
             this.CB_4.Size = new System.Drawing.Size(37, 21);
             this.CB_4.TabIndex = 6;
             // 
             // L_5
             // 
-            this.L_5.Location = new System.Drawing.Point(4, 119);
+            this.L_5.Location = new System.Drawing.Point(12, 131);
             this.L_5.Name = "L_5";
             this.L_5.Size = new System.Drawing.Size(70, 13);
             this.L_5.TabIndex = 9;
@@ -184,14 +196,14 @@
             "2",
             "3",
             "S"});
-            this.CB_5.Location = new System.Drawing.Point(78, 116);
+            this.CB_5.Location = new System.Drawing.Point(86, 128);
             this.CB_5.Name = "CB_5";
             this.CB_5.Size = new System.Drawing.Size(37, 21);
             this.CB_5.TabIndex = 8;
             // 
             // L_6
             // 
-            this.L_6.Location = new System.Drawing.Point(4, 146);
+            this.L_6.Location = new System.Drawing.Point(12, 158);
             this.L_6.Name = "L_6";
             this.L_6.Size = new System.Drawing.Size(70, 13);
             this.L_6.TabIndex = 11;
@@ -207,14 +219,14 @@
             "1",
             "2",
             "3"});
-            this.CB_6.Location = new System.Drawing.Point(78, 143);
+            this.CB_6.Location = new System.Drawing.Point(86, 155);
             this.CB_6.Name = "CB_6";
             this.CB_6.Size = new System.Drawing.Size(37, 21);
             this.CB_6.TabIndex = 10;
             // 
             // L_7
             // 
-            this.L_7.Location = new System.Drawing.Point(4, 173);
+            this.L_7.Location = new System.Drawing.Point(12, 185);
             this.L_7.Name = "L_7";
             this.L_7.Size = new System.Drawing.Size(70, 13);
             this.L_7.TabIndex = 13;
@@ -230,14 +242,14 @@
             "1",
             "2",
             "3"});
-            this.CB_7.Location = new System.Drawing.Point(78, 170);
+            this.CB_7.Location = new System.Drawing.Point(86, 182);
             this.CB_7.Name = "CB_7";
             this.CB_7.Size = new System.Drawing.Size(37, 21);
             this.CB_7.TabIndex = 12;
             // 
             // L_8
             // 
-            this.L_8.Location = new System.Drawing.Point(4, 200);
+            this.L_8.Location = new System.Drawing.Point(12, 212);
             this.L_8.Name = "L_8";
             this.L_8.Size = new System.Drawing.Size(70, 13);
             this.L_8.TabIndex = 15;
@@ -253,14 +265,14 @@
             "1",
             "2",
             "3"});
-            this.CB_8.Location = new System.Drawing.Point(78, 197);
+            this.CB_8.Location = new System.Drawing.Point(86, 209);
             this.CB_8.Name = "CB_8";
             this.CB_8.Size = new System.Drawing.Size(37, 21);
             this.CB_8.TabIndex = 14;
             // 
             // L_17
             // 
-            this.L_17.Location = new System.Drawing.Point(116, 200);
+            this.L_17.Location = new System.Drawing.Point(124, 212);
             this.L_17.Name = "L_17";
             this.L_17.Size = new System.Drawing.Size(70, 13);
             this.L_17.TabIndex = 31;
@@ -276,14 +288,14 @@
             "1",
             "2",
             "3"});
-            this.CB_17.Location = new System.Drawing.Point(187, 197);
+            this.CB_17.Location = new System.Drawing.Point(195, 209);
             this.CB_17.Name = "CB_17";
             this.CB_17.Size = new System.Drawing.Size(37, 21);
             this.CB_17.TabIndex = 30;
             // 
             // L_16
             // 
-            this.L_16.Location = new System.Drawing.Point(116, 173);
+            this.L_16.Location = new System.Drawing.Point(124, 185);
             this.L_16.Name = "L_16";
             this.L_16.Size = new System.Drawing.Size(70, 13);
             this.L_16.TabIndex = 29;
@@ -299,14 +311,14 @@
             "1",
             "2",
             "3"});
-            this.CB_16.Location = new System.Drawing.Point(187, 170);
+            this.CB_16.Location = new System.Drawing.Point(195, 182);
             this.CB_16.Name = "CB_16";
             this.CB_16.Size = new System.Drawing.Size(37, 21);
             this.CB_16.TabIndex = 28;
             // 
             // L_15
             // 
-            this.L_15.Location = new System.Drawing.Point(116, 146);
+            this.L_15.Location = new System.Drawing.Point(124, 158);
             this.L_15.Name = "L_15";
             this.L_15.Size = new System.Drawing.Size(70, 13);
             this.L_15.TabIndex = 27;
@@ -322,14 +334,14 @@
             "1",
             "2",
             "3"});
-            this.CB_15.Location = new System.Drawing.Point(187, 143);
+            this.CB_15.Location = new System.Drawing.Point(195, 155);
             this.CB_15.Name = "CB_15";
             this.CB_15.Size = new System.Drawing.Size(37, 21);
             this.CB_15.TabIndex = 26;
             // 
             // L_14
             // 
-            this.L_14.Location = new System.Drawing.Point(116, 119);
+            this.L_14.Location = new System.Drawing.Point(124, 131);
             this.L_14.Name = "L_14";
             this.L_14.Size = new System.Drawing.Size(70, 13);
             this.L_14.TabIndex = 25;
@@ -345,14 +357,14 @@
             "1",
             "2",
             "3"});
-            this.CB_14.Location = new System.Drawing.Point(187, 116);
+            this.CB_14.Location = new System.Drawing.Point(195, 128);
             this.CB_14.Name = "CB_14";
             this.CB_14.Size = new System.Drawing.Size(37, 21);
             this.CB_14.TabIndex = 24;
             // 
             // L_13
             // 
-            this.L_13.Location = new System.Drawing.Point(116, 92);
+            this.L_13.Location = new System.Drawing.Point(124, 104);
             this.L_13.Name = "L_13";
             this.L_13.Size = new System.Drawing.Size(70, 13);
             this.L_13.TabIndex = 23;
@@ -368,14 +380,14 @@
             "1",
             "2",
             "3"});
-            this.CB_13.Location = new System.Drawing.Point(187, 89);
+            this.CB_13.Location = new System.Drawing.Point(195, 101);
             this.CB_13.Name = "CB_13";
             this.CB_13.Size = new System.Drawing.Size(37, 21);
             this.CB_13.TabIndex = 22;
             // 
             // L_12
             // 
-            this.L_12.Location = new System.Drawing.Point(116, 65);
+            this.L_12.Location = new System.Drawing.Point(124, 77);
             this.L_12.Name = "L_12";
             this.L_12.Size = new System.Drawing.Size(70, 13);
             this.L_12.TabIndex = 21;
@@ -391,14 +403,14 @@
             "1",
             "2",
             "3"});
-            this.CB_12.Location = new System.Drawing.Point(187, 62);
+            this.CB_12.Location = new System.Drawing.Point(195, 74);
             this.CB_12.Name = "CB_12";
             this.CB_12.Size = new System.Drawing.Size(37, 21);
             this.CB_12.TabIndex = 20;
             // 
             // L_11
             // 
-            this.L_11.Location = new System.Drawing.Point(116, 38);
+            this.L_11.Location = new System.Drawing.Point(124, 50);
             this.L_11.Name = "L_11";
             this.L_11.Size = new System.Drawing.Size(70, 13);
             this.L_11.TabIndex = 19;
@@ -414,14 +426,14 @@
             "1",
             "2",
             "3"});
-            this.CB_11.Location = new System.Drawing.Point(187, 35);
+            this.CB_11.Location = new System.Drawing.Point(195, 47);
             this.CB_11.Name = "CB_11";
             this.CB_11.Size = new System.Drawing.Size(37, 21);
             this.CB_11.TabIndex = 18;
             // 
             // L_10
             // 
-            this.L_10.Location = new System.Drawing.Point(116, 11);
+            this.L_10.Location = new System.Drawing.Point(124, 23);
             this.L_10.Name = "L_10";
             this.L_10.Size = new System.Drawing.Size(70, 13);
             this.L_10.TabIndex = 17;
@@ -438,14 +450,14 @@
             "2",
             "3",
             "S"});
-            this.CB_10.Location = new System.Drawing.Point(187, 8);
+            this.CB_10.Location = new System.Drawing.Point(195, 20);
             this.CB_10.Name = "CB_10";
             this.CB_10.Size = new System.Drawing.Size(37, 21);
             this.CB_10.TabIndex = 16;
             // 
             // L_9
             // 
-            this.L_9.Location = new System.Drawing.Point(4, 227);
+            this.L_9.Location = new System.Drawing.Point(12, 239);
             this.L_9.Name = "L_9";
             this.L_9.Size = new System.Drawing.Size(70, 13);
             this.L_9.TabIndex = 33;
@@ -461,16 +473,16 @@
             "1",
             "2",
             "3"});
-            this.CB_9.Location = new System.Drawing.Point(78, 224);
+            this.CB_9.Location = new System.Drawing.Point(86, 236);
             this.CB_9.Name = "CB_9";
             this.CB_9.Size = new System.Drawing.Size(37, 21);
             this.CB_9.TabIndex = 32;
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(124, 249);
+            this.B_Cancel.Location = new System.Drawing.Point(268, 246);
             this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(54, 23);
+            this.B_Cancel.Size = new System.Drawing.Size(56, 23);
             this.B_Cancel.TabIndex = 34;
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
@@ -478,9 +490,9 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(178, 249);
+            this.B_Save.Location = new System.Drawing.Point(330, 246);
             this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(54, 23);
+            this.B_Save.Size = new System.Drawing.Size(64, 23);
             this.B_Save.TabIndex = 35;
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
@@ -488,67 +500,183 @@
             // 
             // B_MaxP
             // 
-            this.B_MaxP.Location = new System.Drawing.Point(178, 223);
+            this.B_MaxP.Location = new System.Drawing.Point(140, 234);
             this.B_MaxP.Name = "B_MaxP";
-            this.B_MaxP.Size = new System.Drawing.Size(54, 23);
+            this.B_MaxP.Size = new System.Drawing.Size(92, 23);
             this.B_MaxP.TabIndex = 36;
-            this.B_MaxP.Text = "MAX+S";
+            this.B_MaxP.Text = "Give All";
             this.B_MaxP.UseVisualStyleBackColor = true;
             this.B_MaxP.Click += new System.EventHandler(this.B_MaxP_Click);
             // 
             // B_AllMax
             // 
-            this.B_AllMax.Location = new System.Drawing.Point(124, 223);
+            this.B_AllMax.Location = new System.Drawing.Point(29, 192);
             this.B_AllMax.Name = "B_AllMax";
-            this.B_AllMax.Size = new System.Drawing.Size(54, 23);
+            this.B_AllMax.Size = new System.Drawing.Size(68, 23);
             this.B_AllMax.TabIndex = 37;
-            this.B_AllMax.Text = "All MAX";
+            this.B_AllMax.Text = "Give All";
             this.B_AllMax.UseVisualStyleBackColor = true;
             this.B_AllMax.Click += new System.EventHandler(this.B_AllMax_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CHK_8);
+            this.groupBox1.Controls.Add(this.CHK_7);
+            this.groupBox1.Controls.Add(this.CHK_6);
+            this.groupBox1.Controls.Add(this.CHK_5);
+            this.groupBox1.Controls.Add(this.CHK_4);
+            this.groupBox1.Controls.Add(this.CHK_3);
+            this.groupBox1.Controls.Add(this.CHK_2);
+            this.groupBox1.Controls.Add(this.CHK_1);
+            this.groupBox1.Controls.Add(this.B_AllMax);
+            this.groupBox1.Location = new System.Drawing.Point(268, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(126, 225);
+            this.groupBox1.TabIndex = 38;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Event";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.B_MaxP);
+            this.groupBox2.Controls.Add(this.L_9);
+            this.groupBox2.Controls.Add(this.CB_9);
+            this.groupBox2.Controls.Add(this.L_17);
+            this.groupBox2.Controls.Add(this.CB_17);
+            this.groupBox2.Controls.Add(this.L_16);
+            this.groupBox2.Controls.Add(this.CB_16);
+            this.groupBox2.Controls.Add(this.L_15);
+            this.groupBox2.Controls.Add(this.CB_15);
+            this.groupBox2.Controls.Add(this.L_14);
+            this.groupBox2.Controls.Add(this.CB_14);
+            this.groupBox2.Controls.Add(this.L_13);
+            this.groupBox2.Controls.Add(this.CB_13);
+            this.groupBox2.Controls.Add(this.L_12);
+            this.groupBox2.Controls.Add(this.CB_12);
+            this.groupBox2.Controls.Add(this.L_11);
+            this.groupBox2.Controls.Add(this.CB_11);
+            this.groupBox2.Controls.Add(this.L_10);
+            this.groupBox2.Controls.Add(this.CB_10);
+            this.groupBox2.Controls.Add(this.L_8);
+            this.groupBox2.Controls.Add(this.CB_8);
+            this.groupBox2.Controls.Add(this.L_7);
+            this.groupBox2.Controls.Add(this.CB_7);
+            this.groupBox2.Controls.Add(this.L_6);
+            this.groupBox2.Controls.Add(this.CB_6);
+            this.groupBox2.Controls.Add(this.L_5);
+            this.groupBox2.Controls.Add(this.CB_5);
+            this.groupBox2.Controls.Add(this.L_4);
+            this.groupBox2.Controls.Add(this.CB_4);
+            this.groupBox2.Controls.Add(this.L_3);
+            this.groupBox2.Controls.Add(this.CB_3);
+            this.groupBox2.Controls.Add(this.L_2);
+            this.groupBox2.Controls.Add(this.CB_2);
+            this.groupBox2.Controls.Add(this.L_1);
+            this.groupBox2.Controls.Add(this.CB_1);
+            this.groupBox2.Location = new System.Drawing.Point(12, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(250, 270);
+            this.groupBox2.TabIndex = 39;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Regular";
+            // 
+            // CHK_1
+            // 
+            this.CHK_1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_1.Location = new System.Drawing.Point(9, 22);
+            this.CHK_1.Name = "CHK_1";
+            this.CHK_1.Size = new System.Drawing.Size(100, 17);
+            this.CHK_1.TabIndex = 38;
+            this.CHK_1.Text = "?Bargain MAX";
+            this.CHK_1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_2
+            // 
+            this.CHK_2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_2.Location = new System.Drawing.Point(9, 43);
+            this.CHK_2.Name = "CHK_2";
+            this.CHK_2.Size = new System.Drawing.Size(100, 17);
+            this.CHK_2.TabIndex = 39;
+            this.CHK_2.Text = "?EXP MAX";
+            this.CHK_2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_3
+            // 
+            this.CHK_3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_3.Location = new System.Drawing.Point(9, 64);
+            this.CHK_3.Name = "CHK_3";
+            this.CHK_3.Size = new System.Drawing.Size(100, 17);
+            this.CHK_3.TabIndex = 40;
+            this.CHK_3.Text = "?Prize MAX";
+            this.CHK_3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_4
+            // 
+            this.CHK_4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_4.Location = new System.Drawing.Point(9, 85);
+            this.CHK_4.Name = "CHK_4";
+            this.CHK_4.Size = new System.Drawing.Size(100, 17);
+            this.CHK_4.TabIndex = 41;
+            this.CHK_4.Text = "?Hatch MAX";
+            this.CHK_4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_5
+            // 
+            this.CHK_5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_5.Location = new System.Drawing.Point(9, 106);
+            this.CHK_5.Name = "CHK_5";
+            this.CHK_5.Size = new System.Drawing.Size(100, 17);
+            this.CHK_5.TabIndex = 42;
+            this.CHK_5.Text = "?Capture MAX";
+            this.CHK_5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_6
+            // 
+            this.CHK_6.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_6.Location = new System.Drawing.Point(9, 127);
+            this.CHK_6.Name = "CHK_6";
+            this.CHK_6.Size = new System.Drawing.Size(100, 17);
+            this.CHK_6.TabIndex = 43;
+            this.CHK_6.Text = "?Restore MAX";
+            this.CHK_6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_6.UseVisualStyleBackColor = true;
+            // 
+            // CHK_7
+            // 
+            this.CHK_7.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_7.Location = new System.Drawing.Point(9, 148);
+            this.CHK_7.Name = "CHK_7";
+            this.CHK_7.Size = new System.Drawing.Size(100, 17);
+            this.CHK_7.TabIndex = 44;
+            this.CHK_7.Text = "?Befriend MAX";
+            this.CHK_7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_7.UseVisualStyleBackColor = true;
+            // 
+            // CHK_8
+            // 
+            this.CHK_8.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_8.Location = new System.Drawing.Point(9, 169);
+            this.CHK_8.Name = "CHK_8";
+            this.CHK_8.Size = new System.Drawing.Size(100, 17);
+            this.CHK_8.TabIndex = 45;
+            this.CHK_8.Text = "?Unused";
+            this.CHK_8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_8.UseVisualStyleBackColor = true;
             // 
             // SAV_OPower
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(244, 278);
-            this.Controls.Add(this.B_AllMax);
-            this.Controls.Add(this.B_MaxP);
+            this.ClientSize = new System.Drawing.Size(404, 292);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.L_9);
-            this.Controls.Add(this.CB_9);
-            this.Controls.Add(this.L_17);
-            this.Controls.Add(this.CB_17);
-            this.Controls.Add(this.L_16);
-            this.Controls.Add(this.CB_16);
-            this.Controls.Add(this.L_15);
-            this.Controls.Add(this.CB_15);
-            this.Controls.Add(this.L_14);
-            this.Controls.Add(this.CB_14);
-            this.Controls.Add(this.L_13);
-            this.Controls.Add(this.CB_13);
-            this.Controls.Add(this.L_12);
-            this.Controls.Add(this.CB_12);
-            this.Controls.Add(this.L_11);
-            this.Controls.Add(this.CB_11);
-            this.Controls.Add(this.L_10);
-            this.Controls.Add(this.CB_10);
-            this.Controls.Add(this.L_8);
-            this.Controls.Add(this.CB_8);
-            this.Controls.Add(this.L_7);
-            this.Controls.Add(this.CB_7);
-            this.Controls.Add(this.L_6);
-            this.Controls.Add(this.CB_6);
-            this.Controls.Add(this.L_5);
-            this.Controls.Add(this.CB_5);
-            this.Controls.Add(this.L_4);
-            this.Controls.Add(this.CB_4);
-            this.Controls.Add(this.L_3);
-            this.Controls.Add(this.CB_3);
-            this.Controls.Add(this.L_2);
-            this.Controls.Add(this.CB_2);
-            this.Controls.Add(this.L_1);
-            this.Controls.Add(this.CB_1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -556,6 +684,8 @@
             this.Name = "SAV_OPower";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "O-Power Editor";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -600,5 +730,15 @@
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_MaxP;
         private System.Windows.Forms.Button B_AllMax;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox CHK_8;
+        private System.Windows.Forms.CheckBox CHK_7;
+        private System.Windows.Forms.CheckBox CHK_6;
+        private System.Windows.Forms.CheckBox CHK_5;
+        private System.Windows.Forms.CheckBox CHK_4;
+        private System.Windows.Forms.CheckBox CHK_3;
+        private System.Windows.Forms.CheckBox CHK_2;
+        private System.Windows.Forms.CheckBox CHK_1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

@@ -3755,13 +3755,13 @@
             // 
             // B_OpenPokedex
             // 
-            this.B_OpenPokedex.Enabled = false;
             this.B_OpenPokedex.Location = new System.Drawing.Point(177, 70);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
             this.B_OpenPokedex.Size = new System.Drawing.Size(75, 23);
             this.B_OpenPokedex.TabIndex = 14;
             this.B_OpenPokedex.Text = "Pokédex";
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
+            this.B_OpenPokedex.Click += new System.EventHandler(this.B_OpenPokedex_Click);
             // 
             // GB_SAVtools
             // 

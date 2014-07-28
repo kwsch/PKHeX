@@ -44,15 +44,16 @@
             this.B_Clear = new System.Windows.Forms.Button();
             this.B_Copy = new System.Windows.Forms.Button();
             this.B_Diff = new System.Windows.Forms.Button();
+            this.CHK_Break = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // RTB_Code
             // 
             this.RTB_Code.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_Code.Location = new System.Drawing.Point(8, 43);
+            this.RTB_Code.Location = new System.Drawing.Point(8, 52);
             this.RTB_Code.Name = "RTB_Code";
             this.RTB_Code.ReadOnly = true;
-            this.RTB_Code.Size = new System.Drawing.Size(160, 200);
+            this.RTB_Code.Size = new System.Drawing.Size(160, 191);
             this.RTB_Code.TabIndex = 0;
             this.RTB_Code.Text = "01234567 01234567 ";
             // 
@@ -240,11 +241,24 @@
             this.B_Diff.UseVisualStyleBackColor = true;
             this.B_Diff.Click += new System.EventHandler(this.B_Diff_Click);
             // 
+            // CHK_Break
+            // 
+            this.CHK_Break.AutoSize = true;
+            this.CHK_Break.Checked = true;
+            this.CHK_Break.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_Break.Location = new System.Drawing.Point(8, 35);
+            this.CHK_Break.Name = "CHK_Break";
+            this.CHK_Break.Size = new System.Drawing.Size(156, 17);
+            this.CHK_Break.TabIndex = 19;
+            this.CHK_Break.Text = "Line Break for Simple Mode";
+            this.CHK_Break.UseVisualStyleBackColor = true;
+            // 
             // CodeGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(176, 249);
+            this.Controls.Add(this.CHK_Break);
             this.Controls.Add(this.B_Diff);
             this.Controls.Add(this.B_Copy);
             this.Controls.Add(this.B_Clear);
@@ -289,5 +303,6 @@
         private System.Windows.Forms.Button B_Clear;
         private System.Windows.Forms.Button B_Copy;
         private System.Windows.Forms.Button B_Diff;
+        private System.Windows.Forms.CheckBox CHK_Break;
     }
 }

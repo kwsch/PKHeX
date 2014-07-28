@@ -68,8 +68,14 @@
             this.TB_Saying2 = new System.Windows.Forms.TextBox();
             this.TB_Saying1 = new System.Windows.Forms.TextBox();
             this.GB_Overview = new System.Windows.Forms.GroupBox();
+            this.TB_Style = new System.Windows.Forms.MaskedTextBox();
             this.L_Language = new System.Windows.Forms.Label();
+            this.TB_PM = new System.Windows.Forms.MaskedTextBox();
+            this.TB_BP = new System.Windows.Forms.MaskedTextBox();
+            this.L_PM = new System.Windows.Forms.Label();
             this.L_Region = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.L_BP = new System.Windows.Forms.Label();
             this.L_Country = new System.Windows.Forms.Label();
             this.CB_Region = new System.Windows.Forms.ComboBox();
             this.CB_Country = new System.Windows.Forms.ComboBox();
@@ -79,7 +85,17 @@
             this.L_3DSReg = new System.Windows.Forms.Label();
             this.CB_Game = new System.Windows.Forms.ComboBox();
             this.CB_Gender = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.GB_MaisonBest = new System.Windows.Forms.GroupBox();
+            this.TB_MBMS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBMN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBRS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBRN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBTS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBTN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBDS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBDN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBSS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MBSN = new System.Windows.Forms.MaskedTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -87,17 +103,17 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.TB_MBMN = new System.Windows.Forms.TextBox();
-            this.TB_MBMS = new System.Windows.Forms.TextBox();
-            this.TB_MBRS = new System.Windows.Forms.TextBox();
-            this.TB_MBRN = new System.Windows.Forms.TextBox();
-            this.TB_MBTS = new System.Windows.Forms.TextBox();
-            this.TB_MBTN = new System.Windows.Forms.TextBox();
-            this.TB_MBDS = new System.Windows.Forms.TextBox();
-            this.TB_MBDN = new System.Windows.Forms.TextBox();
-            this.TB_MBSS = new System.Windows.Forms.TextBox();
-            this.TB_MBSN = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.GB_MaisonCurrent = new System.Windows.Forms.GroupBox();
+            this.TB_MCMS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCMN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCRS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCRN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCTS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCTN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCDS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCDN = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCSS = new System.Windows.Forms.MaskedTextBox();
+            this.TB_MCSN = new System.Windows.Forms.MaskedTextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -105,31 +121,39 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.TB_MCMN = new System.Windows.Forms.TextBox();
-            this.TB_MCMS = new System.Windows.Forms.TextBox();
-            this.TB_MCRS = new System.Windows.Forms.TextBox();
-            this.TB_MCRN = new System.Windows.Forms.TextBox();
-            this.TB_MCTS = new System.Windows.Forms.TextBox();
-            this.TB_MCTN = new System.Windows.Forms.TextBox();
-            this.TB_MCDS = new System.Windows.Forms.TextBox();
-            this.TB_MCDN = new System.Windows.Forms.TextBox();
-            this.TB_MCSS = new System.Windows.Forms.TextBox();
-            this.TB_MCSN = new System.Windows.Forms.TextBox();
-            this.TB_CoordZ = new System.Windows.Forms.TextBox();
-            this.TB_CoordY = new System.Windows.Forms.TextBox();
-            this.TB_CoordX = new System.Windows.Forms.TextBox();
-            this.TB_CoordM = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.GB_Currency = new System.Windows.Forms.GroupBox();
-            this.TB_BP = new System.Windows.Forms.MaskedTextBox();
-            this.TB_PM = new System.Windows.Forms.MaskedTextBox();
-            this.L_BP = new System.Windows.Forms.Label();
-            this.L_PM = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.TB_Style = new System.Windows.Forms.MaskedTextBox();
+            this.GB_Appear = new System.Windows.Forms.GroupBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.comboBox11 = new System.Windows.Forms.ComboBox();
+            this.comboBox10 = new System.Windows.Forms.ComboBox();
+            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.comboBox8 = new System.Windows.Forms.ComboBox();
+            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.GB_Map = new System.Windows.Forms.GroupBox();
+            this.GB_Reserved = new System.Windows.Forms.GroupBox();
+            this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
+            this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
+            this.TB_CoordZ = new System.Windows.Forms.MaskedTextBox();
+            this.TB_CoordY = new System.Windows.Forms.MaskedTextBox();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -141,16 +165,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb1)).BeginInit();
             this.GB_Sayings.SuspendLayout();
             this.GB_Overview.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.GB_Currency.SuspendLayout();
+            this.GB_MaisonBest.SuspendLayout();
+            this.GB_MaisonCurrent.SuspendLayout();
+            this.GB_Appear.SuspendLayout();
+            this.GB_Map.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(551, 308);
+            this.B_Cancel.Location = new System.Drawing.Point(416, 474);
             this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(65, 23);
+            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
@@ -158,9 +183,9 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(551, 284);
+            this.B_Save.Location = new System.Drawing.Point(496, 474);
             this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(65, 23);
+            this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
@@ -169,7 +194,7 @@
             // TB_OTName
             // 
             this.TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_OTName.Location = new System.Drawing.Point(102, 17);
+            this.TB_OTName.Location = new System.Drawing.Point(99, 17);
             this.TB_OTName.MaxLength = 12;
             this.TB_OTName.Name = "TB_OTName";
             this.TB_OTName.Size = new System.Drawing.Size(93, 20);
@@ -180,7 +205,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 20);
+            this.label1.Location = new System.Drawing.Point(19, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 3;
@@ -188,7 +213,7 @@
             // 
             // MT_Money
             // 
-            this.MT_Money.Location = new System.Drawing.Point(122, 39);
+            this.MT_Money.Location = new System.Drawing.Point(119, 39);
             this.MT_Money.Mask = "0000000";
             this.MT_Money.Name = "MT_Money";
             this.MT_Money.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -199,7 +224,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(105, 42);
+            this.label2.Location = new System.Drawing.Point(102, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(16, 13);
             this.label2.TabIndex = 5;
@@ -207,7 +232,7 @@
             // 
             // L_TID
             // 
-            this.L_TID.Location = new System.Drawing.Point(12, 42);
+            this.L_TID.Location = new System.Drawing.Point(9, 42);
             this.L_TID.Name = "L_TID";
             this.L_TID.Size = new System.Drawing.Size(38, 13);
             this.L_TID.TabIndex = 6;
@@ -216,7 +241,7 @@
             // 
             // L_SID
             // 
-            this.L_SID.Location = new System.Drawing.Point(12, 65);
+            this.L_SID.Location = new System.Drawing.Point(9, 65);
             this.L_SID.Name = "L_SID";
             this.L_SID.Size = new System.Drawing.Size(38, 13);
             this.L_SID.TabIndex = 7;
@@ -225,7 +250,7 @@
             // 
             // MT_TID
             // 
-            this.MT_TID.Location = new System.Drawing.Point(56, 40);
+            this.MT_TID.Location = new System.Drawing.Point(53, 40);
             this.MT_TID.Mask = "00000";
             this.MT_TID.Name = "MT_TID";
             this.MT_TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -236,7 +261,7 @@
             // 
             // MT_SID
             // 
-            this.MT_SID.Location = new System.Drawing.Point(56, 62);
+            this.MT_SID.Location = new System.Drawing.Point(53, 62);
             this.MT_SID.Mask = "00000";
             this.MT_SID.Name = "MT_SID";
             this.MT_SID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -351,7 +376,7 @@
             this.GB_Badges.Controls.Add(this.pb3);
             this.GB_Badges.Controls.Add(this.cb1);
             this.GB_Badges.Controls.Add(this.pb1);
-            this.GB_Badges.Location = new System.Drawing.Point(12, 195);
+            this.GB_Badges.Location = new System.Drawing.Point(12, 370);
             this.GB_Badges.Name = "GB_Badges";
             this.GB_Badges.Size = new System.Drawing.Size(398, 135);
             this.GB_Badges.TabIndex = 26;
@@ -442,9 +467,9 @@
             this.GB_Sayings.Controls.Add(this.TB_Saying3);
             this.GB_Sayings.Controls.Add(this.TB_Saying2);
             this.GB_Sayings.Controls.Add(this.TB_Saying1);
-            this.GB_Sayings.Location = new System.Drawing.Point(235, 12);
+            this.GB_Sayings.Location = new System.Drawing.Point(12, 248);
             this.GB_Sayings.Name = "GB_Sayings";
-            this.GB_Sayings.Size = new System.Drawing.Size(175, 120);
+            this.GB_Sayings.Size = new System.Drawing.Size(210, 120);
             this.GB_Sayings.TabIndex = 27;
             this.GB_Sayings.TabStop = false;
             this.GB_Sayings.Text = "Saved Sayings";
@@ -452,7 +477,7 @@
             // L_Saying5
             // 
             this.L_Saying5.AutoSize = true;
-            this.L_Saying5.Location = new System.Drawing.Point(13, 99);
+            this.L_Saying5.Location = new System.Drawing.Point(31, 99);
             this.L_Saying5.Name = "L_Saying5";
             this.L_Saying5.Size = new System.Drawing.Size(16, 13);
             this.L_Saying5.TabIndex = 9;
@@ -461,7 +486,7 @@
             // L_Saying4
             // 
             this.L_Saying4.AutoSize = true;
-            this.L_Saying4.Location = new System.Drawing.Point(13, 79);
+            this.L_Saying4.Location = new System.Drawing.Point(31, 79);
             this.L_Saying4.Name = "L_Saying4";
             this.L_Saying4.Size = new System.Drawing.Size(16, 13);
             this.L_Saying4.TabIndex = 8;
@@ -470,7 +495,7 @@
             // L_Saying3
             // 
             this.L_Saying3.AutoSize = true;
-            this.L_Saying3.Location = new System.Drawing.Point(13, 59);
+            this.L_Saying3.Location = new System.Drawing.Point(31, 59);
             this.L_Saying3.Name = "L_Saying3";
             this.L_Saying3.Size = new System.Drawing.Size(16, 13);
             this.L_Saying3.TabIndex = 7;
@@ -479,7 +504,7 @@
             // L_Saying2
             // 
             this.L_Saying2.AutoSize = true;
-            this.L_Saying2.Location = new System.Drawing.Point(13, 39);
+            this.L_Saying2.Location = new System.Drawing.Point(31, 39);
             this.L_Saying2.Name = "L_Saying2";
             this.L_Saying2.Size = new System.Drawing.Size(16, 13);
             this.L_Saying2.TabIndex = 6;
@@ -488,7 +513,7 @@
             // L_Saying1
             // 
             this.L_Saying1.AutoSize = true;
-            this.L_Saying1.Location = new System.Drawing.Point(13, 19);
+            this.L_Saying1.Location = new System.Drawing.Point(31, 19);
             this.L_Saying1.Name = "L_Saying1";
             this.L_Saying1.Size = new System.Drawing.Size(16, 13);
             this.L_Saying1.TabIndex = 5;
@@ -497,7 +522,7 @@
             // TB_Saying5
             // 
             this.TB_Saying5.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying5.Location = new System.Drawing.Point(35, 96);
+            this.TB_Saying5.Location = new System.Drawing.Point(53, 96);
             this.TB_Saying5.MaxLength = 16;
             this.TB_Saying5.Name = "TB_Saying5";
             this.TB_Saying5.Size = new System.Drawing.Size(126, 20);
@@ -508,7 +533,7 @@
             // TB_Saying4
             // 
             this.TB_Saying4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying4.Location = new System.Drawing.Point(35, 76);
+            this.TB_Saying4.Location = new System.Drawing.Point(53, 76);
             this.TB_Saying4.MaxLength = 16;
             this.TB_Saying4.Name = "TB_Saying4";
             this.TB_Saying4.Size = new System.Drawing.Size(126, 20);
@@ -519,7 +544,7 @@
             // TB_Saying3
             // 
             this.TB_Saying3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying3.Location = new System.Drawing.Point(35, 56);
+            this.TB_Saying3.Location = new System.Drawing.Point(53, 56);
             this.TB_Saying3.MaxLength = 16;
             this.TB_Saying3.Name = "TB_Saying3";
             this.TB_Saying3.Size = new System.Drawing.Size(126, 20);
@@ -530,7 +555,7 @@
             // TB_Saying2
             // 
             this.TB_Saying2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying2.Location = new System.Drawing.Point(35, 36);
+            this.TB_Saying2.Location = new System.Drawing.Point(53, 36);
             this.TB_Saying2.MaxLength = 16;
             this.TB_Saying2.Name = "TB_Saying2";
             this.TB_Saying2.Size = new System.Drawing.Size(126, 20);
@@ -541,7 +566,7 @@
             // TB_Saying1
             // 
             this.TB_Saying1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Saying1.Location = new System.Drawing.Point(35, 16);
+            this.TB_Saying1.Location = new System.Drawing.Point(53, 16);
             this.TB_Saying1.MaxLength = 16;
             this.TB_Saying1.Name = "TB_Saying1";
             this.TB_Saying1.Size = new System.Drawing.Size(126, 20);
@@ -551,8 +576,14 @@
             // 
             // GB_Overview
             // 
+            this.GB_Overview.Controls.Add(this.TB_Style);
             this.GB_Overview.Controls.Add(this.L_Language);
+            this.GB_Overview.Controls.Add(this.TB_PM);
+            this.GB_Overview.Controls.Add(this.TB_BP);
+            this.GB_Overview.Controls.Add(this.L_PM);
             this.GB_Overview.Controls.Add(this.L_Region);
+            this.GB_Overview.Controls.Add(this.label21);
+            this.GB_Overview.Controls.Add(this.L_BP);
             this.GB_Overview.Controls.Add(this.L_Country);
             this.GB_Overview.Controls.Add(this.CB_Region);
             this.GB_Overview.Controls.Add(this.CB_Country);
@@ -572,32 +603,90 @@
             this.GB_Overview.Controls.Add(this.CB_Gender);
             this.GB_Overview.Location = new System.Drawing.Point(12, 12);
             this.GB_Overview.Name = "GB_Overview";
-            this.GB_Overview.Size = new System.Drawing.Size(217, 183);
+            this.GB_Overview.Size = new System.Drawing.Size(210, 230);
             this.GB_Overview.TabIndex = 28;
             this.GB_Overview.TabStop = false;
             this.GB_Overview.Text = "Overview";
             // 
+            // TB_Style
+            // 
+            this.TB_Style.Location = new System.Drawing.Point(78, 201);
+            this.TB_Style.Mask = "000";
+            this.TB_Style.Name = "TB_Style";
+            this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TB_Style.Size = new System.Drawing.Size(26, 20);
+            this.TB_Style.TabIndex = 8;
+            this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Style.TextChanged += new System.EventHandler(this.changeStyle);
+            // 
             // L_Language
             // 
-            this.L_Language.Location = new System.Drawing.Point(17, 88);
+            this.L_Language.Location = new System.Drawing.Point(14, 88);
             this.L_Language.Name = "L_Language";
             this.L_Language.Size = new System.Drawing.Size(80, 13);
             this.L_Language.TabIndex = 21;
             this.L_Language.Text = "Language:";
             this.L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // TB_PM
+            // 
+            this.TB_PM.Location = new System.Drawing.Point(78, 181);
+            this.TB_PM.Mask = "0000000";
+            this.TB_PM.Name = "TB_PM";
+            this.TB_PM.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TB_PM.Size = new System.Drawing.Size(56, 20);
+            this.TB_PM.TabIndex = 5;
+            this.TB_PM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TB_BP
+            // 
+            this.TB_BP.Location = new System.Drawing.Point(155, 201);
+            this.TB_BP.Mask = "0000";
+            this.TB_BP.Name = "TB_BP";
+            this.TB_BP.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TB_BP.Size = new System.Drawing.Size(37, 20);
+            this.TB_BP.TabIndex = 6;
+            this.TB_BP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_PM
+            // 
+            this.L_PM.Location = new System.Drawing.Point(12, 184);
+            this.L_PM.Name = "L_PM";
+            this.L_PM.Size = new System.Drawing.Size(60, 13);
+            this.L_PM.TabIndex = 0;
+            this.L_PM.Text = "PokeMiles:";
+            this.L_PM.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // L_Region
             // 
-            this.L_Region.Location = new System.Drawing.Point(17, 134);
+            this.L_Region.Location = new System.Drawing.Point(14, 134);
             this.L_Region.Name = "L_Region";
             this.L_Region.Size = new System.Drawing.Size(80, 13);
             this.L_Region.TabIndex = 20;
             this.L_Region.Text = "Region:";
             this.L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label21
+            // 
+            this.label21.Location = new System.Drawing.Point(26, 204);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(46, 13);
+            this.label21.TabIndex = 7;
+            this.label21.Text = "Style:";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // L_BP
+            // 
+            this.L_BP.Location = new System.Drawing.Point(137, 184);
+            this.L_BP.Name = "L_BP";
+            this.L_BP.Size = new System.Drawing.Size(50, 13);
+            this.L_BP.TabIndex = 1;
+            this.L_BP.Text = "BP:";
+            this.L_BP.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // L_Country
             // 
-            this.L_Country.Location = new System.Drawing.Point(17, 111);
+            this.L_Country.Location = new System.Drawing.Point(14, 111);
             this.L_Country.Name = "L_Country";
             this.L_Country.Size = new System.Drawing.Size(80, 13);
             this.L_Country.TabIndex = 19;
@@ -608,7 +697,7 @@
             // 
             this.CB_Region.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Region.FormattingEnabled = true;
-            this.CB_Region.Location = new System.Drawing.Point(102, 131);
+            this.CB_Region.Location = new System.Drawing.Point(99, 131);
             this.CB_Region.Name = "CB_Region";
             this.CB_Region.Size = new System.Drawing.Size(93, 21);
             this.CB_Region.TabIndex = 18;
@@ -617,14 +706,14 @@
             // 
             this.CB_Country.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Country.FormattingEnabled = true;
-            this.CB_Country.Location = new System.Drawing.Point(102, 108);
+            this.CB_Country.Location = new System.Drawing.Point(99, 108);
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(93, 21);
             this.CB_Country.TabIndex = 17;
             // 
             // B_MaxCash
             // 
-            this.B_MaxCash.Location = new System.Drawing.Point(175, 39);
+            this.B_MaxCash.Location = new System.Drawing.Point(172, 39);
             this.B_MaxCash.Name = "B_MaxCash";
             this.B_MaxCash.Size = new System.Drawing.Size(20, 20);
             this.B_MaxCash.TabIndex = 16;
@@ -636,7 +725,7 @@
             // 
             this.CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_3DSReg.FormattingEnabled = true;
-            this.CB_3DSReg.Location = new System.Drawing.Point(102, 154);
+            this.CB_3DSReg.Location = new System.Drawing.Point(99, 154);
             this.CB_3DSReg.Name = "CB_3DSReg";
             this.CB_3DSReg.Size = new System.Drawing.Size(93, 21);
             this.CB_3DSReg.TabIndex = 14;
@@ -645,14 +734,14 @@
             // 
             this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(102, 85);
+            this.CB_Language.Location = new System.Drawing.Point(99, 85);
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(93, 21);
             this.CB_Language.TabIndex = 15;
             // 
             // L_3DSReg
             // 
-            this.L_3DSReg.Location = new System.Drawing.Point(17, 157);
+            this.L_3DSReg.Location = new System.Drawing.Point(14, 157);
             this.L_3DSReg.Name = "L_3DSReg";
             this.L_3DSReg.Size = new System.Drawing.Size(80, 13);
             this.L_3DSReg.TabIndex = 10;
@@ -666,7 +755,7 @@
             this.CB_Game.Items.AddRange(new object[] {
             "X",
             "Y"});
-            this.CB_Game.Location = new System.Drawing.Point(160, 62);
+            this.CB_Game.Location = new System.Drawing.Point(157, 62);
             this.CB_Game.Name = "CB_Game";
             this.CB_Game.Size = new System.Drawing.Size(35, 21);
             this.CB_Game.TabIndex = 24;
@@ -678,41 +767,131 @@
             this.CB_Gender.Items.AddRange(new object[] {
             "Male",
             "Female"});
-            this.CB_Gender.Location = new System.Drawing.Point(102, 62);
+            this.CB_Gender.Location = new System.Drawing.Point(99, 62);
             this.CB_Gender.Name = "CB_Gender";
             this.CB_Gender.Size = new System.Drawing.Size(57, 21);
             this.CB_Gender.TabIndex = 22;
             // 
-            // groupBox2
+            // GB_MaisonBest
             // 
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.TB_MBMN);
-            this.groupBox2.Controls.Add(this.TB_MBMS);
-            this.groupBox2.Controls.Add(this.TB_MBRS);
-            this.groupBox2.Controls.Add(this.TB_MBRN);
-            this.groupBox2.Controls.Add(this.TB_MBTS);
-            this.groupBox2.Controls.Add(this.TB_MBTN);
-            this.groupBox2.Controls.Add(this.TB_MBDS);
-            this.groupBox2.Controls.Add(this.TB_MBDN);
-            this.groupBox2.Controls.Add(this.TB_MBSS);
-            this.groupBox2.Controls.Add(this.TB_MBSN);
-            this.groupBox2.Location = new System.Drawing.Point(416, 148);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 134);
-            this.groupBox2.TabIndex = 40;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Maison Streaks (Best)";
+            this.GB_MaisonBest.Controls.Add(this.TB_MBMS);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBMN);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBRS);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBRN);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBTS);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBTN);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBDS);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBDN);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBSS);
+            this.GB_MaisonBest.Controls.Add(this.TB_MBSN);
+            this.GB_MaisonBest.Controls.Add(this.label9);
+            this.GB_MaisonBest.Controls.Add(this.label8);
+            this.GB_MaisonBest.Controls.Add(this.label7);
+            this.GB_MaisonBest.Controls.Add(this.label6);
+            this.GB_MaisonBest.Controls.Add(this.label5);
+            this.GB_MaisonBest.Controls.Add(this.label4);
+            this.GB_MaisonBest.Controls.Add(this.label3);
+            this.GB_MaisonBest.Location = new System.Drawing.Point(416, 148);
+            this.GB_MaisonBest.Name = "GB_MaisonBest";
+            this.GB_MaisonBest.Size = new System.Drawing.Size(155, 134);
+            this.GB_MaisonBest.TabIndex = 40;
+            this.GB_MaisonBest.TabStop = false;
+            this.GB_MaisonBest.Text = "Maison Streaks (Best)";
+            // 
+            // TB_MBMS
+            // 
+            this.TB_MBMS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBMS.Location = new System.Drawing.Point(104, 106);
+            this.TB_MBMS.Mask = "0000";
+            this.TB_MBMS.Name = "TB_MBMS";
+            this.TB_MBMS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBMS.TabIndex = 65;
+            // 
+            // TB_MBMN
+            // 
+            this.TB_MBMN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBMN.Location = new System.Drawing.Point(61, 106);
+            this.TB_MBMN.Mask = "0000";
+            this.TB_MBMN.Name = "TB_MBMN";
+            this.TB_MBMN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBMN.TabIndex = 64;
+            // 
+            // TB_MBRS
+            // 
+            this.TB_MBRS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBRS.Location = new System.Drawing.Point(104, 87);
+            this.TB_MBRS.Mask = "0000";
+            this.TB_MBRS.Name = "TB_MBRS";
+            this.TB_MBRS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBRS.TabIndex = 63;
+            // 
+            // TB_MBRN
+            // 
+            this.TB_MBRN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBRN.Location = new System.Drawing.Point(61, 87);
+            this.TB_MBRN.Mask = "0000";
+            this.TB_MBRN.Name = "TB_MBRN";
+            this.TB_MBRN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBRN.TabIndex = 62;
+            // 
+            // TB_MBTS
+            // 
+            this.TB_MBTS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBTS.Location = new System.Drawing.Point(104, 69);
+            this.TB_MBTS.Mask = "0000";
+            this.TB_MBTS.Name = "TB_MBTS";
+            this.TB_MBTS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBTS.TabIndex = 61;
+            // 
+            // TB_MBTN
+            // 
+            this.TB_MBTN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBTN.Location = new System.Drawing.Point(61, 69);
+            this.TB_MBTN.Mask = "0000";
+            this.TB_MBTN.Name = "TB_MBTN";
+            this.TB_MBTN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBTN.TabIndex = 60;
+            // 
+            // TB_MBDS
+            // 
+            this.TB_MBDS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBDS.Location = new System.Drawing.Point(104, 50);
+            this.TB_MBDS.Mask = "0000";
+            this.TB_MBDS.Name = "TB_MBDS";
+            this.TB_MBDS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBDS.TabIndex = 59;
+            // 
+            // TB_MBDN
+            // 
+            this.TB_MBDN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBDN.Location = new System.Drawing.Point(61, 50);
+            this.TB_MBDN.Mask = "0000";
+            this.TB_MBDN.Name = "TB_MBDN";
+            this.TB_MBDN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBDN.TabIndex = 58;
+            // 
+            // TB_MBSS
+            // 
+            this.TB_MBSS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBSS.Location = new System.Drawing.Point(104, 31);
+            this.TB_MBSS.Mask = "0000";
+            this.TB_MBSS.Name = "TB_MBSS";
+            this.TB_MBSS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBSS.TabIndex = 57;
+            // 
+            // TB_MBSN
+            // 
+            this.TB_MBSN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MBSN.Location = new System.Drawing.Point(61, 31);
+            this.TB_MBSN.Mask = "0000";
+            this.TB_MBSN.Name = "TB_MBSN";
+            this.TB_MBSN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MBSN.TabIndex = 56;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(144, 17);
+            this.label9.Location = new System.Drawing.Point(104, 17);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(35, 13);
             this.label9.TabIndex = 45;
@@ -721,7 +900,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(67, 17);
+            this.label8.Location = new System.Drawing.Point(58, 17);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(40, 13);
             this.label8.TabIndex = 44;
@@ -772,116 +951,126 @@
             this.label3.TabIndex = 39;
             this.label3.Text = "Singles:";
             // 
-            // TB_MBMN
+            // GB_MaisonCurrent
             // 
-            this.TB_MBMN.Location = new System.Drawing.Point(58, 106);
-            this.TB_MBMN.MaxLength = 4;
-            this.TB_MBMN.Name = "TB_MBMN";
-            this.TB_MBMN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBMN.TabIndex = 33;
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCMS);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCMN);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCRS);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCRN);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCTS);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCTN);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCDS);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCDN);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCSS);
+            this.GB_MaisonCurrent.Controls.Add(this.TB_MCSN);
+            this.GB_MaisonCurrent.Controls.Add(this.label10);
+            this.GB_MaisonCurrent.Controls.Add(this.label11);
+            this.GB_MaisonCurrent.Controls.Add(this.label12);
+            this.GB_MaisonCurrent.Controls.Add(this.label13);
+            this.GB_MaisonCurrent.Controls.Add(this.label14);
+            this.GB_MaisonCurrent.Controls.Add(this.label15);
+            this.GB_MaisonCurrent.Controls.Add(this.label16);
+            this.GB_MaisonCurrent.Location = new System.Drawing.Point(416, 12);
+            this.GB_MaisonCurrent.Name = "GB_MaisonCurrent";
+            this.GB_MaisonCurrent.Size = new System.Drawing.Size(155, 130);
+            this.GB_MaisonCurrent.TabIndex = 41;
+            this.GB_MaisonCurrent.TabStop = false;
+            this.GB_MaisonCurrent.Text = "Maison Streaks (Current)";
             // 
-            // TB_MBMS
+            // TB_MCMS
             // 
-            this.TB_MBMS.Location = new System.Drawing.Point(132, 106);
-            this.TB_MBMS.MaxLength = 4;
-            this.TB_MBMS.Name = "TB_MBMS";
-            this.TB_MBMS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBMS.TabIndex = 38;
+            this.TB_MCMS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCMS.Location = new System.Drawing.Point(104, 104);
+            this.TB_MCMS.Mask = "0000";
+            this.TB_MCMS.Name = "TB_MCMS";
+            this.TB_MCMS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCMS.TabIndex = 55;
             // 
-            // TB_MBRS
+            // TB_MCMN
             // 
-            this.TB_MBRS.Location = new System.Drawing.Point(132, 87);
-            this.TB_MBRS.MaxLength = 4;
-            this.TB_MBRS.Name = "TB_MBRS";
-            this.TB_MBRS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBRS.TabIndex = 37;
+            this.TB_MCMN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCMN.Location = new System.Drawing.Point(61, 104);
+            this.TB_MCMN.Mask = "0000";
+            this.TB_MCMN.Name = "TB_MCMN";
+            this.TB_MCMN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCMN.TabIndex = 54;
             // 
-            // TB_MBRN
+            // TB_MCRS
             // 
-            this.TB_MBRN.Location = new System.Drawing.Point(58, 87);
-            this.TB_MBRN.MaxLength = 4;
-            this.TB_MBRN.Name = "TB_MBRN";
-            this.TB_MBRN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBRN.TabIndex = 32;
+            this.TB_MCRS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCRS.Location = new System.Drawing.Point(104, 85);
+            this.TB_MCRS.Mask = "0000";
+            this.TB_MCRS.Name = "TB_MCRS";
+            this.TB_MCRS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCRS.TabIndex = 53;
             // 
-            // TB_MBTS
+            // TB_MCRN
             // 
-            this.TB_MBTS.Location = new System.Drawing.Point(132, 69);
-            this.TB_MBTS.MaxLength = 4;
-            this.TB_MBTS.Name = "TB_MBTS";
-            this.TB_MBTS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBTS.TabIndex = 36;
+            this.TB_MCRN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCRN.Location = new System.Drawing.Point(61, 85);
+            this.TB_MCRN.Mask = "0000";
+            this.TB_MCRN.Name = "TB_MCRN";
+            this.TB_MCRN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCRN.TabIndex = 52;
             // 
-            // TB_MBTN
+            // TB_MCTS
             // 
-            this.TB_MBTN.Location = new System.Drawing.Point(58, 69);
-            this.TB_MBTN.MaxLength = 4;
-            this.TB_MBTN.Name = "TB_MBTN";
-            this.TB_MBTN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBTN.TabIndex = 31;
+            this.TB_MCTS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCTS.Location = new System.Drawing.Point(104, 67);
+            this.TB_MCTS.Mask = "0000";
+            this.TB_MCTS.Name = "TB_MCTS";
+            this.TB_MCTS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCTS.TabIndex = 51;
             // 
-            // TB_MBDS
+            // TB_MCTN
             // 
-            this.TB_MBDS.Location = new System.Drawing.Point(132, 50);
-            this.TB_MBDS.MaxLength = 4;
-            this.TB_MBDS.Name = "TB_MBDS";
-            this.TB_MBDS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBDS.TabIndex = 35;
+            this.TB_MCTN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCTN.Location = new System.Drawing.Point(61, 67);
+            this.TB_MCTN.Mask = "0000";
+            this.TB_MCTN.Name = "TB_MCTN";
+            this.TB_MCTN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCTN.TabIndex = 50;
             // 
-            // TB_MBDN
+            // TB_MCDS
             // 
-            this.TB_MBDN.Location = new System.Drawing.Point(58, 50);
-            this.TB_MBDN.MaxLength = 4;
-            this.TB_MBDN.Name = "TB_MBDN";
-            this.TB_MBDN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBDN.TabIndex = 30;
+            this.TB_MCDS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCDS.Location = new System.Drawing.Point(104, 48);
+            this.TB_MCDS.Mask = "0000";
+            this.TB_MCDS.Name = "TB_MCDS";
+            this.TB_MCDS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCDS.TabIndex = 49;
             // 
-            // TB_MBSS
+            // TB_MCDN
             // 
-            this.TB_MBSS.Location = new System.Drawing.Point(132, 31);
-            this.TB_MBSS.MaxLength = 4;
-            this.TB_MBSS.Name = "TB_MBSS";
-            this.TB_MBSS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBSS.TabIndex = 34;
+            this.TB_MCDN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCDN.Location = new System.Drawing.Point(61, 48);
+            this.TB_MCDN.Mask = "0000";
+            this.TB_MCDN.Name = "TB_MCDN";
+            this.TB_MCDN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCDN.TabIndex = 48;
             // 
-            // TB_MBSN
+            // TB_MCSS
             // 
-            this.TB_MBSN.Location = new System.Drawing.Point(58, 31);
-            this.TB_MBSN.MaxLength = 4;
-            this.TB_MBSN.Name = "TB_MBSN";
-            this.TB_MBSN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MBSN.TabIndex = 29;
+            this.TB_MCSS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCSS.Location = new System.Drawing.Point(104, 29);
+            this.TB_MCSS.Mask = "0000";
+            this.TB_MCSS.Name = "TB_MCSS";
+            this.TB_MCSS.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCSS.TabIndex = 47;
             // 
-            // groupBox1
+            // TB_MCSN
             // 
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.TB_MCMN);
-            this.groupBox1.Controls.Add(this.TB_MCMS);
-            this.groupBox1.Controls.Add(this.TB_MCRS);
-            this.groupBox1.Controls.Add(this.TB_MCRN);
-            this.groupBox1.Controls.Add(this.TB_MCTS);
-            this.groupBox1.Controls.Add(this.TB_MCTN);
-            this.groupBox1.Controls.Add(this.TB_MCDS);
-            this.groupBox1.Controls.Add(this.TB_MCDN);
-            this.groupBox1.Controls.Add(this.TB_MCSS);
-            this.groupBox1.Controls.Add(this.TB_MCSN);
-            this.groupBox1.Location = new System.Drawing.Point(416, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 134);
-            this.groupBox1.TabIndex = 41;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Maison Streaks (Current)";
+            this.TB_MCSN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_MCSN.Location = new System.Drawing.Point(61, 29);
+            this.TB_MCSN.Mask = "0000";
+            this.TB_MCSN.Name = "TB_MCSN";
+            this.TB_MCSN.Size = new System.Drawing.Size(35, 20);
+            this.TB_MCSN.TabIndex = 46;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(144, 16);
+            this.label10.Location = new System.Drawing.Point(106, 17);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(35, 13);
             this.label10.TabIndex = 45;
@@ -890,7 +1079,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(67, 17);
+            this.label11.Location = new System.Drawing.Point(58, 16);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(40, 13);
             this.label11.TabIndex = 44;
@@ -899,7 +1088,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(8, 109);
+            this.label12.Location = new System.Drawing.Point(8, 107);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(32, 13);
             this.label12.TabIndex = 43;
@@ -908,7 +1097,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(8, 91);
+            this.label13.Location = new System.Drawing.Point(8, 89);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 13);
             this.label13.TabIndex = 42;
@@ -917,7 +1106,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 72);
+            this.label14.Location = new System.Drawing.Point(8, 70);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(41, 13);
             this.label14.TabIndex = 41;
@@ -926,7 +1115,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 53);
+            this.label15.Location = new System.Drawing.Point(8, 51);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(49, 13);
             this.label15.TabIndex = 40;
@@ -935,128 +1124,16 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(8, 34);
+            this.label16.Location = new System.Drawing.Point(8, 32);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(44, 13);
             this.label16.TabIndex = 39;
             this.label16.Text = "Singles:";
             // 
-            // TB_MCMN
-            // 
-            this.TB_MCMN.Location = new System.Drawing.Point(58, 106);
-            this.TB_MCMN.MaxLength = 4;
-            this.TB_MCMN.Name = "TB_MCMN";
-            this.TB_MCMN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCMN.TabIndex = 33;
-            // 
-            // TB_MCMS
-            // 
-            this.TB_MCMS.Location = new System.Drawing.Point(132, 105);
-            this.TB_MCMS.MaxLength = 4;
-            this.TB_MCMS.Name = "TB_MCMS";
-            this.TB_MCMS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCMS.TabIndex = 38;
-            // 
-            // TB_MCRS
-            // 
-            this.TB_MCRS.Location = new System.Drawing.Point(132, 86);
-            this.TB_MCRS.MaxLength = 4;
-            this.TB_MCRS.Name = "TB_MCRS";
-            this.TB_MCRS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCRS.TabIndex = 37;
-            // 
-            // TB_MCRN
-            // 
-            this.TB_MCRN.Location = new System.Drawing.Point(58, 87);
-            this.TB_MCRN.MaxLength = 4;
-            this.TB_MCRN.Name = "TB_MCRN";
-            this.TB_MCRN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCRN.TabIndex = 32;
-            // 
-            // TB_MCTS
-            // 
-            this.TB_MCTS.Location = new System.Drawing.Point(132, 68);
-            this.TB_MCTS.MaxLength = 4;
-            this.TB_MCTS.Name = "TB_MCTS";
-            this.TB_MCTS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCTS.TabIndex = 36;
-            // 
-            // TB_MCTN
-            // 
-            this.TB_MCTN.Location = new System.Drawing.Point(58, 69);
-            this.TB_MCTN.MaxLength = 4;
-            this.TB_MCTN.Name = "TB_MCTN";
-            this.TB_MCTN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCTN.TabIndex = 31;
-            // 
-            // TB_MCDS
-            // 
-            this.TB_MCDS.Location = new System.Drawing.Point(132, 49);
-            this.TB_MCDS.MaxLength = 4;
-            this.TB_MCDS.Name = "TB_MCDS";
-            this.TB_MCDS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCDS.TabIndex = 35;
-            // 
-            // TB_MCDN
-            // 
-            this.TB_MCDN.Location = new System.Drawing.Point(58, 50);
-            this.TB_MCDN.MaxLength = 4;
-            this.TB_MCDN.Name = "TB_MCDN";
-            this.TB_MCDN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCDN.TabIndex = 30;
-            // 
-            // TB_MCSS
-            // 
-            this.TB_MCSS.Location = new System.Drawing.Point(132, 30);
-            this.TB_MCSS.MaxLength = 4;
-            this.TB_MCSS.Name = "TB_MCSS";
-            this.TB_MCSS.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCSS.TabIndex = 34;
-            // 
-            // TB_MCSN
-            // 
-            this.TB_MCSN.Location = new System.Drawing.Point(58, 31);
-            this.TB_MCSN.MaxLength = 4;
-            this.TB_MCSN.Name = "TB_MCSN";
-            this.TB_MCSN.Size = new System.Drawing.Size(59, 20);
-            this.TB_MCSN.TabIndex = 29;
-            // 
-            // TB_CoordZ
-            // 
-            this.TB_CoordZ.Location = new System.Drawing.Point(500, 286);
-            this.TB_CoordZ.MaxLength = 6;
-            this.TB_CoordZ.Name = "TB_CoordZ";
-            this.TB_CoordZ.Size = new System.Drawing.Size(46, 20);
-            this.TB_CoordZ.TabIndex = 42;
-            // 
-            // TB_CoordY
-            // 
-            this.TB_CoordY.Location = new System.Drawing.Point(500, 310);
-            this.TB_CoordY.MaxLength = 6;
-            this.TB_CoordY.Name = "TB_CoordY";
-            this.TB_CoordY.Size = new System.Drawing.Size(46, 20);
-            this.TB_CoordY.TabIndex = 43;
-            // 
-            // TB_CoordX
-            // 
-            this.TB_CoordX.Location = new System.Drawing.Point(436, 310);
-            this.TB_CoordX.MaxLength = 6;
-            this.TB_CoordX.Name = "TB_CoordX";
-            this.TB_CoordX.Size = new System.Drawing.Size(46, 20);
-            this.TB_CoordX.TabIndex = 45;
-            // 
-            // TB_CoordM
-            // 
-            this.TB_CoordM.Location = new System.Drawing.Point(436, 286);
-            this.TB_CoordM.MaxLength = 4;
-            this.TB_CoordM.Name = "TB_CoordM";
-            this.TB_CoordM.Size = new System.Drawing.Size(46, 20);
-            this.TB_CoordM.TabIndex = 44;
-            // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(420, 289);
+            this.label17.Location = new System.Drawing.Point(26, 28);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(16, 13);
             this.label17.TabIndex = 46;
@@ -1065,7 +1142,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(420, 313);
+            this.label18.Location = new System.Drawing.Point(26, 52);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(14, 13);
             this.label18.TabIndex = 47;
@@ -1074,7 +1151,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(484, 313);
+            this.label19.Location = new System.Drawing.Point(90, 52);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(14, 13);
             this.label19.TabIndex = 49;
@@ -1083,104 +1160,315 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(484, 289);
+            this.label20.Location = new System.Drawing.Point(90, 28);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(14, 13);
             this.label20.TabIndex = 48;
             this.label20.Text = "Z";
             // 
-            // GB_Currency
+            // GB_Appear
             // 
-            this.GB_Currency.Controls.Add(this.TB_Style);
-            this.GB_Currency.Controls.Add(this.label21);
-            this.GB_Currency.Controls.Add(this.TB_BP);
-            this.GB_Currency.Controls.Add(this.TB_PM);
-            this.GB_Currency.Controls.Add(this.L_BP);
-            this.GB_Currency.Controls.Add(this.L_PM);
-            this.GB_Currency.Location = new System.Drawing.Point(235, 132);
-            this.GB_Currency.Name = "GB_Currency";
-            this.GB_Currency.Size = new System.Drawing.Size(175, 63);
-            this.GB_Currency.TabIndex = 50;
-            this.GB_Currency.TabStop = false;
-            this.GB_Currency.Text = "Misc";
+            this.GB_Appear.Controls.Add(this.label32);
+            this.GB_Appear.Controls.Add(this.comboBox11);
+            this.GB_Appear.Controls.Add(this.comboBox10);
+            this.GB_Appear.Controls.Add(this.comboBox9);
+            this.GB_Appear.Controls.Add(this.comboBox8);
+            this.GB_Appear.Controls.Add(this.comboBox7);
+            this.GB_Appear.Controls.Add(this.comboBox6);
+            this.GB_Appear.Controls.Add(this.comboBox5);
+            this.GB_Appear.Controls.Add(this.label31);
+            this.GB_Appear.Controls.Add(this.label30);
+            this.GB_Appear.Controls.Add(this.label29);
+            this.GB_Appear.Controls.Add(this.label28);
+            this.GB_Appear.Controls.Add(this.label27);
+            this.GB_Appear.Controls.Add(this.comboBox4);
+            this.GB_Appear.Controls.Add(this.comboBox3);
+            this.GB_Appear.Controls.Add(this.comboBox2);
+            this.GB_Appear.Controls.Add(this.comboBox1);
+            this.GB_Appear.Controls.Add(this.label26);
+            this.GB_Appear.Controls.Add(this.label25);
+            this.GB_Appear.Controls.Add(this.label24);
+            this.GB_Appear.Controls.Add(this.label23);
+            this.GB_Appear.Controls.Add(this.label22);
+            this.GB_Appear.Enabled = false;
+            this.GB_Appear.Location = new System.Drawing.Point(230, 12);
+            this.GB_Appear.Name = "GB_Appear";
+            this.GB_Appear.Size = new System.Drawing.Size(180, 270);
+            this.GB_Appear.TabIndex = 50;
+            this.GB_Appear.TabStop = false;
+            this.GB_Appear.Text = "Current Appearance (X/Y)";
             // 
-            // TB_BP
+            // label32
             // 
-            this.TB_BP.Location = new System.Drawing.Point(53, 16);
-            this.TB_BP.Mask = "0000";
-            this.TB_BP.Name = "TB_BP";
-            this.TB_BP.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.TB_BP.Size = new System.Drawing.Size(37, 20);
-            this.TB_BP.TabIndex = 6;
-            this.TB_BP.Text = "1234";
-            this.TB_BP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label32.Location = new System.Drawing.Point(11, 194);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(65, 13);
+            this.label32.TabIndex = 21;
+            this.label32.Text = "Dress:";
+            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // TB_PM
+            // comboBox11
             // 
-            this.TB_PM.Location = new System.Drawing.Point(105, 39);
-            this.TB_PM.Mask = "0000000";
-            this.TB_PM.Name = "TB_PM";
-            this.TB_PM.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.TB_PM.Size = new System.Drawing.Size(56, 20);
-            this.TB_PM.TabIndex = 5;
-            this.TB_PM.Text = "1234567";
-            this.TB_PM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.comboBox11.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox11.FormattingEnabled = true;
+            this.comboBox11.Location = new System.Drawing.Point(78, 191);
+            this.comboBox11.Name = "comboBox11";
+            this.comboBox11.Size = new System.Drawing.Size(88, 21);
+            this.comboBox11.TabIndex = 20;
             // 
-            // L_BP
+            // comboBox10
             // 
-            this.L_BP.Location = new System.Drawing.Point(3, 19);
-            this.L_BP.Name = "L_BP";
-            this.L_BP.Size = new System.Drawing.Size(50, 13);
-            this.L_BP.TabIndex = 1;
-            this.L_BP.Text = "BP:";
-            this.L_BP.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.comboBox10.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox10.FormattingEnabled = true;
+            this.comboBox10.Location = new System.Drawing.Point(78, 233);
+            this.comboBox10.Name = "comboBox10";
+            this.comboBox10.Size = new System.Drawing.Size(88, 21);
+            this.comboBox10.TabIndex = 19;
             // 
-            // L_PM
+            // comboBox9
             // 
-            this.L_PM.Location = new System.Drawing.Point(13, 42);
-            this.L_PM.Name = "L_PM";
-            this.L_PM.Size = new System.Drawing.Size(80, 13);
-            this.L_PM.TabIndex = 0;
-            this.L_PM.Text = "PokeMiles:";
-            this.L_PM.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.comboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox9.FormattingEnabled = true;
+            this.comboBox9.Location = new System.Drawing.Point(78, 212);
+            this.comboBox9.Name = "comboBox9";
+            this.comboBox9.Size = new System.Drawing.Size(88, 21);
+            this.comboBox9.TabIndex = 18;
             // 
-            // label21
+            // comboBox8
             // 
-            this.label21.Location = new System.Drawing.Point(90, 19);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(46, 13);
-            this.label21.TabIndex = 7;
-            this.label21.Text = "Style:";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.comboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox8.FormattingEnabled = true;
+            this.comboBox8.Location = new System.Drawing.Point(78, 170);
+            this.comboBox8.Name = "comboBox8";
+            this.comboBox8.Size = new System.Drawing.Size(88, 21);
+            this.comboBox8.TabIndex = 17;
             // 
-            // TB_Style
+            // comboBox7
             // 
-            this.TB_Style.Location = new System.Drawing.Point(135, 16);
-            this.TB_Style.Mask = "000";
-            this.TB_Style.Name = "TB_Style";
-            this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.TB_Style.Size = new System.Drawing.Size(26, 20);
-            this.TB_Style.TabIndex = 8;
-            this.TB_Style.Text = "123";
-            this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Style.TextChanged += new System.EventHandler(this.changeStyle);
+            this.comboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.Location = new System.Drawing.Point(78, 149);
+            this.comboBox7.Name = "comboBox7";
+            this.comboBox7.Size = new System.Drawing.Size(88, 21);
+            this.comboBox7.TabIndex = 16;
+            // 
+            // comboBox6
+            // 
+            this.comboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Location = new System.Drawing.Point(78, 128);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(88, 21);
+            this.comboBox6.TabIndex = 15;
+            // 
+            // comboBox5
+            // 
+            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox5.FormattingEnabled = true;
+            this.comboBox5.Location = new System.Drawing.Point(78, 107);
+            this.comboBox5.Name = "comboBox5";
+            this.comboBox5.Size = new System.Drawing.Size(88, 21);
+            this.comboBox5.TabIndex = 14;
+            // 
+            // label31
+            // 
+            this.label31.Location = new System.Drawing.Point(11, 131);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(65, 13);
+            this.label31.TabIndex = 13;
+            this.label31.Text = "Accessory:";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label30
+            // 
+            this.label30.Location = new System.Drawing.Point(11, 235);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(65, 13);
+            this.label30.TabIndex = 12;
+            this.label30.Text = "Bag:";
+            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label29
+            // 
+            this.label29.Location = new System.Drawing.Point(11, 214);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(65, 13);
+            this.label29.TabIndex = 11;
+            this.label29.Text = "Socks:";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label28
+            // 
+            this.label28.Location = new System.Drawing.Point(11, 173);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(65, 13);
+            this.label28.TabIndex = 10;
+            this.label28.Text = "Pants:";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label27
+            // 
+            this.label27.Location = new System.Drawing.Point(11, 152);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(65, 13);
+            this.label27.TabIndex = 9;
+            this.label27.Text = "Shirt:";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Location = new System.Drawing.Point(78, 86);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(88, 21);
+            this.comboBox4.TabIndex = 8;
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(78, 65);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(88, 21);
+            this.comboBox3.TabIndex = 7;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(78, 44);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(88, 21);
+            this.comboBox2.TabIndex = 6;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(78, 23);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(88, 21);
+            this.comboBox1.TabIndex = 5;
+            // 
+            // label26
+            // 
+            this.label26.Location = new System.Drawing.Point(11, 110);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(65, 13);
+            this.label26.TabIndex = 4;
+            this.label26.Text = "Hat:";
+            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label25
+            // 
+            this.label25.Location = new System.Drawing.Point(11, 88);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(65, 13);
+            this.label25.TabIndex = 3;
+            this.label25.Text = "Facial Hair:";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label24
+            // 
+            this.label24.Location = new System.Drawing.Point(11, 67);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(65, 13);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "Hairstyle:";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label23
+            // 
+            this.label23.Location = new System.Drawing.Point(11, 47);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(65, 13);
+            this.label23.TabIndex = 1;
+            this.label23.Text = "Eye Color:";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label22
+            // 
+            this.label22.Location = new System.Drawing.Point(11, 28);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(65, 13);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "Skin Color:";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // GB_Map
+            // 
+            this.GB_Map.Controls.Add(this.TB_CoordY);
+            this.GB_Map.Controls.Add(this.label19);
+            this.GB_Map.Controls.Add(this.TB_CoordZ);
+            this.GB_Map.Controls.Add(this.label17);
+            this.GB_Map.Controls.Add(this.TB_CoordX);
+            this.GB_Map.Controls.Add(this.label20);
+            this.GB_Map.Controls.Add(this.TB_CoordM);
+            this.GB_Map.Controls.Add(this.label18);
+            this.GB_Map.Location = new System.Drawing.Point(230, 288);
+            this.GB_Map.Name = "GB_Map";
+            this.GB_Map.Size = new System.Drawing.Size(179, 80);
+            this.GB_Map.TabIndex = 51;
+            this.GB_Map.TabStop = false;
+            this.GB_Map.Text = "Map Position";
+            // 
+            // GB_Reserved
+            // 
+            this.GB_Reserved.Enabled = false;
+            this.GB_Reserved.Location = new System.Drawing.Point(416, 288);
+            this.GB_Reserved.Name = "GB_Reserved";
+            this.GB_Reserved.Size = new System.Drawing.Size(155, 177);
+            this.GB_Reserved.TabIndex = 52;
+            this.GB_Reserved.TabStop = false;
+            this.GB_Reserved.Text = "Multiplayer";
+            // 
+            // TB_CoordM
+            // 
+            this.TB_CoordM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_CoordM.Location = new System.Drawing.Point(44, 25);
+            this.TB_CoordM.Mask = "0000";
+            this.TB_CoordM.Name = "TB_CoordM";
+            this.TB_CoordM.Size = new System.Drawing.Size(35, 20);
+            this.TB_CoordM.TabIndex = 0;
+            // 
+            // TB_CoordX
+            // 
+            this.TB_CoordX.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_CoordX.Location = new System.Drawing.Point(43, 49);
+            this.TB_CoordX.Mask = "0000";
+            this.TB_CoordX.Name = "TB_CoordX";
+            this.TB_CoordX.Size = new System.Drawing.Size(35, 20);
+            this.TB_CoordX.TabIndex = 1;
+            // 
+            // TB_CoordZ
+            // 
+            this.TB_CoordZ.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_CoordZ.Location = new System.Drawing.Point(110, 25);
+            this.TB_CoordZ.Mask = "0000";
+            this.TB_CoordZ.Name = "TB_CoordZ";
+            this.TB_CoordZ.Size = new System.Drawing.Size(35, 20);
+            this.TB_CoordZ.TabIndex = 2;
+            // 
+            // TB_CoordY
+            // 
+            this.TB_CoordY.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_CoordY.Location = new System.Drawing.Point(110, 49);
+            this.TB_CoordY.Mask = "0000";
+            this.TB_CoordY.Name = "TB_CoordY";
+            this.TB_CoordY.Size = new System.Drawing.Size(35, 20);
+            this.TB_CoordY.TabIndex = 3;
             // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 337);
-            this.Controls.Add(this.GB_Currency);
-            this.Controls.Add(this.label19);
-            this.Controls.Add(this.label20);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.label17);
-            this.Controls.Add(this.TB_CoordX);
-            this.Controls.Add(this.TB_CoordM);
-            this.Controls.Add(this.TB_CoordY);
-            this.Controls.Add(this.TB_CoordZ);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(584, 512);
+            this.Controls.Add(this.GB_Reserved);
+            this.Controls.Add(this.GB_Map);
+            this.Controls.Add(this.GB_Appear);
+            this.Controls.Add(this.GB_MaisonCurrent);
+            this.Controls.Add(this.GB_MaisonBest);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.GB_Overview);
@@ -1207,14 +1495,14 @@
             this.GB_Sayings.PerformLayout();
             this.GB_Overview.ResumeLayout(false);
             this.GB_Overview.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.GB_Currency.ResumeLayout(false);
-            this.GB_Currency.PerformLayout();
+            this.GB_MaisonBest.ResumeLayout(false);
+            this.GB_MaisonBest.PerformLayout();
+            this.GB_MaisonCurrent.ResumeLayout(false);
+            this.GB_MaisonCurrent.PerformLayout();
+            this.GB_Appear.ResumeLayout(false);
+            this.GB_Map.ResumeLayout(false);
+            this.GB_Map.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1267,7 +1555,7 @@
         private System.Windows.Forms.ComboBox CB_Country;
         private System.Windows.Forms.Label L_Region;
         private System.Windows.Forms.Label L_Country;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox GB_MaisonBest;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
@@ -1275,17 +1563,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox TB_MBMN;
-        private System.Windows.Forms.TextBox TB_MBMS;
-        private System.Windows.Forms.TextBox TB_MBRS;
-        private System.Windows.Forms.TextBox TB_MBRN;
-        private System.Windows.Forms.TextBox TB_MBTS;
-        private System.Windows.Forms.TextBox TB_MBTN;
-        private System.Windows.Forms.TextBox TB_MBDS;
-        private System.Windows.Forms.TextBox TB_MBDN;
-        private System.Windows.Forms.TextBox TB_MBSS;
-        private System.Windows.Forms.TextBox TB_MBSN;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox GB_MaisonCurrent;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
@@ -1293,33 +1571,67 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox TB_MCMN;
-        private System.Windows.Forms.TextBox TB_MCMS;
-        private System.Windows.Forms.TextBox TB_MCRS;
-        private System.Windows.Forms.TextBox TB_MCRN;
-        private System.Windows.Forms.TextBox TB_MCTS;
-        private System.Windows.Forms.TextBox TB_MCTN;
-        private System.Windows.Forms.TextBox TB_MCDS;
-        private System.Windows.Forms.TextBox TB_MCDN;
-        private System.Windows.Forms.TextBox TB_MCSS;
-        private System.Windows.Forms.TextBox TB_MCSN;
         private System.Windows.Forms.Label L_Language;
         private System.Windows.Forms.ComboBox CB_Game;
         private System.Windows.Forms.ComboBox CB_Gender;
-        private System.Windows.Forms.TextBox TB_CoordZ;
-        private System.Windows.Forms.TextBox TB_CoordY;
-        private System.Windows.Forms.TextBox TB_CoordX;
-        private System.Windows.Forms.TextBox TB_CoordM;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.GroupBox GB_Currency;
         private System.Windows.Forms.MaskedTextBox TB_BP;
         private System.Windows.Forms.MaskedTextBox TB_PM;
         private System.Windows.Forms.Label L_BP;
         private System.Windows.Forms.Label L_PM;
         private System.Windows.Forms.MaskedTextBox TB_Style;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.MaskedTextBox TB_MBMS;
+        private System.Windows.Forms.MaskedTextBox TB_MBMN;
+        private System.Windows.Forms.MaskedTextBox TB_MBRS;
+        private System.Windows.Forms.MaskedTextBox TB_MBRN;
+        private System.Windows.Forms.MaskedTextBox TB_MBTS;
+        private System.Windows.Forms.MaskedTextBox TB_MBTN;
+        private System.Windows.Forms.MaskedTextBox TB_MBDS;
+        private System.Windows.Forms.MaskedTextBox TB_MBDN;
+        private System.Windows.Forms.MaskedTextBox TB_MBSS;
+        private System.Windows.Forms.MaskedTextBox TB_MBSN;
+        private System.Windows.Forms.MaskedTextBox TB_MCMS;
+        private System.Windows.Forms.MaskedTextBox TB_MCMN;
+        private System.Windows.Forms.MaskedTextBox TB_MCRS;
+        private System.Windows.Forms.MaskedTextBox TB_MCRN;
+        private System.Windows.Forms.MaskedTextBox TB_MCTS;
+        private System.Windows.Forms.MaskedTextBox TB_MCTN;
+        private System.Windows.Forms.MaskedTextBox TB_MCDS;
+        private System.Windows.Forms.MaskedTextBox TB_MCDN;
+        private System.Windows.Forms.MaskedTextBox TB_MCSS;
+        private System.Windows.Forms.MaskedTextBox TB_MCSN;
+        private System.Windows.Forms.GroupBox GB_Appear;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.ComboBox comboBox11;
+        private System.Windows.Forms.ComboBox comboBox10;
+        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.GroupBox GB_Map;
+        private System.Windows.Forms.GroupBox GB_Reserved;
+        private System.Windows.Forms.MaskedTextBox TB_CoordY;
+        private System.Windows.Forms.MaskedTextBox TB_CoordZ;
+        private System.Windows.Forms.MaskedTextBox TB_CoordX;
+        private System.Windows.Forms.MaskedTextBox TB_CoordM;
     }
 }

@@ -260,7 +260,8 @@ namespace PKHeX
 
         private void B_Copy_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(RTB_Code.Text);
+            if (RTB_Code.Text.Length > 0) Clipboard.SetText(RTB_Code.Text);
+            else {MessageBox.Show("No code created!\n\nClick [Create Diff], then make sure that data appears in the Text Box below.\nIf no code appears, then you didn't save your changes.\n\nBe sure to Set the Pokemon you edited back into a Box/Party slot!","Alert");}
         }
 
         private void B_Diff_Click(object sender, EventArgs e)
@@ -281,12 +282,12 @@ namespace PKHeX
                     result += ((0x20000000 + i).ToString("X8") + " ");
                     result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + "\n");
                     lines++;
-                    if (lines % 128 == 0)
+                    if ((lines % 128 == 0) && CHK_Break.Checked)
                     { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
                     if (lines > 10000) goto toomany;
                 }
             }
-            if (lines / 128 > 0)
+            if ((lines / 128 > 0) && CHK_Break.Checked)
             {
                 MessageBox.Show((1+ (lines / 128)).ToString() + " Code Segments","Alert");
             }

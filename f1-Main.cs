@@ -6720,6 +6720,7 @@ namespace PKHeX
             byte[] pkx = buff;
 
             // Repopulate PKX with Edited Stuff
+            if (getHEXval(TB_EC) == 0) BTN_RerollEC.PerformClick(); // Prevent 0 Encryption Constants
             Array.Copy(BitConverter.GetBytes(getHEXval(TB_EC)), 0, pkx, 0, 4);  // EK
 
             Array.Copy(BitConverter.GetBytes(0), 0, pkx, 0x4, 4);  // 0 CHK for now
@@ -8433,6 +8434,12 @@ namespace PKHeX
             SAV_OPower opower = new PKHeX.SAV_OPower(this);
             opower.ShowDialog();
         }
+        private void B_OpenPokedex_Click(object sender, EventArgs e)
+        {
+            // Open Pokedex Menu
+            SAV_Pokedex pokedex = new PKHeX.SAV_Pokedex(this);
+            pokedex.ShowDialog();
+        }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
             RTB_T.Text = "PSS List\r\n\r\n";
@@ -8663,6 +8670,8 @@ namespace PKHeX
             ReportForm.PopulateData(savefile);
             ReportForm.ShowDialog();
         }
+
+        
 
         
     }

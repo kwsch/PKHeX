@@ -284,10 +284,10 @@ namespace PKHeX
             TB_MBMN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 18).ToString();
             TB_MBMS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 19).ToString();
                         
-            TB_CoordM.Text = BitConverter.ToUInt16(sav, savshift + 0x6802).ToString("X4");
-            TB_CoordX.Text = BitConverter.ToSingle(sav, savshift + 0x6810).ToString("0.0");
-            TB_CoordZ.Text = BitConverter.ToSingle(sav, savshift + 0x6814).ToString("0.0");
-            TB_CoordY.Text = BitConverter.ToSingle(sav, savshift + 0x6818).ToString("0.0");
+            TB_CoordM.Text = BitConverter.ToUInt16(sav, savshift + 0x6802).ToString();
+            TB_CoordX.Text = BitConverter.ToSingle(sav, savshift + 0x6810).ToString();
+            TB_CoordZ.Text = BitConverter.ToSingle(sav, savshift + 0x6814).ToString();
+            TB_CoordY.Text = BitConverter.ToSingle(sav, savshift + 0x6818).ToString();
 
             // Load BP and PokeMiles
             TB_BP.Text = BitConverter.ToUInt32(sav, savshift + 0x963C).ToString();
@@ -353,7 +353,7 @@ namespace PKHeX
 
             // New stuff.
             // Copy Maison Data in
-            TextBox[] tba = new TextBox[] {
+            MaskedTextBox[] tba = new MaskedTextBox[] {
                 TB_MCSN,TB_MCSS,TB_MBSN,TB_MBSS,
                 TB_MCDN,TB_MCDS,TB_MBDN,TB_MBDS,
                 TB_MCTN,TB_MCTS,TB_MBTN,TB_MBTS,
@@ -372,8 +372,6 @@ namespace PKHeX
             byte[] x = BitConverter.GetBytes(Single.Parse(TB_CoordX.Text)); Array.Resize(ref x, 4); Array.Copy(x,0,sav, savshift + 0x6810,4);
             byte[] z = BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)); Array.Resize(ref z, 4); Array.Copy(z,0,sav, savshift + 0x6814,4);
             byte[] y = BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)); Array.Resize(ref y, 4); Array.Copy(y,0,sav, savshift + 0x6818,4);
-            TB_BP.Text = BitConverter.ToUInt32(sav, savshift + 0x963C).ToString();
-            TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
             
             byte[] bp = BitConverter.GetBytes(ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C, 2);
             byte[] pm = BitConverter.GetBytes(ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + 0x238FC, 4); Array.Copy(pm, 0, sav, savshift + 0x23900, 4);
@@ -421,6 +419,7 @@ namespace PKHeX
 
         private void changeStyle(object sender, EventArgs e)
         {
+            if (TB_Style.Text == "") TB_Style.Text = "0";
             if (int.Parse(TB_Style.Text) > 255) TB_Style.Text = "255";
         }
 
