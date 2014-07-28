@@ -4014,7 +4014,16 @@ namespace PKHeX
 
             // Setup Forms
             getForms(species);
-            CB_Form.SelectedIndex = altforms;
+            try
+            {
+                CB_Form.SelectedIndex = altforms;
+            }
+            catch 
+            { 
+                if (CB_Form.Items.Count > 1) 
+                    CB_Form.SelectedIndex = CB_Form.Items.Count-1; 
+                else CB_Form.SelectedIndex = 0;
+            }
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = buff[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
@@ -6033,7 +6042,7 @@ namespace PKHeX
         // Main Menu Subfunctions // 
         private void openfile(byte[] input, string path, string ext)
         {
-            // Trade Packets
+            #region Trade Packets
             if ((input.Length == 363) && (input[0x6B] == 0) && (input[0x6C] == 00))
             {
                 // EAD Packet of 363 length
@@ -6048,6 +6057,8 @@ namespace PKHeX
                 Array.Copy(input, 0x93, c, 0, 260);
                 input = c;
             }
+            #endregion
+            #region Saves
             else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input,0x65410) == 0x42454546)
             {
                 // Load CyberGadget
@@ -6084,8 +6095,7 @@ namespace PKHeX
                 return;
             }
             // Verify the Data Input Size is Proper
-            #region SAVE FILE LOADING
-            if (input.Length == 0x100000)
+            else if (input.Length == 0x100000)
             {
                 B_ExportSAV.Enabled = false;
                 B_SwitchSAV.Enabled = false;
@@ -6141,13 +6151,14 @@ namespace PKHeX
                 B_OUTPasserby.Enabled = B_OUTHallofFame.Enabled = B_JPEG.Enabled = true;
             }
             #endregion
+            #region PK6/EK6
             else if ((input.Length == 260) || (input.Length == 232))
             {
                 // Check if Input is PKX
                 if ((ext == ".pk6") || (ext == ".ek6") || (ext == ".pkx") || (ext == ".ekx") || (ext == ".bin") || (ext == ""))
                 {
                     // Check if either is encrypted from another program.
-                    if ((input[0xC8] == 0) && (input[0xC9] == 0) && (input[0x58] == 0) && (input[0x59] == 0))
+                    if (BitConverter.ToUInt16(input,0xC8) == 0 && BitConverter.ToUInt16(input,0x58) == 0)
                     {   // File isn't encrypted.
                         buff = input;
                         populatefields(buff);
@@ -6159,50 +6170,43 @@ namespace PKHeX
                         populatefields(buff);
                     }
                 }
-                else // to convert g5pkm
-                {
-                    try 
-                    {
-                        buff = convertPK5toPK6(input);
-                        populatefields(buff);
-                        string message = "Loaded previous generation PKM. Conversion attempted.";
-                        string caption = "Alert";
-                        MessageBox.Show(message, caption);
-                    }
-                    catch
-                    {
-                        string message = "Foreign File Extension.\nOnly .pk* .ek* .bin supported.";
-                        string caption = "Error Detected in Input";
-                        MessageBox.Show(message, caption);
-                    }
-                }
-                // End Work
-            }
-            else
-            {
-                if ((input.Length == 136) || (input.Length == 220)) // to convert g5pkm
-                {
-                    try // to convert g5pkm
-                    {
-                        buff = convertPK5toPK6(input);
-                        populatefields(buff);
-                        string message = "Loaded previous generation PKM. Conversion attempted.";
-                        string caption = "Alert";
-                        MessageBox.Show(message, caption);
-                    }
-                    catch
-                    {
-                        string message = "Loaded previous generation PKM. Conversion failed.";
-                        string caption = "Alert";
-                        MessageBox.Show(message, caption);
-                    }
-                }
                 else
                 {
-                    string message = "Attempted to load an unsupported file type/size.";
-                    string caption = "Error";
+                    string message = "Foreign File.\nOnly valid .pk* .ek* .bin supported.";
+                    string caption = "Error Detected in Input";
                     MessageBox.Show(message, caption);
                 }
+            }
+            #endregion
+            #region PK3/PK4/PK5
+            else if ((input.Length == 136) || (input.Length == 220) || (input.Length == 236) || (input.Length == 100) || (input.Length == 80)) // to convert g5pkm
+            {
+                var Converter = new PKHeX.pk2pk();
+                if (!Converter.verifychk(input)) MessageBox.Show("Invalid File (Checksum Error)", "Error");
+                try // to convert g5pkm
+                {
+                    byte[] data = Converter.ConvertPKM(input,savefile, savindex);
+                    Array.Copy(data, buff, 232);
+                    populatefields(buff);
+                    // string message = "Loaded previous generation PKM. Conversion attempted.";
+                    // string caption = "Alert";
+                    // MessageBox.Show(message, caption);
+                }
+                catch
+                {
+                    Array.Copy(new Byte[232], buff, 232);
+                    populatefields(buff);
+                    string message = "Attempted to load previous generation PKM.\n\nConversion failed.";
+                    string caption = "Alert";
+                    MessageBox.Show(message, caption);
+                }
+            }
+            #endregion
+            else
+            {
+                string message = "Attempted to load an unsupported file type/size.";
+                string caption = "Error";
+                MessageBox.Show(message, caption);
             }
             GC.Collect();
         }
@@ -6251,28 +6255,6 @@ namespace PKHeX
             getSAVOffsets();
             Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
             cybergadget = false;
-        }
-        private void openg5pkm()
-        {
-            OpenFileDialog openg5pkm = new OpenFileDialog();
-            openg5pkm.Filter = "PK5 File|*.pkm;*.pk5";
-            if (openg5pkm.ShowDialog() == DialogResult.OK)
-            {
-                string path = openg5pkm.FileName;
-                string ext = Path.GetExtension(path);
-                byte[] pkm = File.ReadAllBytes(path);
-                if (((pkm.Length == 136) || (pkm.Length == 220)) && ((ext == ".pkm") || (ext == ".pk5")))
-                {
-                    buff = convertPK5toPK6(pkm);
-                    populatefields(buff);
-                }
-                else
-                {
-                    string message = "Did not select a valid PKX";
-                    string caption = "Input Error";
-                    MessageBox.Show(message, caption);
-                }
-            }
         }
         // PID Rerolling Functions //  
         private uint getRandomPID(int gt, int cg)
@@ -6424,231 +6406,6 @@ namespace PKHeX
 
             // Done
             return ekxdata;
-        }
-        private byte[] convertPK5toPK6(byte[] pkm)
-        {
-            // To transfer, we will go down the pkm offset list and fill it into the PKX list.
-            byte[] pkx = new Byte[232]; // Setup new array to store the new PKX
-
-            // Upon transfer, the PID is also set as the Encryption Key.
-            // Copy intro data, it's the same (Encrypt Key -> EXP)
-            for (int i = 0; i < 0x14; i++) { pkx[i] = pkm[i]; }
-            pkx[0xA] = 0; pkx[0xB] = 0;     // Get rid of the item, those aren't transferred.
-            // Set the PID in its new location as well...
-            for (int i = 0; i < 0x4; i++) { pkx[0x18 + i] = pkm[i]; }
-            pkx[0xCA] = pkm[0x14]; // Friendship
-            pkx[0x14] = pkm[0x15]; // Ability
-            // Get Ability Number from the PID (the actual valid one)
-            if ((pkm[0x42] & 1) == 1)   // Hidden Ability Flag
-                pkx[0x15] = 4;
-            else if (pkm[0x5F] < 0x10)  // Gen 3-4 Origin Method
-                pkx[0x15] = (byte)(pkx[0x0] & 1); // Old Ability Correlation
-            else
-                pkx[0x15] = (byte)(pkx[0x2] & 1); // Gen5 Correlation
-            pkx[0x2A] = pkm[0x16];  // Markings
-            pkx[0xE3] = pkm[0x17];  // OT Language
-
-            // Copy EVs and Contest Stats
-            for (int i = 0; i < 12; i++)
-                pkx[0x1E + i] = pkm[0x18 + i];
-            // Fix EVs (<=252)
-            for (int i = 0; i < 6; i++)
-                if (pkx[0x1E + i] > 252)
-                    pkx[0x1E + i] = 252;
-
-            // Copy Moves
-            for (int i = 0; i < 16; i++)
-                pkx[0x5A + i] = pkm[0x28 + i];
-            // Fix PP; some moves have different PP in Gen 6.
-            pkx[0x62] = (byte)(getMovePP(BitConverter.ToInt16(pkx, 0x5A)) * (5 + pkx[0x66]) / 5);
-            pkx[0x63] = (byte)(getMovePP(BitConverter.ToInt16(pkx, 0x5C)) * (5 + pkx[0x67]) / 5);
-            pkx[0x64] = (byte)(getMovePP(BitConverter.ToInt16(pkx, 0x5E)) * (5 + pkx[0x68]) / 5);
-            pkx[0x65] = (byte)(getMovePP(BitConverter.ToInt16(pkx, 0x60)) * (5 + pkx[0x69]) / 5);
-
-            // Copy 32bit IV value.
-            for (int i = 0; i < 4; i++)
-                pkx[0x74 + i] = pkm[0x38 + i];
-
-            pkx[0x1D] = pkm[0x40];  // Copy FE & Gender Flags
-            pkx[0x1C] = pkm[0x41];  // Copy Nature
-
-            // Copy Nickname
-            string nicknamestr = "";
-            for (int i = 0; i < 24; i += 2)
-            {
-                if ((pkm[0x48 + i] == 0xFF) && pkm[0x48 + i + 1] == 0xFF)
-                {   // If given character is a terminator, stop copying. There are no trash bytes or terminators in Gen 6!
-                    break;
-                }
-                nicknamestr += (char)(pkm[0x48 + i] + pkm[0x49 + i] * 0x100);
-            }
-            // Decapitalize Logic
-            if ((nicknamestr.Length > 0) && (pkx[0x77] >> 7 == 0))
-                nicknamestr = char.ToUpper(nicknamestr[0]) + nicknamestr.Substring(1).ToLower();
-            byte[] nkb = Encoding.Unicode.GetBytes(nicknamestr);
-            Array.Resize(ref nkb, 24);
-            Array.Copy(nkb, 0, pkx, 0x40, nkb.Length);
-
-            pkx[0xDF] = pkm[0x5F];  // Copy Origin Game
-
-            // Copy OT
-            for (int i = 0; i < 24; i += 2)
-            {
-                if ((pkm[0x68 + i] == 0xFF) && pkm[0x68 + i + 1] == 0xFF)
-                {   // If terminated, stop
-                    break;
-                }
-                pkx[0xB0 + i] = pkm[0x68 + i];
-                pkx[0xB0 + i + 1] = pkm[0x68 + i + 1];
-            }
-            // Copy Met Info
-            for (int i = 0; i < 0x6; i++)
-            {   // Dates are kept upon transfer
-                pkx[0xD1 + i] = pkm[0x78 + i];
-            }
-            // pkx[0xD7] has a gap.
-            for (int i = 0; i < 0x4; i++)
-            {   // Locations are kept upon transfer
-                pkx[0xD8 + i] = pkm[0x7E + i];
-            }
-            pkx[0x2B] = pkm[0x82];  // Pokerus
-            pkx[0xDC] = pkm[0x83];  // Ball
-
-            // Get the current level of the specimen to be transferred
-            int species = BitConverter.ToInt16(pkx, 0x08);
-            int exp = BitConverter.ToInt32(pkx, 0x10);
-            int currentlevel = getLevel((species), (exp));
-
-            pkx[0xDD] = (byte)(((pkm[0x84]) & 0x80) + currentlevel);  // OT Gender & Encounter Level
-            pkx[0xDE] = pkm[0x85];  // Encounter Type
-
-            // Ribbon Decomposer (Contest & Battle)
-            byte contestribbons = 0;
-            byte battleribbons = 0;
-
-            // Contest Ribbon Counter
-            for (int i = 0; i < 8; i++) // Sinnoh 3, Hoenn 1
-            {
-                if (((pkm[0x60] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pkm[0x61] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pkm[0x3C] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pkm[0x3D] >> i) & 1) == 1)
-                    contestribbons++;
-            }
-            for (int i = 0; i < 4; i++) // Sinnoh 4, Hoenn 2
-            {
-                if (((pkm[0x62] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pkm[0x3E] >> i) & 1) == 1)
-                    contestribbons++;
-            }
-
-            // Battle Ribbon Counter
-            if ((pkm[0x3E] & 0x20) >> 5 == 1)    // Winning Ribbon
-                battleribbons++;
-            if ((pkm[0x3E] & 0x40) >> 6 == 1)    // Victory Ribbon
-                battleribbons++;
-            for (int i = 1; i < 7; i++)     // Sinnoh Battle Ribbons
-            {
-                if (((pkm[0x24] >> i) & 1) == 1)
-                    battleribbons++;
-            }
-            // Fill the Ribbon Counter Bytes
-            pkx[0x38] = contestribbons;
-            pkx[0x39] = battleribbons;
-
-            // Copy Ribbons to their new locations.
-            int bx30 = 0;
-            // bx30 += 0;                           // //Kalos Champ    - New Ribbon
-            bx30 += (((pkm[0x3E] & 0x10) >> 4) << 1); // Hoenn Champion
-            bx30 += (((pkm[0x24] & 0x01) >> 0) << 2); // Sinnoh Champ
-            // bx30 += 0;                           // //Best Friend    - New Ribbon
-            // bx30 += 0;                           // //Training       - New Ribbon
-            // bx30 += 0;                           // //Skillful       - New Ribbon
-            // bx30 += 0;                           // //Expert         - New Ribbon
-            bx30 += (((pkm[0x3F] & 0x01) >> 0) << 7); // Effort Ribbon
-            pkx[0x30] = (byte)bx30;
-
-            int bx31 = 0;
-            bx31 += (((pkm[0x24] & 0x80) >> 7) << 0);  // Alert
-            bx31 += (((pkm[0x25] & 0x01) >> 0) << 1);  // Shock
-            bx31 += (((pkm[0x25] & 0x02) >> 1) << 2);  // Downcast
-            bx31 += (((pkm[0x25] & 0x04) >> 2) << 3);  // Careless
-            bx31 += (((pkm[0x25] & 0x08) >> 3) << 4);  // Relax
-            bx31 += (((pkm[0x25] & 0x10) >> 4) << 5);  // Snooze
-            bx31 += (((pkm[0x25] & 0x20) >> 5) << 6);  // Smile
-            bx31 += (((pkm[0x25] & 0x40) >> 6) << 7);  // Gorgeous
-            pkx[0x31] = (byte)bx31;
-
-            int bx32 = 0;
-            bx32 += (((pkm[0x25] & 0x80) >> 7) << 0);  // Royal
-            bx32 += (((pkm[0x26] & 0x01) >> 0) << 1);  // Gorgeous Royal
-            bx32 += (((pkm[0x3E] & 0x80) >> 7) << 2);  // Artist
-            bx32 += (((pkm[0x26] & 0x02) >> 1) << 3);  // Footprint
-            bx32 += (((pkm[0x26] & 0x04) >> 2) << 4);  // Record
-            bx32 += (((pkm[0x26] & 0x10) >> 4) << 5);  // Legend
-            bx32 += (((pkm[0x3F] & 0x10) >> 4) << 6);  // Country
-            bx32 += (((pkm[0x3F] & 0x20) >> 5) << 7);  // National
-            pkx[0x32] = (byte)bx32;
-
-            int bx33 = 0;
-            bx33 += (((pkm[0x3F] & 0x40) >> 6) << 0);  // Earth
-            bx33 += (((pkm[0x3F] & 0x80) >> 7) << 1);  // World
-            bx33 += (((pkm[0x27] & 0x04) >> 2) << 2);  // Classic
-            bx33 += (((pkm[0x27] & 0x08) >> 3) << 3);  // Premier
-            bx33 += (((pkm[0x26] & 0x08) >> 3) << 4);  // Event
-            bx33 += (((pkm[0x26] & 0x40) >> 6) << 5);  // Birthday
-            bx33 += (((pkm[0x26] & 0x80) >> 7) << 6);  // Special
-            bx33 += (((pkm[0x27] & 0x01) >> 0) << 7);  // Souvenir
-            pkx[0x33] = (byte)bx33;
-
-            int bx34 = 0;
-            bx34 += (((pkm[0x27] & 0x02) >> 1) << 0);  // Wishing Ribbon
-            bx34 += (((pkm[0x3F] & 0x02) >> 1) << 1);  // Battle Champion
-            bx34 += (((pkm[0x3F] & 0x04) >> 2) << 2);  // Regional Champion
-            bx34 += (((pkm[0x3F] & 0x08) >> 3) << 3);  // National Champion
-            bx34 += (((pkm[0x26] & 0x20) >> 5) << 4);  // World Champion
-            pkx[0x34] = (byte)bx34;
-
-            // 
-            // Extra Modifications:
-            // Write the Memories, Friendship, and Origin!
-            //
-
-            // Write latest notOT handler as PKHeX
-            byte[] newOT = Encoding.Unicode.GetBytes("PKHeX");
-            Array.Resize(ref newOT, 24);
-            Array.Copy(newOT, 0, pkx, 0x78, newOT.Length);
-
-            // Write Memories as if it was Transferred: USA|California
-            // 01 - Not handled by OT
-            // 07 - CA
-            // 31 - USA
-            byte[] x90x = new byte[] { 0x00, 0x00, 0x00, 0x01, 0x07, 0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte)getBaseFriendship(species), 0x00, 0x01, 0x04, (byte)(rnd32() % 10), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            Array.Copy(x90x, 0, pkx, 0x90, x90x.Length);
-
-            // When transferred, friendship gets reset.
-            pkx[0xCA] = (byte)getBaseFriendship(species);
-
-            // Write Origin (USA California) - location is dependent on 3DS system that transfers.
-            pkx[0xE0] = 0x31;   // USA
-            pkx[0xE1] = 0x07;   // CA
-            pkx[0xE2] = 0x01;   // ENG
-
-            // Fix Checksum
-            uint chk = 0;
-            for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-            {
-                chk += (uint)(pkx[i] + pkx[i + 1] * 0x100);
-            }
-
-            // Apply New Checksum
-            Array.Copy(BitConverter.GetBytes(chk), 0, pkx, 06, 2);
-
-            return pkx; // Done!
         }
         public bool verifiedpkx()
         {
@@ -8512,6 +8269,29 @@ namespace PKHeX
             SAV_HallOfFame halloffame = new PKHeX.SAV_HallOfFame(this);
             halloffame.ShowDialog();
         }
+        private void B_ImportCode_Click(object sender, EventArgs e)
+        {
+            // Open Import Code Menu
+            CodeImportPKM textcode = new PKHeX.CodeImportPKM();
+            textcode.ShowDialog();
+            byte[] data = textcode.returnArray;
+            if (data != null)
+            {
+                byte[] decdata = decryptArray(data);
+                Array.Copy(decdata, buff, 232);
+                try
+                {
+                    populatefields(buff);
+                }
+                catch
+                {
+                    Array.Copy(new Byte[232], buff, 232);
+                    populatefields(buff);
+                    MessageBox.Show("Imported code did not decrypt properly. Verify that what you imported was correct.", "Error");
+                }
+            }
+        }
+
         private void B_SwitchSAV_Click(object sender, EventArgs e)
         {
             DialogResult switchsav = MessageBox.Show("Current Savefile is Save" + ((savindex + 1)).ToString() + ". Would you like to switch to Save" + ((savindex + 1) % 2 + 1).ToString() + "?", "Prompt", MessageBoxButtons.YesNo);
@@ -8675,9 +8455,53 @@ namespace PKHeX
             ReportForm.ShowDialog();
         }
 
-        
-
-        
+        // pk2pk Transfer Tool
+        private int getg3species(int g3index)
+        {
+            int[] newindex = new int[] 
+            {
+                0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
+                59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,77,79,80,81,82,83,84,85,86,
+                87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,
+                111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,
+                132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,
+                153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,
+                174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,
+                195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,
+                216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,
+                237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,
+                258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,290,291,292,
+                276,277,285,286,327,278,279,283,284,320,321,300,301,352,343,344,299,324,302,339,340,
+                370,341,342,349,350,318,319,328,329,330,296,297,309,310,322,323,363,364,365,331,332,
+                361,362,337,338,298,325,326,311,312,303,307,308,333,334,360,355,356,315,287,288,289,
+                316,317,357,293,294,295,366,367,368,359,353,354,336,335,369,304,305,306,351,313,314,
+                345,346,347,348,280,281,282,371,372,373,374,375,376,377,378,379,382,383,384,380,381,
+                385,386,358,
+            };
+            int[] oldindex = new int[] 
+            {
+                0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
+                31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
+                59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,
+                87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,
+                111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,
+                132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,
+                153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,
+                174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,
+                195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,
+                216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,
+                237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,277,278,279,280,281,282,
+                283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,
+                304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,
+                325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,
+                346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,
+                367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,
+                388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,
+                409,410,411,
+            };
+            return newindex[Array.IndexOf(oldindex, g3index)];
+        }
     }
     #region Structs & Classes
     public class cbItem
