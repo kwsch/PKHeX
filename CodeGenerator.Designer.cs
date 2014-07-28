@@ -45,6 +45,8 @@
             this.B_Copy = new System.Windows.Forms.Button();
             this.B_Diff = new System.Windows.Forms.Button();
             this.CHK_Break = new System.Windows.Forms.CheckBox();
+            this.B_Paste = new System.Windows.Forms.Button();
+            this.B_Import = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // RTB_Code
@@ -53,7 +55,7 @@
             this.RTB_Code.Location = new System.Drawing.Point(8, 52);
             this.RTB_Code.Name = "RTB_Code";
             this.RTB_Code.ReadOnly = true;
-            this.RTB_Code.Size = new System.Drawing.Size(160, 191);
+            this.RTB_Code.Size = new System.Drawing.Size(160, 190);
             this.RTB_Code.TabIndex = 0;
             this.RTB_Code.Text = "01234567 01234567 ";
             // 
@@ -253,11 +255,33 @@
             this.CHK_Break.Text = "Line Break for Simple Mode";
             this.CHK_Break.UseVisualStyleBackColor = true;
             // 
+            // B_Paste
+            // 
+            this.B_Paste.Location = new System.Drawing.Point(8, 249);
+            this.B_Paste.Name = "B_Paste";
+            this.B_Paste.Size = new System.Drawing.Size(69, 23);
+            this.B_Paste.TabIndex = 20;
+            this.B_Paste.Text = "Paste";
+            this.B_Paste.UseVisualStyleBackColor = true;
+            this.B_Paste.Click += new System.EventHandler(this.B_Paste_Click);
+            // 
+            // B_Import
+            // 
+            this.B_Import.Location = new System.Drawing.Point(99, 249);
+            this.B_Import.Name = "B_Import";
+            this.B_Import.Size = new System.Drawing.Size(69, 23);
+            this.B_Import.TabIndex = 21;
+            this.B_Import.Text = "Import";
+            this.B_Import.UseVisualStyleBackColor = true;
+            this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
+            // 
             // CodeGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(176, 249);
+            this.ClientSize = new System.Drawing.Size(176, 282);
+            this.Controls.Add(this.B_Import);
+            this.Controls.Add(this.B_Paste);
             this.Controls.Add(this.CHK_Break);
             this.Controls.Add(this.B_Diff);
             this.Controls.Add(this.B_Copy);
@@ -304,5 +328,7 @@
         private System.Windows.Forms.Button B_Copy;
         private System.Windows.Forms.Button B_Diff;
         private System.Windows.Forms.CheckBox CHK_Break;
+        private System.Windows.Forms.Button B_Paste;
+        private System.Windows.Forms.Button B_Import;
     }
 }

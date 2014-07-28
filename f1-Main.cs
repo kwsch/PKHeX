@@ -7895,8 +7895,11 @@ namespace PKHeX
             int gender = (dslotdata[0x1D] >> 1) & 0x3;
 
             string file;
-            if (isegg == 1)
-            { file = "egg"; }
+            
+            if (species == 0)
+                file = "_0";
+            // if (isegg == 1)
+            //   { file = "egg"; }
             else
             {
                 file = "_" + species.ToString();
@@ -7909,10 +7912,32 @@ namespace PKHeX
                     file = file = "_" + species.ToString() + "f";
                 }
             }
-            if (species == 0)
-                file = "_0";
+            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
+            if (isegg == 1)
+            {
+                file = "_0"; // Start with a partially transparent species 
+                baseImage = PKHeX.Util.layerImage((Image)Properties.Resources.ResourceManager.GetObject(file), baseImage, 0, 0, 0.2);
+                file = "egg"; // Add the egg layer over-top.
+                baseImage = PKHeX.Util.layerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject(file), 0, 0, 1);
+            }
 
-            pb.Image = (Image)Properties.Resources.ResourceManager.GetObject(file);
+
+            uint PID = BitConverter.ToUInt32(dslotdata, 0x18);
+            uint UID = (PID >> 16);
+            uint LID = (PID & 0xFFFF);
+            uint PSV = UID ^ LID;
+            uint TSV = (uint)(BitConverter.ToUInt16(dslotdata,0x0C) ^ BitConverter.ToUInt16(dslotdata,0x0E));
+            uint XOR = TSV ^ PSV;
+
+            int gamevers = dslotdata[0xDF];
+
+            if (species != 0 && (((XOR < 8) && (gamevers < 24)) || ((XOR < 16) && (gamevers >= 24))))
+            {   // Is Shiny
+                // Redraw our image
+                baseImage = PKHeX.Util.layerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.33);
+            }
+            pb.Image = baseImage;
+            pb.BackColor = Color.Transparent;
         }
         private void getSlotColor(int slot, Color color)
         {
@@ -8269,29 +8294,6 @@ namespace PKHeX
             SAV_HallOfFame halloffame = new PKHeX.SAV_HallOfFame(this);
             halloffame.ShowDialog();
         }
-        private void B_ImportCode_Click(object sender, EventArgs e)
-        {
-            // Open Import Code Menu
-            CodeImportPKM textcode = new PKHeX.CodeImportPKM();
-            textcode.ShowDialog();
-            byte[] data = textcode.returnArray;
-            if (data != null)
-            {
-                byte[] decdata = decryptArray(data);
-                Array.Copy(decdata, buff, 232);
-                try
-                {
-                    populatefields(buff);
-                }
-                catch
-                {
-                    Array.Copy(new Byte[232], buff, 232);
-                    populatefields(buff);
-                    MessageBox.Show("Imported code did not decrypt properly. Verify that what you imported was correct.", "Error");
-                }
-            }
-        }
-
         private void B_SwitchSAV_Click(object sender, EventArgs e)
         {
             DialogResult switchsav = MessageBox.Show("Current Savefile is Save" + ((savindex + 1)).ToString() + ". Would you like to switch to Save" + ((savindex + 1) % 2 + 1).ToString() + "?", "Prompt", MessageBoxButtons.YesNo);
@@ -8445,62 +8447,29 @@ namespace PKHeX
         {
             // Open Code Generator
             CodeGenerator CodeGen = new PKHeX.CodeGenerator(this);
-            CodeGen.Show();
+            CodeGen.ShowDialog();
+            byte[] data = CodeGen.returnArray;
+            if (data != null)
+            {
+                byte[] decdata = decryptArray(data);
+                Array.Copy(decdata, buff, 232);
+                try
+                {
+                    populatefields(buff);
+                }
+                catch
+                {
+                    Array.Copy(new Byte[232], buff, 232);
+                    populatefields(buff);
+                    MessageBox.Show("Imported code did not decrypt properly. Verify that what you imported was correct.", "Error");
+                }
+            }
         }
-
         private void reportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmReport ReportForm = new frmReport(this);
             ReportForm.PopulateData(savefile);
             ReportForm.ShowDialog();
-        }
-
-        // pk2pk Transfer Tool
-        private int getg3species(int g3index)
-        {
-            int[] newindex = new int[] 
-            {
-                0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
-                31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
-                59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,77,79,80,81,82,83,84,85,86,
-                87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,
-                111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,
-                132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,
-                153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,
-                174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,
-                195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,
-                216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,
-                237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,
-                258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,290,291,292,
-                276,277,285,286,327,278,279,283,284,320,321,300,301,352,343,344,299,324,302,339,340,
-                370,341,342,349,350,318,319,328,329,330,296,297,309,310,322,323,363,364,365,331,332,
-                361,362,337,338,298,325,326,311,312,303,307,308,333,334,360,355,356,315,287,288,289,
-                316,317,357,293,294,295,366,367,368,359,353,354,336,335,369,304,305,306,351,313,314,
-                345,346,347,348,280,281,282,371,372,373,374,375,376,377,378,379,382,383,384,380,381,
-                385,386,358,
-            };
-            int[] oldindex = new int[] 
-            {
-                0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
-                31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
-                59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,
-                87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,
-                111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,
-                132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,
-                153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,
-                174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,
-                195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,
-                216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,
-                237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,277,278,279,280,281,282,
-                283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,
-                304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,
-                325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,
-                346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,
-                367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,
-                388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,
-                409,410,411,
-            };
-            return newindex[Array.IndexOf(oldindex, g3index)];
         }
     }
     #region Structs & Classes

@@ -77,12 +77,6 @@
     <Compile Include="CodeGenerator.Designer.cs">
       <DependentUpon>CodeGenerator.cs</DependentUpon>
     </Compile>
-    <Compile Include="CodeImportPKM.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CodeImportPKM.Designer.cs">
-      <DependentUpon>CodeImportPKM.cs</DependentUpon>
-    </Compile>
     <Compile Include="f1-Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,11 +181,9 @@
     <Compile Include="SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util.cs" />
     <EmbeddedResource Include="CodeGenerator.resx">
       <DependentUpon>CodeGenerator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CodeImportPKM.resx">
-      <DependentUpon>CodeImportPKM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="f1-Main.resx">
       <DependentUpon>f1-Main.cs</DependentUpon>

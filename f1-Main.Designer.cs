@@ -323,7 +323,6 @@
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.B_ImportCode = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -3518,7 +3517,6 @@
             // 
             // Tab_Tools
             // 
-            this.Tab_Tools.Controls.Add(this.B_ImportCode);
             this.Tab_Tools.Controls.Add(this.B_BoxIO);
             this.Tab_Tools.Controls.Add(this.B_JPEG);
             this.Tab_Tools.Controls.Add(this.B_OUTHallofFame);
@@ -3534,9 +3532,9 @@
             // 
             // B_BoxIO
             // 
-            this.B_BoxIO.Location = new System.Drawing.Point(3, 3);
+            this.B_BoxIO.Location = new System.Drawing.Point(178, 20);
             this.B_BoxIO.Name = "B_BoxIO";
-            this.B_BoxIO.Size = new System.Drawing.Size(75, 46);
+            this.B_BoxIO.Size = new System.Drawing.Size(75, 45);
             this.B_BoxIO.TabIndex = 6;
             this.B_BoxIO.Text = "Open/Save Box Content";
             this.B_BoxIO.UseVisualStyleBackColor = true;
@@ -3545,9 +3543,9 @@
             // B_JPEG
             // 
             this.B_JPEG.Enabled = false;
-            this.B_JPEG.Location = new System.Drawing.Point(89, 3);
+            this.B_JPEG.Location = new System.Drawing.Point(102, 20);
             this.B_JPEG.Name = "B_JPEG";
-            this.B_JPEG.Size = new System.Drawing.Size(75, 46);
+            this.B_JPEG.Size = new System.Drawing.Size(75, 45);
             this.B_JPEG.TabIndex = 5;
             this.B_JPEG.Text = "Save PGL .JPEG";
             this.B_JPEG.UseVisualStyleBackColor = true;
@@ -3556,7 +3554,7 @@
             // B_OUTHallofFame
             // 
             this.B_OUTHallofFame.Enabled = false;
-            this.B_OUTHallofFame.Location = new System.Drawing.Point(173, 3);
+            this.B_OUTHallofFame.Location = new System.Drawing.Point(12, 20);
             this.B_OUTHallofFame.Name = "B_OUTHallofFame";
             this.B_OUTHallofFame.Size = new System.Drawing.Size(75, 23);
             this.B_OUTHallofFame.TabIndex = 4;
@@ -3567,10 +3565,10 @@
             // RTB_T
             // 
             this.RTB_T.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_T.Location = new System.Drawing.Point(1, 78);
+            this.RTB_T.Location = new System.Drawing.Point(1, 68);
             this.RTB_T.Name = "RTB_T";
             this.RTB_T.ReadOnly = true;
-            this.RTB_T.Size = new System.Drawing.Size(255, 120);
+            this.RTB_T.Size = new System.Drawing.Size(255, 130);
             this.RTB_T.TabIndex = 1;
             this.RTB_T.Text = "";
             this.RTB_T.WordWrap = false;
@@ -3578,7 +3576,7 @@
             // B_OUTPasserby
             // 
             this.B_OUTPasserby.Enabled = false;
-            this.B_OUTPasserby.Location = new System.Drawing.Point(173, 26);
+            this.B_OUTPasserby.Location = new System.Drawing.Point(12, 42);
             this.B_OUTPasserby.Name = "B_OUTPasserby";
             this.B_OUTPasserby.Size = new System.Drawing.Size(75, 23);
             this.B_OUTPasserby.TabIndex = 0;
@@ -3616,7 +3614,7 @@
             this.B_SwitchSAV.Enabled = false;
             this.B_SwitchSAV.Location = new System.Drawing.Point(102, 20);
             this.B_SwitchSAV.Name = "B_SwitchSAV";
-            this.B_SwitchSAV.Size = new System.Drawing.Size(70, 45);
+            this.B_SwitchSAV.Size = new System.Drawing.Size(75, 45);
             this.B_SwitchSAV.TabIndex = 6;
             this.B_SwitchSAV.Text = "Switch SAV";
             this.B_SwitchSAV.UseVisualStyleBackColor = true;
@@ -3658,7 +3656,7 @@
             this.B_ExportSAV.Enabled = false;
             this.B_ExportSAV.Location = new System.Drawing.Point(178, 20);
             this.B_ExportSAV.Name = "B_ExportSAV";
-            this.B_ExportSAV.Size = new System.Drawing.Size(70, 45);
+            this.B_ExportSAV.Size = new System.Drawing.Size(75, 45);
             this.B_ExportSAV.TabIndex = 4;
             this.B_ExportSAV.Text = "Export SAV";
             this.B_ExportSAV.UseVisualStyleBackColor = true;
@@ -3796,16 +3794,6 @@
             // 
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
-            // 
-            // B_ImportCode
-            // 
-            this.B_ImportCode.Location = new System.Drawing.Point(3, 51);
-            this.B_ImportCode.Name = "B_ImportCode";
-            this.B_ImportCode.Size = new System.Drawing.Size(161, 23);
-            this.B_ImportCode.TabIndex = 7;
-            this.B_ImportCode.Text = "Import PK6 from Code";
-            this.B_ImportCode.UseVisualStyleBackColor = true;
-            this.B_ImportCode.Click += new System.EventHandler(this.B_ImportCode_Click);
             // 
             // Form1
             // 
@@ -4226,7 +4214,6 @@
         private System.Windows.Forms.ToolStripMenuItem codeGeneratorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.Button B_ImportCode;
     }
 }
 
