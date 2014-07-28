@@ -260,8 +260,23 @@ namespace PKHeX
 
         private void B_Copy_Click(object sender, EventArgs e)
         {
-            if (RTB_Code.Text.Length > 0) Clipboard.SetText(RTB_Code.Text);
-            else {MessageBox.Show("No code created!\n\nClick [Create Diff], then make sure that data appears in the Text Box below.\nIf no code appears, then you didn't save your changes.\n\nBe sure to Set the Pokemon you edited back into a Box/Party slot!","Alert");}
+            if (RTB_Code.Text.Length > 0)
+            {
+                Clipboard.SetText(RTB_Code.Text);
+            }
+            else
+            {
+                B_Diff.PerformClick();
+                try
+                {
+                    Clipboard.SetText(RTB_Code.Text);
+                    MessageBox.Show("Code generated and copied to clipboard!\n\nNext time click [Create Diff] first.", "Alert");
+                }
+                catch
+                {
+                    MessageBox.Show("No code created!\n\nClick [Create Diff], then make sure that data appears in the Text Box below.\nIf no code appears, then you didn't save your changes.\n\nBe sure to Set the Pokemon you edited back into a Box/Party slot!", "Alert");
+                }
+            }
         }
 
         private void B_Diff_Click(object sender, EventArgs e)

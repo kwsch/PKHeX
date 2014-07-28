@@ -6701,7 +6701,11 @@ namespace PKHeX
                 goto invalid;
             }
             #endregion
-
+            if (getSpecies() == 0) // Not gonna write 0 species.
+            {
+                tabMain.SelectedIndex = 0; 
+                goto invalid;
+            }
             // If no errors detected...
             return true;
             // else...
