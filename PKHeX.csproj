@@ -71,6 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="CodeGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,9 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CodeGenerator.resx">
       <DependentUpon>CodeGenerator.cs</DependentUpon>
     </EmbeddedResource>
@@ -283,6 +292,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\misc\party.png" />
+    <None Include="Resources\text\changelog.txt" />
     <None Include="Resources\text\ja\lang_ja.txt" />
     <None Include="Resources\img\Pokemon Sprites\719-1.png" />
     <None Include="Resources\img\Pokemon Sprites\376-1.png" />

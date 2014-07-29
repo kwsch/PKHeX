@@ -30,8 +30,9 @@ namespace PKHeX
             CB_ExtraBytes.SelectedIndex = 0;
 
             // Resize Main Window to PKX Editing Mode
-            // this.Size = new Size(260, 390);
-            Width = (Width * (26000 / 540)) / 100 + 1;
+            largeWidth = this.Width;
+            shortWidth = (Width * (29500 / 610)) / 100 + 1;
+            Width = shortWidth;
             #endregion
             #region Language Detection before loading
             // Set up Language Selection
@@ -177,6 +178,7 @@ namespace PKHeX
         public Color colorizedcolor = Color.Transparent;
         public Color defaultwhite = Color.White;
         public int colorizedslot = 0;
+        public int largeWidth, shortWidth = 0;
         public string eggname = "";
         public string[] specieslist = { };
         public string[] movelist = { };
@@ -4628,13 +4630,10 @@ namespace PKHeX
         }
         private void Label_PPups_Click(object sender, EventArgs e)
         {
-            int index = 3;
-            if (ModifierKeys == Keys.Control)
-            {
-                index = 0;
-            }
-            CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = index;
-
+            CB_PPu1.SelectedIndex = 3 * (Convert.ToInt16(!((ModifierKeys == Keys.Control) || getIndex(CB_Move1) == 0)));
+            CB_PPu2.SelectedIndex = 3 * (Convert.ToInt16(!((ModifierKeys == Keys.Control) || getIndex(CB_Move2) == 0)));
+            CB_PPu3.SelectedIndex = 3 * (Convert.ToInt16(!((ModifierKeys == Keys.Control) || getIndex(CB_Move3) == 0)));
+            CB_PPu4.SelectedIndex = 3 * (Convert.ToInt16(!((ModifierKeys == Keys.Control) || getIndex(CB_Move4) == 0)));
         }
         private void Label_OTGender_Click(object sender, EventArgs e)
         {
@@ -6020,22 +6019,22 @@ namespace PKHeX
         }
         private void mainmenuAbout(object sender, EventArgs e)
         {
-            string caption = "About";
-            string message = "PKHeX - By Kaphotics.\n\nUI Inspiried by Codr's PokeGen.\n\nThanks to all the researchers!";
-            MessageBox.Show(message, caption);
+            // Open a new form with the About details.
+            PKHeX.About about = new PKHeX.About();
+            about.ShowDialog();
         }
         private void mainmenuWiden(object sender, EventArgs e)
         {
             int newwidth;
             if (Width < Height)
             {
-                newwidth = (this.Width * (54000 / 260)) / 100 + 2;
+                newwidth = largeWidth;
                 tabBoxMulti.Enabled = true;
                 tabBoxMulti.SelectedIndex = 0;
             }
             else
             {
-                newwidth = (this.Width * (26000 / 540)) / 100 + 1;
+                newwidth = shortWidth;
             }
             this.Width = newwidth;
         }
@@ -6089,7 +6088,7 @@ namespace PKHeX
 
                 if (Width < Height) // SAV Interface Not Open
                 {
-                    int newwidth = (this.Width * (54000 / 260)) / 100 + 2;
+                    int newwidth = largeWidth;
                     this.Width = newwidth;
                 }
                 return;
@@ -6214,7 +6213,7 @@ namespace PKHeX
         {
             if (Width < Height) // SAV Interface Not Open
             {
-                int newwidth = (this.Width * (54000 / 260)) / 100 + 2;
+                int newwidth = largeWidth;
                 this.Width = newwidth;
             }
             Menu_ToggleBoxUI.Visible = false;
@@ -6566,6 +6565,10 @@ namespace PKHeX
             pkx[0x67] = (byte)(CB_PPu2.SelectedIndex);
             pkx[0x68] = (byte)(CB_PPu3.SelectedIndex);
             pkx[0x69] = (byte)(CB_PPu4.SelectedIndex);
+
+            // Don't allow PP Ups if there is no move.
+            for (int i = 0; i < 4; i++)
+                if (pkx[0x62+i] == 0) pkx[0x66+i] = 0;
 
             Array.Copy(BitConverter.GetBytes(getIndex(CB_RelearnMove1)), 0, pkx, 0x6A, 2);  // EggMove 1
             Array.Copy(BitConverter.GetBytes(getIndex(CB_RelearnMove2)), 0, pkx, 0x6C, 2);  // EggMove 2
@@ -8168,7 +8171,7 @@ namespace PKHeX
             {
                 if (Width < Height) // expand if boxes aren't visible
                 {
-                    this.Width = (this.Width * (54000 / 260)) / 100 + 2;
+                    this.Width = largeWidth;
                     tabBoxMulti.Enabled = true;
                     tabBoxMulti.SelectedIndex = 0;
                 }

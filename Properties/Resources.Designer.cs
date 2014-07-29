@@ -6794,6 +6794,36 @@ namespace PKHeX.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to 02/09/14: 
+        /// - Initial Version
+        ///
+        ///02/15/14: 
+        /// - Finished Forms and Stat Calculations.
+        ///
+        ///02/18/14: 
+        /// - Added Hold Back as a move, fixed minor bugs, will have an update later with accurate Ribbon Labels.
+        ///
+        ///02/18/14ab: 
+        /// - More fixes regarding encryption and non-breaking for dumped data.
+        ///
+        ///02/21/14: 
+        /// - Added in Lati@site and Drag &amp; Drop support.
+        ///
+        ///02/22/14: 
+        /// - Updated for future-proofing; saving as encrypted fixed.
+        ///
+        ///02/24/14: 
+        /// - Changed: Ribbons, formats, and small ease of use fixes.
+        ///
+        ///02/27/14 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string changelog {
+            get {
+                return ResourceManager.GetString("changelog", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap classic {
             get {
                 object obj = ResourceManager.GetObject("classic", resourceCulture);
@@ -7018,6 +7048,13 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap nationalchamp {
             get {
                 object obj = ResourceManager.GetObject("nationalchamp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap party {
+            get {
+                object obj = ResourceManager.GetObject("party", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
