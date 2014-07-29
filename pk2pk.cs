@@ -412,6 +412,11 @@ namespace PKHeX
             // Reset Friendship
             pk5[0x14] = (byte)getBaseFriendship(species);
 
+            // Fix Level
+            pk5[0x84] &= 0x80;
+            uint exp = BitConverter.ToUInt32(pk5, 0x10);
+            pk5[0x84] |= (byte)getLevel(species, exp);
+
             // Fix Checksum
             ushort chk = 0;
             for (int i = 8; i < 136; i += 2) // Loop through the entire PKX
