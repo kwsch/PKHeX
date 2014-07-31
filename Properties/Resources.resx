@@ -3592,10 +3592,118 @@
   <data name="changelog" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\changelog.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="helditem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\helditem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="lang_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ja\lang_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="party" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\party.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_ItemPouch_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_ItemPouch_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="text_ItemPouch_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_ItemPouch_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="text_ItemPouch_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_ItemPouch_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_ItemPouch_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_ItemPouch_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="text_ItemPouch_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_ItemPouch_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="text_ItemPouch_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_ItemPouch_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_ItemPouch_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_ItemPouch_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Puff_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_Puff_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Puff_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_Puff_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Puff_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_Puff_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Puff_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_Puff_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Puff_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_Puff_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Puff_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_Puff_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Puff_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_Puff_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Ribbon_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_Ribbon_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Ribbon_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_Ribbon_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Ribbon_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_Ribbon_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Ribbon_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_Ribbon_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Ribbon_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_Ribbon_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Ribbon_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_Ribbon_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Ribbon_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_Ribbon_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_SuperTraining_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_SuperTraining_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_SuperTraining_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_SuperTraining_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_SuperTraining_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_SuperTraining_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_SuperTraining_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_SuperTraining_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_SuperTraining_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_SuperTraining_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_SuperTraining_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_SuperTraining_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_SuperTraining_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_SuperTraining_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_TrainingBag_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_TrainingBag_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_TrainingBag_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_TrainingBag_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="text_TrainingBag_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_TrainingBag_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_TrainingBag_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_TrainingBag_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_TrainingBag_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_TrainingBag_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_TrainingBag_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_TrainingBag_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_TrainingBag_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_TrainingBag_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

@@ -6915,6 +6915,13 @@ namespace PKHeX.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap helditem {
+            get {
+                object obj = ResourceManager.GetObject("helditem", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap hoennchamp {
             get {
                 object obj = ResourceManager.GetObject("hoennchamp", resourceCulture);
@@ -13526,6 +13533,104 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Items
+        ///Medizin
+        ///TM &amp; VM
+        ///Beeren
+        ///Basis-Items
+        ///.
+        /// </summary>
+        internal static string text_ItemPouch_de {
+            get {
+                return ResourceManager.GetString("text_ItemPouch_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ITEMS
+        ///MEDICINE
+        ///TMs &amp; HMs
+        ///BERRIES
+        ///KEY ITEMS
+        ///.
+        /// </summary>
+        internal static string text_ItemPouch_en {
+            get {
+                return ResourceManager.GetString("text_ItemPouch_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Objetos
+        ///Botiquín
+        ///MT/MO
+        ///Bayas
+        ///Objetos Clave
+        ///.
+        /// </summary>
+        internal static string text_ItemPouch_es {
+            get {
+                return ResourceManager.GetString("text_ItemPouch_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OBJETS
+        ///PV/PP
+        ///CT &amp; CS
+        ///BAIES
+        ///OBJETS RARES
+        ///.
+        /// </summary>
+        internal static string text_ItemPouch_fr {
+            get {
+                return ResourceManager.GetString("text_ItemPouch_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strumenti
+        ///Rimedi
+        ///MT e MN
+        ///Bacche
+        ///Strumenti Base
+        ///.
+        /// </summary>
+        internal static string text_ItemPouch_it {
+            get {
+                return ResourceManager.GetString("text_ItemPouch_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to どうぐ
+        ///かいふく
+        ///わざマシン
+        ///きのみ
+        ///たいせつなもの
+        ///.
+        /// </summary>
+        internal static string text_ItemPouch_ja {
+            get {
+                return ResourceManager.GetString("text_ItemPouch_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 도구
+        ///회복
+        ///기술머신
+        ///나무열매
+        ///중요한 물건
+        ///.
+        /// </summary>
+        internal static string text_ItemPouch_ko {
+            get {
+                return ResourceManager.GetString("text_ItemPouch_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (Nichts)
         ///Meisterball
         ///Hyperball
@@ -14990,6 +15095,545 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zucker-Pofflé
+        ///Minz-Pofflé
+        ///Zitrus-Pofflé
+        ///Bitter-Pofflé
+        ///Chili-Pofflé
+        ///Zuckerhäubchen-Pofflé
+        ///Minzhäubchen-Pofflé
+        ///Zitrushäubchen-Pofflé
+        ///Bitterhäubchen-Pofflé
+        ///Chilihäubchen-Pofflé
+        ///Zucker-Pofflé DX
+        ///Minz-Pofflé DX
+        ///Zitrus-Pofflé DX
+        ///Bitter-Pofflé DX
+        ///Chili-Pofflé DX
+        ///Zuckerhäubchen-Pofflé DX
+        ///Minzhäubchen-Pofflé DX
+        ///Zitrushäubchen-Pofflé DX
+        ///Bitterhäubchen-Pofflé DX
+        ///Chilihäubchen-Pofflé DX
+        ///Geburtstagsdeko-Pofflé
+        ///Ehrungsdeko-Pofflé
+        ///Frühlingsdeko-Pofflé
+        ///Sommerdeko-Pofflé
+        ///Herbstdeko-Pofflé
+        ///Winterdeko-Pofflé
+        ///.
+        /// </summary>
+        internal static string text_Puff_de {
+            get {
+                return ResourceManager.GetString("text_Puff_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sweet Poké Puff
+        ///Mint Poké Puff
+        ///Citrus Poké Puff
+        ///Mocha Poké Puff
+        ///Spice Poké Puff
+        ///Frosted Sweet Poké Puff
+        ///Frosted Mint Poké Puff
+        ///Frosted Citrus Poké Puff
+        ///Frosted Mocha Poké Puff
+        ///Frosted Spice Poké Puff
+        ///Fancy Sweet Poké Puff
+        ///Fancy Mint Poké Puff
+        ///Fancy Citrus Poké Puff
+        ///Fancy Mocha Poké Puff
+        ///Fancy Spice Poké Puff
+        ///Deluxe Sweet Poké Puff
+        ///Deluxe Mint Poké Puff
+        ///Deluxe Citrus Poké Puff
+        ///Deluxe Mocha Poké Puff
+        ///Deluxe Spice Poké Puff
+        ///Supreme Wish Poké Puff
+        ///Supreme Honor Poké Puff
+        ///Supreme Spring Poké Puff
+        ///Supreme Summer  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Puff_en {
+            get {
+                return ResourceManager.GetString("text_Puff_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pokélito Dulce
+        ///Pokélito Menta
+        ///Pokélito Ácido
+        ///Pokélito Amargo
+        ///Pokélito Picante
+        ///Pokélito Crema Dulce
+        ///Pokélito Crema Menta
+        ///Pokélito Crema Ácida
+        ///Pokélito Crema Amarga
+        ///Pokélito Crema Picante
+        ///Pokélito Dulce Decorado
+        ///Pokélito Menta Decorado
+        ///Pokélito Ácido Decorado
+        ///Pokélito Amargo Decorado
+        ///Pokélito Picante Decorado
+        ///Pokélito Dulce Deluxe
+        ///Pokélito Menta Deluxe
+        ///Pokélito Ácido Deluxe
+        ///Pokélito Amargo Deluxe
+        ///Pokélito Picante Deluxe
+        ///Pokélito de Cumpleaños
+        ///Pokélito de Celebración
+        ///Pokélito Primaveral
+        ///Pokélito Estival
+        ///Pokéli [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Puff_es {
+            get {
+                return ResourceManager.GetString("text_Puff_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pofiterole Sucrée
+        ///Pofiterole Mentholée
+        ///Pofiterole Aigre
+        ///Pofiterole Amère
+        ///Pofiterole Épicée
+        ///Pofiterole Crème Sucrée
+        ///Pofiterole Crème Mentholée
+        ///Pofiterole Crème Aigre
+        ///Pofiterole Crème Amère
+        ///Pofiterole Crème Épicée
+        ///Pofiterole Décorée Sucrée
+        ///Pofiterole Décorée Mentholée
+        ///Pofiterole Décorée Aigre
+        ///Pofiterole Décorée Amère
+        ///Pofiterole Décorée Épicée
+        ///Pofiterole Deluxe Sucrée
+        ///Pofiterole Deluxe Mentholée
+        ///Pofiterole Deluxe Aigre
+        ///Pofiterole Deluxe Amère
+        ///Pofiterole Deluxe Épicée
+        ///Pofiterole Anniversaire
+        ///Pofiterole Célébrat [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Puff_fr {
+            get {
+                return ResourceManager.GetString("text_Puff_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pokébignè dolce
+        ///Pokébignè fresco
+        ///Pokébignè agro
+        ///Pokébignè amaro
+        ///Pokébignè speziato
+        ///Pokébignè dolce crema
+        ///Pokébignè fresco crema
+        ///Pokébignè agro crema
+        ///Pokébignè amaro crema
+        ///Pokébignè speziato crema
+        ///Pokébignè dolce guarnito
+        ///Pokéb. fresco guarnito
+        ///Pokébignè agro guarnito
+        ///Pokébignè amaro guarnito
+        ///Pokéb. speziato guarnito
+        ///Pokébignè dolce deluxe
+        ///Pokébignè fresco deluxe
+        ///Pokébignè agro deluxe
+        ///Pokébignè amaro deluxe
+        ///Pokéb. speziato deluxe
+        ///Pokébignè di compleanno
+        ///Pokébignè celebrativo
+        ///Pokébignè primavera
+        ///Pokébignè est [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Puff_it {
+            get {
+                return ResourceManager.GetString("text_Puff_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to スイートポフレ
+        ///フレッシュポフレ
+        ///サワーポフレ
+        ///ビターポフレ
+        ///スパイシーポフレ
+        ///レアスイートポフレ
+        ///レアフレッシュポフレ
+        ///レアサワーポフレ
+        ///レアビターポフレ
+        ///レアスパイシーポフレ
+        ///リッチスイートポフレ
+        ///リッチフレッシュポフレ
+        ///リッチサワーポフレ
+        ///リッチビターポフレ
+        ///リッチスパイシーポフレ
+        ///プチデコスイートポフレ
+        ///プチデコフレッシュポフレ
+        ///プチデコサワーポフレ
+        ///プチデコビターポフレ
+        ///プチデコスパイシーポフレ
+        ///フルデコバースデーポフレ
+        ///フルデコメモリアルポフレ
+        ///フルデコはるポフレ
+        ///フルデコなつポフレ
+        ///フルデコあきポフレ
+        ///フルデコふゆポフレ
+        ///.
+        /// </summary>
+        internal static string text_Puff_ja {
+            get {
+                return ResourceManager.GetString("text_Puff_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 스위트포플레
+        ///프레시포플레
+        ///사워포플레
+        ///비터포플레
+        ///스파이시포플레
+        ///레어스위트포플레
+        ///레어프레시포플레
+        ///레어사워포플레
+        ///레어비터포플레
+        ///레어스파이시포플레
+        ///리치스위트포플레
+        ///리치프레시포플레
+        ///리치사워포플레
+        ///리치비터포플레
+        ///리치스파이시포플레
+        ///프티데코스위트포플레
+        ///프티데코프레시포플레
+        ///프티데코사워포플레
+        ///프티데코비터포플레
+        ///프티데코스파이시포플레
+        ///풀데코버스데이포플레
+        ///풀데코메모리얼포플레
+        ///풀데코봄포플레
+        ///풀데코여름포플레
+        ///풀데코가을포플레
+        ///풀데코겨울포플레
+        ///.
+        /// </summary>
+        internal static string text_Puff_ko {
+            get {
+                return ResourceManager.GetString("text_Puff_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Band des Kalos-Champs
+        ///Band des Champs
+        ///Band des Sinnoh-Champs
+        ///Zutraulichkeitsband
+        ///Trainingsband
+        ///Profikampfband
+        ///Meisterkampfband
+        ///Fleiß-Band
+        ///Band der Wachsamkeit
+        ///Band des Schocks
+        ///Band des Niederschlags
+        ///Band der Sorglosigkeit
+        ///Band der Entspannung
+        ///Band des Schlafens
+        ///Band des Lächelns
+        ///Hinreißendes Band
+        ///Königliches Band
+        ///Hinreißendes Königliches Band
+        ///Band des Künstlers
+        ///Fußabdruck-Band
+        ///Rekordband
+        ///Band der Legende
+        ///Band des Landes
+        ///Band der Nation
+        ///Band der Erde
+        ///Band der Welt
+        ///Klassisches Band
+        ///Premierband
+        ///Veranstaltungsb [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbon_de {
+            get {
+                return ResourceManager.GetString("text_Ribbon_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kalos Champion Ribbon
+        ///Champion Ribbon
+        ///Sinnoh Champion Ribbon
+        ///Best Friends Ribbon
+        ///Training Ribbon
+        ///Skillful Battler Ribbon
+        ///Expert Battler Ribbon
+        ///Effort Ribbon
+        ///Alert Ribbon
+        ///Shock Ribbon
+        ///Downcast Ribbon
+        ///Careless Ribbon
+        ///Relax Ribbon
+        ///Snooze Ribbon
+        ///Smile Ribbon
+        ///Gorgeous Ribbon
+        ///Royal Ribbon
+        ///Gorgeous Royal Ribbon
+        ///Artist Ribbon
+        ///Footprint Ribbon
+        ///Record Ribbon
+        ///Legend Ribbon
+        ///Country Ribbon
+        ///National Ribbon
+        ///Earth Ribbon
+        ///World Ribbon
+        ///Classic Ribbon
+        ///Premier Ribbon
+        ///Event Ribbon
+        ///Birthday Ribbon
+        ///Special Ribbon
+        ///Souvenir Ribbon
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbon_en {
+            get {
+                return ResourceManager.GetString("text_Ribbon_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cinta Campeón de Kalos
+        ///Cinta de Campeón
+        ///Cinta Campeón de Sinnoh
+        ///Cinta Afecto
+        ///Cinta Ejercicio
+        ///Cinta Figura del Combate
+        ///Cinta As del Combate
+        ///Cinta Esfuerzo
+        ///Cinta Alerta
+        ///Cinta Impacto
+        ///Cinta Abatimiento
+        ///Cinta Descuido
+        ///Cinta Relax
+        ///Cinta Cabezada
+        ///Cinta Sonrisa
+        ///Cinta Maravilla
+        ///Cinta Realeza
+        ///Cinta Realeza Maravilla
+        ///Cinta Artista
+        ///Cinta Huella
+        ///Cinta Récord
+        ///Cinta Leyenda
+        ///Cinta Campo
+        ///Cinta Nacional
+        ///Cinta Planeta
+        ///Cinta Mundo
+        ///Cinta Clásica
+        ///Cinta Principal
+        ///Cinta Evento
+        ///Cinta Cumpleaños
+        ///Cinta Especial
+        ///Cinta Recuerdo
+        ///Cinta  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbon_es {
+            get {
+                return ResourceManager.GetString("text_Ribbon_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ruban Maître de Kalos
+        ///Ruban Maître
+        ///Ruban Maître de Sinnoh
+        ///Ruban Affection
+        ///Ruban Perfectionnement
+        ///Ruban Élite du Combat
+        ///Ruban Génie du Combat
+        ///Ruban Effort
+        ///Ruban Alerte
+        ///Ruban Choc
+        ///Ruban Déprime
+        ///Ruban Négligence
+        ///Ruban Détente
+        ///Ruban Sieste
+        ///Ruban Sourire
+        ///Ruban Sublime
+        ///Ruban Royal
+        ///Ruban Royal Sublime
+        ///Ruban Artiste
+        ///Ruban Empreinte
+        ///Ruban Record
+        ///Ruban Légende
+        ///Ruban Pays
+        ///Ruban National
+        ///Ruban Terre
+        ///Ruban Monde
+        ///Ruban Classique
+        ///Ruban Premier
+        ///Ruban Événement
+        ///Ruban Anniversaire
+        ///Ruban Spécial
+        ///Ruban Souvenir
+        ///Ruban Souhait
+        ///R [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbon_fr {
+            get {
+                return ResourceManager.GetString("text_Ribbon_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fiocco Campione Kalos
+        ///Fiocco Campione
+        ///Fiocco Campione Sinnoh
+        ///Fiocco Amicizia
+        ///Fiocco Training
+        ///Fiocco Asso della Lotta
+        ///Fiocco Genio della Lotta
+        ///Fiocco Merito
+        ///Fiocco Allarme
+        ///Fiocco Stupore
+        ///Fiocco Sconforto
+        ///Fiocco Indolenza
+        ///Fiocco Relax
+        ///Fiocco Pisolino
+        ///Fiocco Sorriso
+        ///Fiocco Meraviglia
+        ///Fiocco Reale
+        ///Fiocco Meraviglia Reale
+        ///Fiocco Artista
+        ///Fiocco Orma
+        ///Fiocco Record
+        ///Fiocco Leggenda
+        ///Fiocco Paese
+        ///Fiocco Nazionale
+        ///Fiocco Geo
+        ///Fiocco Mondiale
+        ///Fiocco Classico
+        ///Fiocco Principale
+        ///Fiocco Evento
+        ///Fiocco Compleanno
+        ///Fiocco Specia [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbon_it {
+            get {
+                return ResourceManager.GetString("text_Ribbon_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to カロス\u3000チャンプリボン
+        ///チャンプリボン
+        ///シンオウ\u3000チャンプリボン
+        ///なかよしリボン
+        ///しゅぎょうリボン
+        ///グレートバトルリボン
+        ///マスターバトルリボン
+        ///がんばリボン
+        ///しゃっきリボン
+        ///どっきリボン
+        ///しょんぼリボン
+        ///うっかリボン
+        ///すっきリボン
+        ///ぐっすリボン
+        ///にっこリボン
+        ///ゴージャスリボン
+        ///ロイヤルリボン
+        ///ゴージャスロイヤルリボン
+        ///ブロマイドリボン
+        ///あしあとリボン
+        ///レコードリボン
+        ///レジェンドリボン
+        ///カントリーリボン
+        ///ナショナルリボン
+        ///アースリボン
+        ///ワールドリボン
+        ///クラシックリボン
+        ///プレミアリボン
+        ///イベントリボン
+        ///バースデーリボン
+        ///スペシャルリボン
+        ///メモリアルリボン
+        ///ウィッシュリボン
+        ///バトルチャンプリボン
+        ///エリアチャンプリボン
+        ///ナショナルチャンプリボン
+        ///ワールドチャンプリボン
+        ///おもいでコンテストリボン
+        ///おもいでバトルリボン
+        ///カロスで\u3000チャンピオンに\u3000かって\nでんどういり\u3000した\u3000きねんリボン
+        ///べつちほうの\u3000リーグで\u3000かちぬき\nでんどういり\u3000した\u3000きねんリボン
+        ///シンオウで\u3000チャンピオンに\u3000かって\nでんどう [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbon_ja {
+            get {
+                return ResourceManager.GetString("text_Ribbon_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 칼로스챔피언리본
+        ///챔피언리본
+        ///신오챔피언리본
+        ///절친리본
+        ///수행리본
+        ///그레이트배틀리본
+        ///마스터배틀리본
+        ///노력리본
+        ///뚝심리본
+        ///철렁리본
+        ///풀죽기리본
+        ///덜렁이리본
+        ///상쾌리본
+        ///잠보리본
+        ///방글방글리본
+        ///고저스리본
+        ///로열리본
+        ///고저스로열리본
+        ///브로마이드리본
+        ///발자국리본
+        ///레코드리본
+        ///레전드리본
+        ///컨트리리본
+        ///내셔널리본
+        ///어스리본
+        ///월드리본
+        ///클래식리본
+        ///프리미어리본
+        ///이벤트리본
+        ///버스데이리본
+        ///스페셜리본
+        ///메모리얼리본
+        ///위시리본
+        ///배틀챔피언리본
+        ///에리어챔피언리본
+        ///내셔널챔피언리본
+        ///월드챔피언리본
+        ///추억콘테스트리본
+        ///추억배틀리본
+        ///칼로스에서 챔피언에게 이겨서\n전당등록한 기념리본
+        ///다른 지방의 리그에서 이겨서\n전당등록한 기념리본
+        ///신오에서 챔피언에게 이겨서\n전당등록한 기념리본
+        ///깊은 인연으로 맺어진\n포켓몬에게 수여되는 리본
+        ///가혹한 시련을 뛰어넘은\n포켓몬에게 수여되는 리본
+        ///혹독한 배틀을 이겨낸\n포켓몬에게 수여되는 리본
+        ///배틀을 평정한 강한\n포켓몬에게 수여되는 리본
+        ///많이 노력하고 있는\n포켓몬에게 수여되는 리본
+        ///기분이 맑아지는 일을 떠올려서\n인생의 에너지가 되는 리본
+        ///두근두근했던  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbon_ko {
+            get {
+                return ResourceManager.GetString("text_Ribbon_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ei
         ///Bisasam
         ///Bisaknosp
@@ -15574,6 +16218,454 @@ namespace PKHeX.Properties {
         internal static string text_Species_ko {
             get {
                 return ResourceManager.GetString("text_Species_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Probetraining mit Purmel!
+        ///Zeig’s Puponcho mit einem Fokusschuss!
+        ///Spezial-Angriffs-Training mit Magnetilo!
+        ///KP-Training mit Wailmer!
+        ///Angriffs-Training mit Milza!
+        ///Spezial-Verteidigungs-Training mit Tentacha!
+        ///Initiative-Training mit eF-eM!
+        ///Verteidigungs-Training mit Kleinstein!
+        ///Die zielgerichteten Schüsse von Magneton!
+        ///Ziele auf das Volltreffertor von Relicanth!
+        ///Nimm Sharfax unter Beschuss!
+        ///Tentoxa und die Bit-Ballons!
+        ///Gib Aerodactyl mit Temposchüssen zu denken!
+        ///Zerstöre Georoks Schutzschild!
+        ///Wehre die Salven v [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_SuperTraining_de {
+            get {
+                return ResourceManager.GetString("text_SuperTraining_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Practice against Scatterbug!
+        ///Get Spewpa with an Energy Shot!
+        ///Hone Sp. Atk with Magnemite!
+        ///Raise Your HP with Wailmer!
+        ///Boost Attack with Axew!
+        ///Build Up Sp. Def with Tentacool!
+        ///Speed Up with the Noibat Regimen!
+        ///Strengthen Defense with Geodude!
+        ///Home In on Magneton!
+        ///Hit Relicanth’s Weak Points!
+        ///Let Loose to Get Fraxure!
+        ///Watch Out for Tentacruel’s Bitbots!
+        ///Hammer Aerodactyl with High-Speed Shots!
+        ///Break Down Graveler’s Barrier!
+        ///Shake Off That Uncanny Magnezone!
+        ///Shoot Back! Get the Giant Wailord!
+        ///Catch ’Em! Haxoru [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_SuperTraining_en {
+            get {
+                return ResourceManager.GetString("text_SuperTraining_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¡Practica contra Scatterbug!
+        ///¡Tiro con ímpetu contra Spewpa!
+        ///¡Mejora tu Ataque Especial contra Magnemite!
+        ///¡Mejora tus PS contra Wailmer!
+        ///¡Mejora tu Ataque contra Axew!
+        ///¡Mejora tu Defensa Especial contra Tentacool!
+        ///¡Mejora tu Velocidad contra Noibat!
+        ///¡Mejora tu Defensa contra Geodude!
+        ///¡Los tiros rastreadores de Magneton!
+        ///¡La portería de oportunidad de Relicanth!
+        ///¡Ráfaga de tiros de Fraxure!
+        ///¡Tentacruel y sus globos de bits!
+        ///¡Dale a Aerodactyl con tiros rápidos!
+        ///¡Destruye la barrera de Graveler!
+        ///¡Líbrate de M [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_SuperTraining_es {
+            get {
+                return ResourceManager.GetString("text_SuperTraining_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entraînez-vous contre Lépidonille\ue07f!
+        ///Tir Volonté sur Pérégrain\ue07f!
+        ///À l’assaut de Magnéti\ue07f!
+        ///À l’assaut de Wailmer\ue07f!
+        ///À l’assaut de Coupenotte\ue07f!
+        ///À l’assaut de Tentacool\ue07f!
+        ///À l’assaut de Sonistrelle\ue07f!
+        ///À l’assaut de Racaillou\ue07f!
+        ///Les tirs à tête chercheuse de Magnéton\ue07f!
+        ///La Cible Aubaine de Relicanth\ue07f!
+        ///Déchaînez-vous contre Incisache\ue07f!
+        ///Les Ballons Pixels de Tentacruel\ue07f!
+        ///Mitraillez Ptéra\ue07f!
+        ///Brisez la Barrière de Gravalanch\ue07f!
+        ///Débarrassez-vous de Magnézo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_SuperTraining_fr {
+            get {
+                return ResourceManager.GetString("text_SuperTraining_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allenamento di prova contro Scatterbug!
+        ///Sconfiggi Spewpa con un tiro vigoroso!
+        ///Aumenta l’Attacco Speciale con Magnemite!
+        ///Aumenta i PS con Wailmer!
+        ///Aumenta l’Attacco con Axew!
+        ///Aumenta la Difesa Speciale con Tentacool!
+        ///Aumenta la Velocità con Noibat!
+        ///Aumenta la Difesa con Geodude!
+        ///Evita i tiri a ricerca di Magneton!
+        ///Colpisci le reti chance di Relicanth!
+        ///Attenzione alle raffiche di Fraxure!
+        ///Tentacruel e i palloncini Bit!
+        ///Tempesta di tiri Aerodactyl!
+        ///Abbatti la barriera di Graveler!
+        ///Sbarazzati di Magnezone!
+        ///Aff [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_SuperTraining_it {
+            get {
+                return ResourceManager.GetString("text_SuperTraining_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to おためしトレーニング！\u3000コフキムシ
+        ///コフーライ！\u3000きめろ\u3000ガッツシュート
+        ///とくこうトレーニング\u3000VSコイル
+        ///HPトレーニング\u3000VSホエルコ
+        ///こうげきトレーニング\u3000VSキバゴ
+        ///とくぼうトレーニング\u3000VSメノクラゲ
+        ///すばやさトレーニング\u3000VSオンバット
+        ///ぼうぎょトレーニング\u3000VSイシツブテ
+        ///ついびシュート！\u3000レアコイル
+        ///ジーランスの\u3000チャンスゴール！
+        ///ばらまきシュート！\u3000オノンド
+        ///ドククラゲと\u3000ビットバルーン！
+        ///こうそくシュート！\u3000プテラ
+        ///ゴローンの\u3000ブロックを\u3000くずせ！
+        ///ふりきれ！\u3000まきゅうの\u3000ジバコイル
+        ///むかえうて！\u3000きょだい\u3000ホエルオー
+        ///みきれ！\u3000もうこうの\u3000オノノクス
+        ///けちらせ！\u3000ドラミドロ\u3000ぐんだん
+        ///とらえろ！\u3000はやての\u3000オンバーン
+        ///やぶれ！\u3000ゴローニャ\u3000ぼうえいライン
+        ///いちなん\u3000さって\u3000また\u3000いち [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_SuperTraining_ja {
+            get {
+                return ResourceManager.GetString("text_SuperTraining_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 맛보기트레이닝! 분이벌레
+        ///분떠도리에게 거츠 슛을 날려라!
+        ///특수공격트레이닝 VS 코일
+        ///HP트레이닝 VS 고래왕자
+        ///공격트레이닝 VS 터검니
+        ///특수방어트레이닝 VS 왕눈해
+        ///스피드트레이닝 VS 음뱃
+        ///방어트레이닝 VS 꼬마돌
+        ///레어코일의 추격 슛!
+        ///시라칸의 찬스골!
+        ///액슨도의 흩뿌리기 슛!
+        ///독파리와 비트벌룬!
+        ///프테라의 고속 슛!
+        ///데구리의 블록을 무너뜨려라!
+        ///자포코일의 마구를 피해라!
+        ///거대 고래왕에게 맞서 싸워라!
+        ///조심해! 액스라이즈의 맹공격!
+        ///물리쳐라! 드래캄 군단
+        ///질풍의 음번을 잡아라!
+        ///무너뜨려라! 딱구리 방위선
+        ///산 넘어 산!?
+        ///일등 상품 리프의돌!
+        ///일등 상품 불꽃의돌!
+        ///일등 상품 물의돌!
+        ///도망치는 골을 쫓아라!
+        ///반격의 후반전!
+        ///속공의 전반전!
+        ///종횡무진 롱 슛!
+        ///역습의 분이벌레!
+        ///탄막 탄막 비트벌룬!
+        ///서든데스 삼삼드래!
+        ///최강 결정! X버전
+        ///공포! 큰 턱 트윈테일
+        ///열리는 금단의 지퍼!
+        ///무쇠팔 강철팔의 협공!
+        ///염동력! 스푼 난무
+        ///인생역전! 출세 잉어킹
+        ///경이로운 연속 메가진화!
+        ///\x10\x02뷿&amp;
+        ///\x10\x02뷿&apos;
+        ///\x [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_SuperTraining_ko {
+            get {
+                return ResourceManager.GetString("text_SuperTraining_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///KP-Sack S
+        ///KP-Sack M
+        ///KP-Sack L
+        ///Ang.-Sack S
+        ///Ang.-Sack M
+        ///Ang.-Sack L
+        ///Vert.-Sack S
+        ///Vert.-Sack M
+        ///Vert.-Sack L
+        ///Sp.-Ang.-Sack S
+        ///Sp.-Ang.-Sack M
+        ///Sp.-Ang.-Sack L
+        ///Sp.-Vert.-Sack S
+        ///Sp.-Vert.-Sack M
+        ///Sp.-Vert.-Sack L
+        ///Init.-Sack S
+        ///Init.-Sack M
+        ///Init.-Sack L
+        ///Power-Up-Sack
+        ///Defensive-Sack
+        ///Agilitäts-Sack
+        ///Expander-Sack
+        ///Dopplungs-Sack
+        ///Flare-Sack
+        ///Tabula Ra-Sack
+        ///Relax-Sack
+        ///.
+        /// </summary>
+        internal static string text_TrainingBag_de {
+            get {
+                return ResourceManager.GetString("text_TrainingBag_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///HP Bag S
+        ///HP Bag M
+        ///HP Bag L
+        ///Attack Bag S
+        ///Attack Bag M
+        ///Attack Bag L
+        ///Defense Bag S
+        ///Defense Bag M
+        ///Defense Bag L
+        ///Sp. Atk Bag S
+        ///Sp. Atk Bag M
+        ///Sp. Atk Bag L
+        ///Sp. Def Bag S
+        ///Sp. Def Bag M
+        ///Sp. Def Bag L
+        ///Speed Bag S
+        ///Speed Bag M
+        ///Speed Bag L
+        ///Strength Bag
+        ///Toughen-Up Bag
+        ///Swiftness Bag
+        ///Big-Shot Bag
+        ///Double-Up Bag
+        ///Team Flare Bag
+        ///Reset Bag
+        ///Soothing Bag
+        ///.
+        /// </summary>
+        internal static string text_TrainingBag_en {
+            get {
+                return ResourceManager.GetString("text_TrainingBag_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Saco PS S
+        ///Saco PS M
+        ///Saco PS L
+        ///Saco Ataque S
+        ///Saco Ataque M
+        ///Saco Ataque L
+        ///Saco Defensa S
+        ///Saco Defensa M
+        ///Saco Defensa L
+        ///Saco At. Esp. S
+        ///Saco At. Esp. M
+        ///Saco At. Esp. L
+        ///Saco Def. Esp. S
+        ///Saco Def. Esp. M
+        ///Saco Def. Esp. L
+        ///Saco Veloc. S
+        ///Saco Veloc. M
+        ///Saco Veloc. L
+        ///Saco Potencia ↑
+        ///Saco Aguante ↑
+        ///Saco Agilidad ↑
+        ///Saco Tamaño ↑
+        ///Saco Mejora x2
+        ///Saco Team Flare
+        ///Saco Reinicio
+        ///Saco Relax
+        ///.
+        /// </summary>
+        internal static string text_TrainingBag_es {
+            get {
+                return ResourceManager.GetString("text_TrainingBag_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Sac PV
+        ///Sac PV +
+        ///Sac PV ++
+        ///Sac Attaque
+        ///Sac Attaque +
+        ///Sac Attaque ++
+        ///Sac Défense
+        ///Sac Défense +
+        ///Sac Défense ++
+        ///Sac Atq. Spé.
+        ///Sac Atq. Spé. +
+        ///Sac Atq. Spé. ++
+        ///Sac Déf. Spé.
+        ///Sac Déf. Spé. +
+        ///Sac Déf. Spé. ++
+        ///Sac Vitesse
+        ///Sac Vitesse +
+        ///Sac Vitesse ++
+        ///Sac Puissance↑
+        ///Sac Garantie↑
+        ///Sac Mobilité↑
+        ///Sac Taille↑
+        ///Sac Gain↑
+        ///Sac Team Flare
+        ///Sac Renouveau
+        ///Sac Relax
+        ///.
+        /// </summary>
+        internal static string text_TrainingBag_fr {
+            get {
+                return ResourceManager.GetString("text_TrainingBag_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Sacco PS S
+        ///Sacco PS M
+        ///Sacco PS L
+        ///Sacco Attacco S
+        ///Sacco Attacco M
+        ///Sacco Attacco L
+        ///Sacco Difesa S
+        ///Sacco Difesa M
+        ///Sacco Difesa L
+        ///Sacco Att. Sp. S
+        ///Sacco Att. Sp. M
+        ///Sacco Att. Sp. L
+        ///Sacco Dif. Sp. S
+        ///Sacco Dif. Sp. M
+        ///Sacco Dif. Sp. L
+        ///Sacco Velocità S
+        ///Sacco Velocità M
+        ///Sacco Velocità L
+        ///Sacco Potenza↑
+        ///Sacco Guardia↑
+        ///Sacco Agilità↑
+        ///Sacco Calibro↑
+        ///Sacco Raddoppio
+        ///Sacco Team Flare
+        ///Sacco Ripristino
+        ///Sacco Relax
+        ///.
+        /// </summary>
+        internal static string text_TrainingBag_it {
+            get {
+                return ResourceManager.GetString("text_TrainingBag_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///HPバッグS
+        ///HPバッグM
+        ///HPバッグL
+        ///こうげきバッグS
+        ///こうげきバッグM
+        ///こうげきバッグL
+        ///ぼうぎょバッグS
+        ///ぼうぎょバッグM
+        ///ぼうぎょバッグL
+        ///とくこうバッグS
+        ///とくこうバッグM
+        ///とくこうバッグL
+        ///とくぼうバッグS
+        ///とくぼうバッグM
+        ///とくぼうバッグL
+        ///すばやさバッグS
+        ///すばやさバッグM
+        ///すばやさバッグL
+        ///パワーUPバッグ
+        ///ガードUPバッグ
+        ///ムーブUPバッグ
+        ///サイズUPバッグ
+        ///ダブルUPバッグ
+        ///フレアだんバッグ
+        ///まっさらバッグ
+        ///リラックスバッグ
+        ///.
+        /// </summary>
+        internal static string text_TrainingBag_ja {
+            get {
+                return ResourceManager.GetString("text_TrainingBag_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///HP백S
+        ///HP백M
+        ///HP백L
+        ///공격백S
+        ///공격백M
+        ///공격백L
+        ///방어백S
+        ///방어백M
+        ///방어백L
+        ///특수공격백S
+        ///특수공격백M
+        ///특수공격백L
+        ///특수방어백S
+        ///특수방어백M
+        ///특수방어백L
+        ///스피드백S
+        ///스피드백M
+        ///스피드백L
+        ///파워UP백
+        ///가드UP백
+        ///무브UP백
+        ///사이즈UP백
+        ///더블UP백
+        ///플레어단백
+        ///신품백
+        ///릴랙스백
+        ///.
+        /// </summary>
+        internal static string text_TrainingBag_ko {
+            get {
+                return ResourceManager.GetString("text_TrainingBag_ko", resourceCulture);
             }
         }
         

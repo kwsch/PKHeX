@@ -1,0 +1,112 @@
+¡Practica contra Scatterbug!
+¡Tiro con ímpetu contra Spewpa!
+¡Mejora tu Ataque Especial contra Magnemite!
+¡Mejora tus PS contra Wailmer!
+¡Mejora tu Ataque contra Axew!
+¡Mejora tu Defensa Especial contra Tentacool!
+¡Mejora tu Velocidad contra Noibat!
+¡Mejora tu Defensa contra Geodude!
+¡Los tiros rastreadores de Magneton!
+¡La portería de oportunidad de Relicanth!
+¡Ráfaga de tiros de Fraxure!
+¡Tentacruel y sus globos de bits!
+¡Dale a Aerodactyl con tiros rápidos!
+¡Destruye la barrera de Graveler!
+¡Líbrate de Magnezone!
+¡Haz frente al gigantesco Wailord!
+¡Esquiva los temibles ataques de Haxorus!
+¡Derrota a Dragalge!
+¡Más rápido que el viento contra Noivern!
+¡Penetra la línea defensiva de Golem!
+¡Una dificultad tras otra!
+¡Compite por la Piedra Hoja!
+¡Compite por la Piedra Fuego!
+¡Compite por la Piedra Agua!
+¡Acierta las evasivas porterías!
+¡Contraataque en el segundo tiempo!
+¡Agilidad en el primer tiempo!
+¡Ristras de balones a diestro y siniestro!
+¡La venganza de Scatterbug!
+¡Bombardeo de globos de bits!
+¡Todo o nada contra Hydreigon!
+¿Quién es el más fuerte? (Pokémon X)
+¡Las temibles mandíbulas gemelas!
+¡Se abre la cremallera prohibida!
+¡Pinzazos de acero sin tregua!
+¡Confusión! ¡Danza de cucharas!
+¡La remontada de Magikarp!
+¡Megaevoluciones en serie!
+\x10\x02뷿&
+\x10\x02뷿'
+\x10\x02뷿(
+\x10\x02뷿)
+\x10\x02뷿*
+\x10\x02뷿+
+\x10\x02뷿,
+\x10\x02뷿-
+\x10\x02뷿.
+\x10\x02뷿/
+\x10\x02뷿0
+¿Quién es el más fuerte? (Pokémon Y)
+Robot hinchable \x10\x02ā
+\x10\x02뷿3
+\x10\x02Ă
+Récord:
+\x10\x02Ȁ\x00:\x10\x02ȁ\x01,\x10\x02Ȁ\x02
+\x10\x02뷿7
+\x10\x02뷿8
+\x10\x02뷿9
+\x10\x02뷿:
+¿Lo ves? Justo delante tienes un robot\nhinchable de entrenamiento con la forma de\x10\x01븀\nun Pokémon.\x10\x01븁\nClaves para el Superentrenamiento:\n¡Demuestra tu puntería con los tiros a puerta!\x10\x01븁\nMueve el botón deslizante para que tu\nPokémon se desplace.\x10\x01븁\nToca la pantalla táctil para que tu Pokémon\ntire a las porterías blancas que aparecen.\x10\x01븀\n¡Dales de lleno y consigue puntos!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+¡Aquí estás! ¡Prepárate!\x10\x01븁\nHa llegado el momento de que te expliquemos\nuna técnica especial que te será muy útil.\x10\x01븁\nClaves para el Superentrenamiento:\n¡Impúlsate a la victoria con el tiro con ímpetu!\x10\x01븁\n¿Ves ese círculo en la parte de abajo de la\npantalla superior?\x10\x01븁\nEs una especie de medidor que indica el nivel\nde ímpetu de tu Pokémon.\x10\x01븁\nCon el paso del tiempo, acumularás el\nsuficiente como para poder efectuar tiros con\x10\x01븀\nímpetu... ¡Son superpotentes!\x10\x01븁\nEl color y las características de este tiro\ndependerán del Pokémon que lo use.\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Ten en cuenta los tiros de tus objetivos!\x10\x01븁\nSi el robot hinchable alcanza a tu Pokémon\ncon sus balones, irás perdiendo los puntos\x10\x01븀\nque hayas conseguido al acertar.\x10\x01븁\nSi se agota el tiempo y no has conseguido\nacumular suficientes puntos, la sesión\x10\x01븀\nterminará sin que la hayas superado.\x10\x01븁\nMueve con precisión el botón deslizante para\nesquivar los tiros de tu objetivo.\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Apunta y acierta a las porterías de\x10\x01븀\noportunidad!\x10\x01븁\nLas porterías de color blanco desaparecen\ncuando las alcanzas, pero hay otras de color\x10\x01븀\nrojo que permanecen activas durante mucho\x10\x01븀\nmás tiempo: son las porterías de oportunidad.\x10\x01븁\n¡Dispara contra ellas tanto como puedas!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Ten en cuenta los tiros de tus objetivos!\x10\x01븁\nSi el robot hinchable alcanza a tu Pokémon\ncon sus balones, irás perdiendo los puntos\x10\x01븀\nque hayas conseguido al acertar.\x10\x01븁\nSi se agota el tiempo y no has conseguido\nacumular suficientes puntos, la sesión\x10\x01븀\nterminará sin que la hayas superado.\x10\x01븁\nMueve con precisión el botón deslizante para\nesquivar los tiros de tu objetivo.\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Presta atención a cómo se mueven tus\x10\x01븀\nobjetivos!\x10\x01븁\nCuando las porterías aparecen en los brazos,\nlas alas u otras partes del robot que se están\x10\x01븀\nmoviendo, acertar resulta mucho más difícil.\x10\x01븁\n¿Eres de los que anticipan los movimientos del\nobjetivo o de los que chutan sin parar?\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Presta atención a cómo se mueven tus\x10\x01븀\nobjetivos!\x10\x01븁\nCuando las porterías aparecen en los brazos,\nlas alas u otras partes del robot que se están\x10\x01븀\nmoviendo, acertar resulta mucho más difícil.\x10\x01븁\n¿Eres de los que anticipan los movimientos del\nobjetivo o de los que chutan sin parar?\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Que no se te escape ni una sola portería!\x10\x01븁\nHabrá momentos en los que aparezcan\nnumerosas porterías a la vez.\x10\x01븁\n¡Aprovecha esos instantes para efectuar tiros\nencadenados!\x10\x01븁\nAfina tu puntería para no dejarte ninguna sin\nacertar...\x10\x01븁\n¡Es el truco para superar esta fase a una\nvelocidad de vértigo!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Cuando estés en apuros, utiliza la barrera!\x10\x01븁\nHay momentos en los que es imposible\nesquivar todos los tiros de tu objetivo.\x10\x01븁\nEn esos casos, pulsa el botón L para activar\ntu barrera.\x10\x01븁\nAsí podrás defenderte de los balones que\nlanza tu objetivo durante unos segundos.\x10\x01븁\nEso sí, no podrás utilizar la barrera de manera\ncontinua, ¡así que piensa bien cuándo usarla!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Hazte con la victoria con tiros con carga!\x10\x01븁\nSi tocas la pantalla táctil de forma continuada,\nnotarás que una especie de aura empezará a\x10\x01븀\nrodear a tu Pokémon.\x10\x01븁\nCuando esa aura brillante lo envuelva por\ncompleto, levanta el lápiz y efectuarás un\x10\x01븀\npotente tiro con carga con el que obtendrás\x10\x01븀\nhasta el triple de puntos.\x10\x01븁\nPero presta atención: ¡si no levantas el lápiz a\ntiempo, toda esa carga se esfumará!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Cuando estés en apuros, utiliza la barrera!\x10\x01븁\nHay momentos en los que es imposible\nesquivar todos los tiros de tu objetivo.\x10\x01븁\nEn esos casos, pulsa el botón L para activar\ntu barrera.\x10\x01븁\nAsí podrás defenderte de los balones que\nlanza tu objetivo durante unos segundos.\x10\x01븁\nEso sí, no podrás utilizar la barrera de manera\ncontinua, ¡así que piensa bien cuándo usarla!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Haz lo posible por alejar los globos de bits!\x10\x01븁\nEl robot hinchable es capaz de crear unos\nglobos automatizados llamados globos de bits.\x10\x01븁\nLos usará para protegerse de tus disparos y\nverás que son una auténtica molestia cuando\x10\x01븀\nintentes alcanzar a tu objetivo.\x10\x01븁\nAdemás, aunque los disperses con disparos,\nlos globos se volverán a regenerar al cabo de\x10\x01븀\nun rato.\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Hazte con la victoria con tiros con carga!\x10\x01븁\nSi tocas la pantalla táctil de forma continuada,\nnotarás que una especie de aura empezará a\x10\x01븀\nrodear a tu Pokémon.\x10\x01븁\nCuando esa aura brillante lo envuelva por\ncompleto, levanta el lápiz y efectuarás un\x10\x01븀\npotente tiro con carga con el que obtendrás\x10\x01븀\nhasta el triple de puntos.\x10\x01븁\nPero presta atención: ¡si no levantas el lápiz a\ntiempo, toda esa carga se esfumará!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Penetra la barrera de tu objetivo!\x10\x01븁\nCuando tu objetivo se proteja con una\nbarrera, ninguno de los tiros de tu Pokémon\x10\x01븀\nsurtirá efecto.\x10\x01븁\nPero no desesperes: la barrera no es\nindestructible.\x10\x01븁\n¡Descubre cómo derribarla!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+ステージかいしまえメッセージ14
+ステージかいしまえメッセージ15
+ステージかいしまえメッセージ16
+ステージかいしまえメッセージ17
+ステージかいしまえメッセージ18
+ステージかいしまえメッセージ19
+Claves para el Superentrenamiento:\n¡Familiarízate con los entrenamientos\x10\x01븀\nencadenados!\x10\x01븁\nUn entrenamiento encadenado es una\nsimulación en la que tendrás que enfrentarte\x10\x01븀\na dos o más robots hinchables que\x10\x01븀\naparecerán uno tras otro.\x10\x01븁\nTen mucho cuidado: ¡aunque el primero sea\nfácil de derrotar, a lo mejor el segundo no lo\x10\x01븀\nes tanto!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\nLo bueno, si breve...\x10\x01븁\nA lo mejor ya te has dado cuenta, pero,\ncuando completas un Entrenamiento Secreto,\x10\x01븀\nademás de sacos de arena, ¡también puedes\x10\x01븀\nobtener objetos!\x10\x01븁\nEs más, cuantos más segundos te sobren tras\ncompletar la sesión según el tiempo fijado\x10\x01븀\ncomo objetivo, ¡más probabilidades tendrás\x10\x01븀\nde hacerte con objetos poco comunes!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+ステージかいしまえメッセージ22
+ステージかいしまえメッセージ23
+ステージかいしまえメッセージ24
+Claves para el Superentrenamiento:\n¡Ojo con los contraataques!\x10\x01븁\nConforme vayas ganando puntos, algunos\nrobots hinchables se volverán mucho más\x10\x01븀\nrápidos y tirarán con mayor intensidad...\x10\x01븁\n¡Incluso cambiará la manera en que se\nmueven!\x10\x01븁\n¡No te dejes amilanar por estos contraataques\ny dales con todo lo que tengas!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\nQuien golpea primero...\x10\x01븁\nEn esta simulación, tu objetivo efectuará\nde repente tiros más frenéticos y potentes.\x10\x01븁\nComo el robot hinchable se irá calmando\na medida que te vaya quitando puntos,\x10\x01븀\n¡sé tú quien lleve la iniciativa!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+ステージかいしまえメッセージ27
+ステージかいしまえメッセージ28
+ステージかいしまえメッセージ29
+Claves para el Superentrenamiento:\n¡Fuera a la primera!\x10\x01븁\nEn esta sesión, tu objetivo efectuará tiros de\nuna potencia desmesurada.\x10\x01븁\nSerá tal, que tu Pokémon podría perder todos\nlos puntos acumulados conque lo alcance\x10\x01븀\nun único balón.\x10\x01븁\nPor tanto, la única solución consiste en\nesquivar todos esos balones o protegerte con\x10\x01븀\nla barrera.\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+Claves para el Superentrenamiento:\n¡Bravo! ¡Buen trabajo!\x10\x01븁\n¡Has conseguido llegar a la última\nsesión del Entrenamiento Secreto!\x10\x01븁\nNo hay nada más que te podamos decir, así\nque ¡da lo mejor de ti!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+ステージかいしまえメッセージ32
+ステージかいしまえメッセージ33
+ステージかいしまえメッセージ34
+ステージかいしまえメッセージ35
+ステージかいしまえメッセージ36
+ステージかいしまえメッセージ37
+ステージかいしまえメッセージ38
+ステージかいしまえメッセージ39
+ステージかいしまえメッセージ40
+ステージかいしまえメッセージ41
+ステージかいしまえメッセージ42
+ステージかいしまえメッセージ43
+ステージかいしまえメッセージ44
+ステージかいしまえメッセージ45
+ステージかいしまえメッセージ46
+ステージかいしまえメッセージ47
+ステージかいしまえメッセージ48
+Claves para el Superentrenamiento:\n¡Da lo mejor de ti!\x10\x01븁\n¡Bravo! ¡Has conseguido llegar a la última\nsesión del Entrenamiento Secreto!\x10\x01븁\nNo hay nada más que te podamos decir, así\nque ¡da lo mejor de ti!\x10\x01븁\n¿Tienes todo listo para afrontar este reto?\nPues... ¡que comience el Superentrenamiento!
+\x10\x02뷿m
+\x10\x02뷿n
+Puntos:

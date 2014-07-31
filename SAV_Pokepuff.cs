@@ -16,7 +16,9 @@ namespace PKHeX
             InitializeComponent();
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
+            pfa = m_parent.puffs;
             savindex = m_parent.savindex;
+            pfa[0] = "---";
             setup();
 
             ToolTip ToolTip1 = new ToolTip();

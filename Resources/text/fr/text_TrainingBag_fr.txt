@@ -1,0 +1,27 @@
+
+Sac PV
+Sac PV +
+Sac PV ++
+Sac Attaque
+Sac Attaque +
+Sac Attaque ++
+Sac Défense
+Sac Défense +
+Sac Défense ++
+Sac Atq. Spé.
+Sac Atq. Spé. +
+Sac Atq. Spé. ++
+Sac Déf. Spé.
+Sac Déf. Spé. +
+Sac Déf. Spé. ++
+Sac Vitesse
+Sac Vitesse +
+Sac Vitesse ++
+Sac Puissance↑
+Sac Garantie↑
+Sac Mobilité↑
+Sac Taille↑
+Sac Gain↑
+Sac Team Flare
+Sac Renouveau
+Sac Relax

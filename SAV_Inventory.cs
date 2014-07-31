@@ -29,6 +29,11 @@ namespace PKHeX
 
             popItems();
 
+            B_DisplayItems.Text = m_parent.itempouch[0];
+            B_DisplayMedicine.Text = m_parent.itempouch[1];
+            B_DisplayTMHM.Text = m_parent.itempouch[2];
+            B_DisplayBerries.Text = m_parent.itempouch[3];
+            B_DisplayKeyItems.Text = m_parent.itempouch[4];
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];

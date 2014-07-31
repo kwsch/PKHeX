@@ -185,12 +185,10 @@ namespace PKHeX
             //    RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + "\n");
             //}
         }
-
         private void B_Clear_Click(object sender, EventArgs e)
         {
             RTB_Code.Clear();
         }
-
         private void B_Load_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -222,7 +220,6 @@ namespace PKHeX
                 }
             }
         }
-
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Gotta read in the textbox.
@@ -257,7 +254,6 @@ namespace PKHeX
                 File.WriteAllBytes(path, ncf);
             }
         }
-
         private void B_Copy_Click(object sender, EventArgs e)
         {
             if (RTB_Code.Text.Length > 0)
@@ -278,7 +274,6 @@ namespace PKHeX
                 }
             }
         }
-
         private void B_Diff_Click(object sender, EventArgs e)
         {
             string result = ""; 
@@ -304,7 +299,7 @@ namespace PKHeX
             }
             if ((lines / 128 > 0) && CHK_Break.Checked)
             {
-                MessageBox.Show((1+ (lines / 128)).ToString() + " Code Segments","Alert");
+                MessageBox.Show((1+ (lines / 128)).ToString() + " Code Segments\n\nLines: "+lines.ToString(),"Alert");
             }
             RTB_Code.Text = result; return;
         toomany:
@@ -319,7 +314,6 @@ namespace PKHeX
         {
             RTB_Code.Text = Clipboard.GetText();
         }
-
         private void B_Import_Click(object sender, EventArgs e)
         {
             // Gotta read in the textbox.

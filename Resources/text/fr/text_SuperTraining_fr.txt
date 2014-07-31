@@ -1,0 +1,112 @@
+Entraînez-vous contre Lépidonille\ue07f!
+Tir Volonté sur Pérégrain\ue07f!
+À l’assaut de Magnéti\ue07f!
+À l’assaut de Wailmer\ue07f!
+À l’assaut de Coupenotte\ue07f!
+À l’assaut de Tentacool\ue07f!
+À l’assaut de Sonistrelle\ue07f!
+À l’assaut de Racaillou\ue07f!
+Les tirs à tête chercheuse de Magnéton\ue07f!
+La Cible Aubaine de Relicanth\ue07f!
+Déchaînez-vous contre Incisache\ue07f!
+Les Ballons Pixels de Tentacruel\ue07f!
+Mitraillez Ptéra\ue07f!
+Brisez la Barrière de Gravalanch\ue07f!
+Débarrassez-vous de Magnézone\ue07f!
+Répliquez aux tirs de Wailord\ue07f!
+Évitez les tirs de Tranchodon\ue07f!
+Terrassez Kravarech\ue07f!
+Coincez Bruyverne\ue07f!
+Brisez la garde de Grolem\ue07f!
+Une difficulté peut en cacher une autre\ue07f!
+Premier prix : Pierre Plante
+Premier prix : Pierre Feu
+Premier prix : Pierre Eau
+Descendez les Cibles fuyantes\ue07f!
+Attention à la riposte\ue07f!
+Que le plus rapide gagne\ue07f!
+Exercez-vous au tir longue distance\ue07f!
+La revanche de Lépidonille\ue07f!
+Tapis de Ballons Pixels\ue07f!
+Trioxhydre toxique\ue07f!
+Qui est le plus fort\ue07f? (Pokémon X)
+Grosses mâchoires et doubles couettes\ue07f!
+Ouverture de la fermeture interdite\ue07f!
+Le piège se referme\ue07f!
+Choc Psy contre les cuillers\ue07f!
+La fureur du Magicarpe\ue07f!
+Attention\ue07f! Méga-Évolutions en chaîne\ue07f!
+\x10\x02뷿&
+\x10\x02뷿'
+\x10\x02뷿(
+\x10\x02뷿)
+\x10\x02뷿*
+\x10\x02뷿+
+\x10\x02뷿,
+\x10\x02뷿-
+\x10\x02뷿.
+\x10\x02뷿/
+\x10\x02뷿0
+Qui est le plus fort\ue07f? (Pokémon Y)
+Ballon \x10\x02ā
+\x10\x02뷿3
+\x10\x02Ă
+Meilleur chrono
+\x10\x02Ȁ\x00:\x10\x02ȁ\x01,\x10\x02Ȁ\x02
+\x10\x02뷿7
+\x10\x02뷿8
+\x10\x02뷿9
+\x10\x02뷿:
+Vous voyez ce grand Ballon Robot en forme\nde Pokémon droit devant\ue07f?\x10\x01븀\nC’est votre partenaire d’entraînement\ue07f!\x10\x01븁\nVotre but dans un Challenge est simple :\ntouchez les cibles\ue07f!\x10\x01븁\nUtilisez le pad circulaire pour déplacer\nvotre Pokémon et touchez l’écran inférieur\x10\x01븀\npour lui faire tirer des projectiles\ue07f!\x10\x01븁\nTouchez la cible blanche qui se trouve devant\nle Ballon Robot pour gagner des points\ue07f!\x10\x01븀\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Encore vous\ue07f? Vous êtes là pour apprendre\nune technique de pro, pas vrai\ue07f?\x10\x01븁\nEh bien ça tombe bien\ue07f!\nDécouvrez le «\ue07fTir Volonté\ue07f»\ue07f!\x10\x01븁\nVous voyez le cadran qui se trouve en bas\nau centre de l’écran supérieur\ue07f?\x10\x01븁\nIl indique le niveau de «\ue07fVolonté\ue07f», c’est-à-dire\nd’énergie vitale de votre Pokémon.\x10\x01븁\nLa jauge se remplit avec le temps, et quand\nelle est pleine, elle transforme vos tirs en\x10\x01븀\n«\ue07fTirs Volonté\ue07f»\ue07f!\x10\x01븁\nLes Tirs Volonté sont plus puissants, et ont\naussi des caractéristiques différentes selon\x10\x01븀\nles Pokémon\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Cette fois, il va falloir faire attention aux tirs\nennemis.\x10\x01븁\nSi le tir d’un Ballon Robot vous touche, vous\nperdrez des points.\x10\x01븁\nEt si vous n’avez pas assez de points quand\nle temps imparti est écoulé, l’entraînement\x10\x01븀\nsera considéré comme un échec\ue07f!\x10\x01븁\nUtilisez le pad circulaire pour éviter les tirs\nennemis\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Visez les Cibles Aubaine\ue07f!\x10\x01븁\nLes cibles blanches disparaissent\naprès avoir été touchées une fois.\x10\x01븁\nMais les cibles rouges, ou Cibles Aubaine,\nfonctionnent différemment.\x10\x01븁\nElles ne disparaissent qu’après un certain\ntemps, et vous pouvez les toucher autant\x10\x01븀\nde fois que vous voudrez\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Cette fois, il va falloir faire attention aux tirs\nennemis.\x10\x01븁\nSi le tir d’un Ballon Robot vous touche, vous\nperdrez des points.\x10\x01븁\nEt si vous n’avez pas assez de points quand\nle temps imparti est écoulé, l’entraînement\x10\x01븀\nsera considéré comme un échec\ue07f!\x10\x01븁\nUtilisez le pad circulaire pour éviter les tirs\nennemis\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Attention aux mouvements de l’adversaire\ue07f!\x10\x01븁\nLes cibles liées aux parties mobiles d’un\nBallon Robot, comme les bras et les ailes,\x10\x01븀\nsont plus difficiles à atteindre.\x10\x01븁\nDeux stratégies sont possibles :\nprévoir les mouvements de l’ennemi,\x10\x01븀\nou tirer au hasard\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Attention aux mouvements de l’adversaire\ue07f!\x10\x01븁\nLes cibles liées aux parties mobiles d’un\nBallon Robot, comme les bras et les ailes,\x10\x01븀\nsont plus difficiles à atteindre.\x10\x01븁\nDeux stratégies sont possibles :\nprévoir les mouvements de l’ennemi,\x10\x01븀\nou tirer au hasard\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+N’épargnez aucune cible\ue07f!\x10\x01븁\nQuand plusieurs cibles apparaissent\nsimultanément, c’est l’occasion de\x10\x01븀\nmarquer un maximum de points\ue07f!\x10\x01븁\nVisez-les une par une et assurez-vous\nde toutes les toucher.\x10\x01븁\nC’est la façon la plus rapide et la plus\nefficace de réussir l’entraînement\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+En cas de danger, protégez-vous\ue07f!\x10\x01븁\nSi vous ne parvenez pas à éviter les tirs\nennemis, appuyez sur le bouton L pour\x10\x01븀\nériger une Barrière.\x10\x01븁\nElle vous protégera pendant un court instant.\x10\x01븁\nMais vous ne pouvez pas l’utiliser en continu,\ndonc évitez les tirs autant que possible\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Cette fois-ci, le Tir Concentré est à l’honneur\ue07f!\x10\x01븁\nSi vous maintenez le stylet en contact avec\nl’écran tactile, un halo apparaîtra sur votre\x10\x01븀\nPokémon.\x10\x01븁\nLorsque vous soulèverez le stylet, le Pokémon\nlancera un Tir Concentré surpuissant qui vous\x10\x01븀\npermettra de gagner jusqu’au triple de points\ue07f!\x10\x01븁\nMais attention, si vous attendez trop, le halo\nfinira par disparaître\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+En cas de danger, protégez-vous\ue07f!\x10\x01븁\nSi vous ne parvenez pas à éviter les tirs\nennemis, appuyez sur le bouton L pour\x10\x01븀\nériger une Barrière.\x10\x01븁\nElle vous protégera pendant un court instant.\x10\x01븁\nMais vous ne pouvez pas l’utiliser en continu,\ndonc évitez les tirs autant que possible\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Les Ballons Pixels entrent en scène\ue07f!\x10\x01븁\nIl s’agit de petits ballons automatisés, appelés\npar le Ballon Robot.\x10\x01븁\nCelui-ci s’en sert de bouclier pour contrer vos\ntirs.\x10\x01븁\nEt le pire, c’est que même si vous les battez,\nils reviennent au bout d’un moment\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Cette fois-ci, le Tir Concentré est à l’honneur\ue07f!\x10\x01븁\nSi vous maintenez le stylet en contact avec\nl’écran tactile, un halo apparaîtra sur votre\x10\x01븀\nPokémon.\x10\x01븁\nLorsque vous soulèverez le stylet, le Pokémon\nlancera un Tir Concentré surpuissant qui vous\x10\x01븀\npermettra de gagner jusqu’au triple de points\ue07f!\x10\x01븁\nMais attention, si vous attendez trop, le halo\nfinira par disparaître\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Vous n’allez pas vous laisser arrêter par\nune simple Barrière\ue07f!\x10\x01븁\nLorsque le Ballon Robot se protège,\naucun de vos tirs ne peut l’atteindre.\x10\x01븁\nMais les Barrières ne sont pas infaillibles,\nil y a un moyen de les détruire\ue08d\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Avez-vous déjà entendu parler des Challenges\nen série\ue07f?\x10\x01븁\nC’est un type d’entraînement où vous devez\naffronter plusieurs Ballons Robots l’un après\x10\x01븀\nl’autre.\x10\x01븁\nLeurs mouvements et leurs tirs peuvent être\ncomplètement différents, alors restez bien sur\x10\x01븀\nvos gardes\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Plus c’est rapide, mieux c’est\ue07f!\x10\x01븁\nVous avez sans doute remarqué que lorsque\nvous terminez un Challenge Secret, vous\x10\x01븀\npouvez recevoir des Sacs de Sable, ainsi que\x10\x01븀\ndes objets\ue08d\x10\x01븁\nPlus vous terminez le Challenge rapidement,\nplus vos chances de recevoir des objets rares\x10\x01븀\naugmentent\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Attention aux contre-attaques\ue07f!\x10\x01븁\nDans cet entraînement, le Ballon Robot vous\nlaissera prendre l’avantage avant de montrer\x10\x01븀\nl’étendue de sa puissance.\x10\x01븁\nIl bougera alors différemment, plus vite,\net il sera plus fort\ue07f! Restez sur vos gardes\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Ne vous laissez pas déborder\ue07f!\x10\x01븁\nLe Ballon Robot de cet entraînement\ncommencera dès le début à utiliser\x10\x01븀\nses techniques les plus destructrices\ue07f!\x10\x01븁\nIl se calmera un peu lorsque vous lui\naurez pris suffisamment de points, alors\x10\x01븀\nmarquez-en le plus vite possible\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Un tir ennemi et c’est la défaite\ue08d\nConcentration maximale\ue07f!!!\x10\x01븁\nLes Ballons Pokémon que vous allez\naffronter tirent des salves d’une puissance\x10\x01븀\ndéconcertante.\x10\x01븁\nS’ils vous touchent ne serait-ce qu’une fois,\nvous pouvez dire adieu à vos points\ue07f!\x10\x01븁\nDeux solutions : éviter tous les tirs ennemis\nou vous protéger avec la Barrière.\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Montrez ce que vous avez dans le ventre\ue07f!\x10\x01븁\nVous avez enfin atteint le dernier niveau\ndes Challenges Secrets.\x10\x01븁\nVous n’avez plus besoin d’aucun conseil.\nÀ vous de montrer ce dont vous êtes\x10\x01븀\ncapable\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Message de début de stage
+Montrez ce que vous avez dans le ventre\ue07f!\x10\x01븁\nVous avez enfin atteint le dernier niveau\ndes Challenges Secrets.\x10\x01븁\nVous n’avez plus besoin d’aucun conseil.\nÀ vous de montrer ce dont vous êtes\x10\x01븀\ncapable\ue07f!\x10\x01븁\nVous avez tout compris\ue07f? C’est parti\ue07f!
+\x10\x02뷿m
+\x10\x02뷿n
+SCORE :

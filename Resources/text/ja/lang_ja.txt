@@ -112,6 +112,7 @@ B_OpenBerryField = きのみ畑
 B_OpenOPowers =  Oパワー
 B_OpenEventFlags = イベントフラグ
 B_OpenPokedex = ポケモン図鑑
+B_OpenSuperTraining = スーパートレ
 --------------------Tab Internals-----------------------
 L_Party = 手持ちポケモン
 L_BattleBox = バトルボックス

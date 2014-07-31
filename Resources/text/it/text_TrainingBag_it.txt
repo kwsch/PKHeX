@@ -1,0 +1,27 @@
+
+Sacco PS S
+Sacco PS M
+Sacco PS L
+Sacco Attacco S
+Sacco Attacco M
+Sacco Attacco L
+Sacco Difesa S
+Sacco Difesa M
+Sacco Difesa L
+Sacco Att. Sp. S
+Sacco Att. Sp. M
+Sacco Att. Sp. L
+Sacco Dif. Sp. S
+Sacco Dif. Sp. M
+Sacco Dif. Sp. L
+Sacco Velocità S
+Sacco Velocità M
+Sacco Velocità L
+Sacco Potenza↑
+Sacco Guardia↑
+Sacco Agilità↑
+Sacco Calibro↑
+Sacco Raddoppio
+Sacco Team Flare
+Sacco Ripristino
+Sacco Relax

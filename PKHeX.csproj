@@ -169,6 +169,12 @@
     <Compile Include="SAV_Pokepuff.Designer.cs">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
     </Compile>
+    <Compile Include="SAV_SuperTrain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SAV_SuperTrain.Designer.cs">
+      <DependentUpon>SAV_SuperTrain.cs</DependentUpon>
+    </Compile>
     <Compile Include="SAV_Trainer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,6 +245,9 @@
     <EmbeddedResource Include="SAV_Pokepuff.resx">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SAV_SuperTrain.resx">
+      <DependentUpon>SAV_SuperTrain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SAV_Trainer.resx">
       <DependentUpon>SAV_Trainer.cs</DependentUpon>
     </EmbeddedResource>
@@ -292,6 +301,42 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\text\ko\text_TrainingBag_ko.txt" />
+    <None Include="Resources\text\ja\text_TrainingBag_ja.txt" />
+    <None Include="Resources\text\it\text_TrainingBag_it.txt" />
+    <None Include="Resources\text\fr\text_TrainingBag_fr.txt" />
+    <None Include="Resources\text\es\text_TrainingBag_es.txt" />
+    <None Include="Resources\text\en\text_TrainingBag_en.txt" />
+    <None Include="Resources\text\de\text_TrainingBag_de.txt" />
+    <None Include="Resources\text\ko\text_SuperTraining_ko.txt" />
+    <None Include="Resources\text\ja\text_SuperTraining_ja.txt" />
+    <None Include="Resources\text\it\text_SuperTraining_it.txt" />
+    <None Include="Resources\text\fr\text_SuperTraining_fr.txt" />
+    <None Include="Resources\text\es\text_SuperTraining_es.txt" />
+    <None Include="Resources\text\en\text_SuperTraining_en.txt" />
+    <None Include="Resources\text\de\text_SuperTraining_de.txt" />
+    <None Include="Resources\text\ko\text_Puff_ko.txt" />
+    <None Include="Resources\text\ja\text_Puff_ja.txt" />
+    <None Include="Resources\text\it\text_Puff_it.txt" />
+    <None Include="Resources\text\fr\text_Puff_fr.txt" />
+    <None Include="Resources\text\es\text_Puff_es.txt" />
+    <None Include="Resources\text\en\text_Puff_en.txt" />
+    <None Include="Resources\text\de\text_Puff_de.txt" />
+    <None Include="Resources\text\ko\text_Ribbon_ko.txt" />
+    <None Include="Resources\text\ja\text_Ribbon_ja.txt" />
+    <None Include="Resources\text\it\text_Ribbon_it.txt" />
+    <None Include="Resources\text\fr\text_Ribbon_fr.txt" />
+    <None Include="Resources\text\es\text_Ribbon_es.txt" />
+    <None Include="Resources\text\en\text_Ribbon_en.txt" />
+    <None Include="Resources\text\de\text_Ribbon_de.txt" />
+    <None Include="Resources\text\ko\text_ItemPouch_ko.txt" />
+    <None Include="Resources\text\ja\text_ItemPouch_ja.txt" />
+    <None Include="Resources\text\it\text_ItemPouch_it.txt" />
+    <None Include="Resources\text\fr\text_ItemPouch_fr.txt" />
+    <None Include="Resources\text\es\text_ItemPouch_es.txt" />
+    <None Include="Resources\text\en\text_ItemPouch_en.txt" />
+    <None Include="Resources\text\de\text_ItemPouch_de.txt" />
+    <None Include="Resources\img\misc\helditem.png" />
     <None Include="Resources\img\misc\party.png" />
     <None Include="Resources\text\changelog.txt" />
     <None Include="Resources\text\ja\lang_ja.txt" />

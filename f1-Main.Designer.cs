@@ -299,11 +299,10 @@
             this.fusedpkx = new System.Windows.Forms.PictureBox();
             this.L_ReadOnlyOther = new System.Windows.Forms.Label();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
+            this.B_OutAHK = new System.Windows.Forms.Button();
             this.B_BoxIO = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
-            this.B_OUTHallofFame = new System.Windows.Forms.Button();
             this.RTB_T = new System.Windows.Forms.RichTextBox();
-            this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
             this.L_SAVManipulation = new System.Windows.Forms.Label();
             this.B_SwitchSAV = new System.Windows.Forms.Button();
@@ -312,6 +311,8 @@
             this.B_VerifySHA = new System.Windows.Forms.Button();
             this.B_ExportSAV = new System.Windows.Forms.Button();
             this.RTB_S = new System.Windows.Forms.RichTextBox();
+            this.B_OUTHallofFame = new System.Windows.Forms.Button();
+            this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
             this.B_OpenBoxLayout = new System.Windows.Forms.Button();
             this.B_OpenOPowers = new System.Windows.Forms.Button();
@@ -322,6 +323,7 @@
             this.B_OpenBerryField = new System.Windows.Forms.Button();
             this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
+            this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
@@ -422,7 +424,7 @@
             this.tabMain.Location = new System.Drawing.Point(10, 27);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(270, 325);
+            this.tabMain.Size = new System.Drawing.Size(280, 325);
             this.tabMain.TabIndex = 0;
             // 
             // Tab_Main
@@ -472,7 +474,7 @@
             this.Tab_Main.Location = new System.Drawing.Point(4, 22);
             this.Tab_Main.Name = "Tab_Main";
             this.Tab_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Main.Size = new System.Drawing.Size(262, 299);
+            this.Tab_Main.Size = new System.Drawing.Size(272, 299);
             this.Tab_Main.TabIndex = 0;
             this.Tab_Main.Text = "Main";
             this.Tab_Main.UseVisualStyleBackColor = true;
@@ -481,7 +483,7 @@
             // 
             this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(104, 174);
+            this.CB_Language.Location = new System.Drawing.Point(105, 174);
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(122, 21);
             this.CB_Language.TabIndex = 15;
@@ -493,7 +495,7 @@
             this.CB_Ability.FormattingEnabled = true;
             this.CB_Ability.Items.AddRange(new object[] {
             "Item"});
-            this.CB_Ability.Location = new System.Drawing.Point(104, 153);
+            this.CB_Ability.Location = new System.Drawing.Point(105, 153);
             this.CB_Ability.Name = "CB_Ability";
             this.CB_Ability.Size = new System.Drawing.Size(122, 21);
             this.CB_Ability.TabIndex = 13;
@@ -505,7 +507,7 @@
             // 
             this.TB_PID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_PID.Location = new System.Drawing.Point(104, 7);
+            this.TB_PID.Location = new System.Drawing.Point(105, 7);
             this.TB_PID.MaxLength = 8;
             this.TB_PID.Name = "TB_PID";
             this.TB_PID.Size = new System.Drawing.Size(60, 20);
@@ -516,7 +518,7 @@
             // 
             // CHK_Nicknamed
             // 
-            this.CHK_Nicknamed.Location = new System.Drawing.Point(24, 51);
+            this.CHK_Nicknamed.Location = new System.Drawing.Point(25, 51);
             this.CHK_Nicknamed.Name = "CHK_Nicknamed";
             this.CHK_Nicknamed.Size = new System.Drawing.Size(80, 17);
             this.CHK_Nicknamed.TabIndex = 4;
@@ -528,7 +530,7 @@
             // Label_Gender
             // 
             this.Label_Gender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_Gender.Location = new System.Drawing.Point(169, 10);
+            this.Label_Gender.Location = new System.Drawing.Point(170, 10);
             this.Label_Gender.Name = "Label_Gender";
             this.Label_Gender.Size = new System.Drawing.Size(16, 13);
             this.Label_Gender.TabIndex = 55;
@@ -542,7 +544,7 @@
             this.CB_Form.DropDownWidth = 85;
             this.CB_Form.Enabled = false;
             this.CB_Form.FormattingEnabled = true;
-            this.CB_Form.Location = new System.Drawing.Point(157, 132);
+            this.CB_Form.Location = new System.Drawing.Point(158, 132);
             this.CB_Form.Name = "CB_Form";
             this.CB_Form.Size = new System.Drawing.Size(69, 21);
             this.CB_Form.TabIndex = 12;
@@ -551,7 +553,7 @@
             // CHK_Cured
             // 
             this.CHK_Cured.AutoSize = true;
-            this.CHK_Cured.Location = new System.Drawing.Point(178, 196);
+            this.CHK_Cured.Location = new System.Drawing.Point(179, 196);
             this.CHK_Cured.Name = "CHK_Cured";
             this.CHK_Cured.Size = new System.Drawing.Size(54, 17);
             this.CHK_Cured.TabIndex = 18;
@@ -563,7 +565,7 @@
             // CHK_Infected
             // 
             this.CHK_Infected.AutoSize = true;
-            this.CHK_Infected.Location = new System.Drawing.Point(104, 196);
+            this.CHK_Infected.Location = new System.Drawing.Point(105, 196);
             this.CHK_Infected.Name = "CHK_Infected";
             this.CHK_Infected.Size = new System.Drawing.Size(65, 17);
             this.CHK_Infected.TabIndex = 17;
@@ -574,7 +576,7 @@
             // 
             // Label_HeldItem
             // 
-            this.Label_HeldItem.Location = new System.Drawing.Point(24, 114);
+            this.Label_HeldItem.Location = new System.Drawing.Point(25, 114);
             this.Label_HeldItem.Name = "Label_HeldItem";
             this.Label_HeldItem.Size = new System.Drawing.Size(77, 13);
             this.Label_HeldItem.TabIndex = 51;
@@ -586,7 +588,7 @@
             this.CB_HeldItem.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_HeldItem.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_HeldItem.FormattingEnabled = true;
-            this.CB_HeldItem.Location = new System.Drawing.Point(104, 111);
+            this.CB_HeldItem.Location = new System.Drawing.Point(105, 111);
             this.CB_HeldItem.Name = "CB_HeldItem";
             this.CB_HeldItem.Size = new System.Drawing.Size(122, 21);
             this.CB_HeldItem.TabIndex = 10;
@@ -597,7 +599,7 @@
             // TB_Friendship
             // 
             this.TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Friendship.Location = new System.Drawing.Point(104, 133);
+            this.TB_Friendship.Location = new System.Drawing.Point(105, 133);
             this.TB_Friendship.Mask = "000";
             this.TB_Friendship.Name = "TB_Friendship";
             this.TB_Friendship.Size = new System.Drawing.Size(22, 20);
@@ -606,7 +608,7 @@
             // TB_Level
             // 
             this.TB_Level.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Level.Location = new System.Drawing.Point(204, 70);
+            this.TB_Level.Location = new System.Drawing.Point(205, 70);
             this.TB_Level.Mask = "000";
             this.TB_Level.Name = "TB_Level";
             this.TB_Level.Size = new System.Drawing.Size(22, 20);
@@ -617,7 +619,7 @@
             // TB_EXP
             // 
             this.TB_EXP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_EXP.Location = new System.Drawing.Point(104, 70);
+            this.TB_EXP.Location = new System.Drawing.Point(105, 70);
             this.TB_EXP.Mask = "0000000";
             this.TB_EXP.Name = "TB_EXP";
             this.TB_EXP.Size = new System.Drawing.Size(46, 20);
@@ -628,7 +630,7 @@
             // BTN_RerollPID
             // 
             this.BTN_RerollPID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_RerollPID.Location = new System.Drawing.Point(187, 7);
+            this.BTN_RerollPID.Location = new System.Drawing.Point(188, 7);
             this.BTN_RerollPID.Name = "BTN_RerollPID";
             this.BTN_RerollPID.Size = new System.Drawing.Size(40, 20);
             this.BTN_RerollPID.TabIndex = 2;
@@ -640,7 +642,7 @@
             // 
             this.CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_3DSReg.FormattingEnabled = true;
-            this.CB_3DSReg.Location = new System.Drawing.Point(104, 276);
+            this.CB_3DSReg.Location = new System.Drawing.Point(105, 276);
             this.CB_3DSReg.Name = "CB_3DSReg";
             this.CB_3DSReg.Size = new System.Drawing.Size(122, 21);
             this.CB_3DSReg.TabIndex = 23;
@@ -650,7 +652,7 @@
             this.CB_SubRegion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_SubRegion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_SubRegion.FormattingEnabled = true;
-            this.CB_SubRegion.Location = new System.Drawing.Point(104, 256);
+            this.CB_SubRegion.Location = new System.Drawing.Point(105, 256);
             this.CB_SubRegion.Name = "CB_SubRegion";
             this.CB_SubRegion.Size = new System.Drawing.Size(122, 21);
             this.CB_SubRegion.TabIndex = 22;
@@ -663,7 +665,7 @@
             this.CB_Country.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Country.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country.FormattingEnabled = true;
-            this.CB_Country.Location = new System.Drawing.Point(104, 236);
+            this.CB_Country.Location = new System.Drawing.Point(105, 236);
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(122, 21);
             this.CB_Country.TabIndex = 21;
@@ -682,7 +684,7 @@
             "2",
             "3",
             "4"});
-            this.CB_PKRSDays.Location = new System.Drawing.Point(196, 213);
+            this.CB_PKRSDays.Location = new System.Drawing.Point(197, 213);
             this.CB_PKRSDays.Name = "CB_PKRSDays";
             this.CB_PKRSDays.Size = new System.Drawing.Size(30, 21);
             this.CB_PKRSDays.TabIndex = 20;
@@ -710,7 +712,7 @@
             "13",
             "14",
             "15"});
-            this.CB_PKRSStrain.Location = new System.Drawing.Point(134, 213);
+            this.CB_PKRSStrain.Location = new System.Drawing.Point(135, 213);
             this.CB_PKRSStrain.Name = "CB_PKRSStrain";
             this.CB_PKRSStrain.Size = new System.Drawing.Size(43, 21);
             this.CB_PKRSStrain.TabIndex = 19;
@@ -721,7 +723,7 @@
             this.CB_Nature.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Nature.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Nature.FormattingEnabled = true;
-            this.CB_Nature.Location = new System.Drawing.Point(104, 90);
+            this.CB_Nature.Location = new System.Drawing.Point(105, 90);
             this.CB_Nature.Name = "CB_Nature";
             this.CB_Nature.Size = new System.Drawing.Size(122, 21);
             this.CB_Nature.TabIndex = 9;
@@ -731,7 +733,7 @@
             // 
             // Label_3DSRegion
             // 
-            this.Label_3DSRegion.Location = new System.Drawing.Point(24, 279);
+            this.Label_3DSRegion.Location = new System.Drawing.Point(25, 279);
             this.Label_3DSRegion.Name = "Label_3DSRegion";
             this.Label_3DSRegion.Size = new System.Drawing.Size(77, 13);
             this.Label_3DSRegion.TabIndex = 18;
@@ -740,7 +742,7 @@
             // 
             // Label_SubRegion
             // 
-            this.Label_SubRegion.Location = new System.Drawing.Point(24, 259);
+            this.Label_SubRegion.Location = new System.Drawing.Point(25, 259);
             this.Label_SubRegion.Name = "Label_SubRegion";
             this.Label_SubRegion.Size = new System.Drawing.Size(77, 13);
             this.Label_SubRegion.TabIndex = 17;
@@ -749,7 +751,7 @@
             // 
             // Label_Country
             // 
-            this.Label_Country.Location = new System.Drawing.Point(24, 239);
+            this.Label_Country.Location = new System.Drawing.Point(25, 239);
             this.Label_Country.Name = "Label_Country";
             this.Label_Country.Size = new System.Drawing.Size(77, 13);
             this.Label_Country.TabIndex = 16;
@@ -758,7 +760,7 @@
             // 
             // Label_PKRSdays
             // 
-            this.Label_PKRSdays.Location = new System.Drawing.Point(177, 216);
+            this.Label_PKRSdays.Location = new System.Drawing.Point(178, 216);
             this.Label_PKRSdays.Name = "Label_PKRSdays";
             this.Label_PKRSdays.Size = new System.Drawing.Size(20, 13);
             this.Label_PKRSdays.TabIndex = 15;
@@ -767,7 +769,7 @@
             // 
             // Label_PKRS
             // 
-            this.Label_PKRS.Location = new System.Drawing.Point(79, 216);
+            this.Label_PKRS.Location = new System.Drawing.Point(80, 216);
             this.Label_PKRS.Name = "Label_PKRS";
             this.Label_PKRS.Size = new System.Drawing.Size(56, 13);
             this.Label_PKRS.TabIndex = 14;
@@ -777,7 +779,7 @@
             // CHK_IsEgg
             // 
             this.CHK_IsEgg.AutoSize = true;
-            this.CHK_IsEgg.Location = new System.Drawing.Point(42, 196);
+            this.CHK_IsEgg.Location = new System.Drawing.Point(43, 196);
             this.CHK_IsEgg.Name = "CHK_IsEgg";
             this.CHK_IsEgg.Size = new System.Drawing.Size(56, 17);
             this.CHK_IsEgg.TabIndex = 16;
@@ -788,7 +790,7 @@
             // 
             // Label_Language
             // 
-            this.Label_Language.Location = new System.Drawing.Point(24, 175);
+            this.Label_Language.Location = new System.Drawing.Point(25, 175);
             this.Label_Language.Name = "Label_Language";
             this.Label_Language.Size = new System.Drawing.Size(77, 13);
             this.Label_Language.TabIndex = 12;
@@ -798,7 +800,7 @@
             // Label_Form
             // 
             this.Label_Form.AutoSize = true;
-            this.Label_Form.Location = new System.Drawing.Point(127, 136);
+            this.Label_Form.Location = new System.Drawing.Point(128, 136);
             this.Label_Form.Name = "Label_Form";
             this.Label_Form.Size = new System.Drawing.Size(33, 13);
             this.Label_Form.TabIndex = 11;
@@ -806,7 +808,7 @@
             // 
             // Label_Ability
             // 
-            this.Label_Ability.Location = new System.Drawing.Point(24, 154);
+            this.Label_Ability.Location = new System.Drawing.Point(25, 154);
             this.Label_Ability.Name = "Label_Ability";
             this.Label_Ability.Size = new System.Drawing.Size(77, 13);
             this.Label_Ability.TabIndex = 10;
@@ -815,7 +817,7 @@
             // 
             // Label_Friendship
             // 
-            this.Label_Friendship.Location = new System.Drawing.Point(24, 135);
+            this.Label_Friendship.Location = new System.Drawing.Point(25, 135);
             this.Label_Friendship.Name = "Label_Friendship";
             this.Label_Friendship.Size = new System.Drawing.Size(77, 13);
             this.Label_Friendship.TabIndex = 9;
@@ -825,7 +827,7 @@
             // 
             // Label_Nature
             // 
-            this.Label_Nature.Location = new System.Drawing.Point(24, 93);
+            this.Label_Nature.Location = new System.Drawing.Point(25, 93);
             this.Label_Nature.Name = "Label_Nature";
             this.Label_Nature.Size = new System.Drawing.Size(77, 13);
             this.Label_Nature.TabIndex = 8;
@@ -834,7 +836,7 @@
             // 
             // Label_CurLevel
             // 
-            this.Label_CurLevel.Location = new System.Drawing.Point(152, 73);
+            this.Label_CurLevel.Location = new System.Drawing.Point(153, 73);
             this.Label_CurLevel.Name = "Label_CurLevel";
             this.Label_CurLevel.Size = new System.Drawing.Size(50, 13);
             this.Label_CurLevel.TabIndex = 7;
@@ -844,7 +846,7 @@
             // TB_Nickname
             // 
             this.TB_Nickname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Nickname.Location = new System.Drawing.Point(104, 49);
+            this.TB_Nickname.Location = new System.Drawing.Point(105, 49);
             this.TB_Nickname.MaxLength = 12;
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
@@ -855,7 +857,7 @@
             this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Species.FormattingEnabled = true;
-            this.CB_Species.Location = new System.Drawing.Point(104, 27);
+            this.CB_Species.Location = new System.Drawing.Point(105, 27);
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(122, 21);
             this.CB_Species.TabIndex = 3;
@@ -866,7 +868,7 @@
             // 
             // Label_EXP
             // 
-            this.Label_EXP.Location = new System.Drawing.Point(24, 73);
+            this.Label_EXP.Location = new System.Drawing.Point(25, 73);
             this.Label_EXP.Name = "Label_EXP";
             this.Label_EXP.Size = new System.Drawing.Size(77, 13);
             this.Label_EXP.TabIndex = 3;
@@ -875,7 +877,7 @@
             // 
             // Label_Species
             // 
-            this.Label_Species.Location = new System.Drawing.Point(24, 30);
+            this.Label_Species.Location = new System.Drawing.Point(25, 30);
             this.Label_Species.Name = "Label_Species";
             this.Label_Species.Size = new System.Drawing.Size(77, 13);
             this.Label_Species.TabIndex = 1;
@@ -885,7 +887,7 @@
             // 
             // Label_HatchCounter
             // 
-            this.Label_HatchCounter.Location = new System.Drawing.Point(19, 134);
+            this.Label_HatchCounter.Location = new System.Drawing.Point(20, 134);
             this.Label_HatchCounter.Name = "Label_HatchCounter";
             this.Label_HatchCounter.Size = new System.Drawing.Size(82, 13);
             this.Label_HatchCounter.TabIndex = 61;
@@ -896,7 +898,7 @@
             // 
             this.Label_IsShiny.Image = global::PKHeX.Properties.Resources.rare_icon;
             this.Label_IsShiny.InitialImage = global::PKHeX.Properties.Resources.rare_icon;
-            this.Label_IsShiny.Location = new System.Drawing.Point(52, 7);
+            this.Label_IsShiny.Location = new System.Drawing.Point(53, 7);
             this.Label_IsShiny.Name = "Label_IsShiny";
             this.Label_IsShiny.Size = new System.Drawing.Size(20, 20);
             this.Label_IsShiny.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -906,7 +908,7 @@
             // 
             // BTN_Shinytize
             // 
-            this.BTN_Shinytize.Location = new System.Drawing.Point(49, 6);
+            this.BTN_Shinytize.Location = new System.Drawing.Point(50, 6);
             this.BTN_Shinytize.Name = "BTN_Shinytize";
             this.BTN_Shinytize.Size = new System.Drawing.Size(26, 22);
             this.BTN_Shinytize.TabIndex = 58;
@@ -916,7 +918,7 @@
             // 
             // Label_PID
             // 
-            this.Label_PID.Location = new System.Drawing.Point(24, 11);
+            this.Label_PID.Location = new System.Drawing.Point(25, 11);
             this.Label_PID.Name = "Label_PID";
             this.Label_PID.Size = new System.Drawing.Size(77, 13);
             this.Label_PID.TabIndex = 0;
@@ -926,7 +928,7 @@
             // TB_AbilityNumber
             // 
             this.TB_AbilityNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AbilityNumber.Location = new System.Drawing.Point(206, 151);
+            this.TB_AbilityNumber.Location = new System.Drawing.Point(207, 151);
             this.TB_AbilityNumber.Mask = "0";
             this.TB_AbilityNumber.Name = "TB_AbilityNumber";
             this.TB_AbilityNumber.Size = new System.Drawing.Size(20, 20);
@@ -955,7 +957,7 @@
             this.Tab_Met.Location = new System.Drawing.Point(4, 22);
             this.Tab_Met.Name = "Tab_Met";
             this.Tab_Met.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Met.Size = new System.Drawing.Size(262, 299);
+            this.Tab_Met.Size = new System.Drawing.Size(272, 299);
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
@@ -963,7 +965,7 @@
             // CHK_AsEgg
             // 
             this.CHK_AsEgg.AutoSize = true;
-            this.CHK_AsEgg.Location = new System.Drawing.Point(104, 204);
+            this.CHK_AsEgg.Location = new System.Drawing.Point(105, 204);
             this.CHK_AsEgg.Name = "CHK_AsEgg";
             this.CHK_AsEgg.Size = new System.Drawing.Size(60, 17);
             this.CHK_AsEgg.TabIndex = 8;
@@ -974,7 +976,7 @@
             // CHK_Fateful
             // 
             this.CHK_Fateful.AutoSize = true;
-            this.CHK_Fateful.Location = new System.Drawing.Point(104, 135);
+            this.CHK_Fateful.Location = new System.Drawing.Point(105, 135);
             this.CHK_Fateful.Name = "CHK_Fateful";
             this.CHK_Fateful.Size = new System.Drawing.Size(110, 17);
             this.CHK_Fateful.TabIndex = 7;
@@ -988,7 +990,7 @@
             this.GB_EggConditions.Controls.Add(this.Label_EggDate);
             this.GB_EggConditions.Controls.Add(this.Label_EggLocation);
             this.GB_EggConditions.Enabled = false;
-            this.GB_EggConditions.Location = new System.Drawing.Point(36, 226);
+            this.GB_EggConditions.Location = new System.Drawing.Point(37, 226);
             this.GB_EggConditions.Name = "GB_EggConditions";
             this.GB_EggConditions.Size = new System.Drawing.Size(200, 67);
             this.GB_EggConditions.TabIndex = 9;
@@ -1042,7 +1044,7 @@
             // Label_EncounterType
             // 
             this.Label_EncounterType.Enabled = false;
-            this.Label_EncounterType.Location = new System.Drawing.Point(24, 114);
+            this.Label_EncounterType.Location = new System.Drawing.Point(25, 114);
             this.Label_EncounterType.Name = "Label_EncounterType";
             this.Label_EncounterType.Size = new System.Drawing.Size(77, 13);
             this.Label_EncounterType.TabIndex = 5;
@@ -1051,7 +1053,7 @@
             // 
             // Label_MetDate
             // 
-            this.Label_MetDate.Location = new System.Drawing.Point(24, 93);
+            this.Label_MetDate.Location = new System.Drawing.Point(25, 93);
             this.Label_MetDate.Name = "Label_MetDate";
             this.Label_MetDate.Size = new System.Drawing.Size(77, 13);
             this.Label_MetDate.TabIndex = 4;
@@ -1060,7 +1062,7 @@
             // 
             // Label_MetLevel
             // 
-            this.Label_MetLevel.Location = new System.Drawing.Point(24, 73);
+            this.Label_MetLevel.Location = new System.Drawing.Point(25, 73);
             this.Label_MetLevel.Name = "Label_MetLevel";
             this.Label_MetLevel.Size = new System.Drawing.Size(77, 13);
             this.Label_MetLevel.TabIndex = 3;
@@ -1069,7 +1071,7 @@
             // 
             // Label_Ball
             // 
-            this.Label_Ball.Location = new System.Drawing.Point(24, 52);
+            this.Label_Ball.Location = new System.Drawing.Point(25, 52);
             this.Label_Ball.Name = "Label_Ball";
             this.Label_Ball.Size = new System.Drawing.Size(77, 13);
             this.Label_Ball.TabIndex = 2;
@@ -1078,7 +1080,7 @@
             // 
             // Label_MetLocation
             // 
-            this.Label_MetLocation.Location = new System.Drawing.Point(24, 30);
+            this.Label_MetLocation.Location = new System.Drawing.Point(25, 30);
             this.Label_MetLocation.Name = "Label_MetLocation";
             this.Label_MetLocation.Size = new System.Drawing.Size(77, 13);
             this.Label_MetLocation.TabIndex = 1;
@@ -1087,7 +1089,7 @@
             // 
             // Label_OriginGame
             // 
-            this.Label_OriginGame.Location = new System.Drawing.Point(24, 11);
+            this.Label_OriginGame.Location = new System.Drawing.Point(25, 11);
             this.Label_OriginGame.Name = "Label_OriginGame";
             this.Label_OriginGame.Size = new System.Drawing.Size(77, 13);
             this.Label_OriginGame.TabIndex = 0;
@@ -1098,7 +1100,7 @@
             // 
             this.CB_GameOrigin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_GameOrigin.FormattingEnabled = true;
-            this.CB_GameOrigin.Location = new System.Drawing.Point(104, 7);
+            this.CB_GameOrigin.Location = new System.Drawing.Point(105, 7);
             this.CB_GameOrigin.Name = "CB_GameOrigin";
             this.CB_GameOrigin.Size = new System.Drawing.Size(122, 21);
             this.CB_GameOrigin.TabIndex = 1;
@@ -1110,7 +1112,7 @@
             this.CB_MetLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_MetLocation.DropDownWidth = 150;
             this.CB_MetLocation.FormattingEnabled = true;
-            this.CB_MetLocation.Location = new System.Drawing.Point(104, 27);
+            this.CB_MetLocation.Location = new System.Drawing.Point(105, 27);
             this.CB_MetLocation.Name = "CB_MetLocation";
             this.CB_MetLocation.Size = new System.Drawing.Size(122, 21);
             this.CB_MetLocation.TabIndex = 10;
@@ -1123,7 +1125,7 @@
             this.CB_Ball.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Ball.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Ball.FormattingEnabled = true;
-            this.CB_Ball.Location = new System.Drawing.Point(104, 48);
+            this.CB_Ball.Location = new System.Drawing.Point(105, 48);
             this.CB_Ball.Name = "CB_Ball";
             this.CB_Ball.Size = new System.Drawing.Size(122, 21);
             this.CB_Ball.TabIndex = 3;
@@ -1134,7 +1136,7 @@
             // TB_MetLevel
             // 
             this.TB_MetLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_MetLevel.Location = new System.Drawing.Point(104, 70);
+            this.TB_MetLevel.Location = new System.Drawing.Point(105, 70);
             this.TB_MetLevel.Mask = "000";
             this.TB_MetLevel.Name = "TB_MetLevel";
             this.TB_MetLevel.Size = new System.Drawing.Size(122, 20);
@@ -1144,7 +1146,7 @@
             // 
             this.CAL_MetDate.CustomFormat = "MM/dd/yyyy";
             this.CAL_MetDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.CAL_MetDate.Location = new System.Drawing.Point(104, 90);
+            this.CAL_MetDate.Location = new System.Drawing.Point(105, 90);
             this.CAL_MetDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.CAL_MetDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_MetDate.Name = "CAL_MetDate";
@@ -1157,7 +1159,7 @@
             this.CB_EncounterType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_EncounterType.DropDownWidth = 140;
             this.CB_EncounterType.FormattingEnabled = true;
-            this.CB_EncounterType.Location = new System.Drawing.Point(104, 110);
+            this.CB_EncounterType.Location = new System.Drawing.Point(105, 110);
             this.CB_EncounterType.Name = "CB_EncounterType";
             this.CB_EncounterType.Size = new System.Drawing.Size(122, 21);
             this.CB_EncounterType.TabIndex = 6;
@@ -1218,14 +1220,14 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(262, 299);
+            this.Tab_Stats.Size = new System.Drawing.Size(272, 299);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
             // 
             // Label_CharacteristicPrefix
             // 
-            this.Label_CharacteristicPrefix.Location = new System.Drawing.Point(24, 198);
+            this.Label_CharacteristicPrefix.Location = new System.Drawing.Point(29, 198);
             this.Label_CharacteristicPrefix.Name = "Label_CharacteristicPrefix";
             this.Label_CharacteristicPrefix.Size = new System.Drawing.Size(103, 13);
             this.Label_CharacteristicPrefix.TabIndex = 43;
@@ -1236,7 +1238,7 @@
             // 
             this.L_Potential.AutoSize = true;
             this.L_Potential.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.L_Potential.Location = new System.Drawing.Point(160, 153);
+            this.L_Potential.Location = new System.Drawing.Point(165, 153);
             this.L_Potential.Name = "L_Potential";
             this.L_Potential.Size = new System.Drawing.Size(67, 16);
             this.L_Potential.TabIndex = 42;
@@ -1246,7 +1248,7 @@
             // 
             this.TB_IVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_IVTotal.Enabled = false;
-            this.TB_IVTotal.Location = new System.Drawing.Point(97, 151);
+            this.TB_IVTotal.Location = new System.Drawing.Point(102, 151);
             this.TB_IVTotal.MaxLength = 3;
             this.TB_IVTotal.Name = "TB_IVTotal";
             this.TB_IVTotal.Size = new System.Drawing.Size(22, 20);
@@ -1256,7 +1258,7 @@
             // L_Characteristic
             // 
             this.L_Characteristic.AutoSize = true;
-            this.L_Characteristic.Location = new System.Drawing.Point(126, 198);
+            this.L_Characteristic.Location = new System.Drawing.Point(131, 198);
             this.L_Characteristic.Name = "L_Characteristic";
             this.L_Characteristic.Size = new System.Drawing.Size(34, 13);
             this.L_Characteristic.TabIndex = 40;
@@ -1265,7 +1267,7 @@
             // TB_Sheen
             // 
             this.TB_Sheen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Sheen.Location = new System.Drawing.Point(208, 279);
+            this.TB_Sheen.Location = new System.Drawing.Point(213, 279);
             this.TB_Sheen.Mask = "000";
             this.TB_Sheen.Name = "TB_Sheen";
             this.TB_Sheen.Size = new System.Drawing.Size(31, 20);
@@ -1276,7 +1278,7 @@
             // TB_Tough
             // 
             this.TB_Tough.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Tough.Location = new System.Drawing.Point(171, 279);
+            this.TB_Tough.Location = new System.Drawing.Point(176, 279);
             this.TB_Tough.Mask = "000";
             this.TB_Tough.Name = "TB_Tough";
             this.TB_Tough.Size = new System.Drawing.Size(31, 20);
@@ -1287,7 +1289,7 @@
             // TB_Smart
             // 
             this.TB_Smart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Smart.Location = new System.Drawing.Point(134, 279);
+            this.TB_Smart.Location = new System.Drawing.Point(139, 279);
             this.TB_Smart.Mask = "000";
             this.TB_Smart.Name = "TB_Smart";
             this.TB_Smart.Size = new System.Drawing.Size(31, 20);
@@ -1298,7 +1300,7 @@
             // TB_Cute
             // 
             this.TB_Cute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Cute.Location = new System.Drawing.Point(97, 279);
+            this.TB_Cute.Location = new System.Drawing.Point(102, 279);
             this.TB_Cute.Mask = "000";
             this.TB_Cute.Name = "TB_Cute";
             this.TB_Cute.Size = new System.Drawing.Size(31, 20);
@@ -1309,7 +1311,7 @@
             // TB_Beauty
             // 
             this.TB_Beauty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Beauty.Location = new System.Drawing.Point(60, 279);
+            this.TB_Beauty.Location = new System.Drawing.Point(65, 279);
             this.TB_Beauty.Mask = "000";
             this.TB_Beauty.Name = "TB_Beauty";
             this.TB_Beauty.Size = new System.Drawing.Size(31, 20);
@@ -1320,7 +1322,7 @@
             // TB_Cool
             // 
             this.TB_Cool.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Cool.Location = new System.Drawing.Point(23, 279);
+            this.TB_Cool.Location = new System.Drawing.Point(28, 279);
             this.TB_Cool.Mask = "000";
             this.TB_Cool.Name = "TB_Cool";
             this.TB_Cool.Size = new System.Drawing.Size(31, 20);
@@ -1331,7 +1333,7 @@
             // TB_SPEIV
             // 
             this.TB_SPEIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPEIV.Location = new System.Drawing.Point(97, 129);
+            this.TB_SPEIV.Location = new System.Drawing.Point(102, 129);
             this.TB_SPEIV.Mask = "00";
             this.TB_SPEIV.Name = "TB_SPEIV";
             this.TB_SPEIV.Size = new System.Drawing.Size(22, 20);
@@ -1342,7 +1344,7 @@
             // TB_SPDIV
             // 
             this.TB_SPDIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPDIV.Location = new System.Drawing.Point(97, 107);
+            this.TB_SPDIV.Location = new System.Drawing.Point(102, 107);
             this.TB_SPDIV.Mask = "00";
             this.TB_SPDIV.Name = "TB_SPDIV";
             this.TB_SPDIV.Size = new System.Drawing.Size(22, 20);
@@ -1353,7 +1355,7 @@
             // TB_SPAIV
             // 
             this.TB_SPAIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPAIV.Location = new System.Drawing.Point(97, 85);
+            this.TB_SPAIV.Location = new System.Drawing.Point(102, 85);
             this.TB_SPAIV.Mask = "00";
             this.TB_SPAIV.Name = "TB_SPAIV";
             this.TB_SPAIV.Size = new System.Drawing.Size(22, 20);
@@ -1364,7 +1366,7 @@
             // TB_DEFIV
             // 
             this.TB_DEFIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_DEFIV.Location = new System.Drawing.Point(97, 63);
+            this.TB_DEFIV.Location = new System.Drawing.Point(102, 63);
             this.TB_DEFIV.Mask = "00";
             this.TB_DEFIV.Name = "TB_DEFIV";
             this.TB_DEFIV.Size = new System.Drawing.Size(22, 20);
@@ -1375,7 +1377,7 @@
             // TB_ATKIV
             // 
             this.TB_ATKIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ATKIV.Location = new System.Drawing.Point(97, 41);
+            this.TB_ATKIV.Location = new System.Drawing.Point(102, 41);
             this.TB_ATKIV.Mask = "00";
             this.TB_ATKIV.Name = "TB_ATKIV";
             this.TB_ATKIV.Size = new System.Drawing.Size(22, 20);
@@ -1386,7 +1388,7 @@
             // TB_HPIV
             // 
             this.TB_HPIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HPIV.Location = new System.Drawing.Point(97, 19);
+            this.TB_HPIV.Location = new System.Drawing.Point(102, 19);
             this.TB_HPIV.Mask = "00";
             this.TB_HPIV.Name = "TB_HPIV";
             this.TB_HPIV.Size = new System.Drawing.Size(22, 20);
@@ -1397,7 +1399,7 @@
             // TB_ATKEV
             // 
             this.TB_ATKEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ATKEV.Location = new System.Drawing.Point(125, 41);
+            this.TB_ATKEV.Location = new System.Drawing.Point(130, 41);
             this.TB_ATKEV.Mask = "000";
             this.TB_ATKEV.Name = "TB_ATKEV";
             this.TB_ATKEV.Size = new System.Drawing.Size(31, 20);
@@ -1408,7 +1410,7 @@
             // TB_DEFEV
             // 
             this.TB_DEFEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_DEFEV.Location = new System.Drawing.Point(125, 63);
+            this.TB_DEFEV.Location = new System.Drawing.Point(130, 63);
             this.TB_DEFEV.Mask = "000";
             this.TB_DEFEV.Name = "TB_DEFEV";
             this.TB_DEFEV.Size = new System.Drawing.Size(31, 20);
@@ -1419,7 +1421,7 @@
             // TB_SPEEV
             // 
             this.TB_SPEEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPEEV.Location = new System.Drawing.Point(125, 129);
+            this.TB_SPEEV.Location = new System.Drawing.Point(130, 129);
             this.TB_SPEEV.Mask = "000";
             this.TB_SPEEV.Name = "TB_SPEEV";
             this.TB_SPEEV.Size = new System.Drawing.Size(31, 20);
@@ -1430,7 +1432,7 @@
             // TB_SPDEV
             // 
             this.TB_SPDEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPDEV.Location = new System.Drawing.Point(125, 107);
+            this.TB_SPDEV.Location = new System.Drawing.Point(130, 107);
             this.TB_SPDEV.Mask = "000";
             this.TB_SPDEV.Name = "TB_SPDEV";
             this.TB_SPDEV.Size = new System.Drawing.Size(31, 20);
@@ -1441,7 +1443,7 @@
             // TB_SPAEV
             // 
             this.TB_SPAEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPAEV.Location = new System.Drawing.Point(125, 85);
+            this.TB_SPAEV.Location = new System.Drawing.Point(130, 85);
             this.TB_SPAEV.Mask = "000";
             this.TB_SPAEV.Name = "TB_SPAEV";
             this.TB_SPAEV.Size = new System.Drawing.Size(31, 20);
@@ -1452,7 +1454,7 @@
             // TB_HPEV
             // 
             this.TB_HPEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HPEV.Location = new System.Drawing.Point(125, 19);
+            this.TB_HPEV.Location = new System.Drawing.Point(130, 19);
             this.TB_HPEV.Mask = "000";
             this.TB_HPEV.Name = "TB_HPEV";
             this.TB_HPEV.Size = new System.Drawing.Size(31, 20);
@@ -1462,7 +1464,7 @@
             // 
             // Label_Sheen
             // 
-            this.Label_Sheen.Location = new System.Drawing.Point(202, 266);
+            this.Label_Sheen.Location = new System.Drawing.Point(207, 266);
             this.Label_Sheen.Name = "Label_Sheen";
             this.Label_Sheen.Size = new System.Drawing.Size(43, 13);
             this.Label_Sheen.TabIndex = 39;
@@ -1471,7 +1473,7 @@
             // 
             // Label_Tough
             // 
-            this.Label_Tough.Location = new System.Drawing.Point(165, 266);
+            this.Label_Tough.Location = new System.Drawing.Point(170, 266);
             this.Label_Tough.Name = "Label_Tough";
             this.Label_Tough.Size = new System.Drawing.Size(43, 13);
             this.Label_Tough.TabIndex = 38;
@@ -1480,7 +1482,7 @@
             // 
             // Label_Smart
             // 
-            this.Label_Smart.Location = new System.Drawing.Point(128, 266);
+            this.Label_Smart.Location = new System.Drawing.Point(133, 266);
             this.Label_Smart.Name = "Label_Smart";
             this.Label_Smart.Size = new System.Drawing.Size(43, 13);
             this.Label_Smart.TabIndex = 37;
@@ -1489,7 +1491,7 @@
             // 
             // Label_Cute
             // 
-            this.Label_Cute.Location = new System.Drawing.Point(91, 266);
+            this.Label_Cute.Location = new System.Drawing.Point(96, 266);
             this.Label_Cute.Name = "Label_Cute";
             this.Label_Cute.Size = new System.Drawing.Size(43, 13);
             this.Label_Cute.TabIndex = 36;
@@ -1498,7 +1500,7 @@
             // 
             // Label_Beauty
             // 
-            this.Label_Beauty.Location = new System.Drawing.Point(54, 266);
+            this.Label_Beauty.Location = new System.Drawing.Point(59, 266);
             this.Label_Beauty.Name = "Label_Beauty";
             this.Label_Beauty.Size = new System.Drawing.Size(43, 13);
             this.Label_Beauty.TabIndex = 35;
@@ -1507,7 +1509,7 @@
             // 
             // Label_Cool
             // 
-            this.Label_Cool.Location = new System.Drawing.Point(17, 266);
+            this.Label_Cool.Location = new System.Drawing.Point(22, 266);
             this.Label_Cool.Name = "Label_Cool";
             this.Label_Cool.Size = new System.Drawing.Size(43, 13);
             this.Label_Cool.TabIndex = 34;
@@ -1516,7 +1518,7 @@
             // 
             // Label_ContestStats
             // 
-            this.Label_ContestStats.Location = new System.Drawing.Point(62, 250);
+            this.Label_ContestStats.Location = new System.Drawing.Point(67, 250);
             this.Label_ContestStats.Name = "Label_ContestStats";
             this.Label_ContestStats.Size = new System.Drawing.Size(140, 13);
             this.Label_ContestStats.TabIndex = 33;
@@ -1525,7 +1527,7 @@
             // 
             // BTN_RandomEVs
             // 
-            this.BTN_RandomEVs.Location = new System.Drawing.Point(135, 218);
+            this.BTN_RandomEVs.Location = new System.Drawing.Point(140, 218);
             this.BTN_RandomEVs.Name = "BTN_RandomEVs";
             this.BTN_RandomEVs.Size = new System.Drawing.Size(92, 23);
             this.BTN_RandomEVs.TabIndex = 14;
@@ -1535,7 +1537,7 @@
             // 
             // BTN_RandomIVs
             // 
-            this.BTN_RandomIVs.Location = new System.Drawing.Point(36, 218);
+            this.BTN_RandomIVs.Location = new System.Drawing.Point(41, 218);
             this.BTN_RandomIVs.Name = "BTN_RandomIVs";
             this.BTN_RandomIVs.Size = new System.Drawing.Size(92, 23);
             this.BTN_RandomIVs.TabIndex = 13;
@@ -1546,7 +1548,7 @@
             // Label_HPTYPE
             // 
             this.Label_HPTYPE.AutoSize = true;
-            this.Label_HPTYPE.Location = new System.Drawing.Point(155, 179);
+            this.Label_HPTYPE.Location = new System.Drawing.Point(160, 179);
             this.Label_HPTYPE.Name = "Label_HPTYPE";
             this.Label_HPTYPE.Size = new System.Drawing.Size(33, 13);
             this.Label_HPTYPE.TabIndex = 30;
@@ -1554,7 +1556,7 @@
             // 
             // Label_HiddenPowerPrefix
             // 
-            this.Label_HiddenPowerPrefix.Location = new System.Drawing.Point(24, 179);
+            this.Label_HiddenPowerPrefix.Location = new System.Drawing.Point(29, 179);
             this.Label_HiddenPowerPrefix.Name = "Label_HiddenPowerPrefix";
             this.Label_HiddenPowerPrefix.Size = new System.Drawing.Size(133, 13);
             this.Label_HiddenPowerPrefix.TabIndex = 29;
@@ -1563,7 +1565,7 @@
             // 
             // Label_Stats
             // 
-            this.Label_Stats.Location = new System.Drawing.Point(157, 6);
+            this.Label_Stats.Location = new System.Drawing.Point(162, 6);
             this.Label_Stats.Name = "Label_Stats";
             this.Label_Stats.Size = new System.Drawing.Size(40, 13);
             this.Label_Stats.TabIndex = 28;
@@ -1572,7 +1574,7 @@
             // 
             // Label_EVs
             // 
-            this.Label_EVs.Location = new System.Drawing.Point(120, 6);
+            this.Label_EVs.Location = new System.Drawing.Point(125, 6);
             this.Label_EVs.Name = "Label_EVs";
             this.Label_EVs.Size = new System.Drawing.Size(40, 13);
             this.Label_EVs.TabIndex = 27;
@@ -1581,7 +1583,7 @@
             // 
             // Label_IVs
             // 
-            this.Label_IVs.Location = new System.Drawing.Point(93, 6);
+            this.Label_IVs.Location = new System.Drawing.Point(98, 6);
             this.Label_IVs.Name = "Label_IVs";
             this.Label_IVs.Size = new System.Drawing.Size(30, 13);
             this.Label_IVs.TabIndex = 26;
@@ -1590,7 +1592,7 @@
             // 
             // Label_Total
             // 
-            this.Label_Total.Location = new System.Drawing.Point(24, 154);
+            this.Label_Total.Location = new System.Drawing.Point(29, 154);
             this.Label_Total.Name = "Label_Total";
             this.Label_Total.Size = new System.Drawing.Size(70, 13);
             this.Label_Total.TabIndex = 25;
@@ -1599,7 +1601,7 @@
             // 
             // Label_SPE
             // 
-            this.Label_SPE.Location = new System.Drawing.Point(24, 131);
+            this.Label_SPE.Location = new System.Drawing.Point(29, 131);
             this.Label_SPE.Name = "Label_SPE";
             this.Label_SPE.Size = new System.Drawing.Size(70, 13);
             this.Label_SPE.TabIndex = 24;
@@ -1608,7 +1610,7 @@
             // 
             // Label_SPD
             // 
-            this.Label_SPD.Location = new System.Drawing.Point(24, 109);
+            this.Label_SPD.Location = new System.Drawing.Point(29, 109);
             this.Label_SPD.Name = "Label_SPD";
             this.Label_SPD.Size = new System.Drawing.Size(70, 13);
             this.Label_SPD.TabIndex = 23;
@@ -1617,7 +1619,7 @@
             // 
             // Label_SPA
             // 
-            this.Label_SPA.Location = new System.Drawing.Point(24, 87);
+            this.Label_SPA.Location = new System.Drawing.Point(29, 87);
             this.Label_SPA.Name = "Label_SPA";
             this.Label_SPA.Size = new System.Drawing.Size(70, 13);
             this.Label_SPA.TabIndex = 22;
@@ -1626,7 +1628,7 @@
             // 
             // Label_DEF
             // 
-            this.Label_DEF.Location = new System.Drawing.Point(24, 65);
+            this.Label_DEF.Location = new System.Drawing.Point(29, 65);
             this.Label_DEF.Name = "Label_DEF";
             this.Label_DEF.Size = new System.Drawing.Size(70, 13);
             this.Label_DEF.TabIndex = 21;
@@ -1635,7 +1637,7 @@
             // 
             // Label_ATK
             // 
-            this.Label_ATK.Location = new System.Drawing.Point(24, 43);
+            this.Label_ATK.Location = new System.Drawing.Point(29, 43);
             this.Label_ATK.Name = "Label_ATK";
             this.Label_ATK.Size = new System.Drawing.Size(70, 13);
             this.Label_ATK.TabIndex = 20;
@@ -1644,7 +1646,7 @@
             // 
             // Label_HP
             // 
-            this.Label_HP.Location = new System.Drawing.Point(24, 21);
+            this.Label_HP.Location = new System.Drawing.Point(29, 21);
             this.Label_HP.Name = "Label_HP";
             this.Label_HP.Size = new System.Drawing.Size(70, 13);
             this.Label_HP.TabIndex = 19;
@@ -1655,7 +1657,7 @@
             // 
             this.TB_EVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EVTotal.Enabled = false;
-            this.TB_EVTotal.Location = new System.Drawing.Point(125, 151);
+            this.TB_EVTotal.Location = new System.Drawing.Point(130, 151);
             this.TB_EVTotal.MaxLength = 3;
             this.TB_EVTotal.Name = "TB_EVTotal";
             this.TB_EVTotal.Size = new System.Drawing.Size(31, 20);
@@ -1666,7 +1668,7 @@
             // 
             this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPE.Enabled = false;
-            this.Stat_SPE.Location = new System.Drawing.Point(162, 129);
+            this.Stat_SPE.Location = new System.Drawing.Point(167, 129);
             this.Stat_SPE.MaxLength = 3;
             this.Stat_SPE.Name = "Stat_SPE";
             this.Stat_SPE.Size = new System.Drawing.Size(31, 20);
@@ -1677,7 +1679,7 @@
             // 
             this.Stat_SPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPD.Enabled = false;
-            this.Stat_SPD.Location = new System.Drawing.Point(162, 107);
+            this.Stat_SPD.Location = new System.Drawing.Point(167, 107);
             this.Stat_SPD.MaxLength = 3;
             this.Stat_SPD.Name = "Stat_SPD";
             this.Stat_SPD.Size = new System.Drawing.Size(31, 20);
@@ -1688,7 +1690,7 @@
             // 
             this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPA.Enabled = false;
-            this.Stat_SPA.Location = new System.Drawing.Point(162, 85);
+            this.Stat_SPA.Location = new System.Drawing.Point(167, 85);
             this.Stat_SPA.MaxLength = 3;
             this.Stat_SPA.Name = "Stat_SPA";
             this.Stat_SPA.Size = new System.Drawing.Size(31, 20);
@@ -1699,7 +1701,7 @@
             // 
             this.Stat_DEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_DEF.Enabled = false;
-            this.Stat_DEF.Location = new System.Drawing.Point(162, 63);
+            this.Stat_DEF.Location = new System.Drawing.Point(167, 63);
             this.Stat_DEF.MaxLength = 3;
             this.Stat_DEF.Name = "Stat_DEF";
             this.Stat_DEF.Size = new System.Drawing.Size(31, 20);
@@ -1710,7 +1712,7 @@
             // 
             this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_ATK.Enabled = false;
-            this.Stat_ATK.Location = new System.Drawing.Point(162, 41);
+            this.Stat_ATK.Location = new System.Drawing.Point(167, 41);
             this.Stat_ATK.MaxLength = 3;
             this.Stat_ATK.Name = "Stat_ATK";
             this.Stat_ATK.Size = new System.Drawing.Size(31, 20);
@@ -1721,7 +1723,7 @@
             // 
             this.Stat_HP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_HP.Enabled = false;
-            this.Stat_HP.Location = new System.Drawing.Point(162, 19);
+            this.Stat_HP.Location = new System.Drawing.Point(167, 19);
             this.Stat_HP.MaxLength = 3;
             this.Stat_HP.Name = "Stat_HP";
             this.Stat_HP.Size = new System.Drawing.Size(31, 20);
@@ -1736,7 +1738,7 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(262, 299);
+            this.Tab_Attacks.Size = new System.Drawing.Size(272, 299);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
@@ -1747,7 +1749,7 @@
             this.GB_RelearnMoves.Controls.Add(this.CB_RelearnMove3);
             this.GB_RelearnMoves.Controls.Add(this.CB_RelearnMove2);
             this.GB_RelearnMoves.Controls.Add(this.CB_RelearnMove1);
-            this.GB_RelearnMoves.Location = new System.Drawing.Point(21, 160);
+            this.GB_RelearnMoves.Location = new System.Drawing.Point(25, 160);
             this.GB_RelearnMoves.Name = "GB_RelearnMoves";
             this.GB_RelearnMoves.Size = new System.Drawing.Size(220, 120);
             this.GB_RelearnMoves.TabIndex = 1;
@@ -1826,7 +1828,7 @@
             this.GB_CurrentMoves.Controls.Add(this.CB_Move3);
             this.GB_CurrentMoves.Controls.Add(this.CB_Move2);
             this.GB_CurrentMoves.Controls.Add(this.CB_Move1);
-            this.GB_CurrentMoves.Location = new System.Drawing.Point(23, 19);
+            this.GB_CurrentMoves.Location = new System.Drawing.Point(27, 19);
             this.GB_CurrentMoves.Name = "GB_CurrentMoves";
             this.GB_CurrentMoves.Size = new System.Drawing.Size(220, 120);
             this.GB_CurrentMoves.TabIndex = 0;
@@ -2026,7 +2028,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(262, 299);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 299);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -2035,7 +2037,7 @@
             // 
             this.CHK_Diamond.AutoSize = true;
             this.CHK_Diamond.Font = new System.Drawing.Font("Cambria", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CHK_Diamond.Location = new System.Drawing.Point(200, 228);
+            this.CHK_Diamond.Location = new System.Drawing.Point(205, 228);
             this.CHK_Diamond.Name = "CHK_Diamond";
             this.CHK_Diamond.Size = new System.Drawing.Size(15, 14);
             this.CHK_Diamond.TabIndex = 13;
@@ -2046,7 +2048,7 @@
             // CHK_Star
             // 
             this.CHK_Star.AutoSize = true;
-            this.CHK_Star.Location = new System.Drawing.Point(200, 213);
+            this.CHK_Star.Location = new System.Drawing.Point(205, 213);
             this.CHK_Star.Name = "CHK_Star";
             this.CHK_Star.Size = new System.Drawing.Size(38, 17);
             this.CHK_Star.TabIndex = 13;
@@ -2057,7 +2059,7 @@
             // CHK_Heart
             // 
             this.CHK_Heart.AutoSize = true;
-            this.CHK_Heart.Location = new System.Drawing.Point(200, 199);
+            this.CHK_Heart.Location = new System.Drawing.Point(205, 199);
             this.CHK_Heart.Name = "CHK_Heart";
             this.CHK_Heart.Size = new System.Drawing.Size(37, 17);
             this.CHK_Heart.TabIndex = 12;
@@ -2068,7 +2070,7 @@
             // CHK_Square
             // 
             this.CHK_Square.AutoSize = true;
-            this.CHK_Square.Location = new System.Drawing.Point(24, 227);
+            this.CHK_Square.Location = new System.Drawing.Point(29, 227);
             this.CHK_Square.Name = "CHK_Square";
             this.CHK_Square.Size = new System.Drawing.Size(38, 17);
             this.CHK_Square.TabIndex = 11;
@@ -2080,7 +2082,7 @@
             // 
             this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_EC.Location = new System.Drawing.Point(171, 276);
+            this.TB_EC.Location = new System.Drawing.Point(176, 276);
             this.TB_EC.MaxLength = 8;
             this.TB_EC.Name = "TB_EC";
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
@@ -2093,7 +2095,7 @@
             this.GB_nOT.Controls.Add(this.Label_CTGender);
             this.GB_nOT.Controls.Add(this.TB_OTt2);
             this.GB_nOT.Controls.Add(this.Label_PrevOT);
-            this.GB_nOT.Location = new System.Drawing.Point(35, 90);
+            this.GB_nOT.Location = new System.Drawing.Point(40, 90);
             this.GB_nOT.Name = "GB_nOT";
             this.GB_nOT.Size = new System.Drawing.Size(190, 50);
             this.GB_nOT.TabIndex = 43;
@@ -2135,7 +2137,7 @@
             // CHK_Triangle
             // 
             this.CHK_Triangle.AutoSize = true;
-            this.CHK_Triangle.Location = new System.Drawing.Point(24, 213);
+            this.CHK_Triangle.Location = new System.Drawing.Point(29, 213);
             this.CHK_Triangle.Name = "CHK_Triangle";
             this.CHK_Triangle.Size = new System.Drawing.Size(38, 17);
             this.CHK_Triangle.TabIndex = 10;
@@ -2147,7 +2149,7 @@
             // 
             this.CHK_Circle.AutoSize = true;
             this.CHK_Circle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CHK_Circle.Location = new System.Drawing.Point(24, 193);
+            this.CHK_Circle.Location = new System.Drawing.Point(29, 193);
             this.CHK_Circle.Name = "CHK_Circle";
             this.CHK_Circle.Size = new System.Drawing.Size(40, 28);
             this.CHK_Circle.TabIndex = 9;
@@ -2158,7 +2160,7 @@
             // BTN_RerollEC
             // 
             this.BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F);
-            this.BTN_RerollEC.Location = new System.Drawing.Point(133, 276);
+            this.BTN_RerollEC.Location = new System.Drawing.Point(138, 276);
             this.BTN_RerollEC.Name = "BTN_RerollEC";
             this.BTN_RerollEC.Size = new System.Drawing.Size(38, 20);
             this.BTN_RerollEC.TabIndex = 16;
@@ -2168,7 +2170,7 @@
             // 
             // BTN_History
             // 
-            this.BTN_History.Location = new System.Drawing.Point(133, 250);
+            this.BTN_History.Location = new System.Drawing.Point(138, 250);
             this.BTN_History.Name = "BTN_History";
             this.BTN_History.Size = new System.Drawing.Size(100, 23);
             this.BTN_History.TabIndex = 15;
@@ -2178,7 +2180,7 @@
             // 
             // BTN_Ribbons
             // 
-            this.BTN_Ribbons.Location = new System.Drawing.Point(27, 250);
+            this.BTN_Ribbons.Location = new System.Drawing.Point(32, 250);
             this.BTN_Ribbons.Name = "BTN_Ribbons";
             this.BTN_Ribbons.Size = new System.Drawing.Size(100, 23);
             this.BTN_Ribbons.TabIndex = 14;
@@ -2197,7 +2199,7 @@
             this.GB_Markings.Controls.Add(this.PB_Mark3);
             this.GB_Markings.Controls.Add(this.PB_Mark2);
             this.GB_Markings.Controls.Add(this.PB_Mark1);
-            this.GB_Markings.Location = new System.Drawing.Point(63, 188);
+            this.GB_Markings.Location = new System.Drawing.Point(68, 188);
             this.GB_Markings.Name = "GB_Markings";
             this.GB_Markings.Size = new System.Drawing.Size(135, 58);
             this.GB_Markings.TabIndex = 4;
@@ -2313,7 +2315,7 @@
             // 
             this.GB_ExtraBytes.Controls.Add(this.TB_ExtraByte);
             this.GB_ExtraBytes.Controls.Add(this.CB_ExtraBytes);
-            this.GB_ExtraBytes.Location = new System.Drawing.Point(63, 140);
+            this.GB_ExtraBytes.Location = new System.Drawing.Point(68, 140);
             this.GB_ExtraBytes.Name = "GB_ExtraBytes";
             this.GB_ExtraBytes.Size = new System.Drawing.Size(135, 48);
             this.GB_ExtraBytes.TabIndex = 3;
@@ -2382,7 +2384,7 @@
             this.GB_OT.Controls.Add(this.Label_OT);
             this.GB_OT.Controls.Add(this.Label_SID);
             this.GB_OT.Controls.Add(this.Label_TID);
-            this.GB_OT.Location = new System.Drawing.Point(35, 13);
+            this.GB_OT.Location = new System.Drawing.Point(40, 13);
             this.GB_OT.Name = "GB_OT";
             this.GB_OT.Size = new System.Drawing.Size(190, 75);
             this.GB_OT.TabIndex = 2;
@@ -2462,7 +2464,7 @@
             // 
             // Label_EncryptionConstant
             // 
-            this.Label_EncryptionConstant.Location = new System.Drawing.Point(24, 279);
+            this.Label_EncryptionConstant.Location = new System.Drawing.Point(29, 279);
             this.Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             this.Label_EncryptionConstant.Size = new System.Drawing.Size(105, 13);
             this.Label_EncryptionConstant.TabIndex = 1;
@@ -2473,7 +2475,7 @@
             // 
             this.Label_Diamond.AutoSize = true;
             this.Label_Diamond.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_Diamond.Location = new System.Drawing.Point(210, 224);
+            this.Label_Diamond.Location = new System.Drawing.Point(215, 224);
             this.Label_Diamond.Name = "Label_Diamond";
             this.Label_Diamond.Size = new System.Drawing.Size(26, 20);
             this.Label_Diamond.TabIndex = 11;
@@ -2498,7 +2500,7 @@
             this.Menu_Options});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(604, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(614, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2642,7 +2644,7 @@
             // L_Save
             // 
             this.L_Save.AutoSize = true;
-            this.L_Save.Location = new System.Drawing.Point(290, 5);
+            this.L_Save.Location = new System.Drawing.Point(300, 5);
             this.L_Save.Name = "L_Save";
             this.L_Save.Size = new System.Drawing.Size(54, 13);
             this.L_Save.TabIndex = 4;
@@ -2656,10 +2658,10 @@
             this.tabBoxMulti.Controls.Add(this.Tab_Tools);
             this.tabBoxMulti.Controls.Add(this.Tab_SAV);
             this.tabBoxMulti.Enabled = false;
-            this.tabBoxMulti.Location = new System.Drawing.Point(293, 27);
+            this.tabBoxMulti.Location = new System.Drawing.Point(300, 27);
             this.tabBoxMulti.Name = "tabBoxMulti";
             this.tabBoxMulti.SelectedIndex = 0;
-            this.tabBoxMulti.Size = new System.Drawing.Size(300, 225);
+            this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 5;
             // 
             // Tab_Box
@@ -2700,7 +2702,7 @@
             this.Tab_Box.Location = new System.Drawing.Point(4, 22);
             this.Tab_Box.Name = "Tab_Box";
             this.Tab_Box.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Box.Size = new System.Drawing.Size(292, 199);
+            this.Tab_Box.Size = new System.Drawing.Size(302, 199);
             this.Tab_Box.TabIndex = 0;
             this.Tab_Box.Text = "Box";
             this.Tab_Box.UseVisualStyleBackColor = true;
@@ -2708,7 +2710,7 @@
             // B_BoxRight
             // 
             this.B_BoxRight.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxRight.Location = new System.Drawing.Point(214, 9);
+            this.B_BoxRight.Location = new System.Drawing.Point(220, 9);
             this.B_BoxRight.Name = "B_BoxRight";
             this.B_BoxRight.Size = new System.Drawing.Size(27, 23);
             this.B_BoxRight.TabIndex = 61;
@@ -2719,7 +2721,7 @@
             // B_BoxLeft
             // 
             this.B_BoxLeft.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxLeft.Location = new System.Drawing.Point(52, 9);
+            this.B_BoxLeft.Location = new System.Drawing.Point(58, 9);
             this.B_BoxLeft.Name = "B_BoxLeft";
             this.B_BoxLeft.Size = new System.Drawing.Size(27, 23);
             this.B_BoxLeft.TabIndex = 60;
@@ -2730,7 +2732,7 @@
             // bpkx30
             // 
             this.bpkx30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx30.Location = new System.Drawing.Point(227, 163);
+            this.bpkx30.Location = new System.Drawing.Point(233, 163);
             this.bpkx30.Name = "bpkx30";
             this.bpkx30.Size = new System.Drawing.Size(42, 32);
             this.bpkx30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2741,7 +2743,7 @@
             // bpkx29
             // 
             this.bpkx29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx29.Location = new System.Drawing.Point(186, 163);
+            this.bpkx29.Location = new System.Drawing.Point(192, 163);
             this.bpkx29.Name = "bpkx29";
             this.bpkx29.Size = new System.Drawing.Size(42, 32);
             this.bpkx29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2752,7 +2754,7 @@
             // bpkx28
             // 
             this.bpkx28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx28.Location = new System.Drawing.Point(145, 163);
+            this.bpkx28.Location = new System.Drawing.Point(151, 163);
             this.bpkx28.Name = "bpkx28";
             this.bpkx28.Size = new System.Drawing.Size(42, 32);
             this.bpkx28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2763,7 +2765,7 @@
             // bpkx27
             // 
             this.bpkx27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx27.Location = new System.Drawing.Point(104, 163);
+            this.bpkx27.Location = new System.Drawing.Point(110, 163);
             this.bpkx27.Name = "bpkx27";
             this.bpkx27.Size = new System.Drawing.Size(42, 32);
             this.bpkx27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2774,7 +2776,7 @@
             // bpkx26
             // 
             this.bpkx26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx26.Location = new System.Drawing.Point(63, 163);
+            this.bpkx26.Location = new System.Drawing.Point(69, 163);
             this.bpkx26.Name = "bpkx26";
             this.bpkx26.Size = new System.Drawing.Size(42, 32);
             this.bpkx26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2785,7 +2787,7 @@
             // bpkx25
             // 
             this.bpkx25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx25.Location = new System.Drawing.Point(22, 163);
+            this.bpkx25.Location = new System.Drawing.Point(28, 163);
             this.bpkx25.Name = "bpkx25";
             this.bpkx25.Size = new System.Drawing.Size(42, 32);
             this.bpkx25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2796,7 +2798,7 @@
             // bpkx24
             // 
             this.bpkx24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx24.Location = new System.Drawing.Point(227, 132);
+            this.bpkx24.Location = new System.Drawing.Point(233, 132);
             this.bpkx24.Name = "bpkx24";
             this.bpkx24.Size = new System.Drawing.Size(42, 32);
             this.bpkx24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2807,7 +2809,7 @@
             // bpkx23
             // 
             this.bpkx23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx23.Location = new System.Drawing.Point(186, 132);
+            this.bpkx23.Location = new System.Drawing.Point(192, 132);
             this.bpkx23.Name = "bpkx23";
             this.bpkx23.Size = new System.Drawing.Size(42, 32);
             this.bpkx23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2818,7 +2820,7 @@
             // bpkx22
             // 
             this.bpkx22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx22.Location = new System.Drawing.Point(145, 132);
+            this.bpkx22.Location = new System.Drawing.Point(151, 132);
             this.bpkx22.Name = "bpkx22";
             this.bpkx22.Size = new System.Drawing.Size(42, 32);
             this.bpkx22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2829,7 +2831,7 @@
             // bpkx21
             // 
             this.bpkx21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx21.Location = new System.Drawing.Point(104, 132);
+            this.bpkx21.Location = new System.Drawing.Point(110, 132);
             this.bpkx21.Name = "bpkx21";
             this.bpkx21.Size = new System.Drawing.Size(42, 32);
             this.bpkx21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2840,7 +2842,7 @@
             // bpkx20
             // 
             this.bpkx20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx20.Location = new System.Drawing.Point(63, 132);
+            this.bpkx20.Location = new System.Drawing.Point(69, 132);
             this.bpkx20.Name = "bpkx20";
             this.bpkx20.Size = new System.Drawing.Size(42, 32);
             this.bpkx20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2851,7 +2853,7 @@
             // bpkx19
             // 
             this.bpkx19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx19.Location = new System.Drawing.Point(22, 132);
+            this.bpkx19.Location = new System.Drawing.Point(28, 132);
             this.bpkx19.Name = "bpkx19";
             this.bpkx19.Size = new System.Drawing.Size(42, 32);
             this.bpkx19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2862,7 +2864,7 @@
             // bpkx18
             // 
             this.bpkx18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx18.Location = new System.Drawing.Point(227, 101);
+            this.bpkx18.Location = new System.Drawing.Point(233, 101);
             this.bpkx18.Name = "bpkx18";
             this.bpkx18.Size = new System.Drawing.Size(42, 32);
             this.bpkx18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2873,7 +2875,7 @@
             // bpkx17
             // 
             this.bpkx17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx17.Location = new System.Drawing.Point(186, 101);
+            this.bpkx17.Location = new System.Drawing.Point(192, 101);
             this.bpkx17.Name = "bpkx17";
             this.bpkx17.Size = new System.Drawing.Size(42, 32);
             this.bpkx17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2884,7 +2886,7 @@
             // bpkx16
             // 
             this.bpkx16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx16.Location = new System.Drawing.Point(145, 101);
+            this.bpkx16.Location = new System.Drawing.Point(151, 101);
             this.bpkx16.Name = "bpkx16";
             this.bpkx16.Size = new System.Drawing.Size(42, 32);
             this.bpkx16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2895,7 +2897,7 @@
             // bpkx15
             // 
             this.bpkx15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx15.Location = new System.Drawing.Point(104, 101);
+            this.bpkx15.Location = new System.Drawing.Point(110, 101);
             this.bpkx15.Name = "bpkx15";
             this.bpkx15.Size = new System.Drawing.Size(42, 32);
             this.bpkx15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2906,7 +2908,7 @@
             // bpkx14
             // 
             this.bpkx14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx14.Location = new System.Drawing.Point(63, 101);
+            this.bpkx14.Location = new System.Drawing.Point(69, 101);
             this.bpkx14.Name = "bpkx14";
             this.bpkx14.Size = new System.Drawing.Size(42, 32);
             this.bpkx14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2917,7 +2919,7 @@
             // bpkx13
             // 
             this.bpkx13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx13.Location = new System.Drawing.Point(22, 101);
+            this.bpkx13.Location = new System.Drawing.Point(28, 101);
             this.bpkx13.Name = "bpkx13";
             this.bpkx13.Size = new System.Drawing.Size(42, 32);
             this.bpkx13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2928,7 +2930,7 @@
             // bpkx12
             // 
             this.bpkx12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx12.Location = new System.Drawing.Point(227, 70);
+            this.bpkx12.Location = new System.Drawing.Point(233, 70);
             this.bpkx12.Name = "bpkx12";
             this.bpkx12.Size = new System.Drawing.Size(42, 32);
             this.bpkx12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2939,7 +2941,7 @@
             // bpkx11
             // 
             this.bpkx11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx11.Location = new System.Drawing.Point(186, 70);
+            this.bpkx11.Location = new System.Drawing.Point(192, 70);
             this.bpkx11.Name = "bpkx11";
             this.bpkx11.Size = new System.Drawing.Size(42, 32);
             this.bpkx11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2950,7 +2952,7 @@
             // bpkx10
             // 
             this.bpkx10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx10.Location = new System.Drawing.Point(145, 70);
+            this.bpkx10.Location = new System.Drawing.Point(151, 70);
             this.bpkx10.Name = "bpkx10";
             this.bpkx10.Size = new System.Drawing.Size(42, 32);
             this.bpkx10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2961,7 +2963,7 @@
             // bpkx9
             // 
             this.bpkx9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx9.Location = new System.Drawing.Point(104, 70);
+            this.bpkx9.Location = new System.Drawing.Point(110, 70);
             this.bpkx9.Name = "bpkx9";
             this.bpkx9.Size = new System.Drawing.Size(42, 32);
             this.bpkx9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2972,7 +2974,7 @@
             // bpkx8
             // 
             this.bpkx8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx8.Location = new System.Drawing.Point(63, 70);
+            this.bpkx8.Location = new System.Drawing.Point(69, 70);
             this.bpkx8.Name = "bpkx8";
             this.bpkx8.Size = new System.Drawing.Size(42, 32);
             this.bpkx8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2983,7 +2985,7 @@
             // bpkx7
             // 
             this.bpkx7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx7.Location = new System.Drawing.Point(22, 70);
+            this.bpkx7.Location = new System.Drawing.Point(28, 70);
             this.bpkx7.Name = "bpkx7";
             this.bpkx7.Size = new System.Drawing.Size(42, 32);
             this.bpkx7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2994,7 +2996,7 @@
             // bpkx6
             // 
             this.bpkx6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx6.Location = new System.Drawing.Point(227, 39);
+            this.bpkx6.Location = new System.Drawing.Point(233, 39);
             this.bpkx6.Name = "bpkx6";
             this.bpkx6.Size = new System.Drawing.Size(42, 32);
             this.bpkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -3005,7 +3007,7 @@
             // bpkx5
             // 
             this.bpkx5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx5.Location = new System.Drawing.Point(186, 39);
+            this.bpkx5.Location = new System.Drawing.Point(192, 39);
             this.bpkx5.Name = "bpkx5";
             this.bpkx5.Size = new System.Drawing.Size(42, 32);
             this.bpkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -3016,7 +3018,7 @@
             // bpkx4
             // 
             this.bpkx4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx4.Location = new System.Drawing.Point(145, 39);
+            this.bpkx4.Location = new System.Drawing.Point(151, 39);
             this.bpkx4.Name = "bpkx4";
             this.bpkx4.Size = new System.Drawing.Size(42, 32);
             this.bpkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -3027,7 +3029,7 @@
             // bpkx3
             // 
             this.bpkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx3.Location = new System.Drawing.Point(104, 39);
+            this.bpkx3.Location = new System.Drawing.Point(110, 39);
             this.bpkx3.Name = "bpkx3";
             this.bpkx3.Size = new System.Drawing.Size(42, 32);
             this.bpkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -3038,7 +3040,7 @@
             // bpkx2
             // 
             this.bpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx2.Location = new System.Drawing.Point(63, 39);
+            this.bpkx2.Location = new System.Drawing.Point(69, 39);
             this.bpkx2.Name = "bpkx2";
             this.bpkx2.Size = new System.Drawing.Size(42, 32);
             this.bpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -3049,7 +3051,7 @@
             // bpkx1
             // 
             this.bpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx1.Location = new System.Drawing.Point(22, 39);
+            this.bpkx1.Location = new System.Drawing.Point(28, 39);
             this.bpkx1.Name = "bpkx1";
             this.bpkx1.Size = new System.Drawing.Size(42, 32);
             this.bpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -3093,7 +3095,7 @@
             "Box 29",
             "Box 30",
             "Box 31"});
-            this.C_BoxSelect.Location = new System.Drawing.Point(83, 10);
+            this.C_BoxSelect.Location = new System.Drawing.Point(89, 10);
             this.C_BoxSelect.Name = "C_BoxSelect";
             this.C_BoxSelect.Size = new System.Drawing.Size(127, 21);
             this.C_BoxSelect.TabIndex = 0;
@@ -3109,7 +3111,7 @@
             this.Tab_PartyBattle.Location = new System.Drawing.Point(4, 22);
             this.Tab_PartyBattle.Name = "Tab_PartyBattle";
             this.Tab_PartyBattle.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_PartyBattle.Size = new System.Drawing.Size(292, 199);
+            this.Tab_PartyBattle.Size = new System.Drawing.Size(302, 199);
             this.Tab_PartyBattle.TabIndex = 1;
             this.Tab_PartyBattle.Text = "Party-Battle Box";
             this.Tab_PartyBattle.UseVisualStyleBackColor = true;
@@ -3123,7 +3125,7 @@
             this.panel2.Controls.Add(this.bbpkx4);
             this.panel2.Controls.Add(this.bbpkx5);
             this.panel2.Controls.Add(this.bbpkx6);
-            this.panel2.Location = new System.Drawing.Point(162, 28);
+            this.panel2.Location = new System.Drawing.Point(168, 28);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(111, 160);
             this.panel2.TabIndex = 17;
@@ -3191,7 +3193,7 @@
             // L_ReadOnlyPBB
             // 
             this.L_ReadOnlyPBB.ForeColor = System.Drawing.Color.Red;
-            this.L_ReadOnlyPBB.Location = new System.Drawing.Point(169, 186);
+            this.L_ReadOnlyPBB.Location = new System.Drawing.Point(175, 186);
             this.L_ReadOnlyPBB.Name = "L_ReadOnlyPBB";
             this.L_ReadOnlyPBB.Size = new System.Drawing.Size(100, 13);
             this.L_ReadOnlyPBB.TabIndex = 15;
@@ -3201,7 +3203,7 @@
             // L_BattleBox
             // 
             this.L_BattleBox.AutoSize = true;
-            this.L_BattleBox.Location = new System.Drawing.Point(173, 13);
+            this.L_BattleBox.Location = new System.Drawing.Point(179, 13);
             this.L_BattleBox.Name = "L_BattleBox";
             this.L_BattleBox.Size = new System.Drawing.Size(58, 13);
             this.L_BattleBox.TabIndex = 1;
@@ -3210,7 +3212,7 @@
             // L_Party
             // 
             this.L_Party.AutoSize = true;
-            this.L_Party.Location = new System.Drawing.Point(23, 13);
+            this.L_Party.Location = new System.Drawing.Point(29, 13);
             this.L_Party.Name = "L_Party";
             this.L_Party.Size = new System.Drawing.Size(34, 13);
             this.L_Party.TabIndex = 0;
@@ -3225,7 +3227,7 @@
             this.panel1.Controls.Add(this.ppkx4);
             this.panel1.Controls.Add(this.ppkx5);
             this.panel1.Controls.Add(this.ppkx6);
-            this.panel1.Location = new System.Drawing.Point(18, 28);
+            this.panel1.Location = new System.Drawing.Point(24, 28);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(111, 160);
             this.panel1.TabIndex = 16;
@@ -3299,7 +3301,7 @@
             this.Tab_Other.Controls.Add(this.L_ReadOnlyOther);
             this.Tab_Other.Location = new System.Drawing.Point(4, 22);
             this.Tab_Other.Name = "Tab_Other";
-            this.Tab_Other.Size = new System.Drawing.Size(292, 199);
+            this.Tab_Other.Size = new System.Drawing.Size(302, 199);
             this.Tab_Other.TabIndex = 2;
             this.Tab_Other.Text = "Other";
             this.Tab_Other.UseVisualStyleBackColor = true;
@@ -3317,7 +3319,7 @@
             this.GB_Daycare.Controls.Add(this.dcpkx2);
             this.GB_Daycare.Controls.Add(this.dcpkx1);
             this.GB_Daycare.Controls.Add(this.DayCare_HasEgg);
-            this.GB_Daycare.Location = new System.Drawing.Point(9, 4);
+            this.GB_Daycare.Location = new System.Drawing.Point(16, 4);
             this.GB_Daycare.Name = "GB_Daycare";
             this.GB_Daycare.Size = new System.Drawing.Size(205, 170);
             this.GB_Daycare.TabIndex = 28;
@@ -3433,7 +3435,7 @@
             this.GB_SUBE.Controls.Add(this.subepkx1);
             this.GB_SUBE.Controls.Add(this.subepkx2);
             this.GB_SUBE.Controls.Add(this.subepkx3);
-            this.GB_SUBE.Location = new System.Drawing.Point(220, 136);
+            this.GB_SUBE.Location = new System.Drawing.Point(227, 136);
             this.GB_SUBE.Name = "GB_SUBE";
             this.GB_SUBE.Size = new System.Drawing.Size(60, 60);
             this.GB_SUBE.TabIndex = 27;
@@ -3474,7 +3476,7 @@
             // GB_GTS
             // 
             this.GB_GTS.Controls.Add(this.gtspkx);
-            this.GB_GTS.Location = new System.Drawing.Point(220, 4);
+            this.GB_GTS.Location = new System.Drawing.Point(227, 4);
             this.GB_GTS.Name = "GB_GTS";
             this.GB_GTS.Size = new System.Drawing.Size(60, 60);
             this.GB_GTS.TabIndex = 26;
@@ -3495,7 +3497,7 @@
             // GB_Fused
             // 
             this.GB_Fused.Controls.Add(this.fusedpkx);
-            this.GB_Fused.Location = new System.Drawing.Point(220, 70);
+            this.GB_Fused.Location = new System.Drawing.Point(227, 70);
             this.GB_Fused.Name = "GB_Fused";
             this.GB_Fused.Size = new System.Drawing.Size(60, 60);
             this.GB_Fused.TabIndex = 25;
@@ -3516,7 +3518,7 @@
             // L_ReadOnlyOther
             // 
             this.L_ReadOnlyOther.ForeColor = System.Drawing.Color.Red;
-            this.L_ReadOnlyOther.Location = new System.Drawing.Point(25, 179);
+            this.L_ReadOnlyOther.Location = new System.Drawing.Point(32, 179);
             this.L_ReadOnlyOther.Name = "L_ReadOnlyOther";
             this.L_ReadOnlyOther.Size = new System.Drawing.Size(170, 13);
             this.L_ReadOnlyOther.TabIndex = 29;
@@ -3525,22 +3527,32 @@
             // 
             // Tab_Tools
             // 
+            this.Tab_Tools.Controls.Add(this.B_OutAHK);
             this.Tab_Tools.Controls.Add(this.B_BoxIO);
             this.Tab_Tools.Controls.Add(this.B_JPEG);
-            this.Tab_Tools.Controls.Add(this.B_OUTHallofFame);
             this.Tab_Tools.Controls.Add(this.RTB_T);
-            this.Tab_Tools.Controls.Add(this.B_OUTPasserby);
             this.Tab_Tools.Location = new System.Drawing.Point(4, 22);
             this.Tab_Tools.Name = "Tab_Tools";
             this.Tab_Tools.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Tools.Size = new System.Drawing.Size(292, 199);
+            this.Tab_Tools.Size = new System.Drawing.Size(302, 199);
             this.Tab_Tools.TabIndex = 4;
             this.Tab_Tools.Text = "Tools";
             this.Tab_Tools.UseVisualStyleBackColor = true;
             // 
+            // B_OutAHK
+            // 
+            this.B_OutAHK.Enabled = false;
+            this.B_OutAHK.Location = new System.Drawing.Point(32, 20);
+            this.B_OutAHK.Name = "B_OutAHK";
+            this.B_OutAHK.Size = new System.Drawing.Size(75, 45);
+            this.B_OutAHK.TabIndex = 7;
+            this.B_OutAHK.Text = "Export AutoHotKey";
+            this.B_OutAHK.UseVisualStyleBackColor = true;
+            this.B_OutAHK.Click += new System.EventHandler(this.B_OutAHK_Click);
+            // 
             // B_BoxIO
             // 
-            this.B_BoxIO.Location = new System.Drawing.Point(191, 20);
+            this.B_BoxIO.Location = new System.Drawing.Point(197, 20);
             this.B_BoxIO.Name = "B_BoxIO";
             this.B_BoxIO.Size = new System.Drawing.Size(75, 45);
             this.B_BoxIO.TabIndex = 6;
@@ -3551,7 +3563,7 @@
             // B_JPEG
             // 
             this.B_JPEG.Enabled = false;
-            this.B_JPEG.Location = new System.Drawing.Point(115, 20);
+            this.B_JPEG.Location = new System.Drawing.Point(121, 20);
             this.B_JPEG.Name = "B_JPEG";
             this.B_JPEG.Size = new System.Drawing.Size(75, 45);
             this.B_JPEG.TabIndex = 5;
@@ -3559,38 +3571,16 @@
             this.B_JPEG.UseVisualStyleBackColor = true;
             this.B_JPEG.Click += new System.EventHandler(this.B_JPEG_Click);
             // 
-            // B_OUTHallofFame
-            // 
-            this.B_OUTHallofFame.Enabled = false;
-            this.B_OUTHallofFame.Location = new System.Drawing.Point(25, 20);
-            this.B_OUTHallofFame.Name = "B_OUTHallofFame";
-            this.B_OUTHallofFame.Size = new System.Drawing.Size(75, 23);
-            this.B_OUTHallofFame.TabIndex = 4;
-            this.B_OUTHallofFame.Text = "Hall of Fame";
-            this.B_OUTHallofFame.UseVisualStyleBackColor = true;
-            this.B_OUTHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
-            // 
             // RTB_T
             // 
             this.RTB_T.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB_T.Location = new System.Drawing.Point(1, 68);
             this.RTB_T.Name = "RTB_T";
             this.RTB_T.ReadOnly = true;
-            this.RTB_T.Size = new System.Drawing.Size(290, 130);
+            this.RTB_T.Size = new System.Drawing.Size(300, 130);
             this.RTB_T.TabIndex = 1;
             this.RTB_T.Text = "";
             this.RTB_T.WordWrap = false;
-            // 
-            // B_OUTPasserby
-            // 
-            this.B_OUTPasserby.Enabled = false;
-            this.B_OUTPasserby.Location = new System.Drawing.Point(25, 42);
-            this.B_OUTPasserby.Name = "B_OUTPasserby";
-            this.B_OUTPasserby.Size = new System.Drawing.Size(75, 23);
-            this.B_OUTPasserby.TabIndex = 0;
-            this.B_OUTPasserby.Text = "Passerby";
-            this.B_OUTPasserby.UseVisualStyleBackColor = true;
-            this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
             // 
             // Tab_SAV
             // 
@@ -3603,7 +3593,7 @@
             this.Tab_SAV.Controls.Add(this.RTB_S);
             this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
             this.Tab_SAV.Name = "Tab_SAV";
-            this.Tab_SAV.Size = new System.Drawing.Size(292, 199);
+            this.Tab_SAV.Size = new System.Drawing.Size(302, 199);
             this.Tab_SAV.TabIndex = 3;
             this.Tab_SAV.Text = "SAV";
             this.Tab_SAV.UseVisualStyleBackColor = true;
@@ -3611,7 +3601,7 @@
             // L_SAVManipulation
             // 
             this.L_SAVManipulation.AutoSize = true;
-            this.L_SAVManipulation.Location = new System.Drawing.Point(144, 7);
+            this.L_SAVManipulation.Location = new System.Drawing.Point(154, 7);
             this.L_SAVManipulation.Name = "L_SAVManipulation";
             this.L_SAVManipulation.Size = new System.Drawing.Size(117, 13);
             this.L_SAVManipulation.TabIndex = 7;
@@ -3620,7 +3610,7 @@
             // B_SwitchSAV
             // 
             this.B_SwitchSAV.Enabled = false;
-            this.B_SwitchSAV.Location = new System.Drawing.Point(115, 20);
+            this.B_SwitchSAV.Location = new System.Drawing.Point(122, 20);
             this.B_SwitchSAV.Name = "B_SwitchSAV";
             this.B_SwitchSAV.Size = new System.Drawing.Size(75, 45);
             this.B_SwitchSAV.TabIndex = 6;
@@ -3631,7 +3621,7 @@
             // B_VerifyCHK
             // 
             this.B_VerifyCHK.Enabled = false;
-            this.B_VerifyCHK.Location = new System.Drawing.Point(25, 20);
+            this.B_VerifyCHK.Location = new System.Drawing.Point(32, 20);
             this.B_VerifyCHK.Name = "B_VerifyCHK";
             this.B_VerifyCHK.Size = new System.Drawing.Size(75, 23);
             this.B_VerifyCHK.TabIndex = 2;
@@ -3642,7 +3632,7 @@
             // L_IntegrityCheck
             // 
             this.L_IntegrityCheck.AutoSize = true;
-            this.L_IntegrityCheck.Location = new System.Drawing.Point(23, 7);
+            this.L_IntegrityCheck.Location = new System.Drawing.Point(30, 7);
             this.L_IntegrityCheck.Name = "L_IntegrityCheck";
             this.L_IntegrityCheck.Size = new System.Drawing.Size(81, 13);
             this.L_IntegrityCheck.TabIndex = 5;
@@ -3651,7 +3641,7 @@
             // B_VerifySHA
             // 
             this.B_VerifySHA.Enabled = false;
-            this.B_VerifySHA.Location = new System.Drawing.Point(25, 42);
+            this.B_VerifySHA.Location = new System.Drawing.Point(32, 42);
             this.B_VerifySHA.Name = "B_VerifySHA";
             this.B_VerifySHA.Size = new System.Drawing.Size(75, 23);
             this.B_VerifySHA.TabIndex = 1;
@@ -3662,7 +3652,7 @@
             // B_ExportSAV
             // 
             this.B_ExportSAV.Enabled = false;
-            this.B_ExportSAV.Location = new System.Drawing.Point(191, 20);
+            this.B_ExportSAV.Location = new System.Drawing.Point(198, 20);
             this.B_ExportSAV.Name = "B_ExportSAV";
             this.B_ExportSAV.Size = new System.Drawing.Size(75, 45);
             this.B_ExportSAV.TabIndex = 4;
@@ -3676,14 +3666,36 @@
             this.RTB_S.Location = new System.Drawing.Point(1, 68);
             this.RTB_S.Name = "RTB_S";
             this.RTB_S.ReadOnly = true;
-            this.RTB_S.Size = new System.Drawing.Size(290, 130);
+            this.RTB_S.Size = new System.Drawing.Size(300, 130);
             this.RTB_S.TabIndex = 0;
             this.RTB_S.Text = "";
             this.RTB_S.WordWrap = false;
             // 
+            // B_OUTHallofFame
+            // 
+            this.B_OUTHallofFame.Enabled = false;
+            this.B_OUTHallofFame.Location = new System.Drawing.Point(230, 41);
+            this.B_OUTHallofFame.Name = "B_OUTHallofFame";
+            this.B_OUTHallofFame.Size = new System.Drawing.Size(75, 23);
+            this.B_OUTHallofFame.TabIndex = 4;
+            this.B_OUTHallofFame.Text = "Hall of Fame";
+            this.B_OUTHallofFame.UseVisualStyleBackColor = true;
+            this.B_OUTHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
+            // 
+            // B_OUTPasserby
+            // 
+            this.B_OUTPasserby.Enabled = false;
+            this.B_OUTPasserby.Location = new System.Drawing.Point(230, 12);
+            this.B_OUTPasserby.Name = "B_OUTPasserby";
+            this.B_OUTPasserby.Size = new System.Drawing.Size(75, 23);
+            this.B_OUTPasserby.TabIndex = 0;
+            this.B_OUTPasserby.Text = "Passerby";
+            this.B_OUTPasserby.UseVisualStyleBackColor = true;
+            this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
+            // 
             // B_OpenPokepuffs
             // 
-            this.B_OpenPokepuffs.Location = new System.Drawing.Point(19, 12);
+            this.B_OpenPokepuffs.Location = new System.Drawing.Point(5, 12);
             this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
             this.B_OpenPokepuffs.Size = new System.Drawing.Size(75, 23);
             this.B_OpenPokepuffs.TabIndex = 6;
@@ -3693,7 +3705,7 @@
             // 
             // B_OpenBoxLayout
             // 
-            this.B_OpenBoxLayout.Location = new System.Drawing.Point(19, 41);
+            this.B_OpenBoxLayout.Location = new System.Drawing.Point(5, 41);
             this.B_OpenBoxLayout.Name = "B_OpenBoxLayout";
             this.B_OpenBoxLayout.Size = new System.Drawing.Size(75, 23);
             this.B_OpenBoxLayout.TabIndex = 7;
@@ -3703,7 +3715,7 @@
             // 
             // B_OpenOPowers
             // 
-            this.B_OpenOPowers.Location = new System.Drawing.Point(19, 70);
+            this.B_OpenOPowers.Location = new System.Drawing.Point(5, 70);
             this.B_OpenOPowers.Name = "B_OpenOPowers";
             this.B_OpenOPowers.Size = new System.Drawing.Size(75, 23);
             this.B_OpenOPowers.TabIndex = 8;
@@ -3713,7 +3725,7 @@
             // 
             // B_OpenItemPouch
             // 
-            this.B_OpenItemPouch.Location = new System.Drawing.Point(109, 12);
+            this.B_OpenItemPouch.Location = new System.Drawing.Point(80, 12);
             this.B_OpenItemPouch.Name = "B_OpenItemPouch";
             this.B_OpenItemPouch.Size = new System.Drawing.Size(75, 23);
             this.B_OpenItemPouch.TabIndex = 9;
@@ -3723,7 +3735,7 @@
             // 
             // B_OpenEventFlags
             // 
-            this.B_OpenEventFlags.Location = new System.Drawing.Point(109, 70);
+            this.B_OpenEventFlags.Location = new System.Drawing.Point(80, 70);
             this.B_OpenEventFlags.Name = "B_OpenEventFlags";
             this.B_OpenEventFlags.Size = new System.Drawing.Size(75, 23);
             this.B_OpenEventFlags.TabIndex = 10;
@@ -3733,7 +3745,7 @@
             // 
             // B_OpenWondercards
             // 
-            this.B_OpenWondercards.Location = new System.Drawing.Point(109, 41);
+            this.B_OpenWondercards.Location = new System.Drawing.Point(80, 41);
             this.B_OpenWondercards.Name = "B_OpenWondercards";
             this.B_OpenWondercards.Size = new System.Drawing.Size(75, 23);
             this.B_OpenWondercards.TabIndex = 11;
@@ -3743,7 +3755,7 @@
             // 
             // B_OpenTrainerInfo
             // 
-            this.B_OpenTrainerInfo.Location = new System.Drawing.Point(199, 12);
+            this.B_OpenTrainerInfo.Location = new System.Drawing.Point(155, 12);
             this.B_OpenTrainerInfo.Name = "B_OpenTrainerInfo";
             this.B_OpenTrainerInfo.Size = new System.Drawing.Size(75, 23);
             this.B_OpenTrainerInfo.TabIndex = 12;
@@ -3753,7 +3765,7 @@
             // 
             // B_OpenBerryField
             // 
-            this.B_OpenBerryField.Location = new System.Drawing.Point(199, 41);
+            this.B_OpenBerryField.Location = new System.Drawing.Point(230, 70);
             this.B_OpenBerryField.Name = "B_OpenBerryField";
             this.B_OpenBerryField.Size = new System.Drawing.Size(75, 23);
             this.B_OpenBerryField.TabIndex = 13;
@@ -3763,7 +3775,7 @@
             // 
             // B_OpenPokedex
             // 
-            this.B_OpenPokedex.Location = new System.Drawing.Point(199, 70);
+            this.B_OpenPokedex.Location = new System.Drawing.Point(155, 70);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
             this.B_OpenPokedex.Size = new System.Drawing.Size(75, 23);
             this.B_OpenPokedex.TabIndex = 14;
@@ -3773,26 +3785,40 @@
             // 
             // GB_SAVtools
             // 
+            this.GB_SAVtools.Controls.Add(this.B_OpenSuperTraining);
             this.GB_SAVtools.Controls.Add(this.B_OpenPokedex);
+            this.GB_SAVtools.Controls.Add(this.B_OUTHallofFame);
             this.GB_SAVtools.Controls.Add(this.B_OpenBerryField);
+            this.GB_SAVtools.Controls.Add(this.B_OpenBoxLayout);
             this.GB_SAVtools.Controls.Add(this.B_OpenTrainerInfo);
+            this.GB_SAVtools.Controls.Add(this.B_OUTPasserby);
             this.GB_SAVtools.Controls.Add(this.B_OpenWondercards);
             this.GB_SAVtools.Controls.Add(this.B_OpenEventFlags);
             this.GB_SAVtools.Controls.Add(this.B_OpenItemPouch);
             this.GB_SAVtools.Controls.Add(this.B_OpenOPowers);
-            this.GB_SAVtools.Controls.Add(this.B_OpenBoxLayout);
             this.GB_SAVtools.Controls.Add(this.B_OpenPokepuffs);
             this.GB_SAVtools.Enabled = false;
-            this.GB_SAVtools.Location = new System.Drawing.Point(296, 254);
+            this.GB_SAVtools.Location = new System.Drawing.Point(300, 254);
             this.GB_SAVtools.Name = "GB_SAVtools";
-            this.GB_SAVtools.Size = new System.Drawing.Size(292, 100);
+            this.GB_SAVtools.Size = new System.Drawing.Size(310, 100);
             this.GB_SAVtools.TabIndex = 15;
             this.GB_SAVtools.TabStop = false;
+            // 
+            // B_OpenSuperTraining
+            // 
+            this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.B_OpenSuperTraining.Location = new System.Drawing.Point(155, 41);
+            this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
+            this.B_OpenSuperTraining.Size = new System.Drawing.Size(75, 23);
+            this.B_OpenSuperTraining.TabIndex = 15;
+            this.B_OpenSuperTraining.Text = "Super Train";
+            this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
+            this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);
             // 
             // L_SAVINDEX
             // 
             this.L_SAVINDEX.AutoSize = true;
-            this.L_SAVINDEX.Location = new System.Drawing.Point(590, 5);
+            this.L_SAVINDEX.Location = new System.Drawing.Point(600, 5);
             this.L_SAVINDEX.Name = "L_SAVINDEX";
             this.L_SAVINDEX.Size = new System.Drawing.Size(13, 13);
             this.L_SAVINDEX.TabIndex = 16;
@@ -3803,7 +3829,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(604, 362);
+            this.ClientSize = new System.Drawing.Size(614, 362);
             this.Controls.Add(this.L_SAVINDEX);
             this.Controls.Add(this.GB_SAVtools);
             this.Controls.Add(this.tabBoxMulti);
@@ -4222,6 +4248,8 @@
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button B_OpenSuperTraining;
+        private System.Windows.Forms.Button B_OutAHK;
     }
 }
 

@@ -1,0 +1,27 @@
+
+KP-Sack S
+KP-Sack M
+KP-Sack L
+Ang.-Sack S
+Ang.-Sack M
+Ang.-Sack L
+Vert.-Sack S
+Vert.-Sack M
+Vert.-Sack L
+Sp.-Ang.-Sack S
+Sp.-Ang.-Sack M
+Sp.-Ang.-Sack L
+Sp.-Vert.-Sack S
+Sp.-Vert.-Sack M
+Sp.-Vert.-Sack L
+Init.-Sack S
+Init.-Sack M
+Init.-Sack L
+Power-Up-Sack
+Defensive-Sack
+Agilitäts-Sack
+Expander-Sack
+Dopplungs-Sack
+Flare-Sack
+Tabula Ra-Sack
+Relax-Sack

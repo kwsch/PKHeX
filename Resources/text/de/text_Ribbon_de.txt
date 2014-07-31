@@ -1,0 +1,78 @@
+Band des Kalos-Champs
+Band des Champs
+Band des Sinnoh-Champs
+Zutraulichkeitsband
+Trainingsband
+Profikampfband
+Meisterkampfband
+Fleiß-Band
+Band der Wachsamkeit
+Band des Schocks
+Band des Niederschlags
+Band der Sorglosigkeit
+Band der Entspannung
+Band des Schlafens
+Band des Lächelns
+Hinreißendes Band
+Königliches Band
+Hinreißendes Königliches Band
+Band des Künstlers
+Fußabdruck-Band
+Rekordband
+Band der Legende
+Band des Landes
+Band der Nation
+Band der Erde
+Band der Welt
+Klassisches Band
+Premierband
+Veranstaltungsband
+Geburtstagsband
+Sonderband
+Gedenkband
+Wunschband
+Kampfmeisterband
+Regionalmeisterband
+Nationalmeisterband
+Weltmeisterband
+Wettbewerbsgedenkband
+Kampfgedenkband
+Band für den Sieg über den Champ von Kalos\nund den Einzug in die Ruhmeshalle.
+Band für den Sieg über den Champ einer anderen Region\nund den Einzug in die Ruhmeshalle.
+Band für den Sieg über den Champ von Sinnoh\nund den Einzug in die Ruhmeshalle.
+Band zur Ehrung eines Pokémon, das durch\ndie enge Beziehung zu seinem Trainer besticht.
+Band zur Ehrung eines Pokémon, das schwere\nPrüfungen gemeistert hat.
+Band zur Ehrung eines Pokémon, das selbst aus\ndem härtesten Kampf als Sieger hervorgegangen ist.
+Band zur Ehrung eines heldenhaften Pokémon,\ndas die Kunst des Kämpfens perfektioniert hat.
+Band für extrem fleißige Arbeiter.
+Band zur Erinnerung an ein stärkendes,\nLebensenergie gebendes Ereignis.
+Band zur Erinnerung an ein Ereignis,\ndas das Leben aufregender machte.
+Band zur Erinnerung an die Traurigkeit,\ndie dem Leben Würze gab.
+Band zur Erinnerung an einen Fehler,\nder zu lebenswichtigen Entscheidungen führte.
+Band zur Erinnerung an ein erfrischendes Ereignis,\ndas dem Leben Glanz gab.
+Band zur Erinnerung an einen tiefen Schlaf,\nder den Fluss des Lebens beruhigte.
+Band zur Erinnerung daran, dass ein Lächeln\ndas Leben bereichert.
+Außergewöhnlich schönes und extravagantes Band.
+Unglaublich königliches Band, das eine Aura\nder Erhabenheit ausstrahlt.
+Wunderschönes und königliches Band,\ndas einfach sagenhaft ist.
+Belohnung für die Wahl zum Super-Model in Hoenn.
+Band für ein Pokémon, das einen besonders guten\nFußabdruck hinterlässt.
+Band für das Aufstellen eines unglaublichen Rekords.
+Band für das Aufstellen eines legendären Rekords.
+Band zur Ehrung des Champs der Pokémon Liga.
+Band für den erfolgreichen Abschluss\naller Schwierigkeitsgrade.
+Band zur Erinnerung an hundert Siege in Folge.
+Band zur Ehrung des Champs der Pokémon Liga.
+Band zur Auszeichnung von wahren\nPokémon-Liebhabern.
+Band zur Erinnerung an einen besonderen Tag.
+Teilnehmerband für einen Pokémon-Wettkampf.
+Band für Geburtstagskinder.
+Besonderes Band für einen besonderen Tag.
+Band, das als Andenken an ganz\nbesondere Erinnerungen dient.
+Band, das angeblich Wünsche erfüllt.
+Band des Siegers eines Kampfturniers.
+Siegerband für die Regionalmeisterschaft\nder Pokémon Videospiel-Weltmeisterschaft.
+Siegerband für die Nationalmeisterschaft\nder Pokémon Videospiel-Weltmeisterschaft.
+Siegerband für das Finale\nder Pokémon Videospiel-Weltmeisterschaft.
+Band zur Erinnerung an Wettbewerbssiege\nin weit entfernten Regionen.
+Band zur Erinnerung an gewonnene Kämpfe\nin weit entfernten Regionen.

@@ -1,0 +1,27 @@
+
+HP Bag S
+HP Bag M
+HP Bag L
+Attack Bag S
+Attack Bag M
+Attack Bag L
+Defense Bag S
+Defense Bag M
+Defense Bag L
+Sp. Atk Bag S
+Sp. Atk Bag M
+Sp. Atk Bag L
+Sp. Def Bag S
+Sp. Def Bag M
+Sp. Def Bag L
+Speed Bag S
+Speed Bag M
+Speed Bag L
+Strength Bag
+Toughen-Up Bag
+Swiftness Bag
+Big-Shot Bag
+Double-Up Bag
+Team Flare Bag
+Reset Bag
+Soothing Bag
