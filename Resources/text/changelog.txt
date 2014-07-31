@@ -237,9 +237,21 @@
  - Added: Eggs have a faint image of what is contained within.
  - Changed: Import from Code functionality moved to Code Generator.
 
-07/29/14 - New Update
+07/29/14 - New Update:
  - Added: Changelog to About menu item.
  - Fixed: Importing Gen 4 hatched Pokemon pk2pk error.
  - Fixed: PP Ups won't be saved if there is no move for that slot.
  - Changed: Party / Battle Box now has a spiffy layout.
  - Changed: Program width to assist those on Wine / foreign languages.
+
+07/31/14 - New Update:
+ - Added: Code Generator now displays how many lines there are if the split checkbox is set.
+ - Added: Translation text for Item Pouches
+ - Added: Translation text for Pokepuffs
+ - Added: Super Training Records / Training Bag Editor
+ - Changed: UI is 20 pixels wider.
+ - Moved: Passerby & Hall of Fame Buttons are now beneath the Box Tab Control.
+ - Added: Event Flag editor now is much more functional. Can do a diff of two saves to figure out what flags were set/unset, for research purposes.
+ - Added: Mewtwo Rebattle Flag Toggles. If captured is set, he won't respawn if you beat the E4. If defeated is set, he won't be present unless respawned.
+ - Changed: Can no longer set an egg into the first Party Slot. This is to prevent players from entering battles with no valid Pokemon.
+ - Added: Image Layering to display Held Items for Party/Box/etc slots.
