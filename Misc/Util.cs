@@ -17,7 +17,7 @@ namespace PKHeX
             {
                 Color newColor = overlayImage.GetPixel(i % (overlayImage.Width), i / (overlayImage.Width));
                 newColor = Color.FromArgb((int)((double)(newColor.A) * trans), newColor.R, newColor.G, newColor.B); // Apply transparency change
-                if (newColor != Color.FromArgb(0, 0, 0, 0))
+                if (newColor.A != 0) // If Pixel isn't transparent, we'll overwrite the color.
                 {
                     newImage.SetPixel(
                         i % (overlayImage.Width) + x,

@@ -246,6 +246,10 @@
             this.Hoenn1b_5 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_6 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_7 = new System.Windows.Forms.CheckBox();
+            this.L_Hits = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.Tab_Medals.SuspendLayout();
             this.GB_Medals1.SuspendLayout();
             this.GB_Medals2.SuspendLayout();
@@ -295,6 +299,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_10)).BeginInit();
             this.tabControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // BTN_Save
@@ -363,6 +368,10 @@
             // 
             // GB_Medals1
             // 
+            this.GB_Medals1.Controls.Add(this.comboBox1);
+            this.GB_Medals1.Controls.Add(this.label1);
+            this.GB_Medals1.Controls.Add(this.numericUpDown1);
+            this.GB_Medals1.Controls.Add(this.L_Hits);
             this.GB_Medals1.Controls.Add(this.L_SuperTraining);
             this.GB_Medals1.Controls.Add(this.L_Rank3);
             this.GB_Medals1.Controls.Add(this.L_Rank2);
@@ -2688,6 +2697,51 @@
             this.Hoenn1b_7.Text = "Smart Master";
             this.Hoenn1b_7.UseVisualStyleBackColor = true;
             // 
+            // L_Hits
+            // 
+            this.L_Hits.Location = new System.Drawing.Point(-1, 190);
+            this.L_Hits.Name = "L_Hits";
+            this.L_Hits.Size = new System.Drawing.Size(100, 13);
+            this.L_Hits.TabIndex = 20;
+            this.L_Hits.Text = "Hits Remaining:";
+            this.L_Hits.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(105, 187);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(50, 20);
+            this.numericUpDown1.TabIndex = 21;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(-1, 169);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Last Used Bag:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(105, 166);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(110, 21);
+            this.comboBox1.TabIndex = 23;
+            // 
             // RibbMedal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2761,6 +2815,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_10)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2984,5 +3039,9 @@
         private System.Windows.Forms.PictureBox PB_53;
         private System.Windows.Forms.PictureBox PB_52;
         private System.Windows.Forms.PictureBox PB_51;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label L_Hits;
     }
 }

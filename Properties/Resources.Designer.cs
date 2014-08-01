@@ -6787,6 +6787,174 @@ namespace PKHeX.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap box_wp01 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp02 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp03 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp04 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp05 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp05", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp06 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp06", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp07 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp07", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp08 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp08", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp09 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp09", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp10 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp10", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp11 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp11", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp12 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp13 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp14 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp14", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp15 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp15", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp16 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp17 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp17", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp18 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp18", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp19 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp19", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp20 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp21 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp21", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp22 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp22", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp23 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap box_wp24 {
+            get {
+                object obj = ResourceManager.GetObject("box_wp24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap careless {
             get {
                 object obj = ResourceManager.GetObject("careless", resourceCulture);
@@ -7203,6 +7371,34 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap skillfullbattler {
             get {
                 object obj = ResourceManager.GetObject("skillfullbattler", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap slotDel {
+            get {
+                object obj = ResourceManager.GetObject("slotDel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap slotSet {
+            get {
+                object obj = ResourceManager.GetObject("slotSet", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap slotTrans {
+            get {
+                object obj = ResourceManager.GetObject("slotTrans", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap slotView {
+            get {
+                object obj = ResourceManager.GetObject("slotView", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -15549,9 +15745,9 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to カロス\u3000チャンプリボン
+        ///   Looks up a localized string similar to カロス チャンプリボン
         ///チャンプリボン
-        ///シンオウ\u3000チャンプリボン
+        ///シンオウ チャンプリボン
         ///なかよしリボン
         ///しゅぎょうリボン
         ///グレートバトルリボン
@@ -15587,10 +15783,7 @@ namespace PKHeX.Properties {
         ///ナショナルチャンプリボン
         ///ワールドチャンプリボン
         ///おもいでコンテストリボン
-        ///おもいでバトルリボン
-        ///カロスで\u3000チャンピオンに\u3000かって\nでんどういり\u3000した\u3000きねんリボン
-        ///べつちほうの\u3000リーグで\u3000かちぬき\nでんどういり\u3000した\u3000きねんリボン
-        ///シンオウで\u3000チャンピオンに\u3000かって\nでんどう [rest of string was truncated]&quot;;.
+        ///おもいでバトルリボン.
         /// </summary>
         internal static string text_Ribbon_ja {
             get {
@@ -15637,17 +15830,7 @@ namespace PKHeX.Properties {
         ///내셔널챔피언리본
         ///월드챔피언리본
         ///추억콘테스트리본
-        ///추억배틀리본
-        ///칼로스에서 챔피언에게 이겨서\n전당등록한 기념리본
-        ///다른 지방의 리그에서 이겨서\n전당등록한 기념리본
-        ///신오에서 챔피언에게 이겨서\n전당등록한 기념리본
-        ///깊은 인연으로 맺어진\n포켓몬에게 수여되는 리본
-        ///가혹한 시련을 뛰어넘은\n포켓몬에게 수여되는 리본
-        ///혹독한 배틀을 이겨낸\n포켓몬에게 수여되는 리본
-        ///배틀을 평정한 강한\n포켓몬에게 수여되는 리본
-        ///많이 노력하고 있는\n포켓몬에게 수여되는 리본
-        ///기분이 맑아지는 일을 떠올려서\n인생의 에너지가 되는 리본
-        ///두근두근했던  [rest of string was truncated]&quot;;.
+        ///추억배틀리본.
         /// </summary>
         internal static string text_Ribbon_ko {
             get {
@@ -16315,21 +16498,24 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Entraînez-vous contre Lépidonille\ue07f!
-        ///Tir Volonté sur Pérégrain\ue07f!
-        ///À l’assaut de Magnéti\ue07f!
-        ///À l’assaut de Wailmer\ue07f!
-        ///À l’assaut de Coupenotte\ue07f!
-        ///À l’assaut de Tentacool\ue07f!
-        ///À l’assaut de Sonistrelle\ue07f!
-        ///À l’assaut de Racaillou\ue07f!
-        ///Les tirs à tête chercheuse de Magnéton\ue07f!
-        ///La Cible Aubaine de Relicanth\ue07f!
-        ///Déchaînez-vous contre Incisache\ue07f!
-        ///Les Ballons Pixels de Tentacruel\ue07f!
-        ///Mitraillez Ptéra\ue07f!
-        ///Brisez la Barrière de Gravalanch\ue07f!
-        ///Débarrassez-vous de Magnézo [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Entraînez-vous contre Lépidonille!
+        ///Tir Volonté sur Pérégrain!
+        ///À l’assaut de Magnéti!
+        ///À l’assaut de Wailmer!
+        ///À l’assaut de Coupenotte!
+        ///À l’assaut de Tentacool!
+        ///À l’assaut de Sonistrelle!
+        ///À l’assaut de Racaillou!
+        ///Les tirs à tête chercheuse de Magnéton!
+        ///La Cible Aubaine de Relicanth!
+        ///Déchaînez-vous contre Incisache!
+        ///Les Ballons Pixels de Tentacruel!
+        ///Mitraillez Ptéra!
+        ///Brisez la Barrière de Gravalanch!
+        ///Débarrassez-vous de Magnézone!
+        ///Répliquez aux tirs de Wailord!
+        ///Évitez les tirs de Tranchodon!
+        ///Terrassez Kravarec [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_SuperTraining_fr {
             get {
@@ -16438,10 +16624,7 @@ namespace PKHeX.Properties {
         ///무쇠팔 강철팔의 협공!
         ///염동력! 스푼 난무
         ///인생역전! 출세 잉어킹
-        ///경이로운 연속 메가진화!
-        ///\x10\x02뷿&amp;
-        ///\x10\x02뷿&apos;
-        ///\x [rest of string was truncated]&quot;;.
+        ///경이로운 연속 메가진화!.
         /// </summary>
         internal static string text_SuperTraining_ko {
             get {

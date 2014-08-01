@@ -301,6 +301,34 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icon.ico" />
+    <None Include="Resources\img\box\slotTrans.png" />
+    <None Include="Resources\img\box\slotView.png" />
+    <None Include="Resources\img\box\slotSet.png" />
+    <None Include="Resources\img\box\slotDel.png" />
+    <None Include="Resources\img\box\box_wp18.png" />
+    <None Include="Resources\img\box\box_wp16.png" />
+    <None Include="Resources\img\box\box_wp23.png" />
+    <None Include="Resources\img\box\box_wp21.png" />
+    <None Include="Resources\img\box\box_wp19.png" />
+    <None Include="Resources\img\box\box_wp17.png" />
+    <None Include="Resources\img\box\box_wp03.png" />
+    <None Include="Resources\img\box\box_wp02.png" />
+    <None Include="Resources\img\box\box_wp01.png" />
+    <None Include="Resources\img\box\box_wp15.png" />
+    <None Include="Resources\img\box\box_wp14.png" />
+    <None Include="Resources\img\box\box_wp13.png" />
+    <None Include="Resources\img\box\box_wp12.png" />
+    <None Include="Resources\img\box\box_wp11.png" />
+    <None Include="Resources\img\box\box_wp20.png" />
+    <None Include="Resources\img\box\box_wp22.png" />
+    <None Include="Resources\img\box\box_wp24.png" />
+    <None Include="Resources\img\box\box_wp04.png" />
+    <None Include="Resources\img\box\box_wp05.png" />
+    <None Include="Resources\img\box\box_wp06.png" />
+    <None Include="Resources\img\box\box_wp07.png" />
+    <None Include="Resources\img\box\box_wp08.png" />
+    <None Include="Resources\img\box\box_wp09.png" />
+    <None Include="Resources\img\box\box_wp10.png" />
     <None Include="Resources\text\es\lang_es.txt" />
     <None Include="Resources\text\ko\text_TrainingBag_ko.txt" />
     <None Include="Resources\text\ja\text_TrainingBag_ja.txt" />

@@ -175,7 +175,7 @@ namespace PKHeX
         public int savindex;
         public bool savedited;
         public int colorizedbox = 32;
-        public Color colorizedcolor = Color.Transparent;
+        public Image colorizedcolor = null;
         public Color defaultwhite = Color.White;
         public int colorizedslot = 0;
         public int largeWidth, shortWidth = 0;
@@ -4931,10 +4931,6 @@ namespace PKHeX
                     ivt[i].BackColor = Color.Red;
                     exitfunction = true;
                 }
-                //else if (iva[i] == 31)
-                //    ivt[i].BackColor = Color.Honeydew;
-                //else if (iva[i] == 0)
-                //    ivt[i].BackColor = Color.LavenderBlush;
                 else ivt[i].BackColor = Color.White;
             }
             if (exitfunction) return;
@@ -7537,7 +7533,7 @@ namespace PKHeX
                     }
                 }
                 // Visual to display what slot is currently loaded.
-                getSlotColor(slot, Color.PowderBlue);
+                getSlotColor(slot, Properties.Resources.slotView);
             }
             else
                 System.Media.SystemSounds.Exclamation.Play();
@@ -7566,7 +7562,7 @@ namespace PKHeX
             getPKXBoxes();
             savedited = true;
 
-            getSlotColor(slot, Color.Honeydew);
+            getSlotColor(slot, Properties.Resources.slotSet);
         }
         private void fixparty()
         {
@@ -7619,7 +7615,7 @@ namespace PKHeX
             getPKXBoxes();
             savedited = true;
 
-            getSlotColor(slot, Color.LavenderBlush);
+            getSlotColor(slot, Properties.Resources.slotDel);
         }
         private void slotModifier_Click(object sender, EventArgs e)
         {
@@ -7680,7 +7676,7 @@ namespace PKHeX
                             }
                         }
 
-                        getSlotColor(slot, Color.PowderBlue);
+                        getSlotColor(slot, Properties.Resources.slotView);
                     }
                 }
                 return;
@@ -7696,7 +7692,7 @@ namespace PKHeX
                     Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
                     getPKXBoxes();
                     savedited = true;
-                    getSlotColor(slot, Color.Honeydew);
+                    getSlotColor(slot, Properties.Resources.slotSet);
                 }
             }
         }
@@ -7771,6 +7767,10 @@ namespace PKHeX
         {
             int boxoffset = 0x27A00 + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30);
 
+            int boxbgofst = (0x7F000 * savindex) + 0x9C1E + C_BoxSelect.SelectedIndex;
+            int boxbgval = 1 + savefile[boxbgofst];
+            PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject("box_wp" + boxbgval.ToString("00"));
+            
             PictureBox[] pba = {
                                     bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
                                     bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
@@ -7851,11 +7851,11 @@ namespace PKHeX
             {
                 if (colorizedbox == C_BoxSelect.SelectedIndex)
                 {
-                    pba[colorizedslot].BackColor = colorizedcolor;
+                    pba[colorizedslot].BackgroundImage = colorizedcolor;
                 }
                 else
                 {
-                    pba[colorizedslot].BackColor = Color.Transparent;
+                    pba[colorizedslot].BackgroundImage = null; // Properties.Resources.slotTrans;
                 }
             }
         }
@@ -7957,7 +7957,7 @@ namespace PKHeX
             if (species != 0 && (((XOR < 8) && (gamevers < 24)) || ((XOR < 16) && (gamevers >= 24))))
             {   // Is Shiny
                 // Redraw our image
-                baseImage = PKHeX.Util.layerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.33);
+                baseImage = PKHeX.Util.layerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
             }
             if (species != 0 && BitConverter.ToUInt16(dslotdata, 0xA) > 0)
             {
@@ -7968,7 +7968,7 @@ namespace PKHeX
 
             pb.Image = baseImage;
         }
-        private void getSlotColor(int slot, Color color)
+        private void getSlotColor(int slot, Image color)
         {
             PictureBox[] pba = {
                                     bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
@@ -7984,13 +7984,13 @@ namespace PKHeX
                                 };
             for (int i = 0; i < pba.Length; i++)
             {
-                pba[i].BackColor = Color.Transparent;
+                pba[i].BackgroundImage = null;
             }
             if (slot < 32)
             {
                 colorizedbox = C_BoxSelect.SelectedIndex;
             }
-            pba[slot].BackColor = color;
+            pba[slot].BackgroundImage = color;
             colorizedcolor = color;
             colorizedslot = slot;
         }
@@ -8216,6 +8216,8 @@ namespace PKHeX
             // Open Box Layout Menu
             PKHeX.SAV_BoxLayout sb21 = new PKHeX.SAV_BoxLayout(this);
             sb21.ShowDialog();
+            getBoxNames();
+            getPKXBoxes();
         }
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
@@ -8389,9 +8391,7 @@ namespace PKHeX
             // Allow Import/Export of Boxes
             PKHeX.SAV_BoxIO boxio = new PKHeX.SAV_BoxIO(this, SaveGame.Box, SaveGame.PCLayout);
             boxio.ShowDialog();
-        }
-
-        
+        }        
         #endregion
 
         // Language Translation

@@ -225,8 +225,7 @@
             this.L_Save = new System.Windows.Forms.Label();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
-            this.B_BoxRight = new System.Windows.Forms.Button();
-            this.B_BoxLeft = new System.Windows.Forms.Button();
+            this.PAN_Box = new System.Windows.Forms.Panel();
             this.bpkx30 = new System.Windows.Forms.PictureBox();
             this.bpkx29 = new System.Windows.Forms.PictureBox();
             this.bpkx28 = new System.Windows.Forms.PictureBox();
@@ -257,9 +256,11 @@
             this.bpkx3 = new System.Windows.Forms.PictureBox();
             this.bpkx2 = new System.Windows.Forms.PictureBox();
             this.bpkx1 = new System.Windows.Forms.PictureBox();
+            this.B_BoxRight = new System.Windows.Forms.Button();
+            this.B_BoxLeft = new System.Windows.Forms.Button();
             this.C_BoxSelect = new System.Windows.Forms.ComboBox();
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.PAN_BattleBox = new System.Windows.Forms.Panel();
             this.bbpkx1 = new System.Windows.Forms.PictureBox();
             this.bbpkx2 = new System.Windows.Forms.PictureBox();
             this.bbpkx3 = new System.Windows.Forms.PictureBox();
@@ -269,7 +270,7 @@
             this.L_ReadOnlyPBB = new System.Windows.Forms.Label();
             this.L_BattleBox = new System.Windows.Forms.Label();
             this.L_Party = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PAN_Party = new System.Windows.Forms.Panel();
             this.ppkx1 = new System.Windows.Forms.PictureBox();
             this.ppkx2 = new System.Windows.Forms.PictureBox();
             this.ppkx3 = new System.Windows.Forms.PictureBox();
@@ -351,6 +352,7 @@
             this.menuStrip1.SuspendLayout();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
+            this.PAN_Box.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -382,14 +384,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.bpkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx1)).BeginInit();
             this.Tab_PartyBattle.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.PAN_BattleBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx6)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.PAN_Party.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx3)).BeginInit();
@@ -2337,8 +2339,6 @@
             this.CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_ExtraBytes.FormattingEnabled = true;
             this.CB_ExtraBytes.Items.AddRange(new object[] {
-            "0x16",
-            "0x17",
             "0x35",
             "0x36",
             "0x37",
@@ -2666,38 +2666,9 @@
             // 
             // Tab_Box
             // 
+            this.Tab_Box.Controls.Add(this.PAN_Box);
             this.Tab_Box.Controls.Add(this.B_BoxRight);
             this.Tab_Box.Controls.Add(this.B_BoxLeft);
-            this.Tab_Box.Controls.Add(this.bpkx30);
-            this.Tab_Box.Controls.Add(this.bpkx29);
-            this.Tab_Box.Controls.Add(this.bpkx28);
-            this.Tab_Box.Controls.Add(this.bpkx27);
-            this.Tab_Box.Controls.Add(this.bpkx26);
-            this.Tab_Box.Controls.Add(this.bpkx25);
-            this.Tab_Box.Controls.Add(this.bpkx24);
-            this.Tab_Box.Controls.Add(this.bpkx23);
-            this.Tab_Box.Controls.Add(this.bpkx22);
-            this.Tab_Box.Controls.Add(this.bpkx21);
-            this.Tab_Box.Controls.Add(this.bpkx20);
-            this.Tab_Box.Controls.Add(this.bpkx19);
-            this.Tab_Box.Controls.Add(this.bpkx18);
-            this.Tab_Box.Controls.Add(this.bpkx17);
-            this.Tab_Box.Controls.Add(this.bpkx16);
-            this.Tab_Box.Controls.Add(this.bpkx15);
-            this.Tab_Box.Controls.Add(this.bpkx14);
-            this.Tab_Box.Controls.Add(this.bpkx13);
-            this.Tab_Box.Controls.Add(this.bpkx12);
-            this.Tab_Box.Controls.Add(this.bpkx11);
-            this.Tab_Box.Controls.Add(this.bpkx10);
-            this.Tab_Box.Controls.Add(this.bpkx9);
-            this.Tab_Box.Controls.Add(this.bpkx8);
-            this.Tab_Box.Controls.Add(this.bpkx7);
-            this.Tab_Box.Controls.Add(this.bpkx6);
-            this.Tab_Box.Controls.Add(this.bpkx5);
-            this.Tab_Box.Controls.Add(this.bpkx4);
-            this.Tab_Box.Controls.Add(this.bpkx3);
-            this.Tab_Box.Controls.Add(this.bpkx2);
-            this.Tab_Box.Controls.Add(this.bpkx1);
             this.Tab_Box.Controls.Add(this.C_BoxSelect);
             this.Tab_Box.Location = new System.Drawing.Point(4, 22);
             this.Tab_Box.Name = "Tab_Box";
@@ -2706,6 +2677,374 @@
             this.Tab_Box.TabIndex = 0;
             this.Tab_Box.Text = "Box";
             this.Tab_Box.UseVisualStyleBackColor = true;
+            // 
+            // PAN_Box
+            // 
+            this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PAN_Box.Controls.Add(this.bpkx30);
+            this.PAN_Box.Controls.Add(this.bpkx29);
+            this.PAN_Box.Controls.Add(this.bpkx28);
+            this.PAN_Box.Controls.Add(this.bpkx27);
+            this.PAN_Box.Controls.Add(this.bpkx26);
+            this.PAN_Box.Controls.Add(this.bpkx25);
+            this.PAN_Box.Controls.Add(this.bpkx24);
+            this.PAN_Box.Controls.Add(this.bpkx23);
+            this.PAN_Box.Controls.Add(this.bpkx22);
+            this.PAN_Box.Controls.Add(this.bpkx21);
+            this.PAN_Box.Controls.Add(this.bpkx20);
+            this.PAN_Box.Controls.Add(this.bpkx19);
+            this.PAN_Box.Controls.Add(this.bpkx18);
+            this.PAN_Box.Controls.Add(this.bpkx17);
+            this.PAN_Box.Controls.Add(this.bpkx16);
+            this.PAN_Box.Controls.Add(this.bpkx15);
+            this.PAN_Box.Controls.Add(this.bpkx14);
+            this.PAN_Box.Controls.Add(this.bpkx13);
+            this.PAN_Box.Controls.Add(this.bpkx12);
+            this.PAN_Box.Controls.Add(this.bpkx11);
+            this.PAN_Box.Controls.Add(this.bpkx10);
+            this.PAN_Box.Controls.Add(this.bpkx9);
+            this.PAN_Box.Controls.Add(this.bpkx8);
+            this.PAN_Box.Controls.Add(this.bpkx7);
+            this.PAN_Box.Controls.Add(this.bpkx6);
+            this.PAN_Box.Controls.Add(this.bpkx5);
+            this.PAN_Box.Controls.Add(this.bpkx4);
+            this.PAN_Box.Controls.Add(this.bpkx3);
+            this.PAN_Box.Controls.Add(this.bpkx2);
+            this.PAN_Box.Controls.Add(this.bpkx1);
+            this.PAN_Box.Location = new System.Drawing.Point(26, 35);
+            this.PAN_Box.Name = "PAN_Box";
+            this.PAN_Box.Size = new System.Drawing.Size(251, 160);
+            this.PAN_Box.TabIndex = 62;
+            // 
+            // bpkx30
+            // 
+            this.bpkx30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx30.Location = new System.Drawing.Point(207, 126);
+            this.bpkx30.Name = "bpkx30";
+            this.bpkx30.Size = new System.Drawing.Size(42, 32);
+            this.bpkx30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx30.TabIndex = 59;
+            this.bpkx30.TabStop = false;
+            this.bpkx30.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx29
+            // 
+            this.bpkx29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx29.Location = new System.Drawing.Point(166, 126);
+            this.bpkx29.Name = "bpkx29";
+            this.bpkx29.Size = new System.Drawing.Size(42, 32);
+            this.bpkx29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx29.TabIndex = 58;
+            this.bpkx29.TabStop = false;
+            this.bpkx29.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx28
+            // 
+            this.bpkx28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx28.Location = new System.Drawing.Point(125, 126);
+            this.bpkx28.Name = "bpkx28";
+            this.bpkx28.Size = new System.Drawing.Size(42, 32);
+            this.bpkx28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx28.TabIndex = 57;
+            this.bpkx28.TabStop = false;
+            this.bpkx28.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx27
+            // 
+            this.bpkx27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx27.Location = new System.Drawing.Point(84, 126);
+            this.bpkx27.Name = "bpkx27";
+            this.bpkx27.Size = new System.Drawing.Size(42, 32);
+            this.bpkx27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx27.TabIndex = 56;
+            this.bpkx27.TabStop = false;
+            this.bpkx27.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx26
+            // 
+            this.bpkx26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx26.Location = new System.Drawing.Point(43, 126);
+            this.bpkx26.Name = "bpkx26";
+            this.bpkx26.Size = new System.Drawing.Size(42, 32);
+            this.bpkx26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx26.TabIndex = 55;
+            this.bpkx26.TabStop = false;
+            this.bpkx26.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx25
+            // 
+            this.bpkx25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx25.Location = new System.Drawing.Point(2, 126);
+            this.bpkx25.Name = "bpkx25";
+            this.bpkx25.Size = new System.Drawing.Size(42, 32);
+            this.bpkx25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx25.TabIndex = 54;
+            this.bpkx25.TabStop = false;
+            this.bpkx25.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx24
+            // 
+            this.bpkx24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx24.Location = new System.Drawing.Point(207, 95);
+            this.bpkx24.Name = "bpkx24";
+            this.bpkx24.Size = new System.Drawing.Size(42, 32);
+            this.bpkx24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx24.TabIndex = 53;
+            this.bpkx24.TabStop = false;
+            this.bpkx24.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx23
+            // 
+            this.bpkx23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx23.Location = new System.Drawing.Point(166, 95);
+            this.bpkx23.Name = "bpkx23";
+            this.bpkx23.Size = new System.Drawing.Size(42, 32);
+            this.bpkx23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx23.TabIndex = 52;
+            this.bpkx23.TabStop = false;
+            this.bpkx23.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx22
+            // 
+            this.bpkx22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx22.Location = new System.Drawing.Point(125, 95);
+            this.bpkx22.Name = "bpkx22";
+            this.bpkx22.Size = new System.Drawing.Size(42, 32);
+            this.bpkx22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx22.TabIndex = 51;
+            this.bpkx22.TabStop = false;
+            this.bpkx22.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx21
+            // 
+            this.bpkx21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx21.Location = new System.Drawing.Point(84, 95);
+            this.bpkx21.Name = "bpkx21";
+            this.bpkx21.Size = new System.Drawing.Size(42, 32);
+            this.bpkx21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx21.TabIndex = 50;
+            this.bpkx21.TabStop = false;
+            this.bpkx21.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx20
+            // 
+            this.bpkx20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx20.Location = new System.Drawing.Point(43, 95);
+            this.bpkx20.Name = "bpkx20";
+            this.bpkx20.Size = new System.Drawing.Size(42, 32);
+            this.bpkx20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx20.TabIndex = 49;
+            this.bpkx20.TabStop = false;
+            this.bpkx20.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx19
+            // 
+            this.bpkx19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx19.Location = new System.Drawing.Point(2, 95);
+            this.bpkx19.Name = "bpkx19";
+            this.bpkx19.Size = new System.Drawing.Size(42, 32);
+            this.bpkx19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx19.TabIndex = 48;
+            this.bpkx19.TabStop = false;
+            this.bpkx19.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx18
+            // 
+            this.bpkx18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx18.Location = new System.Drawing.Point(207, 64);
+            this.bpkx18.Name = "bpkx18";
+            this.bpkx18.Size = new System.Drawing.Size(42, 32);
+            this.bpkx18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx18.TabIndex = 47;
+            this.bpkx18.TabStop = false;
+            this.bpkx18.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx17
+            // 
+            this.bpkx17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx17.Location = new System.Drawing.Point(166, 64);
+            this.bpkx17.Name = "bpkx17";
+            this.bpkx17.Size = new System.Drawing.Size(42, 32);
+            this.bpkx17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx17.TabIndex = 46;
+            this.bpkx17.TabStop = false;
+            this.bpkx17.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx16
+            // 
+            this.bpkx16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx16.Location = new System.Drawing.Point(125, 64);
+            this.bpkx16.Name = "bpkx16";
+            this.bpkx16.Size = new System.Drawing.Size(42, 32);
+            this.bpkx16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx16.TabIndex = 45;
+            this.bpkx16.TabStop = false;
+            this.bpkx16.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx15
+            // 
+            this.bpkx15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx15.Location = new System.Drawing.Point(84, 64);
+            this.bpkx15.Name = "bpkx15";
+            this.bpkx15.Size = new System.Drawing.Size(42, 32);
+            this.bpkx15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx15.TabIndex = 44;
+            this.bpkx15.TabStop = false;
+            this.bpkx15.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx14
+            // 
+            this.bpkx14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx14.Location = new System.Drawing.Point(43, 64);
+            this.bpkx14.Name = "bpkx14";
+            this.bpkx14.Size = new System.Drawing.Size(42, 32);
+            this.bpkx14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx14.TabIndex = 43;
+            this.bpkx14.TabStop = false;
+            this.bpkx14.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx13
+            // 
+            this.bpkx13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx13.Location = new System.Drawing.Point(2, 64);
+            this.bpkx13.Name = "bpkx13";
+            this.bpkx13.Size = new System.Drawing.Size(42, 32);
+            this.bpkx13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx13.TabIndex = 42;
+            this.bpkx13.TabStop = false;
+            this.bpkx13.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx12
+            // 
+            this.bpkx12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx12.Location = new System.Drawing.Point(207, 33);
+            this.bpkx12.Name = "bpkx12";
+            this.bpkx12.Size = new System.Drawing.Size(42, 32);
+            this.bpkx12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx12.TabIndex = 41;
+            this.bpkx12.TabStop = false;
+            this.bpkx12.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx11
+            // 
+            this.bpkx11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx11.Location = new System.Drawing.Point(166, 33);
+            this.bpkx11.Name = "bpkx11";
+            this.bpkx11.Size = new System.Drawing.Size(42, 32);
+            this.bpkx11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx11.TabIndex = 40;
+            this.bpkx11.TabStop = false;
+            this.bpkx11.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx10
+            // 
+            this.bpkx10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx10.Location = new System.Drawing.Point(125, 33);
+            this.bpkx10.Name = "bpkx10";
+            this.bpkx10.Size = new System.Drawing.Size(42, 32);
+            this.bpkx10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx10.TabIndex = 39;
+            this.bpkx10.TabStop = false;
+            this.bpkx10.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx9
+            // 
+            this.bpkx9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx9.Location = new System.Drawing.Point(84, 33);
+            this.bpkx9.Name = "bpkx9";
+            this.bpkx9.Size = new System.Drawing.Size(42, 32);
+            this.bpkx9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx9.TabIndex = 38;
+            this.bpkx9.TabStop = false;
+            this.bpkx9.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx8
+            // 
+            this.bpkx8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx8.Location = new System.Drawing.Point(43, 33);
+            this.bpkx8.Name = "bpkx8";
+            this.bpkx8.Size = new System.Drawing.Size(42, 32);
+            this.bpkx8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx8.TabIndex = 37;
+            this.bpkx8.TabStop = false;
+            this.bpkx8.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx7
+            // 
+            this.bpkx7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx7.Location = new System.Drawing.Point(2, 33);
+            this.bpkx7.Name = "bpkx7";
+            this.bpkx7.Size = new System.Drawing.Size(42, 32);
+            this.bpkx7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx7.TabIndex = 36;
+            this.bpkx7.TabStop = false;
+            this.bpkx7.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx6
+            // 
+            this.bpkx6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx6.Location = new System.Drawing.Point(207, 2);
+            this.bpkx6.Name = "bpkx6";
+            this.bpkx6.Size = new System.Drawing.Size(42, 32);
+            this.bpkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx6.TabIndex = 35;
+            this.bpkx6.TabStop = false;
+            this.bpkx6.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx5
+            // 
+            this.bpkx5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx5.Location = new System.Drawing.Point(166, 2);
+            this.bpkx5.Name = "bpkx5";
+            this.bpkx5.Size = new System.Drawing.Size(42, 32);
+            this.bpkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx5.TabIndex = 34;
+            this.bpkx5.TabStop = false;
+            this.bpkx5.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx4
+            // 
+            this.bpkx4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx4.Location = new System.Drawing.Point(125, 2);
+            this.bpkx4.Name = "bpkx4";
+            this.bpkx4.Size = new System.Drawing.Size(42, 32);
+            this.bpkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx4.TabIndex = 33;
+            this.bpkx4.TabStop = false;
+            this.bpkx4.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx3
+            // 
+            this.bpkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx3.Location = new System.Drawing.Point(84, 2);
+            this.bpkx3.Name = "bpkx3";
+            this.bpkx3.Size = new System.Drawing.Size(42, 32);
+            this.bpkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx3.TabIndex = 32;
+            this.bpkx3.TabStop = false;
+            this.bpkx3.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx2
+            // 
+            this.bpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx2.Location = new System.Drawing.Point(43, 2);
+            this.bpkx2.Name = "bpkx2";
+            this.bpkx2.Size = new System.Drawing.Size(42, 32);
+            this.bpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx2.TabIndex = 31;
+            this.bpkx2.TabStop = false;
+            this.bpkx2.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // bpkx1
+            // 
+            this.bpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx1.Location = new System.Drawing.Point(2, 2);
+            this.bpkx1.Name = "bpkx1";
+            this.bpkx1.Size = new System.Drawing.Size(42, 32);
+            this.bpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx1.TabIndex = 30;
+            this.bpkx1.TabStop = false;
+            this.bpkx1.Click += new System.EventHandler(this.slotModifier_Click);
             // 
             // B_BoxRight
             // 
@@ -2728,336 +3067,6 @@
             this.B_BoxLeft.Text = "<<";
             this.B_BoxLeft.UseVisualStyleBackColor = true;
             this.B_BoxLeft.Click += new System.EventHandler(this.B_BoxLeft_Click);
-            // 
-            // bpkx30
-            // 
-            this.bpkx30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx30.Location = new System.Drawing.Point(233, 163);
-            this.bpkx30.Name = "bpkx30";
-            this.bpkx30.Size = new System.Drawing.Size(42, 32);
-            this.bpkx30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx30.TabIndex = 59;
-            this.bpkx30.TabStop = false;
-            this.bpkx30.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx29
-            // 
-            this.bpkx29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx29.Location = new System.Drawing.Point(192, 163);
-            this.bpkx29.Name = "bpkx29";
-            this.bpkx29.Size = new System.Drawing.Size(42, 32);
-            this.bpkx29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx29.TabIndex = 58;
-            this.bpkx29.TabStop = false;
-            this.bpkx29.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx28
-            // 
-            this.bpkx28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx28.Location = new System.Drawing.Point(151, 163);
-            this.bpkx28.Name = "bpkx28";
-            this.bpkx28.Size = new System.Drawing.Size(42, 32);
-            this.bpkx28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx28.TabIndex = 57;
-            this.bpkx28.TabStop = false;
-            this.bpkx28.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx27
-            // 
-            this.bpkx27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx27.Location = new System.Drawing.Point(110, 163);
-            this.bpkx27.Name = "bpkx27";
-            this.bpkx27.Size = new System.Drawing.Size(42, 32);
-            this.bpkx27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx27.TabIndex = 56;
-            this.bpkx27.TabStop = false;
-            this.bpkx27.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx26
-            // 
-            this.bpkx26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx26.Location = new System.Drawing.Point(69, 163);
-            this.bpkx26.Name = "bpkx26";
-            this.bpkx26.Size = new System.Drawing.Size(42, 32);
-            this.bpkx26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx26.TabIndex = 55;
-            this.bpkx26.TabStop = false;
-            this.bpkx26.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx25
-            // 
-            this.bpkx25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx25.Location = new System.Drawing.Point(28, 163);
-            this.bpkx25.Name = "bpkx25";
-            this.bpkx25.Size = new System.Drawing.Size(42, 32);
-            this.bpkx25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx25.TabIndex = 54;
-            this.bpkx25.TabStop = false;
-            this.bpkx25.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx24
-            // 
-            this.bpkx24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx24.Location = new System.Drawing.Point(233, 132);
-            this.bpkx24.Name = "bpkx24";
-            this.bpkx24.Size = new System.Drawing.Size(42, 32);
-            this.bpkx24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx24.TabIndex = 53;
-            this.bpkx24.TabStop = false;
-            this.bpkx24.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx23
-            // 
-            this.bpkx23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx23.Location = new System.Drawing.Point(192, 132);
-            this.bpkx23.Name = "bpkx23";
-            this.bpkx23.Size = new System.Drawing.Size(42, 32);
-            this.bpkx23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx23.TabIndex = 52;
-            this.bpkx23.TabStop = false;
-            this.bpkx23.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx22
-            // 
-            this.bpkx22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx22.Location = new System.Drawing.Point(151, 132);
-            this.bpkx22.Name = "bpkx22";
-            this.bpkx22.Size = new System.Drawing.Size(42, 32);
-            this.bpkx22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx22.TabIndex = 51;
-            this.bpkx22.TabStop = false;
-            this.bpkx22.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx21
-            // 
-            this.bpkx21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx21.Location = new System.Drawing.Point(110, 132);
-            this.bpkx21.Name = "bpkx21";
-            this.bpkx21.Size = new System.Drawing.Size(42, 32);
-            this.bpkx21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx21.TabIndex = 50;
-            this.bpkx21.TabStop = false;
-            this.bpkx21.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx20
-            // 
-            this.bpkx20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx20.Location = new System.Drawing.Point(69, 132);
-            this.bpkx20.Name = "bpkx20";
-            this.bpkx20.Size = new System.Drawing.Size(42, 32);
-            this.bpkx20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx20.TabIndex = 49;
-            this.bpkx20.TabStop = false;
-            this.bpkx20.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx19
-            // 
-            this.bpkx19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx19.Location = new System.Drawing.Point(28, 132);
-            this.bpkx19.Name = "bpkx19";
-            this.bpkx19.Size = new System.Drawing.Size(42, 32);
-            this.bpkx19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx19.TabIndex = 48;
-            this.bpkx19.TabStop = false;
-            this.bpkx19.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx18
-            // 
-            this.bpkx18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx18.Location = new System.Drawing.Point(233, 101);
-            this.bpkx18.Name = "bpkx18";
-            this.bpkx18.Size = new System.Drawing.Size(42, 32);
-            this.bpkx18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx18.TabIndex = 47;
-            this.bpkx18.TabStop = false;
-            this.bpkx18.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx17
-            // 
-            this.bpkx17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx17.Location = new System.Drawing.Point(192, 101);
-            this.bpkx17.Name = "bpkx17";
-            this.bpkx17.Size = new System.Drawing.Size(42, 32);
-            this.bpkx17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx17.TabIndex = 46;
-            this.bpkx17.TabStop = false;
-            this.bpkx17.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx16
-            // 
-            this.bpkx16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx16.Location = new System.Drawing.Point(151, 101);
-            this.bpkx16.Name = "bpkx16";
-            this.bpkx16.Size = new System.Drawing.Size(42, 32);
-            this.bpkx16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx16.TabIndex = 45;
-            this.bpkx16.TabStop = false;
-            this.bpkx16.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx15
-            // 
-            this.bpkx15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx15.Location = new System.Drawing.Point(110, 101);
-            this.bpkx15.Name = "bpkx15";
-            this.bpkx15.Size = new System.Drawing.Size(42, 32);
-            this.bpkx15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx15.TabIndex = 44;
-            this.bpkx15.TabStop = false;
-            this.bpkx15.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx14
-            // 
-            this.bpkx14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx14.Location = new System.Drawing.Point(69, 101);
-            this.bpkx14.Name = "bpkx14";
-            this.bpkx14.Size = new System.Drawing.Size(42, 32);
-            this.bpkx14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx14.TabIndex = 43;
-            this.bpkx14.TabStop = false;
-            this.bpkx14.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx13
-            // 
-            this.bpkx13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx13.Location = new System.Drawing.Point(28, 101);
-            this.bpkx13.Name = "bpkx13";
-            this.bpkx13.Size = new System.Drawing.Size(42, 32);
-            this.bpkx13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx13.TabIndex = 42;
-            this.bpkx13.TabStop = false;
-            this.bpkx13.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx12
-            // 
-            this.bpkx12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx12.Location = new System.Drawing.Point(233, 70);
-            this.bpkx12.Name = "bpkx12";
-            this.bpkx12.Size = new System.Drawing.Size(42, 32);
-            this.bpkx12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx12.TabIndex = 41;
-            this.bpkx12.TabStop = false;
-            this.bpkx12.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx11
-            // 
-            this.bpkx11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx11.Location = new System.Drawing.Point(192, 70);
-            this.bpkx11.Name = "bpkx11";
-            this.bpkx11.Size = new System.Drawing.Size(42, 32);
-            this.bpkx11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx11.TabIndex = 40;
-            this.bpkx11.TabStop = false;
-            this.bpkx11.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx10
-            // 
-            this.bpkx10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx10.Location = new System.Drawing.Point(151, 70);
-            this.bpkx10.Name = "bpkx10";
-            this.bpkx10.Size = new System.Drawing.Size(42, 32);
-            this.bpkx10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx10.TabIndex = 39;
-            this.bpkx10.TabStop = false;
-            this.bpkx10.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx9
-            // 
-            this.bpkx9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx9.Location = new System.Drawing.Point(110, 70);
-            this.bpkx9.Name = "bpkx9";
-            this.bpkx9.Size = new System.Drawing.Size(42, 32);
-            this.bpkx9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx9.TabIndex = 38;
-            this.bpkx9.TabStop = false;
-            this.bpkx9.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx8
-            // 
-            this.bpkx8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx8.Location = new System.Drawing.Point(69, 70);
-            this.bpkx8.Name = "bpkx8";
-            this.bpkx8.Size = new System.Drawing.Size(42, 32);
-            this.bpkx8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx8.TabIndex = 37;
-            this.bpkx8.TabStop = false;
-            this.bpkx8.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx7
-            // 
-            this.bpkx7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx7.Location = new System.Drawing.Point(28, 70);
-            this.bpkx7.Name = "bpkx7";
-            this.bpkx7.Size = new System.Drawing.Size(42, 32);
-            this.bpkx7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx7.TabIndex = 36;
-            this.bpkx7.TabStop = false;
-            this.bpkx7.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx6
-            // 
-            this.bpkx6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx6.Location = new System.Drawing.Point(233, 39);
-            this.bpkx6.Name = "bpkx6";
-            this.bpkx6.Size = new System.Drawing.Size(42, 32);
-            this.bpkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx6.TabIndex = 35;
-            this.bpkx6.TabStop = false;
-            this.bpkx6.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx5
-            // 
-            this.bpkx5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx5.Location = new System.Drawing.Point(192, 39);
-            this.bpkx5.Name = "bpkx5";
-            this.bpkx5.Size = new System.Drawing.Size(42, 32);
-            this.bpkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx5.TabIndex = 34;
-            this.bpkx5.TabStop = false;
-            this.bpkx5.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx4
-            // 
-            this.bpkx4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx4.Location = new System.Drawing.Point(151, 39);
-            this.bpkx4.Name = "bpkx4";
-            this.bpkx4.Size = new System.Drawing.Size(42, 32);
-            this.bpkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx4.TabIndex = 33;
-            this.bpkx4.TabStop = false;
-            this.bpkx4.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx3
-            // 
-            this.bpkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx3.Location = new System.Drawing.Point(110, 39);
-            this.bpkx3.Name = "bpkx3";
-            this.bpkx3.Size = new System.Drawing.Size(42, 32);
-            this.bpkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx3.TabIndex = 32;
-            this.bpkx3.TabStop = false;
-            this.bpkx3.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx2
-            // 
-            this.bpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx2.Location = new System.Drawing.Point(69, 39);
-            this.bpkx2.Name = "bpkx2";
-            this.bpkx2.Size = new System.Drawing.Size(42, 32);
-            this.bpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx2.TabIndex = 31;
-            this.bpkx2.TabStop = false;
-            this.bpkx2.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // bpkx1
-            // 
-            this.bpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx1.Location = new System.Drawing.Point(28, 39);
-            this.bpkx1.Name = "bpkx1";
-            this.bpkx1.Size = new System.Drawing.Size(42, 32);
-            this.bpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.bpkx1.TabIndex = 30;
-            this.bpkx1.TabStop = false;
-            this.bpkx1.Click += new System.EventHandler(this.slotModifier_Click);
             // 
             // C_BoxSelect
             // 
@@ -3103,11 +3112,11 @@
             // 
             // Tab_PartyBattle
             // 
-            this.Tab_PartyBattle.Controls.Add(this.panel2);
+            this.Tab_PartyBattle.Controls.Add(this.PAN_BattleBox);
             this.Tab_PartyBattle.Controls.Add(this.L_ReadOnlyPBB);
             this.Tab_PartyBattle.Controls.Add(this.L_BattleBox);
             this.Tab_PartyBattle.Controls.Add(this.L_Party);
-            this.Tab_PartyBattle.Controls.Add(this.panel1);
+            this.Tab_PartyBattle.Controls.Add(this.PAN_Party);
             this.Tab_PartyBattle.Location = new System.Drawing.Point(4, 22);
             this.Tab_PartyBattle.Name = "Tab_PartyBattle";
             this.Tab_PartyBattle.Padding = new System.Windows.Forms.Padding(3);
@@ -3116,19 +3125,19 @@
             this.Tab_PartyBattle.Text = "Party-Battle Box";
             this.Tab_PartyBattle.UseVisualStyleBackColor = true;
             // 
-            // panel2
+            // PAN_BattleBox
             // 
-            this.panel2.BackgroundImage = global::PKHeX.Properties.Resources.party;
-            this.panel2.Controls.Add(this.bbpkx1);
-            this.panel2.Controls.Add(this.bbpkx2);
-            this.panel2.Controls.Add(this.bbpkx3);
-            this.panel2.Controls.Add(this.bbpkx4);
-            this.panel2.Controls.Add(this.bbpkx5);
-            this.panel2.Controls.Add(this.bbpkx6);
-            this.panel2.Location = new System.Drawing.Point(168, 28);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(111, 160);
-            this.panel2.TabIndex = 17;
+            this.PAN_BattleBox.BackgroundImage = global::PKHeX.Properties.Resources.party;
+            this.PAN_BattleBox.Controls.Add(this.bbpkx1);
+            this.PAN_BattleBox.Controls.Add(this.bbpkx2);
+            this.PAN_BattleBox.Controls.Add(this.bbpkx3);
+            this.PAN_BattleBox.Controls.Add(this.bbpkx4);
+            this.PAN_BattleBox.Controls.Add(this.bbpkx5);
+            this.PAN_BattleBox.Controls.Add(this.bbpkx6);
+            this.PAN_BattleBox.Location = new System.Drawing.Point(168, 28);
+            this.PAN_BattleBox.Name = "PAN_BattleBox";
+            this.PAN_BattleBox.Size = new System.Drawing.Size(111, 160);
+            this.PAN_BattleBox.TabIndex = 17;
             // 
             // bbpkx1
             // 
@@ -3218,19 +3227,19 @@
             this.L_Party.TabIndex = 0;
             this.L_Party.Text = "Party:";
             // 
-            // panel1
+            // PAN_Party
             // 
-            this.panel1.BackgroundImage = global::PKHeX.Properties.Resources.party;
-            this.panel1.Controls.Add(this.ppkx1);
-            this.panel1.Controls.Add(this.ppkx2);
-            this.panel1.Controls.Add(this.ppkx3);
-            this.panel1.Controls.Add(this.ppkx4);
-            this.panel1.Controls.Add(this.ppkx5);
-            this.panel1.Controls.Add(this.ppkx6);
-            this.panel1.Location = new System.Drawing.Point(24, 28);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(111, 160);
-            this.panel1.TabIndex = 16;
+            this.PAN_Party.BackgroundImage = global::PKHeX.Properties.Resources.party;
+            this.PAN_Party.Controls.Add(this.ppkx1);
+            this.PAN_Party.Controls.Add(this.ppkx2);
+            this.PAN_Party.Controls.Add(this.ppkx3);
+            this.PAN_Party.Controls.Add(this.ppkx4);
+            this.PAN_Party.Controls.Add(this.ppkx5);
+            this.PAN_Party.Controls.Add(this.ppkx6);
+            this.PAN_Party.Location = new System.Drawing.Point(24, 28);
+            this.PAN_Party.Name = "PAN_Party";
+            this.PAN_Party.Size = new System.Drawing.Size(111, 160);
+            this.PAN_Party.TabIndex = 16;
             // 
             // ppkx1
             // 
@@ -3876,7 +3885,7 @@
             this.menuStrip1.PerformLayout();
             this.tabBoxMulti.ResumeLayout(false);
             this.Tab_Box.ResumeLayout(false);
-            this.Tab_Box.PerformLayout();
+            this.PAN_Box.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).EndInit();
@@ -3909,16 +3918,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.bpkx1)).EndInit();
             this.Tab_PartyBattle.ResumeLayout(false);
             this.Tab_PartyBattle.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.PAN_BattleBox.ResumeLayout(false);
+            this.PAN_BattleBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx6)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.PAN_Party.ResumeLayout(false);
+            this.PAN_Party.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx3)).EndInit();
@@ -4243,10 +4252,11 @@
         private System.Windows.Forms.TextBox TB_PP1;
         private System.Windows.Forms.ToolStripMenuItem codeGeneratorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel PAN_Party;
+        private System.Windows.Forms.Panel PAN_BattleBox;
         private System.Windows.Forms.Button B_OpenSuperTraining;
         private System.Windows.Forms.Button B_OutAHK;
+        private System.Windows.Forms.Panel PAN_Box;
     }
 }
 

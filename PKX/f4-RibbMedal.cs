@@ -21,6 +21,15 @@ namespace PKHeX
             InitializeComponent();
             m_parent = frm1;
             TranslateInterface("RibbonMedal");
+
+            // Set up Training Bag Data
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("---");
+            for (int i = 1; i < m_parent.trainingbags.Length-1; i++)
+                comboBox1.Items.Add(m_parent.trainingbags[i]);
+            comboBox1.SelectedIndex = m_parent.buff[0x17];
+            numericUpDown1.Value = m_parent.buff[0x16];
+
             getRibbons();
         }
         public void TranslateInterface(string FORM_NAME)
@@ -457,6 +466,8 @@ namespace PKHeX
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
+            m_parent.buff[0x17] = (byte)comboBox1.SelectedIndex;
+            m_parent.buff[0x16] = (byte)numericUpDown1.Value;
             setRibbons();
             Close();
         }         // Save Button
