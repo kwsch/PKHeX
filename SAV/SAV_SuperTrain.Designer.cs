@@ -312,6 +312,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(330, 350);
             this.Name = "SAV_SuperTrain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Super Training Records";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
