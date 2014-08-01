@@ -55,6 +55,8 @@
             this.flag_0963 = new System.Windows.Forms.CheckBox();
             this.flag_0115 = new System.Windows.Forms.CheckBox();
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
+            this.flag_0114 = new System.Windows.Forms.CheckBox();
+            this.flag_0790 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -326,6 +328,7 @@
             this.flag_0963.TabIndex = 14;
             this.flag_0963.Text = "Mewtwo Defeated";
             this.flag_0963.UseVisualStyleBackColor = true;
+            this.flag_0963.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0115
             // 
@@ -337,9 +340,12 @@
             this.flag_0115.TabIndex = 15;
             this.flag_0115.Text = "Mewtwo Captured";
             this.flag_0115.UseVisualStyleBackColor = true;
+            this.flag_0115.Click += new System.EventHandler(this.toggleFlag);
             // 
             // GB_Rebattle
             // 
+            this.GB_Rebattle.Controls.Add(this.flag_0114);
+            this.GB_Rebattle.Controls.Add(this.flag_0790);
             this.GB_Rebattle.Controls.Add(this.flag_0115);
             this.GB_Rebattle.Controls.Add(this.flag_0963);
             this.GB_Rebattle.Location = new System.Drawing.Point(129, 12);
@@ -348,6 +354,30 @@
             this.GB_Rebattle.TabIndex = 16;
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
+            // 
+            // flag_0114
+            // 
+            this.flag_0114.AutoSize = true;
+            this.flag_0114.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0114.Location = new System.Drawing.Point(16, 72);
+            this.flag_0114.Name = "flag_0114";
+            this.flag_0114.Size = new System.Drawing.Size(111, 17);
+            this.flag_0114.TabIndex = 17;
+            this.flag_0114.Text = "Zygarde Captured";
+            this.flag_0114.UseVisualStyleBackColor = true;
+            this.flag_0114.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0790
+            // 
+            this.flag_0790.AutoSize = true;
+            this.flag_0790.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0790.Location = new System.Drawing.Point(16, 57);
+            this.flag_0790.Name = "flag_0790";
+            this.flag_0790.Size = new System.Drawing.Size(112, 17);
+            this.flag_0790.TabIndex = 16;
+            this.flag_0790.Text = "Zygarde Defeated";
+            this.flag_0790.UseVisualStyleBackColor = true;
+            this.flag_0790.Click += new System.EventHandler(this.toggleFlag);
             // 
             // SAV_EventFlags
             // 
@@ -414,5 +444,7 @@
         private System.Windows.Forms.CheckBox flag_0963;
         private System.Windows.Forms.CheckBox flag_0115;
         private System.Windows.Forms.GroupBox GB_Rebattle;
+        private System.Windows.Forms.CheckBox flag_0114;
+        private System.Windows.Forms.CheckBox flag_0790;
     }
 }

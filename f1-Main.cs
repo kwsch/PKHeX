@@ -3912,8 +3912,7 @@ namespace PKHeX
                 GB_OT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
                 GB_nOT.BackColor = Color.Transparent;
             }
-
-
+            
             CB_Language.SelectedValue = otlang;
             CB_Country.SelectedValue = countryID;
             CB_SubRegion.SelectedValue = regionID;
@@ -3922,14 +3921,15 @@ namespace PKHeX
             CB_EncounterType.SelectedValue = encountertype;
             CB_Ball.SelectedValue = ball;
 
-
             if (met_month == 0)
             { met_month = 1; }
             if (met_day == 0)
             { met_day = 1; }
-
-            CAL_MetDate.Value = new DateTime(met_year + 2000, met_month, met_day);
-
+            try
+            {
+                CAL_MetDate.Value = new DateTime(met_year + 2000, met_month, met_day);
+            }
+            catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
             if (eggloc != 0)
             {
                 // Was obtained initially as an egg.
@@ -3937,7 +3937,11 @@ namespace PKHeX
                 GB_EggConditions.Enabled = true;
 
                 CB_EggLocation.SelectedValue = eggloc;
-                CAL_EggDate.Value = new DateTime(egg_year + 2000, egg_month, egg_day);
+                try
+                {
+                    CAL_EggDate.Value = new DateTime(egg_year + 2000, egg_month, egg_day);
+                }
+                catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
             }
             else { CHK_AsEgg.Checked = false; CB_EggLocation.SelectedValue = 0; GB_EggConditions.Enabled = false; }
 
@@ -3964,10 +3968,8 @@ namespace PKHeX
 
             TB_MetLevel.Text = metlevel.ToString();
 
-
-
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
-            CB_PKRSDays.SelectedIndex = (PKRS_Duration & 0x7) % 5; // to strip out bad hacked 'rus
+            CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7),4); // to strip out bad hacked 'rus
             if (PKRS_Strain > 0)
             {
                 CHK_Infected.Checked = true;
@@ -3976,9 +3978,9 @@ namespace PKHeX
                     CHK_Cured.Checked = true;
                 }
             }
-
+            // Do it again now that our comboboxes should be properly set?
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
-            CB_PKRSDays.SelectedIndex = (PKRS_Duration & 0x7) % 5; // to strip out bad hacked 'rus
+            CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7),4); // to strip out bad hacked 'rus
 
             TB_Cool.Text = cnt_cool.ToString();
             TB_Beauty.Text = cnt_beauty.ToString();
@@ -6077,9 +6079,7 @@ namespace PKHeX
                 GB_SAVtools.Enabled =
                     B_JPEG.Enabled =
                     B_BoxIO.Enabled =
-                    B_OUTPasserby.Enabled =
-                    B_VerifyCHK.Enabled =
-                    B_OUTHallofFame.Enabled = true;
+                    B_VerifyCHK.Enabled =true;
                     B_VerifySHA.Enabled = false;
                 B_SwitchSAV.Enabled = false;
                 tabBoxMulti.Enabled = true;
@@ -6103,7 +6103,7 @@ namespace PKHeX
             {
                 B_ExportSAV.Enabled = false;
                 B_SwitchSAV.Enabled = false;
-                B_OUTPasserby.Enabled = B_OUTHallofFame.Enabled = B_JPEG.Enabled = false;
+                B_JPEG.Enabled = false;
                 if ((BitConverter.ToUInt32(input, 0x100) != 0x41534944) && (BitConverter.ToUInt32(input, 0x5234) != 0x6E69616D))
                 {
                     DialogResult dialogResult = MessageBox.Show("Save file is not decrypted.\r\n\r\nPress Yes to ignore this warning and continue loading the save file.", "Error", MessageBoxButtons.YesNo);
@@ -6152,7 +6152,7 @@ namespace PKHeX
                     savindex = detectSAVIndex(input);
                     opensave(input, path, ext);
                 }
-                B_OUTPasserby.Enabled = B_OUTHallofFame.Enabled = B_JPEG.Enabled = true;
+                B_JPEG.Enabled = true;
             }
             #endregion
             #region PK6/EK6
@@ -7889,7 +7889,7 @@ namespace PKHeX
             }
 
             // Enable Buttons
-            GB_SAVtools.Enabled = B_JPEG.Enabled = B_BoxIO.Enabled = B_OUTPasserby.Enabled = B_VerifyCHK.Enabled = B_VerifySHA.Enabled = B_SwitchSAV.Enabled
+            GB_SAVtools.Enabled = B_JPEG.Enabled = B_BoxIO.Enabled = B_VerifyCHK.Enabled = B_VerifySHA.Enabled = B_SwitchSAV.Enabled
                 = enableInterface;
         }
         private void getSlotFiller(int offset, PictureBox pb)
@@ -8317,9 +8317,15 @@ namespace PKHeX
             SAV_HallOfFame halloffame = new PKHeX.SAV_HallOfFame(this);
             halloffame.ShowDialog();
         }
-        private void B_OutAHK_Click(object sender, EventArgs e)
+        private void B_OpenTemp_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not Implemented", "Error");
+            // MessageBox.Show("Not Implemented", "Error");
+            string path = Util.GetTempFolder();
+            if (File.Exists(path + "root\\"))
+                System.Diagnostics.Process.Start("explorer.exe", path + "root\\");
+            else if (File.Exists(path))
+                System.Diagnostics.Process.Start("explorer.exe", path);
+            else { MessageBox.Show("Can't find the temporary file.\n\nMake sure the Cyber Gadget software is paused.", "Alert"); }
         }
         private void B_SwitchSAV_Click(object sender, EventArgs e)
         {

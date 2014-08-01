@@ -56,6 +56,7 @@ namespace PKHeX
                 flag_0001,flag_0002,flag_0003,flag_0004,flag_0005,
                 flag_2237,flag_2238,flag_2239,
                 flag_0115,flag_0963, // Mewtwo
+                flag_0114,flag_0790, // Zygarde
             };
             int offset = 0x1A0FC + savshift;
             byte[] data = new Byte[0x180];
@@ -172,7 +173,6 @@ namespace PKHeX
             }
             else return;
             
-
             Button bs = (Button)sender;
             if (bs.Name == "B_LoadOld")
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace PKHeX
 {
@@ -25,6 +26,15 @@ namespace PKHeX
                 }
             }
             return newImage;
+        }
+        public static string GetTempFolder() // From 3DSSE's decompiled source.
+        {
+            string tempPath = Path.GetTempPath();
+            string str2 = "SE3DS";
+            str2 = "3DSSE";
+            tempPath = Path.Combine(tempPath, str2);
+            // Directory.CreateDirectory(tempPath);
+            return (tempPath + "/");
         }
     }
 }

@@ -3541,14 +3541,13 @@
             // 
             // B_OutAHK
             // 
-            this.B_OutAHK.Enabled = false;
             this.B_OutAHK.Location = new System.Drawing.Point(32, 20);
             this.B_OutAHK.Name = "B_OutAHK";
             this.B_OutAHK.Size = new System.Drawing.Size(75, 45);
             this.B_OutAHK.TabIndex = 7;
-            this.B_OutAHK.Text = "Export AutoHotKey";
+            this.B_OutAHK.Text = "Open Temp 3DSSE ";
             this.B_OutAHK.UseVisualStyleBackColor = true;
-            this.B_OutAHK.Click += new System.EventHandler(this.B_OutAHK_Click);
+            this.B_OutAHK.Click += new System.EventHandler(this.B_OpenTemp_Click);
             // 
             // B_BoxIO
             // 
@@ -3673,7 +3672,6 @@
             // 
             // B_OUTHallofFame
             // 
-            this.B_OUTHallofFame.Enabled = false;
             this.B_OUTHallofFame.Location = new System.Drawing.Point(230, 41);
             this.B_OUTHallofFame.Name = "B_OUTHallofFame";
             this.B_OUTHallofFame.Size = new System.Drawing.Size(75, 23);
@@ -3684,7 +3682,6 @@
             // 
             // B_OUTPasserby
             // 
-            this.B_OUTPasserby.Enabled = false;
             this.B_OUTPasserby.Location = new System.Drawing.Point(230, 12);
             this.B_OUTPasserby.Name = "B_OUTPasserby";
             this.B_OUTPasserby.Size = new System.Drawing.Size(75, 23);
