@@ -7408,7 +7408,6 @@ namespace PKHeX
             // Write the active save index
             editedsav[0x168] = (byte)(savindex^1);
 
-
             // If CyberGadget
             if (BitConverter.ToUInt32(editedsav, 0x100) != 0x41534944)
             {
@@ -7424,7 +7423,6 @@ namespace PKHeX
                 else if (Directory.Exists(cyberpath))
                     cySAV.InitialDirectory = cyberpath;
                 else { }
-        
 
                 cySAV.Filter = "Cyber SAV|*.*";
                 cySAV.FileName = Regex.Split(L_Save.Text, ": ")[1];
@@ -7440,33 +7438,31 @@ namespace PKHeX
                         byte[] backupfile = File.ReadAllBytes(path);
                         File.WriteAllBytes(path + ".bak", backupfile);
                     }
-
                     File.WriteAllBytes(path, cybersav);
                     MessageBox.Show("Saved Cyber SAV.", "Alert");
                 }
-                return;
             }
-
-
-            // Save Save File
-            SaveFileDialog savesav = new SaveFileDialog();
-            savesav.Filter = "SAV|*.bin;*.sav";
-            savesav.FileName = Regex.Split(L_Save.Text, ": ")[1];
-            DialogResult result = savesav.ShowDialog();
-            if (result == DialogResult.OK)
+            else
             {
-                string path = savesav.FileName;
-                string ext = Path.GetExtension(path);
-
-                if (File.Exists(path))
+                // Save Full Save File
+                SaveFileDialog savesav = new SaveFileDialog();
+                savesav.Filter = "SAV|*.bin;*.sav";
+                savesav.FileName = Regex.Split(L_Save.Text, ": ")[1];
+                DialogResult result = savesav.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    // File already exists, save a .bak
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(path + ".bak", backupfile);
-                }
+                    string path = savesav.FileName;
+                    string ext = Path.GetExtension(path);
 
-                File.WriteAllBytes(path, editedsav);
-                MessageBox.Show("Saved SAV.", "Alert");
+                    if (File.Exists(path))
+                    {
+                        // File already exists, save a .bak
+                        byte[] backupfile = File.ReadAllBytes(path);
+                        File.WriteAllBytes(path + ".bak", backupfile);
+                    }
+                    File.WriteAllBytes(path, editedsav);
+                    MessageBox.Show("Saved SAV.", "Alert");
+                }
             }
         }
         // Box/SAV Functions // 
