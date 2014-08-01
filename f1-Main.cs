@@ -5950,6 +5950,14 @@ namespace PKHeX
         // Main Menu Strip UI Functions // 
         private void mainmenuOpen(object sender, EventArgs e)
         {
+
+            string cyberpath = Util.GetTempFolder();
+            if (Directory.Exists(cyberpath + "root\\"))
+                OpenPKX.InitialDirectory = cyberpath + "root\\";
+            else if (Directory.Exists(cyberpath))
+                OpenPKX.InitialDirectory = cyberpath;
+            else { }
+        
             DialogResult result = OpenPKX.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -7408,6 +7416,16 @@ namespace PKHeX
                 Array.Copy(editedsav, 0x5400, cybersav, 0, 0x65600);
 
                 SaveFileDialog cySAV = new SaveFileDialog();
+
+                // Try for file path
+                string cyberpath = Util.GetTempFolder();
+                if (Directory.Exists(cyberpath + "root\\"))
+                    cySAV.InitialDirectory = cyberpath + "root\\";
+                else if (Directory.Exists(cyberpath))
+                    cySAV.InitialDirectory = cyberpath;
+                else { }
+        
+
                 cySAV.Filter = "Cyber SAV|*.*";
                 cySAV.FileName = Regex.Split(L_Save.Text, ": ")[1];
                 DialogResult sdr = cySAV.ShowDialog();
@@ -8321,9 +8339,9 @@ namespace PKHeX
         {
             // MessageBox.Show("Not Implemented", "Error");
             string path = Util.GetTempFolder();
-            if (File.Exists(path + "root\\"))
+            if (Directory.Exists(path + "root\\"))
                 System.Diagnostics.Process.Start("explorer.exe", path + "root\\");
-            else if (File.Exists(path))
+            else if (Directory.Exists(path))
                 System.Diagnostics.Process.Start("explorer.exe", path);
             else { MessageBox.Show("Can't find the temporary file.\n\nMake sure the Cyber Gadget software is paused.", "Alert"); }
         }
@@ -8511,8 +8529,6 @@ namespace PKHeX
             ReportForm.PopulateData(savefile);
             ReportForm.ShowDialog();
         }
-
-        
     }
     #region Structs & Classes
     public class cbItem
