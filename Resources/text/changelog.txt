@@ -257,6 +257,8 @@
  - Added: Image Layering to display Held Items for Party/Box/etc slots.
 
 08/01/14 - New Update:
+ - Added: Spanish translation (beta) -- thanks Glitch!
+ - Added: Zygarde Rebattle Flags.
  - Added: Detecting/Browser opening of Cyber Gadget data folder if it exists. Access via Tools->Open Temp 3DSSE.
  - Changed: Initial save/open directory will be the Cyber Gadget temp folder if it exists.
  - Suggested: Instead of generating codes, export your save and use a modded version of the Cyber Gadget executable. Overwrite the main file when prompted.

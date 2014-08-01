@@ -301,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icon.ico" />
+    <None Include="Resources\text\es\lang_es.txt" />
     <None Include="Resources\text\ko\text_TrainingBag_ko.txt" />
     <None Include="Resources\text\ja\text_TrainingBag_ja.txt" />
     <None Include="Resources\text\it\text_TrainingBag_it.txt" />

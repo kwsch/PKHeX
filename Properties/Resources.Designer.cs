@@ -6990,6 +6990,28 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ! PKHeX Interface Customization File
         ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
+        ///! lang_en.txt = English
+        ///! lang_jp.txt = Japanese
+        ///! lang_fr.txt = French
+        ///! lang_de.txt = German
+        ///! lang_es.txt = Spanish
+        ///! lang_it.txt = Italian
+        ///! lang_ko.txt = Korean
+        ///! Make sure that each edit has a &apos; = &apos; between Control name and new Text!
+        ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
+        ///!
+        ///! -----------------------------------------------------
+        ///- DO NO [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string lang_es {
+            get {
+                return ResourceManager.GetString("lang_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ! PKHeX Interface Customization File
+        ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
         ///! lang_fr.txt = French
         ///! lang_jp.txt = Japanese
         ///! lang_en.txt = English
@@ -16340,27 +16362,37 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to おためしトレーニング！\u3000コフキムシ
-        ///コフーライ！\u3000きめろ\u3000ガッツシュート
-        ///とくこうトレーニング\u3000VSコイル
-        ///HPトレーニング\u3000VSホエルコ
-        ///こうげきトレーニング\u3000VSキバゴ
-        ///とくぼうトレーニング\u3000VSメノクラゲ
-        ///すばやさトレーニング\u3000VSオンバット
-        ///ぼうぎょトレーニング\u3000VSイシツブテ
-        ///ついびシュート！\u3000レアコイル
-        ///ジーランスの\u3000チャンスゴール！
-        ///ばらまきシュート！\u3000オノンド
-        ///ドククラゲと\u3000ビットバルーン！
-        ///こうそくシュート！\u3000プテラ
-        ///ゴローンの\u3000ブロックを\u3000くずせ！
-        ///ふりきれ！\u3000まきゅうの\u3000ジバコイル
-        ///むかえうて！\u3000きょだい\u3000ホエルオー
-        ///みきれ！\u3000もうこうの\u3000オノノクス
-        ///けちらせ！\u3000ドラミドロ\u3000ぐんだん
-        ///とらえろ！\u3000はやての\u3000オンバーン
-        ///やぶれ！\u3000ゴローニャ\u3000ぼうえいライン
-        ///いちなん\u3000さって\u3000また\u3000いち [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to おためしトレーニング！ コフキムシ
+        ///コフーライ！ きめろ ガッツシュート
+        ///とくこうトレーニング VSコイル
+        ///HPトレーニング VSホエルコ
+        ///こうげきトレーニング VSキバゴ
+        ///とくぼうトレーニング VSメノクラゲ
+        ///すばやさトレーニング VSオンバット
+        ///ぼうぎょトレーニング VSイシツブテ
+        ///ついびシュート！ レアコイル
+        ///ジーランスの チャンスゴール！
+        ///ばらまきシュート！ オノンド
+        ///ドククラゲと ビットバルーン！
+        ///こうそくシュート！ プテラ
+        ///ゴローンの ブロックを くずせ！
+        ///ふりきれ！ まきゅうの ジバコイル
+        ///むかえうて！ きょだい ホエルオー
+        ///みきれ！ もうこうの オノノクス
+        ///けちらせ！ ドラミドロ ぐんだん
+        ///とらえろ！ はやての オンバーン
+        ///やぶれ！ ゴローニャ ぼうえいライン
+        ///いちなん さって また いちなん！？
+        ///いっとう しょうひん リーフのいし！
+        ///いっとう しょうひん ほのおのいし！
+        ///いっとう しょうひん みずのいし！
+        ///にげる ゴールを おえ！
+        ///はんげきの こうはんせん！
+        ///そっこうの ぜんはんせん！
+        ///じゅうおう むじん ロングシュート！
+        ///ぎゃくしゅうの コフキムシ！
+        ///だんまく だんまく ビットバルーン！
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_SuperTraining_ja {
             get {
