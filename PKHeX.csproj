@@ -52,7 +52,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>PKHeX.Program</StartupObject>
@@ -71,43 +71,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="About.Designer.cs">
+    <Compile Include="Misc\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="CodeGenerator.cs">
+    <Compile Include="Misc\CodeGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CodeGenerator.Designer.cs">
+    <Compile Include="Misc\CodeGenerator.Designer.cs">
       <DependentUpon>CodeGenerator.cs</DependentUpon>
     </Compile>
-    <Compile Include="f1-Main.cs">
+    <Compile Include="PKX\f1-Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="f1-Main.Designer.cs">
+    <Compile Include="PKX\f1-Main.Designer.cs">
       <DependentUpon>f1-Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="f4-RibbMedal.cs">
+    <Compile Include="PKX\f4-RibbMedal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="f4-RibbMedal.Designer.cs">
+    <Compile Include="PKX\f4-RibbMedal.Designer.cs">
       <DependentUpon>f4-RibbMedal.cs</DependentUpon>
     </Compile>
-    <Compile Include="f3-MemoryAmie.cs">
+    <Compile Include="PKX\f3-MemoryAmie.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="f3-MemoryAmie.Designer.cs">
+    <Compile Include="PKX\f3-MemoryAmie.Designer.cs">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmReport.cs">
+    <Compile Include="SAV\frmReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmReport.Designer.cs">
+    <Compile Include="SAV\frmReport.Designer.cs">
       <DependentUpon>frmReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="pk2pk.cs" />
+    <Compile Include="Misc\pk2pk.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -115,102 +115,102 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SAV_BerryField.cs">
+    <Compile Include="SAV\SAV_BerryField.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_BerryField.Designer.cs">
+    <Compile Include="SAV\SAV_BerryField.Designer.cs">
       <DependentUpon>SAV_BerryField.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_BoxIO.cs">
+    <Compile Include="SAV\SAV_BoxIO.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_BoxIO.Designer.cs">
+    <Compile Include="SAV\SAV_BoxIO.Designer.cs">
       <DependentUpon>SAV_BoxIO.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_BoxLayout.cs">
+    <Compile Include="SAV\SAV_BoxLayout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_BoxLayout.Designer.cs">
+    <Compile Include="SAV\SAV_BoxLayout.Designer.cs">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_EventFlags.cs">
+    <Compile Include="SAV\SAV_EventFlags.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_EventFlags.Designer.cs">
+    <Compile Include="SAV\SAV_EventFlags.Designer.cs">
       <DependentUpon>SAV_EventFlags.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_HallOfFame.cs">
+    <Compile Include="SAV\SAV_HallOfFame.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_HallOfFame.Designer.cs">
+    <Compile Include="SAV\SAV_HallOfFame.Designer.cs">
       <DependentUpon>SAV_HallOfFame.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_Inventory.cs">
+    <Compile Include="SAV\SAV_Inventory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_Inventory.Designer.cs">
+    <Compile Include="SAV\SAV_Inventory.Designer.cs">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_OPower.cs">
+    <Compile Include="SAV\SAV_OPower.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_OPower.Designer.cs">
+    <Compile Include="SAV\SAV_OPower.Designer.cs">
       <DependentUpon>SAV_OPower.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_Pokedex.cs">
+    <Compile Include="SAV\SAV_Pokedex.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_Pokedex.Designer.cs">
+    <Compile Include="SAV\SAV_Pokedex.Designer.cs">
       <DependentUpon>SAV_Pokedex.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_Pokepuff.cs">
+    <Compile Include="SAV\SAV_Pokepuff.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_Pokepuff.Designer.cs">
+    <Compile Include="SAV\SAV_Pokepuff.Designer.cs">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_SuperTrain.cs">
+    <Compile Include="SAV\SAV_SuperTrain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_SuperTrain.Designer.cs">
+    <Compile Include="SAV\SAV_SuperTrain.Designer.cs">
       <DependentUpon>SAV_SuperTrain.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_Trainer.cs">
+    <Compile Include="SAV\SAV_Trainer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_Trainer.Designer.cs">
+    <Compile Include="SAV\SAV_Trainer.Designer.cs">
       <DependentUpon>SAV_Trainer.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV_Wondercard.cs">
+    <Compile Include="SAV\SAV_Wondercard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV_Wondercard.Designer.cs">
+    <Compile Include="SAV\SAV_Wondercard.Designer.cs">
       <DependentUpon>SAV_Wondercard.cs</DependentUpon>
     </Compile>
-    <Compile Include="SplashScreen.cs">
+    <Compile Include="Misc\SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SplashScreen.Designer.cs">
+    <Compile Include="Misc\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Util.cs" />
-    <EmbeddedResource Include="About.resx">
+    <Compile Include="Misc\Util.cs" />
+    <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CodeGenerator.resx">
+    <EmbeddedResource Include="Misc\CodeGenerator.resx">
       <DependentUpon>CodeGenerator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="f1-Main.resx">
+    <EmbeddedResource Include="PKX\f1-Main.resx">
       <DependentUpon>f1-Main.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="f4-RibbMedal.resx">
+    <EmbeddedResource Include="PKX\f4-RibbMedal.resx">
       <DependentUpon>f4-RibbMedal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="f3-MemoryAmie.resx">
+    <EmbeddedResource Include="PKX\f3-MemoryAmie.resx">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReport.resx">
+    <EmbeddedResource Include="SAV\frmReport.resx">
       <DependentUpon>frmReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -218,43 +218,43 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_BerryField.resx">
+    <EmbeddedResource Include="SAV\SAV_BerryField.resx">
       <DependentUpon>SAV_BerryField.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_BoxIO.resx">
+    <EmbeddedResource Include="SAV\SAV_BoxIO.resx">
       <DependentUpon>SAV_BoxIO.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_BoxLayout.resx">
+    <EmbeddedResource Include="SAV\SAV_BoxLayout.resx">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_EventFlags.resx">
+    <EmbeddedResource Include="SAV\SAV_EventFlags.resx">
       <DependentUpon>SAV_EventFlags.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_HallOfFame.resx">
+    <EmbeddedResource Include="SAV\SAV_HallOfFame.resx">
       <DependentUpon>SAV_HallOfFame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_Inventory.resx">
+    <EmbeddedResource Include="SAV\SAV_Inventory.resx">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_OPower.resx">
+    <EmbeddedResource Include="SAV\SAV_OPower.resx">
       <DependentUpon>SAV_OPower.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_Pokedex.resx">
+    <EmbeddedResource Include="SAV\SAV_Pokedex.resx">
       <DependentUpon>SAV_Pokedex.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_Pokepuff.resx">
+    <EmbeddedResource Include="SAV\SAV_Pokepuff.resx">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_SuperTrain.resx">
+    <EmbeddedResource Include="SAV\SAV_SuperTrain.resx">
       <DependentUpon>SAV_SuperTrain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_Trainer.resx">
+    <EmbeddedResource Include="SAV\SAV_Trainer.resx">
       <DependentUpon>SAV_Trainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV_Wondercard.resx">
+    <EmbeddedResource Include="SAV\SAV_Wondercard.resx">
       <DependentUpon>SAV_Wondercard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreen.resx">
+    <EmbeddedResource Include="Misc\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
@@ -300,7 +300,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon.ico" />
+    <Content Include="Resources\icon.ico" />
     <None Include="Resources\text\ko\text_TrainingBag_ko.txt" />
     <None Include="Resources\text\ja\text_TrainingBag_ja.txt" />
     <None Include="Resources\text\it\text_TrainingBag_it.txt" />
@@ -819,7 +819,6 @@
     <None Include="Resources\img\badges\badge_2.png" />
     <None Include="Resources\img\badges\badge_1.png" />
     <None Include="Resources\img\Pokemon Sprites\egg.png" />
-    <None Include="Resources\egg.bmp" />
     <None Include="Resources\img\Pokemon Sprites\354.png" />
     <None Include="Resources\img\Pokemon Sprites\353.png" />
     <None Include="Resources\img\Pokemon Sprites\352.png" />
@@ -1583,6 +1582,7 @@
     <None Include="Resources\img\ribbons\artist.png" />
     <None Include="Resources\img\ribbons\alert.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

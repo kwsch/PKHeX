@@ -237,7 +237,7 @@
  - Added: Eggs have a faint image of what is contained within.
  - Changed: Import from Code functionality moved to Code Generator.
 
-07/29/14 - New Update:
+07/29/14 - New Update: (800)
  - Added: Changelog to About menu item.
  - Fixed: Importing Gen 4 hatched Pokemon pk2pk error.
  - Fixed: PP Ups won't be saved if there is no move for that slot.
