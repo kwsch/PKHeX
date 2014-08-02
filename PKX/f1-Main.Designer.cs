@@ -3049,7 +3049,7 @@
             // B_BoxRight
             // 
             this.B_BoxRight.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxRight.Location = new System.Drawing.Point(220, 9);
+            this.B_BoxRight.Location = new System.Drawing.Point(219, 9);
             this.B_BoxRight.Name = "B_BoxRight";
             this.B_BoxRight.Size = new System.Drawing.Size(27, 23);
             this.B_BoxRight.TabIndex = 61;
@@ -3060,7 +3060,7 @@
             // B_BoxLeft
             // 
             this.B_BoxLeft.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxLeft.Location = new System.Drawing.Point(58, 9);
+            this.B_BoxLeft.Location = new System.Drawing.Point(57, 9);
             this.B_BoxLeft.Name = "B_BoxLeft";
             this.B_BoxLeft.Size = new System.Drawing.Size(27, 23);
             this.B_BoxLeft.TabIndex = 60;
@@ -3104,7 +3104,7 @@
             "Box 29",
             "Box 30",
             "Box 31"});
-            this.C_BoxSelect.Location = new System.Drawing.Point(89, 10);
+            this.C_BoxSelect.Location = new System.Drawing.Point(88, 10);
             this.C_BoxSelect.Name = "C_BoxSelect";
             this.C_BoxSelect.Size = new System.Drawing.Size(127, 21);
             this.C_BoxSelect.TabIndex = 0;
@@ -4134,7 +4134,6 @@
         private System.Windows.Forms.Button B_OpenPokedex;
         private System.Windows.Forms.GroupBox GB_SAVtools;
         private System.Windows.Forms.TabPage Tab_Other;
-        private System.Windows.Forms.ComboBox C_BoxSelect;
         private System.Windows.Forms.Label L_BattleBox;
         private System.Windows.Forms.Label L_Party;
         private System.Windows.Forms.Label L_DaycareSeed;
@@ -4257,6 +4256,7 @@
         private System.Windows.Forms.Button B_OpenSuperTraining;
         private System.Windows.Forms.Button B_OutAHK;
         private System.Windows.Forms.Panel PAN_Box;
+        public System.Windows.Forms.ComboBox C_BoxSelect;
     }
 }
 

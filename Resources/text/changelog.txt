@@ -244,7 +244,7 @@
  - Changed: Party / Battle Box now has a spiffy layout.
  - Changed: Program width to assist those on Wine / foreign languages.
 
-07/31/14 - New Update:
+07/31/14 - New Update: (---)
  - Added: Code Generator now displays how many lines there are if the split checkbox is set.
  - Added: Translation text for Item Pouches
  - Added: Translation text for Pokepuffs
@@ -256,7 +256,7 @@
  - Changed: Can no longer set an egg into the first Party Slot. This is to prevent players from entering battles with no valid Pokemon.
  - Added: Image Layering to display Held Items for Party/Box/etc slots.
 
-08/01/14 - New Update:
+08/01/14 - New Update: (300)
  - Added: Spanish translation (beta) -- thanks Glitch!
  - Added: Zygarde Rebattle Flags.
  - Added: Detecting/Browser opening of Cyber Gadget data folder if it exists. Access via Tools->Open Temp 3DSSE.
@@ -268,3 +268,5 @@
  - Changed: Selection colors (View/Set/Delete) are now semi-transparent backgrounds.
  - Fixed: Venonat's background not being transparent.
  - Fixed: Cyber SAV opening/saving will actually find the folder if it exists.
+ - Added: Active Super Training Bag & Hits Remaining can be changed in the Ribbon/Medal Editor. 0x16&0x17 Extra Bytes have been removed from the list.
+ - Added: Box Background Selection in [Box Layout].

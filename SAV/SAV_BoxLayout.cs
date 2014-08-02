@@ -18,7 +18,14 @@ namespace PKHeX
             editing = true;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
-            LB_BoxSelect.SelectedIndex = 0;
+
+            // Repopulate Wallpaper names
+            CB_BG.Items.Clear();
+            for (int i = 0; i < m_parent.wallpapernames.Length; i++)
+                CB_BG.Items.Add(m_parent.wallpapernames[i]);
+
+            // Go
+            LB_BoxSelect.SelectedIndex = m_parent.C_BoxSelect.SelectedIndex;
         }
 
         Form1 m_parent;
@@ -37,15 +44,16 @@ namespace PKHeX
             editing = true;
             int index = LB_BoxSelect.SelectedIndex;
             int offset = 0x9800 + savindex * 0x7F000;
-
+            int bgoff = (0x7F000 * savindex) + 0x9C1E + LB_BoxSelect.SelectedIndex;
+            CB_BG.SelectedIndex = sav[bgoff];
+            changeBoxBG(null, null);
             TB_BoxName.Text = Encoding.Unicode.GetString(sav, offset + 0x22 * index, 0x22);
-            MT_BG.Text = sav[0x9C1E + savindex * 0x7F000 + index].ToString();
+            CB_BG.SelectedIndex = sav[0x9C1E + savindex * 0x7F000 + index];
 
             MT_BG1.Text = sav[0x9C3D + savindex * 0x7F000].ToString();
             MT_BG2.Text = sav[0x9C3F + savindex * 0x7F000].ToString();
 
             CB_Unlocked.SelectedIndex = sav[0x9C3E + savindex * 0x7F000] - 1;
-                
             editing = false; 
         }
         private void changeBoxDetails(object sender, EventArgs e)
@@ -55,13 +63,15 @@ namespace PKHeX
                 int index = LB_BoxSelect.SelectedIndex;
                 int offset = 0x9800 + savindex * 0x7F000;
 
+                sav[(0x7F000 * savindex) + 0x9C1E + LB_BoxSelect.SelectedIndex] = (byte)CB_BG.SelectedIndex;
+
                 // Get Sender Index
 
                 byte[] boxname = Encoding.Unicode.GetBytes(TB_BoxName.Text);
                 Array.Resize(ref boxname, 0x22);
                 Array.Copy(boxname, 0, sav, offset + 0x22 * index, boxname.Length);
 
-                sav[0x9C1E + savindex * 0x7F000 + index] = (byte)ToUInt32(MT_BG.Text);
+                sav[0x9C1E + savindex * 0x7F000 + index] = (byte)CB_BG.SelectedIndex;
                 sav[0x9C3D + savindex * 0x7F000] = (byte)ToUInt32(MT_BG1.Text);
                 sav[0x9C3F + savindex * 0x7F000] = (byte)ToUInt32(MT_BG2.Text);
 
@@ -79,6 +89,12 @@ namespace PKHeX
             m_parent.getBoxNames();
             m_parent.getPKXBoxes();
             Close();
+        }
+
+        private void changeBoxBG(object sender, EventArgs e)
+        {
+            sav[(0x7F000 * savindex) + 0x9C1E + LB_BoxSelect.SelectedIndex] = (byte)CB_BG.SelectedIndex;
+            PAN_BG.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject("box_wp" + (CB_BG.SelectedIndex+1).ToString("00"));
         }
     }
 }

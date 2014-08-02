@@ -301,6 +301,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icon.ico" />
+    <None Include="Resources\text\ko\text_Wallpaper_ko.txt" />
+    <None Include="Resources\text\ja\text_Wallpaper_ja.txt" />
+    <None Include="Resources\text\it\text_Wallpaper_it.txt" />
+    <None Include="Resources\text\fr\text_Wallpaper_fr.txt" />
+    <None Include="Resources\text\es\text_Wallpaper_es.txt" />
+    <None Include="Resources\text\en\text_Wallpaper_en.txt" />
+    <None Include="Resources\text\de\text_Wallpaper_de.txt" />
     <None Include="Resources\img\box\slotTrans.png" />
     <None Include="Resources\img\box\slotView.png" />
     <None Include="Resources\img\box\slotSet.png" />

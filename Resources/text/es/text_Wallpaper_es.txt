@@ -1,0 +1,24 @@
+Bosque
+Ciudad
+Desierto
+Sabana
+Montaña
+Volcán
+Nieve
+Cueva
+Playa
+Mar
+Río
+Cielo
+Centro Pokémon
+Máquina
+Cuadros
+Sencillo
+Especial 1
+Especial 2
+Especial 3
+Especial 4
+Especial 5
+Especial 6
+Especial 7
+Especial 8

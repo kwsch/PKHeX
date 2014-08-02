@@ -203,6 +203,7 @@ namespace PKHeX
         public string[] metXY_60000 = { };
         public string[] trainingbags = { };
         public string[] trainingstage = { };
+        public string[] wallpapernames = { };
         public string[] puffs = { };
         public string[] ribbonlist = { };
         public string[] itempouch = { };
@@ -8452,6 +8453,7 @@ namespace PKHeX
             puffs = getStringList("Puff", l);
             ribbonlist = getStringList("Ribbon", l);
             itempouch = getStringList("ItemPouch", l);
+            wallpapernames = getStringList("Wallpaper", l);
 
             // Get the Egg Name and then replace it with --- for the comboboxes.
             eggname = specieslist[0];

@@ -3793,4 +3793,25 @@
   <data name="text_TrainingBag_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ko\text_TrainingBag_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="text_Wallpaper_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_Wallpaper_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Wallpaper_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_Wallpaper_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Wallpaper_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_Wallpaper_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Wallpaper_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_Wallpaper_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Wallpaper_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_Wallpaper_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Wallpaper_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_Wallpaper_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Wallpaper_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_Wallpaper_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

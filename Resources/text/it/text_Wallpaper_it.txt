@@ -1,0 +1,24 @@
+Foresta
+Città
+Deserto
+Savana
+Rocce
+Vulcano
+Neve
+Grotta
+Spiaggia
+Fondale
+Fiume
+Cielo
+Centro Pokémon
+Metallo
+Quadretti
+Semplice
+Speciale 1
+Speciale 2
+Speciale 3
+Speciale 4
+Speciale 5
+Speciale 6
+Speciale 7
+Speciale 8

@@ -17067,6 +17067,230 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wald
+        ///Stadt
+        ///Wüste
+        ///Steppe
+        ///Geröll
+        ///Vulkan
+        ///Schnee
+        ///Höhle
+        ///Strand
+        ///Tiefsee
+        ///Fluss
+        ///Himmel
+        ///Poké-Center
+        ///Metall
+        ///Kariert
+        ///Weiß
+        ///Spezialmotiv 1
+        ///Spezialmotiv 2
+        ///Spezialmotiv 3
+        ///Spezialmotiv 4
+        ///Spezialmotiv 5
+        ///Spezialmotiv 6
+        ///Spezialmotiv 7
+        ///Spezialmotiv 8.
+        /// </summary>
+        internal static string text_Wallpaper_de {
+            get {
+                return ResourceManager.GetString("text_Wallpaper_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FOREST
+        ///CITY
+        ///DESERT
+        ///SAVANNA
+        ///CRAG
+        ///VOLCANO
+        ///SNOW
+        ///CAVE
+        ///BEACH
+        ///SEAFLOOR
+        ///RIVER
+        ///SKY
+        ///POKÉ CENTER
+        ///MACHINE
+        ///CHECKS
+        ///SIMPLE
+        ///SPECIAL 1
+        ///SPECIAL 2
+        ///SPECIAL 3
+        ///SPECIAL 4
+        ///SPECIAL 5
+        ///SPECIAL 6
+        ///SPECIAL 7
+        ///SPECIAL 8.
+        /// </summary>
+        internal static string text_Wallpaper_en {
+            get {
+                return ResourceManager.GetString("text_Wallpaper_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bosque
+        ///Ciudad
+        ///Desierto
+        ///Sabana
+        ///Montaña
+        ///Volcán
+        ///Nieve
+        ///Cueva
+        ///Playa
+        ///Mar
+        ///Río
+        ///Cielo
+        ///Centro Pokémon
+        ///Máquina
+        ///Cuadros
+        ///Sencillo
+        ///Especial 1
+        ///Especial 2
+        ///Especial 3
+        ///Especial 4
+        ///Especial 5
+        ///Especial 6
+        ///Especial 7
+        ///Especial 8.
+        /// </summary>
+        internal static string text_Wallpaper_es {
+            get {
+                return ResourceManager.GetString("text_Wallpaper_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forêt
+        ///Ville
+        ///Désert
+        ///Savane
+        ///Rochers
+        ///Volcan
+        ///Neige
+        ///Grotte
+        ///Plage
+        ///Mer
+        ///Rivière
+        ///Ciel
+        ///Centre Pokémon
+        ///Métal
+        ///Vichy
+        ///Uni
+        ///Spécial 1
+        ///Spécial 2
+        ///Spécial 3
+        ///Spécial 4
+        ///Spécial 5
+        ///Spécial 6
+        ///Spécial 7
+        ///Spécial 8.
+        /// </summary>
+        internal static string text_Wallpaper_fr {
+            get {
+                return ResourceManager.GetString("text_Wallpaper_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Foresta
+        ///Città
+        ///Deserto
+        ///Savana
+        ///Rocce
+        ///Vulcano
+        ///Neve
+        ///Grotta
+        ///Spiaggia
+        ///Fondale
+        ///Fiume
+        ///Cielo
+        ///Centro Pokémon
+        ///Metallo
+        ///Quadretti
+        ///Semplice
+        ///Speciale 1
+        ///Speciale 2
+        ///Speciale 3
+        ///Speciale 4
+        ///Speciale 5
+        ///Speciale 6
+        ///Speciale 7
+        ///Speciale 8.
+        /// </summary>
+        internal static string text_Wallpaper_it {
+            get {
+                return ResourceManager.GetString("text_Wallpaper_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to もり
+        ///シティ
+        ///さばく
+        ///サバンナ
+        ///いわやま
+        ///かざん
+        ///ゆきやま
+        ///どうくつ
+        ///うみべ
+        ///かいてい
+        ///かわ
+        ///そら
+        ///ポケセン
+        ///きんぞく
+        ///チェック
+        ///シンプル
+        ///スペシャル１
+        ///スペシャル２
+        ///スペシャル３
+        ///スペシャル４
+        ///スペシャル５
+        ///スペシャル６
+        ///スペシャル７
+        ///スペシャル８.
+        /// </summary>
+        internal static string text_Wallpaper_ja {
+            get {
+                return ResourceManager.GetString("text_Wallpaper_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 숲
+        ///시티
+        ///사막
+        ///사바나
+        ///바위산
+        ///화산
+        ///설산
+        ///동굴
+        ///바닷가
+        ///해저
+        ///강
+        ///하늘
+        ///포켓센
+        ///금속
+        ///체크
+        ///심플
+        ///스페셜1
+        ///스페셜2
+        ///스페셜3
+        ///스페셜4
+        ///스페셜5
+        ///스페셜6
+        ///스페셜7
+        ///스페셜8.
+        /// </summary>
+        internal static string text_Wallpaper_ko {
+            get {
+                return ResourceManager.GetString("text_Wallpaper_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to －－－－－－－－－－
         ///
         ///Mysteriöser Ort
