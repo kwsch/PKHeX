@@ -5949,9 +5949,15 @@ namespace PKHeX
 
             string cyberpath = Util.GetTempFolder();
             if (Directory.Exists(cyberpath + "root\\"))
+            {
                 OpenPKX.InitialDirectory = cyberpath + "root\\";
+                OpenPKX.RestoreDirectory = true;
+            }
             else if (Directory.Exists(cyberpath))
+            {
                 OpenPKX.InitialDirectory = cyberpath;
+                OpenPKX.RestoreDirectory = true;
+            }
             else { }
         
             DialogResult result = OpenPKX.ShowDialog();
@@ -7415,9 +7421,15 @@ namespace PKHeX
                 // Try for file path
                 string cyberpath = Util.GetTempFolder();
                 if (Directory.Exists(cyberpath + "root\\"))
+                {
                     cySAV.InitialDirectory = cyberpath + "root\\";
+                    cySAV.RestoreDirectory = true;
+                }
                 else if (Directory.Exists(cyberpath))
+                {
                     cySAV.InitialDirectory = cyberpath;
+                    cySAV.RestoreDirectory = true;
+                }
                 else { }
 
                 cySAV.Filter = "Cyber SAV|*.*";
