@@ -645,6 +645,17 @@ namespace PKHeX
             pk6[0xE1] = (byte)subreg;   
             pk6[0xE2] = (byte)_3DSreg;
 
+            // Antishiny Mechanism
+            ushort TID = BitConverter.ToUInt16(pk6, 0x0C);
+            ushort SID = BitConverter.ToUInt16(pk6, 0x0E);
+            uint PID = BitConverter.ToUInt32(pk6, 0x18);
+            ushort LID = (ushort)(PID & 0xFFFF);
+            ushort HID = (ushort)(PID >> 0x10);
+
+            int XOR = TID ^ SID ^ LID ^ HID;
+            if (XOR >= 8 && XOR < 16) // If we get an illegal collision...
+                Array.Copy(BitConverter.GetBytes(PID ^ 0x80000000), 0, pk6, 0x18, 4);
+
             // Fix Checksum
             uint chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX

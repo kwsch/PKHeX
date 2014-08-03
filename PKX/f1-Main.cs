@@ -3495,14 +3495,14 @@ namespace PKHeX
                                             071,072,073,074,075,076,077,078,079,080,081,082,083,084,085,086,087,088,089,090,091,092,093,094,099,100,101,102,103,104,105,106,107,108,109,
                                             110,112,116,117,118,119,134,135,136,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,
                                             175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,
-                                            210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,
+                                            210,211,212,213,214,215,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,
                                             245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,
                                             280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,
                                             315,316,317,318,319,320,321,322,323,324,325,326,327,504,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,
                                             558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,577,580,581,582,583,584,585,586,587,588,589,590,591,639,640,644,645,646,647,
                                             648,649,650,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,
                                             684,685,686,687,688,699,704,708,709,710,711,715,
-                                      };
+                                  };
 
                 List<cbItem> item_list = new List<cbItem>();
                 // Sort the Rest based on String Name
@@ -4124,7 +4124,7 @@ namespace PKHeX
             uint TSV = ToUInt32(TB_TID.Text) ^ ToUInt32(TB_SID.Text);
             uint XOR = TSV ^ PSV;
             int game = getIndex(CB_GameOrigin);
-            if (((XOR < 8) && (game < 24)) || ((XOR < 16) && (game >= 24)))
+            if (XOR < 16)
             {   // Is Shiny
                 BTN_Shinytize.Visible =
                 BTN_Shinytize.Enabled = false;
@@ -4136,7 +4136,6 @@ namespace PKHeX
                 BTN_Shinytize.Enabled = true;
                 Label_IsShiny.Visible = false;
             }
-
             getMarkings();
         }
         private void getForms(int species)
@@ -4688,7 +4687,6 @@ namespace PKHeX
             uint value = UInt32.Parse(newString.ToString(), NumberStyles.HexNumber);
             tb.Text = value.ToString("X8");
             return newString.ToString();
-
         }
         public void setcountry(object sender)
         {
@@ -5182,6 +5180,7 @@ namespace PKHeX
             }
             updateLocations(gameorigin);
             getMarkings();
+            getIsShiny();
         }
         private void updateLocations(int gameorigin)
         {
@@ -5692,8 +5691,8 @@ namespace PKHeX
             uint TSV = TID ^ SID;
             uint XOR = TSV ^ PSV;
 
-            // Check to see if we actually did it right...
-            if (((XOR > 8) && (CB_GameOrigin.SelectedIndex < 24)) || ((XOR > 16) && (CB_GameOrigin.SelectedIndex >= 24)))
+            // Check to see if we actually did it right... should be 0.
+            if (XOR > 16)
             {
                 TB_PID.Text = ((UID ^ XOR) * 0x10000 + LID).ToString("X8");
             }
@@ -6494,9 +6493,35 @@ namespace PKHeX
             // Stuff the Buff 
             // Create a new storage so we don't muck up things with the original
             byte[] pkx = buff;
-
+            if (getHEXval(TB_EC) == 0) BTN_RerollEC.PerformClick();
             // Repopulate PKX with Edited Stuff
-            if (getHEXval(TB_EC) == 0) BTN_RerollEC.PerformClick(); // Prevent 0 Encryption Constants
+            if (getIndex(CB_GameOrigin) < 24)
+            {
+                uint EC = getHEXval(TB_EC);
+                uint PID = getHEXval(TB_PID);
+                uint SID = ToUInt32(TB_TID.Text);
+                uint TID = ToUInt32(TB_TID.Text);
+                uint LID = PID & 0xFFFF;
+                uint HID = PID >> 16;
+                uint XOR = (TID ^ LID ^ SID ^ HID);
+
+                // Ensure we don't have a shiny.
+                if (XOR < 16 && XOR >= 8) // Illegal, fix.
+                {
+                    // Keep as shiny, so we have to mod the PID
+                    PID = (PID ^ XOR);
+                    TB_PID.Text = PID.ToString("X8");
+                    TB_EC.Text = PID.ToString("X8");
+                }
+                else if ((XOR ^ 0x8000) >= 8 && (XOR ^ 0x8000) < 16 && (PID != EC))
+                {
+                    TB_EC.Text = (PID ^ 0x80000000).ToString("X8");
+                }
+                else // Not Illegal, no fix.
+                {
+                    TB_EC.Text = PID.ToString("X8");
+                }
+            }
             Array.Copy(BitConverter.GetBytes(getHEXval(TB_EC)), 0, pkx, 0, 4);  // EK
 
             Array.Copy(BitConverter.GetBytes(0), 0, pkx, 0x4, 4);  // 0 CHK for now
@@ -6584,7 +6609,7 @@ namespace PKHeX
 
             // Don't allow PP Ups if there is no move.
             for (int i = 0; i < 4; i++)
-                if (pkx[0x62+i] == 0) pkx[0x66+i] = 0;
+                if (pkx[0x62 + i] == 0) pkx[0x66 + i] = 0;
 
             Array.Copy(BitConverter.GetBytes(getIndex(CB_RelearnMove1)), 0, pkx, 0x6A, 2);  // EggMove 1
             Array.Copy(BitConverter.GetBytes(getIndex(CB_RelearnMove2)), 0, pkx, 0x6C, 2);  // EggMove 2
@@ -7707,6 +7732,17 @@ namespace PKHeX
                     savedited = true;
                     getSlotColor(slot, Properties.Resources.slotSet);
                 }
+                else if (slot < 36)
+                {
+                    if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { MessageBox.Show("Can't have empty/egg first slot.", "Alert"); return; }
+                    int offset = SaveGame.Party + 0x7F000 * savindex + (slot-30) * 0x104;
+                    byte[] pkxdata = preparepkx(buff);
+                    byte[] ekxdata = encryptArray(pkxdata);
+                    Array.Copy(ekxdata, 0, savefile, offset, 0x104);
+                    getPKXBoxes();
+                    savedited = true;
+                    getSlotColor(slot, Properties.Resources.slotSet);
+                }
             }
         }
         // Subfunctions // 
@@ -7957,7 +7993,6 @@ namespace PKHeX
             uint PSV = UID ^ LID;
             uint TSV = (uint)(BitConverter.ToUInt16(dslotdata, 0x0C) ^ BitConverter.ToUInt16(dslotdata, 0x0E));
             uint XOR = TSV ^ PSV;
-            int gamevers = dslotdata[0xDF];
 
             Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
             if (species != 0 && isegg == 1)
@@ -7967,7 +8002,7 @@ namespace PKHeX
                 file = "egg"; // Add the egg layer over-top.
                 baseImage = PKHeX.Util.layerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject(file), 0, 0, 1);
             }
-            if (species != 0 && (((XOR < 8) && (gamevers < 24)) || ((XOR < 16) && (gamevers >= 24))))
+            if (species != 0 && XOR < 16)
             {   // Is Shiny
                 // Redraw our image
                 baseImage = PKHeX.Util.layerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
@@ -7975,8 +8010,11 @@ namespace PKHeX
             if (species != 0 && BitConverter.ToUInt16(dslotdata, 0xA) > 0)
             {
                 // Has Item
+                int item = BitConverter.ToUInt16(dslotdata, 0xA);
+                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_"+item.ToString());
+                if (itemimg == null) itemimg = Properties.Resources.helditem;
                 // Redraw
-                baseImage = PKHeX.Util.layerImage(baseImage, Properties.Resources.helditem, 25, 20, 1);
+                baseImage = PKHeX.Util.layerImage(baseImage, itemimg, 22 + (15-itemimg.Width)/2, 15 + (15-itemimg.Height), 1);
             }
 
             pb.Image = baseImage;
@@ -8126,7 +8164,7 @@ namespace PKHeX
                             uint PSV = UID ^ LID;
                             uint TSV = ToUInt32(TB_TID.Text) ^ ToUInt32(TB_SID.Text);
                             uint XOR = TSV ^ PSV;
-                            if (((XOR < 8) && (gamevers < 24)) || ((XOR < 16) && (gamevers >= 24)))
+                            if (XOR < 16)
                             {   // Is Shiny
                                 isshiny = " ★";
                             }
