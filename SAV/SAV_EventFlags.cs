@@ -57,6 +57,8 @@ namespace PKHeX
                 flag_2237,flag_2238,flag_2239,
                 flag_0115,flag_0963, // Mewtwo
                 flag_0114,flag_0790, // Zygarde
+                flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
+                flag_0290,flag_0291,flag_0292,flag_0293,flag_0294, // Super Unlocks
             };
             int offset = 0x1A0FC + savshift;
             byte[] data = new Byte[0x180];

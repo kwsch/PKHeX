@@ -19,10 +19,171 @@ namespace PKHeX
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
+            editing = true;
             getComboBoxes();
             getTextBoxes();
             getBadges();
+
+            statdata = new string[] {
+                "0x000",	"0x000", // Steps taken?
+                "0x004",	"0x004", // Minutes Played / Pokemon Encountered?
+                "0x008",	"0x008",
+                "0x00C",	"0x00C",
+                "0x010",	"0x010",
+                "0x014",	"0x014",
+                "0x018",	"0x018",
+                "0x01C",	"0x01C",
+                "0x020",	"0x020",
+                "0x024",	"Eggs Hatched",
+                "0x028",	"Nice! Received",
+                "0x02C",	"0x02C",
+                "0x030",	"0x030",
+                "0x034",	"0x034",
+                "0x038",	"0x038",
+                "0x03C",	"0x03C",
+                "0x040",	"0x040",
+                "0x044",	"0x044",
+                "0x048",	"0x048",
+                "0x04C",	"0x04C",
+                "0x050",	"0x050",
+                "0x054",	"0x054",
+                "0x058",	"0x058",
+                "0x05C",	"0x05C",
+                "0x060",	"0x060",
+                "0x064",	"0x064",
+                "0x068",	"0x068",
+                "0x06C",	"0x06C",
+                "0x070",	"0x070",
+                "0x074",	"0x074",
+                "0x078",	"0x078",
+                "0x07C",	"0x07C",
+                "0x080",	"0x080",
+                "0x084",	"0x084",
+                "0x088",	"0x088",
+                "0x08C",	"0x08C",
+                "0x090",	"0x090",
+                "0x094",	"0x094",
+                "0x098",	"0x098",
+                "0x09C",	"0x09C",
+                "0x0A0",	"0x0A0",
+                "0x0A4",	"0x0A4",
+                "0x0A8",	"0x0A8",
+                "0x0AC",	"0x0AC",
+                "0x0B0",	"0x0B0",
+                "0x0B4",	"0x0B4",
+                "0x0B8",	"0x0B8",
+                "0x0BC",	"0x0BC",
+                "0x0C0",	"0x0C0",
+                "0x0C4",	"0x0C4",
+                "0x0C8",	"0x0C8",
+                "0x0CC",	"0x0CC",
+                "0x0D0",	"0x0D0",
+                "0x0D4",	"0x0D4",
+                "0x0D8",	"0x0D8",
+                "0x0DC",	"0x0DC",
+                "0x0E0",	"0x0E0",
+                "0x0E4",	"0x0E4",
+                "0x0E8",	"0x0E8",
+                "0x0EC",	"0x0EC",
+                "0x0F0",	"0x0F0",
+                "0x0F4",	"0x0F4",
+                "0x0F8",	"0x0F8",
+                "0x0FC",	"Current Pokemiles",
+                "0x100",	"Obtained Pokemiles",
+                "0x104",	"0x104",
+                "0x108",	"0x108",
+                "0x10C",	"0x10C",
+                "0x110",	"0x110",
+                "0x114",	"0x114",
+                "0x118",	"0x118", // Link Trades?
+                "0x11C",	"Link Battle", // Wins", // ?
+                "0x120",	"0x120", // Link Battle Losses?
+                "0x124",	"0x124",
+                "0x128",	"0x128",
+                "0x12C",	"0x12C",
+                "0x130",	"0x130",
+                "0x134",	"0x134",
+                "0x138",	"0x138",
+                "0x13C",	"0x13C",
+                "0x140",	"0x140",
+                "0x144",	"0x144",
+                "0x148",	"0x148",
+                "0x14C",	"0x14C",
+                "0x150",	"0x150",
+                "0x154",	"0x154",
+                "0x158",	"0x158",
+                "0x15C",	"0x15C",
+                "0x160",	"0x160",
+                "0x164",	"0x164",
+                "0x168",	"0x168",
+                "0x16C",	"0x16C",
+                "0x170",	"0x170",
+                "0x174",	"0x174",
+                "0x178",	"0x178",
+                "0x17C",	"0x17C",
+                "0x180",	"0x180",
+                "0x184",	"0x184",
+                "0x188",	"0x188",
+                "0x18C",	"0x18C",
+                "0x190",	"0x190",
+                "0x194",	"0x194",
+                "0x198",	"0x198",
+                "0x19C",	"0x19C",
+                "0x1A0",	"0x1A0",
+                "0x1A4",	"0x1A4",
+                "0x1A8",	"0x1A8",
+                "0x1AC",	"0x1AC",
+                "0x1B0",	"0x1B0",
+                "0x1B4",	"0x1B4",
+                "0x1B8",	"0x1B8",
+                "0x1BC",	"0x1BC",
+                "0x1C0",	"0x1C0",
+                "0x1C4",	"0x1C4",
+                "0x1C8",	"0x1C8",
+                "0x1CC",	"0x1CC",
+                "0x1D0",	"0x1D0",
+                "0x1D4",	"0x1D4",
+                "0x1D8",	"0x1D8",
+                "0x1DC",	"0x1DC",
+                "0x1E0",	"0x1E0",
+                "0x1E4",	"0x1E4",
+                "0x1E8",	"0x1E8",
+                "0x1EC",	"0x1EC",
+                "0x1F0",	"0x1F0",
+                "0x1F4",	"0x1F4",
+                "0x1F8",	"0x1F8",
+                "0x1FC",	"0x1FC",
+                "0x200",	"0x200",
+                "0x204",	"0x204",
+                "0x208",	"0x208",
+                "0x20C",	"0x20C",
+                "0x210",	"0x210",
+                "0x214",	"0x214",
+                "0x218",	"0x218",
+                "0x21C",	"0x21C",
+                "0x220",	"0x220",
+                "0x224",	"0x224",
+                "0x228",	"0x228",
+                "0x22C",	"0x22C",
+                "0x230",	"0x230",
+                "0x234",	"0x234",
+                "0x238",	"0x238",
+                "0x23C",	"0x23C",
+                "0x240",	"0x240",
+                "0x244",	"0x244",
+                "0x248",	"0x248",
+                "0x24C",	"0x24C",
+                "0x250",	"0x250",
+                "0x254",	"0x254",
+                "0x258",	"0x258",
+            }; // Offset, Title. Horrible implementation, but works.
+
+            CB_Stats.Items.Clear();
+            for (int i = 0; i < statdata.Length / 2; i++)
+                CB_Stats.Items.Add(statdata[2 * i + 1]);
+            CB_Stats.SelectedIndex = 0;
         }
+        private string[] statdata = new string[] { };
         string Game;
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
@@ -411,19 +572,42 @@ namespace PKHeX
         {
             MT_Money.Text = "9,999,999";
         }
-
         private void changeBadge(object sender, EventArgs e)
         {
             getBadges();
         }
-
         private void changeStyle(object sender, EventArgs e)
         {
             if (TB_Style.Text == "") TB_Style.Text = "0";
             if (int.Parse(TB_Style.Text) > 255) TB_Style.Text = "255";
         }
 
-    }
+        private void changeStat(object sender, EventArgs e)
+        {
+            editing = true;
+            {
+                int pssoff = 0x23800 + savindex * 0x7F000;
+                string offsetstr = statdata[CB_Stats.SelectedIndex * 2];
+                int offset = (int)new System.ComponentModel.Int32Converter().ConvertFromString(offsetstr);
 
-    
+                MT_Stat.Text = BitConverter.ToUInt32(sav, pssoff + offset).ToString();
+                L_Offset.Text = "0x" + offset.ToString("X3");
+            }
+            editing = false;
+        }
+        private void changeStatVal(object sender, EventArgs e)
+        {
+            if (!editing)
+            {
+                int pssoff = 0x23800 + savindex * 0x7F000;
+                string offsetstr = statdata[CB_Stats.SelectedIndex * 2];
+                int offset = (int)new System.ComponentModel.Int32Converter().ConvertFromString(offsetstr);
+
+                uint val = UInt32.Parse(MT_Stat.Text);
+                byte[] data = BitConverter.GetBytes(val);
+                Array.Resize(ref data, 4);
+                Array.Copy(data, 0, sav, pssoff + offset, 4);
+            }
+        }
+    }
 }

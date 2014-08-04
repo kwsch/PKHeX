@@ -6202,9 +6202,6 @@ namespace PKHeX
                     byte[] data = Converter.ConvertPKM(input,savefile, savindex);
                     Array.Copy(data, buff, 232);
                     populatefields(buff);
-                    // string message = "Loaded previous generation PKM. Conversion attempted.";
-                    // string caption = "Alert";
-                    // MessageBox.Show(message, caption);
                 }
                 catch
                 {
@@ -7998,7 +7995,7 @@ namespace PKHeX
             if (species != 0 && isegg == 1)
             {
                 file = "_0"; // Start with a partially transparent species 
-                baseImage = PKHeX.Util.layerImage((Image)Properties.Resources.ResourceManager.GetObject(file), baseImage, 0, 0, 0.2);
+                baseImage = PKHeX.Util.layerImage((Image)Properties.Resources.ResourceManager.GetObject(file), baseImage, 0, 0, 0.33);
                 file = "egg"; // Add the egg layer over-top.
                 baseImage = PKHeX.Util.layerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject(file), 0, 0, 1);
             }

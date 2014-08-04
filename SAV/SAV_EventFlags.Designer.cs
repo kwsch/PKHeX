@@ -57,10 +57,23 @@
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
             this.flag_0114 = new System.Windows.Forms.CheckBox();
             this.flag_0790 = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.flag_0285 = new System.Windows.Forms.CheckBox();
+            this.flag_0286 = new System.Windows.Forms.CheckBox();
+            this.flag_0675 = new System.Windows.Forms.CheckBox();
+            this.flag_0290 = new System.Windows.Forms.CheckBox();
+            this.flag_0291 = new System.Windows.Forms.CheckBox();
+            this.flag_0292 = new System.Windows.Forms.CheckBox();
+            this.flag_0293 = new System.Windows.Forms.CheckBox();
+            this.flag_0294 = new System.Windows.Forms.CheckBox();
+            this.flag_0287 = new System.Windows.Forms.CheckBox();
+            this.flag_0288 = new System.Windows.Forms.CheckBox();
+            this.flag_0289 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.GB_Rebattle.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // CHK_CustomFlag
@@ -78,7 +91,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(128, 180);
+            this.B_Cancel.Location = new System.Drawing.Point(287, 307);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 2;
@@ -188,7 +201,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(207, 179);
+            this.B_Save.Location = new System.Drawing.Point(366, 306);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 9;
@@ -350,7 +363,7 @@
             this.GB_Rebattle.Controls.Add(this.flag_0963);
             this.GB_Rebattle.Location = new System.Drawing.Point(129, 12);
             this.GB_Rebattle.Name = "GB_Rebattle";
-            this.GB_Rebattle.Size = new System.Drawing.Size(152, 156);
+            this.GB_Rebattle.Size = new System.Drawing.Size(152, 191);
             this.GB_Rebattle.TabIndex = 16;
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
@@ -379,11 +392,153 @@
             this.flag_0790.UseVisualStyleBackColor = true;
             this.flag_0790.Click += new System.EventHandler(this.toggleFlag);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.flag_0289);
+            this.groupBox3.Controls.Add(this.flag_0288);
+            this.groupBox3.Controls.Add(this.flag_0287);
+            this.groupBox3.Controls.Add(this.flag_0294);
+            this.groupBox3.Controls.Add(this.flag_0293);
+            this.groupBox3.Controls.Add(this.flag_0292);
+            this.groupBox3.Controls.Add(this.flag_0291);
+            this.groupBox3.Controls.Add(this.flag_0290);
+            this.groupBox3.Controls.Add(this.flag_0675);
+            this.groupBox3.Controls.Add(this.flag_0286);
+            this.groupBox3.Controls.Add(this.flag_0285);
+            this.groupBox3.Location = new System.Drawing.Point(287, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(154, 288);
+            this.groupBox3.TabIndex = 17;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Misc";
+            // 
+            // flag_0285
+            // 
+            this.flag_0285.AutoSize = true;
+            this.flag_0285.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0285.Location = new System.Drawing.Point(6, 19);
+            this.flag_0285.Name = "flag_0285";
+            this.flag_0285.Size = new System.Drawing.Size(106, 17);
+            this.flag_0285.TabIndex = 15;
+            this.flag_0285.Text = "Singles Statuette";
+            this.flag_0285.UseVisualStyleBackColor = true;
+            // 
+            // flag_0286
+            // 
+            this.flag_0286.AutoSize = true;
+            this.flag_0286.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0286.Location = new System.Drawing.Point(6, 34);
+            this.flag_0286.Name = "flag_0286";
+            this.flag_0286.Size = new System.Drawing.Size(111, 17);
+            this.flag_0286.TabIndex = 16;
+            this.flag_0286.Text = "Doubles Statuette";
+            this.flag_0286.UseVisualStyleBackColor = true;
+            // 
+            // flag_0675
+            // 
+            this.flag_0675.AutoSize = true;
+            this.flag_0675.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0675.Location = new System.Drawing.Point(15, 243);
+            this.flag_0675.Name = "flag_0675";
+            this.flag_0675.Size = new System.Drawing.Size(119, 17);
+            this.flag_0675.TabIndex = 17;
+            this.flag_0675.Text = "50: Beat Chatelaine";
+            this.flag_0675.UseVisualStyleBackColor = true;
+            // 
+            // flag_0290
+            // 
+            this.flag_0290.AutoSize = true;
+            this.flag_0290.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0290.Location = new System.Drawing.Point(6, 99);
+            this.flag_0290.Name = "flag_0290";
+            this.flag_0290.Size = new System.Drawing.Size(140, 17);
+            this.flag_0290.TabIndex = 18;
+            this.flag_0290.Text = "Super Singles Unlocked";
+            this.flag_0290.UseVisualStyleBackColor = true;
+            // 
+            // flag_0291
+            // 
+            this.flag_0291.AutoSize = true;
+            this.flag_0291.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0291.Location = new System.Drawing.Point(6, 114);
+            this.flag_0291.Name = "flag_0291";
+            this.flag_0291.Size = new System.Drawing.Size(145, 17);
+            this.flag_0291.TabIndex = 19;
+            this.flag_0291.Text = "Super Doubles Unlocked";
+            this.flag_0291.UseVisualStyleBackColor = true;
+            // 
+            // flag_0292
+            // 
+            this.flag_0292.AutoSize = true;
+            this.flag_0292.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0292.Location = new System.Drawing.Point(6, 129);
+            this.flag_0292.Name = "flag_0292";
+            this.flag_0292.Size = new System.Drawing.Size(137, 17);
+            this.flag_0292.TabIndex = 20;
+            this.flag_0292.Text = "Super Triples Unlocked";
+            this.flag_0292.UseVisualStyleBackColor = true;
+            // 
+            // flag_0293
+            // 
+            this.flag_0293.AutoSize = true;
+            this.flag_0293.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0293.Location = new System.Drawing.Point(6, 144);
+            this.flag_0293.Name = "flag_0293";
+            this.flag_0293.Size = new System.Drawing.Size(146, 17);
+            this.flag_0293.TabIndex = 21;
+            this.flag_0293.Text = "Super Rotation Unlocked";
+            this.flag_0293.UseVisualStyleBackColor = true;
+            // 
+            // flag_0294
+            // 
+            this.flag_0294.AutoSize = true;
+            this.flag_0294.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0294.Location = new System.Drawing.Point(6, 159);
+            this.flag_0294.Name = "flag_0294";
+            this.flag_0294.Size = new System.Drawing.Size(128, 17);
+            this.flag_0294.TabIndex = 22;
+            this.flag_0294.Text = "Super Multi Unlocked";
+            this.flag_0294.UseVisualStyleBackColor = true;
+            // 
+            // flag_0287
+            // 
+            this.flag_0287.AutoSize = true;
+            this.flag_0287.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0287.Location = new System.Drawing.Point(6, 49);
+            this.flag_0287.Name = "flag_0287";
+            this.flag_0287.Size = new System.Drawing.Size(103, 17);
+            this.flag_0287.TabIndex = 23;
+            this.flag_0287.Text = "Triples Statuette";
+            this.flag_0287.UseVisualStyleBackColor = true;
+            // 
+            // flag_0288
+            // 
+            this.flag_0288.AutoSize = true;
+            this.flag_0288.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0288.Location = new System.Drawing.Point(6, 64);
+            this.flag_0288.Name = "flag_0288";
+            this.flag_0288.Size = new System.Drawing.Size(112, 17);
+            this.flag_0288.TabIndex = 24;
+            this.flag_0288.Text = "Rotation Statuette";
+            this.flag_0288.UseVisualStyleBackColor = true;
+            // 
+            // flag_0289
+            // 
+            this.flag_0289.AutoSize = true;
+            this.flag_0289.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0289.Location = new System.Drawing.Point(6, 79);
+            this.flag_0289.Name = "flag_0289";
+            this.flag_0289.Size = new System.Drawing.Size(94, 17);
+            this.flag_0289.TabIndex = 25;
+            this.flag_0289.Text = "Multi Statuette";
+            this.flag_0289.UseVisualStyleBackColor = true;
+            // 
             // SAV_EventFlags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(294, 342);
+            this.ClientSize = new System.Drawing.Size(449, 342);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.GB_Rebattle);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.flag_2239);
@@ -411,6 +566,8 @@
             this.groupBox2.PerformLayout();
             this.GB_Rebattle.ResumeLayout(false);
             this.GB_Rebattle.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -446,5 +603,17 @@
         private System.Windows.Forms.GroupBox GB_Rebattle;
         private System.Windows.Forms.CheckBox flag_0114;
         private System.Windows.Forms.CheckBox flag_0790;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox flag_0289;
+        private System.Windows.Forms.CheckBox flag_0288;
+        private System.Windows.Forms.CheckBox flag_0287;
+        private System.Windows.Forms.CheckBox flag_0294;
+        private System.Windows.Forms.CheckBox flag_0293;
+        private System.Windows.Forms.CheckBox flag_0292;
+        private System.Windows.Forms.CheckBox flag_0291;
+        private System.Windows.Forms.CheckBox flag_0290;
+        private System.Windows.Forms.CheckBox flag_0675;
+        private System.Windows.Forms.CheckBox flag_0286;
+        private System.Windows.Forms.CheckBox flag_0285;
     }
 }

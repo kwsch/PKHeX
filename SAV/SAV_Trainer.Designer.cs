@@ -127,33 +127,41 @@
             this.label20 = new System.Windows.Forms.Label();
             this.GB_Appear = new System.Windows.Forms.GroupBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.comboBox11 = new System.Windows.Forms.ComboBox();
-            this.comboBox10 = new System.Windows.Forms.ComboBox();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.CB_Dress = new System.Windows.Forms.ComboBox();
+            this.CB_Bag = new System.Windows.Forms.ComboBox();
+            this.CB_Socks = new System.Windows.Forms.ComboBox();
+            this.CB_Pants = new System.Windows.Forms.ComboBox();
+            this.CB_Shirt = new System.Windows.Forms.ComboBox();
+            this.CB_Accessory = new System.Windows.Forms.ComboBox();
+            this.CB_Hat = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.CB_FaceHair = new System.Windows.Forms.ComboBox();
+            this.CB_Hair = new System.Windows.Forms.ComboBox();
+            this.CB_Eye = new System.Windows.Forms.ComboBox();
+            this.CB_Skin = new System.Windows.Forms.ComboBox();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.GB_Map = new System.Windows.Forms.GroupBox();
-            this.GB_Reserved = new System.Windows.Forms.GroupBox();
-            this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
-            this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
-            this.TB_CoordZ = new System.Windows.Forms.MaskedTextBox();
             this.TB_CoordY = new System.Windows.Forms.MaskedTextBox();
+            this.TB_CoordZ = new System.Windows.Forms.MaskedTextBox();
+            this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
+            this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
+            this.GB_Misc = new System.Windows.Forms.GroupBox();
+            this.L_Offset = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.PB_Sprite = new System.Windows.Forms.PictureBox();
+            this.CB_Multi = new System.Windows.Forms.ComboBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.CB_Stats = new System.Windows.Forms.ComboBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -169,11 +177,14 @@
             this.GB_MaisonCurrent.SuspendLayout();
             this.GB_Appear.SuspendLayout();
             this.GB_Map.SuspendLayout();
+            this.GB_Misc.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Sprite)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(416, 474);
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Cancel.Location = new System.Drawing.Point(416, 477);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
@@ -183,7 +194,8 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(496, 474);
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Save.Location = new System.Drawing.Point(497, 477);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -1169,22 +1181,22 @@
             // GB_Appear
             // 
             this.GB_Appear.Controls.Add(this.label32);
-            this.GB_Appear.Controls.Add(this.comboBox11);
-            this.GB_Appear.Controls.Add(this.comboBox10);
-            this.GB_Appear.Controls.Add(this.comboBox9);
-            this.GB_Appear.Controls.Add(this.comboBox8);
-            this.GB_Appear.Controls.Add(this.comboBox7);
-            this.GB_Appear.Controls.Add(this.comboBox6);
-            this.GB_Appear.Controls.Add(this.comboBox5);
+            this.GB_Appear.Controls.Add(this.CB_Dress);
+            this.GB_Appear.Controls.Add(this.CB_Bag);
+            this.GB_Appear.Controls.Add(this.CB_Socks);
+            this.GB_Appear.Controls.Add(this.CB_Pants);
+            this.GB_Appear.Controls.Add(this.CB_Shirt);
+            this.GB_Appear.Controls.Add(this.CB_Accessory);
+            this.GB_Appear.Controls.Add(this.CB_Hat);
             this.GB_Appear.Controls.Add(this.label31);
             this.GB_Appear.Controls.Add(this.label30);
             this.GB_Appear.Controls.Add(this.label29);
             this.GB_Appear.Controls.Add(this.label28);
             this.GB_Appear.Controls.Add(this.label27);
-            this.GB_Appear.Controls.Add(this.comboBox4);
-            this.GB_Appear.Controls.Add(this.comboBox3);
-            this.GB_Appear.Controls.Add(this.comboBox2);
-            this.GB_Appear.Controls.Add(this.comboBox1);
+            this.GB_Appear.Controls.Add(this.CB_FaceHair);
+            this.GB_Appear.Controls.Add(this.CB_Hair);
+            this.GB_Appear.Controls.Add(this.CB_Eye);
+            this.GB_Appear.Controls.Add(this.CB_Skin);
             this.GB_Appear.Controls.Add(this.label26);
             this.GB_Appear.Controls.Add(this.label25);
             this.GB_Appear.Controls.Add(this.label24);
@@ -1207,68 +1219,68 @@
             this.label32.Text = "Dress:";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBox11
+            // CB_Dress
             // 
-            this.comboBox11.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox11.FormattingEnabled = true;
-            this.comboBox11.Location = new System.Drawing.Point(78, 191);
-            this.comboBox11.Name = "comboBox11";
-            this.comboBox11.Size = new System.Drawing.Size(88, 21);
-            this.comboBox11.TabIndex = 20;
+            this.CB_Dress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Dress.FormattingEnabled = true;
+            this.CB_Dress.Location = new System.Drawing.Point(78, 191);
+            this.CB_Dress.Name = "CB_Dress";
+            this.CB_Dress.Size = new System.Drawing.Size(88, 21);
+            this.CB_Dress.TabIndex = 20;
             // 
-            // comboBox10
+            // CB_Bag
             // 
-            this.comboBox10.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox10.FormattingEnabled = true;
-            this.comboBox10.Location = new System.Drawing.Point(78, 233);
-            this.comboBox10.Name = "comboBox10";
-            this.comboBox10.Size = new System.Drawing.Size(88, 21);
-            this.comboBox10.TabIndex = 19;
+            this.CB_Bag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Bag.FormattingEnabled = true;
+            this.CB_Bag.Location = new System.Drawing.Point(78, 233);
+            this.CB_Bag.Name = "CB_Bag";
+            this.CB_Bag.Size = new System.Drawing.Size(88, 21);
+            this.CB_Bag.TabIndex = 19;
             // 
-            // comboBox9
+            // CB_Socks
             // 
-            this.comboBox9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(78, 212);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(88, 21);
-            this.comboBox9.TabIndex = 18;
+            this.CB_Socks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Socks.FormattingEnabled = true;
+            this.CB_Socks.Location = new System.Drawing.Point(78, 212);
+            this.CB_Socks.Name = "CB_Socks";
+            this.CB_Socks.Size = new System.Drawing.Size(88, 21);
+            this.CB_Socks.TabIndex = 18;
             // 
-            // comboBox8
+            // CB_Pants
             // 
-            this.comboBox8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Location = new System.Drawing.Point(78, 170);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(88, 21);
-            this.comboBox8.TabIndex = 17;
+            this.CB_Pants.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Pants.FormattingEnabled = true;
+            this.CB_Pants.Location = new System.Drawing.Point(78, 170);
+            this.CB_Pants.Name = "CB_Pants";
+            this.CB_Pants.Size = new System.Drawing.Size(88, 21);
+            this.CB_Pants.TabIndex = 17;
             // 
-            // comboBox7
+            // CB_Shirt
             // 
-            this.comboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(78, 149);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(88, 21);
-            this.comboBox7.TabIndex = 16;
+            this.CB_Shirt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Shirt.FormattingEnabled = true;
+            this.CB_Shirt.Location = new System.Drawing.Point(78, 149);
+            this.CB_Shirt.Name = "CB_Shirt";
+            this.CB_Shirt.Size = new System.Drawing.Size(88, 21);
+            this.CB_Shirt.TabIndex = 16;
             // 
-            // comboBox6
+            // CB_Accessory
             // 
-            this.comboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(78, 128);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(88, 21);
-            this.comboBox6.TabIndex = 15;
+            this.CB_Accessory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Accessory.FormattingEnabled = true;
+            this.CB_Accessory.Location = new System.Drawing.Point(78, 128);
+            this.CB_Accessory.Name = "CB_Accessory";
+            this.CB_Accessory.Size = new System.Drawing.Size(88, 21);
+            this.CB_Accessory.TabIndex = 15;
             // 
-            // comboBox5
+            // CB_Hat
             // 
-            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(78, 107);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(88, 21);
-            this.comboBox5.TabIndex = 14;
+            this.CB_Hat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Hat.FormattingEnabled = true;
+            this.CB_Hat.Location = new System.Drawing.Point(78, 107);
+            this.CB_Hat.Name = "CB_Hat";
+            this.CB_Hat.Size = new System.Drawing.Size(88, 21);
+            this.CB_Hat.TabIndex = 14;
             // 
             // label31
             // 
@@ -1315,41 +1327,41 @@
             this.label27.Text = "Shirt:";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBox4
+            // CB_FaceHair
             // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(78, 86);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(88, 21);
-            this.comboBox4.TabIndex = 8;
+            this.CB_FaceHair.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_FaceHair.FormattingEnabled = true;
+            this.CB_FaceHair.Location = new System.Drawing.Point(78, 86);
+            this.CB_FaceHair.Name = "CB_FaceHair";
+            this.CB_FaceHair.Size = new System.Drawing.Size(88, 21);
+            this.CB_FaceHair.TabIndex = 8;
             // 
-            // comboBox3
+            // CB_Hair
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(78, 65);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(88, 21);
-            this.comboBox3.TabIndex = 7;
+            this.CB_Hair.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Hair.FormattingEnabled = true;
+            this.CB_Hair.Location = new System.Drawing.Point(78, 65);
+            this.CB_Hair.Name = "CB_Hair";
+            this.CB_Hair.Size = new System.Drawing.Size(88, 21);
+            this.CB_Hair.TabIndex = 7;
             // 
-            // comboBox2
+            // CB_Eye
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(78, 44);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(88, 21);
-            this.comboBox2.TabIndex = 6;
+            this.CB_Eye.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Eye.FormattingEnabled = true;
+            this.CB_Eye.Location = new System.Drawing.Point(78, 44);
+            this.CB_Eye.Name = "CB_Eye";
+            this.CB_Eye.Size = new System.Drawing.Size(88, 21);
+            this.CB_Eye.TabIndex = 6;
             // 
-            // comboBox1
+            // CB_Skin
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(78, 23);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(88, 21);
-            this.comboBox1.TabIndex = 5;
+            this.CB_Skin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Skin.FormattingEnabled = true;
+            this.CB_Skin.Location = new System.Drawing.Point(78, 23);
+            this.CB_Skin.Name = "CB_Skin";
+            this.CB_Skin.Size = new System.Drawing.Size(88, 21);
+            this.CB_Skin.TabIndex = 5;
             // 
             // label26
             // 
@@ -1413,33 +1425,14 @@
             this.GB_Map.TabStop = false;
             this.GB_Map.Text = "Map Position";
             // 
-            // GB_Reserved
+            // TB_CoordY
             // 
-            this.GB_Reserved.Enabled = false;
-            this.GB_Reserved.Location = new System.Drawing.Point(416, 288);
-            this.GB_Reserved.Name = "GB_Reserved";
-            this.GB_Reserved.Size = new System.Drawing.Size(155, 177);
-            this.GB_Reserved.TabIndex = 52;
-            this.GB_Reserved.TabStop = false;
-            this.GB_Reserved.Text = "Multiplayer";
-            // 
-            // TB_CoordM
-            // 
-            this.TB_CoordM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordM.Location = new System.Drawing.Point(44, 25);
-            this.TB_CoordM.Mask = "0000";
-            this.TB_CoordM.Name = "TB_CoordM";
-            this.TB_CoordM.Size = new System.Drawing.Size(35, 20);
-            this.TB_CoordM.TabIndex = 0;
-            // 
-            // TB_CoordX
-            // 
-            this.TB_CoordX.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordX.Location = new System.Drawing.Point(43, 49);
-            this.TB_CoordX.Mask = "0000";
-            this.TB_CoordX.Name = "TB_CoordX";
-            this.TB_CoordX.Size = new System.Drawing.Size(35, 20);
-            this.TB_CoordX.TabIndex = 1;
+            this.TB_CoordY.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_CoordY.Location = new System.Drawing.Point(110, 49);
+            this.TB_CoordY.Mask = "0000";
+            this.TB_CoordY.Name = "TB_CoordY";
+            this.TB_CoordY.Size = new System.Drawing.Size(35, 20);
+            this.TB_CoordY.TabIndex = 3;
             // 
             // TB_CoordZ
             // 
@@ -1450,21 +1443,129 @@
             this.TB_CoordZ.Size = new System.Drawing.Size(35, 20);
             this.TB_CoordZ.TabIndex = 2;
             // 
-            // TB_CoordY
+            // TB_CoordX
             // 
-            this.TB_CoordY.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordY.Location = new System.Drawing.Point(110, 49);
-            this.TB_CoordY.Mask = "0000";
-            this.TB_CoordY.Name = "TB_CoordY";
-            this.TB_CoordY.Size = new System.Drawing.Size(35, 20);
-            this.TB_CoordY.TabIndex = 3;
+            this.TB_CoordX.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_CoordX.Location = new System.Drawing.Point(43, 49);
+            this.TB_CoordX.Mask = "0000";
+            this.TB_CoordX.Name = "TB_CoordX";
+            this.TB_CoordX.Size = new System.Drawing.Size(35, 20);
+            this.TB_CoordX.TabIndex = 1;
+            // 
+            // TB_CoordM
+            // 
+            this.TB_CoordM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_CoordM.Location = new System.Drawing.Point(44, 25);
+            this.TB_CoordM.Mask = "0000";
+            this.TB_CoordM.Name = "TB_CoordM";
+            this.TB_CoordM.Size = new System.Drawing.Size(35, 20);
+            this.TB_CoordM.TabIndex = 0;
+            // 
+            // GB_Misc
+            // 
+            this.GB_Misc.Controls.Add(this.L_Offset);
+            this.GB_Misc.Controls.Add(this.label34);
+            this.GB_Misc.Controls.Add(this.PB_Sprite);
+            this.GB_Misc.Controls.Add(this.CB_Multi);
+            this.GB_Misc.Controls.Add(this.label33);
+            this.GB_Misc.Controls.Add(this.CB_Stats);
+            this.GB_Misc.Controls.Add(this.label39);
+            this.GB_Misc.Controls.Add(this.MT_Stat);
+            this.GB_Misc.Location = new System.Drawing.Point(416, 288);
+            this.GB_Misc.Name = "GB_Misc";
+            this.GB_Misc.Size = new System.Drawing.Size(155, 177);
+            this.GB_Misc.TabIndex = 53;
+            this.GB_Misc.TabStop = false;
+            this.GB_Misc.Text = "Misc";
+            // 
+            // L_Offset
+            // 
+            this.L_Offset.AutoSize = true;
+            this.L_Offset.Location = new System.Drawing.Point(14, 159);
+            this.L_Offset.Name = "L_Offset";
+            this.L_Offset.Size = new System.Drawing.Size(39, 13);
+            this.L_Offset.TabIndex = 28;
+            this.L_Offset.Text = "(offset)";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Enabled = false;
+            this.label34.Location = new System.Drawing.Point(14, 22);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(87, 13);
+            this.label34.TabIndex = 27;
+            this.label34.Text = "Multiplayer Sprite";
+            // 
+            // PB_Sprite
+            // 
+            this.PB_Sprite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_Sprite.Enabled = false;
+            this.PB_Sprite.Location = new System.Drawing.Point(96, 59);
+            this.PB_Sprite.Name = "PB_Sprite";
+            this.PB_Sprite.Size = new System.Drawing.Size(42, 42);
+            this.PB_Sprite.TabIndex = 26;
+            this.PB_Sprite.TabStop = false;
+            // 
+            // CB_Multi
+            // 
+            this.CB_Multi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Multi.Enabled = false;
+            this.CB_Multi.FormattingEnabled = true;
+            this.CB_Multi.Location = new System.Drawing.Point(17, 38);
+            this.CB_Multi.Name = "CB_Multi";
+            this.CB_Multi.Size = new System.Drawing.Size(121, 21);
+            this.CB_Multi.TabIndex = 25;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(14, 103);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(31, 13);
+            this.label33.TabIndex = 24;
+            this.label33.Text = "Stats";
+            // 
+            // CB_Stats
+            // 
+            this.CB_Stats.DropDownHeight = 156;
+            this.CB_Stats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Stats.DropDownWidth = 180;
+            this.CB_Stats.FormattingEnabled = true;
+            this.CB_Stats.IntegralHeight = false;
+            this.CB_Stats.Location = new System.Drawing.Point(17, 119);
+            this.CB_Stats.Name = "CB_Stats";
+            this.CB_Stats.Size = new System.Drawing.Size(121, 21);
+            this.CB_Stats.TabIndex = 23;
+            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.changeStat);
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(14, 143);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(34, 13);
+            this.label39.TabIndex = 22;
+            this.label39.Text = "Value";
+            // 
+            // MT_Stat
+            // 
+            this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MT_Stat.Location = new System.Drawing.Point(61, 140);
+            this.MT_Stat.Mask = "0000000000";
+            this.MT_Stat.Name = "MT_Stat";
+            this.MT_Stat.Size = new System.Drawing.Size(77, 20);
+            this.MT_Stat.TabIndex = 21;
+            this.MT_Stat.Text = "1231231234";
+            this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
             // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 512);
-            this.Controls.Add(this.GB_Reserved);
+            this.Controls.Add(this.GB_Misc);
             this.Controls.Add(this.GB_Map);
             this.Controls.Add(this.GB_Appear);
             this.Controls.Add(this.GB_MaisonCurrent);
@@ -1502,6 +1603,9 @@
             this.GB_Appear.ResumeLayout(false);
             this.GB_Map.ResumeLayout(false);
             this.GB_Map.PerformLayout();
+            this.GB_Misc.ResumeLayout(false);
+            this.GB_Misc.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Sprite)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1606,32 +1710,40 @@
         private System.Windows.Forms.MaskedTextBox TB_MCSN;
         private System.Windows.Forms.GroupBox GB_Appear;
         private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.ComboBox comboBox11;
-        private System.Windows.Forms.ComboBox comboBox10;
-        private System.Windows.Forms.ComboBox comboBox9;
-        private System.Windows.Forms.ComboBox comboBox8;
-        private System.Windows.Forms.ComboBox comboBox7;
-        private System.Windows.Forms.ComboBox comboBox6;
-        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox CB_Dress;
+        private System.Windows.Forms.ComboBox CB_Bag;
+        private System.Windows.Forms.ComboBox CB_Socks;
+        private System.Windows.Forms.ComboBox CB_Pants;
+        private System.Windows.Forms.ComboBox CB_Shirt;
+        private System.Windows.Forms.ComboBox CB_Accessory;
+        private System.Windows.Forms.ComboBox CB_Hat;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox CB_FaceHair;
+        private System.Windows.Forms.ComboBox CB_Hair;
+        private System.Windows.Forms.ComboBox CB_Eye;
+        private System.Windows.Forms.ComboBox CB_Skin;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.GroupBox GB_Map;
-        private System.Windows.Forms.GroupBox GB_Reserved;
         private System.Windows.Forms.MaskedTextBox TB_CoordY;
         private System.Windows.Forms.MaskedTextBox TB_CoordZ;
         private System.Windows.Forms.MaskedTextBox TB_CoordX;
         private System.Windows.Forms.MaskedTextBox TB_CoordM;
+        private System.Windows.Forms.GroupBox GB_Misc;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.PictureBox PB_Sprite;
+        private System.Windows.Forms.ComboBox CB_Multi;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.ComboBox CB_Stats;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.MaskedTextBox MT_Stat;
+        private System.Windows.Forms.Label L_Offset;
     }
 }
