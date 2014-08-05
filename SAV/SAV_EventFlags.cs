@@ -59,6 +59,7 @@ namespace PKHeX
                 flag_0114,flag_0790, // Zygarde
                 flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
                 flag_0290,flag_0291,flag_0292,flag_0293,flag_0294, // Super Unlocks
+                flag_0675, // Chatelaine 50
             };
             int offset = 0x1A0FC + savshift;
             byte[] data = new Byte[0x180];
@@ -80,6 +81,7 @@ namespace PKHeX
                 changeCustomFlag(null, null);
             }
         }
+
         private int getFlagNum(CheckBox chk)
         {
             try
@@ -110,16 +112,15 @@ namespace PKHeX
                 CHK_CustomFlag.Checked = flags[flag];
             }
         }
+        private void changeCustomFlag(object sender, KeyEventArgs e)
+        {
+            changeCustomFlag(null, (EventArgs)e);
+        }
 
         private void toggleFlag(object sender, EventArgs e)
         {
             flags[getFlagNum((CheckBox)(sender))] = ((CheckBox)(sender)).Checked;
             changeCustomFlag(sender, e);
-        }
-
-        private void changeCustomFlag(object sender, KeyEventArgs e)
-        {
-            changeCustomFlag(null, (EventArgs)e);
         }
 
         private void changeSAV(object sender, EventArgs e)
@@ -145,10 +146,8 @@ namespace PKHeX
                 }
             }
         }
-
         private byte[] olddata = new Byte[0x180];
         private byte[] newdata = new Byte[0x180];
-
         private void openSAV(object sender, EventArgs e)
         {
             byte[] eventflags = new byte[0x180];

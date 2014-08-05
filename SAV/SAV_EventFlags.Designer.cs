@@ -422,6 +422,7 @@
             this.flag_0285.TabIndex = 15;
             this.flag_0285.Text = "Singles Statuette";
             this.flag_0285.UseVisualStyleBackColor = true;
+            this.flag_0285.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0286
             // 
@@ -433,6 +434,7 @@
             this.flag_0286.TabIndex = 16;
             this.flag_0286.Text = "Doubles Statuette";
             this.flag_0286.UseVisualStyleBackColor = true;
+            this.flag_0286.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0675
             // 
@@ -444,6 +446,7 @@
             this.flag_0675.TabIndex = 17;
             this.flag_0675.Text = "50: Beat Chatelaine";
             this.flag_0675.UseVisualStyleBackColor = true;
+            this.flag_0675.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0290
             // 
@@ -455,6 +458,7 @@
             this.flag_0290.TabIndex = 18;
             this.flag_0290.Text = "Super Singles Unlocked";
             this.flag_0290.UseVisualStyleBackColor = true;
+            this.flag_0290.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0291
             // 
@@ -466,6 +470,7 @@
             this.flag_0291.TabIndex = 19;
             this.flag_0291.Text = "Super Doubles Unlocked";
             this.flag_0291.UseVisualStyleBackColor = true;
+            this.flag_0291.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0292
             // 
@@ -477,6 +482,7 @@
             this.flag_0292.TabIndex = 20;
             this.flag_0292.Text = "Super Triples Unlocked";
             this.flag_0292.UseVisualStyleBackColor = true;
+            this.flag_0292.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0293
             // 
@@ -488,6 +494,7 @@
             this.flag_0293.TabIndex = 21;
             this.flag_0293.Text = "Super Rotation Unlocked";
             this.flag_0293.UseVisualStyleBackColor = true;
+            this.flag_0293.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0294
             // 
@@ -499,6 +506,7 @@
             this.flag_0294.TabIndex = 22;
             this.flag_0294.Text = "Super Multi Unlocked";
             this.flag_0294.UseVisualStyleBackColor = true;
+            this.flag_0294.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0287
             // 
@@ -510,6 +518,7 @@
             this.flag_0287.TabIndex = 23;
             this.flag_0287.Text = "Triples Statuette";
             this.flag_0287.UseVisualStyleBackColor = true;
+            this.flag_0287.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0288
             // 
@@ -521,6 +530,7 @@
             this.flag_0288.TabIndex = 24;
             this.flag_0288.Text = "Rotation Statuette";
             this.flag_0288.UseVisualStyleBackColor = true;
+            this.flag_0288.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_0289
             // 
@@ -532,6 +542,7 @@
             this.flag_0289.TabIndex = 25;
             this.flag_0289.Text = "Multi Statuette";
             this.flag_0289.UseVisualStyleBackColor = true;
+            this.flag_0289.Click += new System.EventHandler(this.toggleFlag);
             // 
             // SAV_EventFlags
             // 
