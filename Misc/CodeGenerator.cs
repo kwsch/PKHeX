@@ -284,24 +284,82 @@ namespace PKHeX
             Array.Copy(editedsav, 0x5400, newcyber, 0, 0x65600);
             if (!m_parent.cybergadget) Array.Copy(editedsav, m_parent.savindex * 0x7F000 + 0x5400, newcyber, 0, 0x65600);
 
-            int lines = 0;
+            int lines = 0;  // 65400
             for (int i = 0; i < 0x65400; i += 4)
             {
+                // Skip Party and Boxes
+                if (i == 0x14200) i += (260 * 6 + 8);
+                if (i == 0x22600) i += (232 * 30 * 31);
                 if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
                 {
                     result += ((0x20000000 + i).ToString("X8") + " ");
                     result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + "\n");
+
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
                     { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
                     if (lines > 10000) goto toomany;
                 }
             }
+
+            // Loop Through Party
+            for (int i = 0x14200; i < 0x14200 + 260 * 6; i+= 260)
+            {
+                byte[] newdata = new Byte[260]; Array.Copy(newcyber, i, newdata, 0, 260);
+                byte[] olddata = new Byte[260]; Array.Copy(cybersav, i, olddata, 0, 260);
+                if (!newdata.SequenceEqual(olddata))
+                {
+                    for (int z = 0; z < newdata.Length; z += 4)
+                    {
+                        result += ((0x20000000 + i + z).ToString("X8") + " ");
+                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + "\n");
+
+                        lines++;
+                        if ((lines % 128 == 0) && CHK_Break.Checked)
+                        { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                        if (lines > 10000) goto toomany;
+                    }
+                }
+            }
+
+            // Fix Party Count if Necessary
+            if (cybersav[0x14818] != newcyber[0x14818])
+            {
+                result += ((0x00000000 + 0x14818).ToString("X8") + " ");
+                result += (newcyber[0x14818].ToString("X8") + "\n");
+
+                lines++;
+                if ((lines % 128 == 0) && CHK_Break.Checked)
+                { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                if (lines > 10000) goto toomany;
+            }
+
+            // Loop Through Boxes
+            for (int i = 0x22600; i < 0x22600 + (232*30*31); i += 232)
+            {
+                byte[] newdata = new Byte[232]; Array.Copy(newcyber, i, newdata, 0, 232);
+                byte[] olddata = new Byte[232]; Array.Copy(cybersav, i, olddata, 0, 232);
+                if (!newdata.SequenceEqual(olddata))
+                {
+                    for (int z = 0; z < newdata.Length; z += 4)
+                    {
+                        result += ((0x20000000 + i + z).ToString("X8") + " ");
+                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + "\n");
+
+                        lines++;
+                        if ((lines % 128 == 0) && CHK_Break.Checked)
+                        { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                        if (lines > 10000) goto toomany;
+                    }
+                }
+            }
+
             if ((lines / 128 > 0) && CHK_Break.Checked)
             {
-                MessageBox.Show((1+ (lines / 128)).ToString() + " Code Segments\n\nLines: "+lines.ToString(),"Alert");
+                MessageBox.Show((1 + (lines / 128)).ToString() + " Code Segments\n\nLines: " + lines.ToString(), "Alert");
             }
             RTB_Code.Text = result; return;
+
         toomany:
             {
                 MessageBox.Show("Too many differences. Export your save instead.", "Alert");
