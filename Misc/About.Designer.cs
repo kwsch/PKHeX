@@ -37,6 +37,7 @@
             // 
             // B_Close
             // 
+            this.B_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Close.Location = new System.Drawing.Point(412, 340);
             this.B_Close.Name = "B_Close";
             this.B_Close.Size = new System.Drawing.Size(75, 23);
@@ -47,6 +48,9 @@
             // 
             // RTB
             // 
+            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.RTB.Location = new System.Drawing.Point(7, 9);
             this.RTB.Name = "RTB";
             this.RTB.ReadOnly = true;
@@ -57,6 +61,7 @@
             // 
             // L_Thanks
             // 
+            this.L_Thanks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.L_Thanks.AutoSize = true;
             this.L_Thanks.Location = new System.Drawing.Point(12, 345);
             this.L_Thanks.Name = "L_Thanks";
@@ -66,6 +71,8 @@
             // 
             // L_Codr
             // 
+            this.L_Codr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Codr.AutoSize = true;
             this.L_Codr.Location = new System.Drawing.Point(203, 345);
             this.L_Codr.Name = "L_Codr";
@@ -82,10 +89,11 @@
             this.Controls.Add(this.L_Thanks);
             this.Controls.Add(this.RTB);
             this.Controls.Add(this.B_Close);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(910, 710);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(510, 410);
             this.Name = "About";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About";

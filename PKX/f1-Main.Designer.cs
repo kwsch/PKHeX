@@ -792,7 +792,7 @@
             // 
             // Label_Language
             // 
-            this.Label_Language.Location = new System.Drawing.Point(25, 175);
+            this.Label_Language.Location = new System.Drawing.Point(25, 177);
             this.Label_Language.Name = "Label_Language";
             this.Label_Language.Size = new System.Drawing.Size(77, 13);
             this.Label_Language.TabIndex = 12;
@@ -810,7 +810,7 @@
             // 
             // Label_Ability
             // 
-            this.Label_Ability.Location = new System.Drawing.Point(25, 154);
+            this.Label_Ability.Location = new System.Drawing.Point(25, 157);
             this.Label_Ability.Name = "Label_Ability";
             this.Label_Ability.Size = new System.Drawing.Size(77, 13);
             this.Label_Ability.TabIndex = 10;

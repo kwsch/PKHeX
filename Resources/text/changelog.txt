@@ -1,4 +1,8 @@
-﻿02/09/14: 
+﻿PKHeX - By Kaphotics
+http://projectpokemon.org/
+http://projectpokemon.org/forums/showthread.php?36986
+
+02/09/14: 
  - Initial Version
 
 02/15/14: 
@@ -263,10 +267,19 @@
  - Changed: Initial save/open directory will be the Cyber Gadget temp folder if it exists.
  - Suggested: Instead of generating codes, export your save and use a modded version of the Cyber Gadget executable. Overwrite the main file when prompted.
 
-08/02/14 - New Update
+08/02/14 - New Update: (1000)
  - Added: Box Backgrounds now appear.
  - Changed: Selection colors (View/Set/Delete) are now semi-transparent backgrounds.
  - Fixed: Venonat's background not being transparent.
  - Fixed: Cyber SAV opening/saving will actually find the folder if it exists.
  - Added: Active Super Training Bag & Hits Remaining can be changed in the Ribbon/Medal Editor. 0x16&0x17 Extra Bytes have been removed from the list.
  - Added: Box Background Selection in [Box Layout].
+
+08/05/14 - New Update:
+ - Added: Item Sprites now appear instead of the held item icon.
+ - Added: Many Event Flags (Zygarde Rebattle, Maison Statue/Trophy, Super Unlocks).
+ - Added: Trainer Stat editing ("Nice! Received, Eggs Hatched). 
+ - - Only a few have been identified, but all can be viewed/changed. If you can identify what a certain stat offset keeps track of, let me know!
+ - Fixed: Color blending of sprites
+ - Fixed: Importing Pokemon with a rare combination of PID/ID.
+ - Changed: Egg contents should be a little more visible.

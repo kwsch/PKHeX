@@ -6490,7 +6490,7 @@ namespace PKHeX
             // Stuff the Buff 
             // Create a new storage so we don't muck up things with the original
             byte[] pkx = buff;
-            if (getHEXval(TB_EC) == 0) BTN_RerollEC.PerformClick();
+            // if (getHEXval(TB_EC) == 0) BTN_RerollEC.PerformClick();
             // Repopulate PKX with Edited Stuff
             if (getIndex(CB_GameOrigin) < 24)
             {
