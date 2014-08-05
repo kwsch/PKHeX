@@ -283,3 +283,4 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Color blending of sprites
  - Fixed: Importing Pokemon with a rare combination of PID/ID.
  - Changed: Egg contents should be a little more visible.
+ - Changed: EC can be 0 again; Code Generator logic improved to account for this.
