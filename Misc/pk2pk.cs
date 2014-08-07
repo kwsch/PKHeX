@@ -110,7 +110,7 @@ namespace PKHeX
             pk4[0x8] = (byte)(species & 0xFF); pk4[0x9] = (byte)(species >> 8);
 
             uint exp = BitConverter.ToUInt32(pk4, 0x10);
-            pk4[0x14] = (byte)getBaseFriendship(species);
+            pk4[0x14] = (byte)70;
             // ability later
             pk4[0x16] = pk3[27]; // Copy markings
             pk4[0x17] = pk3[18]; // Language
@@ -410,7 +410,7 @@ namespace PKHeX
                 }
             } catch { return pk4; }
             // Reset Friendship
-            pk5[0x14] = (byte)getBaseFriendship(species);
+            pk5[0x14] = 70;
 
             // Fix Level
             pk5[0x84] &= 0x80;
@@ -525,9 +525,11 @@ namespace PKHeX
             // Get the current level of the specimen to be transferred
             int species = BitConverter.ToInt16(pk6, 0x08);
             uint exp = BitConverter.ToUInt32(pk6, 0x10);
-            int currentlevel = getLevel((species), (exp));
 
-            pk6[0xDD] = (byte)(((pk5[0x84]) & 0x80) + currentlevel);  // OT Gender & Encounter Level
+            // Level isn't altered, keeps Gen5 Met Level
+                // int currentlevel = getLevel((species), (exp));
+                // (byte)(((pk5[0x84]) & 0x80) + currentlevel);  
+            pk6[0xDD] = pk5[0x84];  // OT Gender & Encounter Level
             pk6[0xDE] = pk5[0x85];  // Encounter Type
 
             // Ribbon Decomposer (Contest & Battle)
@@ -6175,7 +6177,7 @@ namespace PKHeX
         {
             int fshp = (int)Friendship().Rows[species][1];
             // return fshp;
-            return 70;
+            return fshp;
         }
         private int getLevel(int species, uint exp)
         {
