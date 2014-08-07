@@ -2135,6 +2135,7 @@
             this.Label_PrevOT.TabIndex = 42;
             this.Label_PrevOT.Text = "OT:";
             this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_PrevOT.Click += new System.EventHandler(this.Label_PrevOT_Click);
             // 
             // CHK_Triangle
             // 
@@ -2443,6 +2444,7 @@
             this.Label_OT.TabIndex = 5;
             this.Label_OT.Text = "OT:";
             this.Label_OT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_OT.Click += new System.EventHandler(this.Label_OT_Click);
             // 
             // Label_SID
             // 

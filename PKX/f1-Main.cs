@@ -4664,6 +4664,36 @@ namespace PKHeX
             cb.Checked = !cb.Checked;
             getMarkings();
         }
+        private void Label_OT_Click(object sender, EventArgs e)
+        {
+            string OT = TrimFromZero(Encoding.Unicode.GetString(savefile, 0x19448 + savindex*0x7F000, 0x1A));
+            if (OT.Length > 0)
+            {
+                TB_OT.Text = OT;
+                // Set Gender Label
+                int g6trgend = savefile[0x19405 + savindex * 0x7F000];
+                if (g6trgend == 1)
+                    Label_OTGender.Text = "♀";
+                else Label_OTGender.Text = "♂";
+
+                // Get TID/SID
+                TB_TID.Text = BitConverter.ToUInt16(savefile, 0x19400 + savindex * 0x7F000).ToString();
+                TB_SID.Text = BitConverter.ToUInt16(savefile, 0x19402 + savindex * 0x7F000).ToString();
+            }
+        }
+        private void Label_PrevOT_Click(object sender, EventArgs e)
+        {
+            string OT = TrimFromZero(Encoding.Unicode.GetString(savefile, 0x19448 + savindex*0x7F000, 0x1A));
+            if (OT.Length > 0)
+            {
+                TB_OTt2.Text = OT;
+                // Set Gender Label
+                int g6trgend = savefile[0x19405 + savindex * 0x7F000];
+                if (g6trgend == 1)
+                    Label_CTGender.Text = "♀";
+                else Label_CTGender.Text = "♂";
+            }
+        }
         // Prompted Updates of PKX Functions // 
         public static string RemoveTroublesomeCharacters(TextBox tb)
         {
@@ -7958,6 +7988,17 @@ namespace PKHeX
             Array.Copy(savefile, offset, slotdata, 0, 0xE8);    // Fill Our EKX Slot
             byte[] dslotdata = decryptArray(slotdata);
 
+            ushort chk = 0;
+            for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
+                chk += BitConverter.ToUInt16(dslotdata,i);
+
+            if (chk != BitConverter.ToUInt16(dslotdata, 6) && !slotdata.SequenceEqual(new Byte[0xE8]))
+            {
+                pb.Image = null;
+                pb.BackColor = Color.Red;
+                return;
+            }
+            else pb.BackColor = Color.Transparent;
             int species = BitConverter.ToInt16(dslotdata, 0x08); // Get Species
             uint isegg = (BitConverter.ToUInt32(dslotdata, 0x74) >> 30) & 1;
 
@@ -8490,6 +8531,11 @@ namespace PKHeX
             itempouch = getStringList("ItemPouch", l);
             wallpapernames = getStringList("Wallpaper", l);
 
+            // Fix Item Names (Duplicate entries)
+            itemlist[629] += " (2)";
+            itemlist[707] += " (2)";
+            itemlist[713] += " (2)";
+
             // Get the Egg Name and then replace it with --- for the comboboxes.
             eggname = specieslist[0];
             specieslist[0] = "---";
@@ -8683,6 +8729,7 @@ namespace PKHeX
     {
         public static Bitmap ChangeOpacity(Image img, double opacityvalue)
         {
+            if (img == null) return null;
             Bitmap bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
             Graphics graphics = Graphics.FromImage(bmp);
             ColorMatrix colormatrix = new ColorMatrix();
