@@ -288,7 +288,7 @@ namespace PKHeX
             for (int i = 0; i < 0x65400; i += 4)
             {
                 // Skip Party and Boxes
-                if (i == 0x14200) i += (260 * 6 + 8);
+                if (i == 0x14200) i += (260 * 6 + 4); // +4 to skip over party count
                 if (i == 0x22600) i += (232 * 30 * 31);
                 if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
                 {
