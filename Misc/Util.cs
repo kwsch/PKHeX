@@ -13,6 +13,7 @@ namespace PKHeX
         {
             Bitmap overlayImage = (Bitmap)overLayer;
             Bitmap newImage = (Bitmap)baseLayer;
+            if (baseLayer == null) return overLayer;
             for (int i = 0; i < (overlayImage.Width * overlayImage.Height); i++)
             {
                 Color newColor = overlayImage.GetPixel(i % (overlayImage.Width), i / (overlayImage.Width));
