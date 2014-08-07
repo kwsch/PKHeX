@@ -275,7 +275,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Active Super Training Bag & Hits Remaining can be changed in the Ribbon/Medal Editor. 0x16&0x17 Extra Bytes have been removed from the list.
  - Added: Box Background Selection in [Box Layout].
 
-08/05/14 - New Update:
+08/05/14 - New Update: (1000)
  - Added: Item Sprites now appear instead of the held item icon.
  - Added: Many Event Flags (Zygarde Rebattle, Maison Statue/Trophy, Super Unlocks).
  - Added: Trainer Stat editing ("Nice! Received, Eggs Hatched). 
@@ -284,3 +284,8 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Importing Pokemon with a rare combination of PID/ID.
  - Changed: Egg contents should be a little more visible.
  - Changed: EC can be 0 again; Code Generator logic improved to account for this.
+
+08/07/14 - New Update:
+ - Added: Clicking the OT label for OT and Latest Handler will replace it with the save file OT.
+ - Fixed: Bad Eggs will now show a Red background instead of causing errors.
+ - Fixed: Transferring previous gen files will now have the correct friendship and met level.
