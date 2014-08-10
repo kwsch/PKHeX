@@ -285,7 +285,12 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: Egg contents should be a little more visible.
  - Changed: EC can be 0 again; Code Generator logic improved to account for this.
 
-08/07/14 - New Update:
+08/07/14 - New Update: (1000)
  - Added: Clicking the OT label for OT and Latest Handler will replace it with the save file OT.
  - Fixed: Bad Eggs will now show a Red background instead of causing errors.
  - Fixed: Transferring previous gen files will now have the correct friendship and met level.
+
+08/10/14 - New Update:
+ - Added: Pokedex editing
+ - Added: Setting a Pokemon into a slot will add the Pokedex entry if it hasn't been for that language.
+ - Added: Pokedex received flag.
