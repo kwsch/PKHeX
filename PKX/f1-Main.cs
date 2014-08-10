@@ -7657,6 +7657,12 @@ namespace PKHeX
             {
                 savefile[dexoff + 0x7F000 * savindex + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
             }
+
+            // Set the Language
+            if (lang >= 0)
+            {
+                savefile[0x1A7C8 + 0x7F000 * savindex + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
+            }
         }
         private void fixParty()
         {

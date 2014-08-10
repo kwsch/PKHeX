@@ -290,7 +290,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Bad Eggs will now show a Red background instead of causing errors.
  - Fixed: Transferring previous gen files will now have the correct friendship and met level.
 
-08/10/14 - New Update:
+08/10/14 - New Update: (130)
  - Added: Pokedex editing
- - Added: Setting a Pokemon into a slot will add the Pokedex entry if it hasn't been for that language.
- - Added: Pokedex received flag.
+ - Added: Setting a Pokemon into a slot will add the Pokedex entry if it hasn't been, additionally for that language.
+ - Added: Pokedex obtained flag.
