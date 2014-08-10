@@ -20,11 +20,13 @@ namespace PKHeX
             savshift = m_parent.savindex*0x7F000;
             Setup();
             editing = false;
+            LB_Species.SelectedIndex = 0;
         }
         public byte[] sav = new Byte[0x100000];
         public int savshift = 0;
         public bool[,] specbools = new bool[10, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
+        public bool[] foreignbools = new bool[0x52 * 8];
         Form1 m_parent;
         private void Setup()
         {
@@ -33,17 +35,35 @@ namespace PKHeX
             CB_Species.Items.Clear();
 
             // Fill List
+            #region Species
+            {
+                List<cbItem> species_list = new List<cbItem>();
+                // Sort the Rest based on String Name
+                string[] sortedspecies = new string[m_parent.specieslist.Length];
+                Array.Copy(m_parent.specieslist, sortedspecies, m_parent.specieslist.Length);
+                Array.Sort(sortedspecies);
 
-            List<cbItem> species_list = (List<cbItem>)m_parent.CB_Species.DataSource;
-            species_list.RemoveAt(0); // Remove 0th Entry
-            CB_Species.DataSource = species_list;
-            CB_Species.DisplayMember = "Text";
-            CB_Species.ValueMember = "Value";
+                // Add the rest of the items
+                for (int i = 0; i < sortedspecies.Length; i++)
+                {
+                    cbItem ncbi = new cbItem();
+                    ncbi.Text = sortedspecies[i];
+                    ncbi.Value = Array.IndexOf(m_parent.specieslist, sortedspecies[i]);
+                    species_list.Add(ncbi);
+                }
+                species_list.RemoveAt(0); // Remove 0th Entry
+                CB_Species.DisplayMember = "Text";
+                CB_Species.ValueMember = "Value";
+                CB_Species.DataSource = species_list;
+            }
+            #endregion
 
             for (int i = 1; i < m_parent.specieslist.Length; i++)
             {
                 LB_Species.Items.Add(i.ToString("000") + " - " + m_parent.specieslist[i]);
             }
+            for (int i = 722; i <= 0x300; i++)
+                LB_Species.Items.Add(i.ToString("000") + " - ???");
 
             // Fill Bit arrays
             for (int i = 0; i < 0xA; i++)
@@ -56,11 +76,21 @@ namespace PKHeX
             }
 
             // Fill Language arrays
-            byte[] langdata = new Byte[0x280]; 
-                Array.Copy(sav, savshift + 0x1A7C8, langdata, 0, 0x280);
-                BitArray LangRegion = new BitArray(langdata);
-                for (int b = 0; b < (0x60 * 8); b++)
-                    langbools[b % 7, b / 7] = LangRegion[b];
+            byte[] langdata = new Byte[0x280];
+            Array.Copy(sav, savshift + 0x1A7C8, langdata, 0, 0x280);
+            BitArray LangRegion = new BitArray(langdata);
+            for (int b = 0; b < (721); b++) // 721 Species
+                for (int i = 0; i < 7; i++) // 7 Languages
+                    langbools[i, b] = LangRegion[7 * b + i];
+
+            // Fill Foreign array
+            {
+                byte[] foreigndata = new Byte[0x52];
+                Array.Copy(sav, savshift + 0x1AA4C, foreigndata, 0, 0x52);
+                BitArray ForeignRegion = new BitArray(foreigndata);
+                for (int b = 0; b < (0x52 * 8); b++)
+                    foreignbools[b] = ForeignRegion[b];
+            }
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -75,9 +105,9 @@ namespace PKHeX
                 int index = (int)CB_Species.SelectedValue;
                 LB_Species.SelectedIndex = index - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
                 LB_Species.TopIndex = (int)(LB_Species.SelectedIndex);
+                loadchks();
                 editing = false;
             }
-            loadchks();
         }
         bool editing = true;
         private void changeLBSpecies(object sender, EventArgs e)
@@ -85,16 +115,26 @@ namespace PKHeX
             if (!editing)
             {
                 editing = true;
-                int index = LB_Species.SelectedIndex + 1;
-                CB_Species.SelectedValue = index;
+                try
+                {
+                    int index = LB_Species.SelectedIndex + 1;
+                    CB_Species.SelectedValue = index;
+                }
+                catch { };
+                loadchks();
                 editing = false;
             }
-            loadchks();
         }
         private void loadchks()
         {
             // Load Bools for the data
-            int pk = (int)((PKHeX.cbItem)(CB_Species.SelectedItem)).Value;
+            int pk = 0;
+            try
+            {
+                pk = (int)((PKHeX.cbItem)(CB_Species.SelectedItem)).Value;
+            }
+            catch { pk = (int)LB_Species.SelectedIndex + 1; }
+
             CheckBox[] CP = new CheckBox[] {
                 CHK_P1,CHK_P2,CHK_P3,CHK_P4,CHK_P5,CHK_P6,CHK_P7,CHK_P8,CHK_P9,CHK_P10,
             };
@@ -106,10 +146,85 @@ namespace PKHeX
                 CP[i].Checked = specbools[i, pk-1];
             for (int i = 0; i < 7; i++)
                 CL[i].Checked = langbools[i, pk-1];
+
+            if (pk < 650) { CHK_F1.Enabled = true; CHK_F1.Checked = foreignbools[pk - 1]; }
+            else { CHK_F1.Enabled = CHK_F1.Checked = false; }
         }
         private void removedropCB(object sender, KeyEventArgs e)
         {
             ((ComboBox)sender).DroppedDown = false;
+        }
+
+        private void changeLanguageBool(object sender, EventArgs e)
+        {
+            int species = LB_Species.SelectedIndex + 1;
+            langbools[0, (species - 1)] = CHK_L1.Checked;
+            langbools[1, (species - 1)] = CHK_L2.Checked;
+            langbools[2, (species - 1)] = CHK_L3.Checked;
+            langbools[3, (species - 1)] = CHK_L4.Checked;
+            langbools[4, (species - 1)] = CHK_L5.Checked;
+            langbools[5, (species - 1)] = CHK_L6.Checked;
+            langbools[6, (species - 1)] = CHK_L7.Checked;
+        }
+
+        private void changePartitionBool(object sender, EventArgs e)
+        {
+            int species = LB_Species.SelectedIndex + 1;
+            specbools[0, (species - 1)] = CHK_P1.Checked;
+            specbools[1, (species - 1)] = CHK_P2.Checked;
+            specbools[2, (species - 1)] = CHK_P3.Checked;
+            specbools[3, (species - 1)] = CHK_P4.Checked;
+            specbools[4, (species - 1)] = CHK_P5.Checked;
+            specbools[5, (species - 1)] = CHK_P6.Checked;
+            specbools[6, (species - 1)] = CHK_P7.Checked;
+            specbools[7, (species - 1)] = CHK_P8.Checked;
+            specbools[8, (species - 1)] = CHK_P9.Checked;
+            specbools[9, (species - 1)] = CHK_P10.Checked;
+            foreignbools[species - 1] = CHK_F1.Checked;
+        }
+
+        private void B_Save_Click(object sender, EventArgs e)
+        {
+            // Save back the Species Bools 
+            // Return to Byte Array        
+            for (int p = 0; p < 10; p++)
+            {
+                byte[] sdata = new byte[0x60];
+
+                for (int i = 0; i < 0x60 * 8; i++)
+                    if (specbools[p, i])
+                        sdata[i / 8] |= (byte)(1 << i % 8);
+
+                Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
+            }
+
+            // Build new bool array for the Languages
+            {
+                bool[] languagedata = new bool[0x280 * 8];
+                for (int i = 0; i < 731; i++)
+                    for (int l = 0; l < 7; l++)
+                        languagedata[i * 7 + l] = langbools[l, i];
+
+                // Return to Byte Array
+                byte[] ldata = new byte[languagedata.Length / 8];
+
+                for (int i = 0; i < languagedata.Length; i++)
+                    if (languagedata[i])
+                        ldata[i / 8] |= (byte)(1 << i % 8);
+
+                Array.Copy(ldata, 0, sav, savshift + 0x1A7C8, 0x280);
+            }
+
+            // Return Foreign Array
+            {
+                byte[] foreigndata = new byte[0x52];
+                for (int i = 0; i < 0x52 * 8; i++)
+                    if (foreignbools[i])
+                        foreigndata[i / 8] |= (byte)(1 << i % 8);
+                Array.Copy(foreigndata, 0, sav, savshift + 0x1AA4C, 0x52);
+            }
+            Array.Copy(sav, m_parent.savefile, sav.Length);
+            this.Close();
         }
     }
 }

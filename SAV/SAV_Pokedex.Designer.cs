@@ -54,11 +54,18 @@
             this.B_GiveAll = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_FillDex = new System.Windows.Forms.Button();
+            this.GB_Language = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.CHK_F1 = new System.Windows.Forms.CheckBox();
+            this.GB_Language.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(262, 189);
+            this.B_Cancel.Location = new System.Drawing.Point(297, 242);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(80, 23);
             this.B_Cancel.TabIndex = 0;
@@ -70,7 +77,7 @@
             // 
             this.L_Beta.AutoSize = true;
             this.L_Beta.ForeColor = System.Drawing.Color.Red;
-            this.L_Beta.Location = new System.Drawing.Point(156, 209);
+            this.L_Beta.Location = new System.Drawing.Point(284, 196);
             this.L_Beta.Name = "L_Beta";
             this.L_Beta.Size = new System.Drawing.Size(84, 13);
             this.L_Beta.TabIndex = 1;
@@ -81,196 +88,196 @@
             this.LB_Species.FormattingEnabled = true;
             this.LB_Species.Location = new System.Drawing.Point(12, 40);
             this.LB_Species.Name = "LB_Species";
-            this.LB_Species.Size = new System.Drawing.Size(130, 173);
+            this.LB_Species.Size = new System.Drawing.Size(130, 225);
             this.LB_Species.TabIndex = 2;
             this.LB_Species.SelectedIndexChanged += new System.EventHandler(this.changeLBSpecies);
             // 
             // CHK_P1
             // 
             this.CHK_P1.AutoSize = true;
-            this.CHK_P1.Enabled = false;
-            this.CHK_P1.Location = new System.Drawing.Point(159, 40);
+            this.CHK_P1.Location = new System.Drawing.Point(12, 93);
             this.CHK_P1.Name = "CHK_P1";
-            this.CHK_P1.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P1.Size = new System.Drawing.Size(92, 17);
             this.CHK_P1.TabIndex = 3;
-            this.CHK_P1.Text = "Partition 1";
+            this.CHK_P1.Text = "Native (Kalos)";
             this.CHK_P1.UseVisualStyleBackColor = true;
+            this.CHK_P1.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P2
             // 
             this.CHK_P2.AutoSize = true;
-            this.CHK_P2.Enabled = false;
-            this.CHK_P2.Location = new System.Drawing.Point(159, 57);
+            this.CHK_P2.Location = new System.Drawing.Point(12, 18);
             this.CHK_P2.Name = "CHK_P2";
-            this.CHK_P2.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P2.Size = new System.Drawing.Size(49, 17);
             this.CHK_P2.TabIndex = 4;
-            this.CHK_P2.Text = "Partition 2";
+            this.CHK_P2.Text = "Male";
             this.CHK_P2.UseVisualStyleBackColor = true;
+            this.CHK_P2.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P3
             // 
             this.CHK_P3.AutoSize = true;
-            this.CHK_P3.Enabled = false;
-            this.CHK_P3.Location = new System.Drawing.Point(159, 74);
+            this.CHK_P3.Location = new System.Drawing.Point(12, 33);
             this.CHK_P3.Name = "CHK_P3";
-            this.CHK_P3.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P3.Size = new System.Drawing.Size(60, 17);
             this.CHK_P3.TabIndex = 5;
-            this.CHK_P3.Text = "Partition 3";
+            this.CHK_P3.Text = "Female";
             this.CHK_P3.UseVisualStyleBackColor = true;
+            this.CHK_P3.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P4
             // 
             this.CHK_P4.AutoSize = true;
-            this.CHK_P4.Enabled = false;
-            this.CHK_P4.Location = new System.Drawing.Point(159, 91);
+            this.CHK_P4.Location = new System.Drawing.Point(12, 48);
             this.CHK_P4.Name = "CHK_P4";
-            this.CHK_P4.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P4.Size = new System.Drawing.Size(78, 17);
             this.CHK_P4.TabIndex = 6;
-            this.CHK_P4.Text = "Partition 4";
+            this.CHK_P4.Text = "Shiny Male";
             this.CHK_P4.UseVisualStyleBackColor = true;
+            this.CHK_P4.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P5
             // 
             this.CHK_P5.AutoSize = true;
-            this.CHK_P5.Enabled = false;
-            this.CHK_P5.Location = new System.Drawing.Point(159, 108);
+            this.CHK_P5.Location = new System.Drawing.Point(12, 63);
             this.CHK_P5.Name = "CHK_P5";
-            this.CHK_P5.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P5.Size = new System.Drawing.Size(89, 17);
             this.CHK_P5.TabIndex = 7;
-            this.CHK_P5.Text = "Partition 5";
+            this.CHK_P5.Text = "Shiny Female";
             this.CHK_P5.UseVisualStyleBackColor = true;
+            this.CHK_P5.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P6
             // 
             this.CHK_P6.AutoSize = true;
-            this.CHK_P6.Enabled = false;
-            this.CHK_P6.Location = new System.Drawing.Point(159, 125);
+            this.CHK_P6.Location = new System.Drawing.Point(12, 20);
             this.CHK_P6.Name = "CHK_P6";
-            this.CHK_P6.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P6.Size = new System.Drawing.Size(49, 17);
             this.CHK_P6.TabIndex = 8;
-            this.CHK_P6.Text = "Partition 6";
+            this.CHK_P6.Text = "Male";
             this.CHK_P6.UseVisualStyleBackColor = true;
+            this.CHK_P6.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P7
             // 
             this.CHK_P7.AutoSize = true;
-            this.CHK_P7.Enabled = false;
-            this.CHK_P7.Location = new System.Drawing.Point(159, 142);
+            this.CHK_P7.Location = new System.Drawing.Point(12, 35);
             this.CHK_P7.Name = "CHK_P7";
-            this.CHK_P7.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P7.Size = new System.Drawing.Size(60, 17);
             this.CHK_P7.TabIndex = 9;
-            this.CHK_P7.Text = "Partition 7";
+            this.CHK_P7.Text = "Female";
             this.CHK_P7.UseVisualStyleBackColor = true;
+            this.CHK_P7.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P8
             // 
             this.CHK_P8.AutoSize = true;
-            this.CHK_P8.Enabled = false;
-            this.CHK_P8.Location = new System.Drawing.Point(159, 159);
+            this.CHK_P8.Location = new System.Drawing.Point(12, 50);
             this.CHK_P8.Name = "CHK_P8";
-            this.CHK_P8.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P8.Size = new System.Drawing.Size(78, 17);
             this.CHK_P8.TabIndex = 10;
-            this.CHK_P8.Text = "Partition 8";
+            this.CHK_P8.Text = "Shiny Male";
             this.CHK_P8.UseVisualStyleBackColor = true;
+            this.CHK_P8.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P9
             // 
             this.CHK_P9.AutoSize = true;
-            this.CHK_P9.Enabled = false;
-            this.CHK_P9.Location = new System.Drawing.Point(159, 176);
+            this.CHK_P9.Location = new System.Drawing.Point(12, 65);
             this.CHK_P9.Name = "CHK_P9";
-            this.CHK_P9.Size = new System.Drawing.Size(73, 17);
+            this.CHK_P9.Size = new System.Drawing.Size(89, 17);
             this.CHK_P9.TabIndex = 11;
-            this.CHK_P9.Text = "Partition 9";
+            this.CHK_P9.Text = "Shiny Female";
             this.CHK_P9.UseVisualStyleBackColor = true;
+            this.CHK_P9.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P10
             // 
             this.CHK_P10.AutoSize = true;
-            this.CHK_P10.Enabled = false;
-            this.CHK_P10.Location = new System.Drawing.Point(159, 193);
+            this.CHK_P10.Location = new System.Drawing.Point(12, 78);
             this.CHK_P10.Name = "CHK_P10";
-            this.CHK_P10.Size = new System.Drawing.Size(74, 17);
+            this.CHK_P10.Size = new System.Drawing.Size(72, 17);
             this.CHK_P10.TabIndex = 12;
-            this.CHK_P10.Text = "Partition A";
+            this.CHK_P10.Text = "Via Trade";
             this.CHK_P10.UseVisualStyleBackColor = true;
+            this.CHK_P10.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_L7
             // 
             this.CHK_L7.AutoSize = true;
-            this.CHK_L7.Enabled = false;
-            this.CHK_L7.Location = new System.Drawing.Point(262, 142);
+            this.CHK_L7.Location = new System.Drawing.Point(18, 125);
             this.CHK_L7.Name = "CHK_L7";
-            this.CHK_L7.Size = new System.Drawing.Size(83, 17);
+            this.CHK_L7.Size = new System.Drawing.Size(60, 17);
             this.CHK_L7.TabIndex = 19;
-            this.CHK_L7.Text = "Language 7";
+            this.CHK_L7.Text = "Korean";
             this.CHK_L7.UseVisualStyleBackColor = true;
+            this.CHK_L7.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L6
             // 
             this.CHK_L6.AutoSize = true;
-            this.CHK_L6.Enabled = false;
-            this.CHK_L6.Location = new System.Drawing.Point(262, 125);
+            this.CHK_L6.Location = new System.Drawing.Point(18, 108);
             this.CHK_L6.Name = "CHK_L6";
-            this.CHK_L6.Size = new System.Drawing.Size(83, 17);
+            this.CHK_L6.Size = new System.Drawing.Size(64, 17);
             this.CHK_L6.TabIndex = 18;
-            this.CHK_L6.Text = "Language 6";
+            this.CHK_L6.Text = "Spanish";
             this.CHK_L6.UseVisualStyleBackColor = true;
+            this.CHK_L6.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L5
             // 
             this.CHK_L5.AutoSize = true;
-            this.CHK_L5.Enabled = false;
-            this.CHK_L5.Location = new System.Drawing.Point(262, 108);
+            this.CHK_L5.Location = new System.Drawing.Point(18, 91);
             this.CHK_L5.Name = "CHK_L5";
-            this.CHK_L5.Size = new System.Drawing.Size(83, 17);
+            this.CHK_L5.Size = new System.Drawing.Size(63, 17);
             this.CHK_L5.TabIndex = 17;
-            this.CHK_L5.Text = "Language 5";
+            this.CHK_L5.Text = "German";
             this.CHK_L5.UseVisualStyleBackColor = true;
+            this.CHK_L5.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L4
             // 
             this.CHK_L4.AutoSize = true;
-            this.CHK_L4.Enabled = false;
-            this.CHK_L4.Location = new System.Drawing.Point(262, 91);
+            this.CHK_L4.Location = new System.Drawing.Point(18, 74);
             this.CHK_L4.Name = "CHK_L4";
-            this.CHK_L4.Size = new System.Drawing.Size(83, 17);
+            this.CHK_L4.Size = new System.Drawing.Size(54, 17);
             this.CHK_L4.TabIndex = 16;
-            this.CHK_L4.Text = "Language 4";
+            this.CHK_L4.Text = "Italian";
             this.CHK_L4.UseVisualStyleBackColor = true;
+            this.CHK_L4.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L3
             // 
             this.CHK_L3.AutoSize = true;
-            this.CHK_L3.Enabled = false;
-            this.CHK_L3.Location = new System.Drawing.Point(262, 74);
+            this.CHK_L3.Location = new System.Drawing.Point(18, 57);
             this.CHK_L3.Name = "CHK_L3";
-            this.CHK_L3.Size = new System.Drawing.Size(83, 17);
+            this.CHK_L3.Size = new System.Drawing.Size(59, 17);
             this.CHK_L3.TabIndex = 15;
-            this.CHK_L3.Text = "Language 3";
+            this.CHK_L3.Text = "French";
             this.CHK_L3.UseVisualStyleBackColor = true;
+            this.CHK_L3.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L2
             // 
             this.CHK_L2.AutoSize = true;
-            this.CHK_L2.Enabled = false;
-            this.CHK_L2.Location = new System.Drawing.Point(262, 57);
+            this.CHK_L2.Location = new System.Drawing.Point(18, 40);
             this.CHK_L2.Name = "CHK_L2";
-            this.CHK_L2.Size = new System.Drawing.Size(83, 17);
+            this.CHK_L2.Size = new System.Drawing.Size(60, 17);
             this.CHK_L2.TabIndex = 14;
-            this.CHK_L2.Text = "Language 2";
+            this.CHK_L2.Text = "English";
             this.CHK_L2.UseVisualStyleBackColor = true;
+            this.CHK_L2.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L1
             // 
             this.CHK_L1.AutoSize = true;
-            this.CHK_L1.Enabled = false;
-            this.CHK_L1.Location = new System.Drawing.Point(262, 40);
+            this.CHK_L1.Location = new System.Drawing.Point(18, 23);
             this.CHK_L1.Name = "CHK_L1";
-            this.CHK_L1.Size = new System.Drawing.Size(83, 17);
+            this.CHK_L1.Size = new System.Drawing.Size(72, 17);
             this.CHK_L1.TabIndex = 13;
-            this.CHK_L1.Text = "Language 1";
+            this.CHK_L1.Text = "Japanese";
             this.CHK_L1.UseVisualStyleBackColor = true;
+            this.CHK_L1.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // label1
             // 
@@ -287,6 +294,8 @@
             this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Species.DropDownWidth = 95;
             this.CB_Species.FormattingEnabled = true;
+            this.CB_Species.Items.AddRange(new object[] {
+            "0"});
             this.CB_Species.Location = new System.Drawing.Point(50, 13);
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(92, 21);
@@ -298,7 +307,7 @@
             // B_GiveAll
             // 
             this.B_GiveAll.Enabled = false;
-            this.B_GiveAll.Location = new System.Drawing.Point(157, 11);
+            this.B_GiveAll.Location = new System.Drawing.Point(160, 11);
             this.B_GiveAll.Name = "B_GiveAll";
             this.B_GiveAll.Size = new System.Drawing.Size(80, 23);
             this.B_GiveAll.TabIndex = 23;
@@ -307,52 +316,94 @@
             // 
             // B_Save
             // 
-            this.B_Save.Enabled = false;
-            this.B_Save.Location = new System.Drawing.Point(262, 165);
+            this.B_Save.Location = new System.Drawing.Point(297, 218);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(80, 23);
             this.B_Save.TabIndex = 24;
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
+            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
             // B_FillDex
             // 
             this.B_FillDex.Enabled = false;
-            this.B_FillDex.Location = new System.Drawing.Point(262, 11);
+            this.B_FillDex.Location = new System.Drawing.Point(287, 11);
             this.B_FillDex.Name = "B_FillDex";
             this.B_FillDex.Size = new System.Drawing.Size(80, 23);
             this.B_FillDex.TabIndex = 25;
             this.B_FillDex.Text = "Fill Dex";
             this.B_FillDex.UseVisualStyleBackColor = true;
             // 
+            // GB_Language
+            // 
+            this.GB_Language.Controls.Add(this.CHK_L7);
+            this.GB_Language.Controls.Add(this.CHK_L6);
+            this.GB_Language.Controls.Add(this.CHK_L5);
+            this.GB_Language.Controls.Add(this.CHK_L4);
+            this.GB_Language.Controls.Add(this.CHK_L3);
+            this.GB_Language.Controls.Add(this.CHK_L2);
+            this.GB_Language.Controls.Add(this.CHK_L1);
+            this.GB_Language.Location = new System.Drawing.Point(269, 40);
+            this.GB_Language.Name = "GB_Language";
+            this.GB_Language.Size = new System.Drawing.Size(108, 153);
+            this.GB_Language.TabIndex = 26;
+            this.GB_Language.TabStop = false;
+            this.GB_Language.Text = "Languages";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.CHK_P9);
+            this.groupBox1.Controls.Add(this.CHK_P8);
+            this.groupBox1.Controls.Add(this.CHK_P7);
+            this.groupBox1.Controls.Add(this.CHK_P6);
+            this.groupBox1.Location = new System.Drawing.Point(148, 176);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(115, 89);
+            this.groupBox1.TabIndex = 27;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Encountered";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.CHK_F1);
+            this.groupBox2.Controls.Add(this.CHK_P1);
+            this.groupBox2.Controls.Add(this.CHK_P10);
+            this.groupBox2.Controls.Add(this.CHK_P5);
+            this.groupBox2.Controls.Add(this.CHK_P4);
+            this.groupBox2.Controls.Add(this.CHK_P3);
+            this.groupBox2.Controls.Add(this.CHK_P2);
+            this.groupBox2.Location = new System.Drawing.Point(148, 40);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(115, 130);
+            this.groupBox2.TabIndex = 28;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Owned";
+            // 
+            // CHK_F1
+            // 
+            this.CHK_F1.AutoSize = true;
+            this.CHK_F1.Location = new System.Drawing.Point(12, 108);
+            this.CHK_F1.Name = "CHK_F1";
+            this.CHK_F1.Size = new System.Drawing.Size(86, 17);
+            this.CHK_F1.TabIndex = 13;
+            this.CHK_F1.Text = "Foreign (Pre)";
+            this.CHK_F1.UseVisualStyleBackColor = true;
+            this.CHK_F1.Click += new System.EventHandler(this.changePartitionBool);
+            // 
             // SAV_Pokedex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 222);
+            this.ClientSize = new System.Drawing.Size(394, 272);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.GB_Language);
             this.Controls.Add(this.L_Beta);
             this.Controls.Add(this.B_FillDex);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_GiveAll);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.CHK_L7);
-            this.Controls.Add(this.CHK_L6);
-            this.Controls.Add(this.CHK_L5);
-            this.Controls.Add(this.CHK_L4);
-            this.Controls.Add(this.CHK_L3);
-            this.Controls.Add(this.CHK_L2);
-            this.Controls.Add(this.CHK_L1);
-            this.Controls.Add(this.CHK_P10);
-            this.Controls.Add(this.CHK_P9);
-            this.Controls.Add(this.CHK_P8);
-            this.Controls.Add(this.CHK_P7);
-            this.Controls.Add(this.CHK_P6);
-            this.Controls.Add(this.CHK_P5);
-            this.Controls.Add(this.CHK_P4);
-            this.Controls.Add(this.CHK_P3);
-            this.Controls.Add(this.CHK_P2);
-            this.Controls.Add(this.CHK_P1);
             this.Controls.Add(this.LB_Species);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -362,6 +413,12 @@
             this.Name = "SAV_Pokedex";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pokédex Editor";
+            this.GB_Language.ResumeLayout(false);
+            this.GB_Language.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -394,5 +451,9 @@
         private System.Windows.Forms.Button B_GiveAll;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_FillDex;
+        private System.Windows.Forms.GroupBox GB_Language;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox CHK_F1;
     }
 }
