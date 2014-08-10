@@ -7616,7 +7616,8 @@ namespace PKHeX
                 byte[] pkxdata = preparepkx(buff);
                 byte[] ekxdata = encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                fixparty();
+                fixParty();
+                fixPokedex();
             }
             else
             {
@@ -7629,7 +7630,35 @@ namespace PKHeX
 
             getSlotColor(slot, Properties.Resources.slotSet);
         }
-        private void fixparty()
+        private void fixPokedex()
+        {
+            if (savindex > 1) return;
+            byte[] pkxdata = preparepkx(buff);
+            int species = BitConverter.ToUInt16(pkxdata, 0x8);  // Species
+            int lang = pkxdata[0xE3] - 1; if (lang > 5) lang--; // 0-6 language vals
+            int origin = pkxdata[0xDF];                         // Native / Non Native
+            int gender = (pkxdata[0x1D] & 2) >> 1;              // Gender
+            uint pid = BitConverter.ToUInt32(pkxdata, 0x18);
+            ushort TID = BitConverter.ToUInt16(pkxdata, 0xC);
+            ushort SID = BitConverter.ToUInt16(pkxdata, 0xE);
+            int shiny = Convert.ToInt16(Convert.ToBoolean(((pid >> 16) ^ (pid & 0xFFFF) ^ TID ^ SID) < 16));
+            int dexoff = savindex * 0x7F000 + 0x1A400 + 8;
+            int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
+
+            // Set the Species Owned Flag
+            savefile[dexoff + shiftoff + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
+
+            // Set the Origin Owned Flag
+            if (origin < 0x18 && species < 650) // Pre X/Y
+            {
+                savefile[0x1AA4C + 0x7F000 * savindex + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
+            }
+            else if (origin >= 0x18)
+            {
+                savefile[dexoff + 0x7F000 * savindex + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
+            }
+        }
+        private void fixParty()
         {
             byte partymembers = 0;
             int offset = SaveGame.Party + 0x7F000 * savindex;
@@ -7669,7 +7698,7 @@ namespace PKHeX
                 byte[] pkxdata = new Byte[0x104];
                 byte[] ekxdata = encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                fixparty();
+                fixParty();
             }
             else
             {
@@ -7770,6 +7799,8 @@ namespace PKHeX
                     savedited = true;
                     getSlotColor(slot, Properties.Resources.slotSet);
                 }
+                fixPokedex();
+                fixParty();
             }
         }
         // Subfunctions // 
