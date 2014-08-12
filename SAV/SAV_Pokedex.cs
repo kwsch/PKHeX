@@ -28,6 +28,7 @@ namespace PKHeX
         public bool[,] langbools = new bool[7, 0x60 * 8];
         public bool[] foreignbools = new bool[0x52 * 8];
         Form1 m_parent;
+        bool editing = true;
         private void Setup()
         {
             // Clear Listbox and ComboBox
@@ -92,11 +93,6 @@ namespace PKHeX
                     foreignbools[b] = ForeignRegion[b];
             }
         }
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void changeCBSpecies(object sender, EventArgs e)
         {
             if (!editing)
@@ -109,7 +105,6 @@ namespace PKHeX
                 editing = false;
             }
         }
-        bool editing = true;
         private void changeLBSpecies(object sender, EventArgs e)
         {
             if (!editing)
@@ -154,7 +149,6 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-
         private void changeLanguageBool(object sender, EventArgs e)
         {
             int species = LB_Species.SelectedIndex + 1;
@@ -166,7 +160,6 @@ namespace PKHeX
             langbools[5, (species - 1)] = CHK_L6.Checked;
             langbools[6, (species - 1)] = CHK_L7.Checked;
         }
-
         private void changePartitionBool(object sender, EventArgs e)
         {
             int species = LB_Species.SelectedIndex + 1;
@@ -180,9 +173,14 @@ namespace PKHeX
             specbools[7, (species - 1)] = CHK_P8.Checked;
             specbools[8, (species - 1)] = CHK_P9.Checked;
             specbools[9, (species - 1)] = CHK_P10.Checked;
-            foreignbools[species - 1] = CHK_F1.Checked;
+            if (CHK_F1.Enabled) // species < 650 // (1-649)
+                foreignbools[species - 1] = CHK_F1.Checked;
         }
 
+        private void B_Cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Save back the Species Bools 
