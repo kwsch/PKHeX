@@ -5978,9 +5978,9 @@ namespace PKHeX
         {
 
             string cyberpath = Util.GetTempFolder();
-            if (Directory.Exists(cyberpath + "root\\"))
+            if (Directory.Exists(cyberpath + "\\root\\"))
             {
-                OpenPKX.InitialDirectory = cyberpath + "root\\";
+                OpenPKX.InitialDirectory = cyberpath + "\\root\\";
                 OpenPKX.RestoreDirectory = true;
             }
             else if (Directory.Exists(cyberpath))
@@ -7473,9 +7473,9 @@ namespace PKHeX
 
                 // Try for file path
                 string cyberpath = Util.GetTempFolder();
-                if (Directory.Exists(cyberpath + "root\\"))
+                if (Directory.Exists(cyberpath + "\\root\\"))
                 {
-                    cySAV.InitialDirectory = cyberpath + "root\\";
+                    cySAV.InitialDirectory = cyberpath + "\\root\\";
                     cySAV.RestoreDirectory = true;
                 }
                 else if (Directory.Exists(cyberpath))
@@ -7617,7 +7617,6 @@ namespace PKHeX
                 byte[] ekxdata = encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
                 fixParty();
-                fixPokedex();
             }
             else
             {
@@ -7625,6 +7624,7 @@ namespace PKHeX
                 byte[] ekxdata = encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
             }
+            fixPokedex();
             getPKXBoxes();
             savedited = true;
 
@@ -7653,7 +7653,7 @@ namespace PKHeX
             {
                 savefile[0x1AA4C + 0x7F000 * savindex + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
             }
-            else if (origin >= 0x18)
+            else if (origin >= 0x18) // Set Native Flag
             {
                 savefile[dexoff + 0x7F000 * savindex + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
             }
@@ -7790,8 +7790,6 @@ namespace PKHeX
                     byte[] pkxdata = preparepkx(buff);
                     byte[] ekxdata = encryptArray(pkxdata);
                     Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
-                    getPKXBoxes();
-                    savedited = true;
                     getSlotColor(slot, Properties.Resources.slotSet);
                 }
                 else if (slot < 36)
@@ -7801,12 +7799,12 @@ namespace PKHeX
                     byte[] pkxdata = preparepkx(buff);
                     byte[] ekxdata = encryptArray(pkxdata);
                     Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                    getPKXBoxes();
-                    savedited = true;
                     getSlotColor(slot, Properties.Resources.slotSet);
                 }
                 fixPokedex();
                 fixParty();
+                getPKXBoxes();
+                savedited = true;
             }
         }
         // Subfunctions // 
@@ -8461,13 +8459,24 @@ namespace PKHeX
         }
         private void B_OpenTemp_Click(object sender, EventArgs e)
         {
-            // MessageBox.Show("Not Implemented", "Error");
-            string path = Util.GetTempFolder();
-            if (Directory.Exists(path + "root\\"))
-                System.Diagnostics.Process.Start("explorer.exe", path + "root\\");
-            else if (Directory.Exists(path))
-                System.Diagnostics.Process.Start("explorer.exe", path);
-            else { MessageBox.Show("Can't find the temporary file.\n\nMake sure the Cyber Gadget software is paused.", "Alert"); }
+            string path;
+            if (ModifierKeys == Keys.Control)
+            {
+                path = Util.GetCacheFolder();
+                if (Directory.Exists(path))
+                    System.Diagnostics.Process.Start("explorer.exe", @path);
+                else
+                    MessageBox.Show("Can't find the cache folder.", "Alert");
+            }
+            else
+            {
+                path = Util.GetTempFolder();
+                if (Directory.Exists(path + "\\root\\"))
+                    System.Diagnostics.Process.Start("explorer.exe", @Path.Combine(path + "\\root\\"));
+                else if (Directory.Exists(path))
+                    System.Diagnostics.Process.Start("explorer.exe", @path);
+                else { MessageBox.Show("Can't find the temporary file.\n\nMake sure the Cyber Gadget software is paused.", "Alert"); }
+            }
         }
         private void B_SwitchSAV_Click(object sender, EventArgs e)
         {
