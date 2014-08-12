@@ -300,7 +300,7 @@
             this.fusedpkx = new System.Windows.Forms.PictureBox();
             this.L_ReadOnlyOther = new System.Windows.Forms.Label();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
-            this.B_OutAHK = new System.Windows.Forms.Button();
+            this.B_3DSSETemp = new System.Windows.Forms.Button();
             this.B_BoxIO = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.RTB_T = new System.Windows.Forms.RichTextBox();
@@ -3538,7 +3538,7 @@
             // 
             // Tab_Tools
             // 
-            this.Tab_Tools.Controls.Add(this.B_OutAHK);
+            this.Tab_Tools.Controls.Add(this.B_3DSSETemp);
             this.Tab_Tools.Controls.Add(this.B_BoxIO);
             this.Tab_Tools.Controls.Add(this.B_JPEG);
             this.Tab_Tools.Controls.Add(this.RTB_T);
@@ -3550,15 +3550,15 @@
             this.Tab_Tools.Text = "Tools";
             this.Tab_Tools.UseVisualStyleBackColor = true;
             // 
-            // B_OutAHK
+            // B_3DSSETemp
             // 
-            this.B_OutAHK.Location = new System.Drawing.Point(32, 20);
-            this.B_OutAHK.Name = "B_OutAHK";
-            this.B_OutAHK.Size = new System.Drawing.Size(75, 45);
-            this.B_OutAHK.TabIndex = 7;
-            this.B_OutAHK.Text = "Open Temp 3DSSE ";
-            this.B_OutAHK.UseVisualStyleBackColor = true;
-            this.B_OutAHK.Click += new System.EventHandler(this.B_OpenTemp_Click);
+            this.B_3DSSETemp.Location = new System.Drawing.Point(32, 20);
+            this.B_3DSSETemp.Name = "B_3DSSETemp";
+            this.B_3DSSETemp.Size = new System.Drawing.Size(75, 45);
+            this.B_3DSSETemp.TabIndex = 7;
+            this.B_3DSSETemp.Text = "Open Temp 3DSSE ";
+            this.B_3DSSETemp.UseVisualStyleBackColor = true;
+            this.B_3DSSETemp.Click += new System.EventHandler(this.B_OpenTemp_Click);
             // 
             // B_BoxIO
             // 
@@ -4256,7 +4256,7 @@
         private System.Windows.Forms.Panel PAN_Party;
         private System.Windows.Forms.Panel PAN_BattleBox;
         private System.Windows.Forms.Button B_OpenSuperTraining;
-        private System.Windows.Forms.Button B_OutAHK;
+        private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Panel PAN_Box;
         public System.Windows.Forms.ComboBox C_BoxSelect;
     }

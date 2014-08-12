@@ -9,6 +9,7 @@ namespace PKHeX
 {
     public partial class Util
     {
+        // Image Layering/Blending Utility
         public static Image layerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
         {
             Bitmap overlayImage = (Bitmap)overLayer;
@@ -31,16 +32,6 @@ namespace PKHeX
             }
             return newImage;
         }
-        public static string GetTempFolder() // From 3DSSE's decompiled source.
-        {
-            string tempPath = Path.GetTempPath();
-            string str2 = "SE3DS";
-            str2 = "3DSSE";
-            tempPath = Path.Combine(tempPath, str2);
-            // Directory.CreateDirectory(tempPath);
-            return (tempPath + "/");
-        }
-
         public static Color AlphaBlend(Color ForeGround, Color BackGround)
         {
             if (ForeGround.A == 0)
@@ -65,6 +56,50 @@ namespace PKHeX
             if (B > 255)
                 B = 255;
             return Color.FromArgb(Math.Abs(A), Math.Abs(R), Math.Abs(G), Math.Abs(B));
+        }
+    
+        // 3DSSE Utility
+        internal static string GetTempFolder() // From 3DSSE's decompiled source.
+        {
+            string tempPath = Path.GetTempPath();
+            string str2 = "SE3DS";
+            str2 = "3DSSE";
+            tempPath = Path.Combine(tempPath, str2);
+            // Directory.CreateDirectory(tempPath);
+            return (tempPath);
+        }
+        internal static string GetCacheFolder() // edited
+        {
+            return Path.Combine(GetBackupLocation(), "cache");
+        }
+        internal static string GetRegistryValue(string key)
+        {
+            Microsoft.Win32.RegistryKey currentUser = Microsoft.Win32.Registry.CurrentUser;
+            Microsoft.Win32.RegistryKey key3 = currentUser.OpenSubKey(GetRegistryBase());
+            if (key3 == null)
+            {
+                return null;
+            }
+            string str = key3.GetValue(key) as string;
+            key3.Close();
+            currentUser.Close();
+            return str;
+        }
+        internal static string GetRegistryBase()
+        {
+            return @"SOFTWARE\CYBER Gadget\3DSSaveEditor";
+        }
+        public static string GetBackupLocation()
+        {
+            string registryValue = GetRegistryValue("Location");
+            if (!string.IsNullOrEmpty(registryValue))
+            {
+                Directory.CreateDirectory(registryValue);
+                return registryValue;
+            }
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + Path.DirectorySeparatorChar + "3DSSaveBank";
+            Directory.CreateDirectory(path);
+            return path;
         }
     }
 }
