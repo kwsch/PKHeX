@@ -224,8 +224,7 @@ namespace PKHeX
                     new { Text = "SPA", Value = 7 },
                     new { Text = "KOR", Value = 8 }
                 };
-
-
+            
             CB_3DSReg.DataSource = dsregion_list;
             CB_3DSReg.DisplayMember = "Text";
             CB_3DSReg.ValueMember = "Value";
@@ -321,7 +320,6 @@ namespace PKHeX
             CB_Region.ValueMember = "Value";
 
             m_parent.setcountry(CB_Country);
-
         }
         private void getBadges()
         {
@@ -455,6 +453,11 @@ namespace PKHeX
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
 
             TB_Style.Text = sav[0x694D + savshift].ToString();
+
+            // Load Play Time
+            MT_Hours.Text = BitConverter.ToUInt16(sav, savshift + 0x6C00).ToString();
+            MT_Minutes.Text = sav[0x6C02].ToString();
+            MT_Seconds.Text = sav[0x6C03].ToString();
         }
         private void save()
         {
@@ -546,6 +549,11 @@ namespace PKHeX
                 badgeval |= (byte)(Convert.ToByte(cba[i].Checked) << i);
             }
             sav[0x960C + savindex * 0x7F000] = badgeval;
+
+            // Save PlayTime
+            byte[] h = BitConverter.GetBytes(UInt16.Parse(MT_Hours.Text)); Array.Resize(ref h, 2); Array.Copy(h, 0, sav, savshift + 0x6C00, 2);
+            sav[0x6C02 + savindex * 0x7F000] = (byte)(UInt16.Parse(MT_Minutes.Text) % 60);
+            sav[0x6C03 + savindex * 0x7F000] = (byte)(UInt16.Parse(MT_Seconds.Text) % 60);
         }
 
         private void showTSV(object sender, EventArgs e)

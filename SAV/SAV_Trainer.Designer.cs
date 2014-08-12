@@ -162,6 +162,12 @@
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.label39 = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
+            this.MT_Hours = new System.Windows.Forms.MaskedTextBox();
+            this.L_Hours = new System.Windows.Forms.Label();
+            this.MT_Minutes = new System.Windows.Forms.MaskedTextBox();
+            this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
+            this.L_Minutes = new System.Windows.Forms.Label();
+            this.L_Seconds = new System.Windows.Forms.Label();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -588,13 +594,17 @@
             // 
             // GB_Overview
             // 
-            this.GB_Overview.Controls.Add(this.TB_Style);
+            this.GB_Overview.Controls.Add(this.L_Seconds);
+            this.GB_Overview.Controls.Add(this.L_Minutes);
+            this.GB_Overview.Controls.Add(this.MT_Seconds);
+            this.GB_Overview.Controls.Add(this.MT_Minutes);
+            this.GB_Overview.Controls.Add(this.L_Hours);
+            this.GB_Overview.Controls.Add(this.MT_Hours);
             this.GB_Overview.Controls.Add(this.L_Language);
             this.GB_Overview.Controls.Add(this.TB_PM);
             this.GB_Overview.Controls.Add(this.TB_BP);
             this.GB_Overview.Controls.Add(this.L_PM);
             this.GB_Overview.Controls.Add(this.L_Region);
-            this.GB_Overview.Controls.Add(this.label21);
             this.GB_Overview.Controls.Add(this.L_BP);
             this.GB_Overview.Controls.Add(this.L_Country);
             this.GB_Overview.Controls.Add(this.CB_Region);
@@ -622,7 +632,7 @@
             // 
             // TB_Style
             // 
-            this.TB_Style.Location = new System.Drawing.Point(78, 201);
+            this.TB_Style.Location = new System.Drawing.Point(64, 65);
             this.TB_Style.Mask = "000";
             this.TB_Style.Name = "TB_Style";
             this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -646,13 +656,13 @@
             this.TB_PM.Mask = "0000000";
             this.TB_PM.Name = "TB_PM";
             this.TB_PM.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.TB_PM.Size = new System.Drawing.Size(56, 20);
+            this.TB_PM.Size = new System.Drawing.Size(50, 20);
             this.TB_PM.TabIndex = 5;
             this.TB_PM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TB_BP
             // 
-            this.TB_BP.Location = new System.Drawing.Point(155, 201);
+            this.TB_BP.Location = new System.Drawing.Point(155, 181);
             this.TB_BP.Mask = "0000";
             this.TB_BP.Name = "TB_BP";
             this.TB_BP.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -680,7 +690,7 @@
             // 
             // label21
             // 
-            this.label21.Location = new System.Drawing.Point(26, 204);
+            this.label21.Location = new System.Drawing.Point(12, 68);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(46, 13);
             this.label21.TabIndex = 7;
@@ -689,9 +699,9 @@
             // 
             // L_BP
             // 
-            this.L_BP.Location = new System.Drawing.Point(137, 184);
+            this.L_BP.Location = new System.Drawing.Point(131, 184);
             this.L_BP.Name = "L_BP";
-            this.L_BP.Size = new System.Drawing.Size(50, 13);
+            this.L_BP.Size = new System.Drawing.Size(25, 13);
             this.L_BP.TabIndex = 1;
             this.L_BP.Text = "BP:";
             this.L_BP.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -1463,11 +1473,13 @@
             // 
             // GB_Misc
             // 
+            this.GB_Misc.Controls.Add(this.TB_Style);
             this.GB_Misc.Controls.Add(this.L_Offset);
             this.GB_Misc.Controls.Add(this.label34);
             this.GB_Misc.Controls.Add(this.PB_Sprite);
             this.GB_Misc.Controls.Add(this.CB_Multi);
             this.GB_Misc.Controls.Add(this.label33);
+            this.GB_Misc.Controls.Add(this.label21);
             this.GB_Misc.Controls.Add(this.CB_Stats);
             this.GB_Misc.Controls.Add(this.label39);
             this.GB_Misc.Controls.Add(this.MT_Stat);
@@ -1559,6 +1571,60 @@
             this.MT_Stat.Text = "1231231234";
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
+            // 
+            // MT_Hours
+            // 
+            this.MT_Hours.Location = new System.Drawing.Point(48, 202);
+            this.MT_Hours.Mask = "00000";
+            this.MT_Hours.Name = "MT_Hours";
+            this.MT_Hours.Size = new System.Drawing.Size(38, 20);
+            this.MT_Hours.TabIndex = 25;
+            this.MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_Hours
+            // 
+            this.L_Hours.AutoSize = true;
+            this.L_Hours.Location = new System.Drawing.Point(16, 205);
+            this.L_Hours.Name = "L_Hours";
+            this.L_Hours.Size = new System.Drawing.Size(26, 13);
+            this.L_Hours.TabIndex = 26;
+            this.L_Hours.Text = "Hrs:";
+            // 
+            // MT_Minutes
+            // 
+            this.MT_Minutes.Location = new System.Drawing.Point(117, 202);
+            this.MT_Minutes.Mask = "00";
+            this.MT_Minutes.Name = "MT_Minutes";
+            this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
+            this.MT_Minutes.TabIndex = 27;
+            this.MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_Seconds
+            // 
+            this.MT_Seconds.Location = new System.Drawing.Point(170, 202);
+            this.MT_Seconds.Mask = "00";
+            this.MT_Seconds.Name = "MT_Seconds";
+            this.MT_Seconds.Size = new System.Drawing.Size(22, 20);
+            this.MT_Seconds.TabIndex = 28;
+            this.MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_Minutes
+            // 
+            this.L_Minutes.AutoSize = true;
+            this.L_Minutes.Location = new System.Drawing.Point(89, 205);
+            this.L_Minutes.Name = "L_Minutes";
+            this.L_Minutes.Size = new System.Drawing.Size(27, 13);
+            this.L_Minutes.TabIndex = 29;
+            this.L_Minutes.Text = "Min:";
+            // 
+            // L_Seconds
+            // 
+            this.L_Seconds.AutoSize = true;
+            this.L_Seconds.Location = new System.Drawing.Point(142, 205);
+            this.L_Seconds.Name = "L_Seconds";
+            this.L_Seconds.Size = new System.Drawing.Size(29, 13);
+            this.L_Seconds.TabIndex = 30;
+            this.L_Seconds.Text = "Sec:";
             // 
             // SAV_Trainer
             // 
@@ -1745,5 +1811,11 @@
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.MaskedTextBox MT_Stat;
         private System.Windows.Forms.Label L_Offset;
+        private System.Windows.Forms.Label L_Seconds;
+        private System.Windows.Forms.Label L_Minutes;
+        private System.Windows.Forms.MaskedTextBox MT_Seconds;
+        private System.Windows.Forms.MaskedTextBox MT_Minutes;
+        private System.Windows.Forms.Label L_Hours;
+        private System.Windows.Forms.MaskedTextBox MT_Hours;
     }
 }
