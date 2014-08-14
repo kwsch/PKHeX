@@ -21,7 +21,7 @@ namespace PKHeX
 
             getListItems();
             getListKeyItems();
-            getListTHMH();
+            getListTMHM();
             getListMedicine();
             getListBerries();
 
@@ -78,13 +78,14 @@ namespace PKHeX
                 000,216,431,442,445,446,447,450,465,466,471,628,
                 629,631,632,638,641,642,643,689,695,696,697,698,
                 700,701,702,703,705,706,707,712,713,714,
+                716,717, // For the cheaters who want useless items...
             };
             keyitem_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 keyitem_val[i] = m_parent.itemlist[itemlist[i]];
             Array.Sort(keyitem_val);
         }
-        private void getListTHMH()
+        private void getListTMHM()
         {
             int[] itemlist = new int[] {
                 0,
@@ -199,8 +200,17 @@ namespace PKHeX
                     continue;
                 }
                 int itemarrayval = Array.IndexOf(itemarr,itemname);
-                dataGridView1.Rows[i].Cells[0].Value = itemarr[itemarrayval];
-                dataGridView1.Rows[i].Cells[1].Value = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
+                if (itemarrayval == -1)
+                {
+                    dataGridView1.Rows[i].Cells[0].Value = itemarr[0];
+                    dataGridView1.Rows[i].Cells[1].Value = 0;
+                    MessageBox.Show(itemname + " removed.\n\nIf you exit the Item Editor by saving changes,\nthe item will no longer be in the pouch.", "Alert");
+                }
+                else
+                {
+                    dataGridView1.Rows[i].Cells[0].Value = itemarr[itemarrayval];
+                    dataGridView1.Rows[i].Cells[1].Value = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
+                }
             }
         }
         private void dropclick(object sender, DataGridViewCellEventArgs e)
