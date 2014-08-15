@@ -126,7 +126,7 @@
             this.Region0.Size = new System.Drawing.Size(24, 20);
             this.Region0.TabIndex = 2;
             this.Region0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region0.TextChanged += new System.EventHandler(this.changeTextBox);
+            this.Region0.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // Region1
             // 
@@ -137,7 +137,7 @@
             this.Region1.Size = new System.Drawing.Size(24, 20);
             this.Region1.TabIndex = 4;
             this.Region1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region1.TextChanged += new System.EventHandler(this.changeTextBox);
+            this.Region1.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // Region4
             // 
@@ -148,7 +148,7 @@
             this.Region4.Size = new System.Drawing.Size(24, 20);
             this.Region4.TabIndex = 10;
             this.Region4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region4.TextChanged += new System.EventHandler(this.changeTextBox);
+            this.Region4.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // Region3
             // 
@@ -159,7 +159,7 @@
             this.Region3.Size = new System.Drawing.Size(24, 20);
             this.Region3.TabIndex = 8;
             this.Region3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region3.TextChanged += new System.EventHandler(this.changeTextBox);
+            this.Region3.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // Region2
             // 
@@ -170,7 +170,7 @@
             this.Region2.Size = new System.Drawing.Size(24, 20);
             this.Region2.TabIndex = 6;
             this.Region2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region2.TextChanged += new System.EventHandler(this.changeTextBox);
+            this.Region2.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // M_OT_Friendship
             // 
@@ -179,7 +179,7 @@
             this.M_OT_Friendship.Name = "M_OT_Friendship";
             this.M_OT_Friendship.Size = new System.Drawing.Size(24, 20);
             this.M_OT_Friendship.TabIndex = 23;
-            this.M_OT_Friendship.TextChanged += new System.EventHandler(this.changeTextBox);
+            this.M_OT_Friendship.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // L_OT_Friendship
             // 
@@ -410,6 +410,7 @@
             this.M_OT_Affection.Name = "M_OT_Affection";
             this.M_OT_Affection.Size = new System.Drawing.Size(24, 20);
             this.M_OT_Affection.TabIndex = 24;
+            this.M_OT_Affection.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // GB_Residence
             // 
@@ -508,6 +509,7 @@
             this.M_Enjoyment.Size = new System.Drawing.Size(24, 20);
             this.M_Enjoyment.TabIndex = 18;
             this.M_Enjoyment.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.M_Enjoyment.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // M_Fullness
             // 
@@ -517,6 +519,7 @@
             this.M_Fullness.Size = new System.Drawing.Size(24, 20);
             this.M_Fullness.TabIndex = 17;
             this.M_Fullness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.M_Fullness.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // tabControl1
             // 
@@ -681,6 +684,7 @@
             this.M_CT_Affection.Name = "M_CT_Affection";
             this.M_CT_Affection.Size = new System.Drawing.Size(24, 20);
             this.M_CT_Affection.TabIndex = 16;
+            this.M_CT_Affection.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // M_CT_Friendship
             // 
@@ -689,6 +693,7 @@
             this.M_CT_Friendship.Name = "M_CT_Friendship";
             this.M_CT_Friendship.Size = new System.Drawing.Size(24, 20);
             this.M_CT_Friendship.TabIndex = 15;
+            this.M_CT_Friendship.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // LCTV
             // 

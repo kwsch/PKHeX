@@ -362,29 +362,6 @@ namespace PKHeX
         {
             Close();
         }    // Button: Cancel pressed.
-        private void changeTextBox(object sender, EventArgs e)
-        {
-
-            // Loop through all textboxes we want to check (<0x100)
-            MaskedTextBox[] tb = { 
-                                     Region0, //Country0,     // GR 0
-                                     Region1, //Country1,     // GR 1
-                                     Region2, //Country2,     // GR 2
-                                     Region3, //Country3,     // GR 3
-                                     Region4, //Country4,     // GR 4
-
-                                     M_Fullness, M_Enjoyment,
-                                 };
-            for (int i = 0; i < tb.Length; i++)
-            {
-                if (ToUInt32(tb[i].Text) < 0x100)
-                {
-                    tb[i].BackColor = Color.White;
-                }
-                else tb[i].BackColor = Color.Red;
-            }
-
-        }   // Change the contents of a text box
 
         private void getCountries()
         {
@@ -893,6 +870,17 @@ namespace PKHeX
                 GB_M_OT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
                 GB_M_CT.BackColor = Color.Transparent;
             }
+        }
+
+        private void update255_MTB(object sender, EventArgs e)
+        {
+            MaskedTextBox mtb = sender as MaskedTextBox;
+            try
+            {
+                int val = ToInt32(mtb.Text);
+                if (val > 255) mtb.Text = "255";
+            }
+            catch { mtb.Text = "0"; }
         }
 
     }
