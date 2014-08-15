@@ -29,7 +29,7 @@ namespace PKHeX
             int savshift = savindex * 0x7F000;
 
             // Import trainer details for importing
-            if (BitConverter.ToUInt32(savefile, 0x6A810 + savshift) == 0x42454546)
+            if (BitConverter.ToUInt32(savefile, 0x6A810 + savshift) == 0x42454546) // Is set for X/Y when a SAV is loaded.
             {
                 subreg = savefile[0x19426 + savshift];
                 country = savefile[0x19427 + savshift];
@@ -54,7 +54,7 @@ namespace PKHeX
                 byte[] g6data = convertPK5toPK6(g5data);
                 return g6data;
             }
-            else if (input.Length == 136 || input.Length == 236)    // Ambiguous Gen4/5 file.
+            else if (input.Length == 136 || input.Length == 236 || input.Length == 220)    // Ambiguous Gen4/5 file.
             {
                 if (((BitConverter.ToUInt16(input, 0x80) < 0x3333) && (input[0x5F] < 0x10)) || (BitConverter.ToUInt16(input, 0x46) != 0))
                 {
@@ -685,6 +685,10 @@ namespace PKHeX
             }
             else 
             {
+                if (input.Length == 236 || input.Length == 220) // Strip out Party Bytes
+                {
+                    Array.Resize(ref input, 136);
+                }
                 for (int i = 8; i < input.Length; i += 2)
                 {
                     checksum += BitConverter.ToUInt16(input, i);
