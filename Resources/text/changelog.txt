@@ -295,8 +295,15 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Setting a Pokemon into a slot will add the Pokedex entry if it hasn't been, additionally for that language.
  - Added: Pokedex obtained flag.
 
-08/13/14 - New Update:
+08/13/14 - New Update: (1000)
  - Added: Control Clicking of the [Open Temp 3DSSE] button will open the Cache folder instead.
  - Fixed: Clicking the [Open Temp 3DSSE] button will now open the Temp/Root folder if it exists (instead of Documents).
  - Fixed: Setting Pokemon outside of the Party will now add their entries to the Pokedex.
  - Fixed: Kalos entries erroring out with the Pokedex editor.
+
+08/16/14 - New Update:
+ - Added: Clicking the OT name with a save file will load the Country/Region/3DS Region/Language settings, but not the game.
+ - Added: Import Database can now import past gen files too, as they will be converted to the new PKX format.
+ - Fixed: Importing past gen files with party data will no longer have 'invalid checksums' or fail to load.
+ - Fixed: Externally edited saves with bad data are handled more efficiently (items/sprites).
+ - Fixed: Users entering values above a certain limit (byte values are capped at 255).
