@@ -70,16 +70,24 @@ namespace PKHeX
             {
                 CB_MainLanguage.SelectedIndex = 0;
             }
+            #region HaX
+            bool HaX = (filename.IndexOf("HaX") > 0);
             {
                 CHK_HackedStats.Enabled = CHK_HackedStats.Visible =
                 DEV_Ability.Enabled = DEV_Ability.Visible =
                 MT_Level.Enabled = MT_Level.Visible =
                 TB_AbilityNumber.Visible =
-                MT_Form.Enabled = MT_Form.Visible = true; // (filename.Substring(filename.Length - 3) == "dev");
+                MT_Form.Enabled = MT_Form.Visible = HaX; 
 
                 TB_Level.Visible =
-                CB_Ability.Visible = false; // !(filename.Substring(filename.Length - 3) == "dev");
+                CB_Ability.Visible = !HaX; 
             }
+            if (HaX)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                MessageBox.Show("Illegal mode activated.\n\nPlease behave.", "Alert");
+            }
+            #endregion
             #endregion
             #region Localize & Populate
             InitializeStrings();
@@ -4925,13 +4933,12 @@ namespace PKHeX
                 // Change the XP
                 TB_EXP.Enabled = false;
                 int level = ToInt32(TB_Level.Text);
-                if ((level <= 100)) // Check for if the user actually changed the level
+                if (level > 100) TB_Level.Text = "100"; level = 100;
                 {
                     // Valid Level, recalculate EXP
                     getEXP(level, getSpecies());
                     TB_Level.BackColor = Color.White;
                 }
-                else TB_Level.BackColor = Color.Red;
                 TB_EXP.Enabled = true;
             }
             else if (MT_Level.Focused == true)
@@ -4940,65 +4947,7 @@ namespace PKHeX
             }
             updateStats();
         }
-        private void updateContest(object sender, EventArgs e)
-        {
-            int cnt_cool, cnt_beauty, cnt_cute, cnt_smart, cnt_tough, cnt_sheen;
-            cnt_cool = ToInt32(TB_Cool.Text);
-            cnt_beauty = ToInt32(TB_Beauty.Text);
-            cnt_cute = ToInt32(TB_Cute.Text);
-            cnt_smart = ToInt32(TB_Smart.Text);
-            cnt_tough = ToInt32(TB_Tough.Text);
-            cnt_sheen = ToInt32(TB_Sheen.Text);
-
-            if (cnt_cool > 255)
-            {
-                // Background turns Red
-                TB_Cool.BackColor = Color.Red;
-                return;
-            }
-            else TB_Cool.BackColor = Color.White;
-
-            if (cnt_beauty > 255)
-            {
-                // Background turns Red
-                TB_Beauty.BackColor = Color.Red;
-                return;
-            }
-            else TB_Beauty.BackColor = Color.White;
-
-            if (cnt_cute > 255)
-            {
-                // Background turns Red
-                TB_Cute.BackColor = Color.Red;
-                return;
-            }
-            else TB_Cute.BackColor = Color.White;
-
-            if (cnt_smart > 255)
-            {
-                // Background turns Red
-                TB_Smart.BackColor = Color.Red;
-                return;
-            }
-            else TB_Smart.BackColor = Color.White;
-
-            if (cnt_tough > 255)
-            {
-                // Background turns Red
-                TB_Tough.BackColor = Color.Red;
-                return;
-            }
-            else TB_Tough.BackColor = Color.White;
-
-            if (cnt_sheen > 255)
-            {
-                // Background turns Red
-                TB_Sheen.BackColor = Color.Red;
-                return;
-            }
-            else TB_Sheen.BackColor = Color.White;
-        }
-        private void UpdateIVs(object sender, EventArgs e)
+        private void updateIVs(object sender, EventArgs e)
         {
             int ivtotal, HP_IV, ATK_IV, DEF_IV, SPA_IV, SPD_IV, SPE_IV;
             HP_IV = ToInt32(TB_HPIV.Text);
@@ -5055,7 +5004,7 @@ namespace PKHeX
             L_Characteristic.Text = characteristics[pm6stat * 5 + maxIV % 5];
             updateStats();
         }
-        private void UpdateEVs(object sender, EventArgs e)
+        private void updateEVs(object sender, EventArgs e)
         {
             int evtotal, HP_EV, ATK_EV, DEF_EV, SPA_EV, SPD_EV, SPE_EV;
             HP_EV = ToInt32(TB_HPEV.Text);
@@ -5163,6 +5112,35 @@ namespace PKHeX
         private void updateRandomEC(object sender, EventArgs e)
         {
             TB_EC.Text = rnd32().ToString("X8");
+        }
+        private void updateHackedStats(object sender, EventArgs e)
+        {
+            Stat_HP.Enabled =
+                Stat_ATK.Enabled =
+                Stat_DEF.Enabled =
+                Stat_SPA.Enabled =
+                Stat_SPD.Enabled =
+                Stat_SPE.Enabled = CHK_HackedStats.Checked;
+        }
+        private void update255_MTB(object sender, EventArgs e)
+        {
+            MaskedTextBox mtb = sender as MaskedTextBox;
+            try
+            {
+                int val = ToInt32(mtb.Text);
+                if (val > 255) mtb.Text = "255";
+            }
+            catch { mtb.Text = "0"; }
+        }
+        private void update255_TB(object sender, EventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            try
+            {
+                int val = ToInt32(tb.Text);
+                if (val > 255) tb.Text = "255";
+            }
+            catch { tb.Text = "0"; }
         }
         private void updateForm(object sender, EventArgs e)
         {
@@ -5596,14 +5574,17 @@ namespace PKHeX
         private void updateExtraByteValue(object sender, EventArgs e)
         {
             // Changed Extra Byte's Value
-            int value = ToInt32(TB_ExtraByte.Text);
-            if (value < 0x100) // If Value Valid, write.
+            MaskedTextBox mtb = sender as MaskedTextBox;
+            try
             {
-                int offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
-                buff[offset] = (byte)value;
-                TB_ExtraByte.BackColor = Color.White;
+                int val = ToInt32(mtb.Text);
+                if (val > 255) mtb.Text = "255";
             }
-            else { TB_ExtraByte.BackColor = Color.Red; }
+            catch { mtb.Text = "0"; }
+
+            int value = ToInt32(TB_ExtraByte.Text);
+            int offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
+            buff[offset] = (byte)value;
         }
         private void updateExtraByteIndex(object sender, EventArgs e)
         {
@@ -5799,7 +5780,7 @@ namespace PKHeX
                 TB_SID.Text = TB_SID.Text.Remove(TB_SID.Text.Length - 1);
             
             getIsShiny();
-            UpdateIVs(sender, e);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
+            updateIVs(sender, e);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
         }
         private MaskedTextBox[] shuffle(MaskedTextBox[] charArray)
@@ -5838,7 +5819,7 @@ namespace PKHeX
             else if ((cb == CB_Move1) || (cb == CB_Move2) || (cb == CB_Move3) || (cb == CB_Move4))
                 updatePP(sender, e);
 
-            UpdateIVs(null, null); // updating Nature will trigger stats to update as well
+            updateIVs(null, null); // updating Nature will trigger stats to update as well
         }
         private void removedropCB(object sender, KeyEventArgs e)
         {
@@ -6144,6 +6125,34 @@ namespace PKHeX
                 newwidth = shortWidth;
             }
             this.Width = newwidth;
+        }
+        private void mainmenuCodeGen(object sender, EventArgs e)
+        {
+            // Open Code Generator
+            CodeGenerator CodeGen = new PKHeX.CodeGenerator(this);
+            CodeGen.ShowDialog();
+            byte[] data = CodeGen.returnArray;
+            if (data != null)
+            {
+                byte[] decdata = decryptArray(data);
+                Array.Copy(decdata, buff, 232);
+                try
+                {
+                    populatefields(buff);
+                }
+                catch
+                {
+                    Array.Copy(new Byte[232], buff, 232);
+                    populatefields(buff);
+                    MessageBox.Show("Imported code did not decrypt properly. Verify that what you imported was correct.", "Error");
+                }
+            }
+        }
+        private void mainmenuBoxReport(object sender, EventArgs e)
+        {
+            frmReport ReportForm = new frmReport(this);
+            ReportForm.PopulateData(savefile);
+            ReportForm.ShowDialog();
         }
         // Main Menu Subfunctions // 
         private void openfile(byte[] input, string path, string ext)
@@ -8349,12 +8358,15 @@ namespace PKHeX
             for (int i = 0; i < filepaths.Length; i++)
             {
                 long len = new FileInfo(filepaths[i]).Length;
-                if (len != 232 && len != 260 && len != 136 && len != 220 && len != 236)
+                if (
+                       len != 232 && len != 260 // 6th Gen
+                    && len != 136 && len != 220 && len != 236 // 5th Gen
+                    && len != 100 && len != 80) // 4th Gen
                     continue;
                 string name = filepaths[i];
                 byte[] data = new Byte[232];
                 string ext = Path.GetExtension(filepaths[i]);
-                if (ext == ".pkm")
+                if (ext == ".pkm" || ext == ".3gpkm" || ext == ".pk3" || ext == ".pk4" || ext == ".pk5")
                 {
                     // Verify PKM (decrypted)
                     byte[] input = File.ReadAllBytes(filepaths[i]);
@@ -8739,46 +8751,7 @@ namespace PKHeX
             // Force an update to the met locations
             origintrack = "";
 
-            UpdateIVs(null, null); // Prompt an update for the characteristics
-        }
-
-        private void codeGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Open Code Generator
-            CodeGenerator CodeGen = new PKHeX.CodeGenerator(this);
-            CodeGen.ShowDialog();
-            byte[] data = CodeGen.returnArray;
-            if (data != null)
-            {
-                byte[] decdata = decryptArray(data);
-                Array.Copy(decdata, buff, 232);
-                try
-                {
-                    populatefields(buff);
-                }
-                catch
-                {
-                    Array.Copy(new Byte[232], buff, 232);
-                    populatefields(buff);
-                    MessageBox.Show("Imported code did not decrypt properly. Verify that what you imported was correct.", "Error");
-                }
-            }
-        }
-        private void reportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmReport ReportForm = new frmReport(this);
-            ReportForm.PopulateData(savefile);
-            ReportForm.ShowDialog();
-        }
-
-        private void CHK_HackedStats_Click(object sender, EventArgs e)
-        {
-            Stat_HP.Enabled = 
-                Stat_ATK.Enabled = 
-                Stat_DEF.Enabled = 
-                Stat_SPA.Enabled = 
-                Stat_SPD.Enabled = 
-                Stat_SPE.Enabled = CHK_HackedStats.Checked;
+            updateIVs(null, null); // Prompt an update for the characteristics
         }
     }
     #region Structs & Classes
