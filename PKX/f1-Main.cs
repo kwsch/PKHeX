@@ -70,7 +70,16 @@ namespace PKHeX
             {
                 CB_MainLanguage.SelectedIndex = 0;
             }
+            {
+                CHK_HackedStats.Enabled = CHK_HackedStats.Visible =
+                DEV_Ability.Enabled = DEV_Ability.Visible =
+                MT_Level.Enabled = MT_Level.Visible =
+                TB_AbilityNumber.Visible =
+                MT_Form.Enabled = MT_Form.Visible = true; // (filename.Substring(filename.Length - 3) == "dev");
 
+                TB_Level.Visible =
+                CB_Ability.Visible = false; // !(filename.Substring(filename.Length - 3) == "dev");
+            }
             #endregion
             #region Localize & Populate
             InitializeStrings();
@@ -3503,6 +3512,12 @@ namespace PKHeX
                                             648,649,650,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,
                                             684,685,686,687,688,699,704,708,709,710,711,715,
                                   };
+                if (DEV_Ability.Enabled)
+                {
+                    item_nums = new int[itemlist.Length];
+                    for (int i = 0; i < itemlist.Length; i++)
+                        item_nums[i] = i;
+                }
 
                 List<cbItem> item_list = new List<cbItem>();
                 // Sort the Rest based on String Name
@@ -3547,6 +3562,27 @@ namespace PKHeX
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
                 CB_Species.DataSource = species_list;
+            }
+            #endregion
+            #region DEV Ability
+            {
+                List<cbItem> ability_list = new List<cbItem>();
+                // Sort the Rest based on String Name
+                string[] sortedability = new string[abilitylist.Length];
+                Array.Copy(abilitylist, sortedability, abilitylist.Length);
+                Array.Sort(sortedability);
+
+                // Add the rest of the items
+                for (int i = 0; i < sortedability.Length; i++)
+                {
+                    cbItem ncbi = new cbItem();
+                    ncbi.Text = sortedability[i];
+                    ncbi.Value = Array.IndexOf(abilitylist, sortedability[i]);
+                    ability_list.Add(ncbi);
+                }
+                DEV_Ability.DisplayMember = "Text";
+                DEV_Ability.ValueMember = "Value";
+                DEV_Ability.DataSource = ability_list;
             }
             #endregion
             #region Natures
@@ -4062,6 +4098,11 @@ namespace PKHeX
                 }
             }
             init = true;
+
+            // DEV Illegality
+            DEV_Ability.SelectedValue = ability;
+            MT_Level.Text = level.ToString();
+            MT_Form.Text = altforms.ToString();
         }
         private void populatemarkings(int markings)
         {
@@ -4670,15 +4711,29 @@ namespace PKHeX
             if (OT.Length > 0)
             {
                 TB_OT.Text = OT;
+                int savshift = 0x7F000 * savindex;
                 // Set Gender Label
-                int g6trgend = savefile[0x19405 + savindex * 0x7F000];
+                int g6trgend = savefile[0x19405 + savshift];
                 if (g6trgend == 1)
                     Label_OTGender.Text = "♀";
                 else Label_OTGender.Text = "♂";
 
                 // Get TID/SID
-                TB_TID.Text = BitConverter.ToUInt16(savefile, 0x19400 + savindex * 0x7F000).ToString();
-                TB_SID.Text = BitConverter.ToUInt16(savefile, 0x19402 + savindex * 0x7F000).ToString();
+                TB_TID.Text = BitConverter.ToUInt16(savefile, 0x19400 + savshift).ToString();
+                TB_SID.Text = BitConverter.ToUInt16(savefile, 0x19402 + savshift).ToString();
+                int game = savefile[0x19404 + savshift];
+                int subreg = savefile[0x19426 + savshift];
+                int country = savefile[0x19427 + savshift];
+                int _3DSreg = savefile[0x1942C + savshift];
+                int lang = savefile[0x1942D + savshift];
+
+                // CB_GameOrigin.SelectedValue = game;
+
+                CB_SubRegion.SelectedValue = subreg;
+                CB_Country.SelectedValue = country;
+                CB_3DSReg.SelectedValue = _3DSreg;
+                CB_Language.SelectedValue = lang;
+                updateNickname(null, null);
             }
         }
         private void Label_PrevOT_Click(object sender, EventArgs e)
@@ -4878,6 +4933,10 @@ namespace PKHeX
                 }
                 else TB_Level.BackColor = Color.Red;
                 TB_EXP.Enabled = true;
+            }
+            else if (MT_Level.Focused == true)
+            {
+                getEXP(Math.Min(Convert.ToInt32(MT_Level.Text),255),getSpecies());
             }
             updateStats();
         }
@@ -5796,7 +5855,7 @@ namespace PKHeX
             };
             for (int i = 0; i < 6; i++)
             {
-                if (ToInt32(mbIV[i].Text) > 31 || ToInt32(mbEV[i].Text) > 252)
+                if (ToInt32(mbIV[i].Text) > 31 || (ToInt32(mbEV[i].Text) > 252 && !CHK_HackedStats.Checked) || (CHK_HackedStats.Checked && ToInt32(mbEV[i].Text) > 255))
                 {
                     return; // if anything is illegal, don't calc stats.
                 }
@@ -5805,6 +5864,7 @@ namespace PKHeX
             // EVs and IVs are valid, continue to generate the stats.
             species = getSpecies();
             int level = ToInt32(TB_Level.Text);
+            if (MT_Level.Enabled) level = ToInt32(MT_Level.Text);
             if (level == 0) { level = 1; }
             DataTable spectable = SpeciesTable();
             int HP_IV = ToInt32(TB_HPIV.Text);
@@ -6487,13 +6547,13 @@ namespace PKHeX
                 };
             for (int i = 0; i < 6; i++)
             {
-                if ((ToInt32(tba[i].Text) > 252) || (ToInt32(tba[i+6].Text) > 31))
+                if (((ToInt32(tba[i].Text) > 252) && !(CHK_HackedStats.Checked && ToInt32(tba[i].Text) < 256)) || (ToInt32(tba[i + 6].Text) > 31))
                 {
                     tabMain.SelectedIndex = 2;
                     goto invalid;
                 }
             }
-            if (Convert.ToUInt32(TB_EVTotal.Text) > 510)
+            if (Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
             {
                 tabMain.SelectedIndex = 2;
                 goto invalid;
@@ -6512,8 +6572,6 @@ namespace PKHeX
                 System.Media.SystemSounds.Exclamation.Play();
                 return false;
             }
-            
-            
         }
         public byte[] preparepkx(byte[] buff)
         {
@@ -6567,7 +6625,8 @@ namespace PKHeX
             int fegform = (int)(Convert.ToInt32(CHK_Fateful.Checked));
             fegform += (Convert.ToInt32(Label_Gender.Text == "♀") * 2);
             fegform += (Convert.ToInt32(Label_Gender.Text == "-") * 4);
-            fegform += ((getIndex(CB_Form)) * 8);
+            if (MT_Form.Enabled) fegform += (Math.Min(Convert.ToInt32(MT_Form.Text), 32) * 8); 
+            else fegform += ((getIndex(CB_Form)) * 8); 
             pkx[0x1D] = (byte)fegform;
             pkx[0x1E] = (byte)(ToInt32(TB_HPEV.Text) & 0xFF);       // EVs
             pkx[0x1F] = (byte)(ToInt32(TB_ATKEV.Text) & 0xFF);
@@ -6731,15 +6790,23 @@ namespace PKHeX
             pkx[0xEA] = 0; pkx[0xEB] = 0;
             pkx[0xEC] = (byte)ToInt32(TB_Level.Text);          // Level
             pkx[0xED] = 0; pkx[0xEE] = 0; pkx[0xEF] = 0;
-            Array.Copy(BitConverter.GetBytes(ToInt32(Stat_HP.Text)), 0, pkx, 0xF0, 2);   // Current HP
-            Array.Copy(BitConverter.GetBytes(ToInt32(Stat_HP.Text)), 0, pkx, 0xF2, 2);   // Max HP
-            Array.Copy(BitConverter.GetBytes(ToInt32(Stat_ATK.Text)), 0, pkx, 0xF4, 2);  // ATK
-            Array.Copy(BitConverter.GetBytes(ToInt32(Stat_DEF.Text)), 0, pkx, 0xF6, 2);  // DEF
-            Array.Copy(BitConverter.GetBytes(ToInt32(Stat_SPE.Text)), 0, pkx, 0xF8, 2);  // SPE
-            Array.Copy(BitConverter.GetBytes(ToInt32(Stat_SPA.Text)), 0, pkx, 0xFA, 2);  // SPA
-            Array.Copy(BitConverter.GetBytes(ToInt32(Stat_SPD.Text)), 0, pkx, 0xFC, 2);  // SPD
+            Array.Copy(BitConverter.GetBytes(Math.Min(ToInt32(Stat_HP.Text), 65535)), 0, pkx, 0xF0, 2);   // Current HP
+            Array.Copy(BitConverter.GetBytes(Math.Min(ToInt32(Stat_HP.Text), 65535)), 0, pkx, 0xF2, 2);   // Max HP
+            Array.Copy(BitConverter.GetBytes(Math.Min(ToInt32(Stat_ATK.Text), 65535)), 0, pkx, 0xF4, 2);  // ATK
+            Array.Copy(BitConverter.GetBytes(Math.Min(ToInt32(Stat_DEF.Text), 65535)), 0, pkx, 0xF6, 2);  // DEF
+            Array.Copy(BitConverter.GetBytes(Math.Min(ToInt32(Stat_SPE.Text), 65535)), 0, pkx, 0xF8, 2);  // SPE
+            Array.Copy(BitConverter.GetBytes(Math.Min(ToInt32(Stat_SPA.Text), 65535)), 0, pkx, 0xFA, 2);  // SPA
+            Array.Copy(BitConverter.GetBytes(Math.Min(ToInt32(Stat_SPD.Text), 65535)), 0, pkx, 0xFC, 2);  // SPD
             pkx[0xFE] = 0; pkx[0xFF] = 0;
             pkx[0x100] = 0; pkx[0x101] = 0; pkx[0x102] = 0; pkx[0x103] = 0;
+
+            // DEV Illegality
+            if (DEV_Ability.Enabled)
+            {
+                pkx[0x14] = (byte)getIndex(DEV_Ability);    // Ability
+                pkx[0xEC] = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255); // Level
+                Array.Copy(BitConverter.GetBytes(getEXP(pkx[0xEC], getSpecies())), 0, pkx, 0x10, 4);  // EXP
+            }
 
             // Now we fix the checksum!
             uint chk = 0;
@@ -8068,6 +8135,18 @@ namespace PKHeX
             uint XOR = TSV ^ PSV;
 
             Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
+            if (baseImage == null)
+            {
+                if (species < 722 && species != 0)
+                {
+                    baseImage = PKHeX.Util.layerImage(
+                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species.ToString()),
+                        (Image)Properties.Resources.unknown, 
+                        0, 0, .5);
+                }
+                else 
+                    baseImage = (Image)Properties.Resources.unknown;
+            }
             if (species != 0 && isegg == 1)
             {
                 file = "_0"; // Start with a partially transparent species 
@@ -8263,21 +8342,41 @@ namespace PKHeX
             int offset = SaveGame.Box;
             int size = 232;
             Array.Clear(savefile, offset, size * 30 * 31); // Clear out the box data array.
-            string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+            string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
             int ctr = 0;
+            int pastctr = 0;
+            var Converter = new PKHeX.pk2pk();
             for (int i = 0; i < filepaths.Length; i++)
             {
                 long len = new FileInfo(filepaths[i]).Length;
-                if (len != 232 && len != 260)
+                if (len != 232 && len != 260 && len != 136 && len != 220 && len != 236)
                     continue;
-
+                string name = filepaths[i];
                 byte[] data = new Byte[232];
                 string ext = Path.GetExtension(filepaths[i]);
-                if (ext == ".pkx" || ext == ".pk6")
+                if (ext == ".pkm")
+                {
+                    // Verify PKM (decrypted)
+                    byte[] input = File.ReadAllBytes(filepaths[i]);
+                    if (!Converter.verifychk(input))
+                        continue;
+                    else
+                    {
+                        try // to convert g5pkm
+                        {
+                            data = encryptArray(Converter.ConvertPKM(input, savefile, savindex));
+                            pastctr++;
+                        }
+                        catch { continue; }
+                    }
+                }
+                else if (ext == ".pkx" || ext == ".pk6")
                 {
                     byte[] input = File.ReadAllBytes(filepaths[i]);
                     if ((input[0xC8] == 0) && (input[0xC9] == 0) && (input[0x58] == 0) && (input[0x59] == 0))
                     {
+                        if (BitConverter.ToUInt16(input, 0x8) == 0) // if species = 0
+                            continue;
                         Array.Resize(ref input, 232);
                         uint chk = 0;
                         for (int z = 8; z < 232; z += 2) // Loop through the entire PKX
@@ -8288,7 +8387,6 @@ namespace PKHeX
 
                         ushort actualsum = BitConverter.ToUInt16(input, 0x6);
                         if (chk != actualsum) continue;
-
                         data = encryptArray(input);
                     }
                 }
@@ -8302,6 +8400,8 @@ namespace PKHeX
 
                     if (!(BitConverter.ToUInt16(decrypteddata, 0xC8) == 0) && !(BitConverter.ToUInt16(decrypteddata, 0x58) == 0))
                         continue; // don't allow improperly encrypted files. they must be encrypted properly.
+                    else if (BitConverter.ToUInt16(decrypteddata, 0x8) == 0) // if species = 0
+                        continue;
                     uint chk = 0;
                     for (int z = 8; z < 232; z += 2) // Loop through the entire PKX
                     {
@@ -8311,8 +8411,8 @@ namespace PKHeX
 
                     ushort actualsum = BitConverter.ToUInt16(decrypteddata, 0x6);
                     if (chk != actualsum) continue;
-
                 }
+                else continue;
                 Array.Copy(data, 0, savefile, offset + ctr * size, 232);
                 ctr++;
                 if (ctr == 30 * 31) break; // break out if we have written all 31 boxes
@@ -8326,6 +8426,10 @@ namespace PKHeX
                     tabBoxMulti.SelectedIndex = 0;
                 }
                 getPKXBoxes();
+                string result = "Loaded " + ctr + " files to boxes.";
+                if (pastctr > 0)
+                    result += "\n\nConversion successful for " + pastctr + " past-gen files.";
+                MessageBox.Show(result, "Alert");
             }
         }
         // Subfunction Save Buttons // 
@@ -8665,6 +8769,16 @@ namespace PKHeX
             frmReport ReportForm = new frmReport(this);
             ReportForm.PopulateData(savefile);
             ReportForm.ShowDialog();
+        }
+
+        private void CHK_HackedStats_Click(object sender, EventArgs e)
+        {
+            Stat_HP.Enabled = 
+                Stat_ATK.Enabled = 
+                Stat_DEF.Enabled = 
+                Stat_SPA.Enabled = 
+                Stat_SPD.Enabled = 
+                Stat_SPE.Enabled = CHK_HackedStats.Checked;
         }
     }
     #region Structs & Classes

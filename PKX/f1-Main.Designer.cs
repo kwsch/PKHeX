@@ -326,6 +326,13 @@
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
+            this.DEV_Ability = new System.Windows.Forms.ComboBox();
+            this.L_HAXABILITY = new System.Windows.Forms.Label();
+            this.L_HAXLEVEL = new System.Windows.Forms.Label();
+            this.MT_Level = new System.Windows.Forms.MaskedTextBox();
+            this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
+            this.MT_Form = new System.Windows.Forms.MaskedTextBox();
+            this.L_HAXFORM = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -433,6 +440,7 @@
             // 
             this.Tab_Main.AllowDrop = true;
             this.Tab_Main.Controls.Add(this.CB_Language);
+            this.Tab_Main.Controls.Add(this.MT_Form);
             this.Tab_Main.Controls.Add(this.CB_Ability);
             this.Tab_Main.Controls.Add(this.TB_PID);
             this.Tab_Main.Controls.Add(this.CHK_Nicknamed);
@@ -473,6 +481,8 @@
             this.Tab_Main.Controls.Add(this.BTN_Shinytize);
             this.Tab_Main.Controls.Add(this.Label_PID);
             this.Tab_Main.Controls.Add(this.TB_AbilityNumber);
+            this.Tab_Main.Controls.Add(this.MT_Level);
+            this.Tab_Main.Controls.Add(this.DEV_Ability);
             this.Tab_Main.Location = new System.Drawing.Point(4, 22);
             this.Tab_Main.Name = "Tab_Main";
             this.Tab_Main.Padding = new System.Windows.Forms.Padding(3);
@@ -930,7 +940,7 @@
             // TB_AbilityNumber
             // 
             this.TB_AbilityNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AbilityNumber.Location = new System.Drawing.Point(207, 151);
+            this.TB_AbilityNumber.Location = new System.Drawing.Point(206, 153);
             this.TB_AbilityNumber.Mask = "0";
             this.TB_AbilityNumber.Name = "TB_AbilityNumber";
             this.TB_AbilityNumber.Size = new System.Drawing.Size(20, 20);
@@ -941,6 +951,9 @@
             // Tab_Met
             // 
             this.Tab_Met.AllowDrop = true;
+            this.Tab_Met.Controls.Add(this.L_HAXFORM);
+            this.Tab_Met.Controls.Add(this.L_HAXLEVEL);
+            this.Tab_Met.Controls.Add(this.L_HAXABILITY);
             this.Tab_Met.Controls.Add(this.CHK_AsEgg);
             this.Tab_Met.Controls.Add(this.CHK_Fateful);
             this.Tab_Met.Controls.Add(this.GB_EggConditions);
@@ -1169,6 +1182,7 @@
             // Tab_Stats
             // 
             this.Tab_Stats.AllowDrop = true;
+            this.Tab_Stats.Controls.Add(this.CHK_HackedStats);
             this.Tab_Stats.Controls.Add(this.Label_CharacteristicPrefix);
             this.Tab_Stats.Controls.Add(this.L_Potential);
             this.Tab_Stats.Controls.Add(this.TB_IVTotal);
@@ -1671,7 +1685,7 @@
             this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPE.Enabled = false;
             this.Stat_SPE.Location = new System.Drawing.Point(167, 129);
-            this.Stat_SPE.MaxLength = 3;
+            this.Stat_SPE.MaxLength = 5;
             this.Stat_SPE.Name = "Stat_SPE";
             this.Stat_SPE.Size = new System.Drawing.Size(31, 20);
             this.Stat_SPE.TabIndex = 17;
@@ -1682,7 +1696,7 @@
             this.Stat_SPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPD.Enabled = false;
             this.Stat_SPD.Location = new System.Drawing.Point(167, 107);
-            this.Stat_SPD.MaxLength = 3;
+            this.Stat_SPD.MaxLength = 5;
             this.Stat_SPD.Name = "Stat_SPD";
             this.Stat_SPD.Size = new System.Drawing.Size(31, 20);
             this.Stat_SPD.TabIndex = 16;
@@ -1693,7 +1707,7 @@
             this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPA.Enabled = false;
             this.Stat_SPA.Location = new System.Drawing.Point(167, 85);
-            this.Stat_SPA.MaxLength = 3;
+            this.Stat_SPA.MaxLength = 5;
             this.Stat_SPA.Name = "Stat_SPA";
             this.Stat_SPA.Size = new System.Drawing.Size(31, 20);
             this.Stat_SPA.TabIndex = 15;
@@ -1704,7 +1718,7 @@
             this.Stat_DEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_DEF.Enabled = false;
             this.Stat_DEF.Location = new System.Drawing.Point(167, 63);
-            this.Stat_DEF.MaxLength = 3;
+            this.Stat_DEF.MaxLength = 5;
             this.Stat_DEF.Name = "Stat_DEF";
             this.Stat_DEF.Size = new System.Drawing.Size(31, 20);
             this.Stat_DEF.TabIndex = 14;
@@ -1715,7 +1729,7 @@
             this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_ATK.Enabled = false;
             this.Stat_ATK.Location = new System.Drawing.Point(167, 41);
-            this.Stat_ATK.MaxLength = 3;
+            this.Stat_ATK.MaxLength = 5;
             this.Stat_ATK.Name = "Stat_ATK";
             this.Stat_ATK.Size = new System.Drawing.Size(31, 20);
             this.Stat_ATK.TabIndex = 13;
@@ -1726,7 +1740,7 @@
             this.Stat_HP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_HP.Enabled = false;
             this.Stat_HP.Location = new System.Drawing.Point(167, 19);
-            this.Stat_HP.MaxLength = 3;
+            this.Stat_HP.MaxLength = 5;
             this.Stat_HP.Name = "Stat_HP";
             this.Stat_HP.Size = new System.Drawing.Size(31, 20);
             this.Stat_HP.TabIndex = 12;
@@ -3832,6 +3846,89 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
+            // DEV_Ability
+            // 
+            this.DEV_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.DEV_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.DEV_Ability.Enabled = false;
+            this.DEV_Ability.FormattingEnabled = true;
+            this.DEV_Ability.Items.AddRange(new object[] {
+            "Item"});
+            this.DEV_Ability.Location = new System.Drawing.Point(105, 153);
+            this.DEV_Ability.Name = "DEV_Ability";
+            this.DEV_Ability.Size = new System.Drawing.Size(100, 21);
+            this.DEV_Ability.TabIndex = 14;
+            this.DEV_Ability.Visible = false;
+            // 
+            // L_HAXABILITY
+            // 
+            this.L_HAXABILITY.AutoSize = true;
+            this.L_HAXABILITY.Enabled = false;
+            this.L_HAXABILITY.Location = new System.Drawing.Point(27, 161);
+            this.L_HAXABILITY.Name = "L_HAXABILITY";
+            this.L_HAXABILITY.Size = new System.Drawing.Size(72, 13);
+            this.L_HAXABILITY.TabIndex = 15;
+            this.L_HAXABILITY.Text = "HAX ABILITY";
+            this.L_HAXABILITY.Visible = false;
+            // 
+            // L_HAXLEVEL
+            // 
+            this.L_HAXLEVEL.AutoSize = true;
+            this.L_HAXLEVEL.Enabled = false;
+            this.L_HAXLEVEL.Location = new System.Drawing.Point(34, 183);
+            this.L_HAXLEVEL.Name = "L_HAXLEVEL";
+            this.L_HAXLEVEL.Size = new System.Drawing.Size(65, 13);
+            this.L_HAXLEVEL.TabIndex = 16;
+            this.L_HAXLEVEL.Text = "HAX LEVEL";
+            this.L_HAXLEVEL.Visible = false;
+            // 
+            // MT_Level
+            // 
+            this.MT_Level.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MT_Level.Enabled = false;
+            this.MT_Level.Location = new System.Drawing.Point(205, 70);
+            this.MT_Level.Mask = "000";
+            this.MT_Level.Name = "MT_Level";
+            this.MT_Level.Size = new System.Drawing.Size(22, 20);
+            this.MT_Level.TabIndex = 17;
+            this.MT_Level.Visible = false;
+            this.MT_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
+            // 
+            // CHK_HackedStats
+            // 
+            this.CHK_HackedStats.AutoSize = true;
+            this.CHK_HackedStats.Enabled = false;
+            this.CHK_HackedStats.Location = new System.Drawing.Point(3, 3);
+            this.CHK_HackedStats.Name = "CHK_HackedStats";
+            this.CHK_HackedStats.Size = new System.Drawing.Size(91, 17);
+            this.CHK_HackedStats.TabIndex = 18;
+            this.CHK_HackedStats.Text = "Hacked Stats";
+            this.CHK_HackedStats.UseVisualStyleBackColor = true;
+            this.CHK_HackedStats.Visible = false;
+            this.CHK_HackedStats.Click += new System.EventHandler(this.CHK_HackedStats_Click);
+            // 
+            // MT_Form
+            // 
+            this.MT_Form.Enabled = false;
+            this.MT_Form.Location = new System.Drawing.Point(229, 133);
+            this.MT_Form.Mask = "00";
+            this.MT_Form.Name = "MT_Form";
+            this.MT_Form.Size = new System.Drawing.Size(19, 20);
+            this.MT_Form.TabIndex = 18;
+            this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Form.Visible = false;
+            // 
+            // L_HAXFORM
+            // 
+            this.L_HAXFORM.AutoSize = true;
+            this.L_HAXFORM.Enabled = false;
+            this.L_HAXFORM.Location = new System.Drawing.Point(147, 183);
+            this.L_HAXFORM.Name = "L_HAXFORM";
+            this.L_HAXFORM.Size = new System.Drawing.Size(38, 13);
+            this.L_HAXFORM.TabIndex = 19;
+            this.L_HAXFORM.Text = "FORM";
+            this.L_HAXFORM.Visible = false;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -4259,6 +4356,13 @@
         private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Panel PAN_Box;
         public System.Windows.Forms.ComboBox C_BoxSelect;
+        private System.Windows.Forms.Label L_HAXABILITY;
+        private System.Windows.Forms.ComboBox DEV_Ability;
+        private System.Windows.Forms.CheckBox CHK_HackedStats;
+        private System.Windows.Forms.MaskedTextBox MT_Level;
+        private System.Windows.Forms.Label L_HAXLEVEL;
+        private System.Windows.Forms.Label L_HAXFORM;
+        private System.Windows.Forms.MaskedTextBox MT_Form;
     }
 }
 
