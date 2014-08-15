@@ -6963,7 +6963,11 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 02/09/14: 
+        ///   Looks up a localized string similar to PKHeX - By Kaphotics
+        ///http://projectpokemon.org/
+        ///http://projectpokemon.org/forums/showthread.php?36986
+        ///
+        ///02/09/14: 
         /// - Initial Version
         ///
         ///02/15/14: 
@@ -6979,12 +6983,7 @@ namespace PKHeX.Properties {
         /// - Added in Lati@site and Drag &amp; Drop support.
         ///
         ///02/22/14: 
-        /// - Updated for future-proofing; saving as encrypted fixed.
-        ///
-        ///02/24/14: 
-        /// - Changed: Ribbons, formats, and small ease of use fixes.
-        ///
-        ///02/27/14 [rest of string was truncated]&quot;;.
+        /// - Updated for future-proofing; savin [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -21148,6 +21147,13 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap training {
             get {
                 object obj = ResourceManager.GetObject("training", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap unknown {
+            get {
+                object obj = ResourceManager.GetObject("unknown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
