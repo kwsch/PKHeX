@@ -7692,7 +7692,7 @@ namespace PKHeX
                 byte[] pkxdata = preparepkx(buff);
                 byte[] ekxdata = encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                fixParty();
+                setParty();
             }
             else
             {
@@ -7700,16 +7700,15 @@ namespace PKHeX
                 byte[] ekxdata = encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
             }
-            fixPokedex();
+            setPokedex(preparepkx(buff));
             getPKXBoxes();
             savedited = true;
 
             getSlotColor(slot, Properties.Resources.slotSet);
         }
-        private void fixPokedex()
+        private void setPokedex(byte[] pkxdata)
         {
             if (savindex > 1) return;
-            byte[] pkxdata = preparepkx(buff);
             int species = BitConverter.ToUInt16(pkxdata, 0x8);  // Species
             int lang = pkxdata[0xE3] - 1; if (lang > 5) lang--; // 0-6 language vals
             int origin = pkxdata[0xDF];                         // Native / Non Native
@@ -7740,7 +7739,7 @@ namespace PKHeX
                 savefile[0x1A7C8 + 0x7F000 * savindex + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
             }
         }
-        private void fixParty()
+        private void setParty()
         {
             byte partymembers = 0;
             int offset = SaveGame.Party + 0x7F000 * savindex;
@@ -7780,7 +7779,7 @@ namespace PKHeX
                 byte[] pkxdata = new Byte[0x104];
                 byte[] ekxdata = encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                fixParty();
+                setParty();
             }
             else
             {
@@ -7877,8 +7876,8 @@ namespace PKHeX
                     Array.Copy(ekxdata, 0, savefile, offset, 0x104);
                     getSlotColor(slot, Properties.Resources.slotSet);
                 }
-                fixPokedex();
-                fixParty();
+                setPokedex(preparepkx(buff));
+                setParty();
                 getPKXBoxes();
                 savedited = true;
             }
@@ -8426,6 +8425,7 @@ namespace PKHeX
                 }
                 else continue;
                 Array.Copy(data, 0, savefile, offset + ctr * size, 232);
+                setPokedex(decryptArray(data)); // Set the Pokedex data
                 ctr++;
                 if (ctr == 30 * 31) break; // break out if we have written all 31 boxes
             }
