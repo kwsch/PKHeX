@@ -148,6 +148,27 @@ namespace PKHeX
 
             if (pk < 650) { CHK_F1.Enabled = true; CHK_F1.Checked = foreignbools[pk - 1]; }
             else { CHK_F1.Enabled = CHK_F1.Checked = false; }
+
+            if (pk > 721)
+            {
+                CHK_P1.Checked = CHK_P1.Enabled = false;
+                CHK_P10.Checked = CHK_P10.Enabled = false;
+                CHK_P6.Enabled = CHK_P7.Enabled = CHK_P8.Enabled = CHK_P9.Enabled = false;
+
+                for (int i = 0; i < 7; i++)
+                    CL[i].Checked = CL[i].Enabled = false;
+            }
+            else
+            {
+                CHK_P1.Enabled = true;
+                CHK_P10.Enabled = true;
+
+                CHK_P6.Enabled = CHK_P7.Enabled = CHK_P8.Enabled = CHK_P9.Enabled = true;
+
+                for (int i = 0; i < 7; i++)
+                    CL[i].Enabled = true;
+            }
+
         }
         private void removedropCB(object sender, KeyEventArgs e)
         {
@@ -231,25 +252,31 @@ namespace PKHeX
 
         private void B_GiveAll_Click(object sender, EventArgs e)
         {
-            CHK_L1.Checked =
-            CHK_L2.Checked =
-            CHK_L3.Checked =
-            CHK_L4.Checked =
-            CHK_L5.Checked =
-            CHK_L6.Checked =
-            CHK_L7.Checked =
-
-            CHK_P1.Checked =
-            CHK_P2.Checked =
-            CHK_P3.Checked =
-            CHK_P4.Checked =
-            CHK_P5.Checked =
-            CHK_P6.Checked =
-            CHK_P7.Checked =
-            CHK_P8.Checked =
-            CHK_P9.Checked =
-            CHK_P10.Checked = !(ModifierKeys == Keys.Control);
-
+            if (CHK_L1.Enabled)
+            {
+                CHK_L1.Checked =
+                CHK_L2.Checked =
+                CHK_L3.Checked =
+                CHK_L4.Checked =
+                CHK_L5.Checked =
+                CHK_L6.Checked =
+                CHK_L7.Checked = !(ModifierKeys == Keys.Control);
+            }
+            if (CHK_P1.Enabled)
+            {
+                CHK_P1.Checked =
+                CHK_P10.Checked = !(ModifierKeys == Keys.Control);
+            }
+            {
+                CHK_P2.Checked =
+                CHK_P3.Checked =
+                CHK_P4.Checked =
+                CHK_P5.Checked =
+                CHK_P6.Checked =
+                CHK_P7.Checked =
+                CHK_P8.Checked =
+                CHK_P9.Checked = !(ModifierKeys == Keys.Control);
+            }
             if (CHK_F1.Enabled)
             {
                 CHK_F1.Checked = !(ModifierKeys == Keys.Control);
@@ -257,29 +284,42 @@ namespace PKHeX
             changePartitionBool(null, null);
             changeLanguageBool(null, null);
         }
-
         private void B_FillDex_Click(object sender, EventArgs e)
         {
-            {
+            int index = LB_Species.SelectedIndex;
+            {   // Fill Partitions
                 byte[] sdata = new Byte[0x60];
 
-                for (int i = 0; i < 0x60; i++)
+                for (int i = 0; i < 0x5A; i++)
                     sdata[i] = 0xFF;
+                sdata[0x5A] = 1;
 
-                for (int p = 0; p < 10; p++) // FF out the partitions
-                    Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
+                {   // Traded & Native Flags
+                    Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * 0, 0x60);
+                    Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * 9, 0x60);
+                }
+                {   // FF out the Encountered
+                    if (ModifierKeys == Keys.Alt)
+                        for (int p = 5; p < 9; p++)
+                            Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
+                }
+                {   // FF out the Owned Partitions
+                    for (int i = 0x5A; i < 0x60; i++)
+                        sdata[i] = 0xFF;
+                    for (int p = 1; p < 5; p++)
+                        Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
+                }
             }
-            // Fill Foreign Obtained
-            {
+            {   // Fill Foreign Obtained
                 byte[] foreigndata = new byte[0x52];
-                for (int i = 0; i < 0x52; i++)
+                for (int i = 0; i < 0x51; i++)
                     foreigndata[i] = 0xFF;
 
                 foreigndata[0x51] = 1;
 
                 Array.Copy(foreigndata, 0, sav, savshift + 0x1AA4C, 0x52);
             }
-            {
+            {   // Fill Language
                 byte[] langdata = new Byte[0x280];
 
                 for (int i = 0; i < 630; i++)
@@ -292,7 +332,7 @@ namespace PKHeX
             editing = true;
             Setup();
             editing = false;
-            LB_Species.SelectedIndex = 0;
+            LB_Species.SelectedIndex = index; // restore selection
         }
     }
 }

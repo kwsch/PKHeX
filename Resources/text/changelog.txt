@@ -308,8 +308,10 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Externally edited saves with bad data are handled more efficiently (items/sprites).
  - Fixed: Users entering values above a certain limit (byte values are capped at 255).
 
-08/18/14 - New Update:
+08/18/14 - New Update: (50)
  - Added: Import Database will now add the Pokedex entries for the data you load.
  - Added: Pokedex Give All Entries added (Fill Dex gives everything, Give All gives all for the specific species).
+ - - Alt clicking [Fill All] will add all of the "Encountered" flags; by default this does not happen.
  - Fixed: Level 100 glitching fixed.
+ - Fixed: Pokedex corruption (I hope).
  - Removed: Backup (.bak) saving when replacing the Cyber Save file "main".
