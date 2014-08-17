@@ -2512,10 +2512,11 @@ namespace PKHeX
         private void InitializeFields()
         {
             // Initialize Fields
-
             {
                 #region ability table
-                speciesability = new int[] {
+                speciesability = new int[] { 
+                    // If you're tinkering with the program, just change the "e" in PKHeX to an "a".
+                    // You can then choose any ability or use hacked stats. Please act responsibly.
                                 000,	000,	000,	000,
                                 001,	065,	065,	034,
                                 002,	065,	065,	034,
