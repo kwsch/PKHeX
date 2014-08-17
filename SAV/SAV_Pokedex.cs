@@ -32,8 +32,12 @@ namespace PKHeX
         private void Setup()
         {
             // Clear Listbox and ComboBox
-            LB_Species.Items.Clear();
-            CB_Species.Items.Clear();
+            try
+            {
+                LB_Species.Items.Clear();
+                CB_Species.Items.Clear();
+            }
+            catch { }
 
             // Fill List
             #region Species
@@ -223,6 +227,72 @@ namespace PKHeX
             }
             Array.Copy(sav, m_parent.savefile, sav.Length);
             this.Close();
+        }
+
+        private void B_GiveAll_Click(object sender, EventArgs e)
+        {
+            CHK_L1.Checked =
+            CHK_L2.Checked =
+            CHK_L3.Checked =
+            CHK_L4.Checked =
+            CHK_L5.Checked =
+            CHK_L6.Checked =
+            CHK_L7.Checked =
+
+            CHK_P1.Checked =
+            CHK_P2.Checked =
+            CHK_P3.Checked =
+            CHK_P4.Checked =
+            CHK_P5.Checked =
+            CHK_P6.Checked =
+            CHK_P7.Checked =
+            CHK_P8.Checked =
+            CHK_P9.Checked =
+            CHK_P10.Checked = !(ModifierKeys == Keys.Control);
+
+            if (CHK_F1.Enabled)
+            {
+                CHK_F1.Checked = !(ModifierKeys == Keys.Control);
+            }
+            changePartitionBool(null, null);
+            changeLanguageBool(null, null);
+        }
+
+        private void B_FillDex_Click(object sender, EventArgs e)
+        {
+            {
+                byte[] sdata = new Byte[0x60];
+
+                for (int i = 0; i < 0x60; i++)
+                    sdata[i] = 0xFF;
+
+                for (int p = 0; p < 10; p++) // FF out the partitions
+                    Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
+            }
+            // Fill Foreign Obtained
+            {
+                byte[] foreigndata = new byte[0x52];
+                for (int i = 0; i < 0x52; i++)
+                    foreigndata[i] = 0xFF;
+
+                foreigndata[0x51] = 1;
+
+                Array.Copy(foreigndata, 0, sav, savshift + 0x1AA4C, 0x52);
+            }
+            {
+                byte[] langdata = new Byte[0x280];
+
+                for (int i = 0; i < 630; i++)
+                    langdata[i] = 0xFF;
+
+                langdata[630] = 0x7F;
+
+                Array.Copy(langdata, 0, sav, savshift + 0x1A7C8, 0x280);
+            }
+            editing = true;
+            Setup();
+            editing = false;
+            LB_Species.SelectedIndex = 0;
         }
     }
 }

@@ -301,9 +301,15 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Setting Pokemon outside of the Party will now add their entries to the Pokedex.
  - Fixed: Kalos entries erroring out with the Pokedex editor.
 
-08/16/14 - New Update:
+08/16/14 - New Update: (720)
  - Added: Clicking the OT name with a save file will load the Country/Region/3DS Region/Language settings, but not the game.
  - Added: Import Database can now import past gen files too, as they will be converted to the new PKX format.
  - Fixed: Importing past gen files with party data will no longer have 'invalid checksums' or fail to load.
  - Fixed: Externally edited saves with bad data are handled more efficiently (items/sprites).
  - Fixed: Users entering values above a certain limit (byte values are capped at 255).
+
+08/18/14 - New Update:
+ - Added: Import Database will now add the Pokedex entries for the data you load.
+ - Added: Pokedex Give All Entries added (Fill Dex gives everything, Give All gives all for the specific species).
+ - Fixed: Level 100 glitching fixed.
+ - Removed: Backup (.bak) saving when replacing the Cyber Save file "main".

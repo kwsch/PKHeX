@@ -306,13 +306,13 @@
             // 
             // B_GiveAll
             // 
-            this.B_GiveAll.Enabled = false;
             this.B_GiveAll.Location = new System.Drawing.Point(160, 11);
             this.B_GiveAll.Name = "B_GiveAll";
             this.B_GiveAll.Size = new System.Drawing.Size(80, 23);
             this.B_GiveAll.TabIndex = 23;
             this.B_GiveAll.Text = "Give All";
             this.B_GiveAll.UseVisualStyleBackColor = true;
+            this.B_GiveAll.Click += new System.EventHandler(this.B_GiveAll_Click);
             // 
             // B_Save
             // 
@@ -326,13 +326,13 @@
             // 
             // B_FillDex
             // 
-            this.B_FillDex.Enabled = false;
             this.B_FillDex.Location = new System.Drawing.Point(287, 11);
             this.B_FillDex.Name = "B_FillDex";
             this.B_FillDex.Size = new System.Drawing.Size(80, 23);
             this.B_FillDex.TabIndex = 25;
             this.B_FillDex.Text = "Fill Dex";
             this.B_FillDex.UseVisualStyleBackColor = true;
+            this.B_FillDex.Click += new System.EventHandler(this.B_FillDex_Click);
             // 
             // GB_Language
             // 
