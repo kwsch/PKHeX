@@ -7496,12 +7496,12 @@ namespace PKHeX
                     string path = cySAV.FileName;
                     string ext = Path.GetExtension(path);
 
-                    if (File.Exists(path))
-                    {
-                        // File already exists, save a .bak
-                        byte[] backupfile = File.ReadAllBytes(path);
-                        File.WriteAllBytes(path + ".bak", backupfile);
-                    }
+                    //if (File.Exists(path))
+                    //{
+                    //    // File already exists, save a .bak
+                    //    byte[] backupfile = File.ReadAllBytes(path);
+                    //    File.WriteAllBytes(path + ".bak", backupfile);
+                    //}
                     File.WriteAllBytes(path, cybersav);
                     MessageBox.Show("Saved Cyber SAV.", "Alert");
                 }
