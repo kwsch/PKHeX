@@ -4921,7 +4921,7 @@ namespace PKHeX
                 // Change the XP
                 TB_EXP.Enabled = false;
                 int level = ToInt32(TB_Level.Text);
-                if (level > 100) TB_Level.Text = "100"; level = 100;
+                if (level > 100) { TB_Level.Text = "100"; level = 100; }
                 {
                     // Valid Level, recalculate EXP
                     getEXP(level, getSpecies());
