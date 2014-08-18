@@ -265,17 +265,17 @@ namespace PKHeX
             if (CHK_P1.Enabled)
             {
                 CHK_P1.Checked =
+                CHK_P6.Checked =
+                CHK_P7.Checked =
+                CHK_P8.Checked =
+                CHK_P9.Checked = 
                 CHK_P10.Checked = !(ModifierKeys == Keys.Control);
             }
             {
                 CHK_P2.Checked =
                 CHK_P3.Checked =
                 CHK_P4.Checked =
-                CHK_P5.Checked =
-                CHK_P6.Checked =
-                CHK_P7.Checked =
-                CHK_P8.Checked =
-                CHK_P9.Checked = !(ModifierKeys == Keys.Control);
+                CHK_P5.Checked = !(ModifierKeys == Keys.Control);
             }
             if (CHK_F1.Enabled)
             {

@@ -61,10 +61,12 @@ namespace PKHeX
             // Try and detect the language
             string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             string lastTwoChars = filename.Substring(filename.Length - 2);
-            int lang = Array.IndexOf(lang_val, lastTwoChars);
+            int lang = Array.IndexOf(main_langnum,Array.IndexOf(lang_val, lastTwoChars));
 
             if (lang >= 0)
                 CB_MainLanguage.SelectedIndex = main_langnum[lang];
+            else if (lastTwoChars == "jp")
+                CB_MainLanguage.SelectedIndex = 1;
             else
                 CB_MainLanguage.SelectedIndex = 0;
 
