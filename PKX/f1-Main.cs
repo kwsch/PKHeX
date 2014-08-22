@@ -8247,7 +8247,8 @@ namespace PKHeX
             for (int i = 0; i < filepaths.Length; i++)
             {
                 long len = new FileInfo(filepaths[i]).Length;
-                if (
+                if (len > 260) continue;
+                else if (
                        len != 232 && len != 260 // 6th Gen
                     && len != 136 && len != 220 && len != 236 // 5th Gen
                     && len != 100 && len != 80) // 4th Gen
