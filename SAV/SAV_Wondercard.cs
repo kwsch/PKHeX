@@ -95,7 +95,7 @@ namespace PKHeX
                 int TID = BitConverter.ToUInt16(wondercard_data, 0x68);
                 int SID = BitConverter.ToUInt16(wondercard_data, 0x6A);
 
-                string OTname = m_parent.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0xB6, 22));
+                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0xB6, 22));
                 RTB.Text +=
                     "\r\nSpecies: " + m_parent.specieslist[species] + "\r\n"
                     + "Item: " + m_parent.itemlist[helditem] + "\r\n"

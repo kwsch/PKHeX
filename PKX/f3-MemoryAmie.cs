@@ -882,6 +882,5 @@ namespace PKHeX
             }
             catch { mtb.Text = "0"; }
         }
-
     }
 }

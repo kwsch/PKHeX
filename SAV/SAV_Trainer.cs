@@ -19,6 +19,7 @@ namespace PKHeX
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
+            savshift = savindex * 0x7F000;
             editing = true;
             getComboBoxes();
             getTextBoxes();
@@ -187,6 +188,7 @@ namespace PKHeX
         string Game;
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
+        public int savshift;
         public int savindex;
         public bool editing = false;
         public byte badgeval = 0;
@@ -364,7 +366,6 @@ namespace PKHeX
         }
         private void getTextBoxes()
         {
-            int savshift = savindex * 0x7F000;
             byte badgeval = sav[0x960C + savindex * 0x7F000];
             CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
             for (int i = 0; i < 8; i++)
@@ -388,9 +389,9 @@ namespace PKHeX
             string saying5 = Encoding.Unicode.GetString(sav, 0x19504 + savshift, 0x20);
 
             int _region   = sav[0x19426 + savshift];
-            int _country  = sav[0x19427+savshift];
-            int _3dsreg   = sav[0x1942C+savshift];
-            int _language = sav[0x1942D+savshift];
+            int _country  = sav[0x19427 + savshift];
+            int _3dsreg   = sav[0x1942C + savshift];
+            int _language = sav[0x1942D + savshift];
 
             // Display Data
             TB_OTName.Text = OT_NAME;
@@ -456,13 +457,38 @@ namespace PKHeX
 
             // Load Play Time
             MT_Hours.Text = BitConverter.ToUInt16(sav, savshift + 0x6C00).ToString();
-            MT_Minutes.Text = sav[0x6C02].ToString();
-            MT_Seconds.Text = sav[0x6C03].ToString();
+            MT_Minutes.Text = sav[0x6C02 + savshift].ToString();
+            MT_Seconds.Text = sav[0x6C03 + savshift].ToString();
+
+            // Load PSS Sprite
+            int sprite = sav[0x19407];
+            MT_Sprite.Text = sprite.ToString();
+
+            // Load Clothing Data
+            int hat = sav[0x19431 + savshift] >> 3;
+            int haircolor = sav[0x19431 + savshift] & 7;
+            MT_Hat.Text = hat.ToString();
+            MT_HairColor.Text = haircolor.ToString();
+
+            MT_14030.Text = sav[0x19430 + savshift].ToString();
+            MT_14031.Text = sav[0x19431 + savshift].ToString();
+            MT_14032.Text = sav[0x19432 + savshift].ToString();
+            MT_14033.Text = sav[0x19433 + savshift].ToString();
+            MT_14034.Text = sav[0x19434 + savshift].ToString();
+            MT_14035.Text = sav[0x19435 + savshift].ToString();
+            MT_14036.Text = sav[0x19436 + savshift].ToString();
+            MT_14037.Text = sav[0x19437 + savshift].ToString();
+            MT_14038.Text = sav[0x19438 + savshift].ToString();
+            MT_14039.Text = sav[0x19439 + savshift].ToString();
+            MT_1403A.Text = sav[0x1943A + savshift].ToString();
+            MT_1403B.Text = sav[0x1943B + savshift].ToString();
+            MT_1403C.Text = sav[0x1943C + savshift].ToString();
+            MT_1403D.Text = sav[0x1943D + savshift].ToString();
+            MT_1403E.Text = sav[0x1943E + savshift].ToString();
+            MT_1403F.Text = sav[0x1943F + savshift].ToString();
         }
         private void save()
         {
-            int savshift = savindex * 0x7F000;
-
             string OT_Name = TB_OTName.Text;
             //string RIV_Name = TB_Rival.Text;
 
@@ -548,12 +574,32 @@ namespace PKHeX
             {
                 badgeval |= (byte)(Convert.ToByte(cba[i].Checked) << i);
             }
-            sav[0x960C + savindex * 0x7F000] = badgeval;
+            sav[0x960C + savshift] = badgeval;
 
             // Save PlayTime
             byte[] h = BitConverter.GetBytes(UInt16.Parse(MT_Hours.Text)); Array.Resize(ref h, 2); Array.Copy(h, 0, sav, savshift + 0x6C00, 2);
-            sav[0x6C02 + savindex * 0x7F000] = (byte)(UInt16.Parse(MT_Minutes.Text) % 60);
-            sav[0x6C03 + savindex * 0x7F000] = (byte)(UInt16.Parse(MT_Seconds.Text) % 60);
+            sav[0x6C02 + savshift] = (byte)(UInt16.Parse(MT_Minutes.Text) % 60);
+            sav[0x6C03 + savshift] = (byte)(UInt16.Parse(MT_Seconds.Text) % 60);
+
+            // Sprite
+            sav[0x19407] = Byte.Parse(MT_Sprite.Text);
+
+            sav[0x19430 + savshift] = Byte.Parse(MT_14030.Text);
+            //sav[0x19431 + savshift] = Byte.Parse(MT_14031.Text);
+            sav[0x19432 + savshift] = Byte.Parse(MT_14032.Text);
+            sav[0x19433 + savshift] = Byte.Parse(MT_14033.Text);
+            sav[0x19434 + savshift] = Byte.Parse(MT_14034.Text);
+            sav[0x19435 + savshift] = Byte.Parse(MT_14035.Text);
+            sav[0x19436 + savshift] = Byte.Parse(MT_14036.Text);
+            sav[0x19437 + savshift] = Byte.Parse(MT_14037.Text);
+            sav[0x19438 + savshift] = Byte.Parse(MT_14038.Text);
+            sav[0x19439 + savshift] = Byte.Parse(MT_14039.Text);
+            sav[0x1943A + savshift] = Byte.Parse(MT_1403A.Text);
+            sav[0x1943B + savshift] = Byte.Parse(MT_1403B.Text);
+            sav[0x1943C + savshift] = Byte.Parse(MT_1403C.Text);
+            sav[0x1943D + savshift] = Byte.Parse(MT_1403D.Text);
+            sav[0x1943E + savshift] = Byte.Parse(MT_1403E.Text);
+            sav[0x1943F + savshift] = Byte.Parse(MT_1403F.Text);
         }
 
         private void showTSV(object sender, EventArgs e)
@@ -584,10 +630,11 @@ namespace PKHeX
         {
             getBadges();
         }
-        private void changeStyle(object sender, EventArgs e)
+        private void change255(object sender, EventArgs e)
         {
-            if (TB_Style.Text == "") TB_Style.Text = "0";
-            if (int.Parse(TB_Style.Text) > 255) TB_Style.Text = "255";
+            MaskedTextBox box = sender as MaskedTextBox;
+            if (box.Text == "") box.Text = "0";
+            if (int.Parse(box.Text) > 255) box.Text = "255";
         }
 
         private void changeStat(object sender, EventArgs e)
@@ -616,6 +663,20 @@ namespace PKHeX
                 Array.Resize(ref data, 4);
                 Array.Copy(data, 0, sav, pssoff + offset, 4);
             }
+        }
+
+        private void giveAllAccessories(object sender, EventArgs e)
+        {
+            byte[] data = new byte[] {
+                0xFE,0xFF,0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+                0xFF,0xEF,0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0xFF,
+                0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xEF,
+                0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+            };
+            Array.Copy(data,0,sav,savshift + 0x6E00,0x6C);
         }
     }
 }

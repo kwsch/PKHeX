@@ -80,7 +80,7 @@ namespace PKHeX
                 for (int i = 0; i < 31; i++)
                 {
                     string boxname = Encoding.Unicode.GetString(m_parent.savefile, boxnameoffset + (0x7F000 * savindex) + 0x22 * i, 0x22);
-                    boxname = m_parent.TrimFromZero(boxname);
+                    boxname = Util.TrimFromZero(boxname);
                     if (boxname.Length == 0)
                     {
                         CB_Box.Items.Add("Box " + (i+1));

@@ -68,13 +68,17 @@
             this.TB_Saying2 = new System.Windows.Forms.TextBox();
             this.TB_Saying1 = new System.Windows.Forms.TextBox();
             this.GB_Overview = new System.Windows.Forms.GroupBox();
-            this.TB_Style = new System.Windows.Forms.MaskedTextBox();
+            this.L_Seconds = new System.Windows.Forms.Label();
+            this.L_Minutes = new System.Windows.Forms.Label();
+            this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
+            this.MT_Minutes = new System.Windows.Forms.MaskedTextBox();
+            this.L_Hours = new System.Windows.Forms.Label();
+            this.MT_Hours = new System.Windows.Forms.MaskedTextBox();
             this.L_Language = new System.Windows.Forms.Label();
             this.TB_PM = new System.Windows.Forms.MaskedTextBox();
             this.TB_BP = new System.Windows.Forms.MaskedTextBox();
             this.L_PM = new System.Windows.Forms.Label();
             this.L_Region = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
             this.L_BP = new System.Windows.Forms.Label();
             this.L_Country = new System.Windows.Forms.Label();
             this.CB_Region = new System.Windows.Forms.ComboBox();
@@ -85,6 +89,8 @@
             this.L_3DSReg = new System.Windows.Forms.Label();
             this.CB_Game = new System.Windows.Forms.ComboBox();
             this.CB_Gender = new System.Windows.Forms.ComboBox();
+            this.TB_Style = new System.Windows.Forms.MaskedTextBox();
+            this.label21 = new System.Windows.Forms.Label();
             this.GB_MaisonBest = new System.Windows.Forms.GroupBox();
             this.TB_MBMS = new System.Windows.Forms.MaskedTextBox();
             this.TB_MBMN = new System.Windows.Forms.MaskedTextBox();
@@ -126,6 +132,21 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.GB_Appear = new System.Windows.Forms.GroupBox();
+            this.B_GiveAccessories = new System.Windows.Forms.Button();
+            this.MT_1403B = new System.Windows.Forms.MaskedTextBox();
+            this.MT_1403A = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14039 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14038 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14037 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14036 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14035 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14034 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14033 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14032 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14031 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_14030 = new System.Windows.Forms.MaskedTextBox();
+            this.MT_Hat = new System.Windows.Forms.MaskedTextBox();
+            this.MT_HairColor = new System.Windows.Forms.MaskedTextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.CB_Dress = new System.Windows.Forms.ComboBox();
             this.CB_Bag = new System.Windows.Forms.ComboBox();
@@ -154,6 +175,7 @@
             this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
             this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
             this.GB_Misc = new System.Windows.Forms.GroupBox();
+            this.MT_Sprite = new System.Windows.Forms.MaskedTextBox();
             this.L_Offset = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.PB_Sprite = new System.Windows.Forms.PictureBox();
@@ -162,12 +184,10 @@
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.label39 = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
-            this.MT_Hours = new System.Windows.Forms.MaskedTextBox();
-            this.L_Hours = new System.Windows.Forms.Label();
-            this.MT_Minutes = new System.Windows.Forms.MaskedTextBox();
-            this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
-            this.L_Minutes = new System.Windows.Forms.Label();
-            this.L_Seconds = new System.Windows.Forms.Label();
+            this.MT_1403F = new System.Windows.Forms.MaskedTextBox();
+            this.MT_1403E = new System.Windows.Forms.MaskedTextBox();
+            this.MT_1403D = new System.Windows.Forms.MaskedTextBox();
+            this.MT_1403C = new System.Windows.Forms.MaskedTextBox();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -630,16 +650,61 @@
             this.GB_Overview.TabStop = false;
             this.GB_Overview.Text = "Overview";
             // 
-            // TB_Style
+            // L_Seconds
             // 
-            this.TB_Style.Location = new System.Drawing.Point(64, 65);
-            this.TB_Style.Mask = "000";
-            this.TB_Style.Name = "TB_Style";
-            this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.TB_Style.Size = new System.Drawing.Size(26, 20);
-            this.TB_Style.TabIndex = 8;
-            this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Style.TextChanged += new System.EventHandler(this.changeStyle);
+            this.L_Seconds.AutoSize = true;
+            this.L_Seconds.Location = new System.Drawing.Point(142, 205);
+            this.L_Seconds.Name = "L_Seconds";
+            this.L_Seconds.Size = new System.Drawing.Size(29, 13);
+            this.L_Seconds.TabIndex = 30;
+            this.L_Seconds.Text = "Sec:";
+            // 
+            // L_Minutes
+            // 
+            this.L_Minutes.AutoSize = true;
+            this.L_Minutes.Location = new System.Drawing.Point(89, 205);
+            this.L_Minutes.Name = "L_Minutes";
+            this.L_Minutes.Size = new System.Drawing.Size(27, 13);
+            this.L_Minutes.TabIndex = 29;
+            this.L_Minutes.Text = "Min:";
+            // 
+            // MT_Seconds
+            // 
+            this.MT_Seconds.Location = new System.Drawing.Point(170, 202);
+            this.MT_Seconds.Mask = "00";
+            this.MT_Seconds.Name = "MT_Seconds";
+            this.MT_Seconds.Size = new System.Drawing.Size(22, 20);
+            this.MT_Seconds.TabIndex = 28;
+            this.MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Seconds.TextChanged += new System.EventHandler(this.change255);
+            // 
+            // MT_Minutes
+            // 
+            this.MT_Minutes.Location = new System.Drawing.Point(117, 202);
+            this.MT_Minutes.Mask = "00";
+            this.MT_Minutes.Name = "MT_Minutes";
+            this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
+            this.MT_Minutes.TabIndex = 27;
+            this.MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Minutes.TextChanged += new System.EventHandler(this.change255);
+            // 
+            // L_Hours
+            // 
+            this.L_Hours.AutoSize = true;
+            this.L_Hours.Location = new System.Drawing.Point(16, 205);
+            this.L_Hours.Name = "L_Hours";
+            this.L_Hours.Size = new System.Drawing.Size(26, 13);
+            this.L_Hours.TabIndex = 26;
+            this.L_Hours.Text = "Hrs:";
+            // 
+            // MT_Hours
+            // 
+            this.MT_Hours.Location = new System.Drawing.Point(48, 202);
+            this.MT_Hours.Mask = "00000";
+            this.MT_Hours.Name = "MT_Hours";
+            this.MT_Hours.Size = new System.Drawing.Size(38, 20);
+            this.MT_Hours.TabIndex = 25;
+            this.MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_Language
             // 
@@ -687,15 +752,6 @@
             this.L_Region.TabIndex = 20;
             this.L_Region.Text = "Region:";
             this.L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label21
-            // 
-            this.label21.Location = new System.Drawing.Point(12, 68);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(46, 13);
-            this.label21.TabIndex = 7;
-            this.label21.Text = "Style:";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // L_BP
             // 
@@ -793,6 +849,26 @@
             this.CB_Gender.Name = "CB_Gender";
             this.CB_Gender.Size = new System.Drawing.Size(57, 21);
             this.CB_Gender.TabIndex = 22;
+            // 
+            // TB_Style
+            // 
+            this.TB_Style.Location = new System.Drawing.Point(64, 65);
+            this.TB_Style.Mask = "000";
+            this.TB_Style.Name = "TB_Style";
+            this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TB_Style.Size = new System.Drawing.Size(26, 20);
+            this.TB_Style.TabIndex = 8;
+            this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Style.TextChanged += new System.EventHandler(this.change255);
+            // 
+            // label21
+            // 
+            this.label21.Location = new System.Drawing.Point(12, 68);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(46, 13);
+            this.label21.TabIndex = 7;
+            this.label21.Text = "Style:";
+            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // GB_MaisonBest
             // 
@@ -1190,6 +1266,25 @@
             // 
             // GB_Appear
             // 
+            this.GB_Appear.Controls.Add(this.MT_1403F);
+            this.GB_Appear.Controls.Add(this.MT_1403E);
+            this.GB_Appear.Controls.Add(this.MT_1403D);
+            this.GB_Appear.Controls.Add(this.MT_1403C);
+            this.GB_Appear.Controls.Add(this.B_GiveAccessories);
+            this.GB_Appear.Controls.Add(this.MT_1403B);
+            this.GB_Appear.Controls.Add(this.MT_1403A);
+            this.GB_Appear.Controls.Add(this.MT_14039);
+            this.GB_Appear.Controls.Add(this.MT_14038);
+            this.GB_Appear.Controls.Add(this.MT_14037);
+            this.GB_Appear.Controls.Add(this.MT_14036);
+            this.GB_Appear.Controls.Add(this.MT_14035);
+            this.GB_Appear.Controls.Add(this.MT_14034);
+            this.GB_Appear.Controls.Add(this.MT_14033);
+            this.GB_Appear.Controls.Add(this.MT_14032);
+            this.GB_Appear.Controls.Add(this.MT_14031);
+            this.GB_Appear.Controls.Add(this.MT_14030);
+            this.GB_Appear.Controls.Add(this.MT_Hat);
+            this.GB_Appear.Controls.Add(this.MT_HairColor);
             this.GB_Appear.Controls.Add(this.label32);
             this.GB_Appear.Controls.Add(this.CB_Dress);
             this.GB_Appear.Controls.Add(this.CB_Bag);
@@ -1212,13 +1307,161 @@
             this.GB_Appear.Controls.Add(this.label24);
             this.GB_Appear.Controls.Add(this.label23);
             this.GB_Appear.Controls.Add(this.label22);
-            this.GB_Appear.Enabled = false;
             this.GB_Appear.Location = new System.Drawing.Point(230, 12);
             this.GB_Appear.Name = "GB_Appear";
             this.GB_Appear.Size = new System.Drawing.Size(180, 270);
             this.GB_Appear.TabIndex = 50;
             this.GB_Appear.TabStop = false;
             this.GB_Appear.Text = "Current Appearance (X/Y)";
+            // 
+            // B_GiveAccessories
+            // 
+            this.B_GiveAccessories.Location = new System.Drawing.Point(12, 180);
+            this.B_GiveAccessories.Name = "B_GiveAccessories";
+            this.B_GiveAccessories.Size = new System.Drawing.Size(156, 23);
+            this.B_GiveAccessories.TabIndex = 67;
+            this.B_GiveAccessories.Text = "Give All Accessories";
+            this.B_GiveAccessories.UseVisualStyleBackColor = true;
+            this.B_GiveAccessories.Click += new System.EventHandler(this.giveAllAccessories);
+            // 
+            // MT_1403B
+            // 
+            this.MT_1403B.Location = new System.Drawing.Point(142, 223);
+            this.MT_1403B.Mask = "000";
+            this.MT_1403B.Name = "MT_1403B";
+            this.MT_1403B.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403B.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403B.TabIndex = 66;
+            this.MT_1403B.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_1403A
+            // 
+            this.MT_1403A.Location = new System.Drawing.Point(116, 223);
+            this.MT_1403A.Mask = "000";
+            this.MT_1403A.Name = "MT_1403A";
+            this.MT_1403A.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403A.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403A.TabIndex = 65;
+            this.MT_1403A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14039
+            // 
+            this.MT_14039.Location = new System.Drawing.Point(90, 223);
+            this.MT_14039.Mask = "000";
+            this.MT_14039.Name = "MT_14039";
+            this.MT_14039.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14039.Size = new System.Drawing.Size(26, 20);
+            this.MT_14039.TabIndex = 64;
+            this.MT_14039.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14038
+            // 
+            this.MT_14038.Location = new System.Drawing.Point(64, 223);
+            this.MT_14038.Mask = "000";
+            this.MT_14038.Name = "MT_14038";
+            this.MT_14038.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14038.Size = new System.Drawing.Size(26, 20);
+            this.MT_14038.TabIndex = 63;
+            this.MT_14038.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14037
+            // 
+            this.MT_14037.Location = new System.Drawing.Point(38, 223);
+            this.MT_14037.Mask = "000";
+            this.MT_14037.Name = "MT_14037";
+            this.MT_14037.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14037.Size = new System.Drawing.Size(26, 20);
+            this.MT_14037.TabIndex = 61;
+            this.MT_14037.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14036
+            // 
+            this.MT_14036.Location = new System.Drawing.Point(12, 223);
+            this.MT_14036.Mask = "000";
+            this.MT_14036.Name = "MT_14036";
+            this.MT_14036.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14036.Size = new System.Drawing.Size(26, 20);
+            this.MT_14036.TabIndex = 62;
+            this.MT_14036.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14035
+            // 
+            this.MT_14035.Location = new System.Drawing.Point(142, 205);
+            this.MT_14035.Mask = "000";
+            this.MT_14035.Name = "MT_14035";
+            this.MT_14035.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14035.Size = new System.Drawing.Size(26, 20);
+            this.MT_14035.TabIndex = 60;
+            this.MT_14035.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14034
+            // 
+            this.MT_14034.Location = new System.Drawing.Point(116, 205);
+            this.MT_14034.Mask = "000";
+            this.MT_14034.Name = "MT_14034";
+            this.MT_14034.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14034.Size = new System.Drawing.Size(26, 20);
+            this.MT_14034.TabIndex = 59;
+            this.MT_14034.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14033
+            // 
+            this.MT_14033.Location = new System.Drawing.Point(90, 205);
+            this.MT_14033.Mask = "000";
+            this.MT_14033.Name = "MT_14033";
+            this.MT_14033.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14033.Size = new System.Drawing.Size(26, 20);
+            this.MT_14033.TabIndex = 58;
+            this.MT_14033.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14032
+            // 
+            this.MT_14032.Location = new System.Drawing.Point(64, 205);
+            this.MT_14032.Mask = "000";
+            this.MT_14032.Name = "MT_14032";
+            this.MT_14032.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14032.Size = new System.Drawing.Size(26, 20);
+            this.MT_14032.TabIndex = 57;
+            this.MT_14032.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14031
+            // 
+            this.MT_14031.Enabled = false;
+            this.MT_14031.Location = new System.Drawing.Point(38, 205);
+            this.MT_14031.Mask = "000";
+            this.MT_14031.Name = "MT_14031";
+            this.MT_14031.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14031.Size = new System.Drawing.Size(26, 20);
+            this.MT_14031.TabIndex = 54;
+            this.MT_14031.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_14030
+            // 
+            this.MT_14030.Location = new System.Drawing.Point(12, 205);
+            this.MT_14030.Mask = "000";
+            this.MT_14030.Name = "MT_14030";
+            this.MT_14030.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_14030.Size = new System.Drawing.Size(26, 20);
+            this.MT_14030.TabIndex = 56;
+            this.MT_14030.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_Hat
+            // 
+            this.MT_Hat.Location = new System.Drawing.Point(83, 108);
+            this.MT_Hat.Mask = "00";
+            this.MT_Hat.Name = "MT_Hat";
+            this.MT_Hat.Size = new System.Drawing.Size(22, 20);
+            this.MT_Hat.TabIndex = 55;
+            this.MT_Hat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_HairColor
+            // 
+            this.MT_HairColor.Location = new System.Drawing.Point(83, 45);
+            this.MT_HairColor.Mask = "00";
+            this.MT_HairColor.Name = "MT_HairColor";
+            this.MT_HairColor.Size = new System.Drawing.Size(22, 20);
+            this.MT_HairColor.TabIndex = 55;
+            this.MT_HairColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label32
             // 
@@ -1228,69 +1471,77 @@
             this.label32.TabIndex = 21;
             this.label32.Text = "Dress:";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label32.Visible = false;
             // 
             // CB_Dress
             // 
             this.CB_Dress.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Dress.FormattingEnabled = true;
-            this.CB_Dress.Location = new System.Drawing.Point(78, 191);
+            this.CB_Dress.Location = new System.Drawing.Point(83, 192);
             this.CB_Dress.Name = "CB_Dress";
             this.CB_Dress.Size = new System.Drawing.Size(88, 21);
             this.CB_Dress.TabIndex = 20;
+            this.CB_Dress.Visible = false;
             // 
             // CB_Bag
             // 
             this.CB_Bag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Bag.FormattingEnabled = true;
-            this.CB_Bag.Location = new System.Drawing.Point(78, 233);
+            this.CB_Bag.Location = new System.Drawing.Point(83, 234);
             this.CB_Bag.Name = "CB_Bag";
             this.CB_Bag.Size = new System.Drawing.Size(88, 21);
             this.CB_Bag.TabIndex = 19;
+            this.CB_Bag.Visible = false;
             // 
             // CB_Socks
             // 
             this.CB_Socks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Socks.FormattingEnabled = true;
-            this.CB_Socks.Location = new System.Drawing.Point(78, 212);
+            this.CB_Socks.Location = new System.Drawing.Point(83, 213);
             this.CB_Socks.Name = "CB_Socks";
             this.CB_Socks.Size = new System.Drawing.Size(88, 21);
             this.CB_Socks.TabIndex = 18;
+            this.CB_Socks.Visible = false;
             // 
             // CB_Pants
             // 
             this.CB_Pants.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Pants.FormattingEnabled = true;
-            this.CB_Pants.Location = new System.Drawing.Point(78, 170);
+            this.CB_Pants.Location = new System.Drawing.Point(83, 171);
             this.CB_Pants.Name = "CB_Pants";
             this.CB_Pants.Size = new System.Drawing.Size(88, 21);
             this.CB_Pants.TabIndex = 17;
+            this.CB_Pants.Visible = false;
             // 
             // CB_Shirt
             // 
             this.CB_Shirt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Shirt.FormattingEnabled = true;
-            this.CB_Shirt.Location = new System.Drawing.Point(78, 149);
+            this.CB_Shirt.Location = new System.Drawing.Point(83, 150);
             this.CB_Shirt.Name = "CB_Shirt";
             this.CB_Shirt.Size = new System.Drawing.Size(88, 21);
             this.CB_Shirt.TabIndex = 16;
+            this.CB_Shirt.Visible = false;
             // 
             // CB_Accessory
             // 
             this.CB_Accessory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Accessory.FormattingEnabled = true;
-            this.CB_Accessory.Location = new System.Drawing.Point(78, 128);
+            this.CB_Accessory.Location = new System.Drawing.Point(83, 129);
             this.CB_Accessory.Name = "CB_Accessory";
             this.CB_Accessory.Size = new System.Drawing.Size(88, 21);
             this.CB_Accessory.TabIndex = 15;
+            this.CB_Accessory.Visible = false;
             // 
             // CB_Hat
             // 
             this.CB_Hat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Hat.FormattingEnabled = true;
-            this.CB_Hat.Location = new System.Drawing.Point(78, 107);
+            this.CB_Hat.Location = new System.Drawing.Point(83, 108);
             this.CB_Hat.Name = "CB_Hat";
             this.CB_Hat.Size = new System.Drawing.Size(88, 21);
             this.CB_Hat.TabIndex = 14;
+            this.CB_Hat.Visible = false;
             // 
             // label31
             // 
@@ -1300,6 +1551,7 @@
             this.label31.TabIndex = 13;
             this.label31.Text = "Accessory:";
             this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label31.Visible = false;
             // 
             // label30
             // 
@@ -1318,6 +1570,7 @@
             this.label29.TabIndex = 11;
             this.label29.Text = "Socks:";
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label29.Visible = false;
             // 
             // label28
             // 
@@ -1327,6 +1580,7 @@
             this.label28.TabIndex = 10;
             this.label28.Text = "Pants:";
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label28.Visible = false;
             // 
             // label27
             // 
@@ -1336,42 +1590,47 @@
             this.label27.TabIndex = 9;
             this.label27.Text = "Shirt:";
             this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label27.Visible = false;
             // 
             // CB_FaceHair
             // 
             this.CB_FaceHair.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FaceHair.FormattingEnabled = true;
-            this.CB_FaceHair.Location = new System.Drawing.Point(78, 86);
+            this.CB_FaceHair.Location = new System.Drawing.Point(83, 87);
             this.CB_FaceHair.Name = "CB_FaceHair";
             this.CB_FaceHair.Size = new System.Drawing.Size(88, 21);
             this.CB_FaceHair.TabIndex = 8;
+            this.CB_FaceHair.Visible = false;
             // 
             // CB_Hair
             // 
             this.CB_Hair.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Hair.FormattingEnabled = true;
-            this.CB_Hair.Location = new System.Drawing.Point(78, 65);
+            this.CB_Hair.Location = new System.Drawing.Point(83, 66);
             this.CB_Hair.Name = "CB_Hair";
             this.CB_Hair.Size = new System.Drawing.Size(88, 21);
             this.CB_Hair.TabIndex = 7;
+            this.CB_Hair.Visible = false;
             // 
             // CB_Eye
             // 
             this.CB_Eye.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Eye.FormattingEnabled = true;
-            this.CB_Eye.Location = new System.Drawing.Point(78, 44);
+            this.CB_Eye.Location = new System.Drawing.Point(83, 45);
             this.CB_Eye.Name = "CB_Eye";
             this.CB_Eye.Size = new System.Drawing.Size(88, 21);
             this.CB_Eye.TabIndex = 6;
+            this.CB_Eye.Visible = false;
             // 
             // CB_Skin
             // 
             this.CB_Skin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Skin.FormattingEnabled = true;
-            this.CB_Skin.Location = new System.Drawing.Point(78, 23);
+            this.CB_Skin.Location = new System.Drawing.Point(83, 24);
             this.CB_Skin.Name = "CB_Skin";
             this.CB_Skin.Size = new System.Drawing.Size(88, 21);
             this.CB_Skin.TabIndex = 5;
+            this.CB_Skin.Visible = false;
             // 
             // label26
             // 
@@ -1390,6 +1649,7 @@
             this.label25.TabIndex = 3;
             this.label25.Text = "Facial Hair:";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label25.Visible = false;
             // 
             // label24
             // 
@@ -1399,6 +1659,7 @@
             this.label24.TabIndex = 2;
             this.label24.Text = "Hairstyle:";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label24.Visible = false;
             // 
             // label23
             // 
@@ -1406,8 +1667,9 @@
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(65, 13);
             this.label23.TabIndex = 1;
-            this.label23.Text = "Eye Color:";
+            this.label23.Text = "Hair Color:";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label23.Visible = false;
             // 
             // label22
             // 
@@ -1473,6 +1735,7 @@
             // 
             // GB_Misc
             // 
+            this.GB_Misc.Controls.Add(this.MT_Sprite);
             this.GB_Misc.Controls.Add(this.TB_Style);
             this.GB_Misc.Controls.Add(this.L_Offset);
             this.GB_Misc.Controls.Add(this.label34);
@@ -1489,6 +1752,16 @@
             this.GB_Misc.TabIndex = 53;
             this.GB_Misc.TabStop = false;
             this.GB_Misc.Text = "Misc";
+            // 
+            // MT_Sprite
+            // 
+            this.MT_Sprite.Location = new System.Drawing.Point(116, 18);
+            this.MT_Sprite.Mask = "00";
+            this.MT_Sprite.Name = "MT_Sprite";
+            this.MT_Sprite.Size = new System.Drawing.Size(22, 20);
+            this.MT_Sprite.TabIndex = 54;
+            this.MT_Sprite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Sprite.TextChanged += new System.EventHandler(this.change255);
             // 
             // L_Offset
             // 
@@ -1572,59 +1845,45 @@
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
             // 
-            // MT_Hours
+            // MT_1403F
             // 
-            this.MT_Hours.Location = new System.Drawing.Point(48, 202);
-            this.MT_Hours.Mask = "00000";
-            this.MT_Hours.Name = "MT_Hours";
-            this.MT_Hours.Size = new System.Drawing.Size(38, 20);
-            this.MT_Hours.TabIndex = 25;
-            this.MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403F.Location = new System.Drawing.Point(90, 242);
+            this.MT_1403F.Mask = "000";
+            this.MT_1403F.Name = "MT_1403F";
+            this.MT_1403F.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403F.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403F.TabIndex = 71;
+            this.MT_1403F.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // L_Hours
+            // MT_1403E
             // 
-            this.L_Hours.AutoSize = true;
-            this.L_Hours.Location = new System.Drawing.Point(16, 205);
-            this.L_Hours.Name = "L_Hours";
-            this.L_Hours.Size = new System.Drawing.Size(26, 13);
-            this.L_Hours.TabIndex = 26;
-            this.L_Hours.Text = "Hrs:";
+            this.MT_1403E.Location = new System.Drawing.Point(64, 242);
+            this.MT_1403E.Mask = "000";
+            this.MT_1403E.Name = "MT_1403E";
+            this.MT_1403E.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403E.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403E.TabIndex = 70;
+            this.MT_1403E.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // MT_Minutes
+            // MT_1403D
             // 
-            this.MT_Minutes.Location = new System.Drawing.Point(117, 202);
-            this.MT_Minutes.Mask = "00";
-            this.MT_Minutes.Name = "MT_Minutes";
-            this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
-            this.MT_Minutes.TabIndex = 27;
-            this.MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403D.Location = new System.Drawing.Point(38, 242);
+            this.MT_1403D.Mask = "000";
+            this.MT_1403D.Name = "MT_1403D";
+            this.MT_1403D.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403D.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403D.TabIndex = 69;
+            this.MT_1403D.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // MT_Seconds
+            // MT_1403C
             // 
-            this.MT_Seconds.Location = new System.Drawing.Point(170, 202);
-            this.MT_Seconds.Mask = "00";
-            this.MT_Seconds.Name = "MT_Seconds";
-            this.MT_Seconds.Size = new System.Drawing.Size(22, 20);
-            this.MT_Seconds.TabIndex = 28;
-            this.MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // L_Minutes
-            // 
-            this.L_Minutes.AutoSize = true;
-            this.L_Minutes.Location = new System.Drawing.Point(89, 205);
-            this.L_Minutes.Name = "L_Minutes";
-            this.L_Minutes.Size = new System.Drawing.Size(27, 13);
-            this.L_Minutes.TabIndex = 29;
-            this.L_Minutes.Text = "Min:";
-            // 
-            // L_Seconds
-            // 
-            this.L_Seconds.AutoSize = true;
-            this.L_Seconds.Location = new System.Drawing.Point(142, 205);
-            this.L_Seconds.Name = "L_Seconds";
-            this.L_Seconds.Size = new System.Drawing.Size(29, 13);
-            this.L_Seconds.TabIndex = 30;
-            this.L_Seconds.Text = "Sec:";
+            this.MT_1403C.Location = new System.Drawing.Point(12, 242);
+            this.MT_1403C.Mask = "000";
+            this.MT_1403C.Name = "MT_1403C";
+            this.MT_1403C.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403C.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403C.TabIndex = 68;
+            this.MT_1403C.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SAV_Trainer
             // 
@@ -1667,6 +1926,7 @@
             this.GB_MaisonCurrent.ResumeLayout(false);
             this.GB_MaisonCurrent.PerformLayout();
             this.GB_Appear.ResumeLayout(false);
+            this.GB_Appear.PerformLayout();
             this.GB_Map.ResumeLayout(false);
             this.GB_Map.PerformLayout();
             this.GB_Misc.ResumeLayout(false);
@@ -1817,5 +2077,25 @@
         private System.Windows.Forms.MaskedTextBox MT_Minutes;
         private System.Windows.Forms.Label L_Hours;
         private System.Windows.Forms.MaskedTextBox MT_Hours;
+        private System.Windows.Forms.MaskedTextBox MT_Sprite;
+        private System.Windows.Forms.MaskedTextBox MT_Hat;
+        private System.Windows.Forms.MaskedTextBox MT_HairColor;
+        private System.Windows.Forms.MaskedTextBox MT_1403B;
+        private System.Windows.Forms.MaskedTextBox MT_1403A;
+        private System.Windows.Forms.MaskedTextBox MT_14039;
+        private System.Windows.Forms.MaskedTextBox MT_14038;
+        private System.Windows.Forms.MaskedTextBox MT_14037;
+        private System.Windows.Forms.MaskedTextBox MT_14036;
+        private System.Windows.Forms.MaskedTextBox MT_14035;
+        private System.Windows.Forms.MaskedTextBox MT_14034;
+        private System.Windows.Forms.MaskedTextBox MT_14033;
+        private System.Windows.Forms.MaskedTextBox MT_14032;
+        private System.Windows.Forms.MaskedTextBox MT_14031;
+        private System.Windows.Forms.MaskedTextBox MT_14030;
+        private System.Windows.Forms.Button B_GiveAccessories;
+        private System.Windows.Forms.MaskedTextBox MT_1403F;
+        private System.Windows.Forms.MaskedTextBox MT_1403E;
+        private System.Windows.Forms.MaskedTextBox MT_1403D;
+        private System.Windows.Forms.MaskedTextBox MT_1403C;
     }
 }
