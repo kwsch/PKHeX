@@ -326,6 +326,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Hex view (as decimal) of the current appearance for advanced editing.
  - Added: Opening of files via command line arguments (dragging onto .exe).
  - Added: Auto-loading of "main" file on startup if it exists.
+ - Fixed: Nice Recieved is actually @ 0x0EC. Added "People Met Online" @ 0x0F4.
  - Fixed: Load Boxes from Folder will no longer give bad eggs in empty slots.
  - Fixed: Can no longer set illegal Dex entries (either manually or via Give All)
  - Misc: Cleaned up some code, reduced file size.

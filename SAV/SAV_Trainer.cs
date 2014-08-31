@@ -36,7 +36,7 @@ namespace PKHeX
                 "0x01C",	"0x01C",
                 "0x020",	"0x020",
                 "0x024",	"Eggs Hatched",
-                "0x028",	"Nice! Received",
+                "0x028",	"0x028",
                 "0x02C",	"0x02C",
                 "0x030",	"0x030",
                 "0x034",	"0x034",
@@ -85,9 +85,9 @@ namespace PKHeX
                 "0x0E0",	"0x0E0",
                 "0x0E4",	"0x0E4",
                 "0x0E8",	"0x0E8",
-                "0x0EC",	"0x0EC",
+                "0x0EC",	"Nice! Received",
                 "0x0F0",	"0x0F0",
-                "0x0F4",	"0x0F4",
+                "0x0F4",	"Total People Met Online",
                 "0x0F8",	"0x0F8",
                 "0x0FC",	"Current Pokemiles",
                 "0x100",	"Obtained Pokemiles",
@@ -583,6 +583,8 @@ namespace PKHeX
 
             // Sprite
             sav[0x19407] = Byte.Parse(MT_Sprite.Text);
+
+            sav[0x19431] = (byte)(Byte.Parse(MT_HairColor.Text) + (Byte.Parse(MT_Hat.Text) << 3));
 
             sav[0x19430 + savshift] = Byte.Parse(MT_14030.Text);
             //sav[0x19431 + savshift] = Byte.Parse(MT_14031.Text);
