@@ -636,7 +636,6 @@ namespace PKHeX
             if (box.Text == "") box.Text = "0";
             if (int.Parse(box.Text) > 255) box.Text = "255";
         }
-
         private void changeStat(object sender, EventArgs e)
         {
             editing = true;
@@ -664,7 +663,6 @@ namespace PKHeX
                 Array.Copy(data, 0, sav, pssoff + offset, 4);
             }
         }
-
         private void giveAllAccessories(object sender, EventArgs e)
         {
             byte[] data = new byte[] {

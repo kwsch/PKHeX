@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Pokedex));
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.L_Beta = new System.Windows.Forms.Label();
             this.LB_Species = new System.Windows.Forms.ListBox();
             this.CHK_P1 = new System.Windows.Forms.CheckBox();
             this.CHK_P2 = new System.Windows.Forms.CheckBox();
@@ -58,6 +57,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.CHK_F1 = new System.Windows.Forms.CheckBox();
+            this.TB_Spinda = new System.Windows.Forms.TextBox();
+            this.L_Spinda = new System.Windows.Forms.Label();
             this.GB_Language.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -72,16 +73,6 @@
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
-            // 
-            // L_Beta
-            // 
-            this.L_Beta.AutoSize = true;
-            this.L_Beta.ForeColor = System.Drawing.Color.Red;
-            this.L_Beta.Location = new System.Drawing.Point(284, 196);
-            this.L_Beta.Name = "L_Beta";
-            this.L_Beta.Size = new System.Drawing.Size(84, 13);
-            this.L_Beta.TabIndex = 1;
-            this.L_Beta.Text = "Still researching.";
             // 
             // LB_Species
             // 
@@ -390,15 +381,35 @@
             this.CHK_F1.UseVisualStyleBackColor = true;
             this.CHK_F1.Click += new System.EventHandler(this.changePartitionBool);
             // 
+            // TB_Spinda
+            // 
+            this.TB_Spinda.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_Spinda.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_Spinda.Location = new System.Drawing.Point(317, 196);
+            this.TB_Spinda.Name = "TB_Spinda";
+            this.TB_Spinda.Size = new System.Drawing.Size(60, 20);
+            this.TB_Spinda.TabIndex = 29;
+            this.TB_Spinda.Text = "12345678";
+            // 
+            // L_Spinda
+            // 
+            this.L_Spinda.AutoSize = true;
+            this.L_Spinda.Location = new System.Drawing.Point(266, 198);
+            this.L_Spinda.Name = "L_Spinda";
+            this.L_Spinda.Size = new System.Drawing.Size(43, 13);
+            this.L_Spinda.TabIndex = 30;
+            this.L_Spinda.Text = "Spinda:";
+            // 
             // SAV_Pokedex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 272);
+            this.Controls.Add(this.L_Spinda);
+            this.Controls.Add(this.TB_Spinda);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.GB_Language);
-            this.Controls.Add(this.L_Beta);
             this.Controls.Add(this.B_FillDex);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_GiveAll);
@@ -427,7 +438,6 @@
         #endregion
 
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.Label L_Beta;
         private System.Windows.Forms.ListBox LB_Species;
         private System.Windows.Forms.CheckBox CHK_P1;
         private System.Windows.Forms.CheckBox CHK_P2;
@@ -455,5 +465,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox CHK_F1;
+        private System.Windows.Forms.TextBox TB_Spinda;
+        private System.Windows.Forms.Label L_Spinda;
     }
 }

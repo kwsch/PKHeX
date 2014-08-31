@@ -21,6 +21,7 @@ namespace PKHeX
             Setup();
             editing = false;
             LB_Species.SelectedIndex = 0;
+            TB_Spinda.Text = BitConverter.ToUInt32(sav, 0x1AA48).ToString("X8");
         }
         public byte[] sav = new Byte[0x100000];
         public int savshift = 0;
@@ -151,9 +152,12 @@ namespace PKHeX
 
             if (pk > 721)
             {
-                CHK_P1.Checked = CHK_P1.Enabled = false;
-                CHK_P10.Checked = CHK_P10.Enabled = false;
-                CHK_P6.Enabled = CHK_P7.Enabled = CHK_P8.Enabled = CHK_P9.Enabled = false;
+                //CHK_P1.Checked = CHK_P1.Enabled = false;
+                //CHK_P10.Checked = CHK_P10.Enabled = false;
+                //CHK_P6.Enabled = CHK_P7.Enabled = CHK_P8.Enabled = CHK_P9.Enabled = false;
+
+                for (int i = 0; i < 10; i++)
+                    CP[i].Enabled = true;
 
                 for (int i = 0; i < 7; i++)
                     CL[i].Checked = CL[i].Enabled = false;
@@ -251,13 +255,23 @@ namespace PKHeX
                         foreigndata[i / 8] |= (byte)(1 << i % 8);
                 Array.Copy(foreigndata, 0, sav, savshift + 0x1AA4C, 0x52);
             }
+
+            // Store Spinda Spot
+            try
+            {
+                uint PID = m_parent.getHEXval(TB_Spinda);
+                Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + savshift, 4);
+            }
+            catch { };
+
+            // Return back to the parent savefile
             Array.Copy(sav, m_parent.savefile, sav.Length);
             this.Close();
         }
 
         private void B_GiveAll_Click(object sender, EventArgs e)
         {
-            if (LB_Species.SelectedIndex > 0x2D1) return;
+            if (LB_Species.SelectedIndex > 0x2D0) return;
             if (CHK_L1.Enabled)
             {
                 CHK_L1.Checked =
@@ -286,6 +300,7 @@ namespace PKHeX
 
             changePartitionBool(null, null);
             changeLanguageBool(null, null);
+            LB_Species.SelectedIndex++;
         }
         private void B_FillDex_Click(object sender, EventArgs e)
         {
@@ -334,8 +349,10 @@ namespace PKHeX
             //}
 
             // Copy Full Dex Byte Array
-            byte[] fulldex = (byte)Properties.Resources.fulldex_XY;
-            Array.Copy(sav, savshift + 0x1A408, fulldex, 0, fulldex.Length);
+            byte[] fulldex = Properties.Resources.fulldex_XY;
+            Array.Copy(fulldex, 0, sav, savshift + 0x1A400, 0x640);
+            // Skip the unknown sections.
+            Array.Copy(fulldex, 0x64C, sav, savshift + 0x1A400 + 0x64C, 0x54);
 
             editing = true;
             Setup();

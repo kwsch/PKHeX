@@ -132,6 +132,10 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.GB_Appear = new System.Windows.Forms.GroupBox();
+            this.MT_1403F = new System.Windows.Forms.MaskedTextBox();
+            this.MT_1403E = new System.Windows.Forms.MaskedTextBox();
+            this.MT_1403D = new System.Windows.Forms.MaskedTextBox();
+            this.MT_1403C = new System.Windows.Forms.MaskedTextBox();
             this.B_GiveAccessories = new System.Windows.Forms.Button();
             this.MT_1403B = new System.Windows.Forms.MaskedTextBox();
             this.MT_1403A = new System.Windows.Forms.MaskedTextBox();
@@ -184,10 +188,7 @@
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.label39 = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
-            this.MT_1403F = new System.Windows.Forms.MaskedTextBox();
-            this.MT_1403E = new System.Windows.Forms.MaskedTextBox();
-            this.MT_1403D = new System.Windows.Forms.MaskedTextBox();
-            this.MT_1403C = new System.Windows.Forms.MaskedTextBox();
+            this.label35 = new System.Windows.Forms.Label();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -1266,6 +1267,7 @@
             // 
             // GB_Appear
             // 
+            this.GB_Appear.Controls.Add(this.label35);
             this.GB_Appear.Controls.Add(this.MT_1403F);
             this.GB_Appear.Controls.Add(this.MT_1403E);
             this.GB_Appear.Controls.Add(this.MT_1403D);
@@ -1313,6 +1315,46 @@
             this.GB_Appear.TabIndex = 50;
             this.GB_Appear.TabStop = false;
             this.GB_Appear.Text = "Current Appearance (X/Y)";
+            // 
+            // MT_1403F
+            // 
+            this.MT_1403F.Location = new System.Drawing.Point(90, 242);
+            this.MT_1403F.Mask = "000";
+            this.MT_1403F.Name = "MT_1403F";
+            this.MT_1403F.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403F.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403F.TabIndex = 71;
+            this.MT_1403F.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_1403E
+            // 
+            this.MT_1403E.Location = new System.Drawing.Point(64, 242);
+            this.MT_1403E.Mask = "000";
+            this.MT_1403E.Name = "MT_1403E";
+            this.MT_1403E.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403E.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403E.TabIndex = 70;
+            this.MT_1403E.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_1403D
+            // 
+            this.MT_1403D.Location = new System.Drawing.Point(38, 242);
+            this.MT_1403D.Mask = "000";
+            this.MT_1403D.Name = "MT_1403D";
+            this.MT_1403D.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403D.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403D.TabIndex = 69;
+            this.MT_1403D.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_1403C
+            // 
+            this.MT_1403C.Location = new System.Drawing.Point(12, 242);
+            this.MT_1403C.Mask = "000";
+            this.MT_1403C.Name = "MT_1403C";
+            this.MT_1403C.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_1403C.Size = new System.Drawing.Size(26, 20);
+            this.MT_1403C.TabIndex = 68;
+            this.MT_1403C.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // B_GiveAccessories
             // 
@@ -1386,7 +1428,7 @@
             // 
             // MT_14035
             // 
-            this.MT_14035.Location = new System.Drawing.Point(142, 205);
+            this.MT_14035.Location = new System.Drawing.Point(142, 204);
             this.MT_14035.Mask = "000";
             this.MT_14035.Name = "MT_14035";
             this.MT_14035.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1396,7 +1438,7 @@
             // 
             // MT_14034
             // 
-            this.MT_14034.Location = new System.Drawing.Point(116, 205);
+            this.MT_14034.Location = new System.Drawing.Point(116, 204);
             this.MT_14034.Mask = "000";
             this.MT_14034.Name = "MT_14034";
             this.MT_14034.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1406,7 +1448,7 @@
             // 
             // MT_14033
             // 
-            this.MT_14033.Location = new System.Drawing.Point(90, 205);
+            this.MT_14033.Location = new System.Drawing.Point(90, 204);
             this.MT_14033.Mask = "000";
             this.MT_14033.Name = "MT_14033";
             this.MT_14033.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1416,7 +1458,7 @@
             // 
             // MT_14032
             // 
-            this.MT_14032.Location = new System.Drawing.Point(64, 205);
+            this.MT_14032.Location = new System.Drawing.Point(64, 204);
             this.MT_14032.Mask = "000";
             this.MT_14032.Name = "MT_14032";
             this.MT_14032.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1427,7 +1469,7 @@
             // MT_14031
             // 
             this.MT_14031.Enabled = false;
-            this.MT_14031.Location = new System.Drawing.Point(38, 205);
+            this.MT_14031.Location = new System.Drawing.Point(38, 204);
             this.MT_14031.Mask = "000";
             this.MT_14031.Name = "MT_14031";
             this.MT_14031.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1437,7 +1479,7 @@
             // 
             // MT_14030
             // 
-            this.MT_14030.Location = new System.Drawing.Point(12, 205);
+            this.MT_14030.Location = new System.Drawing.Point(12, 204);
             this.MT_14030.Mask = "000";
             this.MT_14030.Name = "MT_14030";
             this.MT_14030.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1669,7 +1711,6 @@
             this.label23.TabIndex = 1;
             this.label23.Text = "Hair Color:";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label23.Visible = false;
             // 
             // label22
             // 
@@ -1679,6 +1720,7 @@
             this.label22.TabIndex = 0;
             this.label22.Text = "Skin Color:";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label22.Visible = false;
             // 
             // GB_Map
             // 
@@ -1845,45 +1887,14 @@
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
             // 
-            // MT_1403F
+            // label35
             // 
-            this.MT_1403F.Location = new System.Drawing.Point(90, 242);
-            this.MT_1403F.Mask = "000";
-            this.MT_1403F.Name = "MT_1403F";
-            this.MT_1403F.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_1403F.Size = new System.Drawing.Size(26, 20);
-            this.MT_1403F.TabIndex = 71;
-            this.MT_1403F.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // MT_1403E
-            // 
-            this.MT_1403E.Location = new System.Drawing.Point(64, 242);
-            this.MT_1403E.Mask = "000";
-            this.MT_1403E.Name = "MT_1403E";
-            this.MT_1403E.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_1403E.Size = new System.Drawing.Size(26, 20);
-            this.MT_1403E.TabIndex = 70;
-            this.MT_1403E.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // MT_1403D
-            // 
-            this.MT_1403D.Location = new System.Drawing.Point(38, 242);
-            this.MT_1403D.Mask = "000";
-            this.MT_1403D.Name = "MT_1403D";
-            this.MT_1403D.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_1403D.Size = new System.Drawing.Size(26, 20);
-            this.MT_1403D.TabIndex = 69;
-            this.MT_1403D.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // MT_1403C
-            // 
-            this.MT_1403C.Location = new System.Drawing.Point(12, 242);
-            this.MT_1403C.Mask = "000";
-            this.MT_1403C.Name = "MT_1403C";
-            this.MT_1403C.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_1403C.Size = new System.Drawing.Size(26, 20);
-            this.MT_1403C.TabIndex = 68;
-            this.MT_1403C.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(116, 244);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(55, 13);
+            this.label35.TabIndex = 72;
+            this.label35.Text = "Outfit Vals";
             // 
             // SAV_Trainer
             // 
@@ -2097,5 +2108,6 @@
         private System.Windows.Forms.MaskedTextBox MT_1403E;
         private System.Windows.Forms.MaskedTextBox MT_1403D;
         private System.Windows.Forms.MaskedTextBox MT_1403C;
+        private System.Windows.Forms.Label label35;
     }
 }
