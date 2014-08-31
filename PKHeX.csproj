@@ -301,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icon.ico" />
+    <None Include="Resources\byte\fulldex_XY" />
     <None Include="Resources\img\Pokemon Sprites\unknown.png" />
     <None Include="Resources\img\item\item_670.png" />
     <None Include="Resources\img\item\item_669.png" />
