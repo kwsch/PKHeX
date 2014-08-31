@@ -7068,6 +7068,13 @@ namespace PKHeX.Properties {
             }
         }
         
+        internal static byte[] fulldex_XY {
+            get {
+                object obj = ResourceManager.GetObject("fulldex_XY", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap gorgeous {
             get {
                 object obj = ResourceManager.GetObject("gorgeous", resourceCulture);

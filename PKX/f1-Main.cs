@@ -1919,7 +1919,7 @@ namespace PKHeX
             catch
             { return 0; }
         }
-        private uint getHEXval(TextBox tb)
+        public uint getHEXval(TextBox tb)
         {
             if (tb.Text == null)
                 return 0;

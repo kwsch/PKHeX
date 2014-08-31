@@ -308,10 +308,24 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Externally edited saves with bad data are handled more efficiently (items/sprites).
  - Fixed: Users entering values above a certain limit (byte values are capped at 255).
 
-08/18/14 - New Update: (50)
+08/18/14 - New Update: (3250)
  - Added: Import Database will now add the Pokedex entries for the data you load.
  - Added: Pokedex Give All Entries added (Fill Dex gives everything, Give All gives all for the specific species).
  - - Alt clicking [Fill All] will add all of the "Encountered" flags; by default this does not happen.
  - Fixed: Level 100 glitching fixed.
  - Fixed: Pokedex corruption (I hope).
  - Removed: Backup (.bak) saving when replacing the Cyber Save file "main".
+
+08/31/14 - New Update:
+ - Added: Cyber screwup notification upon saving. 
+ - - If a 0x200 byte chunk is all 0xFF, your save will be corrupt when you write it back (not PKHeX's fault).
+ - Added: All Item 'cheat', activated by holding ALT when clicking the ITEMS button within the Inventory Menu.
+ - Added: Full Pokedex 'cheat' now functions properly. Due to Cyber's screwup, do not obtain an Italian Petlil.
+ - Added: All Accessories 'cheat' to the Appearance section of Trainer Info
+ - Added: Index selection for Hat and Hair Color(?). If you don't want to wear a hat, set it to 0.
+ - Added: Hex view (as decimal) of the current appearance for advanced editing.
+ - Added: Opening of files via command line arguments (dragging onto .exe).
+ - Added: Auto-loading of "main" file on startup if it exists.
+ - Fixed: Load Boxes from Folder will no longer give bad eggs in empty slots.
+ - Fixed: Can no longer set illegal Dex entries (either manually or via Give All)
+ - Misc: Cleaned up some code, reduced file size.
