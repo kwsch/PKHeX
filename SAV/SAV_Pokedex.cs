@@ -217,6 +217,14 @@ namespace PKHeX
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
+            saveChanges();
+
+            // Return back to the parent savefile
+            Array.Copy(sav, m_parent.savefile, sav.Length);
+            this.Close();
+        }
+        private void saveChanges()
+        {
             // Save back the Species Bools 
             // Return to Byte Array        
             for (int p = 0; p < 10; p++)
@@ -263,10 +271,6 @@ namespace PKHeX
                 Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + savshift, 4);
             }
             catch { };
-
-            // Return back to the parent savefile
-            Array.Copy(sav, m_parent.savefile, sav.Length);
-            this.Close();
         }
 
         private void B_GiveAll_Click(object sender, EventArgs e)
@@ -304,55 +308,21 @@ namespace PKHeX
         }
         private void B_FillDex_Click(object sender, EventArgs e)
         {
+            saveChanges();
             int index = LB_Species.SelectedIndex;
-            //{   // Fill Partitions
-            //    byte[] sdata = new Byte[0x60];
-
-            //    for (int i = 0; i < 0x5A; i++)
-            //        sdata[i] = 0xFF;
-            //    sdata[0x5A] = 1;
-
-            //    {   // Traded & Native Flags
-            //        Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * 0, 0x60);
-            //        Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * 9, 0x60);
-            //    }
-            //    {   // FF out the Encountered
-            //        if (ModifierKeys == Keys.Alt)
-            //            for (int p = 5; p < 9; p++)
-            //                Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
-            //    }
-            //    {   // FF out the Owned Partitions
-            //        // for (int i = 0x5A; i < 0x60; i++)
-            //        //     sdata[i] = 0xFF;
-            //        for (int p = 1; p < 5; p++)
-            //            Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
-            //    }
-            //}
-            //{   // Fill Foreign Obtained
-            //    byte[] foreigndata = new byte[0x52];
-            //    for (int i = 0; i < 0x51; i++)
-            //        foreigndata[i] = 0xFF;
-
-            //    foreigndata[0x51] = 1;
-
-            //    Array.Copy(foreigndata, 0, sav, savshift + 0x1AA4C, 0x52);
-            //}
-            //{   // Fill Language
-            //    byte[] langdata = new Byte[0x280];
-
-            //    for (int i = 0; i < 630; i++)
-            //        langdata[i] = 0xFF;
-
-            //    langdata[630] = 0x7F;
-
-            //    Array.Copy(langdata, 0, sav, savshift + 0x1A7C8, 0x280);
-            //}
-
             // Copy Full Dex Byte Array
             byte[] fulldex = Properties.Resources.fulldex_XY;
-            Array.Copy(fulldex, 0, sav, savshift + 0x1A400, 0x640);
-            // Skip the unknown sections.
-            Array.Copy(fulldex, 0x64C, sav, savshift + 0x1A400 + 0x64C, 0x54);
+            if (ModifierKeys != Keys.Control)
+            {
+                // Array.Copy(fulldex, 0x008, sav, savshift + 0x1A408, 0x638);
+            }
+            else
+            {
+                Array.Copy(fulldex, 0x008, sav, savshift + 0x1A408, 0x1E0); // Copy Partitions 1-5
+                Array.Copy(fulldex, 0x368, sav, savshift + 0x1A768, 0x2D8); // Copy A & language
+            }
+            // Skip the unknown sections then
+                Array.Copy(fulldex, 0x64C, sav, savshift + 0x1AA4C, 0x054);
 
             editing = true;
             Setup();
