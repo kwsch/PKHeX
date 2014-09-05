@@ -6019,15 +6019,16 @@ namespace PKHeX
         {
             if (path == "") return;
             int offset = SaveGame.Box;
+            int ctr = C_BoxSelect.SelectedIndex * 30;
+            int pastctr = 0;
 
             // Clear out the box data array.
-            // Array.Clear(savefile, offset, size * 30 * 31); 
+            // Array.Clear(savefile, offset, size * 30 * 31);
             byte[] ezeros = encryptArray(new Byte[232]);
-            for (int i = 0; i < 30 * 31; i++)
+            for (int i = ctr; i < 30 * 31; i++)
                 Array.Copy(ezeros, 0, savefile, offset + i * 232, 232);
 
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
-            int ctr = 0; int pastctr = 0;
             var Converter = new PKHeX.pk2pk();
 
             for (int i = 0; i < filepaths.Length; i++)
