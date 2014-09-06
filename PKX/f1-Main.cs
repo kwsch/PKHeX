@@ -2174,7 +2174,7 @@ namespace PKHeX
 
             // Mega List
             int[] mspec = {     // XY
-                                3, 9, 65, 94, 115, 127, 130, 142, 154, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 469, 
+                                3, 9, 65, 94, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 469, 
                                 // ORAS
                                 // 254, 260, 376, 719,
                           };
@@ -6024,10 +6024,12 @@ namespace PKHeX
 
             // Clear out the box data array.
             // Array.Clear(savefile, offset, size * 30 * 31);
-            byte[] ezeros = encryptArray(new Byte[232]);
-            for (int i = ctr; i < 30 * 31; i++)
-                Array.Copy(ezeros, 0, savefile, offset + i * 232, 232);
-
+            if (MessageBox.Show("Clear subsequent boxes when importing data?\n\nIf you only want to overwrite for new data, press no.","Alert",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                byte[] ezeros = encryptArray(new Byte[232]);
+                for (int i = ctr; i < 30 * 31; i++)
+                    Array.Copy(ezeros, 0, savefile, offset + i * 232, 232);
+            }
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
             var Converter = new PKHeX.pk2pk();
 

@@ -330,3 +330,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Load Boxes from Folder will no longer give bad eggs in empty slots.
  - Fixed: Can no longer set illegal Dex entries (either manually or via Give All)
  - Misc: Cleaned up some code, reduced file size.
+
+09/XX/14 - New Update:
+ - Added: Box Import will start at the current box.
+ - Added: Box Import can be instructed to clear all boxes or just overwrite individual slots.
