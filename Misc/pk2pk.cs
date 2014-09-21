@@ -991,10 +991,10 @@ namespace PKHeX
             pk4[0x36] = (byte)((ppup >> 4) & 3);
             pk4[0x37] = (byte)((ppup >> 6) & 3);
             // Get Move PP
-            pk4[0x30] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x28), 2) * (5 + pk4[0x34]) / 5);
-            pk4[0x31] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2A), 2) * (5 + pk4[0x35]) / 5);
-            pk4[0x32] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2C), 2) * (5 + pk4[0x36]) / 5);
-            pk4[0x33] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2E), 2) * (5 + pk4[0x37]) / 5);
+            pk4[0x30] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x28)) * (5 + pk4[0x34]) / 5);
+            pk4[0x31] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2A)) * (5 + pk4[0x35]) / 5);
+            pk4[0x32] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2C)) * (5 + pk4[0x36]) / 5);
+            pk4[0x33] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2E)) * (5 + pk4[0x37]) / 5);
 
             // Copy IVs
             uint IVs = BitConverter.ToUInt32(pk3, 0x48);
@@ -1192,7 +1192,7 @@ namespace PKHeX
             // pk5[0x0A] = pk5[0x0B] = 0;
 
             for (int i = 0; i < 4; i++) // fix PP
-                pk5[0x30 + i] = (byte)((getMovePP(BitConverter.ToUInt16(pk5, 0x28 + 2 * i), 1) * (5 + pk5[0x34+i])) / 5);
+                pk5[0x30 + i] = (byte)((getMovePP(BitConverter.ToUInt16(pk5, 0x28 + 2 * i)) * (5 + pk5[0x34+i])) / 5);
 
             // fix nature
             pk5[0x41] = (byte)(BitConverter.ToUInt32(pk5, 0) % 0x19);
@@ -1325,10 +1325,10 @@ namespace PKHeX
             for (int i = 0; i < 16; i++)
                 pk6[0x5A + i] = pk5[0x28 + i];
             // Fix PP; some moves have different PP in Gen 6.
-            pk6[0x62] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5A), 0) * (5 + pk6[0x66]) / 5);
-            pk6[0x63] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5C), 0) * (5 + pk6[0x67]) / 5);
-            pk6[0x64] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5E), 0) * (5 + pk6[0x68]) / 5);
-            pk6[0x65] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x60), 0) * (5 + pk6[0x69]) / 5);
+            pk6[0x62] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5A)) * (5 + pk6[0x66]) / 5);
+            pk6[0x63] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5C)) * (5 + pk6[0x67]) / 5);
+            pk6[0x64] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5E)) * (5 + pk6[0x68]) / 5);
+            pk6[0x65] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x60)) * (5 + pk6[0x69]) / 5);
 
             // Copy 32bit IV value.
             for (int i = 0; i < 4; i++)
@@ -4914,12 +4914,12 @@ namespace PKHeX
             }
             return 0;
         }
-        private int getMovePP(int move, int g6mn)
+        private int getMovePP(int move)
         {
             int pp = 0;
             DataTable movepptable = Util.MovePPTable();
             if (move == -1) { move = 0; }
-            pp = (int)movepptable.Rows[move][1+g6mn];
+            pp = (int)movepptable.Rows[move][1];
             return pp;
         }
 
