@@ -1760,7 +1760,7 @@ namespace PKHeX
                 }
                 catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
             }
-            else { CHK_AsEgg.Checked = false; CB_EggLocation.SelectedValue = 0; GB_EggConditions.Enabled = false; }
+            else { CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
 
             CB_MetLocation.SelectedValue = metloc;
 
@@ -1768,16 +1768,16 @@ namespace PKHeX
             else Label_CTGender.Text = "♂";
             if (TB_OTt2.Text == "") Label_CTGender.Text = "";
 
-            if (CHK_IsEgg.Checked)
-            {
-                CB_MetLocation.Enabled = false;
-                CAL_MetDate.Enabled = false;
-            }
-            else
-            {
-                CB_MetLocation.Enabled = true;
-                CAL_MetDate.Enabled = true;
-            }
+            //if (CHK_IsEgg.Checked)
+            //{
+            //    CB_MetLocation.Enabled = false;
+            //    CAL_MetDate.Enabled = false;
+            //}
+            //else
+            //{
+            //    CB_MetLocation.Enabled = true;
+            //    CAL_MetDate.Enabled = true;
+            //}
 
             // reset
             CHK_Cured.Checked = false;
@@ -3394,7 +3394,7 @@ namespace PKHeX
                         case 7: l = "es"; break;
                         case 8: l = "ko"; break;
                         default: l = curlanguage; break;
-                    }
+                    }                    
                     TB_Nickname.Text = Util.getStringList("Species", l)[species];
                 }
             }
@@ -3469,7 +3469,7 @@ namespace PKHeX
                 GB_EggConditions.Enabled = true;
 
                 CAL_MetDate.Value = new DateTime(2000, 01, 01);
-                CB_MetLocation.SelectedValue = 0;
+                CB_MetLocation.SelectedIndex = 2;
             }
             else // Not Egg
             {
@@ -3489,8 +3489,8 @@ namespace PKHeX
             Label_HatchCounter.Visible = CHK_IsEgg.Checked;
             Label_Friendship.Visible = !CHK_IsEgg.Checked;
             // Disable 
-            CB_MetLocation.Enabled = !CHK_IsEgg.Checked;
-            CAL_MetDate.Enabled = !CHK_IsEgg.Checked;
+            // CB_MetLocation.Enabled = !CHK_IsEgg.Checked;
+            // CAL_MetDate.Enabled = !CHK_IsEgg.Checked;
         }
         private void updateMetAsEgg(object sender, EventArgs e)
         {
@@ -4514,7 +4514,7 @@ namespace PKHeX
             pkx[0xD5] = (byte)CAL_MetDate.Value.Month;
             pkx[0xD6] = (byte)CAL_MetDate.Value.Day;
 
-            if (CHK_IsEgg.Checked)    // If still an egg, it has no hatch location/date. Zero it!
+            if (CHK_IsEgg.Checked && CB_MetLocation.SelectedIndex == 0)    // If still an egg, it has no hatch location/date. Zero it!
             {
                 pkx[0xD4] = 0;
                 pkx[0xD5] = 0;
