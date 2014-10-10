@@ -40,7 +40,7 @@ namespace PKHeX
                 if (data.Length <= (31 - index) * (0xE8 * 30))
                 {
                     Array.Copy(data, 0, m_parent.savefile, offset, data.Length);
-                    m_parent.getPKXBoxes();
+                    m_parent.setPKXBoxes();
                 }
                 else
                 {

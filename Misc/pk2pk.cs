@@ -15,7 +15,7 @@ namespace PKHeX
         public byte[] ConvertPKM(byte[] input, byte[] savefile, int savindex)
         {
             #region Initialize Everything
-            spectable = Util.SpeciesTable();
+            spectable = PKX.SpeciesTable();
 
             // Load Species Name Tables
             speclang_ja = getStringList("Species", "ja");
@@ -991,10 +991,10 @@ namespace PKHeX
             pk4[0x36] = (byte)((ppup >> 4) & 3);
             pk4[0x37] = (byte)((ppup >> 6) & 3);
             // Get Move PP
-            pk4[0x30] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x28)) * (5 + pk4[0x34]) / 5);
-            pk4[0x31] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2A)) * (5 + pk4[0x35]) / 5);
-            pk4[0x32] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2C)) * (5 + pk4[0x36]) / 5);
-            pk4[0x33] = (byte)(getMovePP(BitConverter.ToInt16(pk4, 0x2E)) * (5 + pk4[0x37]) / 5);
+            pk4[0x30] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk4, 0x28), pk4[0x34]));
+            pk4[0x31] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk4, 0x2A), pk4[0x35]));
+            pk4[0x32] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk4, 0x2C), pk4[0x36]));
+            pk4[0x33] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk4, 0x2E), pk4[0x37]));
 
             // Copy IVs
             uint IVs = BitConverter.ToUInt32(pk3, 0x48);
@@ -1008,7 +1008,7 @@ namespace PKHeX
             if (((pk4[0x3B] >> 6) & 1) == 1)
             {
                 // set level to 5...
-                Array.Copy(BitConverter.GetBytes(getEXP(5, species)), 0, pk4, 0x10, 4);
+                Array.Copy(BitConverter.GetBytes(PKX.getEXP(5, species)), 0, pk4, 0x10, 4);
                 // set nickname to species name later
                 isegg = true;
             }
@@ -1052,7 +1052,7 @@ namespace PKHeX
             pk4[0x5F] = (byte)((origins >> 7) & 0xF);   // Hometown Game
             pk4[0x82] = pk3[0x44];                      // Copy Pokerus
             pk4[0x83] = (byte)((origins >> 11) & 0xF);  // Ball
-            pk4[0x84] = (byte)((pk3[0x47] & 0x80) | ((byte)getLevel(species, exp)));
+            pk4[0x84] = (byte)((pk3[0x47] & 0x80) | ((byte)PKX.getLevel(species, ref exp)));
 
             // Nickname and OT Name handling...
             byte[][] trash = new byte[8][];
@@ -1192,7 +1192,7 @@ namespace PKHeX
             // pk5[0x0A] = pk5[0x0B] = 0;
 
             for (int i = 0; i < 4; i++) // fix PP
-                pk5[0x30 + i] = (byte)((getMovePP(BitConverter.ToUInt16(pk5, 0x28 + 2 * i)) * (5 + pk5[0x34+i])) / 5);
+                pk5[0x30 + i] = (byte)(PKX.getMovePP(BitConverter.ToUInt16(pk5, 0x28 + 2 * i),pk5[0x34+i]));
 
             // fix nature
             pk5[0x41] = (byte)(BitConverter.ToUInt32(pk5, 0) % 0x19);
@@ -1266,7 +1266,7 @@ namespace PKHeX
             // Fix Level
             pk5[0x84] &= 0x80;
             uint exp = BitConverter.ToUInt32(pk5, 0x10);
-            pk5[0x84] |= (byte)getLevel(species, exp);
+            pk5[0x84] |= (byte)PKX.getLevel(species, ref exp);
 
             // Fix Checksum
             ushort chk = 0;
@@ -1325,10 +1325,10 @@ namespace PKHeX
             for (int i = 0; i < 16; i++)
                 pk6[0x5A + i] = pk5[0x28 + i];
             // Fix PP; some moves have different PP in Gen 6.
-            pk6[0x62] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5A)) * (5 + pk6[0x66]) / 5);
-            pk6[0x63] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5C)) * (5 + pk6[0x67]) / 5);
-            pk6[0x64] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x5E)) * (5 + pk6[0x68]) / 5);
-            pk6[0x65] = (byte)(getMovePP(BitConverter.ToInt16(pk6, 0x60)) * (5 + pk6[0x69]) / 5);
+            pk6[0x62] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk6, 0x5A), pk6[0x66]));
+            pk6[0x63] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk6, 0x5C), pk6[0x67]));
+            pk6[0x64] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk6, 0x5E), pk6[0x68]));
+            pk6[0x65] = (byte)(PKX.getMovePP(BitConverter.ToInt16(pk6, 0x60), pk6[0x69]));
 
             // Copy 32bit IV value.
             for (int i = 0; i < 4; i++)
@@ -1494,10 +1494,10 @@ namespace PKHeX
             // 01 - Not handled by OT
             // 07 - CA
             // 31 - USA
-            byte[] x90x = new byte[] { 0x00, 0x00, g6trgend, 0x01, (byte)subreg, (byte)country, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte)getBaseFriendship(species), 0x00, 0x01, 0x04, (byte)(rnd32() % 10), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            byte[] x90x = new byte[] { 0x00, 0x00, g6trgend, 0x01, (byte)subreg, (byte)country, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte)PKX.getBaseFriendship(species), 0x00, 0x01, 0x04, (byte)(Util.rnd32() % 10), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             Array.Copy(x90x, 0, pk6, 0x90, x90x.Length);
             // When transferred, friendship gets reset.
-            pk6[0xCA] = (byte)getBaseFriendship(species);
+            pk6[0xCA] = (byte)PKX.getBaseFriendship(species);
 
             // Write Origin (USA California) - location is dependent on 3DS system that transfers.
             pk6[0xE0] = (byte)country;   
@@ -1554,19 +1554,6 @@ namespace PKHeX
             }
         }
 
-        private static uint LCRNG(uint seed)
-        {
-            uint a = 0x41C64E6D;
-            uint c = 0x00006073;
-
-            seed = (seed * a + c) & 0xFFFFFFFF;
-            return seed;
-        }
-        private static Random rand = new Random();
-        private static uint rnd32()
-        {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
-        }
         static DataTable Char3to4E()
         {
             DataTable table = new DataTable();
@@ -4818,109 +4805,6 @@ namespace PKHeX
             table.Rows.Add(386,0x2e,0x2e);
             #endregion
             return table;
-        }
-        private int getBaseFriendship(int species)
-        {
-            int fshp = (int)Util.Friendship().Rows[species][1];
-            // return fshp;
-            return fshp;
-        }
-        private int getLevel(int species, uint exp)
-        {
-            DataTable spectable = Util.SpeciesTable();
-            int growth = (int)spectable.Rows[species][1];
-            int tl = 1; // Initial Level
-            if (exp == 0) { return tl; }
-            DataTable table = Util.ExpTable();
-            if ((int)table.Rows[tl][growth + 1] < exp)
-            {
-                while ((int)table.Rows[tl][growth + 1] < exp)
-                {
-                    // While EXP for guessed level is below our current exp
-                    tl += 1;
-                    if (tl == 100)
-                    {
-                        getEXP(100, species);
-                        return tl;
-                    }
-                    // when calcexp exceeds our exp, we exit loop
-                }
-                if ((int)table.Rows[tl][growth + 1] == exp)
-                {
-                    // Matches level threshold
-                    return tl;
-                }
-                else return (tl - 1);
-            }
-            else return tl;
-        }
-        private int getEXP(int level, int species)
-        {
-            // Fetch Growth
-            DataTable spectable = Util.SpeciesTable();
-            int growth = (int)spectable.Rows[species][1];
-            int exp;
-            if ((level == 0) || (level == 1))
-            {
-                exp = 0;
-                return exp;
-            }
-            switch (growth)
-            {
-                case 0: // Erratic
-                    if (level <= 50)
-                    {
-                        exp = (level * level * level) * (100 - level) / 50;
-                    }
-                    else if (level < 69)
-                    {
-                        exp = (level * level * level) * (150 - level) / 100;
-                    }
-                    else if (level < 99)
-                    {
-                        exp = (level * level * level) * ((1911 - 10 * level) / 3) / 500;
-                    }
-                    else
-                    {
-                        exp = (level * level * level) * (160 - level) / 100;
-                    }
-                    return exp;
-                case 1: // Fast
-                    exp = 4 * (level * level * level) / 5;
-                    return exp;
-                case 2: // Medium Fast
-                    exp = (level * level * level);
-                    return exp;
-                case 3: // Medium Slow
-                    exp = 6 * (level * level * level) / 5 - 15 * (level * level) + 100 * level - 140;
-                    return exp;
-                case 4:
-                    exp = 5 * (level * level * level) / 4;
-                    return exp;
-                case 5:
-                    if (level <= 15)
-                    {
-                        exp = (level * level * level) * ((((level + 1) / 3) + 24) / 50);
-                    }
-                    else if (level <= 36)
-                    {
-                        exp = (level * level * level) * ((level + 14) / 50);
-                    }
-                    else
-                    {
-                        exp = (level * level * level) * (((level / 2) + 32) / 50);
-                    }
-                    return exp;
-            }
-            return 0;
-        }
-        private int getMovePP(int move)
-        {
-            int pp = 0;
-            DataTable movepptable = Util.MovePPTable();
-            if (move == -1) { move = 0; }
-            pp = (int)movepptable.Rows[move][1];
-            return pp;
         }
 
         private int getg3species(int g3index)

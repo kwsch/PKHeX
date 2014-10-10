@@ -25,8 +25,8 @@ namespace PKHeX
             // Set up Training Bag Data
             comboBox1.Items.Clear();
             comboBox1.Items.Add("---");
-            for (int i = 1; i < m_parent.trainingbags.Length-1; i++)
-                comboBox1.Items.Add(m_parent.trainingbags[i]);
+            for (int i = 1; i < Form1.trainingbags.Length - 1; i++)
+                comboBox1.Items.Add(Form1.trainingbags[i]);
             comboBox1.SelectedIndex = m_parent.buff[0x17];
             numericUpDown1.Value = m_parent.buff[0x16];
 
@@ -34,7 +34,7 @@ namespace PKHeX
         }
         public void TranslateInterface(string FORM_NAME)
         {
-            string curlanguage = m_parent.curlanguage;
+            string curlanguage = Form1.curlanguage;
             // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
             string externalLangPath = System.Windows.Forms.Application.StartupPath + "\\lang_" + curlanguage + ".txt";

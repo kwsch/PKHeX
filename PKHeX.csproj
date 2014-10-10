@@ -83,6 +83,7 @@
     <Compile Include="Misc\CodeGenerator.Designer.cs">
       <DependentUpon>CodeGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\PKX.cs" />
     <Compile Include="PKX\f1-Main.cs">
       <SubType>Form</SubType>
     </Compile>

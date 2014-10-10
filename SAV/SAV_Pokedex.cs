@@ -12,12 +12,12 @@ namespace PKHeX
 {
     public partial class SAV_Pokedex : Form
     {
-        public SAV_Pokedex(Form1 frm1)
+        Form1 m_parent;
+        public SAV_Pokedex()
         {
-            m_parent = frm1;
             InitializeComponent();
-            Array.Copy(m_parent.savefile, sav, sav.Length); 
-            savshift = m_parent.savindex*0x7F000;
+            Array.Copy(m_parent.savefile, sav, sav.Length);
+            savshift = m_parent.savindex * 0x7F000;
             Setup();
             editing = false;
             LB_Species.SelectedIndex = 0;
@@ -28,7 +28,6 @@ namespace PKHeX
         public bool[,] specbools = new bool[10, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
         public bool[] foreignbools = new bool[0x52 * 8];
-        Form1 m_parent;
         bool editing = true;
         private void Setup()
         {
@@ -45,8 +44,8 @@ namespace PKHeX
             {
                 List<cbItem> species_list = new List<cbItem>();
                 // Sort the Rest based on String Name
-                string[] sortedspecies = new string[m_parent.specieslist.Length];
-                Array.Copy(m_parent.specieslist, sortedspecies, m_parent.specieslist.Length);
+                string[] sortedspecies = new string[Form1.specieslist.Length];
+                Array.Copy(Form1.specieslist, sortedspecies, Form1.specieslist.Length);
                 Array.Sort(sortedspecies);
 
                 // Add the rest of the items
@@ -54,7 +53,7 @@ namespace PKHeX
                 {
                     cbItem ncbi = new cbItem();
                     ncbi.Text = sortedspecies[i];
-                    ncbi.Value = Array.IndexOf(m_parent.specieslist, sortedspecies[i]);
+                    ncbi.Value = Array.IndexOf(Form1.specieslist, sortedspecies[i]);
                     species_list.Add(ncbi);
                 }
                 species_list.RemoveAt(0); // Remove 0th Entry
@@ -64,9 +63,9 @@ namespace PKHeX
             }
             #endregion
 
-            for (int i = 1; i < m_parent.specieslist.Length; i++)
+            for (int i = 1; i < Form1.specieslist.Length; i++)
             {
-                LB_Species.Items.Add(i.ToString("000") + " - " + m_parent.specieslist[i]);
+                LB_Species.Items.Add(i.ToString("000") + " - " + Form1.specieslist[i]);
             }
             for (int i = 722; i <= 0x300; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - ???");
@@ -168,7 +167,7 @@ namespace PKHeX
                 CHK_P10.Enabled = true;
 
                 int index = LB_Species.SelectedIndex + 1;
-                DataTable spectable = Util.SpeciesTable();
+                DataTable spectable = PKX.SpeciesTable();
                 int gt = (int)spectable.Rows[index][8];
 
                 CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = (((gt > 255) && (gt != 257)) || gt < 256);
@@ -267,7 +266,7 @@ namespace PKHeX
             // Store Spinda Spot
             try
             {
-                uint PID = m_parent.getHEXval(TB_Spinda);
+                uint PID = Util.getHEXval(TB_Spinda);
                 Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + savshift, 4);
             }
             catch { };
@@ -296,7 +295,7 @@ namespace PKHeX
                 CHK_F1.Checked = !(ModifierKeys == Keys.Control);
             }
             int index = LB_Species.SelectedIndex+1;
-            DataTable spectable = Util.SpeciesTable();
+            DataTable spectable = PKX.SpeciesTable();
             int gt = (int)spectable.Rows[index][8];
 
             CHK_P2.Checked = CHK_P4.Checked = CHK_P6.Checked = CHK_P8.Checked = (((gt > 255) && (gt != 257)) || gt < 256) && !(ModifierKeys == Keys.Control);

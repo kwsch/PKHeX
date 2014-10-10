@@ -14,18 +14,18 @@ namespace PKHeX
 {
     public partial class CodeGenerator : Form
     {
-        Form1 m_parent;
         byte[] codedata = new Byte[232];
         byte[] newdata = new Byte[232];
         SaveGames.SaveStruct SaveGame = new SaveGames.SaveStruct(null);
-        
+
+        Form1 m_parent;
         public CodeGenerator(Form1 frm1)
         {
+            m_parent = frm1;
             InitializeComponent();
             this.CenterToParent();
             RTB_Code.Clear();
             TB_Write.Clear();
-            m_parent = frm1;
             SaveGame = m_parent.SaveGame;
             CB_Box.Items.Clear();
             for (int i = 1; i <= 31; i++)
@@ -43,7 +43,7 @@ namespace PKHeX
                 {
                     byte[] pkx = m_parent.preparepkx(m_parent.buff);
                     newdata = new Byte[232];
-                    Array.Copy(m_parent.encryptArray(pkx), newdata, 232);
+                    Array.Copy(PKX.encryptArray(pkx), newdata, 232);
                 }
                 else return false;
 
@@ -130,44 +130,12 @@ namespace PKHeX
                 TB_Write.Text = (0x22000 - 0x5400).ToString("X8"); // WC Slot 1
             }
         }
-
-        public static string RemoveTroublesomeCharacters(TextBox tb)
-        {
-            string inString = tb.Text;
-            if (inString == null) return null;
-
-            StringBuilder newString = new StringBuilder();
-            char ch;
-
-            for (int i = 0; i < inString.Length; i++)
-            {
-                ch = inString[i];
-                // filter for hex
-                if ((ch < 0x0047 && ch > 0x002F) || (ch < 0x0067 && ch > 0x0060))
-                    newString.Append(ch);
-                else
-                    System.Media.SystemSounds.Beep.Play();
-            }
-            if (newString.Length == 0)
-                newString.Append("0");
-            uint value = UInt32.Parse(newString.ToString(), NumberStyles.HexNumber);
-            tb.Text = value.ToString("X8");
-            return newString.ToString();
-
-        }
-        private uint getHEXval(TextBox tb)
-        {
-            if (tb.Text == null)
-                return 0;
-            string str = RemoveTroublesomeCharacters(tb);
-            return UInt32.Parse(str, NumberStyles.HexNumber);
-        }
-
+        
         private void B_Add_Click(object sender, EventArgs e)
         {
             // Add the new code to the textbox.
             if (!loaddata()) return;
-            uint writeoffset = getHEXval(TB_Write);
+            uint writeoffset = Util.getHEXval(TB_Write);
 
             for (int i = 0; i < newdata.Length / 4; i++)
             {

@@ -11,18 +11,17 @@ namespace PKHeX
 {
     public partial class SAV_BoxLayout : Form
     {
-        public SAV_BoxLayout(Form1 frm1)
+        public SAV_BoxLayout()
         {
             InitializeComponent();
-            m_parent = frm1;
             editing = true;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
 
             // Repopulate Wallpaper names
             CB_BG.Items.Clear();
-            for (int i = 0; i < m_parent.wallpapernames.Length; i++)
-                CB_BG.Items.Add(m_parent.wallpapernames[i]);
+            for (int i = 0; i < Form1.wallpapernames.Length; i++)
+                CB_BG.Items.Add(Form1.wallpapernames[i]);
 
             // Go
             LB_BoxSelect.SelectedIndex = m_parent.C_BoxSelect.SelectedIndex;
@@ -86,8 +85,8 @@ namespace PKHeX
         {
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
-            m_parent.getBoxNames();
-            m_parent.getPKXBoxes();
+            m_parent.setBoxNames();
+            m_parent.setPKXBoxes();
             Close();
         }
 

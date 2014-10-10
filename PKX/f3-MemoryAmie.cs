@@ -65,7 +65,7 @@ namespace PKHeX
         // Conversion
         public void TranslateInterface(string FORM_NAME)
         {
-            string curlanguage = m_parent.curlanguage;
+            string curlanguage = Form1.curlanguage;
             // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
             string externalLangPath = System.Windows.Forms.Application.StartupPath + "\\lang_" + curlanguage + ".txt";
@@ -127,40 +127,26 @@ namespace PKHeX
                 }
             }
         }
-        public static uint ToUInt32(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return 0;
-            return UInt32.Parse(value);
-        }
-        private static int ToInt32(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return 0;
-            return Int32.Parse(value);
-        }
-        public int getIndex(ComboBox cb)
-        {
-            int val = 0;
-            try { val = ToInt32(cb.SelectedValue.ToString()); }
-            catch { };
-            return val;
-        }
 
         // Load/Save Actions
         private void loadFields()
         {
+            // Save the region/country values.
             v1s(Region0, 0x94); v1cb(CB_Country0, 0x95);
             v1s(Region1, 0x96); v1cb(CB_Country1, 0x97);
             v1s(Region2, 0x98); v1cb(CB_Country2, 0x99);
             v1s(Region3, 0x9A); v1cb(CB_Country3, 0x9B);
             v1s(Region4, 0x9C); v1cb(CB_Country4, 0x9D);
 
+            // Write the Fullness, and Enjoyment
+            v1s(M_Fullness, 0xAE); v1s(M_Enjoyment, 0xAF);
+
+            // Write the CT Memories
             v1s(M_CT_Friendship, 0xA2); v1s(M_CT_Affection, 0xA3);
             CB_CTQual.SelectedIndex = Math.Max(0,h[0xA4]-1);
             v1cb(CB_CTMemory, 0xA5); v2cb(CB_CTVar, 0xA8); i1cb(CB_CTFeel, 0xA6); 
-            v1s(M_Fullness, 0xAE); v1s(M_Enjoyment, 0xAF); 
 
+            // Write the OT Memories
             v1s(M_OT_Friendship, 0xCA); v1s(M_OT_Affection, 0xCB);
             CB_OTQual.SelectedIndex = Math.Max(0,h[0xCC]-1);
             v1cb(CB_OTMemory, 0xCD); v2cb(CB_OTVar, 0xCE); i1cb(CB_OTFeel, 0xD0); 
@@ -187,8 +173,8 @@ namespace PKHeX
                 BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = false;
                 L_Fullness.Enabled = L_Enjoyment.Enabled = false;
 
-                GB_M_OT.Text = "N/A: " + m_parent.eggname;
-                GB_M_CT.Text = "N/A: " + m_parent.eggname;
+                GB_M_OT.Text = "N/A: " + Form1.eggname;
+                GB_M_CT.Text = "N/A: " + Form1.eggname;
             }
             else
             {
@@ -202,29 +188,29 @@ namespace PKHeX
                 GB_M_OT.Text = String.Format(withOT + " (" + ot + ")", m_parent.TB_OT.Text);
                 GB_M_CT.Text = String.Format(withOT,m_parent.TB_OTt2.Text);
             }
-            bool ggnore;
+
             GB_M_CT.Enabled = true;
             GB_Residence.Enabled = true;
 
             if ((!m_parent.CHK_IsEgg.Checked))
             {
-                int game = (int)(m_parent.getIndex(m_parent.CB_GameOrigin));
+                bool enable = false;
+                int game = (int)(Util.getIndex(m_parent.CB_GameOrigin));
                 if ((game < 24) && (game != 0))
                 {
                     // Banked Mon
                     GB_M_CT.Text = withOT + " " + m_parent.TB_OTt2.Text;
                     GB_M_OT.Text = past + " " + ot + ": " + m_parent.TB_OT.Text;
-                    ggnore = false;
+                    enable = false;
                 }
                 else
                 {
-                    ggnore = true;
+                    enable = true;
                     GB_M_OT.Text = withOT + " " + m_parent.TB_OT.Text + " (" + ot + ")";
                     GB_M_CT.Text = withOT + m_parent.TB_OTt2.Text;
                     if ((m_parent.TB_OTt2.Text == ""))
                     {
-                        GB_M_CT.Enabled = false;
-                        GB_Residence.Enabled = false;
+                        GB_M_CT.Enabled = GB_Residence.Enabled = false;
                         GB_M_CT.Text = notleft + " " + ot + " - " + disabled;
                     }
                     else
@@ -232,7 +218,7 @@ namespace PKHeX
                         GB_M_CT.Text = withOT + " " + m_parent.TB_OTt2.Text;
                     }
                 }
-                RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = ggnore;
+                RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
             }
         }
         private void saveFields()
@@ -323,7 +309,7 @@ namespace PKHeX
         }  // Value (from ByteArray) to String (textBox): 1 byte
         private void s1v(MaskedTextBox t, int o)
         {
-            h[o] = (byte)ToUInt32(t.Text);
+            h[o] = (byte)Util.ToUInt32(t.Text);
         }  // String (textBox) to Value (in ByteArray): 1 byte
 
         private void v1cb(ComboBox cb, int o)
@@ -523,12 +509,12 @@ namespace PKHeX
             int[] allowed = new int[64];
             for (int i = 0; i < 64; i++)
             {
-                memories[i] = m_parent.memories[39 + i];
+                memories[i] = Form1.memories[39 + i];
                 allowed[i] = i+1;
             }
             List<cbItem> memory_list = getComboBoxItems2(memories, allowed);
             cbItem def = new cbItem();
-            def.Text = m_parent.memories[38+0];
+            def.Text = Form1.memories[38 + 0];
             def.Value = 0;
             memory_list.Insert(0, def);
 
@@ -546,8 +532,8 @@ namespace PKHeX
             CB_OTQual.Items.Clear();
             for (int i = 0; i < 7; i++)
             {
-                CB_CTQual.Items.Add(m_parent.memories[2 + i]);
-                CB_OTQual.Items.Add(m_parent.memories[2 + i]);
+                CB_CTQual.Items.Add(Form1.memories[2 + i]);
+                CB_OTQual.Items.Add(Form1.memories[2 + i]);
             }
 
             // Feeling Chooser
@@ -555,8 +541,8 @@ namespace PKHeX
             CB_OTFeel.Items.Clear();
             for (int i = 0; i < 24; i++)
             {
-                CB_CTFeel.Items.Add(m_parent.memories[10 + i]);
-                CB_OTFeel.Items.Add(m_parent.memories[10 + i]);
+                CB_CTFeel.Items.Add(Form1.memories[10 + i]);
+                CB_OTFeel.Items.Add(Form1.memories[10 + i]);
             }
         }
         private void getMemoryArguments(string ARG, ComboBox sender)
@@ -570,7 +556,7 @@ namespace PKHeX
             {
                 allowed[i] = i;
             }
-            List<cbItem> genloc = getComboBoxItems(m_parent.genloc, allowed);
+            List<cbItem> genloc = getComboBoxItems(Form1.genloc, allowed);
             #endregion
             #region Items
             allowed = new int[697] 
@@ -591,7 +577,7 @@ namespace PKHeX
             650,651,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,686,687,688,689,690,691,692,693,694,695,696,697,698,699,
             700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717
             };
-            List<cbItem> item_list = getComboBoxItems(m_parent.itemlist, allowed);
+            List<cbItem> item_list = getComboBoxItems(Form1.itemlist, allowed);
             #endregion
             List<cbItem> species_list = (List<cbItem>)m_parent.CB_Species.DataSource;
 
@@ -599,13 +585,13 @@ namespace PKHeX
             allowed = new int[] {
                 2,6,8,10,12,14,16,17,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,
             };
-            List<cbItem> locationXY = getComboBoxItems(m_parent.metXY_00000, allowed);
+            List<cbItem> locationXY = getComboBoxItems(Form1.metXY_00000, allowed);
             #region Moves
             
                 List<cbItem> move_list = new List<cbItem>();
                 // Sort the Rest based on String Name
-                string[] sortedmoves = new string[m_parent.movelist.Length];
-                Array.Copy(m_parent.movelist, sortedmoves, m_parent.movelist.Length);
+                string[] sortedmoves = new string[Form1.movelist.Length];
+                Array.Copy(Form1.movelist, sortedmoves, Form1.movelist.Length);
                 Array.Sort(sortedmoves);
 
                 // Add the rest of the items
@@ -613,7 +599,7 @@ namespace PKHeX
                 {
                     cbItem ncbi = new cbItem();
                     ncbi.Text = sortedmoves[i];
-                    ncbi.Value = Array.IndexOf(m_parent.movelist, sortedmoves[i]);
+                    ncbi.Value = Array.IndexOf(Form1.movelist, sortedmoves[i]);
                     move_list.Add(ncbi);
                 }
             
@@ -722,27 +708,24 @@ namespace PKHeX
             string result = "";
             string nn = m_parent.TB_Nickname.Text;
             string a = arg.Text;
-            int mem = getIndex(m);
+            int mem = Util.getIndex(m);
 
             bool enabled = false;
             if (mem == 0)
-            {
-                result = m_parent.memories[38];
-            }
+                result = Form1.memories[38];
             else
             {
-                result = String.Format(m_parent.memories[mem + 38], nn, tr, a, f.Text, q.Text);
+                result = String.Format(Form1.memories[mem + 38], nn, tr, a, f.Text, q.Text);
                 enabled = true;
             }
 
-            // ugh, labels
+            // Show labels if the memory allows for them.
             if (q == CB_CTQual)
-            {
                 L_CT_Quality.Visible = L_CT_Feeling.Visible = enabled;
-            }
             else
                 L_OT_Quality.Visible = L_OT_Feeling.Visible = enabled;
 
+            // Show Quality and Feeling.
             q.Visible = q.Enabled = f.Visible = f.Enabled = enabled;
 
             return result;
@@ -753,8 +736,8 @@ namespace PKHeX
             ComboBox m = (ComboBox)sender;
             if (m == CB_CTMemory || m == CB_OTMemory)
             {
-                int memory = getIndex(m);
-                switch (memory) // dis switchtable...
+                int memory = Util.getIndex(m);
+                switch (memory) // Memory Case Switchtable
                 {
                     case 0: getMemoryArguments("NONE", m); break;
                     case 1: getMemoryArguments("GENLOC", m); break;
@@ -877,7 +860,7 @@ namespace PKHeX
             MaskedTextBox mtb = sender as MaskedTextBox;
             try
             {
-                int val = ToInt32(mtb.Text);
+                int val = Util.ToInt32(mtb.Text);
                 if (val > 255) mtb.Text = "255";
             }
             catch { mtb.Text = "0"; }

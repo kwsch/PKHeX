@@ -97,12 +97,12 @@ namespace PKHeX
 
                 string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0xB6, 22));
                 RTB.Text +=
-                    "\r\nSpecies: " + m_parent.specieslist[species] + "\r\n"
-                    + "Item: " + m_parent.itemlist[helditem] + "\r\n"
-                    + "Move 1: " + m_parent.movelist[move1] + "\r\n"
-                    + "Move 2: " + m_parent.movelist[move2] + "\r\n"
-                    + "Move 3: " + m_parent.movelist[move3] + "\r\n"
-                    + "Move 4: " + m_parent.movelist[move4] + "\r\n"
+                    "\r\nSpecies: " + Form1.specieslist[species] + "\r\n"
+                    + "Item: " + Form1.itemlist[helditem] + "\r\n"
+                    + "Move 1: " + Form1.movelist[move1] + "\r\n"
+                    + "Move 2: " + Form1.movelist[move2] + "\r\n"
+                    + "Move 3: " + Form1.movelist[move3] + "\r\n"
+                    + "Move 4: " + Form1.movelist[move4] + "\r\n"
                     + "OT: " + OTname + "\r\n"
                     + "ID: " + TID.ToString() + "/" + SID.ToString();
             }
@@ -234,8 +234,8 @@ namespace PKHeX
 
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
-            m_parent.getBoxNames();
-            m_parent.getPKXBoxes();
+            m_parent.setBoxNames();
+            m_parent.setPKXBoxes();
             Close();
         }
 

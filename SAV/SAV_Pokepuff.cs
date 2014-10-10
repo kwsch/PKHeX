@@ -11,12 +11,11 @@ namespace PKHeX
 {
     public partial class SAV_Pokepuff : Form
     {
-        public SAV_Pokepuff(Form1 frm1)
+        public SAV_Pokepuff()
         {
             InitializeComponent();
-            m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
-            pfa = m_parent.puffs;
+            pfa = Form1.puffs;
             savindex = m_parent.savindex;
             pfa[0] = "---";
             setup();

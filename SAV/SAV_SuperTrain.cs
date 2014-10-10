@@ -11,19 +11,18 @@ namespace PKHeX
 {
     public partial class SAV_SuperTrain : Form
     {
-        public SAV_SuperTrain(Form1 frm1)
+        public SAV_SuperTrain()
         {
-            m_parent = frm1;
             savindex = m_parent.savindex;
-            specieslist = m_parent.specieslist;
+            specieslist = Form1.specieslist;
             Array.Copy(m_parent.savefile, sav, 0x100000);
-            trba = m_parent.trainingbags;
+            trba = Form1.trainingbags;
             trba[0] = "---";
             offsetTime = 0x24608 + 0x7F000 * savindex;
             offsetSpec = 0x24788 + 0x7F000 * savindex;
             offsetVal = 0x2478A + 0x7F000 * savindex;
             InitializeComponent();
-            string[] stages = m_parent.trainingstage;
+            string[] stages = Form1.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 30; i++)
             {

@@ -106,14 +106,14 @@ namespace PKHeX
                 else shinystr = "Yes";
 
                 RTB.Text += "Name: " + nickname;
-                RTB.Text += " (" + m_parent.specieslist[species] + " - " + genderstr + ")\r\n";
+                RTB.Text += " (" + Form1.specieslist[species] + " - " + genderstr + ")\r\n";
                 RTB.Text += "Level: " + level.ToString() + "\r\n";
                 RTB.Text += "Shiny: " + shinystr + "\r\n";
-                RTB.Text += "Held Item: " + m_parent.itemlist[helditem] + "\r\n";
-                RTB.Text += "Move 1: " + m_parent.movelist[move1] + "\r\n";
-                RTB.Text += "Move 2: " + m_parent.movelist[move2] + "\r\n";
-                RTB.Text += "Move 3: " + m_parent.movelist[move3] + "\r\n";
-                RTB.Text += "Move 4: " + m_parent.movelist[move4] + "\r\n";
+                RTB.Text += "Held Item: " + Form1.itemlist[helditem] + "\r\n";
+                RTB.Text += "Move 1: " + Form1.movelist[move1] + "\r\n";
+                RTB.Text += "Move 2: " + Form1.movelist[move2] + "\r\n";
+                RTB.Text += "Move 3: " + Form1.movelist[move3] + "\r\n";
+                RTB.Text += "Move 4: " + Form1.movelist[move4] + "\r\n";
                 RTB.Text += "OT: " + OTname + " (" + TID.ToString() + "/" + SID.ToString() + ")\r\n";
                 RTB.Text += "\r\n";
 

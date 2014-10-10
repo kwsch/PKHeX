@@ -29,11 +29,11 @@ namespace PKHeX
 
             popItems();
 
-            B_DisplayItems.Text = m_parent.itempouch[0];
-            B_DisplayMedicine.Text = m_parent.itempouch[1];
-            B_DisplayTMHM.Text = m_parent.itempouch[2];
-            B_DisplayBerries.Text = m_parent.itempouch[3];
-            B_DisplayKeyItems.Text = m_parent.itempouch[4];
+            B_DisplayItems.Text = Form1.itempouch[0];
+            B_DisplayMedicine.Text = Form1.itempouch[1];
+            B_DisplayTMHM.Text = Form1.itempouch[2];
+            B_DisplayBerries.Text = Form1.itempouch[3];
+            B_DisplayKeyItems.Text = Form1.itempouch[4];
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
@@ -69,7 +69,7 @@ namespace PKHeX
             };
             item_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                item_val[i] = m_parent.itemlist[itemlist[i]];
+                item_val[i] = Form1.itemlist[itemlist[i]];
             Array.Sort(item_val);
         }
         private void getListKeyItems()
@@ -82,7 +82,7 @@ namespace PKHeX
             };
             keyitem_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                keyitem_val[i] = m_parent.itemlist[itemlist[i]];
+                keyitem_val[i] = Form1.itemlist[itemlist[i]];
             Array.Sort(keyitem_val);
         }
         private void getListTMHM()
@@ -100,7 +100,7 @@ namespace PKHeX
             };
             tmhm_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                tmhm_val[i] = m_parent.itemlist[itemlist[i]];
+                tmhm_val[i] = Form1.itemlist[itemlist[i]];
             // Array.Sort(tmhm_val); Already sorted, keep HMs last.
         }
         private void getListMedicine()
@@ -112,7 +112,7 @@ namespace PKHeX
             };
             medicine_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                medicine_val[i] = m_parent.itemlist[itemlist[i]];
+                medicine_val[i] = Form1.itemlist[itemlist[i]];
             Array.Sort(medicine_val); 
         }
         private void getListBerries()
@@ -126,7 +126,7 @@ namespace PKHeX
             };
             berries_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                berries_val[i] = m_parent.itemlist[itemlist[i]];
+                berries_val[i] = Form1.itemlist[itemlist[i]];
             Array.Sort(berries_val); 
         }
 
@@ -192,7 +192,7 @@ namespace PKHeX
                 int itemvalue = BitConverter.ToUInt16(sav, offset + i*4);
                 try
                 {
-                    itemname = m_parent.itemlist[itemvalue];
+                    itemname = Form1.itemlist[itemvalue];
                 }
                 catch
                 {
@@ -257,7 +257,7 @@ namespace PKHeX
             for (int i = 0; i < itemcount; i++)
             {
                 string item = dataGridView1.Rows[i].Cells[0].Value.ToString();
-                int itemindex = Array.IndexOf(m_parent.itemlist, item);
+                int itemindex = Array.IndexOf(Form1.itemlist, item);
                 int itemcnt = 0;
                 try {
                     itemcnt = Convert.ToUInt16(dataGridView1.Rows[i].Cells[1].Value.ToString());
