@@ -29,14 +29,6 @@ namespace PKHeX
         {
             Close();
         }
-        string TrimFromZero(string input)
-        {
-            int index = input.IndexOf('\0');
-            if (index < 0)
-                return input;
-
-            return input.Substring(0, index);
-        }
         private void displayEntry(object sender, EventArgs e)
         {
             RTB.Font = new Font("Courier New", 8);
@@ -78,8 +70,8 @@ namespace PKHeX
                 uint shiny = (slgf >> 14) & 0x1;
                 uint unkn = slgf >> 15;
 
-                string nickname = TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x18, 22));
-                string OTname = TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x30, 22));
+                string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x18, 22));
+                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x30, 22));
 
                 if (species == 0) 
                 {

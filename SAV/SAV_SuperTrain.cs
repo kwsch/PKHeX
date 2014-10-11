@@ -11,8 +11,9 @@ namespace PKHeX
 {
     public partial class SAV_SuperTrain : Form
     {
-        public SAV_SuperTrain()
+        public SAV_SuperTrain(Form1 frm1)
         {
+            m_parent = frm1;
             savindex = m_parent.savindex;
             specieslist = Form1.specieslist;
             Array.Copy(m_parent.savefile, sav, 0x100000);

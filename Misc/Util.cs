@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Globalization;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Drawing.Imaging;
 
 namespace PKHeX
 {
     public partial class Util
     {
         // Image Layering/Blending Utility
-        public static Image layerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
+        internal static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
         {
             Bitmap overlayImage = (Bitmap)overLayer;
             Bitmap newImage = (Bitmap)baseLayer;
-            if (baseLayer == null) return overLayer;
+            if (baseLayer == null) return overlayImage;
             for (int i = 0; i < (overlayImage.Width * overlayImage.Height); i++)
             {
                 Color newColor = overlayImage.GetPixel(i % (overlayImage.Width), i / (overlayImage.Width));
@@ -35,7 +35,20 @@ namespace PKHeX
             }
             return newImage;
         }
-        public static Color AlphaBlend(Color ForeGround, Color BackGround)
+        internal static Bitmap ChangeOpacity(Image img, double trans)
+        {
+            if (img == null) return null;
+            Bitmap bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
+            Graphics graphics = Graphics.FromImage(bmp);
+            ColorMatrix colormatrix = new ColorMatrix();
+            colormatrix.Matrix33 = (float)trans;
+            ImageAttributes imgAttribute = new ImageAttributes();
+            imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+            graphics.DrawImage(img, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttribute);
+            graphics.Dispose();   // Releasing all resource used by graphics
+            return bmp;
+        }
+        internal static Color AlphaBlend(Color ForeGround, Color BackGround)
         {
             if (ForeGround.A == 0)
                 return BackGround;
@@ -61,7 +74,6 @@ namespace PKHeX
             return Color.FromArgb(Math.Abs(A), Math.Abs(R), Math.Abs(G), Math.Abs(B));
         }
     
-        // 3DSSE Utility
         internal static string GetTempFolder() // From 3DSSE's decompiled source.
         {
             string tempPath = Path.GetTempPath();
@@ -92,7 +104,7 @@ namespace PKHeX
         {
             return @"SOFTWARE\CYBER Gadget\3DSSaveEditor";
         }
-        public static string GetBackupLocation()
+        internal static string GetBackupLocation()
         {
             string registryValue = GetRegistryValue("Location");
             if (!string.IsNullOrEmpty(registryValue))
@@ -104,11 +116,11 @@ namespace PKHeX
             Directory.CreateDirectory(path);
             return path;
         }
-        public static string CleanFileName(string fileName)
+        internal static string CleanFileName(string fileName)
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
-        public static string TrimFromZero(string input)
+        internal static string TrimFromZero(string input)
         {
             int index = input.IndexOf('\0');
             if (index < 0)
@@ -116,7 +128,7 @@ namespace PKHeX
 
             return input.Substring(0, index);
         }
-        public static string[] getStringList(string f, string l)
+        internal static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
             List<string> rawlist = ((string)txt).Split(new char[] { '\n' }).ToList();
@@ -128,14 +140,13 @@ namespace PKHeX
             return stringdata;
         }
 
-
-        public static Random rand = new Random();
-        public static uint rnd32()
+        internal static Random rand = new Random();
+        internal static uint rnd32()
         {
             return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
         }
 
-        public static int ToInt32(TextBox tb)
+        internal static int ToInt32(TextBox tb)
         {
             string value = tb.Text;
             if (String.IsNullOrEmpty(value))
@@ -145,7 +156,7 @@ namespace PKHeX
             catch
             { return 0; }
         }
-        public static uint ToUInt32(TextBox tb)
+        internal static uint ToUInt32(TextBox tb)
         {
             string value = tb.Text;
             if (String.IsNullOrEmpty(value))
@@ -155,7 +166,7 @@ namespace PKHeX
             catch
             { return 0; }
         }
-        public static int ToInt32(MaskedTextBox tb)
+        internal static int ToInt32(MaskedTextBox tb)
         {
             string value = tb.Text;
             if (String.IsNullOrEmpty(value))
@@ -165,7 +176,7 @@ namespace PKHeX
             catch
             { return 0; }
         }
-        public static uint ToUInt32(MaskedTextBox tb)
+        internal static uint ToUInt32(MaskedTextBox tb)
         {
             string value = tb.Text;
             if (String.IsNullOrEmpty(value))
@@ -175,7 +186,7 @@ namespace PKHeX
             catch
             { return 0; }
         }
-        public static int ToInt32(String value)
+        internal static int ToInt32(String value)
         {
             if (String.IsNullOrEmpty(value))
             { return 0; }
@@ -184,7 +195,7 @@ namespace PKHeX
             catch
             { return 0; }
         }
-        public static uint ToUInt32(String value)
+        internal static uint ToUInt32(String value)
         {
             if (String.IsNullOrEmpty(value))
             { return 0; }
@@ -193,14 +204,14 @@ namespace PKHeX
             catch
             { return 0; }
         }
-        public static uint getHEXval(TextBox tb)
+        internal static uint getHEXval(TextBox tb)
         {
             if (tb.Text == null)
                 return 0;
-            string str = RemoveTroublesomeCharacters(tb);
+            string str = getOnlyHex(tb.Text);
             return UInt32.Parse(str, NumberStyles.HexNumber);
         }
-        public static int getIndex(ComboBox cb)
+        internal static int getIndex(ComboBox cb)
         {
             int val = 0;
             try { val = Util.ToInt32(cb.SelectedValue.ToString()); }
@@ -211,28 +222,39 @@ namespace PKHeX
             };
             return val;
         }
-        public static string RemoveTroublesomeCharacters(TextBox tb)
+        internal static string getOnlyHex(string str)
         {
-            string inString = tb.Text;
-            if (inString == null) return null;
+            if (str == null) return "0";
 
-            StringBuilder newString = new StringBuilder();
-            char ch;
+            char c;
+            string s = "";
 
-            for (int i = 0; i < inString.Length; i++)
+            for (int i = 0; i < str.Length; i++)
             {
-                ch = inString[i];
+                c = str[i];
                 // filter for hex
-                if ((ch < 0x0047 && ch > 0x002F) || (ch < 0x0067 && ch > 0x0060))
-                    newString.Append(ch);
+                if ((c < 0x0047 && c > 0x002F) || (c < 0x0067 && c > 0x0060))
+                    s+= c;
                 else
                     System.Media.SystemSounds.Beep.Play();
             }
-            if (newString.Length == 0)
-                newString.Append("0");
-            uint value = UInt32.Parse(newString.ToString(), NumberStyles.HexNumber);
-            tb.Text = value.ToString("X8");
-            return newString.ToString();
+            if (s.Length == 0)
+                s = "0";
+            return s;
+        }
+
+        internal static MaskedTextBox[] shuffle(MaskedTextBox[] charArray)
+        {
+            MaskedTextBox[] shuffledArray = new MaskedTextBox[charArray.Length];
+            int rndNo;
+
+            for (int i = charArray.Length; i >= 1; i--)
+            {
+                rndNo = rand.Next(1, i + 1) - 1;
+                shuffledArray[i - 1] = charArray[rndNo];
+                charArray[rndNo] = charArray[i - 1];
+            }
+            return shuffledArray;
         }
     }
 }

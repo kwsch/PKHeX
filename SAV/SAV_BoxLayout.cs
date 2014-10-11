@@ -11,8 +11,9 @@ namespace PKHeX
 {
     public partial class SAV_BoxLayout : Form
     {
-        public SAV_BoxLayout()
+        public SAV_BoxLayout(Form1 frm1)
         {
+            m_parent = frm1;
             InitializeComponent();
             editing = true;
             Array.Copy(m_parent.savefile, sav, 0x100000);
@@ -26,7 +27,6 @@ namespace PKHeX
             // Go
             LB_BoxSelect.SelectedIndex = m_parent.C_BoxSelect.SelectedIndex;
         }
-
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
         public int savindex;

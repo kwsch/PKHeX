@@ -11,9 +11,10 @@ namespace PKHeX
 {
     public partial class SAV_Pokepuff : Form
     {
-        public SAV_Pokepuff()
+        public SAV_Pokepuff(Form1 frm1)
         {
             InitializeComponent();
+            m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             pfa = Form1.puffs;
             savindex = m_parent.savindex;
@@ -27,11 +28,6 @@ namespace PKHeX
             ToolTip2.SetToolTip(this.B_All, "Hold CTRL to give Deluxe\r\ninstead of Supreme.");
         }
         Form1 m_parent;
-        private static Random rand = new Random();
-        private static uint rnd32()
-        {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
-        }
         public byte[] sav = new Byte[0x100000];
         public int savindex;
         public bool editing = false;
@@ -104,7 +100,7 @@ namespace PKHeX
             byte[] newpuffs = new Byte[100];
             for (int i = 0; i < 100; i++)
             {
-                newpuffs[i] = (byte)(rnd32() % basemod + basepuff);
+                newpuffs[i] = (byte)(Util.rnd32() % basemod + basepuff);
             }
             Array.Copy(newpuffs, 0, sav, 0x5400 + savindex * 0x7F000, 100);
             setup();

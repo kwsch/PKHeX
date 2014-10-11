@@ -683,7 +683,6 @@ namespace PKHeX
         }
         private List<cbItem> getComboBoxItems2(string[] list, int[] allowed)
         {
-
             List<cbItem> combolist = new List<cbItem>();
             // Sort the Rest based on String Name
             string[] sorter = new string[list.Length];

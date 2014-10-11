@@ -12,10 +12,10 @@ namespace PKHeX
 {
     public partial class SAV_Pokedex : Form
     {
-        Form1 m_parent;
-        public SAV_Pokedex()
+        public SAV_Pokedex(Form1 frm1)
         {
             InitializeComponent();
+            m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, sav.Length);
             savshift = m_parent.savindex * 0x7F000;
             Setup();
@@ -23,6 +23,7 @@ namespace PKHeX
             LB_Species.SelectedIndex = 0;
             TB_Spinda.Text = BitConverter.ToUInt32(sav, 0x1AA48).ToString("X8");
         }
+        Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
         public int savshift = 0;
         public bool[,] specbools = new bool[10, 0x60 * 8];

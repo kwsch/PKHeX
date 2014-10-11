@@ -26,7 +26,6 @@ namespace PKHeX
             #region Initialize Form
             InitializeComponent();
             // Get Default White Color (for some users who have different color schemes
-            defaultwhite = TB_PID.BackColor;
             CB_ExtraBytes.SelectedIndex = 0;
 
             // Resize Main Window to PKX Editing Mode
@@ -71,7 +70,7 @@ namespace PKHeX
                 CB_MainLanguage.SelectedIndex = 0;
 
             #region HaX
-            bool HaX = (filename.IndexOf("HaX") > 0);
+            bool HaX = (filename.IndexOf("HaX") < 0);
             {
                 CHK_HackedStats.Enabled = CHK_HackedStats.Visible =
                 DEV_Ability.Enabled = DEV_Ability.Visible =
@@ -198,7 +197,6 @@ namespace PKHeX
 
         public static int colorizedbox = 32;
         public static Image colorizedcolor = null;
-        public static Color defaultwhite = Color.White;
         public static int colorizedslot = 0;
         public static int largeWidth, shortWidth = 0;
         public static string eggname = "";
@@ -1169,7 +1167,7 @@ namespace PKHeX
                 CB_Language.DisplayMember = "Text";
                 CB_Language.ValueMember = "Value";
 
-                setcountry(CB_Country);
+                setCountry(CB_Country);
 
                 CB_SubRegion.DataSource = subreg_list;
                 CB_SubRegion.DisplayMember = "Text";
@@ -2090,9 +2088,9 @@ namespace PKHeX
 
             // Mega List
             int[] mspec = {     // XY
-                                3, 9, 65, 94, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
+                                   003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
                                 // ORAS
-                                // 80, 254, 260, 302, 319, 323, 334, 373, 376, 384, 475, 531, 719,
+                                // 015, 018, 080, 254, 260, 302, 319, 323, 334, 373, 376, 384, 475, 531, 719,
                           };
             for (int i = 0; i < mspec.Length; i++)
             {
@@ -2169,20 +2167,12 @@ namespace PKHeX
             CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
             for (int i = 0; i < 6; i++)
             {
-                pba[i].Image = ImageTransparency.ChangeOpacity(pba[i].InitialImage, (float)(Convert.ToUInt16(cba[i].Checked)) * 0.9 + 0.1);
+                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, (float)(Convert.ToUInt16(cba[i].Checked)) * 0.9 + 0.1);
             }
 
-            PB_MarkShiny.Image = ImageTransparency.ChangeOpacity(PB_MarkShiny.InitialImage, (float)(Convert.ToUInt16(!BTN_Shinytize.Enabled)) * 0.9 + 0.1);
-            PB_MarkCured.Image = ImageTransparency.ChangeOpacity(PB_MarkCured.InitialImage, (float)(Convert.ToUInt16(CHK_Cured.Checked)) * 0.9 + 0.1);
-            PB_MarkPentagon.Image = ImageTransparency.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(Util.getIndex(CB_GameOrigin) == 24 || Util.getIndex(CB_GameOrigin) == 25)) * 0.9 + 0.1);
-        }
-        private int getAbility()
-        {
-            string abiltext = "";
-
-            if (CB_Ability.Text.Length > 4) // Remove the ability number from the string
-                abiltext = (CB_Ability.Text).Remove((CB_Ability.Text).Length - 4);
-            return Array.IndexOf(abilitylist, abiltext);
+            PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, (float)(Convert.ToUInt16(!BTN_Shinytize.Enabled)) * 0.9 + 0.1);
+            PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, (float)(Convert.ToUInt16(CHK_Cured.Checked)) * 0.9 + 0.1);
+            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(Util.getIndex(CB_GameOrigin) == 24 || Util.getIndex(CB_GameOrigin) == 25)) * 0.9 + 0.1);
         }
         // Label Shortcut Tweaks
         private void Label_Friendship_Click(object sender, EventArgs e)
@@ -2225,20 +2215,7 @@ namespace PKHeX
             CB_PPu3.SelectedIndex = 3 * (Convert.ToInt16(!((ModifierKeys == Keys.Control) || Util.getIndex(CB_Move3) == 0)));
             CB_PPu4.SelectedIndex = 3 * (Convert.ToInt16(!((ModifierKeys == Keys.Control) || Util.getIndex(CB_Move4) == 0)));
         }
-        private void Label_OTGender_Click(object sender, EventArgs e)
-        {
-            if (Label_OTGender.Text == "♂")
-                Label_OTGender.Text = "♀";
-            else Label_OTGender.Text = "♂";
-        }
-        private void Label_CTGender_Click(object sender, EventArgs e)
-        {
-            if (Label_CTGender.Text == "") return;
-            else if (Label_CTGender.Text == "♂")
-                Label_CTGender.Text = "♀";
-            else Label_CTGender.Text = "♂";
-        }
-        private void Marking_Click(object sender, EventArgs e)
+        private void Label_Marking_Click(object sender, EventArgs e)
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
@@ -2278,7 +2255,7 @@ namespace PKHeX
                 updateNickname(null, null);
             }
         }
-        private void Label_PrevOT_Click(object sender, EventArgs e)
+        private void Label_CT_Click(object sender, EventArgs e)
         {
             string OT = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, 0x19448 + savindex * 0x7F000, 0x1A));
             if (OT.Length > 0)
@@ -2291,8 +2268,21 @@ namespace PKHeX
                 else Label_CTGender.Text = "♂";
             }
         }
+        private void Label_OTGender_Click(object sender, EventArgs e)
+        {
+            if (Label_OTGender.Text == "♂")
+                Label_OTGender.Text = "♀";
+            else Label_OTGender.Text = "♂";
+        }
+        private void Label_CTGender_Click(object sender, EventArgs e)
+        {
+            if (Label_CTGender.Text == "") return;
+            else if (Label_CTGender.Text == "♂")
+                Label_CTGender.Text = "♀";
+            else Label_CTGender.Text = "♂";
+        }
         // Prompted Updates of PKX Functions // 
-        public void setcountry(object sender)
+        public void setCountry(object sender)
         {
             #region country table
             var country_list = new[] {
@@ -2594,7 +2584,7 @@ namespace PKHeX
             }
 
             MaskedTextBox[] tbEV = { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV };
-            MaskedTextBox[] slEV = shuffle((MaskedTextBox[])tbEV.Clone());  // Shuffle List
+            MaskedTextBox[] slEV = Util.shuffle((MaskedTextBox[])tbEV.Clone());  // Shuffle List
 
             uint e1 = Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
             uint e2 = Math.Min(Util.rnd32() % 300, 252);
@@ -2619,10 +2609,7 @@ namespace PKHeX
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
-            species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            gt = (int)spectable.Rows[species][8];
-            TB_PID.Text = getRandomPID(gt, getChosenGender()).ToString("X8");
+            TB_PID.Text = PKX.getRandomPID(Util.getIndex(CB_Species),PKX.getGender(Label_Gender.Text)).ToString("X8");
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
@@ -2718,7 +2705,7 @@ namespace PKHeX
             DataTable spectable = PKX.SpeciesTable();
             gt = (int)spectable.Rows[species][8];
 
-            if (gt == 258)  // Genderless
+            if (gt == 258)      // Genderless
                 genderflag = 2;
             else if (gt == 257) // Female Only
                 genderflag = 1;
@@ -3100,9 +3087,8 @@ namespace PKHeX
         }
         private void updateExtraByteIndex(object sender, EventArgs e)
         {
-            int offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
             // Byte changed, need to refresh the Text box for the byte's value.
-            TB_ExtraByte.Text = buff[offset].ToString();
+            TB_ExtraByte.Text = buff[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
         }
         private void updateNickname(object sender, EventArgs e)
         {
@@ -3258,8 +3244,8 @@ namespace PKHeX
         private void updateTIDSID(object sender, EventArgs e)
         {
             // Trim out nonhex characters
-            Util.RemoveTroublesomeCharacters(TB_PID);
-            Util.RemoveTroublesomeCharacters(TB_EC);
+            TB_PID.Text = Util.getHEXval(TB_PID).ToString("X8");
+            TB_EC.Text = Util.getHEXval(TB_EC).ToString("X8");
 
             if (Util.ToUInt32(TB_TID.Text) > 0xFFFF)
                 TB_TID.Text = TB_TID.Text.Remove(TB_TID.Text.Length - 1);
@@ -3269,20 +3255,6 @@ namespace PKHeX
             setIsShiny();
             updateIVs(sender, e);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
-        }
-        private MaskedTextBox[] shuffle(MaskedTextBox[] charArray)
-        {
-            MaskedTextBox[] shuffledArray = new MaskedTextBox[charArray.Length];
-            int rndNo;
-
-            Random rnd = new Random();
-            for (int i = charArray.Length; i >= 1; i--)
-            {
-                rndNo = rnd.Next(1, i + 1) - 1;
-                shuffledArray[i - 1] = charArray[rndNo];
-                charArray[rndNo] = charArray[i - 1];
-            }
-            return shuffledArray;
         }
         private void validateComboBox(object sender, CancelEventArgs e)
         {
@@ -3294,7 +3266,7 @@ namespace PKHeX
             if ((cb.SelectedValue == null))
                 cb.BackColor = Color.DarkSalmon;
             else
-                cb.BackColor = defaultwhite;
+                cb.BackColor = Color.Empty;
         }
         private void validateComboBox2(object sender, EventArgs e)
         {
@@ -3421,6 +3393,16 @@ namespace PKHeX
             int n3 = (int)naturetable.Rows[nature][4];
             int n4 = (int)naturetable.Rows[nature][5];
             int n5 = (int)naturetable.Rows[nature][3];
+
+            Label[] labarray = new Label[] { Label_HP, Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
+            for (int i = 1; i < 6; i++)
+            {
+                int val = (int)naturetable.Rows[nature][i];
+
+                if      (val == 10) labarray[i].ForeColor = DefaultForeColor;
+                else if (val == 9)  labarray[i].ForeColor = Color.Blue;
+                else if (val == 11) labarray[i].ForeColor = Color.Red;
+            }
 
             Stat_HP.Text = ((((HP_IV + (2 * HP_B) + (HP_EV / 4) + 100) * level) / 100) + 10).ToString();
             Stat_ATK.Text = ((((((ATK_IV + (2 * ATK_B) + (ATK_EV / 4)) * level) / 100) + 5) * n1) / 10).ToString();
@@ -3607,17 +3589,15 @@ namespace PKHeX
         }
         private void mainmenuBoxReport(object sender, EventArgs e)
         {
-            frmReport ReportForm = new frmReport(this);
-            ReportForm.PopulateData(savefile);
+            frmReport ReportForm = new frmReport();
+            ReportForm.PopulateData(savefile, savindex);
             ReportForm.ShowDialog();
         }
         // Main Menu Subfunctions // 
         private void openQuick(string path)
         {
             // detect if it is a folder (load into boxes or not)
-            FileAttributes attr = File.GetAttributes(path);
-            bool isFolder = (attr & FileAttributes.Directory) == FileAttributes.Directory;
-            if (isFolder)
+            if (Directory.Exists(path))
             {
                 loadBoxesFromDB(path);
                 return;
@@ -3626,28 +3606,25 @@ namespace PKHeX
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
             if (fi.Length > 0x10009C)
+                MessageBox.Show("Input file is too large.\n\n" + path, "Alert");
+
+            else
             {
-                MessageBox.Show("Input file is too large.\n"+path, "Alert"); return;
-            }
-            byte[] input = File.ReadAllBytes(path);
-            try
-            {
-                openFile(input, path, ext);
-            }
-            catch
-            {
-                try
-                {
-                    byte[] blank = PKX.encryptArray(new Byte[260]);
-                    for (int i = 0; i < 232; i++)
-                    {
-                        blank[i] = (byte)(blank[i] ^ input[i]);
-                    }
-                    openFile(blank, path, ext);
-                }
+                byte[] input = File.ReadAllBytes(path);
+
+                try { openFile(input, path, ext); }
                 catch
                 {
-                    openFile(input, path, ext);
+                    try
+                    {
+                        byte[] blank = PKX.encryptArray(new Byte[260]);
+
+                        for (int i = 0; i < 232; i++)
+                            blank[i] = (byte)(blank[i] ^ input[i]);
+
+                        openFile(blank, path, ext);
+                    }
+                    catch { openFile(input, path, ext); }
                 }
             }
         }
@@ -3729,7 +3706,7 @@ namespace PKHeX
                         openSave(input, path, ext);
                     }
                 }
-                else if (detectSAVIndex(input) == 2)
+                else if (PKX.detectSAVIndex(input, ref savindex) == 2)
                 {
                     DialogResult dialogResult = MessageBox.Show("Hash verification failed.\r\n\r\nPress Yes to ignore this warning and continue loading the save file.", "Error", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
@@ -3754,7 +3731,7 @@ namespace PKHeX
                 {
                     B_ExportSAV.Enabled = true;
                     B_SwitchSAV.Enabled = true;
-                    savindex = detectSAVIndex(input);
+                    PKX.detectSAVIndex(input, ref savindex);
                     openSave(input, path, ext);
                 }
                 B_JPEG.Enabled = true;
@@ -3790,7 +3767,7 @@ namespace PKHeX
             #region PK3/PK4/PK5
             else if ((input.Length == 136) || (input.Length == 220) || (input.Length == 236) || (input.Length == 100) || (input.Length == 80)) // to convert g5pkm
             {
-                var Converter = new PKHeX.pk2pk();
+                var Converter = new pk2pk();
                 if (!Converter.verifychk(input)) MessageBox.Show("Invalid File (Checksum Error)", "Error");
                 try // to convert g5pkm
                 {
@@ -3814,7 +3791,6 @@ namespace PKHeX
                 string caption = "Error";
                 MessageBox.Show(message, caption);
             }
-            GC.Collect();
         }
         private void openSave(byte[] input, string path, string ext)
         {
@@ -3861,36 +3837,7 @@ namespace PKHeX
             getSAVOffsets();
             Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
             cybergadget = false;
-        }
-        // PID Rerolling Functions //  
-        private uint getRandomPID(int gt, int cg)
-        {
-            uint pid = (uint)Util.rnd32();
-            if (gt > 255)
-                return pid;
-            while (true) // Loop until we find a suitable PID
-            {
-                uint gv = (pid & 0xFF);
-                if (cg == 2) // Genderless
-                    break;  // PID Passes
-                else if ((cg == 1) && (gv < gt)) // Female
-                    break;  // PID Passes
-                else if ((cg == 0) && (gv >= gt))
-                    break;  // PID Passes
-                pid = (uint)Util.rnd32();
-            }
-            return pid;
-        }
-        private int getChosenGender()
-        {
-            int cg;
-            if (Label_Gender.Text == "♂")
-                cg = 0;
-            else if (Label_Gender.Text == "♀")
-                cg = 1;
-            else cg = 2;
-            return cg;
-        }
+        }        
         // Secondary Windows for Ribbons/Amie/Memories
         private void openribbons(object sender, EventArgs e)
         {
@@ -3915,7 +3862,7 @@ namespace PKHeX
                              };
             for (int i = 0; i < cba.Length; i++)
             {
-                if (cba[i].BackColor != defaultwhite)
+                if (cba[i].BackColor != SystemColors.Window && cba[i].BackColor != Color.Empty)
                 {
                     if (i < 6)      // Main Tab
                         tabMain.SelectedIndex = 0;
@@ -3953,10 +3900,11 @@ namespace PKHeX
                 tabMain.SelectedIndex = 0; 
                 goto invalid;
             }
+
             // If no errors detected...
             return true;
             // else...
-        invalid:
+          invalid:
             {
                 System.Media.SystemSounds.Exclamation.Play();
                 return false;
@@ -3997,16 +3945,16 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(0), 0, pkx, 0x4, 4);  // 0 CHK for now
 
             // Block A
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Species)), 0, pkx, 0x08, 2);                   // Species
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_HeldItem)), 0, pkx, 0x0A, 2);          // Held Item
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_TID.Text)), 0, pkx, 0x0C, 2);          // TID
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_SID.Text)), 0, pkx, 0x0E, 2);          // SID
+            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Species)), 0, pkx, 0x08, 2);      // Species
+            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_HeldItem)), 0, pkx, 0x0A, 2);     // Held Item
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_TID.Text)), 0, pkx, 0x0C, 2);     // TID
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_SID.Text)), 0, pkx, 0x0E, 2);     // SID
             Array.Copy(BitConverter.GetBytes(Convert.ToUInt32(TB_EXP.Text)), 0, pkx, 0x10, 4);  // EXP
-            pkx[0x14] = (byte)getAbility();                         // Ability
+            pkx[0x14] = (byte)Array.IndexOf(abilitylist, (CB_Ability.Text).Remove((CB_Ability.Text).Length - 4)); // Ability
             pkx[0x15] = (byte)(Util.ToInt32((TB_AbilityNumber.Text)));   // Number
             // pkx[0x16], pkx[0x17] are handled by the Medals UI (Hits & Training Bag)
-            Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_PID)), 0, pkx, 0x18, 4);              // PID
-            pkx[0x1C] = (byte)((Util.getIndex(CB_Nature)));                                          // Nature
+            Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_PID)), 0, pkx, 0x18, 4);         // PID
+            pkx[0x1C] = (byte)((Util.getIndex(CB_Nature)));                                     // Nature
             int fegform = (int)(Convert.ToInt32(CHK_Fateful.Checked));                          // Fateful
             fegform += (Convert.ToInt32(Label_Gender.Text == "♀") * 2);                         // Female Gender
             fegform += (Convert.ToInt32(Label_Gender.Text == "-") * 4);                         // Genderless
@@ -4185,9 +4133,41 @@ namespace PKHeX
             // Hax Illegality
             if (DEV_Ability.Enabled)
             {
-                pkx[0x14] = (byte)Util.getIndex(DEV_Ability);                                                // Ability
-                pkx[0xEC] = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);                        // Level
-                Array.Copy(BitConverter.GetBytes(PKX.getEXP(pkx[0xEC], Util.getIndex(CB_Species))), 0, pkx, 0x10, 4);    // EXP
+                pkx[0x14] = (byte)Util.getIndex(DEV_Ability);                                                           // Ability
+                pkx[0xEC] = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);                                        // Level
+                Array.Copy(BitConverter.GetBytes(PKX.getEXP(pkx[0xEC], Util.getIndex(CB_Species))), 0, pkx, 0x10, 4);   // EXP
+            }
+
+            // Fix Moves if a slot is empty
+            for (int i = 0; i < 3; i++)
+            {
+                if (BitConverter.ToUInt16(pkx, 0x5A + 2 * i) == 0)
+                {
+                    Array.Copy(pkx, 0x5C + 2 * i, pkx, 0x5A + 2 * i, 2); // Shift moves down
+                    Array.Copy(new Byte[2], 0, pkx, 0x5C + 2 * i, 2);   // Clear next move (error shifted down)
+
+                    // Move PP and PP Ups down one byte.
+                    pkx[0x62 + i] = pkx[0x63 + i]; pkx[0x63 + i] = 0; // PP
+                    pkx[0x66 + i] = pkx[0x67 + i]; pkx[0x67 + i] = 0; // PP Ups
+                }
+            }
+
+            // Fix Relearn moves if a slot is empty
+            for (int i = 0; i < 3; i++)
+            {
+                if (BitConverter.ToUInt16(pkx, 0x6A + 2 * i) == 0)
+                {
+                    Array.Copy(pkx, 0x6C + 2 * i, pkx, 0x6A + 2 * i, 2); // Shift moves down
+                    Array.Copy(new Byte[2], 0, pkx, 0x6C + 2 * i, 2);   // Clear next move (error shifted down)
+                }
+            }
+
+            // No foreign memories for Pokemon without a foreign trainer
+            if (BitConverter.ToUInt16(pkx, 0x78) == 0)
+            {
+                pkx[0xA2] = pkx[0xA3] =                 // No Friendship/Affection
+                pkx[0xA8] = pkx[0xA9] =                 // No Memory Var
+                pkx[0xA4] = pkx[0xA5] = pkx[0xA6] = 0;  // No Memory Types
             }
 
             // Now we fix the checksum!
@@ -4201,7 +4181,7 @@ namespace PKHeX
             // PKX is now filled
             return pkx;
         }
-        // Drag & Drop Events // 
+        // Drag & Drop Events
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
@@ -4294,58 +4274,6 @@ namespace PKHeX
         #endregion
 
         #region //// SAVE FILE FUNCTIONS ////
-        private int detectSAVIndex(byte[] data)
-        {
-            SHA256 mySHA256 = SHA256Managed.Create();
-            RTB_S.Text = "";
-            {
-                byte[] difihash1 = new Byte[0x12C];
-                byte[] difihash2 = new Byte[0x12C];
-                Array.Copy(data, 0x330, difihash1, 0, 0x12C);
-                Array.Copy(data, 0x200, difihash2, 0, 0x12C);
-                byte[] hashValue1 = mySHA256.ComputeHash(difihash1);
-                byte[] hashValue2 = mySHA256.ComputeHash(difihash2);
-                byte[] actualhash = new Byte[0x20];
-                Array.Copy(data, 0x16C, actualhash, 0, 0x20);
-                if (hashValue1.SequenceEqual(actualhash))
-                {
-                    RTB_S.Text += "Active DIFI 2 - Save 1.";
-                    savindex = 0;
-                }
-                else if (hashValue2.SequenceEqual(actualhash))
-                {
-                    RTB_S.Text += "Active DIFI 1 - Save 2.";
-                    savindex = 1;
-                }
-                else
-                {
-                    RTB_S.Text += "ERROR: NO ACTIVE DIFI HASH MATCH";
-                    savindex = 2;
-                }
-            }
-            if ((data[0x168]^1) != savindex && savindex != 2)
-            {
-                RTB_S.Text += "\r\nERROR: ACTIVE BLOCK MISMATCH";
-                savindex = 2;
-            }
-            return savindex;
-        }
-        private UInt16 ccitt16(byte[] data)
-        {
-            ushort crc = 0xFFFF;
-            for (int i = 0; i < data.Length; i++)
-            {
-                crc ^= (ushort)(data[i] << 8);
-                for (int j = 0; j < 8; j++)
-                {
-                    if ((crc & 0x8000) > 0)
-                        crc = (ushort)((crc << 1) ^ 0x1021);
-                    else
-                        crc <<= 1;
-                }
-            }
-            return crc;
-        }
         // Integrity Checks // 
         private void B_VerifyCHK_Click(object sender, EventArgs e)
         {
@@ -4371,7 +4299,7 @@ namespace PKHeX
 
                 byte[] data = new Byte[length[i]];
                 Array.Copy(savefile, start[i], data, 0, length[i]);
-                ushort checksum = ccitt16(data);
+                ushort checksum = PKX.ccitt16(data);
                 ushort actualsum = (ushort)(savefile[csoff + i * 0x8] + savefile[csoff + i * 0x8 + 1] * 0x100);
                 if (checksum != actualsum)
                 {
@@ -4393,7 +4321,7 @@ namespace PKHeX
 
                 byte[] data = new Byte[length[i]];
                 Array.Copy(savefile, start[i], data, 0, length[i]);
-                ushort checksum = ccitt16(data);
+                ushort checksum = PKX.ccitt16(data);
                 ushort actualsum = (ushort)(savefile[csoff + i * 0x8] + savefile[csoff + i * 0x8 + 1] * 0x100);
                 if (checksum != actualsum)
                 {
@@ -4664,7 +4592,7 @@ namespace PKHeX
                 {
                     byte[] data = new Byte[length[i]];
                     Array.Copy(editedsav, start[i], data, 0, length[i]);
-                    ushort checksum = ccitt16(data);
+                    ushort checksum = PKX.ccitt16(data);
                     Array.Copy(BitConverter.GetBytes(checksum), 0, editedsav, csoff + i * 8, 2);
                 }
             }
@@ -5023,28 +4951,46 @@ namespace PKHeX
         {
             if (!verifiedpkx()) { return; }
             int slot = getSlot(sender);
-            int offset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
+            if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { MessageBox.Show("Can't have empty/egg first slot.", "Alert"); return; }
+            int offset = getPKXOffset(slot);
+
+            byte[] pkxdata = preparepkx(buff);
+            byte[] ekxdata = PKX.encryptArray(pkxdata);
 
             if (slot >= 30 && slot < 36) // Party
-            {
-                if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { MessageBox.Show("Can't have empty/egg first slot.", "Alert"); return; }
-                offset = SaveGame.Party + 0x7F000 * savindex + (slot - 30) * (0x104);
-                byte[] pkxdata = preparepkx(buff);
-                byte[] ekxdata = PKX.encryptArray(pkxdata);
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                setParty();
-            }
-            else
-            {
-                byte[] pkxdata = preparepkx(buff);
-                byte[] ekxdata = PKX.encryptArray(pkxdata);
+            else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
                 Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
-            }
-            setPokedex(preparepkx(buff));
+            else return;
+
+            setParty();
+            setPokedex(pkxdata);
             setPKXBoxes();
             savedited = true;
 
             getSlotColor(slot, Properties.Resources.slotSet);
+        }
+        private void rcmDelete_Click(object sender, EventArgs e)
+        {
+            byte partycount = setParty();
+            int slot = getSlot(sender);
+            if (slot == 30 && partycount == 1 && !DEV_Ability.Enabled) { MessageBox.Show("Can't delete first slot.", "Alert"); return; }
+            int offset = getPKXOffset(slot);
+
+            byte[] pkxdata = new Byte[0x104];
+            byte[] ekxdata = PKX.encryptArray(pkxdata);
+
+            if (slot >= 30 && slot < 36) // Party
+                Array.Copy(ekxdata, 0, savefile, offset, 0x104);
+            else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
+                Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
+            else return;
+
+            setParty();
+            setPKXBoxes();
+            savedited = true;
+
+            getSlotColor(slot, Properties.Resources.slotDel);
         }
         private void setPokedex(byte[] pkxdata)
         {
@@ -5073,7 +5019,7 @@ namespace PKHeX
             if (lang < 0) lang = 1;
                 savefile[0x1A7C8 + 0x7F000 * savindex + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
         }
-        private void setParty()
+        private byte setParty()
         {
             byte partymembers = 0;
             int offset = SaveGame.Party + 0x7F000 * savindex;
@@ -5086,133 +5032,55 @@ namespace PKHeX
                 int species = BitConverter.ToInt16(decdata,8);
                 if ((species != 0) && (species < 722))
                 {
+                    Array.Copy(data, 0, savefile, offset + (partymembers) * 0x104, 0x104);
                     partymembers++; // Copy in our party member
-                    Array.Copy(data, 0, savefile, offset + (partymembers-1) * 0x104, 0x104);
                 }
             }
             // Write in the current party count
-            savefile[0x19C18 + savindex * 0x7F000] = partymembers;
+            savefile[offset + 6 * 0x104 + savindex * 0x7F000] = partymembers;
             // Zero out the party slots that are empty.
             for (int i = 0; i < 6; i++)
             {
                 if (i >= partymembers)
                     Array.Copy(PKX.encryptArray(new Byte[0x104]), 0, savefile, offset + (i * 0x104), 0x104);
             }
-        }
-        private void rcmDelete_Click(object sender, EventArgs e)
-        {
-            int slot = getSlot(sender);
-            
-            int offset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
-            if (slot >= 30 && slot < 36) // Party
-            {
-                if (slot == 30) { MessageBox.Show("Can't delete first slot.", "Alert"); return; }
-                offset = SaveGame.Party + 0x7F000 * savindex + (slot - 30) * (0x104);
-                byte[] pkxdata = new Byte[0x104];
-                byte[] ekxdata = PKX.encryptArray(pkxdata);
-                Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                setParty();
-            }
-            else
-            {
-                byte[] pkxdata = new Byte[0xE8];
-                byte[] ekxdata = PKX.encryptArray(pkxdata);
-                Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
-            }
-            setPKXBoxes();
-            savedited = true;
 
-            getSlotColor(slot, Properties.Resources.slotDel);
+            // Repeat for Battle Box.
+            byte battlemem = 0;
+            int offset2 = SaveGame.BattleBox + 0x7F000 * savindex;
+            for (int i = 0; i < 6; i++)
+            {
+                // Gather all the species
+                byte[] data = new Byte[0x104];
+                Array.Copy(savefile, offset2 + i * 0xE8, data, 0, 0xE8);
+                byte[] decdata = PKX.decryptArray(data);
+                int species = BitConverter.ToInt16(decdata, 8);
+                if ((species != 0) && (species < 722))
+                {
+                    Array.Copy(data, 0, savefile, offset2 + (battlemem) * 0xE8, 0xE8);
+                    battlemem++; // Copy in our party member
+                }
+            }
+
+            // Zero out the party slots that are empty.
+            for (int i = 0; i < 6; i++)
+            {
+                if (i >= battlemem)
+                    Array.Copy(PKX.encryptArray(new Byte[0x104]), 0, savefile, offset2 + (i * 0xE8), 0xE8);
+            }
+            if (battlemem == 0)
+                savefile[offset2 + 6 * 0xE8 + savindex * 0x7F000] = 0;
+
+            return partymembers;
         }
         private void slotModifier_Click(object sender, EventArgs e)
         {
-            PictureBox[] pba = {
-                                    bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
-                                    bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
-                                    bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
-                                    bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
-                                    bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
-
-                                    ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
-                                    bbpkx1,bbpkx2,bbpkx3,bbpkx4,bbpkx5,bbpkx6,
-
-                                    dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
-                                };
-            PictureBox pb = sender as PictureBox;
-            int slot = Array.IndexOf(pba, pb);
-
             if (ModifierKeys == Keys.Control)
-            {
-                if (slot >= 0)
-                {
-                    int offset = getPKXOffset(slot);
-                    if (pb.Image == null)
-                    {
-                        return;
-                    }
-
-                    if (BitConverter.ToUInt64(savefile, offset + 8) != 0)
-                    {
-                        byte[] ekxdata = new Byte[0xE8];
-                        Array.Copy(savefile, offset, ekxdata, 0, 0xE8);
-                        byte[] pkxdata = PKX.decryptArray(ekxdata);
-                        int species = BitConverter.ToInt16(pkxdata, 0x08); // Get Species
-                        if (species == 0)
-                        {
-                            return;
-                        }
-                        try
-                        {
-                            Array.Copy(pkxdata, buff, 0xE8);
-                            populateFields(buff);
-                        }
-                        catch
-                        {
-                            try
-                            {
-                                byte[] blank = PKX.encryptArray(new Byte[0xE8]);
-                                for (int i = 0; i < 0xE8; i++)
-                                {
-                                    blank[i] = (byte)(buff[i] ^ blank[i]);
-                                }
-                                populateFields(blank);
-                            }
-                            catch
-                            {
-                                populateFields(buff);
-                            }
-                        }
-
-                        getSlotColor(slot, Properties.Resources.slotView);
-                    }
-                }
-                return;
-            }
-            if (ModifierKeys == Keys.Shift)
-            {
-                if (!verifiedpkx()) { return; }
-                if (slot >= 0 && slot < 30)
-                {
-                    int offset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
-                    byte[] pkxdata = preparepkx(buff);
-                    byte[] ekxdata = PKX.encryptArray(pkxdata);
-                    Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
-                    getSlotColor(slot, Properties.Resources.slotSet);
-                }
-                else if (slot < 36)
-                {
-                    if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { MessageBox.Show("Can't have empty/egg first slot.", "Alert"); return; }
-                    int offset = SaveGame.Party + 0x7F000 * savindex + (slot-30) * 0x104;
-                    byte[] pkxdata = preparepkx(buff);
-                    byte[] ekxdata = PKX.encryptArray(pkxdata);
-                    Array.Copy(ekxdata, 0, savefile, offset, 0x104);
-                    getSlotColor(slot, Properties.Resources.slotSet);
-                }
-                setPokedex(preparepkx(buff));
-                setParty();
-                setPKXBoxes();
-                savedited = true;
-            }
+                rcmView_Click(sender, e);
+            else if (ModifierKeys == Keys.Shift)
+                rcmSet_Click(sender, e);
+            else if (ModifierKeys == Keys.Alt)
+                rcmDelete_Click(sender, e);
         }
         // Subfunctions // 
         private int getPKXOffset(int slot)
@@ -5239,35 +5107,43 @@ namespace PKHeX
         }
         private int getSlot(object sender)
         {
+            Control sourceControl = null;
             // Try to cast the sender to a ToolStripItem
-            ToolStripItem menuItem = sender as ToolStripItem;
-            if (menuItem != null)
+            try
             {
-                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                ToolStripItem menuItem = sender as ToolStripItem;
                 ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
-                if (owner != null)
+                sourceControl = owner.SourceControl;
+            }
+            catch
+            {
+                // try to cast as picturebox
+                try
                 {
-                    // Get the control that is displaying this context menu
-                    Control sourceControl = owner.SourceControl;
-
-                    string[] pba = {
-                                    "bpkx1", "bpkx2", "bpkx3", "bpkx4", "bpkx5", "bpkx6",
-                                    "bpkx7", "bpkx8", "bpkx9", "bpkx10","bpkx11","bpkx12",
-                                    "bpkx13","bpkx14","bpkx15","bpkx16","bpkx17","bpkx18",
-                                    "bpkx19","bpkx20","bpkx21","bpkx22","bpkx23","bpkx24",
-                                    "bpkx25","bpkx26","bpkx27","bpkx28","bpkx29","bpkx30",
-
-                                    "ppkx1", "ppkx2", "ppkx3", "ppkx4", "ppkx5", "ppkx6",
-                                    "bbpkx1","bbpkx2","bbpkx3","bbpkx4","bbpkx5","bbpkx6",
-
-                                    "dcpkx1", "dcpkx2", "gtspkx", "fusedpkx","subepkx1","subepkx2","subepkx3",
-                                };
-                    int slot = Array.IndexOf(pba, sourceControl.Name);
-                    return slot;
+                    PictureBox pbItem = sender as PictureBox;
+                    sourceControl = pbItem as Control;
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid slot!", "Error");
+                    return 0;
                 }
             }
-            MessageBox.Show("Invalid slot!", "Error");
-            return 0;
+
+            string[] pba = {
+                                "bpkx1", "bpkx2", "bpkx3", "bpkx4", "bpkx5", "bpkx6",
+                                "bpkx7", "bpkx8", "bpkx9", "bpkx10","bpkx11","bpkx12",
+                                "bpkx13","bpkx14","bpkx15","bpkx16","bpkx17","bpkx18",
+                                "bpkx19","bpkx20","bpkx21","bpkx22","bpkx23","bpkx24",
+                                "bpkx25","bpkx26","bpkx27","bpkx28","bpkx29","bpkx30",
+
+                                "ppkx1", "ppkx2", "ppkx3", "ppkx4", "ppkx5", "ppkx6",
+                                "bbpkx1","bbpkx2","bbpkx3","bbpkx4","bbpkx5","bbpkx6",
+
+                                "dcpkx1", "dcpkx2", "gtspkx", "fusedpkx","subepkx1","subepkx2","subepkx3",
+                            };
+            int slot = Array.IndexOf(pba, sourceControl.Name);
+            return slot;
         }
         public void setPKXBoxes()
         {
@@ -5323,12 +5199,12 @@ namespace PKHeX
                 dctexta[i].Text = BitConverter.ToUInt32(savefile, 0x20600 + (0x7F000 * savindex) + 0xF0 * i + 4).ToString();
                 if (Convert.ToBoolean(savefile[0x20600 + (0x7F000 * savindex) + 0xF0 * i]))   // If Occupied
                 {
-                    pba[i + 42].Image = ImageTransparency.ChangeOpacity(pba[i + 42].Image, 1);
+                    pba[i + 42].Image = Util.ChangeOpacity(pba[i + 42].Image, 1);
                     dclabela[i].Text = (i + 1) + ": Occupied";
                 }
                 else
                 {
-                    pba[i + 42].Image = ImageTransparency.ChangeOpacity(pba[i + 42].Image, 0.6);
+                    pba[i + 42].Image = Util.ChangeOpacity(pba[i + 42].Image, 0.6);
                     dclabela[i].Text = (i + 1) + ": Not Occupied";
                 }
             }
@@ -5454,7 +5330,7 @@ namespace PKHeX
             {
                 if (species < 722 && species != 0)
                 {
-                    baseImage = PKHeX.Util.layerImage(
+                    baseImage = PKHeX.Util.LayerImage(
                         (Image)Properties.Resources.ResourceManager.GetObject("_" + species.ToString()),
                         (Image)Properties.Resources.unknown, 
                         0, 0, .5);
@@ -5465,14 +5341,14 @@ namespace PKHeX
             if (species != 0 && isegg == 1)
             {
                 file = "_0"; // Start with a partially transparent species 
-                baseImage = PKHeX.Util.layerImage((Image)Properties.Resources.ResourceManager.GetObject(file), baseImage, 0, 0, 0.33);
+                baseImage = PKHeX.Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject(file), baseImage, 0, 0, 0.33);
                 file = "egg"; // Add the egg layer over-top.
-                baseImage = PKHeX.Util.layerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject(file), 0, 0, 1);
+                baseImage = PKHeX.Util.LayerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject(file), 0, 0, 1);
             }
             if (species != 0 && XOR < 16)
             {   // Is Shiny
                 // Redraw our image
-                baseImage = PKHeX.Util.layerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
+                baseImage = PKHeX.Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
             }
             if (species != 0 && BitConverter.ToUInt16(dslotdata, 0xA) > 0)
             {
@@ -5481,7 +5357,7 @@ namespace PKHeX
                 Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_"+item.ToString());
                 if (itemimg == null) itemimg = Properties.Resources.helditem;
                 // Redraw
-                baseImage = PKHeX.Util.layerImage(baseImage, itemimg, 22 + (15-itemimg.Width)/2, 15 + (15-itemimg.Height), 1);
+                baseImage = PKHeX.Util.LayerImage(baseImage, itemimg, 22 + (15-itemimg.Width)/2, 15 + (15-itemimg.Height), 1);
             }
 
             pb.Image = baseImage;
@@ -5661,7 +5537,7 @@ namespace PKHeX
                     Array.Copy(ezeros, 0, savefile, offset + i * 232, 232);
             }
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
-            var Converter = new PKHeX.pk2pk();
+            var Converter = new pk2pk();
 
             for (int i = 0; i < filepaths.Length; i++)
             {
@@ -5722,7 +5598,7 @@ namespace PKHeX
 
                     ushort chk = 0;
                     for (int z = 8; z < 232; z += 2) // Loop through the entire PKX
-                        chk += BitConverter.ToUInt16(decrypteddata,z);
+                        chk += BitConverter.ToUInt16(decrypteddata, z);
                     if (chk != BitConverter.ToUInt16(decrypteddata, 0x6)) continue;
                 }
                 else continue;
@@ -5742,7 +5618,7 @@ namespace PKHeX
                 setPKXBoxes();
                 string result = "Loaded " + ctr + " files to boxes.";
                 if (pastctr > 0)
-                    result += "\n\nConversion successful for " + pastctr + " past-gen files.";
+                    result += "\n\nConversion successful for " + pastctr + " past generation files.";
                 MessageBox.Show(result, "Alert");
             }
         }
@@ -5756,7 +5632,7 @@ namespace PKHeX
         private void B_OpenBoxLayout_Click(object sender, EventArgs e)
         {
             // Open Box Layout Menu
-            PKHeX.SAV_BoxLayout sb21 = new PKHeX.SAV_BoxLayout();
+            PKHeX.SAV_BoxLayout sb21 = new PKHeX.SAV_BoxLayout(this);
             sb21.ShowDialog();
             setBoxNames();
             setPKXBoxes();
@@ -5768,7 +5644,7 @@ namespace PKHeX
         }
         private void B_OpenPokepuffs_Click(object sender, EventArgs e)
         {
-            PKHeX.SAV_Pokepuff sb11 = new PKHeX.SAV_Pokepuff();
+            PKHeX.SAV_Pokepuff sb11 = new PKHeX.SAV_Pokepuff(this);
             sb11.ShowDialog();
         }
         private void B_OpenItemPouch_Click(object sender, EventArgs e)
@@ -5790,7 +5666,7 @@ namespace PKHeX
         private void B_OpenSuperTraining_Click(object sender, EventArgs e)
         {
             // Open ST Menu
-            SAV_SuperTrain supertrain = new PKHeX.SAV_SuperTrain();
+            SAV_SuperTrain supertrain = new PKHeX.SAV_SuperTrain(this);
             supertrain.ShowDialog();
         }
         private void B_OpenOPowers_Click(object sender, EventArgs e)
@@ -5802,7 +5678,7 @@ namespace PKHeX
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
             // Open Pokedex Menu
-            SAV_Pokedex pokedex = new PKHeX.SAV_Pokedex();
+            SAV_Pokedex pokedex = new PKHeX.SAV_Pokedex(this);
             pokedex.ShowDialog();
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
@@ -5872,6 +5748,7 @@ namespace PKHeX
             SAV_HallOfFame halloffame = new PKHeX.SAV_HallOfFame(this);
             halloffame.ShowDialog();
         }
+
         private void B_OpenTemp_Click(object sender, EventArgs e)
         {
             string path;
@@ -6084,7 +5961,6 @@ namespace PKHeX
                     HoF = 0x1E800;
                     JPEG = 0x5C600;
                     PSS = 0x0A400;
-
                 }
                 else if (GameID == "ORAS")
                 {
@@ -6112,7 +5988,6 @@ namespace PKHeX
                     HoF = 0x1E800;
                     JPEG = 0x5C600;
                     PSS = 0x0A400;
-
                 }
                 else
                 {
@@ -6142,22 +6017,6 @@ namespace PKHeX
                     PSS = 0x0A400;
                 }
             }
-        }
-    }
-    public class ImageTransparency
-    {
-        public static Bitmap ChangeOpacity(Image img, double opacityvalue)
-        {
-            if (img == null) return null;
-            Bitmap bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
-            Graphics graphics = Graphics.FromImage(bmp);
-            ColorMatrix colormatrix = new ColorMatrix();
-            colormatrix.Matrix33 = (float)opacityvalue;
-            ImageAttributes imgAttribute = new ImageAttributes();
-            imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            graphics.DrawImage(img, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttribute);
-            graphics.Dispose();   // Releasing all resource used by graphics
-            return bmp;
         }
     }
     #endregion

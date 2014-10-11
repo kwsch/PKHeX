@@ -96,12 +96,6 @@ namespace PKHeX
                 }
             }
         }
-        private static uint ToUInt32(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return 0;
-            return UInt32.Parse(value);
-        }                      // Integer Conversion
         private void getRibbons()
         {
             Bitmap[] bma = {
@@ -119,7 +113,6 @@ namespace PKHeX
 
                                    Properties.Resources.wishing,    Properties.Resources.battlechamp,       Properties.Resources.regionalchamp, Properties.Resources.nationalchamp,
                                    Properties.Resources.worldchamp,
-
                            };
             PictureBox[] pba = { 
                                    PB_10, PB_11, PB_12, PB_13, 
@@ -140,7 +133,7 @@ namespace PKHeX
 
             for (int i = 0; i < bma.Length; i++)
             {
-                pba[i].Image = ImageTransparency.ChangeOpacity(bma[i], 0.1);
+                pba[i].Image = Util.ChangeOpacity(bma[i], 0.1);
             }
             
             int rv = 0; // Read from value (later redefined)
@@ -382,8 +375,8 @@ namespace PKHeX
             m_parent.buff[0x2E] = (byte)medals3;
             m_parent.buff[0x2F] = (byte)medals4;
 
-            m_parent.buff[0x38] = (byte)ToUInt32(TB_PastContest.Text);
-            m_parent.buff[0x39] = (byte)ToUInt32(TB_PastBattle.Text);
+            m_parent.buff[0x38] = (byte)Util.ToUInt32(TB_PastContest.Text);
+            m_parent.buff[0x39] = (byte)Util.ToUInt32(TB_PastBattle.Text);
             m_parent.buff[0x72] = (byte)Convert.ToByte(CHK_Secret.Checked);
         }                                       // Saving Ribbons prompted
         private void updateRibbon(CheckBox chk, int rv, int sh)
@@ -540,8 +533,8 @@ namespace PKHeX
                            };
             int index = Array.IndexOf(cba, sender as CheckBox);
 
-            
-            pba[index].Image = ImageTransparency.ChangeOpacity(bma[index], (float)(Convert.ToInt32(cba[index].Checked))*0.9 + 0.1);
+
+            pba[index].Image = Util.ChangeOpacity(bma[index], (float)(Convert.ToInt32(cba[index].Checked)) * 0.9 + 0.1);
         }
         private void pastribbontoggle(object sender, EventArgs e)
         {
@@ -549,18 +542,18 @@ namespace PKHeX
                                     PastContest, PastBattle,
                                 };
 
-            if (ToUInt32(TB_PastContest.Text) < 40)
+            if (Util.ToUInt32(TB_PastContest.Text) < 40)
                 pba2[0].Image = Properties.Resources.contestmemory;
             else
                 pba2[0].Image = Properties.Resources.contestmemory2;
 
-            if (ToUInt32(TB_PastBattle.Text) < 8)
+            if (Util.ToUInt32(TB_PastBattle.Text) < 8)
                 pba2[1].Image = Properties.Resources.battlememory;
             else
                 pba2[1].Image = Properties.Resources.battlememory2;
 
-            pba2[0].Image = ImageTransparency.ChangeOpacity(pba2[0].Image, (float)(ToUInt32(TB_PastContest.Text)) * 0.9 + 0.1);
-            pba2[1].Image = ImageTransparency.ChangeOpacity(pba2[1].Image, (float)(ToUInt32(TB_PastBattle.Text)) * 0.9 + 0.1);
+            pba2[0].Image = Util.ChangeOpacity(pba2[0].Image, (float)(Util.ToUInt32(TB_PastContest.Text)) * 0.9 + 0.1);
+            pba2[1].Image = Util.ChangeOpacity(pba2[1].Image, (float)(Util.ToUInt32(TB_PastBattle.Text)) * 0.9 + 0.1);
         }
 
         private void clickRibbon(object sender, EventArgs e)

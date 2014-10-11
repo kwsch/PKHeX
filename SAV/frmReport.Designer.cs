@@ -40,7 +40,8 @@
             this.dgData.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.dgData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgData.Location = new System.Drawing.Point(0, 0);
             this.dgData.Name = "dgData";

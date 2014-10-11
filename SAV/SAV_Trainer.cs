@@ -321,7 +321,7 @@ namespace PKHeX
             CB_Region.DisplayMember = "Text";
             CB_Region.ValueMember = "Value";
 
-            m_parent.setcountry(CB_Country);
+            m_parent.setCountry(CB_Country);
         }
         private void getBadges()
         {
@@ -356,11 +356,11 @@ namespace PKHeX
             {
                 if (!cba[i].Checked)
                 {
-                    pba[i].Image = ImageTransparency.ChangeOpacity(bma[i], 0.1);
+                    pba[i].Image = Util.ChangeOpacity(bma[i], 0.1);
                 }
                 else
                 {
-                    pba[i].Image = ImageTransparency.ChangeOpacity(bma[i], 1);
+                    pba[i].Image = Util.ChangeOpacity(bma[i], 1);
                 }
             }
         }

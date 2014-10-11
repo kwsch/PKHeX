@@ -11,6 +11,7 @@ namespace PKHeX
 {
     public partial class PKX
     {
+        // Data
         public static uint LCRNG(uint seed)
         {
             uint a = 0x41C64E6D;
@@ -2268,6 +2269,7 @@ namespace PKHeX
             return table;
         }
 
+        // Stat Fetching
         public static int getMovePP(int move, int ppup)
         {
             return (getBasePP(move) * (5 + ppup) / 5);
@@ -2359,7 +2361,16 @@ namespace PKHeX
             }
             return (uint)exp;
         }
+        public static int getGender(string s)
+        {
+            if (s == "♂" || s == "M")
+                return 0;
+            else if (s == "♀" || s == "F")
+                return 1;
+            else return 2;
+        }
 
+        // Manipulation
         public static byte[] shuffleArray(byte[] pkx, uint sv)
         {
             byte[] ekx = new Byte[260];
@@ -2464,7 +2475,32 @@ namespace PKHeX
             // Done
             return ekxdata;
         }
+        public static UInt16 getTSV(UInt32 PID, UInt16 TID, UInt16 SID)
+        {
+            UInt16 tsv = Convert.ToUInt16((TID ^ SID) >> 4);
+            return Convert.ToUInt16(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
+        }
+        public static uint getRandomPID(int species, int cg)
+        {
+            int gt = (int)SpeciesTable().Rows[species][8];
+            uint pid = (uint)Util.rnd32();
+            if (gt > 255)
+                return pid;
+            while (true) // Loop until we find a suitable PID
+            {
+                uint gv = (pid & 0xFF);
+                if (cg == 2) // Genderless
+                    break;  // PID Passes
+                else if ((cg == 1) && (gv < gt)) // Female
+                    break;  // PID Passes
+                else if ((cg == 0) && (gv >= gt))
+                    break;  // PID Passes
+                pid = (uint)Util.rnd32();
+            }
+            return pid;
+        }
 
+        // Object
         #region Define
         private Image pksprite;
         private uint mEC, mPID, mIV32,
@@ -2514,6 +2550,7 @@ namespace PKHeX
         public string Move2 { get { return mMove2N; } }
         public string Move3 { get { return mMove3N; } }
         public string Move4 { get { return mMove4N; } }
+
         #region Extraneous
         public string EC { get { return mEC.ToString("X8"); } }
         public string PID { get { return mPID.ToString("X8"); } }
@@ -2756,6 +2793,59 @@ namespace PKHeX
                 mMove4N = Form1.movelist[mmove4];
             }
             catch { return; }
+        }
+
+        // Save File Related
+        internal static int detectSAVIndex(byte[] data, ref int savindex)
+        {
+            SHA256 mySHA256 = SHA256Managed.Create();
+            {
+                byte[] difihash1 = new Byte[0x12C];
+                byte[] difihash2 = new Byte[0x12C];
+                Array.Copy(data, 0x330, difihash1, 0, 0x12C);
+                Array.Copy(data, 0x200, difihash2, 0, 0x12C);
+                byte[] hashValue1 = mySHA256.ComputeHash(difihash1);
+                byte[] hashValue2 = mySHA256.ComputeHash(difihash2);
+                byte[] actualhash = new Byte[0x20];
+                Array.Copy(data, 0x16C, actualhash, 0, 0x20);
+                if (hashValue1.SequenceEqual(actualhash))
+                {
+                    Console.WriteLine("Active DIFI 2 - Save 1.");
+                    savindex = 0;
+                }
+                else if (hashValue2.SequenceEqual(actualhash))
+                {
+                    Console.WriteLine("Active DIFI 1 - Save 2.");
+                    savindex = 1;
+                }
+                else
+                {
+                    Console.WriteLine("ERROR: NO ACTIVE DIFI HASH MATCH");
+                    savindex = 2;
+                }
+            }
+            if ((data[0x168] ^ 1) != savindex && savindex != 2)
+            {
+                Console.WriteLine("ERROR: ACTIVE BLOCK MISMATCH");
+                savindex = 2;
+            }
+            return savindex;
+        }
+        internal static UInt16 ccitt16(byte[] data)
+        {
+            ushort crc = 0xFFFF;
+            for (int i = 0; i < data.Length; i++)
+            {
+                crc ^= (ushort)(data[i] << 8);
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((crc & 0x8000) > 0)
+                        crc = (ushort)((crc << 1) ^ 0x1021);
+                    else
+                        crc <<= 1;
+                }
+            }
+            return crc;
         }
     }
 }

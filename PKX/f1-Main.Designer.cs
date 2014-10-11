@@ -2134,6 +2134,7 @@
             this.CHK_Square.AutoSize = true;
             this.CHK_Square.Location = new System.Drawing.Point(29, 227);
             this.CHK_Square.Name = "CHK_Square";
+            this.CHK_Square.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.CHK_Square.Size = new System.Drawing.Size(38, 17);
             this.CHK_Square.TabIndex = 11;
             this.CHK_Square.Text = "■";
@@ -2189,19 +2190,20 @@
             // 
             // Label_PrevOT
             // 
-            this.Label_PrevOT.Location = new System.Drawing.Point(15, 23);
+            this.Label_PrevOT.Location = new System.Drawing.Point(4, 23);
             this.Label_PrevOT.Name = "Label_PrevOT";
-            this.Label_PrevOT.Size = new System.Drawing.Size(25, 13);
+            this.Label_PrevOT.Size = new System.Drawing.Size(40, 13);
             this.Label_PrevOT.TabIndex = 42;
             this.Label_PrevOT.Text = "OT:";
             this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_PrevOT.Click += new System.EventHandler(this.Label_PrevOT_Click);
+            this.Label_PrevOT.Click += new System.EventHandler(this.Label_CT_Click);
             // 
             // CHK_Triangle
             // 
             this.CHK_Triangle.AutoSize = true;
             this.CHK_Triangle.Location = new System.Drawing.Point(29, 213);
             this.CHK_Triangle.Name = "CHK_Triangle";
+            this.CHK_Triangle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.CHK_Triangle.Size = new System.Drawing.Size(38, 17);
             this.CHK_Triangle.TabIndex = 10;
             this.CHK_Triangle.Text = "▲";
@@ -2212,8 +2214,9 @@
             // 
             this.CHK_Circle.AutoSize = true;
             this.CHK_Circle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CHK_Circle.Location = new System.Drawing.Point(29, 193);
+            this.CHK_Circle.Location = new System.Drawing.Point(27, 193);
             this.CHK_Circle.Name = "CHK_Circle";
+            this.CHK_Circle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.CHK_Circle.Size = new System.Drawing.Size(40, 28);
             this.CHK_Circle.TabIndex = 9;
             this.CHK_Circle.Text = "●";
@@ -2312,7 +2315,7 @@
             this.PB_Mark6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark6.TabIndex = 5;
             this.PB_Mark6.TabStop = false;
-            this.PB_Mark6.Click += new System.EventHandler(this.Marking_Click);
+            this.PB_Mark6.Click += new System.EventHandler(this.Label_Marking_Click);
             // 
             // PB_Mark5
             // 
@@ -2324,7 +2327,7 @@
             this.PB_Mark5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark5.TabIndex = 4;
             this.PB_Mark5.TabStop = false;
-            this.PB_Mark5.Click += new System.EventHandler(this.Marking_Click);
+            this.PB_Mark5.Click += new System.EventHandler(this.Label_Marking_Click);
             // 
             // PB_Mark4
             // 
@@ -2336,7 +2339,7 @@
             this.PB_Mark4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark4.TabIndex = 3;
             this.PB_Mark4.TabStop = false;
-            this.PB_Mark4.Click += new System.EventHandler(this.Marking_Click);
+            this.PB_Mark4.Click += new System.EventHandler(this.Label_Marking_Click);
             // 
             // PB_Mark3
             // 
@@ -2348,7 +2351,7 @@
             this.PB_Mark3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark3.TabIndex = 2;
             this.PB_Mark3.TabStop = false;
-            this.PB_Mark3.Click += new System.EventHandler(this.Marking_Click);
+            this.PB_Mark3.Click += new System.EventHandler(this.Label_Marking_Click);
             // 
             // PB_Mark2
             // 
@@ -2360,7 +2363,7 @@
             this.PB_Mark2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark2.TabIndex = 1;
             this.PB_Mark2.TabStop = false;
-            this.PB_Mark2.Click += new System.EventHandler(this.Marking_Click);
+            this.PB_Mark2.Click += new System.EventHandler(this.Label_Marking_Click);
             // 
             // PB_Mark1
             // 
@@ -2372,7 +2375,7 @@
             this.PB_Mark1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark1.TabIndex = 0;
             this.PB_Mark1.TabStop = false;
-            this.PB_Mark1.Click += new System.EventHandler(this.Marking_Click);
+            this.PB_Mark1.Click += new System.EventHandler(this.Label_Marking_Click);
             // 
             // GB_ExtraBytes
             // 
@@ -2498,7 +2501,7 @@
             // 
             // Label_OT
             // 
-            this.Label_OT.Location = new System.Drawing.Point(2, 48);
+            this.Label_OT.Location = new System.Drawing.Point(4, 48);
             this.Label_OT.Name = "Label_OT";
             this.Label_OT.Size = new System.Drawing.Size(40, 13);
             this.Label_OT.TabIndex = 5;
@@ -2508,7 +2511,7 @@
             // 
             // Label_SID
             // 
-            this.Label_SID.Location = new System.Drawing.Point(88, 25);
+            this.Label_SID.Location = new System.Drawing.Point(86, 22);
             this.Label_SID.Name = "Label_SID";
             this.Label_SID.Size = new System.Drawing.Size(45, 13);
             this.Label_SID.TabIndex = 4;
@@ -2517,7 +2520,7 @@
             // 
             // Label_TID
             // 
-            this.Label_TID.Location = new System.Drawing.Point(2, 25);
+            this.Label_TID.Location = new System.Drawing.Point(4, 22);
             this.Label_TID.Name = "Label_TID";
             this.Label_TID.Size = new System.Drawing.Size(40, 13);
             this.Label_TID.TabIndex = 3;

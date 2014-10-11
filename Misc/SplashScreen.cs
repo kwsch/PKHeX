@@ -19,7 +19,7 @@ namespace PKHeX
             m_parent = frm1;
             System.Timers.Timer myTimer = new System.Timers.Timer();
             myTimer.Elapsed += new ElapsedEventHandler(DisplayTimeEvent);
-            myTimer.Interval = 10; // milliseconds per trigger interval
+            myTimer.Interval = 50; // milliseconds per trigger interval
             myTimer.Start();
         }
         public void DisplayTimeEvent(object source, ElapsedEventArgs e)
