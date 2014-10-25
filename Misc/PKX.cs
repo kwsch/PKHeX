@@ -2122,12 +2122,12 @@ namespace PKHeX
             DataTable table = new DataTable();
             table.Columns.Add("Level", typeof(int));
 
-            table.Columns.Add("0 - Erratic", typeof(int));
-            table.Columns.Add("1 - Fast", typeof(int));
-            table.Columns.Add("2 - MF", typeof(int));
-            table.Columns.Add("3 - MS", typeof(int));
-            table.Columns.Add("4 - Slow", typeof(int));
-            table.Columns.Add("5 - Fluctuating", typeof(int));
+            table.Columns.Add("0 - Erratic", typeof(uint));
+            table.Columns.Add("1 - Fast", typeof(uint));
+            table.Columns.Add("2 - MF", typeof(uint));
+            table.Columns.Add("3 - MS", typeof(uint));
+            table.Columns.Add("4 - Slow", typeof(uint));
+            table.Columns.Add("5 - Fluctuating", typeof(uint));
             table.Rows.Add(0, 0, 0, 0, 0, 0, 0);
             table.Rows.Add(1, 0, 0, 0, 0, 0, 0);
             table.Rows.Add(2, 15, 6, 8, 9, 10, 4);
@@ -2294,9 +2294,9 @@ namespace PKHeX
 
             int growth = (int)spectable.Rows[species][1];
 
-            if ((int)table.Rows[tl][growth + 1] < exp)
+            if ((uint)table.Rows[tl][growth + 1] < exp)
             {
-                while ((int)table.Rows[tl][growth + 1] < exp)
+                while ((uint)table.Rows[tl][growth + 1] < exp)
                 {
                     // While EXP for guessed level is below our current exp
                     tl += 1;
@@ -2307,7 +2307,7 @@ namespace PKHeX
                     }
                     // when calcexp exceeds our exp, we exit loop
                 }
-                if ((int)table.Rows[tl][growth + 1] == exp)
+                if ((uint)table.Rows[tl][growth + 1] == exp)
                 {
                     // Matches level threshold
                     return tl;
@@ -2321,45 +2321,13 @@ namespace PKHeX
             // Fetch Growth
             if ((level == 0) || (level == 1))
                 return 0;
+            if (level > 100) level = 100;
 
             DataTable spectable = PKX.SpeciesTable();
             int growth = (int)spectable.Rows[species][1];
 
-            int exp = 0;
-            switch (growth)
-            {
-                case 0: // Erratic
-                    if (level <= 50)
-                        exp = (level * level * level) * (100 - level) / 50;
-                    else if (level < 69)
-                        exp = (level * level * level) * (150 - level) / 100;
-                    else if (level < 99)
-                        exp = (level * level * level) * ((1911 - 10 * level) / 3) / 500;
-                    else
-                        exp = (level * level * level) * (160 - level) / 100;
-                    break;
-                case 1: // Fast
-                    exp = 4 * (level * level * level) / 5;
-                    break;
-                case 2: // Medium Fast
-                    exp = (level * level * level);
-                    break;
-                case 3: // Medium Slow
-                    exp = 6 * (level * level * level) / 5 - 15 * (level * level) + 100 * level - 140;
-                    break;
-                case 4:
-                    exp = 5 * (level * level * level) / 4;
-                    break;
-                case 5:
-                    if (level <= 15)
-                        exp = (level * level * level) * ((((level + 1) / 3) + 24) / 50);
-                    else if (level <= 36)
-                        exp = (level * level * level) * ((level + 14) / 50);
-                    else
-                        exp = (level * level * level) * (((level / 2) + 32) / 50);
-                    break;
-            }
-            return (uint)exp;
+            uint exp = (uint)PKX.ExpTable().Rows[level][growth+1];
+            return exp;
         }
         public static int getGender(string s)
         {

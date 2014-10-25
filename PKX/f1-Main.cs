@@ -70,7 +70,7 @@ namespace PKHeX
                 CB_MainLanguage.SelectedIndex = 0;
 
             #region HaX
-            bool HaX = (filename.IndexOf("HaX") < 0);
+            bool HaX = (filename.IndexOf("HaX") >= 0);
             {
                 CHK_HackedStats.Enabled = CHK_HackedStats.Visible =
                 DEV_Ability.Enabled = DEV_Ability.Visible =
@@ -80,11 +80,6 @@ namespace PKHeX
 
                 TB_Level.Visible =
                 CB_Ability.Visible = !HaX; 
-            }
-            if (HaX)
-            {
-                System.Media.SystemSounds.Exclamation.Play();
-                MessageBox.Show("Illegal mode activated.\n\nPlease behave.", "Alert");
             }
             #endregion
             #endregion
@@ -182,6 +177,11 @@ namespace PKHeX
             this.WindowState = FormWindowState.Minimized;
             this.Show();
             this.WindowState = FormWindowState.Normal;
+            if (HaX)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                MessageBox.Show("Illegal mode activated.\n\nPlease behave.", "Alert");
+            }
             #endregion
         }
 
@@ -2427,7 +2427,10 @@ namespace PKHeX
                 if (Util.ToInt32(TB_EXP.Text) == 0) { level = 1; }
                 else level = PKX.getLevel(Util.getIndex(CB_Species), ref exp);
                 TB_Level.Text = level.ToString();
-                TB_EXP.Text = exp.ToString();
+                if (!MT_Level.Visible || level < 100)
+                    TB_EXP.Text = exp.ToString();
+                if (MT_Level.Visible && level < 101 && Util.ToInt32(MT_Level.Text) < 101)
+                    MT_Level.Text = level.ToString();
 
                 TB_Level.Enabled = true;
             }
@@ -2448,7 +2451,8 @@ namespace PKHeX
             }
             else if (MT_Level.Focused == true)
             {
-                TB_EXP.Text = PKX.getEXP(Math.Min(Convert.ToInt32(MT_Level.Text), 255), Util.getIndex(CB_Species)).ToString();
+                int level = Util.ToInt32(MT_Level.Text); if (level > 255) level = 255;
+                TB_EXP.Text = PKX.getEXP(level, Util.getIndex(CB_Species)).ToString();
             }
             updateStats();
         }
@@ -2692,12 +2696,14 @@ namespace PKHeX
             // Change Species Prompted
             int species = Util.getIndex(CB_Species);
             int level = Util.ToInt32(TB_Level.Text);
+            if (MT_Level.Visible) level = Util.ToInt32(MT_Level.Text);
 
             // Get Forms for Given Species
             setForms(species);
 
             // Recalculate EXP for Given Level
-            TB_EXP.Text = PKX.getEXP(level, species).ToString();
+            uint exp = PKX.getEXP(level, species);
+            TB_EXP.Text = exp.ToString();
 
             // Check for Gender Changes
             // Get Gender Threshold
@@ -3912,6 +3918,7 @@ namespace PKHeX
         }
         public byte[] preparepkx(byte[] buff)
         {
+            tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
             // Stuff the Buff 
             // Create a new storage so we don't muck up things with the original
             byte[] pkx = buff;

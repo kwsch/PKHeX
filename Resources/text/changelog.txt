@@ -316,7 +316,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Pokedex corruption (I hope).
  - Removed: Backup (.bak) saving when replacing the Cyber Save file "main".
 
-08/31/14 - New Update (3900):
+08/31/14 - New Update: (3900)
  - Added: Cyber screwup notification upon saving. 
  - - If a 0x200 byte chunk is all 0xFF, your save will be corrupt when you write it back (not PKHeX's fault).
  - Added: All Item 'cheat', activated by holding ALT when clicking the ITEMS button within the Inventory Menu.
@@ -331,8 +331,13 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Can no longer set illegal Dex entries (either manually or via Give All)
  - Misc: Cleaned up some code, reduced file size.
 
-09/22/14 - New Update:
+09/22/14 - New Update: (5200)
  - Added: Box Import will start at the current box.
  - Added: Box Import can be instructed to clear all boxes or just overwrite individual slots.
  - Fixed: Importing past generation files will no longer fail for valid files.
  - Removed: Erroneous Mega selection ("Mega Meganium & Mega Yanmega") ;)
+
+10/25/14 - New Update:
+ - Fixed: Setting Pokemon immediately after scrolling through a dropdown list will save the current selected value.
+ - Fixed: EXP now calculates and sets properly; switched from formulas (rounding errata) to a lookup table.
+ - Changed: Reorganized and cleaned up the source code in prep for future usage/updates.
