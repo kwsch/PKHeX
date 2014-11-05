@@ -88,7 +88,7 @@ namespace PKHeX
             // Initialize Fields
             InitializeFields();
             #endregion
-            # region Add ContextMenus to the PictureBoxes (PKX slots)
+            #region Add ContextMenus to the PictureBoxes (PKX slots)
             PictureBox[] pba = {
                                    bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
                                    bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
@@ -99,7 +99,7 @@ namespace PKHeX
                                     ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
                                };
             ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuView = new ToolStripMenuItem("View"); 
+            ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
             ToolStripMenuItem mnuSet = new ToolStripMenuItem("Set");
             ToolStripMenuItem mnuDelete = new ToolStripMenuItem("Delete");
             //Assign event handlers

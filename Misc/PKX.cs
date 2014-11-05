@@ -763,7 +763,7 @@ namespace PKHeX
         {
             DataTable table = new DataTable();
             table.Columns.Add("Species", typeof(int));
-            table.Columns.Add("Friendship", typeof(int));
+            table.Columns.Add("Friendship", typeof(byte));
 
             table.Rows.Add(0, 0);
             table.Rows.Add(1, 70);

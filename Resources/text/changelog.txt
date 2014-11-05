@@ -337,7 +337,10 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Importing past generation files will no longer fail for valid files.
  - Removed: Erroneous Mega selection ("Mega Meganium & Mega Yanmega") ;)
 
-10/25/14 - New Update:
+10/25/14 - New Update: (1800)
  - Fixed: Setting Pokemon immediately after scrolling through a dropdown list will save the current selected value.
  - Fixed: EXP now calculates and sets properly; switched from formulas (rounding errata) to a lookup table.
  - Changed: Reorganized and cleaned up the source code in prep for future usage/updates.
+
+11/05/14 - New Update: 
+ - Fixed: Casting error for base happiness.
