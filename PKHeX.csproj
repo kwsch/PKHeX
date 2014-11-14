@@ -302,6 +302,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\icon.ico" />
+    <None Include="Resources\img\ribbons\ribbon_45.png" />
+    <None Include="Resources\img\ribbons\ribbon_44.png" />
+    <None Include="Resources\img\ribbons\ribbon_43.png" />
+    <None Include="Resources\img\ribbons\ribbon_42.png" />
+    <None Include="Resources\img\ribbons\ribbon_41.png" />
+    <None Include="Resources\img\ribbons\ribbon_40.png" />
+    <None Include="Resources\img\ribbons\ribbon_46.png" />
     <None Include="Resources\byte\fulldex_XY" />
     <None Include="Resources\img\Pokemon Sprites\unknown.png" />
     <None Include="Resources\img\item\item_670.png" />

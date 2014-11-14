@@ -36,6 +36,10 @@
             this.Tab_Medals = new System.Windows.Forms.TabPage();
             this.CHK_Secret = new System.Windows.Forms.CheckBox();
             this.GB_Medals1 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.L_Hits = new System.Windows.Forms.Label();
             this.L_SuperTraining = new System.Windows.Forms.Label();
             this.L_Rank3 = new System.Windows.Forms.Label();
             this.L_Rank2 = new System.Windows.Forms.Label();
@@ -81,34 +85,20 @@
             this.TMedal1_1 = new System.Windows.Forms.CheckBox();
             this.Tab_Extra = new System.Windows.Forms.TabPage();
             this.GB_Extra2 = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.ORAS_5 = new System.Windows.Forms.CheckBox();
+            this.ORAS_4 = new System.Windows.Forms.CheckBox();
+            this.PB_57 = new System.Windows.Forms.PictureBox();
+            this.PB_O5 = new System.Windows.Forms.PictureBox();
+            this.ORAS_3 = new System.Windows.Forms.CheckBox();
+            this.PB_O4 = new System.Windows.Forms.PictureBox();
+            this.PB_O0 = new System.Windows.Forms.PictureBox();
+            this.PB_O3 = new System.Windows.Forms.PictureBox();
+            this.PB_O2 = new System.Windows.Forms.PictureBox();
+            this.PB_O1 = new System.Windows.Forms.PictureBox();
+            this.ORAS_2 = new System.Windows.Forms.CheckBox();
+            this.ORAS_1 = new System.Windows.Forms.CheckBox();
+            this.ORAS_0 = new System.Windows.Forms.CheckBox();
             this.Extra1_7 = new System.Windows.Forms.CheckBox();
-            this.Extra1_6 = new System.Windows.Forms.CheckBox();
-            this.Extra2_7 = new System.Windows.Forms.CheckBox();
-            this.Extra1_5 = new System.Windows.Forms.CheckBox();
-            this.Extra2_6 = new System.Windows.Forms.CheckBox();
-            this.Extra2_5 = new System.Windows.Forms.CheckBox();
-            this.Extra2_4 = new System.Windows.Forms.CheckBox();
-            this.Extra2_3 = new System.Windows.Forms.CheckBox();
-            this.Extra2_2 = new System.Windows.Forms.CheckBox();
-            this.Extra4_7 = new System.Windows.Forms.CheckBox();
-            this.Extra2_1 = new System.Windows.Forms.CheckBox();
-            this.Extra4_6 = new System.Windows.Forms.CheckBox();
-            this.Extra2_0 = new System.Windows.Forms.CheckBox();
-            this.Extra4_5 = new System.Windows.Forms.CheckBox();
-            this.Extra4_4 = new System.Windows.Forms.CheckBox();
-            this.Extra4_3 = new System.Windows.Forms.CheckBox();
-            this.Extra4_2 = new System.Windows.Forms.CheckBox();
-            this.Extra4_1 = new System.Windows.Forms.CheckBox();
-            this.Extra4_0 = new System.Windows.Forms.CheckBox();
-            this.Extra3_7 = new System.Windows.Forms.CheckBox();
-            this.Extra3_6 = new System.Windows.Forms.CheckBox();
-            this.Extra3_5 = new System.Windows.Forms.CheckBox();
-            this.Extra3_4 = new System.Windows.Forms.CheckBox();
-            this.Extra3_3 = new System.Windows.Forms.CheckBox();
-            this.Extra3_2 = new System.Windows.Forms.CheckBox();
-            this.Extra3_1 = new System.Windows.Forms.CheckBox();
-            this.Extra3_0 = new System.Windows.Forms.CheckBox();
             this.GB_Extra1 = new System.Windows.Forms.GroupBox();
             this.PastBattle = new System.Windows.Forms.PictureBox();
             this.PastContest = new System.Windows.Forms.PictureBox();
@@ -246,15 +236,19 @@
             this.Hoenn1b_5 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_6 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_7 = new System.Windows.Forms.CheckBox();
-            this.L_Hits = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.Tab_Medals.SuspendLayout();
             this.GB_Medals1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.GB_Medals2.SuspendLayout();
             this.Tab_Extra.SuspendLayout();
             this.GB_Extra2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_57)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O1)).BeginInit();
             this.GB_Extra1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PastBattle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PastContest)).BeginInit();
@@ -299,7 +293,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_10)).BeginInit();
             this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // BTN_Save
@@ -399,6 +392,51 @@
             this.GB_Medals1.Size = new System.Drawing.Size(230, 210);
             this.GB_Medals1.TabIndex = 5;
             this.GB_Medals1.TabStop = false;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(105, 166);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(110, 21);
+            this.comboBox1.TabIndex = 23;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(-1, 169);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Last Used Bag:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(105, 187);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(50, 20);
+            this.numericUpDown1.TabIndex = 21;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // L_Hits
+            // 
+            this.L_Hits.Location = new System.Drawing.Point(-1, 190);
+            this.L_Hits.Name = "L_Hits";
+            this.L_Hits.Size = new System.Drawing.Size(100, 13);
+            this.L_Hits.TabIndex = 20;
+            this.L_Hits.Text = "Hits Remaining:";
+            this.L_Hits.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // L_SuperTraining
             // 
@@ -860,320 +898,180 @@
             // 
             // GB_Extra2
             // 
-            this.GB_Extra2.Controls.Add(this.label13);
+            this.GB_Extra2.Controls.Add(this.ORAS_5);
+            this.GB_Extra2.Controls.Add(this.ORAS_4);
+            this.GB_Extra2.Controls.Add(this.PB_57);
+            this.GB_Extra2.Controls.Add(this.PB_O5);
+            this.GB_Extra2.Controls.Add(this.ORAS_3);
+            this.GB_Extra2.Controls.Add(this.PB_O4);
+            this.GB_Extra2.Controls.Add(this.PB_O0);
+            this.GB_Extra2.Controls.Add(this.PB_O3);
+            this.GB_Extra2.Controls.Add(this.PB_O2);
+            this.GB_Extra2.Controls.Add(this.PB_O1);
+            this.GB_Extra2.Controls.Add(this.ORAS_2);
+            this.GB_Extra2.Controls.Add(this.ORAS_1);
+            this.GB_Extra2.Controls.Add(this.ORAS_0);
             this.GB_Extra2.Controls.Add(this.Extra1_7);
-            this.GB_Extra2.Controls.Add(this.Extra1_6);
-            this.GB_Extra2.Controls.Add(this.Extra2_7);
-            this.GB_Extra2.Controls.Add(this.Extra1_5);
-            this.GB_Extra2.Controls.Add(this.Extra2_6);
-            this.GB_Extra2.Controls.Add(this.Extra2_5);
-            this.GB_Extra2.Controls.Add(this.Extra2_4);
-            this.GB_Extra2.Controls.Add(this.Extra2_3);
-            this.GB_Extra2.Controls.Add(this.Extra2_2);
-            this.GB_Extra2.Controls.Add(this.Extra4_7);
-            this.GB_Extra2.Controls.Add(this.Extra2_1);
-            this.GB_Extra2.Controls.Add(this.Extra4_6);
-            this.GB_Extra2.Controls.Add(this.Extra2_0);
-            this.GB_Extra2.Controls.Add(this.Extra4_5);
-            this.GB_Extra2.Controls.Add(this.Extra4_4);
-            this.GB_Extra2.Controls.Add(this.Extra4_3);
-            this.GB_Extra2.Controls.Add(this.Extra4_2);
-            this.GB_Extra2.Controls.Add(this.Extra4_1);
-            this.GB_Extra2.Controls.Add(this.Extra4_0);
-            this.GB_Extra2.Controls.Add(this.Extra3_7);
-            this.GB_Extra2.Controls.Add(this.Extra3_6);
-            this.GB_Extra2.Controls.Add(this.Extra3_5);
-            this.GB_Extra2.Controls.Add(this.Extra3_4);
-            this.GB_Extra2.Controls.Add(this.Extra3_3);
-            this.GB_Extra2.Controls.Add(this.Extra3_2);
-            this.GB_Extra2.Controls.Add(this.Extra3_1);
-            this.GB_Extra2.Controls.Add(this.Extra3_0);
-            this.GB_Extra2.Enabled = false;
             this.GB_Extra2.Location = new System.Drawing.Point(245, 3);
             this.GB_Extra2.Name = "GB_Extra2";
             this.GB_Extra2.Size = new System.Drawing.Size(230, 210);
             this.GB_Extra2.TabIndex = 3;
             this.GB_Extra2.TabStop = false;
-            this.GB_Extra2.Visible = false;
+            this.GB_Extra2.Text = "OR/AS Exclusive";
             // 
-            // label13
+            // ORAS_5
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(99, 34);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(95, 13);
-            this.label13.TabIndex = 17;
-            this.label13.Text = "Unknown/Unused";
+            this.ORAS_5.AutoSize = true;
+            this.ORAS_5.Location = new System.Drawing.Point(63, 109);
+            this.ORAS_5.Name = "ORAS_5";
+            this.ORAS_5.Size = new System.Drawing.Size(114, 17);
+            this.ORAS_5.TabIndex = 57;
+            this.ORAS_5.Text = "Toughness Master";
+            this.ORAS_5.UseVisualStyleBackColor = true;
+            this.ORAS_5.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            // 
+            // ORAS_4
+            // 
+            this.ORAS_4.AutoSize = true;
+            this.ORAS_4.Location = new System.Drawing.Point(63, 94);
+            this.ORAS_4.Name = "ORAS_4";
+            this.ORAS_4.Size = new System.Drawing.Size(113, 17);
+            this.ORAS_4.TabIndex = 56;
+            this.ORAS_4.Text = "Cleverness Master";
+            this.ORAS_4.UseVisualStyleBackColor = true;
+            this.ORAS_4.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            // 
+            // PB_57
+            // 
+            this.PB_57.Image = global::PKHeX.Properties.Resources.ribbon_40;
+            this.PB_57.Location = new System.Drawing.Point(13, 134);
+            this.PB_57.Name = "PB_57";
+            this.PB_57.Size = new System.Drawing.Size(24, 24);
+            this.PB_57.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_57.TabIndex = 55;
+            this.PB_57.TabStop = false;
+            this.PB_57.Click += new System.EventHandler(this.clickRibbon);
+            // 
+            // PB_O5
+            // 
+            this.PB_O5.Image = global::PKHeX.Properties.Resources.ribbon_46;
+            this.PB_O5.Location = new System.Drawing.Point(193, 134);
+            this.PB_O5.Name = "PB_O5";
+            this.PB_O5.Size = new System.Drawing.Size(24, 24);
+            this.PB_O5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_O5.TabIndex = 54;
+            this.PB_O5.TabStop = false;
+            this.PB_O5.Click += new System.EventHandler(this.clickRibbon);
+            // 
+            // ORAS_3
+            // 
+            this.ORAS_3.AutoSize = true;
+            this.ORAS_3.Location = new System.Drawing.Point(63, 79);
+            this.ORAS_3.Name = "ORAS_3";
+            this.ORAS_3.Size = new System.Drawing.Size(105, 17);
+            this.ORAS_3.TabIndex = 48;
+            this.ORAS_3.Text = "Cuteness Master";
+            this.ORAS_3.UseVisualStyleBackColor = true;
+            this.ORAS_3.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            // 
+            // PB_O4
+            // 
+            this.PB_O4.Image = global::PKHeX.Properties.Resources.ribbon_45;
+            this.PB_O4.Location = new System.Drawing.Point(163, 134);
+            this.PB_O4.Name = "PB_O4";
+            this.PB_O4.Size = new System.Drawing.Size(24, 24);
+            this.PB_O4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_O4.TabIndex = 53;
+            this.PB_O4.TabStop = false;
+            this.PB_O4.Click += new System.EventHandler(this.clickRibbon);
+            // 
+            // PB_O0
+            // 
+            this.PB_O0.Image = global::PKHeX.Properties.Resources.ribbon_41;
+            this.PB_O0.Location = new System.Drawing.Point(43, 134);
+            this.PB_O0.Name = "PB_O0";
+            this.PB_O0.Size = new System.Drawing.Size(24, 24);
+            this.PB_O0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_O0.TabIndex = 52;
+            this.PB_O0.TabStop = false;
+            this.PB_O0.Click += new System.EventHandler(this.clickRibbon);
+            // 
+            // PB_O3
+            // 
+            this.PB_O3.Image = global::PKHeX.Properties.Resources.ribbon_44;
+            this.PB_O3.Location = new System.Drawing.Point(133, 134);
+            this.PB_O3.Name = "PB_O3";
+            this.PB_O3.Size = new System.Drawing.Size(24, 24);
+            this.PB_O3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_O3.TabIndex = 51;
+            this.PB_O3.TabStop = false;
+            this.PB_O3.Click += new System.EventHandler(this.clickRibbon);
+            // 
+            // PB_O2
+            // 
+            this.PB_O2.Image = global::PKHeX.Properties.Resources.ribbon_43;
+            this.PB_O2.Location = new System.Drawing.Point(103, 134);
+            this.PB_O2.Name = "PB_O2";
+            this.PB_O2.Size = new System.Drawing.Size(24, 24);
+            this.PB_O2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_O2.TabIndex = 50;
+            this.PB_O2.TabStop = false;
+            this.PB_O2.Click += new System.EventHandler(this.clickRibbon);
+            // 
+            // PB_O1
+            // 
+            this.PB_O1.Image = global::PKHeX.Properties.Resources.ribbon_42;
+            this.PB_O1.Location = new System.Drawing.Point(73, 134);
+            this.PB_O1.Name = "PB_O1";
+            this.PB_O1.Size = new System.Drawing.Size(24, 24);
+            this.PB_O1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_O1.TabIndex = 49;
+            this.PB_O1.TabStop = false;
+            this.PB_O1.Click += new System.EventHandler(this.clickRibbon);
+            // 
+            // ORAS_2
+            // 
+            this.ORAS_2.AutoSize = true;
+            this.ORAS_2.Location = new System.Drawing.Point(63, 64);
+            this.ORAS_2.Name = "ORAS_2";
+            this.ORAS_2.Size = new System.Drawing.Size(94, 17);
+            this.ORAS_2.TabIndex = 47;
+            this.ORAS_2.Text = "Beauty Master";
+            this.ORAS_2.UseVisualStyleBackColor = true;
+            this.ORAS_2.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            // 
+            // ORAS_1
+            // 
+            this.ORAS_1.AutoSize = true;
+            this.ORAS_1.Location = new System.Drawing.Point(63, 49);
+            this.ORAS_1.Name = "ORAS_1";
+            this.ORAS_1.Size = new System.Drawing.Size(104, 17);
+            this.ORAS_1.TabIndex = 46;
+            this.ORAS_1.Text = "Coolness Master";
+            this.ORAS_1.UseVisualStyleBackColor = true;
+            this.ORAS_1.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            // 
+            // ORAS_0
+            // 
+            this.ORAS_0.AutoSize = true;
+            this.ORAS_0.Location = new System.Drawing.Point(63, 34);
+            this.ORAS_0.Name = "ORAS_0";
+            this.ORAS_0.Size = new System.Drawing.Size(84, 17);
+            this.ORAS_0.TabIndex = 45;
+            this.ORAS_0.Text = "Contest Star";
+            this.ORAS_0.UseVisualStyleBackColor = true;
+            this.ORAS_0.CheckedChanged += new System.EventHandler(this.toggleribbon);
             // 
             // Extra1_7
             // 
             this.Extra1_7.AutoSize = true;
-            this.Extra1_7.Location = new System.Drawing.Point(28, 49);
+            this.Extra1_7.Location = new System.Drawing.Point(63, 19);
             this.Extra1_7.Name = "Extra1_7";
-            this.Extra1_7.Size = new System.Drawing.Size(44, 17);
-            this.Extra1_7.TabIndex = 7;
-            this.Extra1_7.Text = "1_7";
+            this.Extra1_7.Size = new System.Drawing.Size(108, 17);
+            this.Extra1_7.TabIndex = 44;
+            this.Extra1_7.Text = "Hoenn Champion";
             this.Extra1_7.UseVisualStyleBackColor = true;
-            // 
-            // Extra1_6
-            // 
-            this.Extra1_6.AutoSize = true;
-            this.Extra1_6.Location = new System.Drawing.Point(28, 34);
-            this.Extra1_6.Name = "Extra1_6";
-            this.Extra1_6.Size = new System.Drawing.Size(44, 17);
-            this.Extra1_6.TabIndex = 6;
-            this.Extra1_6.Text = "1_6";
-            this.Extra1_6.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_7
-            // 
-            this.Extra2_7.AutoSize = true;
-            this.Extra2_7.Location = new System.Drawing.Point(28, 180);
-            this.Extra2_7.Name = "Extra2_7";
-            this.Extra2_7.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_7.TabIndex = 16;
-            this.Extra2_7.Text = "2_7";
-            this.Extra2_7.UseVisualStyleBackColor = true;
-            // 
-            // Extra1_5
-            // 
-            this.Extra1_5.AutoSize = true;
-            this.Extra1_5.Location = new System.Drawing.Point(28, 19);
-            this.Extra1_5.Name = "Extra1_5";
-            this.Extra1_5.Size = new System.Drawing.Size(44, 17);
-            this.Extra1_5.TabIndex = 5;
-            this.Extra1_5.Text = "1_5";
-            this.Extra1_5.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_6
-            // 
-            this.Extra2_6.AutoSize = true;
-            this.Extra2_6.Location = new System.Drawing.Point(28, 165);
-            this.Extra2_6.Name = "Extra2_6";
-            this.Extra2_6.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_6.TabIndex = 14;
-            this.Extra2_6.Text = "2_6";
-            this.Extra2_6.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_5
-            // 
-            this.Extra2_5.AutoSize = true;
-            this.Extra2_5.Location = new System.Drawing.Point(28, 150);
-            this.Extra2_5.Name = "Extra2_5";
-            this.Extra2_5.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_5.TabIndex = 13;
-            this.Extra2_5.Text = "2_5";
-            this.Extra2_5.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_4
-            // 
-            this.Extra2_4.AutoSize = true;
-            this.Extra2_4.Location = new System.Drawing.Point(28, 135);
-            this.Extra2_4.Name = "Extra2_4";
-            this.Extra2_4.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_4.TabIndex = 12;
-            this.Extra2_4.Text = "2_4";
-            this.Extra2_4.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_3
-            // 
-            this.Extra2_3.AutoSize = true;
-            this.Extra2_3.Location = new System.Drawing.Point(28, 120);
-            this.Extra2_3.Name = "Extra2_3";
-            this.Extra2_3.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_3.TabIndex = 11;
-            this.Extra2_3.Text = "2_3";
-            this.Extra2_3.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_2
-            // 
-            this.Extra2_2.AutoSize = true;
-            this.Extra2_2.Location = new System.Drawing.Point(28, 105);
-            this.Extra2_2.Name = "Extra2_2";
-            this.Extra2_2.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_2.TabIndex = 10;
-            this.Extra2_2.Text = "2_2";
-            this.Extra2_2.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_7
-            // 
-            this.Extra4_7.AutoSize = true;
-            this.Extra4_7.Location = new System.Drawing.Point(167, 180);
-            this.Extra4_7.Name = "Extra4_7";
-            this.Extra4_7.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_7.TabIndex = 16;
-            this.Extra4_7.Text = "4_7";
-            this.Extra4_7.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_1
-            // 
-            this.Extra2_1.AutoSize = true;
-            this.Extra2_1.Location = new System.Drawing.Point(28, 90);
-            this.Extra2_1.Name = "Extra2_1";
-            this.Extra2_1.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_1.TabIndex = 9;
-            this.Extra2_1.Text = "2_1";
-            this.Extra2_1.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_6
-            // 
-            this.Extra4_6.AutoSize = true;
-            this.Extra4_6.Location = new System.Drawing.Point(167, 165);
-            this.Extra4_6.Name = "Extra4_6";
-            this.Extra4_6.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_6.TabIndex = 14;
-            this.Extra4_6.Text = "4_6";
-            this.Extra4_6.UseVisualStyleBackColor = true;
-            // 
-            // Extra2_0
-            // 
-            this.Extra2_0.AutoSize = true;
-            this.Extra2_0.Location = new System.Drawing.Point(28, 75);
-            this.Extra2_0.Name = "Extra2_0";
-            this.Extra2_0.Size = new System.Drawing.Size(44, 17);
-            this.Extra2_0.TabIndex = 8;
-            this.Extra2_0.Text = "2_0";
-            this.Extra2_0.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_5
-            // 
-            this.Extra4_5.AutoSize = true;
-            this.Extra4_5.Location = new System.Drawing.Point(167, 150);
-            this.Extra4_5.Name = "Extra4_5";
-            this.Extra4_5.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_5.TabIndex = 13;
-            this.Extra4_5.Text = "4_5";
-            this.Extra4_5.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_4
-            // 
-            this.Extra4_4.AutoSize = true;
-            this.Extra4_4.Location = new System.Drawing.Point(167, 135);
-            this.Extra4_4.Name = "Extra4_4";
-            this.Extra4_4.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_4.TabIndex = 12;
-            this.Extra4_4.Text = "4_4";
-            this.Extra4_4.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_3
-            // 
-            this.Extra4_3.AutoSize = true;
-            this.Extra4_3.Location = new System.Drawing.Point(167, 120);
-            this.Extra4_3.Name = "Extra4_3";
-            this.Extra4_3.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_3.TabIndex = 11;
-            this.Extra4_3.Text = "4_3";
-            this.Extra4_3.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_2
-            // 
-            this.Extra4_2.AutoSize = true;
-            this.Extra4_2.Location = new System.Drawing.Point(167, 105);
-            this.Extra4_2.Name = "Extra4_2";
-            this.Extra4_2.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_2.TabIndex = 10;
-            this.Extra4_2.Text = "4_2";
-            this.Extra4_2.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_1
-            // 
-            this.Extra4_1.AutoSize = true;
-            this.Extra4_1.Location = new System.Drawing.Point(167, 90);
-            this.Extra4_1.Name = "Extra4_1";
-            this.Extra4_1.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_1.TabIndex = 9;
-            this.Extra4_1.Text = "4_1";
-            this.Extra4_1.UseVisualStyleBackColor = true;
-            // 
-            // Extra4_0
-            // 
-            this.Extra4_0.AutoSize = true;
-            this.Extra4_0.Location = new System.Drawing.Point(167, 75);
-            this.Extra4_0.Name = "Extra4_0";
-            this.Extra4_0.Size = new System.Drawing.Size(44, 17);
-            this.Extra4_0.TabIndex = 8;
-            this.Extra4_0.Text = "4_0";
-            this.Extra4_0.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_7
-            // 
-            this.Extra3_7.AutoSize = true;
-            this.Extra3_7.Location = new System.Drawing.Point(102, 180);
-            this.Extra3_7.Name = "Extra3_7";
-            this.Extra3_7.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_7.TabIndex = 7;
-            this.Extra3_7.Text = "3_7";
-            this.Extra3_7.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_6
-            // 
-            this.Extra3_6.AutoSize = true;
-            this.Extra3_6.Location = new System.Drawing.Point(102, 165);
-            this.Extra3_6.Name = "Extra3_6";
-            this.Extra3_6.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_6.TabIndex = 6;
-            this.Extra3_6.Text = "3_6";
-            this.Extra3_6.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_5
-            // 
-            this.Extra3_5.AutoSize = true;
-            this.Extra3_5.Location = new System.Drawing.Point(102, 150);
-            this.Extra3_5.Name = "Extra3_5";
-            this.Extra3_5.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_5.TabIndex = 5;
-            this.Extra3_5.Text = "3_5";
-            this.Extra3_5.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_4
-            // 
-            this.Extra3_4.AutoSize = true;
-            this.Extra3_4.Location = new System.Drawing.Point(102, 135);
-            this.Extra3_4.Name = "Extra3_4";
-            this.Extra3_4.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_4.TabIndex = 4;
-            this.Extra3_4.Text = "3_4";
-            this.Extra3_4.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_3
-            // 
-            this.Extra3_3.AutoSize = true;
-            this.Extra3_3.Location = new System.Drawing.Point(102, 120);
-            this.Extra3_3.Name = "Extra3_3";
-            this.Extra3_3.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_3.TabIndex = 3;
-            this.Extra3_3.Text = "3_3";
-            this.Extra3_3.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_2
-            // 
-            this.Extra3_2.AutoSize = true;
-            this.Extra3_2.Location = new System.Drawing.Point(102, 105);
-            this.Extra3_2.Name = "Extra3_2";
-            this.Extra3_2.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_2.TabIndex = 2;
-            this.Extra3_2.Text = "3_2";
-            this.Extra3_2.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_1
-            // 
-            this.Extra3_1.AutoSize = true;
-            this.Extra3_1.Location = new System.Drawing.Point(102, 90);
-            this.Extra3_1.Name = "Extra3_1";
-            this.Extra3_1.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_1.TabIndex = 1;
-            this.Extra3_1.Text = "3_1";
-            this.Extra3_1.UseVisualStyleBackColor = true;
-            // 
-            // Extra3_0
-            // 
-            this.Extra3_0.AutoSize = true;
-            this.Extra3_0.Location = new System.Drawing.Point(102, 75);
-            this.Extra3_0.Name = "Extra3_0";
-            this.Extra3_0.Size = new System.Drawing.Size(44, 17);
-            this.Extra3_0.TabIndex = 0;
-            this.Extra3_0.Text = "3_0";
-            this.Extra3_0.UseVisualStyleBackColor = true;
+            this.Extra1_7.CheckedChanged += new System.EventHandler(this.toggleribbon);
             // 
             // GB_Extra1
             // 
@@ -2697,51 +2595,6 @@
             this.Hoenn1b_7.Text = "Smart Master";
             this.Hoenn1b_7.UseVisualStyleBackColor = true;
             // 
-            // L_Hits
-            // 
-            this.L_Hits.Location = new System.Drawing.Point(-1, 190);
-            this.L_Hits.Name = "L_Hits";
-            this.L_Hits.Size = new System.Drawing.Size(100, 13);
-            this.L_Hits.TabIndex = 20;
-            this.L_Hits.Text = "Hits Remaining:";
-            this.L_Hits.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(105, 187);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(50, 20);
-            this.numericUpDown1.TabIndex = 21;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(-1, 169);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 13);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "Last Used Bag:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(105, 166);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(110, 21);
-            this.comboBox1.TabIndex = 23;
-            // 
             // RibbMedal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2763,11 +2616,19 @@
             this.Tab_Medals.PerformLayout();
             this.GB_Medals1.ResumeLayout(false);
             this.GB_Medals1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.GB_Medals2.ResumeLayout(false);
             this.GB_Medals2.PerformLayout();
             this.Tab_Extra.ResumeLayout(false);
             this.GB_Extra2.ResumeLayout(false);
             this.GB_Extra2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_57)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_O1)).EndInit();
             this.GB_Extra1.ResumeLayout(false);
             this.GB_Extra1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PastBattle)).EndInit();
@@ -2815,7 +2676,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_10)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2863,17 +2723,6 @@
         private System.Windows.Forms.CheckBox TMedal3_0;
         private System.Windows.Forms.TabPage Tab_Extra;
         private System.Windows.Forms.GroupBox GB_Extra1;
-        private System.Windows.Forms.CheckBox Extra2_7;
-        private System.Windows.Forms.CheckBox Extra2_6;
-        private System.Windows.Forms.CheckBox Extra2_5;
-        private System.Windows.Forms.CheckBox Extra2_4;
-        private System.Windows.Forms.CheckBox Extra2_3;
-        private System.Windows.Forms.CheckBox Extra2_2;
-        private System.Windows.Forms.CheckBox Extra2_1;
-        private System.Windows.Forms.CheckBox Extra2_0;
-        private System.Windows.Forms.CheckBox Extra1_7;
-        private System.Windows.Forms.CheckBox Extra1_6;
-        private System.Windows.Forms.CheckBox Extra1_5;
         private System.Windows.Forms.CheckBox Extra1_4;
         private System.Windows.Forms.CheckBox Extra1_3;
         private System.Windows.Forms.CheckBox Extra1_2;
@@ -2968,22 +2817,6 @@
         private System.Windows.Forms.CheckBox Hoenn1b_6;
         private System.Windows.Forms.CheckBox Hoenn1b_7;
         private System.Windows.Forms.GroupBox GB_Extra2;
-        private System.Windows.Forms.CheckBox Extra4_7;
-        private System.Windows.Forms.CheckBox Extra4_6;
-        private System.Windows.Forms.CheckBox Extra4_5;
-        private System.Windows.Forms.CheckBox Extra4_4;
-        private System.Windows.Forms.CheckBox Extra4_3;
-        private System.Windows.Forms.CheckBox Extra4_2;
-        private System.Windows.Forms.CheckBox Extra4_1;
-        private System.Windows.Forms.CheckBox Extra4_0;
-        private System.Windows.Forms.CheckBox Extra3_7;
-        private System.Windows.Forms.CheckBox Extra3_6;
-        private System.Windows.Forms.CheckBox Extra3_5;
-        private System.Windows.Forms.CheckBox Extra3_4;
-        private System.Windows.Forms.CheckBox Extra3_3;
-        private System.Windows.Forms.CheckBox Extra3_2;
-        private System.Windows.Forms.CheckBox Extra3_1;
-        private System.Windows.Forms.CheckBox Extra3_0;
         private System.Windows.Forms.Label L_Rank3;
         private System.Windows.Forms.Label L_Rank2;
         private System.Windows.Forms.Label L_Rank1;
@@ -2999,7 +2832,6 @@
         private System.Windows.Forms.MaskedTextBox TB_PastContest;
         private System.Windows.Forms.CheckBox CHK_Secret;
         private System.Windows.Forms.Label L_SuperTraining;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.PictureBox PB_47;
         private System.Windows.Forms.PictureBox PB_46;
         private System.Windows.Forms.PictureBox PB_45;
@@ -3043,5 +2875,19 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label L_Hits;
+        private System.Windows.Forms.CheckBox ORAS_5;
+        private System.Windows.Forms.CheckBox ORAS_4;
+        private System.Windows.Forms.PictureBox PB_57;
+        private System.Windows.Forms.PictureBox PB_O5;
+        private System.Windows.Forms.CheckBox ORAS_3;
+        private System.Windows.Forms.PictureBox PB_O4;
+        private System.Windows.Forms.PictureBox PB_O0;
+        private System.Windows.Forms.PictureBox PB_O3;
+        private System.Windows.Forms.PictureBox PB_O2;
+        private System.Windows.Forms.PictureBox PB_O1;
+        private System.Windows.Forms.CheckBox ORAS_2;
+        private System.Windows.Forms.CheckBox ORAS_1;
+        private System.Windows.Forms.CheckBox ORAS_0;
+        private System.Windows.Forms.CheckBox Extra1_7;
     }
 }

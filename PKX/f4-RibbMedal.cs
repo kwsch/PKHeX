@@ -113,6 +113,9 @@ namespace PKHeX
 
                                    Properties.Resources.wishing,    Properties.Resources.battlechamp,       Properties.Resources.regionalchamp, Properties.Resources.nationalchamp,
                                    Properties.Resources.worldchamp,
+                                   
+                                   Properties.Resources.ribbon_40,Properties.Resources.ribbon_41,Properties.Resources.ribbon_42,Properties.Resources.ribbon_43,
+                                   Properties.Resources.ribbon_44,Properties.Resources.ribbon_45,Properties.Resources.ribbon_46,
                            };
             PictureBox[] pba = { 
                                    PB_10, PB_11, PB_12, PB_13, 
@@ -129,12 +132,13 @@ namespace PKHeX
 
                                    PB_50, PB_51, PB_52, PB_53, 
                                    PB_54,
+
+                                   PB_57,
+                                   PB_O0, PB_O1,PB_O2,PB_O3,PB_O4,PB_O5,
                                };
 
             for (int i = 0; i < bma.Length; i++)
-            {
                 pba[i].Image = Util.ChangeOpacity(bma[i], 0.1);
-            }
             
             int rv = 0; // Read from value (later redefined)
 
@@ -221,36 +225,16 @@ namespace PKHeX
             updateRibbon(Extra1_2, rv, 2);
             updateRibbon(Extra1_3, rv, 3);
             updateRibbon(Extra1_4, rv, 4);
-            updateRibbon(Extra1_5, rv, 5);
-            updateRibbon(Extra1_6, rv, 6);
+
+            // oras
             updateRibbon(Extra1_7, rv, 7);
             rv = m_parent.buff[0x35];
-            updateRibbon(Extra2_0, rv, 0);
-            updateRibbon(Extra2_1, rv, 1);
-            updateRibbon(Extra2_2, rv, 2);
-            updateRibbon(Extra2_3, rv, 3);
-            updateRibbon(Extra2_4, rv, 4);
-            updateRibbon(Extra2_5, rv, 5);
-            updateRibbon(Extra2_6, rv, 6);
-            updateRibbon(Extra2_7, rv, 7);
-            rv = m_parent.buff[0x36];
-            updateRibbon(Extra3_0, rv, 0);
-            updateRibbon(Extra3_1, rv, 1);
-            updateRibbon(Extra3_2, rv, 2);
-            updateRibbon(Extra3_3, rv, 3);
-            updateRibbon(Extra3_4, rv, 4);
-            updateRibbon(Extra3_5, rv, 5);
-            updateRibbon(Extra3_6, rv, 6);
-            updateRibbon(Extra3_7, rv, 7);
-            rv = m_parent.buff[0x37];
-            updateRibbon(Extra4_0, rv, 0);
-            updateRibbon(Extra4_1, rv, 1);
-            updateRibbon(Extra4_2, rv, 2);
-            updateRibbon(Extra4_3, rv, 3);
-            updateRibbon(Extra4_4, rv, 4);
-            updateRibbon(Extra4_5, rv, 5);
-            updateRibbon(Extra4_6, rv, 6);
-            updateRibbon(Extra4_7, rv, 7);
+            updateRibbon(ORAS_0, rv, 0);
+            updateRibbon(ORAS_1, rv, 1);
+            updateRibbon(ORAS_2, rv, 2);
+            updateRibbon(ORAS_3, rv, 3);
+            updateRibbon(ORAS_4, rv, 4);
+            updateRibbon(ORAS_5, rv, 5);
 
             TB_PastContest.Text = m_parent.buff[0x38].ToString();
             TB_PastBattle.Text = m_parent.buff[0x39].ToString();
@@ -298,45 +282,27 @@ namespace PKHeX
             m_parent.buff[0x33] = (byte)kalos2b;
 
             // Pass Extra Ribbon
-            int extra1 = 0, extra2 = 0, extra3 = 0, extra4 = 0;
+            int extra1 = 0;
             extra1 += addRibbon(Extra1_0);
             extra1 += addRibbon(Extra1_1);
             extra1 += addRibbon(Extra1_2);
             extra1 += addRibbon(Extra1_3);
             extra1 += addRibbon(Extra1_4);
-            extra1 += addRibbon(Extra1_5);
-            extra1 += addRibbon(Extra1_6);
-            extra1 += addRibbon(Extra1_7);////
-            extra2 += addRibbon(Extra2_0);
-            extra2 += addRibbon(Extra2_1);
-            extra2 += addRibbon(Extra2_2);
-            extra2 += addRibbon(Extra2_3);
-            extra2 += addRibbon(Extra2_4);
-            extra2 += addRibbon(Extra2_5);
-            extra2 += addRibbon(Extra2_6);
-            extra2 += addRibbon(Extra2_7);////
-            extra3 += addRibbon(Extra3_0);
-            extra3 += addRibbon(Extra3_1);
-            extra3 += addRibbon(Extra3_2);
-            extra3 += addRibbon(Extra3_3);
-            extra3 += addRibbon(Extra3_4);
-            extra3 += addRibbon(Extra3_5);
-            extra3 += addRibbon(Extra3_6);
-            extra3 += addRibbon(Extra3_7);////
-            extra4 += addRibbon(Extra4_0);
-            extra4 += addRibbon(Extra4_1);
-            extra4 += addRibbon(Extra4_2);
-            extra4 += addRibbon(Extra4_3);
-            extra4 += addRibbon(Extra4_4);
-            extra4 += addRibbon(Extra4_5);
-            extra4 += addRibbon(Extra4_6);
-            extra4 += addRibbon(Extra4_7);////
-            m_parent.buff[0x34] = (byte)extra1;
-            m_parent.buff[0x35] = (byte)extra2;
-            m_parent.buff[0x36] = (byte)extra3;
-            m_parent.buff[0x37] = (byte)extra4;
 
-            // Pass Sinnoh Data
+            // ORAS
+            extra1 += addRibbon(Extra1_7); // Hoenn Champ
+            m_parent.buff[0x34] = (byte)extra1;
+
+            int oras = 0;
+            oras += addRibbon(ORAS_0);
+            oras += addRibbon(ORAS_1);
+            oras += addRibbon(ORAS_2);
+            oras += addRibbon(ORAS_3);
+            oras += addRibbon(ORAS_4);
+            oras += addRibbon(ORAS_5);
+            m_parent.buff[0x35] = (byte)oras;
+
+            // Gather Super Training Medals
             int medals1 = 0, medals2 = 0, medals3 = 0, medals4 = 0;
             medals1 += addRibbon(TMedal1_0);
             medals1 += addRibbon(TMedal1_1);
@@ -393,9 +359,7 @@ namespace PKHeX
         private void checkboxFlag(CheckBox[] ck, bool b)
         {
             for (int i = 0; i < ck.Count(); i++)
-            {
                 ck[i].Checked = b;
-            }
         }                // Checkbox flipping dependent on T/F
         private void buttonFlag(bool b)
         {
@@ -415,10 +379,8 @@ namespace PKHeX
                 // Extra
                 CheckBox[] ck = { 
                                   Extra1_0, Extra1_1, Extra1_2, Extra1_3, Extra1_4, 
-                                  //Extra1_5, Extra1_6, Extra1_7, 
-                                  //Extra2_0, Extra2_1, Extra2_2, Extra2_3, Extra2_4, Extra2_5, Extra2_6, Extra2_7,
-                                  //Extra3_0, Extra3_1, Extra3_2, Extra3_3, Extra3_4, Extra3_5, Extra3_6, Extra3_7, 
-                                  //Extra4_0, Extra4_1, Extra4_2, Extra4_3, Extra4_4, Extra4_5, Extra4_6, Extra4_7
+                                  
+                                  Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
                                 };
                 checkboxFlag(ck, b);
 
@@ -452,8 +414,6 @@ namespace PKHeX
                                   CHK_Secret
                                 };
                 checkboxFlag(ck, b);
-
-
             }
         }                                 // Checkbox Flipping Logic (dependent on Tab)
 
@@ -505,7 +465,9 @@ namespace PKHeX
                                    PB_20, PB_21, PB_22, PB_23, PB_24, PB_25, PB_26, PB_27,
                                    PB_30, PB_31, PB_32, PB_33, PB_34, PB_35, PB_36, PB_37,  
                                    PB_40, PB_41, PB_42, PB_43, PB_44, PB_45, PB_46, PB_47,
-                                   PB_50, PB_51, PB_52, PB_53, PB_54,
+                                   PB_50, PB_51, PB_52, PB_53, PB_54,               PB_57,
+
+                                   PB_O0, PB_O1, PB_O2, PB_O3, PB_O4, PB_O5,    
                                };
             CheckBox[] cba = {
                                    Kalos1a_0, Kalos1a_1, Kalos1a_2, Kalos1a_3, Kalos1a_4, Kalos1a_5, Kalos1a_6, Kalos1a_7,
@@ -513,6 +475,8 @@ namespace PKHeX
                                    Kalos2a_0, Kalos2a_1, Kalos2a_2, Kalos2a_3, Kalos2a_4, Kalos2a_5, Kalos2a_6, Kalos2a_7,
                                    Kalos2b_0, Kalos2b_1, Kalos2b_2, Kalos2b_3, Kalos2b_4, Kalos2b_5, Kalos2b_6, Kalos2b_7,
                                    Extra1_0,  Extra1_1,  Extra1_2,  Extra1_3,  Extra1_4,
+
+                                   Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
                              };
 
             Bitmap[] bma = {
@@ -530,6 +494,10 @@ namespace PKHeX
 
                                    Properties.Resources.wishing,    Properties.Resources.battlechamp,       Properties.Resources.regionalchamp, Properties.Resources.nationalchamp,
                                    Properties.Resources.worldchamp,
+
+                                   // ORAS
+                                   Properties.Resources.ribbon_40,Properties.Resources.ribbon_41,Properties.Resources.ribbon_42,Properties.Resources.ribbon_43,
+                                   Properties.Resources.ribbon_44,Properties.Resources.ribbon_45,Properties.Resources.ribbon_46,
                            };
             int index = Array.IndexOf(cba, sender as CheckBox);
 
@@ -572,7 +540,9 @@ namespace PKHeX
                                    PB_44, PB_45, PB_46, PB_47,
 
                                    PB_50, PB_51, PB_52, PB_53, 
-                                   PB_54,
+                                   PB_54,               PB_57,
+
+                                   PB_O0, PB_O1, PB_O2, PB_O3, PB_O4, PB_O5,                                    
                                };
             CheckBox[] cba = {
                                  Kalos1a_0,Kalos1a_1,Kalos1a_2,Kalos1a_3,
@@ -588,11 +558,12 @@ namespace PKHeX
                                  Kalos2b_4,Kalos2b_5,Kalos2b_6,Kalos2b_7,
 
                                  Extra1_0,Extra1_1,Extra1_2,Extra1_3,Extra1_4,
+
+                                 Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
                              };
 
             CheckBox cb = cba[Array.IndexOf(pba, sender as PictureBox)];
             cb.Checked = !cb.Checked;
         }             
     }
-
 }
