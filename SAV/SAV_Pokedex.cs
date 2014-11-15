@@ -314,7 +314,7 @@ namespace PKHeX
             byte[] fulldex = Properties.Resources.fulldex_XY;
             if (ModifierKeys != Keys.Control)
             {
-                // Array.Copy(fulldex, 0x008, sav, savshift + 0x1A408, 0x638);
+                Array.Copy(fulldex, 0x008, sav, savshift + 0x1A408, 0x638);
             }
             else
             {
