@@ -18,12 +18,12 @@ namespace PKHeX
             spectable = PKX.SpeciesTable();
 
             // Load Species Name Tables
-            speclang_ja = getStringList("Species", "ja");
-            speclang_en = getStringList("Species", "en");
-            speclang_fr = getStringList("Species", "fr");
-            speclang_it = getStringList("Species", "it");
-            speclang_de = getStringList("Species", "de");
-            speclang_es = getStringList("Species", "es");
+            speclang_ja = Util.getStringList("Species", "ja");
+            speclang_en = Util.getStringList("Species", "en");
+            speclang_fr = Util.getStringList("Species", "fr");
+            speclang_it = Util.getStringList("Species", "it");
+            speclang_de = Util.getStringList("Species", "de");
+            speclang_es = Util.getStringList("Species", "es");
 
             // Get the 6th Gen Data from the save file if it exists.
             int savshift = savindex * 0x7F000;
@@ -83,18 +83,6 @@ namespace PKHeX
         public int _3DSreg = 0x1;  // Americas
         public string g6trname = "PKHeX";
         public byte g6trgend = 0;
-        private string[] getStringList(string f, string l)
-        {
-            object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split(new char[] { '\n' }).ToList();
-
-            string[] stringdata = new string[rawlist.Count];
-            for (int i = 0; i < rawlist.Count; i++)
-            {
-                stringdata[i] = rawlist[i];
-            }
-            return stringdata;
-        }
         private int getAbilityNumber(int species, int ability, int formnum)
         {
                #region ability table
@@ -1069,9 +1057,8 @@ namespace PKHeX
             // Get Name
             DataTable chartable = Char3to4E();
             if (pk3[18] == 1) // JP, use JP table
-            {
                 chartable = Char3to4J();
-            }
+
             // Get Species Names
             string[] names = new string[] 
             {
@@ -1132,9 +1119,7 @@ namespace PKHeX
 
                 // nickname detection
                 if (Array.IndexOf(names, nickname) < 0) // if it is not any of the species names
-                {
                     pk4[0x3B] |= 1 << 7; // set nickname flag
-                }
             }
 
             // Set Trainer Name
@@ -1172,9 +1157,7 @@ namespace PKHeX
             // fix checksum
             ushort checksum = 0;
             for (int i = 8; i < 136; i += 2)
-            {
                 checksum += BitConverter.ToUInt16(pk4, i);
-            }
             Array.Copy(BitConverter.GetBytes(checksum), 0, pk4, 6, 2);
 
             return pk4;
@@ -1183,9 +1166,8 @@ namespace PKHeX
         {
             byte[] pk5 = new Byte[136];
             if (pk4[0x5F] < 0x10 && BitConverter.ToUInt16(pk4, 0x80) > 0x4000)
-            {
                 return pk4;
-            }
+
             Array.Copy(pk4, 0, pk5, 0, 136); // copy the data, now we adjust.
             
             // zero out item
@@ -1235,10 +1217,9 @@ namespace PKHeX
                 for (int i = 0; i < 24; i += 2)
                 {
                     int val = BitConverter.ToUInt16(pk5, 0x48 + i);
-                    if (val == 0xFFFF)
-                    {   // If given character is a terminator, stop conversion.
+                    if (val == 0xFFFF)   // If given character is a terminator, stop conversion.
                         break;
-                    }
+
                     // find entry
                     int newval = (int)CT45.Rows.Find(val)[1];
                     Array.Copy(BitConverter.GetBytes(newval), 0, pk5, 0x48 + i, 2);
@@ -1250,10 +1231,9 @@ namespace PKHeX
                 for (int i = 0; i < 24; i += 2)
                 {
                     int val = BitConverter.ToUInt16(pk5, 0x68 + i);
-                    if (val == 0xFFFF)
-                    {   // If given character is a terminator, stop conversion.
+                    if (val == 0xFFFF)   // If given character is a terminator, stop conversion.
                         break;
-                    }
+
                     // find entry
                     int newval = (int)CT45.Rows.Find(val)[1];
                     trainer += (char)newval;
@@ -1271,9 +1251,7 @@ namespace PKHeX
             // Fix Checksum
             ushort chk = 0;
             for (int i = 8; i < 136; i += 2) // Loop through the entire PKX
-            {
                 chk += (ushort)(pk5[i] + pk5[i + 1] * 0x100);
-            }
 
             // Apply New Checksum
             Array.Copy(BitConverter.GetBytes(chk), 0, pk5, 06, 2);
@@ -1286,9 +1264,8 @@ namespace PKHeX
 
             // Check if G4PKM
             if (pk5[0x5F] < 0x10 && BitConverter.ToUInt16(pk5, 0x80) < 4000)
-            {
                 pk5 = convertPK4toPK5(pk5);
-            }
+
             // Upon transfer, the PID is also set as the Encryption Key.
             // Copy intro data, it's the same (Encrypt Key -> EXP)
             Array.Copy(pk5, 0, pk6, 0, 0x14);
@@ -1341,10 +1318,8 @@ namespace PKHeX
             string nicknamestr = "";
             for (int i = 0; i < 24; i += 2)
             {
-                if ((pk5[0x48 + i] == 0xFF) && pk5[0x48 + i + 1] == 0xFF)
-                {   // If given character is a terminator, stop copying. There are no trash bytes or terminators in Gen 6!
+                if ((pk5[0x48 + i] == 0xFF) && pk5[0x48 + i + 1] == 0xFF)   // If given character is a terminator, stop copying. There are no trash bytes or terminators in Gen 6!
                     break;
-                }
                 nicknamestr += (char)(pk5[0x48 + i] + pk5[0x49 + i] * 0x100);
             }
             // Decapitalize Logic
@@ -1359,23 +1334,21 @@ namespace PKHeX
             // Copy OT
             for (int i = 0; i < 24; i += 2)
             {
-                if ((pk5[0x68 + i] == 0xFF) && pk5[0x68 + i + 1] == 0xFF)
-                {   // If terminated, stop
+                if ((pk5[0x68 + i] == 0xFF) && pk5[0x68 + i + 1] == 0xFF)   // If terminated, stop
                     break;
-                }
+                
                 pk6[0xB0 + i] = pk5[0x68 + i];
                 pk6[0xB0 + i + 1] = pk5[0x68 + i + 1];
             }
             // Copy Met Info
-            for (int i = 0; i < 0x6; i++)
-            {   // Dates are kept upon transfer
+            for (int i = 0; i < 0x6; i++)   // Dates are kept upon transfer
                 pk6[0xD1 + i] = pk5[0x78 + i];
-            }
+
             // pkx[0xD7] has a gap.
-            for (int i = 0; i < 0x4; i++)
-            {   // Locations are kept upon transfer
+
+            for (int i = 0; i < 0x4; i++)   // Locations are kept upon transfer
                 pk6[0xD8 + i] = pk5[0x7E + i];
-            }
+
             pk6[0x2B] = pk5[0x82];  // Pokerus
             pk6[0xDC] = pk5[0x83];  // Ball
 
@@ -1419,10 +1392,9 @@ namespace PKHeX
             if ((pk5[0x3E] & 0x40) >> 6 == 1)    // Victory Ribbon
                 battleribbons++;
             for (int i = 1; i < 7; i++)     // Sinnoh Battle Ribbons
-            {
                 if (((pk5[0x24] >> i) & 1) == 1)
                     battleribbons++;
-            }
+
             // Fill the Ribbon Counter Bytes
             pk6[0x38] = contestribbons;
             pk6[0x39] = battleribbons;
@@ -1518,9 +1490,7 @@ namespace PKHeX
             // Fix Checksum
             uint chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-            {
                 chk += (uint)(pk6[i] + pk6[i + 1] * 0x100);
-            }
 
             // Apply New Checksum
             Array.Copy(BitConverter.GetBytes(chk), 0, pk6, 06, 2);
@@ -1529,31 +1499,6 @@ namespace PKHeX
             
             return pk6; // Done!
         }
-        public bool verifychk(byte[] input)
-        {
-            ushort checksum = 0;
-            if (input.Length == 100 || input.Length == 80)
-            {
-                for (int i = 32; i < 80; i += 2)
-                {
-                    checksum += BitConverter.ToUInt16(input, i);
-                }
-                return (checksum == BitConverter.ToUInt16(input, 28));
-            }
-            else 
-            {
-                if (input.Length == 236 || input.Length == 220) // Strip out Party Bytes
-                {
-                    Array.Resize(ref input, 136);
-                }
-                for (int i = 8; i < input.Length; i += 2)
-                {
-                    checksum += BitConverter.ToUInt16(input, i);
-                }
-                return (checksum == BitConverter.ToUInt16(input, 0x6));
-            }
-        }
-
         static DataTable Char3to4E()
         {
             DataTable table = new DataTable();

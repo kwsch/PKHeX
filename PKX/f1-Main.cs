@@ -189,6 +189,7 @@ namespace PKHeX
         public byte[] buff = new Byte[260];
         public byte[] savefile = new Byte[0x100000];
         public byte[] cyberSAV = new Byte[0x65600];
+        public bool savegame_oras = false;
         public bool cybergadget = false;
         public int gt = 258;
         public int genderflag, species;
@@ -1275,8 +1276,12 @@ namespace PKHeX
                                             558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,577,580,581,582,583,584,585,586,587,588,589,590,591,639,640,644,645,646,647,
                                             648,649,650,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,
                                             684,685,686,687,688,699,704,708,709,710,711,715,
-                                  };
-                if (DEV_Ability.Enabled)
+
+                                            // Appended ORAS Items (Orbs & Mega Stones)
+                                            // 534,535,
+                                            // 752,753,754,755,756,757,758,759,760,761,762,763,764,767,768,769,770,
+                                    };
+                if (DEV_Ability.Enabled)    // allow all items to be selected
                 {
                     item_nums = new int[itemlist.Length];
                     for (int i = 0; i < itemlist.Length; i++)
@@ -1667,13 +1672,9 @@ namespace PKHeX
             if (!Convert.ToBoolean(isnick))
             {
                 if (nicknamestr.Contains((char)0xE08F))
-                {
                     nicknamestr = Regex.Replace(nicknamestr, "\uE08F", "\u2640");
-                }
                 else if (nicknamestr.Contains((char)0xE08E))
-                {
                     nicknamestr = Regex.Replace(nicknamestr, "\uE08E", "\u2642");
-                }
             }
             populateMarkings(markings);
             TB_PID.Text = PID.ToString("X8");
@@ -1768,9 +1769,7 @@ namespace PKHeX
             {
                 CHK_Infected.Checked = true;
                 if (PKRS_Duration == 0)
-                {
                     CHK_Cured.Checked = true;
-                }
             }
             // Do it again now that our comboboxes should be properly set?
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
@@ -1843,16 +1842,12 @@ namespace PKHeX
             {
                 uint chk = 0;
                 for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                {
                     chk += (uint)(buff[i] + buff[i + 1] * 0x100);
-                }
                 chk &= 0xFFFF;
 
                 ushort actualsum = BitConverter.ToUInt16(buff, 0x6);
                 if (chk != actualsum)
-                {
                     MessageBox.Show("PKX File has an invalid checksum.", "Alert");
-                }
             }
             init = true;
 
@@ -2110,6 +2105,15 @@ namespace PKHeX
                     new { Text = forms[723] + " Y", Value = 2}, // Mega Y
                 };
 
+            var form_primal = new[] {
+                    new { Text = types[0], Value = 0},
+                    new { Text = "Primal", Value = 1},
+                };
+            var form_hoopa = new[] {
+                    new { Text = types[0], Value = 0},
+                    new { Text = "???", Value = 1},
+                };
+
             CB_Form.DataSource = form_list;
             CB_Form.DisplayMember = "Text";
             CB_Form.ValueMember = "Value";
@@ -2118,7 +2122,7 @@ namespace PKHeX
             int[] mspec = {     // XY
                                    003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
                                 // ORAS
-                                // 015, 018, 080, 254, 260, 302, 319, 323, 334, 373, 376, 384, 475, 531, 719,
+                                // 015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
                           };
             for (int i = 0; i < mspec.Length; i++)
             {
@@ -2166,6 +2170,11 @@ namespace PKHeX
             else if ((species == 666) || (species == 665) || (species == 664)) { form_list = form_butterfly; }
             else if ((species == 592) || (species == 593) || (species == 678)) { form_list = form_gender; }
             else if ((species == 641) || (species == 642) || (species == 645)) { form_list = form_therian; }
+
+            // ORAS
+            else if (species == 382 || species == 383) { form_list = form_primal; }
+            else if (species == 720) { form_list = form_hoopa; }
+
             else
             {
                 CB_Form.Enabled = false;
@@ -2194,9 +2203,7 @@ namespace PKHeX
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
             for (int i = 0; i < 6; i++)
-            {
                 pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, (float)(Convert.ToUInt16(cba[i].Checked)) * 0.9 + 0.1);
-            }
 
             PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, (float)(Convert.ToUInt16(!BTN_Shinytize.Enabled)) * 0.9 + 0.1);
             PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, (float)(Convert.ToUInt16(CHK_Cured.Checked)) * 0.9 + 0.1);
@@ -2557,18 +2564,13 @@ namespace PKHeX
             for (int i = 0; i < 6; i++) // if illegal, mark the box as illegal
             {
                 if (iva[i] > 252)
-                {
                     ivt[i].BackColor = Color.Red;
-                }
                 else ivt[i].BackColor = Color.White;
             }
+
             for (int i = 0; i < 6; i++) // if totally illegal, don't continue.
-            {
                 if (iva[i] > 255)
-                {
                     return;
-                }
-            }
 
             evtotal = HP_EV + ATK_EV + DEF_EV + SPA_EV + SPD_EV + SPE_EV;
 
@@ -2932,12 +2934,12 @@ namespace PKHeX
                     }
 
                     metlocs = new int[] 
-                { 
-                    2,6,8,10,12,14,16,17,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,
-                    30001,30003,30004,30005,30006,30007,30008,30009,30010,30011,
-                    40001,40002,40003,40004,40005,40006,40007,40008,40009,40010,40011,40012,40013,40014,40015,40016,40017,40018,40019,40020,40021,40022,40023,40024,40025,40026,40027,40028,40029,40030,40031,40032,40033,40034,40035,40036,40037,40038,40039,40040,40041,40042,40043,40044,40045,40046,40047,40048,40049,40050,40051,40052,40053,40054,40055,40056,40057,40058,40059,40060,40061,40062,40063,40064,40065,40066,40067,40068,40069,40070,40071,40072,40073,40074,40075,40076,40077,40078,40079,
-                    60001,60003
-                };
+                    { 
+                        2,6,8,10,12,14,16,17,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,
+                        30001,30003,30004,30005,30006,30007,30008,30009,30010,30011,
+                        40001,40002,40003,40004,40005,40006,40007,40008,40009,40010,40011,40012,40013,40014,40015,40016,40017,40018,40019,40020,40021,40022,40023,40024,40025,40026,40027,40028,40029,40030,40031,40032,40033,40034,40035,40036,40037,40038,40039,40040,40041,40042,40043,40044,40045,40046,40047,40048,40049,40050,40051,40052,40053,40054,40055,40056,40057,40058,40059,40060,40061,40062,40063,40064,40065,40066,40067,40068,40069,40070,40071,40072,40073,40074,40075,40076,40077,40078,40079,
+                        60001,60003
+                    };
 
                     // Sort the Rest based on String Name
                     string[] lt00000 = new string[metXY_00000.Length];
@@ -3196,9 +3198,9 @@ namespace PKHeX
                 CB_PKRSDays.SelectedValue = 1;
             }
             // if not cured yet, days > 0
-            if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) CB_PKRSDays.SelectedIndex++;
+            if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) 
+                CB_PKRSDays.SelectedIndex++;
         
-
             setMarkings();
         }
         private void updatePKRSInfected(object sender, EventArgs e)
@@ -3417,6 +3419,33 @@ namespace PKHeX
                 else if ((form == 1) && (species == 711)) { HP_B = 65; ATK_B = 90; DEF_B = 122; SPA_B = 58; SPD_B = 75; SPE_B = 84; }
                 else if ((form == 2) && (species == 711)) { HP_B = 75; ATK_B = 95; DEF_B = 122; SPA_B = 58; SPD_B = 75; SPE_B = 69; }
                 else if ((form == 3) && (species == 711)) { HP_B = 85; ATK_B = 100; DEF_B = 122; SPA_B = 58; SPD_B = 75; SPE_B = 54; }
+
+                // ORAS Stats
+                else if ((form == 1) && (species == 382)) { HP_B = 100; ATK_B = 150; DEF_B = 90; SPA_B = 180; SPD_B = 160; SPE_B = 90; } // Primal Kyogre
+                else if ((form == 1) && (species == 383)) { HP_B = 100; ATK_B = 180; DEF_B = 160; SPA_B = 150; SPD_B = 90; SPE_B = 90; } // Primal Groudon
+
+                else if ((form == 1) && (species == 720)) { HP_B = 80; ATK_B = 160; DEF_B = 60; SPA_B = 170; SPD_B = 130; SPE_B = 80; } // Hoopa
+
+                else if ((form == 1) && (species == 015)) { HP_B = 65; ATK_B = 150; DEF_B = 40; SPA_B = 15; SPD_B = 80; SPE_B = 145; } // Beedrill
+                else if ((form == 1) && (species == 018)) { HP_B = 83; ATK_B = 80; DEF_B = 83; SPA_B = 135; SPD_B = 80; SPE_B = 121; } // Pidgeot
+                else if ((form == 1) && (species == 080)) { HP_B = 95; ATK_B = 75; DEF_B = 180; SPA_B = 130; SPD_B = 80; SPE_B = 30; } // Slowbro
+                else if ((form == 1) && (species == 208)) { HP_B = 75; ATK_B = 125; DEF_B = 230; SPA_B = 55; SPD_B = 95; SPE_B = 30; } // Steelix
+                else if ((form == 1) && (species == 254)) { HP_B = 70; ATK_B = 110; DEF_B = 75; SPA_B = 145; SPD_B = 85; SPE_B = 145; } // Sceptile
+                else if ((form == 1) && (species == 260)) { HP_B = 100; ATK_B = 150; DEF_B = 110; SPA_B = 95; SPD_B = 110; SPE_B = 70; } // Swampert
+                else if ((form == 1) && (species == 302)) { HP_B = 50; ATK_B = 85; DEF_B = 125; SPA_B = 85; SPD_B = 115; SPE_B = 20; } // Sableye
+                else if ((form == 1) && (species == 319)) { HP_B = 70; ATK_B = 140; DEF_B = 70; SPA_B = 110; SPD_B = 65; SPE_B = 105; } // Sharpedo
+                else if ((form == 1) && (species == 323)) { HP_B = 70; ATK_B = 120; DEF_B = 100; SPA_B = 145; SPD_B = 105; SPE_B = 20; } // Camerupt
+                else if ((form == 1) && (species == 334)) { HP_B = 75; ATK_B = 110; DEF_B = 110; SPA_B = 110; SPD_B = 105; SPE_B = 80; } // Altaria
+                else if ((form == 1) && (species == 362)) { HP_B = 80; ATK_B = 120; DEF_B = 80; SPA_B = 120; SPD_B = 80; SPE_B = 100; } // Glalie
+                else if ((form == 1) && (species == 373)) { HP_B = 95; ATK_B = 145; DEF_B = 130; SPA_B = 120; SPD_B = 90; SPE_B = 120; } // Salamence
+                else if ((form == 1) && (species == 376)) { HP_B = 80; ATK_B = 145; DEF_B = 150; SPA_B = 105; SPD_B = 110; SPE_B = 110; } // Metagross
+                else if ((form == 1) && (species == 384)) { HP_B = 105; ATK_B = 180; DEF_B = 100; SPA_B = 180; SPD_B = 100; SPE_B = 115; } // Rayquaza
+                else if ((form == 1) && (species == 428)) { HP_B = 65; ATK_B = 136; DEF_B = 94; SPA_B = 54; SPD_B = 96; SPE_B = 135; } // Lopunny
+                else if ((form == 1) && (species == 475)) { HP_B = 68; ATK_B = 165; DEF_B = 95; SPA_B = 65; SPD_B = 115; SPE_B = 110; } // Gallade
+                else if ((form == 1) && (species == 531)) { HP_B = 103; ATK_B = 60; DEF_B = 126; SPA_B = 80; SPD_B = 126; SPE_B = 50; } // Audino
+                else if ((form == 1) && (species == 719)) { HP_B = 50; ATK_B = 160; DEF_B = 110; SPA_B = 160; SPD_B = 110; SPE_B = 110; } // Diancie
+
+                // 015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
             }
             // End Form Stat Recalc
 
@@ -3499,6 +3528,30 @@ namespace PKHeX
                 else if (species == 445 && formnum == 1) { species = 785; } // Mega Garchomp
                 else if (species == 381 && formnum == 1) { species = 786; } // Mega Latios
                 else if (species == 380 && formnum == 1) { species = 787; } // Mega Latias
+
+                // ORAS
+                else if ((formnum == 1) && (species == 382)) { species =812; } // Primal Kyogre
+                else if ((formnum == 1) && (species == 383)) { species =813; } // Primal Groudon
+                else if ((formnum == 1) && (species == 720)) { species =821; } // Hoopa
+                else if ((formnum == 1) && (species == 015)) { species =825; } // Beedrill
+                else if ((formnum == 1) && (species == 018)) { species =808; } // Pidgeot
+                else if ((formnum == 1) && (species == 080)) { species =806; } // Slowbro
+                else if ((formnum == 1) && (species == 208)) { species =807; } // Steelix
+                else if ((formnum == 1) && (species == 254)) { species =800; } // Sceptile
+                else if ((formnum == 1) && (species == 260)) { species =799; } // Swampert
+                else if ((formnum == 1) && (species == 302)) { species =801; } // Sableye
+                else if ((formnum == 1) && (species == 319)) { species =805; } // Sharpedo
+                else if ((formnum == 1) && (species == 323)) { species =822; } // Camerupt
+                else if ((formnum == 1) && (species == 334)) { species =802; } // Altaria
+                else if ((formnum == 1) && (species == 362)) { species =809; } // Glalie
+                else if ((formnum == 1) && (species == 373)) { species =824; } // Salamence
+                else if ((formnum == 1) && (species == 376)) { species =811; } // Metagross
+                else if ((formnum == 1) && (species == 384)) { species =814; } // Rayquaza
+                else if ((formnum == 1) && (species == 428)) { species =823; } // Lopunny
+                else if ((formnum == 1) && (species == 475)) { species =803; } // Gallade
+                else if ((formnum == 1) && (species == 531)) { species =804; } // Audino
+                else if ((formnum == 1) && (species == 719)) { species =810; } // Diancie
+
             }
             Array.Copy(speciesability, species * 4 + 1, abils, 0, 3);
 
@@ -3681,39 +3734,10 @@ namespace PKHeX
             }
             #endregion
             #region Saves
-            else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input,0x65410) == 0x42454546)
-            {
-                // Load CyberGadget
-                this.savindex = 0;
-                this.savefile = new Byte[0x100000];
-                this.cyberSAV = input;
-                cybergadget = true;
-
-                B_ExportSAV.Enabled = true;
-                Array.Copy(input, 0, savefile, 0x5400, input.Length);
-                SaveGame = new SaveGames.SaveStruct("XY");
-                GB_SAVtools.Enabled =
-                    B_JPEG.Enabled =
-                    B_BoxIO.Enabled =
-                    B_VerifyCHK.Enabled =true;
-                    B_VerifySHA.Enabled = false;
-                B_SwitchSAV.Enabled = false;
-                tabBoxMulti.Enabled = true;
-                C_BoxSelect.SelectedIndex = 0;
-                tabBoxMulti.SelectedIndex = 0;
-                L_Save.Text = "SAV: " + Path.GetFileName(path);
-
-                setBoxNames();   // Display the Box Names
-                setPKXBoxes();   // Reload all of the PKX Windows
-                setSAVLabel();   // Reload the label indicating current save
-
-                if (Width < Height) // SAV Interface Not Open
-                {
-                    int newwidth = largeWidth;
-                    this.Width = newwidth;
-                }
-                return;
-            }
+            else if ((input.Length == 0xAAAAA) && BitConverter.ToUInt32(input, 0xAAAAA) == 0x42454546) // ORAS
+                openMAIN(input, path, "ORAS", true);
+            else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input, 0x65410) == 0x42454546) // XY
+                openMAIN(input, path, "XY", false);
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
             {
@@ -3727,9 +3751,7 @@ namespace PKHeX
                     {
                         DialogResult sdr = MessageBox.Show("Press Yes to load the sav at 0x3000, No for the one at 0x82000", "Prompt", MessageBoxButtons.YesNoCancel);
                         if (sdr == DialogResult.Cancel)
-                        {
                             return;
-                        }
                         else if (sdr == DialogResult.Yes)
                         {
                             savindex = 0;
@@ -3737,7 +3759,7 @@ namespace PKHeX
                         }
                         else savindex = 1;
                         B_SwitchSAV.Enabled = true;
-                        openSave(input, path, ext);
+                        open1MB(input, path, "XY", false);
                     }
                 }
                 else if (PKX.detectSAVIndex(input, ref savindex) == 2)
@@ -3758,7 +3780,7 @@ namespace PKHeX
                         }
                         else savindex = 1;
                         B_SwitchSAV.Enabled = true;
-                        openSave(input, path, ext);
+                        open1MB(input, path, "XY", false);
                     }
                 }
                 else
@@ -3766,7 +3788,7 @@ namespace PKHeX
                     B_ExportSAV.Enabled = true;
                     B_SwitchSAV.Enabled = true;
                     PKX.detectSAVIndex(input, ref savindex);
-                    openSave(input, path, ext);
+                    open1MB(input, path, "XY", false);
                 }
                 B_JPEG.Enabled = true;
             }
@@ -3778,7 +3800,7 @@ namespace PKHeX
                 if ((ext == ".pk6") || (ext == ".ek6") || (ext == ".pkx") || (ext == ".ekx") || (ext == ".bin") || (ext == ""))
                 {
                     // Check if either is encrypted from another program.
-                    if (BitConverter.ToUInt16(input,0xC8) == 0 && BitConverter.ToUInt16(input,0x58) == 0)
+                    if (BitConverter.ToUInt16(input, 0xC8) == 0 && BitConverter.ToUInt16(input, 0x58) == 0)
                     {   // File isn't encrypted.
                         buff = input;
                         populateFields(buff);
@@ -3802,10 +3824,10 @@ namespace PKHeX
             else if ((input.Length == 136) || (input.Length == 220) || (input.Length == 236) || (input.Length == 100) || (input.Length == 80)) // to convert g5pkm
             {
                 var Converter = new pk2pk();
-                if (!Converter.verifychk(input)) MessageBox.Show("Invalid File (Checksum Error)", "Error");
+                if (!PKX.verifychk(input)) MessageBox.Show("Invalid File (Checksum Error)", "Error");
                 try // to convert g5pkm
                 {
-                    byte[] data = Converter.ConvertPKM(input,savefile, savindex);
+                    byte[] data = Converter.ConvertPKM(input, savefile, savindex);
                     Array.Copy(data, buff, 232);
                     populateFields(buff);
                 }
@@ -3826,7 +3848,42 @@ namespace PKHeX
                 MessageBox.Show(message, caption);
             }
         }
-        private void openSave(byte[] input, string path, string ext)
+        private void openMAIN(byte[] input, string path, string GameType, bool oras)
+        {
+            SaveGame = new SaveGames.SaveStruct(GameType);
+            savegame_oras = oras;
+
+            // Load CyberGadget
+            this.savindex = 0;
+            this.savefile = new Byte[0x100000];
+            this.cyberSAV = input;
+            cybergadget = true;
+
+            B_ExportSAV.Enabled = true;
+            Array.Copy(input, 0, savefile, 0x5400, input.Length);
+            GB_SAVtools.Enabled =
+                B_JPEG.Enabled =
+                B_BoxIO.Enabled =
+                B_VerifyCHK.Enabled = true;
+            B_VerifySHA.Enabled = false;
+            B_SwitchSAV.Enabled = false;
+            tabBoxMulti.Enabled = true;
+            C_BoxSelect.SelectedIndex = 0;
+            tabBoxMulti.SelectedIndex = 0;
+            L_Save.Text = "SAV: " + Path.GetFileName(path);
+
+            setBoxNames();   // Display the Box Names
+            setPKXBoxes();   // Reload all of the PKX Windows
+            setSAVLabel();   // Reload the label indicating current save
+
+            if (Width < Height) // SAV Interface Not Open
+            {
+                int newwidth = largeWidth;
+                this.Width = newwidth;
+            }
+            return;
+        }
+        private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
             if (Width < Height) // SAV Interface Not Open
             {
@@ -3886,6 +3943,8 @@ namespace PKHeX
         // Open/Save Array Manipulation // 
         public bool verifiedpkx()
         {
+            if (ModifierKeys == (Keys.Control | Keys.Shift))
+                return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
             #region ComboBoxes
             ComboBox[] cba = {
@@ -5590,7 +5649,7 @@ namespace PKHeX
                 {
                     // Verify PKM (decrypted)
                     byte[] input = File.ReadAllBytes(filepaths[i]);
-                    if (!Converter.verifychk(input))
+                    if (!PKX.verifychk(input))
                         continue;
                     else
                     {
@@ -5828,7 +5887,6 @@ namespace PKHeX
                 MessageBox.Show("No PGL picture data found!", "Error");
                 return;
             }
-            
             int length = 0xE004;
 
             byte[] jpeg = new Byte[length];

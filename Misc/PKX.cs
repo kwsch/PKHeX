@@ -2443,6 +2443,31 @@ namespace PKHeX
             // Done
             return ekxdata;
         }
+        public static bool verifychk(byte[] input)
+        {
+            ushort checksum = 0;
+            if (input.Length == 100 || input.Length == 80)  // Gen 3 Files
+            {
+                for (int i = 32; i < 80; i += 2)
+                    checksum += BitConverter.ToUInt16(input, i);
+
+                return (checksum == BitConverter.ToUInt16(input, 28));
+            }
+            else
+            {
+                if (input.Length == 236 || input.Length == 220) // Gen 4/5
+                    Array.Resize(ref input, 136);   // strip party bytes
+
+                else if (input.Length == 260)                   // Gen 6
+                    Array.Resize(ref input, 232);   // strip party bytes
+
+                for (int i = 8; i < input.Length; i += 2)
+                    checksum += BitConverter.ToUInt16(input, i);
+
+                return (checksum == BitConverter.ToUInt16(input, 0x6));
+            }
+        }
+
         public static UInt16 getTSV(UInt32 PID, UInt16 TID, UInt16 SID)
         {
             UInt16 tsv = Convert.ToUInt16((TID ^ SID) >> 4);
@@ -2799,7 +2824,7 @@ namespace PKHeX
             }
             return savindex;
         }
-        internal static UInt16 ccitt16(byte[] data)
+        internal static ushort ccitt16(byte[] data)
         {
             ushort crc = 0xFFFF;
             for (int i = 0; i < data.Length; i++)
