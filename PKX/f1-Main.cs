@@ -3233,7 +3233,7 @@ namespace PKHeX
                 if (!CHK_Nicknamed.Checked)
                     updateNickname(null, null);
 
-                TB_Friendship.Text = ((int)PKX.Friendship().Rows[Util.getIndex(CB_Species)][1]).ToString();
+                TB_Friendship.Text = PKX.getBaseFriendship(Util.getIndex(CB_Species)).ToString();
                 
                 if (CB_EggLocation.SelectedIndex == 0)
                 {
