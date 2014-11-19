@@ -1278,8 +1278,8 @@ namespace PKHeX
                                             684,685,686,687,688,699,704,708,709,710,711,715,
 
                                             // Appended ORAS Items (Orbs & Mega Stones)
-                                            // 534,535,
-                                            // 752,753,754,755,756,757,758,759,760,761,762,763,764,767,768,769,770,
+                                            534,535,
+                                            752,753,754,755,756,757,758,759,760,761,762,763,764,767,768,769,770,
                                     };
                 if (DEV_Ability.Enabled)    // allow all items to be selected
                 {
@@ -2122,7 +2122,7 @@ namespace PKHeX
             int[] mspec = {     // XY
                                    003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
                                 // ORAS
-                                // 015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
+                                015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
                           };
             for (int i = 0; i < mspec.Length; i++)
             {
@@ -2692,7 +2692,7 @@ namespace PKHeX
         }
         private void updatePP(object sender, EventArgs e)
         {
-            TB_PP1.Text = (PKX.getMovePP(Util.getIndex(CB_Move1), CB_PPu2.SelectedIndex)).ToString();
+            TB_PP1.Text = (PKX.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex)).ToString();
             TB_PP2.Text = (PKX.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex)).ToString();
             TB_PP3.Text = (PKX.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex)).ToString();
             TB_PP4.Text = (PKX.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex)).ToString();
@@ -3850,6 +3850,7 @@ namespace PKHeX
         }
         private void openMAIN(byte[] input, string path, string GameType, bool oras)
         {
+            L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new SaveGames.SaveStruct(GameType);
             savegame_oras = oras;
 
@@ -3858,54 +3859,19 @@ namespace PKHeX
             this.savefile = new Byte[0x100000];
             this.cyberSAV = input;
             cybergadget = true;
-
             B_ExportSAV.Enabled = true;
             Array.Copy(input, 0, savefile, 0x5400, input.Length);
-            GB_SAVtools.Enabled =
-                B_JPEG.Enabled =
-                B_BoxIO.Enabled =
-                B_VerifyCHK.Enabled = true;
-            B_VerifySHA.Enabled = false;
-            B_SwitchSAV.Enabled = false;
-            tabBoxMulti.Enabled = true;
-            C_BoxSelect.SelectedIndex = 0;
-            tabBoxMulti.SelectedIndex = 0;
-            L_Save.Text = "SAV: " + Path.GetFileName(path);
 
-            setBoxNames();   // Display the Box Names
-            setPKXBoxes();   // Reload all of the PKX Windows
-            setSAVLabel();   // Reload the label indicating current save
-
-            if (Width < Height) // SAV Interface Not Open
-            {
-                int newwidth = largeWidth;
-                this.Width = newwidth;
-            }
-            return;
+            openSave(oras);
         }
         private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
-            if (Width < Height) // SAV Interface Not Open
-            {
-                int newwidth = largeWidth;
-                this.Width = newwidth;
-            }
-            Menu_ToggleBoxUI.Visible = false;
-            savefile = input;
-            savedited = false;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            
-            // Enable Secondary Tools
-            tabBoxMulti.Enabled = true;
-            GB_SAVtools.Enabled = true;
+            SaveGame = new SaveGames.SaveStruct(GameType);
+            savegame_oras = oras;
 
-            // Get Next Active Save File
-            C_BoxSelect.SelectedIndex = 0;
-            tabBoxMulti.SelectedIndex = 0;
-
-            setBoxNames();   // Display the Box Names
-            setPKXBoxes();   // Reload all of the PKX Windows
-            setSAVLabel();   // Reload the label indicating current save
+            savefile = input;
+            cybergadget = false;            
 
             // Logic to allow unlocking of Switch SAV
             // Setup SHA
@@ -3927,8 +3893,36 @@ namespace PKHeX
             B_SwitchSAV.Enabled = (hashValue1.SequenceEqual(realHash1) && hashValue2.SequenceEqual(realHash2));
             getSAVOffsets();
             Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
-            cybergadget = false;
-        }        
+
+            openSave(oras);
+        }
+        private void openSave(bool oras)
+        {
+            // Enable Secondary Tools
+            GB_SAVtools.Enabled =
+                B_JPEG.Enabled =
+                B_BoxIO.Enabled =
+                B_VerifyCHK.Enabled = true;
+            B_VerifySHA.Enabled = false;
+            B_SwitchSAV.Enabled = false;
+            tabBoxMulti.Enabled = true;
+
+            savedited = false;
+            Menu_ToggleBoxUI.Visible = false;
+
+            // Set up Boxes
+            C_BoxSelect.SelectedIndex = 0;
+            tabBoxMulti.SelectedIndex = 0;
+
+            setBoxNames();   // Display the Box Names
+            setPKXBoxes();   // Reload all of the PKX Windows
+            setSAVLabel();   // Reload the label indicating current save
+
+            // temp ORAS save-editing disable
+            GB_SAVtools.Enabled = !oras;
+
+            this.Width = largeWidth;
+        }
         // Secondary Windows for Ribbons/Amie/Memories
         private void openribbons(object sender, EventArgs e)
         {
@@ -4362,8 +4356,7 @@ namespace PKHeX
         }
         private void dragoutLeave(object sender, EventArgs e)
         {
-            eragout.BackColor = Color.Transparent;
-            dragout.BackColor = Color.Transparent;
+            eragout.BackColor = dragout.BackColor = Color.Transparent;
         }
         #endregion
 
