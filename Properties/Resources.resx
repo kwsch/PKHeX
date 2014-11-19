@@ -5017,4 +5017,112 @@
   <data name="ribbon_46" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\ribbons\ribbon_46.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="item_534" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_534.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_535" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_535.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_752" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_752.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_753" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_753.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_754" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_754.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_755" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_755.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_756" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_756.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_757" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_757.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_758" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_758.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_759" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_759.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_760" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_760.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_761" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_761.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_762" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_762.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_763" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_763.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_764" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_764.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_767" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_767.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_768" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_768.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_769" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_769.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_770" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_770.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_15_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\15-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_18_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\18-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_208_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\208-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_302_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\302-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_319_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\319-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_323_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\323-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_334_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\334-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_362_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\362-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_373_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\373-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_382_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\382-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_383_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\383-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_384_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\384-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_428_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\428-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_475_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\475-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_531_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\531-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_720_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\720-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_80_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Pokemon Sprites\80-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

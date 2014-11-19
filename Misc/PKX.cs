@@ -2114,6 +2114,10 @@ namespace PKHeX
             table.Rows.Add(615, 10);
             table.Rows.Add(616, 10);
             table.Rows.Add(617, 5);
+            table.Rows.Add(618, 10);
+            table.Rows.Add(619, 10);
+            table.Rows.Add(620, 5);
+            table.Rows.Add(621, 5);
 
             return table;
         }

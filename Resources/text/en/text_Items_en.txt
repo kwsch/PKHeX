@@ -716,3 +716,61 @@ Holo Caster
 Fairy Gem
 Mega Charm
 Mega Glove
+Mach Bike
+Acro Bike
+Wailmer Pail
+Devon Parts
+Soot Sack
+Basement Key
+Pokéblock Kit
+Letter
+Eon Ticket
+Scanner
+Go-Goggles
+Meteorite
+Key to Room 1
+Key to Room 2
+Key to Room 4
+Key to Room 6
+Storage Key
+Devon Scope
+S.S. Ticket
+HM07
+Devon Scuba Gear
+Contest Costume
+Contest Costume
+Magma Suit
+Aqua Suit
+Pair of Tickets
+Mega Bracelet
+Mega Pendant
+Mega Glasses
+Mega Anchor
+Mega Stickpin
+Mega Tiara
+Mega Anklet
+Meteorite
+Swampertite
+Sceptilite
+Sablenite
+Altarianite
+Galladite
+Audinite
+Metagrossite
+Sharpedonite
+Slowbronite
+Steelixite
+Pidgeotite
+Glalitite
+Diancite
+Prison Bottle
+Mega Cuff
+Cameruptite
+Lopunnite
+Salamencite
+Beedrillite
+Meteorite
+Meteorite
+Key Stone
+Meteorite Shard
+Eon Flute
