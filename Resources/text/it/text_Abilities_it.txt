@@ -1,4 +1,4 @@
-﻿Niente
+﻿-
 Tanfo
 Piovischio
 Acceleratore
@@ -187,3 +187,6 @@ Amorefiliale
 Auratetra
 Aurafolletto
 Frangiaura
+Mare Primordiale
+Terra Estrema
+Flusso Delta

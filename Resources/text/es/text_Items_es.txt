@@ -1,4 +1,4 @@
-﻿(Ninguno)
+﻿Ningún objeto
 Master Ball
 Ultra Ball
 Super Ball
@@ -532,8 +532,8 @@ Tarjeta Datos 26
 Tarjeta Datos 27
 Esfera Verde
 Cápsula Candado
-Esfera Roja
-Esfera Azul
+Prisma Rojo
+Prisma Azul
 Misticristal
 Escama Bella
 Mineral Evol
@@ -716,3 +716,61 @@ Holomisor
 Gema Hada
 Megacolgante
 Megaguante
+Bici de Carreras
+Bici Acrobática
+Wailmegadera
+Piezas Devon
+Saco Hollín
+Llave del Sótano
+Kit de Pokécubos
+Carta a Máximo
+Ticket Eón
+Escáner
+Gafas Aislantes
+Meteorito
+Ll. Habitación 1
+Ll. Habitación 2
+Ll. Habitación 4
+Ll. Habitación 6
+Llave Almacén
+Detector Devon
+Ticket Barco
+MO07
+Bombona Devon
+Traje de Gala
+Vestido de Gala
+Traje Magma
+Traje Aqua
+Entrada para dos
+Megapulsera
+Megacollar
+Megagafas
+Megaancla
+Megabroche
+Megatiara
+Megatobillera
+Meteorito
+Swampertita
+Sceptilita
+Sableynita
+Altarianita
+Galladita
+Audinita
+Metagrossita
+Sharpedonita
+Slowbronita
+Steelixita
+Pidgeotita
+Glalita
+Diancita
+Vasija Castigo
+Megabrazalete
+Cameruptita
+Lopunnita
+Salamencita
+Beedrillita
+Meteorito
+Meteorito
+Piedra Activadora
+Frag. Meteorito
+Flauta Eón

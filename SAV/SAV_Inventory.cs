@@ -19,6 +19,18 @@ namespace PKHeX
             savindex = m_parent.savindex;
             shiftval = savindex * 0x7F000;
 
+            if (m_parent.savegame_oras)
+            {
+                bagoffsets = new int[] 
+                {
+                    0x05800,
+                    0x05E40,
+                    0x05FC0,
+                    0x06170,
+                    0x06270, 
+                };
+            }
+
             getListItems();
             getListKeyItems();
             getListTMHM();
@@ -46,6 +58,14 @@ namespace PKHeX
         public string[] medicine_val;
         public string[] berries_val;
 
+        public int[] bagoffsets = new int[] {
+                                    0x05800,
+                                    0x05E40,
+                                    0x05FC0,
+                                    0x06168,
+                                    0x06268,
+                                };
+
         // Initialize String Tables
         private void getListItems()
         {
@@ -67,6 +87,31 @@ namespace PKHeX
                 667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,
                 699,704,710,711,715,
             };
+            if (m_parent.savegame_oras)
+            {
+                itemlist = new int[] {
+                000,001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,055,056,
+                057,058,059,060,061,062,063,064,            068,069,070,071,072,073,074,075,
+                076,077,078,079,080,081,082,083,084,085,086,087,088,089,090,091,092,093,094,
+                099,100,101,102,103,104,105,106,107,108,109,110,112,116,117,118,119,135,136,
+                213,214,215,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,
+                233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,
+                252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,
+                271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,
+                290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,
+                309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,
+                492,493,494,495,496,497,498,499,500,537,538,539,540,541,542,543,544,545,546,
+                547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,571,
+                572,573,576,577,580,581,582,583,584,585,586,587,588,589,590,639,640,644,646,
+                647,648,649,650,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,
+                667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,
+                699,704,710,711,715,
+
+                // ORAS
+                534,535,
+                752,753,754,755,756,757,758,759,760,761,762,763,764,767,768,769,770,
+                };
+            }
             item_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 item_val[i] = Form1.itemlist[itemlist[i]];
@@ -78,8 +123,29 @@ namespace PKHeX
                 000,216,431,442,445,446,447,450,465,466,471,628,
                 629,631,632,638,641,642,643,689,695,696,697,698,
                 700,701,702,703,705,706,707,712,713,714,
+                
+                // Illegal
                 716,717, // For the cheaters who want useless items...
             };
+            if (m_parent.savegame_oras)
+            {
+                itemlist = new int[] {
+                000,216,        445,446,447,    465,466,471,628,
+                629,631,632,638,
+
+                // Illegal
+                716,717,745,746,747,748,749,750, // For the cheaters who want useless items...
+
+                // ORAS
+                457,474,503,
+
+                718,719,
+                720,721,722,723,724,725,726,727,728,729,
+                730,731,732,733,734,735,736,    738,739,
+                740,741,742,743,744,
+                751,765,766,771,772,774,775,
+            };
+            }
             keyitem_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 keyitem_val[i] = Form1.itemlist[itemlist[i]];
@@ -98,6 +164,23 @@ namespace PKHeX
                 
                 420,421,422,423,424,
             };
+            if (m_parent.savegame_oras)
+            {
+                itemlist = new int[] {
+                0,
+                328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,
+                346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,
+                364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,
+                382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,
+                400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,
+                418,419,618,619,620,690,691,692,693,694,
+                
+                420,421,422,423,424,
+                
+                // ORAS
+                425,737,
+            };
+            }
             tmhm_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 tmhm_val[i] = Form1.itemlist[itemlist[i]];
@@ -130,31 +213,30 @@ namespace PKHeX
             Array.Sort(berries_val); 
         }
 
-
         // Populate DataGrid
         private void popItems()
         {
-            int offset = 0x05800 + shiftval;
+            int offset = bagoffsets[0] + shiftval;
             populateList(item_val, offset, 200); // max 400
         }
         private void popKeyItems()
         {
-            int offset = 0x05E40 + shiftval;
+            int offset = bagoffsets[1] + shiftval;
             populateList(keyitem_val, offset, 50); // max 96
         }
         private void popTMHM()
         {
-            int offset = 0x05FC0 + shiftval;
+            int offset = bagoffsets[2] + shiftval;
             populateList(tmhm_val, offset, 105); // 106 total tho
         }
         private void popMedicine()
         {
-            int offset = 0x06168 + shiftval;
+            int offset = bagoffsets[3] + shiftval;
             populateList(medicine_val, offset, 60); // 64 total slots 
         }
         private void popBerries()
         {
-            int offset = 0x06268 + shiftval;
+            int offset = bagoffsets[4] + shiftval;
             populateList(berries_val, offset, 70); // 102 slots
         }
 
@@ -174,9 +256,8 @@ namespace PKHeX
             dgvItemVal.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
             {
                 for (int i = 0; i < itemarr.Length; i++)
-                {
                     dgvItemVal.Items.Add(itemarr[i]); // add only the Item Names
-                }
+
                 dgvItemVal.DisplayIndex = 0;
                 dgvItemVal.Width = 135;
                 dgvItemVal.FlatStyle = FlatStyle.Flat;
@@ -228,27 +309,27 @@ namespace PKHeX
             if (B_DisplayItems.ForeColor == Color.Red)
             {
                 itemstrarr = item_val;
-                offset = 0x05800 + shiftval;
+                offset = bagoffsets[0] + shiftval;
             }
             else if (B_DisplayKeyItems.ForeColor == Color.Red)
             {
                 itemstrarr = keyitem_val;
-                offset = 0x05E40 + shiftval;
+                offset = bagoffsets[1] + shiftval;
             }
             else if (B_DisplayTMHM.ForeColor == Color.Red)
             {
                 itemstrarr = tmhm_val;
-                offset = 0x05FC0 + shiftval;
+                offset = bagoffsets[2] + shiftval;
             }
             else if (B_DisplayMedicine.ForeColor == Color.Red)
             {
                 itemstrarr = medicine_val;
-                offset = 0x06168 + shiftval;
+                offset = bagoffsets[3] + shiftval;
             }
             else if (B_DisplayBerries.ForeColor == Color.Red)
             {
                 itemstrarr = berries_val;
-                offset = 0x06268 + shiftval;
+                offset = bagoffsets[4] + shiftval;
             }
 
             // Fetch Data
@@ -259,12 +340,11 @@ namespace PKHeX
                 string item = dataGridView1.Rows[i].Cells[0].Value.ToString();
                 int itemindex = Array.IndexOf(Form1.itemlist, item);
                 int itemcnt = 0;
-                try {
+                try 
+                {
                     itemcnt = Convert.ToUInt16(dataGridView1.Rows[i].Cells[1].Value.ToString());
                 }
-                    catch { 
-                        itemcnt = 0; 
-                    }
+                catch { itemcnt = 0; }
 
                 if (itemindex == 0) // Compression of Empty Slots
                 {
@@ -284,7 +364,7 @@ namespace PKHeX
             // Delete Empty Trash
             for (int i = itemcount - emptyslots; i < itemcount; i++)
             {
-                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i), 2);
+                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 0, 2);
                 Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 2, 2);
             }
 
@@ -343,10 +423,9 @@ namespace PKHeX
         {
             // Store Current Items back to the save file
             saveBag(sender);
-            if (ModifierKeys == Keys.Alt)
-            {
+            if (ModifierKeys == Keys.Alt && !m_parent.savegame_oras)
                 giveAllItems();
-            }
+
             popItems();
         }
         private void B_DisplayKeyItems_Click(object sender, EventArgs e)

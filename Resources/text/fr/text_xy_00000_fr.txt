@@ -1,8 +1,8 @@
-－－－－－－－－－－
+﻿－－－－－－－－－－
 
 Endroit Mystérieux
 
-Endroit lointain
+Endroit Lointain
 
 Bourg Croquis
 
@@ -78,8 +78,8 @@ La Frescale
 
 Route 16
 Chemin Tristesse
-\x10\x02뷿P
-\x10\x02뷿Q
+[~ 80]
+[~ 81]
 Caverne Gelée
 
 Route 17
@@ -168,3 +168,188 @@ Aquarium R. s/Gliffe
 
 Grotte Inconnue
 
+Bourg-en-Vol
+
+Rosyères
+
+Myokara
+
+Vermilava
+
+Autéquia
+
+Vergazon
+
+Pacifiville
+
+Clémenti-Ville
+
+Poivressel
+
+Lavandia
+
+Mérouville
+
+Cimetronelle
+
+Nénucrique
+
+Algatia
+
+Atalanopolis
+
+Éternara
+
+Ligue Pokémon
+
+Route 101
+
+Route 102
+
+Route 103
+
+Route 104
+
+Chenal 105
+
+Chenal 106
+
+Chenal 107
+
+Chenal 108
+
+Chenal 109
+
+Route 110
+
+Route 111
+
+Route 112
+
+Route 113
+
+Route 114
+
+Route 115
+
+Route 116
+
+Route 117
+
+Route 118
+
+Route 119
+
+Route 120
+
+Route 121
+
+Chenal 122
+
+Route 123
+
+Chenal 124
+
+Chenal 125
+
+Chenal 126
+
+Chenal 127
+
+Chenal 128
+
+Chenal 129
+
+Chenal 130
+
+Chenal 131
+
+Chenal 132
+
+Chenal 133
+
+Chenal 134
+
+Site Météore
+
+Tunnel Mérazon
+
+???
+
+Ruines Désert
+
+Grotte Granite
+
+Bois Clémenti
+
+Mont Chimnée
+
+Sentier Sinuroc
+
+Chemin Ardent
+
+Mont Mémoria
+
+Planque Aqua
+
+Caverne Fondmer
+
+Grotte Origine
+
+Route Victoire
+
+Grotte Tréfonds
+
+New Lavandia
+
+Lavandia Sea
+
+Grotte de l’Îlot
+
+Tombeau Antique
+
+Sanctuaire
+
+Grotte Zénith
+
+Planque Magma
+
+Pilier Céleste
+
+Atoll de Combat
+
+Île du Sud
+
+Le Marina
+
+Parc Safari
+
+Forêt Mirage
+
+Grotte Mirage
+
+Île Mirage
+
+Mont Mirage
+
+Forêt Impénétrable
+
+Plaine Sans Nom
+
+Grotte Oubliée
+
+Grotte Évanescente
+
+Gouffre Informe
+
+Île de l’Arc
+
+Îlot Secret
+
+Grand Ciel
+
+Plage Secrète
+
+Champ Fleuri Secret
+
+Base Secrète

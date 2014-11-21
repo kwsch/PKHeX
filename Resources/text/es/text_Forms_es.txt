@@ -1,3 +1,4 @@
+﻿
 
 
 
@@ -198,6 +199,7 @@
 
 
 
+Una forma
 
 
 
@@ -347,9 +349,9 @@
 
 
 
+Forma de Castform
 
 
-a de Cast
 
 
 
@@ -378,13 +380,15 @@ a de Cast
 
 
 
+Kyogre
+Groudon
 
 
+Forma Normal
 
 
 
 
-a Normal
 
 
 
@@ -406,20 +410,16 @@ a Normal
 
 
 
+Tronco Planta
+Tronco Planta
 
 
 
 
-Planta
-Planta
 
 
 
-
-
-
-
-a Encapotado
+Forma Encapotado
 Mar Oeste
 Mar Oeste
 
@@ -477,7 +477,7 @@ Mar Oeste
 
 
 
-a de
+Forma de Rotom
 
 
 
@@ -485,12 +485,13 @@ a de
 
 
 
-a Modificada
+Forma Modificada
 
 
 
 
-a Tierra
+Forma Tierra
+Forma de Arceus
 
 
 
@@ -547,8 +548,7 @@ a Tierra
 
 
 
-
-a Raya Roja
+Forma Raya Roja
 
 
 
@@ -583,8 +583,8 @@ Modo Normal
 
 
 
-a Primavera
-a Primavera
+Forma Primavera
+Forma Primavera
 
 
 
@@ -639,15 +639,15 @@ a Primavera
 
 
 
-a Avatar
-a Avatar
+Forma Avatar
+Forma Avatar
 
 
-a Avatar
-a Kyurem
-a Habitual
-a Lírica
-a de Genesect
+Forma Avatar
+Forma Kyurem
+Forma Habitual
+Forma Lírica
+Forma de Genesect
 
 
 
@@ -664,22 +664,22 @@ a de Genesect
 
 
 
-Polar
+Motivo Polar
 
 
-Roja
-Roja
-Roja
+Flor Roja
+Flor Roja
+Flor Roja
 
 
 
 
-a Salvaje
+Forma Salvaje
 
 Macho
 
 
-a Escudo
+Forma Escudo
 
 
 
@@ -708,8 +708,8 @@ a Escudo
 
 
 
-Normal
-Normal
+Tamaño Normal
+Tamaño Normal
 
 
 
@@ -718,169 +718,196 @@ Modo Relajado
 
 
 
+Hoopa Contenido
 
 
-
-Mega
-Mega X
-Mega Y
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-a Sol
-a Lluvia
-a Nieve
-
-
-
-
-a Ataque
-a Defensa
-a Velocidad
-Arena
-Basura
-Arena
-Basura
-a Soleado
+Mega-Venusaur
+Mega-Charizard X
+Mega-Charizard Y
+Mega-Blastoise
+Mega-Beedrill
+Mega-Pidgeot
+Pikachu Roquera
+Pikachu Aristócrata
+Pikachu Superstar
+Pikachu Erudita
+Pikachu Enmascarada
+Pikachu Coqueta
+Mega-Alakazam
+Mega-Slowbro
+Mega-Gengar
+Mega-Kangaskhan
+Mega-Pinsir
+Mega-Gyarados
+Mega-Aerodactyl
+Mega-Mewtwo X
+Mega-Mewtwo Y
+Mega-Ampharos
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Una forma
+Mega-Steelix
+Mega-Scizor
+Mega-Heracross
+Mega-Houndoom
+Mega-Tyranitar
+Mega-Sceptile
+Mega-Blaziken
+Mega-Swampert
+Mega-Gardevoir
+Mega-Sableye
+Mega-Mawile
+Mega-Aggron
+Mega-Medicham
+Mega-Manectric
+Mega-Sharpedo
+Mega-Camerupt
+Mega-Altaria
+Forma Sol
+Forma Lluvia
+Forma Nieve
+Mega-Banette
+Mega-Absol
+Mega-Glalie
+Mega-Salamence
+Mega-Metagross
+Mega-Latias
+Mega-Latios
+Regresión Primigenia
+Regresión Primigenia
+Mega-Rayquaza
+Forma Ataque
+Forma Defensa
+Forma Velocidad
+Tronco Arena
+Tronco Basura
+Tronco Arena
+Tronco Basura
+Forma Soleado
 Mar Este
 Mar Este
-
-
-
-Calor
-Lavado
-Frío
-Ventilador
-Corte
-a Origen
-a Cielo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-a Raya Azul
+Mega-Lopunny
+Mega-Garchomp
+Mega-Lucario
+Mega-Abomasnow
+Mega-Gallade
+Rotom Calor
+Rotom Lavado
+Rotom Frío
+Rotom Ventilador
+Rotom Corte
+Forma Origen
+Forma Cielo
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Forma de Arceus
+Mega-Audino
+Forma Raya Azul
 Modo Daruma
-a Verano
-a Otoño
-a Invierno
-a Verano
-a Otoño
-a Invierno
-a Tótem
-a Tótem
-a Tótem
-Blanco
-Negro
-a Brío
-a Danza
-
-
-
-
-Taiga
-Tundra
-Continental
-Vergel
-Oriental
-Floral
-Moderno
-Marino
-Isleño
-Estepa
-Desierto
-Oasis
-Monzón
-Pantano
-Solar
-Océano
-Jungla
-Fantasía
-Poké Ball
-Amarilla
-Naranja
-Azul
-Blanca
-Amarilla
-Naranja
-Azul
-Blanca
-Eterna
-Amarilla
-Naranja
-Azul
-Blanca
-Corazón
-Estrella
-Rombo
-Señorita
-Dama
-Caballero
-Aristocrático
-Kabuki
-Faraónico
+Forma Verano
+Forma Otoño
+Forma Invierno
+Forma Verano
+Forma Otoño
+Forma Invierno
+Forma Tótem
+Forma Tótem
+Forma Tótem
+Kyurem Blanco
+Kyurem Negro
+Forma Brío
+Forma Danza
+Forma de Genesect
+Forma de Genesect
+Forma de Genesect
+Forma de Genesect
+Motivo Taiga
+Motivo Tundra
+Motivo Continental
+Motivo Vergel
+Motivo Oriental
+Motivo Floral
+Motivo Moderno
+Motivo Marino
+Motivo Isleño
+Motivo Estepa
+Motivo Desierto
+Motivo Oasis
+Motivo Monzón
+Motivo Pantano
+Motivo Solar
+Motivo Océano
+Motivo Jungla
+Motivo Fantasía
+Motivo Poké Ball
+Flor Amarilla
+Flor Naranja
+Flor Azul
+Flor Blanca
+Flor Amarilla
+Flor Naranja
+Flor Azul
+Flor Blanca
+Flor Eterna
+Flor Amarilla
+Flor Naranja
+Flor Azul
+Flor Blanca
+Corte Corazón
+Corte Estrella
+Corte Rombo
+Corte Señorita
+Corte Dama
+Corte Caballero
+Corte Aristocrático
+Corte Kabuki
+Corte Faraónico
 Hembra
-a Filo
-Pequeño
-Grande
-Extragrande
-Pequeño
-Grande
-Extragrande
+Forma Filo
+Tamaño Pequeño
+Tamaño Grande
+Tamaño Extragrande
+Tamaño Pequeño
+Tamaño Grande
+Tamaño Extragrande
 Modo Activo
+Mega-Diancie
+Hoopa Desatado

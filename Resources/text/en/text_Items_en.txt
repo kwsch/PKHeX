@@ -1,4 +1,4 @@
-﻿(None)
+﻿None
 Master Ball
 Ultra Ball
 Great Ball
@@ -448,7 +448,7 @@ Good Rod
 Super Rod
 Sprayduck
 Poffin Case
-Bicycle
+Bike
 Suite Key
 Oak’s Letter
 Lunar Wing
@@ -711,7 +711,7 @@ Shalour Sable
 Jaw Fossil
 Sail Fossil
 Looker Ticket
-Bicycle
+Bike
 Holo Caster
 Fairy Gem
 Mega Charm

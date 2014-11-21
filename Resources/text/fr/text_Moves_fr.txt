@@ -1,4 +1,4 @@
-﻿(Aucun)
+﻿―――――
 Écras’Face
 Poing-Karaté
 Torgnoles
@@ -616,3 +616,7 @@ Myria-Flèches
 Myria-Vagues
 Force Chtonienne
 Lumière du Néant
+Onde Originelle
+Lame Pangéenne
+Draco Ascension
+Furie Dimension

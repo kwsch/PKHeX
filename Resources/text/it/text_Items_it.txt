@@ -1,4 +1,4 @@
-﻿(Niente)
+﻿Niente
 Master Ball
 Ultra Ball
 Mega Ball
@@ -474,7 +474,7 @@ Carta Blu
 Codaslowpoke
 Campana Chiara
 Apriporta
-Chiave Sotterr.
+Chiave sotterr.
 Annaffiatoio
 Squama Rossa
 Strumento perso
@@ -532,8 +532,8 @@ Scheda Dati 26
 Scheda Dati 27
 Sfera Verde
 Capsula Scrigno
-Sfera Rossa
-Sfera Blu
+Gemma rossa
+Gemma blu
 Misticristal
 Squama Bella
 Evolcondensa
@@ -716,3 +716,61 @@ Holovox
 Bijoufolletto
 Megaciondolo
 Megaguanto
+Bici da corsa
+Bici da cross
+Vaso Wailmer
+Merce Devon
+Sacco cenere
+Chiave sotterr.
+Kit Pokémelle
+Lettera
+Biglietto Eone
+Scanner
+Occhialoni
+Meteorite
+Chiave stanza 1
+Chiave stanza 2
+Chiave stanza 4
+Chiave stanza 6
+Chiave magazzino
+Devonscopio
+Biglietto Nave
+MN07
+Maschera Devon
+Costume Live
+Vestito Live
+Tuta Magma
+Tuta Idro
+Biglietto doppio
+Megabracciale
+Megapendente
+Megaocchiali
+Megaancora
+Megaspilla
+Megadiadema
+Megagambale
+Meteorite
+Swampertite
+Sceptilite
+Sableyite
+Altarite
+Galladite
+Audinite
+Metagrossite
+Sharpedite
+Slowbroite
+Steelixite
+Pidgeotite
+Glalite
+Diancite
+Vaso del vincolo
+Megapolsiera
+Cameruptite
+Lopunnite
+Salamencite
+Beedrillite
+Meteorite
+Meteorite
+Pietrachiave
+Framm. meteorite
+Flauto Eone

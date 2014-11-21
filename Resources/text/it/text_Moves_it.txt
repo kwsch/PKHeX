@@ -1,4 +1,4 @@
-﻿(Niente)
+﻿-----
 Botta
 Colpokarate
 Doppiasberla
@@ -616,3 +616,7 @@ Mille Frecce
 Mille Onde
 Forza Tellurica
 Luce Nefasta
+Primopulsar
+Spade Telluriche
+Ascesa del Drago
+Urtodimensionale

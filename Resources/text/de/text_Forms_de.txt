@@ -1,3 +1,4 @@
+﻿
 
 
 
@@ -198,6 +199,7 @@
 
 
 
+Einform
 
 
 
@@ -347,9 +349,9 @@
 
 
 
+Formeo
 
 
-eo
 
 
 
@@ -378,13 +380,15 @@ eo
 
 
 
+Kyogre
+Groudon
 
 
+Normalform
 
 
 
 
-Normal
 
 
 
@@ -406,20 +410,16 @@ Normal
 
 
 
+Pflanzenumhang
+Pflanzenumhang
 
 
 
 
-Pflanzen
-Pflanzen
 
 
 
-
-
-
-
-Wolken
+Wolkenform
 Westliches Meer
 Westliches Meer
 
@@ -485,12 +485,12 @@ Rotom
 
 
 
-Wandel
+Wandelform
 
 
 
 
-Land
+Landform
 Arceus
 
 
@@ -548,7 +548,7 @@ Arceus
 
 
 
-Rotlinige 
+Rotlinige Form
 
 
 
@@ -583,8 +583,8 @@ Normalmodus
 
 
 
-Frühlings
-Frühlings
+Frühlingsform
+Frühlingsform
 
 
 
@@ -639,14 +639,14 @@ Frühlings
 
 
 
-Inkarnations
-Inkarnations
+Inkarnationsform
+Inkarnationsform
 
 
-Inkarnations
+Inkarnationsform
 Kyurem
-Standard
-Gesangs
+Standardform
+Gesangsform
 Genesect
 
 
@@ -664,22 +664,22 @@ Genesect
 
 
 
-Frost
+Frostmuster
 
 
-Rot
-Rot
-Rot
+Rotblütler
+Rotblütler
+Rotblütler
 
 
 
 
-Zottel
+Zottelform
 
 Männlich
 
 
-Schild
+Schildform
 
 
 
@@ -718,86 +718,110 @@ Ruhe-Modus
 
 
 
+Gebanntes Hoopa
 
 
-
-Mega
-Mega X
-Mega Y
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Sonnen
-Regen
-Schnee
-
-
-
-
-Angriffs
-Verteidigungs
-Initiative
-Sand
-Lumpen
-Sand
-Lumpen
-Sonnen
+Mega-Bisaflor
+Mega-Glurak X
+Mega-Glurak Y
+Mega-Turtok
+Mega-Bibor
+Mega-Tauboss
+Rocker-Pikachu
+Damen-Pikachu
+Star-Pikachu
+Professoren-Pikachu
+Wrestler-Pikachu
+Cosplay-Pikachu
+Mega-Simsala
+Mega-Lahmus
+Mega-Gengar
+Mega-Kangama
+Mega-Pinsir
+Mega-Garados
+Mega-Aerodactyl
+Mega-Mewtu X
+Mega-Mewtu Y
+Mega-Ampharos
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Einform
+Mega-Stahlos
+Mega-Scherox
+Mega-Skaraborn
+Mega-Hundemon
+Mega-Despotar
+Mega-Gewaldro
+Mega-Lohgock
+Mega-Sumpex
+Mega-Guardevoir
+Mega-Zobiris
+Mega-Flunkifer
+Mega-Stolloss
+Mega-Meditalis
+Mega-Voltenso
+Mega-Tohaido
+Mega-Camerupt
+Mega-Altaria
+Sonnenform
+Regenform
+Schneeform
+Mega-Banette
+Mega-Absol
+Mega-Firnontor
+Mega-Brutalanda
+Mega-Metagross
+Mega-Latias
+Mega-Latios
+Protomorphose
+Protomorphose
+Mega-Rayquaza
+Angriffsform
+Verteidigungsform
+Initiativeform
+Sandumhang
+Lumpenumhang
+Sandumhang
+Lumpenumhang
+Sonnenform
 Östliches Meer
 Östliches Meer
-
-
-
-Hitze
-Wasch
-Frost
-Wirbel
-Schneid
-Ur
-Zenit
+Mega-Schlapor
+Mega-Knakrack
+Mega-Lucario
+Mega-Rexblisar
+Mega-Galagladi
+Hitze-Rotom
+Wasch-Rotom
+Frost-Rotom
+Wirbel-Rotom
+Schneid-Rotom
+Urform
+Zenitform
 Arceus
 Arceus
 Arceus
@@ -815,68 +839,69 @@ Arceus
 Arceus
 Arceus
 Arceus
-Blaulinige 
+Mega-Ohrdoch
+Blaulinige Form
 Trance-Modus
-Sommer
-Herbst
-Winter
-Sommer
-Herbst
-Winter
-Tiergeist
-Tiergeist
-Tiergeist
-Weißes
-Schwarzes
-Resolut
-Tanz
+Sommerform
+Herbstform
+Winterform
+Sommerform
+Herbstform
+Winterform
+Tiergeistform
+Tiergeistform
+Tiergeistform
+Weißes Kyurem
+Schwarzes Kyurem
+Resolutform
+Tanzform
 Genesect
 Genesect
 Genesect
 Genesect
-Schneefeld
-Flocken
-Kontinental
-Ziergarten
-Prunk
-Blumenmeer
-Innovations
-Aquamarin
-Archipel
-Dürre
-Sand
-Flussdelta
-Monsun
-Savannen
-Sonnen
-Ozean
-Dschungel
-Fantasie
-Pokéball
-Gelb
-Orange
-Blau
-Weiß
-Gelb
-Orange
-Blau
-Weiß
-Ewig
-Gelb
-Orange
-Blau
-Weiß
-Herzchen
-Sternchen
-Diamanten
-Fräul
-Damen
-Kavaliers
-Königinnen
-Kabuki
-Herrscher
+Schneefeldmuster
+Flockenmuster
+Kontinentalmuster
+Ziergartenmuster
+Prunkmuster
+Blumenmeermuster
+Innovationsmuster
+Aquamarinmuster
+Archipelmuster
+Dürremuster
+Sandmuster
+Flussdeltamuster
+Monsunmuster
+Savannenmuster
+Sonnenmuster
+Ozeanmuster
+Dschungelmuster
+Fantasiemuster
+Pokéball-Muster
+Gelbblütler
+Orangeblütler
+Blaublütler
+Weißblütler
+Gelbblütler
+Orangeblütler
+Blaublütler
+Weißblütler
+Ewigblütler
+Gelbblütler
+Orangeblütler
+Blaublütler
+Weißblütler
+Herzchenschnitt
+Sternchenschnitt
+Diamantenschnitt
+Fräuleinschnitt
+Damenschnitt
+Kavaliersschnitt
+Königinnenschnitt
+Kabuki-Schnitt
+Herrscherschnitt
 Weiblich
-Klingen
+Klingenform
 Größe S
 Größe L
 Größe XL
@@ -884,3 +909,5 @@ Größe S
 Größe L
 Größe XL
 Aktiv-Modus
+Mega-Diancie
+Entfesseltes Hoopa

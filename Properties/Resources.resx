@@ -4906,27 +4906,6 @@
   <data name="text_Puff_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ko\text_Puff_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbon_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\de\text_Ribbon_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbon_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\en\text_Ribbon_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbon_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\es\text_Ribbon_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbon_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\fr\text_Ribbon_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbon_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\it\text_Ribbon_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbon_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\ja\text_Ribbon_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbon_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\ko\text_Ribbon_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="text_SuperTraining_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\de\text_SuperTraining_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

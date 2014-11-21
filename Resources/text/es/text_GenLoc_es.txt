@@ -1,4 +1,4 @@
-algún lugar
+﻿algún lugar
 el pueblo de partida
 casa
 casa de un amigo
@@ -60,3 +60,12 @@ un huerto
 unas ruinas
 unas alcantarillas
 un safari
+una Base Secreta
+un Auditorio del Gran Concurso
+el fondo del mar
+un paraje irreal
+un gran navío
+una ruta cubierta de ceniza
+un islote
+un lugar misterioso
+el firmamento

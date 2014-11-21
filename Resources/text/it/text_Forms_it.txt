@@ -1,3 +1,4 @@
+﻿
 
 
 
@@ -198,6 +199,7 @@
 
 
 
+Forma Vaga
 
 
 
@@ -347,9 +349,9 @@
 
 
 
+Forma Castform
 
 
-a Cast
 
 
 
@@ -382,9 +384,9 @@ a Cast
 
 
 
+Forma Normale
 
 
-a Normale
 
 
 
@@ -408,18 +410,16 @@ a Normale
 
 
 
+Manto Pianta
+Manto Pianta
 
 
-Pianta
-Pianta
 
 
 
 
 
-
-
-a Nuvola
+Forma Nuvola
 Mare Ovest
 Mare Ovest
 
@@ -477,7 +477,7 @@ Mare Ovest
 
 
 
-a
+Forma Rotom
 
 
 
@@ -485,12 +485,13 @@ a
 
 
 
-a Alterata
+Forma Alterata
 
 
 
 
-a Terra
+Forma Terra
+Forma di Arceus
 
 
 
@@ -547,13 +548,13 @@ a Terra
 
 
 
+Forma Linearossa
 
-a Linearossa
 
 
 
+Forma Normalità
 
-a Normalità
 
 
 
@@ -582,9 +583,9 @@ a Normalità
 
 
 
+Forma Primavera
+Forma Primavera
 
-a Primavera
-a Primavera
 
 
 
@@ -638,15 +639,16 @@ a Primavera
 
 
 
+Forma Incarnazione
+Forma Incarnazione
 
-a Incarnazione
-a Incarnazione
 
+Forma Incarnazione
+Forma di Kyurem
+Forma Normale
+Forma Canto
+Forma di Genesect
 
-a Incarnazione
-a di Kyurem
-a Normale
-a Canto
 
 
 
@@ -662,24 +664,22 @@ a Canto
 
 
 
+Motivo Nevi Perenni
 
 
-Nevi Perenni
+Fiore Rosso
+Fiore Rosso
+Fiore Rosso
 
 
-Rosso
-Rosso
-Rosso
 
 
-
-
-a Selvatica
+Forma Selvatica
 
 Maschio
 
 
-a Scudo
+Forma Scudo
 
 
 
@@ -718,165 +718,190 @@ Modo Relax
 
 
 
+Hoopa Vincolato
 
 
-
-Mega
-Mega X
-Mega Y
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-a Sole
-a Pioggia
-a Nuvola di Neve
-
-
-
-
-a Attacco
-a Difesa
-a Velocità
-Sabbia
-Scarti
-Sabbia
-Scarti
-a Splendore
+MegaVenusaur
+MegaCharizard X
+MegaCharizard Y
+MegaBlastoise
+MegaBeedrill
+MegaPidgeot
+Pikachu rockstar
+Pikachu damigella
+Pikachu confetto
+Pikachu scienziata
+Pikachu wrestler
+Pikachu Cosplay
+MegaAlakazam
+MegaSlowbro
+MegaGengar
+MegaKangaskhan
+MegaPinsir
+MegaGyarados
+MegaAerodactyl
+MegaMewtwo X
+MegaMewtwo Y
+MegaAmpharos
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+Forma Vaga
+MegaSteelix
+MegaScizor
+MegaHeracross
+MegaHoundoom
+MegaTyranitar
+MegaSceptile
+MegaBlaziken
+MegaSwampert
+MegaGardevoir
+MegaSableye
+MegaMawile
+MegaAggron
+MegaMedicham
+MegaManectric
+MegaSharpedo
+MegaCamerupt
+MegaAltaria
+Forma Sole
+Forma Pioggia
+Forma Nuvola di Neve
+MegaBanette
+MegaAbsol
+MegaGlalie
+MegaSalamence
+MegaMetagross
+MegaLatias
+MegaLatios
+Archeorisveglio
+Archeorisveglio
+MegaRayquaza
+Forma Attacco
+Forma Difesa
+Forma Velocità
+Manto Sabbia
+Manto Scarti
+Manto Sabbia
+Manto Scarti
+Forma Splendore
 Mare Est
 Mare Est
-
-
-
-Calore
-Lavaggio
-Gelo
-Vortice
-Taglio
-a Originale
-a Cielo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-a Lineablu
+MegaLopunny
+MegaGarchomp
+MegaLucario
+MegaAbomasnow
+MegaGallade
+Rotom Calore
+Rotom Lavaggio
+Rotom Gelo
+Rotom Vortice
+Rotom Taglio
+Forma Originale
+Forma Cielo
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+Forma di Arceus
+MegaAudino
+Forma Lineablu
 Stato Zen
-a Estate
-a Autunno
-a Inverno
-a Estate
-a Autunno
-a Inverno
-a Totem
-a Totem
-a Totem
-Bianco
-Nero
-a Risoluta
-a Danza
-
-
-
-
-Nordico
-di Neve
-Continentale
-Prato
-Eleganza
-Giardinfiore
-Trendy
-Marino
-Arcipelago
-Deserto
-Sabbia
-Fluviale
-Pluviale
-Savana
-Solare
-Oceanico
-Giungla
-Sbarazzino
-Poké Ball
-Giallo
-Arancione
-Blu
-Bianco
-Giallo
-Arancione
-Blu
-Bianco
-Eterno
-Giallo
-Arancione
-Blu
-Bianco
-Cuore
-Stella
-Diamante
-Signorina
-Gentildonna
-Gentiluomo
-Regina
-Kabuki
-Faraone
+Forma Estate
+Forma Autunno
+Forma Inverno
+Forma Estate
+Forma Autunno
+Forma Inverno
+Forma Totem
+Forma Totem
+Forma Totem
+Kyurem Bianco
+Kyurem Nero
+Forma Risoluta
+Forma Danza
+Forma di Genesect
+Forma di Genesect
+Forma di Genesect
+Forma di Genesect
+Motivo Nordico
+Motivo Manto di Neve
+Motivo Continentale
+Motivo Prato
+Motivo Eleganza
+Motivo Giardinfiore
+Motivo Trendy
+Motivo Marino
+Motivo Arcipelago
+Motivo Deserto
+Motivo Sabbia
+Motivo Fluviale
+Motivo Pluviale
+Motivo Savana
+Motivo Solare
+Motivo Oceanico
+Motivo Giungla
+Motivo Sbarazzino
+Motivo Poké Ball
+Fiore Giallo
+Fiore Arancione
+Fiore Blu
+Fiore Bianco
+Fiore Giallo
+Fiore Arancione
+Fiore Blu
+Fiore Bianco
+Fiore Eterno
+Fiore Giallo
+Fiore Arancione
+Fiore Blu
+Fiore Bianco
+Taglio Cuore
+Taglio Stella
+Taglio Diamante
+Taglio Signorina
+Taglio Gentildonna
+Taglio Gentiluomo
+Taglio Regina
+Taglio Kabuki
+Taglio Faraone
 Femmina
-a Spada
+Forma Spada
 Mini
 Grande
 Maxi
@@ -884,3 +909,5 @@ Mini
 Grande
 Maxi
 Modo Attivo
+MegaDiancie
+Hoopa Libero

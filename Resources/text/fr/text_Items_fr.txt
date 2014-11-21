@@ -1,4 +1,4 @@
-﻿(Aucun)
+﻿Aucun objet
 Master Ball
 Hyper Ball
 Super Ball
@@ -532,8 +532,8 @@ Carte Mémo26
 Carte Mémo27
 Orbe Vert
 Poké Écrin
-Orbe Rouge
-Orbe Bleu
+Gemme Rouge
+Gemme Bleue
 Mystécristal
 Bel’Écaille
 Évoluroc
@@ -716,3 +716,61 @@ Holokit
 Joyau Fée
 Méga-Charme
 Méga-Gant
+Vélo de Course
+Vélo Cross
+Wailmerrosoir
+Pack Devon
+Sac à Suie
+Clé Sous-Sol
+Kit Pokébloc
+Lettre à Pierre
+Passe Éon
+Scanner
+Lunettes Sable
+Météorite
+Clé Salle 1
+Clé Salle 2
+Clé Salle 4
+Clé Salle 6
+Clé Stockage
+Devon Scope
+Passe Bateau
+CS07
+Plongeur Devon
+Costume Live
+Robe Live
+Scaph. Magma
+Scaphandre Aqua
+Ticket Duo
+Méga-Bracelet
+Méga-Pendentif
+Méga-Lunettes
+Méga-Ancre
+Méga-Pin’s
+Méga-Tiare
+Méga-Grève
+Météorite
+Laggronite
+Jungkite
+Ténéfixite
+Altarite
+Gallamite
+Nanméouïte
+Métalossite
+Sharpedite
+Flagadossite
+Steelixite
+Roucarnagite
+Oniglalite
+Diancite
+Vase Scellé
+Méga-Manchette
+Caméruptite
+Lockpinite
+Drattakite
+Dardargnite
+Météorite
+Météorite
+Gemme Sésame
+Éclat Météorite
+Flûte Éon

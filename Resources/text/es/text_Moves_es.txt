@@ -1,4 +1,4 @@
-﻿(Ninguno)
+﻿-
 Destructor
 Golpe Kárate
 Doble Bofetón
@@ -616,3 +616,7 @@ Mil Flechas
 Mil Temblores
 Fuerza Telúrica
 Luz Aniquiladora
+Pulso Primigenio
+Filo del Abismo
+Ascenso Draco
+Cerco Dimensión

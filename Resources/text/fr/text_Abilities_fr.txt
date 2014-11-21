@@ -1,4 +1,4 @@
-﻿Aucun
+﻿
 Puanteur
 Crachin
 Turbo
@@ -187,3 +187,6 @@ Amour Filial
 Aura Ténébreuse
 Aura Féérique
 Aura Inversée
+Mer Primaire
+Terre Finale
+Souffle Delta

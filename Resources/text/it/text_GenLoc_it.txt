@@ -1,4 +1,4 @@
-da qualche parte
+﻿da qualche parte
 nella città iniziale
 a casa
 a casa di amici
@@ -23,7 +23,7 @@ in una scuola
 in una grande città
 in un edificio
 in un caffè elegante
-in una base segreta
+in un covo segreto
 in un museo
 in uno studio
 in una stazione
@@ -58,5 +58,14 @@ su una montagna innevata
 in una centrale elettrica
 in un orto
 in mezzo a delle rovine
-in un canale
-in un Safari
+in una via d’acqua
+in un safari
+in una Base Segreta
+in un’Arena delle Virtù
+sul fondo del mare
+in una zona miraggio
+in una grande nave
+in una strada coperta di cenere
+su una piccola isola
+in un luogo misterioso
+nell’Ipersfera

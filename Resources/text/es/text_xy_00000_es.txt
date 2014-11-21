@@ -1,4 +1,4 @@
-－
+﻿－
 
 Lugar misterioso
 
@@ -78,8 +78,8 @@ Pueblo Fresco
 
 Ruta 16
 Senda Melancolía
-\x10\x02뷿P
-\x10\x02뷿Q
+[~ 80]
+[~ 81]
 Gruta Helada
 
 Ruta 17
@@ -168,3 +168,188 @@ Acuario Petroglifo
 
 Mazmorra Rara
 
+Villa Raíz
+
+Pueblo Escaso
+
+Pueblo Azuliza
+
+Pueblo Lavacalda
+
+Pueblo Pardal
+
+Pueblo Verdegal
+
+Pueblo Oromar
+
+Ciudad Petalia
+
+Ciudad Portual
+
+Ciudad Malvalona
+
+Ciudad Férrica
+
+Ciudad Arborada
+
+Ciudad Calagua
+
+Ciudad Algaria
+
+Arrecípolis
+
+Ciudad Colosalia
+
+Liga Pokémon
+
+Ruta 101
+
+Ruta 102
+
+Ruta 103
+
+Ruta 104
+
+Ruta 105
+
+Ruta 106
+
+Ruta 107
+
+Ruta 108
+
+Ruta 109
+
+Ruta 110
+
+Ruta 111
+
+Ruta 112
+
+Ruta 113
+
+Ruta 114
+
+Ruta 115
+
+Ruta 116
+
+Ruta 117
+
+Ruta 118
+
+Ruta 119
+
+Ruta 120
+
+Ruta 121
+
+Ruta 122
+
+Ruta 123
+
+Ruta 124
+
+Ruta 125
+
+Ruta 126
+
+Ruta 127
+
+Ruta 128
+
+Ruta 129
+
+Ruta 130
+
+Ruta 131
+
+Ruta 132
+
+Ruta 133
+
+Ruta 134
+
+Cascada Meteoro
+
+Túnel Fervergal
+
+(?)
+
+Ruinas del Desierto
+
+Cueva Granito
+
+Bosque Petalia
+
+Monte Cenizo
+
+Desfiladero
+
+Senda Ígnea
+
+Monte Pírico
+
+Guarida Aqua
+
+Caverna Abisal
+
+Cueva Ancestral
+
+Calle Victoria
+
+Cueva Cardumen
+
+Malvalanova
+
+Malvamar
+
+Cueva Insular
+
+Tumba Antigua
+
+Cámara Sellada
+
+Gruta Solar
+
+Guarida Magma
+
+Pilar Celeste
+
+Resort Batalla
+
+Isla del Sur
+
+S.S. Marea
+
+Zona Safari
+
+Bosque Espejismo
+
+Cueva Espejismo
+
+Isla Espejismo
+
+Monte Espejismo
+
+Bosque Virgen
+
+Llanura Sinnombre
+
+Cueva Ignota
+
+Cueva Incierta
+
+Boquete Irregular
+
+Isla Creciente
+
+Islote Secreto
+
+Firmamento
+
+Costa Secreta
+
+Prado Secreto
+
+Base Secreta

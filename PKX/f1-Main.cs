@@ -226,7 +226,6 @@ namespace PKHeX
         public static string[] trainingstage = { };
         public static string[] wallpapernames = { };
         public static string[] puffs = { };
-        public static string[] ribbonlist = { };
         public static string[] itempouch = { };
         public static int[] speciesability = { };
         public static int[] saveoffsets = { };
@@ -1442,6 +1441,8 @@ namespace PKHeX
             // lazy text table... 8 columns
             string[] langlistorigin = new string[] {
                 // ID       // EN       // JP               // FR       // IT           // DE       // ES               // KO
+                    "27",   "OR",       "OR",               "OR",       "OR",           "OR",       "OR",               "OR",       
+                    "26",   "AS",       "AS",               "AS",       "AS",           "AS",       "AS",               "AS",
                     "24",	"X",	    "X",	            "X",	    "X",	        "X",	    "X",	            "X",
                     "25",	"Y",	    "Y",	            "Y",	    "Y",	        "Y",	    "Y",	            "Y",
                     "20",	"White",	"ホワイト",	        "Blanche",	"Bianca",	    "Weiße",	"Blanca",	        "화이트",
@@ -1932,44 +1933,44 @@ namespace PKHeX
                 };
             var form_castform = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[773], Value = 1 }, // Sunny
-                    new { Text = forms[774], Value = 2 }, // Rainy
-                    new { Text = forms[775], Value = 3 }, // Snowy
+                    new { Text = forms[789], Value = 1 }, // Sunny
+                    new { Text = forms[790], Value = 2 }, // Rainy
+                    new { Text = forms[791], Value = 3 }, // Snowy
                 };
             var form_shellos = new[] {
                     new { Text = forms[422], Value = 0 }, // West
-                    new { Text = forms[788], Value = 1 }, // East
+                    new { Text = forms[811], Value = 1 }, // East
                 };
             var form_deoxys = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[780], Value = 1 }, // Attack
-                    new { Text = forms[781], Value = 2 }, // Defense
-                    new { Text = forms[782], Value = 3 }, // Speed
+                    new { Text = forms[802], Value = 1 }, // Attack
+                    new { Text = forms[803], Value = 2 }, // Defense
+                    new { Text = forms[804], Value = 3 }, // Speed
                 };
             var form_burmy = new[] {
                     new { Text = forms[412], Value = 0 }, // Plant
-                    new { Text = forms[783], Value = 1 }, // Sandy
-                    new { Text = forms[784], Value = 2 }, // Trash
+                    new { Text = forms[805], Value = 1 }, // Sandy
+                    new { Text = forms[806], Value = 2 }, // Trash
                 };
             var form_cherrim = new[] {
                     new { Text = forms[421], Value = 0 }, // Overcast
-                    new { Text = forms[787], Value = 1 }, // Sunshine
+                    new { Text = forms[809], Value = 1 }, // Sunshine
                 };
             var form_rotom = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[793], Value = 1 }, // Heat
-                    new { Text = forms[794], Value = 2 }, // Wash
-                    new { Text = forms[795], Value = 3 }, // Frost
-                    new { Text = forms[796], Value = 4 }, // Fan
-                    new { Text = forms[797], Value = 5 }, // Mow
+                    new { Text = forms[817], Value = 1 }, // Heat
+                    new { Text = forms[818], Value = 2 }, // Wash
+                    new { Text = forms[819], Value = 3 }, // Frost
+                    new { Text = forms[820], Value = 4 }, // Fan
+                    new { Text = forms[821], Value = 5 }, // Mow
                 };
             var form_giratina = new[] {
                     new { Text = forms[487], Value = 0 }, // Altered
-                    new { Text = forms[798], Value = 1 }, // Origin
+                    new { Text = forms[822], Value = 1 }, // Origin
                 };
             var form_shaymin = new[] {
                     new { Text = forms[492], Value = 0 }, // Land
-                    new { Text = forms[799], Value = 1 }, // Sky
+                    new { Text = forms[823], Value = 1 }, // Sky
                 };
             var form_arceus = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
@@ -1993,17 +1994,17 @@ namespace PKHeX
                 };
             var form_basculin = new[] {
                     new { Text = forms[550], Value = 0 }, // Red
-                    new { Text = forms[817], Value = 1 }, // Blue
+                    new { Text = forms[842], Value = 1 }, // Blue
                 };
             var form_darmanitan = new[] {
                     new { Text = forms[555], Value = 0 }, // Standard
-                    new { Text = forms[818], Value = 1 }, // Zen
+                    new { Text = forms[843], Value = 1 }, // Zen
                 };
             var form_deerling = new[] {
                     new { Text = forms[585], Value = 0 }, // Spring
-                    new { Text = forms[819], Value = 1 }, // Summer
-                    new { Text = forms[820], Value = 2 }, // Autumn
-                    new { Text = forms[821], Value = 3 }, // Winter
+                    new { Text = forms[844], Value = 1 }, // Summer
+                    new { Text = forms[845], Value = 2 }, // Autumn
+                    new { Text = forms[846], Value = 3 }, // Winter
                 };
             var form_gender = new[] {
                     new { Text = "♂", Value = 0 }, // Male
@@ -2011,12 +2012,12 @@ namespace PKHeX
                 };
             var form_therian = new[] {
                     new { Text = forms[641], Value = 0 }, // Incarnate
-                    new { Text = forms[825], Value = 1 }, // Therian
+                    new { Text = forms[852], Value = 1 }, // Therian
                 };
             var form_kyurem = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[828], Value = 1 }, // White
-                    new { Text = forms[829], Value = 2 }, // Black
+                    new { Text = forms[853], Value = 1 }, // White
+                    new { Text = forms[854], Value = 2 }, // Black
                 };
             var form_keldeo = new[] {
                     new { Text = forms[647], Value = 0 }, // Ordinary
@@ -2028,72 +2029,72 @@ namespace PKHeX
                 };
             var form_genesect = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = itemlist[116], Value = 1 }, // Douse
-                    new { Text = itemlist[117], Value = 2 }, // Shock
-                    new { Text = itemlist[118], Value = 3 }, // Burn
-                    new { Text = itemlist[119], Value = 4 }, // Chill
+                    new { Text = types[10], Value = 1 }, // Douse
+                    new { Text = types[12], Value = 2 }, // Shock
+                    new { Text = types[9], Value = 3 }, // Burn
+                    new { Text = types[14], Value = 4 }, // Chill
                 };
             var form_flabebe = new[] {
                     new { Text = forms[669], Value = 0 }, // Red
-                    new { Text = forms[855], Value = 1 }, // Yellow
-                    new { Text = forms[856], Value = 2 }, // Orange
-                    new { Text = forms[867], Value = 3 }, // Blue
-                    new { Text = forms[868], Value = 4 }, // White
+                    new { Text = forms[884], Value = 1 }, // Yellow
+                    new { Text = forms[885], Value = 2 }, // Orange
+                    new { Text = forms[886], Value = 3 }, // Blue
+                    new { Text = forms[887], Value = 4 }, // White
                 };
             var form_floette = new[] {
                     new { Text = forms[669], Value = 0 }, // Red
-                    new { Text = forms[855], Value = 1 }, // Yellow
-                    new { Text = forms[856], Value = 2 }, // Orange
-                    new { Text = forms[867], Value = 3 }, // Blue
-                    new { Text = forms[868], Value = 4 }, // White
-                    new { Text = forms[863], Value = 5 }, // Eternal
+                    new { Text = forms[884], Value = 1 }, // Yellow
+                    new { Text = forms[885], Value = 2 }, // Orange
+                    new { Text = forms[886], Value = 3 }, // Blue
+                    new { Text = forms[887], Value = 4 }, // White
+                    new { Text = forms[888], Value = 5 }, // Eternal
                 };
             var form_furfrou = new[] {
                     new { Text = forms[676], Value = 0 }, // Natural
-                    new { Text = forms[868], Value = 1 }, // Heart
-                    new { Text = forms[869], Value = 2 }, // Star
-                    new { Text = forms[870], Value = 3 }, // Diamond
-                    new { Text = forms[871], Value = 4 }, // Deputante
-                    new { Text = forms[872], Value = 5 }, // Matron
-                    new { Text = forms[873], Value = 6 }, // Dandy
-                    new { Text = forms[874], Value = 7 }, // La Reine
-                    new { Text = forms[875], Value = 8 }, // Kabuki 
-                    new { Text = forms[876], Value = 9 }, // Pharaoh
+                    new { Text = forms[893], Value = 1 }, // Heart
+                    new { Text = forms[894], Value = 2 }, // Star
+                    new { Text = forms[895], Value = 3 }, // Diamond
+                    new { Text = forms[896], Value = 4 }, // Deputante
+                    new { Text = forms[897], Value = 5 }, // Matron
+                    new { Text = forms[898], Value = 6 }, // Dandy
+                    new { Text = forms[899], Value = 7 }, // La Reine
+                    new { Text = forms[900], Value = 8 }, // Kabuki 
+                    new { Text = forms[901], Value = 9 }, // Pharaoh
                 }; 
             var form_aegislash = new[] {
                     new { Text = forms[681], Value = 0 }, // Shield
-                    new { Text = forms[878], Value = 1 }, // Blade
+                    new { Text = forms[903], Value = 1 }, // Blade
                 };
             var form_butterfly = new[] {
                     new { Text = forms[666], Value = 0 }, // Icy Snow
-                    new { Text = forms[836], Value = 1 }, // Polar
-                    new { Text = forms[837], Value = 2 }, // Tundra
-                    new { Text = forms[838], Value = 3 }, // Continental 
-                    new { Text = forms[839], Value = 4 }, // Garden
-                    new { Text = forms[840], Value = 5 }, // Elegant
-                    new { Text = forms[841], Value = 6 }, // Meadow
-                    new { Text = forms[842], Value = 7 }, // Modern 
-                    new { Text = forms[843], Value = 8 }, // Marine
-                    new { Text = forms[844], Value = 9 }, // Archipelago
-                    new { Text = forms[845], Value = 10 }, // High-Plains
-                    new { Text = forms[846], Value = 11 }, // Sandstorm
-                    new { Text = forms[847], Value = 12 }, // River
-                    new { Text = forms[848], Value = 13 }, // Monsoon
-                    new { Text = forms[849], Value = 14 }, // Savannah 
-                    new { Text = forms[850], Value = 15 }, // Sun
-                    new { Text = forms[851], Value = 16 }, // Ocean
-                    new { Text = forms[852], Value = 17 }, // Jungle
-                    new { Text = forms[853], Value = 18 }, // Fancy
-                    new { Text = forms[854], Value = 19 }, // Poké Ball
+                    new { Text = forms[861], Value = 1 }, // Polar
+                    new { Text = forms[862], Value = 2 }, // Tundra
+                    new { Text = forms[863], Value = 3 }, // Continental 
+                    new { Text = forms[864], Value = 4 }, // Garden
+                    new { Text = forms[865], Value = 5 }, // Elegant
+                    new { Text = forms[866], Value = 6 }, // Meadow
+                    new { Text = forms[867], Value = 7 }, // Modern 
+                    new { Text = forms[868], Value = 8 }, // Marine
+                    new { Text = forms[869], Value = 9 }, // Archipelago
+                    new { Text = forms[870], Value = 10 }, // High-Plains
+                    new { Text = forms[871], Value = 11 }, // Sandstorm
+                    new { Text = forms[872], Value = 12 }, // River
+                    new { Text = forms[873], Value = 13 }, // Monsoon
+                    new { Text = forms[874], Value = 14 }, // Savannah 
+                    new { Text = forms[875], Value = 15 }, // Sun
+                    new { Text = forms[876], Value = 16 }, // Ocean
+                    new { Text = forms[877], Value = 17 }, // Jungle
+                    new { Text = forms[878], Value = 18 }, // Fancy
+                    new { Text = forms[879], Value = 19 }, // Poké Ball
                 };
             var form_list = new[] {
                     new { Text = "", Value = 0}, // None
                 };
             var form_pump = new[] {
-                    new { Text = forms[879], Value = 0 }, // Small
+                    new { Text = forms[904], Value = 0 }, // Small
                     new { Text = forms[710], Value = 1 }, // Average
-                    new { Text = forms[880], Value = 2 }, // Large
-                    new { Text = forms[881], Value = 3 }, // Super
+                    new { Text = forms[905], Value = 2 }, // Large
+                    new { Text = forms[907], Value = 3 }, // Super
                 };
             var form_mega = new[] {
                     new { Text = types[0], Value = 0}, // Normal
@@ -2101,17 +2102,26 @@ namespace PKHeX
                 };
             var form_megaxy = new[] {
                     new { Text = types[0], Value = 0}, // Normal
-                    new { Text = forms[723] + " X", Value = 1}, // Mega X
-                    new { Text = forms[723] + " Y", Value = 2}, // Mega Y
+                    new { Text = forms[724], Value = 1}, // Mega X
+                    new { Text = forms[725], Value = 2}, // Mega Y
                 };
 
             var form_primal = new[] {
                     new { Text = types[0], Value = 0},
-                    new { Text = "Primal", Value = 1},
+                    new { Text = forms[800], Value = 1},
                 };
             var form_hoopa = new[] {
                     new { Text = types[0], Value = 0},
-                    new { Text = "???", Value = 1},
+                    new { Text = forms[912], Value = 1},
+                };
+            var form_pikachu = new[] {
+                    new { Text = types[0], Value = 0},
+                    new { Text = forms[729], Value = 1},
+                    new { Text = forms[730], Value = 2},
+                    new { Text = forms[731], Value = 3},
+                    new { Text = forms[732], Value = 4},
+                    new { Text = forms[733], Value = 5},
+                    new { Text = forms[734], Value = 6},
                 };
 
             CB_Form.DataSource = form_list;
@@ -2936,9 +2946,14 @@ namespace PKHeX
                     metlocs = new int[] 
                     { 
                         2,6,8,10,12,14,16,17,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,
+                        // ORAS
+                        170,172,174,176,178,180,182,184,186,188,190,192,194,196,198,200,202,204,206,208,210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266,268,270,272,274,276,278,280,282,284,286,288,290,292,294,296,298,300,302,304,306,308,310,312,314,316,318,320,322,324,326,328,330,332,334,336,338,340,342,344,346,348,350,352,354,
+
                         30001,30003,30004,30005,30006,30007,30008,30009,30010,30011,
                         40001,40002,40003,40004,40005,40006,40007,40008,40009,40010,40011,40012,40013,40014,40015,40016,40017,40018,40019,40020,40021,40022,40023,40024,40025,40026,40027,40028,40029,40030,40031,40032,40033,40034,40035,40036,40037,40038,40039,40040,40041,40042,40043,40044,40045,40046,40047,40048,40049,40050,40051,40052,40053,40054,40055,40056,40057,40058,40059,40060,40061,40062,40063,40064,40065,40066,40067,40068,40069,40070,40071,40072,40073,40074,40075,40076,40077,40078,40079,
-                        60001,60003
+                        60001,60003,
+                        // ORAS
+                        60004,
                     };
 
                     // Sort the Rest based on String Name
@@ -3734,7 +3749,7 @@ namespace PKHeX
             }
             #endregion
             #region Saves
-            else if ((input.Length == 0xAAAAA) && BitConverter.ToUInt32(input, 0xAAAAA) == 0x42454546) // ORAS
+            else if ((input.Length == 0x76000) && BitConverter.ToUInt32(input, 0x75E10) == 0x42454546) // ORAS
                 openMAIN(input, path, "ORAS", true);
             else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input, 0x65410) == 0x42454546) // XY
                 openMAIN(input, path, "XY", false);
@@ -3919,7 +3934,10 @@ namespace PKHeX
             setSAVLabel();   // Reload the label indicating current save
 
             // temp ORAS save-editing disable
-            GB_SAVtools.Enabled = !oras;
+            // GB_SAVtools.Enabled = !oras;
+            B_OpenBerryField.Enabled = B_JPEG.Enabled = B_OpenBoxLayout.Enabled = B_OpenEventFlags.Enabled = B_OpenTrainerInfo.Enabled = 
+                B_OpenOPowers.Enabled = B_OpenPokedex.Enabled = B_OpenPokepuffs.Enabled = B_OpenSuperTraining.Enabled =
+                B_OpenTrainerInfo.Enabled = B_OUTHallofFame.Enabled = B_OUTPasserby.Enabled = (!oras);
 
             this.Width = largeWidth;
         }
@@ -4372,29 +4390,30 @@ namespace PKHeX
             // Verify Checksums
             RTB_S.Text = "";
             int invalid1 = 0;
-            uint[] start =  {
-                               0x05400,	0x05800,	0x06400,	0x06600,	0x06800,	0x06A00,	0x06C00,	0x06E00,	0x07000,	0x07200,	0x07400,	0x09600,	0x09800,	0x09E00,	0x0A400,	0x0F400,	0x14400,	0x19400,	0x19600,	0x19E00,	0x1A400,	0x1AC00,	0x1B400,	0x1B600,	0x1B800,	0x1BE00,	0x1C000,	0x1C400,	0x1CC00,	0x1CE00,	0x1D000,	0x1D200,	0x1D400,	0x1D600,	0x1DE00,	0x1E400,	0x1E800,	0x20400,	0x20600,	0x20800,	0x20C00,	0x21000,	0x22C00,	0x23000,	0x23800,	0x23C00,	0x24600,	0x24A00,	0x25200,	0x26000,	0x26200,	0x26400,	0x27200,	0x27A00,	0x5C600,
-                            };
-            uint[] length = {
-                                0x000002C8,	0x00000B88,	0x0000002C,	0x00000038,	0x00000150,	0x00000004,	0x00000008,	0x000001C0,	0x000000BE,	0x00000024,	0x00002100,	0x00000140,	0x00000440,	0x00000574,	0x00004E28,	0x00004E28,	0x00004E28,	0x00000170,	0x0000061C,	0x00000504,	0x000006A0,	0x00000644,	0x00000104,	0x00000004,	0x00000420,	0x00000064,	0x000003F0,	0x0000070C,	0x00000180,	0x00000004,	0x0000000C,	0x00000048,	0x00000054,	0x00000644,	0x000005C8,	0x000002F8,	0x00001B40,	0x000001F4,	0x000001F0,	0x00000216,	0x00000390,	0x00001A90,	0x00000308,	0x00000618,	0x0000025C,	0x00000834,	0x00000318,	0x000007D0,	0x00000C48,	0x00000078,	0x00000200,	0x00000C84,	0x00000628,	0x00034AD0,	0x0000E058,
-                            };
-
+            uint[] start = { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1AC00, 0x1B400, 0x1B600, 0x1B800, 0x1BE00, 0x1C000, 0x1C400, 0x1CC00, 0x1CE00, 0x1D000, 0x1D200, 0x1D400, 0x1D600, 0x1DE00, 0x1E400, 0x1E800, 0x20400, 0x20600, 0x20800, 0x20C00, 0x21000, 0x22C00, 0x23000, 0x23800, 0x23C00, 0x24600, 0x24A00, 0x25200, 0x26000, 0x26200, 0x26400, 0x27200, 0x27A00, 0x5C600, };
+            uint[] length = { 0x000002C8,	0x00000B88,	0x0000002C,	0x00000038,	0x00000150,	0x00000004,	0x00000008,	0x000001C0,	0x000000BE,	0x00000024,	0x00002100,	0x00000140,	0x00000440,	0x00000574,	0x00004E28,	0x00004E28,	0x00004E28,	0x00000170,	0x0000061C,	0x00000504,	0x000006A0,	0x00000644,	0x00000104,	0x00000004,	0x00000420,	0x00000064,	0x000003F0,	0x0000070C,	0x00000180,	0x00000004,	0x0000000C,	0x00000048,	0x00000054,	0x00000644,	0x000005C8,	0x000002F8,	0x00001B40,	0x000001F4,	0x000001F0,	0x00000216,	0x00000390,	0x00001A90,	0x00000308,	0x00000618,	0x0000025C,	0x00000834,	0x00000318,	0x000007D0,	0x00000C48,	0x00000078,	0x00000200,	0x00000C84,	0x00000628,	0x00034AD0,	0x0000E058, };
             int csoff = 0x6A81A;
+
+            if (savegame_oras)
+            {
+                start = new uint[] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1B600, 0x1BE00, 0x1C000, 0x1C200, 0x1C800, 0x1CA00, 0x1CE00, 0x1D600, 0x1D800, 0x1DA00, 0x1DC00, 0x1DE00, 0x1E000, 0x1E800, 0x1EE00, 0x1F200, 0x20E00, 0x21000, 0x21400, 0x21800, 0x22000, 0x23C00, 0x24000, 0x24800, 0x24C00, 0x25600, 0x25A00, 0x26200, 0x27000, 0x27200, 0x27400, 0x28200, 0x28A00, 0x28E00, 0x30A00, 0x38400, 0x6D000, };
+                length = new uint[] { 0x000002C8, 0x00000B90, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000130, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000011CC, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000003E0, 0x00000216, 0x00000640, 0x00001A90, 0x00000400, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00000400, 0x00007AD0, 0x000078B0, 0x00034AD0, 0x0000E058, };
+                csoff = 0x7B21A;
+            }
 
             for (int i = 0; i < length.Length; i++)
             {
-
                 byte[] data = new Byte[length[i]];
                 Array.Copy(savefile, start[i], data, 0, length[i]);
                 ushort checksum = PKX.ccitt16(data);
-                ushort actualsum = (ushort)(savefile[csoff + i * 0x8] + savefile[csoff + i * 0x8 + 1] * 0x100);
+                ushort actualsum = BitConverter.ToUInt16(savefile, csoff + i * 0x8);
                 if (checksum != actualsum)
                 {
                     invalid1++;
                     RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + "\r\n";
                 }
             }
-            RTB_S.Text += "1st SAV: " + (0x37 - invalid1).ToString() + "/" + 0x37.ToString() + "\r\n";
+            RTB_S.Text += "1st SAV: " + (start.Length - invalid1).ToString() + "/" + start.Length.ToString() + "\r\n";
 
             // Do it again, but for the second SAV.
             csoff += 0x7F000;
@@ -4405,22 +4424,19 @@ namespace PKHeX
             int invalid2 = 0;
             for (int i = 0; i < length.Length; i++)
             {
-
                 byte[] data = new Byte[length[i]];
                 Array.Copy(savefile, start[i], data, 0, length[i]);
                 ushort checksum = PKX.ccitt16(data);
-                ushort actualsum = (ushort)(savefile[csoff + i * 0x8] + savefile[csoff + i * 0x8 + 1] * 0x100);
+                ushort actualsum = BitConverter.ToUInt16(savefile,csoff + i * 0x8);
                 if (checksum != actualsum)
                 {
                     invalid2++;
                     RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + "\r\n";
                 }
             }
-            RTB_S.Text += "2nd SAV: " + (0x37 - invalid2).ToString() + "/" + 0x37.ToString() + "\r\n";
-            if (invalid1 + invalid2 == (0x37 * 2))
-            {
+            RTB_S.Text += "2nd SAV: " + (start.Length - invalid2).ToString() + "/" + start.Length.ToString() + "\r\n";
+            if (invalid1 + invalid2 == (start.Length * 2))
                 RTB_S.Text = "No checksums are valid.";
-            }
         }
         private void B_VerifySHA_Click(object sender, EventArgs e)
         {
@@ -4659,14 +4675,16 @@ namespace PKHeX
 
             // Fix Checksums
             {
-                uint[] start =  {
-                               0x05400,	0x05800,	0x06400,	0x06600,	0x06800,	0x06A00,	0x06C00,	0x06E00,	0x07000,	0x07200,	0x07400,	0x09600,	0x09800,	0x09E00,	0x0A400,	0x0F400,	0x14400,	0x19400,	0x19600,	0x19E00,	0x1A400,	0x1AC00,	0x1B400,	0x1B600,	0x1B800,	0x1BE00,	0x1C000,	0x1C400,	0x1CC00,	0x1CE00,	0x1D000,	0x1D200,	0x1D400,	0x1D600,	0x1DE00,	0x1E400,	0x1E800,	0x20400,	0x20600,	0x20800,	0x20C00,	0x21000,	0x22C00,	0x23000,	0x23800,	0x23C00,	0x24600,	0x24A00,	0x25200,	0x26000,	0x26200,	0x26400,	0x27200,	0x27A00,	0x5C600,
-                            };
-                uint[] length = {
-                                0x000002C8,	0x00000B88,	0x0000002C,	0x00000038,	0x00000150,	0x00000004,	0x00000008,	0x000001C0,	0x000000BE,	0x00000024,	0x00002100,	0x00000140,	0x00000440,	0x00000574,	0x00004E28,	0x00004E28,	0x00004E28,	0x00000170,	0x0000061C,	0x00000504,	0x000006A0,	0x00000644,	0x00000104,	0x00000004,	0x00000420,	0x00000064,	0x000003F0,	0x0000070C,	0x00000180,	0x00000004,	0x0000000C,	0x00000048,	0x00000054,	0x00000644,	0x000005C8,	0x000002F8,	0x00001B40,	0x000001F4,	0x000001F0,	0x00000216,	0x00000390,	0x00001A90,	0x00000308,	0x00000618,	0x0000025C,	0x00000834,	0x00000318,	0x000007D0,	0x00000C48,	0x00000078,	0x00000200,	0x00000C84,	0x00000628,	0x00034AD0,	0x0000E058,
-                            };
-
+                uint[] start = { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1AC00, 0x1B400, 0x1B600, 0x1B800, 0x1BE00, 0x1C000, 0x1C400, 0x1CC00, 0x1CE00, 0x1D000, 0x1D200, 0x1D400, 0x1D600, 0x1DE00, 0x1E400, 0x1E800, 0x20400, 0x20600, 0x20800, 0x20C00, 0x21000, 0x22C00, 0x23000, 0x23800, 0x23C00, 0x24600, 0x24A00, 0x25200, 0x26000, 0x26200, 0x26400, 0x27200, 0x27A00, 0x5C600, };
+                uint[] length = { 0x000002C8, 0x00000B88, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000140, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000006A0, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000001F0, 0x00000216, 0x00000390, 0x00001A90, 0x00000308, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00034AD0, 0x0000E058, };
                 int csoff = 0x6A81A;
+
+                if (savegame_oras)
+                {
+                    start = new uint[] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1B600, 0x1BE00, 0x1C000, 0x1C200, 0x1C800, 0x1CA00, 0x1CE00, 0x1D600, 0x1D800, 0x1DA00, 0x1DC00, 0x1DE00, 0x1E000, 0x1E800, 0x1EE00, 0x1F200, 0x20E00, 0x21000, 0x21400, 0x21800, 0x22000, 0x23C00, 0x24000, 0x24800, 0x24C00, 0x25600, 0x25A00, 0x26200, 0x27000, 0x27200, 0x27400, 0x28200, 0x28A00, 0x28E00, 0x30A00, 0x38400, 0x6D000, };
+                    length = new uint[] { 0x000002C8, 0x00000B90, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000130, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000011CC, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000003E0, 0x00000216, 0x00000640, 0x00001A90, 0x00000400, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00000400, 0x00007AD0, 0x000078B0, 0x00034AD0, 0x0000E058, };
+                    csoff = 0x7B21A;
+                }
 
                 if (savindex == 1)
                 {
@@ -4682,6 +4700,8 @@ namespace PKHeX
                     ushort checksum = PKX.ccitt16(data);
                     Array.Copy(BitConverter.GetBytes(checksum), 0, editedsav, csoff + i * 8, 2);
                 }
+
+                if (cybergadget) goto export;
             }
 
             // Fix Hashes
@@ -4871,17 +4891,20 @@ namespace PKHeX
                     Array.Copy(hashValue, 0, editedsav, 0x16C, 0x20);
                 }
             }
-
-            // File Integrity has been restored as well as it can. Export!
             // Write the active save index
-            editedsav[0x168] = (byte)(savindex^1);
+            editedsav[0x168] = (byte)(savindex ^ 1);
+          export:
+            // File Integrity has been restored as well as it can. Export!
 
             // If CyberGadget
-            if (BitConverter.ToUInt32(editedsav, 0x100) != 0x41534944)
+            if (cybergadget)
             {
                 byte[] cybersav = new Byte[0x65600];
-                Array.Copy(editedsav, 0x5400, cybersav, 0, 0x65600);
-
+                if (savegame_oras) cybersav = new Byte[0x76000];
+                Array.Copy(editedsav, 0x5400, cybersav, 0, cybersav.Length);
+                ushort wtf = BitConverter.ToUInt16(editedsav, 0x75E1A);
+                ushort wtf2 = BitConverter.ToUInt16(cybersav, 0x75E1A);
+                if (savegame_oras) goto postcheck;
                 // Chunk Error Checking
                 byte[] FFFF = new Byte[0x200];
                 byte[] section = new Byte[0x200];
@@ -4909,7 +4932,7 @@ namespace PKHeX
                             return;
                     }
                 }
-
+            postcheck:
                 SaveFileDialog cySAV = new SaveFileDialog();
 
                 // Try for file path
@@ -5234,7 +5257,7 @@ namespace PKHeX
         }
         public void setPKXBoxes()
         {
-            int boxoffset = 0x27A00 + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30);
+            int boxoffset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30);
 
             int boxbgofst = (0x7F000 * savindex) + 0x9C1E + C_BoxSelect.SelectedIndex;
             int boxbgval = 1 + savefile[boxbgofst];
@@ -5938,7 +5961,6 @@ namespace PKHeX
             trainingbags = Util.getStringList("TrainingBag", l);
             trainingstage = Util.getStringList("SuperTraining", l);
             puffs = Util.getStringList("Puff", l);
-            ribbonlist = Util.getStringList("Ribbon", l);
             itempouch = Util.getStringList("ItemPouch", l);
             wallpapernames = Util.getStringList("Wallpaper", l);
 
@@ -6052,9 +6074,9 @@ namespace PKHeX
                 {
                     // Temp
                     Name = "ORAS";
-                    Box = 0x27A00;
-                    Party = 0x19600;
-                    BattleBox = 0x09E00;
+                    Box = 0x38400;      // Confirmed
+                    Party = 0x19600;    // Confirmed
+                    BattleBox = 0x09E00;// Confirmed
                     Daycare = 0x20600;
                     GTS = 0x1CC00;
                     Fused = 0x1B400;
@@ -6065,7 +6087,7 @@ namespace PKHeX
                     Trainer1 = 0x6800;
                     Trainer2 = 0x9600;
                     PCLayout = 0x9800;
-                    Wondercard = 0x21000;
+                    Wondercard = 0x22000;// Confirmed
                     BerryField = 0x20C00;
                     OPower = 0x1BE00;
                     EventFlag = 0x19E00;

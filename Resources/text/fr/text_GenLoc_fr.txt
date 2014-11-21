@@ -1,4 +1,4 @@
-quelque part
+﻿quelque part
 dans la ville de départ
 dans sa maison
 chez un ami
@@ -12,7 +12,7 @@ dans un château
 dans un hôtel
 dans une ville mystérieuse
 dans une ville très venteuse
-à une Porte
+à une porte
 dans une ville en bord de rivière
 dans un laboratoire
 dans un aquarium
@@ -23,7 +23,7 @@ dans une école
 dans une ville immense
 dans un immeuble
 dans un café à la mode
-dans une base secrète
+dans une planque
 dans un musée
 dans un studio vidéo
 dans une gare
@@ -58,5 +58,14 @@ sur une montagne enneigée
 dans une centrale électrique
 dans un champ
 dans des ruines
-dans des égouts
+dans un Chenal
 au cours d’un safari
+dans une Base Secrète
+au Concours Pokémon
+tout au fond de la mer
+dans un endroit irréel
+dans un grand bateau
+sur une route pleine de cendres
+sur un tout petit îlot
+dans un lieu très impressionnant
+dans le Grand Ciel

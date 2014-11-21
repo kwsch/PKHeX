@@ -1,4 +1,4 @@
-somewhere
+﻿somewhere
 the first town
 home
 a friend’s house
@@ -23,7 +23,7 @@ a school
 a large city
 a building
 a stylish café
-a secret base
+a hideout
 a museum
 a studio
 a train station
@@ -58,5 +58,14 @@ a snowy mountain
 a power plant
 a field
 a ruin
-a sewer
+a watery route
 a safari
+a Secret Base
+a Contest Spectacular Hall
+a place deep in the ocean
+a Mirage spot
+a large ship
+an ash-covered path
+a tiny island
+a mystical place
+oh, while soaring in the sky

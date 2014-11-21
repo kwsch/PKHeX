@@ -1,6 +1,6 @@
-irgendwo
+﻿irgendwo
 in der ersten Stadt
-in \x10\x04ᄀÿԆ\x00dessenderen Zuhause
+in [VAR GENDBR(00FF,0506,0000)]dessenderen Zuhause
 im Zuhause eines Freundes
 in irgendjemandes Zuhause
 in einer lebhaften Stadt
@@ -27,7 +27,7 @@ in einem Geheimversteck
 in einem Museum
 in einem Filmstudio
 in einem Bahnhof
-auf einem Kampfschauplatz
+an einem Kampfschauplatz
 in einem Schönheitssalon
 in einem Restaurant
 in einem Edelrestaurant
@@ -58,5 +58,14 @@ auf einem schneebedeckten Berg
 in einem Kraftwerk
 auf einem Feld
 in einer Ruine
-in einem Abwasserkanal
+auf einer Wasserroute
 auf einer Safari
+in einer Geheimbasis
+in einer Wettbewerbshalle
+in der Tiefe des Meeres
+an einem wundersamen Ort
+auf einem großen Schiff
+auf einem aschebedeckten Weg
+auf einer kleinen Insel
+an einem geheimnisvollen Ort
+beim Flug durch die Lüfte

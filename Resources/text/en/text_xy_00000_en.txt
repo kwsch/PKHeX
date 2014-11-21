@@ -1,4 +1,4 @@
-----------
+﻿——————
 
 Mystery Zone
 
@@ -78,8 +78,8 @@ Dendemille Town
 
 Route 16
 Mélancolie Path
-\x10\x02뷿P
-\x10\x02뷿Q
+[~ 80]
+[~ 81]
 Frost Cavern
 
 Route 17
@@ -168,3 +168,188 @@ Ambrette Aquarium
 
 Unknown Dungeon
 
+Littleroot Town
+
+Oldale Town
+
+Dewford Town
+
+Lavaridge Town
+
+Fallarbor Town
+
+Verdanturf Town
+
+Pacifidlog Town
+
+Petalburg City
+
+Slateport City
+
+Mauville City
+
+Rustboro City
+
+Fortree City
+
+Lilycove City
+
+Mossdeep City
+
+Sootopolis City
+
+Ever Grande City
+
+Pokémon League
+
+Route 101
+
+Route 102
+
+Route 103
+
+Route 104
+
+Route 105
+
+Route 106
+
+Route 107
+
+Route 108
+
+Route 109
+
+Route 110
+
+Route 111
+
+Route 112
+
+Route 113
+
+Route 114
+
+Route 115
+
+Route 116
+
+Route 117
+
+Route 118
+
+Route 119
+
+Route 120
+
+Route 121
+
+Route 122
+
+Route 123
+
+Route 124
+
+Route 125
+
+Route 126
+
+Route 127
+
+Route 128
+
+Route 129
+
+Route 130
+
+Route 131
+
+Route 132
+
+Route 133
+
+Route 134
+
+Meteor Falls
+
+Rusturf Tunnel
+
+???
+
+Desert Ruins
+
+Granite Cave
+
+Petalburg Woods
+
+Mt. Chimney
+
+Jagged Pass
+
+Fiery Path
+
+Mt. Pyre
+
+Team Aqua Hideout
+
+Seafloor Cavern
+
+Cave of Origin
+
+Victory Road
+
+Shoal Cave
+
+New Mauville
+
+Sea Mauville
+
+Island Cave
+
+Ancient Tomb
+
+Sealed Chamber
+
+Scorched Slab
+
+Team Magma Hideout
+
+Sky Pillar
+
+Battle Resort
+
+Southern Island
+
+S.S. Tidal
+
+Safari Zone
+
+Mirage Forest
+
+Mirage Cave
+
+Mirage Island
+
+Mirage Mountain
+
+Trackless Forest
+
+Pathless Plain
+
+Nameless Cavern
+
+Fabled Cave
+
+Gnarled Den
+
+Crescent Isle
+
+Secret Islet
+
+Soaring in the sky
+
+Secret Shore
+
+Secret Meadow
+
+Secret Base

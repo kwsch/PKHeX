@@ -344,3 +344,6 @@ http://projectpokemon.org/forums/showthread.php?36986
 
 11/05/14 - New Update: 
  - Fixed: Casting error for base happiness.
+
+11/21/14 - New Update:
+ - Added: Basic ORAS Support

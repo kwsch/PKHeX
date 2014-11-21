@@ -18,16 +18,14 @@ namespace PKHeX
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
+            if (m_parent.savegame_oras) wcoffset = 0x22100;
             populateWClist();
             populateReceived();
 
             LB_WCs.SelectedIndex = 0;
 
             if (LB_Received.Items.Count > 0)
-            {
-                LB_Received.SelectedIndex = 0;
-            }
-            
+                LB_Received.SelectedIndex = 0;            
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
@@ -40,6 +38,7 @@ namespace PKHeX
                 return 0;
             return UInt32.Parse(value);
         }
+        private int wcoffset = 0x21100;
 
         // Repopulation Functions
         private void populateWClist()
@@ -47,16 +46,12 @@ namespace PKHeX
             LB_WCs.Items.Clear();
             for (int i = 0; i < 24; i++)
             {
-                int offset = 0x21100 + savindex * 0x7F000 + i * 0x108;
+                int offset = wcoffset + savindex * 0x7F000 + i * 0x108;
                 int cardID = BitConverter.ToUInt16(sav, offset);
                 if (cardID == 0)
-                {
                     LB_WCs.Items.Add((i + 1).ToString("00") + " - Empty");
-                }
                 else
-                {
                     LB_WCs.Items.Add((i + 1).ToString("00") + " - " + cardID.ToString("0000"));
-                }
             }
         }
         private void loadwcdata()
@@ -107,21 +102,15 @@ namespace PKHeX
                     + "ID: " + TID.ToString() + "/" + SID.ToString();
             }
             else
-            {
                 RTB.Text = "Unsupported Wondercard Type!";
-            }
         }
         private void populateReceived()
         {
-            int offset = 0x21000 + savindex * 0x7F000;
+            int offset = wcoffset - 0x100 + savindex * 0x7F000;
             LB_Received.Items.Clear();
             for (int i = 1; i < 2048; i++)
-            {
                 if ((((sav[offset + i / 8]) >> (i % 8)) & 0x1) == 1)
-                {
                     LB_Received.Items.Add(i.ToString("0000"));
-                }
-            }   
         }
 
         // Wondercard IO (.wc6<->window)
@@ -170,7 +159,7 @@ namespace PKHeX
         {
             // Load Wondercard from Save File
             int index = LB_WCs.SelectedIndex;
-            int offset = 0x21100 + savindex * 0x7F000 + index * 0x108;
+            int offset = wcoffset + savindex * 0x7F000 + index * 0x108;
             Array.Copy(sav, offset, wondercard_data, 0, 0x108);
             loadwcdata();
         }
@@ -178,22 +167,19 @@ namespace PKHeX
         {
             // Write Wondercard to Save File
             int index = LB_WCs.SelectedIndex;
-            int offset = 0x21100 + savindex * 0x7F000 + index * 0x108;
+            int offset = wcoffset + savindex * 0x7F000 + index * 0x108;
             Array.Copy(wondercard_data, 0, sav, offset, 0x108);
             populateWClist();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
+
             if (cardID > 0)
-            {
                 if (!LB_Received.Items.Contains(cardID.ToString("0000")))
-                {
                     LB_Received.Items.Add(cardID.ToString("0000"));
-                }
-            }
         }
         private void B_DeleteWC_Click(object sender, EventArgs e)
         {
             int index = LB_WCs.SelectedIndex;
-            int offset = 0x21100 + savindex * 0x7F000 + index * 0x108;
+            int offset = wcoffset + savindex * 0x7F000 + index * 0x108;
             byte[] zeros = new Byte[0x108];
             Array.Copy(zeros, 0, sav, offset, 0x108);
             populateWClist();
@@ -209,7 +195,7 @@ namespace PKHeX
             // Make sure all of the Received Flags are flipped!
             for (int i = 0; i < LB_Received.Items.Count; i++)
             {
-                int offset = 0x21000 + savindex * 0x7F000;
+                int offset = wcoffset - 0x100 + savindex * 0x7F000;
                 string cardID = LB_Received.Items[i].ToString();
                 uint cardnum = ToUInt32(cardID);
 
@@ -218,18 +204,11 @@ namespace PKHeX
 
             // Make sure there's no space between wondercards
             {
-                int offset = 0x21100 + savindex * 0x7F000;
+                int offset = wcoffset + savindex * 0x7F000;
                 for (int i = 0; i < 24; i++)
-                {
                     if (BitConverter.ToUInt16(sav, offset+i*0x108) == 0)
-                    {
-                        // Shift everything down
-                        for (int j = (i+1); j < 24 - i; j++)
-                        {
+                        for (int j = (i + 1); j < 24 - i; j++) // Shift everything down
                             Array.Copy(sav, offset + (j) * 0x108, sav, offset + (j-1) * 0x108, 0x108);
-                        }
-                    }
-                }
             }
 
             Array.Copy(sav, m_parent.savefile, 0x100000);
@@ -241,10 +220,9 @@ namespace PKHeX
 
         private void B_DeleteReceived_Click(object sender, EventArgs e)
         {
+            if (LB_Received.SelectedIndex > -1)
             if (LB_Received.Items.Count > 0)
-            {
                 LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
-            }
         }
     }
 }

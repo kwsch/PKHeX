@@ -1,4 +1,4 @@
-﻿(Nichts)
+﻿Kein Item
 Meisterball
 Hyperball
 Superball
@@ -455,13 +455,13 @@ Lunarfeder
 Mitgl.Karte
 Azurflöte
 Bootsticket
-Wettb.-Karte
+Wettbewerbskarte
 Magmastein
 Paket
 Kupon 1
 Kupon 2
 Kupon 3
-L-Schlüssel
+Lagerschlüssel
 Geheimtrank
 Kampfkamera
 Gracidea
@@ -532,8 +532,8 @@ Datenkarte26
 Datenkarte27
 Grüne Kugel
 Tresorkapsel
-Rote Kugel
-Blaue Kugel
+Roter Edelstein
+Blauer Edelstein
 Mytokristall
 Schönschuppe
 Evolith
@@ -716,3 +716,61 @@ Holo-Log
 Feenjuwel
 Megaillon
 Mega-Handschuh
+Eilrad
+Kunstrad
+Wailmerkanne
+Devon-Waren
+Aschetasche
+Kelleröffner
+Pokériegel-Set
+Brief an Troy
+Äon-Ticket
+Scanner
+Wüstenglas
+Meteorit
+R1-Schlüssel
+R2-Schlüssel
+R4-Schlüssel
+R6-Schlüssel
+Lagerschlüssel
+Devon-Scope
+Bootsticket
+VM07
+Devon-Atemgerät
+Live-Anzug
+Live-Kleid
+Magma-Anzug
+Aqua-Anzug
+Zweierticket
+Mega-Armreif
+Mega-Anhänger
+Mega-Brille
+Mega-Anker
+Mega-Anstecker
+Mega-Diadem
+Mega-Beinreif
+Meteorit
+Sumpexnit
+Gewaldronit
+Zobirisnit
+Altarianit
+Galagladinit
+Ohrdochnit
+Metagrossnit
+Tohaidonit
+Lahmusnit
+Stahlosnit
+Taubossnit
+Firnontornit
+Diancienit
+Banngefäß
+Mega-Armband
+Cameruptnit
+Schlapornit
+Brutalandanit
+Bibornit
+Meteorit
+Meteorit
+Schlüssel-Stein
+Meteoritenstück
+Äon-Flöte

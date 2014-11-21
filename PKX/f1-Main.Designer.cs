@@ -1547,7 +1547,7 @@
             this.Label_Smart.Name = "Label_Smart";
             this.Label_Smart.Size = new System.Drawing.Size(43, 13);
             this.Label_Smart.TabIndex = 37;
-            this.Label_Smart.Text = "Smart";
+            this.Label_Smart.Text = "Clever";
             this.Label_Smart.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_Cute

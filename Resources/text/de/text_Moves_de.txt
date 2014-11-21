@@ -1,4 +1,4 @@
-﻿(Nichts)
+﻿-----
 Pfund
 Karateschlag
 Duplexhieb
@@ -616,3 +616,7 @@ Tausend Pfeile
 Tausend Wellen
 Bodengewalt
 Lux Calamitatis
+Ursprungswoge
+Abgrundsklinge
+Zenitstürmer
+Dimensionswahn

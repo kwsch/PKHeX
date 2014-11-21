@@ -1,3 +1,4 @@
+﻿
 
 
 
@@ -198,6 +199,7 @@
 
 
 
+Forme Unique
 
 
 
@@ -347,9 +349,9 @@
 
 
 
+Forme de Morphéo
 
 
-e de Morphéo
 
 
 
@@ -378,13 +380,15 @@ e de Morphéo
 
 
 
+Kyogre
+Groudon
 
 
+Forme Normale
 
 
 
 
-e Normale
 
 
 
@@ -406,12 +410,8 @@ e Normale
 
 
 
-
-
-
-
-Plante
-Plante
+Cape Plante
+Cape Plante
 
 
 
@@ -477,7 +477,7 @@ Mer Occident
 
 
 
-e de Motisma
+Forme de Motisma
 
 
 
@@ -485,12 +485,13 @@ e de Motisma
 
 
 
-e Alternative
+Forme Alternative
 
 
 
 
-e Terrestre
+Forme Terrestre
+Forme de Arceus
 
 
 
@@ -547,8 +548,7 @@ e Terrestre
 
 
 
-
-Rouge
+Motif Rouge
 
 
 
@@ -583,8 +583,8 @@ Mode Normal
 
 
 
-e Printemps
-e Printemps
+Forme Printemps
+Forme Printemps
 
 
 
@@ -639,14 +639,15 @@ e Printemps
 
 
 
-e Avatar
-e Avatar
+Forme Avatar
+Forme Avatar
 
 
-e Avatar
-e de Kyurem
+Forme Avatar
+Forme de Kyurem
 Aspect Normal
-e Chant
+Forme Chant
+Forme de Genesect
 
 
 
@@ -663,23 +664,22 @@ e Chant
 
 
 
+Motif Blizzard
 
-Blizzard
 
-
-Rouge
-Rouge
-Rouge
-
+Fleur Rouge
+Fleur Rouge
+Fleur Rouge
 
 
 
-e Sauvage
+
+Forme Sauvage
 
 Mâle
 
 
-e Parade
+Forme Parade
 
 
 
@@ -718,165 +718,190 @@ Mode Paisible
 
 
 
+Hoopa Enchaîné
 
 
-
-Méga
-Méga X
-Méga Y
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-e Solaire
-e Eau de Pluie
-e Blizzard
-
-
-
-
-e Attaque
-e Défense
-e Vitesse
-Sable
-Déchet
-Sable
-Déchet
+Méga-Florizarre
+Méga-Dracaufeu X
+Méga-Dracaufeu Y
+Méga-Tortank
+Méga-Dardargnan
+Méga-Roucarnage
+Pikachu Rockeur
+Pikachu Lady
+Pikachu Star
+Pikachu Docteur
+Pikachu Catcheur
+Pikachu Cosplayeur
+Méga-Alakazam
+Méga-Flagadoss
+Méga-Ectoplasma
+Méga-Kangourex
+Méga-Scarabrute
+Méga-Léviator
+Méga-Ptéra
+Méga-Mewtwo X
+Méga-Mewtwo Y
+Méga-Pharamp
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Forme Unique
+Méga-Steelix
+Méga-Cizayox
+Méga-Scarhino
+Méga-Démolosse
+Méga-Tyranocif
+Méga-Jungko
+Méga-Braségali
+Méga-Laggron
+Méga-Gardevoir
+Méga-Ténéfix
+Méga-Mysdibule
+Méga-Galeking
+Méga-Charmina
+Méga-Élecsprint
+Méga-Sharpedo
+Méga-Camérupt
+Méga-Altaria
+Forme Solaire
+Forme Eau de Pluie
+Forme Blizzard
+Méga-Branette
+Méga-Absol
+Méga-Oniglali
+Méga-Drattak
+Méga-Métalosse
+Méga-Latias
+Méga-Latios
+Primo-Résurgence
+Primo-Résurgence
+Méga-Rayquaza
+Forme Attaque
+Forme Défense
+Forme Vitesse
+Cape Sable
+Cape Déchet
+Cape Sable
+Cape Déchet
 Temps Ensoleillé
 Mer Orient
 Mer Orient
-
-
-
-Chaleur
-Lavage
-Froid
-Hélice
-Tonte
-e Originelle
-e Céleste
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Bleu
+Méga-Lockpin
+Méga-Carchacrok
+Méga-Lucario
+Méga-Blizzaroi
+Méga-Gallame
+Motisma Chaleur
+Motisma Lavage
+Motisma Froid
+Motisma Hélice
+Motisma Tonte
+Forme Originelle
+Forme Céleste
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Forme de Arceus
+Méga-Nanméouïe
+Motif Bleu
 Mode Transe
-e Été
-e Automne
-e Hiver
-e Été
-e Automne
-e Hiver
-e Totémique
-e Totémique
-e Totémique
+Forme Été
+Forme Automne
+Forme Hiver
+Forme Été
+Forme Automne
+Forme Hiver
+Forme Totémique
+Forme Totémique
+Forme Totémique
 Kyurem Blanc
 Kyurem Noir
 Aspect Décidé
-e Danse
-
-
-
-
-Banquise
-Glace
-Continent
-Verdure
-Monarchie
-Floraison
-Métropole
-Rivage
-Archipel
-Sécheresse
-Sable
-Delta
-Cyclone
-Mangrove
-Zénith
-Soleil Levant
-Jungle
-Fantaisie
-Poké Ball
-Jaune
-Orange
-Bleue
-Blanche
-Jaune
-Orange
-Bleue
-Blanche
+Forme Danse
+Forme de Genesect
+Forme de Genesect
+Forme de Genesect
+Forme de Genesect
+Motif Banquise
+Motif Glace
+Motif Continent
+Motif Verdure
+Motif Monarchie
+Motif Floraison
+Motif Métropole
+Motif Rivage
+Motif Archipel
+Motif Sécheresse
+Motif Sable
+Motif Delta
+Motif Cyclone
+Motif Mangrove
+Motif Zénith
+Motif Soleil Levant
+Motif Jungle
+Motif Fantaisie
+Motif Poké Ball
+Fleur Jaune
+Fleur Orange
+Fleur Bleue
+Fleur Blanche
+Fleur Jaune
+Fleur Orange
+Fleur Bleue
+Fleur Blanche
 Éternelle
-Jaune
-Orange
-Bleue
-Blanche
-Cœur
-Étoile
-Diamant
-Demoiselle
-Madame
-Monsieur
-Re
-Kabuki
-Pharaon
+Fleur Jaune
+Fleur Orange
+Fleur Bleue
+Fleur Blanche
+Coupe Cœur
+Coupe Étoile
+Coupe Diamant
+Coupe Demoiselle
+Coupe Madame
+Coupe Monsieur
+Coupe Reine
+Coupe Kabuki
+Coupe Pharaon
 Femelle
-e Assaut
+Forme Assaut
 Taille Mini
 Taille Maxi
 Taille Ultra
@@ -884,3 +909,5 @@ Taille Mini
 Taille Maxi
 Taille Ultra
 Mode Déchaîné
+Méga-Diancie
+Hoopa Déchaîné

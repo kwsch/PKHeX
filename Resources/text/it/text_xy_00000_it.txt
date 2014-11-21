@@ -1,4 +1,4 @@
-----------
+﻿----------
 
 Zona Misteriosa
 
@@ -78,8 +78,8 @@ Frescovilla
 
 Percorso 16
 Via Malinconia
-\x10\x02뷿P
-\x10\x02뷿Q
+[~ 80]
+[~ 81]
 Caverna Gelata
 
 Percorso 17
@@ -168,3 +168,188 @@ Acquario
 
 Grotta Ignota
 
+Albanova
+
+Solarosa
+
+Bluruvia
+
+Cuordilava
+
+Brunifoglia
+
+Mentania
+
+Orocea
+
+Petalipoli
+
+Porto Selcepoli
+
+Ciclamipoli
+
+Ferrugipoli
+
+Forestopoli
+
+Porto Alghepoli
+
+Verdeazzupoli
+
+Ceneride
+
+Iridopoli
+
+Lega Pokémon
+
+Percorso 101
+
+Percorso 102
+
+Percorso 103
+
+Percorso 104
+
+Percorso 105
+
+Percorso 106
+
+Percorso 107
+
+Percorso 108
+
+Percorso 109
+
+Percorso 110
+
+Percorso 111
+
+Percorso 112
+
+Percorso 113
+
+Percorso 114
+
+Percorso 115
+
+Percorso 116
+
+Percorso 117
+
+Percorso 118
+
+Percorso 119
+
+Percorso 120
+
+Percorso 121
+
+Percorso 122
+
+Percorso 123
+
+Percorso 124
+
+Percorso 125
+
+Percorso 126
+
+Percorso 127
+
+Percorso 128
+
+Percorso 129
+
+Percorso 130
+
+Percorso 131
+
+Percorso 132
+
+Percorso 133
+
+Percorso 134
+
+Cascate Meteora
+
+Tunnel Menferro
+
+???
+
+Rovine Sabbiose
+
+Grotta Pietrosa
+
+Bosco Petalo
+
+Monte Camino
+
+Passo Selvaggio
+
+Cammino Ardente
+
+Monte Pira
+
+Rifugio Idro
+
+Antro Abissale
+
+Grotta dei Tempi
+
+Via Vittoria
+
+Grotta Ondosa
+
+Ciclanova
+
+Ciclamare
+
+Grotta Insulare
+
+Tomba Antica
+
+Sala Incisa
+
+Grottino Solare
+
+Rifugio Magma
+
+Torre dei Cieli
+
+Resort Lotta
+
+Isola Remota
+
+Motonave Marea
+
+Zona Safari
+
+Selva Miraggio
+
+Grotta Miraggio
+
+Isola Miraggio
+
+Monte Miraggio
+
+Foresta Vergine
+
+Piana Senza Nome
+
+Caverna Ignota
+
+Grotta Sfuggente
+
+Fossa Informe
+
+Isola Arcodiluna
+
+Isolotto Segreto
+
+Ipersfera
+
+Baia Segreta
+
+Valle Segreta
+
+Base Segreta

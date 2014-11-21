@@ -1,4 +1,4 @@
-﻿Ninguno
+﻿-
 Hedor
 Llovizna
 Impulso
@@ -187,3 +187,6 @@ Amor Filial
 Aura Oscura
 Aura Feérica
 Rompeaura
+Mar del Albor
+Tierra del Ocaso
+Ráfaga Delta

@@ -1,0 +1,114 @@
+﻿
+
+おもいで　らしいよー
+おもいで　らしいよー
+おもいで　らしいよー
+おもいで　らしいよー
+こころにのこる　おもいで　らしいよ
+わすれられない　おもいで　なんだって
+さいこうの　おもいで　だってさー！
+
+うれしかった
+たのしかった
+よろこんだ
+ニヤニヤした
+たまらない　きもちになった
+なんともいえない　きもちだった
+いい　きぶんになった
+うるうるした
+うかれてしまった
+きんちょうした
+きもちよかった
+もぞもぞした
+クセになりそうに　なった
+もうしわけない　きぶんになった
+せつない　きもちになった
+なつかしい　きもちになった
+てこずった
+きつかった
+すなおに　なれなかった
+ほこらしく　おもった
+けんあくな　ムードになった
+おこってしまった
+しっとした
+ねむくなった
+
+なにかのどうぐ
+なにかのわざ
+だれか
+いい　おもいでが　あるようだけど ちょっと　おもいおこせないみたい……
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]に [VAR GENLOC(0002)]で　であって モンスターボールを　なげられてから いっしょに　たびする　ことになって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR GENLOC(0002)]で タマゴの　からをやぶって　でてきたとき はじめて　[VAR TRNAME(0001)]と　であって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と [VAR GENLOC(0002)]で　であえて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR GENLOC(0002)]で ポケモンこうかんで [VAR TRNAME(0001)]の　なかまになって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と フレンドリィショップに　[VAR ITEM2(0002)]を かいに　いって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 44]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と いっしょに　つりをして [VAR PKNAME(0002)]を つりあげちゃったとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と いっしょに　つりをしたとき [VAR TRNAME(0001)]が　せっかく　つれた ポケモンを　のがしてしまって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 47]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に おかしを　もらって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と いっしょに　ようふくを　かいにいって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 50]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]が [VAR PKNAME(0002)]の タマゴを　かえすのを　てつだって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]が [VAR PKNAME(0002)]を つかまえた　ときに [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は ピンチの　ときに [VAR TRNAME(0001)]に [VAR ITEM2(0002)]を　つかってもらって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 54]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と いっしょに　たたかって [VAR PKNAME(0002)]を たおしたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR PKNAME(0002)]との たたかいに　まけちゃって [VAR TRNAME(0001)]と いっしょに　にげかえったとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]に そだてられて [VAR GENLOC(0002)]で しんかしたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は なみのりで　[VAR TRNAME(0001)]を じぶんの　せなかに　のせて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 59]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と いっしょに　たたかって ジムリーダーに　かったとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]が バトルハウスに　いどんだとき すごく　きんちょうして [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は そらをとぶで　[VAR TRNAME(0001)]を [VAR GENLOC(0002)]から　はこんで [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 63]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]が [VAR ITEM2(0002)]を　つかったのを　みて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と いっしょに　たたかって チャンピオンを　たおしたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]が ポケモンずかんを　かんせい　させたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR PKNAME(0002)]と　そうぐうして [VAR TRNAME(0001)]と　いっしょに [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]が バトルシャトレーヌを　たおしたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 69]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と [VAR GENLOC(0002)]で じてんしゃに　のって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と [VAR GENLOC(0002)]で タウンマップを　つかって もくてきの　ばしょを　かくにんし [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]と [VAR ITEM2(0002)]を　つちに　うめて たくさんの　みが　なったときの ことを　そうぞうしながら [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に　たのまれて [VAR GENLOC(0002)]で じまんの　かいりきを　つかって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に　たのまれて [VAR GENLOC(0002)]で じまんの　いあいぎりを　やってみせて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に　たのまれて [VAR GENLOC(0002)]で おもいっきり　いわを　くだいたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR GENLOC(0002)]で [VAR TRNAME(0001)]を　のせて たきのぼりを　つかったとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR GENLOC(0002)]で [VAR TRNAME(0001)]が　なにかを こっそり　ひろったのを　みて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に [VAR ITEM2(0002)]を とつぜん　もたされて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに チャンピオンロードに　はいって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 80]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに のった　でんしゃの　スピードが とても　はやいことに　かんどうし [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 82]
+[VAR PKNICK(0000)]は [VAR PKNAME(0002)]が　とびだしてきたとき びっくりして　[VAR TRNAME(0001)]と いっしょに　にげだして [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに チャレンジした　トライアルハウスで こうとくてんを　だして [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]の　しょうかいで であった　ジャッジに じろじろと　みられすぎて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]の　しょうかいで であった　わすれジイさんに [VAR MOVE(0002)]を　わすれさせられて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に　たのまれて [VAR MOVE(0002)]を おもいだすことが　できたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]に そだてやさんへ　つれていって　もらって [VAR PKNAME(0002)]と いっしょに　あずけられ [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]が くじびきで　[VAR ITEM2(0002)]を もらったことを　うらやましく　おもって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は　[VAR TRNAME(0001)]が [VAR GENLOC(0002)]で むしよけスプレーを　ふりまいたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに ハードな　とっくんを　して [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに エレベータに　のって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に　つれられて せいめいはんだんし　に うんめいてきな　なまえを　つけてもらった　とき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに ブティックにいき　しちゃくしたけど なにも　かわずに　でてきて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに すてきな　レストランに　いき おなか　いっぱい　たべて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に　つれられて すてきな　おねえさんに かわいがって　もらったとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに [VAR GENLOC(0002)]に　あった ゴミばこを　あさって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[~ 98]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに たかい　タワーの　おくじょうから したを　みおろして [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いった かがみの　どうくつの　なかで かがみに　うつった　じぶんを　みて [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と もりの　なかを　たんさくしたとき まよいそうに　なって [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　こうじょうに　いき たくさんの　むずかしそうな　きかいを まのあたりにして [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]が ひみつきちを　つくったとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と コンテストに　さんかして たくさんの　ひとに　アピールしたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と コンテストに　さんかして みごと　ゆうしょう　したとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]と　いっしょに おおぞらを　とんで いろんなばしょに　いったとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+[VAR PKNICK(0000)]は [VAR TRNAME(0001)]に　たのまれて ふかいうみに　もぐって うみのそこを　たんさくしたとき [VAR REMFEEL(0003)]ことが [VAR REMQUAL(0004)]
+
+あたしねー　おもいでむすめ！ ポケモンの　おもいでが　わかるんだよ あなたと　いっしょに　いる ポケモンの　おもいで　しりたいー？
+いいよー！ どのコの　おもいでを　しりたいの？
+また　あそびに　きてねー！
+それとねー
+ほかのコの　おもいでも　しりたいー？
