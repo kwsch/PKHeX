@@ -1,6 +1,6 @@
 ﻿namespace PKHeX
 {
-    partial class SAV_EventFlags
+    partial class SAV_EventFlagsORAS
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_EventFlags));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_EventFlagsORAS));
             this.CHK_CustomFlag = new System.Windows.Forms.CheckBox();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();

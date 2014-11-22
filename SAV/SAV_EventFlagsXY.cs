@@ -11,9 +11,9 @@ using System.IO;
 
 namespace PKHeX
 {
-    public partial class SAV_EventFlags : Form
+    public partial class SAV_EventFlagsXY : Form
     {
-        public SAV_EventFlags(Form1 frm1)
+        public SAV_EventFlagsXY(Form1 frm1)
         {
             InitializeComponent();
             m_parent = frm1;

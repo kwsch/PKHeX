@@ -5770,8 +5770,8 @@ namespace PKHeX
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
             // Open Flag Menu
-            SAV_EventFlags eventflags = new PKHeX.SAV_EventFlags(this);
-            eventflags.ShowDialog();
+            if (savegame_oras) (new PKHeX.SAV_EventFlagsORAS(this)).ShowDialog();
+            else (new PKHeX.SAV_EventFlagsXY(this)).ShowDialog();
         }
         private void B_OpenSuperTraining_Click(object sender, EventArgs e)
         {

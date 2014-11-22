@@ -102,6 +102,12 @@
     <Compile Include="PKX\f3-MemoryAmie.Designer.cs">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </Compile>
+    <Compile Include="SAV\SAV_EventFlagsORAS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SAV\SAV_EventFlagsORAS.Designer.cs">
+      <DependentUpon>SAV_EventFlagsORAS.cs</DependentUpon>
+    </Compile>
     <Compile Include="SAV\frmReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,11 +140,11 @@
     <Compile Include="SAV\SAV_BoxLayout.Designer.cs">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV\SAV_EventFlags.cs">
+    <Compile Include="SAV\SAV_EventFlagsXY.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV\SAV_EventFlags.Designer.cs">
-      <DependentUpon>SAV_EventFlags.cs</DependentUpon>
+    <Compile Include="SAV\SAV_EventFlagsXY.Designer.cs">
+      <DependentUpon>SAV_EventFlagsXY.cs</DependentUpon>
     </Compile>
     <Compile Include="SAV\SAV_HallOfFame.cs">
       <SubType>Form</SubType>
@@ -211,6 +217,9 @@
     <EmbeddedResource Include="PKX\f3-MemoryAmie.resx">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SAV\SAV_EventFlagsORAS.resx">
+      <DependentUpon>SAV_EventFlagsORAS.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SAV\frmReport.resx">
       <DependentUpon>frmReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -228,8 +237,8 @@
     <EmbeddedResource Include="SAV\SAV_BoxLayout.resx">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV\SAV_EventFlags.resx">
-      <DependentUpon>SAV_EventFlags.cs</DependentUpon>
+    <EmbeddedResource Include="SAV\SAV_EventFlagsXY.resx">
+      <DependentUpon>SAV_EventFlagsXY.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_HallOfFame.resx">
       <DependentUpon>SAV_HallOfFame.cs</DependentUpon>
