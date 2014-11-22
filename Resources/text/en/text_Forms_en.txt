@@ -199,7 +199,7 @@
 
 
 
-One form
+One
 
 
 
@@ -384,7 +384,7 @@ Kyogre
 Groudon
 
 
-Normal Forme
+Normal
 
 
 
@@ -410,8 +410,8 @@ Normal Forme
 
 
 
-Plant Cloak
-Plant Cloak
+Plant
+Plant
 
 
 
@@ -419,7 +419,7 @@ Plant Cloak
 
 
 
-Overcast Form
+Overcast
 West Sea
 West Sea
 
@@ -485,12 +485,12 @@ Rotom
 
 
 
-Altered Forme
+Altered
 
 
 
 
-Land Forme
+Land
 Arceus
 
 
@@ -548,12 +548,12 @@ Arceus
 
 
 
-Red-Striped Form
+Red-Striped
 
 
 
 
-Standard Mode
+Standard
 
 
 
@@ -583,8 +583,8 @@ Standard Mode
 
 
 
-Spring Form
-Spring Form
+Spring
+Spring
 
 
 
@@ -639,14 +639,14 @@ Spring Form
 
 
 
-Incarnate Forme
-Incarnate Forme
+Incarnate
+Incarnate
 
 
-Incarnate Forme
+Incarnate
 Kyurem
-Ordinary Form
-Aria Forme
+Ordinary
+Aria
 Genesect
 
 
@@ -664,22 +664,22 @@ Genesect
 
 
 
-Icy Snow Pattern
+Icy Snow
 
 
-Red Flower
-Red Flower
-Red Flower
+Red
+Red
+Red
 
 
 
 
-Natural Form
+Natural
 
 Male
 
 
-Shield Forme
+Shield
 
 
 
@@ -708,31 +708,31 @@ Shield Forme
 
 
 
-Average Size
-Average Size
+Average
+Average
 
 
 
 
-Neutral Mode
+Neutral
 
 
 
-Hoopa Confined
+Confined
 
 
-Mega Venusaur
-Mega Charizard X
-Mega Charizard Y
+Mega
+Mega X
+Mega Y
 Mega Blastoise
 Mega Beedrill
 Mega Pidgeot
-Pikachu Rock Star
-Pikachu Belle
-Pikachu Pop Star
-Pikachu, Ph.D.
-Pikachu Libre
-Cosplay Pikachu
+Rock Star
+Belle
+Pop Star
+Ph.D.
+Libre
+Cosplay
 Mega Alakazam
 Mega Slowbro
 Mega Gengar
@@ -743,33 +743,33 @@ Mega Aerodactyl
 Mega Mewtwo X
 Mega Mewtwo Y
 Mega Ampharos
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
-One form
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
+One
 Mega Steelix
 Mega Scizor
 Mega Heracross
@@ -787,9 +787,9 @@ Mega Manectric
 Mega Sharpedo
 Mega Camerupt
 Mega Altaria
-Sunny Form
-Rainy Form
-Snowy Form
+Sunny
+Rainy
+Snowy
 Mega Banette
 Mega Absol
 Mega Glalie
@@ -797,17 +797,17 @@ Mega Salamence
 Mega Metagross
 Mega Latias
 Mega Latios
-Primal Reversion
-Primal Reversion
+Primal
+Primal
 Mega Rayquaza
-Attack Forme
-Defense Forme
-Speed Forme
-Sandy Cloak
-Trash Cloak
-Sandy Cloak
-Trash Cloak
-Sunshine Form
+Attack
+Defense
+Speed
+Sandy
+Trash
+Sandy
+Trash
+Sunshine
 East Sea
 East Sea
 Mega Lopunny
@@ -820,8 +820,8 @@ Wash Rotom
 Frost Rotom
 Fan Rotom
 Mow Rotom
-Origin Forme
-Sky Forme
+Origin
+Sky
 Arceus
 Arceus
 Arceus
@@ -840,74 +840,74 @@ Arceus
 Arceus
 Arceus
 Mega Audino
-Blue-Striped Form
-Zen Mode
-Summer Form
-Autumn Form
-Winter Form
-Summer Form
-Autumn Form
-Winter Form
-Therian Forme
-Therian Forme
-Therian Forme
-White Kyurem
-Black Kyurem
-Resolute Form
-Pirouette Forme
+Blue-Striped
+Zen
+Summer
+Autumn
+Winter
+Summer
+Autumn
+Winter
+Therian
+Therian
+Therian
+White
+Black
+Resolute
+Pirouette
 Genesect
 Genesect
 Genesect
 Genesect
-Polar Pattern
-Tundra Pattern
-Continental Pattern
-Garden Pattern
-Elegant Pattern
-Meadow Pattern
-Modern Pattern
-Marine Pattern
-Archipelago Pattern
-High Plains Pattern
-Sandstorm Pattern
-River Pattern
-Monsoon Pattern
-Savanna Pattern
-Sun Pattern
-Ocean Pattern
-Jungle Pattern
-Fancy Pattern
-Poké Ball Pattern
-Yellow Flower
-Orange Flower
-Blue Flower
-White Flower
-Yellow Flower
-Orange Flower
-Blue Flower
-White Flower
-Eternal Flower
-Yellow Flower
-Orange Flower
-Blue Flower
-White Flower
-Heart Trim
-Star Trim
-Diamond Trim
-Debutante Trim
-Matron Trim
-Dandy Trim
-La Reine Trim
-Kabuki Trim
-Pharaoh Trim
+Polar
+Tundra
+Continental
+Garden
+Elegant
+Meadow
+Modern
+Marine
+Archipelago
+High Plains
+Sandstorm
+River
+Monsoon
+Savanna
+Sun
+Ocean
+Jungle
+Fancy
+Poké Ball
+Yellow
+Orange
+Blue
+White
+Yellow
+Orange
+Blue
+White
+Eternal
+Yellow
+Orange
+Blue
+White
+Heart
+Star
+Diamond
+Debutante
+Matron
+Dandy
+La Reine
+Kabuki
+Pharaoh
 Female
-Blade Forme
-Small Size
-Large Size
-Super Size
-Small Size
-Large Size
-Super Size
-Active Mode
+Blade
+Small
+Large
+Super
+Small
+Large
+Super
+Active
 Mega Diancie
-Hoopa Unbound
+Unbound

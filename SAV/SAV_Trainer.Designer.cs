@@ -132,6 +132,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.GB_Appear = new System.Windows.Forms.GroupBox();
+            this.label35 = new System.Windows.Forms.Label();
             this.MT_1403F = new System.Windows.Forms.MaskedTextBox();
             this.MT_1403E = new System.Windows.Forms.MaskedTextBox();
             this.MT_1403D = new System.Windows.Forms.MaskedTextBox();
@@ -188,7 +189,6 @@
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.label39 = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
-            this.label35 = new System.Windows.Forms.Label();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -833,10 +833,12 @@
             this.CB_Game.FormattingEnabled = true;
             this.CB_Game.Items.AddRange(new object[] {
             "X",
-            "Y"});
-            this.CB_Game.Location = new System.Drawing.Point(157, 62);
+            "Y",
+            "AS",
+            "OR"});
+            this.CB_Game.Location = new System.Drawing.Point(141, 62);
             this.CB_Game.Name = "CB_Game";
-            this.CB_Game.Size = new System.Drawing.Size(35, 21);
+            this.CB_Game.Size = new System.Drawing.Size(51, 21);
             this.CB_Game.TabIndex = 24;
             // 
             // CB_Gender
@@ -844,11 +846,11 @@
             this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Gender.FormattingEnabled = true;
             this.CB_Gender.Items.AddRange(new object[] {
-            "Male",
-            "Female"});
+            "♂",
+            "♀"});
             this.CB_Gender.Location = new System.Drawing.Point(99, 62);
             this.CB_Gender.Name = "CB_Gender";
-            this.CB_Gender.Size = new System.Drawing.Size(57, 21);
+            this.CB_Gender.Size = new System.Drawing.Size(40, 21);
             this.CB_Gender.TabIndex = 22;
             // 
             // TB_Style
@@ -1315,6 +1317,15 @@
             this.GB_Appear.TabIndex = 50;
             this.GB_Appear.TabStop = false;
             this.GB_Appear.Text = "Current Appearance (X/Y)";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(116, 244);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(55, 13);
+            this.label35.TabIndex = 72;
+            this.label35.Text = "Outfit Vals";
             // 
             // MT_1403F
             // 
@@ -1886,15 +1897,6 @@
             this.MT_Stat.Text = "1231231234";
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(116, 244);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(55, 13);
-            this.label35.TabIndex = 72;
-            this.label35.Text = "Outfit Vals";
             // 
             // SAV_Trainer
             // 

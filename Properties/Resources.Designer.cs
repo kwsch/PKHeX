@@ -2163,6 +2163,66 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _25_1 {
+            get {
+                object obj = ResourceManager.GetObject("_25_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_2 {
+            get {
+                object obj = ResourceManager.GetObject("_25_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_3 {
+            get {
+                object obj = ResourceManager.GetObject("_25_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_4 {
+            get {
+                object obj = ResourceManager.GetObject("_25_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_5 {
+            get {
+                object obj = ResourceManager.GetObject("_25_5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _25_6 {
+            get {
+                object obj = ResourceManager.GetObject("_25_6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _250 {
             get {
                 object obj = ResourceManager.GetObject("_250", resourceCulture);
@@ -10013,9 +10073,29 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap box_wp17o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp17o", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_wp18 {
             get {
                 object obj = ResourceManager.GetObject("box_wp18", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap box_wp18o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp18o", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10033,9 +10113,29 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap box_wp19o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp19o", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_wp20 {
             get {
                 object obj = ResourceManager.GetObject("box_wp20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap box_wp20o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp20o", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10053,9 +10153,29 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap box_wp21o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp21o", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_wp22 {
             get {
                 object obj = ResourceManager.GetObject("box_wp22", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap box_wp22o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp22o", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10073,9 +10193,29 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap box_wp23o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp23o", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_wp24 {
             get {
                 object obj = ResourceManager.GetObject("box_wp24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap box_wp24o {
+            get {
+                object obj = ResourceManager.GetObject("box_wp24o", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -14890,7 +15030,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nichts
+        ///   Looks up a localized string similar to -
         ///Duftnote
         ///Niesel
         ///Temposchub
@@ -14937,7 +15077,7 @@ namespace PKHeX.Properties {
         ///Regengenuss
         ///Sandsturm
         ///Erzwinger
-        ///Speck [rest of string was truncated]&quot;;.
+        ///Speckschic [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_de {
             get {
@@ -14946,7 +15086,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to None
+        ///   Looks up a localized string similar to —
         ///Stench
         ///Drizzle
         ///Speed Boost
@@ -14994,7 +15134,7 @@ namespace PKHeX.Properties {
         ///Sand Stream
         ///Pressure
         ///Thick Fat
-        /// [rest of string was truncated]&quot;;.
+        ///Ear [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_en {
             get {
@@ -15003,7 +15143,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ninguno
+        ///   Looks up a localized string similar to -
         ///Hedor
         ///Llovizna
         ///Impulso
@@ -15048,7 +15188,8 @@ namespace PKHeX.Properties {
         ///Imán
         ///Insonorizar
         ///Cura Lluvia
-        ///Chorro Are [rest of string was truncated]&quot;;.
+        ///Chorro Arena
+        ///Pre [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_es {
             get {
@@ -15057,7 +15198,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aucun
+        ///   Looks up a localized string similar to 
         ///Puanteur
         ///Crachin
         ///Turbo
@@ -15106,7 +15247,8 @@ namespace PKHeX.Properties {
         ///Pression
         ///Isograisse
         ///Matinal
-        ///Corps Ar [rest of string was truncated]&quot;;.
+        ///Corps Ardent
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_fr {
             get {
@@ -15115,7 +15257,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niente
+        ///   Looks up a localized string similar to -
         ///Tanfo
         ///Piovischio
         ///Acceleratore
@@ -15162,7 +15304,8 @@ namespace PKHeX.Properties {
         ///Copripioggia
         ///Sabbiafiume
         ///Pressione
-        ///Grassospe [rest of string was truncated]&quot;;.
+        ///Grassospesso
+        ///S [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_it {
             get {
@@ -15171,7 +15314,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to なし
+        ///   Looks up a localized string similar to ―
         ///あくしゅう
         ///あめふらし
         ///かそく
@@ -15258,7 +15401,7 @@ namespace PKHeX.Properties {
         ///かるわざ
         ///たいねつ
         ///たんじゅん
-        ///かん [rest of string was truncated]&quot;;.
+        ///かんそ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_ja {
             get {
@@ -15267,7 +15410,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 없음
+        ///   Looks up a localized string similar to -
         ///악취
         ///잔비
         ///가속
@@ -15387,7 +15530,7 @@ namespace PKHeX.Properties {
         ///눈퍼뜨리기
         ///꿀모으기
         ///통찰
-        ///이 [rest of string was truncated]&quot;;.
+        ///이판 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_ko {
             get {
@@ -16878,7 +17021,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
+        ///Ein
         ///
         ///
         ///
@@ -17059,8 +17202,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
+        ///Kyogre
+        ///Groudon
         ///
         ///
         ///Normal
@@ -17099,14 +17242,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Wolken
-        ///Westliches Meer
-        ///Westliches Meer
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
+        ///Westliches
+        ///Westliches
         ///
         ///
         ///
@@ -17339,7 +17476,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
+        ///One
         ///
         ///
         ///
@@ -17520,8 +17657,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
+        ///Kyogre
+        ///Groudon
         ///
         ///
         ///Normal
@@ -17559,24 +17696,9 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Overcast 
+        ///Overcast
         ///West Sea
         ///West Sea
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
         ///
         ///
         ///
@@ -17813,6 +17935,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Unaa
         ///
         ///
         ///
@@ -17962,8 +18085,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///de Castform
         ///
-        ///a de Cast
         ///
         ///
         ///
@@ -17993,12 +18116,11 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Kyogre
+        ///Groudon
         ///
         ///
-        ///
-        ///
-        ///
-        ///a Normal
+        ///Normal
         ///
         ///
         ///
@@ -18033,24 +18155,9 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///a Encapotado
+        ///Encapotado
         ///Mar Oeste
         ///Mar Oeste
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
         ///
         ///
         ///
@@ -18275,6 +18382,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Unique
         ///
         ///
         ///
@@ -18424,8 +18532,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///de Morphéo
         ///
-        ///e de Morphéo
         ///
         ///
         ///
@@ -18455,12 +18563,11 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Kyogre
+        ///Groudon
         ///
         ///
-        ///
-        ///
-        ///
-        ///e Normale
+        ///Normale
         ///
         ///
         ///
@@ -18495,18 +18602,9 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Temps Couvert
+        ///Couvert
         ///Mer Occident
         ///Mer Occident
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
         ///
         ///
         ///
@@ -18726,6 +18824,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Forma Vaga
         ///
         ///
         ///
@@ -18875,8 +18974,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Forma Castform
         ///
-        ///a Cast
         ///
         ///
         ///
@@ -18910,8 +19009,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Forma Normale
         ///
-        ///a Normale
         ///
         ///
         ///
@@ -18936,53 +19035,18 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Manto Pianta
+        ///Manto Pianta
         ///
-        ///Pianta
-        ///Pianta
         ///
         ///
         ///
         ///
         ///
         ///
-        ///
-        ///a Nuvola
+        ///Forma Nuvola
         ///Mare Ovest
-        ///Mare Ovest
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///Mare O [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_it {
             get {
@@ -19373,8 +19437,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
+        ///カイオーガのすがた
+        ///グラードンのすがた
         ///
         ///
         ///ノーマルフォルム
@@ -19415,24 +19479,6 @@ namespace PKHeX.Properties {
         ///ネガフォルム
         ///にしのうみ
         ///にしのうみ
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
         ///
         ///
         ///
@@ -19845,8 +19891,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
+        ///가이오가의 모습
+        ///그란돈의 모습
         ///
         ///
         ///노말폼
@@ -19925,21 +19971,6 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
         /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_ko {
@@ -19951,7 +19982,7 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to irgendwo
         ///in der ersten Stadt
-        ///in \x10\x04ᄀÿԆ\x00dessenderen Zuhause
+        ///in [VAR GENDBR(00FF,0506,0000)]dessenderen Zuhause
         ///im Zuhause eines Freundes
         ///in irgendjemandes Zuhause
         ///in einer lebhaften Stadt
@@ -19971,7 +20002,7 @@ namespace PKHeX.Properties {
         ///in einer prachtvollen Stadt
         ///in einer Pokémon-Arena
         ///in einer Schule
-        ///in einer großen Stad [rest of string was truncated]&quot;;.
+        ///in eine [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_GenLoc_de {
             get {
@@ -20005,7 +20036,7 @@ namespace PKHeX.Properties {
         ///a large city
         ///a building
         ///a stylish café
-        ///a secret base
+        ///a hideout
         ///a museum
         ///a studio
         ///a train station
@@ -20015,7 +20046,7 @@ namespace PKHeX.Properties {
         ///a high-class restaurant
         ///a seaside city
         ///the inside of a tall building
-        ///a city with a mysteriou [rest of string was truncated]&quot;;.
+        ///a city with a mysterious ai [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_GenLoc_en {
             get {
@@ -20077,7 +20108,7 @@ namespace PKHeX.Properties {
         ///dans un hôtel
         ///dans une ville mystérieuse
         ///dans une ville très venteuse
-        ///à une Porte
+        ///à une porte
         ///dans une ville en bord de rivière
         ///dans un laboratoire
         ///dans un aquarium
@@ -20121,9 +20152,9 @@ namespace PKHeX.Properties {
         ///in una grande città
         ///in un edificio
         ///in un caffè elegante
-        ///in una base segreta
+        ///in un covo segreto
         ///in un museo
-        /// [rest of string was truncated]&quot;;.
+        ///i [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_GenLoc_it {
             get {
@@ -20193,7 +20224,16 @@ namespace PKHeX.Properties {
         ///はたけ
         ///はいきょ
         ///すいどう
-        ///サファリ.
+        ///サファリ
+        ///ひみつきち
+        ///コンテストライブかいじょう
+        ///ふかいうみのそこ
+        ///マボロシのばしょ
+        ///おおきなふね
+        ///はいがふりつもるみち
+        ///ちいさなしま
+        ///しんぴてきなばしょ
+        ///おおぞら.
         /// </summary>
         internal static string text_GenLoc_ja {
             get {
@@ -20263,7 +20303,16 @@ namespace PKHeX.Properties {
         ///밭
         ///폐허
         ///수로
-        ///사파리.
+        ///사파리
+        ///비밀기지
+        ///콘테스트 라이브 회장
+        ///깊은 바다 밑
+        ///환상의 장소
+        ///커다란 배
+        ///재가 떨어져 쌓이는 길
+        ///작은 섬
+        ///신비스러운 장소
+        ///창공.
         /// </summary>
         internal static string text_GenLoc_ko {
             get {
@@ -21307,7 +21356,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Nichts)
+        ///   Looks up a localized string similar to Kein
         ///Meisterball
         ///Hyperball
         ///Superball
@@ -21357,7 +21406,8 @@ namespace PKHeX.Properties {
         ///Eisen
         ///Carbon
         ///Kalzium
-        ///Sonderbon [rest of string was truncated]&quot;;.
+        ///Sonderbonbon
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_de {
             get {
@@ -21366,7 +21416,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (None)
+        ///   Looks up a localized string similar to None
         ///Master Ball
         ///Ultra Ball
         ///Great Ball
@@ -21415,7 +21465,7 @@ namespace PKHeX.Properties {
         ///Protein
         ///Iron
         ///Carbos
-        ///Cal [rest of string was truncated]&quot;;.
+        ///Calci [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_en {
             get {
@@ -21424,7 +21474,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Ninguno)
+        ///   Looks up a localized string similar to Ningún
         ///Master Ball
         ///Ultra Ball
         ///Super Ball
@@ -21468,7 +21518,8 @@ namespace PKHeX.Properties {
         ///Elixir Máximo
         ///Galleta Lava
         ///Zumo de Baya
-        ///Ceniza Sagrad [rest of string was truncated]&quot;;.
+        ///Ceniza Sagrada
+        ///M [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_es {
             get {
@@ -21477,7 +21528,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Aucun)
+        ///   Looks up a localized string similar to Aucun
         ///Master Ball
         ///Hyper Ball
         ///Super Ball
@@ -21526,7 +21577,7 @@ namespace PKHeX.Properties {
         ///Protéine
         ///Fer
         ///Carbone
-        ///Cal [rest of string was truncated]&quot;;.
+        ///Calci [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_fr {
             get {
@@ -21535,7 +21586,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Niente)
+        ///   Looks up a localized string similar to Niente
         ///Master Ball
         ///Ultra Ball
         ///Mega Ball
@@ -21582,7 +21633,7 @@ namespace PKHeX.Properties {
         ///Ceneremagica
         ///PS-Su
         ///Proteina
-        /// [rest of string was truncated]&quot;;.
+        ///Fe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_it {
             get {
@@ -21591,7 +21642,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (なし)
+        ///   Looks up a localized string similar to なし
         ///マスターボール
         ///ハイパーボール
         ///スーパーボール
@@ -21657,7 +21708,8 @@ namespace PKHeX.Properties {
         ///ピッピにんぎょう
         ///エネコのシッポ
         ///あおいビードロ
-        ///きいろビードロ [rest of string was truncated]&quot;;.
+        ///きいろビードロ
+        ///あ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_ja {
             get {
@@ -21666,7 +21718,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (없음)
+        ///   Looks up a localized string similar to 없음
         ///마스터볼
         ///하이퍼볼
         ///수퍼볼
@@ -21704,10 +21756,10 @@ namespace PKHeX.Properties {
         ///힘의뿌리
         ///만능가루
         ///부활초
-        ///피피에이드
-        ///피피회복
-        ///피피에이더
-        ///피피맥스
+        ///PP에이드
+        ///PP회복
+        ///PP에이더
+        ///PP맥스
         ///용암전병
         ///나무열매쥬스
         ///성스러운분말
@@ -21762,7 +21814,7 @@ namespace PKHeX.Properties {
         ///하트비늘
         ///달콤한꿀
         ///무럭무럭비료
-        ///축축 [rest of string was truncated]&quot;;.
+        ///축축이비 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_ko {
             get {
@@ -22035,7 +22087,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Nichts)
+        ///   Looks up a localized string similar to -----
         ///Pfund
         ///Karateschlag
         ///Duplexhieb
@@ -22085,7 +22137,8 @@ namespace PKHeX.Properties {
         ///Gesang
         ///Superschall
         ///Ultraschall
-        ///Aussetze [rest of string was truncated]&quot;;.
+        ///Aussetzer
+        ///S [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Moves_de {
             get {
@@ -22094,7 +22147,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (None)
+        ///   Looks up a localized string similar to ———
         ///Pound
         ///Karate Chop
         ///Double Slap
@@ -22150,7 +22203,7 @@ namespace PKHeX.Properties {
         ///Flamethrower
         ///Mist
         ///Water Gun
-        ///Hyd [rest of string was truncated]&quot;;.
+        ///Hydro  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Moves_en {
             get {
@@ -22159,7 +22212,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Ninguno)
+        ///   Looks up a localized string similar to -
         ///Destructor
         ///Golpe Kárate
         ///Doble Bofetón
@@ -22208,7 +22261,8 @@ namespace PKHeX.Properties {
         ///Rugido
         ///Canto
         ///Supersónico
-        ///Bomba  [rest of string was truncated]&quot;;.
+        ///Bomba Sónica
+        ///A [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Moves_es {
             get {
@@ -22217,7 +22271,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Aucun)
+        ///   Looks up a localized string similar to ―――――
         ///Écras’Face
         ///Poing-Karaté
         ///Torgnoles
@@ -22267,7 +22321,7 @@ namespace PKHeX.Properties {
         ///Berceuse
         ///Ultrason
         ///Sonicboom
-        ///Entra [rest of string was truncated]&quot;;.
+        ///Entrave [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Moves_fr {
             get {
@@ -22276,7 +22330,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (Niente)
+        ///   Looks up a localized string similar to -----
         ///Botta
         ///Colpokarate
         ///Doppiasberla
@@ -22327,7 +22381,7 @@ namespace PKHeX.Properties {
         ///Supersuono
         ///Sonicboom
         ///Inibitore
-        ///A [rest of string was truncated]&quot;;.
+        ///Acid [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Moves_it {
             get {
@@ -22336,7 +22390,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (なし)
+        ///   Looks up a localized string similar to ―――――
         ///はたく
         ///からてチョップ
         ///おうふくビンタ
@@ -22416,7 +22470,7 @@ namespace PKHeX.Properties {
         ///どくのこな
         ///しびれごな
         ///ねむりごな
-        ///はなびらの [rest of string was truncated]&quot;;.
+        ///はなびら [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Moves_ja {
             get {
@@ -22425,7 +22479,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (없음)
+        ///   Looks up a localized string similar to ―――――
         ///막치기
         ///태권당수
         ///연속뺨치기
@@ -22510,7 +22564,7 @@ namespace PKHeX.Properties {
         ///용의분노
         ///회오리불꽃
         ///전기쇼크
-        ///십만볼트
+        ///10만볼트
         ///전기자석파
         ///번개
         ///돌떨구기
@@ -22530,7 +22584,7 @@ namespace PKHeX.Properties {
         ///흉내내기
         ///싫은소리
         ///그림자분신
-        ///에이치피회복
+        ///HP회복
         /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Moves_ko {
@@ -24524,7 +24578,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ----------
+        ///   Looks up a localized string similar to ——————
         ///
         ///Mystery Zone
         ///
@@ -24581,7 +24635,8 @@ namespace PKHeX.Properties {
         ///Route 11
         ///Miroir Way
         ///Reflection Cave
-        /// [rest of string was truncated]&quot;;.
+        ///
+        ///Sha [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_xy_00000_en {
             get {
@@ -24657,7 +24712,7 @@ namespace PKHeX.Properties {
         ///
         ///Endroit Mystérieux
         ///
-        ///Endroit lointain
+        ///Endroit Lointain
         ///
         ///Bourg Croquis
         ///
@@ -24857,11 +24912,12 @@ namespace PKHeX.Properties {
         ///
         ///１６ばんどうろ
         ///トリストどおり
-        ///\x10\x02뷿P
-        ///\x10\x02뷿Q
+        ///[~ 80]
+        ///[~ 81]
         ///フロストケイブ
         ///
-        ///１７ばんどうろ [rest of string was truncated]&quot;;.
+        ///１７ばんどうろ
+        ///マンムーロード [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_xy_00000_ja {
             get {
@@ -24950,8 +25006,8 @@ namespace PKHeX.Properties {
         ///
         ///16번도로
         ///트리스트 도로
-        ///\x10\x02뷿P
-        ///\x10\x02뷿Q
+        ///[~ 80]
+        ///[~ 81]
         ///프로스트케이브
         ///
         ///17번도로
@@ -24974,7 +25030,9 @@ namespace PKHeX.Properties {
         ///데르니에 도로
         ///22번도로
         ///데뚜르네 도로
-        ///챔피언 [rest of string was truncated]&quot;;.
+        ///챔피언로드
+        ///
+        ///포켓몬리 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_xy_00000_ko {
             get {
@@ -25484,8 +25542,8 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Ferne Person
         ///Pensionsleiter
-        ///Schatzjäger
-        ///.
+        ///Schatzsucher
+        ///Dame der Heißen Quellen.
         /// </summary>
         internal static string text_xy_60000_de {
             get {
@@ -25495,9 +25553,9 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to a stranger
-        ///a Day-Care Couple
+        ///Day Care helpers
         ///a treasure hunter
-        ///.
+        ///an old hot-springs visitor.
         /// </summary>
         internal static string text_xy_60000_en {
             get {
@@ -25509,7 +25567,7 @@ namespace PKHeX.Properties {
         ///   Looks up a localized string similar to Persona lejana
         ///Pareja de la Guardería
         ///Buscatesoros
-        ///.
+        ///Anciana del Balneario.
         /// </summary>
         internal static string text_xy_60000_es {
             get {
@@ -25519,9 +25577,9 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Personne lointaine
-        ///Couple de la Pension
-        ///Chasseur de trésors
-        ///.
+        ///Responsable de la Pension
+        ///Chercheur de Trésors
+        ///Dame des Eaux Thermales.
         /// </summary>
         internal static string text_xy_60000_fr {
             get {
@@ -25531,9 +25589,9 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Persona Lontana
-        ///Coppia Pensione
+        ///Pensione Pokémon
         ///Cercatesori
-        ///.
+        ///Vecchina delle terme.
         /// </summary>
         internal static string text_xy_60000_it {
             get {
@@ -25543,9 +25601,9 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to とおくにいるひと
-        ///そだてやふうふ
+        ///そだてやさん
         ///トレジャーハンター
-        ///.
+        ///おんせんばあさん.
         /// </summary>
         internal static string text_xy_60000_ja {
             get {
@@ -25557,7 +25615,7 @@ namespace PKHeX.Properties {
         ///   Looks up a localized string similar to 멀리 있는 사람
         ///키우미집
         ///트레져헌터
-        ///.
+        ///온천할머니.
         /// </summary>
         internal static string text_xy_60000_ko {
             get {

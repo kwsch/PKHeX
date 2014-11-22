@@ -93,7 +93,9 @@ namespace PKHeX
         private void changeBoxBG(object sender, EventArgs e)
         {
             sav[(0x7F000 * savindex) + 0x9C1E + LB_BoxSelect.SelectedIndex] = (byte)CB_BG.SelectedIndex;
-            PAN_BG.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject("box_wp" + (CB_BG.SelectedIndex+1).ToString("00"));
+
+            string imagename = "box_wp" + (CB_BG.SelectedIndex + 1).ToString("00"); if (m_parent.savegame_oras && (CB_BG.SelectedIndex + 1) > 16) imagename += "o";
+            PAN_BG.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
         }
     }
 }

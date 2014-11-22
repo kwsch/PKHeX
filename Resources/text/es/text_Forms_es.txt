@@ -199,7 +199,7 @@
 
 
 
-Una forma
+Unaa
 
 
 
@@ -349,7 +349,7 @@ Una forma
 
 
 
-Forma de Castform
+de Castform
 
 
 
@@ -384,7 +384,7 @@ Kyogre
 Groudon
 
 
-Forma Normal
+Normal
 
 
 
@@ -410,8 +410,8 @@ Forma Normal
 
 
 
-Tronco Planta
-Tronco Planta
+Planta
+Planta
 
 
 
@@ -419,7 +419,7 @@ Tronco Planta
 
 
 
-Forma Encapotado
+Encapotado
 Mar Oeste
 Mar Oeste
 
@@ -477,7 +477,7 @@ Mar Oeste
 
 
 
-Forma de Rotom
+de Rotom
 
 
 
@@ -485,13 +485,13 @@ Forma de Rotom
 
 
 
-Forma Modificada
+Modificada
 
 
 
 
-Forma Tierra
-Forma de Arceus
+Tierra
+de Arceus
 
 
 
@@ -548,12 +548,12 @@ Forma de Arceus
 
 
 
-Forma Raya Roja
+Raya Roja
 
 
 
 
-Modo Normal
+Normal
 
 
 
@@ -583,8 +583,8 @@ Modo Normal
 
 
 
-Forma Primavera
-Forma Primavera
+Primavera
+Primavera
 
 
 
@@ -639,15 +639,15 @@ Forma Primavera
 
 
 
-Forma Avatar
-Forma Avatar
+Avatar
+Avatar
 
 
-Forma Avatar
-Forma Kyurem
-Forma Habitual
-Forma Lírica
-Forma de Genesect
+Avatar
+Forma
+Habitual
+Lírica
+de Genesect
 
 
 
@@ -664,22 +664,22 @@ Forma de Genesect
 
 
 
-Motivo Polar
+Polar
 
 
-Flor Roja
-Flor Roja
-Flor Roja
+Roja
+Roja
+Roja
 
 
 
 
-Forma Salvaje
+Salvaje
 
 Macho
 
 
-Forma Escudo
+Escudo
 
 
 
@@ -708,31 +708,31 @@ Forma Escudo
 
 
 
-Tamaño Normal
-Tamaño Normal
+Normal
+Normal
 
 
 
 
-Modo Relajado
+Relajado
 
 
 
-Hoopa Contenido
+Contenido
 
 
-Mega-Venusaur
-Mega-Charizard X
-Mega-Charizard Y
+Mega
+Mega X
+Mega Y
 Mega-Blastoise
 Mega-Beedrill
 Mega-Pidgeot
-Pikachu Roquera
-Pikachu Aristócrata
-Pikachu Superstar
-Pikachu Erudita
-Pikachu Enmascarada
-Pikachu Coqueta
+Roquera
+Aristócrata
+Superstar
+Erudita
+Enmascarada
+Coqueta
 Mega-Alakazam
 Mega-Slowbro
 Mega-Gengar
@@ -743,33 +743,33 @@ Mega-Aerodactyl
 Mega-Mewtwo X
 Mega-Mewtwo Y
 Mega-Ampharos
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
-Una forma
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
+Unaa
 Mega-Steelix
 Mega-Scizor
 Mega-Heracross
@@ -787,9 +787,9 @@ Mega-Manectric
 Mega-Sharpedo
 Mega-Camerupt
 Mega-Altaria
-Forma Sol
-Forma Lluvia
-Forma Nieve
+Sol
+Lluvia
+Nieve
 Mega-Banette
 Mega-Absol
 Mega-Glalie
@@ -797,17 +797,17 @@ Mega-Salamence
 Mega-Metagross
 Mega-Latias
 Mega-Latios
-Regresión Primigenia
-Regresión Primigenia
+Primigenia
+Primigenia
 Mega-Rayquaza
-Forma Ataque
-Forma Defensa
-Forma Velocidad
-Tronco Arena
-Tronco Basura
-Tronco Arena
-Tronco Basura
-Forma Soleado
+Ataque
+Defensa
+Velocidad
+Arena
+Basura
+Arena
+Basura
+Soleado
 Mar Este
 Mar Este
 Mega-Lopunny
@@ -815,99 +815,99 @@ Mega-Garchomp
 Mega-Lucario
 Mega-Abomasnow
 Mega-Gallade
-Rotom Calor
-Rotom Lavado
-Rotom Frío
-Rotom Ventilador
-Rotom Corte
-Forma Origen
-Forma Cielo
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
-Forma de Arceus
+Calor
+Lavado
+Frío
+Ventilador
+Corte
+Origen
+Cielo
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
 Mega-Audino
-Forma Raya Azul
-Modo Daruma
-Forma Verano
-Forma Otoño
-Forma Invierno
-Forma Verano
-Forma Otoño
-Forma Invierno
-Forma Tótem
-Forma Tótem
-Forma Tótem
-Kyurem Blanco
-Kyurem Negro
-Forma Brío
-Forma Danza
-Forma de Genesect
-Forma de Genesect
-Forma de Genesect
-Forma de Genesect
-Motivo Taiga
-Motivo Tundra
-Motivo Continental
-Motivo Vergel
-Motivo Oriental
-Motivo Floral
-Motivo Moderno
-Motivo Marino
-Motivo Isleño
-Motivo Estepa
-Motivo Desierto
-Motivo Oasis
-Motivo Monzón
-Motivo Pantano
-Motivo Solar
-Motivo Océano
-Motivo Jungla
-Motivo Fantasía
-Motivo Poké Ball
-Flor Amarilla
-Flor Naranja
-Flor Azul
-Flor Blanca
-Flor Amarilla
-Flor Naranja
-Flor Azul
-Flor Blanca
-Flor Eterna
-Flor Amarilla
-Flor Naranja
-Flor Azul
-Flor Blanca
-Corte Corazón
-Corte Estrella
-Corte Rombo
-Corte Señorita
-Corte Dama
-Corte Caballero
-Corte Aristocrático
-Corte Kabuki
-Corte Faraónico
+Raya Azul
+Daruma
+Verano
+Otoño
+Invierno
+Verano
+Otoño
+Invierno
+Tótem
+Tótem
+Tótem
+Blanco
+Negro
+Brío
+Danza
+de Genesect
+de Genesect
+de Genesect
+de Genesect
+Taiga
+Tundra
+Continental
+Vergel
+Oriental
+Floral
+Motivorno
+Marino
+Isleño
+Estepa
+Desierto
+Oasis
+Monzón
+Pantano
+Solar
+Océano
+Jungla
+Fantasía
+Poké Ball
+Amarilla
+Naranja
+Azul
+Blanca
+Amarilla
+Naranja
+Azul
+Blanca
+Eterna
+Amarilla
+Naranja
+Azul
+Blanca
+Corazón
+Estrella
+Rombo
+Señorita
+Dama
+Caballero
+Aristocrático
+Kabuki
+Faraónico
 Hembra
-Forma Filo
-Tamaño Pequeño
-Tamaño Grande
-Tamaño Extragrande
-Tamaño Pequeño
-Tamaño Grande
-Tamaño Extragrande
-Modo Activo
+Filo
+Pequeño
+Grande
+Extragrande
+Pequeño
+Grande
+Extragrande
+Activo
 Mega-Diancie
-Hoopa Desatado
+Desatado

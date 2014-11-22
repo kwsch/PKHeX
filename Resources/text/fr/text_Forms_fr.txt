@@ -199,7 +199,7 @@
 
 
 
-Forme Unique
+Unique
 
 
 
@@ -349,7 +349,7 @@ Forme Unique
 
 
 
-Forme de Morphéo
+de Morphéo
 
 
 
@@ -384,7 +384,7 @@ Kyogre
 Groudon
 
 
-Forme Normale
+Normale
 
 
 
@@ -410,8 +410,8 @@ Forme Normale
 
 
 
-Cape Plante
-Cape Plante
+Plante
+Plante
 
 
 
@@ -419,7 +419,7 @@ Cape Plante
 
 
 
-Temps Couvert
+Couvert
 Mer Occident
 Mer Occident
 
@@ -477,7 +477,7 @@ Mer Occident
 
 
 
-Forme de Motisma
+de Motisma
 
 
 
@@ -485,13 +485,13 @@ Forme de Motisma
 
 
 
-Forme Alternative
+Alternative
 
 
 
 
-Forme Terrestre
-Forme de Arceus
+Terrestre
+de Arceus
 
 
 
@@ -548,7 +548,7 @@ Forme de Arceus
 
 
 
-Motif Rouge
+Rouge
 
 
 
@@ -583,8 +583,8 @@ Mode Normal
 
 
 
-Forme Printemps
-Forme Printemps
+Printemps
+Printemps
 
 
 
@@ -639,15 +639,15 @@ Forme Printemps
 
 
 
-Forme Avatar
-Forme Avatar
+Avatar
+Avatar
 
 
-Forme Avatar
-Forme de Kyurem
+Avatar
+de
 Aspect Normal
-Forme Chant
-Forme de Genesect
+Chant
+de Genesect
 
 
 
@@ -664,22 +664,22 @@ Forme de Genesect
 
 
 
-Motif Blizzard
+Blizzard
 
 
-Fleur Rouge
-Fleur Rouge
-Fleur Rouge
+Rouge
+Rouge
+Rouge
 
 
 
 
-Forme Sauvage
+Sauvage
 
 Mâle
 
 
-Forme Parade
+Parade
 
 
 
@@ -708,31 +708,31 @@ Forme Parade
 
 
 
-Taille Normale
-Taille Normale
+Normale
+Normale
 
 
 
 
-Mode Paisible
+Paisible
 
 
 
-Hoopa Enchaîné
+Enchaîné
 
 
-Méga-Florizarre
-Méga-Dracaufeu X
-Méga-Dracaufeu Y
+Méga
+Méga X
+Méga Y
 Méga-Tortank
 Méga-Dardargnan
 Méga-Roucarnage
-Pikachu Rockeur
-Pikachu Lady
-Pikachu Star
-Pikachu Docteur
-Pikachu Catcheur
-Pikachu Cosplayeur
+Rockeur
+Lady
+Star
+Docteur
+Catcheur
+Cosplayeur
 Méga-Alakazam
 Méga-Flagadoss
 Méga-Ectoplasma
@@ -743,33 +743,33 @@ Méga-Ptéra
 Méga-Mewtwo X
 Méga-Mewtwo Y
 Méga-Pharamp
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
-Forme Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
+Unique
 Méga-Steelix
 Méga-Cizayox
 Méga-Scarhino
@@ -787,9 +787,9 @@ Méga-Élecsprint
 Méga-Sharpedo
 Méga-Camérupt
 Méga-Altaria
-Forme Solaire
-Forme Eau de Pluie
-Forme Blizzard
+Solaire
+Eau de Pluie
+Blizzard
 Méga-Branette
 Méga-Absol
 Méga-Oniglali
@@ -800,14 +800,14 @@ Méga-Latios
 Primo-Résurgence
 Primo-Résurgence
 Méga-Rayquaza
-Forme Attaque
-Forme Défense
-Forme Vitesse
-Cape Sable
-Cape Déchet
-Cape Sable
-Cape Déchet
-Temps Ensoleillé
+Attaque
+Défense
+Vitesse
+Sable
+Déchet
+Sable
+Déchet
+Ensoleillé
 Mer Orient
 Mer Orient
 Méga-Lockpin
@@ -815,99 +815,99 @@ Méga-Carchacrok
 Méga-Lucario
 Méga-Blizzaroi
 Méga-Gallame
-Motisma Chaleur
-Motisma Lavage
-Motisma Froid
-Motisma Hélice
-Motisma Tonte
-Forme Originelle
-Forme Céleste
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
-Forme de Arceus
+Chaleur
+Lavage
+Froid
+Hélice
+Tonte
+Originelle
+Céleste
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
+de Arceus
 Méga-Nanméouïe
-Motif Bleu
+Bleu
 Mode Transe
-Forme Été
-Forme Automne
-Forme Hiver
-Forme Été
-Forme Automne
-Forme Hiver
-Forme Totémique
-Forme Totémique
-Forme Totémique
+Été
+Automne
+Hiver
+Été
+Automne
+Hiver
+Totémique
+Totémique
+Totémique
 Kyurem Blanc
 Kyurem Noir
 Aspect Décidé
-Forme Danse
-Forme de Genesect
-Forme de Genesect
-Forme de Genesect
-Forme de Genesect
-Motif Banquise
-Motif Glace
-Motif Continent
-Motif Verdure
-Motif Monarchie
-Motif Floraison
-Motif Métropole
-Motif Rivage
-Motif Archipel
-Motif Sécheresse
-Motif Sable
-Motif Delta
-Motif Cyclone
-Motif Mangrove
-Motif Zénith
-Motif Soleil Levant
-Motif Jungle
-Motif Fantaisie
-Motif Poké Ball
-Fleur Jaune
-Fleur Orange
-Fleur Bleue
-Fleur Blanche
-Fleur Jaune
-Fleur Orange
-Fleur Bleue
-Fleur Blanche
+Danse
+de Genesect
+de Genesect
+de Genesect
+de Genesect
+Banquise
+Glace
+Continent
+Verdure
+Monarchie
+Floraison
+Métropole
+Rivage
+Archipel
+Sécheresse
+Sable
+Delta
+Cyclone
+Mangrove
+Zénith
+Soleil Levant
+Jungle
+Fantaisie
+Poké Ball
+Jaune
+Orange
+Bleue
+Blanche
+Jaune
+Orange
+Bleue
+Blanche
 Éternelle
-Fleur Jaune
-Fleur Orange
-Fleur Bleue
-Fleur Blanche
-Coupe Cœur
-Coupe Étoile
-Coupe Diamant
-Coupe Demoiselle
-Coupe Madame
-Coupe Monsieur
-Coupe Reine
-Coupe Kabuki
-Coupe Pharaon
+Jaune
+Orange
+Bleue
+Blanche
+Cœur
+Étoile
+Diamant
+Demoiselle
+Madame
+Monsieur
+Reine
+Kabuki
+Pharaon
 Femelle
-Forme Assaut
-Taille Mini
-Taille Maxi
-Taille Ultra
-Taille Mini
-Taille Maxi
-Taille Ultra
-Mode Déchaîné
+Assaut
+Mini
+Maxi
+Ultra
+Mini
+Maxi
+Ultra
+Déchaîné
 Méga-Diancie
-Hoopa Déchaîné
+Déchaîné

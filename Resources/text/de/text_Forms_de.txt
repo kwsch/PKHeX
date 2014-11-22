@@ -199,7 +199,7 @@
 
 
 
-Einform
+Ein
 
 
 
@@ -349,7 +349,7 @@ Einform
 
 
 
-Formeo
+eo
 
 
 
@@ -384,7 +384,7 @@ Kyogre
 Groudon
 
 
-Normalform
+Normal
 
 
 
@@ -410,8 +410,8 @@ Normalform
 
 
 
-Pflanzenumhang
-Pflanzenumhang
+Pflanzen
+Pflanzen
 
 
 
@@ -419,9 +419,9 @@ Pflanzenumhang
 
 
 
-Wolkenform
-Westliches Meer
-Westliches Meer
+Wolken
+Westliches
+Westliches
 
 
 
@@ -485,12 +485,12 @@ Rotom
 
 
 
-Wandelform
+Wandel
 
 
 
 
-Landform
+Land
 Arceus
 
 
@@ -548,12 +548,12 @@ Arceus
 
 
 
-Rotlinige Form
+Rotlinige
 
 
 
 
-Normalmodus
+Normal
 
 
 
@@ -583,8 +583,8 @@ Normalmodus
 
 
 
-Frühlingsform
-Frühlingsform
+Frühlings
+Frühlings
 
 
 
@@ -639,14 +639,14 @@ Frühlingsform
 
 
 
-Inkarnationsform
-Inkarnationsform
+Inkarnations
+Inkarnations
 
 
-Inkarnationsform
+Inkarnations
 Kyurem
-Standardform
-Gesangsform
+Standard
+Gesangs
 Genesect
 
 
@@ -664,22 +664,22 @@ Genesect
 
 
 
-Frostmuster
+Frost
 
 
-Rotblütler
-Rotblütler
-Rotblütler
+Rot
+Rot
+Rot
 
 
 
 
-Zottelform
+Zottel
 
 Männlich
 
 
-Schildform
+Schild
 
 
 
@@ -708,22 +708,22 @@ Schildform
 
 
 
-Größe M
-Größe M
+M
+M
 
 
 
 
-Ruhe-Modus
+Ruhe-
 
 
 
-Gebanntes Hoopa
+Gebanntes
 
 
-Mega-Bisaflor
-Mega-Glurak X
-Mega-Glurak Y
+Mega
+Mega X
+Mega Y
 Mega-Turtok
 Mega-Bibor
 Mega-Tauboss
@@ -743,33 +743,33 @@ Mega-Aerodactyl
 Mega-Mewtu X
 Mega-Mewtu Y
 Mega-Ampharos
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
-Einform
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
+Ein
 Mega-Stahlos
 Mega-Scherox
 Mega-Skaraborn
@@ -787,9 +787,9 @@ Mega-Voltenso
 Mega-Tohaido
 Mega-Camerupt
 Mega-Altaria
-Sonnenform
-Regenform
-Schneeform
+Sonnen
+Regen
+Schnee
 Mega-Banette
 Mega-Absol
 Mega-Firnontor
@@ -797,19 +797,19 @@ Mega-Brutalanda
 Mega-Metagross
 Mega-Latias
 Mega-Latios
-Protomorphose
-Protomorphose
+Proto
+Proto
 Mega-Rayquaza
-Angriffsform
-Verteidigungsform
-Initiativeform
-Sandumhang
-Lumpenumhang
-Sandumhang
-Lumpenumhang
-Sonnenform
-Östliches Meer
-Östliches Meer
+Angriffs
+Verteidigungs
+Initiative
+Sand
+Lumpen
+Sand
+Lumpen
+Sonnen
+Östliches
+Östliches
 Mega-Schlapor
 Mega-Knakrack
 Mega-Lucario
@@ -820,8 +820,8 @@ Wasch-Rotom
 Frost-Rotom
 Wirbel-Rotom
 Schneid-Rotom
-Urform
-Zenitform
+Ur
+Zenit
 Arceus
 Arceus
 Arceus
@@ -840,74 +840,74 @@ Arceus
 Arceus
 Arceus
 Mega-Ohrdoch
-Blaulinige Form
-Trance-Modus
-Sommerform
-Herbstform
-Winterform
-Sommerform
-Herbstform
-Winterform
-Tiergeistform
-Tiergeistform
-Tiergeistform
-Weißes Kyurem
-Schwarzes Kyurem
-Resolutform
-Tanzform
+Blaulinige
+Trance
+Sommer
+Herbst
+Winter
+Sommer
+Herbst
+Winter
+Tiergeist
+Tiergeist
+Tiergeist
+Weißes
+Schwarzes
+Resolut
+Tanz
 Genesect
 Genesect
 Genesect
 Genesect
-Schneefeldmuster
-Flockenmuster
-Kontinentalmuster
-Ziergartenmuster
-Prunkmuster
-Blumenmeermuster
-Innovationsmuster
-Aquamarinmuster
-Archipelmuster
-Dürremuster
-Sandmuster
-Flussdeltamuster
-Monsunmuster
-Savannenmuster
-Sonnenmuster
-Ozeanmuster
-Dschungelmuster
-Fantasiemuster
-Pokéball-Muster
-Gelbblütler
-Orangeblütler
-Blaublütler
-Weißblütler
-Gelbblütler
-Orangeblütler
-Blaublütler
-Weißblütler
-Ewigblütler
-Gelbblütler
-Orangeblütler
-Blaublütler
-Weißblütler
-Herzchenschnitt
-Sternchenschnitt
-Diamantenschnitt
-Fräuleinschnitt
-Damenschnitt
-Kavaliersschnitt
-Königinnenschnitt
-Kabuki-Schnitt
-Herrscherschnitt
+Schneefeld
+Flocken
+Kontinental
+Ziergarten
+Prunk
+Blumenmeer
+Innovations
+Aquamarin
+Archipel
+Dürre
+Sand
+Flussdelta
+Monsun
+Savannen
+Sonnen
+Ozean
+Dschungel
+Fantasie
+Pokéball
+Gelb
+Orange
+Blau
+Weiß
+Gelb
+Orange
+Blau
+Weiß
+Ewig
+Gelb
+Orange
+Blau
+Weiß
+Herzchen
+Sternchen
+Diamanten
+Fräulein
+Damen
+Kavaliers
+Königinnen
+Kabuki
+Herrscher
 Weiblich
-Klingenform
-Größe S
-Größe L
-Größe XL
-Größe S
-Größe L
-Größe XL
-Aktiv-Modus
+Klingen
+S
+L
+XL
+S
+L
+XL
+Aktiv
 Mega-Diancie
-Entfesseltes Hoopa
+Entfesseltes

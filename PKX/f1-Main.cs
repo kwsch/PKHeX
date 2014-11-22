@@ -2115,13 +2115,13 @@ namespace PKHeX
                     new { Text = forms[912], Value = 1},
                 };
             var form_pikachu = new[] {
-                    new { Text = types[0], Value = 0},
-                    new { Text = forms[729], Value = 1},
-                    new { Text = forms[730], Value = 2},
-                    new { Text = forms[731], Value = 3},
-                    new { Text = forms[732], Value = 4},
-                    new { Text = forms[733], Value = 5},
-                    new { Text = forms[734], Value = 6},
+                    new { Text = types[0], Value = 0}, // Normal
+                    new { Text = forms[729], Value = 1}, // Rockstar
+                    new { Text = forms[730], Value = 2}, // Belle
+                    new { Text = forms[731], Value = 3}, // Pop
+                    new { Text = forms[732], Value = 4}, // PhD
+                    new { Text = forms[733], Value = 5}, // Libre
+                    new { Text = forms[734], Value = 6}, // Cosplay
                 };
 
             CB_Form.DataSource = form_list;
@@ -2153,7 +2153,8 @@ namespace PKHeX
             }
 
             // Regular Form List
-            if (species == 201) { form_list = form_unown; }
+            if (species == 025) { form_list = form_pikachu; }
+            else if (species == 201) { form_list = form_unown; }
             else if (species == 351) { form_list = form_castform; }
             else if (species == 386) { form_list = form_deoxys; }
             else if (species == 421) { form_list = form_cherrim; }
@@ -2271,25 +2272,25 @@ namespace PKHeX
         }
         private void Label_OT_Click(object sender, EventArgs e)
         {
-            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, 0x19448 + savindex * 0x7F000, 0x1A));
+            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, SaveGame.TrainerCard + 0x48 + savindex * 0x7F000, 0x1A));
             if (OT.Length > 0)
             {
                 TB_OT.Text = OT;
                 int savshift = 0x7F000 * savindex;
                 // Set Gender Label
-                int g6trgend = savefile[0x19405 + savshift];
+                int g6trgend = savefile[SaveGame.TrainerCard + 0x5 + savshift];
                 if (g6trgend == 1)
                     Label_OTGender.Text = "♀";
                 else Label_OTGender.Text = "♂";
 
                 // Get TID/SID
-                TB_TID.Text = BitConverter.ToUInt16(savefile, 0x19400 + savshift).ToString();
-                TB_SID.Text = BitConverter.ToUInt16(savefile, 0x19402 + savshift).ToString();
-                int game = savefile[0x19404 + savshift];
-                int subreg = savefile[0x19426 + savshift];
-                int country = savefile[0x19427 + savshift];
-                int _3DSreg = savefile[0x1942C + savshift];
-                int lang = savefile[0x1942D + savshift];
+                TB_TID.Text = BitConverter.ToUInt16(savefile, SaveGame.TrainerCard + 0 + savshift).ToString();
+                TB_SID.Text = BitConverter.ToUInt16(savefile, SaveGame.TrainerCard + 2 + savshift).ToString();
+                int game = savefile[SaveGame.TrainerCard + 0x4 + savshift];
+                int subreg = savefile[SaveGame.TrainerCard + 0x26 + savshift];
+                int country = savefile[SaveGame.TrainerCard + 0x27 + savshift];
+                int _3DSreg = savefile[SaveGame.TrainerCard + 0x2C + savshift];
+                int lang = savefile[SaveGame.TrainerCard + 0x2D + savshift];
 
                 // CB_GameOrigin.SelectedValue = game;
 
@@ -3935,9 +3936,10 @@ namespace PKHeX
 
             // temp ORAS save-editing disable
             // GB_SAVtools.Enabled = !oras;
-            B_OpenBerryField.Enabled = B_JPEG.Enabled = B_OpenBoxLayout.Enabled = B_OpenEventFlags.Enabled = B_OpenTrainerInfo.Enabled = 
-                B_OpenOPowers.Enabled = B_OpenPokedex.Enabled = B_OpenPokepuffs.Enabled = B_OpenSuperTraining.Enabled =
-                B_OpenTrainerInfo.Enabled = B_OUTHallofFame.Enabled = B_OUTPasserby.Enabled = (!oras);
+            B_OpenBerryField.Enabled = B_JPEG.Enabled =  
+                B_OpenOPowers.Enabled = B_OpenPokedex.Enabled = B_OpenSuperTraining.Enabled =
+                B_OUTHallofFame.Enabled = B_OUTPasserby.Enabled = (!oras);
+            //B_OpenTrainerInfo.Enabled = B_OpenPokepuffs.Enabled = B_OpenBoxLayout.Enabled = 
 
             this.Width = largeWidth;
         }
@@ -4241,7 +4243,6 @@ namespace PKHeX
             {
                 pkx[0x14] = (byte)Util.getIndex(DEV_Ability);                                                           // Ability
                 pkx[0xEC] = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);                                        // Level
-                Array.Copy(BitConverter.GetBytes(PKX.getEXP(pkx[0xEC], Util.getIndex(CB_Species))), 0, pkx, 0x10, 4);   // EXP
             }
 
             // Fix Moves if a slot is empty
@@ -4902,8 +4903,6 @@ namespace PKHeX
                 byte[] cybersav = new Byte[0x65600];
                 if (savegame_oras) cybersav = new Byte[0x76000];
                 Array.Copy(editedsav, 0x5400, cybersav, 0, cybersav.Length);
-                ushort wtf = BitConverter.ToUInt16(editedsav, 0x75E1A);
-                ushort wtf2 = BitConverter.ToUInt16(cybersav, 0x75E1A);
                 if (savegame_oras) goto postcheck;
                 // Chunk Error Checking
                 byte[] FFFF = new Byte[0x200];
@@ -5261,7 +5260,8 @@ namespace PKHeX
 
             int boxbgofst = (0x7F000 * savindex) + 0x9C1E + C_BoxSelect.SelectedIndex;
             int boxbgval = 1 + savefile[boxbgofst];
-            PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject("box_wp" + boxbgval.ToString("00"));
+            string imagename = "box_wp" + boxbgval.ToString("00"); if (savegame_oras && boxbgval > 16) imagename += "o";
+            PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
             
             PictureBox[] pba = {
                                     bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
@@ -5284,13 +5284,13 @@ namespace PKHeX
             // Reload Party
             for (int i = 0; i < 6; i++)
             {
-                int offset = 0x19600 + (0x7F000 * savindex) + 0x104 * i;
+                int offset = SaveGame.Party + (0x7F000 * savindex) + 0x104 * i;
                 getSlotFiller(offset, pba[i + 30]);
             }
             // Reload Battle Box
             for (int i = 0; i < 6; i++)
             {
-                int offset = 0x09E00 + (0x7F000 * savindex) + 0xE8 * i;
+                int offset = SaveGame.BattleBox + (0x7F000 * savindex) + 0xE8 * i;
                 getSlotFiller(offset, pba[i + 36]);
             }
             // Reload Daycare
@@ -5304,10 +5304,10 @@ namespace PKHeX
                                 };
             for (int i = 0; i < 2; i++)
             {
-                int offset = 0x20600 + (0x7F000 * savindex) + 0xE8 * i + 8 * (i + 1);
+                int offset = SaveGame.Daycare + (0x7F000 * savindex) + 0xE8 * i + 8 * (i + 1);
                 getSlotFiller(offset, pba[i + 42]);
-                dctexta[i].Text = BitConverter.ToUInt32(savefile, 0x20600 + (0x7F000 * savindex) + 0xF0 * i + 4).ToString();
-                if (Convert.ToBoolean(savefile[0x20600 + (0x7F000 * savindex) + 0xF0 * i]))   // If Occupied
+                dctexta[i].Text = BitConverter.ToUInt32(savefile, SaveGame.Daycare + (0x7F000 * savindex) + 0xF0 * i + 4).ToString();
+                if (Convert.ToBoolean(savefile[SaveGame.Daycare + (0x7F000 * savindex) + 0xF0 * i]))   // If Occupied
                 {
                     pba[i + 42].Image = Util.ChangeOpacity(pba[i + 42].Image, 1);
                     dclabela[i].Text = (i + 1) + ": Occupied";
@@ -5318,14 +5318,14 @@ namespace PKHeX
                     dclabela[i].Text = (i + 1) + ": Not Occupied";
                 }
             }
-            DayCare_HasEgg.Checked = Convert.ToBoolean(savefile[0x20600 + (0x7F000 * savindex) + 0x1E0]);
-            TB_RNGSeed.Text = BitConverter.ToUInt64(savefile, 0x20600 + (0x7F000 * savindex) + 0x1E8).ToString("X16");
+            DayCare_HasEgg.Checked = Convert.ToBoolean(savefile[SaveGame.Daycare + (0x7F000 * savindex) + 0x1E0]);
+            TB_RNGSeed.Text = BitConverter.ToUInt64(savefile, SaveGame.Daycare + (0x7F000 * savindex) + 0x1E8).ToString("X16");
 
             // GTS
-            getSlotFiller(0x1CC00 + (0x7F000 * savindex), pba[44]);
+            getSlotFiller(SaveGame.GTS + (0x7F000 * savindex), pba[44]);
 
             // Fused
-            getSlotFiller(0x1B400 + (0x7F000 * savindex), pba[45]);
+            getSlotFiller(SaveGame.Fused + (0x7F000 * savindex), pba[45]);
 
             // SUBE
             for (int i = 0; i < 3; i++)
@@ -5964,6 +5964,9 @@ namespace PKHeX
             itempouch = Util.getStringList("ItemPouch", l);
             wallpapernames = Util.getStringList("Wallpaper", l);
 
+            // Fix (None) tags
+            abilitylist[0] = itemlist[0] = movelist[0] = "("+itemlist[0]+")";
+
             // Fix Item Names (Duplicate entries)
             itemlist[629] += " (2)";
             itemlist[707] += " (2)";
@@ -6040,7 +6043,7 @@ namespace PKHeX
     {
         public struct SaveStruct
         {
-            public int Box, Party, BattleBox, GTS, Daycare, Fused, SUBE, Puff, Item, Trainer1, Trainer2, PCLayout, Wondercard, BerryField, OPower, EventFlag, PokeDex, HoF, PSS, JPEG;
+            public int Box, TrainerCard, Party, BattleBox, GTS, Daycare, Fused, SUBE, Puff, Item, Trainer1, Trainer2, PCLayout, Wondercard, BerryField, OPower, EventFlag, PokeDex, HoF, PSS, JPEG;
             public string Name;
             public SaveStruct(string GameID)
             {
@@ -6048,6 +6051,7 @@ namespace PKHeX
                 {
                     Name = "XY";
                     Box = 0x27A00;
+                    TrainerCard = 0x19400;
                     Party = 0x19600;
                     BattleBox = 0x09E00;
                     Daycare = 0x20600;
@@ -6075,11 +6079,12 @@ namespace PKHeX
                     // Temp
                     Name = "ORAS";
                     Box = 0x38400;      // Confirmed
+                    TrainerCard = 0x19400;
                     Party = 0x19600;    // Confirmed
                     BattleBox = 0x09E00;// Confirmed
                     Daycare = 0x20600;
-                    GTS = 0x1CC00;
-                    Fused = 0x1B400;
+                    GTS = 0x1D600;
+                    Fused = 0x1BE00;
                     SUBE = 0x22C90;
 
                     Puff = 0x5400;
@@ -6102,6 +6107,7 @@ namespace PKHeX
                     // Copied...
                     Name = "Unknown";
                     Box = 0x27A00;
+                    TrainerCard = 0x19400;
                     Party = 0x19600;
                     BattleBox = 0x09E00;
                     Daycare = 0x20600;

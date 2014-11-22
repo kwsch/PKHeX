@@ -301,6 +301,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-6.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-5.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-4.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-3.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-1.png" />
+    <None Include="Resources\img\box\box_wp24o.png" />
+    <None Include="Resources\img\box\box_wp23o.png" />
+    <None Include="Resources\img\box\box_wp22o.png" />
+    <None Include="Resources\img\box\box_wp21o.png" />
+    <None Include="Resources\img\box\box_wp20o.png" />
+    <None Include="Resources\img\box\box_wp19o.png" />
+    <None Include="Resources\img\box\box_wp18o.png" />
+    <None Include="Resources\img\box\box_wp17o.png" />
     <None Include="Resources\img\item\item_769.png" />
     <None Include="Resources\img\item\item_768.png" />
     <None Include="Resources\img\item\item_767.png" />
