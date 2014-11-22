@@ -34,15 +34,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.nud = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.flag_0001 = new System.Windows.Forms.CheckBox();
-            this.flag_0002 = new System.Windows.Forms.CheckBox();
-            this.flag_0003 = new System.Windows.Forms.CheckBox();
-            this.flag_0004 = new System.Windows.Forms.CheckBox();
-            this.flag_0005 = new System.Windows.Forms.CheckBox();
             this.B_Save = new System.Windows.Forms.Button();
-            this.flag_2237 = new System.Windows.Forms.CheckBox();
-            this.flag_2238 = new System.Windows.Forms.CheckBox();
-            this.flag_2239 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.L_UnSet = new System.Windows.Forms.Label();
             this.L_IsSet = new System.Windows.Forms.Label();
@@ -52,11 +44,9 @@
             this.TB_IsSet = new System.Windows.Forms.TextBox();
             this.B_LoadNew = new System.Windows.Forms.Button();
             this.B_LoadOld = new System.Windows.Forms.Button();
-            this.flag_0963 = new System.Windows.Forms.CheckBox();
-            this.flag_0115 = new System.Windows.Forms.CheckBox();
+            this.flag_0647 = new System.Windows.Forms.CheckBox();
+            this.flag_2840 = new System.Windows.Forms.CheckBox();
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
-            this.flag_0114 = new System.Windows.Forms.CheckBox();
-            this.flag_0790 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.flag_0289 = new System.Windows.Forms.CheckBox();
             this.flag_0288 = new System.Windows.Forms.CheckBox();
@@ -140,66 +130,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Flag:";
             // 
-            // flag_0001
-            // 
-            this.flag_0001.AutoSize = true;
-            this.flag_0001.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.flag_0001.Location = new System.Drawing.Point(12, 12);
-            this.flag_0001.Name = "flag_0001";
-            this.flag_0001.Size = new System.Drawing.Size(52, 17);
-            this.flag_0001.TabIndex = 4;
-            this.flag_0001.Text = "Flag1";
-            this.flag_0001.UseVisualStyleBackColor = true;
-            this.flag_0001.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0002
-            // 
-            this.flag_0002.AutoSize = true;
-            this.flag_0002.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.flag_0002.Location = new System.Drawing.Point(12, 28);
-            this.flag_0002.Name = "flag_0002";
-            this.flag_0002.Size = new System.Drawing.Size(52, 17);
-            this.flag_0002.TabIndex = 5;
-            this.flag_0002.Text = "Flag2";
-            this.flag_0002.UseVisualStyleBackColor = true;
-            this.flag_0002.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0003
-            // 
-            this.flag_0003.AutoSize = true;
-            this.flag_0003.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.flag_0003.Location = new System.Drawing.Point(12, 44);
-            this.flag_0003.Name = "flag_0003";
-            this.flag_0003.Size = new System.Drawing.Size(52, 17);
-            this.flag_0003.TabIndex = 6;
-            this.flag_0003.Text = "Flag3";
-            this.flag_0003.UseVisualStyleBackColor = true;
-            this.flag_0003.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0004
-            // 
-            this.flag_0004.AutoSize = true;
-            this.flag_0004.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.flag_0004.Location = new System.Drawing.Point(12, 60);
-            this.flag_0004.Name = "flag_0004";
-            this.flag_0004.Size = new System.Drawing.Size(52, 17);
-            this.flag_0004.TabIndex = 7;
-            this.flag_0004.Text = "Flag4";
-            this.flag_0004.UseVisualStyleBackColor = true;
-            this.flag_0004.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0005
-            // 
-            this.flag_0005.AutoSize = true;
-            this.flag_0005.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.flag_0005.Location = new System.Drawing.Point(12, 76);
-            this.flag_0005.Name = "flag_0005";
-            this.flag_0005.Size = new System.Drawing.Size(52, 17);
-            this.flag_0005.TabIndex = 8;
-            this.flag_0005.Text = "Flag5";
-            this.flag_0005.UseVisualStyleBackColor = true;
-            this.flag_0005.Click += new System.EventHandler(this.toggleFlag);
-            // 
             // B_Save
             // 
             this.B_Save.Location = new System.Drawing.Point(366, 306);
@@ -209,39 +139,6 @@
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
-            // 
-            // flag_2237
-            // 
-            this.flag_2237.AutoSize = true;
-            this.flag_2237.Location = new System.Drawing.Point(72, 12);
-            this.flag_2237.Name = "flag_2237";
-            this.flag_2237.Size = new System.Drawing.Size(50, 17);
-            this.flag_2237.TabIndex = 10;
-            this.flag_2237.Text = "2237";
-            this.flag_2237.UseVisualStyleBackColor = true;
-            this.flag_2237.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2238
-            // 
-            this.flag_2238.AutoSize = true;
-            this.flag_2238.Location = new System.Drawing.Point(72, 28);
-            this.flag_2238.Name = "flag_2238";
-            this.flag_2238.Size = new System.Drawing.Size(50, 17);
-            this.flag_2238.TabIndex = 11;
-            this.flag_2238.Text = "2238";
-            this.flag_2238.UseVisualStyleBackColor = true;
-            this.flag_2238.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2239
-            // 
-            this.flag_2239.AutoSize = true;
-            this.flag_2239.Location = new System.Drawing.Point(72, 44);
-            this.flag_2239.Name = "flag_2239";
-            this.flag_2239.Size = new System.Drawing.Size(50, 17);
-            this.flag_2239.TabIndex = 12;
-            this.flag_2239.Text = "2239";
-            this.flag_2239.UseVisualStyleBackColor = true;
-            this.flag_2239.Click += new System.EventHandler(this.toggleFlag);
             // 
             // groupBox2
             // 
@@ -332,66 +229,40 @@
             this.B_LoadOld.UseVisualStyleBackColor = true;
             this.B_LoadOld.Click += new System.EventHandler(this.openSAV);
             // 
-            // flag_0963
+            // flag_0647
             // 
-            this.flag_0963.AutoSize = true;
-            this.flag_0963.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0963.Location = new System.Drawing.Point(16, 19);
-            this.flag_0963.Name = "flag_0963";
-            this.flag_0963.Size = new System.Drawing.Size(113, 17);
-            this.flag_0963.TabIndex = 14;
-            this.flag_0963.Text = "Mewtwo Defeated";
-            this.flag_0963.UseVisualStyleBackColor = true;
-            this.flag_0963.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_0647.AutoSize = true;
+            this.flag_0647.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0647.Location = new System.Drawing.Point(16, 19);
+            this.flag_0647.Name = "flag_0647";
+            this.flag_0647.Size = new System.Drawing.Size(108, 17);
+            this.flag_0647.TabIndex = 14;
+            this.flag_0647.Text = "Mascot Defeated";
+            this.flag_0647.UseVisualStyleBackColor = true;
+            this.flag_0647.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // flag_0115
+            // flag_2840
             // 
-            this.flag_0115.AutoSize = true;
-            this.flag_0115.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0115.Location = new System.Drawing.Point(16, 34);
-            this.flag_0115.Name = "flag_0115";
-            this.flag_0115.Size = new System.Drawing.Size(112, 17);
-            this.flag_0115.TabIndex = 15;
-            this.flag_0115.Text = "Mewtwo Captured";
-            this.flag_0115.UseVisualStyleBackColor = true;
-            this.flag_0115.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_2840.AutoSize = true;
+            this.flag_2840.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2840.Location = new System.Drawing.Point(16, 34);
+            this.flag_2840.Name = "flag_2840";
+            this.flag_2840.Size = new System.Drawing.Size(107, 17);
+            this.flag_2840.TabIndex = 15;
+            this.flag_2840.Text = "Mascot Captured";
+            this.flag_2840.UseVisualStyleBackColor = true;
+            this.flag_2840.Click += new System.EventHandler(this.toggleFlag);
             // 
             // GB_Rebattle
             // 
-            this.GB_Rebattle.Controls.Add(this.flag_0114);
-            this.GB_Rebattle.Controls.Add(this.flag_0790);
-            this.GB_Rebattle.Controls.Add(this.flag_0115);
-            this.GB_Rebattle.Controls.Add(this.flag_0963);
+            this.GB_Rebattle.Controls.Add(this.flag_2840);
+            this.GB_Rebattle.Controls.Add(this.flag_0647);
             this.GB_Rebattle.Location = new System.Drawing.Point(129, 12);
             this.GB_Rebattle.Name = "GB_Rebattle";
             this.GB_Rebattle.Size = new System.Drawing.Size(152, 191);
             this.GB_Rebattle.TabIndex = 16;
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
-            // 
-            // flag_0114
-            // 
-            this.flag_0114.AutoSize = true;
-            this.flag_0114.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0114.Location = new System.Drawing.Point(16, 72);
-            this.flag_0114.Name = "flag_0114";
-            this.flag_0114.Size = new System.Drawing.Size(111, 17);
-            this.flag_0114.TabIndex = 17;
-            this.flag_0114.Text = "Zygarde Captured";
-            this.flag_0114.UseVisualStyleBackColor = true;
-            this.flag_0114.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0790
-            // 
-            this.flag_0790.AutoSize = true;
-            this.flag_0790.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0790.Location = new System.Drawing.Point(16, 57);
-            this.flag_0790.Name = "flag_0790";
-            this.flag_0790.Size = new System.Drawing.Size(112, 17);
-            this.flag_0790.TabIndex = 16;
-            this.flag_0790.Text = "Zygarde Defeated";
-            this.flag_0790.UseVisualStyleBackColor = true;
-            this.flag_0790.Click += new System.EventHandler(this.toggleFlag);
             // 
             // groupBox3
             // 
@@ -406,6 +277,7 @@
             this.groupBox3.Controls.Add(this.flag_0675);
             this.groupBox3.Controls.Add(this.flag_0286);
             this.groupBox3.Controls.Add(this.flag_0285);
+            this.groupBox3.Enabled = false;
             this.groupBox3.Location = new System.Drawing.Point(287, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(154, 288);
@@ -548,6 +420,7 @@
             // flag_2546
             // 
             this.flag_2546.AutoSize = true;
+            this.flag_2546.Enabled = false;
             this.flag_2546.Location = new System.Drawing.Point(13, 112);
             this.flag_2546.Name = "flag_2546";
             this.flag_2546.Size = new System.Drawing.Size(114, 17);
@@ -556,7 +429,7 @@
             this.flag_2546.UseVisualStyleBackColor = true;
             this.flag_2546.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // SAV_EventFlags
+            // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -565,22 +438,14 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.GB_Rebattle);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.flag_2239);
-            this.Controls.Add(this.flag_2238);
-            this.Controls.Add(this.flag_2237);
             this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.flag_0005);
-            this.Controls.Add(this.flag_0004);
-            this.Controls.Add(this.flag_0003);
-            this.Controls.Add(this.flag_0002);
-            this.Controls.Add(this.flag_0001);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SAV_EventFlags";
+            this.Name = "SAV_EventFlagsORAS";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Event Flag Editor";
             this.groupBox1.ResumeLayout(false);
@@ -603,16 +468,8 @@
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox flag_0001;
-        private System.Windows.Forms.CheckBox flag_0002;
-        private System.Windows.Forms.CheckBox flag_0003;
-        private System.Windows.Forms.CheckBox flag_0004;
-        private System.Windows.Forms.CheckBox flag_0005;
         private System.Windows.Forms.NumericUpDown nud;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.CheckBox flag_2237;
-        private System.Windows.Forms.CheckBox flag_2238;
-        private System.Windows.Forms.CheckBox flag_2239;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label L_UnSet;
         private System.Windows.Forms.Label L_IsSet;
@@ -622,11 +479,9 @@
         private System.Windows.Forms.TextBox TB_IsSet;
         private System.Windows.Forms.Button B_LoadNew;
         private System.Windows.Forms.Button B_LoadOld;
-        private System.Windows.Forms.CheckBox flag_0963;
-        private System.Windows.Forms.CheckBox flag_0115;
+        private System.Windows.Forms.CheckBox flag_0647;
+        private System.Windows.Forms.CheckBox flag_2840;
         private System.Windows.Forms.GroupBox GB_Rebattle;
-        private System.Windows.Forms.CheckBox flag_0114;
-        private System.Windows.Forms.CheckBox flag_0790;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox flag_0289;
         private System.Windows.Forms.CheckBox flag_0288;

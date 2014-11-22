@@ -52,10 +52,7 @@ namespace PKHeX
             // Fill Bit arrays
             
             chka = new CheckBox[] {
-                flag_0001,flag_0002,flag_0003,flag_0004,flag_0005,
-                flag_2237,flag_2238,flag_2239,
-                flag_0115,flag_0963, // Mewtwo
-                flag_0114,flag_0790, // Zygarde
+                flag_2840,flag_0647, // Kyogre/Rayquaza
                 flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
                 flag_0290,flag_0291,flag_0292,flag_0293,flag_0294, // Super Unlocks
                 flag_0675, // Chatelaine 50
@@ -162,9 +159,10 @@ namespace PKHeX
                     Array.Copy(data, 0x1A0FC - 0x5400, eventflags, 0, 0x180);
                 }
                 else
-                    MessageBox.Show("Invalid SAV Size", "Error"); return;
+                { MessageBox.Show("Invalid SAV Size", "Error"); return; }
             }
-            else return;
+            else 
+                return;
             
             Button bs = (Button)sender;
             if (bs.Name == "B_LoadOld")
