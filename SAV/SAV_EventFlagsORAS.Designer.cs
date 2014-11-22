@@ -64,7 +64,7 @@
             this.flag_0286 = new System.Windows.Forms.CheckBox();
             this.flag_0285 = new System.Windows.Forms.CheckBox();
             this.flag_2546 = new System.Windows.Forms.CheckBox();
-            this.flag_2841 = new System.Windows.Forms.CheckBox();
+            this.flag_2814 = new System.Windows.Forms.CheckBox();
             this.flag_0209 = new System.Windows.Forms.CheckBox();
             this.flag_2825 = new System.Windows.Forms.CheckBox();
             this.flag_0176 = new System.Windows.Forms.CheckBox();
@@ -265,7 +265,7 @@
             // 
             this.GB_Rebattle.Controls.Add(this.flag_2825);
             this.GB_Rebattle.Controls.Add(this.flag_0176);
-            this.GB_Rebattle.Controls.Add(this.flag_2841);
+            this.GB_Rebattle.Controls.Add(this.flag_2814);
             this.GB_Rebattle.Controls.Add(this.flag_0209);
             this.GB_Rebattle.Controls.Add(this.flag_2818);
             this.GB_Rebattle.Controls.Add(this.flag_0181);
@@ -489,16 +489,16 @@
             this.flag_2546.UseVisualStyleBackColor = true;
             this.flag_2546.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // flag_2841
+            // flag_2814
             // 
-            this.flag_2841.AutoSize = true;
-            this.flag_2841.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2841.Location = new System.Drawing.Point(16, 124);
-            this.flag_2841.Name = "flag_2841";
-            this.flag_2841.Size = new System.Drawing.Size(134, 17);
-            this.flag_2841.TabIndex = 21;
-            this.flag_2841.Text = "Lugia/Ho-Oh Captured";
-            this.flag_2841.UseVisualStyleBackColor = true;
+            this.flag_2814.AutoSize = true;
+            this.flag_2814.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2814.Location = new System.Drawing.Point(16, 124);
+            this.flag_2814.Name = "flag_2814";
+            this.flag_2814.Size = new System.Drawing.Size(134, 17);
+            this.flag_2814.TabIndex = 21;
+            this.flag_2814.Text = "Lugia/Ho-Oh Captured";
+            this.flag_2814.UseVisualStyleBackColor = true;
             // 
             // flag_0209
             // 
@@ -603,7 +603,7 @@
         private System.Windows.Forms.CheckBox flag_0183;
         private System.Windows.Forms.CheckBox flag_2818;
         private System.Windows.Forms.CheckBox flag_0181;
-        private System.Windows.Forms.CheckBox flag_2841;
+        private System.Windows.Forms.CheckBox flag_2814;
         private System.Windows.Forms.CheckBox flag_0209;
         private System.Windows.Forms.CheckBox flag_2825;
         private System.Windows.Forms.CheckBox flag_0176;

@@ -56,6 +56,7 @@ namespace PKHeX
                 flag_0183,flag_2831, // Zekrom
                 flag_0181,flag_2818, // Azelf
                 flag_0209,flag_2814, // Lugia/Ho-Oh
+                flag_0176,flag_2825, // Cobalion
 
                 // old
                 flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
