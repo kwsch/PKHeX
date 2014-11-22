@@ -318,6 +318,7 @@
             this.cb1.TabIndex = 10;
             this.cb1.Text = "1 - Bug";
             this.cb1.UseVisualStyleBackColor = true;
+            this.cb1.Visible = false;
             this.cb1.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // cb2
@@ -329,6 +330,7 @@
             this.cb2.TabIndex = 11;
             this.cb2.Text = "2 - Cliff";
             this.cb2.UseVisualStyleBackColor = true;
+            this.cb2.Visible = false;
             this.cb2.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // cb3
@@ -340,6 +342,7 @@
             this.cb3.TabIndex = 12;
             this.cb3.Text = "3 - Rumble";
             this.cb3.UseVisualStyleBackColor = true;
+            this.cb3.Visible = false;
             this.cb3.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // cb4
@@ -351,6 +354,7 @@
             this.cb4.TabIndex = 13;
             this.cb4.Text = "4 - Plant";
             this.cb4.UseVisualStyleBackColor = true;
+            this.cb4.Visible = false;
             this.cb4.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // cb5
@@ -362,6 +366,7 @@
             this.cb5.TabIndex = 14;
             this.cb5.Text = "5 - Voltage";
             this.cb5.UseVisualStyleBackColor = true;
+            this.cb5.Visible = false;
             this.cb5.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // cb6
@@ -373,6 +378,7 @@
             this.cb6.TabIndex = 15;
             this.cb6.Text = "6 - Fairy";
             this.cb6.UseVisualStyleBackColor = true;
+            this.cb6.Visible = false;
             this.cb6.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // cb7
@@ -384,6 +390,7 @@
             this.cb7.TabIndex = 16;
             this.cb7.Text = "7 - Psychic";
             this.cb7.UseVisualStyleBackColor = true;
+            this.cb7.Visible = false;
             this.cb7.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // cb8
@@ -395,6 +402,7 @@
             this.cb8.TabIndex = 17;
             this.cb8.Text = "8 - Iceberg";
             this.cb8.UseVisualStyleBackColor = true;
+            this.cb8.Visible = false;
             this.cb8.CheckedChanged += new System.EventHandler(this.changeBadge);
             // 
             // GB_Badges
@@ -428,8 +436,10 @@
             this.pb8.Location = new System.Drawing.Point(175, 77);
             this.pb8.Name = "pb8";
             this.pb8.Size = new System.Drawing.Size(50, 50);
+            this.pb8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb8.TabIndex = 25;
             this.pb8.TabStop = false;
+            this.pb8.Click += new System.EventHandler(this.toggleBadge);
             // 
             // pb6
             // 
@@ -437,8 +447,10 @@
             this.pb6.Location = new System.Drawing.Point(63, 77);
             this.pb6.Name = "pb6";
             this.pb6.Size = new System.Drawing.Size(50, 50);
+            this.pb6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb6.TabIndex = 24;
             this.pb6.TabStop = false;
+            this.pb6.Click += new System.EventHandler(this.toggleBadge);
             // 
             // pb4
             // 
@@ -446,8 +458,10 @@
             this.pb4.Location = new System.Drawing.Point(175, 21);
             this.pb4.Name = "pb4";
             this.pb4.Size = new System.Drawing.Size(50, 50);
+            this.pb4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb4.TabIndex = 23;
             this.pb4.TabStop = false;
+            this.pb4.Click += new System.EventHandler(this.toggleBadge);
             // 
             // pb2
             // 
@@ -455,8 +469,10 @@
             this.pb2.Location = new System.Drawing.Point(63, 21);
             this.pb2.Name = "pb2";
             this.pb2.Size = new System.Drawing.Size(50, 50);
+            this.pb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb2.TabIndex = 22;
             this.pb2.TabStop = false;
+            this.pb2.Click += new System.EventHandler(this.toggleBadge);
             // 
             // pb7
             // 
@@ -464,8 +480,10 @@
             this.pb7.Location = new System.Drawing.Point(119, 77);
             this.pb7.Name = "pb7";
             this.pb7.Size = new System.Drawing.Size(50, 50);
+            this.pb7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb7.TabIndex = 21;
             this.pb7.TabStop = false;
+            this.pb7.Click += new System.EventHandler(this.toggleBadge);
             // 
             // pb5
             // 
@@ -473,8 +491,10 @@
             this.pb5.Location = new System.Drawing.Point(7, 77);
             this.pb5.Name = "pb5";
             this.pb5.Size = new System.Drawing.Size(50, 50);
+            this.pb5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb5.TabIndex = 20;
             this.pb5.TabStop = false;
+            this.pb5.Click += new System.EventHandler(this.toggleBadge);
             // 
             // pb3
             // 
@@ -482,8 +502,10 @@
             this.pb3.Location = new System.Drawing.Point(119, 21);
             this.pb3.Name = "pb3";
             this.pb3.Size = new System.Drawing.Size(50, 50);
+            this.pb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb3.TabIndex = 19;
             this.pb3.TabStop = false;
+            this.pb3.Click += new System.EventHandler(this.toggleBadge);
             // 
             // pb1
             // 
@@ -491,8 +513,10 @@
             this.pb1.Location = new System.Drawing.Point(7, 21);
             this.pb1.Name = "pb1";
             this.pb1.Size = new System.Drawing.Size(50, 50);
+            this.pb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb1.TabIndex = 18;
             this.pb1.TabStop = false;
+            this.pb1.Click += new System.EventHandler(this.toggleBadge);
             // 
             // GB_Sayings
             // 

@@ -47,6 +47,10 @@
             this.flag_0647 = new System.Windows.Forms.CheckBox();
             this.flag_2840 = new System.Windows.Forms.CheckBox();
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
+            this.flag_2818 = new System.Windows.Forms.CheckBox();
+            this.flag_0181 = new System.Windows.Forms.CheckBox();
+            this.flag_2831 = new System.Windows.Forms.CheckBox();
+            this.flag_0183 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.flag_0289 = new System.Windows.Forms.CheckBox();
             this.flag_0288 = new System.Windows.Forms.CheckBox();
@@ -60,6 +64,10 @@
             this.flag_0286 = new System.Windows.Forms.CheckBox();
             this.flag_0285 = new System.Windows.Forms.CheckBox();
             this.flag_2546 = new System.Windows.Forms.CheckBox();
+            this.flag_2841 = new System.Windows.Forms.CheckBox();
+            this.flag_0209 = new System.Windows.Forms.CheckBox();
+            this.flag_2825 = new System.Windows.Forms.CheckBox();
+            this.flag_0176 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -155,7 +163,7 @@
             this.groupBox2.Size = new System.Drawing.Size(268, 120);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "FlagDiff";
+            this.groupBox2.Text = "FlagDiff Researcher";
             // 
             // L_UnSet
             // 
@@ -255,6 +263,14 @@
             // 
             // GB_Rebattle
             // 
+            this.GB_Rebattle.Controls.Add(this.flag_2825);
+            this.GB_Rebattle.Controls.Add(this.flag_0176);
+            this.GB_Rebattle.Controls.Add(this.flag_2841);
+            this.GB_Rebattle.Controls.Add(this.flag_0209);
+            this.GB_Rebattle.Controls.Add(this.flag_2818);
+            this.GB_Rebattle.Controls.Add(this.flag_0181);
+            this.GB_Rebattle.Controls.Add(this.flag_2831);
+            this.GB_Rebattle.Controls.Add(this.flag_0183);
             this.GB_Rebattle.Controls.Add(this.flag_2840);
             this.GB_Rebattle.Controls.Add(this.flag_0647);
             this.GB_Rebattle.Location = new System.Drawing.Point(129, 12);
@@ -263,6 +279,50 @@
             this.GB_Rebattle.TabIndex = 16;
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
+            // 
+            // flag_2818
+            // 
+            this.flag_2818.AutoSize = true;
+            this.flag_2818.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2818.Location = new System.Drawing.Point(16, 94);
+            this.flag_2818.Name = "flag_2818";
+            this.flag_2818.Size = new System.Drawing.Size(95, 17);
+            this.flag_2818.TabIndex = 19;
+            this.flag_2818.Text = "Azelf Captured";
+            this.flag_2818.UseVisualStyleBackColor = true;
+            // 
+            // flag_0181
+            // 
+            this.flag_0181.AutoSize = true;
+            this.flag_0181.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0181.Location = new System.Drawing.Point(16, 79);
+            this.flag_0181.Name = "flag_0181";
+            this.flag_0181.Size = new System.Drawing.Size(96, 17);
+            this.flag_0181.TabIndex = 18;
+            this.flag_0181.Text = "Azelf Defeated";
+            this.flag_0181.UseVisualStyleBackColor = true;
+            // 
+            // flag_2831
+            // 
+            this.flag_2831.AutoSize = true;
+            this.flag_2831.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2831.Location = new System.Drawing.Point(16, 64);
+            this.flag_2831.Name = "flag_2831";
+            this.flag_2831.Size = new System.Drawing.Size(121, 17);
+            this.flag_2831.TabIndex = 17;
+            this.flag_2831.Text = "Zek/Resh Captured";
+            this.flag_2831.UseVisualStyleBackColor = true;
+            // 
+            // flag_0183
+            // 
+            this.flag_0183.AutoSize = true;
+            this.flag_0183.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0183.Location = new System.Drawing.Point(16, 49);
+            this.flag_0183.Name = "flag_0183";
+            this.flag_0183.Size = new System.Drawing.Size(122, 17);
+            this.flag_0183.TabIndex = 16;
+            this.flag_0183.Text = "Zek/Resh Defeated";
+            this.flag_0183.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -277,13 +337,13 @@
             this.groupBox3.Controls.Add(this.flag_0675);
             this.groupBox3.Controls.Add(this.flag_0286);
             this.groupBox3.Controls.Add(this.flag_0285);
-            this.groupBox3.Enabled = false;
             this.groupBox3.Location = new System.Drawing.Point(287, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(154, 288);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Misc";
+            this.groupBox3.Visible = false;
             // 
             // flag_0289
             // 
@@ -429,6 +489,50 @@
             this.flag_2546.UseVisualStyleBackColor = true;
             this.flag_2546.Click += new System.EventHandler(this.toggleFlag);
             // 
+            // flag_2841
+            // 
+            this.flag_2841.AutoSize = true;
+            this.flag_2841.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2841.Location = new System.Drawing.Point(16, 124);
+            this.flag_2841.Name = "flag_2841";
+            this.flag_2841.Size = new System.Drawing.Size(134, 17);
+            this.flag_2841.TabIndex = 21;
+            this.flag_2841.Text = "Lugia/Ho-Oh Captured";
+            this.flag_2841.UseVisualStyleBackColor = true;
+            // 
+            // flag_0209
+            // 
+            this.flag_0209.AutoSize = true;
+            this.flag_0209.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0209.Location = new System.Drawing.Point(16, 109);
+            this.flag_0209.Name = "flag_0209";
+            this.flag_0209.Size = new System.Drawing.Size(135, 17);
+            this.flag_0209.TabIndex = 20;
+            this.flag_0209.Text = "Lugia/Ho-Oh Defeated";
+            this.flag_0209.UseVisualStyleBackColor = true;
+            // 
+            // flag_2825
+            // 
+            this.flag_2825.AutoSize = true;
+            this.flag_2825.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2825.Location = new System.Drawing.Point(16, 154);
+            this.flag_2825.Name = "flag_2825";
+            this.flag_2825.Size = new System.Drawing.Size(113, 17);
+            this.flag_2825.TabIndex = 23;
+            this.flag_2825.Text = "Cobalion Captured";
+            this.flag_2825.UseVisualStyleBackColor = true;
+            // 
+            // flag_0176
+            // 
+            this.flag_0176.AutoSize = true;
+            this.flag_0176.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0176.Location = new System.Drawing.Point(16, 139);
+            this.flag_0176.Name = "flag_0176";
+            this.flag_0176.Size = new System.Drawing.Size(114, 17);
+            this.flag_0176.TabIndex = 22;
+            this.flag_0176.Text = "Cobalion Defeated";
+            this.flag_0176.UseVisualStyleBackColor = true;
+            // 
             // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -495,5 +599,13 @@
         private System.Windows.Forms.CheckBox flag_0286;
         private System.Windows.Forms.CheckBox flag_0285;
         private System.Windows.Forms.CheckBox flag_2546;
+        private System.Windows.Forms.CheckBox flag_2831;
+        private System.Windows.Forms.CheckBox flag_0183;
+        private System.Windows.Forms.CheckBox flag_2818;
+        private System.Windows.Forms.CheckBox flag_0181;
+        private System.Windows.Forms.CheckBox flag_2841;
+        private System.Windows.Forms.CheckBox flag_0209;
+        private System.Windows.Forms.CheckBox flag_2825;
+        private System.Windows.Forms.CheckBox flag_0176;
     }
 }

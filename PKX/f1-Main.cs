@@ -3713,7 +3713,9 @@ namespace PKHeX
 
             else
             {
-                byte[] input = File.ReadAllBytes(path);
+
+                byte[] input; try { input = File.ReadAllBytes(path); }
+                catch { MessageBox.Show("File is in use!\n\n"+path,"Error"); return; } 
 
                 try { openFile(input, path, ext); }
                 catch
@@ -3936,9 +3938,9 @@ namespace PKHeX
 
             // temp ORAS save-editing disable
             // GB_SAVtools.Enabled = !oras;
-            B_OpenBerryField.Enabled = B_JPEG.Enabled =  
-                B_OpenOPowers.Enabled = B_OpenPokedex.Enabled = B_OpenSuperTraining.Enabled =
-                B_OUTHallofFame.Enabled = B_OUTPasserby.Enabled = (!oras);
+            GB_SUBE.Visible = 
+                B_OpenOPowers.Enabled = B_OpenPokedex.Enabled = 
+                B_OpenBerryField.Enabled = !oras;
             //B_OpenTrainerInfo.Enabled = B_OpenPokepuffs.Enabled = B_OpenBoxLayout.Enabled = 
 
             this.Width = largeWidth;
@@ -4415,6 +4417,8 @@ namespace PKHeX
                 }
             }
             RTB_S.Text += "1st SAV: " + (start.Length - invalid1).ToString() + "/" + start.Length.ToString() + "\r\n";
+
+            if (cybergadget) return;
 
             // Do it again, but for the second SAV.
             csoff += 0x7F000;
@@ -5066,6 +5070,28 @@ namespace PKHeX
             byte[] pkxdata = preparepkx(buff);
             byte[] ekxdata = PKX.encryptArray(pkxdata);
 
+            if (!savegame_oras)
+            {
+                // User Protection
+                int move1 = BitConverter.ToInt16(pkxdata,0x5A);
+                int move2 = BitConverter.ToInt16(pkxdata,0x5C);
+                int move3 = BitConverter.ToInt16(pkxdata,0x5E);
+                int move4 = BitConverter.ToInt16(pkxdata,0x60);
+                int ability = pkxdata[0x14];
+                int item = BitConverter.ToInt16(pkxdata,0x0A);
+                DialogResult dr = new DialogResult();
+
+                if (move1 > 617 || move2 > 617 || move3 > 617 || move4 > 617)
+                    dr = MessageBox.Show("Move does not exist in X/Y.\n\nContinue?", "Alert", MessageBoxButtons.YesNo);
+                else if (ability > 188)
+                    dr = MessageBox.Show("Ability does not exist in X/Y.\n\nContinue?", "Alert", MessageBoxButtons.YesNo);
+                else if (item > 717)
+                    dr = MessageBox.Show("Item does not exist in X/Y.\n\nContinue?", "Alert", MessageBoxButtons.YesNo);
+                else goto next;
+                if (dr != DialogResult.Yes)
+                    return;
+            }
+          next:
             if (slot >= 30 && slot < 36) // Party
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
@@ -5103,6 +5129,7 @@ namespace PKHeX
         }
         private void setPokedex(byte[] pkxdata)
         {
+            if (savegame_oras) return;
             if (savindex > 1) return;
             int species = BitConverter.ToUInt16(pkxdata, 0x8);  // Species
             int lang = pkxdata[0xE3] - 1; if (lang > 5) lang--; // 0-6 language vals
@@ -5218,25 +5245,12 @@ namespace PKHeX
         {
             Control sourceControl = null;
             // Try to cast the sender to a ToolStripItem
-            try
-            {
-                ToolStripItem menuItem = sender as ToolStripItem;
-                ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
-                sourceControl = owner.SourceControl;
-            }
-            catch
-            {
-                // try to cast as picturebox
-                try
-                {
-                    PictureBox pbItem = sender as PictureBox;
-                    sourceControl = pbItem as Control;
-                }
-                catch
-                {
-                    MessageBox.Show("Invalid slot!", "Error");
-                    return 0;
-                }
+            try { ToolStripItem menuItem = sender as ToolStripItem; ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip; sourceControl = owner.SourceControl; }
+            catch 
+            { // try to cast as picturebox 
+                try { PictureBox pbItem = sender as PictureBox; sourceControl = pbItem as Control; }
+                catch 
+                { MessageBox.Show("Invalid slot!", "Error"); return 0; }
             }
 
             string[] pba = {
@@ -5535,9 +5549,7 @@ namespace PKHeX
                                 // open folder dialog
                                 FolderBrowserDialog fbd = new FolderBrowserDialog();
                                 if (fbd.ShowDialog() == DialogResult.OK)
-                                {
                                     path = fbd.SelectedPath;
-                                }
                             }
                             else return;
                         }
@@ -5546,9 +5558,7 @@ namespace PKHeX
                             // open folder dialog
                             FolderBrowserDialog fbd = new FolderBrowserDialog();
                             if (fbd.ShowDialog() == DialogResult.OK)
-                            {
                                 path = fbd.SelectedPath;
-                            }
                         }
                         loadBoxesFromDB(path);
                     }
@@ -5561,18 +5571,14 @@ namespace PKHeX
                             {
                                 path = exepath + "\\db";
                                 if (!Directory.Exists(path))
-                                {
-                                    DirectoryInfo di = Directory.CreateDirectory(path);
-                                }
+                                    Directory.CreateDirectory(path);
                             }
                             else if (ld == DialogResult.No)
                             {
                                 // open folder dialog
                                 FolderBrowserDialog fbd = new FolderBrowserDialog();
                                 if (fbd.ShowDialog() == DialogResult.OK)
-                                {
                                     path = fbd.SelectedPath;
-                                }
                             }
                             else return;
                         }
@@ -5591,17 +5597,11 @@ namespace PKHeX
 
                             string nick = "";
                             if (Convert.ToBoolean((IV32 >> 31) & 1))
-                            {
                                 nick = Util.TrimFromZero(Encoding.Unicode.GetString(pkxdata, 0x40, 24)) + " (" + specieslist[species] + ")";
-                            }
                             else
-                            {
                                 nick = specieslist[species];
-                            }
                             if (Convert.ToBoolean((IV32 >> 30) & 1))
-                            {
                                 nick += " (" + eggname + ")";
-                            }
 
                             string isshiny = "";
                             int gamevers = pkxdata[0xDF];
@@ -5612,10 +5612,9 @@ namespace PKHeX
                             uint PSV = UID ^ LID;
                             uint TSV = Util.ToUInt32(TB_TID.Text) ^ Util.ToUInt32(TB_SID.Text);
                             uint XOR = TSV ^ PSV;
-                            if (XOR < 16)
-                            {   // Is Shiny
+                            if (XOR < 16) // Is Shiny
                                 isshiny = " ★";
-                            }
+
                             string savedname =
                                 species.ToString("000") + isshiny + " - "
                                 + nick + " - "
@@ -5623,9 +5622,7 @@ namespace PKHeX
                                 + ".pk6";
                             Array.Resize(ref pkxdata, 232);
                             if (!File.Exists(path + "\\" + savedname))
-                            {
                                 File.WriteAllBytes(path + "\\" + Util.CleanFileName(savedname), pkxdata);
-                            }
                         }
                     }
                 }
@@ -5670,11 +5667,9 @@ namespace PKHeX
                     else
                     {
                         try // to convert g5pkm
-                        {
-                            data = PKX.encryptArray(Converter.ConvertPKM(input, savefile, savindex));
-                            pastctr++;
-                        }
-                        catch { continue; }
+                        { data = PKX.encryptArray(Converter.ConvertPKM(input, savefile, savindex)); pastctr++; }
+                        catch 
+                        { continue; }
                     }
                 }
                 else if (ext == ".pkx" || ext == ".pk6")
@@ -5749,7 +5744,7 @@ namespace PKHeX
         }
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
-            PKHeX.SAV_Trainer sb13 = new PKHeX.SAV_Trainer(this,SaveGame.Name);
+            PKHeX.SAV_Trainer sb13 = new PKHeX.SAV_Trainer(this);
             sb13.ShowDialog();
         }
         private void B_OpenPokepuffs_Click(object sender, EventArgs e)
@@ -5829,12 +5824,15 @@ namespace PKHeX
                     ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
                     int favpkm = BitConverter.ToUInt16(savefile, r_offset + 0x9C) & 0x7FF;
                     string gamename;
-                    if (game == 0x18)
-                    {
+                    if (game == 24)
                         gamename = "X";
-                    }
-                    else gamename = "Y";
-
+                    else if (game == 25)
+                        gamename = "Y";
+                    else if(game == 26)
+                        gamename = "AS";
+                    else if (game == 27)
+                        gamename = "OR";
+                    else gamename = "UNK GAME";
                     result +=
                         "OT: " + otname + "\r\n" +
                         "Message: " + message + "\r\n" +
@@ -6079,28 +6077,28 @@ namespace PKHeX
                     // Temp
                     Name = "ORAS";
                     Box = 0x38400;      // Confirmed
-                    TrainerCard = 0x19400;
+                    TrainerCard = 0x19400; // Confirmed
                     Party = 0x19600;    // Confirmed
                     BattleBox = 0x09E00;// Confirmed
-                    Daycare = 0x20600;
-                    GTS = 0x1D600;
-                    Fused = 0x1BE00;
-                    SUBE = 0x22C90;
+                    Daycare = 0x21000; // Confirmed (thanks Rei)
+                    GTS = 0x1D600; // Confirmed
+                    Fused = 0x1BE00; // Confirmed
+                    SUBE = 0x22C90; // ****not in use, not updating?****
 
-                    Puff = 0x5400;
-                    Item = 0x5800;
-                    Trainer1 = 0x6800;
-                    Trainer2 = 0x9600;
-                    PCLayout = 0x9800;
-                    Wondercard = 0x22000;// Confirmed
-                    BerryField = 0x20C00;
+                    Puff = 0x5400; // Confirmed
+                    Item = 0x5800; // Confirmed
+                    Trainer1 = 0x6800; // Confirmed
+                    Trainer2 = 0x9600; // Confirmed
+                    PCLayout = 0x9800; // Confirmed
+                    Wondercard = 0x22000; // Confirmed
+                    BerryField = 0x20C00; // ****changed****
                     OPower = 0x1BE00;
-                    EventFlag = 0x19E00;
+                    EventFlag = 0x19E00; // Confirmed
                     PokeDex = 0x1A400;
 
-                    HoF = 0x1E800;
-                    JPEG = 0x5C600;
-                    PSS = 0x0A400;
+                    HoF = 0x1F200; // Confirmed
+                    JPEG = 0x6D000; // Confirmed
+                    PSS = 0x0A400; // Confirmed (thanks Rei)
                 }
                 else
                 {

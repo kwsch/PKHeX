@@ -259,30 +259,6 @@
   <data name="badge_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\badges\badge_8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="rsBadge_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rsBadge_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rsBadge_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rsBadge_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rsBadge_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rsBadge_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rsBadge_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rsBadge_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\badges\rsBadge_8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="egg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\egg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -5145,5 +5121,29 @@
   </data>
   <data name="_25_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\25-6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_06" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_07" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_07.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="badge_08" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\badges\badge_08.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

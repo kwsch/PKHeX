@@ -52,7 +52,12 @@ namespace PKHeX
             // Fill Bit arrays
             
             chka = new CheckBox[] {
-                flag_2840,flag_0647, // Kyogre/Rayquaza
+                flag_0647,flag_2840, // Kyogre/Rayquaza
+                flag_0183,flag_2831, // Zekrom
+                flag_0181,flag_2818, // Azelf
+                flag_0209,flag_2814, // Lugia/Ho-Oh
+
+                // old
                 flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
                 flag_0290,flag_0291,flag_0292,flag_0293,flag_0294, // Super Unlocks
                 flag_0675, // Chatelaine 50

@@ -9713,6 +9713,86 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap badge_01 {
+            get {
+                object obj = ResourceManager.GetObject("badge_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap badge_02 {
+            get {
+                object obj = ResourceManager.GetObject("badge_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap badge_03 {
+            get {
+                object obj = ResourceManager.GetObject("badge_03", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap badge_04 {
+            get {
+                object obj = ResourceManager.GetObject("badge_04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap badge_05 {
+            get {
+                object obj = ResourceManager.GetObject("badge_05", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap badge_06 {
+            get {
+                object obj = ResourceManager.GetObject("badge_06", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap badge_07 {
+            get {
+                object obj = ResourceManager.GetObject("badge_07", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap badge_08 {
+            get {
+                object obj = ResourceManager.GetObject("badge_08", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap badge_1 {
             get {
                 object obj = ResourceManager.GetObject("badge_1", resourceCulture);
@@ -14842,86 +14922,6 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_1 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_2 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_3 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_4 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_4", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_5 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_5", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_6 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_6", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_7 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_7", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap rsBadge_8 {
-            get {
-                object obj = ResourceManager.GetObject("rsBadge_8", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap shock {
             get {
                 object obj = ResourceManager.GetObject("shock", resourceCulture);
@@ -18824,7 +18824,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Forma Vaga
+        ///Vaga
         ///
         ///
         ///
@@ -18974,7 +18974,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Forma Castform
+        ///Castform
         ///
         ///
         ///
@@ -19009,7 +19009,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Forma Normale
+        ///Normale
         ///
         ///
         ///
@@ -19035,8 +19035,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Manto Pianta
-        ///Manto Pianta
+        ///Pianta
+        ///Pianta
         ///
         ///
         ///
@@ -19044,9 +19044,41 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Forma Nuvola
+        ///Nuvola
         ///Mare Ovest
-        ///Mare O [rest of string was truncated]&quot;;.
+        ///Mare Ovest
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_it {
             get {
@@ -19710,7 +19742,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///형태별 모습
+        ///형태별
         ///
         ///
         ///
@@ -19860,7 +19892,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///캐스퐁의 모습
+        ///캐스퐁
         ///
         ///
         ///
@@ -19891,8 +19923,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///가이오가의 모습
-        ///그란돈의 모습
+        ///가이오가
+        ///그란돈
         ///
         ///
         ///노말폼
@@ -19933,6 +19965,21 @@ namespace PKHeX.Properties {
         ///네거폼
         ///서쪽바다
         ///서쪽바다
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
         ///
         ///
         ///

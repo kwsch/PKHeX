@@ -199,7 +199,7 @@
 
 
 
-Forma Vaga
+Vaga
 
 
 
@@ -349,7 +349,7 @@ Forma Vaga
 
 
 
-Forma Castform
+Castform
 
 
 
@@ -384,7 +384,7 @@ Forma Castform
 
 
 
-Forma Normale
+Normale
 
 
 
@@ -410,8 +410,8 @@ Forma Normale
 
 
 
-Manto Pianta
-Manto Pianta
+Pianta
+Pianta
 
 
 
@@ -419,7 +419,7 @@ Manto Pianta
 
 
 
-Forma Nuvola
+Nuvola
 Mare Ovest
 Mare Ovest
 
@@ -477,7 +477,7 @@ Mare Ovest
 
 
 
-Forma Rotom
+Rotom
 
 
 
@@ -485,13 +485,13 @@ Forma Rotom
 
 
 
-Forma Alterata
+Alterata
 
 
 
 
-Forma Terra
-Forma di Arceus
+Terra
+di Arceus
 
 
 
@@ -548,12 +548,12 @@ Forma di Arceus
 
 
 
-Forma Linearossa
+Linearossa
 
 
 
 
-Forma Normalità
+Normalità
 
 
 
@@ -583,8 +583,8 @@ Forma Normalità
 
 
 
-Forma Primavera
-Forma Primavera
+Primavera
+Primavera
 
 
 
@@ -639,15 +639,15 @@ Forma Primavera
 
 
 
-Forma Incarnazione
-Forma Incarnazione
+Incarnazione
+Incarnazione
 
 
-Forma Incarnazione
-Forma di Kyurem
-Forma Normale
-Forma Canto
-Forma di Genesect
+Incarnazione
+di
+Normale
+Canto
+di Genesect
 
 
 
@@ -664,22 +664,22 @@ Forma di Genesect
 
 
 
-Motivo Nevi Perenni
+Nevi Perenni
 
 
-Fiore Rosso
-Fiore Rosso
-Fiore Rosso
+Rosso
+Rosso
+Rosso
 
 
 
 
-Forma Selvatica
+Selvatica
 
 Maschio
 
 
-Forma Scudo
+Scudo
 
 
 
@@ -714,25 +714,25 @@ Normale
 
 
 
-Modo Relax
+Relax
 
 
 
-Hoopa Vincolato
+Vincolato
 
 
-MegaVenusaur
-MegaCharizard X
-MegaCharizard Y
+Mega
+Mega X
+Mega Y
 MegaBlastoise
 MegaBeedrill
 MegaPidgeot
-Pikachu rockstar
-Pikachu damigella
-Pikachu confetto
-Pikachu scienziata
-Pikachu wrestler
-Pikachu Cosplay
+rockstar
+damigella
+confetto
+scienziata
+wrestler
+Cosplay
 MegaAlakazam
 MegaSlowbro
 MegaGengar
@@ -743,33 +743,33 @@ MegaAerodactyl
 MegaMewtwo X
 MegaMewtwo Y
 MegaAmpharos
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
-Forma Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
+Vaga
 MegaSteelix
 MegaScizor
 MegaHeracross
@@ -787,9 +787,9 @@ MegaManectric
 MegaSharpedo
 MegaCamerupt
 MegaAltaria
-Forma Sole
-Forma Pioggia
-Forma Nuvola di Neve
+Sole
+Pioggia
+Neve
 MegaBanette
 MegaAbsol
 MegaGlalie
@@ -797,17 +797,17 @@ MegaSalamence
 MegaMetagross
 MegaLatias
 MegaLatios
-Archeorisveglio
-Archeorisveglio
+Archeo.
+Archeo.
 MegaRayquaza
-Forma Attacco
-Forma Difesa
-Forma Velocità
-Manto Sabbia
-Manto Scarti
-Manto Sabbia
-Manto Scarti
-Forma Splendore
+Attacco
+Difesa
+Velocità
+Sabbia
+Scarti
+Sabbia
+Scarti
+Splendore
 Mare Est
 Mare Est
 MegaLopunny
@@ -815,99 +815,99 @@ MegaGarchomp
 MegaLucario
 MegaAbomasnow
 MegaGallade
-Rotom Calore
-Rotom Lavaggio
-Rotom Gelo
-Rotom Vortice
-Rotom Taglio
-Forma Originale
-Forma Cielo
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
-Forma di Arceus
+Calore
+Lavaggio
+Gelo
+Vortice
+Taglio
+Originale
+Cielo
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
+di Arceus
 MegaAudino
-Forma Lineablu
-Stato Zen
-Forma Estate
-Forma Autunno
-Forma Inverno
-Forma Estate
-Forma Autunno
-Forma Inverno
-Forma Totem
-Forma Totem
-Forma Totem
-Kyurem Bianco
-Kyurem Nero
-Forma Risoluta
-Forma Danza
-Forma di Genesect
-Forma di Genesect
-Forma di Genesect
-Forma di Genesect
-Motivo Nordico
-Motivo Manto di Neve
-Motivo Continentale
-Motivo Prato
-Motivo Eleganza
-Motivo Giardinfiore
-Motivo Trendy
-Motivo Marino
-Motivo Arcipelago
-Motivo Deserto
-Motivo Sabbia
-Motivo Fluviale
-Motivo Pluviale
-Motivo Savana
-Motivo Solare
-Motivo Oceanico
-Motivo Giungla
-Motivo Sbarazzino
-Motivo Poké Ball
-Fiore Giallo
-Fiore Arancione
-Fiore Blu
-Fiore Bianco
-Fiore Giallo
-Fiore Arancione
-Fiore Blu
-Fiore Bianco
-Fiore Eterno
-Fiore Giallo
-Fiore Arancione
-Fiore Blu
-Fiore Bianco
-Taglio Cuore
-Taglio Stella
-Taglio Diamante
-Taglio Signorina
-Taglio Gentildonna
-Taglio Gentiluomo
-Taglio Regina
-Taglio Kabuki
-Taglio Faraone
+Lineablu
+Zen
+Estate
+Autunno
+Inverno
+Estate
+Autunno
+Inverno
+Totem
+Totem
+Totem
+Bianco
+Nero
+Risoluta
+Danza
+di Genesect
+di Genesect
+di Genesect
+di Genesect
+Nordico
+di Neve
+Continentale
+Prato
+Eleganza
+Giardinfiore
+Trendy
+Marino
+Arcipelago
+Deserto
+Sabbia
+Fluviale
+Pluviale
+Savana
+Solare
+Oceanico
+Giungla
+Sbarazzino
+Poké Ball
+Giallo
+Arancione
+Blu
+Bianco
+Giallo
+Arancione
+Blu
+Bianco
+Eterno
+Giallo
+Arancione
+Blu
+Bianco
+Cuore
+Stella
+Diamante
+Signorina
+Gentildonna
+Gentiluomo
+Regina
+Kabuki
+Faraone
 Femmina
-Forma Spada
+Spada
 Mini
 Grande
 Maxi
 Mini
 Grande
 Maxi
-Modo Attivo
+Attivo
 MegaDiancie
-Hoopa Libero
+Libero

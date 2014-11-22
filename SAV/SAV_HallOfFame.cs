@@ -18,12 +18,14 @@ namespace PKHeX
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
             shiftval = savindex * 0x7F000;
+            if (m_parent.savegame_oras) data_offset = 0x1F200;
             listBox1.SelectedIndex = 0;
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
         public int savindex; int shiftval;
         public bool editing = false;
+        private int data_offset = 0x1E800;
 
         private void B_Close_Click(object sender, EventArgs e)
         {
@@ -35,7 +37,7 @@ namespace PKHeX
             RTB.Text = "";
             RTB.LanguageOption = RichTextBoxLanguageOptions.DualFont;
             int index = listBox1.SelectedIndex;
-            int offset = shiftval + 0x1E800 + index*0x1B4;
+            int offset = shiftval + data_offset + index * 0x1B4;
 
             uint vnd = BitConverter.ToUInt32(sav, offset + 0x1B0);
             uint vn = vnd & 0xFF;

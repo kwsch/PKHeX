@@ -43,12 +43,9 @@ namespace PKHeX
                     m_parent.setPKXBoxes();
                 }
                 else
-                {
                     MessageBox.Show("Box data loaded is too big!", "Error");
-                }
             }
         }
-
         private void B_ExportBox_Click(object sender, EventArgs e)
         {
             int index = CB_Box.SelectedIndex;
@@ -82,18 +79,14 @@ namespace PKHeX
                     string boxname = Encoding.Unicode.GetString(m_parent.savefile, boxnameoffset + (0x7F000 * savindex) + 0x22 * i, 0x22);
                     boxname = Util.TrimFromZero(boxname);
                     if (boxname.Length == 0)
-                    {
                         CB_Box.Items.Add("Box " + (i+1));
-                    }
                     else CB_Box.Items.Add(boxname);
                 }
             }
             catch
             {
                 for (int i = 1; i < 32; i++)
-                {
                     CB_Box.Items.Add("Box " + (i+1));
-                }
             }
 
             CB_Box.SelectedIndex = selectedbox;    // restore selected box

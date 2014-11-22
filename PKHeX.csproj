@@ -310,6 +310,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\badges\badge_07.png" />
+    <None Include="Resources\img\badges\badge_06.png" />
+    <None Include="Resources\img\badges\badge_05.png" />
+    <None Include="Resources\img\badges\badge_04.png" />
+    <None Include="Resources\img\badges\badge_03.png" />
+    <None Include="Resources\img\badges\badge_02.png" />
+    <None Include="Resources\img\badges\badge_01.png" />
+    <None Include="Resources\img\badges\badge_08.png" />
     <None Include="Resources\img\Pokemon Sprites\25-6.png" />
     <None Include="Resources\img\Pokemon Sprites\25-5.png" />
     <None Include="Resources\img\Pokemon Sprites\25-4.png" />

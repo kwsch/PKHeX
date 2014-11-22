@@ -15,9 +15,8 @@ namespace PKHeX
         private int TrainerCard = 0x19400;
         private int Trainer1 = 0x6800;
         private int Trainer2 = 0x9600;
-        public SAV_Trainer(Form1 frm1, string gamename)
+        public SAV_Trainer(Form1 frm1)
         {
-            Game = gamename;
             InitializeComponent();
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
@@ -188,7 +187,6 @@ namespace PKHeX
             CB_Stats.SelectedIndex = 0;
         }
         private string[] statdata = new string[] { };
-        string Game;
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
         public int savshift;
@@ -339,17 +337,17 @@ namespace PKHeX
                                    Properties.Resources.badge_7, 
                                    Properties.Resources.badge_8,
                            };
-            if (Game == "ORAS")
+            if (m_parent.savegame_oras)
             {
                 bma = new Bitmap[] {
-                                   Properties.Resources.rsBadge_1, // Add in ORAS badges.
-                                   Properties.Resources.rsBadge_2,  
-                                   Properties.Resources.rsBadge_3,   
-                                   Properties.Resources.rsBadge_4,
-                                   Properties.Resources.rsBadge_5, 
-                                   Properties.Resources.rsBadge_6,  
-                                   Properties.Resources.rsBadge_7, 
-                                   Properties.Resources.rsBadge_8,
+                                   Properties.Resources.badge_01, // ORAS Badges
+                                   Properties.Resources.badge_02,  
+                                   Properties.Resources.badge_03,   
+                                   Properties.Resources.badge_04,
+                                   Properties.Resources.badge_05, 
+                                   Properties.Resources.badge_06,  
+                                   Properties.Resources.badge_07, 
+                                   Properties.Resources.badge_08,
                        };
             }
             CheckBox[] cba = {cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8,};
@@ -453,8 +451,10 @@ namespace PKHeX
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
             
             // Temp ORAS 
-            TB_PM.Enabled = GB_MaisonBest.Enabled = GB_MaisonCurrent.Enabled = GB_Appear.Enabled = 
-                GB_Map.Enabled = GB_Misc.Enabled = TB_BP.Enabled = !m_parent.savegame_oras;
+            GB_MaisonBest.Visible = GB_MaisonCurrent.Visible = 
+            GB_Appear.Visible = GB_Map.Visible = GB_Misc.Visible =
+            L_BP.Visible = TB_BP.Visible =
+            L_PM.Visible = TB_PM.Visible = !m_parent.savegame_oras;
 
             TB_Style.Text = sav[0x694D + savshift].ToString();
 
@@ -680,6 +680,13 @@ namespace PKHeX
                 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
             };
             Array.Copy(data,0,sav,savshift + 0x6E00,0x6C);
+        }
+
+        private void toggleBadge(object sender, EventArgs e)
+        {
+            int val = Convert.ToInt16(((PictureBox)sender).Name.Last().ToString())-1;
+            CheckBox[] chka = new CheckBox[] { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8 };
+            chka[val].Checked = !chka[val].Checked;
         }
     }
 }

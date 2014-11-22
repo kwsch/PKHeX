@@ -17,24 +17,25 @@ namespace PKHeX
             savindex = m_parent.savindex;
             specieslist = Form1.specieslist;
             Array.Copy(m_parent.savefile, sav, 0x100000);
+            if (m_parent.savegame_oras) data_offset = 0x25600;
             trba = Form1.trainingbags;
             trba[0] = "---";
-            offsetTime = 0x24608 + 0x7F000 * savindex;
-            offsetSpec = 0x24788 + 0x7F000 * savindex;
-            offsetVal = 0x2478A + 0x7F000 * savindex;
+            offsetTime = data_offset + 0x08 + 0x7F000 * savindex;
+            offsetSpec = data_offset + 0x188 + 0x7F000 * savindex;
+            offsetVal = data_offset + 0x18A + 0x7F000 * savindex;
             InitializeComponent();
             string[] stages = Form1.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 30; i++)
-            {
                 listBox1.Items.Add((i + 1).ToString("00") + " - " + stages[i + 2]);
-            }
+
             setup();
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
         public string[] specieslist;
         public int savindex;
+        private int data_offset = 0x24600;
         private string[] trba = {
                                 "Empty",
                                 "HP Bag S","HP Bag M","HP Bag L",
@@ -45,7 +46,7 @@ namespace PKHeX
                                 "Speed Bag S","Speed Bag M","Speed Bag L",
                                 "Strength Bag","Toughen Up Bag","Swiftness Bag",
                                 "Big-Shot Bag","Double-Up Bag","Team Flare Bag",
-                                "Reset Bag","Soothing Bag",                               
+                                "Reset Bag","Soothing Bag",                              
                                };
         private int offsetVal = 0;
         private int offsetTime = 0;
@@ -100,9 +101,9 @@ namespace PKHeX
             dgvBag.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
             {
                 for (int i = 0; i < trba.Length; i++)
-                {
-                    dgvBag.Items.Add(trba[i]);
-                }
+                    if (trba[i].Length > 0)
+                        dgvBag.Items.Add(trba[i]);
+
                 dgvBag.DisplayIndex = 1;
                 dgvBag.Width = 135;
                 dgvBag.FlatStyle = FlatStyle.Flat;
@@ -111,7 +112,7 @@ namespace PKHeX
             dataGridView1.Columns.Add(dgvBag);
 
             dataGridView1.Rows.Add(12);
-            int offset = 0x24908 + 0x7F000 * savindex;
+            int offset = data_offset + 0x308 + 0x7F000 * savindex;
             for (int i = 0; i < 12; i++)
             {
                 dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
@@ -153,7 +154,7 @@ namespace PKHeX
                 }
                 bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
             }
-            int offsetTime = 0x24610 + 0x7F000 * savindex;
+            int offsetTime = data_offset + 0x10 + 0x7F000 * savindex;
             try
             {
                 byte[] data = BitConverter.GetBytes(Single.Parse(TB_Time1.Text));
@@ -169,12 +170,12 @@ namespace PKHeX
             }
             catch { };
             {
-                int offsetSpec = 0x24788 + 0x7F000 * savindex;
+                int offsetSpec = data_offset + 0x188 + 0x7F000 * savindex;
                 byte[] data = BitConverter.GetBytes(Convert.ToUInt16(CB_S2.SelectedValue.ToString()));
                 Array.Resize(ref data, 2);
                 Array.Copy(data, 0, sav, offsetSpec + 4 * 30, 2);
             }
-            Array.Copy(bagarray, 0, sav, 0x24908 + savindex * 0x7F000, 12);
+            Array.Copy(bagarray, 0, sav, data_offset + 0x308 + savindex * 0x7F000, 12);
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
             this.Close();
