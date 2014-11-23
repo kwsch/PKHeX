@@ -342,8 +342,11 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: EXP now calculates and sets properly; switched from formulas (rounding errata) to a lookup table.
  - Changed: Reorganized and cleaned up the source code in prep for future usage/updates.
 
-11/05/14 - New Update: 
+11/05/14 - New Update: (Stable X/Y) 
  - Fixed: Casting error for base happiness.
 
 11/21/14 - New Update:
  - Added: Basic ORAS Support
+
+11/22/14 - New Update:
+ - Improved ORAS support

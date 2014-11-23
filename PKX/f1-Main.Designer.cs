@@ -298,6 +298,7 @@
             this.subepkx1 = new System.Windows.Forms.PictureBox();
             this.subepkx2 = new System.Windows.Forms.PictureBox();
             this.subepkx3 = new System.Windows.Forms.PictureBox();
+            this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.GB_GTS = new System.Windows.Forms.GroupBox();
             this.gtspkx = new System.Windows.Forms.PictureBox();
             this.GB_Fused = new System.Windows.Forms.GroupBox();
@@ -3368,8 +3369,9 @@
             // 
             // Tab_Other
             // 
-            this.Tab_Other.Controls.Add(this.GB_Daycare);
+            this.Tab_Other.Controls.Add(this.B_OpenSecretBase);
             this.Tab_Other.Controls.Add(this.GB_SUBE);
+            this.Tab_Other.Controls.Add(this.GB_Daycare);
             this.Tab_Other.Controls.Add(this.GB_GTS);
             this.Tab_Other.Controls.Add(this.GB_Fused);
             this.Tab_Other.Controls.Add(this.L_ReadOnlyOther);
@@ -3546,6 +3548,17 @@
             this.subepkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.subepkx3.TabIndex = 20;
             this.subepkx3.TabStop = false;
+            // 
+            // B_OpenSecretBase
+            // 
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(227, 151);
+            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
+            this.B_OpenSecretBase.Size = new System.Drawing.Size(60, 37);
+            this.B_OpenSecretBase.TabIndex = 21;
+            this.B_OpenSecretBase.Text = "Secret Base";
+            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
+            this.B_OpenSecretBase.Visible = false;
+            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
             // GB_GTS
             // 
@@ -4326,6 +4339,7 @@
         private System.Windows.Forms.CheckBox CHK_HackedStats;
         private System.Windows.Forms.MaskedTextBox MT_Level;
         private System.Windows.Forms.MaskedTextBox MT_Form;
+        private System.Windows.Forms.Button B_OpenSecretBase;
     }
 }
 

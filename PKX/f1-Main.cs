@@ -1215,7 +1215,7 @@ namespace PKHeX
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
             }
-            updateAbilityList();
+            updateAbilityList(TB_AbilityNumber,Util.getIndex(CB_Species),CB_Ability,CB_Form);
         }
         private void InitializeLanguage()
         {
@@ -1681,7 +1681,7 @@ namespace PKHeX
             TB_PID.Text = PID.ToString("X8");
             CB_Species.SelectedValue = species;
             CB_HeldItem.SelectedValue = helditem;
-            updateAbilityList();
+            updateAbilityList(TB_AbilityNumber, species, CB_Ability, CB_Form);
             TB_AbilityNumber.Text = abilitynum.ToString();
             if (abilitynum>>1 < 3) CB_Ability.SelectedIndex = abilitynum>>1; // error handling
             else CB_Ability.SelectedIndex = 0;
@@ -1816,7 +1816,7 @@ namespace PKHeX
             TB_Level.Text = level.ToString();
 
             // Setup Forms
-            setForms(species);
+            setForms(species, CB_Form);
             try
             {
                 CB_Form.SelectedIndex = altforms;
@@ -1897,7 +1897,7 @@ namespace PKHeX
             }
             setMarkings();
         }
-        private void setForms(int species)
+        public void setForms(int species, ComboBox cb)
         {
             // Form Tables
             // 
@@ -2124,9 +2124,9 @@ namespace PKHeX
                     new { Text = forms[734], Value = 6}, // Cosplay
                 };
 
-            CB_Form.DataSource = form_list;
-            CB_Form.DisplayMember = "Text";
-            CB_Form.ValueMember = "Value";
+            cb.DataSource = form_list;
+            cb.DisplayMember = "Text";
+            cb.ValueMember = "Value";
 
             // Mega List
             int[] mspec = {     // XY
@@ -2138,8 +2138,8 @@ namespace PKHeX
             {
                 if (mspec[i] == species)
                 {
-                    CB_Form.DataSource = form_mega;
-                    CB_Form.Enabled = true; // Mega Form Selection
+                    cb.DataSource = form_mega;
+                    cb.Enabled = true; // Mega Form Selection
                     return;
                 }
             }
@@ -2147,8 +2147,8 @@ namespace PKHeX
             // MegaXY List
             if ((species == 6) || (species == 150))
             {
-                CB_Form.DataSource = form_megaxy;
-                CB_Form.Enabled = true; // Mega Form Selection
+                cb.DataSource = form_megaxy;
+                cb.Enabled = true; // Mega Form Selection
                 return;
             }
 
@@ -2188,12 +2188,12 @@ namespace PKHeX
 
             else
             {
-                CB_Form.Enabled = false;
+                cb.Enabled = false;
                 return;
             };
 
-            CB_Form.DataSource = form_list;
-            CB_Form.Enabled = true;
+            cb.DataSource = form_list;
+            cb.Enabled = true;
         }
         private void setGenderLabel()
         {
@@ -2693,7 +2693,7 @@ namespace PKHeX
         {
             updateStats();
             // Repopulate Abilities if Species Form has different abilities
-            updateAbilityList();
+            updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
 
             // If form has a single gender, account for it.
             if (CB_Form.Text == "♂")
@@ -2740,7 +2740,7 @@ namespace PKHeX
             if (MT_Level.Visible) level = Util.ToInt32(MT_Level.Text);
 
             // Get Forms for Given Species
-            setForms(species);
+            setForms(species, CB_Form);
 
             // Recalculate EXP for Given Level
             uint exp = PKX.getEXP(level, species);
@@ -2766,7 +2766,7 @@ namespace PKHeX
             }
 
             setGenderLabel();
-            updateAbilityList();
+            updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
             updateForm(null, null);
 
             // If species changes and no nickname, set the new name == speciesName.
@@ -3490,20 +3490,19 @@ namespace PKHeX
             Stat_SPD.Text = ((((((SPD_IV + (2 * SPD_B) + (SPD_EV / 4)) * level) / 100) + 5) * n4) / 10).ToString();
             Stat_SPE.Text = ((((((SPE_IV + (2 * SPE_B) + (SPE_EV / 4)) * level) / 100) + 5) * n5) / 10).ToString();
         }
-        private void updateAbilityList()
+        public void updateAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
         {
             if (!init)
                 return;
-            int newabil = Convert.ToInt16(TB_AbilityNumber.Text) >> 1;
-            int species = Util.getIndex(CB_Species);
+            int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
             int[] abils = { 0, 0, 0 };
             //
             // Alternate Forms have different abilities. We must account for them!
             //
 
-            if (CB_Form.SelectedIndex > 0)
+            if (cb_forme.SelectedIndex > 0)
             {
-                int formnum = CB_Form.SelectedIndex;
+                int formnum = cb_forme.SelectedIndex;
                 if (species == 492 && formnum == 1) { species = 727; }      // Shaymin
                 else if (species == 487 && formnum == 1) { species = 728; } // Giratina-O
                 else if (species == 550 && formnum == 1) { species = 738; } // Basculin Blue
@@ -3576,10 +3575,10 @@ namespace PKHeX
             ability_list.Add(abilitylist[abils[0]] + " (1)");
             ability_list.Add(abilitylist[abils[1]] + " (2)");
             ability_list.Add(abilitylist[abils[2]] + " (H)");
-            CB_Ability.DataSource = ability_list;
+            cb_abil.DataSource = ability_list;
 
-            if (newabil < 3) CB_Ability.SelectedIndex = newabil;
-            else CB_Ability.SelectedIndex = 0;
+            if (newabil < 3) cb_abil.SelectedIndex = newabil;
+            else cb_abil.SelectedIndex = 0;
         }
         private void updateAbilityNumber()
         {
@@ -3941,7 +3940,8 @@ namespace PKHeX
             GB_SUBE.Visible = 
                 B_OpenOPowers.Enabled = B_OpenPokedex.Enabled = 
                 B_OpenBerryField.Enabled = !oras;
-            //B_OpenTrainerInfo.Enabled = B_OpenPokepuffs.Enabled = B_OpenBoxLayout.Enabled = 
+
+            B_OpenSecretBase.Visible = oras;
 
             this.Width = largeWidth;
         }
@@ -5855,6 +5855,12 @@ namespace PKHeX
             // Open HoF Menu
             SAV_HallOfFame halloffame = new PKHeX.SAV_HallOfFame(this);
             halloffame.ShowDialog();
+        }
+        private void B_OpenSecretBase_Click(object sender, EventArgs e)
+        {
+            // Open Secret Base Menu
+            SAV_SecretBase secretbase = new PKHeX.SAV_SecretBase(this);
+            secretbase.ShowDialog();
         }
 
         private void B_OpenTemp_Click(object sender, EventArgs e)
