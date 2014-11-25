@@ -248,16 +248,20 @@ namespace PKHeX
             RTB_Code.Clear();
             byte[] cybersav = m_parent.cyberSAV;
             byte[] editedsav = m_parent.savefile;
-            byte[] newcyber = new Byte[0x65600];
-            Array.Copy(editedsav, 0x5400, newcyber, 0, 0x65600);
-            if (!m_parent.cybergadget) Array.Copy(editedsav, m_parent.savindex * 0x7F000 + 0x5400, newcyber, 0, 0x65600);
+            byte[] newcyber = new Byte[m_parent.cyberSAV.Length];
+            Array.Copy(editedsav, 0x5400, newcyber, 0, newcyber.Length);
+
+            int boxoffset = 0x22600;
+            if (m_parent.savegame_oras) boxoffset = 0x33000;
+
+            if (!m_parent.cybergadget) Array.Copy(editedsav, m_parent.savindex * 0x7F000 + 0x5400, newcyber, 0, newcyber.Length);
 
             int lines = 0;  // 65400
-            for (int i = 0; i < 0x65400; i += 4)
+            for (int i = 0; i < newcyber.Length - 0x200; i += 4)
             {
                 // Skip Party and Boxes
                 if (i == 0x14200) i += (260 * 6 + 4); // +4 to skip over party count
-                if (i == 0x22600) i += (232 * 30 * 31);
+                if (i == boxoffset) i += (232 * 30 * 31);
                 if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
                 {
                     result += ((0x20000000 + i).ToString("X8") + " ");
@@ -303,7 +307,7 @@ namespace PKHeX
             }
 
             // Loop Through Boxes
-            for (int i = 0x22600; i < 0x22600 + (232*30*31); i += 232)
+            for (int i = boxoffset; i < boxoffset + (232 * 30 * 31); i += 232)
             {
                 byte[] newdata = new Byte[232]; Array.Copy(newcyber, i, newdata, 0, 232);
                 byte[] olddata = new Byte[232]; Array.Copy(cybersav, i, olddata, 0, 232);

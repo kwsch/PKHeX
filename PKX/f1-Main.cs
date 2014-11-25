@@ -70,7 +70,7 @@ namespace PKHeX
                 CB_MainLanguage.SelectedIndex = 0;
 
             #region HaX
-            bool HaX = (filename.IndexOf("HaX") >= 0);
+            HaX = (filename.IndexOf("HaX") >= 0);
             {
                 CHK_HackedStats.Enabled = CHK_HackedStats.Visible =
                 DEV_Ability.Enabled = DEV_Ability.Visible =
@@ -195,6 +195,7 @@ namespace PKHeX
         public int genderflag, species;
         public int savindex;
         public bool savedited;
+        public bool HaX = false;
 
         public static int colorizedbox = 32;
         public static Image colorizedcolor = null;
@@ -3938,7 +3939,7 @@ namespace PKHeX
             // temp ORAS save-editing disable
             // GB_SAVtools.Enabled = !oras;
             GB_SUBE.Visible = 
-                B_OpenOPowers.Enabled = B_OpenPokedex.Enabled = 
+                B_OpenPokedex.Enabled = 
                 B_OpenBerryField.Enabled = !oras;
 
             B_OpenSecretBase.Visible = oras;
@@ -5777,6 +5778,35 @@ namespace PKHeX
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
             // Open O-Power Menu
+            if (savegame_oras)
+            {
+                DialogResult dr = MessageBox.Show("No editing support for ORAS :(\n\nMax O-Powers with a working code?","Alert",MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                {
+                    byte[] maxoras = new byte[] 
+                    { 
+                        0x00, 0x01, 0x01, 0x01,
+                        0x01, 0x00, 0x01, 0x01,
+                        0x01, 0x01, 0x00, 0x01,
+                        0x01, 0x01, 0x01, 0x00,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x00, 0x01, 0x01, 0x01,
+                        0x01, 0x00, 0x01, 0x01,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x01, 0x01, 0x00, 0x01,
+                        0x01, 0x01, 0x01, 0x00,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x01, 0x01, 0x01, 0x01,
+                        0x01, 0x00, 0x00, 0x00, 
+                    };
+                    Array.Copy(maxoras, 0, savefile, 0x17400 + 0x5400 + 0x7F000 + savindex, 0x44);
+                }
+                return;
+            }
             SAV_OPower opower = new PKHeX.SAV_OPower(this);
             opower.ShowDialog();
         }

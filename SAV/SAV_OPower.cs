@@ -14,6 +14,7 @@ namespace PKHeX
         public SAV_OPower(Form1 frm1)
         {
             m_parent = frm1;
+            if (m_parent.savegame_oras) opoweroffset = 0x1C800;
             InitializeComponent();
             LoadData();
         }
@@ -28,10 +29,10 @@ namespace PKHeX
             this.SaveData();
             this.Close();
         }
-
+        private int opoweroffset = 0x1BE00;
         private void LoadData()
         {
-            int o = 0x1BE00 + m_parent.savindex * 0x7F000; // offset
+            int o = opoweroffset + m_parent.savindex * 0x7F000; // offset
 
             // Fill up the 17 o-powers
             ComboBox[] cba = new ComboBox[] {
@@ -84,7 +85,7 @@ namespace PKHeX
                 0x27,
                 0x2C,0x2F,0x32,0x35,0x38,0x3B,0x3E,
             };
-            int o = 0x1BE00 + m_parent.savindex * 0x7F000; // offset
+            int o = opoweroffset + m_parent.savindex * 0x7F000; // offset
 
             for (int i = 0; i < cba.Length; i++)
             {
@@ -98,14 +99,14 @@ namespace PKHeX
 
             // Save Maxes
 
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x00] = Convert.ToByte(CHK_1.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x05] = Convert.ToByte(CHK_2.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x0A] = Convert.ToByte(CHK_3.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x0F] = Convert.ToByte(CHK_4.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x14] = Convert.ToByte(CHK_5.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x19] = Convert.ToByte(CHK_6.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x26] = Convert.ToByte(CHK_7.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + 0x1BE00 + 0x2B] = Convert.ToByte(CHK_8.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x00] = Convert.ToByte(CHK_1.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x05] = Convert.ToByte(CHK_2.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x0A] = Convert.ToByte(CHK_3.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x0F] = Convert.ToByte(CHK_4.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x14] = Convert.ToByte(CHK_5.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x19] = Convert.ToByte(CHK_6.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x26] = Convert.ToByte(CHK_7.Checked);
+            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x2B] = Convert.ToByte(CHK_8.Checked);
         }
         private int getIndex(int o, int l)
         {
@@ -125,7 +126,6 @@ namespace PKHeX
             else if (data.SequenceEqual(_0)) return 0;
             else return 1;
         }
-
         private void B_AllMax_Click(object sender, EventArgs e)
         {
             max(false);
@@ -142,15 +142,12 @@ namespace PKHeX
             };
             CheckBox[] echk = new CheckBox[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8 };
             
-            {
-                for (int i = 0; i < cba.Length; i++)
-                    cba[i].SelectedIndex = (cba[i].Items.Count-1);
-            }
+            for (int i = 0; i < cba.Length; i++)
+                cba[i].SelectedIndex = (cba[i].Items.Count-1);
+
             if (!s)
-            {
                 for (int i = 0; i < echk.Length; i++)
                     echk[i].Checked = !(ModifierKeys == Keys.Control);
-            }
             else if (ModifierKeys == Keys.Control)
             {
                 for (int i = 0; i < cba.Length; i++)

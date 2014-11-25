@@ -116,6 +116,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.B_GiveDecor = new System.Windows.Forms.Button();
             this.B_FSave = new System.Windows.Forms.Button();
+            this.TB_FT2 = new System.Windows.Forms.TextBox();
+            this.TB_FT1 = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.tabControl2.SuspendLayout();
             this.f_PKM.SuspendLayout();
             this.GB_PKM.SuspendLayout();
@@ -812,6 +816,10 @@
             // 
             // f_MAIN
             // 
+            this.f_MAIN.Controls.Add(this.TB_FT2);
+            this.f_MAIN.Controls.Add(this.TB_FT1);
+            this.f_MAIN.Controls.Add(this.label24);
+            this.f_MAIN.Controls.Add(this.label25);
             this.f_MAIN.Controls.Add(this.groupBox1);
             this.f_MAIN.Controls.Add(this.label8);
             this.f_MAIN.Controls.Add(this.textBox1);
@@ -848,9 +856,9 @@
             this.groupBox1.Controls.Add(this.NUD_FObjType);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.NUD_FObject);
-            this.groupBox1.Location = new System.Drawing.Point(6, 98);
+            this.groupBox1.Location = new System.Drawing.Point(6, 158);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(357, 163);
+            this.groupBox1.Size = new System.Drawing.Size(357, 103);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Object Layout";
@@ -1002,7 +1010,7 @@
             // textBox1
             // 
             this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(134, 32);
+            this.textBox1.Location = new System.Drawing.Point(128, 33);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(45, 20);
             this.textBox1.TabIndex = 10;
@@ -1050,7 +1058,7 @@
             // TB_FOT
             // 
             this.TB_FOT.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FOT.Location = new System.Drawing.Point(86, 6);
+            this.TB_FOT.Location = new System.Drawing.Point(80, 7);
             this.TB_FOT.MaxLength = 12;
             this.TB_FOT.Name = "TB_FOT";
             this.TB_FOT.Size = new System.Drawing.Size(93, 20);
@@ -1069,44 +1077,44 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(188, 75);
+            this.label6.Location = new System.Drawing.Point(193, 75);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(51, 13);
+            this.label6.Size = new System.Drawing.Size(46, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "Saying 4:";
+            this.label6.Text = "Confetti:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(188, 53);
+            this.label5.Location = new System.Drawing.Point(175, 53);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 13);
+            this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 7;
-            this.label5.Text = "Saying 3:";
+            this.label5.Text = "Blackboard:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(188, 31);
+            this.label4.Location = new System.Drawing.Point(177, 32);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(51, 13);
+            this.label4.Size = new System.Drawing.Size(62, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Saying 2:";
+            this.label4.Text = "Encourage:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(188, 9);
+            this.label3.Location = new System.Drawing.Point(198, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Saying 1:";
+            this.label3.Text = "Happy:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tabControl1
@@ -1143,6 +1151,48 @@
             this.B_FSave.Text = "<";
             this.B_FSave.UseVisualStyleBackColor = true;
             this.B_FSave.Click += new System.EventHandler(this.B_FAV2SAV);
+            // 
+            // TB_FT2
+            // 
+            this.TB_FT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TB_FT2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_FT2.Location = new System.Drawing.Point(240, 132);
+            this.TB_FT2.MaxLength = 16;
+            this.TB_FT2.Name = "TB_FT2";
+            this.TB_FT2.Size = new System.Drawing.Size(124, 20);
+            this.TB_FT2.TabIndex = 15;
+            // 
+            // TB_FT1
+            // 
+            this.TB_FT1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TB_FT1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_FT1.Location = new System.Drawing.Point(240, 110);
+            this.TB_FT1.MaxLength = 16;
+            this.TB_FT1.Name = "TB_FT1";
+            this.TB_FT1.Size = new System.Drawing.Size(124, 20);
+            this.TB_FT1.TabIndex = 14;
+            // 
+            // label24
+            // 
+            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(166, 135);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(73, 13);
+            this.label24.TabIndex = 17;
+            this.label24.Text = "Team Slogan:";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label25
+            // 
+            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(171, 113);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(68, 13);
+            this.label25.TabIndex = 16;
+            this.label25.Text = "Team Name:";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_SecretBase
             // 
@@ -1279,5 +1329,9 @@
         private System.Windows.Forms.MaskedTextBox TB_SPAEV;
         private System.Windows.Forms.MaskedTextBox TB_HPEV;
         private System.Windows.Forms.Button B_FSave;
+        private System.Windows.Forms.TextBox TB_FT2;
+        private System.Windows.Forms.TextBox TB_FT1;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
     }
 }

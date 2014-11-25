@@ -22,6 +22,7 @@ namespace PKHeX
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
             savshift = savindex * 0x7F000;
+            if (m_parent.savegame_oras) psssatoffset = 0x24800;
             editing = true;
             getComboBoxes();
             getTextBoxes();
@@ -363,14 +364,14 @@ namespace PKHeX
         }
         private void getTextBoxes()
         {
-            byte badgeval = sav[0x960C + savindex * 0x7F000];
+            byte badgeval = sav[Trainer2 + 0xC + savindex * 0x7F000];
             CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
             for (int i = 0; i < 8; i++)
                 cba[i].Checked = !((badgeval & (1 << i)) == 0);
 
             // Get Data
             string OT_NAME = Encoding.Unicode.GetString(sav, TrainerCard + 0x48 + savshift, 0x1A);
-            string RIV_NAME = Encoding.Unicode.GetString(sav, 0x9610 + savshift, 0x1A);
+            string RIV_NAME = Encoding.Unicode.GetString(sav, Trainer2 + 0x10 + savshift, 0x1A);
             
             CB_Game.SelectedIndex = sav[TrainerCard + 0x04 + savshift]-0x18;
             CB_Gender.SelectedIndex = sav[TrainerCard + 0x05 + savshift];
@@ -447,14 +448,12 @@ namespace PKHeX
             TB_CoordY.Text = BitConverter.ToSingle(sav, savshift + Trainer1 + 0x18).ToString();
 
             // Load BP and PokeMiles
-            TB_BP.Text = BitConverter.ToUInt32(sav, savshift + Trainer2 + 0x3C).ToString();
-            TB_PM.Text = BitConverter.ToUInt32(sav, savshift + 0x238FC).ToString();
+            TB_BP.Text = BitConverter.ToUInt32(sav, savshift + Trainer2 + 0x3C - 0xC*Convert.ToInt16(m_parent.savegame_oras)).ToString();
+            TB_PM.Text = BitConverter.ToUInt32(sav, savshift + psssatoffset + 0xFC).ToString();
             
             // Temp ORAS 
             GB_MaisonBest.Visible = GB_MaisonCurrent.Visible = 
-            GB_Appear.Visible = GB_Map.Visible = GB_Misc.Visible =
-            L_BP.Visible = TB_BP.Visible =
-            L_PM.Visible = TB_PM.Visible = !m_parent.savegame_oras;
+            GB_Appear.Visible = GB_Map.Visible = GB_Misc.Visible = !m_parent.savegame_oras;
 
             TB_Style.Text = sav[0x694D + savshift].ToString();
 
@@ -565,18 +564,16 @@ namespace PKHeX
             byte[] x = BitConverter.GetBytes(Single.Parse(TB_CoordX.Text)); Array.Resize(ref x, 4); Array.Copy(x,0,sav, savshift + Trainer1 + 0x10,4);
             byte[] z = BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)); Array.Resize(ref z, 4); Array.Copy(z,0,sav, savshift + Trainer1 + 0x14,4);
             byte[] y = BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)); Array.Resize(ref y, 4); Array.Copy(y,0,sav, savshift + Trainer1 + 0x18,4);
-            
-            byte[] bp = BitConverter.GetBytes(ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C, 2);
-            byte[] pm = BitConverter.GetBytes(ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + 0x238FC, 4); Array.Copy(pm, 0, sav, savshift + 0x23900, 4);
+
+            byte[] bp = BitConverter.GetBytes(ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C - 0xC * Convert.ToInt16(m_parent.savegame_oras), 2);
+            byte[] pm = BitConverter.GetBytes(ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0xFC, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0x100, 4);
             sav[0x694D+savshift] = Byte.Parse(TB_Style.Text);
 
             // Copy Badges
             badgeval = 0;
             CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
             for (int i = 0; i < 8; i++)
-            {
                 badgeval |= (byte)(Convert.ToByte(cba[i].Checked) << i);
-            }
             sav[0x960C + savshift] = badgeval;
 
             // Save PlayTime
@@ -641,11 +638,12 @@ namespace PKHeX
             if (box.Text == "") box.Text = "0";
             if (int.Parse(box.Text) > 255) box.Text = "255";
         }
+        private int psssatoffset = 0x23800;
         private void changeStat(object sender, EventArgs e)
         {
             editing = true;
             {
-                int pssoff = 0x23800 + savindex * 0x7F000;
+                int pssoff = psssatoffset + savindex * 0x7F000;
                 string offsetstr = statdata[CB_Stats.SelectedIndex * 2];
                 int offset = (int)new System.ComponentModel.Int32Converter().ConvertFromString(offsetstr);
 
@@ -658,7 +656,7 @@ namespace PKHeX
         {
             if (!editing)
             {
-                int pssoff = 0x23800 + savindex * 0x7F000;
+                int pssoff = psssatoffset + savindex * 0x7F000;
                 string offsetstr = statdata[CB_Stats.SelectedIndex * 2];
                 int offset = (int)new System.ComponentModel.Int32Converter().ConvertFromString(offsetstr);
 

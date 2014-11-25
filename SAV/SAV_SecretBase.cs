@@ -258,6 +258,10 @@ namespace PKHeX
             else offset += 0x3E0 * index;
 
             string TrainerName = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + offset + 0x218, 0x1A));
+            TB_FOT.Text = TrainerName;
+
+            TB_FT1.Text = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + offset + 0x232 + 0x22 * 0, 0x22));
+            TB_FT2.Text = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + offset + 0x232 + 0x22 * 1, 0x22));
 
             string saying1 = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + offset + 0x276 + 0x22 * 0, 0x22));
             string saying2 = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + offset + 0x276 + 0x22 * 1, 0x22));
@@ -267,7 +271,7 @@ namespace PKHeX
             int baseloc = BitConverter.ToInt16(sav, sv + offset);
             textBox1.Text = baseloc.ToString();
 
-            TB_FOT.Text = TrainerName; TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;
+            TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;
 
             // Gather data for Object Array
             objdata = new byte[25, 12];
@@ -297,7 +301,10 @@ namespace PKHeX
         {
             // Write data back to save
             int index = LB_Favorite.SelectedIndex; // store for restoring
-
+            if (GB_PKM.Enabled && index == 0)
+            { MessageBox.Show("Sorry, no overwriting of your own base with someone else's.","Error"); return; }
+            if (LB_Favorite.Items[index].ToString().Substring(LB_Favorite.Items[index].ToString().Length - 5, 5) == "Empty")
+            { MessageBox.Show("Sorry, no overwriting an empty base with someone else's.", "Error"); return; }
             if (index < 0) return;
             int offset = fav_offset + 0x5400 + 0x25A;
 
@@ -311,6 +318,13 @@ namespace PKHeX
             string TrainerName = TB_FOT.Text;
             byte[] tr = Encoding.Unicode.GetBytes(TrainerName);
             Array.Resize(ref tr, 0x22); Array.Copy(tr, 0, sav, sv + offset + 0x218, 0x1A);
+
+            string team1 = TB_FT1.Text;
+            string team2 = TB_FT2.Text;
+            byte[] t1 = Encoding.Unicode.GetBytes(team1);
+            Array.Resize(ref t1, 0x22); Array.Copy(t1, 0, sav, sv + offset + 0x232 + 0x22 * 0, 0x22);
+            byte[] t2 = Encoding.Unicode.GetBytes(team2);
+            Array.Resize(ref t2, 0x22); Array.Copy(t2, 0, sav, sv + offset + 0x232 + 0x22 * 1, 0x22);
 
             string saying1 = TB_FSay1.Text;
             string saying2 = TB_FSay2.Text;
@@ -360,14 +374,11 @@ namespace PKHeX
             int offset = sv + 0x23A00 + 0x5400;
             for (int i = 0; i < 173; i++)
             {
-                int qty = BitConverter.ToUInt16(sav, offset + i * 4);
-                int has = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
+                // int qty = BitConverter.ToUInt16(sav, offset + i * 4);
+                // int has = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
 
-                if (qty == 0) // give 1.
-                {
-                    sav[offset + i * 4] = (byte)(1 + 4 * Convert.ToInt16(ModifierKeys == Keys.Control)); // give 4 more if ctrl is pressed.
-                    sav[offset + i * 4 + 2] = 1;
-                }
+                sav[offset + i * 4] = (byte)25;
+                sav[offset + i * 4 + 2] = 1;
             }
         }
 
@@ -519,7 +530,7 @@ namespace PKHeX
             byte SP_IV = fpkm[0x2D];
 
             bool isshiny = ((SP_IV & 0x40) > 0);
-            SP_IV &= 0x40;
+            SP_IV &= 0x1F;
 
             byte friendship = fpkm[0x2E];
             int ball = fpkm[0x2F];
@@ -538,7 +549,7 @@ namespace PKHeX
             TB_DEFIV.Text = DE_IV.ToString();
             TB_SPAIV.Text = SA_IV.ToString();
             TB_SPDIV.Text = SD_IV.ToString();
-            TB_SPEIV.Text = (SP_IV & 0x1F).ToString();
+            TB_SPEIV.Text = SP_IV.ToString();
 
             TB_HPEV.Text = HP_EV.ToString();
             TB_ATKEV.Text = AT_EV.ToString();

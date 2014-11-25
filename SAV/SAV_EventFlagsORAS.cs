@@ -53,10 +53,25 @@ namespace PKHeX
             
             chka = new CheckBox[] {
                 flag_0647,flag_2840, // Kyogre/Rayquaza
-                flag_0183,flag_2831, // Zekrom
-                flag_0181,flag_2818, // Azelf
+                
+                
+                flag_0173,flag_2811, // Raikou
+                flag_0174,flag_2812, // Entei
+                flag_0175,flag_2813, // Suicune
                 flag_0209,flag_2814, // Lugia/Ho-Oh
+
+                flag_0179,flag_2816, // Uxie
+                flag_0180,flag_2817, // Mesprit
+                flag_0181,flag_2818, // Azelf
+                flag_2819, // Dialga/Palkia
+
+                flag_2823, // Giratina
                 flag_0176,flag_2825, // Cobalion
+
+                flag_2829, // Tornadus/Thundurus
+                flag_0183,flag_2831, // Zekrom/Reshiram
+                flag_2832, // Landorus
+                flag_0184,flag_2833, // Kyurem
 
                 // old
                 flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
