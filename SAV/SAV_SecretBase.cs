@@ -269,7 +269,7 @@ namespace PKHeX
             string saying4 = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + offset + 0x276 + 0x22 * 3, 0x22));
 
             int baseloc = BitConverter.ToInt16(sav, sv + offset);
-            textBox1.Text = baseloc.ToString();
+            NUD_FBaseLocation.Value = baseloc;
 
             TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;
 
@@ -301,6 +301,8 @@ namespace PKHeX
         {
             // Write data back to save
             int index = LB_Favorite.SelectedIndex; // store for restoring
+            if (!GB_PKM.Enabled && index > 0)
+            { MessageBox.Show("Sorry, no overwriting someone else's base with your own data.", "Error"); return; }
             if (GB_PKM.Enabled && index == 0)
             { MessageBox.Show("Sorry, no overwriting of your own base with someone else's.","Error"); return; }
             if (LB_Favorite.Items[index].ToString().Substring(LB_Favorite.Items[index].ToString().Length - 5, 5) == "Empty")
@@ -312,8 +314,6 @@ namespace PKHeX
             if (index == 0)
                 offset = fav_offset + 0x5400 + 0x326;
             else offset += 0x3E0 * index;
-
-
 
             string TrainerName = TB_FOT.Text;
             byte[] tr = Encoding.Unicode.GetBytes(TrainerName);
@@ -339,7 +339,8 @@ namespace PKHeX
             byte[] s4 = Encoding.Unicode.GetBytes(saying4);
             Array.Resize(ref s4, 0x22); Array.Copy(s4, 0, sav, sv + offset + 0x276 + 0x22 * 3, 0x22);
 
-            int baseloc = Convert.ToInt16(textBox1.Text);
+            int baseloc = (int)NUD_FBaseLocation.Value;
+            if (baseloc < 3) baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
             Array.Copy(BitConverter.GetBytes(baseloc), 0, sav, sv + offset, 2);
 
             TB_FOT.Text = TrainerName; TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;

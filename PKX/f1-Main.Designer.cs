@@ -282,6 +282,11 @@
             this.ppkx5 = new System.Windows.Forms.PictureBox();
             this.ppkx6 = new System.Windows.Forms.PictureBox();
             this.Tab_Other = new System.Windows.Forms.TabPage();
+            this.B_OpenSecretBase = new System.Windows.Forms.Button();
+            this.GB_SUBE = new System.Windows.Forms.GroupBox();
+            this.subepkx1 = new System.Windows.Forms.PictureBox();
+            this.subepkx2 = new System.Windows.Forms.PictureBox();
+            this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.GB_Daycare = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -294,11 +299,6 @@
             this.dcpkx2 = new System.Windows.Forms.PictureBox();
             this.dcpkx1 = new System.Windows.Forms.PictureBox();
             this.DayCare_HasEgg = new System.Windows.Forms.CheckBox();
-            this.GB_SUBE = new System.Windows.Forms.GroupBox();
-            this.subepkx1 = new System.Windows.Forms.PictureBox();
-            this.subepkx2 = new System.Windows.Forms.PictureBox();
-            this.subepkx3 = new System.Windows.Forms.PictureBox();
-            this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.GB_GTS = new System.Windows.Forms.GroupBox();
             this.gtspkx = new System.Windows.Forms.PictureBox();
             this.GB_Fused = new System.Windows.Forms.GroupBox();
@@ -404,13 +404,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.ppkx5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx6)).BeginInit();
             this.Tab_Other.SuspendLayout();
-            this.GB_Daycare.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).BeginInit();
             this.GB_SUBE.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).BeginInit();
+            this.GB_Daycare.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).BeginInit();
             this.GB_GTS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gtspkx)).BeginInit();
             this.GB_Fused.SuspendLayout();
@@ -3382,6 +3382,60 @@
             this.Tab_Other.Text = "Other";
             this.Tab_Other.UseVisualStyleBackColor = true;
             // 
+            // B_OpenSecretBase
+            // 
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(227, 151);
+            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
+            this.B_OpenSecretBase.Size = new System.Drawing.Size(60, 37);
+            this.B_OpenSecretBase.TabIndex = 21;
+            this.B_OpenSecretBase.Text = "Secret Base";
+            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
+            this.B_OpenSecretBase.Visible = false;
+            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
+            // 
+            // GB_SUBE
+            // 
+            this.GB_SUBE.Controls.Add(this.subepkx1);
+            this.GB_SUBE.Controls.Add(this.subepkx2);
+            this.GB_SUBE.Controls.Add(this.subepkx3);
+            this.GB_SUBE.Location = new System.Drawing.Point(227, 136);
+            this.GB_SUBE.Name = "GB_SUBE";
+            this.GB_SUBE.Size = new System.Drawing.Size(60, 60);
+            this.GB_SUBE.TabIndex = 27;
+            this.GB_SUBE.TabStop = false;
+            this.GB_SUBE.Text = "OldMan";
+            // 
+            // subepkx1
+            // 
+            this.subepkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx1.Location = new System.Drawing.Point(9, 18);
+            this.subepkx1.Name = "subepkx1";
+            this.subepkx1.Size = new System.Drawing.Size(42, 32);
+            this.subepkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.subepkx1.TabIndex = 18;
+            this.subepkx1.TabStop = false;
+            this.subepkx1.Click += new System.EventHandler(this.slotModifier_Click);
+            // 
+            // subepkx2
+            // 
+            this.subepkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx2.Location = new System.Drawing.Point(62, 19);
+            this.subepkx2.Name = "subepkx2";
+            this.subepkx2.Size = new System.Drawing.Size(42, 34);
+            this.subepkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.subepkx2.TabIndex = 19;
+            this.subepkx2.TabStop = false;
+            // 
+            // subepkx3
+            // 
+            this.subepkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx3.Location = new System.Drawing.Point(109, 19);
+            this.subepkx3.Name = "subepkx3";
+            this.subepkx3.Size = new System.Drawing.Size(42, 34);
+            this.subepkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.subepkx3.TabIndex = 20;
+            this.subepkx3.TabStop = false;
+            // 
             // GB_Daycare
             // 
             this.GB_Daycare.Controls.Add(this.label4);
@@ -3505,60 +3559,6 @@
             this.DayCare_HasEgg.TabIndex = 7;
             this.DayCare_HasEgg.Text = "Egg Available";
             this.DayCare_HasEgg.UseVisualStyleBackColor = true;
-            // 
-            // GB_SUBE
-            // 
-            this.GB_SUBE.Controls.Add(this.subepkx1);
-            this.GB_SUBE.Controls.Add(this.subepkx2);
-            this.GB_SUBE.Controls.Add(this.subepkx3);
-            this.GB_SUBE.Location = new System.Drawing.Point(227, 136);
-            this.GB_SUBE.Name = "GB_SUBE";
-            this.GB_SUBE.Size = new System.Drawing.Size(60, 60);
-            this.GB_SUBE.TabIndex = 27;
-            this.GB_SUBE.TabStop = false;
-            this.GB_SUBE.Text = "OldMan";
-            // 
-            // subepkx1
-            // 
-            this.subepkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx1.Location = new System.Drawing.Point(9, 18);
-            this.subepkx1.Name = "subepkx1";
-            this.subepkx1.Size = new System.Drawing.Size(42, 32);
-            this.subepkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx1.TabIndex = 18;
-            this.subepkx1.TabStop = false;
-            this.subepkx1.Click += new System.EventHandler(this.slotModifier_Click);
-            // 
-            // subepkx2
-            // 
-            this.subepkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx2.Location = new System.Drawing.Point(62, 19);
-            this.subepkx2.Name = "subepkx2";
-            this.subepkx2.Size = new System.Drawing.Size(42, 34);
-            this.subepkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx2.TabIndex = 19;
-            this.subepkx2.TabStop = false;
-            // 
-            // subepkx3
-            // 
-            this.subepkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx3.Location = new System.Drawing.Point(109, 19);
-            this.subepkx3.Name = "subepkx3";
-            this.subepkx3.Size = new System.Drawing.Size(42, 34);
-            this.subepkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx3.TabIndex = 20;
-            this.subepkx3.TabStop = false;
-            // 
-            // B_OpenSecretBase
-            // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(227, 151);
-            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
-            this.B_OpenSecretBase.Size = new System.Drawing.Size(60, 37);
-            this.B_OpenSecretBase.TabIndex = 21;
-            this.B_OpenSecretBase.Text = "Secret Base";
-            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
-            this.B_OpenSecretBase.Visible = false;
-            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
             // GB_GTS
             // 
@@ -4013,15 +4013,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.ppkx5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx6)).EndInit();
             this.Tab_Other.ResumeLayout(false);
-            this.GB_Daycare.ResumeLayout(false);
-            this.GB_Daycare.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).EndInit();
             this.GB_SUBE.ResumeLayout(false);
             this.GB_SUBE.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).EndInit();
+            this.GB_Daycare.ResumeLayout(false);
+            this.GB_Daycare.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).EndInit();
             this.GB_GTS.ResumeLayout(false);
             this.GB_GTS.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gtspkx)).EndInit();

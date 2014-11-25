@@ -90,6 +90,10 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.f_MAIN = new System.Windows.Forms.TabPage();
+            this.TB_FT2 = new System.Windows.Forms.TextBox();
+            this.TB_FT1 = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -102,7 +106,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.NUD_FObject = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.TB_FSay4 = new System.Windows.Forms.TextBox();
             this.TB_FSay3 = new System.Windows.Forms.TextBox();
             this.TB_FSay2 = new System.Windows.Forms.TextBox();
@@ -116,10 +119,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.B_GiveDecor = new System.Windows.Forms.Button();
             this.B_FSave = new System.Windows.Forms.Button();
-            this.TB_FT2 = new System.Windows.Forms.TextBox();
-            this.TB_FT1 = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
+            this.NUD_FBaseLocation = new System.Windows.Forms.NumericUpDown();
             this.tabControl2.SuspendLayout();
             this.f_PKM.SuspendLayout();
             this.GB_PKM.SuspendLayout();
@@ -132,6 +132,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObjType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObject)).BeginInit();
             this.tabControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Save
@@ -816,13 +817,13 @@
             // 
             // f_MAIN
             // 
+            this.f_MAIN.Controls.Add(this.NUD_FBaseLocation);
             this.f_MAIN.Controls.Add(this.TB_FT2);
             this.f_MAIN.Controls.Add(this.TB_FT1);
             this.f_MAIN.Controls.Add(this.label24);
             this.f_MAIN.Controls.Add(this.label25);
             this.f_MAIN.Controls.Add(this.groupBox1);
             this.f_MAIN.Controls.Add(this.label8);
-            this.f_MAIN.Controls.Add(this.textBox1);
             this.f_MAIN.Controls.Add(this.TB_FSay4);
             this.f_MAIN.Controls.Add(this.TB_FSay3);
             this.f_MAIN.Controls.Add(this.TB_FSay2);
@@ -840,6 +841,48 @@
             this.f_MAIN.TabIndex = 0;
             this.f_MAIN.Text = "Main";
             this.f_MAIN.UseVisualStyleBackColor = true;
+            // 
+            // TB_FT2
+            // 
+            this.TB_FT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TB_FT2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_FT2.Location = new System.Drawing.Point(240, 132);
+            this.TB_FT2.MaxLength = 16;
+            this.TB_FT2.Name = "TB_FT2";
+            this.TB_FT2.Size = new System.Drawing.Size(124, 20);
+            this.TB_FT2.TabIndex = 15;
+            // 
+            // TB_FT1
+            // 
+            this.TB_FT1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TB_FT1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_FT1.Location = new System.Drawing.Point(240, 110);
+            this.TB_FT1.MaxLength = 16;
+            this.TB_FT1.Name = "TB_FT1";
+            this.TB_FT1.Size = new System.Drawing.Size(124, 20);
+            this.TB_FT1.TabIndex = 14;
+            // 
+            // label24
+            // 
+            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(166, 135);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(73, 13);
+            this.label24.TabIndex = 17;
+            this.label24.Text = "Team Slogan:";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label25
+            // 
+            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(171, 113);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(68, 13);
+            this.label25.TabIndex = 16;
+            this.label25.Text = "Team Name:";
+            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // groupBox1
             // 
@@ -957,7 +1000,7 @@
             0,
             -2147483648});
             this.NUD_FObjType.Name = "NUD_FObjType";
-            this.NUD_FObjType.Size = new System.Drawing.Size(36, 20);
+            this.NUD_FObjType.Size = new System.Drawing.Size(38, 20);
             this.NUD_FObjType.TabIndex = 2;
             this.NUD_FObjType.Value = new decimal(new int[] {
             1,
@@ -1006,14 +1049,6 @@
             this.label8.Size = new System.Drawing.Size(112, 13);
             this.label8.TabIndex = 11;
             this.label8.Text = "Secret Base Location:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(128, 33);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(45, 20);
-            this.textBox1.TabIndex = 10;
             // 
             // TB_FSay4
             // 
@@ -1152,47 +1187,17 @@
             this.B_FSave.UseVisualStyleBackColor = true;
             this.B_FSave.Click += new System.EventHandler(this.B_FAV2SAV);
             // 
-            // TB_FT2
+            // NUD_FBaseLocation
             // 
-            this.TB_FT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_FT2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FT2.Location = new System.Drawing.Point(240, 132);
-            this.TB_FT2.MaxLength = 16;
-            this.TB_FT2.Name = "TB_FT2";
-            this.TB_FT2.Size = new System.Drawing.Size(124, 20);
-            this.TB_FT2.TabIndex = 15;
-            // 
-            // TB_FT1
-            // 
-            this.TB_FT1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_FT1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FT1.Location = new System.Drawing.Point(240, 110);
-            this.TB_FT1.MaxLength = 16;
-            this.TB_FT1.Name = "TB_FT1";
-            this.TB_FT1.Size = new System.Drawing.Size(124, 20);
-            this.TB_FT1.TabIndex = 14;
-            // 
-            // label24
-            // 
-            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(166, 135);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(73, 13);
-            this.label24.TabIndex = 17;
-            this.label24.Text = "Team Slogan:";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label25
-            // 
-            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(171, 113);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(68, 13);
-            this.label25.TabIndex = 16;
-            this.label25.Text = "Team Name:";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.NUD_FBaseLocation.Location = new System.Drawing.Point(128, 35);
+            this.NUD_FBaseLocation.Maximum = new decimal(new int[] {
+            85,
+            0,
+            0,
+            0});
+            this.NUD_FBaseLocation.Name = "NUD_FBaseLocation";
+            this.NUD_FBaseLocation.Size = new System.Drawing.Size(45, 20);
+            this.NUD_FBaseLocation.TabIndex = 18;
             // 
             // SAV_SecretBase
             // 
@@ -1235,6 +1240,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObjType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObject)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1277,7 +1283,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown NUD_FObject;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox TB_FSay4;
         private System.Windows.Forms.TextBox TB_FSay3;
         private System.Windows.Forms.TextBox TB_FSay2;
@@ -1333,5 +1338,6 @@
         private System.Windows.Forms.TextBox TB_FT1;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.NumericUpDown NUD_FBaseLocation;
     }
 }
