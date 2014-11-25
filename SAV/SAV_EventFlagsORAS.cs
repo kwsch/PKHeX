@@ -52,26 +52,42 @@ namespace PKHeX
             // Fill Bit arrays
             
             chka = new CheckBox[] {
-                flag_0647,flag_2840, // Kyogre/Rayquaza
-                
                 
                 flag_0173,flag_2811, // Raikou
                 flag_0174,flag_2812, // Entei
                 flag_0175,flag_2813, // Suicune
-                flag_0209,flag_2814, // Lugia/Ho-Oh
-
+                flag_0209,flag_2814, // Lugia
+                flag_0208,flag_2815, // Ho-Oh
                 flag_0179,flag_2816, // Uxie
                 flag_0180,flag_2817, // Mesprit
                 flag_0181,flag_2818, // Azelf
-                flag_2819, // Dialga/Palkia
-
-                flag_2823, // Giratina
+                          flag_2819, // Dialga
+                          flag_2820, // Palkia
+                flag_0260,flag_2821, // Heatran
+                                     // Cresselia?
+                          flag_2823, // Giratina
+                                     // Regigigas?
                 flag_0176,flag_2825, // Cobalion
-
-                flag_2829, // Tornadus/Thundurus
-                flag_0183,flag_2831, // Zekrom/Reshiram
-                flag_2832, // Landorus
+                                     // Trio 2826?
+                                     // Trio 2827?
+                          flag_2828, // Tornadus
+                          flag_2829, // Thundurus
+                flag_0182,flag_2830, // Reshiram
+                flag_0183,flag_2831, // Zekrom
+                          flag_2832, // Landorus
                 flag_0184,flag_2833, // Kyurem
+                                     // ?? 2834
+                                     // ?? 2835
+                flag_0956,flag_2836, // Regirock
+                flag_0957,flag_2837, // Regice
+                flag_0958,flag_2838, // Registeel
+                flag_0648,flag_2839, // Groudon
+                flag_0647,flag_2840, // Kyogre
+                                     // Lati@southern
+                flag_0945,flag_2842, // Deoxys
+
+                // Cresselia, Regigigas
+                // Terrakion, Virizion
 
                 // old
                 flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
