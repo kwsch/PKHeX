@@ -6330,6 +6330,9 @@ namespace PKHeX
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null)
+                if (files.Length > 0) openQuick(files[0]);
             PictureBox pb = (PictureBox)(sender);
             int slot = getSlot(sender);
             int offset = getPKXOffset(slot);
