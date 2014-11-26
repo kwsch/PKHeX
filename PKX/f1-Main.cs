@@ -6104,7 +6104,7 @@ namespace PKHeX
 
             if (ModifierKeys == Keys.Alt)
                 Array.Copy(PKX.encryptArray(new Byte[0xE8]), 0, savefile, pkm_from_offset, 0xE8);
-            if (ModifierKeys != Keys.Control)
+            else if (ModifierKeys != Keys.Control)
                 Array.Copy(savefile, offset, savefile, pkm_from_offset, 0xE8); // Copy from new slot to old slot.
             Array.Copy(pkm_from, 0, savefile, offset, 0xE8); // Copy from temp slot to new.
             setPKXBoxes();

@@ -66,7 +66,7 @@ namespace PKHeX
                 flag_0260,flag_2821, // Heatran
                 flag_0252,flag_2822, // Regigigas
                           flag_2823, // Giratina
-                                     // Cresselia?
+                flag_0172,flag_2824, // Cresselia
                 flag_0176,flag_2825, // Cobalion
                 flag_0177,flag_2826, // Terrakion
                                      // Trio 2827?

@@ -47,6 +47,8 @@
             this.flag_0647 = new System.Windows.Forms.CheckBox();
             this.flag_2840 = new System.Windows.Forms.CheckBox();
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.flag_2828 = new System.Windows.Forms.CheckBox();
             this.flag_2830 = new System.Windows.Forms.CheckBox();
             this.flag_0182 = new System.Windows.Forms.CheckBox();
@@ -55,8 +57,8 @@
             this.flag_0648 = new System.Windows.Forms.CheckBox();
             this.flag_2815 = new System.Windows.Forms.CheckBox();
             this.flag_0208 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.flag_2824 = new System.Windows.Forms.CheckBox();
+            this.flag_0172 = new System.Windows.Forms.CheckBox();
             this.flag_2821 = new System.Windows.Forms.CheckBox();
             this.flag_0260 = new System.Windows.Forms.CheckBox();
             this.flag_2842 = new System.Windows.Forms.CheckBox();
@@ -108,8 +110,6 @@
             this.flag_0289 = new System.Windows.Forms.CheckBox();
             this.flag_0285 = new System.Windows.Forms.CheckBox();
             this.flag_0284 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -322,8 +322,8 @@
             this.GB_Rebattle.Controls.Add(this.flag_0648);
             this.GB_Rebattle.Controls.Add(this.flag_2815);
             this.GB_Rebattle.Controls.Add(this.flag_0208);
-            this.GB_Rebattle.Controls.Add(this.checkBox1);
-            this.GB_Rebattle.Controls.Add(this.checkBox2);
+            this.GB_Rebattle.Controls.Add(this.flag_2824);
+            this.GB_Rebattle.Controls.Add(this.flag_0172);
             this.GB_Rebattle.Controls.Add(this.flag_2821);
             this.GB_Rebattle.Controls.Add(this.flag_0260);
             this.GB_Rebattle.Controls.Add(this.flag_2842);
@@ -372,6 +372,30 @@
             this.GB_Rebattle.TabIndex = 16;
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.checkBox3.Location = new System.Drawing.Point(172, 69);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(105, 17);
+            this.checkBox3.TabIndex = 73;
+            this.checkBox3.Text = "Lati@s Captured";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.Visible = false;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.checkBox4.Location = new System.Drawing.Point(172, 54);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(106, 17);
+            this.checkBox4.TabIndex = 72;
+            this.checkBox4.Text = "Lati@s Defeated";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.Visible = false;
             // 
             // flag_2828
             // 
@@ -469,31 +493,29 @@
             this.flag_0208.UseVisualStyleBackColor = true;
             this.flag_0208.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox1
+            // flag_2824
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox1.Location = new System.Drawing.Point(172, 160);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(114, 17);
-            this.checkBox1.TabIndex = 61;
-            this.checkBox1.Text = "Cresselia Captured";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Visible = false;
-            this.checkBox1.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_2824.AutoSize = true;
+            this.flag_2824.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2824.Location = new System.Drawing.Point(172, 160);
+            this.flag_2824.Name = "flag_2824";
+            this.flag_2824.Size = new System.Drawing.Size(114, 17);
+            this.flag_2824.TabIndex = 61;
+            this.flag_2824.Text = "Cresselia Captured";
+            this.flag_2824.UseVisualStyleBackColor = true;
+            this.flag_2824.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox2
+            // flag_0172
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox2.Location = new System.Drawing.Point(172, 145);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(115, 17);
-            this.checkBox2.TabIndex = 60;
-            this.checkBox2.Text = "Cresselia Defeated";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.Visible = false;
-            this.checkBox2.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_0172.AutoSize = true;
+            this.flag_0172.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0172.Location = new System.Drawing.Point(172, 145);
+            this.flag_0172.Name = "flag_0172";
+            this.flag_0172.Size = new System.Drawing.Size(115, 17);
+            this.flag_0172.TabIndex = 60;
+            this.flag_0172.Text = "Cresselia Defeated";
+            this.flag_0172.UseVisualStyleBackColor = true;
+            this.flag_0172.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_2821
             // 
@@ -1116,30 +1138,6 @@
             this.flag_0284.UseVisualStyleBackColor = true;
             this.flag_0284.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox3.Location = new System.Drawing.Point(172, 69);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(105, 17);
-            this.checkBox3.TabIndex = 73;
-            this.checkBox3.Text = "Lati@s Captured";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.Visible = false;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox4.Location = new System.Drawing.Point(172, 54);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(106, 17);
-            this.checkBox4.TabIndex = 72;
-            this.checkBox4.Text = "Lati@s Defeated";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.Visible = false;
-            // 
             // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1248,8 +1246,8 @@
         private System.Windows.Forms.CheckBox flag_0648;
         private System.Windows.Forms.CheckBox flag_2815;
         private System.Windows.Forms.CheckBox flag_0208;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox flag_2824;
+        private System.Windows.Forms.CheckBox flag_0172;
         private System.Windows.Forms.CheckBox flag_2821;
         private System.Windows.Forms.CheckBox flag_0260;
         private System.Windows.Forms.CheckBox checkBox3;
