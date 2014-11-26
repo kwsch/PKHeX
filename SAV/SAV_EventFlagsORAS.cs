@@ -68,7 +68,7 @@ namespace PKHeX
                           flag_2823, // Giratina
                                      // Cresselia?
                 flag_0176,flag_2825, // Cobalion
-                                     // Trio 2826?
+                flag_0177,flag_2826, // Terrakion
                                      // Trio 2827?
                           flag_2828, // Tornadus
                           flag_2829, // Thundurus
@@ -89,11 +89,11 @@ namespace PKHeX
                 // Cresselia, Regigigas
                 // Terrakion, Virizion
 
-                // old
-                flag_0285,flag_0286,flag_0287,flag_0288,flag_0289, // Statuettes
-                flag_0290,flag_0291,flag_0292,flag_0293,flag_0294, // Super Unlocks
-                flag_0675, // Chatelaine 50
-                flag_2546, // Pokedex
+                // Maison
+                flag_0284,flag_0285,flag_0286,flag_0287,flag_0288, // Statuettes
+                flag_0289,flag_0290,flag_0291,flag_0292,flag_0293, // Super Unlocks
+                //flag_0675, // Chatelaine 50
+                //flag_2546, // Pokedex
             };
             int offset = 0x1A0FC + savshift;
             byte[] data = new Byte[0x180];

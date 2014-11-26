@@ -3939,7 +3939,6 @@ namespace PKHeX
             // temp ORAS save-editing disable
             // GB_SAVtools.Enabled = !oras;
             GB_SUBE.Visible = 
-                B_OpenPokedex.Enabled = 
                 B_OpenBerryField.Enabled = !oras;
 
             B_OpenSecretBase.Visible = oras;
@@ -4229,7 +4228,7 @@ namespace PKHeX
             // Party Stats
             pkx[0xE8] = 0; pkx[0xE9] = 0;
             pkx[0xEA] = 0; pkx[0xEB] = 0;
-            pkx[0xEC] = (byte)Util.ToInt32(TB_Level.Text);          // Level
+            pkx[0xEC] = (byte)Util.ToInt32(TB_Level.Text);                                                     // Level
             pkx[0xED] = 0; pkx[0xEE] = 0; pkx[0xEF] = 0;
             Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_HP.Text), 65535)), 0, pkx, 0xF0, 2);   // Current HP
             Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_HP.Text), 65535)), 0, pkx, 0xF2, 2);   // Max HP
@@ -4244,8 +4243,8 @@ namespace PKHeX
             // Hax Illegality
             if (DEV_Ability.Enabled)
             {
-                pkx[0x14] = (byte)Util.getIndex(DEV_Ability);                                                           // Ability
-                pkx[0xEC] = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);                                        // Level
+                pkx[0x14] = (byte)Util.getIndex(DEV_Ability);                                                   // Ability
+                pkx[0xEC] = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);                                // Level
             }
 
             // Fix Moves if a slot is empty
@@ -4326,9 +4325,7 @@ namespace PKHeX
                     File.Delete(newfile);
                 }
                 catch (ArgumentException x)
-                {
-                    MessageBox.Show("Drag&Drop Error\r\n" + x, "Error");
-                }
+                { MessageBox.Show("Drag&Drop Error\r\n" + x, "Error"); }
                 File.Delete(newfile);
             }
         }
@@ -5803,7 +5800,7 @@ namespace PKHeX
                         0x01, 0x01, 0x01, 0x01,
                         0x01, 0x00, 0x00, 0x00, 
                     };
-                    Array.Copy(maxoras, 0, savefile, 0x17400 + 0x5400 + 0x7F000 + savindex, 0x44);
+                    Array.Copy(maxoras, 0, savefile, 0x17400 + 0x5400 + 0x7F000 * savindex, 0x44);
                 }
                 return;
             }
@@ -5813,13 +5810,24 @@ namespace PKHeX
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
             // Open Pokedex Menu
-            SAV_Pokedex pokedex = new PKHeX.SAV_Pokedex(this);
-            pokedex.ShowDialog();
+            if (savegame_oras)
+            {
+                if (ModifierKeys == Keys.Alt)
+                    (new PKHeX.SAV_PokedexORAS(this)).ShowDialog();
+                else
+                {
+                    DialogResult dr = MessageBox.Show("No editing support for ORAS :(\nNot enough research has been done.\n\nSet every bitflag in the Pokedex?\nWarning: Not reversible until full editing comes out (no eta).", "Alert", MessageBoxButtons.YesNo);
+                    if (dr == DialogResult.Yes)
+                        for (int i = 0; i < 0x58; i++)
+                            savefile[0x7F000 * savindex + 0x1A400 + 8 + i] = 0xFF;
+                }
+            }
+            else (new PKHeX.SAV_PokedexXY(this)).ShowDialog();
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
             string result = "";
-            result += "PSS List\r\n\r\n";
+            result += "PSS List\n\n";
             string[] headers = {
                                    "PSS Data - Friends",
                                    "PSS Data - Acquaintances",
@@ -5828,7 +5836,7 @@ namespace PKHeX
             int offset = savindex * 0x7F000 + SaveGame.PSS;
             for (int g = 0; g < 3; g++)
             {
-                result += "----\r\n" + headers[g] + "\r\n" + "----\r\n" + "\r\n";
+                result += "----\n" + headers[g] + "\n" + "----\n" + "\n";
                 uint count = BitConverter.ToUInt32(savefile,offset + 0x4E20);
                 int r_offset = offset;
 
@@ -5864,14 +5872,14 @@ namespace PKHeX
                         gamename = "OR";
                     else gamename = "UNK GAME";
                     result +=
-                        "OT: " + otname + "\r\n" +
-                        "Message: " + message + "\r\n" +
-                        "Game: " + gamename + "\r\n" +
-                        "Country ID: " + country + "\r\n" + 
-                        "Region ID: " + region + "\r\n" +
-                        "Favorite: " + specieslist[favpkm] + "\r\n";
+                        "OT: " + otname + "\n" +
+                        "Message: " + message + "\n" +
+                        "Game: " + gamename + "\n" +
+                        "Country ID: " + country + "\n" + 
+                        "Region ID: " + region + "\n" +
+                        "Favorite: " + specieslist[favpkm] + "\n";
 
-                    result += "\r\n";
+                    result += "\n";
                     r_offset += 0xC8;
                 }
                 offset += 0x5000;
@@ -6002,6 +6010,7 @@ namespace PKHeX
             abilitylist[0] = itemlist[0] = movelist[0] = "("+itemlist[0]+")";
 
             // Fix Item Names (Duplicate entries)
+            itemlist[456] += " (OLD)";
             itemlist[629] += " (2)";
             itemlist[707] += " (2)";
             itemlist[713] += " (2)";

@@ -102,6 +102,12 @@
     <Compile Include="PKX\f3-MemoryAmie.Designer.cs">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </Compile>
+    <Compile Include="SAV\SAV_PokedexORAS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SAV\SAV_PokedexORAS.Designer.cs">
+      <DependentUpon>SAV_PokedexORAS.cs</DependentUpon>
+    </Compile>
     <Compile Include="SAV\SAV_SecretBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,11 +176,11 @@
     <Compile Include="SAV\SAV_OPower.Designer.cs">
       <DependentUpon>SAV_OPower.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV\SAV_Pokedex.cs">
+    <Compile Include="SAV\SAV_PokedexXY.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV\SAV_Pokedex.Designer.cs">
-      <DependentUpon>SAV_Pokedex.cs</DependentUpon>
+    <Compile Include="SAV\SAV_PokedexXY.Designer.cs">
+      <DependentUpon>SAV_PokedexXY.cs</DependentUpon>
     </Compile>
     <Compile Include="SAV\SAV_Pokepuff.cs">
       <SubType>Form</SubType>
@@ -223,6 +229,9 @@
     <EmbeddedResource Include="PKX\f3-MemoryAmie.resx">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SAV\SAV_PokedexORAS.resx">
+      <DependentUpon>SAV_PokedexORAS.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_SecretBase.resx">
       <DependentUpon>SAV_SecretBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -258,8 +267,8 @@
     <EmbeddedResource Include="SAV\SAV_OPower.resx">
       <DependentUpon>SAV_OPower.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV\SAV_Pokedex.resx">
-      <DependentUpon>SAV_Pokedex.cs</DependentUpon>
+    <EmbeddedResource Include="SAV\SAV_PokedexXY.resx">
+      <DependentUpon>SAV_PokedexXY.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_Pokepuff.resx">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>

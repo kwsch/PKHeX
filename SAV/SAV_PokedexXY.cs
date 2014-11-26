@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PKHeX
 {
-    public partial class SAV_Pokedex : Form
+    public partial class SAV_PokedexXY : Form
     {
-        public SAV_Pokedex(Form1 frm1)
+        public SAV_PokedexXY(Form1 frm1)
         {
             InitializeComponent();
             m_parent = frm1;
@@ -21,7 +21,7 @@ namespace PKHeX
             Setup();
             editing = false;
             LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(sav, 0x1AA48).ToString("X8");
+            TB_Spinda.Text = BitConverter.ToUInt32(sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38).ToString("X8");
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
@@ -268,7 +268,7 @@ namespace PKHeX
             try
             {
                 uint PID = Util.getHEXval(TB_Spinda);
-                Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + savshift, 4);
+                Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38 + savshift, 4);
             }
             catch { };
         }

@@ -131,7 +131,7 @@ namespace PKHeX
             {
                 itemlist = new int[] {
                 000,216,        445,446,447,    465,466,471,628,
-                629,631,632,638,
+                629,631,632,638,                        697,
 
                 // Illegal
                 716,717,745,746,747,748,749,750, // For the cheaters who want useless items...

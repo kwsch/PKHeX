@@ -1,6 +1,6 @@
 ﻿namespace PKHeX
 {
-    partial class SAV_Pokedex
+    partial class SAV_PokedexORAS
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Pokedex));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_PokedexORAS));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Species = new System.Windows.Forms.ListBox();
             this.CHK_P1 = new System.Windows.Forms.CheckBox();
@@ -59,6 +59,8 @@
             this.CHK_F1 = new System.Windows.Forms.CheckBox();
             this.TB_Spinda = new System.Windows.Forms.TextBox();
             this.L_Spinda = new System.Windows.Forms.Label();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.GB_Language.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -88,9 +90,9 @@
             this.CHK_P1.AutoSize = true;
             this.CHK_P1.Location = new System.Drawing.Point(12, 93);
             this.CHK_P1.Name = "CHK_P1";
-            this.CHK_P1.Size = new System.Drawing.Size(92, 17);
+            this.CHK_P1.Size = new System.Drawing.Size(96, 17);
             this.CHK_P1.TabIndex = 3;
-            this.CHK_P1.Text = "Native (Kalos)";
+            this.CHK_P1.Text = "Native (ORAS)";
             this.CHK_P1.UseVisualStyleBackColor = true;
             this.CHK_P1.Click += new System.EventHandler(this.changePartitionBool);
             // 
@@ -297,9 +299,9 @@
             // 
             // B_GiveAll
             // 
-            this.B_GiveAll.Location = new System.Drawing.Point(160, 11);
+            this.B_GiveAll.Location = new System.Drawing.Point(251, 11);
             this.B_GiveAll.Name = "B_GiveAll";
-            this.B_GiveAll.Size = new System.Drawing.Size(80, 23);
+            this.B_GiveAll.Size = new System.Drawing.Size(60, 23);
             this.B_GiveAll.TabIndex = 23;
             this.B_GiveAll.Text = "Give All";
             this.B_GiveAll.UseVisualStyleBackColor = true;
@@ -317,9 +319,9 @@
             // 
             // B_FillDex
             // 
-            this.B_FillDex.Location = new System.Drawing.Point(287, 11);
+            this.B_FillDex.Location = new System.Drawing.Point(317, 11);
             this.B_FillDex.Name = "B_FillDex";
-            this.B_FillDex.Size = new System.Drawing.Size(80, 23);
+            this.B_FillDex.Size = new System.Drawing.Size(60, 23);
             this.B_FillDex.TabIndex = 25;
             this.B_FillDex.Text = "Fill Dex";
             this.B_FillDex.UseVisualStyleBackColor = true;
@@ -375,9 +377,9 @@
             this.CHK_F1.AutoSize = true;
             this.CHK_F1.Location = new System.Drawing.Point(12, 108);
             this.CHK_F1.Name = "CHK_F1";
-            this.CHK_F1.Size = new System.Drawing.Size(86, 17);
+            this.CHK_F1.Size = new System.Drawing.Size(61, 17);
             this.CHK_F1.TabIndex = 13;
-            this.CHK_F1.Text = "Foreign (Pre)";
+            this.CHK_F1.Text = "Foreign";
             this.CHK_F1.UseVisualStyleBackColor = true;
             this.CHK_F1.Click += new System.EventHandler(this.changePartitionBool);
             // 
@@ -400,11 +402,34 @@
             this.L_Spinda.TabIndex = 30;
             this.L_Spinda.Text = "Spinda:";
             // 
-            // SAV_Pokedex
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(207, 13);
+            this.maskedTextBox1.Mask = "00000";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(38, 20);
+            this.maskedTextBox1.TabIndex = 31;
+            this.maskedTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.maskedTextBox1.Visible = false;
+            this.maskedTextBox1.TextChanged += new System.EventHandler(this.changeEncounteredCount);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(158, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "Battled:";
+            this.label2.Visible = false;
+            // 
+            // SAV_PokedexORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 272);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.maskedTextBox1);
             this.Controls.Add(this.L_Spinda);
             this.Controls.Add(this.TB_Spinda);
             this.Controls.Add(this.groupBox2);
@@ -421,7 +446,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SAV_Pokedex";
+            this.Name = "SAV_PokedexORAS";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pokédex Editor";
             this.GB_Language.ResumeLayout(false);
@@ -467,5 +492,7 @@
         private System.Windows.Forms.CheckBox CHK_F1;
         private System.Windows.Forms.TextBox TB_Spinda;
         private System.Windows.Forms.Label L_Spinda;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.Label label2;
     }
 }
