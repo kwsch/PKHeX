@@ -3942,11 +3942,8 @@ namespace PKHeX
             setPKXBoxes();   // Reload all of the PKX Windows
             setSAVLabel();   // Reload the label indicating current save
 
-            // temp ORAS save-editing disable
-            // GB_SAVtools.Enabled = !oras;
-            GB_SUBE.Visible = 
-                B_OpenBerryField.Enabled = !oras;
-
+            // Version Exclusive Editors
+            GB_SUBE.Visible = !oras;
             B_OpenSecretBase.Visible = oras;
 
             this.Width = largeWidth;
@@ -5763,8 +5760,31 @@ namespace PKHeX
         }
         private void B_OpenBerryField_Click(object sender, EventArgs e)
         {
-            PKHeX.SAV_BerryField sb23 = new PKHeX.SAV_BerryField(this, SaveGame.BerryField);
-            sb23.ShowDialog();
+            if (savegame_oras)
+            {
+                DialogResult dr = MessageBox.Show("No editing support for ORAS :(\n\nRepopulate all with random berries?","Alert",MessageBoxButtons.YesNo);
+                if (dr == DialogResult.Yes)
+                {
+                    // Randomize the trees.
+                    int offset = 0x1C400 + 0x5400 + savindex * 0x7F000;
+                    byte[] ready = new byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00, };
+                    int[] itemlist = new int[] 
+                    {
+                        0,149,150,151,152,153,154,155,156,157,158,159,160,161,162,
+                        163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,
+                        178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,
+                        193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,
+                        208,209,210,211,212,686,687,688,
+                    };
+                    for (int i = 0; i < 90; i++)
+                    {
+                        Array.Copy(ready, 0, savefile, offset + 0x10 * i, 0x10);
+                        Array.Copy(BitConverter.GetBytes(itemlist[Util.rnd32() % itemlist.Length]), 0, savefile, offset + 0x10 * i + 6, 2);
+                    }
+                }
+            }
+            else 
+                (new PKHeX.SAV_BerryField(this, SaveGame.BerryField)).ShowDialog();
         }
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
@@ -5824,8 +5844,223 @@ namespace PKHeX
                 {
                     DialogResult dr = MessageBox.Show("No editing support for ORAS :(\nNot enough research has been done.\n\nSet every bitflag in the Pokedex?\nWarning: Not reversible until full editing comes out (no eta).", "Alert", MessageBoxButtons.YesNo);
                     if (dr == DialogResult.Yes)
+                    {
+                        // Native Byte Writing
                         for (int i = 0; i < 0x58; i++)
                             savefile[0x7F000 * savindex + 0x1A400 + 8 + i] = 0xFF;
+                        Array.Copy(BitConverter.GetBytes(0x0001FFFF), 0, savefile, 0x7F000 * savindex + 0x5400 + 0x15060, 4);
+
+                        // Midsection Writing
+                        {
+                            // starting at 0x15068;
+                            #region Payload
+                            uint[] payload = new uint[] { 
+                                    0x8FFFFFFF, // 20015068  
+                                    0xFFFFFFFF, // 2001506C 
+                                    0xFFFFFFFF, // 20015070 
+                                    0xF7FAFFFF, // 20015074 
+                                    0xFFFFFFFF, // 20015078 
+                                    0xFFFFFFFF, // 2001507C 
+                                    0xFFFFFFFF, // 20015080 
+                                    0xFFFCDFFF, // 20015084 
+                                    0xFFFFFFFF, // 20015088 
+                                    0xFDFFFFFF, // 2001508C 
+                                    0xFFFFFFFF, // 20015090 
+                                    0xF7FFFFFF, // 20015094 
+                                    0x6FFFFFFF, // 20015098 
+                                    0xFF7FFFFF, // 2001509C 
+                                    0xDFFFFFFF, // 200150A0 
+                                    0xFFFFFF7F, // 200150A4 
+                                    0xFFFFFFFF, // 200150A8 
+                                    0xFFFFFFE7, // 200150AC 
+                                    0xFFFFFFFF, // 200150B0 
+                                    0xFFCFFFFF, // 200150B4 
+                                    0x8FFFFFFF, // 200150B8 
+                                    0xFFFFFFFF, // 200150BC 
+                                    0x0001FFFF, // 200150C0 
+                                    0x00000000, // 200150C4 
+                                    0x7FFFFFFF, // 200150C8 
+                                    0xFFFFFFFC, // 200150CC 
+                                    0xFFFCFFFF, // 200150D0 
+                                    0x7E7FF9E7, // 200150D4 
+                                    0xFF9C7EF7, // 200150D8 
+                                    0xFFFFFFFF, // 200150DC 
+                                    0xFFFFFEFF, // 200150E0 
+                                    0xF8E3E6FF, // 200150E4 
+                                    0xFFFFFFFF, // 200150E8 
+                                    0xFEFFFFF7, // 200150EC 
+                                    0xFF3CFFFF, // 200150F0 
+                                    0x081FFFFF, // 200150F4 
+                                    0xDFFFFFFC, // 200150F8 
+                                    0xFFE7FFFF, // 200150FC 
+                                    0x39FFDFFF, // 20015100 
+                                    0xFFFFC090, // 20015104 
+                                    0xF9FFFFFF, // 20015108 
+                                    0xFFFFFFFF, // 2001510C 
+                                    0xFE3FFFFF, // 20015110 
+                                    0x1FF39FBF, // 20015114 
+                                    0xFFFFFE00, // 20015118 
+                                    0xBFFFFFFF, // 2001511C 
+                                    0x000007FF, // 10015120 
+                                    0x00000000, // 
+                                    0x8FFFFFFF, // 20015128 
+                                    0xFFFFFFFF, // 2001512C 
+                                    0xFFFFFFFF, // 20015130 
+                                    0xF7FAFFFF, // 20015134 
+                                    0xFFFFFFFF, // 20015138 
+                                    0xFFFFFFFF, // 2001513C 
+                                    0xFFFFFFFF, // 20015140 
+                                    0xFFFCDFFF, // 20015144 
+                                    0xFFFFFFFF, // 20015148 
+                                    0xFDFFFFFF, // 2001514C 
+                                    0xFFFFFFFF, // 20015150 
+                                    0xF7FFFFFF, // 20015154 
+                                    0x6FFFFFFF, // 20015158 
+                                    0xFF7FFFFF, // 2001515C 
+                                    0xDFFFFFFF, // 20015160 
+                                    0xFFFFFF7F, // 20015164 
+                                    0xFFFFFFFF, // 20015168 
+                                    0xFFFFFFE7, // 2001516C 
+                                    0xFFFFFFFF, // 20015170 
+                                    0xFFCFFFFF, // 20015174 
+                                    0x8FFFFFFF, // 20015178 
+                                    0xFFFFFFFF, // 2001517C 
+                                    0x0001FFFF, // 20015180 
+                                    0x00000000, // 20015184 
+                                    0x7FFFFFFF, // 20015188 
+                                    0xFFFFFFFC, // 2001518C 
+                                    0xFFFCFFFF, // 20015190 
+                                    0x7E7FF9E7, // 20015194 
+                                    0xFF9C7EF7, // 20015198 
+                                    0xFFFFFFFF, // 2001519C 
+                                    0xFFFFFEFF, // 200151A0 
+                                    0xF8E3E6FF, // 200151A4 
+                                    0xFFFFFFFF, // 200151A8 
+                                    0xFEFFFFF7, // 200151AC 
+                                    0xFF3CFFFF, // 200151B0 
+                                    0x081FFFFF, // 200151B4 
+                                    0xDFFFFFFC, // 200151B8 
+                                    0xFFE7FFFF, // 200151BC 
+                                    0x39FFDFFF, // 200151C0 
+                                    0xFFFFC090, // 200151C4 
+                                    0xF9FFFFFF, // 200151C8 
+                                    0xFFFFFFFF, // 200151CC 
+                                    0xFE3FFFFF, // 200151D0 
+                                    0x1FF39FBF, // 200151D4 
+                                    0xFFFFFE00, // 200151D8 
+                                    0xBFFFFFFF, // 200151DC 
+                                    0x000007FF, // 100151E0 
+                                    0x00000000, // 
+                                    0x8FFFFFFF, // 200151E8 
+                                    0xFFFFFFFF, // 200151EC 
+                                    0xFFFFFFFF, // 200151F0 
+                                    0xF7FAFFFF, // 200151F4 
+                                    0xFFFFFFFF, // 200151F8 
+                                    0xFFFFFFFF, // 200151FC 
+                                    0xFFFFFFFF, // 20015200 
+                                    0xFFFCDFFF, // 20015204 
+                                    0xFFFFFFFF, // 20015208 
+                                    0xFDFFFFFF, // 2001520C 
+                                    0xFFFFFFFF, // 20015210 
+                                    0xF7FFFFFF, // 20015214 
+                                    0x6FFFFFFF, // 20015218 
+                                    0xFF7FFFFF, // 2001521C 
+                                    0xDFFFFFFF, // 20015220 
+                                    0xFFFFFF7F, // 20015224 
+                                    0xFFFFFFFF, // 20015228 
+                                    0xFFFFFFE7, // 2001522C 
+                                    0xFFFFFFFF, // 20015230 
+                                    0xFFCFFFFF, // 20015234 
+                                    0x8FFFFFFF, // 20015238 
+                                    0xFFFFFFFF, // 2001523C 
+                                    0x0001FFFF, // 20015240 
+                                    0x00000000, // 20015244 
+                                    0x7FFFFFFF, // 20015248 
+                                    0xFFFFFFFC, // 2001524C 
+                                    0xFFFCFFFF, // 20015250 
+                                    0x7E7FF9E7, // 20015254 
+                                    0xFF9C7EF7, // 20015258 
+                                    0xFFFFFFFF, // 2001525C 
+                                    0xFFFFFEFF, // 20015260 
+                                    0xF8E3E6FF, // 20015264 
+                                    0xFFFFFFFF, // 20015268 
+                                    0xFEFFFFF7, // 2001526C 
+                                    0xFF3CFFFF, // 20015270 
+                                    0x081FFFFF, // 20015274 
+                                    0xDFFFFFFC, // 20015278 
+                                    0xFFE7FFFF, // 2001527C 
+                                    0x39FFDFFF, // 20015280 
+                                    0xFFFFC090, // 20015284 
+                                    0xF9FFFFFF, // 20015288 
+                                    0xFFFFFFFF, // 2001528C 
+                                    0xFE3FFFFF, // 20015290 
+                                    0x1FF39FBF, // 20015294 
+                                    0xFFFFFE00, // 20015298 
+                                    0xBFFFFFFF, // 2001529C 
+                                    0x000007FF, // 100152A0 
+                                    0x00000000, // 
+                                    0x8FFFFFFF, // 200152A8 
+                                    0xFFFFFFFF, // 200152AC 
+                                    0xFFFFFFFF, // 200152B0 
+                                    0xF7FAFFFF, // 200152B4 
+                                    0xFFFFFFFF, // 200152B8 
+                                    0xFFFFFFFF, // 200152BC 
+                                    0xFFFFFFFF, // 200152C0 
+                                    0xFFFCDFFF, // 200152C4 
+                                    0xFFFFFFFF, // 200152C8 
+                                    0xFDFFFFFF, // 200152CC 
+                                    0xFFFFFFFF, // 200152D0 
+                                    0xF7FFFFFF, // 200152D4 
+                                    0x6FFFFFFF, // 200152D8 
+                                    0xFF7FFFFF, // 200152DC 
+                                    0xDFFFFFFF, // 200152E0 
+                                    0xFFFFFF7F, // 200152E4 
+                                    0xFFFFFFFF, // 200152E8 
+                                    0xFFFFFFE7, // 200152EC 
+                                    0xFFFFFFFF, // 200152F0 
+                                    0xFFCFFFFF, // 200152F4 
+                                    0x8FFFFFFF, // 200152F8 
+                                    0xFFFFFFFF, // 200152FC 
+                                    0x0001FFFF, // 20015300 
+                                    0x00000000, // 20015304 
+                                    0x7FFFFFFF, // 20015308 
+                                    0xFFFFFFFC, // 2001530C 
+                                    0xFFFCFFFF, // 20015310 
+                                    0x7E7FF9E7, // 20015314 
+                                    0xFF9C7EF7, // 20015318 
+                                    0xFFFFFFFF, // 2001531C 
+                                    0xFFFFFEFF, // 20015320 
+                                    0xF8E3E6FF, // 20015324 
+                                    0xFFFFFFFF, // 20015328 
+                                    0xFEFFFFF7, // 2001532C 
+                                    0xFF3CFFFF, // 20015330 
+                                    0x081FFFFF, // 20015334 
+                                    0xDFFFFFFC, // 20015338 
+                                    0xFFE7FFFF, // 2001533C 
+                                    0x39FFDFFF, // 20015340 
+                                    0xFFFFC090, // 20015344 
+                                    0xF9FFFFFF, // 20015348 
+                                    0xFFFFFFFF, // 2001534C 
+                                    0xFE3FFFFF, // 20015350 
+                                    0x1FF39FBF, // 20015354 
+                                    0xFFFFFE00, // 20015358 
+                                    0xBFFFFFFF, // 2001535C 
+                                    0x000007FF, // 10015360 
+                                };
+                            #endregion
+                            for (int i = 0; i < payload.Length; i++)
+                                Array.Copy(BitConverter.GetBytes(payload[i]), 0, savefile, 0x7F000 * savindex + 0x5400 + 0x15068 + 4 * i, 4);
+                        }
+
+                        // Language Writing
+                        for (int i = 0; i < 0x9D; i++)
+                            Array.Copy(BitConverter.GetBytes(0xFFFFFFFF),0,savefile,0x7F000 * savindex + 0x5400 + 0x15400 + 4 * i, 4);
+                        Array.Copy(BitConverter.GetBytes(0x007FFFFF),0,savefile,0x7F000 * savindex + 0x5400 + 0x15674, 4);
+
+                        // Encounter Count Writing (999*all species)
+                        for (int i = 0; i < 0x2D1; i++)
+                            Array.Copy(BitConverter.GetBytes(999), 0, savefile, 0x7F000 * savindex + 0x5400 + 0x15686 + 8 + i * 2, 2);
+                    }
                 }
             }
             else (new PKHeX.SAV_PokedexXY(this)).ShowDialog();
@@ -6077,6 +6312,7 @@ namespace PKHeX
             updateIVs(null, null); // Prompt an update for the characteristics
         }
 
+        // Drag & Drop within Box
         private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
         {
             PictureBox pb = (PictureBox)(sender);
@@ -6094,10 +6330,6 @@ namespace PKHeX
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
-            try {
-                if ((sender as TabControl).Name != "")
-                    populateFields(pkm_from);
-                } catch { }
             PictureBox pb = (PictureBox)(sender);
             int slot = getSlot(sender);
             int offset = getPKXOffset(slot);
