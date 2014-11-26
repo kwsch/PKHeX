@@ -15,6 +15,7 @@ namespace PKHeX
         private int TrainerCard = 0x19400;
         private int Trainer1 = 0x6800;
         private int Trainer2 = 0x9600;
+        private int Maison = 0x205C0;
         public SAV_Trainer(Form1 frm1)
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace PKHeX
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
             savshift = savindex * 0x7F000;
-            if (m_parent.savegame_oras) psssatoffset = 0x24800;
+            if (m_parent.savegame_oras) { psssatoffset = 0x24800; Maison += 0xA00; }
             editing = true;
             getComboBoxes();
             getTextBoxes();
@@ -196,17 +197,7 @@ namespace PKHeX
         public byte badgeval = 0;
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip(); 
-
-        private static uint ToUInt32(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return 0;
-            try
-            {
-                return UInt32.Parse(value);
-            }
-            catch { return 0; }
-        }
+        
         private void getComboBoxes()
         {
             var dsregion_list = new[] {
@@ -217,7 +208,6 @@ namespace PKHeX
                     new { Text = "KOR", Value = 5 },
                     new { Text = "TW", Value = 6 }
                 };
-
 
             var language_list = new[] {
                     new { Text = "ENG", Value = 2 },
@@ -411,36 +401,36 @@ namespace PKHeX
             CB_3DSReg.SelectedValue = _3dsreg;
             CB_Language.SelectedValue = _language;
 
-            // Maison Data (Display Only)
-            TB_MCSN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 0).ToString();
-            TB_MCSS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 1).ToString();
+            // Maison Data
+            TB_MCSN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 0).ToString();
+            TB_MCSS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 1).ToString();
 
-            TB_MBSN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 2).ToString();
-            TB_MBSS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 3).ToString();
+            TB_MBSN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 2).ToString();
+            TB_MBSS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 3).ToString();
 
-            TB_MCDN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 4).ToString();
-            TB_MCDS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 5).ToString();
+            TB_MCDN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 4).ToString();
+            TB_MCDS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 5).ToString();
             
-            TB_MBDN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 6).ToString();
-            TB_MBDS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 7).ToString();
+            TB_MBDN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 6).ToString();
+            TB_MBDS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 7).ToString();
 
-            TB_MCTN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 8).ToString();
-            TB_MCTS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 9).ToString();
+            TB_MCTN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 8).ToString();
+            TB_MCTS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 9).ToString();
 
-            TB_MBTN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 10).ToString();
-            TB_MBTS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 11).ToString();
+            TB_MBTN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 10).ToString();
+            TB_MBTS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 11).ToString();
 
-            TB_MCRN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 12).ToString();
-            TB_MCRS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 13).ToString();
+            TB_MCRN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 12).ToString();
+            TB_MCRS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 13).ToString();
 
-            TB_MBRN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 14).ToString();
-            TB_MBRS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 15).ToString();
+            TB_MBRN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 14).ToString();
+            TB_MBRS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 15).ToString();
 
-            TB_MCMN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 16).ToString();
-            TB_MCMS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 17).ToString();
+            TB_MCMN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 16).ToString();
+            TB_MCMS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 17).ToString();
 
-            TB_MBMN.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 18).ToString();
-            TB_MBMS.Text = BitConverter.ToUInt16(sav, savshift + 0x205C0 + 2 * 19).ToString();
+            TB_MBMN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 18).ToString();
+            TB_MBMS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 19).ToString();
                         
             TB_CoordM.Text = BitConverter.ToUInt16(sav, savshift + Trainer1 + 0x02).ToString();
             TB_CoordX.Text = BitConverter.ToSingle(sav, savshift + Trainer1 + 0x10).ToString();
@@ -452,7 +442,6 @@ namespace PKHeX
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + psssatoffset + 0xFC).ToString();
             
             // Temp ORAS 
-            GB_MaisonBest.Visible = GB_MaisonCurrent.Visible = 
             GB_Appear.Visible = GB_Map.Visible = GB_Misc.Visible = !m_parent.savegame_oras;
 
             TB_Style.Text = sav[0x694D + savshift].ToString();
@@ -497,9 +486,9 @@ namespace PKHeX
             sav[TrainerCard + 0x04 + savshift] = (byte)(CB_Game.SelectedIndex + 0x18);
             sav[TrainerCard + 0x05 + savshift] = (byte)CB_Gender.SelectedIndex;
 
-            uint TID = ToUInt32(MT_TID.Text);
-            uint SID = ToUInt32(MT_SID.Text);
-            uint money = ToUInt32(MT_Money.Text);
+            uint TID = Util.ToUInt32(MT_TID.Text);
+            uint SID = Util.ToUInt32(MT_SID.Text);
+            uint money = Util.ToUInt32(MT_Money.Text);
 
             string saying1 = TB_Saying1.Text;
             string saying2 = TB_Saying2.Text;
@@ -507,10 +496,10 @@ namespace PKHeX
             string saying4 = TB_Saying4.Text;
             string saying5 = TB_Saying5.Text;
 
-            uint _region = ToUInt32(CB_Region.SelectedValue.ToString());
-            uint _country   = ToUInt32(CB_Country.SelectedValue.ToString());
-            uint _3dsreg    = ToUInt32(CB_3DSReg.SelectedValue.ToString());
-            uint _language  = ToUInt32(CB_Language.SelectedValue.ToString());
+            uint _region = Util.ToUInt32(CB_Region.SelectedValue.ToString());
+            uint _country = Util.ToUInt32(CB_Country.SelectedValue.ToString());
+            uint _3dsreg = Util.ToUInt32(CB_3DSReg.SelectedValue.ToString());
+            uint _language = Util.ToUInt32(CB_Language.SelectedValue.ToString());
 
             Array.Copy(BitConverter.GetBytes(TID), 0, sav, TrainerCard + 0x0 + savshift, 2);
             Array.Copy(BitConverter.GetBytes(SID), 0, sav, TrainerCard + 0x2 + savshift, 2);
@@ -554,9 +543,9 @@ namespace PKHeX
             };
             for (int i = 0; i < tba.Length; i++)
             {
-                byte[] streak = BitConverter.GetBytes(ToUInt32(tba[i].Text));
+                byte[] streak = BitConverter.GetBytes(Util.ToUInt32(tba[i].Text));
                 Array.Resize(ref streak, 2);
-                Array.Copy(streak, 0, sav, 0x205C0 + 2 * i + savshift, 2);
+                Array.Copy(streak, 0, sav, Maison + 2 * i + savshift, 2);
             }
 
             // Copy Position
@@ -565,8 +554,8 @@ namespace PKHeX
             byte[] z = BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)); Array.Resize(ref z, 4); Array.Copy(z,0,sav, savshift + Trainer1 + 0x14,4);
             byte[] y = BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)); Array.Resize(ref y, 4); Array.Copy(y,0,sav, savshift + Trainer1 + 0x18,4);
 
-            byte[] bp = BitConverter.GetBytes(ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C - 0xC * Convert.ToInt16(m_parent.savegame_oras), 2);
-            byte[] pm = BitConverter.GetBytes(ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0xFC, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0x100, 4);
+            byte[] bp = BitConverter.GetBytes(Util.ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C - 0xC * Convert.ToInt16(m_parent.savegame_oras), 2);
+            byte[] pm = BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0xFC, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0x100, 4);
             sav[0x694D+savshift] = Byte.Parse(TB_Style.Text);
 
             // Copy Badges
@@ -606,8 +595,8 @@ namespace PKHeX
 
         private void showTSV(object sender, EventArgs e)
         {
-            uint TID = ToUInt32(MT_TID.Text);
-            uint SID = ToUInt32(MT_SID.Text);
+            uint TID = Util.ToUInt32(MT_TID.Text);
+            uint SID = Util.ToUInt32(MT_SID.Text);
             uint tsv = (TID ^ SID) >> 4;
             Tip1.SetToolTip(this.MT_TID, "TSV: " + tsv.ToString("0000"));
             Tip2.SetToolTip(this.MT_SID, "TSV: " + tsv.ToString("0000"));
