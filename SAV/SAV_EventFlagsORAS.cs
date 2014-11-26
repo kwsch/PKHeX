@@ -64,9 +64,9 @@ namespace PKHeX
                           flag_2819, // Dialga
                           flag_2820, // Palkia
                 flag_0260,flag_2821, // Heatran
-                                     // Cresselia?
+                flag_0252,flag_2822, // Regigigas
                           flag_2823, // Giratina
-                                     // Regigigas?
+                                     // Cresselia?
                 flag_0176,flag_2825, // Cobalion
                                      // Trio 2826?
                                      // Trio 2827?

@@ -47,6 +47,22 @@
             this.flag_0647 = new System.Windows.Forms.CheckBox();
             this.flag_2840 = new System.Windows.Forms.CheckBox();
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
+            this.flag_2828 = new System.Windows.Forms.CheckBox();
+            this.flag_2877 = new System.Windows.Forms.CheckBox();
+            this.flag_2830 = new System.Windows.Forms.CheckBox();
+            this.flag_0182 = new System.Windows.Forms.CheckBox();
+            this.flag_2820 = new System.Windows.Forms.CheckBox();
+            this.checkBox17 = new System.Windows.Forms.CheckBox();
+            this.flag_2839 = new System.Windows.Forms.CheckBox();
+            this.flag_0648 = new System.Windows.Forms.CheckBox();
+            this.flag_2815 = new System.Windows.Forms.CheckBox();
+            this.flag_0208 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.flag_2821 = new System.Windows.Forms.CheckBox();
+            this.flag_0260 = new System.Windows.Forms.CheckBox();
+            this.flag_2842 = new System.Windows.Forms.CheckBox();
+            this.flag_0945 = new System.Windows.Forms.CheckBox();
             this.flag_2838 = new System.Windows.Forms.CheckBox();
             this.flag_0958 = new System.Windows.Forms.CheckBox();
             this.flag_2836 = new System.Windows.Forms.CheckBox();
@@ -63,8 +79,8 @@
             this.checkBox20 = new System.Windows.Forms.CheckBox();
             this.flag_2829 = new System.Windows.Forms.CheckBox();
             this.checkBox18 = new System.Windows.Forms.CheckBox();
-            this.checkBox15 = new System.Windows.Forms.CheckBox();
-            this.checkBox16 = new System.Windows.Forms.CheckBox();
+            this.flag_2822 = new System.Windows.Forms.CheckBox();
+            this.flag_0252 = new System.Windows.Forms.CheckBox();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
@@ -88,6 +104,7 @@
             this.flag_2831 = new System.Windows.Forms.CheckBox();
             this.flag_0183 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.flag_2546 = new System.Windows.Forms.CheckBox();
             this.flag_0289 = new System.Windows.Forms.CheckBox();
             this.flag_0288 = new System.Windows.Forms.CheckBox();
             this.flag_0287 = new System.Windows.Forms.CheckBox();
@@ -99,23 +116,6 @@
             this.flag_0675 = new System.Windows.Forms.CheckBox();
             this.flag_0286 = new System.Windows.Forms.CheckBox();
             this.flag_0285 = new System.Windows.Forms.CheckBox();
-            this.flag_2546 = new System.Windows.Forms.CheckBox();
-            this.flag_2842 = new System.Windows.Forms.CheckBox();
-            this.flag_0945 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.flag_2821 = new System.Windows.Forms.CheckBox();
-            this.flag_0260 = new System.Windows.Forms.CheckBox();
-            this.flag_2815 = new System.Windows.Forms.CheckBox();
-            this.flag_0208 = new System.Windows.Forms.CheckBox();
-            this.flag_2839 = new System.Windows.Forms.CheckBox();
-            this.flag_0648 = new System.Windows.Forms.CheckBox();
-            this.flag_2820 = new System.Windows.Forms.CheckBox();
-            this.checkBox17 = new System.Windows.Forms.CheckBox();
-            this.flag_2830 = new System.Windows.Forms.CheckBox();
-            this.flag_0182 = new System.Windows.Forms.CheckBox();
-            this.flag_2828 = new System.Windows.Forms.CheckBox();
-            this.flag_2877 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -348,8 +348,8 @@
             this.GB_Rebattle.Controls.Add(this.checkBox20);
             this.GB_Rebattle.Controls.Add(this.flag_2829);
             this.GB_Rebattle.Controls.Add(this.checkBox18);
-            this.GB_Rebattle.Controls.Add(this.checkBox15);
-            this.GB_Rebattle.Controls.Add(this.checkBox16);
+            this.GB_Rebattle.Controls.Add(this.flag_2822);
+            this.GB_Rebattle.Controls.Add(this.flag_0252);
             this.GB_Rebattle.Controls.Add(this.checkBox13);
             this.GB_Rebattle.Controls.Add(this.checkBox14);
             this.GB_Rebattle.Controls.Add(this.checkBox11);
@@ -380,6 +380,202 @@
             this.GB_Rebattle.TabIndex = 16;
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
+            // 
+            // flag_2828
+            // 
+            this.flag_2828.AutoSize = true;
+            this.flag_2828.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2828.Location = new System.Drawing.Point(15, 239);
+            this.flag_2828.Name = "flag_2828";
+            this.flag_2828.Size = new System.Drawing.Size(142, 17);
+            this.flag_2828.TabIndex = 71;
+            this.flag_2828.Text = "(OR) Tornadus Captured";
+            this.flag_2828.UseVisualStyleBackColor = true;
+            this.flag_2828.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_2877
+            // 
+            this.flag_2877.AutoSize = true;
+            this.flag_2877.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2877.Location = new System.Drawing.Point(15, 224);
+            this.flag_2877.Name = "flag_2877";
+            this.flag_2877.Size = new System.Drawing.Size(143, 17);
+            this.flag_2877.TabIndex = 70;
+            this.flag_2877.Text = "(OR) Tornadus Defeated";
+            this.flag_2877.UseVisualStyleBackColor = true;
+            this.flag_2877.Visible = false;
+            this.flag_2877.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_2830
+            // 
+            this.flag_2830.AutoSize = true;
+            this.flag_2830.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2830.Location = new System.Drawing.Point(15, 307);
+            this.flag_2830.Name = "flag_2830";
+            this.flag_2830.Size = new System.Drawing.Size(141, 17);
+            this.flag_2830.TabIndex = 69;
+            this.flag_2830.Text = "(OR) Reshiram Captured";
+            this.flag_2830.UseVisualStyleBackColor = true;
+            this.flag_2830.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0182
+            // 
+            this.flag_0182.AutoSize = true;
+            this.flag_0182.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0182.Location = new System.Drawing.Point(15, 292);
+            this.flag_0182.Name = "flag_0182";
+            this.flag_0182.Size = new System.Drawing.Size(142, 17);
+            this.flag_0182.TabIndex = 68;
+            this.flag_0182.Text = "(OR) Reshiram Defeated";
+            this.flag_0182.UseVisualStyleBackColor = true;
+            this.flag_0182.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_2820
+            // 
+            this.flag_2820.AutoSize = true;
+            this.flag_2820.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2820.Location = new System.Drawing.Point(15, 171);
+            this.flag_2820.Name = "flag_2820";
+            this.flag_2820.Size = new System.Drawing.Size(126, 17);
+            this.flag_2820.TabIndex = 67;
+            this.flag_2820.Text = "(OR) Palkia Captured";
+            this.flag_2820.UseVisualStyleBackColor = true;
+            this.flag_2820.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // checkBox17
+            // 
+            this.checkBox17.AutoSize = true;
+            this.checkBox17.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.checkBox17.Location = new System.Drawing.Point(15, 156);
+            this.checkBox17.Name = "checkBox17";
+            this.checkBox17.Size = new System.Drawing.Size(127, 17);
+            this.checkBox17.TabIndex = 66;
+            this.checkBox17.Text = "(OR) Palkia Defeated";
+            this.checkBox17.UseVisualStyleBackColor = true;
+            this.checkBox17.Visible = false;
+            this.checkBox17.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_2839
+            // 
+            this.flag_2839.AutoSize = true;
+            this.flag_2839.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2839.Location = new System.Drawing.Point(15, 102);
+            this.flag_2839.Name = "flag_2839";
+            this.flag_2839.Size = new System.Drawing.Size(138, 17);
+            this.flag_2839.TabIndex = 65;
+            this.flag_2839.Text = "(OR) Groudon Captured";
+            this.flag_2839.UseVisualStyleBackColor = true;
+            this.flag_2839.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0648
+            // 
+            this.flag_0648.AutoSize = true;
+            this.flag_0648.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0648.Location = new System.Drawing.Point(15, 87);
+            this.flag_0648.Name = "flag_0648";
+            this.flag_0648.Size = new System.Drawing.Size(139, 17);
+            this.flag_0648.TabIndex = 64;
+            this.flag_0648.Text = "(OR) Groudon Defeated";
+            this.flag_0648.UseVisualStyleBackColor = true;
+            this.flag_0648.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_2815
+            // 
+            this.flag_2815.AutoSize = true;
+            this.flag_2815.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2815.Location = new System.Drawing.Point(15, 34);
+            this.flag_2815.Name = "flag_2815";
+            this.flag_2815.Size = new System.Drawing.Size(128, 17);
+            this.flag_2815.TabIndex = 63;
+            this.flag_2815.Text = "(OR) Ho-Oh Captured";
+            this.flag_2815.UseVisualStyleBackColor = true;
+            this.flag_2815.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0208
+            // 
+            this.flag_0208.AutoSize = true;
+            this.flag_0208.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0208.Location = new System.Drawing.Point(15, 19);
+            this.flag_0208.Name = "flag_0208";
+            this.flag_0208.Size = new System.Drawing.Size(129, 17);
+            this.flag_0208.TabIndex = 62;
+            this.flag_0208.Text = "(OR) Ho-Oh Defeated";
+            this.flag_0208.UseVisualStyleBackColor = true;
+            this.flag_0208.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.checkBox1.Location = new System.Drawing.Point(173, 185);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(114, 17);
+            this.checkBox1.TabIndex = 61;
+            this.checkBox1.Text = "Cresselia Captured";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
+            this.checkBox1.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.checkBox2.Location = new System.Drawing.Point(173, 170);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(115, 17);
+            this.checkBox2.TabIndex = 60;
+            this.checkBox2.Text = "Cresselia Defeated";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.Visible = false;
+            this.checkBox2.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_2821
+            // 
+            this.flag_2821.AutoSize = true;
+            this.flag_2821.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2821.Location = new System.Drawing.Point(173, 148);
+            this.flag_2821.Name = "flag_2821";
+            this.flag_2821.Size = new System.Drawing.Size(110, 17);
+            this.flag_2821.TabIndex = 59;
+            this.flag_2821.Text = "Heatran Captured";
+            this.flag_2821.UseVisualStyleBackColor = true;
+            this.flag_2821.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0260
+            // 
+            this.flag_0260.AutoSize = true;
+            this.flag_0260.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0260.Location = new System.Drawing.Point(173, 133);
+            this.flag_0260.Name = "flag_0260";
+            this.flag_0260.Size = new System.Drawing.Size(111, 17);
+            this.flag_0260.TabIndex = 58;
+            this.flag_0260.Text = "Heatran Defeated";
+            this.flag_0260.UseVisualStyleBackColor = true;
+            this.flag_0260.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_2842
+            // 
+            this.flag_2842.AutoSize = true;
+            this.flag_2842.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2842.Location = new System.Drawing.Point(173, 111);
+            this.flag_2842.Name = "flag_2842";
+            this.flag_2842.Size = new System.Drawing.Size(107, 17);
+            this.flag_2842.TabIndex = 57;
+            this.flag_2842.Text = "Deoxys Captured";
+            this.flag_2842.UseVisualStyleBackColor = true;
+            this.flag_2842.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0945
+            // 
+            this.flag_0945.AutoSize = true;
+            this.flag_0945.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0945.Location = new System.Drawing.Point(173, 96);
+            this.flag_0945.Name = "flag_0945";
+            this.flag_0945.Size = new System.Drawing.Size(108, 17);
+            this.flag_0945.TabIndex = 56;
+            this.flag_0945.Text = "Deoxys Defeated";
+            this.flag_0945.UseVisualStyleBackColor = true;
+            this.flag_0945.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_2838
             // 
@@ -575,31 +771,29 @@
             this.checkBox18.Visible = false;
             this.checkBox18.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox15
+            // flag_2822
             // 
-            this.checkBox15.AutoSize = true;
-            this.checkBox15.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox15.Location = new System.Drawing.Point(173, 337);
-            this.checkBox15.Name = "checkBox15";
-            this.checkBox15.Size = new System.Drawing.Size(119, 17);
-            this.checkBox15.TabIndex = 39;
-            this.checkBox15.Text = "Regigigas Captured";
-            this.checkBox15.UseVisualStyleBackColor = true;
-            this.checkBox15.Visible = false;
-            this.checkBox15.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_2822.AutoSize = true;
+            this.flag_2822.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2822.Location = new System.Drawing.Point(173, 337);
+            this.flag_2822.Name = "flag_2822";
+            this.flag_2822.Size = new System.Drawing.Size(119, 17);
+            this.flag_2822.TabIndex = 39;
+            this.flag_2822.Text = "Regigigas Captured";
+            this.flag_2822.UseVisualStyleBackColor = true;
+            this.flag_2822.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox16
+            // flag_0252
             // 
-            this.checkBox16.AutoSize = true;
-            this.checkBox16.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox16.Location = new System.Drawing.Point(173, 322);
-            this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(120, 17);
-            this.checkBox16.TabIndex = 38;
-            this.checkBox16.Text = "Regigigas Defeated";
-            this.checkBox16.UseVisualStyleBackColor = true;
-            this.checkBox16.Visible = false;
-            this.checkBox16.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_0252.AutoSize = true;
+            this.flag_0252.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0252.Location = new System.Drawing.Point(173, 322);
+            this.flag_0252.Name = "flag_0252";
+            this.flag_0252.Size = new System.Drawing.Size(120, 17);
+            this.flag_0252.TabIndex = 38;
+            this.flag_0252.Text = "Regigigas Defeated";
+            this.flag_0252.UseVisualStyleBackColor = true;
+            this.flag_0252.Click += new System.EventHandler(this.toggleFlag);
             // 
             // checkBox13
             // 
@@ -895,6 +1089,18 @@
             this.groupBox3.Text = "Misc";
             this.groupBox3.Visible = false;
             // 
+            // flag_2546
+            // 
+            this.flag_2546.AutoSize = true;
+            this.flag_2546.Enabled = false;
+            this.flag_2546.Location = new System.Drawing.Point(6, 197);
+            this.flag_2546.Name = "flag_2546";
+            this.flag_2546.Size = new System.Drawing.Size(114, 17);
+            this.flag_2546.TabIndex = 18;
+            this.flag_2546.Text = "Pokédex Obtained";
+            this.flag_2546.UseVisualStyleBackColor = true;
+            this.flag_2546.Click += new System.EventHandler(this.toggleFlag);
+            // 
             // flag_0289
             // 
             this.flag_0289.AutoSize = true;
@@ -1027,214 +1233,6 @@
             this.flag_0285.UseVisualStyleBackColor = true;
             this.flag_0285.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // flag_2546
-            // 
-            this.flag_2546.AutoSize = true;
-            this.flag_2546.Enabled = false;
-            this.flag_2546.Location = new System.Drawing.Point(6, 197);
-            this.flag_2546.Name = "flag_2546";
-            this.flag_2546.Size = new System.Drawing.Size(114, 17);
-            this.flag_2546.TabIndex = 18;
-            this.flag_2546.Text = "Pokédex Obtained";
-            this.flag_2546.UseVisualStyleBackColor = true;
-            this.flag_2546.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2842
-            // 
-            this.flag_2842.AutoSize = true;
-            this.flag_2842.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2842.Location = new System.Drawing.Point(173, 111);
-            this.flag_2842.Name = "flag_2842";
-            this.flag_2842.Size = new System.Drawing.Size(107, 17);
-            this.flag_2842.TabIndex = 57;
-            this.flag_2842.Text = "Deoxys Captured";
-            this.flag_2842.UseVisualStyleBackColor = true;
-            this.flag_2842.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0945
-            // 
-            this.flag_0945.AutoSize = true;
-            this.flag_0945.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0945.Location = new System.Drawing.Point(173, 96);
-            this.flag_0945.Name = "flag_0945";
-            this.flag_0945.Size = new System.Drawing.Size(108, 17);
-            this.flag_0945.TabIndex = 56;
-            this.flag_0945.Text = "Deoxys Defeated";
-            this.flag_0945.UseVisualStyleBackColor = true;
-            this.flag_0945.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox1.Location = new System.Drawing.Point(173, 185);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(114, 17);
-            this.checkBox1.TabIndex = 61;
-            this.checkBox1.Text = "Cresselia Captured";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.Visible = false;
-            this.checkBox1.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox2.Location = new System.Drawing.Point(173, 170);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(115, 17);
-            this.checkBox2.TabIndex = 60;
-            this.checkBox2.Text = "Cresselia Defeated";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.Visible = false;
-            this.checkBox2.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2821
-            // 
-            this.flag_2821.AutoSize = true;
-            this.flag_2821.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2821.Location = new System.Drawing.Point(173, 148);
-            this.flag_2821.Name = "flag_2821";
-            this.flag_2821.Size = new System.Drawing.Size(110, 17);
-            this.flag_2821.TabIndex = 59;
-            this.flag_2821.Text = "Heatran Captured";
-            this.flag_2821.UseVisualStyleBackColor = true;
-            this.flag_2821.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0260
-            // 
-            this.flag_0260.AutoSize = true;
-            this.flag_0260.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0260.Location = new System.Drawing.Point(173, 133);
-            this.flag_0260.Name = "flag_0260";
-            this.flag_0260.Size = new System.Drawing.Size(111, 17);
-            this.flag_0260.TabIndex = 58;
-            this.flag_0260.Text = "Heatran Defeated";
-            this.flag_0260.UseVisualStyleBackColor = true;
-            this.flag_0260.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2815
-            // 
-            this.flag_2815.AutoSize = true;
-            this.flag_2815.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2815.Location = new System.Drawing.Point(15, 34);
-            this.flag_2815.Name = "flag_2815";
-            this.flag_2815.Size = new System.Drawing.Size(128, 17);
-            this.flag_2815.TabIndex = 63;
-            this.flag_2815.Text = "(OR) Ho-Oh Captured";
-            this.flag_2815.UseVisualStyleBackColor = true;
-            this.flag_2815.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0208
-            // 
-            this.flag_0208.AutoSize = true;
-            this.flag_0208.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0208.Location = new System.Drawing.Point(15, 19);
-            this.flag_0208.Name = "flag_0208";
-            this.flag_0208.Size = new System.Drawing.Size(129, 17);
-            this.flag_0208.TabIndex = 62;
-            this.flag_0208.Text = "(OR) Ho-Oh Defeated";
-            this.flag_0208.UseVisualStyleBackColor = true;
-            this.flag_0208.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2839
-            // 
-            this.flag_2839.AutoSize = true;
-            this.flag_2839.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2839.Location = new System.Drawing.Point(15, 102);
-            this.flag_2839.Name = "flag_2839";
-            this.flag_2839.Size = new System.Drawing.Size(138, 17);
-            this.flag_2839.TabIndex = 65;
-            this.flag_2839.Text = "(OR) Groudon Captured";
-            this.flag_2839.UseVisualStyleBackColor = true;
-            this.flag_2839.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0648
-            // 
-            this.flag_0648.AutoSize = true;
-            this.flag_0648.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0648.Location = new System.Drawing.Point(15, 87);
-            this.flag_0648.Name = "flag_0648";
-            this.flag_0648.Size = new System.Drawing.Size(139, 17);
-            this.flag_0648.TabIndex = 64;
-            this.flag_0648.Text = "(OR) Groudon Defeated";
-            this.flag_0648.UseVisualStyleBackColor = true;
-            this.flag_0648.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2820
-            // 
-            this.flag_2820.AutoSize = true;
-            this.flag_2820.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2820.Location = new System.Drawing.Point(15, 171);
-            this.flag_2820.Name = "flag_2820";
-            this.flag_2820.Size = new System.Drawing.Size(126, 17);
-            this.flag_2820.TabIndex = 67;
-            this.flag_2820.Text = "(OR) Palkia Captured";
-            this.flag_2820.UseVisualStyleBackColor = true;
-            this.flag_2820.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // checkBox17
-            // 
-            this.checkBox17.AutoSize = true;
-            this.checkBox17.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox17.Location = new System.Drawing.Point(15, 156);
-            this.checkBox17.Name = "checkBox17";
-            this.checkBox17.Size = new System.Drawing.Size(127, 17);
-            this.checkBox17.TabIndex = 66;
-            this.checkBox17.Text = "(OR) Palkia Defeated";
-            this.checkBox17.UseVisualStyleBackColor = true;
-            this.checkBox17.Visible = false;
-            this.checkBox17.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2830
-            // 
-            this.flag_2830.AutoSize = true;
-            this.flag_2830.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2830.Location = new System.Drawing.Point(15, 307);
-            this.flag_2830.Name = "flag_2830";
-            this.flag_2830.Size = new System.Drawing.Size(141, 17);
-            this.flag_2830.TabIndex = 69;
-            this.flag_2830.Text = "(OR) Reshiram Captured";
-            this.flag_2830.UseVisualStyleBackColor = true;
-            this.flag_2830.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0182
-            // 
-            this.flag_0182.AutoSize = true;
-            this.flag_0182.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0182.Location = new System.Drawing.Point(15, 292);
-            this.flag_0182.Name = "flag_0182";
-            this.flag_0182.Size = new System.Drawing.Size(142, 17);
-            this.flag_0182.TabIndex = 68;
-            this.flag_0182.Text = "(OR) Reshiram Defeated";
-            this.flag_0182.UseVisualStyleBackColor = true;
-            this.flag_0182.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2828
-            // 
-            this.flag_2828.AutoSize = true;
-            this.flag_2828.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2828.Location = new System.Drawing.Point(15, 239);
-            this.flag_2828.Name = "flag_2828";
-            this.flag_2828.Size = new System.Drawing.Size(142, 17);
-            this.flag_2828.TabIndex = 71;
-            this.flag_2828.Text = "(OR) Tornadus Captured";
-            this.flag_2828.UseVisualStyleBackColor = true;
-            this.flag_2828.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_2877
-            // 
-            this.flag_2877.AutoSize = true;
-            this.flag_2877.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2877.Location = new System.Drawing.Point(15, 224);
-            this.flag_2877.Name = "flag_2877";
-            this.flag_2877.Size = new System.Drawing.Size(143, 17);
-            this.flag_2877.TabIndex = 70;
-            this.flag_2877.Text = "(OR) Tornadus Defeated";
-            this.flag_2877.UseVisualStyleBackColor = true;
-            this.flag_2877.Visible = false;
-            this.flag_2877.Click += new System.EventHandler(this.toggleFlag);
-            // 
             // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1317,8 +1315,8 @@
         private System.Windows.Forms.CheckBox checkBox20;
         private System.Windows.Forms.CheckBox flag_2829;
         private System.Windows.Forms.CheckBox checkBox18;
-        private System.Windows.Forms.CheckBox checkBox15;
-        private System.Windows.Forms.CheckBox checkBox16;
+        private System.Windows.Forms.CheckBox flag_2822;
+        private System.Windows.Forms.CheckBox flag_0252;
         private System.Windows.Forms.CheckBox checkBox13;
         private System.Windows.Forms.CheckBox checkBox14;
         private System.Windows.Forms.CheckBox checkBox11;
