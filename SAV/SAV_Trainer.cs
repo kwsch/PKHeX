@@ -442,7 +442,7 @@ namespace PKHeX
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + psssatoffset + 0xFC).ToString();
             
             // Temp ORAS 
-            GB_Appear.Visible = GB_Map.Visible = GB_Misc.Visible = !m_parent.savegame_oras;
+            GB_Appear.Visible = GB_Misc.Visible = !m_parent.savegame_oras;
 
             TB_Style.Text = sav[0x694D + savshift].ToString();
 
