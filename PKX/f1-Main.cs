@@ -155,6 +155,12 @@ namespace PKHeX
             ToolTip dragoutTip2 = new ToolTip();
             dragoutTip1.SetToolTip(dragout, "PK6 QuickSave");
             dragoutTip2.SetToolTip(eragout, "EK6 QuickSave");
+
+            // Box Drag & Drop
+            for (int i = 0; i < 30; i++)
+                pba[i].AllowDrop = true;
+            tabMain.AllowDrop = true;
+
             #endregion
             #region Finish Up
 
@@ -6070,6 +6076,46 @@ namespace PKHeX
 
             updateIVs(null, null); // Prompt an update for the characteristics
         }
+
+        private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox pb = (PictureBox)(sender);
+            if (pb.Image == null)
+                return;
+
+            int slot = getSlot(sender);
+            int offset = getPKXOffset(slot);
+            if (e.Button == MouseButtons.Left && e.Clicks == 1)
+            {
+                Array.Copy(savefile, offset, pkm_from, 0, 0xE8);
+                pkm_from_offset = offset;
+                (sender as PictureBox).DoDragDrop(pkm_from, DragDropEffects.Move);
+            }
+        }
+        private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
+        {
+            try {
+                if ((sender as TabControl).Name != "")
+                    populateFields(pkm_from);
+                } catch { }
+            PictureBox pb = (PictureBox)(sender);
+            int slot = getSlot(sender);
+            int offset = getPKXOffset(slot);
+
+            if (ModifierKeys == Keys.Alt)
+                Array.Copy(PKX.encryptArray(new Byte[0xE8]), 0, savefile, pkm_from_offset, 0xE8);
+            if (ModifierKeys != Keys.Control)
+                Array.Copy(savefile, offset, savefile, pkm_from_offset, 0xE8); // Copy from new slot to old slot.
+            Array.Copy(pkm_from, 0, savefile, offset, 0xE8); // Copy from temp slot to new.
+            setPKXBoxes();
+        }
+        private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data != null)
+                e.Effect = DragDropEffects.Move;
+        }
+        private byte[] pkm_from = new Byte[0xE8];
+        private int pkm_from_offset;
     }
     #region Structs & Classes
     public class cbItem
