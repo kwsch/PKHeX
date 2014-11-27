@@ -65,19 +65,15 @@ namespace PKHeX
             }
             string cardname = Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48);
             int cardtype = wondercard_data[0x51];
-
-            RTB.Text =
-                "Card #: " + cardID.ToString("0000") + "\r\n"
-                + cardname + "\r\n";
+            RTB.Clear();
+            RTB.AppendText("Card #: " + cardID.ToString("0000") + "\r\n" + cardname + "\r\n");
 
             if (cardtype == 1) // Item
             {
                 int item = BitConverter.ToUInt16(wondercard_data, 0x68);
                 int qty = BitConverter.ToUInt16(wondercard_data, 0x70);
 
-                RTB.Text +=
-                    "Item: " + item.ToString() + "\r\n"
-                + "Quantity: " + qty.ToString();
+                RTB.AppendText("\r\nItem: " + Form1.itemlist[item] + "\r\n" + "Quantity: " + qty.ToString());
             }
             else if (cardtype == 0) // PKM
             {

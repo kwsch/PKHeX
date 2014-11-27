@@ -110,6 +110,8 @@
             this.flag_0289 = new System.Windows.Forms.CheckBox();
             this.flag_0285 = new System.Windows.Forms.CheckBox();
             this.flag_0284 = new System.Windows.Forms.CheckBox();
+            this.MT_Ash = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -1138,11 +1140,31 @@
             this.flag_0284.UseVisualStyleBackColor = true;
             this.flag_0284.Click += new System.EventHandler(this.toggleFlag);
             // 
+            // MT_Ash
+            // 
+            this.MT_Ash.Location = new System.Drawing.Point(459, 454);
+            this.MT_Ash.Mask = "00000";
+            this.MT_Ash.Name = "MT_Ash";
+            this.MT_Ash.Size = new System.Drawing.Size(42, 20);
+            this.MT_Ash.TabIndex = 18;
+            this.MT_Ash.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(429, 438);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Volcanic Ash:";
+            // 
             // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(594, 512);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.MT_Ash);
             this.Controls.Add(this.GB_Misc);
             this.Controls.Add(this.GB_Rebattle);
             this.Controls.Add(this.groupBox2);
@@ -1166,6 +1188,7 @@
             this.GB_Misc.ResumeLayout(false);
             this.GB_Misc.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1252,5 +1275,7 @@
         private System.Windows.Forms.CheckBox flag_0260;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.MaskedTextBox MT_Ash;
+        private System.Windows.Forms.Label label2;
     }
 }

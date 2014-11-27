@@ -6255,10 +6255,20 @@ namespace PKHeX
             abilitylist[0] = itemlist[0] = movelist[0] = "("+itemlist[0]+")";
 
             // Fix Item Names (Duplicate entries)
-            itemlist[456] += " (OLD)";
-            itemlist[629] += " (2)";
-            itemlist[707] += " (2)";
-            itemlist[713] += " (2)";
+            itemlist[456] += " (OLD)"; // S.S. Ticket
+            itemlist[463] += " (OLD)"; // Storage Key
+            itemlist[478] += " (OLD)"; // Basement Key
+            itemlist[626] += " (2)"; // Xtransceiver
+            itemlist[629] += " (2)"; // DNA Splicers
+            itemlist[637] += " (2)"; // Dropped Item
+            itemlist[707] += " (2)"; // Travel Trunk
+            itemlist[713] += " (2)"; // Alt Bike
+            itemlist[714] += " (2)"; // Holo Caster
+            itemlist[729] += " (1)"; // Meteorite
+            itemlist[740] += " (2)"; // Contest Costume
+            itemlist[751] += " (2)"; // Meteorite
+            itemlist[771] += " (3)"; // Meteorite
+            itemlist[772] += " (4)"; // Meteorite
 
             // Get the Egg Name and then replace it with --- for the comboboxes.
             eggname = specieslist[0];
