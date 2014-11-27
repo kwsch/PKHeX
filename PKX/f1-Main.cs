@@ -2785,7 +2785,7 @@ namespace PKHeX
             int gameorigin = 0;
 
             // Error handling for unset field
-            try { gameorigin = Util.ToInt32(CB_GameOrigin.SelectedValue.ToString()); }
+			try { gameorigin = Util.ToInt32(CB_GameOrigin.SelectedItem.ToString()); }
             catch { gameorigin = 0; }
 
             if ((gameorigin <= 12) && (gameorigin >= 7))
@@ -3974,7 +3974,7 @@ namespace PKHeX
                              };
             for (int i = 0; i < cba.Length; i++)
             {
-                if (cba[i].BackColor != SystemColors.Window && cba[i].BackColor != Color.Empty)
+				if (cba[i].BackColor != System.Drawing.SystemColors.Control && cba[i].BackColor != Color.Empty)
                 {
                     if (i < 6)      // Main Tab
                         tabMain.SelectedIndex = 0;
