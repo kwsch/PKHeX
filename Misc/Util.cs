@@ -214,6 +214,9 @@ namespace PKHeX
         internal static int getIndex(ComboBox cb)
         {
             int val = 0;
+			if (cb.SelectedValue == null)
+				return 0;
+
             try { val = Util.ToInt32(cb.SelectedValue.ToString()); }
             catch
             {

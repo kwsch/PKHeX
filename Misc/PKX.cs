@@ -2770,7 +2770,7 @@ namespace PKHeX
                     }
                     else if ((species == 521) && (gender == 1))   // Unfezant
                     {
-                        file = file = "_" + species.ToString() + "f";
+                        file = "_" + species.ToString() + "f";
                     }
                 }
                 if (species == 0)
