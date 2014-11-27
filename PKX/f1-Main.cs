@@ -3699,7 +3699,8 @@ namespace PKHeX
         private void mainmenuBoxReport(object sender, EventArgs e)
         {
             frmReport ReportForm = new frmReport();
-            ReportForm.PopulateData(savefile, savindex);
+            int offset = 0x27A00; if (savegame_oras) offset = 0x33000 + 0x5400;
+            ReportForm.PopulateData(savefile, savindex, offset);
             ReportForm.ShowDialog();
         }
         // Main Menu Subfunctions // 
