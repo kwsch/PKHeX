@@ -2785,7 +2785,11 @@ namespace PKHeX
             int gameorigin = 0;
 
             // Error handling for unset field
-			try { gameorigin = Util.ToInt32(CB_GameOrigin.SelectedItem.ToString()); }
+			try 
+			{
+				cbItem CBItem_GameOrigin = (cbItem)CB_GameOrigin.SelectedValue;
+				gameorigin = CBItem_GameOrigin.GetValue(); 
+			}
             catch { gameorigin = 0; }
 
             if ((gameorigin <= 12) && (gameorigin >= 7))
@@ -6362,6 +6366,11 @@ namespace PKHeX
         {
             return Text;
         }
+
+		public int GetValue()
+		{
+			return Util.ToInt32 (Value.ToString());
+		}
     }
     public class SaveGames
     {
