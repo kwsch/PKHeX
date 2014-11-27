@@ -22,6 +22,7 @@ namespace PKHeX
             Setup();
 
             nud.Text = "0"; // Prompts an update for flag 0.
+            MT_Ash.Text = BitConverter.ToUInt16(m_parent.savefile, savshift + 0x14A78 + 0x5400).ToString();
         }
         Form1 m_parent;
         public int savshift;
@@ -45,6 +46,10 @@ namespace PKHeX
                     data[i/8] |= (byte)(1 << i%8);
 
             Array.Copy(data, 0, m_parent.savefile, 0x1A0FC + savshift, 0x180);
+            
+            // Copy back Volcanic Ash counter
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(MT_Ash)), 0, m_parent.savefile, 0x14A78 + 0x5400 + savshift, 2);
+
             this.Close();
         }
         private void Setup()
