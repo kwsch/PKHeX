@@ -186,62 +186,56 @@ namespace PKHeX
         }
 
         internal static int ToInt32(TextBox tb)
-        {
-            string value = tb.Text;
-            if (String.IsNullOrEmpty(value))
-            { return 0; }
-            try
-            { return Int32.Parse(value); }
-            catch
-            { return 0; }
-        }
+		{
+			string value = tb.Text;
+			return ToInt32(value);
+		}
         internal static uint ToUInt32(TextBox tb)
-        {
-            string value = tb.Text;
-            if (String.IsNullOrEmpty(value))
-            { return 0; }
-            try
-            { return UInt32.Parse(value); }
-            catch
-            { return 0; }
-        }
+		{
+			string value = tb.Text;
+			return ToUInt32(value);
+		}
         internal static int ToInt32(MaskedTextBox tb)
         {
             string value = tb.Text;
-            if (String.IsNullOrEmpty(value))
-            { return 0; }
-            try
-            { return Int32.Parse(value); }
-            catch
-            { return 0; }
+            return ToInt32(value);
         }
         internal static uint ToUInt32(MaskedTextBox tb)
         {
             string value = tb.Text;
-            if (String.IsNullOrEmpty(value))
-            { return 0; }
-            try
-            { return UInt32.Parse(value); }
-            catch
-            { return 0; }
+            return ToUInt32(value);
         }
         internal static int ToInt32(String value)
         {
-            if (String.IsNullOrEmpty(value))
-            { return 0; }
+			if (String.IsNullOrEmpty(value))
+			{
+				return 0;
+			}
             try
-            { return Int32.Parse(value); }
+			{
+				value = value.TrimEnd(new char[]{'_'});
+			    return Int32.Parse(value); 
+			}
             catch
-            { return 0; }
+            {
+                return 0;
+            }
         }
         internal static uint ToUInt32(String value)
         {
             if (String.IsNullOrEmpty(value))
-            { return 0; }
+            {
+                return 0; 
+            }
             try
-            { return UInt32.Parse(value); }
+            {
+				value = value.TrimEnd(new char[]{'_'});
+                return UInt32.Parse(value);
+            }
             catch
-            { return 0; }
+            {
+                return 0;
+            }
         }
         internal static uint getHEXval(TextBox tb)
         {
@@ -253,12 +247,20 @@ namespace PKHeX
         internal static int getIndex(ComboBox cb)
         {
             int val = 0;
-            try { val = Util.ToInt32(cb.SelectedValue.ToString()); }
+			if (cb.SelectedValue == null)
+			{
+				return 0;
+			}
+
+            try
+			{
+				val = Util.ToInt32(cb.SelectedValue.ToString());
+			}
             catch
             {
                 val = cb.SelectedIndex;
                 if (val < 0) val = 0;
-            };
+            }
             return val;
         }
         internal static string getOnlyHex(string str)

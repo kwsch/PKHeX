@@ -1481,9 +1481,15 @@ namespace PKHeX
                 origin_list.Add(item);
             }
 
+			/*
+			 * Moving the assignment of the Display and ValueMemeber to before the DataSource is assigned
+			as assigning the DataSource causes a onSelectedIndexChanged which causes a call
+			to updateOriginGame which access the SelectedValue property, but since there is no
+			ValueMember assigned it uses the cbItem to string method which returns the Text member
+			*/
+			CB_GameOrigin.DisplayMember = "Text";
+			CB_GameOrigin.ValueMember = "Value";
             CB_GameOrigin.DataSource = origin_list;
-            CB_GameOrigin.DisplayMember = "Text";
-            CB_GameOrigin.ValueMember = "Value";
 
             #endregion
         }
@@ -2789,7 +2795,10 @@ namespace PKHeX
             int gameorigin = 0;
 
             // Error handling for unset field
-            try { gameorigin = Util.ToInt32(CB_GameOrigin.SelectedValue.ToString()); }
+			try 
+			{
+				gameorigin = Util.ToInt32(CB_GameOrigin.SelectedValue.ToString()); 
+			}
             catch { gameorigin = 0; }
 
             if ((gameorigin <= 12) && (gameorigin >= 7))
@@ -3980,7 +3989,7 @@ namespace PKHeX
                              };
             for (int i = 0; i < cba.Length; i++)
             {
-                if (cba[i].BackColor != SystemColors.Window && cba[i].BackColor != Color.Empty)
+				if (cba[i].BackColor != System.Drawing.SystemColors.Control && cba[i].BackColor != Color.Empty)
                 {
                     if (i < 6)      // Main Tab
                         tabMain.SelectedIndex = 0;
@@ -6404,6 +6413,11 @@ namespace PKHeX
         {
             return Text;
         }
+
+		public int GetValue()
+		{
+			return Util.ToInt32 (Value.ToString());
+		}
     }
     public class SaveGames
     {

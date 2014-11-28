@@ -28,7 +28,7 @@ namespace PKHeX
             {
                 if (m_parent.init)
                 {
-                    if (InvokeRequired)
+					if (InvokeRequired && IsHandleCreated)
                         Invoke((MethodInvoker)delegate(){Close();});
                     else
                         Close();
