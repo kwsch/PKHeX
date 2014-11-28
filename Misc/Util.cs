@@ -80,6 +80,14 @@ namespace PKHeX
                 .OrderByDescending(f => (f == null ? DateTime.MinValue : f.LastWriteTime))
                 .FirstOrDefault();
         }
+        
+        //Adding a Normalize Path function using a variant of this answer from stack overflow
+        //http://stackoverflow.com/questions/1266674/how-can-one-get-an-absolute-or-normalized-file-path-in-net/21058121#21058121
+        internal static string NormalizePath(string path)
+        {
+            return Path.GetFullPath(new Uri(path).LocalPath)
+               .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
         internal static string GetTempFolder() // From 3DSSE's decompiled source.
         {
             string tempPath = Path.GetTempPath();

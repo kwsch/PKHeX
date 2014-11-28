@@ -37,7 +37,7 @@ namespace PKHeX
             string curlanguage = Form1.curlanguage;
             // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = System.Windows.Forms.Application.StartupPath + "\\lang_" + curlanguage + ".txt";
+            string externalLangPath = System.Windows.Forms.Application.StartupPath +Path.DirectorySeparatorChar + "lang_" + curlanguage + ".txt";
             string[] rawlist;
             if (File.Exists(externalLangPath))
             {
