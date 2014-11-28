@@ -6399,7 +6399,7 @@ namespace PKHeX
             if (path != null)
             {
                 DialogResult sdr = MessageBox.Show("Open save file from the following location?\n\n"+path, "Prompt", MessageBoxButtons.YesNo);
-                if (sdr == DialogResult.Cancel)
+                if (sdr == DialogResult.Yes)
                     openQuick(path); // load save
             }
         }

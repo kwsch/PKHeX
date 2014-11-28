@@ -30,24 +30,15 @@ namespace PKHeX
             popFavorite();
 
             LB_Favorite.SelectedIndex = 0;
+            MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString();
             B_SAV2FAV(null, null);
-
-            if (LB_Passerby.Items.Count > 0)
-                LB_Passerby.SelectedIndex = 0;
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
         public byte[] wondercard_data = new Byte[0x108];
         public bool editing = false;
-        private static uint ToUInt32(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return 0;
-            return UInt32.Parse(value);
-        }
         public int savindex; int sv = 0;
         private int fav_offset = 0x23A00;
-        private int pass_offset = 0x2B600 + 0x408;
         private bool loading = true;
 
         public static string[] specieslist = { };
@@ -236,15 +227,6 @@ namespace PKHeX
                 LB_Favorite.Items.Add(i.ToString() + " " + BaseTrainer);
             }
         }
-        private void popPasserby()
-        {
-            for (int i = 0; i < 30; i++) // Passerby
-            {
-                // Trainer Names
-                string BaseTrainer = Encoding.Unicode.GetString(sav, sv + pass_offset + (0x298) * i + 0x14, 0x1A);
-                LB_Passerby.Items.Add(i.ToString() + " " + BaseTrainer);
-            }
-        }
         private void B_SAV2FAV(object sender, EventArgs e)
         {
             loading = true;
@@ -366,6 +348,7 @@ namespace PKHeX
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(MT_Flags)), 0, sav, 0x24800 + 0x140, 4);
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
             Close();
@@ -475,7 +458,7 @@ namespace PKHeX
             pkm[0x2B] = (byte)(Convert.ToByte(TB_SPAIV.Text) & 0x1F);
             pkm[0x2C] = (byte)(Convert.ToByte(TB_SPDIV.Text) & 0x1F);
             pkm[0x2D] = (byte)(Convert.ToByte(TB_SPEIV.Text) & 0x1F);
-            int shiny = (checkBox1.Checked? 1 : 0) << 6;
+            int shiny = (CHK_Shiny.Checked? 1 : 0) << 6;
             pkm[0x2D] |= (byte)shiny;
 
             pkm[0x2E] = Convert.ToByte(TB_Friendship.Text);
@@ -571,7 +554,7 @@ namespace PKHeX
             CB_PPu3.SelectedIndex = ppu3;
             CB_PPu4.SelectedIndex = ppu4;
 
-            checkBox1.Checked = isshiny;
+            CHK_Shiny.Checked = isshiny;
 
             // Set Form
             m_parent.setForms(spec, CB_Form);
@@ -637,17 +620,13 @@ namespace PKHeX
         }
         private void setGenderLabel()
         {
-            if (genderflag == 0)
-            {
-                // Gender = Male
+            if (genderflag == 0) // Gender = Male
                 Label_Gender.Text = "♂";
-            }
-            else if (genderflag == 1)
-            {
-                // Gender = Female
+            
+            else if (genderflag == 1) // Gender = Female
                 Label_Gender.Text = "♀";
-            }
-            else { Label_Gender.Text = "-"; }
+            
+            else Label_Gender.Text = "-";
         }
     }
 }

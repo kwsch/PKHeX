@@ -32,16 +32,8 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Favorite = new System.Windows.Forms.ListBox();
-            this.LB_Passerby = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.B_FDisplay = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.f_PKM = new System.Windows.Forms.TabPage();
             this.GB_PKM = new System.Windows.Forms.GroupBox();
             this.TB_SPEIV = new System.Windows.Forms.MaskedTextBox();
@@ -64,7 +56,7 @@
             this.TB_Friendship = new System.Windows.Forms.MaskedTextBox();
             this.TB_Level = new System.Windows.Forms.MaskedTextBox();
             this.CB_Form = new System.Windows.Forms.ComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.CHK_Shiny = new System.Windows.Forms.CheckBox();
             this.Label_PPups = new System.Windows.Forms.Label();
             this.CB_PPu4 = new System.Windows.Forms.ComboBox();
             this.CB_PPu3 = new System.Windows.Forms.ComboBox();
@@ -90,6 +82,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.f_MAIN = new System.Windows.Forms.TabPage();
+            this.NUD_FBaseLocation = new System.Windows.Forms.NumericUpDown();
             this.TB_FT2 = new System.Windows.Forms.TextBox();
             this.TB_FT1 = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
@@ -119,12 +112,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.B_GiveDecor = new System.Windows.Forms.Button();
             this.B_FSave = new System.Windows.Forms.Button();
-            this.NUD_FBaseLocation = new System.Windows.Forms.NumericUpDown();
-            this.tabControl2.SuspendLayout();
+            this.MT_Flags = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.f_PKM.SuspendLayout();
             this.GB_PKM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FPKM)).BeginInit();
             this.f_MAIN.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).BeginInit();
@@ -132,13 +126,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObjType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObject)).BeginInit();
             this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(427, 2);
+            this.B_Save.Location = new System.Drawing.Point(423, 302);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 0;
@@ -149,7 +142,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(350, 2);
+            this.B_Cancel.Location = new System.Drawing.Point(346, 302);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(71, 23);
             this.B_Cancel.TabIndex = 1;
@@ -159,23 +152,11 @@
             // 
             // LB_Favorite
             // 
-            this.LB_Favorite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.LB_Favorite.FormattingEnabled = true;
             this.LB_Favorite.Location = new System.Drawing.Point(12, 25);
             this.LB_Favorite.Name = "LB_Favorite";
             this.LB_Favorite.Size = new System.Drawing.Size(78, 264);
             this.LB_Favorite.TabIndex = 4;
-            // 
-            // LB_Passerby
-            // 
-            this.LB_Passerby.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LB_Passerby.FormattingEnabled = true;
-            this.LB_Passerby.Location = new System.Drawing.Point(9, 316);
-            this.LB_Passerby.Name = "LB_Passerby";
-            this.LB_Passerby.Size = new System.Drawing.Size(78, 186);
-            this.LB_Passerby.Sorted = true;
-            this.LB_Passerby.TabIndex = 5;
             // 
             // label1
             // 
@@ -186,16 +167,6 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Favorites:";
             // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 300);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Passerby:";
-            // 
             // B_FDisplay
             // 
             this.B_FDisplay.Location = new System.Drawing.Point(96, 25);
@@ -205,68 +176,6 @@
             this.B_FDisplay.Text = ">";
             this.B_FDisplay.UseVisualStyleBackColor = true;
             this.B_FDisplay.Click += new System.EventHandler(this.B_SAV2FAV);
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(93, 316);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(18, 24);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "X";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(93, 376);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(18, 24);
-            this.button3.TabIndex = 15;
-            this.button3.Text = "<";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(93, 346);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(18, 24);
-            this.button4.TabIndex = 14;
-            this.button4.Text = ">";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Location = new System.Drawing.Point(124, 300);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(382, 203);
-            this.tabControl2.TabIndex = 18;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(374, 177);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(374, 177);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "tabPage4";
-            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // f_PKM
             // 
@@ -300,7 +209,7 @@
             this.GB_PKM.Controls.Add(this.TB_Friendship);
             this.GB_PKM.Controls.Add(this.TB_Level);
             this.GB_PKM.Controls.Add(this.CB_Form);
-            this.GB_PKM.Controls.Add(this.checkBox1);
+            this.GB_PKM.Controls.Add(this.CHK_Shiny);
             this.GB_PKM.Controls.Add(this.Label_PPups);
             this.GB_PKM.Controls.Add(this.CB_PPu4);
             this.GB_PKM.Controls.Add(this.CB_PPu3);
@@ -536,15 +445,15 @@
             this.CB_Form.TabIndex = 78;
             this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.updateForm);
             // 
-            // checkBox1
+            // CHK_Shiny
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(146, 92);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(38, 17);
-            this.checkBox1.TabIndex = 77;
-            this.checkBox1.Text = "☆";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.CHK_Shiny.AutoSize = true;
+            this.CHK_Shiny.Location = new System.Drawing.Point(146, 92);
+            this.CHK_Shiny.Name = "CHK_Shiny";
+            this.CHK_Shiny.Size = new System.Drawing.Size(38, 17);
+            this.CHK_Shiny.TabIndex = 77;
+            this.CHK_Shiny.Text = "☆";
+            this.CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // Label_PPups
             // 
@@ -842,6 +751,28 @@
             this.f_MAIN.Text = "Main";
             this.f_MAIN.UseVisualStyleBackColor = true;
             // 
+            // NUD_FBaseLocation
+            // 
+            this.NUD_FBaseLocation.Location = new System.Drawing.Point(128, 35);
+            this.NUD_FBaseLocation.Maximum = new decimal(new int[] {
+            85,
+            0,
+            0,
+            0});
+            this.NUD_FBaseLocation.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.NUD_FBaseLocation.Name = "NUD_FBaseLocation";
+            this.NUD_FBaseLocation.Size = new System.Drawing.Size(45, 20);
+            this.NUD_FBaseLocation.TabIndex = 18;
+            this.NUD_FBaseLocation.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            // 
             // TB_FT2
             // 
             this.TB_FT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -886,8 +817,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.label12);
@@ -909,7 +839,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(120, 47);
+            this.label13.Location = new System.Drawing.Point(231, 48);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(71, 13);
             this.label13.TabIndex = 9;
@@ -918,7 +848,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(120, 21);
+            this.label12.Location = new System.Drawing.Point(231, 22);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(71, 13);
             this.label12.TabIndex = 8;
@@ -926,7 +856,7 @@
             // 
             // NUD_FX
             // 
-            this.NUD_FX.Location = new System.Drawing.Point(197, 19);
+            this.NUD_FX.Location = new System.Drawing.Point(308, 20);
             this.NUD_FX.Maximum = new decimal(new int[] {
             40,
             0,
@@ -939,7 +869,7 @@
             // 
             // NUD_FY
             // 
-            this.NUD_FY.Location = new System.Drawing.Point(197, 45);
+            this.NUD_FY.Location = new System.Drawing.Point(308, 46);
             this.NUD_FY.Maximum = new decimal(new int[] {
             40,
             0,
@@ -953,7 +883,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 73);
+            this.label11.Location = new System.Drawing.Point(6, 74);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(68, 13);
             this.label11.TabIndex = 5;
@@ -962,15 +892,15 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 47);
+            this.label10.Location = new System.Drawing.Point(12, 48);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(68, 13);
+            this.label10.Size = new System.Drawing.Size(62, 13);
             this.label10.TabIndex = 4;
-            this.label10.Text = "Object Type:";
+            this.label10.Text = "Decoration:";
             // 
             // NUD_FRot
             // 
-            this.NUD_FRot.Location = new System.Drawing.Point(76, 71);
+            this.NUD_FRot.Location = new System.Drawing.Point(76, 72);
             this.NUD_FRot.Maximum = new decimal(new int[] {
             7,
             0,
@@ -988,7 +918,7 @@
             // 
             // NUD_FObjType
             // 
-            this.NUD_FObjType.Location = new System.Drawing.Point(76, 45);
+            this.NUD_FObjType.Location = new System.Drawing.Point(76, 46);
             this.NUD_FObjType.Maximum = new decimal(new int[] {
             173,
             0,
@@ -1012,15 +942,15 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 21);
+            this.label9.Location = new System.Drawing.Point(38, 22);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(70, 13);
+            this.label9.Size = new System.Drawing.Size(36, 13);
             this.label9.TabIndex = 1;
-            this.label9.Text = "Object Index:";
+            this.label9.Text = "Index:";
             // 
             // NUD_FObject
             // 
-            this.NUD_FObject.Location = new System.Drawing.Point(76, 19);
+            this.NUD_FObject.Location = new System.Drawing.Point(76, 20);
             this.NUD_FObject.Maximum = new decimal(new int[] {
             25,
             0,
@@ -1154,8 +1084,7 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.f_MAIN);
             this.tabControl1.Controls.Add(this.f_PKM);
@@ -1168,7 +1097,7 @@
             // B_GiveDecor
             // 
             this.B_GiveDecor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_GiveDecor.Location = new System.Drawing.Point(232, 2);
+            this.B_GiveDecor.Location = new System.Drawing.Point(144, 302);
             this.B_GiveDecor.Name = "B_GiveDecor";
             this.B_GiveDecor.Size = new System.Drawing.Size(112, 23);
             this.B_GiveDecor.TabIndex = 19;
@@ -1178,7 +1107,6 @@
             // 
             // B_FSave
             // 
-            this.B_FSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.B_FSave.Location = new System.Drawing.Point(96, 55);
             this.B_FSave.Name = "B_FSave";
             this.B_FSave.Size = new System.Drawing.Size(18, 24);
@@ -1187,36 +1115,38 @@
             this.B_FSave.UseVisualStyleBackColor = true;
             this.B_FSave.Click += new System.EventHandler(this.B_FAV2SAV);
             // 
-            // NUD_FBaseLocation
+            // MT_Flags
             // 
-            this.NUD_FBaseLocation.Location = new System.Drawing.Point(128, 35);
-            this.NUD_FBaseLocation.Maximum = new decimal(new int[] {
-            85,
-            0,
-            0,
-            0});
-            this.NUD_FBaseLocation.Name = "NUD_FBaseLocation";
-            this.NUD_FBaseLocation.Size = new System.Drawing.Size(45, 20);
-            this.NUD_FBaseLocation.TabIndex = 18;
+            this.MT_Flags.Location = new System.Drawing.Point(93, 304);
+            this.MT_Flags.Mask = "00000";
+            this.MT_Flags.Name = "MT_Flags";
+            this.MT_Flags.Size = new System.Drawing.Size(39, 20);
+            this.MT_Flags.TabIndex = 21;
+            this.MT_Flags.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 307);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Flags Captured: ";
             // 
             // SAV_SecretBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(514, 512);
+            this.ClientSize = new System.Drawing.Size(514, 332);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.MT_Flags);
             this.Controls.Add(this.B_FSave);
             this.Controls.Add(this.B_GiveDecor);
-            this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.B_FDisplay);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.LB_Passerby);
             this.Controls.Add(this.LB_Favorite);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1225,13 +1155,13 @@
             this.Name = "SAV_SecretBase";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Secret Base Editor";
-            this.tabControl2.ResumeLayout(false);
             this.f_PKM.ResumeLayout(false);
             this.GB_PKM.ResumeLayout(false);
             this.GB_PKM.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FPKM)).EndInit();
             this.f_MAIN.ResumeLayout(false);
             this.f_MAIN.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).EndInit();
@@ -1240,7 +1170,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObjType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObject)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1251,16 +1180,8 @@
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.ListBox LB_Favorite;
-        private System.Windows.Forms.ListBox LB_Passerby;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button B_FDisplay;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage f_PKM;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
@@ -1301,7 +1222,7 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.NumericUpDown NUD_FPKM;
         public System.Windows.Forms.ComboBox CB_Species;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox CHK_Shiny;
         private System.Windows.Forms.Label Label_PPups;
         private System.Windows.Forms.ComboBox CB_PPu4;
         private System.Windows.Forms.ComboBox CB_PPu3;
@@ -1339,5 +1260,7 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.NumericUpDown NUD_FBaseLocation;
+        private System.Windows.Forms.MaskedTextBox MT_Flags;
+        private System.Windows.Forms.Label label2;
     }
 }

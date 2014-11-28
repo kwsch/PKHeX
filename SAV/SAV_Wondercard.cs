@@ -32,12 +32,6 @@ namespace PKHeX
         public byte[] wondercard_data = new Byte[0x108];
         public int savindex;
         public bool editing = false;
-        private static uint ToUInt32(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                return 0;
-            return UInt32.Parse(value);
-        }
         private int wcoffset = 0x21100;
 
         // Repopulation Functions
@@ -193,9 +187,9 @@ namespace PKHeX
             {
                 int offset = wcoffset - 0x100 + savindex * 0x7F000;
                 string cardID = LB_Received.Items[i].ToString();
-                uint cardnum = ToUInt32(cardID);
+                uint cardnum = Util.ToUInt32(cardID);
 
-                sav[offset + cardnum / 8] = (byte)(sav[offset + cardnum / 8] | (1 << ((byte)cardnum % 8)));
+                sav[offset + (cardnum / 8) % 0x800] |= (byte)(1 << ((byte)cardnum % 8));
             }
 
             // Make sure there's no space between wondercards

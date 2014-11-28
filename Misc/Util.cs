@@ -207,10 +207,9 @@ namespace PKHeX
         }
         internal static int ToInt32(String value)
         {
+            value = value.Replace(" ", "");
 			if (String.IsNullOrEmpty(value))
-			{
 				return 0;
-			}
             try
 			{
 				value = value.TrimEnd(new char[]{'_'});
@@ -223,10 +222,9 @@ namespace PKHeX
         }
         internal static uint ToUInt32(String value)
         {
+            value = value.Replace(" ", "");
             if (String.IsNullOrEmpty(value))
-            {
                 return 0; 
-            }
             try
             {
 				value = value.TrimEnd(new char[]{'_'});
