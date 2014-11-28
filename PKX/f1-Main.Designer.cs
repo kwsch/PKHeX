@@ -2715,6 +2715,7 @@
             this.L_Save.Size = new System.Drawing.Size(54, 13);
             this.L_Save.TabIndex = 4;
             this.L_Save.Text = "SAV: N/A";
+            this.L_Save.Click += new System.EventHandler(this.L_Save_Click);
             // 
             // tabBoxMulti
             // 

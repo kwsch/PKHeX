@@ -169,10 +169,13 @@ namespace PKHeX
             CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
             CB_Ball.SelectedIndex = 0;
 
-            // Load the command line arguments
+            // Load the arguments
             string[] args = Environment.GetCommandLineArgs();
+            SDFLoc = Util.GetSDFLocation();
             if (args.Length > 1)
-                openQuick(args[1]);                
+                openQuick(args[1]);
+            else if (SDFLoc != null)
+                openQuick(Path.Combine(SDFLoc,"main"));
             else if (File.Exists(Util.GetTempFolder() + "\\root\\main"))
                 openQuick(Util.GetTempFolder() + "\\root\\main");
 
@@ -201,6 +204,7 @@ namespace PKHeX
         public int genderflag, species;
         public int savindex;
         public bool savedited;
+        public string SDFLoc = null;
         public bool HaX = false;
 
         public static int colorizedbox = 32;
@@ -3957,6 +3961,7 @@ namespace PKHeX
             B_OpenSecretBase.Visible = oras;
 
             this.Width = largeWidth;
+            System.Media.SystemSounds.Beep.Play();
         }
         // Secondary Windows for Ribbons/Amie/Memories
         private void openribbons(object sender, EventArgs e)
@@ -4951,7 +4956,15 @@ namespace PKHeX
 
                 // Try for file path
                 string cyberpath = Util.GetTempFolder();
-                if (Directory.Exists(cyberpath + "\\root\\"))
+                if (SDFLoc != null)
+                {
+                    if (Directory.Exists(SDFLoc))
+                    {
+                        cySAV.InitialDirectory = SDFLoc;
+                        cySAV.RestoreDirectory = true;
+                    }
+                }
+                else if (Directory.Exists(cyberpath + "\\root\\"))
                 {
                     cySAV.InitialDirectory = cyberpath + "\\root\\";
                     cySAV.RestoreDirectory = true;
@@ -6371,6 +6384,24 @@ namespace PKHeX
         }
         private byte[] pkm_from = new Byte[0xE8];
         private int pkm_from_offset;
+        private void L_Save_Click(object sender, EventArgs e)
+        {
+            // Get latest SaveDataFiler save location
+            SDFLoc = Util.GetSDFLocation();
+            string path = null;
+
+            if (SDFLoc != null && ModifierKeys != Keys.Control) // if we have a result
+                path = Path.Combine(SDFLoc, "main");
+            else if (File.Exists(Util.GetTempFolder() + "\\root\\main")) // else if cgse exists
+                path = Util.GetTempFolder() + "\\root\\main";
+
+            if (path != null)
+            {
+                DialogResult sdr = MessageBox.Show("Open save file from the following location?\n\n"+path, "Prompt", MessageBoxButtons.YesNo);
+                if (sdr == DialogResult.Cancel)
+                    openQuick(path); // load save
+            }
+        }
     }
     #region Structs & Classes
     public class cbItem
