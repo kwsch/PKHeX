@@ -350,3 +350,6 @@ http://projectpokemon.org/forums/showthread.php?36986
 
 11/22/14 - New Update:
  - Improved ORAS support
+
+11/26/14 - New Update
+ - Improved ORAS support with more features.

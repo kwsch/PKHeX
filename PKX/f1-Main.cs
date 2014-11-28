@@ -3989,7 +3989,8 @@ namespace PKHeX
                              };
             for (int i = 0; i < cba.Length; i++)
             {
-				if (cba[i].BackColor != System.Drawing.SystemColors.Control && cba[i].BackColor != Color.Empty)
+                int back = cba[i].BackColor.ToArgb();
+                if (back != System.Drawing.SystemColors.Control.ToArgb() && back != 0 && back != -1)
                 {
                     if (i < 6)      // Main Tab
                         tabMain.SelectedIndex = 0;

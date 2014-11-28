@@ -90,12 +90,12 @@ namespace PKHeX
         }
         private void B_All_Click(object sender, EventArgs e)
         {
-            int basepuff = 21;
+            int basepuff = 20;
             int basemod = 6;
             if (ModifierKeys == Keys.Control)
             {
-                basepuff = 16;
-                basemod = 5;
+                basepuff = 1;
+                basemod = 0x19;
             }
             byte[] newpuffs = new Byte[100];
             for (int i = 0; i < 100; i++)
