@@ -181,10 +181,10 @@
             this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
             this.GB_Misc = new System.Windows.Forms.GroupBox();
             this.MT_Sprite = new System.Windows.Forms.MaskedTextBox();
-            this.L_Offset = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.PB_Sprite = new System.Windows.Forms.PictureBox();
             this.CB_Multi = new System.Windows.Forms.ComboBox();
+            this.L_Offset = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.label39 = new System.Windows.Forms.Label();
@@ -210,7 +210,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Cancel.Location = new System.Drawing.Point(416, 477);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
@@ -221,7 +221,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Save.Location = new System.Drawing.Point(497, 477);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
@@ -407,6 +407,8 @@
             // 
             // GB_Badges
             // 
+            this.GB_Badges.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_Badges.Controls.Add(this.pb8);
             this.GB_Badges.Controls.Add(this.cb8);
             this.GB_Badges.Controls.Add(this.cb7);
@@ -899,6 +901,7 @@
             // 
             // GB_MaisonBest
             // 
+            this.GB_MaisonBest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_MaisonBest.Controls.Add(this.TB_MBMS);
             this.GB_MaisonBest.Controls.Add(this.TB_MBMN);
             this.GB_MaisonBest.Controls.Add(this.TB_MBRS);
@@ -1078,6 +1081,7 @@
             // 
             // GB_MaisonCurrent
             // 
+            this.GB_MaisonCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_MaisonCurrent.Controls.Add(this.TB_MCMS);
             this.GB_MaisonCurrent.Controls.Add(this.TB_MCMN);
             this.GB_MaisonCurrent.Controls.Add(this.TB_MCRS);
@@ -1835,15 +1839,6 @@
             this.MT_Sprite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_Sprite.TextChanged += new System.EventHandler(this.change255);
             // 
-            // L_Offset
-            // 
-            this.L_Offset.AutoSize = true;
-            this.L_Offset.Location = new System.Drawing.Point(424, 456);
-            this.L_Offset.Name = "L_Offset";
-            this.L_Offset.Size = new System.Drawing.Size(39, 13);
-            this.L_Offset.TabIndex = 28;
-            this.L_Offset.Text = "(offset)";
-            // 
             // label34
             // 
             this.label34.AutoSize = true;
@@ -1874,8 +1869,19 @@
             this.CB_Multi.Size = new System.Drawing.Size(121, 21);
             this.CB_Multi.TabIndex = 25;
             // 
+            // L_Offset
+            // 
+            this.L_Offset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Offset.AutoSize = true;
+            this.L_Offset.Location = new System.Drawing.Point(424, 456);
+            this.L_Offset.Name = "L_Offset";
+            this.L_Offset.Size = new System.Drawing.Size(39, 13);
+            this.L_Offset.TabIndex = 28;
+            this.L_Offset.Text = "(offset)";
+            // 
             // label33
             // 
+            this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label33.AutoSize = true;
             this.label33.Location = new System.Drawing.Point(424, 400);
             this.label33.Name = "label33";
@@ -1885,6 +1891,7 @@
             // 
             // CB_Stats
             // 
+            this.CB_Stats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_Stats.DropDownHeight = 156;
             this.CB_Stats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Stats.DropDownWidth = 180;
@@ -1898,6 +1905,7 @@
             // 
             // label39
             // 
+            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label39.AutoSize = true;
             this.label39.Location = new System.Drawing.Point(424, 440);
             this.label39.Name = "label39";
@@ -1907,6 +1915,7 @@
             // 
             // MT_Stat
             // 
+            this.MT_Stat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MT_Stat.Location = new System.Drawing.Point(471, 437);
             this.MT_Stat.Mask = "0000000000";

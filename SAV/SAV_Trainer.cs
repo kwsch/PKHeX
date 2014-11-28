@@ -23,7 +23,11 @@ namespace PKHeX
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
             savshift = savindex * 0x7F000;
-            if (m_parent.savegame_oras) { psssatoffset = 0x24800; Maison += 0xA00; }
+            if (m_parent.savegame_oras) 
+            { 
+                psssatoffset = 0x24800; Maison += 0xA00;
+                this.Width = (int)((float)Width * (float)428 / (float)590);
+            }
             editing = true;
             getComboBoxes();
             getTextBoxes();

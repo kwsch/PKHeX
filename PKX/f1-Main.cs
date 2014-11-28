@@ -2035,11 +2035,11 @@ namespace PKHeX
                 };
             var form_keldeo = new[] {
                     new { Text = forms[647], Value = 0 }, // Ordinary
-                    new { Text = forms[830], Value = 1 }, // Resolute
+                    new { Text = forms[855], Value = 1 }, // Resolute
                 };
             var form_meloetta = new[] {
                     new { Text = forms[648], Value = 0 }, // Aria
-                    new { Text = forms[831], Value = 1 }, // Pirouette
+                    new { Text = forms[856], Value = 1 }, // Pirouette
                 };
             var form_genesect = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
@@ -6248,9 +6248,6 @@ namespace PKHeX
             itempouch = Util.getStringList("ItemPouch", l);
             wallpapernames = Util.getStringList("Wallpaper", l);
 
-            // Fix (None) tags
-            abilitylist[0] = itemlist[0] = movelist[0] = "("+itemlist[0]+")";
-
             // Fix Item Names (Duplicate entries)
             itemlist[456] += " (OLD)"; // S.S. Ticket
             itemlist[463] += " (OLD)"; // Storage Key
@@ -6286,7 +6283,7 @@ namespace PKHeX
             metXY_40000 = Util.getStringList("xy_40000", l);
             metXY_60000 = Util.getStringList("xy_60000", l);
 
-            // Fix up some of the strings to make them more descriptive:
+            // Fix up some of the Location strings to make them more descriptive:
             metHGSS_02000[1] += " (NPC)";         // Anything from an NPC
             metHGSS_02000[2] += " ("+eggname+")"; // Egg From Link Trade
             metBW2_00000[36] = metBW2_00000[84] + "/" + metBW2_00000[36]; // Cold Storage in BW = PWT in BW2
@@ -6313,9 +6310,8 @@ namespace PKHeX
             metXY_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
 
             // Set the first entry of a met location to "" (nothing)
-            metXY_00000[0] = "";
-            metBW2_00000[0] = "";
-            metHGSS_00000[0] = "";
+            // Fix (None) tags
+            abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = "(" + itemlist[0] + ")";
 
             // Force an update to the met locations
             origintrack = "";
