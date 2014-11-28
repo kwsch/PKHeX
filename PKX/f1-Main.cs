@@ -3758,6 +3758,13 @@ namespace PKHeX
         }
         private void openFile(byte[] input, string path, string ext)
         {
+            #region Powersaves Read-Only Conversion
+            if (input.Length == 0x10009C)
+            {
+                Array.Copy(input, 0x9C, input, 0, 0x100000); 
+                Array.Resize(ref input, 0x100000);
+            }
+            #endregion
             #region Trade Packets
             if ((input.Length == 363) && (input[0x6B] == 0) && (input[0x6C] == 00))
             {
@@ -3785,6 +3792,8 @@ namespace PKHeX
                 B_ExportSAV.Enabled = false;
                 B_SwitchSAV.Enabled = false;
                 B_JPEG.Enabled = false;
+                string GameType = "XY"; // Default Game Type to load.
+                if (BitConverter.ToUInt32(input, 0x7B210) == 0x42454546) GameType = "ORAS"; // BEEF magic in checksum block
                 if ((BitConverter.ToUInt32(input, 0x100) != 0x41534944) && (BitConverter.ToUInt32(input, 0x5234) != 0x6E69616D))
                 {
                     DialogResult dialogResult = MessageBox.Show("Save file is not decrypted.\r\n\r\nPress Yes to ignore this warning and continue loading the save file.", "Error", MessageBoxButtons.YesNo);
@@ -3800,7 +3809,7 @@ namespace PKHeX
                         }
                         else savindex = 1;
                         B_SwitchSAV.Enabled = true;
-                        open1MB(input, path, "XY", false);
+                        open1MB(input, path, GameType, false);
                     }
                 }
                 else if (PKX.detectSAVIndex(input, ref savindex) == 2)
@@ -3821,7 +3830,7 @@ namespace PKHeX
                         }
                         else savindex = 1;
                         B_SwitchSAV.Enabled = true;
-                        open1MB(input, path, "XY", false);
+                        open1MB(input, path, GameType, false);
                     }
                 }
                 else
@@ -3829,7 +3838,7 @@ namespace PKHeX
                     B_ExportSAV.Enabled = true;
                     B_SwitchSAV.Enabled = true;
                     PKX.detectSAVIndex(input, ref savindex);
-                    open1MB(input, path, "XY", false);
+                    open1MB(input, path, GameType, false);
                 }
                 B_JPEG.Enabled = true;
             }
