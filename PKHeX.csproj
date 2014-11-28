@@ -328,6 +328,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\item\item_571.png" />
     <None Include="Resources\img\badges\badge_07.png" />
     <None Include="Resources\img\badges\badge_06.png" />
     <None Include="Resources\img\badges\badge_05.png" />

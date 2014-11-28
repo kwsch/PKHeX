@@ -3605,15 +3605,24 @@ namespace PKHeX
         private void mainmenuOpen(object sender, EventArgs e)
         {
             string cyberpath = Util.GetTempFolder();
-            if (Directory.Exists(cyberpath + "\\root\\"))
+            SDFLoc = Util.GetSDFLocation();
+            if (SDFLoc != null)
+            {
+                OpenPKX.InitialDirectory = SDFLoc;
+                OpenPKX.RestoreDirectory = true;
+                OpenPKX.FilterIndex = 4;
+            }
+            else if (Directory.Exists(cyberpath + "\\root\\"))
             {
                 OpenPKX.InitialDirectory = cyberpath + "\\root\\";
                 OpenPKX.RestoreDirectory = true;
+                OpenPKX.FilterIndex = 4;
             }
             else if (Directory.Exists(cyberpath))
             {
                 OpenPKX.InitialDirectory = cyberpath;
                 OpenPKX.RestoreDirectory = true;
+                OpenPKX.FilterIndex = 4;
             }
         
             DialogResult result = OpenPKX.ShowDialog();
