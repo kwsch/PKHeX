@@ -2311,11 +2311,8 @@ namespace PKHeX
                     }
                     // when calcexp exceeds our exp, we exit loop
                 }
-                if ((uint)table.Rows[tl][growth + 1] == exp)
-                {
-                    // Matches level threshold
+                if ((uint)table.Rows[tl][growth + 1] == exp) // Matches level threshold
                     return tl;
-                }
                 else return (tl - 1);
             }
             else return tl;
@@ -2471,11 +2468,13 @@ namespace PKHeX
                 return (checksum == BitConverter.ToUInt16(input, 0x6));
             }
         }
-
-        public static UInt16 getTSV(UInt32 PID, UInt16 TID, UInt16 SID)
+        public static UInt16 getPSV(UInt32 PID)
         {
-            UInt16 tsv = Convert.ToUInt16((TID ^ SID) >> 4);
             return Convert.ToUInt16(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
+        }
+        public static UInt16 getTSV(UInt16 TID, UInt16 SID)
+        {
+            return Convert.ToUInt16((TID ^ SID) >> 4);
         }
         public static uint getRandomPID(int species, int cg)
         {

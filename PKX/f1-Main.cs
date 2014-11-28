@@ -250,9 +250,6 @@ namespace PKHeX
         #endregion
         
         #region //// PKX WINDOW FUNCTIONS ////
-        // Randomization //
-        // Index Tables //
-        // Functions that Set Stuff up for PKX viewing // 
         private void InitializeFields()
         {
             // Initialize Fields
@@ -3721,10 +3718,7 @@ namespace PKHeX
         {
             // detect if it is a folder (load into boxes or not)
             if (Directory.Exists(path))
-            {
-                loadBoxesFromDB(path);
-                return;
-            }
+            { loadBoxesFromDB(path); return; }
 
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
@@ -3941,8 +3935,7 @@ namespace PKHeX
                 B_JPEG.Enabled =
                 B_BoxIO.Enabled =
                 B_VerifyCHK.Enabled = true;
-            B_VerifySHA.Enabled = false;
-            B_SwitchSAV.Enabled = false;
+            B_VerifySHA.Enabled = B_SwitchSAV.Enabled = false;
             tabBoxMulti.Enabled = true;
 
             savedited = false;
@@ -3961,7 +3954,7 @@ namespace PKHeX
             B_OpenSecretBase.Visible = oras;
 
             this.Width = largeWidth;
-            System.Media.SystemSounds.Beep.Play();
+            System.Media.SystemSounds.Beep.Play(); // audibly indicate the save is loaded
         }
         // Secondary Windows for Ribbons/Amie/Memories
         private void openribbons(object sender, EventArgs e)
@@ -4024,19 +4017,13 @@ namespace PKHeX
             }
             #endregion
             if (Util.getIndex(CB_Species) == 0) // Not gonna write 0 species.
-            {
-                tabMain.SelectedIndex = 0; 
-                goto invalid;
-            }
+            { tabMain.SelectedIndex = 0; goto invalid; }
 
             // If no errors detected...
             return true;
             // else...
           invalid:
-            {
-                System.Media.SystemSounds.Exclamation.Play();
-                return false;
-            }
+            { System.Media.SystemSounds.Exclamation.Play(); return false; }
         }
         public byte[] preparepkx(byte[] buff)
         {
@@ -5041,10 +5028,7 @@ namespace PKHeX
 
             PictureBox picturebox = pba[slot];
             if (picturebox.Image == null)
-            {
-                System.Media.SystemSounds.Exclamation.Play();
-                return;
-            }
+            { System.Media.SystemSounds.Exclamation.Play(); return; }
 
             // Load the PKX file
             if (BitConverter.ToUInt64(savefile, offset + 8) != 0)
@@ -5075,9 +5059,7 @@ namespace PKHeX
                         populateFields(blank);
                     }
                     catch   // Still fails, just let the original errors occur.
-                    {
-                        populateFields(buff);
-                    }
+                    { populateFields(buff); }
                 }
                 // Visual to display what slot is currently loaded.
                 getSlotColor(slot, Properties.Resources.slotView);
@@ -5154,7 +5136,7 @@ namespace PKHeX
         }
         private void setPokedex(byte[] pkxdata)
         {
-            if (savegame_oras) return;
+            if (savegame_oras) return; // not yet ready for ORAS
             if (savindex > 1) return;
             int species = BitConverter.ToUInt16(pkxdata, 0x8);  // Species
             int lang = pkxdata[0xE3] - 1; if (lang > 5) lang--; // 0-6 language vals
@@ -5163,7 +5145,7 @@ namespace PKHeX
             uint pid = BitConverter.ToUInt32(pkxdata, 0x18);
             ushort TID = BitConverter.ToUInt16(pkxdata, 0xC);
             ushort SID = BitConverter.ToUInt16(pkxdata, 0xE);
-            int shiny = Convert.ToInt16(Convert.ToBoolean(((pid >> 16) ^ (pid & 0xFFFF) ^ TID ^ SID) < 16));
+            int shiny = Convert.ToInt16(Convert.ToBoolean((PKX.getPSV(pid) ^ PKX.getTSV(TID,SID)) < 16));
             int dexoff = savindex * 0x7F000 + SaveGame.PokeDex + 8; // need to re-do this for ORAS
             int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
 
@@ -5201,10 +5183,8 @@ namespace PKHeX
             savefile[offset + 6 * 0x104 + savindex * 0x7F000] = partymembers;
             // Zero out the party slots that are empty.
             for (int i = 0; i < 6; i++)
-            {
                 if (i >= partymembers)
                     Array.Copy(PKX.encryptArray(new Byte[0x104]), 0, savefile, offset + (i * 0x104), 0x104);
-            }
 
             // Repeat for Battle Box.
             byte battlemem = 0;
@@ -5225,10 +5205,9 @@ namespace PKHeX
 
             // Zero out the party slots that are empty.
             for (int i = 0; i < 6; i++)
-            {
                 if (i >= battlemem)
                     Array.Copy(PKX.encryptArray(new Byte[0x104]), 0, savefile, offset2 + (i * 0xE8), 0xE8);
-            }
+
             if (battlemem == 0)
                 savefile[offset2 + 6 * 0xE8 + savindex * 0x7F000] = 0;
 
@@ -5468,11 +5447,9 @@ namespace PKHeX
 
             // Redrawing logic
             uint PID = BitConverter.ToUInt32(dslotdata, 0x18);
-            uint UID = (PID >> 16);
-            uint LID = (PID & 0xFFFF);
-            uint PSV = UID ^ LID;
-            uint TSV = (uint)(BitConverter.ToUInt16(dslotdata, 0x0C) ^ BitConverter.ToUInt16(dslotdata, 0x0E));
-            uint XOR = TSV ^ PSV;
+            ushort PSV = PKX.getPSV(PID);
+            ushort TSV = (ushort)(BitConverter.ToUInt16(dslotdata, 0x0C) ^ BitConverter.ToUInt16(dslotdata, 0x0E));
+            ushort XOR = (ushort)(TSV ^ PSV);
 
             Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
             if (baseImage == null)
@@ -5544,12 +5521,12 @@ namespace PKHeX
         {
             uint TID = Util.ToUInt32(TB_TID.Text);
             uint SID = Util.ToUInt32(TB_SID.Text);
-            uint tsv = (TID ^ SID) >> 4;
+            uint tsv = PKX.getTSV((ushort)TID, (ushort)SID);
             Tip1.SetToolTip(this.TB_TID, "TSV: " + tsv.ToString("0000"));
             Tip2.SetToolTip(this.TB_SID, "TSV: " + tsv.ToString("0000"));
 
             uint PID = Util.getHEXval(TB_PID);
-            uint psv = ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
+            uint psv = PKX.getPSV(PID);
             Tip3.SetToolTip(this.TB_PID, "PSV: " + psv.ToString("0000"));
         }
         private void Menu_DumpLoadBoxes_Click(object sender, EventArgs e)
@@ -6414,11 +6391,6 @@ namespace PKHeX
         {
             return Text;
         }
-
-		public int GetValue()
-		{
-			return Util.ToInt32 (Value.ToString());
-		}
     }
     public class SaveGames
     {

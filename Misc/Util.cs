@@ -98,9 +98,8 @@ namespace PKHeX
             Microsoft.Win32.RegistryKey currentUser = Microsoft.Win32.Registry.CurrentUser;
             Microsoft.Win32.RegistryKey key3 = currentUser.OpenSubKey(GetRegistryBase());
             if (key3 == null)
-            {
                 return null;
-            }
+
             string str = key3.GetValue(key) as string;
             key3.Close();
             currentUser.Close();
@@ -213,12 +212,9 @@ namespace PKHeX
             try
 			{
 				value = value.TrimEnd(new char[]{'_'});
-			    return Int32.Parse(value); 
-			}
-            catch
-            {
-                return 0;
+			    return Int32.Parse(value);
             }
+            catch { return 0; }
         }
         internal static uint ToUInt32(String value)
         {
@@ -230,10 +226,7 @@ namespace PKHeX
 				value = value.TrimEnd(new char[]{'_'});
                 return UInt32.Parse(value);
             }
-            catch
-            {
-                return 0;
-            }
+            catch { return 0; }
         }
         internal static uint getHEXval(TextBox tb)
         {
@@ -246,19 +239,12 @@ namespace PKHeX
         {
             int val = 0;
 			if (cb.SelectedValue == null)
-			{
 				return 0;
-			}
 
             try
-			{
-				val = Util.ToInt32(cb.SelectedValue.ToString());
-			}
+			{ val = Util.ToInt32(cb.SelectedValue.ToString()); }
             catch
-            {
-                val = cb.SelectedIndex;
-                if (val < 0) val = 0;
-            }
+            { val = cb.SelectedIndex; if (val < 0) val = 0; }
             return val;
         }
         internal static string getOnlyHex(string str)

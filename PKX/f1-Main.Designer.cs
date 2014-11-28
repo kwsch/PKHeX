@@ -2404,7 +2404,6 @@
             this.CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_ExtraBytes.FormattingEnabled = true;
             this.CB_ExtraBytes.Items.AddRange(new object[] {
-            "0x35",
             "0x36",
             "0x37",
             "0x3A",
