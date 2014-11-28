@@ -101,3 +101,8 @@ Una volta {0} è salito su una torre altissima con {1} e insieme hanno guardato 
 Una volta {0} è andato con {1} in una grotta piena di specchi e ha visto la propria immagine riflessa. {4} {3}.
 Una volta {0} e {1} hanno smarrito la strada durante un’escursione nel bosco. {4} {3}.
 Una volta {0} è andato con {1} in una fabbrica dove c’erano un sacco di macchinari complicati. {4} {3}.
+Una volta {0} e {1} hanno costruito una Base Segreta. {4} {3}.
+Una volta {0} e {1} hanno partecipato a una gara con un’esibizione che ha conquistato il pubblico. {4} {3}.
+Una volta {0} e {1} hanno partecipato a una gara riportando una splendida vittoria. {4} {3}.
+Una volta {0} e {1} hanno visitato posti meravigliosi usando Ipervolo. {4} {3}.
+Una volta {0}, su indicazione di {1}, si è immerso negli abissi e ha esplorato il fondale marino. {4} {3}.

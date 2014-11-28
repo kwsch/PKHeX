@@ -101,3 +101,8 @@ The Move Deleter that {0} met through {1} made it forget {2}. {4} that {3}.
 {0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
 {0} almost got lost when it explored a forest with {1}. {4} that {3}.
 {0} went to a factory with {1} and saw a lot of machines that looked very complicated. {4} that {3}.
+{0} was with {1} when (he/she) built a Secret Base. {4} that {3}.
+{0} participated in a contest with {1} and impressed many people. {4} that {3}.
+{0} participated in a contest with {1} and won the title. {4} that {3}.
+{0} soared through the sky with {1} and went to many different places. {4} that {3}.
+{1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.

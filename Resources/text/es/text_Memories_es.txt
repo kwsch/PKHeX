@@ -101,3 +101,8 @@ Cuando {1} y {0} estaban en una torre muy alta, {0} miró hacia abajo y todo le 
 Cuando {1} y {0} estaban en la Cueva de los Reflejos, {0} contempló su reflejo. {4} {3}.
 {0} estuvo a punto de perderse al explorar un bosque junto a {1}. {4} {3}.
 Al acompañar a {1} hasta una fábrica, {0} se encontró allí con un montón de máquinas que parecían muy complejas. {4} {3}.
+En cierto momento, {0} y {1} construyeron juntos una Base Secreta. {4} {3}.
+En una ocasión, {0} y {1} participaron en un concurso y se exhibieron delante de muchas personas. {4} {3}.
+En determinado momento, {0} y {1} participaron en un concurso y se alzaron con la victoria. {4} {3}.
+En cierta ocasión, {0} y {1} visitaron numerosos lugares gracias al Ultravuelo. {4} {3}.
+Una vez, {0}, siguiendo las instrucciones de {1} se sumergió en las profundidades del mar para explorar el fondo oceánico. {4} {3}.

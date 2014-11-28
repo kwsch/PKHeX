@@ -101,3 +101,8 @@ Il se rappelle un bon souvenir, mais les détails lui semblent flous.
 {0} est allé avec {1} dans une grotte qui semblait couverte de miroirs, et y a aperçu son reflet. Il {4} {3}.
 {0} a failli se perdre dans une forêt avec {1}. Il {4} {3}.
 {0} est allé avec {1} dans une usine remplie de machines étranges. Il {4} {3}.
+{0} a vu {1} créer sa propre Base Secrète. Il {4} {3}.
+{0} a participé à un Concours Pokémon aux côtés de {1}. Il a pu faire son show en faisant toutes sortes de Démonstrations devant un large public. Il {4} {3}.
+{0} a participé à un Concours Pokémon aux côtés de {1} et il a réussi à gagner ! Il {4} {3}.
+{0} a pris son Grand Envol aux côtés de {1} et a visité quelques endroits exotiques. Il {4} {3}.
+{0} a plongé au cœur de l’océan sur les instructions de {1}. Il {4} {3}.
