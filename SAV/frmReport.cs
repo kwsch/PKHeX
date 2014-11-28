@@ -14,15 +14,12 @@ namespace PKHeX
     public partial class frmReport : Form
     {
         private byte[] SaveData;
-        private const int PIDOFFSET = 0x18;
-        private const int TIDOFFSET = 0x0C;
-        private const int SIDOFFSET = 0x0E;
         public frmReport()
         {
             InitializeComponent();
             dgData.DoubleBuffered(true);
         }
-        public void PopulateData(byte[] InputData, int savindex)
+        public void PopulateData(byte[] InputData, int savindex, int baseoffset)
         {
             SaveData = new byte[InputData.Length];
             Array.Copy(InputData, SaveData, InputData.Length);
@@ -31,7 +28,7 @@ namespace PKHeX
             if (savindex > 1) savindex = 0;
             for (int BoxNum = 0; BoxNum < 31; BoxNum++)
             {
-                int boxoffset = 0x27A00 + 0x7F000 * savindex + BoxNum * (0xE8 * 30);
+                int boxoffset = baseoffset + 0x7F000 * savindex + BoxNum * (0xE8 * 30);
                 for (int SlotNum = 0; SlotNum < 30; SlotNum++)
                 {
                     int offset = boxoffset + 0xE8 * SlotNum;
