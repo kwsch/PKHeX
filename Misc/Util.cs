@@ -73,7 +73,13 @@ namespace PKHeX
                 B = 255;
             return Color.FromArgb(Math.Abs(A), Math.Abs(R), Math.Abs(G), Math.Abs(B));
         }
-    
+        internal static FileInfo GetNewestFile(DirectoryInfo directory)
+        {
+            return directory.GetFiles()
+                .Union(directory.GetDirectories().Select(d => GetNewestFile(d)))
+                .OrderByDescending(f => (f == null ? DateTime.MinValue : f.LastWriteTime))
+                .FirstOrDefault();
+        }
         internal static string GetTempFolder() // From 3DSSE's decompiled source.
         {
             string tempPath = Path.GetTempPath();
@@ -115,6 +121,39 @@ namespace PKHeX
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + Path.DirectorySeparatorChar + "3DSSaveBank";
             Directory.CreateDirectory(path);
             return path;
+        }
+        internal static string GetSDFLocation()
+        {
+            // start by checking if the 3DS file path exists or not.
+            string path_SDF = null;
+            string[] DriveList = Environment.GetLogicalDrives();
+            for (int i = 1; i < DriveList.Length; i++)
+            {
+                path_SDF = DriveList[i] + "filer\\UserSaveData\\";
+                if (Directory.Exists(path_SDF))
+                    break;
+            }
+            if (path_SDF == null)
+                return null;
+            else
+            {
+                // 3DS data found in SD card reader. Let's get the title folder location!
+                string[] folders = Directory.GetDirectories(path_SDF, "*", System.IO.SearchOption.TopDirectoryOnly);
+
+                // Loop through all the folders in the Nintendo 3DS folder to see if any of them contain 'title'.
+                for (int i = folders.Length - 1; i > 0; i--)
+                {
+                    if (File.Exists(Path.Combine(folders[i], "000011c4\\main"))) return Path.Combine(folders[i], "000011c4"); // OR
+                    if (File.Exists(Path.Combine(folders[i], "000011c5\\main"))) return Path.Combine(folders[i], "000011c5"); // AS
+                    if (File.Exists(Path.Combine(folders[i], "0000055d\\main"))) return Path.Combine(folders[i], "0000055d"); // X
+                    if (File.Exists(Path.Combine(folders[i], "0000055e\\main"))) return Path.Combine(folders[i], "0000055e"); // Y
+
+                    // I don't know
+                    if (File.Exists(Path.Combine(folders[i], "00055d00\\main"))) return Path.Combine(folders[i], "00055d00"); // X
+                    if (File.Exists(Path.Combine(folders[i], "00055e00\\main"))) return Path.Combine(folders[i], "00055e00"); // Y
+                }
+                return null;
+            }
         }
         internal static string CleanFileName(string fileName)
         {
