@@ -3612,7 +3612,7 @@ namespace PKHeX
                 OpenPKX.RestoreDirectory = true;
                 OpenPKX.FilterIndex = 4;
             }
-            else if (Path.Combine(cyberpath, "root")))
+            else if (Directory.Exists(Path.Combine(cyberpath, "root")))
             {
                 OpenPKX.InitialDirectory = Path.Combine(cyberpath, "root");
                 OpenPKX.RestoreDirectory = true;
