@@ -176,8 +176,8 @@ namespace PKHeX
                 openQuick(args[1]);
             else if (SDFLoc != null)
                 openQuick(Path.Combine(SDFLoc,"main"));
-            else if (File.Exists(Util.GetTempFolder() + "\\root\\main"))
-                openQuick(Util.GetTempFolder() + "\\root\\main");
+            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar  + "main"))))
+                openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder() , "root" + Path.DirectorySeparatorChar  + "main")));
 
             // Close splash screen.  
             init = true;          
@@ -1494,7 +1494,7 @@ namespace PKHeX
         {
             // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = System.Windows.Forms.Application.StartupPath + "\\lang_" + curlanguage + ".txt";
+            string externalLangPath = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + curlanguage + ".txt";
             string[] rawlist;
             if (File.Exists(externalLangPath))
                 rawlist = File.ReadAllLines(externalLangPath);
@@ -3612,9 +3612,9 @@ namespace PKHeX
                 OpenPKX.RestoreDirectory = true;
                 OpenPKX.FilterIndex = 4;
             }
-            else if (Directory.Exists(cyberpath + "\\root\\"))
+            else if (Directory.Exists(Path.Combine(cyberpath, "root")))
             {
-                OpenPKX.InitialDirectory = cyberpath + "\\root\\";
+                OpenPKX.InitialDirectory = Path.Combine(cyberpath, "root");
                 OpenPKX.RestoreDirectory = true;
                 OpenPKX.FilterIndex = 4;
             }
@@ -4339,7 +4339,7 @@ namespace PKHeX
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make File
-                string newfile = basepath + "\\" + Util.CleanFileName(filename);
+                string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
                 try
                 {
                     File.WriteAllBytes(newfile, dragdata);
@@ -4372,7 +4372,7 @@ namespace PKHeX
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make file
-                string newfile = basepath + "\\" + Util.CleanFileName(filename);
+                string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
                 try
                 {
                     File.WriteAllBytes(newfile, dragdata);
@@ -4970,9 +4970,9 @@ namespace PKHeX
                         cySAV.RestoreDirectory = true;
                     }
                 }
-                else if (Directory.Exists(cyberpath + "\\root\\"))
+                else if (Directory.Exists(Path.Combine(cyberpath, "root")))
                 {
-                    cySAV.InitialDirectory = cyberpath + "\\root\\";
+                    cySAV.InitialDirectory = Path.Combine(cyberpath, "root");
                     cySAV.RestoreDirectory = true;
                 }
                 else if (Directory.Exists(cyberpath))
@@ -5559,11 +5559,11 @@ namespace PKHeX
                     int size = 232;
                     if (dr == DialogResult.Yes) // Import
                     {
-                        if (Directory.Exists(exepath + "\\db"))
+                        if (Directory.Exists(Path.Combine(exepath, "db")))
                         {
                             DialogResult ld = MessageBox.Show("Load from PKHeX's database?", "Alert", MessageBoxButtons.YesNo);
                             if (ld == DialogResult.Yes)
-                                path = exepath + "\\db";
+                                path = Path.Combine(exepath, "db");
                             else if (ld == DialogResult.No)
                             {
                                 // open folder dialog
@@ -5589,7 +5589,7 @@ namespace PKHeX
                             DialogResult ld = MessageBox.Show("Save to PKHeX's database?", "Alert", MessageBoxButtons.YesNo);
                             if (ld == DialogResult.Yes)
                             {
-                                path = exepath + "\\db";
+                                path = Path.Combine(exepath, "db");
                                 if (!Directory.Exists(path))
                                     Directory.CreateDirectory(path);
                             }
@@ -5641,8 +5641,8 @@ namespace PKHeX
                                 + chk.ToString("X4") + EC.ToString("X8")
                                 + ".pk6";
                             Array.Resize(ref pkxdata, 232);
-                            if (!File.Exists(path + "\\" + savedname))
-                                File.WriteAllBytes(path + "\\" + Util.CleanFileName(savedname), pkxdata);
+                            if (!File.Exists(Path.Combine(path, savedname)))
+                                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(savedname)), pkxdata);
                         }
                     }
                 }
@@ -6175,8 +6175,8 @@ namespace PKHeX
             else
             {
                 path = Util.GetTempFolder();
-                if (Directory.Exists(path + "\\root\\"))
-                    System.Diagnostics.Process.Start("explorer.exe", @Path.Combine(path + "\\root\\"));
+                if (Directory.Exists(Path.Combine(path, "root")))
+                    System.Diagnostics.Process.Start("explorer.exe", @Path.Combine(path, "root"));
                 else if (Directory.Exists(path))
                     System.Diagnostics.Process.Start("explorer.exe", @path);
                 else { MessageBox.Show("Can't find the temporary file.\n\nMake sure the Cyber Gadget software is paused.", "Alert"); }
@@ -6384,8 +6384,8 @@ namespace PKHeX
 
             if (SDFLoc != null && ModifierKeys != Keys.Control) // if we have a result
                 path = Path.Combine(SDFLoc, "main");
-            else if (File.Exists(Util.GetTempFolder() + "\\root\\main")) // else if cgse exists
-                path = Util.GetTempFolder() + "\\root\\main";
+            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")))) // else if cgse exists
+                path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"));
 
             if (path != null)
             {
