@@ -3990,7 +3990,7 @@ namespace PKHeX
         // Open/Save Array Manipulation // 
         public bool verifiedpkx()
         {
-            if (ModifierKeys == (Keys.Control | Keys.Shift))
+            if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
             #region ComboBoxes
@@ -5154,6 +5154,21 @@ namespace PKHeX
 
             getSlotColor(slot, Properties.Resources.slotDel);
         }
+        private void cloneBox(object sender, EventArgs e)
+        {
+            if (!verifiedpkx()) { return; }
+            int slot = getSlot(sender);
+            if (slot > 30) return;
+
+            byte[] pkxdata = preparepkx(buff);
+            byte[] ekxdata = PKX.encryptArray(pkxdata);
+            for (int i = 0; i < 30; i++)
+                Array.Copy(ekxdata, 0, savefile, getPKXOffset(i), 0xE8);
+
+            setPokedex(pkxdata);
+            setPKXBoxes();
+            savedited = true;
+        }
         private void setPokedex(byte[] pkxdata)
         {
             if (savegame_oras) return; // not yet ready for ORAS
@@ -5235,7 +5250,9 @@ namespace PKHeX
         }
         private void slotModifier_Click(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control)
+            if (ModifierKeys == (Keys.Control | Keys.Alt))
+                cloneBox(sender, e);
+            else if (ModifierKeys == Keys.Control)
                 rcmView_Click(sender, e);
             else if (ModifierKeys == Keys.Shift)
                 rcmSet_Click(sender, e);
@@ -6116,6 +6133,8 @@ namespace PKHeX
         // Drag & Drop within Box
         private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
         {
+            if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt || ModifierKeys == Keys.Shift || ModifierKeys == (Keys.Control | Keys.Alt))
+            { slotModifier_Click(sender, (EventArgs)e); return; }
             PictureBox pb = (PictureBox)(sender);
             if (pb.Image == null)
                 return;
