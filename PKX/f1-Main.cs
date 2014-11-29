@@ -3520,22 +3520,22 @@ namespace PKHeX
             if (cb_forme.SelectedIndex > 0)
             {
                 int formnum = cb_forme.SelectedIndex;
-                if (species == 492 && formnum == 1) { species = 727; }      // Shaymin
+                if      (species == 492 && formnum == 1) { species = 727; } // Shaymin Sky
                 else if (species == 487 && formnum == 1) { species = 728; } // Giratina-O
                 else if (species == 550 && formnum == 1) { species = 738; } // Basculin Blue
                 else if (species == 646 && formnum == 1) { species = 741; } // Kyurem White
-                else if (species == 646 && formnum == 1) { species = 742; } // Kyurem Black
+                else if (species == 646 && formnum == 2) { species = 742; } // Kyurem Black
                 else if (species == 641 && formnum == 1) { species = 744; } // Tornadus-T
                 else if (species == 642 && formnum == 1) { species = 745; } // Thundurus-T
                 else if (species == 645 && formnum == 1) { species = 746; } // Landorus-T
-                else if (species == 678 && formnum == 1) { species = 748; } // MeowsticF
+                else if (species == 678 && formnum == 1) { species = 748; } // Meowstic Female
 
                 else if (species == 094 && formnum == 1) { species = 747; } // Mega Gengar
                 else if (species == 282 && formnum == 1) { species = 758; } // Mega Gardevoir
                 else if (species == 181 && formnum == 1) { species = 759; } // Mega Ampharos
                 else if (species == 003 && formnum == 1) { species = 760; } // Mega Venusaur
-                else if (species == 006 && formnum == 1) { species = 761; } // Mega CharizardX
-                else if (species == 006 && formnum == 2) { species = 762; } // Mega CharizardY
+                else if (species == 006 && formnum == 1) { species = 761; } // Mega Charizard X
+                else if (species == 006 && formnum == 2) { species = 762; } // Mega Charizard Y
                 else if (species == 150 && formnum == 1) { species = 763; } // Mega MewtwoX
                 else if (species == 150 && formnum == 2) { species = 764; } // Mega MewtwoY
                 else if (species == 257 && formnum == 1) { species = 765; } // Mega Blaziken
@@ -3562,28 +3562,27 @@ namespace PKHeX
                 else if (species == 380 && formnum == 1) { species = 787; } // Mega Latias
 
                 // ORAS
-                else if ((formnum == 1) && (species == 382)) { species =812; } // Primal Kyogre
-                else if ((formnum == 1) && (species == 383)) { species =813; } // Primal Groudon
-                else if ((formnum == 1) && (species == 720)) { species =821; } // Hoopa
-                else if ((formnum == 1) && (species == 015)) { species =825; } // Beedrill
-                else if ((formnum == 1) && (species == 018)) { species =808; } // Pidgeot
-                else if ((formnum == 1) && (species == 080)) { species =806; } // Slowbro
-                else if ((formnum == 1) && (species == 208)) { species =807; } // Steelix
-                else if ((formnum == 1) && (species == 254)) { species =800; } // Sceptile
-                else if ((formnum == 1) && (species == 260)) { species =799; } // Swampert
-                else if ((formnum == 1) && (species == 302)) { species =801; } // Sableye
-                else if ((formnum == 1) && (species == 319)) { species =805; } // Sharpedo
-                else if ((formnum == 1) && (species == 323)) { species =822; } // Camerupt
-                else if ((formnum == 1) && (species == 334)) { species =802; } // Altaria
-                else if ((formnum == 1) && (species == 362)) { species =809; } // Glalie
-                else if ((formnum == 1) && (species == 373)) { species =824; } // Salamence
-                else if ((formnum == 1) && (species == 376)) { species =811; } // Metagross
-                else if ((formnum == 1) && (species == 384)) { species =814; } // Rayquaza
-                else if ((formnum == 1) && (species == 428)) { species =823; } // Lopunny
-                else if ((formnum == 1) && (species == 475)) { species =803; } // Gallade
-                else if ((formnum == 1) && (species == 531)) { species =804; } // Audino
-                else if ((formnum == 1) && (species == 719)) { species =810; } // Diancie
-
+                else if ((formnum == 1) && (species == 382)) { species = 812; } // Primal Kyogre
+                else if ((formnum == 1) && (species == 383)) { species = 813; } // Primal Groudon
+                else if ((formnum == 1) && (species == 720)) { species = 821; } // Hoopa Unbound
+                else if ((formnum == 1) && (species == 015)) { species = 825; } // Mega Beedrill
+                else if ((formnum == 1) && (species == 018)) { species = 808; } // Mega Pidgeot
+                else if ((formnum == 1) && (species == 080)) { species = 806; } // Mega Slowbro
+                else if ((formnum == 1) && (species == 208)) { species = 807; } // Mega Steelix
+                else if ((formnum == 1) && (species == 254)) { species = 800; } // Mega Sceptile
+                else if ((formnum == 1) && (species == 260)) { species = 799; } // Mega Swampert
+                else if ((formnum == 1) && (species == 302)) { species = 801; } // Mega Sableye
+                else if ((formnum == 1) && (species == 319)) { species = 805; } // Mega Sharpedo
+                else if ((formnum == 1) && (species == 323)) { species = 822; } // Mega Camerupt
+                else if ((formnum == 1) && (species == 334)) { species = 802; } // Mega Altaria
+                else if ((formnum == 1) && (species == 362)) { species = 809; } // Mega Glalie
+                else if ((formnum == 1) && (species == 373)) { species = 824; } // Mega Salamence
+                else if ((formnum == 1) && (species == 376)) { species = 811; } // Mega Metagross
+                else if ((formnum == 1) && (species == 384)) { species = 814; } // Mega Rayquaza
+                else if ((formnum == 1) && (species == 428)) { species = 823; } // Mega Lopunny
+                else if ((formnum == 1) && (species == 475)) { species = 803; } // Mega Gallade
+                else if ((formnum == 1) && (species == 531)) { species = 804; } // Mega Audino
+                else if ((formnum == 1) && (species == 719)) { species = 810; } // Mega Diancie
             }
             Array.Copy(speciesability, species * 4 + 1, abils, 0, 3);
 
