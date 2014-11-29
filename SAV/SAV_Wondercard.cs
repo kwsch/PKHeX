@@ -158,6 +158,10 @@ namespace PKHeX
             // Write Wondercard to Save File
             int index = LB_WCs.SelectedIndex;
             int offset = wcoffset + savindex * 0x7F000 + index * 0x108;
+            if (m_parent.savegame_oras) // ORAS Only
+                if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
+                    if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
+                        Array.Copy(BitConverter.GetBytes(0x225D73C2), 0, sav, 0x319B8 + 0x5400 + savindex * 0x7F000, 4);
             Array.Copy(wondercard_data, 0, sav, offset, 0x108);
             populateWClist();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
