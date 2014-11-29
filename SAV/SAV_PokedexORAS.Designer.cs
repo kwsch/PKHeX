@@ -40,7 +40,6 @@
             this.CHK_P7 = new System.Windows.Forms.CheckBox();
             this.CHK_P8 = new System.Windows.Forms.CheckBox();
             this.CHK_P9 = new System.Windows.Forms.CheckBox();
-            this.CHK_P10 = new System.Windows.Forms.CheckBox();
             this.CHK_L7 = new System.Windows.Forms.CheckBox();
             this.CHK_L6 = new System.Windows.Forms.CheckBox();
             this.CHK_L5 = new System.Windows.Forms.CheckBox();
@@ -183,17 +182,6 @@
             this.CHK_P9.Text = "Shiny Female";
             this.CHK_P9.UseVisualStyleBackColor = true;
             this.CHK_P9.Click += new System.EventHandler(this.changePartitionBool);
-            // 
-            // CHK_P10
-            // 
-            this.CHK_P10.AutoSize = true;
-            this.CHK_P10.Location = new System.Drawing.Point(12, 78);
-            this.CHK_P10.Name = "CHK_P10";
-            this.CHK_P10.Size = new System.Drawing.Size(72, 17);
-            this.CHK_P10.TabIndex = 12;
-            this.CHK_P10.Text = "Via Trade";
-            this.CHK_P10.UseVisualStyleBackColor = true;
-            this.CHK_P10.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_L7
             // 
@@ -360,7 +348,6 @@
             // 
             this.groupBox2.Controls.Add(this.CHK_F1);
             this.groupBox2.Controls.Add(this.CHK_P1);
-            this.groupBox2.Controls.Add(this.CHK_P10);
             this.groupBox2.Controls.Add(this.CHK_P5);
             this.groupBox2.Controls.Add(this.CHK_P4);
             this.groupBox2.Controls.Add(this.CHK_P3);
@@ -410,7 +397,6 @@
             this.maskedTextBox1.Size = new System.Drawing.Size(38, 20);
             this.maskedTextBox1.TabIndex = 31;
             this.maskedTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.maskedTextBox1.Visible = false;
             this.maskedTextBox1.TextChanged += new System.EventHandler(this.changeEncounteredCount);
             // 
             // label2
@@ -421,7 +407,6 @@
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 32;
             this.label2.Text = "Battled:";
-            this.label2.Visible = false;
             // 
             // SAV_PokedexORAS
             // 
@@ -473,7 +458,6 @@
         private System.Windows.Forms.CheckBox CHK_P7;
         private System.Windows.Forms.CheckBox CHK_P8;
         private System.Windows.Forms.CheckBox CHK_P9;
-        private System.Windows.Forms.CheckBox CHK_P10;
         private System.Windows.Forms.CheckBox CHK_L7;
         private System.Windows.Forms.CheckBox CHK_L6;
         private System.Windows.Forms.CheckBox CHK_L5;
