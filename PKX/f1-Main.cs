@@ -4988,7 +4988,7 @@ namespace PKHeX
                 {
                     string path = cySAV.FileName;
                     File.WriteAllBytes(path, cybersav);
-                    MessageBox.Show("Saved Cyber SAV.", "Alert");
+                    MessageBox.Show("Saved Cyber SAV to:\n\n"+path, "Alert");
                 }
             }
             else

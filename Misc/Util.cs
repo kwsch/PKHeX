@@ -138,36 +138,7 @@ namespace PKHeX
                 string[] DriveList = Environment.GetLogicalDrives();
                 for (int i = 1; i < DriveList.Length; i++)
                 {
-                    /*
-                    Comment from SoujiSeta. I am putting this here as example of the NoralizePath function
-                    To be more portable the the "filer\\UserSaveData\\" string should be changed to
-                    "filer" + Path.DirectorySeparator + "UserSaveData" + Path.DirectorySeparator, but this
-                    example is used to illustrate whath NormalizePath does.
-                    It uses the URI class URI.LocalPath function to get an operating specific file path.
-                    It then uses the Path.GetFullPath function to get an absoulute canonical path to the file
-                    or directory. Path.GetFullPath function would also convert any backslashes to forward slashes if
-                    it is running on a non-Windows platform.
-                    Finally the TrimEnd function is to remove any trailing backslashes or forward slashes for
-                    consistency so that the user always knows that any path that this function returns will
-                    never end in a slash.
-                    
-                    Below are examples of how this works
-                    Windows Examples
-                    F:\filer\UserSaveData\ -> F:\filer\UserSaveData
-                    G:/filer/UserSaveData/ -> G:\filer\UserSaveData
-                    
-                    Unix Example
-                    /mnt/usb_drive/filer\UserSaveData\ -> /mnt/usb_drive/filer/UserSaveData
-                    
-                    FYI: The Directory.Exists function does not need to have a trailing slash to work as it looks
-                    at the name without any trailing path seperators
-                    
-                    I have tested this both on Windows and linux
-                    I don't mind if you remove this comment if you fill it is no longer needed
-                    
-                    */
-                    
-                    string potentialPath_SDF = NormalizePath(Path.Combine(DriveList[i], "filer\\UserSaveData\\"));
+                    string potentialPath_SDF = NormalizePath(Path.Combine(DriveList[i], "filer" + Path.DirectorySeparatorChar + "UserSaveData"));
                     if (Directory.Exists(potentialPath_SDF))
                     {
                         path_SDF = potentialPath_SDF;
