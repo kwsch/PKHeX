@@ -13322,6 +13322,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_571 {
+            get {
+                object obj = ResourceManager.GetObject("item_571", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_572 {
             get {
                 object obj = ResourceManager.GetObject("item_572", resourceCulture);
@@ -21309,8 +21319,7 @@ namespace PKHeX.Properties {
         ///Medizin
         ///TM &amp; VM
         ///Beeren
-        ///Basis-Items
-        ///.
+        ///Basis-Items.
         /// </summary>
         internal static string text_ItemPouch_de {
             get {
@@ -21323,8 +21332,7 @@ namespace PKHeX.Properties {
         ///MEDICINE
         ///TMs &amp; HMs
         ///BERRIES
-        ///KEY ITEMS
-        ///.
+        ///KEY ITEMS.
         /// </summary>
         internal static string text_ItemPouch_en {
             get {
@@ -21337,8 +21345,7 @@ namespace PKHeX.Properties {
         ///Botiquín
         ///MT/MO
         ///Bayas
-        ///Objetos Clave
-        ///.
+        ///Objetos Clave.
         /// </summary>
         internal static string text_ItemPouch_es {
             get {
@@ -21351,8 +21358,7 @@ namespace PKHeX.Properties {
         ///PV/PP
         ///CT &amp; CS
         ///BAIES
-        ///OBJETS RARES
-        ///.
+        ///OBJETS RARES.
         /// </summary>
         internal static string text_ItemPouch_fr {
             get {
@@ -21365,8 +21371,7 @@ namespace PKHeX.Properties {
         ///Rimedi
         ///MT e MN
         ///Bacche
-        ///Strumenti Base
-        ///.
+        ///Strumenti Base.
         /// </summary>
         internal static string text_ItemPouch_it {
             get {
@@ -21379,8 +21384,7 @@ namespace PKHeX.Properties {
         ///かいふく
         ///わざマシン
         ///きのみ
-        ///たいせつなもの
-        ///.
+        ///たいせつなもの.
         /// </summary>
         internal static string text_ItemPouch_ja {
             get {
@@ -21393,8 +21397,7 @@ namespace PKHeX.Properties {
         ///회복
         ///기술머신
         ///나무열매
-        ///중요한 물건
-        ///.
+        ///중요한 물건.
         /// </summary>
         internal static string text_ItemPouch_ko {
             get {
@@ -22897,8 +22900,7 @@ namespace PKHeX.Properties {
         ///Frühlingsdeko-Pofflé
         ///Sommerdeko-Pofflé
         ///Herbstdeko-Pofflé
-        ///Winterdeko-Pofflé
-        ///.
+        ///Winterdeko-Pofflé.
         /// </summary>
         internal static string text_Puff_de {
             get {
@@ -23059,8 +23061,7 @@ namespace PKHeX.Properties {
         ///フルデコはるポフレ
         ///フルデコなつポフレ
         ///フルデコあきポフレ
-        ///フルデコふゆポフレ
-        ///.
+        ///フルデコふゆポフレ.
         /// </summary>
         internal static string text_Puff_ja {
             get {
@@ -23094,8 +23095,7 @@ namespace PKHeX.Properties {
         ///풀데코봄포플레
         ///풀데코여름포플레
         ///풀데코가을포플레
-        ///풀데코겨울포플레
-        ///.
+        ///풀데코겨울포플레.
         /// </summary>
         internal static string text_Puff_ko {
             get {
@@ -23924,8 +23924,7 @@ namespace PKHeX.Properties {
         ///Dopplungs-Sack
         ///Flare-Sack
         ///Tabula Ra-Sack
-        ///Relax-Sack
-        ///.
+        ///Relax-Sack.
         /// </summary>
         internal static string text_TrainingBag_de {
             get {
@@ -23960,8 +23959,7 @@ namespace PKHeX.Properties {
         ///Double-Up Bag
         ///Team Flare Bag
         ///Reset Bag
-        ///Soothing Bag
-        ///.
+        ///Soothing Bag.
         /// </summary>
         internal static string text_TrainingBag_en {
             get {
@@ -23996,8 +23994,7 @@ namespace PKHeX.Properties {
         ///Saco Mejora x2
         ///Saco Team Flare
         ///Saco Reinicio
-        ///Saco Relax
-        ///.
+        ///Saco Relax.
         /// </summary>
         internal static string text_TrainingBag_es {
             get {
@@ -24032,8 +24029,7 @@ namespace PKHeX.Properties {
         ///Sac Gain↑
         ///Sac Team Flare
         ///Sac Renouveau
-        ///Sac Relax
-        ///.
+        ///Sac Relax.
         /// </summary>
         internal static string text_TrainingBag_fr {
             get {
@@ -24068,8 +24064,7 @@ namespace PKHeX.Properties {
         ///Sacco Raddoppio
         ///Sacco Team Flare
         ///Sacco Ripristino
-        ///Sacco Relax
-        ///.
+        ///Sacco Relax.
         /// </summary>
         internal static string text_TrainingBag_it {
             get {
@@ -24104,8 +24099,7 @@ namespace PKHeX.Properties {
         ///ダブルUPバッグ
         ///フレアだんバッグ
         ///まっさらバッグ
-        ///リラックスバッグ
-        ///.
+        ///リラックスバッグ.
         /// </summary>
         internal static string text_TrainingBag_ja {
             get {
@@ -24140,8 +24134,7 @@ namespace PKHeX.Properties {
         ///더블UP백
         ///플레어단백
         ///신품백
-        ///릴랙스백
-        ///.
+        ///릴랙스백.
         /// </summary>
         internal static string text_TrainingBag_ko {
             get {
@@ -25098,8 +25091,7 @@ namespace PKHeX.Properties {
         ///－－－－－－－－－－
         ///Einall-Region
         ///Kalos-Region
-        ///Pokémon-Link
-        ///.
+        ///Pokémon-Link.
         /// </summary>
         internal static string text_xy_30000_de {
             get {
@@ -25118,8 +25110,7 @@ namespace PKHeX.Properties {
         ///----------
         ///the Unova region
         ///the Kalos region
-        ///Pokémon Link
-        ///.
+        ///Pokémon Link.
         /// </summary>
         internal static string text_xy_30000_en {
             get {
@@ -25138,8 +25129,7 @@ namespace PKHeX.Properties {
         ///－－－－－－－－－－
         ///Teselia
         ///Kalos
-        ///Nexo Pokémon
-        ///.
+        ///Nexo Pokémon.
         /// </summary>
         internal static string text_xy_30000_es {
             get {
@@ -25158,8 +25148,7 @@ namespace PKHeX.Properties {
         ///－－－－－－－－－－
         ///Unys
         ///Kalos
-        ///Poké Lien
-        ///.
+        ///Poké Lien.
         /// </summary>
         internal static string text_xy_30000_fr {
             get {
@@ -25178,8 +25167,7 @@ namespace PKHeX.Properties {
         ///----------
         ///Unima
         ///Kalos
-        ///Pokémon Link
-        ///.
+        ///Pokémon Link.
         /// </summary>
         internal static string text_xy_30000_it {
             get {
@@ -25198,8 +25186,7 @@ namespace PKHeX.Properties {
         ///－－－－－－－－－－
         ///イッシュちほう
         ///カロスちほう
-        ///ポケモンリンク
-        ///.
+        ///ポケモンリンク.
         /// </summary>
         internal static string text_xy_30000_ja {
             get {
@@ -25218,8 +25205,7 @@ namespace PKHeX.Properties {
         ///－－－－－－－－－－
         ///하나지방
         ///칼로스지방
-        ///포켓몬링크
-        ///.
+        ///포켓몬링크.
         /// </summary>
         internal static string text_xy_30000_ko {
             get {
