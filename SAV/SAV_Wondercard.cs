@@ -33,6 +33,7 @@ namespace PKHeX
         public int savindex;
         public bool editing = false;
         private int wcoffset = 0x21100;
+        private uint herpesval = 0x225D73C2;
 
         // Repopulation Functions
         private void populateWClist()
@@ -161,7 +162,7 @@ namespace PKHeX
             if (m_parent.savegame_oras) // ORAS Only
                 if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
                     if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
-                        Array.Copy(BitConverter.GetBytes(0x225D73C2), 0, sav, 0x319B8 + 0x5400 + savindex * 0x7F000, 4);
+                        Array.Copy(BitConverter.GetBytes(herpesval), 0, sav, 0x319B8 + 0x5400 + savindex * 0x7F000, 4);
             Array.Copy(wondercard_data, 0, sav, offset, 0x108);
             populateWClist();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
