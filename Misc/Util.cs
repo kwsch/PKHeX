@@ -153,7 +153,7 @@ namespace PKHeX
                     string[] folders = Directory.GetDirectories(path_SDF, "*", System.IO.SearchOption.TopDirectoryOnly);
 
                     // Loop through all the folders in the Nintendo 3DS folder to see if any of them contain 'title'.
-                    for (int i = folders.Length - 1; i > 0; i--)
+                    for (int i = folders.Length - 1; i >= 0; i--)
                     {
                         if (File.Exists(Path.Combine(folders[i], "000011c4" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c4"); // OR
                         if (File.Exists(Path.Combine(folders[i], "000011c5" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c5"); // AS
