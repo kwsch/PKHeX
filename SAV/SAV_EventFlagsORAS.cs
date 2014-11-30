@@ -74,21 +74,21 @@ namespace PKHeX
                 flag_0172,flag_2824, // Cresselia
                 flag_0176,flag_2825, // Cobalion
                 flag_0177,flag_2826, // Terrakion
-                                     // Trio 2827?
+                flag_0178,flag_2827, // Virizion
                           flag_2828, // Tornadus
                           flag_2829, // Thundurus
                 flag_0182,flag_2830, // Reshiram
                 flag_0183,flag_2831, // Zekrom
                           flag_2832, // Landorus
                 flag_0184,flag_2833, // Kyurem
-                                     // ?? 2834
-                                     // ?? 2835
+                flag_0419,flag_2834, // Latios
+                flag_0420,flag_2835, // Latias
                 flag_0956,flag_2836, // Regirock
                 flag_0957,flag_2837, // Regice
                 flag_0958,flag_2838, // Registeel
                 flag_0648,flag_2839, // Groudon
                 flag_0647,flag_2840, // Kyogre
-                                     // Lati@southern
+                                     // ??????
                 flag_0945,flag_2842, // Deoxys
 
                 // Cresselia, Regigigas

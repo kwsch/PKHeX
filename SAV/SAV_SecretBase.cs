@@ -30,7 +30,7 @@ namespace PKHeX
             popFavorite();
 
             LB_Favorite.SelectedIndex = 0;
-            MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString();
+            MT_Flags.Text = BitConverter.ToUInt32(sav, 0x2942C).ToString();
             B_SAV2FAV(null, null);
         }
         Form1 m_parent;
@@ -348,7 +348,8 @@ namespace PKHeX
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(MT_Flags)), 0, sav, 0x24800 + 0x140, 4);
+            uint flags = Util.ToUInt32(MT_Flags);
+            Array.Copy(BitConverter.GetBytes(flags), 0, sav, 0x2942C, 4);
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
             Close();

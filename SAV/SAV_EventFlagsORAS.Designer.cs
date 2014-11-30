@@ -47,8 +47,8 @@
             this.flag_0647 = new System.Windows.Forms.CheckBox();
             this.flag_2840 = new System.Windows.Forms.CheckBox();
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.flag_2834 = new System.Windows.Forms.CheckBox();
+            this.flag_0419 = new System.Windows.Forms.CheckBox();
             this.flag_2828 = new System.Windows.Forms.CheckBox();
             this.flag_2830 = new System.Windows.Forms.CheckBox();
             this.flag_0182 = new System.Windows.Forms.CheckBox();
@@ -79,8 +79,8 @@
             this.flag_2829 = new System.Windows.Forms.CheckBox();
             this.flag_2822 = new System.Windows.Forms.CheckBox();
             this.flag_0252 = new System.Windows.Forms.CheckBox();
-            this.checkBox13 = new System.Windows.Forms.CheckBox();
-            this.checkBox14 = new System.Windows.Forms.CheckBox();
+            this.flag_2827 = new System.Windows.Forms.CheckBox();
+            this.flag_0178 = new System.Windows.Forms.CheckBox();
             this.flag_2826 = new System.Windows.Forms.CheckBox();
             this.flag_0177 = new System.Windows.Forms.CheckBox();
             this.flag_2823 = new System.Windows.Forms.CheckBox();
@@ -112,6 +112,9 @@
             this.flag_0284 = new System.Windows.Forms.CheckBox();
             this.MT_Ash = new System.Windows.Forms.MaskedTextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.L_SkyTower = new System.Windows.Forms.Label();
+            this.flag_2835 = new System.Windows.Forms.CheckBox();
+            this.flag_0420 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -314,8 +317,11 @@
             this.GB_Rebattle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_Rebattle.Controls.Add(this.checkBox3);
-            this.GB_Rebattle.Controls.Add(this.checkBox4);
+            this.GB_Rebattle.Controls.Add(this.flag_2835);
+            this.GB_Rebattle.Controls.Add(this.flag_0420);
+            this.GB_Rebattle.Controls.Add(this.L_SkyTower);
+            this.GB_Rebattle.Controls.Add(this.flag_2834);
+            this.GB_Rebattle.Controls.Add(this.flag_0419);
             this.GB_Rebattle.Controls.Add(this.flag_2828);
             this.GB_Rebattle.Controls.Add(this.flag_2830);
             this.GB_Rebattle.Controls.Add(this.flag_0182);
@@ -346,8 +352,8 @@
             this.GB_Rebattle.Controls.Add(this.flag_2829);
             this.GB_Rebattle.Controls.Add(this.flag_2822);
             this.GB_Rebattle.Controls.Add(this.flag_0252);
-            this.GB_Rebattle.Controls.Add(this.checkBox13);
-            this.GB_Rebattle.Controls.Add(this.checkBox14);
+            this.GB_Rebattle.Controls.Add(this.flag_2827);
+            this.GB_Rebattle.Controls.Add(this.flag_0178);
             this.GB_Rebattle.Controls.Add(this.flag_2826);
             this.GB_Rebattle.Controls.Add(this.flag_0177);
             this.GB_Rebattle.Controls.Add(this.flag_2823);
@@ -375,29 +381,29 @@
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
             // 
-            // checkBox3
+            // flag_2834
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox3.Location = new System.Drawing.Point(172, 69);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(105, 17);
-            this.checkBox3.TabIndex = 73;
-            this.checkBox3.Text = "Lati@s Captured";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.Visible = false;
+            this.flag_2834.AutoSize = true;
+            this.flag_2834.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2834.Location = new System.Drawing.Point(172, 77);
+            this.flag_2834.Name = "flag_2834";
+            this.flag_2834.Size = new System.Drawing.Size(125, 17);
+            this.flag_2834.TabIndex = 73;
+            this.flag_2834.Text = "(OR) Latias Captured";
+            this.flag_2834.UseVisualStyleBackColor = true;
+            this.flag_2834.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox4
+            // flag_0419
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox4.Location = new System.Drawing.Point(172, 54);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(106, 17);
-            this.checkBox4.TabIndex = 72;
-            this.checkBox4.Text = "Lati@s Defeated";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.Visible = false;
+            this.flag_0419.AutoSize = true;
+            this.flag_0419.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0419.Location = new System.Drawing.Point(172, 62);
+            this.flag_0419.Name = "flag_0419";
+            this.flag_0419.Size = new System.Drawing.Size(126, 17);
+            this.flag_0419.TabIndex = 72;
+            this.flag_0419.Text = "(OR) Latias Defeated";
+            this.flag_0419.UseVisualStyleBackColor = true;
+            this.flag_0419.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_2828
             // 
@@ -499,7 +505,7 @@
             // 
             this.flag_2824.AutoSize = true;
             this.flag_2824.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2824.Location = new System.Drawing.Point(172, 160);
+            this.flag_2824.Location = new System.Drawing.Point(172, 178);
             this.flag_2824.Name = "flag_2824";
             this.flag_2824.Size = new System.Drawing.Size(114, 17);
             this.flag_2824.TabIndex = 61;
@@ -511,7 +517,7 @@
             // 
             this.flag_0172.AutoSize = true;
             this.flag_0172.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0172.Location = new System.Drawing.Point(172, 145);
+            this.flag_0172.Location = new System.Drawing.Point(172, 163);
             this.flag_0172.Name = "flag_0172";
             this.flag_0172.Size = new System.Drawing.Size(115, 17);
             this.flag_0172.TabIndex = 60;
@@ -523,7 +529,7 @@
             // 
             this.flag_2821.AutoSize = true;
             this.flag_2821.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2821.Location = new System.Drawing.Point(172, 122);
+            this.flag_2821.Location = new System.Drawing.Point(172, 146);
             this.flag_2821.Name = "flag_2821";
             this.flag_2821.Size = new System.Drawing.Size(110, 17);
             this.flag_2821.TabIndex = 59;
@@ -535,7 +541,7 @@
             // 
             this.flag_0260.AutoSize = true;
             this.flag_0260.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0260.Location = new System.Drawing.Point(172, 107);
+            this.flag_0260.Location = new System.Drawing.Point(172, 131);
             this.flag_0260.Name = "flag_0260";
             this.flag_0260.Size = new System.Drawing.Size(111, 17);
             this.flag_0260.TabIndex = 58;
@@ -547,7 +553,7 @@
             // 
             this.flag_2842.AutoSize = true;
             this.flag_2842.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2842.Location = new System.Drawing.Point(172, 31);
+            this.flag_2842.Location = new System.Drawing.Point(172, 40);
             this.flag_2842.Name = "flag_2842";
             this.flag_2842.Size = new System.Drawing.Size(107, 17);
             this.flag_2842.TabIndex = 57;
@@ -559,7 +565,7 @@
             // 
             this.flag_0945.AutoSize = true;
             this.flag_0945.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0945.Location = new System.Drawing.Point(172, 16);
+            this.flag_0945.Location = new System.Drawing.Point(172, 25);
             this.flag_0945.Name = "flag_0945";
             this.flag_0945.Size = new System.Drawing.Size(108, 17);
             this.flag_0945.TabIndex = 56;
@@ -715,7 +721,7 @@
             // 
             this.flag_2832.AutoSize = true;
             this.flag_2832.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2832.Location = new System.Drawing.Point(172, 198);
+            this.flag_2832.Location = new System.Drawing.Point(172, 210);
             this.flag_2832.Name = "flag_2832";
             this.flag_2832.Size = new System.Drawing.Size(116, 17);
             this.flag_2832.TabIndex = 43;
@@ -759,31 +765,29 @@
             this.flag_0252.UseVisualStyleBackColor = true;
             this.flag_0252.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox13
+            // flag_2827
             // 
-            this.checkBox13.AutoSize = true;
-            this.checkBox13.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox13.Location = new System.Drawing.Point(172, 470);
-            this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(105, 17);
-            this.checkBox13.TabIndex = 37;
-            this.checkBox13.Text = "Virizion Captured";
-            this.checkBox13.UseVisualStyleBackColor = true;
-            this.checkBox13.Visible = false;
-            this.checkBox13.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_2827.AutoSize = true;
+            this.flag_2827.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2827.Location = new System.Drawing.Point(172, 470);
+            this.flag_2827.Name = "flag_2827";
+            this.flag_2827.Size = new System.Drawing.Size(105, 17);
+            this.flag_2827.TabIndex = 37;
+            this.flag_2827.Text = "Virizion Captured";
+            this.flag_2827.UseVisualStyleBackColor = true;
+            this.flag_2827.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // checkBox14
+            // flag_0178
             // 
-            this.checkBox14.AutoSize = true;
-            this.checkBox14.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.checkBox14.Location = new System.Drawing.Point(172, 455);
-            this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(106, 17);
-            this.checkBox14.TabIndex = 36;
-            this.checkBox14.Text = "Virizion Defeated";
-            this.checkBox14.UseVisualStyleBackColor = true;
-            this.checkBox14.Visible = false;
-            this.checkBox14.Click += new System.EventHandler(this.toggleFlag);
+            this.flag_0178.AutoSize = true;
+            this.flag_0178.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0178.Location = new System.Drawing.Point(172, 455);
+            this.flag_0178.Name = "flag_0178";
+            this.flag_0178.Size = new System.Drawing.Size(106, 17);
+            this.flag_0178.TabIndex = 36;
+            this.flag_0178.Text = "Virizion Defeated";
+            this.flag_0178.UseVisualStyleBackColor = true;
+            this.flag_0178.Click += new System.EventHandler(this.toggleFlag);
             // 
             // flag_2826
             // 
@@ -813,7 +817,7 @@
             // 
             this.flag_2823.AutoSize = true;
             this.flag_2823.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2823.Location = new System.Drawing.Point(172, 183);
+            this.flag_2823.Location = new System.Drawing.Point(172, 195);
             this.flag_2823.Name = "flag_2823";
             this.flag_2823.Size = new System.Drawing.Size(108, 17);
             this.flag_2823.TabIndex = 33;
@@ -837,7 +841,7 @@
             // 
             this.flag_2833.AutoSize = true;
             this.flag_2833.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2833.Location = new System.Drawing.Point(172, 236);
+            this.flag_2833.Location = new System.Drawing.Point(172, 242);
             this.flag_2833.Name = "flag_2833";
             this.flag_2833.Size = new System.Drawing.Size(107, 17);
             this.flag_2833.TabIndex = 29;
@@ -849,7 +853,7 @@
             // 
             this.flag_0184.AutoSize = true;
             this.flag_0184.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0184.Location = new System.Drawing.Point(172, 221);
+            this.flag_0184.Location = new System.Drawing.Point(172, 227);
             this.flag_0184.Name = "flag_0184";
             this.flag_0184.Size = new System.Drawing.Size(108, 17);
             this.flag_0184.TabIndex = 28;
@@ -1158,6 +1162,39 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "Volcanic Ash:";
             // 
+            // L_SkyTower
+            // 
+            this.L_SkyTower.AutoSize = true;
+            this.L_SkyTower.Location = new System.Drawing.Point(215, 12);
+            this.L_SkyTower.Name = "L_SkyTower";
+            this.L_SkyTower.Size = new System.Drawing.Size(62, 13);
+            this.L_SkyTower.TabIndex = 20;
+            this.L_SkyTower.Text = "*Sky Tower";
+            // 
+            // flag_2835
+            // 
+            this.flag_2835.AutoSize = true;
+            this.flag_2835.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2835.Location = new System.Drawing.Point(172, 108);
+            this.flag_2835.Name = "flag_2835";
+            this.flag_2835.Size = new System.Drawing.Size(123, 17);
+            this.flag_2835.TabIndex = 75;
+            this.flag_2835.Text = "(AS) Latios Captured";
+            this.flag_2835.UseVisualStyleBackColor = true;
+            this.flag_2835.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0420
+            // 
+            this.flag_0420.AutoSize = true;
+            this.flag_0420.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0420.Location = new System.Drawing.Point(172, 93);
+            this.flag_0420.Name = "flag_0420";
+            this.flag_0420.Size = new System.Drawing.Size(124, 17);
+            this.flag_0420.TabIndex = 74;
+            this.flag_0420.Text = "(AS) Latios Defeated";
+            this.flag_0420.UseVisualStyleBackColor = true;
+            this.flag_0420.Click += new System.EventHandler(this.toggleFlag);
+            // 
             // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1241,8 +1278,8 @@
         private System.Windows.Forms.CheckBox flag_2829;
         private System.Windows.Forms.CheckBox flag_2822;
         private System.Windows.Forms.CheckBox flag_0252;
-        private System.Windows.Forms.CheckBox checkBox13;
-        private System.Windows.Forms.CheckBox checkBox14;
+        private System.Windows.Forms.CheckBox flag_2827;
+        private System.Windows.Forms.CheckBox flag_0178;
         private System.Windows.Forms.CheckBox flag_2826;
         private System.Windows.Forms.CheckBox flag_0177;
         private System.Windows.Forms.CheckBox flag_2823;
@@ -1273,9 +1310,12 @@
         private System.Windows.Forms.CheckBox flag_0172;
         private System.Windows.Forms.CheckBox flag_2821;
         private System.Windows.Forms.CheckBox flag_0260;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox flag_2834;
+        private System.Windows.Forms.CheckBox flag_0419;
         private System.Windows.Forms.MaskedTextBox MT_Ash;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_SkyTower;
+        private System.Windows.Forms.CheckBox flag_2835;
+        private System.Windows.Forms.CheckBox flag_0420;
     }
 }
