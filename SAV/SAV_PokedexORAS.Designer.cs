@@ -54,12 +54,11 @@
             this.B_FillDex = new System.Windows.Forms.Button();
             this.GB_Language = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.MT_Count = new System.Windows.Forms.MaskedTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.CHK_F1 = new System.Windows.Forms.CheckBox();
             this.TB_Spinda = new System.Windows.Forms.TextBox();
             this.L_Spinda = new System.Windows.Forms.Label();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.GB_Language.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -87,11 +86,11 @@
             // CHK_P1
             // 
             this.CHK_P1.AutoSize = true;
-            this.CHK_P1.Location = new System.Drawing.Point(12, 93);
+            this.CHK_P1.Location = new System.Drawing.Point(12, 86);
             this.CHK_P1.Name = "CHK_P1";
-            this.CHK_P1.Size = new System.Drawing.Size(96, 17);
+            this.CHK_P1.Size = new System.Drawing.Size(69, 17);
             this.CHK_P1.TabIndex = 3;
-            this.CHK_P1.Text = "Native (ORAS)";
+            this.CHK_P1.Text = "Obtained";
             this.CHK_P1.UseVisualStyleBackColor = true;
             this.CHK_P1.Click += new System.EventHandler(this.changePartitionBool);
             // 
@@ -287,11 +286,11 @@
             // 
             // B_GiveAll
             // 
-            this.B_GiveAll.Location = new System.Drawing.Point(251, 11);
+            this.B_GiveAll.Location = new System.Drawing.Point(149, 11);
             this.B_GiveAll.Name = "B_GiveAll";
             this.B_GiveAll.Size = new System.Drawing.Size(60, 23);
             this.B_GiveAll.TabIndex = 23;
-            this.B_GiveAll.Text = "Give All";
+            this.B_GiveAll.Text = "Check All";
             this.B_GiveAll.UseVisualStyleBackColor = true;
             this.B_GiveAll.Click += new System.EventHandler(this.B_GiveAll_Click);
             // 
@@ -333,20 +332,40 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.CHK_P9);
+            this.groupBox1.Controls.Add(this.MT_Count);
             this.groupBox1.Controls.Add(this.CHK_P8);
             this.groupBox1.Controls.Add(this.CHK_P7);
             this.groupBox1.Controls.Add(this.CHK_P6);
-            this.groupBox1.Location = new System.Drawing.Point(148, 176);
+            this.groupBox1.Location = new System.Drawing.Point(148, 154);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(115, 89);
+            this.groupBox1.Size = new System.Drawing.Size(115, 111);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Encountered";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 85);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "Battled:";
+            // 
+            // MT_Count
+            // 
+            this.MT_Count.Location = new System.Drawing.Point(63, 82);
+            this.MT_Count.Mask = "00000";
+            this.MT_Count.Name = "MT_Count";
+            this.MT_Count.Size = new System.Drawing.Size(38, 20);
+            this.MT_Count.TabIndex = 31;
+            this.MT_Count.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Count.TextChanged += new System.EventHandler(this.changeEncounteredCount);
+            // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.CHK_F1);
             this.groupBox2.Controls.Add(this.CHK_P1);
             this.groupBox2.Controls.Add(this.CHK_P5);
             this.groupBox2.Controls.Add(this.CHK_P4);
@@ -354,21 +373,10 @@
             this.groupBox2.Controls.Add(this.CHK_P2);
             this.groupBox2.Location = new System.Drawing.Point(148, 40);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(115, 130);
+            this.groupBox2.Size = new System.Drawing.Size(115, 108);
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Owned";
-            // 
-            // CHK_F1
-            // 
-            this.CHK_F1.AutoSize = true;
-            this.CHK_F1.Location = new System.Drawing.Point(12, 108);
-            this.CHK_F1.Name = "CHK_F1";
-            this.CHK_F1.Size = new System.Drawing.Size(61, 17);
-            this.CHK_F1.TabIndex = 13;
-            this.CHK_F1.Text = "Foreign";
-            this.CHK_F1.UseVisualStyleBackColor = true;
-            this.CHK_F1.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // TB_Spinda
             // 
@@ -389,32 +397,11 @@
             this.L_Spinda.TabIndex = 30;
             this.L_Spinda.Text = "Spinda:";
             // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(207, 13);
-            this.maskedTextBox1.Mask = "00000";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(38, 20);
-            this.maskedTextBox1.TabIndex = 31;
-            this.maskedTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.maskedTextBox1.TextChanged += new System.EventHandler(this.changeEncounteredCount);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(158, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 32;
-            this.label2.Text = "Battled:";
-            // 
             // SAV_PokedexORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 272);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.maskedTextBox1);
             this.Controls.Add(this.L_Spinda);
             this.Controls.Add(this.TB_Spinda);
             this.Controls.Add(this.groupBox2);
@@ -473,10 +460,9 @@
         private System.Windows.Forms.GroupBox GB_Language;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox CHK_F1;
         private System.Windows.Forms.TextBox TB_Spinda;
         private System.Windows.Forms.Label L_Spinda;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.MaskedTextBox MT_Count;
         private System.Windows.Forms.Label label2;
     }
 }

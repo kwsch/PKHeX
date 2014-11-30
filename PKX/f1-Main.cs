@@ -5165,7 +5165,7 @@ namespace PKHeX
             int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x68;
 
             // Set the [Species/Gender/Shiny] Owned Flag
-            savefile[dexoff + shiftoff + (species - 1) / 8 + 0x8] |= (byte)(1 << ((species - 1) % 8));
+            savefile[dexoff + shiftoff + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
 
             // Owned quality flag
             if (origin < 0x18 && species < 650 && !savegame_oras) // Pre 650 for X/Y, and not for ORAS; Set the Foreign Owned Flag

@@ -30,7 +30,6 @@ namespace PKHeX
         public int sv = 0;
         public bool[,] specbools = new bool[9, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
-        public bool[] foreignbools = new bool[0x52 * 8];
         bool editing = true;
         private void Setup()
         {
@@ -88,15 +87,6 @@ namespace PKHeX
             for (int b = 0; b < (721); b++) // 721 Species
                 for (int i = 0; i < 7; i++) // 7 Languages
                     langbools[i, b] = LangRegion[7 * b + i];
-
-            // Fill Foreign array
-            {
-                byte[] foreigndata = new Byte[0x52];
-                Array.Copy(sav, dexoffset + 0x688, foreigndata, 0, 0x52);
-                BitArray ForeignRegion = new BitArray(foreigndata);
-                for (int b = 0; b < (0x52 * 8); b++)
-                    foreignbools[b] = ForeignRegion[b];
-            }
         }
         private void changeCBSpecies(object sender, EventArgs e)
         {
@@ -144,10 +134,6 @@ namespace PKHeX
                 CP[i].Checked = specbools[i, pk-1];
             for (int i = 0; i < 7; i++)
                 CL[i].Checked = langbools[i, pk-1];
-
-            if (pk < 650) { CHK_F1.Enabled = true; CHK_F1.Checked = foreignbools[pk - 1]; }
-            else { CHK_F1.Enabled = CHK_F1.Checked = false; }
-
             {
                 CHK_P1.Enabled = true;
 
@@ -164,7 +150,7 @@ namespace PKHeX
 
             // Load Encountered Count
             editing = true;
-            maskedTextBox1.Text = BitConverter.ToUInt16(sav, dexoffset + 0x6E8 + (pk - 1) * 2).ToString();
+            MT_Count.Text = BitConverter.ToUInt16(sav, dexoffset + 0x686 + (pk - 1) * 2).ToString();
             editing = false;
         }
         private void removedropCB(object sender, KeyEventArgs e)
@@ -194,8 +180,6 @@ namespace PKHeX
             specbools[6, (species - 1)] = CHK_P7.Checked;
             specbools[7, (species - 1)] = CHK_P8.Checked;
             specbools[8, (species - 1)] = CHK_P9.Checked;
-            if (CHK_F1.Enabled) // species < 650 // (1-649)
-                foreignbools[species - 1] = CHK_F1.Checked;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -241,16 +225,7 @@ namespace PKHeX
 
                 Array.Copy(ldata, 0, sav, sv + dexoffset + 0x400, 0x27C);
             }
-
-            // Return Foreign Array
-            {
-                byte[] foreigndata = new byte[0x52];
-                for (int i = 0; i < 0x52 * 8; i++)
-                    if (foreignbools[i])
-                        foreigndata[i / 8] |= (byte)(1 << i % 8);
-                Array.Copy(foreigndata, 0, sav, sv + dexoffset + 0x688, 0x52);
-            }
-
+            
             // Store Spinda Spot
             try
             {
@@ -276,10 +251,6 @@ namespace PKHeX
             if (CHK_P1.Enabled)
             {
                 CHK_P1.Checked = !(ModifierKeys == Keys.Control);
-            }
-            if (CHK_F1.Enabled)
-            {
-                CHK_F1.Checked = !(ModifierKeys == Keys.Control);
             }
             int index = LB_Species.SelectedIndex+1;
             DataTable spectable = PKX.SpeciesTable();
@@ -519,7 +490,7 @@ namespace PKHeX
 
             // Encounter Count Writing (999*all species)
             for (int i = 0; i < 0x2D1; i++)
-                Array.Copy(BitConverter.GetBytes(999), 0, sav, sv + 0x5400 + 0x15686 + 8 + i * 2, 2);
+                Array.Copy(BitConverter.GetBytes(999), 0, sav, sv + 0x5400 + 0x15686 + i * 2, 2);
 
             // Forms Bool Writing
             for (int i = 0; i < 0x9C; i++)
@@ -535,7 +506,7 @@ namespace PKHeX
         private void changeEncounteredCount(object sender, EventArgs e)
         {
             if (!editing)
-                Array.Copy(BitConverter.GetBytes(Util.ToUInt32(maskedTextBox1)), 0, sav, dexoffset + 0x6EA + (LB_Species.SelectedIndex - 1) * 2, 2);
+                Array.Copy(BitConverter.GetBytes(Math.Min(0xFFFF,Util.ToUInt32(MT_Count))), 0, sav, dexoffset + 0x686 + (LB_Species.SelectedIndex - 1) * 2, 2);
         }
     }
 }
