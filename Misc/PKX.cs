@@ -2444,6 +2444,14 @@ namespace PKHeX
             // Done
             return ekxdata;
         }
+        public static ushort getCHK(byte[] data)
+        {
+            ushort chk = 0;
+            for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
+                chk += BitConverter.ToUInt16(data, i);
+
+            return chk;
+        }
         public static bool verifychk(byte[] input)
         {
             ushort checksum = 0;
@@ -2456,16 +2464,17 @@ namespace PKHeX
             }
             else
             {
-                if (input.Length == 236 || input.Length == 220) // Gen 4/5
-                    Array.Resize(ref input, 136);   // strip party bytes
+                if (input.Length == 236 || input.Length == 220)      // Gen 4/5
+                    Array.Resize(ref input, 136);                    // strip party bytes
+                else if (input.Length == 232 || input.Length == 260) // Gen 6
+                    Array.Resize(ref input, 232);                    // strip party bytes
+                else throw new Exception("Wrong sized input array to verifychecksum");
 
-                else if (input.Length == 260)                   // Gen 6
-                    Array.Resize(ref input, 232);   // strip party bytes
-
+                ushort chk = 0;
                 for (int i = 8; i < input.Length; i += 2)
-                    checksum += BitConverter.ToUInt16(input, i);
+                    chk += BitConverter.ToUInt16(input, i);
 
-                return (checksum == BitConverter.ToUInt16(input, 0x6));
+                return (chk == BitConverter.ToUInt16(input, 0x6));
             }
         }
         public static UInt16 getPSV(UInt32 PID)
@@ -2723,14 +2732,11 @@ namespace PKHeX
             motlang = pkx[0xE3];
 
             if (mgenderflag == 0)
-            {
                 mgenderstring = "♂";
-            }
             else if (mgenderflag == 1)
-            {
                 mgenderstring = "♀";
-            }
-            else mgenderstring = "-";
+            else 
+                mgenderstring = "-";
 
             mhptype = (15 * ((mHP_IV & 1) + 2 * (mATK_IV & 1) + 4 * (mDEF_IV & 1) + 8 * (mSPE_IV & 1) + 16 * (mSPA_IV & 1) + 32 * (mSPD_IV & 1))) / 63 + 1;
 
@@ -2742,13 +2748,9 @@ namespace PKHeX
             if (!Convert.ToBoolean(misnick))
             {
                 if (mnicknamestr.Contains((char)0xE08F))
-                {
                     mnicknamestr = Regex.Replace(mnicknamestr, "\uE08F", "\u2640");
-                }
                 else if (mnicknamestr.Contains((char)0xE08E))
-                {
                     mnicknamestr = Regex.Replace(mnicknamestr, "\uE08E", "\u2642");
-                }
             }
             {
                 int species = BitConverter.ToInt16(pkx, 0x08); // Get Species
@@ -2764,13 +2766,9 @@ namespace PKHeX
                 {
                     file = "_" + species.ToString();
                     if (altforms > 0) // Alt Form Handling
-                    {
                         file = file + "_" + altforms.ToString();
-                    }
                     else if ((species == 521) && (gender == 1))   // Unfezant
-                    {
                         file = "_" + species.ToString() + "f";
-                    }
                 }
                 if (species == 0)
                     file = "_0";

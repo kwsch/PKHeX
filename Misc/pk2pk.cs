@@ -1044,12 +1044,12 @@ namespace PKHeX
 
             // Nickname and OT Name handling...
             byte[][] trash = new byte[8][];
-            trash[1] = new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 };
-            trash[2] = new byte[] { 0x18, 0x20, 0x0D, 0x02, 0x42, 00, 00, 00, 00, 00, 00, 00, 0x48, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
-            trash[3] = new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 00, 00, 00, 00, 00, 00, 00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
-            trash[4] = new byte[] { 0x54, 0x20, 0x0D, 0x02, 0x42, 00, 00, 00, 00, 00, 00, 00, 0x84, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
-            trash[5] = new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 00, 00, 00, 00, 00, 00, 00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
-            trash[7] = new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 00, 00, 00, 00, 00, 00, 00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
+            trash[1] = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            trash[2] = new byte[] { 0x18, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x48, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
+            trash[3] = new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
+            trash[4] = new byte[] { 0x54, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x84, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
+            trash[5] = new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
+            trash[7] = new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF };
 
             // copy in trash bytes to Nickname field
             Array.Copy(trash[pk3[18]], 0, pk4, 0x48 + 4, trash[pk3[18]].Length); // Nickname
@@ -1104,16 +1104,14 @@ namespace PKHeX
                     if (val == 0xFF || i == 10)
                     {
                         // Nickname is capped here
-                        pk4[0x48 + 2 * i] = 0xFF;
-                        pk4[0x49 + 2 * i] = 0xFF;
+                        Array.Copy(BitConverter.GetBytes(0xFFFF), 0, pk4, 0x48 + i * 2, 2);
                         break;
                     }
                     else
                     {
                         nickname += (char)chartable.Rows[val][2];
                         int newval = (int)chartable.Rows[val][1];
-                        pk4[0x48 + 2 * i] = (byte)(newval & 0xFF);
-                        pk4[0x49 + 2 * i] = (byte)(newval >> 8);
+                        Array.Copy(BitConverter.GetBytes(newval), 0, pk4, 0x48 + i * 2, 2);
                     }
                 }
 
@@ -1133,16 +1131,14 @@ namespace PKHeX
                     if (val == 0xFF || i == 7)
                     {
                         // Nickname is capped here
-                        pk4[0x68 + 2 * i] = 0xFF;
-                        pk4[0x69 + 2 * i] = 0xFF;
+                        Array.Copy(BitConverter.GetBytes(0xFFFF), 0, pk4, 0x68 + i * 2, 2);
                         break;
                     }
                     else
                     {
                         trainer += (char)chartable.Rows[val][2];
                         int newval = (int)chartable.Rows[val][1];
-                        pk4[0x68 + 2 * i] = (byte)(newval & 0xFF);
-                        pk4[0x69 + 2 * i] = (byte)(newval >> 8);
+                        Array.Copy(BitConverter.GetBytes(newval), 0, pk4, 0x68 + i * 2, 2);
                     }
                 }
             }
@@ -1174,7 +1170,7 @@ namespace PKHeX
             // pk5[0x0A] = pk5[0x0B] = 0;
 
             for (int i = 0; i < 4; i++) // fix PP
-                pk5[0x30 + i] = (byte)(PKX.getMovePP(BitConverter.ToUInt16(pk5, 0x28 + 2 * i),pk5[0x34+i]));
+                pk5[0x30 + i] = (byte)(PKX.getMovePP(BitConverter.ToUInt16(pk5, 0x28 + 2 * i), pk5[0x34 + i]));
 
             // fix nature
             pk5[0x41] = (byte)(BitConverter.ToUInt32(pk5, 0) % 0x19);
@@ -1251,7 +1247,7 @@ namespace PKHeX
             // Fix Checksum
             ushort chk = 0;
             for (int i = 8; i < 136; i += 2) // Loop through the entire PKX
-                chk += (ushort)(pk5[i] + pk5[i + 1] * 0x100);
+                chk += BitConverter.ToUInt16(pk5, i);
 
             // Apply New Checksum
             Array.Copy(BitConverter.GetBytes(chk), 0, pk5, 06, 2);
@@ -1320,7 +1316,7 @@ namespace PKHeX
             {
                 if ((pk5[0x48 + i] == 0xFF) && pk5[0x48 + i + 1] == 0xFF)   // If given character is a terminator, stop copying. There are no trash bytes or terminators in Gen 6!
                     break;
-                nicknamestr += (char)(pk5[0x48 + i] + pk5[0x49 + i] * 0x100);
+                nicknamestr += (char)(BitConverter.ToUInt16(pk5, 0x48 + i));
             }
             // Decapitalize Logic
             if ((nicknamestr.Length > 0) && (pk6[0x77] >> 7 == 0))
@@ -1334,12 +1330,12 @@ namespace PKHeX
             // Copy OT
             for (int i = 0; i < 24; i += 2)
             {
-                if ((pk5[0x68 + i] == 0xFF) && pk5[0x68 + i + 1] == 0xFF)   // If terminated, stop
+                if (BitConverter.ToUInt16(pk5, 0x68 + i) == 0xFFFF)  // If terminated, stop
                     break;
-                
-                pk6[0xB0 + i] = pk5[0x68 + i];
-                pk6[0xB0 + i + 1] = pk5[0x68 + i + 1];
+                else 
+                    Array.Copy(pk5, 0x68 + i, pk6, 0xB0 + i, 2); // Copy 16bit Character
             }
+
             // Copy Met Info
             for (int i = 0; i < 0x6; i++)   // Dates are kept upon transfer
                 pk6[0xD1 + i] = pk5[0x78 + i];
@@ -1401,55 +1397,55 @@ namespace PKHeX
 
             // Copy Ribbons to their new locations.
             int bx30 = 0;
-            // bx30 += 0;                           // //Kalos Champ    - New Ribbon
-            bx30 += (((pk5[0x3E] & 0x10) >> 4) << 1); // Hoenn Champion
-            bx30 += (((pk5[0x24] & 0x01) >> 0) << 2); // Sinnoh Champ
-            // bx30 += 0;                           // //Best Friend    - New Ribbon
-            // bx30 += 0;                           // //Training       - New Ribbon
-            // bx30 += 0;                           // //Skillful       - New Ribbon
-            // bx30 += 0;                           // //Expert         - New Ribbon
-            bx30 += (((pk5[0x3F] & 0x01) >> 0) << 7); // Effort Ribbon
+            // bx30 |= 0;                             // Kalos Champ - New Kalos Ribbon
+            bx30 |= (((pk5[0x3E] & 0x10) >> 4) << 1); // Hoenn Champion
+            bx30 |= (((pk5[0x24] & 0x01) >> 0) << 2); // Sinnoh Champ
+            // bx30 |= 0;                             // Best Friend - New Kalos Ribbon
+            // bx30 |= 0;                             // Training    - New Kalos Ribbon
+            // bx30 |= 0;                             // Skillful    - New Kalos Ribbon
+            // bx30 |= 0;                             // Expert      - New Kalos Ribbon
+            bx30 |= (((pk5[0x3F] & 0x01) >> 0) << 7); // Effort Ribbon
             pk6[0x30] = (byte)bx30;
 
             int bx31 = 0;
-            bx31 += (((pk5[0x24] & 0x80) >> 7) << 0);  // Alert
-            bx31 += (((pk5[0x25] & 0x01) >> 0) << 1);  // Shock
-            bx31 += (((pk5[0x25] & 0x02) >> 1) << 2);  // Downcast
-            bx31 += (((pk5[0x25] & 0x04) >> 2) << 3);  // Careless
-            bx31 += (((pk5[0x25] & 0x08) >> 3) << 4);  // Relax
-            bx31 += (((pk5[0x25] & 0x10) >> 4) << 5);  // Snooze
-            bx31 += (((pk5[0x25] & 0x20) >> 5) << 6);  // Smile
-            bx31 += (((pk5[0x25] & 0x40) >> 6) << 7);  // Gorgeous
+            bx31 |= (((pk5[0x24] & 0x80) >> 7) << 0);  // Alert
+            bx31 |= (((pk5[0x25] & 0x01) >> 0) << 1);  // Shock
+            bx31 |= (((pk5[0x25] & 0x02) >> 1) << 2);  // Downcast
+            bx31 |= (((pk5[0x25] & 0x04) >> 2) << 3);  // Careless
+            bx31 |= (((pk5[0x25] & 0x08) >> 3) << 4);  // Relax
+            bx31 |= (((pk5[0x25] & 0x10) >> 4) << 5);  // Snooze
+            bx31 |= (((pk5[0x25] & 0x20) >> 5) << 6);  // Smile
+            bx31 |= (((pk5[0x25] & 0x40) >> 6) << 7);  // Gorgeous
             pk6[0x31] = (byte)bx31;
 
             int bx32 = 0;
-            bx32 += (((pk5[0x25] & 0x80) >> 7) << 0);  // Royal
-            bx32 += (((pk5[0x26] & 0x01) >> 0) << 1);  // Gorgeous Royal
-            bx32 += (((pk5[0x3E] & 0x80) >> 7) << 2);  // Artist
-            bx32 += (((pk5[0x26] & 0x02) >> 1) << 3);  // Footprint
-            bx32 += (((pk5[0x26] & 0x04) >> 2) << 4);  // Record
-            bx32 += (((pk5[0x26] & 0x10) >> 4) << 5);  // Legend
-            bx32 += (((pk5[0x3F] & 0x10) >> 4) << 6);  // Country
-            bx32 += (((pk5[0x3F] & 0x20) >> 5) << 7);  // National
+            bx32 |= (((pk5[0x25] & 0x80) >> 7) << 0);  // Royal
+            bx32 |= (((pk5[0x26] & 0x01) >> 0) << 1);  // Gorgeous Royal
+            bx32 |= (((pk5[0x3E] & 0x80) >> 7) << 2);  // Artist
+            bx32 |= (((pk5[0x26] & 0x02) >> 1) << 3);  // Footprint
+            bx32 |= (((pk5[0x26] & 0x04) >> 2) << 4);  // Record
+            bx32 |= (((pk5[0x26] & 0x10) >> 4) << 5);  // Legend
+            bx32 |= (((pk5[0x3F] & 0x10) >> 4) << 6);  // Country
+            bx32 |= (((pk5[0x3F] & 0x20) >> 5) << 7);  // National
             pk6[0x32] = (byte)bx32;
 
             int bx33 = 0;
-            bx33 += (((pk5[0x3F] & 0x40) >> 6) << 0);  // Earth
-            bx33 += (((pk5[0x3F] & 0x80) >> 7) << 1);  // World
-            bx33 += (((pk5[0x27] & 0x04) >> 2) << 2);  // Classic
-            bx33 += (((pk5[0x27] & 0x08) >> 3) << 3);  // Premier
-            bx33 += (((pk5[0x26] & 0x08) >> 3) << 4);  // Event
-            bx33 += (((pk5[0x26] & 0x40) >> 6) << 5);  // Birthday
-            bx33 += (((pk5[0x26] & 0x80) >> 7) << 6);  // Special
-            bx33 += (((pk5[0x27] & 0x01) >> 0) << 7);  // Souvenir
+            bx33 |= (((pk5[0x3F] & 0x40) >> 6) << 0);  // Earth
+            bx33 |= (((pk5[0x3F] & 0x80) >> 7) << 1);  // World
+            bx33 |= (((pk5[0x27] & 0x04) >> 2) << 2);  // Classic
+            bx33 |= (((pk5[0x27] & 0x08) >> 3) << 3);  // Premier
+            bx33 |= (((pk5[0x26] & 0x08) >> 3) << 4);  // Event
+            bx33 |= (((pk5[0x26] & 0x40) >> 6) << 5);  // Birthday
+            bx33 |= (((pk5[0x26] & 0x80) >> 7) << 6);  // Special
+            bx33 |= (((pk5[0x27] & 0x01) >> 0) << 7);  // Souvenir
             pk6[0x33] = (byte)bx33;
 
             int bx34 = 0;
-            bx34 += (((pk5[0x27] & 0x02) >> 1) << 0);  // Wishing Ribbon
-            bx34 += (((pk5[0x3F] & 0x02) >> 1) << 1);  // Battle Champion
-            bx34 += (((pk5[0x3F] & 0x04) >> 2) << 2);  // Regional Champion
-            bx34 += (((pk5[0x3F] & 0x08) >> 3) << 3);  // National Champion
-            bx34 += (((pk5[0x26] & 0x20) >> 5) << 4);  // World Champion
+            bx34 |= (((pk5[0x27] & 0x02) >> 1) << 0);  // Wishing Ribbon
+            bx34 |= (((pk5[0x3F] & 0x02) >> 1) << 1);  // Battle Champion
+            bx34 |= (((pk5[0x3F] & 0x04) >> 2) << 2);  // Regional Champion
+            bx34 |= (((pk5[0x3F] & 0x08) >> 3) << 3);  // National Champion
+            bx34 |= (((pk5[0x26] & 0x20) >> 5) << 4);  // World Champion
             pk6[0x34] = (byte)bx34;
 
             // 
@@ -1488,9 +1484,9 @@ namespace PKHeX
                 Array.Copy(BitConverter.GetBytes(PID ^ 0x80000000), 0, pk6, 0x18, 4);
 
             // Fix Checksum
-            uint chk = 0;
+            ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                chk += (uint)(pk6[i] + pk6[i + 1] * 0x100);
+                chk += BitConverter.ToUInt16(pk6, i);
 
             // Apply New Checksum
             Array.Copy(BitConverter.GetBytes(chk), 0, pk6, 06, 2);
