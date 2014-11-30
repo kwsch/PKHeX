@@ -342,14 +342,40 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: EXP now calculates and sets properly; switched from formulas (rounding errata) to a lookup table.
  - Changed: Reorganized and cleaned up the source code in prep for future usage/updates.
 
-11/05/14 - New Update: (Stable X/Y) 
+11/05/14 - New Update: (6200) 
  - Fixed: Casting error for base happiness.
 
-11/21/14 - New Update:
+11/21/14 - New Update: (1833)
  - Added: Basic ORAS Support
 
-11/22/14 - New Update:
+11/22/14 - New Update: (4750)
  - Improved ORAS support
 
-11/26/14 - New Update
- - Improved ORAS support with more features.
+11/26/14 - New Update: (4500)
+ - Added: Remaining Save Editing tool buttons. O-Powers, Pokedex and Berry Trees have no interface but allow for a 'code' to be applied.
+ - - All O-Powers, Full Pokedex, and Randomized & Repopulated Berry Trees (untested but based on Japanese CG codes). 
+ - Added: Many rebattle flags for the legendaries and Maison statuettes.
+ - Added: Secret Base editor, which is accessible via the "Other" tab. Beware, the game does not like illegal stuff. Giving all decorations will give every decoration *25 (the max).
+ - Improved: Give all Items (by holding ALT) in the Inventory Editor now works for both ORAS and X/Y; also works for Medicine and Berries.
+ - Fixed: Key Item issues in the Inventory Editor.
+ - Added: Drag & Drop rearranging / cloning / deleting in the Box. Drag Pokemon wherever you want; CTRL will overwrite and clone, ALT will overwrite, and no modifier pressed will swap the two slots.
+ - Many other things that I could list...
+
+11/30/14 - New Update: 
+ - Added: Cross compatibility improvements (Mono / Linux) thanks to SoujiSeta on GitHub.
+ - Fixed: Box Data Report will no longer output junk data for OR/AS saves. Thank you doiee & sniper_zero!
+ - Added: Clarification label on Deoxys Defeated flag. Thank you for the suggestion, Thundergod65!
+ - Fixed: Kyurem Black's abilities are now correct. Thank you Asia81!
+ - Fixed: OR/AS origin Pokemon will now show the Pentagon icon. Thank you Asia81!
+ - Fixed: Red / Blue / Yellow flutes re-added to the Inventory Editor. Thank you realrj!
+
+ - Added: Clone from Tabs to fill Box: Hold CTRL & ALT when left clicking to set the Pokemon from tabs to every slot in the current box.
+ - Added: Pokedex editing, and full Pokedex button functionality for OR/AS.
+ - Added: SaveDataFiler detection when loading the program; will load the most recent save.
+ - Added: Save autodetect re-loading for if you already had the program running. Click the "SAV: N/A" label above the right side tabs to trigger.
+ - Added: Secret Base flag count editing
+ - Added: Ash count editing (inside Event Flags)
+ - Added: Partially decrypted Powersaves game loading, view only.
+ - Added: Eon Ticket wondercard injection now adds the required data. It is now safe to add the extracted wondercard.
+ - Added: More rebattle flags; Virizion may not be correct but it's our best guess.
+ - - Rebattling Lati@s has yet to be ironed out, we haven't figured out how to go back to the island.
