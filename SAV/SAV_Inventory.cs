@@ -71,7 +71,7 @@ namespace PKHeX
         {
             int[] itemlist = new int[] {
                 000,001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,055,056,
-                057,058,059,060,061,062,063,064,065,066,067,068,069,070,071,072,073,074,075,
+                057,058,059,060,061,062,063,064,                    070,071,072,073,074,075,
                 076,077,078,079,080,081,082,083,084,085,086,087,088,089,090,091,092,093,094,
                 099,100,101,102,103,104,105,106,107,108,109,110,112,116,117,118,119,135,136,
                 213,214,215,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,
@@ -91,7 +91,7 @@ namespace PKHeX
             {
                 itemlist = new int[] {
                 000,001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,055,056,
-                057,058,059,060,061,062,063,064,            068,069,070,071,072,073,074,075,
+                057,058,059,060,061,062,063,064,065,066,067,068,069,070,071,072,073,074,075,
                 076,077,078,079,080,081,082,083,084,085,086,087,088,089,090,091,092,093,094,
                 099,100,101,102,103,104,105,106,107,108,109,110,112,116,117,118,119,135,136,
                 213,214,215,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,
@@ -338,9 +338,7 @@ namespace PKHeX
                 int itemindex = Array.IndexOf(Form1.itemlist, item);
                 int itemcnt = 0;
                 try 
-                {
-                    itemcnt = Convert.ToUInt16(dataGridView1.Rows[i].Cells[1].Value.ToString());
-                }
+                { itemcnt = Convert.ToUInt16(dataGridView1.Rows[i].Cells[1].Value.ToString()); }
                 catch { itemcnt = 0; }
 
                 if (itemindex == 0) // Compression of Empty Slots
@@ -354,15 +352,15 @@ namespace PKHeX
                     itemcnt = 995;
 
                 // Write Data into Save File
-                Array.Copy(BitConverter.GetBytes(itemindex), 0, sav, offset + 4 * (i - emptyslots), 2);
-                Array.Copy(BitConverter.GetBytes(itemcnt), 0, sav, offset + 4 * (i - emptyslots) + 2, 2);
+                Array.Copy(BitConverter.GetBytes(itemindex), 0, sav, offset + 4 * (i - emptyslots), 2); // item #
+                Array.Copy(BitConverter.GetBytes(itemcnt), 0, sav, offset + 4 * (i - emptyslots) + 2, 2); // count
             }
 
             // Delete Empty Trash
             for (int i = itemcount - emptyslots; i < itemcount; i++)
             {
-                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 0, 2);
-                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 2, 2);
+                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 0, 2); // item #
+                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 2, 2); // count
             }
 
             // Load New Button Color, after finished we'll load the new data.
