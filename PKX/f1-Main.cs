@@ -1448,26 +1448,26 @@ namespace PKHeX
             List<cbItem> origin_list = new List<cbItem>();
             // lazy text table... 8 columns
             string[] langlistorigin = new string[] {
-                // ID       // EN       // JP               // FR       // IT           // DE       // ES               // KO
-                    "27",   "OR",       "OR",               "OR",       "OR",           "OR",       "OR",               "OR",       
-                    "26",   "AS",       "AS",               "AS",       "AS",           "AS",       "AS",               "AS",
-                    "24",	"X",	    "X",	            "X",	    "X",	        "X",	    "X",	            "X",
-                    "25",	"Y",	    "Y",	            "Y",	    "Y",	        "Y",	    "Y",	            "Y",
-                    "20",	"White",	"ホワイト",	        "Blanche",	"Bianca",	    "Weiße",	"Blanca",	        "화이트",
-                    "21",	"Black",	"ブラック",	        "Noire",	"Nera",	        "Schwarze",	"Negra",	        "블랙",
-                    "22",	"White2",	"ホワイト2",	        "Blanche 2",	"Bianca2",	    "Weiße2",	"Blanca2",	        "화이트2",
-                    "23",	"Black2",	"ブラック2",	        "Noire 2",	"Nera2",	    "Schwarze2","Negra2",	        "블랙2",
-                    "10",	"Diamond",	"ダイヤモンド",	    "Diamant",	"Diamante", 	"Diamant",	"Diamante",	        "디아루가",
-                    "11",	"Pearl",	"パール",	        "Perle",	"Perla",	    "Perl",	    "Perla",	        "펄기아",
-                    "12",	"Platinum",	"プラチナ",	        "Platine",	"Platino",	    "Platin",	"Platino",	        "Pt 기라티나",
-                    "7",	"HeartGold","ハートゴールド",	"Or HeartGold","HeartGold",	"HeartGold","HeartGold",	    "하트골드",
-                    "8",	"SoulSilver","ソウルシルバー ",	"Argent SoulSilver","SoulSilver",	"SoulSilver","SoulSilver",	    "소울실버",
-                    "2",	"Ruby",	    "ルビー",	        "Rubis",    "Rubino",	    "Rubin",	"Rubí",	            "루비",
-                    "1",	"Sapphire",	"サファイア",	    "Saphir",	"Zaffiro",	    "Saphir",	"Zafiro",	        "사파이어",
-                    "3",	"Emerald",	"エメラルド",	    "Émeraude",	"Smeraldo",	    "Smaragd",	"Esmeralda",	    "에메랄드",
-                    "4",	"FireRed",	"ファイアレッド",	"Rouge Feu","Rosso Fuoco",	"Feuerrote ","Rojo Fuego",	    "파이어레드",
-                    "5",	"LeafGreen",	"リーフグリーン","Vert Feuille","Verde Foglia","Blattgrüne ","Verde Hoja",	"리프그린",
-                    "15",	"Colosseum/XD",	"コロシアム/XD",	"Colosseum/XD","Colosseo/XD",	"Kolosseum/XD",	"Colosseum/XD",	"세움/XD",
+                // ID       // EN           // JP               // FR               // IT           // DE               // ES               // KO
+                    "27",   "OR",           "OR",               "OR",               "OR",           "OR",               "OR",               "OR",       
+                    "26",   "AS",           "AS",               "AS",               "AS",           "AS",               "AS",               "AS",
+                    "24",	"X",	        "X",	            "X",	            "X",	        "X",	            "X",	            "X",
+                    "25",	"Y",	        "Y",	            "Y",	            "Y",	        "Y",	            "Y",	            "Y",
+                    "20",	"White",	    "ホワイト",	        "Blanche",	        "Bianca",	    "Weiße",	        "Blanca",	        "화이트",
+                    "21",	"Black",	    "ブラック",	        "Noire",	        "Nera",	        "Schwarze",	        "Negra",	        "블랙",
+                    "22",	"White2",	    "ホワイト2",	        "Blanche 2",	    "Bianca2",	    "Weiße2",	        "Blanca2",	        "화이트2",
+                    "23",	"Black2",	    "ブラック2",	        "Noire 2",	        "Nera2",	    "Schwarze2",        "Negra2",	        "블랙2",
+                    "10",	"Diamond",	    "ダイヤモンド",	    "Diamant",	        "Diamante", 	"Diamant",	        "Diamante",	        "디아루가",
+                    "11",	"Pearl",	    "パール",	        "Perle",	        "Perla",	    "Perl",	            "Perla",	        "펄기아",
+                    "12",	"Platinum",	    "プラチナ",	        "Platine",	        "Platino",	    "Platin",	        "Platino",	        "Pt 기라티나",
+                    "7",	"HeartGold",    "ハートゴールド",	"Or HeartGold",     "HeartGold",	"HeartGold",        "HeartGold",	    "하트골드",
+                    "8",	"SoulSilver",   "ソウルシルバー ",   "Argent SoulSilver","SoulSilver",	"SoulSilver",       "SoulSilver",	    "소울실버",
+                    "2",	"Ruby",	        "ルビー",	        "Rubis",            "Rubino",	    "Rubin",	        "Rubí",	            "루비",
+                    "1",	"Sapphire",	    "サファイア",	    "Saphir",	        "Zaffiro",	    "Saphir",	        "Zafiro",	        "사파이어",
+                    "3",	"Emerald",	    "エメラルド",	    "Émeraude",	        "Smeraldo",	    "Smaragd",	        "Esmeralda",	    "에메랄드",
+                    "4",	"FireRed",	    "ファイアレッド",	"Rouge Feu",        "Rosso Fuoco",	"Feuerrote ",       "Rojo Fuego",	    "파이어레드",
+                    "5",	"LeafGreen",	"リーフグリーン",    "Vert Feuille",     "Verde Foglia", "Blattgrüne ",      "Verde Hoja",	    "리프그린",
+                    "15",	"Colosseum/XD",	"コロシアム/XD",	    "Colosseum/XD",     "Colosseo/XD",	"Kolosseum/XD",	    "Colosseum/XD",	    "세움/XD",
                 };
             // populate the list
             for (int i = 0; i < langlistorigin.Length / 8; i++)
@@ -1736,10 +1736,9 @@ namespace PKHeX
             if (met_day == 0)
             { met_day = 1; }
             try
-            {
-                CAL_MetDate.Value = new DateTime(met_year + 2000, met_month, met_day);
-            }
+            { CAL_MetDate.Value = new DateTime(met_year + 2000, met_month, met_day); }
             catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
+
             if (eggloc != 0)
             {
                 // Was obtained initially as an egg.
@@ -1748,9 +1747,7 @@ namespace PKHeX
 
                 CB_EggLocation.SelectedValue = eggloc;
                 try
-                {
-                    CAL_EggDate.Value = new DateTime(egg_year + 2000, egg_month, egg_day);
-                }
+                { CAL_EggDate.Value = new DateTime(egg_year + 2000, egg_month, egg_day); }
                 catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
             }
             else { CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
@@ -1761,22 +1758,11 @@ namespace PKHeX
             else Label_CTGender.Text = "♂";
             if (TB_OTt2.Text == "") Label_CTGender.Text = "";
 
-            //if (CHK_IsEgg.Checked)
-            //{
-            //    CB_MetLocation.Enabled = false;
-            //    CAL_MetDate.Enabled = false;
-            //}
-            //else
-            //{
-            //    CB_MetLocation.Enabled = true;
-            //    CAL_MetDate.Enabled = true;
-            //}
+            TB_MetLevel.Text = metlevel.ToString();
 
-            // reset
+            // Reset
             CHK_Cured.Checked = false;
             CHK_Infected.Checked = false;
-
-            TB_MetLevel.Text = metlevel.ToString();
 
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
             CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7),4); // to strip out bad hacked 'rus
@@ -1832,9 +1818,7 @@ namespace PKHeX
             // Setup Forms
             setForms(species, CB_Form);
             try
-            {
-                CB_Form.SelectedIndex = altforms;
-            }
+            { CB_Form.SelectedIndex = altforms; }
             catch 
             { 
                 if (CB_Form.Items.Count > 1) 
@@ -1845,25 +1829,17 @@ namespace PKHeX
             // Load Extrabyte Value
             TB_ExtraByte.Text = buff[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
             if ((TB_OTt2.Text == "") || (notOT == ""))
-            {
                 Label_CTGender.Text = "";
-            }
+            
             // Reload Gender Flag
             this.genderflag = ((buff[0x1D] >> 1) & 0x3);
             setGenderLabel();
             updateStats();
             setIsShiny();
             if (init)
-            {
-                uint chk = 0;
-                for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                    chk += (uint)(buff[i] + buff[i + 1] * 0x100);
-                chk &= 0xFFFF;
-
-                ushort actualsum = BitConverter.ToUInt16(buff, 0x6);
-                if (chk != actualsum)
+                if (!PKX.verifychk(buff))
                     MessageBox.Show("PKX File has an invalid checksum.", "Alert");
-            }
+            
             init = true;
 
             // DEV Illegality
@@ -2212,16 +2188,11 @@ namespace PKHeX
         private void setGenderLabel()
         {
             if (genderflag == 0)
-            {
-                // Gender = Male
-                Label_Gender.Text = "♂";
-            }
+                Label_Gender.Text = "♂";    // Male
             else if (genderflag == 1)
-            {
-                // Gender = Female
-                Label_Gender.Text = "♀";
-            }
-            else { Label_Gender.Text = "-"; }
+                Label_Gender.Text = "♀";    // Female
+            else 
+                Label_Gender.Text = "-";    // Genderless
         }
         private void setMarkings()
         {
@@ -2232,7 +2203,8 @@ namespace PKHeX
 
             PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, (float)(Convert.ToUInt16(!BTN_Shinytize.Enabled)) * 0.9 + 0.1);
             PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, (float)(Convert.ToUInt16(CHK_Cured.Checked)) * 0.9 + 0.1);
-            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(Util.getIndex(CB_GameOrigin) == 24 || Util.getIndex(CB_GameOrigin) == 25)) * 0.9 + 0.1);
+            int gameindex = Util.getIndex(CB_GameOrigin);
+            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(gameindex == 24 || gameindex == 25 || gameindex == 26 || gameindex == 27)) * 0.9 + 0.1);
         }
         // Label Shortcut Tweaks
         private void Label_Friendship_Click(object sender, EventArgs e)
@@ -4308,7 +4280,7 @@ namespace PKHeX
             // Now we fix the checksum!
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                chk += BitConverter.ToUInt16(buff,i);
+                chk += BitConverter.ToUInt16(buff, i);
 
             // Apply New Checksum
             Array.Copy(BitConverter.GetBytes(chk), 0, pkx, 06, 2);
@@ -5160,6 +5132,14 @@ namespace PKHeX
             int slot = getSlot(sender);
             if (slot > 30) return;
 
+            int box = C_BoxSelect.SelectedIndex + 1;
+            {
+                DialogResult sdr = MessageBox.Show(String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?",box), "Prompt", MessageBoxButtons.YesNo);
+                if (sdr != DialogResult.Yes)
+                    return;
+            }
+
+
             byte[] pkxdata = preparepkx(buff);
             byte[] ekxdata = PKX.encryptArray(pkxdata);
             for (int i = 0; i < 30; i++)
@@ -5171,7 +5151,6 @@ namespace PKHeX
         }
         private void setPokedex(byte[] pkxdata)
         {
-            if (savegame_oras) return; // not yet ready for ORAS
             if (savindex > 1) return;
             int species = BitConverter.ToUInt16(pkxdata, 0x8);  // Species
             int lang = pkxdata[0xE3] - 1; if (lang > 5) lang--; // 0-6 language vals
@@ -5181,21 +5160,22 @@ namespace PKHeX
             ushort TID = BitConverter.ToUInt16(pkxdata, 0xC);
             ushort SID = BitConverter.ToUInt16(pkxdata, 0xE);
             int shiny = Convert.ToInt16(Convert.ToBoolean((PKX.getPSV(pid) ^ PKX.getTSV(TID,SID)) < 16));
-            int dexoff = savindex * 0x7F000 + SaveGame.PokeDex + 8; // need to re-do this for ORAS
-            int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
+            int dexoff = savindex * 0x7F000 + SaveGame.PokeDex; // Same offset for XY-ORAS
+            int langoff = 0x3C8; if (savegame_oras) langoff = 0x400; // Not the same offset for language bools
+            int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x68;
 
-            // Set the Species Owned Flag
-            savefile[dexoff + shiftoff + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
+            // Set the [Species/Gender/Shiny] Owned Flag
+            savefile[dexoff + shiftoff + (species - 1) / 8 + 0x8] |= (byte)(1 << ((species - 1) % 8));
 
-            // Set the Origin Owned Flag
-            if (origin < 0x18 && species < 650) // Pre X/Y
+            // Owned quality flag
+            if (origin < 0x18 && species < 650 && !savegame_oras) // Pre 650 for X/Y, and not for ORAS; Set the Foreign Owned Flag
                 savefile[0x1AA4C + 0x7F000 * savindex + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
-            else if (origin >= 0x18) // Set Native Flag
-                savefile[dexoff + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
+            else if (origin >= 0x18 || savegame_oras) // Set Native Owned Flag (should always happen)
+                savefile[dexoff + (species - 1) / 8 + 0x8] |= (byte)(1 << ((species - 1) % 8));
 
             // Set the Language
             if (lang < 0) lang = 1;
-                savefile[0x1A7C8 + 0x7F000 * savindex + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
+                savefile[dexoff + langoff + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
         }
         private byte setParty()
         {
@@ -5452,7 +5432,7 @@ namespace PKHeX
 
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                chk += BitConverter.ToUInt16(dslotdata,i);
+                chk += BitConverter.ToUInt16(dslotdata, i);
 
             if (chk != BitConverter.ToUInt16(dslotdata, 6) && !slotdata.SequenceEqual(new Byte[0xE8])) // Bad Egg
             {
@@ -5722,7 +5702,7 @@ namespace PKHeX
 
                         ushort chk = 0;
                         for (int z = 8; z < 232; z += 2) // Loop through the entire PKX
-                            chk += BitConverter.ToUInt16(input,z);
+                            chk += BitConverter.ToUInt16(input, z);
                         if (chk != BitConverter.ToUInt16(input, 0x6)) continue;
                         data = PKX.encryptArray(input);
                     }
