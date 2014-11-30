@@ -2464,10 +2464,10 @@ namespace PKHeX
             }
             else
             {
-                if (input.Length == 236 || input.Length == 220)      // Gen 4/5
-                    Array.Resize(ref input, 136);                    // strip party bytes
+                if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
+                    Array.Resize(ref input, 136);                   
                 else if (input.Length == 232 || input.Length == 260) // Gen 6
-                    Array.Resize(ref input, 232);                    // strip party bytes
+                    Array.Resize(ref input, 232);                    
                 else throw new Exception("Wrong sized input array to verifychecksum");
 
                 ushort chk = 0;
