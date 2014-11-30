@@ -4307,9 +4307,14 @@ namespace PKHeX
                 // Create Temp File to Drag
                 string basepath = System.Windows.Forms.Application.StartupPath;
                 Cursor.Current = Cursors.Hand;
-                // Make a new file name based off the PID
-                string filename = TB_Nickname.Text + " - " + TB_PID.Text + ".pk6";
+                // Make a new file name
                 byte[] dragdata = preparepkx(buff);
+                PKX pkx = new PKX(dragdata);
+                string filename = pkx.Nickname;
+                if (filename != pkx.Species)
+                    filename += " (" + pkx.Species + ")";
+                filename += " - " + pkx.PID + ".pk6";
+
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make File
@@ -4323,7 +4328,7 @@ namespace PKHeX
                     File.Delete(newfile);
                 }
                 catch (ArgumentException x)
-                { MessageBox.Show("Drag&Drop Error\r\n" + x, "Error"); }
+                { MessageBox.Show("Drag&Drop Error\n\n" + x, "Error"); }
                 File.Delete(newfile);
             }
         }
@@ -4340,9 +4345,14 @@ namespace PKHeX
                 string basepath = System.Windows.Forms.Application.StartupPath;
                 Cursor.Current = Cursors.Hand;
 
-                // Make a new file name based off the PID
-                string filename = TB_Nickname.Text + " - " + TB_PID.Text + ".ek6";
-                byte[] dragdata = PKX.encryptArray(preparepkx(buff));
+                // Make a new file name
+                byte[] dragdata = preparepkx(buff);
+                PKX pkx = new PKX(dragdata);
+                string filename = pkx.Nickname;
+                if (filename != pkx.Species)
+                    filename += " (" + pkx.Species + ")";
+                filename += " - " + pkx.PID + ".ek6";
+                dragdata = PKX.encryptArray(preparepkx(buff));
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make file
@@ -4357,7 +4367,7 @@ namespace PKHeX
                 }
                 catch (ArgumentException x)
                 {
-                    MessageBox.Show("Drag&Drop Error\r\n" + x, "Error");
+                    MessageBox.Show("Drag&Drop Error\n\n" + x, "Error");
                 }
                 File.Delete(newfile);
             }
@@ -6123,25 +6133,94 @@ namespace PKHeX
             int offset = getPKXOffset(slot);
             if (e.Button == MouseButtons.Left && e.Clicks == 1)
             {
+                // Create Temp File to Drag
+                string basepath = System.Windows.Forms.Application.StartupPath;
+                Cursor.Current = Cursors.Hand;
+
+                // Prepare Data
                 Array.Copy(savefile, offset, pkm_from, 0, 0xE8);
                 pkm_from_offset = offset;
-                (sender as PictureBox).DoDragDrop(pkm_from, DragDropEffects.Move);
+
+                // Make a new file name based off the PID
+                byte[] dragdata = PKX.decryptArray(pkm_from);
+                Array.Resize(ref dragdata, 0xE8);
+                PKX pkx = new PKX(dragdata);
+                string filename = pkx.Nickname;
+                if (filename != pkx.Species)
+                    filename += " (" + pkx.Species + ")";
+                filename += " - " + pkx.PID + ".pk6";
+
+                // Make File
+                string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
+                try
+                {
+                    File.WriteAllBytes(newfile, dragdata);
+
+                    string[] filesToDrag = { newfile };
+                    (sender as PictureBox).DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
+                    File.Delete(newfile);
+                }
+                catch (ArgumentException x)
+                { MessageBox.Show("Drag&Drop Error\n\n" + x, "Error"); }
+                File.Delete(newfile);
+                pkm_from_offset = 0;
+                //Array.Copy(savefile, offset, pkm_from, 0, 0xE8);
+                //pkm_from_offset = offset;
+                //(sender as PictureBox).DoDragDrop(pkm_from, DragDropEffects.Move);
             }
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files != null)
-                if (files.Length > 0) openQuick(files[0]);
             PictureBox pb = (PictureBox)(sender);
             int slot = getSlot(sender);
             int offset = getPKXOffset(slot);
 
-            if (ModifierKeys == Keys.Alt)
-                Array.Copy(PKX.encryptArray(new Byte[0xE8]), 0, savefile, pkm_from_offset, 0xE8);
-            else if (ModifierKeys != Keys.Control)
-                Array.Copy(savefile, offset, savefile, pkm_from_offset, 0xE8); // Copy from new slot to old slot.
-            Array.Copy(pkm_from, 0, savefile, offset, 0xE8); // Copy from temp slot to new.
+            // Check for In-Dropped files (PKX,SAV,ETC)
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files != null && pkm_from_offset == 0)
+            {
+                if (files.Length > 0)
+                {
+                    FileInfo fi = new FileInfo(files[0]);
+
+                    // Detect if PKM/PKX
+                    if ((fi.Length == 136) || (fi.Length == 220) || (fi.Length == 236) || (fi.Length == 100) || (fi.Length == 80))
+                    {
+                        byte[] input = File.ReadAllBytes(files[0]);
+                        var Converter = new pk2pk();
+                        if (!PKX.verifychk(input)) MessageBox.Show("Invalid File (Checksum Error)", "Error");
+                        try // to convert past gen pkm
+                        {
+                            byte[] data = Converter.ConvertPKM(input, savefile, savindex);
+                            data = PKX.encryptArray(data);
+                            Array.Copy(PKX.encryptArray(data), 0, savefile, offset, 0xE8);
+                        }
+                        catch
+                        { MessageBox.Show("Attempted to load previous generation PKM.\n\nConversion failed.", "Alert"); }
+                    }
+                    else if (fi.Length == 232 || fi.Length == 260)
+                    {
+                        byte[] data = File.ReadAllBytes(files[0]);
+                        if (fi.Extension == ".pkx" || fi.Extension == ".pk6")
+                            data = PKX.encryptArray(data);
+                        else if (fi.Extension != ".ekx" || fi.Extension != ".ekx")
+                            openQuick(files[0]);
+
+                        Array.Copy(data, 0, savefile, offset, 0xE8);
+                    }
+                    else // not PKX/EKX, so load with the general function
+                    { openQuick(files[0]); }
+                }
+            }
+            else
+            {
+                if (ModifierKeys == Keys.Alt)
+                    Array.Copy(PKX.encryptArray(new Byte[0xE8]), 0, savefile, pkm_from_offset, 0xE8);
+                else if (ModifierKeys != Keys.Control)
+                    Array.Copy(savefile, offset, savefile, pkm_from_offset, 0xE8); // Copy from new slot to old slot.
+                Array.Copy(pkm_from, 0, savefile, offset, 0xE8); // Copy from temp slot to new.
+                pkm_from_offset = 0; // Clear offset value
+            }
             setPKXBoxes();
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
@@ -6150,7 +6229,7 @@ namespace PKHeX
                 e.Effect = DragDropEffects.Move;
         }
         private byte[] pkm_from = new Byte[0xE8];
-        private int pkm_from_offset;
+        private int pkm_from_offset = 0;
         private void L_Save_Click(object sender, EventArgs e)
         {
             // Get latest SaveDataFiler save location

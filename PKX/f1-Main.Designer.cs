@@ -3304,6 +3304,7 @@
             this.bbpkx1.TabIndex = 8;
             this.bbpkx1.TabStop = false;
             this.bbpkx1.Click += new System.EventHandler(this.slotModifier_Click);
+            this.bbpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx2
             // 
@@ -3314,6 +3315,7 @@
             this.bbpkx2.TabIndex = 9;
             this.bbpkx2.TabStop = false;
             this.bbpkx2.Click += new System.EventHandler(this.slotModifier_Click);
+            this.bbpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx3
             // 
@@ -3324,6 +3326,7 @@
             this.bbpkx3.TabIndex = 10;
             this.bbpkx3.TabStop = false;
             this.bbpkx3.Click += new System.EventHandler(this.slotModifier_Click);
+            this.bbpkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx4
             // 
@@ -3334,6 +3337,7 @@
             this.bbpkx4.TabIndex = 11;
             this.bbpkx4.TabStop = false;
             this.bbpkx4.Click += new System.EventHandler(this.slotModifier_Click);
+            this.bbpkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx5
             // 
@@ -3344,6 +3348,7 @@
             this.bbpkx5.TabIndex = 12;
             this.bbpkx5.TabStop = false;
             this.bbpkx5.Click += new System.EventHandler(this.slotModifier_Click);
+            this.bbpkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx6
             // 
@@ -3354,6 +3359,7 @@
             this.bbpkx6.TabIndex = 13;
             this.bbpkx6.TabStop = false;
             this.bbpkx6.Click += new System.EventHandler(this.slotModifier_Click);
+            this.bbpkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // L_ReadOnlyPBB
             // 
@@ -3406,6 +3412,7 @@
             this.ppkx1.TabIndex = 2;
             this.ppkx1.TabStop = false;
             this.ppkx1.Click += new System.EventHandler(this.slotModifier_Click);
+            this.ppkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx2
             // 
@@ -3416,6 +3423,7 @@
             this.ppkx2.TabIndex = 3;
             this.ppkx2.TabStop = false;
             this.ppkx2.Click += new System.EventHandler(this.slotModifier_Click);
+            this.ppkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx3
             // 
@@ -3426,6 +3434,7 @@
             this.ppkx3.TabIndex = 4;
             this.ppkx3.TabStop = false;
             this.ppkx3.Click += new System.EventHandler(this.slotModifier_Click);
+            this.ppkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx4
             // 
@@ -3436,6 +3445,7 @@
             this.ppkx4.TabIndex = 5;
             this.ppkx4.TabStop = false;
             this.ppkx4.Click += new System.EventHandler(this.slotModifier_Click);
+            this.ppkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx5
             // 
@@ -3446,6 +3456,7 @@
             this.ppkx5.TabIndex = 6;
             this.ppkx5.TabStop = false;
             this.ppkx5.Click += new System.EventHandler(this.slotModifier_Click);
+            this.ppkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx6
             // 
@@ -3456,15 +3467,16 @@
             this.ppkx6.TabIndex = 7;
             this.ppkx6.TabStop = false;
             this.ppkx6.Click += new System.EventHandler(this.slotModifier_Click);
+            this.ppkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // Tab_Other
             // 
             this.Tab_Other.Controls.Add(this.B_OpenSecretBase);
-            this.Tab_Other.Controls.Add(this.GB_SUBE);
             this.Tab_Other.Controls.Add(this.GB_Daycare);
             this.Tab_Other.Controls.Add(this.GB_GTS);
             this.Tab_Other.Controls.Add(this.GB_Fused);
             this.Tab_Other.Controls.Add(this.L_ReadOnlyOther);
+            this.Tab_Other.Controls.Add(this.GB_SUBE);
             this.Tab_Other.Location = new System.Drawing.Point(4, 22);
             this.Tab_Other.Name = "Tab_Other";
             this.Tab_Other.Size = new System.Drawing.Size(302, 199);
@@ -3505,6 +3517,7 @@
             this.subepkx1.TabIndex = 18;
             this.subepkx1.TabStop = false;
             this.subepkx1.Click += new System.EventHandler(this.slotModifier_Click);
+            this.subepkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // subepkx2
             // 
@@ -3627,6 +3640,7 @@
             this.dcpkx2.TabIndex = 11;
             this.dcpkx2.TabStop = false;
             this.dcpkx2.Click += new System.EventHandler(this.slotModifier_Click);
+            this.dcpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // dcpkx1
             // 
@@ -3638,6 +3652,7 @@
             this.dcpkx1.TabIndex = 10;
             this.dcpkx1.TabStop = false;
             this.dcpkx1.Click += new System.EventHandler(this.slotModifier_Click);
+            this.dcpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // DayCare_HasEgg
             // 
@@ -3670,6 +3685,7 @@
             this.gtspkx.TabIndex = 23;
             this.gtspkx.TabStop = false;
             this.gtspkx.Click += new System.EventHandler(this.slotModifier_Click);
+            this.gtspkx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // GB_Fused
             // 
@@ -3691,6 +3707,7 @@
             this.fusedpkx.TabIndex = 24;
             this.fusedpkx.TabStop = false;
             this.fusedpkx.Click += new System.EventHandler(this.slotModifier_Click);
+            this.fusedpkx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // L_ReadOnlyOther
             // 
