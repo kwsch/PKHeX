@@ -5458,9 +5458,9 @@ namespace PKHeX
             int gender = (dslotdata[0x1D] >> 1) & 0x3;
 
             string file;
-            
+
             if (species == 0)
-                file = "_0";
+            { pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); return; }
             // if (isegg == 1)
             //   { file = "egg"; }
             else
@@ -5475,13 +5475,13 @@ namespace PKHeX
             // Redrawing logic
             uint PID = BitConverter.ToUInt32(dslotdata, 0x18);
             ushort PSV = PKX.getPSV(PID);
-            ushort TSV = (ushort)(BitConverter.ToUInt16(dslotdata, 0x0C) ^ BitConverter.ToUInt16(dslotdata, 0x0E));
+            ushort TSV = PKX.getTSV(BitConverter.ToUInt16(dslotdata, 0x0C),BitConverter.ToUInt16(dslotdata, 0x0E));
             ushort XOR = (ushort)(TSV ^ PSV);
 
             Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
             if (baseImage == null)
             {
-                if (species < 722 && species != 0)
+                if (species < 722)
                 {
                     baseImage = PKHeX.Util.LayerImage(
                         (Image)Properties.Resources.ResourceManager.GetObject("_" + species.ToString()),
@@ -5491,19 +5491,19 @@ namespace PKHeX
                 else 
                     baseImage = (Image)Properties.Resources.unknown;
             }
-            if (species != 0 && isegg == 1)
+            if (isegg == 1)
             {
                 file = "_0"; // Start with a partially transparent species 
                 baseImage = PKHeX.Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject(file), baseImage, 0, 0, 0.33);
                 file = "egg"; // Add the egg layer over-top.
                 baseImage = PKHeX.Util.LayerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject(file), 0, 0, 1);
             }
-            if (species != 0 && XOR < 16)
+            if (XOR == 0)
             {   // Is Shiny
                 // Redraw our image
                 baseImage = PKHeX.Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
             }
-            if (species != 0 && BitConverter.ToUInt16(dslotdata, 0xA) > 0)
+            if (BitConverter.ToUInt16(dslotdata, 0xA) > 0)
             {
                 // Has Item
                 int item = BitConverter.ToUInt16(dslotdata, 0xA);
