@@ -6228,7 +6228,7 @@ namespace PKHeX
             if (e.Data != null)
                 e.Effect = DragDropEffects.Move;
         }
-        private byte[] pkm_from = new Byte[0xE8];
+        private byte[] pkm_from = PKX.encryptArray(new Byte[0xE8]);
         private int pkm_from_offset = 0;
         private void L_Save_Click(object sender, EventArgs e)
         {
