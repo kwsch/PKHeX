@@ -212,6 +212,7 @@ namespace PKHeX
         public static int colorizedslot = 0;
         public static int largeWidth, shortWidth = 0;
         public static string eggname = "";
+        public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist = { };
         public static string[] movelist = { };
         public static string[] itemlist = { };
@@ -1678,10 +1679,8 @@ namespace PKHeX
             CHK_IsEgg.Checked = Convert.ToBoolean(isegg);
             CHK_Nicknamed.Checked = Convert.ToBoolean(isnick);
             if (Convert.ToBoolean(otgender))
-            {
-                Label_OTGender.Text = "♀";
-            }
-            else Label_OTGender.Text = "♂";
+                Label_OTGender.Text = gendersymbols[1];
+            else Label_OTGender.Text = gendersymbols[0];
             
             // Nidoran Gender Fixing Text
             if (!Convert.ToBoolean(isnick))
@@ -1754,8 +1753,8 @@ namespace PKHeX
 
             CB_MetLocation.SelectedValue = metloc;
 
-            if (notOTG) Label_CTGender.Text = "♀";
-            else Label_CTGender.Text = "♂";
+            if (notOTG) Label_CTGender.Text = gendersymbols[1];
+            else Label_CTGender.Text = gendersymbols[0];
             if (TB_OTt2.Text == "") Label_CTGender.Text = "";
 
             TB_MetLevel.Text = metlevel.ToString();
@@ -1997,8 +1996,8 @@ namespace PKHeX
                     new { Text = forms[846], Value = 3 }, // Winter
                 };
             var form_gender = new[] {
-                    new { Text = "♂", Value = 0 }, // Male
-                    new { Text = "♀", Value = 1 }, // Female
+                    new { Text = gendersymbols[0], Value = 0 }, // Male
+                    new { Text = gendersymbols[1], Value = 1 }, // Female
                 };
             var form_therian = new[] {
                     new { Text = forms[641], Value = 0 }, // Incarnate
@@ -2188,11 +2187,11 @@ namespace PKHeX
         private void setGenderLabel()
         {
             if (genderflag == 0)
-                Label_Gender.Text = "♂";    // Male
+                Label_Gender.Text = gendersymbols[0];    // Male
             else if (genderflag == 1)
-                Label_Gender.Text = "♀";    // Female
-            else 
-                Label_Gender.Text = "-";    // Genderless
+                Label_Gender.Text = gendersymbols[1];    // Female
+            else
+                Label_Gender.Text = gendersymbols[2];    // Genderless
         }
         private void setMarkings()
         {
@@ -2234,11 +2233,14 @@ namespace PKHeX
 
             if (gt < 256) // If not a single gender(less) species:
             {
-                if (Label_Gender.Text == "♂")
-                    Label_Gender.Text = "♀";
+                if (PKX.getGender(Label_Gender.Text) == 0) // ♂
+                    Label_Gender.Text = gendersymbols[1]; // ♀
                 else
-                    Label_Gender.Text = "♂";
+                    Label_Gender.Text = gendersymbols[0]; // ♂
             }
+
+            if (species == 668 || species == 592 || species == 593)
+                CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
         }
         private void Label_PPups_Click(object sender, EventArgs e)
         {
@@ -2266,8 +2268,8 @@ namespace PKHeX
                 // Set Gender Label
                 int g6trgend = savefile[SaveGame.TrainerCard + 0x5 + savshift];
                 if (g6trgend == 1)
-                    Label_OTGender.Text = "♀";
-                else Label_OTGender.Text = "♂";
+                    Label_OTGender.Text = gendersymbols[1]; // ♀
+                else Label_OTGender.Text = gendersymbols[0]; // ♂
 
                 // Get TID/SID
                 TB_TID.Text = BitConverter.ToUInt16(savefile, SaveGame.TrainerCard + 0 + savshift).ToString();
@@ -2296,22 +2298,22 @@ namespace PKHeX
                 // Set Gender Label
                 int g6trgend = savefile[0x19405 + savindex * 0x7F000];
                 if (g6trgend == 1)
-                    Label_CTGender.Text = "♀";
-                else Label_CTGender.Text = "♂";
+                    Label_CTGender.Text = gendersymbols[1]; // ♀
+                else Label_CTGender.Text = gendersymbols[0]; // ♂
             }
         }
         private void Label_OTGender_Click(object sender, EventArgs e)
         {
-            if (Label_OTGender.Text == "♂")
-                Label_OTGender.Text = "♀";
-            else Label_OTGender.Text = "♂";
+            if (PKX.getGender(Label_OTGender.Text) == 0) // ♂
+                Label_OTGender.Text = gendersymbols[1]; // ♀
+            else Label_OTGender.Text = gendersymbols[0]; // ♂
         }
         private void Label_CTGender_Click(object sender, EventArgs e)
         {
             if (Label_CTGender.Text == "") return;
-            else if (Label_CTGender.Text == "♂")
-                Label_CTGender.Text = "♀";
-            else Label_CTGender.Text = "♂";
+            else if (PKX.getGender(Label_CTGender.Text) == 0) // ♂
+                Label_CTGender.Text = gendersymbols[1]; // ♀
+            else Label_CTGender.Text = gendersymbols[0]; // ♂
         }
         // Prompted Updates of PKX Functions // 
         public void setCountry(object sender)
@@ -2520,14 +2522,28 @@ namespace PKHeX
             TB_IVTotal.Text = ivtotal.ToString();
 
             // Potential Reading
-            if (ivtotal <= 90)
-                L_Potential.Text = "★☆☆☆";
-            else if (ivtotal <= 120)
-                L_Potential.Text = "★★☆☆";
-            else if (ivtotal <= 150)
-                L_Potential.Text = "★★★☆";
+            if (!unicode)
+            {
+                if (ivtotal <= 90)
+                    L_Potential.Text = "★☆☆☆";
+                else if (ivtotal <= 120)
+                    L_Potential.Text = "★★☆☆";
+                else if (ivtotal <= 150)
+                    L_Potential.Text = "★★★☆";
+                else
+                    L_Potential.Text = "★★★★";
+            }
             else
-                L_Potential.Text = "★★★★";
+            {
+                if (ivtotal <= 90)
+                    L_Potential.Text = "+";
+                else if (ivtotal <= 120)
+                    L_Potential.Text = "++";
+                else if (ivtotal <= 150)
+                    L_Potential.Text = "+++";
+                else
+                    L_Potential.Text = "++++";
+            }
 
 
             // Characteristic with PID%6
@@ -2682,10 +2698,10 @@ namespace PKHeX
             updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
 
             // If form has a single gender, account for it.
-            if (CB_Form.Text == "♂")
-                Label_Gender.Text = "♂";
-            else if (CB_Form.Text == "♀")
-                Label_Gender.Text = "♀";
+            if (PKX.getGender(CB_Form.Text) == 0)
+                Label_Gender.Text = gendersymbols[0];
+            else if (PKX.getGender(CB_Form.Text) == 1)
+                Label_Gender.Text = gendersymbols[1];
         }
         private void updatePP(object sender, EventArgs e)
         {
@@ -3172,7 +3188,7 @@ namespace PKHeX
                 buff[0x93] = 0;
             }
             else if (Label_CTGender.Text == "")
-                Label_CTGender.Text = "♂";
+                Label_CTGender.Text = gendersymbols[0];
         }
         private void updatePKRSCured(object sender, EventArgs e)
         {
@@ -4053,7 +4069,8 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(0), 0, pkx, 0x4, 4);  // 0 CHK for now
 
             // Block A
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Species)), 0, pkx, 0x08, 2);      // Species
+            int species = Util.getIndex(CB_Species);
+            Array.Copy(BitConverter.GetBytes(species), 0, pkx, 0x08, 2);      // Species
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_HeldItem)), 0, pkx, 0x0A, 2);     // Held Item
             Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_TID.Text)), 0, pkx, 0x0C, 2);     // TID
             Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_SID.Text)), 0, pkx, 0x0E, 2);     // SID
@@ -4064,8 +4081,7 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_PID)), 0, pkx, 0x18, 4);         // PID
             pkx[0x1C] = (byte)((Util.getIndex(CB_Nature)));                                     // Nature
             int fegform = (int)(Convert.ToInt32(CHK_Fateful.Checked));                          // Fateful
-            fegform += (Convert.ToInt32(Label_Gender.Text == "♀") * 2);                         // Female Gender
-            fegform += (Convert.ToInt32(Label_Gender.Text == "-") * 4);                         // Genderless
+            fegform += (PKX.getGender(Label_Gender.Text) << 1);                                 // Gender
             if (MT_Form.Enabled) fegform += (Math.Min(Convert.ToInt32(MT_Form.Text), 32) * 8);  // Form
             else fegform += ((Util.getIndex(CB_Form)) * 8); 
             pkx[0x1D] = (byte)fegform;
@@ -4166,7 +4182,7 @@ namespace PKHeX
             Array.Copy(OT2, 0, pkx, 0x78, OT2.Length);
 
             //0x90-0xAF
-            pkx[0x92] = Convert.ToByte(Label_CTGender.Text == "♀");
+            pkx[0x92] = Convert.ToByte(PKX.getGender(Label_CTGender.Text) == 1);
             //Plus more, set by MemoryAmie (already in buff)
 
             // Block D
@@ -4213,7 +4229,7 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(met_location), 0, pkx, 0xDA, 2);   // Met Location
 
             pkx[0xDC] = (byte)Util.getIndex(CB_Ball);
-            pkx[0xDD] = (byte)(((Util.ToInt32(TB_MetLevel.Text) & 0x7F) + (Convert.ToInt32(Label_OTGender.Text == "♀") << 7)));
+            pkx[0xDD] = (byte)(((Util.ToInt32(TB_MetLevel.Text) & 0x7F) + (Convert.ToInt32(PKX.getGender(Label_OTGender.Text) == 1) << 7)));
             pkx[0xDE] = (byte)(Util.ToInt32(CB_EncounterType.SelectedValue.ToString()));
             pkx[0xDF] = (byte)Util.getIndex(CB_GameOrigin);
             pkx[0xE0] = (byte)Util.getIndex(CB_Country);
@@ -5468,7 +5484,7 @@ namespace PKHeX
                 file = "_" + species.ToString();
                 if (altforms > 0) // Alt Form Handling
                     file = file + "_" + altforms.ToString();
-                else if ((species == 521) && (gender == 1))   // Unfezant
+                else if ((species == 521 || species == 668) && (gender == 1))   // Unfezant & Pyroar
                     file = file = "_" + species.ToString() + "f";
             }
 
@@ -6246,6 +6262,22 @@ namespace PKHeX
                 DialogResult sdr = MessageBox.Show("Open save file from the following location?\n\n"+path, "Prompt", MessageBoxButtons.YesNo);
                 if (sdr == DialogResult.Yes)
                     openQuick(path); // load save
+            }
+        }
+
+        bool unicode = false;
+        private void Menu_Unicode_Click(object sender, EventArgs e)
+        {
+            unicode = (gendersymbols[0] == "♂");
+            if (unicode)
+            {
+                gendersymbols = new string[] { "M", "F", "-" };
+                BTN_Shinytize.Text = "*";
+            }
+            else
+            {
+                gendersymbols = new string[] { "♂", "♀", "-" };
+                BTN_Shinytize.Text = "☆";
             }
         }
     }

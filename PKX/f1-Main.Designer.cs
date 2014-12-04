@@ -283,10 +283,6 @@
             this.ppkx6 = new System.Windows.Forms.PictureBox();
             this.Tab_Other = new System.Windows.Forms.TabPage();
             this.B_OpenSecretBase = new System.Windows.Forms.Button();
-            this.GB_SUBE = new System.Windows.Forms.GroupBox();
-            this.subepkx1 = new System.Windows.Forms.PictureBox();
-            this.subepkx2 = new System.Windows.Forms.PictureBox();
-            this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.GB_Daycare = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -304,6 +300,10 @@
             this.GB_Fused = new System.Windows.Forms.GroupBox();
             this.fusedpkx = new System.Windows.Forms.PictureBox();
             this.L_ReadOnlyOther = new System.Windows.Forms.Label();
+            this.GB_SUBE = new System.Windows.Forms.GroupBox();
+            this.subepkx1 = new System.Windows.Forms.PictureBox();
+            this.subepkx2 = new System.Windows.Forms.PictureBox();
+            this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
             this.B_3DSSETemp = new System.Windows.Forms.Button();
             this.B_BoxIO = new System.Windows.Forms.Button();
@@ -331,6 +331,7 @@
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
+            this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -404,10 +405,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ppkx5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx6)).BeginInit();
             this.Tab_Other.SuspendLayout();
-            this.GB_SUBE.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).BeginInit();
             this.GB_Daycare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).BeginInit();
@@ -415,6 +412,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.gtspkx)).BeginInit();
             this.GB_Fused.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fusedpkx)).BeginInit();
+            this.GB_SUBE.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).BeginInit();
             this.Tab_Tools.SuspendLayout();
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
@@ -2649,7 +2650,8 @@
             // 
             this.Menu_Options.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_Language,
-            this.Menu_About});
+            this.Menu_About,
+            this.Menu_Unicode});
             this.Menu_Options.Name = "Menu_Options";
             this.Menu_Options.Size = new System.Drawing.Size(61, 20);
             this.Menu_Options.Text = "Options";
@@ -2659,7 +2661,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(183, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2674,7 +2676,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(139, 22);
+            this.Menu_About.Size = new System.Drawing.Size(183, 22);
             this.Menu_About.Text = "A&bout PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainmenuAbout);
             // 
@@ -3495,50 +3497,6 @@
             this.B_OpenSecretBase.Visible = false;
             this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
-            // GB_SUBE
-            // 
-            this.GB_SUBE.Controls.Add(this.subepkx1);
-            this.GB_SUBE.Controls.Add(this.subepkx2);
-            this.GB_SUBE.Controls.Add(this.subepkx3);
-            this.GB_SUBE.Location = new System.Drawing.Point(227, 136);
-            this.GB_SUBE.Name = "GB_SUBE";
-            this.GB_SUBE.Size = new System.Drawing.Size(60, 60);
-            this.GB_SUBE.TabIndex = 27;
-            this.GB_SUBE.TabStop = false;
-            this.GB_SUBE.Text = "OldMan";
-            // 
-            // subepkx1
-            // 
-            this.subepkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx1.Location = new System.Drawing.Point(9, 18);
-            this.subepkx1.Name = "subepkx1";
-            this.subepkx1.Size = new System.Drawing.Size(42, 32);
-            this.subepkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx1.TabIndex = 18;
-            this.subepkx1.TabStop = false;
-            this.subepkx1.Click += new System.EventHandler(this.slotModifier_Click);
-            this.subepkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
-            // 
-            // subepkx2
-            // 
-            this.subepkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx2.Location = new System.Drawing.Point(62, 19);
-            this.subepkx2.Name = "subepkx2";
-            this.subepkx2.Size = new System.Drawing.Size(42, 34);
-            this.subepkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx2.TabIndex = 19;
-            this.subepkx2.TabStop = false;
-            // 
-            // subepkx3
-            // 
-            this.subepkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx3.Location = new System.Drawing.Point(109, 19);
-            this.subepkx3.Name = "subepkx3";
-            this.subepkx3.Size = new System.Drawing.Size(42, 34);
-            this.subepkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx3.TabIndex = 20;
-            this.subepkx3.TabStop = false;
-            // 
             // GB_Daycare
             // 
             this.GB_Daycare.Controls.Add(this.label4);
@@ -3718,6 +3676,50 @@
             this.L_ReadOnlyOther.TabIndex = 29;
             this.L_ReadOnlyOther.Text = "This tab is read only.";
             this.L_ReadOnlyOther.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // GB_SUBE
+            // 
+            this.GB_SUBE.Controls.Add(this.subepkx1);
+            this.GB_SUBE.Controls.Add(this.subepkx2);
+            this.GB_SUBE.Controls.Add(this.subepkx3);
+            this.GB_SUBE.Location = new System.Drawing.Point(227, 136);
+            this.GB_SUBE.Name = "GB_SUBE";
+            this.GB_SUBE.Size = new System.Drawing.Size(60, 60);
+            this.GB_SUBE.TabIndex = 27;
+            this.GB_SUBE.TabStop = false;
+            this.GB_SUBE.Text = "OldMan";
+            // 
+            // subepkx1
+            // 
+            this.subepkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx1.Location = new System.Drawing.Point(9, 18);
+            this.subepkx1.Name = "subepkx1";
+            this.subepkx1.Size = new System.Drawing.Size(42, 32);
+            this.subepkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.subepkx1.TabIndex = 18;
+            this.subepkx1.TabStop = false;
+            this.subepkx1.Click += new System.EventHandler(this.slotModifier_Click);
+            this.subepkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            // 
+            // subepkx2
+            // 
+            this.subepkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx2.Location = new System.Drawing.Point(62, 19);
+            this.subepkx2.Name = "subepkx2";
+            this.subepkx2.Size = new System.Drawing.Size(42, 34);
+            this.subepkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.subepkx2.TabIndex = 19;
+            this.subepkx2.TabStop = false;
+            // 
+            // subepkx3
+            // 
+            this.subepkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx3.Location = new System.Drawing.Point(109, 19);
+            this.subepkx3.Name = "subepkx3";
+            this.subepkx3.Size = new System.Drawing.Size(42, 34);
+            this.subepkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.subepkx3.TabIndex = 20;
+            this.subepkx3.TabStop = false;
             // 
             // Tab_Tools
             // 
@@ -4015,6 +4017,13 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
+            // Menu_Unicode
+            // 
+            this.Menu_Unicode.Name = "Menu_Unicode";
+            this.Menu_Unicode.Size = new System.Drawing.Size(183, 22);
+            this.Menu_Unicode.Text = "Toggle Unicode Text";
+            this.Menu_Unicode.Click += new System.EventHandler(this.Menu_Unicode_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -4120,11 +4129,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ppkx5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx6)).EndInit();
             this.Tab_Other.ResumeLayout(false);
-            this.GB_SUBE.ResumeLayout(false);
-            this.GB_SUBE.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).EndInit();
             this.GB_Daycare.ResumeLayout(false);
             this.GB_Daycare.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).EndInit();
@@ -4135,6 +4139,11 @@
             this.GB_Fused.ResumeLayout(false);
             this.GB_Fused.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fusedpkx)).EndInit();
+            this.GB_SUBE.ResumeLayout(false);
+            this.GB_SUBE.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).EndInit();
             this.Tab_Tools.ResumeLayout(false);
             this.Tab_SAV.ResumeLayout(false);
             this.Tab_SAV.PerformLayout();
@@ -4447,6 +4456,7 @@
         private System.Windows.Forms.MaskedTextBox MT_Level;
         private System.Windows.Forms.MaskedTextBox MT_Form;
         private System.Windows.Forms.Button B_OpenSecretBase;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Unicode;
     }
 }
 

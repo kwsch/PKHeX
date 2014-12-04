@@ -431,8 +431,7 @@ namespace PKHeX
             pkm[0x14] = (byte)Util.getIndex(CB_Nature);
 
             int fegform = 0;
-            fegform += (Convert.ToInt32(Label_Gender.Text == "♀") * 2);                         // Female Gender
-            fegform += (Convert.ToInt32(Label_Gender.Text == "-") * 4);                         // Genderless
+            fegform += PKX.getGender(Label_Gender.Text) << 1;                         // Gender
             fegform += ((Util.getIndex(CB_Form)) * 8);
             pkm[0x15] = (byte)fegform;
 
@@ -595,10 +594,10 @@ namespace PKHeX
             m_parent.updateAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
 
             // If form has a single gender, account for it.
-            if (CB_Form.Text == "♂")
-                Label_Gender.Text = "♂";
-            else if (CB_Form.Text == "♀")
-                Label_Gender.Text = "♀";
+            if (PKX.getGender(CB_Form.Text) == 0) // ♂
+                Label_Gender.Text = Form1.gendersymbols[0]; // ♂
+            else if (PKX.getGender(CB_Form.Text) == 1) // ♀
+                Label_Gender.Text = Form1.gendersymbols[1]; // ♀
         }
         private int species; private int gt; private int genderflag;
         private void Label_Gender_Click(object sender, EventArgs e)
@@ -613,21 +612,21 @@ namespace PKHeX
 
             if (gt < 256) // If not a single gender(less) species:
             {
-                if (Label_Gender.Text == "♂")
-                    Label_Gender.Text = "♀";
+                if (PKX.getGender(Label_Gender.Text) == 0)
+                    Label_Gender.Text = Form1.gendersymbols[1];
                 else
-                    Label_Gender.Text = "♂";
+                    Label_Gender.Text = Form1.gendersymbols[0];
             }
         }
         private void setGenderLabel()
         {
             if (genderflag == 0) // Gender = Male
-                Label_Gender.Text = "♂";
+                Label_Gender.Text = Form1.gendersymbols[0];
             
             else if (genderflag == 1) // Gender = Female
-                Label_Gender.Text = "♀";
-            
-            else Label_Gender.Text = "-";
+                Label_Gender.Text = Form1.gendersymbols[1];
+
+            else Label_Gender.Text = Form1.gendersymbols[2];
         }
     }
 }
