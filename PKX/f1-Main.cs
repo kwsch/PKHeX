@@ -200,6 +200,7 @@ namespace PKHeX
         public byte[] cyberSAV = new Byte[0x65600];
         public bool savegame_oras = false;
         public bool cybergadget = false;
+        public bool savLoaded = false;
         public int gt = 258;
         public int genderflag, species;
         public int savindex;
@@ -3962,6 +3963,7 @@ namespace PKHeX
             B_OpenSecretBase.Visible = oras;
 
             this.Width = largeWidth;
+            savLoaded = true;
             System.Media.SystemSounds.Beep.Play(); // audibly indicate the save is loaded
         }
         // Secondary Windows for Ribbons/Amie/Memories
@@ -5460,7 +5462,7 @@ namespace PKHeX
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
                 chk += BitConverter.ToUInt16(dslotdata, i);
 
-            if (chk != BitConverter.ToUInt16(dslotdata, 6) && !slotdata.SequenceEqual(new Byte[0xE8])) // Bad Egg
+            if (chk != BitConverter.ToUInt16(dslotdata, 6) && (!savLoaded && !slotdata.SequenceEqual(new Byte[0xE8]))) // Bad Egg
             {
                 pb.Image = null;
                 pb.BackColor = Color.Red;
@@ -5484,7 +5486,7 @@ namespace PKHeX
                 file = "_" + species.ToString();
                 if (altforms > 0) // Alt Form Handling
                     file = file + "_" + altforms.ToString();
-                else if ((species == 521 || species == 668) && (gender == 1))   // Unfezant & Pyroar
+                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
                     file = file = "_" + species.ToString() + "f";
             }
 
