@@ -2238,6 +2238,11 @@ namespace PKHeX
                     Label_Gender.Text = gendersymbols[1]; // ♀
                 else
                     Label_Gender.Text = gendersymbols[0]; // ♂
+
+                if (PKX.getGender(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
+                    CB_Form.SelectedIndex = 1;
+                else if (PKX.getGender(CB_Form.Text) == 1 && Label_Gender.Text != gendersymbols[1])
+                    CB_Form.SelectedIndex = 0;
             }
 
             if (species == 668 || species == 592 || species == 593)
@@ -3395,8 +3400,8 @@ namespace PKHeX
                 else if ((form == 1) && (species == 641)) { HP_B = 79; ATK_B = 100; DEF_B = 80; SPA_B = 110; SPD_B = 90; SPE_B = 121; }
                 else if ((form == 1) && (species == 642)) { HP_B = 79; ATK_B = 105; DEF_B = 70; SPA_B = 145; SPD_B = 80; SPE_B = 101; }
                 else if ((form == 1) && (species == 645)) { HP_B = 89; ATK_B = 145; DEF_B = 90; SPA_B = 105; SPD_B = 80; SPE_B = 91; }
-                else if ((form == 1) && (species == 646)) { HP_B = 125; ATK_B = 170; DEF_B = 100; SPA_B = 120; SPD_B = 90; SPE_B = 95; }
-                else if ((form == 2) && (species == 646)) { HP_B = 125; ATK_B = 120; DEF_B = 90; SPA_B = 170; SPD_B = 100; SPE_B = 95; }
+                else if ((form == 1) && (species == 646)) { HP_B = 125; ATK_B = 120; DEF_B = 90; SPA_B = 170; SPD_B = 100; SPE_B = 95; } // white
+                else if ((form == 2) && (species == 646)) { HP_B = 125; ATK_B = 170; DEF_B = 100; SPA_B = 120; SPD_B = 90; SPE_B = 95; } // black
                 else if ((form == 1) && (species == 648)) { HP_B = 100; ATK_B = 128; DEF_B = 90; SPA_B = 77; SPD_B = 77; SPE_B = 128; }
                 else if ((form == 5) && (species == 670)) { HP_B = 74; ATK_B = 65; DEF_B = 67; SPA_B = 125; SPD_B = 128; SPE_B = 92; }
                 else if ((form == 1) && (species == 681)) { HP_B = 60; ATK_B = 150; DEF_B = 50; SPA_B = 150; SPD_B = 50; SPE_B = 60; }
