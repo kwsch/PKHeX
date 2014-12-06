@@ -2303,18 +2303,13 @@ namespace PKHeX
                 else Label_CTGender.Text = gendersymbols[0]; // ♂
             }
         }
-        private void Label_OTGender_Click(object sender, EventArgs e)
+        private void Label_TrainerGender_Click(object sender, EventArgs e)
         {
-            if (PKX.getGender(Label_OTGender.Text) == 0) // ♂
-                Label_OTGender.Text = gendersymbols[1]; // ♀
-            else Label_OTGender.Text = gendersymbols[0]; // ♂
-        }
-        private void Label_CTGender_Click(object sender, EventArgs e)
-        {
-            if (Label_CTGender.Text == "") return;
-            else if (PKX.getGender(Label_CTGender.Text) == 0) // ♂
-                Label_CTGender.Text = gendersymbols[1]; // ♀
-            else Label_CTGender.Text = gendersymbols[0]; // ♂
+            Label lbl = sender as Label;
+            if (lbl.Text == "") 
+                return;
+            else // set gender label (toggle M/F)
+                lbl.Text = (PKX.getGender(lbl.Text) == 0) ? gendersymbols[1] : gendersymbols[0];
         }
         // Prompted Updates of PKX Functions // 
         public void setCountry(object sender)
@@ -2493,6 +2488,8 @@ namespace PKHeX
         }
         private void updateIVs(object sender, EventArgs e)
         {
+            if (sender != null)
+                (sender as MaskedTextBox).Text = Math.Min(Util.ToInt32((sender as MaskedTextBox).Text), 31).ToString();
             int ivtotal, HP_IV, ATK_IV, DEF_IV, SPA_IV, SPD_IV, SPE_IV;
             HP_IV = Util.ToInt32(TB_HPIV.Text);
             ATK_IV = Util.ToInt32(TB_ATKIV.Text);
@@ -2503,18 +2500,6 @@ namespace PKHeX
 
             int[] iva = new int[] { HP_IV, ATK_IV, DEF_IV, SPE_IV, SPA_IV, SPD_IV };
             MaskedTextBox[] ivt = { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
-
-            bool exitfunction = false;
-            for (int i = 0; i < 6; i++)
-            {
-                if (iva[i] > 31)
-                {
-                    ivt[i].BackColor = Color.Red;
-                    exitfunction = true;
-                }
-                else ivt[i].BackColor = Color.White;
-            }
-            if (exitfunction) return;
 
             int HPTYPE = (15 * ((HP_IV & 1) + 2 * (ATK_IV & 1) + 4 * (DEF_IV & 1) + 8 * (SPE_IV & 1) + 16 * (SPA_IV & 1) + 32 * (SPD_IV & 1))) / 63;
             Label_HPTYPE.Text = types[HPTYPE+1]; // type array has normal at index 0, so we offset by 1
@@ -2546,7 +2531,6 @@ namespace PKHeX
                     L_Potential.Text = "++++";
             }
 
-
             // Characteristic with PID%6
             int pm6 = (int)(Util.getHEXval(TB_PID) % 6); // PID MOD 6
             int maxIV = iva.Max();
@@ -2564,6 +2548,8 @@ namespace PKHeX
         }
         private void updateEVs(object sender, EventArgs e)
         {
+            if (sender != null)
+                (sender as MaskedTextBox).Text = Math.Min(Util.ToInt32((sender as MaskedTextBox).Text), 252).ToString();
             int evtotal, HP_EV, ATK_EV, DEF_EV, SPA_EV, SPD_EV, SPE_EV;
             HP_EV = Util.ToInt32(TB_HPEV.Text);
             ATK_EV = Util.ToInt32(TB_ATKEV.Text);
@@ -2572,19 +2558,8 @@ namespace PKHeX
             SPD_EV = Util.ToInt32(TB_SPDEV.Text);
             SPE_EV = Util.ToInt32(TB_SPEEV.Text);
 
-            int[] iva = new int[] { HP_EV, ATK_EV, DEF_EV, SPA_EV, SPD_EV, SPE_EV };
-            MaskedTextBox[] ivt = { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV };
-
-            for (int i = 0; i < 6; i++) // if illegal, mark the box as illegal
-            {
-                if (iva[i] > 252)
-                    ivt[i].BackColor = Color.Red;
-                else ivt[i].BackColor = Color.White;
-            }
-
-            for (int i = 0; i < 6; i++) // if totally illegal, don't continue.
-                if (iva[i] > 255)
-                    return;
+            int[] eva = new int[] { HP_EV, ATK_EV, DEF_EV, SPA_EV, SPD_EV, SPE_EV };
+            MaskedTextBox[] evt = { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV };
 
             evtotal = HP_EV + ATK_EV + DEF_EV + SPA_EV + SPD_EV + SPE_EV;
 
@@ -2608,14 +2583,16 @@ namespace PKHeX
                 TB_SPAIV.Text = 31.ToString();
                 TB_SPDIV.Text = 31.ToString();
                 TB_SPEIV.Text = 31.ToString();
-                return;
             }
-            TB_HPIV.Text = (Util.rnd32() & 0x1F).ToString();
-            TB_ATKIV.Text = (Util.rnd32() & 0x1F).ToString();
-            TB_DEFIV.Text = (Util.rnd32() & 0x1F).ToString();
-            TB_SPAIV.Text = (Util.rnd32() & 0x1F).ToString();
-            TB_SPDIV.Text = (Util.rnd32() & 0x1F).ToString();
-            TB_SPEIV.Text = (Util.rnd32() & 0x1F).ToString();
+            else
+            {
+                TB_HPIV.Text = (Util.rnd32() & 0x1F).ToString();
+                TB_ATKIV.Text = (Util.rnd32() & 0x1F).ToString();
+                TB_DEFIV.Text = (Util.rnd32() & 0x1F).ToString();
+                TB_SPAIV.Text = (Util.rnd32() & 0x1F).ToString();
+                TB_SPDIV.Text = (Util.rnd32() & 0x1F).ToString();
+                TB_SPEIV.Text = (Util.rnd32() & 0x1F).ToString();
+            }
         }
         private void updateRandomEVs(object sender, EventArgs e)
         {
@@ -2677,8 +2654,7 @@ namespace PKHeX
             MaskedTextBox mtb = sender as MaskedTextBox;
             try
             {
-                int val = Util.ToInt32(mtb.Text);
-                if (val > 255) mtb.Text = "255";
+                mtb.Text = Math.Min(Util.ToInt32(mtb.Text), 255).ToString();
             }
             catch { mtb.Text = "0"; }
         }
@@ -2687,8 +2663,7 @@ namespace PKHeX
             TextBox tb = sender as TextBox;
             try
             {
-                int val = Util.ToInt32(tb.Text);
-                if (val > 255) tb.Text = "255";
+                tb.Text = Math.Min(Util.ToInt32(tb.Text), 255).ToString();
             }
             catch { tb.Text = "0"; }
         }
@@ -2761,12 +2736,8 @@ namespace PKHeX
                 genderflag = 1;
             else if (gt == 256) // Male Only
                 genderflag = 0;
-            else
-            {   // get gender from old PID correlation
-                if ((Util.getHEXval(TB_PID) & 0xFF) < gt)
-                     genderflag = 1;
-                else genderflag = 0;
-            }
+            else // get gender from old PID correlation
+                genderflag = ((Util.getHEXval(TB_PID) & 0xFF) < gt) ? 1 : 0;
 
             setGenderLabel();
             updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
@@ -3134,8 +3105,7 @@ namespace PKHeX
             MaskedTextBox mtb = sender as MaskedTextBox;
             try
             {
-                int val = Util.ToInt32(mtb.Text);
-                if (val > 255) mtb.Text = "255";
+                mtb.Text = Math.Min(Util.ToInt32(mtb.Text), 255).ToString();
             }
             catch { mtb.Text = "0"; }
 
@@ -3267,9 +3237,6 @@ namespace PKHeX
             // Display hatch counter if it is an egg, Display Friendship if it is not.
             Label_HatchCounter.Visible = CHK_IsEgg.Checked;
             Label_Friendship.Visible = !CHK_IsEgg.Checked;
-            // Disable 
-            // CB_MetLocation.Enabled = !CHK_IsEgg.Checked;
-            // CAL_MetDate.Enabled = !CHK_IsEgg.Checked;
         }
         private void updateMetAsEgg(object sender, EventArgs e)
         {
@@ -3305,13 +3272,11 @@ namespace PKHeX
             TB_PID.Text = Util.getHEXval(TB_PID).ToString("X8");
             TB_EC.Text = Util.getHEXval(TB_EC).ToString("X8");
 
-            if (Util.ToUInt32(TB_TID.Text) > 0xFFFF)
-                TB_TID.Text = TB_TID.Text.Remove(TB_TID.Text.Length - 1);
-            if (Util.ToUInt32(TB_TID.Text) > 0xFFFF)
-                TB_SID.Text = TB_SID.Text.Remove(TB_SID.Text.Length - 1);
+            TB_TID.Text = Math.Min(Util.ToUInt32(TB_TID.Text), 65535).ToString(); // max TID/SID is 65535
+            TB_SID.Text = Math.Min(Util.ToUInt32(TB_SID.Text), 65535).ToString();
             
             setIsShiny();
-            updateIVs(sender, e);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
+            updateIVs(null, null);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
         }
         private void validateComboBox(object sender, CancelEventArgs e)
@@ -3444,9 +3409,7 @@ namespace PKHeX
 
                 // ORAS Stats
                 else if ((form == 1) && (species == 382)) { HP_B = 100; ATK_B = 150; DEF_B = 90; SPA_B = 180; SPD_B = 160; SPE_B = 90; } // Primal Kyogre
-                else if ((form == 1) && (species == 383)) { HP_B = 100; ATK_B = 180; DEF_B = 160; SPA_B = 150; SPD_B = 90; SPE_B = 90; } // Primal Groudon
-
-                else if ((form == 1) && (species == 720)) { HP_B = 80; ATK_B = 160; DEF_B = 60; SPA_B = 170; SPD_B = 130; SPE_B = 80; } // Hoopa
+                else if ((form == 1) && (species == 383)) { HP_B = 100; ATK_B = 180; DEF_B = 160; SPA_B = 150; SPD_B = 90; SPE_B = 90; } // Primal 
 
                 else if ((form == 1) && (species == 015)) { HP_B = 65; ATK_B = 150; DEF_B = 40; SPA_B = 15; SPD_B = 80; SPE_B = 145; } // Beedrill
                 else if ((form == 1) && (species == 018)) { HP_B = 83; ATK_B = 80; DEF_B = 83; SPA_B = 135; SPD_B = 80; SPE_B = 121; } // Pidgeot
@@ -3467,7 +3430,7 @@ namespace PKHeX
                 else if ((form == 1) && (species == 531)) { HP_B = 103; ATK_B = 60; DEF_B = 126; SPA_B = 80; SPD_B = 126; SPE_B = 50; } // Audino
                 else if ((form == 1) && (species == 719)) { HP_B = 50; ATK_B = 160; DEF_B = 110; SPA_B = 160; SPD_B = 110; SPE_B = 110; } // Diancie
 
-                // 015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
+                else if ((form == 1) && (species == 720)) { HP_B = 80; ATK_B = 160; DEF_B = 60; SPA_B = 170; SPD_B = 130; SPE_B = 80; } // Hoopa Unbound
             }
             // End Form Stat Recalc
 
@@ -3643,11 +3606,8 @@ namespace PKHeX
 
                 if ((ext == ".ekx") || (ext == ".bin") || (ext == ".pkx") || (ext == ".ek6") || (ext == ".pk6"))
                 {
-                    if ((ext == ".ekx") || (ext == ".bin") || (ext == ".ek6"))
-                    {
-                        // User Requested Encrypted File
+                    if ((ext == ".ekx") || (ext == ".bin") || (ext == ".ek6")) // User Requested Encrypted File
                         pkx = PKX.encryptArray(pkx);
-                    }
                     File.WriteAllBytes(path, pkx.ToArray());
                 }
                 else
@@ -3656,7 +3616,7 @@ namespace PKHeX
                     string caption = "Error Detected in Input";
                     MessageBox.Show(message, caption);
                     pkx = PKX.encryptArray(pkx);
-                    File.WriteAllBytes(path, pkx.ToArray());
+                    File.WriteAllBytes(path, pkx);
                 }
             }
         }
@@ -3667,8 +3627,7 @@ namespace PKHeX
         private void mainmenuAbout(object sender, EventArgs e)
         {
             // Open a new form with the About details.
-            PKHeX.About about = new PKHeX.About();
-            about.ShowDialog();
+            new About().ShowDialog();
         }
         private void mainmenuWiden(object sender, EventArgs e)
         {
@@ -3682,7 +3641,7 @@ namespace PKHeX
             else
                 newwidth = shortWidth;
 
-            this.Width = newwidth;
+            Width = newwidth;
         }
         private void mainmenuCodeGen(object sender, EventArgs e)
         {
@@ -3694,10 +3653,7 @@ namespace PKHeX
             {
                 byte[] decdata = PKX.decryptArray(data);
                 Array.Copy(decdata, buff, 232);
-                try
-                {
-                    populateFields(buff);
-                }
+                try { populateFields(buff); }
                 catch
                 {
                     Array.Copy(new Byte[232], buff, 232);
@@ -3812,7 +3768,7 @@ namespace PKHeX
                         if (sdr == DialogResult.Cancel)
                         {
                             savindex = 0;
-                            return;
+                            return; // abort load
                         }
                         else if (sdr == DialogResult.Yes)
                         {
@@ -3893,7 +3849,6 @@ namespace PKHeX
         {
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new SaveGames.SaveStruct(GameType);
-            savegame_oras = oras;
 
             // Load CyberGadget
             this.savindex = 0;
@@ -3932,20 +3887,21 @@ namespace PKHeX
             Array.Copy(savefile, 0x43C - 1 * 0x130, realHash2, 0, 0x20);
 
             B_SwitchSAV.Enabled = (hashValue1.SequenceEqual(realHash1) && hashValue2.SequenceEqual(realHash2));
-            getSAVOffsets();
+            getSAVOffsets(); // just in case
             Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
 
             openSave(oras);
         }
         private void openSave(bool oras)
         {
+            savegame_oras = oras;
             // Enable Secondary Tools
             GB_SAVtools.Enabled =
+                tabBoxMulti.Enabled = true;
                 B_JPEG.Enabled =
                 B_BoxIO.Enabled =
                 B_VerifyCHK.Enabled = true;
             B_VerifySHA.Enabled = B_SwitchSAV.Enabled = false;
-            tabBoxMulti.Enabled = true;
 
             savedited = false;
             Menu_ToggleBoxUI.Visible = false;
@@ -3969,13 +3925,11 @@ namespace PKHeX
         // Secondary Windows for Ribbons/Amie/Memories
         private void openribbons(object sender, EventArgs e)
         {
-            PKHeX.RibbMedal f3 = new PKHeX.RibbMedal(this);
-            f3.ShowDialog();
+            new RibbMedal(this).ShowDialog();
         }
         private void openhistory(object sender, EventArgs e)
         {
-            PKHeX.MemoryAmie f4 = new PKHeX.MemoryAmie(this);
-            f4.ShowDialog();
+            new MemoryAmie(this).ShowDialog();
         }
         // Open/Save Array Manipulation // 
         public bool verifiedpkx()
@@ -4005,27 +3959,9 @@ namespace PKHeX
                 }
             }
             #endregion
-            #region TextBoxes
             // Further logic checking
-            MaskedTextBox[] tba = new MaskedTextBox[] 
-                { 
-                    TB_HPEV,TB_ATKEV,TB_DEFEV,TB_SPAEV,TB_SPDEV,TB_SPEEV,
-                    TB_HPIV,TB_ATKIV,TB_DEFIV,TB_SPAIV,TB_SPDIV,TB_SPEIV,
-                };
-            for (int i = 0; i < 6; i++)
-            {
-                if (((Util.ToInt32(tba[i].Text) > 252) && !(CHK_HackedStats.Checked && Util.ToInt32(tba[i].Text) < 256)) || (Util.ToInt32(tba[i + 6].Text) > 31))
-                {
-                    tabMain.SelectedIndex = 2;
-                    goto invalid;
-                }
-            }
             if (Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
-            {
-                tabMain.SelectedIndex = 2;
-                goto invalid;
-            }
-            #endregion
+            { tabMain.SelectedIndex = 2; goto invalid; }
             if (Util.getIndex(CB_Species) == 0) // Not gonna write 0 species.
             { tabMain.SelectedIndex = 0; goto invalid; }
 
@@ -5156,25 +5092,23 @@ namespace PKHeX
         }
         private void cloneBox(object sender, EventArgs e)
         {
-            if (!verifiedpkx()) { return; }
-            int slot = getSlot(sender);
-            if (slot > 30) return;
+            if (!verifiedpkx()) { return; } // don't copy garbage to the box
+            if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
 
-            int box = C_BoxSelect.SelectedIndex + 1;
+            int box = C_BoxSelect.SelectedIndex + 1; // get box we're cloning to
             {
                 DialogResult sdr = MessageBox.Show(String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?",box), "Prompt", MessageBoxButtons.YesNo);
-                if (sdr != DialogResult.Yes)
+                if (sdr != DialogResult.Yes) // give the option to abort
                     return;
             }
 
-
             byte[] pkxdata = preparepkx(buff);
             byte[] ekxdata = PKX.encryptArray(pkxdata);
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 30; i++) // write encrypted array to all box slots
                 Array.Copy(ekxdata, 0, savefile, getPKXOffset(i), 0xE8);
 
-            setPokedex(pkxdata);
-            setPKXBoxes();
+            setPokedex(pkxdata); // set pokedex data if necessary
+            setPKXBoxes();  // refresh box view
             savedited = true;
         }
         private void setPokedex(byte[] pkxdata)
@@ -5207,7 +5141,7 @@ namespace PKHeX
         }
         private byte setParty()
         {
-            byte partymembers = 0;
+            byte partymembers = 0; // start off with a ctr of 0
             int offset = SaveGame.Party + 0x7F000 * savindex;
             for (int i = 0; i < 6; i++)
             {
@@ -5222,6 +5156,7 @@ namespace PKHeX
                     partymembers++; // Copy in our party member
                 }
             }
+
             // Write in the current party count
             savefile[offset + 6 * 0x104 + savindex * 0x7F000] = partymembers;
             // Zero out the party slots that are empty.
@@ -5350,21 +5285,18 @@ namespace PKHeX
                 int offset = SaveGame.Party + (0x7F000 * savindex) + 0x104 * i;
                 getSlotFiller(offset, pba[i + 30]);
             }
+
             // Reload Battle Box
             for (int i = 0; i < 6; i++)
             {
                 int offset = SaveGame.BattleBox + (0x7F000 * savindex) + 0xE8 * i;
                 getSlotFiller(offset, pba[i + 36]);
             }
+
             // Reload Daycare
-            Label[] dclabela = { 
-                                   L_DC1,
-                                   L_DC2,
-                               };
-            TextBox[] dctexta = {
-                                    TB_Daycare1XP,
-                                    TB_Daycare2XP,
-                                };
+            Label[] dclabela = { L_DC1, L_DC2, };
+            TextBox[] dctexta = { TB_Daycare1XP, TB_Daycare2XP };
+
             for (int i = 0; i < 2; i++)
             {
                 int offset = SaveGame.Daycare + (0x7F000 * savindex) + 0xE8 * i + 8 * (i + 1);
@@ -5431,7 +5363,7 @@ namespace PKHeX
         private void setSAVLabel()
         {
             L_SAVINDEX.Text = (savindex + 1).ToString();
-            RTB_S.Text += "\r\nLoaded Save File " + (savindex + 1).ToString();
+            RTB_S.AppendText("Loaded Save File " + (savindex + 1).ToString() + "\n");
         }
         private void getSAVOffsets()
         {
@@ -5479,8 +5411,7 @@ namespace PKHeX
 
             if (species == 0)
             { pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); return; }
-            // if (isegg == 1)
-            //   { file = "egg"; }
+
             else
             {
                 file = "_" + species.ToString();
@@ -5778,31 +5709,26 @@ namespace PKHeX
         private void B_OpenWondercards_Click(object sender, EventArgs e)
         {
             // Open Wondercard Menu
-            PKHeX.SAV_Wondercard sb32 = new PKHeX.SAV_Wondercard(this);
-            sb32.ShowDialog();
+            new SAV_Wondercard(this).ShowDialog();
         }
         private void B_OpenBoxLayout_Click(object sender, EventArgs e)
         {
             // Open Box Layout Menu
-            PKHeX.SAV_BoxLayout sb21 = new PKHeX.SAV_BoxLayout(this);
-            sb21.ShowDialog();
-            setBoxNames();
-            setPKXBoxes();
+            new SAV_BoxLayout(this).ShowDialog();
+            setBoxNames(); // fix box names
+            setPKXBoxes(); // refresh box background
         }
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
-            PKHeX.SAV_Trainer sb13 = new PKHeX.SAV_Trainer(this);
-            sb13.ShowDialog();
+            new SAV_Trainer(this).ShowDialog();
         }
         private void B_OpenPokepuffs_Click(object sender, EventArgs e)
         {
-            PKHeX.SAV_Pokepuff sb11 = new PKHeX.SAV_Pokepuff(this);
-            sb11.ShowDialog();
+            new SAV_Pokepuff(this).ShowDialog();
         }
         private void B_OpenItemPouch_Click(object sender, EventArgs e)
         {
-            PKHeX.SAV_Inventory sb12 = new PKHeX.SAV_Inventory(this);
-            sb12.ShowDialog();
+            new SAV_Inventory(this).ShowDialog();
         }
         private void B_OpenBerryField_Click(object sender, EventArgs e)
         {
@@ -5814,7 +5740,7 @@ namespace PKHeX
                     // Randomize the trees.
                     int offset = 0x1C400 + 0x5400 + savindex * 0x7F000;
                     byte[] ready = new byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00, };
-                    int[] itemlist = new int[] 
+                    int[] berrylist = new int[] 
                     {
                         0,149,150,151,152,153,154,155,156,157,158,159,160,161,162,
                         163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,
@@ -5824,25 +5750,28 @@ namespace PKHeX
                     };
                     for (int i = 0; i < 90; i++)
                     {
-                        Array.Copy(ready, 0, savefile, offset + 0x10 * i, 0x10);
-                        Array.Copy(BitConverter.GetBytes(itemlist[Util.rnd32() % itemlist.Length]), 0, savefile, offset + 0x10 * i + 6, 2);
+                        Array.Copy(ready, 0, savefile, offset + 0x10 * i, 0x10); // prep the berry template tree (which we replace offset 0x6 for the Tree Item)
+                        int randberry = (int)(Util.rnd32() % berrylist.Length); // generate a random berry that will go into the tree
+                        int index = berrylist[randberry]; // get berry item ID from list
+                        Array.Copy(BitConverter.GetBytes(index), 0, savefile, offset + 0x10 * i + 6, 2); // put berry into tree.
                     }
                 }
             }
             else 
-                (new PKHeX.SAV_BerryField(this, SaveGame.BerryField)).ShowDialog();
+                new SAV_BerryField(this, SaveGame.BerryField).ShowDialog();
         }
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
             // Open Flag Menu
-            if (savegame_oras) (new PKHeX.SAV_EventFlagsORAS(this)).ShowDialog();
-            else (new PKHeX.SAV_EventFlagsXY(this)).ShowDialog();
+            if (savegame_oras) 
+                new SAV_EventFlagsORAS(this).ShowDialog();
+            else 
+                new SAV_EventFlagsXY(this).ShowDialog();
         }
         private void B_OpenSuperTraining_Click(object sender, EventArgs e)
         {
             // Open ST Menu
-            SAV_SuperTrain supertrain = new PKHeX.SAV_SuperTrain(this);
-            supertrain.ShowDialog();
+            new SAV_SuperTrain(this).ShowDialog();
         }
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
@@ -5874,16 +5803,17 @@ namespace PKHeX
                     };
                     Array.Copy(maxoras, 0, savefile, 0x17400 + 0x5400 + 0x7F000 * savindex, 0x44);
                 }
-                return;
             }
-            SAV_OPower opower = new PKHeX.SAV_OPower(this);
-            opower.ShowDialog();
+            else 
+                new SAV_OPower(this).ShowDialog();
         }
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
             // Open Pokedex Menu
-            if (savegame_oras) (new PKHeX.SAV_PokedexORAS(this)).ShowDialog();
-            else (new PKHeX.SAV_PokedexXY(this)).ShowDialog();
+            if (savegame_oras) 
+                new SAV_PokedexORAS(this).ShowDialog();
+            else 
+                new SAV_PokedexXY(this).ShowDialog();
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
@@ -5952,14 +5882,12 @@ namespace PKHeX
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
         {
             // Open HoF Menu
-            SAV_HallOfFame halloffame = new PKHeX.SAV_HallOfFame(this);
-            halloffame.ShowDialog();
+            new SAV_HallOfFame(this).ShowDialog();
         }
         private void B_OpenSecretBase_Click(object sender, EventArgs e)
         {
             // Open Secret Base Menu
-            SAV_SecretBase secretbase = new PKHeX.SAV_SecretBase(this);
-            secretbase.ShowDialog();
+            new SAV_SecretBase(this).ShowDialog();;
         }
 
         private void B_OpenTemp_Click(object sender, EventArgs e)
@@ -6028,8 +5956,7 @@ namespace PKHeX
         private void B_BoxIO_Click(object sender, EventArgs e)
         {
             // Allow Import/Export of Boxes
-            PKHeX.SAV_BoxIO boxio = new PKHeX.SAV_BoxIO(this, SaveGame.Box, SaveGame.PCLayout);
-            boxio.ShowDialog();
+            new PKHeX.SAV_BoxIO(this, SaveGame.Box, SaveGame.PCLayout).ShowDialog();
         }        
         #endregion
 
@@ -6135,7 +6062,8 @@ namespace PKHeX
             // Force an update to the met locations
             origintrack = "";
 
-            updateIVs(null, null); // Prompt an update for the characteristics
+            if (init)
+                updateIVs(null, null); // Prompt an update for the characteristics
         }
 
         // Drag & Drop within Box
@@ -6176,15 +6104,12 @@ namespace PKHeX
 
                     string[] filesToDrag = { newfile };
                     (sender as PictureBox).DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
-                    File.Delete(newfile);
+                    File.Delete(newfile); // after drop, delete the temporary file
                 }
                 catch (ArgumentException x)
                 { MessageBox.Show("Drag&Drop Error\n\n" + x, "Error"); }
                 File.Delete(newfile);
                 pkm_from_offset = 0;
-                //Array.Copy(savefile, offset, pkm_from, 0, 0xE8);
-                //pkm_from_offset = offset;
-                //(sender as PictureBox).DoDragDrop(pkm_from, DragDropEffects.Move);
             }
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
@@ -6222,7 +6147,7 @@ namespace PKHeX
                         if (fi.Extension == ".pkx" || fi.Extension == ".pk6")
                             data = PKX.encryptArray(data);
                         else if (fi.Extension != ".ekx" || fi.Extension != ".ekx")
-                            openQuick(files[0]);
+                        { openQuick(files[0]); return; } // lazy way of aborting 
 
                         Array.Copy(data, 0, savefile, offset, 0xE8);
                     }

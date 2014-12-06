@@ -379,3 +379,13 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Eon Ticket wondercard injection now adds the required data. It is now safe to add the extracted wondercard.
  - Added: More rebattle flags; Virizion may not be correct but it's our best guess.
  - - Rebattling Lati@s has yet to be ironed out, we haven't figured out how to go back to the island.
+
+12/6/14 - New Update:
+ - Added: Unicode Gender text toggle in Options.
+ - Fixed: Shiny Star will now appear in boxes.
+ - Fixed: Gendered formes will now appear properly in boxes.
+ - Fixed: verifychecksum input length error when past gen pkm were imported.
+ - Fixed: Bad egg setting via first slot drag (very uncommon, thanks Slashmolder for finding this!)
+ - Improved: Bad egg detection for zeroed data in actual saves.
+ - Changed: Secret Base Flag read offset to use the PSS stat 0x140 one, should be correct. Previous offset was the flag counter on QR code creation.
+ - Added: Shortcuts text for all the ease-of-use tricks you can do to speed up use of the program; access via the About window.

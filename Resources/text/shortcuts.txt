@@ -1,0 +1,28 @@
+﻿If you are having issues viewing gender symbols, Options -> Toggle Unicode Text.
+
+
+// Main Window
+
+Control + Click on...
+Randomize IVs: Set all IVs to max.
+Randomize EVs: Set all EVs to 0.
+PP Ups Label: Set all PP Ups to 3.
+Friendship Label: Reset Friendship
+
+Click on the Save File path (above Boxes): Auto-detect/Reload save.
+
+Control-Drag a Box Slot to Copy-Overwrite
+Alt-Drag a Box Slot to Delete-Overwrite
+
+Control-Shift-Click a slot to set a Pokemon to every slot in the box.
+Control-Click a slot to load slot to tabs.
+Shift-Click a slot to set tabs to slot.
+Alt-Click a slot to delete the data in slot.
+
+Control-Click the OpenTemp button to open the CyberGadget Cache folder.
+
+
+// Inventory Editor
+
+Alt-Click loading a pouch will give all items with quantity x995. Disabled for Key Items and TMs.
+

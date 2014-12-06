@@ -223,6 +223,7 @@
             this.Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dragout = new System.Windows.Forms.Panel();
             this.eragout = new System.Windows.Forms.Panel();
@@ -331,7 +332,6 @@
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
-            this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -1190,6 +1190,7 @@
             this.TB_MetLevel.Name = "TB_MetLevel";
             this.TB_MetLevel.Size = new System.Drawing.Size(122, 20);
             this.TB_MetLevel.TabIndex = 4;
+            this.TB_MetLevel.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // CAL_MetDate
             // 
@@ -2176,7 +2177,7 @@
             this.Label_CTGender.TabIndex = 57;
             this.Label_CTGender.Text = "G";
             this.Label_CTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_CTGender.Click += new System.EventHandler(this.Label_CTGender_Click);
+            this.Label_CTGender.Click += new System.EventHandler(this.Label_TrainerGender_Click);
             // 
             // TB_OTt2
             // 
@@ -2465,7 +2466,7 @@
             this.Label_OTGender.TabIndex = 56;
             this.Label_OTGender.Text = "G";
             this.Label_OTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_OTGender.Click += new System.EventHandler(this.Label_OTGender_Click);
+            this.Label_OTGender.Click += new System.EventHandler(this.Label_TrainerGender_Click);
             // 
             // TB_OT
             // 
@@ -2679,6 +2680,13 @@
             this.Menu_About.Size = new System.Drawing.Size(183, 22);
             this.Menu_About.Text = "A&bout PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainmenuAbout);
+            // 
+            // Menu_Unicode
+            // 
+            this.Menu_Unicode.Name = "Menu_Unicode";
+            this.Menu_Unicode.Size = new System.Drawing.Size(183, 22);
+            this.Menu_Unicode.Text = "Toggle Unicode Text";
+            this.Menu_Unicode.Click += new System.EventHandler(this.Menu_Unicode_Click);
             // 
             // testToolStripMenuItem
             // 
@@ -4016,13 +4024,6 @@
             this.L_SAVINDEX.Size = new System.Drawing.Size(13, 13);
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
-            // 
-            // Menu_Unicode
-            // 
-            this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(183, 22);
-            this.Menu_Unicode.Text = "Toggle Unicode Text";
-            this.Menu_Unicode.Click += new System.EventHandler(this.Menu_Unicode_Click);
             // 
             // Form1
             // 

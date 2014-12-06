@@ -33,6 +33,7 @@
             this.RTB = new System.Windows.Forms.RichTextBox();
             this.L_Thanks = new System.Windows.Forms.Label();
             this.L_Codr = new System.Windows.Forms.Label();
+            this.B_Shortcuts = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // B_Close
@@ -74,17 +75,29 @@
             this.L_Codr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Codr.AutoSize = true;
-            this.L_Codr.Location = new System.Drawing.Point(203, 345);
+            this.L_Codr.Location = new System.Drawing.Point(163, 345);
             this.L_Codr.Name = "L_Codr";
             this.L_Codr.Size = new System.Drawing.Size(157, 13);
             this.L_Codr.TabIndex = 3;
             this.L_Codr.Text = "UI Inspiried by Codr\'s PokeGen.";
+            // 
+            // B_Shortcuts
+            // 
+            this.B_Shortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Shortcuts.Location = new System.Drawing.Point(337, 340);
+            this.B_Shortcuts.Name = "B_Shortcuts";
+            this.B_Shortcuts.Size = new System.Drawing.Size(69, 23);
+            this.B_Shortcuts.TabIndex = 4;
+            this.B_Shortcuts.Text = "Shortcuts";
+            this.B_Shortcuts.UseVisualStyleBackColor = true;
+            this.B_Shortcuts.Click += new System.EventHandler(this.B_Shortcuts_Click);
             // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 372);
+            this.Controls.Add(this.B_Shortcuts);
             this.Controls.Add(this.L_Codr);
             this.Controls.Add(this.L_Thanks);
             this.Controls.Add(this.RTB);
@@ -108,5 +121,6 @@
         private System.Windows.Forms.RichTextBox RTB;
         private System.Windows.Forms.Label L_Thanks;
         private System.Windows.Forms.Label L_Codr;
+        private System.Windows.Forms.Button B_Shortcuts;
     }
 }

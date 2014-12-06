@@ -20,5 +20,18 @@ namespace PKHeX
         {
             this.Close();
         }
+        private void B_Shortcuts_Click(object sender, EventArgs e)
+        {
+            if (B_Shortcuts.Text == "Shortcuts")
+            {
+                RTB.Text = PKHeX.Properties.Resources.shortcuts; // display shortcuts
+                B_Shortcuts.Text = "Changelog";
+            }
+            else
+            {
+                RTB.Text = PKHeX.Properties.Resources.changelog; // display changelog
+                B_Shortcuts.Text = "Shortcuts";
+            }
+        }
     }
 }
