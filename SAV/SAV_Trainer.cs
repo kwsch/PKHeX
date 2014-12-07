@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,6 +27,11 @@ namespace PKHeX
             { 
                 psssatoffset = 0x24800; Maison += 0xA00;
                 this.Width = (int)((float)Width * (float)428 / (float)590);
+                CB_Multi.Enabled = true;
+                label34.Enabled = true; // Multiplayer Sprite Label
+                label21.Enabled = false; // Style Label
+                TB_Style.Enabled = false;
+                GB_Appear.Visible = false;
             }
             editing = true;
             getComboBoxes();
@@ -318,6 +323,87 @@ namespace PKHeX
             CB_Region.ValueMember = "Value";
 
             m_parent.setCountry(CB_Country);
+
+            var oras_sprite_list = new[] {
+              //new { Text = "Calem",                       Value = 00 },
+              //new { Text = "Serena",                      Value = 01 },
+                new { Text = "Sycamore",                    Value = 02 },
+                new { Text = "Diantha",                     Value = 03 },
+                new { Text = "Wikstrom",                    Value = 04 },
+                new { Text = "Malva",                       Value = 05 },
+                new { Text = "Drasna",                      Value = 06 },
+                new { Text = "Siebold",                     Value = 07 },
+                new { Text = "Viola",                       Value = 08 },
+                new { Text = "Grant",                       Value = 09 },
+                new { Text = "Korrina",                     Value = 10 },
+                new { Text = "Ramos",                       Value = 11 },
+                new { Text = "Clemont",                     Value = 12 },
+                new { Text = "Valerie",                     Value = 13 },
+                new { Text = "Olympia",                     Value = 14 },
+                new { Text = "Wulfric",                     Value = 15 },
+                new { Text = "Youngster (XY)",              Value = 16 },
+              //new { Text = "(None)",                      Value = 17 },
+                new { Text = "Lass (XY)",                   Value = 18 },
+                new { Text = "Lady (XY)",                   Value = 19 },
+                new { Text = "Schoolgirl (XY)",             Value = 20 },
+                new { Text = "Battle Girl (XY)",            Value = 21 },
+                new { Text = "Schoolboy (XY)",              Value = 22 },
+                new { Text = "Rich Boy (XY)",               Value = 23 },
+                new { Text = "Female Ace Trainer (XY)",     Value = 24 },
+              //new { Text = "(None)",                      Value = 25 },
+                new { Text = "Female Ranger (XY)",          Value = 26 },
+                new { Text = "Male Ace Trainer (XY)",       Value = 27 },
+                new { Text = "Male Ranger (XY)",            Value = 28 },
+                new { Text = "Madame",                      Value = 29 },
+                new { Text = "Monsieur",                    Value = 30 },
+                new { Text = "Black Belt (XY)",             Value = 31 },
+                new { Text = "Male Punk (XY)",              Value = 32 },
+                new { Text = "Fairy Tale Girl (XY)",        Value = 33 },
+                new { Text = "Shauna",                      Value = 34 },
+                new { Text = "Tierno",                      Value = 35 },
+                new { Text = "Trevor",                      Value = 36 },
+                new { Text = "Brendan",                     Value = 37 },
+                new { Text = "May",                         Value = 38 },
+              //new { Text = "(None)",                      Value = 39 },
+                new { Text = "Hiker",                       Value = 40 },
+                new { Text = "Aroma Lady",                  Value = 41 },
+                new { Text = "Male Schoolkid",              Value = 42 },
+                new { Text = "Female Schoolkid",            Value = 43 },
+                new { Text = "Black Belt (ORAS)",           Value = 44 },
+                new { Text = "Battle Girl (ORAS)",          Value = 45 },
+                new { Text = "Pokemaniac (ORAS)",           Value = 46 },
+                new { Text = "Fairy Tale Girl (ORAS)",      Value = 47 },
+                new { Text = "Victor Winstrate",            Value = 48 },
+                new { Text = "Victoria Winstrate",          Value = 49 },
+                new { Text = "Male Ranger (ORAS)",          Value = 50 },
+                new { Text = "Female Ranger (ORAS)",        Value = 51 },
+                new { Text = "Male Swimmer (ORAS)",         Value = 52 },
+                new { Text = "Hex Maniac",                  Value = 53 },
+                new { Text = "Male Ace Trainer (ORAS)",     Value = 54 },
+                new { Text = "Female Ace Trainer (ORAS)",   Value = 55 },
+                new { Text = "Street Thug",                 Value = 56 },
+                new { Text = "Delinquent",                  Value = 57 },
+                new { Text = "Male Expert",                 Value = 58 },
+                new { Text = "Female Expert",               Value = 59 },
+                new { Text = "Lady (ORAS)",                 Value = 60 },
+                new { Text = "Rich Boy (ORAS)",             Value = 61 },
+                new { Text = "Ninja Boy",                   Value = 62 },
+                new { Text = "Beauty (ORAS)",               Value = 63 },
+                new { Text = "Guitarist",                   Value = 64 },
+                new { Text = "Lass (ORAS)",                 Value = 65 },
+                new { Text = "Male Breeder (ORAS)",         Value = 66 },
+                new { Text = "Female Breeder (ORAS)",       Value = 67 },
+                new { Text = "Camper",                      Value = 68 },
+                new { Text = "Picnicker",                   Value = 69 },
+                new { Text = "Wally",                       Value = 70 },
+                new { Text = "Steven",                      Value = 71 },
+                new { Text = "Maxie",                       Value = 72 },
+                new { Text = "Archie",                      Value = 73 },
+            };
+
+            CB_Multi.DataSource = oras_sprite_list;
+            CB_Multi.DisplayMember = "Text";
+            CB_Multi.ValueMember = "Value";
         }
         private void getBadges()
         {
@@ -446,7 +532,7 @@ namespace PKHeX
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + psssatoffset + 0xFC).ToString();
             
             // Temp ORAS 
-            GB_Appear.Visible = GB_Misc.Visible = !m_parent.savegame_oras;
+            GB_Misc.Visible = true;
 
             TB_Style.Text = sav[0x694D + savshift].ToString();
 
@@ -457,7 +543,8 @@ namespace PKHeX
 
             // Load PSS Sprite
             int sprite = sav[TrainerCard + 0x07];
-            MT_Sprite.Text = sprite.ToString();
+            CB_Multi.SelectedValue = sprite;
+            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_" + sprite.ToString("00"));
 
             // Load Clothing Data
             int hat = sav[TrainerCard + 0x31 + savshift] >> 3;
@@ -575,7 +662,7 @@ namespace PKHeX
             sav[0x6C03 + savshift] = (byte)(UInt16.Parse(MT_Seconds.Text) % 60);
 
             // Sprite
-            sav[TrainerCard + 0x07] = Byte.Parse(MT_Sprite.Text);
+            sav[TrainerCard + 0x07] = Convert.ToByte(CB_Multi.SelectedValue);
 
             sav[TrainerCard + 0x31] = (byte)(Byte.Parse(MT_HairColor.Text) + (Byte.Parse(MT_Hat.Text) << 3));
 
@@ -678,6 +765,18 @@ namespace PKHeX
             int val = Convert.ToInt16(((PictureBox)sender).Name.Last().ToString())-1;
             CheckBox[] chka = new CheckBox[] { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8 };
             chka[val].Checked = !chka[val].Checked;
+        }
+
+        private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (m_parent.savegame_oras)
+            {
+                PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_" + ((int)(CB_Multi.SelectedValue)).ToString("00"));
+            }
+            else
+            {
+                PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_00");
+            }
         }
     }
 }
