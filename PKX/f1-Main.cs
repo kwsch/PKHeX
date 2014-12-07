@@ -4872,7 +4872,6 @@ namespace PKHeX
                 byte[] cybersav = new Byte[0x65600];
                 if (savegame_oras) cybersav = new Byte[0x76000];
                 Array.Copy(editedsav, 0x5400, cybersav, 0, cybersav.Length);
-                if (savegame_oras) goto postcheck;
                 // Chunk Error Checking
                 byte[] FFFF = new Byte[0x200];
                 byte[] section = new Byte[0x200];

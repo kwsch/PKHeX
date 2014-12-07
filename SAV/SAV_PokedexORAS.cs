@@ -491,6 +491,8 @@ namespace PKHeX
             // Encounter Count Writing (999*all species)
             for (int i = 0; i < 0x2D1; i++)
                 Array.Copy(BitConverter.GetBytes(999), 0, sav, sv + 0x5400 + 0x15686 + i * 2, 2);
+            // Turn off Italian Petlil
+            sav[0x1A9DF + sv] &= 0xFE;
 
             // Forms Bool Writing
             for (int i = 0; i < 0x9C; i++)
