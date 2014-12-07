@@ -29,8 +29,9 @@ namespace PKHeX
                 this.Width = (int)((float)Width * (float)428 / (float)590);
                 CB_Multi.Enabled = true;
                 label34.Enabled = true; // Multiplayer Sprite Label
-                label21.Enabled = false; // Style Label
-                TB_Style.Enabled = false;
+
+                label21.Visible = false; // Style Label
+                TB_Style.Visible = false;
                 GB_Appear.Visible = false;
             }
             editing = true;
@@ -119,7 +120,7 @@ namespace PKHeX
                 "0x134",	"0x134",
                 "0x138",	"0x138",
                 "0x13C",	"0x13C",
-                "0x140",	"0x140",
+                "0x140",	"Flags Captured",
                 "0x144",	"0x144",
                 "0x148",	"0x148",
                 "0x14C",	"0x14C",
@@ -771,7 +772,8 @@ namespace PKHeX
         {
             if (m_parent.savegame_oras)
             {
-                PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_" + ((int)(CB_Multi.SelectedValue)).ToString("00"));
+                int sprite = Util.getIndex(CB_Multi);
+                PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_" + sprite.ToString("00"));
             }
             else
             {

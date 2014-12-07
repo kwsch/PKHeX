@@ -4898,8 +4898,7 @@ namespace PKHeX
                         if (dr != DialogResult.Yes)
                             return;
                     }
-                }
-            postcheck:
+                }   
                 SaveFileDialog cySAV = new SaveFileDialog();
 
                 // Try for file path
