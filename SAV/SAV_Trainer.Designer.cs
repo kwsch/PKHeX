@@ -1,4 +1,4 @@
-﻿namespace PKHeX
+namespace PKHeX
 {
     partial class SAV_Trainer
     {
@@ -180,7 +180,6 @@
             this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
             this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
             this.GB_Misc = new System.Windows.Forms.GroupBox();
-            this.MT_Sprite = new System.Windows.Forms.MaskedTextBox();
             this.label34 = new System.Windows.Forms.Label();
             this.PB_Sprite = new System.Windows.Forms.PictureBox();
             this.CB_Multi = new System.Windows.Forms.ComboBox();
@@ -211,7 +210,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(416, 477);
+            this.B_Cancel.Location = new System.Drawing.Point(416, 601);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
@@ -222,7 +221,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(497, 477);
+            this.B_Save.Location = new System.Drawing.Point(497, 601);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -407,8 +406,8 @@
             // 
             // GB_Badges
             // 
-            this.GB_Badges.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_Badges.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_Badges.Controls.Add(this.pb8);
             this.GB_Badges.Controls.Add(this.cb8);
             this.GB_Badges.Controls.Add(this.cb7);
@@ -425,7 +424,7 @@
             this.GB_Badges.Controls.Add(this.pb3);
             this.GB_Badges.Controls.Add(this.cb1);
             this.GB_Badges.Controls.Add(this.pb1);
-            this.GB_Badges.Location = new System.Drawing.Point(12, 370);
+            this.GB_Badges.Location = new System.Drawing.Point(11, 489);
             this.GB_Badges.Name = "GB_Badges";
             this.GB_Badges.Size = new System.Drawing.Size(398, 135);
             this.GB_Badges.TabIndex = 26;
@@ -680,7 +679,7 @@
             // L_Seconds
             // 
             this.L_Seconds.AutoSize = true;
-            this.L_Seconds.Location = new System.Drawing.Point(142, 205);
+            this.L_Seconds.Location = new System.Drawing.Point(140, 205);
             this.L_Seconds.Name = "L_Seconds";
             this.L_Seconds.Size = new System.Drawing.Size(29, 13);
             this.L_Seconds.TabIndex = 30;
@@ -689,7 +688,7 @@
             // L_Minutes
             // 
             this.L_Minutes.AutoSize = true;
-            this.L_Minutes.Location = new System.Drawing.Point(89, 205);
+            this.L_Minutes.Location = new System.Drawing.Point(88, 205);
             this.L_Minutes.Name = "L_Minutes";
             this.L_Minutes.Size = new System.Drawing.Size(27, 13);
             this.L_Minutes.TabIndex = 29;
@@ -707,7 +706,7 @@
             // 
             // MT_Minutes
             // 
-            this.MT_Minutes.Location = new System.Drawing.Point(117, 202);
+            this.MT_Minutes.Location = new System.Drawing.Point(115, 202);
             this.MT_Minutes.Mask = "00";
             this.MT_Minutes.Name = "MT_Minutes";
             this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
@@ -881,7 +880,7 @@
             // 
             // TB_Style
             // 
-            this.TB_Style.Location = new System.Drawing.Point(64, 65);
+            this.TB_Style.Location = new System.Drawing.Point(94, 67);
             this.TB_Style.Mask = "000";
             this.TB_Style.Name = "TB_Style";
             this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -892,7 +891,7 @@
             // 
             // label21
             // 
-            this.label21.Location = new System.Drawing.Point(12, 68);
+            this.label21.Location = new System.Drawing.Point(42, 70);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(46, 13);
             this.label21.TabIndex = 7;
@@ -1262,38 +1261,38 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(26, 28);
+            this.label17.Location = new System.Drawing.Point(36, 35);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(16, 13);
+            this.label17.Size = new System.Drawing.Size(68, 13);
             this.label17.TabIndex = 46;
-            this.label17.Text = "M";
+            this.label17.Text = "Current Map:";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(26, 52);
+            this.label18.Location = new System.Drawing.Point(31, 73);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(14, 13);
+            this.label18.Size = new System.Drawing.Size(71, 13);
             this.label18.TabIndex = 47;
-            this.label18.Text = "X";
+            this.label18.Text = "X Coordinate:";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(90, 52);
+            this.label19.Location = new System.Drawing.Point(31, 151);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(14, 13);
+            this.label19.Size = new System.Drawing.Size(71, 13);
             this.label19.TabIndex = 49;
-            this.label19.Text = "Y";
+            this.label19.Text = "Y Coordinate:";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(90, 28);
+            this.label20.Location = new System.Drawing.Point(31, 111);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(14, 13);
+            this.label20.Size = new System.Drawing.Size(71, 13);
             this.label20.TabIndex = 48;
-            this.label20.Text = "Z";
+            this.label20.Text = "Z Coordinate:";
             // 
             // GB_Appear
             // 
@@ -1773,7 +1772,7 @@
             this.GB_Map.Controls.Add(this.label18);
             this.GB_Map.Location = new System.Drawing.Point(230, 288);
             this.GB_Map.Name = "GB_Map";
-            this.GB_Map.Size = new System.Drawing.Size(179, 80);
+            this.GB_Map.Size = new System.Drawing.Size(179, 195);
             this.GB_Map.TabIndex = 51;
             this.GB_Map.TabStop = false;
             this.GB_Map.Text = "Map Position";
@@ -1781,7 +1780,7 @@
             // TB_CoordY
             // 
             this.TB_CoordY.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordY.Location = new System.Drawing.Point(110, 49);
+            this.TB_CoordY.Location = new System.Drawing.Point(109, 148);
             this.TB_CoordY.Mask = "0000";
             this.TB_CoordY.Name = "TB_CoordY";
             this.TB_CoordY.Size = new System.Drawing.Size(35, 20);
@@ -1790,7 +1789,7 @@
             // TB_CoordZ
             // 
             this.TB_CoordZ.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordZ.Location = new System.Drawing.Point(110, 25);
+            this.TB_CoordZ.Location = new System.Drawing.Point(109, 108);
             this.TB_CoordZ.Mask = "0000";
             this.TB_CoordZ.Name = "TB_CoordZ";
             this.TB_CoordZ.Size = new System.Drawing.Size(35, 20);
@@ -1799,7 +1798,7 @@
             // TB_CoordX
             // 
             this.TB_CoordX.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordX.Location = new System.Drawing.Point(43, 49);
+            this.TB_CoordX.Location = new System.Drawing.Point(109, 70);
             this.TB_CoordX.Mask = "0000";
             this.TB_CoordX.Name = "TB_CoordX";
             this.TB_CoordX.Size = new System.Drawing.Size(35, 20);
@@ -1808,7 +1807,7 @@
             // TB_CoordM
             // 
             this.TB_CoordM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordM.Location = new System.Drawing.Point(44, 25);
+            this.TB_CoordM.Location = new System.Drawing.Point(109, 32);
             this.TB_CoordM.Mask = "0000";
             this.TB_CoordM.Name = "TB_CoordM";
             this.TB_CoordM.Size = new System.Drawing.Size(35, 20);
@@ -1816,44 +1815,33 @@
             // 
             // GB_Misc
             // 
-            this.GB_Misc.Controls.Add(this.MT_Sprite);
             this.GB_Misc.Controls.Add(this.TB_Style);
             this.GB_Misc.Controls.Add(this.label34);
             this.GB_Misc.Controls.Add(this.PB_Sprite);
             this.GB_Misc.Controls.Add(this.CB_Multi);
             this.GB_Misc.Controls.Add(this.label21);
-            this.GB_Misc.Location = new System.Drawing.Point(416, 288);
+            this.GB_Misc.Location = new System.Drawing.Point(13, 374);
             this.GB_Misc.Name = "GB_Misc";
-            this.GB_Misc.Size = new System.Drawing.Size(155, 109);
+            this.GB_Misc.Size = new System.Drawing.Size(209, 109);
             this.GB_Misc.TabIndex = 53;
             this.GB_Misc.TabStop = false;
             this.GB_Misc.Text = "Misc";
-            // 
-            // MT_Sprite
-            // 
-            this.MT_Sprite.Location = new System.Drawing.Point(116, 18);
-            this.MT_Sprite.Mask = "00";
-            this.MT_Sprite.Name = "MT_Sprite";
-            this.MT_Sprite.Size = new System.Drawing.Size(22, 20);
-            this.MT_Sprite.TabIndex = 54;
-            this.MT_Sprite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Sprite.TextChanged += new System.EventHandler(this.change255);
             // 
             // label34
             // 
             this.label34.AutoSize = true;
             this.label34.Enabled = false;
-            this.label34.Location = new System.Drawing.Point(14, 22);
+            this.label34.Location = new System.Drawing.Point(44, 18);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(87, 13);
+            this.label34.Size = new System.Drawing.Size(90, 13);
             this.label34.TabIndex = 27;
-            this.label34.Text = "Multiplayer Sprite";
+            this.label34.Text = "Multiplayer Sprite:";
             // 
             // PB_Sprite
             // 
             this.PB_Sprite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Sprite.Enabled = false;
-            this.PB_Sprite.Location = new System.Drawing.Point(96, 59);
+            this.PB_Sprite.Location = new System.Drawing.Point(126, 62);
             this.PB_Sprite.Name = "PB_Sprite";
             this.PB_Sprite.Size = new System.Drawing.Size(42, 42);
             this.PB_Sprite.TabIndex = 26;
@@ -1864,16 +1852,17 @@
             this.CB_Multi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Multi.Enabled = false;
             this.CB_Multi.FormattingEnabled = true;
-            this.CB_Multi.Location = new System.Drawing.Point(17, 38);
+            this.CB_Multi.Location = new System.Drawing.Point(18, 38);
             this.CB_Multi.Name = "CB_Multi";
-            this.CB_Multi.Size = new System.Drawing.Size(121, 21);
+            this.CB_Multi.Size = new System.Drawing.Size(173, 21);
             this.CB_Multi.TabIndex = 25;
+            this.CB_Multi.SelectedIndexChanged += new System.EventHandler(this.CB_Multi_SelectedIndexChanged);
             // 
             // L_Offset
             // 
             this.L_Offset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Offset.AutoSize = true;
-            this.L_Offset.Location = new System.Drawing.Point(424, 456);
+            this.L_Offset.Location = new System.Drawing.Point(424, 580);
             this.L_Offset.Name = "L_Offset";
             this.L_Offset.Size = new System.Drawing.Size(39, 13);
             this.L_Offset.TabIndex = 28;
@@ -1883,7 +1872,7 @@
             // 
             this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(424, 400);
+            this.label33.Location = new System.Drawing.Point(424, 524);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(31, 13);
             this.label33.TabIndex = 24;
@@ -1897,7 +1886,7 @@
             this.CB_Stats.DropDownWidth = 180;
             this.CB_Stats.FormattingEnabled = true;
             this.CB_Stats.IntegralHeight = false;
-            this.CB_Stats.Location = new System.Drawing.Point(427, 416);
+            this.CB_Stats.Location = new System.Drawing.Point(427, 540);
             this.CB_Stats.Name = "CB_Stats";
             this.CB_Stats.Size = new System.Drawing.Size(121, 21);
             this.CB_Stats.TabIndex = 23;
@@ -1907,7 +1896,7 @@
             // 
             this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(424, 440);
+            this.label39.Location = new System.Drawing.Point(424, 564);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(34, 13);
             this.label39.TabIndex = 22;
@@ -1917,7 +1906,7 @@
             // 
             this.MT_Stat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MT_Stat.Location = new System.Drawing.Point(471, 437);
+            this.MT_Stat.Location = new System.Drawing.Point(471, 561);
             this.MT_Stat.Mask = "0000000000";
             this.MT_Stat.Name = "MT_Stat";
             this.MT_Stat.Size = new System.Drawing.Size(77, 20);
@@ -1930,7 +1919,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 512);
+            this.ClientSize = new System.Drawing.Size(584, 636);
             this.Controls.Add(this.GB_Misc);
             this.Controls.Add(this.GB_Map);
             this.Controls.Add(this.L_Offset);
@@ -2124,7 +2113,6 @@
         private System.Windows.Forms.MaskedTextBox MT_Minutes;
         private System.Windows.Forms.Label L_Hours;
         private System.Windows.Forms.MaskedTextBox MT_Hours;
-        private System.Windows.Forms.MaskedTextBox MT_Sprite;
         private System.Windows.Forms.MaskedTextBox MT_Hat;
         private System.Windows.Forms.MaskedTextBox MT_HairColor;
         private System.Windows.Forms.MaskedTextBox MT_1403B;
