@@ -361,7 +361,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Drag & Drop rearranging / cloning / deleting in the Box. Drag Pokemon wherever you want; CTRL will overwrite and clone, ALT will overwrite, and no modifier pressed will swap the two slots.
  - Many other things that I could list...
 
-11/30/14 - New Update: 
+11/30/14 - New Update: (7300)
  - Added: Cross compatibility improvements (Mono / Linux) thanks to SoujiSeta on GitHub.
  - Fixed: Box Data Report will no longer output junk data for OR/AS saves. Thank you doiee & sniper_zero!
  - Added: Clarification label on Deoxys Defeated flag. Thank you for the suggestion, Thundergod65!

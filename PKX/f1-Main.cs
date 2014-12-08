@@ -6056,6 +6056,8 @@ namespace PKHeX
 
             metBW2_60000[3-1] += " (" + eggname + ")";  // Egg Treasure Hunter/Breeder, whatever...
 
+            metXY_00000[104] += " (X/Y)";              // Victory Road
+            metXY_00000[298] += " (OR/AS)";            // Victory Road
             metXY_30000[0] += " (NPC)";                // Anything from an NPC
             metXY_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
 
