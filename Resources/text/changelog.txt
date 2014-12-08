@@ -380,7 +380,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: More rebattle flags; Virizion may not be correct but it's our best guess.
  - - Rebattling Lati@s has yet to be ironed out, we haven't figured out how to go back to the island.
 
-12/6/14 - New Update:
+12/8/14 - New Update:
  - Added: Unicode Gender text toggle in Options.
  - Fixed: Shiny Star will now appear in boxes.
  - Fixed: Gendered formes will now appear properly in boxes.
@@ -389,3 +389,9 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Improved: Bad egg detection for zeroed data in actual saves.
  - Changed: Secret Base Flag read offset to use the PSS stat 0x140 one, should be correct. Previous offset was the flag counter on QR code creation.
  - Added: Shortcuts text for all the ease-of-use tricks you can do to speed up use of the program; access via the About window.
+ - Fixed: Kyurem/Aegislash stats (thanks Pkmnninja!)
+ - Added: PSS Sprite changing (thanks SciresM for implementing!)
+ - Changed: Diancie sprite now uses the ORAS version.
+ - Added: Chinese translation.
+ - Fixed: Full Pokedex code causing CyberGadget to corrupt saves.
+ - Fixed: Corruption Alert will now appear for ORAS saves, you can ignore it if you are using SaveDataFiler.
