@@ -44,10 +44,11 @@ namespace PKHeX
                 "Deutsch", // GER
                 "Español", // SPA
                 "한국어", // KOR
+                "中文", // CHN
             };
             int[] main_langnum = new int[]
-            { 2,1,3,4,5,7,8 };
-            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko" };
+            { 2,1,3,4,5,7,8,9 };
+            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh" };
             
             for (int i = 0; i < main_langlist.Length; i++)
             {
@@ -1450,33 +1451,33 @@ namespace PKHeX
             List<cbItem> origin_list = new List<cbItem>();
             // lazy text table... 8 columns
             string[] langlistorigin = new string[] {
-                // ID       // EN           // JP               // FR               // IT           // DE               // ES               // KO
-                    "27",   "OR",           "OR",               "OR",               "OR",           "OR",               "OR",               "OR",       
-                    "26",   "AS",           "AS",               "AS",               "AS",           "AS",               "AS",               "AS",
-                    "24",	"X",	        "X",	            "X",	            "X",	        "X",	            "X",	            "X",
-                    "25",	"Y",	        "Y",	            "Y",	            "Y",	        "Y",	            "Y",	            "Y",
-                    "20",	"White",	    "ホワイト",	        "Blanche",	        "Bianca",	    "Weiße",	        "Blanca",	        "화이트",
-                    "21",	"Black",	    "ブラック",	        "Noire",	        "Nera",	        "Schwarze",	        "Negra",	        "블랙",
-                    "22",	"White2",	    "ホワイト2",	        "Blanche 2",	    "Bianca2",	    "Weiße2",	        "Blanca2",	        "화이트2",
-                    "23",	"Black2",	    "ブラック2",	        "Noire 2",	        "Nera2",	    "Schwarze2",        "Negra2",	        "블랙2",
-                    "10",	"Diamond",	    "ダイヤモンド",	    "Diamant",	        "Diamante", 	"Diamant",	        "Diamante",	        "디아루가",
-                    "11",	"Pearl",	    "パール",	        "Perle",	        "Perla",	    "Perl",	            "Perla",	        "펄기아",
-                    "12",	"Platinum",	    "プラチナ",	        "Platine",	        "Platino",	    "Platin",	        "Platino",	        "Pt 기라티나",
-                    "7",	"HeartGold",    "ハートゴールド",	"Or HeartGold",     "HeartGold",	"HeartGold",        "HeartGold",	    "하트골드",
-                    "8",	"SoulSilver",   "ソウルシルバー ",   "Argent SoulSilver","SoulSilver",	"SoulSilver",       "SoulSilver",	    "소울실버",
-                    "2",	"Ruby",	        "ルビー",	        "Rubis",            "Rubino",	    "Rubin",	        "Rubí",	            "루비",
-                    "1",	"Sapphire",	    "サファイア",	    "Saphir",	        "Zaffiro",	    "Saphir",	        "Zafiro",	        "사파이어",
-                    "3",	"Emerald",	    "エメラルド",	    "Émeraude",	        "Smeraldo",	    "Smaragd",	        "Esmeralda",	    "에메랄드",
-                    "4",	"FireRed",	    "ファイアレッド",	"Rouge Feu",        "Rosso Fuoco",	"Feuerrote ",       "Rojo Fuego",	    "파이어레드",
-                    "5",	"LeafGreen",	"リーフグリーン",    "Vert Feuille",     "Verde Foglia", "Blattgrüne ",      "Verde Hoja",	    "리프그린",
-                    "15",	"Colosseum/XD",	"コロシアム/XD",	    "Colosseum/XD",     "Colosseo/XD",	"Kolosseum/XD",	    "Colosseum/XD",	    "세움/XD",
+                // ID       // EN           // JP               // FR               // IT           // DE               // ES               // KO           // ZH
+                    "27",   "OR",           "OR",               "OR",               "OR",           "OR",               "OR",               "OR",          "OR",            
+                    "26",   "AS",           "AS",               "AS",               "AS",           "AS",               "AS",               "AS",          "AS",            
+                    "24",	"X",	        "X",	            "X",	            "X",	        "X",	            "X",	            "X",           "X",	         
+                    "25",	"Y",	        "Y",	            "Y",	            "Y",	        "Y",	            "Y",	            "Y",           "Y",	         
+                    "20",	"White",	    "ホワイト",	        "Blanche",	        "Bianca",	    "Weiße",	        "Blanca",	        "화이트",      "ホワイト",	     
+                    "21",	"Black",	    "ブラック",	        "Noire",	        "Nera",	        "Schwarze",	        "Negra",	        "블랙",        "ブラック",	     
+                    "22",	"White2",	    "ホワイト2",	        "Blanche 2",	    "Bianca2",	    "Weiße2",	        "Blanca2",	        "화이트2",     "ホワイト2",	     
+                    "23",	"Black2",	    "ブラック2",	        "Noire 2",	        "Nera2",	    "Schwarze2",        "Negra2",	        "블랙2",       "ブラック2",	     
+                    "10",	"Diamond",	    "ダイヤモンド",	    "Diamant",	        "Diamante", 	"Diamant",	        "Diamante",	        "디아루가",     "ダイヤモンド",	 
+                    "11",	"Pearl",	    "パール",	        "Perle",	        "Perla",	    "Perl",	            "Perla",	        "펄기아",      "パール",	     
+                    "12",	"Platinum",	    "プラチナ",	        "Platine",	        "Platino",	    "Platin",	        "Platino",	        "Pt 기라티나",  "プラチナ",	     
+                    "7",	"HeartGold",    "ハートゴールド",	"Or HeartGold",     "HeartGold",	"HeartGold",        "HeartGold",	    "하트골드",     "ハートゴールド",
+                    "8",	"SoulSilver",   "ソウルシルバー ",   "Argent SoulSilver","SoulSilver",	"SoulSilver",       "SoulSilver",	    "소울실버",     "ソウルシルバー ",
+                    "2",	"Ruby",	        "ルビー",	        "Rubis",            "Rubino",	    "Rubin",	        "Rubí",	            "루비",        "ルビー",	     
+                    "1",	"Sapphire",	    "サファイア",	    "Saphir",	        "Zaffiro",	    "Saphir",	        "Zafiro",	        "사파이어",     "サファイア",	 
+                    "3",	"Emerald",	    "エメラルド",	    "Émeraude",	        "Smeraldo",	    "Smaragd",	        "Esmeralda",	    "에메랄드",     "エメラルド",	 
+                    "4",	"FireRed",	    "ファイアレッド",	"Rouge Feu",        "Rosso Fuoco",	"Feuerrote ",       "Rojo Fuego",	    "파이어레드",   "ファイアレッド",
+                    "5",	"LeafGreen",	"リーフグリーン",    "Vert Feuille",     "Verde Foglia", "Blattgrüne ",      "Verde Hoja",	    "리프그린",     "リーフグリーン", 
+                    "15",	"Colosseum/XD",	"コロシアム/XD",	    "Colosseum/XD",     "Colosseo/XD",	"Kolosseum/XD",	    "Colosseum/XD",	    "세움/XD",     "コロシアム/XD",
                 };
             // populate the list
-            for (int i = 0; i < langlistorigin.Length / 8; i++)
+            for (int i = 0; i < langlistorigin.Length / 9; i++)
             {
                 cbItem item = new cbItem();
-                item.Text = langlistorigin[i * 8 + CB_MainLanguage.SelectedIndex + 1];
-                item.Value = Convert.ToInt32(langlistorigin[i * 8]);
+                item.Text = langlistorigin[i * 9 + CB_MainLanguage.SelectedIndex + 1];
+                item.Value = Convert.ToInt32(langlistorigin[i * 9]);
                 origin_list.Add(item);
             }
 
@@ -5977,7 +5978,7 @@ namespace PKHeX
         }
         private void InitializeStrings()
         {
-            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko" };
+            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh" };
             curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
             
             string l = curlanguage;
@@ -6042,7 +6043,7 @@ namespace PKHeX
                 metBW2_00000[i] = metBW2_00000[i] + "●";
 
             // Localize the Poketransfer to the language (30001)
-            string[] ptransp = {"Poké Transfer", "ポケシフター","Poké Fret","Pokétrasporto","Poképorter","Pokétransfer","포케시프터",};
+            string[] ptransp = { "Poké Transfer", "ポケシフター", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
             metBW2_30000[1-1] = ptransp[CB_MainLanguage.SelectedIndex];
             metBW2_30000[2-1] += " (NPC)";              // Anything from an NPC
             metBW2_30000[3-1] += " (" + eggname + ")";  // Egg From Link Trade

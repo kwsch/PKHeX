@@ -328,6 +328,33 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\text\zh\text_xy_60000_zh.txt" />
+    <None Include="Resources\text\zh\text_bw2_40000_zh.txt" />
+    <None Include="Resources\text\zh\lang_zh.txt" />
+    <None Include="Resources\text\zh\text_Abilities_zh.txt" />
+    <None Include="Resources\text\zh\text_xy_40000_zh.txt" />
+    <None Include="Resources\text\zh\text_bw2_60000_zh.txt" />
+    <None Include="Resources\text\zh\text_hgss_00000_zh.txt" />
+    <None Include="Resources\text\zh\text_ItemPouch_zh.txt" />
+    <None Include="Resources\text\zh\text_Wallpaper_zh.txt" />
+    <None Include="Resources\text\zh\text_Natures_zh.txt" />
+    <None Include="Resources\text\zh\text_Character_zh.txt" />
+    <None Include="Resources\text\zh\text_Types_zh.txt" />
+    <None Include="Resources\text\zh\text_xy_00000_zh.txt" />
+    <None Include="Resources\text\zh\text_Moves_zh.txt" />
+    <None Include="Resources\text\zh\text_Species_zh.txt" />
+    <None Include="Resources\text\zh\text_xy_30000_zh.txt" />
+    <None Include="Resources\text\zh\text_hgss_02000_zh.txt" />
+    <None Include="Resources\text\zh\text_bw2_30000_zh.txt" />
+    <None Include="Resources\text\zh\text_bw2_00000_zh.txt" />
+    <None Include="Resources\text\zh\text_hgss_03000_zh.txt" />
+    <None Include="Resources\text\zh\text_SuperTraining_zh.txt" />
+    <None Include="Resources\text\zh\text_Forms_zh.txt" />
+    <None Include="Resources\text\zh\text_GenLoc_zh.txt" />
+    <None Include="Resources\text\zh\text_Puff_zh.txt" />
+    <None Include="Resources\text\zh\text_TrainingBag_zh.txt" />
+    <None Include="Resources\text\zh\text_Memories_zh.txt" />
+    <None Include="Resources\text\zh\text_Items_zh.txt" />
     <None Include="Resources\text\shortcuts.txt" />
     <None Include="Resources\img\item\item_571.png" />
     <None Include="Resources\img\badges\badge_07.png" />
