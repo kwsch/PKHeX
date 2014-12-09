@@ -262,19 +262,7 @@ namespace PKHeX
                     continue; 
 
                 moncount++;
-                string genderstr="";
-                switch (gender)
-                {
-                    case 0:
-                        genderstr = "M";
-                        break;
-                    case 1:
-                        genderstr = "F";
-                        break;
-                    case 2:
-                        genderstr = "G";
-                        break;
-                }
+                string genderstr=gendersymbols[gender];
                 string shinystr = (shiny == 0) ? "Yes" : "No";
 
                 s += "Name: " + nickname;
@@ -476,7 +464,7 @@ namespace PKHeX
         {
             int species = Util.getIndex(CB_Species);
             m_parent.setForms(species, CB_Form);
-            Write_Entry(null, null);
+            updateNickname(null, null);
         }
         private void updateShiny(object sender, EventArgs e)
         {
