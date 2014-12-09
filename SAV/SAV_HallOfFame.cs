@@ -33,10 +33,10 @@ namespace PKHeX
                 CAL_MetDate,
                 CHK_Nicknamed,
                 CHK_Shiny,
-                label1,
-                label2,
-                label3,
-                label4,
+                L_PartyNum,
+                L_Victory,
+                L_Shiny,
+                L_Level,
                 Label_TID,
                 Label_Form,
                 Label_Gender,
@@ -46,7 +46,9 @@ namespace PKHeX
                 Label_SID,
                 Label_Species,
                 TB_Level,
-                NUP_PartyIndex
+                NUP_PartyIndex,
+                Label_EncryptionConstant,
+                Label_MetDate,
             };
             listBox1.SelectedIndex = 0;           
             NUP_PartyIndex_ValueChanged(null, null);
@@ -61,7 +63,6 @@ namespace PKHeX
         private string[] types = Form1.types;
         private string[] forms = Form1.forms;
         private string[] gendersymbols = Form1.gendersymbols;
-
         private byte[] data = new byte[0x1B40];
 
         private object[] editor_spec;
@@ -101,7 +102,6 @@ namespace PKHeX
                 CB_Species.DataSource = species_list;
             }
             #endregion
-
             #region Moves
             {
                 string[] movelist = Form1.movelist;
@@ -136,7 +136,6 @@ namespace PKHeX
                 CB_Move4.DataSource = move4_list;
             }
             #endregion
-
             #region Items
             {
                 string[] itemlist = Form1.itemlist;
@@ -193,12 +192,10 @@ namespace PKHeX
             }
             #endregion
         }
-
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
-
         private void B_Close_Click(object sender, EventArgs e)
         {
             Array.Copy(data, 0, m_parent.savefile, shiftval + data_offset, data.Length);
@@ -208,7 +205,7 @@ namespace PKHeX
         {
             editing = false;
             RTB.Font = new Font("Courier New", 8);
-            RTB.Text = "";
+            string s = "";
             RTB.LanguageOption = RichTextBoxLanguageOptions.DualFont;
             int index = listBox1.SelectedIndex;
             int offset = index * 0x1B4;
@@ -216,31 +213,28 @@ namespace PKHeX
             uint vnd = BitConverter.ToUInt32(data, offset + 0x1B0);
             uint vn = vnd & 0xFF;
             TB_VN.Text = vn.ToString("000");
-            RTB.Text = "Entry #" + vn + "\r\n";
+            s = "Entry #" + vn + "\r\n";
             uint date = (vnd >> 14) & 0x1FFFF;
             uint year = (date & 0xFF) + 2000;
             uint month = (date >> 8) & 0xF;
             uint day = (date >> 12);
             if (day == 0)
             {
-                RTB.Text += "No records in this slot.";
+                s += "No records in this slot.";
                 for (int i = 0; i < editor_spec.Length; i++)
-                {
                     ((Control)editor_spec[i]).Enabled = false;
-                }
+
                 editing = false;
                 NUP_PartyIndex_ValueChanged(sender, e);
-                return;
+                goto end;
             }
             else 
             {
                 for (int i = 0; i < editor_spec.Length; i++)
-                {
                     ((Control)editor_spec[i]).Enabled = true;
-                }
             }
 
-            RTB.Text += "Date: " + year.ToString() + "/" + month.ToString() + "/" + day.ToString() + "\r\n\r\n";
+            s += "Date: " + year.ToString() + "/" + month.ToString() + "/" + day.ToString() + "\r\n\r\n";
             CAL_MetDate.Value = new DateTime((int)year, (int)month, (int)day);
             int moncount = 0;
             for (int i = 0; i < 6; i++)
@@ -266,9 +260,8 @@ namespace PKHeX
                 string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 22));
 
                 if (species == 0) 
-                {
                     continue; 
-                }
+
                 moncount++;
                 string genderstr="";
                 switch (gender)
@@ -283,63 +276,34 @@ namespace PKHeX
                         genderstr = "G";
                         break;
                 }
-                string shinystr = "";
-                if (shiny == 0)
-                {
-                    shinystr = "No";
-                }
-                else shinystr = "Yes";
+                string shinystr = (shiny == 0) ? "Yes" : "No";
 
-                RTB.Text += "Name: " + nickname;
-                RTB.Text += " (" + Form1.specieslist[species] + " - " + genderstr + ")\r\n";
-                RTB.Text += "Level: " + level.ToString() + "\r\n";
-                RTB.Text += "Shiny: " + shinystr + "\r\n";
-                RTB.Text += "Held Item: " + Form1.itemlist[helditem] + "\r\n";
-                RTB.Text += "Move 1: " + Form1.movelist[move1] + "\r\n";
-                RTB.Text += "Move 2: " + Form1.movelist[move2] + "\r\n";
-                RTB.Text += "Move 3: " + Form1.movelist[move3] + "\r\n";
-                RTB.Text += "Move 4: " + Form1.movelist[move4] + "\r\n";
-                RTB.Text += "OT: " + OTname + " (" + TID.ToString() + "/" + SID.ToString() + ")\r\n";
-                RTB.Text += "\r\n";
+                s += "Name: " + nickname;
+                s += " (" + Form1.specieslist[species] + " - " + genderstr + ")\r\n";
+                s += "Level: " + level.ToString() + "\r\n";
+                s += "Shiny: " + shinystr + "\r\n";
+                s += "Held Item: " + Form1.itemlist[helditem] + "\r\n";
+                s += "Move 1: " + Form1.movelist[move1] + "\r\n";
+                s += "Move 2: " + Form1.movelist[move2] + "\r\n";
+                s += "Move 3: " + Form1.movelist[move3] + "\r\n";
+                s += "Move 4: " + Form1.movelist[move4] + "\r\n";
+                s += "OT: " + OTname + " (" + TID.ToString() + "/" + SID.ToString() + ")\r\n";
+                s += "\r\n";
 
                 offset += 0x48;
             }
-            RTB.Text = RTB.Text;
+
+            if (sender != null)
+            {
+                NUP_PartyIndex.Maximum = moncount;
+                NUP_PartyIndex.Value = 1;
+                NUP_PartyIndex_ValueChanged(sender, e);
+            }
+            else editing = true;
+        end:
+            RTB.Text = s;
             RTB.Font = new Font("Courier New", 8);
-
-            NUP_PartyIndex.Maximum = moncount;
-            NUP_PartyIndex.Value = 1;
-            NUP_PartyIndex_ValueChanged(sender, e);
         }
-
-        private void UpdateImage(int species, int form, int item, int gender)
-        {
-            string file = "";
-
-            if (species == 0)
-            { bpkx.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
-            else
-            {
-                file = "_" + species.ToString();
-                if (form > 0) // Alt Form Handling
-                    file = file + "_" + form.ToString();
-                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
-                    file = file = "_" + species.ToString() + "f";
-            }
-
-            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
-            if (CB_HeldItem.SelectedIndex > 0)
-            {
-                // Has Item
-                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item.ToString());
-                if (itemimg == null) itemimg = Properties.Resources.helditem;
-                // Redraw
-                baseImage = PKHeX.Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-            }
-            bpkx.Image = baseImage;
-            editing = true;
-        }
-
         private void NUP_PartyIndex_ValueChanged(object sender, EventArgs e)
         {
             editing = false;
@@ -381,23 +345,18 @@ namespace PKHeX
 
             CHK_Nicknamed.Checked = nick == 1;
 
-            setForms(species, CB_Form);
-
+            m_parent.setForms(species, CB_Form);
             CB_Form.SelectedIndex = (int)form;
-
             setGenderLabel((int)gender);
-
             updateNickname(sender, e);
 
-            UpdateImage(species, (int)form, item, (int)gender);
+            UpdateImage(species, (int)form, item, (int)gender, CHK_Shiny.Checked);
         }
-
         private void Write_Entry(object sender, EventArgs e)
         {           
             if (!editing)
-            {
-                return; //Don't do writing until shit gets loaded
-            }
+                return; //Don't do writing until loaded
+
             Validate_TextBoxes();
             byte[] StringBuffer = new byte[22]; //Mimic in-game behavior of not clearing strings. It's awful, but accuracy > good.
             string[] text_writes = new string[6 * 2]; //2 strings per mon, 6 mons
@@ -440,16 +399,15 @@ namespace PKHeX
                 {
                     Array.Copy(Encoding.Unicode.GetBytes(text_writes[i * 2]), StringBuffer, text_writes[i*2].Length*2);
                     int pos = text_writes[i * 2].Length * 2;
-                    if (pos<StringBuffer.Length){
+                    if (pos<StringBuffer.Length)
                         StringBuffer[pos] = 0;
-                    }
+
                     Array.Copy(StringBuffer, 0, data, ofs + 0x18, 22);
                     Array.Copy(Encoding.Unicode.GetBytes(text_writes[i * 2 + 1]), StringBuffer, text_writes[i * 2 + 1].Length * 2);
                     pos = text_writes[i * 2 + 1].Length * 2;
                     if (pos < StringBuffer.Length)
-                    {
                         StringBuffer[pos] = 0;
-                    }
+
                     Array.Copy(StringBuffer, 0, data, ofs + 0x30, 22);
                     ofs += 0x48;
                 }
@@ -462,9 +420,8 @@ namespace PKHeX
             slgf |= (uint)((PKX.getGender(Label_Gender.Text) & 0x3) << 5);
             slgf |= (uint)((Convert.ToUInt16(TB_Level.Text) & 0x7F) << 7);
             if (CHK_Shiny.Checked)
-            {
                 slgf |= 1 << 14;
-            }
+
             slgf |= (rawslgf & 0x8000);
             Array.Copy(BitConverter.GetBytes(slgf), 0, data, offset + 0x014, 2);
 
@@ -478,37 +435,25 @@ namespace PKHeX
             uint vnd = 0;
             uint date = 0;
             vnd |= (Convert.ToUInt32(TB_VN.Text) & 0xFF);
-            date |= (uint)((CAL_MetDate.Value.Year-2000) & 0xFF);
+            date |= (uint)((CAL_MetDate.Value.Year - 2000) & 0xFF);
             date |= (uint)((CAL_MetDate.Value.Month & 0xF) << 8);
             date |= (uint)((CAL_MetDate.Value.Day & 0x1F) << 12);
             vnd |= ((date & 0x1FFFF) << 14);
+            //Fix for top bit
+            uint rawvnd = BitConverter.ToUInt32(data, offset + 0x1B0);
+            vnd |= (rawvnd & 0x80000000);
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
-            /*
-             * uint vnd = BitConverter.ToUInt32(data, offset + 0x1B0);
-            uint vn = vnd & 0xFF;
-            TB_VN.Text = vn.ToString("000");
-            RTB.Text = "Entry #" + vn + "\r\n";
-            uint date = (vnd >> 14) & 0x1FFFF;
-            uint year = (date & 0xFF) + 2000;
-            uint month = (date >> 8) & 0xF;
-            uint day = (date >> 12);
-             * */
 
-            UpdateImage((int)CB_Species.SelectedValue, (int)(CB_Form.SelectedIndex & 0x1F), (int)CB_HeldItem.SelectedValue, (int)PKX.getGender(Label_Gender.Text));
+            UpdateImage((int)CB_Species.SelectedValue, (int)(CB_Form.SelectedIndex & 0x1F), (int)CB_HeldItem.SelectedValue, (int)PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
+            displayEntry(null, null); // refresh text view
         }
-
-        private void setGenderLabel(int gender)
+        private void Validate_TextBoxes()
         {
-            if (gender == 0)
-                Label_Gender.Text = gendersymbols[0];    // Male
-            else if (gender == 1)
-                Label_Gender.Text = gendersymbols[1];    // Female
-            else
-                Label_Gender.Text = gendersymbols[2];    // Genderless
-
-            Write_Entry(null,null);
+            TB_Level.Text = Math.Min(Util.ToInt32(TB_Level.Text), 100).ToString();
+            TB_VN.Text = Math.Min(Util.ToInt32(TB_VN.Text), 255).ToString();
+            TB_TID.Text = Math.Min(Util.ToInt32(TB_TID.Text), 65535).ToString();
+            TB_SID.Text = Math.Min(Util.ToInt32(TB_SID.Text), 65535).ToString();
         }
-
         private void updateNickname(object sender, EventArgs e)
         {
             if (!CHK_Nicknamed.Checked)
@@ -528,28 +473,18 @@ namespace PKHeX
 
             Write_Entry(null, null);
         }
-
-        private void Validate_TextBoxes()
+        private void updateSpecies(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(TB_Level.Text) > 255)
-            {
-                TB_Level.Text = "100";
-            }
-            if (Convert.ToInt32(TB_VN.Text) > 255)
-            {
-                TB_VN.Text = "255";
-            }
-            if (Convert.ToUInt32(TB_TID.Text) > 65535)
-            {
-                TB_TID.Text = "65535";
-            }
-            if (Convert.ToUInt32(TB_SID.Text) > 65535)
-            {
-                TB_SID.Text = "65535";
-            }
+            int species = Util.getIndex(CB_Species);
+            m_parent.setForms(species, CB_Form);
+            Write_Entry(null, null);
         }
-
-        private void Label_Gender_Click(object sender, EventArgs e)
+        private void updateShiny(object sender, EventArgs e)
+        {
+            UpdateImage((int)CB_Species.SelectedValue, (int)(CB_Form.SelectedIndex & 0x1F), (int)CB_HeldItem.SelectedValue, (int)PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
+            Write_Entry(null, null);
+        }
+        private void updateGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
             int species = Util.getIndex(CB_Species);
@@ -577,305 +512,54 @@ namespace PKHeX
 
             Write_Entry(null, null);
         }
-
-        public void setForms(int species, ComboBox cb)
+        private void setGenderLabel(int gender)
         {
-            // Form Tables
-            // 
-            var form_unown = new[] {
-                    new { Text = "A", Value = 0 },
-                    new { Text = "B", Value = 1 },
-                    new { Text = "C", Value = 2 },
-                    new { Text = "D", Value = 3 },
-                    new { Text = "E", Value = 4 },
-                    new { Text = "F", Value = 5 },
-                    new { Text = "G", Value = 6 },
-                    new { Text = "H", Value = 7 },
-                    new { Text = "I", Value = 8 },
-                    new { Text = "J", Value = 9 },
-                    new { Text = "K", Value = 10 },
-                    new { Text = "L", Value = 11 },
-                    new { Text = "M", Value = 12 },
-                    new { Text = "N", Value = 13 },
-                    new { Text = "O", Value = 14 },
-                    new { Text = "P", Value = 15 },
-                    new { Text = "Q", Value = 16 },
-                    new { Text = "R", Value = 17 },
-                    new { Text = "S", Value = 18 },
-                    new { Text = "T", Value = 19 },
-                    new { Text = "U", Value = 20 },
-                    new { Text = "V", Value = 21 },
-                    new { Text = "W", Value = 22 },
-                    new { Text = "X", Value = 23 },
-                    new { Text = "Y", Value = 24 },
-                    new { Text = "Z", Value = 25 },
-                    new { Text = "!", Value = 26 },
-                    new { Text = "?", Value = 27 },
-                };
-            var form_castform = new[] {
-                    new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[789], Value = 1 }, // Sunny
-                    new { Text = forms[790], Value = 2 }, // Rainy
-                    new { Text = forms[791], Value = 3 }, // Snowy
-                };
-            var form_shellos = new[] {
-                    new { Text = forms[422], Value = 0 }, // West
-                    new { Text = forms[811], Value = 1 }, // East
-                };
-            var form_deoxys = new[] {
-                    new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[802], Value = 1 }, // Attack
-                    new { Text = forms[803], Value = 2 }, // Defense
-                    new { Text = forms[804], Value = 3 }, // Speed
-                };
-            var form_burmy = new[] {
-                    new { Text = forms[412], Value = 0 }, // Plant
-                    new { Text = forms[805], Value = 1 }, // Sandy
-                    new { Text = forms[806], Value = 2 }, // Trash
-                };
-            var form_cherrim = new[] {
-                    new { Text = forms[421], Value = 0 }, // Overcast
-                    new { Text = forms[809], Value = 1 }, // Sunshine
-                };
-            var form_rotom = new[] {
-                    new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[817], Value = 1 }, // Heat
-                    new { Text = forms[818], Value = 2 }, // Wash
-                    new { Text = forms[819], Value = 3 }, // Frost
-                    new { Text = forms[820], Value = 4 }, // Fan
-                    new { Text = forms[821], Value = 5 }, // Mow
-                };
-            var form_giratina = new[] {
-                    new { Text = forms[487], Value = 0 }, // Altered
-                    new { Text = forms[822], Value = 1 }, // Origin
-                };
-            var form_shaymin = new[] {
-                    new { Text = forms[492], Value = 0 }, // Land
-                    new { Text = forms[823], Value = 1 }, // Sky
-                };
-            var form_arceus = new[] {
-                    new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = types[1], Value = 1 }, // Fighting
-                    new { Text = types[2], Value = 2 }, // Flying
-                    new { Text = types[3], Value = 3 }, // Poison
-                    new { Text = types[4], Value = 4 }, // etc
-                    new { Text = types[5], Value = 5 },
-                    new { Text = types[6], Value = 6 },
-                    new { Text = types[7], Value = 7 },
-                    new { Text = types[8], Value = 8 },
-                    new { Text = types[9], Value = 9 },
-                    new { Text = types[10], Value = 10 },
-                    new { Text = types[11], Value = 11 },
-                    new { Text = types[12], Value = 12 },
-                    new { Text = types[13], Value = 13 },
-                    new { Text = types[14], Value = 14 },
-                    new { Text = types[15], Value = 15 },
-                    new { Text = types[16], Value = 16 },
-                    new { Text = types[17], Value = 17 },
-                };
-            var form_basculin = new[] {
-                    new { Text = forms[550], Value = 0 }, // Red
-                    new { Text = forms[842], Value = 1 }, // Blue
-                };
-            var form_darmanitan = new[] {
-                    new { Text = forms[555], Value = 0 }, // Standard
-                    new { Text = forms[843], Value = 1 }, // Zen
-                };
-            var form_deerling = new[] {
-                    new { Text = forms[585], Value = 0 }, // Spring
-                    new { Text = forms[844], Value = 1 }, // Summer
-                    new { Text = forms[845], Value = 2 }, // Autumn
-                    new { Text = forms[846], Value = 3 }, // Winter
-                };
-            var form_gender = new[] {
-                    new { Text = gendersymbols[0], Value = 0 }, // Male
-                    new { Text = gendersymbols[1], Value = 1 }, // Female
-                };
-            var form_therian = new[] {
-                    new { Text = forms[641], Value = 0 }, // Incarnate
-                    new { Text = forms[852], Value = 1 }, // Therian
-                };
-            var form_kyurem = new[] {
-                    new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = forms[853], Value = 1 }, // White
-                    new { Text = forms[854], Value = 2 }, // Black
-                };
-            var form_keldeo = new[] {
-                    new { Text = forms[647], Value = 0 }, // Ordinary
-                    new { Text = forms[855], Value = 1 }, // Resolute
-                };
-            var form_meloetta = new[] {
-                    new { Text = forms[648], Value = 0 }, // Aria
-                    new { Text = forms[856], Value = 1 }, // Pirouette
-                };
-            var form_genesect = new[] {
-                    new { Text = types[0], Value = 0 }, // Normal
-                    new { Text = types[10], Value = 1 }, // Douse
-                    new { Text = types[12], Value = 2 }, // Shock
-                    new { Text = types[9], Value = 3 }, // Burn
-                    new { Text = types[14], Value = 4 }, // Chill
-                };
-            var form_flabebe = new[] {
-                    new { Text = forms[669], Value = 0 }, // Red
-                    new { Text = forms[884], Value = 1 }, // Yellow
-                    new { Text = forms[885], Value = 2 }, // Orange
-                    new { Text = forms[886], Value = 3 }, // Blue
-                    new { Text = forms[887], Value = 4 }, // White
-                };
-            var form_floette = new[] {
-                    new { Text = forms[669], Value = 0 }, // Red
-                    new { Text = forms[884], Value = 1 }, // Yellow
-                    new { Text = forms[885], Value = 2 }, // Orange
-                    new { Text = forms[886], Value = 3 }, // Blue
-                    new { Text = forms[887], Value = 4 }, // White
-                    new { Text = forms[888], Value = 5 }, // Eternal
-                };
-            var form_furfrou = new[] {
-                    new { Text = forms[676], Value = 0 }, // Natural
-                    new { Text = forms[893], Value = 1 }, // Heart
-                    new { Text = forms[894], Value = 2 }, // Star
-                    new { Text = forms[895], Value = 3 }, // Diamond
-                    new { Text = forms[896], Value = 4 }, // Deputante
-                    new { Text = forms[897], Value = 5 }, // Matron
-                    new { Text = forms[898], Value = 6 }, // Dandy
-                    new { Text = forms[899], Value = 7 }, // La Reine
-                    new { Text = forms[900], Value = 8 }, // Kabuki 
-                    new { Text = forms[901], Value = 9 }, // Pharaoh
-                };
-            var form_aegislash = new[] {
-                    new { Text = forms[681], Value = 0 }, // Shield
-                    new { Text = forms[903], Value = 1 }, // Blade
-                };
-            var form_butterfly = new[] {
-                    new { Text = forms[666], Value = 0 }, // Icy Snow
-                    new { Text = forms[861], Value = 1 }, // Polar
-                    new { Text = forms[862], Value = 2 }, // Tundra
-                    new { Text = forms[863], Value = 3 }, // Continental 
-                    new { Text = forms[864], Value = 4 }, // Garden
-                    new { Text = forms[865], Value = 5 }, // Elegant
-                    new { Text = forms[866], Value = 6 }, // Meadow
-                    new { Text = forms[867], Value = 7 }, // Modern 
-                    new { Text = forms[868], Value = 8 }, // Marine
-                    new { Text = forms[869], Value = 9 }, // Archipelago
-                    new { Text = forms[870], Value = 10 }, // High-Plains
-                    new { Text = forms[871], Value = 11 }, // Sandstorm
-                    new { Text = forms[872], Value = 12 }, // River
-                    new { Text = forms[873], Value = 13 }, // Monsoon
-                    new { Text = forms[874], Value = 14 }, // Savannah 
-                    new { Text = forms[875], Value = 15 }, // Sun
-                    new { Text = forms[876], Value = 16 }, // Ocean
-                    new { Text = forms[877], Value = 17 }, // Jungle
-                    new { Text = forms[878], Value = 18 }, // Fancy
-                    new { Text = forms[879], Value = 19 }, // Poké Ball
-                };
-            var form_list = new[] {
-                    new { Text = "", Value = 0}, // None
-                };
-            var form_pump = new[] {
-                    new { Text = forms[904], Value = 0 }, // Small
-                    new { Text = forms[710], Value = 1 }, // Average
-                    new { Text = forms[905], Value = 2 }, // Large
-                    new { Text = forms[907], Value = 3 }, // Super
-                };
-            var form_mega = new[] {
-                    new { Text = types[0], Value = 0}, // Normal
-                    new { Text = forms[723], Value = 1}, // Mega
-                };
-            var form_megaxy = new[] {
-                    new { Text = types[0], Value = 0}, // Normal
-                    new { Text = forms[724], Value = 1}, // Mega X
-                    new { Text = forms[725], Value = 2}, // Mega Y
-                };
+            if (gender == 0)
+                Label_Gender.Text = gendersymbols[0];    // Male
+            else if (gender == 1)
+                Label_Gender.Text = gendersymbols[1];    // Female
+            else
+                Label_Gender.Text = gendersymbols[2];    // Genderless
 
-            var form_primal = new[] {
-                    new { Text = types[0], Value = 0},
-                    new { Text = forms[800], Value = 1},
-                };
-            var form_hoopa = new[] {
-                    new { Text = types[0], Value = 0},
-                    new { Text = forms[912], Value = 1},
-                };
-            var form_pikachu = new[] {
-                    new { Text = types[0], Value = 0}, // Normal
-                    new { Text = forms[729], Value = 1}, // Rockstar
-                    new { Text = forms[730], Value = 2}, // Belle
-                    new { Text = forms[731], Value = 3}, // Pop
-                    new { Text = forms[732], Value = 4}, // PhD
-                    new { Text = forms[733], Value = 5}, // Libre
-                    new { Text = forms[734], Value = 6}, // Cosplay
-                };
+            Write_Entry(null, null);
+        }
+        private void UpdateImage(int species, int form, int item, int gender, bool shiny)
+        {
+            string file = "";
 
-            cb.DataSource = form_list;
-            cb.DisplayMember = "Text";
-            cb.ValueMember = "Value";
-
-            // Mega List
-            int[] mspec = {     // XY
-                                   003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
-                                // ORAS
-                                015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
-                          };
-            for (int i = 0; i < mspec.Length; i++)
-            {
-                if (mspec[i] == species)
-                {
-                    cb.DataSource = form_mega;
-                    cb.Enabled = true; // Mega Form Selection
-                    return;
-                }
-            }
-
-            // MegaXY List
-            if ((species == 6) || (species == 150))
-            {
-                cb.DataSource = form_megaxy;
-                cb.Enabled = true; // Mega Form Selection
-                return;
-            }
-
-            // Regular Form List
-            if (species == 025) { form_list = form_pikachu; }
-            else if (species == 201) { form_list = form_unown; }
-            else if (species == 351) { form_list = form_castform; }
-            else if (species == 386) { form_list = form_deoxys; }
-            else if (species == 421) { form_list = form_cherrim; }
-            else if (species == 479) { form_list = form_rotom; }
-            else if (species == 487) { form_list = form_giratina; }
-            else if (species == 492) { form_list = form_shaymin; }
-            else if (species == 493) { form_list = form_arceus; }
-            else if (species == 550) { form_list = form_basculin; }
-            else if (species == 555) { form_list = form_darmanitan; }
-            else if (species == 646) { form_list = form_kyurem; }
-            else if (species == 647) { form_list = form_keldeo; }
-            else if (species == 648) { form_list = form_meloetta; }
-            else if (species == 649) { form_list = form_genesect; }
-            else if (species == 676) { form_list = form_furfrou; }
-            else if (species == 681) { form_list = form_aegislash; }
-            else if (species == 670) { form_list = form_floette; }
-
-            else if ((species == 669) || (species == 671)) { form_list = form_flabebe; }
-            else if ((species == 412) || (species == 413)) { form_list = form_burmy; }
-            else if ((species == 422) || (species == 423)) { form_list = form_shellos; }
-            else if ((species == 585) || (species == 586)) { form_list = form_deerling; }
-            else if ((species == 710) || (species == 711)) { form_list = form_pump; }
-
-            else if ((species == 666) || (species == 665) || (species == 664)) { form_list = form_butterfly; }
-            else if ((species == 592) || (species == 593) || (species == 678)) { form_list = form_gender; }
-            else if ((species == 641) || (species == 642) || (species == 645)) { form_list = form_therian; }
-
-            // ORAS
-            else if (species == 382 || species == 383) { form_list = form_primal; }
-            else if (species == 720) { form_list = form_hoopa; }
-
+            if (species == 0)
+            { bpkx.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
             else
             {
-                cb.Enabled = false;
-                return;
-            };
+                file = "_" + species.ToString();
+                if (form > 0) // Alt Form Handling
+                    file = file + "_" + form.ToString();
+                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
+                    file = file = "_" + species.ToString() + "f";
+            }
 
-            cb.DataSource = form_list;
-            cb.Enabled = true;
+            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
+            if (shiny)
+            {   // Is Shiny
+                // Redraw our image
+                baseImage = PKHeX.Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
+            }
+            if (item > 0)
+            {
+                // Has Item
+                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item.ToString());
+                if (itemimg == null) itemimg = Properties.Resources.helditem;
+                // Redraw
+                baseImage = PKHeX.Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+            }
+            bpkx.Image = baseImage;
+            editing = true;
         }
 
+        private void B_CopyText_Click(object sender, EventArgs e)
+        {
+            try { Clipboard.SetText(RTB.Text); }
+            catch { };
+        }
     }
 }

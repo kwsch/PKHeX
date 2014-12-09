@@ -34,7 +34,7 @@
             this.B_Close = new System.Windows.Forms.Button();
             this.bpkx = new System.Windows.Forms.PictureBox();
             this.NUP_PartyIndex = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_PartyNum = new System.Windows.Forms.Label();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.Label_Species = new System.Windows.Forms.Label();
             this.CHK_Nicknamed = new System.Windows.Forms.CheckBox();
@@ -55,7 +55,7 @@
             this.Label_OT = new System.Windows.Forms.Label();
             this.Label_SID = new System.Windows.Forms.Label();
             this.Label_TID = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_Victory = new System.Windows.Forms.Label();
             this.TB_VN = new System.Windows.Forms.MaskedTextBox();
             this.CAL_MetDate = new System.Windows.Forms.DateTimePicker();
             this.Label_MetDate = new System.Windows.Forms.Label();
@@ -64,9 +64,10 @@
             this.CB_Form = new System.Windows.Forms.ComboBox();
             this.Label_Form = new System.Windows.Forms.Label();
             this.CHK_Shiny = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.L_Shiny = new System.Windows.Forms.Label();
             this.TB_Level = new System.Windows.Forms.MaskedTextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.L_Level = new System.Windows.Forms.Label();
+            this.B_CopyText = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_PartyIndex)).BeginInit();
             this.GB_CurrentMoves.SuspendLayout();
@@ -75,8 +76,8 @@
             // 
             // listBox1
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Items.AddRange(new object[] {
             "First",
@@ -103,14 +104,14 @@
             // 
             // RTB
             // 
-            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.RTB.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB.Location = new System.Drawing.Point(72, 16);
             this.RTB.Name = "RTB";
             this.RTB.ReadOnly = true;
-            this.RTB.Size = new System.Drawing.Size(214, 281);
+            this.RTB.Size = new System.Drawing.Size(220, 287);
             this.RTB.TabIndex = 1;
             this.RTB.Text = "";
             this.RTB.WordWrap = false;
@@ -118,7 +119,7 @@
             // B_Close
             // 
             this.B_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Close.Location = new System.Drawing.Point(520, 274);
+            this.B_Close.Location = new System.Drawing.Point(529, 270);
             this.B_Close.Name = "B_Close";
             this.B_Close.Size = new System.Drawing.Size(76, 23);
             this.B_Close.TabIndex = 3;
@@ -129,7 +130,7 @@
             // bpkx
             // 
             this.bpkx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx.Location = new System.Drawing.Point(310, 89);
+            this.bpkx.Location = new System.Drawing.Point(308, 99);
             this.bpkx.Name = "bpkx";
             this.bpkx.Size = new System.Drawing.Size(42, 32);
             this.bpkx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -138,7 +139,7 @@
             // 
             // NUP_PartyIndex
             // 
-            this.NUP_PartyIndex.Location = new System.Drawing.Point(549, 58);
+            this.NUP_PartyIndex.Location = new System.Drawing.Point(369, 47);
             this.NUP_PartyIndex.Maximum = new decimal(new int[] {
             6,
             0,
@@ -150,7 +151,7 @@
             0,
             0});
             this.NUP_PartyIndex.Name = "NUP_PartyIndex";
-            this.NUP_PartyIndex.Size = new System.Drawing.Size(50, 20);
+            this.NUP_PartyIndex.Size = new System.Drawing.Size(28, 20);
             this.NUP_PartyIndex.TabIndex = 32;
             this.NUP_PartyIndex.Value = new decimal(new int[] {
             1,
@@ -159,38 +160,38 @@
             0});
             this.NUP_PartyIndex.ValueChanged += new System.EventHandler(this.NUP_PartyIndex_ValueChanged);
             // 
-            // label1
+            // L_PartyNum
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(484, 60);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
-            this.label1.TabIndex = 33;
-            this.label1.Text = "Party Index:";
+            this.L_PartyNum.AutoSize = true;
+            this.L_PartyNum.Location = new System.Drawing.Point(300, 49);
+            this.L_PartyNum.Name = "L_PartyNum";
+            this.L_PartyNum.Size = new System.Drawing.Size(63, 13);
+            this.L_PartyNum.TabIndex = 33;
+            this.L_PartyNum.Text = "Party Index:";
             // 
             // CB_Species
             // 
             this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Species.FormattingEnabled = true;
-            this.CB_Species.Location = new System.Drawing.Point(468, 89);
+            this.CB_Species.Location = new System.Drawing.Point(483, 46);
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(122, 21);
             this.CB_Species.TabIndex = 35;
-            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.Write_Entry);
+            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.updateSpecies);
             // 
             // Label_Species
             // 
-            this.Label_Species.Location = new System.Drawing.Point(388, 92);
+            this.Label_Species.Location = new System.Drawing.Point(428, 49);
             this.Label_Species.Name = "Label_Species";
-            this.Label_Species.Size = new System.Drawing.Size(77, 13);
+            this.Label_Species.Size = new System.Drawing.Size(50, 13);
             this.Label_Species.TabIndex = 34;
             this.Label_Species.Text = "Species:";
             this.Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CHK_Nicknamed
             // 
-            this.CHK_Nicknamed.Location = new System.Drawing.Point(388, 116);
+            this.CHK_Nicknamed.Location = new System.Drawing.Point(403, 73);
             this.CHK_Nicknamed.Name = "CHK_Nicknamed";
             this.CHK_Nicknamed.Size = new System.Drawing.Size(80, 17);
             this.CHK_Nicknamed.TabIndex = 36;
@@ -202,7 +203,7 @@
             // TB_Nickname
             // 
             this.TB_Nickname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Nickname.Location = new System.Drawing.Point(468, 114);
+            this.TB_Nickname.Location = new System.Drawing.Point(483, 71);
             this.TB_Nickname.MaxLength = 11;
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
@@ -213,7 +214,7 @@
             // 
             this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_EC.Location = new System.Drawing.Point(414, 57);
+            this.TB_EC.Location = new System.Drawing.Point(545, 150);
             this.TB_EC.MaxLength = 8;
             this.TB_EC.Name = "TB_EC";
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
@@ -223,7 +224,7 @@
             // 
             // Label_EncryptionConstant
             // 
-            this.Label_EncryptionConstant.Location = new System.Drawing.Point(307, 60);
+            this.Label_EncryptionConstant.Location = new System.Drawing.Point(438, 153);
             this.Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             this.Label_EncryptionConstant.Size = new System.Drawing.Size(105, 13);
             this.Label_EncryptionConstant.TabIndex = 62;
@@ -236,7 +237,7 @@
             this.GB_CurrentMoves.Controls.Add(this.CB_Move3);
             this.GB_CurrentMoves.Controls.Add(this.CB_Move2);
             this.GB_CurrentMoves.Controls.Add(this.CB_Move1);
-            this.GB_CurrentMoves.Location = new System.Drawing.Point(293, 184);
+            this.GB_CurrentMoves.Location = new System.Drawing.Point(299, 185);
             this.GB_CurrentMoves.Name = "GB_CurrentMoves";
             this.GB_CurrentMoves.Size = new System.Drawing.Size(139, 112);
             this.GB_CurrentMoves.TabIndex = 64;
@@ -289,7 +290,7 @@
             // 
             // Label_HeldItem
             // 
-            this.Label_HeldItem.Location = new System.Drawing.Point(388, 142);
+            this.Label_HeldItem.Location = new System.Drawing.Point(403, 99);
             this.Label_HeldItem.Name = "Label_HeldItem";
             this.Label_HeldItem.Size = new System.Drawing.Size(77, 13);
             this.Label_HeldItem.TabIndex = 66;
@@ -301,7 +302,7 @@
             this.CB_HeldItem.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_HeldItem.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_HeldItem.FormattingEnabled = true;
-            this.CB_HeldItem.Location = new System.Drawing.Point(468, 139);
+            this.CB_HeldItem.Location = new System.Drawing.Point(483, 96);
             this.CB_HeldItem.Name = "CB_HeldItem";
             this.CB_HeldItem.Size = new System.Drawing.Size(122, 21);
             this.CB_HeldItem.TabIndex = 65;
@@ -315,7 +316,7 @@
             this.GB_OT.Controls.Add(this.Label_OT);
             this.GB_OT.Controls.Add(this.Label_SID);
             this.GB_OT.Controls.Add(this.Label_TID);
-            this.GB_OT.Location = new System.Drawing.Point(438, 193);
+            this.GB_OT.Location = new System.Drawing.Point(444, 185);
             this.GB_OT.Name = "GB_OT";
             this.GB_OT.Size = new System.Drawing.Size(161, 75);
             this.GB_OT.TabIndex = 67;
@@ -384,19 +385,19 @@
             this.Label_TID.Text = "TID:";
             this.Label_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label2
+            // L_Victory
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(307, 23);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 13);
-            this.label2.TabIndex = 68;
-            this.label2.Text = "Victory Number:";
+            this.L_Victory.AutoSize = true;
+            this.L_Victory.Location = new System.Drawing.Point(300, 15);
+            this.L_Victory.Name = "L_Victory";
+            this.L_Victory.Size = new System.Drawing.Size(82, 13);
+            this.L_Victory.TabIndex = 68;
+            this.L_Victory.Text = "Victory Number:";
             // 
             // TB_VN
             // 
             this.TB_VN.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_VN.Location = new System.Drawing.Point(395, 21);
+            this.TB_VN.Location = new System.Drawing.Point(388, 12);
             this.TB_VN.Mask = "000";
             this.TB_VN.Name = "TB_VN";
             this.TB_VN.Size = new System.Drawing.Size(30, 20);
@@ -409,7 +410,7 @@
             // 
             this.CAL_MetDate.CustomFormat = "MM/dd/yyyy";
             this.CAL_MetDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.CAL_MetDate.Location = new System.Drawing.Point(487, 20);
+            this.CAL_MetDate.Location = new System.Drawing.Point(496, 12);
             this.CAL_MetDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.CAL_MetDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_MetDate.Name = "CAL_MetDate";
@@ -420,7 +421,7 @@
             // 
             // Label_MetDate
             // 
-            this.Label_MetDate.Location = new System.Drawing.Point(426, 23);
+            this.Label_MetDate.Location = new System.Drawing.Point(441, 15);
             this.Label_MetDate.Name = "Label_MetDate";
             this.Label_MetDate.Size = new System.Drawing.Size(55, 13);
             this.Label_MetDate.TabIndex = 69;
@@ -430,7 +431,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(437, 274);
+            this.B_Cancel.Location = new System.Drawing.Point(447, 270);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(76, 23);
             this.B_Cancel.TabIndex = 71;
@@ -441,13 +442,13 @@
             // Label_Gender
             // 
             this.Label_Gender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_Gender.Location = new System.Drawing.Point(396, 92);
+            this.Label_Gender.Location = new System.Drawing.Point(363, 138);
             this.Label_Gender.Name = "Label_Gender";
             this.Label_Gender.Size = new System.Drawing.Size(16, 13);
             this.Label_Gender.TabIndex = 72;
             this.Label_Gender.Text = "-";
             this.Label_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_Gender.Click += new System.EventHandler(this.Label_Gender_Click);
+            this.Label_Gender.Click += new System.EventHandler(this.updateGender);
             // 
             // CB_Form
             // 
@@ -455,7 +456,7 @@
             this.CB_Form.DropDownWidth = 85;
             this.CB_Form.Enabled = false;
             this.CB_Form.FormattingEnabled = true;
-            this.CB_Form.Location = new System.Drawing.Point(468, 166);
+            this.CB_Form.Location = new System.Drawing.Point(483, 123);
             this.CB_Form.Name = "CB_Form";
             this.CB_Form.Size = new System.Drawing.Size(122, 21);
             this.CB_Form.TabIndex = 74;
@@ -464,7 +465,7 @@
             // Label_Form
             // 
             this.Label_Form.AutoSize = true;
-            this.Label_Form.Location = new System.Drawing.Point(432, 169);
+            this.Label_Form.Location = new System.Drawing.Point(447, 126);
             this.Label_Form.Name = "Label_Form";
             this.Label_Form.Size = new System.Drawing.Size(33, 13);
             this.Label_Form.TabIndex = 73;
@@ -473,26 +474,26 @@
             // CHK_Shiny
             // 
             this.CHK_Shiny.AutoSize = true;
-            this.CHK_Shiny.Location = new System.Drawing.Point(367, 141);
+            this.CHK_Shiny.Location = new System.Drawing.Point(347, 139);
             this.CHK_Shiny.Name = "CHK_Shiny";
             this.CHK_Shiny.Size = new System.Drawing.Size(15, 14);
             this.CHK_Shiny.TabIndex = 75;
             this.CHK_Shiny.UseVisualStyleBackColor = true;
-            this.CHK_Shiny.CheckedChanged += new System.EventHandler(this.Write_Entry);
+            this.CHK_Shiny.CheckedChanged += new System.EventHandler(this.updateShiny);
             // 
-            // label3
+            // L_Shiny
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(325, 141);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 13);
-            this.label3.TabIndex = 76;
-            this.label3.Text = "Shiny:";
+            this.L_Shiny.AutoSize = true;
+            this.L_Shiny.Location = new System.Drawing.Point(305, 138);
+            this.L_Shiny.Name = "L_Shiny";
+            this.L_Shiny.Size = new System.Drawing.Size(36, 13);
+            this.L_Shiny.TabIndex = 76;
+            this.L_Shiny.Text = "Shiny:";
             // 
             // TB_Level
             // 
             this.TB_Level.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Level.Location = new System.Drawing.Point(367, 161);
+            this.TB_Level.Location = new System.Drawing.Point(347, 157);
             this.TB_Level.Mask = "000";
             this.TB_Level.Name = "TB_Level";
             this.TB_Level.Size = new System.Drawing.Size(30, 20);
@@ -501,23 +502,35 @@
             this.TB_Level.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_Level.TextChanged += new System.EventHandler(this.Write_Entry);
             // 
-            // label4
+            // L_Level
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(325, 164);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 13);
-            this.label4.TabIndex = 78;
-            this.label4.Text = "Level:";
+            this.L_Level.AutoSize = true;
+            this.L_Level.Location = new System.Drawing.Point(305, 159);
+            this.L_Level.Name = "L_Level";
+            this.L_Level.Size = new System.Drawing.Size(36, 13);
+            this.L_Level.TabIndex = 78;
+            this.L_Level.Text = "Level:";
+            // 
+            // B_CopyText
+            // 
+            this.B_CopyText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_CopyText.Location = new System.Drawing.Point(7, 280);
+            this.B_CopyText.Name = "B_CopyText";
+            this.B_CopyText.Size = new System.Drawing.Size(59, 23);
+            this.B_CopyText.TabIndex = 79;
+            this.B_CopyText.Text = "Copy txt";
+            this.B_CopyText.UseVisualStyleBackColor = true;
+            this.B_CopyText.Click += new System.EventHandler(this.B_CopyText_Click);
             // 
             // SAV_HallOfFame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 305);
+            this.ClientSize = new System.Drawing.Size(614, 312);
+            this.Controls.Add(this.B_CopyText);
             this.Controls.Add(this.TB_Level);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.L_Level);
+            this.Controls.Add(this.L_Shiny);
             this.Controls.Add(this.CHK_Shiny);
             this.Controls.Add(this.CB_Form);
             this.Controls.Add(this.Label_Form);
@@ -526,7 +539,7 @@
             this.Controls.Add(this.CAL_MetDate);
             this.Controls.Add(this.Label_MetDate);
             this.Controls.Add(this.TB_VN);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.L_Victory);
             this.Controls.Add(this.GB_OT);
             this.Controls.Add(this.Label_HeldItem);
             this.Controls.Add(this.CB_HeldItem);
@@ -537,17 +550,18 @@
             this.Controls.Add(this.TB_Nickname);
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.Label_Species);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_PartyNum);
             this.Controls.Add(this.NUP_PartyIndex);
             this.Controls.Add(this.bpkx);
             this.Controls.Add(this.B_Close);
             this.Controls.Add(this.RTB);
             this.Controls.Add(this.listBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(624, 344);
+            this.MaximumSize = new System.Drawing.Size(620, 340);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(624, 344);
+            this.MinimumSize = new System.Drawing.Size(620, 340);
             this.Name = "SAV_HallOfFame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Hall of Fame Viewer";
@@ -568,7 +582,7 @@
         private System.Windows.Forms.Button B_Close;
         private System.Windows.Forms.PictureBox bpkx;
         private System.Windows.Forms.NumericUpDown NUP_PartyIndex;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_PartyNum;
         public System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label Label_Species;
         private System.Windows.Forms.CheckBox CHK_Nicknamed;
@@ -589,7 +603,7 @@
         private System.Windows.Forms.Label Label_OT;
         private System.Windows.Forms.Label Label_SID;
         private System.Windows.Forms.Label Label_TID;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_Victory;
         private System.Windows.Forms.MaskedTextBox TB_VN;
         private System.Windows.Forms.DateTimePicker CAL_MetDate;
         private System.Windows.Forms.Label Label_MetDate;
@@ -598,8 +612,9 @@
         private System.Windows.Forms.ComboBox CB_Form;
         private System.Windows.Forms.Label Label_Form;
         private System.Windows.Forms.CheckBox CHK_Shiny;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label L_Shiny;
         private System.Windows.Forms.MaskedTextBox TB_Level;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label L_Level;
+        private System.Windows.Forms.Button B_CopyText;
     }
 }
