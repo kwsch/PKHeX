@@ -2246,7 +2246,7 @@ namespace PKHeX
                     CB_Form.SelectedIndex = 0;
             }
 
-            if (species == 668 || species == 592 || species == 593)
+            if (species == 592 || species == 593)
                 CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
         }
         private void Label_PPups_Click(object sender, EventArgs e)
