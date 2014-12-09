@@ -25,7 +25,6 @@ namespace PKHeX
             editor_spec = new object[]{
                 GB_OT,
                 GB_CurrentMoves,
-                CB_Form,
                 CB_Species,
                 CB_HeldItem,
                 TB_EC,
