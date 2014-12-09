@@ -263,7 +263,7 @@ namespace PKHeX
 
                 moncount++;
                 string genderstr=gendersymbols[gender];
-                string shinystr = (shiny == 0) ? "Yes" : "No";
+                string shinystr = (shiny == 1) ? "Yes" : "No";
 
                 s += "Name: " + nickname;
                 s += " (" + Form1.specieslist[species] + " - " + genderstr + ")\r\n";
