@@ -336,8 +336,7 @@ namespace PKHeX
             CB_Form.SelectedIndex = (int)form;
             setGenderLabel((int)gender);
             updateNickname(sender, e);
-
-            UpdateImage(species, (int)form, item, (int)gender, CHK_Shiny.Checked);
+            UpdateImage(species, (CB_Form.SelectedIndex & 0x1F), Util.getIndex(CB_HeldItem), PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
         }
         private void Write_Entry(object sender, EventArgs e)
         {           
@@ -431,7 +430,7 @@ namespace PKHeX
             vnd |= (rawvnd & 0x80000000);
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            UpdateImage((int)CB_Species.SelectedValue, (int)(CB_Form.SelectedIndex & 0x1F), (int)CB_HeldItem.SelectedValue, (int)PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
+            UpdateImage(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), Util.getIndex(CB_HeldItem), PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
             displayEntry(null, null); // refresh text view
         }
         private void Validate_TextBoxes()
@@ -468,7 +467,9 @@ namespace PKHeX
         }
         private void updateShiny(object sender, EventArgs e)
         {
-            UpdateImage((int)CB_Species.SelectedValue, (int)(CB_Form.SelectedIndex & 0x1F), (int)CB_HeldItem.SelectedValue, (int)PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
+            if (!editing)
+                return; //Don't do writing until loaded
+            UpdateImage(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), Util.getIndex(CB_HeldItem), PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
             Write_Entry(null, null);
         }
         private void updateGender(object sender, EventArgs e)
