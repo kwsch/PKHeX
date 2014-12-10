@@ -328,6 +328,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\item\item_650.png" />
     <None Include="Resources\text\zh\text_xy_60000_zh.txt" />
     <None Include="Resources\text\zh\text_bw2_40000_zh.txt" />
     <None Include="Resources\text\zh\lang_zh.txt" />
