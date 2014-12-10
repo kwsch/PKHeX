@@ -35,14 +35,14 @@
             this.B_Import = new System.Windows.Forms.Button();
             this.LB_WCs = new System.Windows.Forms.ListBox();
             this.LB_Received = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_WCs = new System.Windows.Forms.Label();
+            this.L_Received = new System.Windows.Forms.Label();
             this.B_WCSlottoDisplay = new System.Windows.Forms.Button();
             this.B_DisplaytoWCSlot = new System.Windows.Forms.Button();
             this.RTB = new System.Windows.Forms.RichTextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.L_Details = new System.Windows.Forms.Label();
             this.B_DeleteWC = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.B_DeleteFlag = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // B_Save
@@ -102,23 +102,23 @@
             this.LB_Received.Sorted = true;
             this.LB_Received.TabIndex = 5;
             // 
-            // label1
+            // L_WCs
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Wondercards:";
+            this.L_WCs.AutoSize = true;
+            this.L_WCs.Location = new System.Drawing.Point(12, 9);
+            this.L_WCs.Name = "L_WCs";
+            this.L_WCs.Size = new System.Drawing.Size(74, 13);
+            this.L_WCs.TabIndex = 6;
+            this.L_WCs.Text = "Wondercards:";
             // 
-            // label2
+            // L_Received
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 139);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Received List:";
+            this.L_Received.AutoSize = true;
+            this.L_Received.Location = new System.Drawing.Point(12, 139);
+            this.L_Received.Name = "L_Received";
+            this.L_Received.Size = new System.Drawing.Size(75, 13);
+            this.L_Received.TabIndex = 7;
+            this.L_Received.Text = "Received List:";
             // 
             // B_WCSlottoDisplay
             // 
@@ -149,14 +149,14 @@
             this.RTB.TabIndex = 10;
             this.RTB.Text = "";
             // 
-            // label3
+            // L_Details
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(117, 43);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(42, 13);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Details:";
+            this.L_Details.AutoSize = true;
+            this.L_Details.Location = new System.Drawing.Point(117, 43);
+            this.L_Details.Name = "L_Details";
+            this.L_Details.Size = new System.Drawing.Size(42, 13);
+            this.L_Details.TabIndex = 11;
+            this.L_Details.Text = "Details:";
             // 
             // B_DeleteWC
             // 
@@ -168,29 +168,30 @@
             this.B_DeleteWC.UseVisualStyleBackColor = true;
             this.B_DeleteWC.Click += new System.EventHandler(this.B_DeleteWC_Click);
             // 
-            // button1
+            // B_DeleteFlag
             // 
-            this.button1.Location = new System.Drawing.Point(96, 197);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(18, 24);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "X";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.B_DeleteReceived_Click);
+            this.B_DeleteFlag.Location = new System.Drawing.Point(96, 197);
+            this.B_DeleteFlag.Name = "B_DeleteFlag";
+            this.B_DeleteFlag.Size = new System.Drawing.Size(18, 24);
+            this.B_DeleteFlag.TabIndex = 13;
+            this.B_DeleteFlag.Text = "X";
+            this.B_DeleteFlag.UseVisualStyleBackColor = true;
+            this.B_DeleteFlag.Click += new System.EventHandler(this.B_DeleteReceived_Click);
             // 
             // SAV_Wondercard
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.B_DeleteFlag);
             this.Controls.Add(this.B_DeleteWC);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.L_Details);
             this.Controls.Add(this.RTB);
             this.Controls.Add(this.B_DisplaytoWCSlot);
             this.Controls.Add(this.B_WCSlottoDisplay);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Received);
+            this.Controls.Add(this.L_WCs);
             this.Controls.Add(this.LB_Received);
             this.Controls.Add(this.LB_WCs);
             this.Controls.Add(this.B_Import);
@@ -217,13 +218,13 @@
         private System.Windows.Forms.Button B_Import;
         private System.Windows.Forms.ListBox LB_WCs;
         private System.Windows.Forms.ListBox LB_Received;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_WCs;
+        private System.Windows.Forms.Label L_Received;
         private System.Windows.Forms.Button B_WCSlottoDisplay;
         private System.Windows.Forms.Button B_DisplaytoWCSlot;
         private System.Windows.Forms.RichTextBox RTB;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label L_Details;
         private System.Windows.Forms.Button B_DeleteWC;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button B_DeleteFlag;
     }
 }

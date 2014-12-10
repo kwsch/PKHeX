@@ -25,7 +25,10 @@ namespace PKHeX
             LB_WCs.SelectedIndex = 0;
 
             if (LB_Received.Items.Count > 0)
-                LB_Received.SelectedIndex = 0;            
+                LB_Received.SelectedIndex = 0;
+
+            this.DragEnter += new DragEventHandler(tabMain_DragEnter);
+            this.DragDrop += new DragEventHandler(tabMain_DragDrop);         
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];
@@ -118,8 +121,7 @@ namespace PKHeX
                     MessageBox.Show("Not a valid wondercard length.", "Error");
                     return;
                 }
-                Array.Resize(ref newwc6, 0x108);
-                Array.Copy(newwc6, wondercard_data, 0x108);
+                Array.Copy(newwc6, wondercard_data, newwc6.Length);
                 loadwcdata();
             }
         }
@@ -218,6 +220,25 @@ namespace PKHeX
             if (LB_Received.SelectedIndex > -1)
             if (LB_Received.Items.Count > 0)
                 LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
+        }
+
+        private void tabMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+        private void tabMain_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            string path = files[0]; // open first D&D
+
+            byte[] newwc6 = File.ReadAllBytes(path);
+            if (newwc6.Length > 0x108)
+            {
+                MessageBox.Show("Not a valid wondercard length.", "Error");
+                return;
+            }
+            Array.Copy(newwc6, wondercard_data, newwc6.Length);
+            loadwcdata();
         }
     }
 }
