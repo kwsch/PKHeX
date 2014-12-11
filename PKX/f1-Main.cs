@@ -5029,7 +5029,6 @@ namespace PKHeX
                         try // to convert past gen pkm
                         {
                             byte[] data = Converter.ConvertPKM(input, savefile, savindex);
-                            data = PKX.encryptArray(data);
                             Array.Copy(PKX.encryptArray(data), 0, savefile, offset, 0xE8);
                         }
                         catch
@@ -5208,4 +5207,3 @@ namespace PKHeX
     }
     #endregion
 }
-
