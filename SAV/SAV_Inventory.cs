@@ -274,7 +274,7 @@ namespace PKHeX
                 try { itemname = Form1.itemlist[itemvalue]; }
                 catch
                 {
-                    MessageBox.Show("Unknown item detected.\r\n\r\nItem ID: " + itemvalue + "\r\n" + "Item is after: " + itemname, "Error");
+                    Util.Error("Unknown item detected.", "Item ID: " + itemvalue, "Item is after: " + itemname);
                     continue;
                 }
                 int itemarrayval = Array.IndexOf(itemarr,itemname);
@@ -282,7 +282,7 @@ namespace PKHeX
                 {
                     dataGridView1.Rows[i].Cells[0].Value = itemarr[0];
                     dataGridView1.Rows[i].Cells[1].Value = 0;
-                    MessageBox.Show(itemname + " removed.\n\nIf you exit the Item Editor by saving changes,\nthe item will no longer be in the pouch.", "Alert");
+                    Util.Alert(itemname + " removed from item pouch.", "If you exit the Item Editor by saving changes, the item will no longer be in the pouch.");
                 }
                 else
                 {

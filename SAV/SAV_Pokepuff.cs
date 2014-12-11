@@ -25,7 +25,7 @@ namespace PKHeX
             ToolTip1.SetToolTip(this.B_Sort, "Hold CTRL to reverse sort.");
 
             ToolTip ToolTip2 = new ToolTip();
-            ToolTip2.SetToolTip(this.B_All, "Hold CTRL to give Deluxe\r\ninstead of Supreme.");
+            ToolTip2.SetToolTip(this.B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
         Form1 m_parent;
         public byte[] sav = new Byte[0x100000];

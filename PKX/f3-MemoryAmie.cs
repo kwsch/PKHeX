@@ -24,8 +24,8 @@ namespace PKHeX
         public MemoryAmie(Form1 frm1)
         {
             InitializeComponent();
+            Util.TranslateInterface(this.Name, Form1.curlanguage, this.Controls);
             m_parent = frm1;
-            TranslateInterface("MemoryAmie");
             string[] arguments = Regex.Split(L_Arguments.Text, " ; ");
 
             for (int i = 5; i < Math.Min(arguments.Length,vartypes.Length+5); i++)
@@ -45,14 +45,10 @@ namespace PKHeX
             h = m_parent.buff;
 
             // Set the current friendship from main window
-            if (m_parent.buff[0x93] == 0)
-            {
+            if (m_parent.buff[0x93] == 0) 
                 m_parent.buff[0xCA] = (byte)Convert.ToUInt16(m_parent.TB_Friendship.Text);
-            }
             else
-            {
                 m_parent.buff[0xA2] = (byte)Convert.ToUInt16(m_parent.TB_Friendship.Text);
-            }
 
             getCountries();
             getLangStrings();
@@ -61,72 +57,6 @@ namespace PKHeX
         }
         public string[] feeling;
         public string[] quality;
-
-        // Conversion
-        public void TranslateInterface(string FORM_NAME)
-        {
-            string curlanguage = Form1.curlanguage;
-            // Fetch a File
-            // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + curlanguage + ".txt";
-            string[] rawlist;
-            if (File.Exists(externalLangPath))
-            {
-                rawlist = File.ReadAllLines(externalLangPath);
-            }
-            else
-            {
-                object txt;
-                txt = Properties.Resources.ResourceManager.GetObject("lang_" + curlanguage); // Fetch File, \n to list.
-                if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                string[] stringSeparators = new string[] { "\r\n" };
-                rawlist = ((string)txt).Split(stringSeparators, StringSplitOptions.None);
-            }
-
-            string[] stringdata = new string[rawlist.Length];
-            int itemsToRename = 0;
-            for (int i = 0; i < rawlist.Length; i++)
-            {
-                // Find our starting point
-                if (rawlist[i] == "! " + FORM_NAME) // Start our data
-                {
-                    // Copy our Control Names and Text to a new array for later processing.
-                    for (int j = i + 1; j < rawlist.Length; j++)
-                    {
-                        if (rawlist[j].Length == 0)
-                            continue; // Skip Over Empty Lines, errhandled
-                        if (rawlist[j][0].ToString() != "-") // If line is not a comment line...
-                        {
-                            if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
-                                break; // exit inner loop
-                            stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
-                            itemsToRename++;
-                        }
-                    }
-                    break; // exit outer loop
-                }
-            }
-
-            // Now that we have our items to rename in: Control = Text format, let's execute the changes!
-
-            for (int i = 0; i < itemsToRename; i++)
-            {
-                string[] SplitString = Regex.Split(stringdata[i], " = ");
-                if (SplitString.Length < 2)
-                    continue; // Error in Input, errhandled
-                string ctrl = SplitString[0]; // Control to change the text of...
-                string text = SplitString[1]; // Text to set Control.Text to...
-                Control[] controllist = Controls.Find(ctrl, true);
-                if (controllist.Length == 0) // If Control isn't found...
-                {
-                    // If not found, it is not something to rename and is thus skipped.
-                }
-                else // Set the input control's text.
-                {
-                    controllist[0].Text = text;
-                }
-            }
-        }
 
         // Load/Save Actions
         private void loadFields()
@@ -153,7 +83,7 @@ namespace PKHeX
 
             CB_Handler.Items.Clear();
             CB_Handler.Items.AddRange(new object[] { m_parent.TB_OT.Text + " ("+ot+")"});
-            if ((m_parent.TB_OTt2.Text != "") && (m_parent.TB_OTt2.Text != "\0\0\0\0\0\0\0\0\0\0\0\0"))
+            if (Util.TrimFromZero(m_parent.TB_OTt2.Text) != "")
             {
                 CB_Handler.Items.AddRange(new object[] { m_parent.TB_OTt2.Text });
                 CB_Handler.Enabled = true;
@@ -214,9 +144,7 @@ namespace PKHeX
                         GB_M_CT.Text = notleft + " " + ot + " - " + disabled;
                     }
                     else
-                    {
                         GB_M_CT.Text = withOT + " " + m_parent.TB_OTt2.Text;
-                    }
                 }
                 RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
             }
@@ -244,9 +172,7 @@ namespace PKHeX
                 m_parent.buff[0xA9] = 0;
             }
             else
-            {
                 cb2v(CB_CTVar, 0xA8);
-            }
 
             // If memory doesn't contain a feeling/quality
             if (!CB_CTFeel.Enabled)
@@ -268,9 +194,7 @@ namespace PKHeX
                 m_parent.buff[0xCF] = 0;
             }
             else
-            {
                 cb2v(CB_OTVar, 0xCE);
-            }
 
             // If memory doesn't contain a feeling/quality
             if (!CB_OTFeel.Enabled)
@@ -479,28 +403,13 @@ namespace PKHeX
             };
             #endregion
 
-            var c0_list = new BindingSource(country_list, null);
-            var c1_list = new BindingSource(country_list, null);
-            var c2_list = new BindingSource(country_list, null);
-            var c3_list = new BindingSource(country_list, null);
-            var c4_list = new BindingSource(country_list, null);
-
-
-            CB_Country0.DataSource = c0_list;
-            CB_Country0.DisplayMember = "Text";
-            CB_Country0.ValueMember = "Value";
-            CB_Country1.DataSource = c1_list;
-            CB_Country1.DisplayMember = "Text";
-            CB_Country1.ValueMember = "Value";
-            CB_Country2.DataSource = c2_list;
-            CB_Country2.DisplayMember = "Text";
-            CB_Country2.ValueMember = "Value";
-            CB_Country3.DataSource = c3_list;
-            CB_Country3.DisplayMember = "Text";
-            CB_Country3.ValueMember = "Value";
-            CB_Country4.DataSource = c4_list;
-            CB_Country4.DisplayMember = "Text";
-            CB_Country4.ValueMember = "Value";
+            ComboBox[] cba = new ComboBox[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
+            for (int i = 0; i < cba.Length; i++)
+            {
+                cba[i].DataSource = new BindingSource(country_list, null);
+                cba[i].DisplayMember = "Text";
+                cba[i].ValueMember = "Value";
+            }
         }
         private void getLangStrings()
         {

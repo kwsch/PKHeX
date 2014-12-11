@@ -169,9 +169,7 @@ namespace PKHeX
                     Array.Copy(data, 0x1A0FC - 0x5400, eventflags, 0, 0x180);
                 }
                 else
-                {
-                    MessageBox.Show("Invalid SAV Size", "Error"); return;
-                }
+                { Util.Error("Invalid SAV Size"); return; }
             }
             else return;
             

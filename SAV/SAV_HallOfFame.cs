@@ -212,7 +212,7 @@ namespace PKHeX
             uint vnd = BitConverter.ToUInt32(data, offset + 0x1B0);
             uint vn = vnd & 0xFF;
             TB_VN.Text = vn.ToString("000");
-            s = "Entry #" + vn + "\r\n";
+            s = "Entry #" + vn + Environment.NewLine;
             uint date = (vnd >> 14) & 0x1FFFF;
             uint year = (date & 0xFF) + 2000;
             uint month = (date >> 8) & 0xF;
@@ -233,7 +233,7 @@ namespace PKHeX
                     ((Control)editor_spec[i]).Enabled = true;
             }
 
-            s += "Date: " + year.ToString() + "/" + month.ToString() + "/" + day.ToString() + "\r\n\r\n";
+            s += "Date: " + year.ToString() + "/" + month.ToString() + "/" + day.ToString() + "" + Environment.NewLine + Environment.NewLine;
             CAL_MetDate.Value = new DateTime((int)year, (int)month, (int)day);
             int moncount = 0;
             for (int i = 0; i < 6; i++)
@@ -266,16 +266,16 @@ namespace PKHeX
                 string shinystr = (shiny == 1) ? "Yes" : "No";
 
                 s += "Name: " + nickname;
-                s += " (" + Form1.specieslist[species] + " - " + genderstr + ")\r\n";
-                s += "Level: " + level.ToString() + "\r\n";
-                s += "Shiny: " + shinystr + "\r\n";
-                s += "Held Item: " + Form1.itemlist[helditem] + "\r\n";
-                s += "Move 1: " + Form1.movelist[move1] + "\r\n";
-                s += "Move 2: " + Form1.movelist[move2] + "\r\n";
-                s += "Move 3: " + Form1.movelist[move3] + "\r\n";
-                s += "Move 4: " + Form1.movelist[move4] + "\r\n";
-                s += "OT: " + OTname + " (" + TID.ToString() + "/" + SID.ToString() + ")\r\n";
-                s += "\r\n";
+                s += " (" + Form1.specieslist[species] + " - " + genderstr + ")" + Environment.NewLine;
+                s += "Level: " + level.ToString() + Environment.NewLine;
+                s += "Shiny: " + shinystr + Environment.NewLine;
+                s += "Held Item: " + Form1.itemlist[helditem] + Environment.NewLine;
+                s += "Move 1: " + Form1.movelist[move1] + Environment.NewLine;
+                s += "Move 2: " + Form1.movelist[move2] + Environment.NewLine;
+                s += "Move 3: " + Form1.movelist[move3] + Environment.NewLine;
+                s += "Move 4: " + Form1.movelist[move4] + Environment.NewLine;
+                s += "OT: " + OTname + " (" + TID.ToString() + "/" + SID.ToString() + ")" + Environment.NewLine;
+                s += Environment.NewLine;
 
                 offset += 0x48;
             }

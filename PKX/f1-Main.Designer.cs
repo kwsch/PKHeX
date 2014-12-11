@@ -535,7 +535,7 @@
             this.TB_PID.Size = new System.Drawing.Size(60, 20);
             this.TB_PID.TabIndex = 60;
             this.TB_PID.Text = "12345678";
-            this.TB_PID.TextChanged += new System.EventHandler(this.updateTIDSID);
+            this.TB_PID.TextChanged += new System.EventHandler(this.update_ID);
             this.TB_PID.MouseHover += new System.EventHandler(this.getTSV);
             // 
             // CHK_Nicknamed
@@ -2154,7 +2154,7 @@
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
             this.TB_EC.TabIndex = 61;
             this.TB_EC.Text = "12345678";
-            this.TB_EC.TextChanged += new System.EventHandler(this.updateTIDSID);
+            this.TB_EC.TextChanged += new System.EventHandler(this.update_ID);
             // 
             // GB_nOT
             // 
@@ -2486,7 +2486,7 @@
             this.TB_SID.Size = new System.Drawing.Size(40, 20);
             this.TB_SID.TabIndex = 2;
             this.TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SID.TextChanged += new System.EventHandler(this.updateTIDSID);
+            this.TB_SID.TextChanged += new System.EventHandler(this.update_ID);
             this.TB_SID.MouseHover += new System.EventHandler(this.getTSV);
             // 
             // TB_TID
@@ -2498,7 +2498,7 @@
             this.TB_TID.Size = new System.Drawing.Size(40, 20);
             this.TB_TID.TabIndex = 1;
             this.TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_TID.TextChanged += new System.EventHandler(this.updateTIDSID);
+            this.TB_TID.TextChanged += new System.EventHandler(this.update_ID);
             this.TB_TID.MouseHover += new System.EventHandler(this.getTSV);
             // 
             // Label_OT

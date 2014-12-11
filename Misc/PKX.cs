@@ -11,6 +11,10 @@ namespace PKHeX
 {
     public partial class PKX
     {
+        // C# PKX Function Library
+        // No WinForm object related code, only to calculate information.
+        // Relies on Util for some common operations.
+
         // Data
         public static uint LCRNG(uint seed)
         {
@@ -2235,43 +2239,6 @@ namespace PKHeX
             table.Rows.Add(100, 600000, 800000, 1000000, 1059860, 1250000, 1640000);
             return table;
         }
-        public static DataTable NatureTable()
-        {
-            DataTable table = new DataTable();
-            table.Columns.Add("Nature", typeof(int));
-            table.Columns.Add("A", typeof(int));
-            table.Columns.Add("D", typeof(int));
-            table.Columns.Add("Spe", typeof(int));
-            table.Columns.Add("SpA", typeof(int));
-            table.Columns.Add("SpD", typeof(int));
-
-            table.Rows.Add(0, 10, 10, 10, 10, 10);
-            table.Rows.Add(1, 11, 9, 10, 10, 10);
-            table.Rows.Add(2, 11, 10, 9, 10, 10);
-            table.Rows.Add(3, 11, 10, 10, 9, 10);
-            table.Rows.Add(4, 11, 10, 10, 10, 9);
-            table.Rows.Add(5, 9, 11, 10, 10, 10);
-            table.Rows.Add(6, 10, 10, 10, 10, 10);
-            table.Rows.Add(7, 10, 11, 9, 10, 10);
-            table.Rows.Add(8, 10, 11, 10, 9, 10);
-            table.Rows.Add(9, 10, 11, 10, 10, 9);
-            table.Rows.Add(10, 9, 10, 11, 10, 10);
-            table.Rows.Add(11, 10, 9, 11, 10, 10);
-            table.Rows.Add(12, 10, 10, 10, 10, 10);
-            table.Rows.Add(13, 10, 10, 11, 9, 10);
-            table.Rows.Add(14, 10, 10, 11, 10, 9);
-            table.Rows.Add(15, 9, 10, 10, 11, 10);
-            table.Rows.Add(16, 10, 9, 10, 11, 10);
-            table.Rows.Add(17, 10, 10, 9, 11, 10);
-            table.Rows.Add(18, 10, 10, 10, 10, 10);
-            table.Rows.Add(19, 10, 10, 10, 11, 9);
-            table.Rows.Add(20, 9, 10, 10, 10, 11);
-            table.Rows.Add(21, 10, 9, 10, 10, 11);
-            table.Rows.Add(22, 10, 10, 9, 10, 11);
-            table.Rows.Add(23, 10, 10, 10, 9, 11);
-            table.Rows.Add(24, 10, 10, 10, 10, 10);
-            return table;
-        }
 
         // Stat Fetching
         public static int getMovePP(int move, int ppup)
@@ -2283,6 +2250,20 @@ namespace PKHeX
             if (move < 0) { move = 0; }
             DataTable movepptable = MovePPTable();
             return (int)movepptable.Rows[move][1];
+        }
+        public static byte[] getRandomEVs()
+        {
+            byte[] evs = new Byte[6];
+          start:
+            evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
+            evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
+            evs[2] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1])), 252);
+            evs[3] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2])), 252);
+            evs[4] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2] - evs[3])), 252);
+            evs[5] = (byte)Math.Min((510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4]), 252);
+            Util.Shuffle(evs);
+            if (evs.Sum(b => (ushort)b) > 510) goto start; // try again!
+            return evs;
         }
         public static byte getBaseFriendship(int species)
         {
@@ -2330,6 +2311,81 @@ namespace PKHeX
             uint exp = (uint)PKX.ExpTable().Rows[level][growth+1];
             return exp;
         }
+        public static int[] getAbilities(int species, int formnum)
+        {
+            if (formnum > 0) // For species with form-specific abilities.
+            {
+                // Previous Games
+                if (species == 492 && formnum == 1) { species = 727; } // Shaymin Sky
+                else if (species == 487 && formnum == 1) { species = 728; } // Giratina-O
+                else if (species == 550 && formnum == 1) { species = 738; } // Basculin Blue
+                else if (species == 646 && formnum == 1) { species = 741; } // Kyurem White
+                else if (species == 646 && formnum == 2) { species = 742; } // Kyurem Black
+                else if (species == 641 && formnum == 1) { species = 744; } // Tornadus-T
+                else if (species == 642 && formnum == 1) { species = 745; } // Thundurus-T
+                else if (species == 645 && formnum == 1) { species = 746; } // Landorus-T
+
+                // XY
+                else if (species == 678 && formnum == 1) { species = 748; } // Meowstic Female
+                else if (species == 094 && formnum == 1) { species = 747; } // Mega Gengar
+                else if (species == 282 && formnum == 1) { species = 758; } // Mega Gardevoir
+                else if (species == 181 && formnum == 1) { species = 759; } // Mega Ampharos
+                else if (species == 003 && formnum == 1) { species = 760; } // Mega Venusaur
+                else if (species == 006 && formnum == 1) { species = 761; } // Mega Charizard X
+                else if (species == 006 && formnum == 2) { species = 762; } // Mega Charizard Y
+                else if (species == 150 && formnum == 1) { species = 763; } // Mega MewtwoX
+                else if (species == 150 && formnum == 2) { species = 764; } // Mega MewtwoY
+                else if (species == 257 && formnum == 1) { species = 765; } // Mega Blaziken
+                else if (species == 308 && formnum == 1) { species = 766; } // Mega Medicham
+                else if (species == 229 && formnum == 1) { species = 767; } // Mega Houndoom
+                else if (species == 306 && formnum == 1) { species = 768; } // Mega Aggron
+                else if (species == 354 && formnum == 1) { species = 769; } // Mega Banette
+                else if (species == 248 && formnum == 1) { species = 770; } // Mega Tyranitar
+                else if (species == 212 && formnum == 1) { species = 771; } // Mega Scizor
+                else if (species == 127 && formnum == 1) { species = 772; } // Mega Pinsir
+                else if (species == 142 && formnum == 1) { species = 773; } // Mega Aerodactyl
+                else if (species == 448 && formnum == 1) { species = 774; } // Mega Lucario
+                else if (species == 460 && formnum == 1) { species = 775; } // Mega Abomasnow
+                else if (species == 009 && formnum == 1) { species = 777; } // Mega Blastoise
+                else if (species == 115 && formnum == 1) { species = 778; } // Mega Kangaskhan
+                else if (species == 130 && formnum == 1) { species = 779; } // Mega Gyarados
+                else if (species == 359 && formnum == 1) { species = 780; } // Mega Absol
+                else if (species == 065 && formnum == 1) { species = 781; } // Mega Alakazam
+                else if (species == 214 && formnum == 1) { species = 782; } // Mega Heracross
+                else if (species == 303 && formnum == 1) { species = 783; } // Mega Mawile
+                else if (species == 310 && formnum == 1) { species = 784; } // Mega Manectric
+                else if (species == 445 && formnum == 1) { species = 785; } // Mega Garchomp
+                else if (species == 381 && formnum == 1) { species = 786; } // Mega Latios
+                else if (species == 380 && formnum == 1) { species = 787; } // Mega Latias
+
+                // ORAS
+                else if (species == 382 && formnum == 1) { species = 812; } // Primal Kyogre
+                else if (species == 383 && formnum == 1) { species = 813; } // Primal Groudon
+                else if (species == 720 && formnum == 1) { species = 821; } // Hoopa Unbound
+                else if (species == 015 && formnum == 1) { species = 825; } // Mega Beedrill
+                else if (species == 018 && formnum == 1) { species = 808; } // Mega Pidgeot
+                else if (species == 080 && formnum == 1) { species = 806; } // Mega Slowbro
+                else if (species == 208 && formnum == 1) { species = 807; } // Mega Steelix
+                else if (species == 254 && formnum == 1) { species = 800; } // Mega Sceptile
+                else if (species == 260 && formnum == 1) { species = 799; } // Mega Swampert
+                else if (species == 302 && formnum == 1) { species = 801; } // Mega Sableye
+                else if (species == 319 && formnum == 1) { species = 805; } // Mega Sharpedo
+                else if (species == 323 && formnum == 1) { species = 822; } // Mega Camerupt
+                else if (species == 334 && formnum == 1) { species = 802; } // Mega Altaria
+                else if (species == 362 && formnum == 1) { species = 809; } // Mega Glalie
+                else if (species == 373 && formnum == 1) { species = 824; } // Mega Salamence
+                else if (species == 376 && formnum == 1) { species = 811; } // Mega Metagross
+                else if (species == 384 && formnum == 1) { species = 814; } // Mega Rayquaza
+                else if (species == 428 && formnum == 1) { species = 823; } // Mega Lopunny
+                else if (species == 475 && formnum == 1) { species = 803; } // Mega Gallade
+                else if (species == 531 && formnum == 1) { species = 804; } // Mega Audino
+                else if (species == 719 && formnum == 1) { species = 810; } // Mega Diancie
+            }
+
+            int[] abils = { 0, 0, 0 };
+            Array.Copy(speciesability, species * 4 + 1, abils, 0, 3);
+            return abils;
+        }
         public static int getGender(string s)
         {
             if (s == "♂" || s == "M")
@@ -2337,6 +2393,121 @@ namespace PKHeX
             else if (s == "♀" || s == "F")
                 return 1;
             else return 2;
+        }
+        public static ushort[] getStats(int species, int level, int nature, int form,
+                                        int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
+                                        int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
+        {
+            DataTable spectable = SpeciesTable();
+            int HP_B = (int)spectable.Rows[species][2];
+            int ATK_B = (int)spectable.Rows[species][3];
+            int DEF_B = (int)spectable.Rows[species][4];
+            int SPA_B = (int)spectable.Rows[species][5];
+            int SPD_B = (int)spectable.Rows[species][6];
+            int SPE_B = (int)spectable.Rows[species][7];
+
+            // Form Stat Recalculation
+            if (form != 0)
+            {
+                if ((form == 1) && (species == 3)) { HP_B = 80; ATK_B = 100; DEF_B = 123; SPA_B = 122; SPD_B = 120; SPE_B = 80; }
+                else if ((form == 1) && (species == 6)) { HP_B = 78; ATK_B = 130; DEF_B = 111; SPA_B = 130; SPD_B = 85; SPE_B = 100; }
+                else if ((form == 2) && (species == 6)) { HP_B = 78; ATK_B = 104; DEF_B = 78; SPA_B = 159; SPD_B = 115; SPE_B = 100; }
+                else if ((form == 1) && (species == 9)) { HP_B = 79; ATK_B = 103; DEF_B = 120; SPA_B = 135; SPD_B = 115; SPE_B = 78; }
+                else if ((form == 1) && (species == 65)) { HP_B = 55; ATK_B = 50; DEF_B = 65; SPA_B = 175; SPD_B = 95; SPE_B = 150; }
+                else if ((form == 1) && (species == 94)) { HP_B = 60; ATK_B = 65; DEF_B = 80; SPA_B = 170; SPD_B = 95; SPE_B = 130; }
+                else if ((form == 1) && (species == 115)) { HP_B = 105; ATK_B = 125; DEF_B = 100; SPA_B = 60; SPD_B = 100; SPE_B = 100; }
+                else if ((form == 1) && (species == 127)) { HP_B = 65; ATK_B = 155; DEF_B = 120; SPA_B = 65; SPD_B = 90; SPE_B = 105; }
+                else if ((form == 1) && (species == 130)) { HP_B = 95; ATK_B = 155; DEF_B = 109; SPA_B = 70; SPD_B = 130; SPE_B = 81; }
+                else if ((form == 1) && (species == 142)) { HP_B = 80; ATK_B = 135; DEF_B = 85; SPA_B = 70; SPD_B = 95; SPE_B = 150; }
+                else if ((form == 1) && (species == 150)) { HP_B = 106; ATK_B = 190; DEF_B = 100; SPA_B = 154; SPD_B = 100; SPE_B = 130; }
+                else if ((form == 2) && (species == 150)) { HP_B = 106; ATK_B = 150; DEF_B = 70; SPA_B = 194; SPD_B = 120; SPE_B = 140; }
+                else if ((form == 1) && (species == 181)) { HP_B = 90; ATK_B = 95; DEF_B = 105; SPA_B = 165; SPD_B = 110; SPE_B = 45; }
+                else if ((form == 1) && (species == 212)) { HP_B = 70; ATK_B = 150; DEF_B = 140; SPA_B = 65; SPD_B = 100; SPE_B = 75; }
+                else if ((form == 1) && (species == 214)) { HP_B = 80; ATK_B = 185; DEF_B = 115; SPA_B = 40; SPD_B = 105; SPE_B = 75; }
+                else if ((form == 1) && (species == 229)) { HP_B = 75; ATK_B = 90; DEF_B = 90; SPA_B = 140; SPD_B = 90; SPE_B = 115; }
+                else if ((form == 1) && (species == 248)) { HP_B = 100; ATK_B = 164; DEF_B = 150; SPA_B = 95; SPD_B = 120; SPE_B = 71; }
+                else if ((form == 1) && (species == 257)) { HP_B = 80; ATK_B = 160; DEF_B = 80; SPA_B = 130; SPD_B = 80; SPE_B = 100; }
+                else if ((form == 1) && (species == 282)) { HP_B = 68; ATK_B = 85; DEF_B = 65; SPA_B = 165; SPD_B = 135; SPE_B = 100; }
+                else if ((form == 1) && (species == 303)) { HP_B = 50; ATK_B = 105; DEF_B = 125; SPA_B = 55; SPD_B = 95; SPE_B = 50; }
+                else if ((form == 1) && (species == 306)) { HP_B = 70; ATK_B = 140; DEF_B = 230; SPA_B = 60; SPD_B = 80; SPE_B = 50; }
+                else if ((form == 1) && (species == 308)) { HP_B = 60; ATK_B = 100; DEF_B = 85; SPA_B = 80; SPD_B = 85; SPE_B = 100; }
+                else if ((form == 1) && (species == 310)) { HP_B = 70; ATK_B = 75; DEF_B = 80; SPA_B = 135; SPD_B = 80; SPE_B = 135; }
+                else if ((form == 1) && (species == 354)) { HP_B = 64; ATK_B = 165; DEF_B = 75; SPA_B = 93; SPD_B = 83; SPE_B = 75; }
+                else if ((form == 1) && (species == 359)) { HP_B = 65; ATK_B = 150; DEF_B = 60; SPA_B = 115; SPD_B = 60; SPE_B = 115; }
+                else if ((form == 1) && (species == 380)) { HP_B = 80; ATK_B = 100; DEF_B = 120; SPA_B = 140; SPD_B = 150; SPE_B = 110; }
+                else if ((form == 1) && (species == 381)) { HP_B = 80; ATK_B = 130; DEF_B = 100; SPA_B = 160; SPD_B = 120; SPE_B = 110; }
+                else if ((form == 1) && (species == 386)) { HP_B = 50; ATK_B = 180; DEF_B = 20; SPA_B = 180; SPD_B = 20; SPE_B = 150; }
+                else if ((form == 2) && (species == 386)) { HP_B = 50; ATK_B = 70; DEF_B = 160; SPA_B = 70; SPD_B = 160; SPE_B = 90; }
+                else if ((form == 3) && (species == 386)) { HP_B = 50; ATK_B = 95; DEF_B = 90; SPA_B = 95; SPD_B = 90; SPE_B = 180; }
+                else if ((form == 1) && (species == 413)) { HP_B = 60; ATK_B = 79; DEF_B = 105; SPA_B = 59; SPD_B = 85; SPE_B = 36; }
+                else if ((form == 2) && (species == 413)) { HP_B = 60; ATK_B = 69; DEF_B = 95; SPA_B = 69; SPD_B = 95; SPE_B = 36; }
+                else if ((form == 1) && (species == 445)) { HP_B = 108; ATK_B = 170; DEF_B = 115; SPA_B = 120; SPD_B = 95; SPE_B = 92; }
+                else if ((form == 1) && (species == 448)) { HP_B = 70; ATK_B = 145; DEF_B = 88; SPA_B = 140; SPD_B = 70; SPE_B = 112; }
+                else if ((form == 1) && (species == 460)) { HP_B = 90; ATK_B = 132; DEF_B = 105; SPA_B = 132; SPD_B = 105; SPE_B = 30; }
+                else if ((form == 1) && (species == 487)) { HP_B = 150; ATK_B = 120; DEF_B = 100; SPA_B = 120; SPD_B = 100; SPE_B = 90; }
+                else if ((form == 1) && (species == 492)) { HP_B = 100; ATK_B = 103; DEF_B = 75; SPA_B = 120; SPD_B = 75; SPE_B = 127; }
+                else if ((form == 1) && (species == 555)) { HP_B = 105; ATK_B = 30; DEF_B = 105; SPA_B = 140; SPD_B = 105; SPE_B = 55; }
+                else if ((form == 1) && (species == 641)) { HP_B = 79; ATK_B = 100; DEF_B = 80; SPA_B = 110; SPD_B = 90; SPE_B = 121; }
+                else if ((form == 1) && (species == 642)) { HP_B = 79; ATK_B = 105; DEF_B = 70; SPA_B = 145; SPD_B = 80; SPE_B = 101; }
+                else if ((form == 1) && (species == 645)) { HP_B = 89; ATK_B = 145; DEF_B = 90; SPA_B = 105; SPD_B = 80; SPE_B = 91; }
+                else if ((form == 1) && (species == 646)) { HP_B = 125; ATK_B = 120; DEF_B = 90; SPA_B = 170; SPD_B = 100; SPE_B = 95; } // white
+                else if ((form == 2) && (species == 646)) { HP_B = 125; ATK_B = 170; DEF_B = 100; SPA_B = 120; SPD_B = 90; SPE_B = 95; } // black
+                else if ((form == 1) && (species == 648)) { HP_B = 100; ATK_B = 128; DEF_B = 90; SPA_B = 77; SPD_B = 77; SPE_B = 128; }
+                else if ((form == 5) && (species == 670)) { HP_B = 74; ATK_B = 65; DEF_B = 67; SPA_B = 125; SPD_B = 128; SPE_B = 92; }
+                else if ((form == 1) && (species == 681)) { HP_B = 60; ATK_B = 150; DEF_B = 50; SPA_B = 150; SPD_B = 50; SPE_B = 60; }
+                else if ((form == 1) && (species == 710)) { HP_B = 49; ATK_B = 66; DEF_B = 70; SPA_B = 44; SPD_B = 55; SPE_B = 51; }
+                else if ((form == 2) && (species == 710)) { HP_B = 54; ATK_B = 66; DEF_B = 70; SPA_B = 44; SPD_B = 55; SPE_B = 46; }
+                else if ((form == 3) && (species == 710)) { HP_B = 59; ATK_B = 66; DEF_B = 70; SPA_B = 44; SPD_B = 55; SPE_B = 41; }
+                else if ((form == 1) && (species == 711)) { HP_B = 65; ATK_B = 90; DEF_B = 122; SPA_B = 58; SPD_B = 75; SPE_B = 84; }
+                else if ((form == 2) && (species == 711)) { HP_B = 75; ATK_B = 95; DEF_B = 122; SPA_B = 58; SPD_B = 75; SPE_B = 69; }
+                else if ((form == 3) && (species == 711)) { HP_B = 85; ATK_B = 100; DEF_B = 122; SPA_B = 58; SPD_B = 75; SPE_B = 54; }
+
+                // ORAS Stats
+                else if ((form == 1) && (species == 382)) { HP_B = 100; ATK_B = 150; DEF_B = 90; SPA_B = 180; SPD_B = 160; SPE_B = 90; } // Primal Kyogre
+                else if ((form == 1) && (species == 383)) { HP_B = 100; ATK_B = 180; DEF_B = 160; SPA_B = 150; SPD_B = 90; SPE_B = 90; } // Primal 
+
+                else if ((form == 1) && (species == 015)) { HP_B = 65; ATK_B = 150; DEF_B = 40; SPA_B = 15; SPD_B = 80; SPE_B = 145; } // Beedrill
+                else if ((form == 1) && (species == 018)) { HP_B = 83; ATK_B = 80; DEF_B = 83; SPA_B = 135; SPD_B = 80; SPE_B = 121; } // Pidgeot
+                else if ((form == 1) && (species == 080)) { HP_B = 95; ATK_B = 75; DEF_B = 180; SPA_B = 130; SPD_B = 80; SPE_B = 30; } // Slowbro
+                else if ((form == 1) && (species == 208)) { HP_B = 75; ATK_B = 125; DEF_B = 230; SPA_B = 55; SPD_B = 95; SPE_B = 30; } // Steelix
+                else if ((form == 1) && (species == 254)) { HP_B = 70; ATK_B = 110; DEF_B = 75; SPA_B = 145; SPD_B = 85; SPE_B = 145; } // Sceptile
+                else if ((form == 1) && (species == 260)) { HP_B = 100; ATK_B = 150; DEF_B = 110; SPA_B = 95; SPD_B = 110; SPE_B = 70; } // Swampert
+                else if ((form == 1) && (species == 302)) { HP_B = 50; ATK_B = 85; DEF_B = 125; SPA_B = 85; SPD_B = 115; SPE_B = 20; } // Sableye
+                else if ((form == 1) && (species == 319)) { HP_B = 70; ATK_B = 140; DEF_B = 70; SPA_B = 110; SPD_B = 65; SPE_B = 105; } // Sharpedo
+                else if ((form == 1) && (species == 323)) { HP_B = 70; ATK_B = 120; DEF_B = 100; SPA_B = 145; SPD_B = 105; SPE_B = 20; } // Camerupt
+                else if ((form == 1) && (species == 334)) { HP_B = 75; ATK_B = 110; DEF_B = 110; SPA_B = 110; SPD_B = 105; SPE_B = 80; } // Altaria
+                else if ((form == 1) && (species == 362)) { HP_B = 80; ATK_B = 120; DEF_B = 80; SPA_B = 120; SPD_B = 80; SPE_B = 100; } // Glalie
+                else if ((form == 1) && (species == 373)) { HP_B = 95; ATK_B = 145; DEF_B = 130; SPA_B = 120; SPD_B = 90; SPE_B = 120; } // Salamence
+                else if ((form == 1) && (species == 376)) { HP_B = 80; ATK_B = 145; DEF_B = 150; SPA_B = 105; SPD_B = 110; SPE_B = 110; } // Metagross
+                else if ((form == 1) && (species == 384)) { HP_B = 105; ATK_B = 180; DEF_B = 100; SPA_B = 180; SPD_B = 100; SPE_B = 115; } // Rayquaza
+                else if ((form == 1) && (species == 428)) { HP_B = 65; ATK_B = 136; DEF_B = 94; SPA_B = 54; SPD_B = 96; SPE_B = 135; } // Lopunny
+                else if ((form == 1) && (species == 475)) { HP_B = 68; ATK_B = 165; DEF_B = 95; SPA_B = 65; SPD_B = 115; SPE_B = 110; } // Gallade
+                else if ((form == 1) && (species == 531)) { HP_B = 103; ATK_B = 60; DEF_B = 126; SPA_B = 80; SPD_B = 126; SPE_B = 50; } // Audino
+                else if ((form == 1) && (species == 719)) { HP_B = 50; ATK_B = 160; DEF_B = 110; SPA_B = 160; SPD_B = 110; SPE_B = 110; } // Diancie
+
+                else if ((form == 1) && (species == 720)) { HP_B = 80; ATK_B = 160; DEF_B = 60; SPA_B = 170; SPD_B = 130; SPE_B = 80; } // Hoopa Unbound
+            }
+            
+            // Calculate Stats
+            ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
+            stats[0] = (ushort)((((HP_IV + (2 * HP_B) + (HP_EV / 4) + 100) * level) / 100) + 10);
+            stats[1] = (ushort)((((ATK_IV + (2 * ATK_B) + (ATK_EV / 4)) * level) / 100) + 5);
+            stats[2] = (ushort)((((DEF_IV + (2 * DEF_B) + (DEF_EV / 4)) * level) / 100) + 5);
+            stats[4] = (ushort)((((SPA_IV + (2 * SPA_B) + (SPA_EV / 4)) * level) / 100) + 5);
+            stats[5] = (ushort)((((SPD_IV + (2 * SPD_B) + (SPD_EV / 4)) * level) / 100) + 5);
+            stats[3] = (ushort)((((SPE_IV + (2 * SPE_B) + (SPE_EV / 4)) * level) / 100) + 5);
+
+            // Account for nature
+            int incr = nature / 5 + 1;
+            int decr = nature % 5 + 1;
+            if (incr != decr)
+            {
+                stats[incr] *= 11; stats[incr] /= 10;
+                stats[decr] *=  9; stats[decr] /= 10;
+            }
+
+            // Return Result
+            return stats;
         }
 
         // Manipulation
@@ -2506,7 +2677,7 @@ namespace PKHeX
         }
 
         // Object
-        #region Define
+        #region PKX Object
         private Image pksprite;
         private uint mEC, mPID, mIV32,
 
@@ -2542,7 +2713,6 @@ namespace PKHeX
             mball, mencountertype,
             mgamevers, mcountryID, mregionID, mdsregID, motlang;
 
-        #endregion
         public Image pkimg { get { return pksprite; } }
         public string Nickname { get { return mnicknamestr; } }
         public string Species { get { return mSpeciesName; } }
@@ -2788,6 +2958,7 @@ namespace PKHeX
             }
             catch { return; }
         }
+        #endregion
 
         // Save File Related
         internal static int detectSAVIndex(byte[] data, ref int savindex)
@@ -2841,5 +3012,838 @@ namespace PKHeX
             }
             return crc;
         }
+
+        // Table Related
+        #region Species/Form Ability Table: ORAS Personal Data
+        internal static int[] speciesability = new int[] 
+        { 
+                                000,	000,	000,	000,
+                                001,	065,	065,	034,
+                                002,	065,	065,	034,
+                                003,	065,	065,	034,
+                                004,	066,	066,	094,
+                                005,	066,	066,	094,
+                                006,	066,	066,	094,
+                                007,	067,	067,	044,
+                                008,	067,	067,	044,
+                                009,	067,	067,	044,
+                                010,	019,	019,	050,
+                                011,	061,	061,	061,
+                                012,	014,	014,	110,
+                                013,	019,	019,	050,
+                                014,	061,	061,	061,
+                                015,	068,	068,	097,
+                                016,	051,	077,	145,
+                                017,	051,	077,	145,
+                                018,	051,	077,	145,
+                                019,	050,	062,	055,
+                                020,	050,	062,	055,
+                                021,	051,	051,	097,
+                                022,	051,	051,	097,
+                                023,	022,	061,	127,
+                                024,	022,	061,	127,
+                                025,	009,	009,	031,
+                                026,	009,	009,	031,
+                                027,	008,	008,	146,
+                                028,	008,	008,	146,
+                                029,	038,	079,	055,
+                                030,	038,	079,	055,
+                                031,	038,	079,	125,
+                                032,	038,	079,	055,
+                                033,	038,	079,	055,
+                                034,	038,	079,	125,
+                                035,	056,	098,	132,
+                                036,	056,	098,	109,
+                                037,	018,	018,	070,
+                                038,	018,	018,	070,
+                                039,	056,	172,	132,
+                                040,	056,	172,	119,
+                                041,	039,	039,	151,
+                                042,	039,	039,	151,
+                                043,	034,	034,	050,
+                                044,	034,	034,	001,
+                                045,	034,	034,	027,
+                                046,	027,	087,	006,
+                                047,	027,	087,	006,
+                                048,	014,	110,	050,
+                                049,	019,	110,	147,
+                                050,	008,	071,	159,
+                                051,	008,	071,	159,
+                                052,	053,	101,	127,
+                                053,	007,	101,	127,
+                                054,	006,	013,	033,
+                                055,	006,	013,	033,
+                                056,	072,	083,	128,
+                                057,	072,	083,	128,
+                                058,	022,	018,	154,
+                                059,	022,	018,	154,
+                                060,	011,	006,	033,
+                                061,	011,	006,	033,
+                                062,	011,	006,	033,
+                                063,	028,	039,	098,
+                                064,	028,	039,	098,
+                                065,	028,	039,	098,
+                                066,	062,	099,	080,
+                                067,	062,	099,	080,
+                                068,	062,	099,	080,
+                                069,	034,	034,	082,
+                                070,	034,	034,	082,
+                                071,	034,	034,	082,
+                                072,	029,	064,	044,
+                                073,	029,	064,	044,
+                                074,	069,	005,	008,
+                                075,	069,	005,	008,
+                                076,	069,	005,	008,
+                                077,	050,	018,	049,
+                                078,	050,	018,	049,
+                                079,	012,	020,	144,
+                                080,	012,	020,	144,
+                                081,	042,	005,	148,
+                                082,	042,	005,	148,
+                                083,	051,	039,	128,
+                                084,	050,	048,	077,
+                                085,	050,	048,	077,
+                                086,	047,	093,	115,
+                                087,	047,	093,	115,
+                                088,	001,	060,	143,
+                                089,	001,	060,	143,
+                                090,	075,	092,	142,
+                                091,	075,	092,	142,
+                                092,	026,	026,	026,
+                                093,	026,	026,	026,
+                                094,	026,	026,	026,
+                                095,	069,	005,	133,
+                                096,	015,	108,	039,
+                                097,	015,	108,	039,
+                                098,	052,	075,	125,
+                                099,	052,	075,	125,
+                                100,	043,	009,	106,
+                                101,	043,	009,	106,
+                                102,	034,	034,	139,
+                                103,	034,	034,	139,
+                                104,	069,	031,	004,
+                                105,	069,	031,	004,
+                                106,	007,	120,	084,
+                                107,	051,	089,	039,
+                                108,	020,	012,	013,
+                                109,	026,	026,	026,
+                                110,	026,	026,	026,
+                                111,	031,	069,	120,
+                                112,	031,	069,	120,
+                                113,	030,	032,	131,
+                                114,	034,	102,	144,
+                                115,	048,	113,	039,
+                                116,	033,	097,	006,
+                                117,	038,	097,	006,
+                                118,	033,	041,	031,
+                                119,	033,	041,	031,
+                                120,	035,	030,	148,
+                                121,	035,	030,	148,
+                                122,	043,	111,	101,
+                                123,	068,	101,	080,
+                                124,	012,	108,	087,
+                                125,	009,	009,	072,
+                                126,	049,	049,	072,
+                                127,	052,	104,	153,
+                                128,	022,	083,	125,
+                                129,	033,	033,	155,
+                                130,	022,	022,	153,
+                                131,	011,	075,	093,
+                                132,	007,	007,	150,
+                                133,	050,	091,	107,
+                                134,	011,	011,	093,
+                                135,	010,	010,	095,
+                                136,	018,	018,	062,
+                                137,	036,	088,	148,
+                                138,	033,	075,	133,
+                                139,	033,	075,	133,
+                                140,	033,	004,	133,
+                                141,	033,	004,	133,
+                                142,	069,	046,	127,
+                                143,	017,	047,	082,
+                                144,	046,	046,	081,
+                                145,	046,	046,	009,
+                                146,	046,	046,	049,
+                                147,	061,	061,	063,
+                                148,	061,	061,	063,
+                                149,	039,	039,	136,
+                                150,	046,	046,	127,
+                                151,	028,	028,	028,
+                                152,	065,	065,	102,
+                                153,	065,	065,	102,
+                                154,	065,	065,	102,
+                                155,	066,	066,	018,
+                                156,	066,	066,	018,
+                                157,	066,	066,	018,
+                                158,	067,	067,	125,
+                                159,	067,	067,	125,
+                                160,	067,	067,	125,
+                                161,	050,	051,	119,
+                                162,	050,	051,	119,
+                                163,	015,	051,	110,
+                                164,	015,	051,	110,
+                                165,	068,	048,	155,
+                                166,	068,	048,	089,
+                                167,	068,	015,	097,
+                                168,	068,	015,	097,
+                                169,	039,	039,	151,
+                                170,	010,	035,	011,
+                                171,	010,	035,	011,
+                                172,	009,	009,	031,
+                                173,	056,	098,	132,
+                                174,	056,	172,	132,
+                                175,	055,	032,	105,
+                                176,	055,	032,	105,
+                                177,	028,	048,	156,
+                                178,	028,	048,	156,
+                                179,	009,	009,	057,
+                                180,	009,	009,	057,
+                                181,	009,	009,	057,
+                                182,	034,	034,	131,
+                                183,	047,	037,	157,
+                                184,	047,	037,	157,
+                                185,	005,	069,	155,
+                                186,	011,	006,	002,
+                                187,	034,	102,	151,
+                                188,	034,	102,	151,
+                                189,	034,	102,	151,
+                                190,	050,	053,	092,
+                                191,	034,	094,	048,
+                                192,	034,	094,	048,
+                                193,	003,	014,	119,
+                                194,	006,	011,	109,
+                                195,	006,	011,	109,
+                                196,	028,	028,	156,
+                                197,	028,	028,	039,
+                                198,	015,	105,	158,
+                                199,	012,	020,	144,
+                                200,	026,	026,	026,
+                                201,	026,	026,	026,
+                                202,	023,	023,	140,
+                                203,	039,	048,	157,
+                                204,	005,	005,	142,
+                                205,	005,	005,	142,
+                                206,	032,	050,	155,
+                                207,	052,	008,	017,
+                                208,	069,	005,	125,
+                                209,	022,	050,	155,
+                                210,	022,	095,	155,
+                                211,	038,	033,	022,
+                                212,	068,	101,	135,
+                                213,	005,	082,	126,
+                                214,	068,	062,	153,
+                                215,	039,	051,	124,
+                                216,	053,	095,	118,
+                                217,	062,	095,	127,
+                                218,	040,	049,	133,
+                                219,	040,	049,	133,
+                                220,	012,	081,	047,
+                                221,	012,	081,	047,
+                                222,	055,	030,	144,
+                                223,	055,	097,	141,
+                                224,	021,	097,	141,
+                                225,	072,	055,	015,
+                                226,	033,	011,	041,
+                                227,	051,	005,	133,
+                                228,	048,	018,	127,
+                                229,	048,	018,	127,
+                                230,	033,	097,	006,
+                                231,	053,	053,	008,
+                                232,	005,	005,	008,
+                                233,	036,	088,	148,
+                                234,	022,	119,	157,
+                                235,	020,	101,	141,
+                                236,	062,	080,	072,
+                                237,	022,	101,	080,
+                                238,	012,	108,	093,
+                                239,	009,	009,	072,
+                                240,	049,	049,	072,
+                                241,	047,	113,	157,
+                                242,	030,	032,	131,
+                                243,	046,	046,	010,
+                                244,	046,	046,	018,
+                                245,	046,	046,	011,
+                                246,	062,	062,	008,
+                                247,	061,	061,	061,
+                                248,	045,	045,	127,
+                                249,	046,	046,	136,
+                                250,	046,	046,	144,
+                                251,	030,	030,	030,
+                                252,	065,	065,	084,
+                                253,	065,	065,	084,
+                                254,	065,	065,	084,
+                                255,	066,	066,	003,
+                                256,	066,	066,	003,
+                                257,	066,	066,	003,
+                                258,	067,	067,	006,
+                                259,	067,	067,	006,
+                                260,	067,	067,	006,
+                                261,	050,	095,	155,
+                                262,	022,	095,	153,
+                                263,	053,	082,	095,
+                                264,	053,	082,	095,
+                                265,	019,	019,	050,
+                                266,	061,	061,	061,
+                                267,	068,	068,	079,
+                                268,	061,	061,	061,
+                                269,	019,	019,	014,
+                                270,	033,	044,	020,
+                                271,	033,	044,	020,
+                                272,	033,	044,	020,
+                                273,	034,	048,	124,
+                                274,	034,	048,	124,
+                                275,	034,	048,	124,
+                                276,	062,	062,	113,
+                                277,	062,	062,	113,
+                                278,	051,	051,	044,
+                                279,	051,	051,	044,
+                                280,	028,	036,	140,
+                                281,	028,	036,	140,
+                                282,	028,	036,	140,
+                                283,	033,	033,	044,
+                                284,	022,	022,	127,
+                                285,	027,	090,	095,
+                                286,	027,	090,	101,
+                                287,	054,	054,	054,
+                                288,	072,	072,	072,
+                                289,	054,	054,	054,
+                                290,	014,	014,	050,
+                                291,	003,	003,	151,
+                                292,	025,	025,	025,
+                                293,	043,	043,	155,
+                                294,	043,	043,	113,
+                                295,	043,	043,	113,
+                                296,	047,	062,	125,
+                                297,	047,	062,	125,
+                                298,	047,	037,	157,
+                                299,	005,	042,	159,
+                                300,	056,	096,	147,
+                                301,	056,	096,	147,
+                                302,	051,	100,	158,
+                                303,	052,	022,	125,
+                                304,	005,	069,	134,
+                                305,	005,	069,	134,
+                                306,	005,	069,	134,
+                                307,	074,	074,	140,
+                                308,	074,	074,	140,
+                                309,	009,	031,	058,
+                                310,	009,	031,	058,
+                                311,	057,	057,	031,
+                                312,	058,	058,	010,
+                                313,	035,	068,	158,
+                                314,	012,	110,	158,
+                                315,	030,	038,	102,
+                                316,	064,	060,	082,
+                                317,	064,	060,	082,
+                                318,	024,	024,	003,
+                                319,	024,	024,	003,
+                                320,	041,	012,	046,
+                                321,	041,	012,	046,
+                                322,	012,	086,	020,
+                                323,	040,	116,	083,
+                                324,	073,	073,	075,
+                                325,	047,	020,	082,
+                                326,	047,	020,	082,
+                                327,	020,	077,	126,
+                                328,	052,	071,	125,
+                                329,	026,	026,	026,
+                                330,	026,	026,	026,
+                                331,	008,	008,	011,
+                                332,	008,	008,	011,
+                                333,	030,	030,	013,
+                                334,	030,	030,	013,
+                                335,	017,	017,	137,
+                                336,	061,	061,	151,
+                                337,	026,	026,	026,
+                                338,	026,	026,	026,
+                                339,	012,	107,	093,
+                                340,	012,	107,	093,
+                                341,	052,	075,	091,
+                                342,	052,	075,	091,
+                                343,	026,	026,	026,
+                                344,	026,	026,	026,
+                                345,	021,	021,	114,
+                                346,	021,	021,	114,
+                                347,	004,	004,	033,
+                                348,	004,	004,	033,
+                                349,	033,	012,	091,
+                                350,	063,	172,	056,
+                                351,	059,	059,	059,
+                                352,	016,	016,	168,
+                                353,	015,	119,	130,
+                                354,	015,	119,	130,
+                                355,	026,	026,	119,
+                                356,	046,	046,	119,
+                                357,	034,	094,	139,
+                                358,	026,	026,	026,
+                                359,	046,	105,	154,
+                                360,	023,	023,	140,
+                                361,	039,	115,	141,
+                                362,	039,	115,	141,
+                                363,	047,	115,	012,
+                                364,	047,	115,	012,
+                                365,	047,	115,	012,
+                                366,	075,	075,	155,
+                                367,	033,	033,	041,
+                                368,	033,	033,	093,
+                                369,	033,	069,	005,
+                                370,	033,	033,	093,
+                                371,	069,	069,	125,
+                                372,	069,	069,	142,
+                                373,	022,	022,	153,
+                                374,	029,	029,	135,
+                                375,	029,	029,	135,
+                                376,	029,	029,	135,
+                                377,	029,	029,	005,
+                                378,	029,	029,	115,
+                                379,	029,	029,	135,
+                                380,	026,	026,	026,
+                                381,	026,	026,	026,
+                                382,	002,	002,	002,
+                                383,	070,	070,	070,
+                                384,	076,	076,	076,
+                                385,	032,	032,	032,
+                                386,	046,	046,	046,
+                                387,	065,	065,	075,
+                                388,	065,	065,	075,
+                                389,	065,	065,	075,
+                                390,	066,	066,	089,
+                                391,	066,	066,	089,
+                                392,	066,	066,	089,
+                                393,	067,	067,	128,
+                                394,	067,	067,	128,
+                                395,	067,	067,	128,
+                                396,	051,	051,	120,
+                                397,	022,	022,	120,
+                                398,	022,	022,	120,
+                                399,	086,	109,	141,
+                                400,	086,	109,	141,
+                                401,	061,	061,	050,
+                                402,	068,	068,	101,
+                                403,	079,	022,	062,
+                                404,	079,	022,	062,
+                                405,	079,	022,	062,
+                                406,	030,	038,	102,
+                                407,	030,	038,	101,
+                                408,	104,	104,	125,
+                                409,	104,	104,	125,
+                                410,	005,	005,	043,
+                                411,	005,	005,	043,
+                                412,	061,	061,	142,
+                                413,	107,	107,	142,
+                                414,	068,	068,	110,
+                                415,	118,	118,	055,
+                                416,	046,	046,	127,
+                                417,	050,	053,	010,
+                                418,	033,	033,	041,
+                                419,	033,	033,	041,
+                                420,	034,	034,	034,
+                                421,	122,	122,	122,
+                                422,	060,	114,	159,
+                                423,	060,	114,	159,
+                                424,	101,	053,	092,
+                                425,	106,	084,	138,
+                                426,	106,	084,	138,
+                                427,	050,	103,	007,
+                                428,	056,	103,	007,
+                                429,	026,	026,	026,
+                                430,	015,	105,	153,
+                                431,	007,	020,	051,
+                                432,	047,	020,	128,
+                                433,	026,	026,	026,
+                                434,	001,	106,	051,
+                                435,	001,	106,	051,
+                                436,	026,	085,	134,
+                                437,	026,	085,	134,
+                                438,	005,	069,	155,
+                                439,	043,	111,	101,
+                                440,	030,	032,	132,
+                                441,	051,	077,	145,
+                                442,	046,	046,	151,
+                                443,	008,	008,	024,
+                                444,	008,	008,	024,
+                                445,	008,	008,	024,
+                                446,	053,	047,	082,
+                                447,	080,	039,	158,
+                                448,	080,	039,	154,
+                                449,	045,	045,	159,
+                                450,	045,	045,	159,
+                                451,	004,	097,	051,
+                                452,	004,	097,	051,
+                                453,	107,	087,	143,
+                                454,	107,	087,	143,
+                                455,	026,	026,	026,
+                                456,	033,	114,	041,
+                                457,	033,	114,	041,
+                                458,	033,	011,	041,
+                                459,	117,	117,	043,
+                                460,	117,	117,	043,
+                                461,	046,	046,	124,
+                                462,	042,	005,	148,
+                                463,	020,	012,	013,
+                                464,	031,	116,	120,
+                                465,	034,	102,	144,
+                                466,	078,	078,	072,
+                                467,	049,	049,	072,
+                                468,	055,	032,	105,
+                                469,	003,	110,	119,
+                                470,	102,	102,	034,
+                                471,	081,	081,	115,
+                                472,	052,	008,	090,
+                                473,	012,	081,	047,
+                                474,	091,	088,	148,
+                                475,	080,	080,	154,
+                                476,	005,	042,	159,
+                                477,	046,	046,	119,
+                                478,	081,	081,	130,
+                                479,	026,	026,	026,
+                                480,	026,	026,	026,
+                                481,	026,	026,	026,
+                                482,	026,	026,	026,
+                                483,	046,	046,	140,
+                                484,	046,	046,	140,
+                                485,	018,	018,	049,
+                                486,	112,	112,	112,
+                                487,	046,	046,	140,
+                                488,	026,	026,	026,
+                                489,	093,	093,	093,
+                                490,	093,	093,	093,
+                                491,	123,	123,	123,
+                                492,	030,	030,	030,
+                                493,	121,	121,	121,
+                                494,	162,	162,	162,
+                                495,	065,	065,	126,
+                                496,	065,	065,	126,
+                                497,	065,	065,	126,
+                                498,	066,	066,	047,
+                                499,	066,	066,	047,
+                                500,	066,	066,	120,
+                                501,	067,	067,	075,
+                                502,	067,	067,	075,
+                                503,	067,	067,	075,
+                                504,	050,	051,	148,
+                                505,	035,	051,	148,
+                                506,	072,	053,	050,
+                                507,	022,	146,	113,
+                                508,	022,	146,	113,
+                                509,	007,	084,	158,
+                                510,	007,	084,	158,
+                                511,	082,	082,	065,
+                                512,	082,	082,	065,
+                                513,	082,	082,	066,
+                                514,	082,	082,	066,
+                                515,	082,	082,	067,
+                                516,	082,	082,	067,
+                                517,	108,	028,	140,
+                                518,	108,	028,	140,
+                                519,	145,	105,	079,
+                                520,	145,	105,	079,
+                                521,	145,	105,	079,
+                                522,	031,	078,	157,
+                                523,	031,	078,	157,
+                                524,	005,	005,	159,
+                                525,	005,	005,	159,
+                                526,	005,	005,	159,
+                                527,	109,	103,	086,
+                                528,	109,	103,	086,
+                                529,	146,	159,	104,
+                                530,	146,	159,	104,
+                                531,	131,	144,	103,
+                                532,	062,	125,	089,
+                                533,	062,	125,	089,
+                                534,	062,	125,	089,
+                                535,	033,	093,	011,
+                                536,	033,	093,	011,
+                                537,	033,	143,	011,
+                                538,	062,	039,	104,
+                                539,	005,	039,	104,
+                                540,	068,	034,	142,
+                                541,	102,	034,	142,
+                                542,	068,	034,	142,
+                                543,	038,	068,	003,
+                                544,	038,	068,	003,
+                                545,	038,	068,	003,
+                                546,	158,	151,	034,
+                                547,	158,	151,	034,
+                                548,	034,	020,	102,
+                                549,	034,	020,	102,
+                                550,	120,	091,	104,
+                                551,	022,	153,	083,
+                                552,	022,	153,	083,
+                                553,	022,	153,	083,
+                                554,	055,	055,	039,
+                                555,	125,	125,	161,
+                                556,	011,	034,	114,
+                                557,	005,	075,	133,
+                                558,	005,	075,	133,
+                                559,	061,	153,	022,
+                                560,	061,	153,	022,
+                                561,	147,	098,	110,
+                                562,	152,	152,	152,
+                                563,	152,	152,	152,
+                                564,	116,	005,	033,
+                                565,	116,	005,	033,
+                                566,	129,	129,	129,
+                                567,	129,	129,	129,
+                                568,	001,	060,	106,
+                                569,	001,	133,	106,
+                                570,	149,	149,	149,
+                                571,	149,	149,	149,
+                                572,	056,	101,	092,
+                                573,	056,	101,	092,
+                                574,	119,	172,	023,
+                                575,	119,	172,	023,
+                                576,	119,	172,	023,
+                                577,	142,	098,	144,
+                                578,	142,	098,	144,
+                                579,	142,	098,	144,
+                                580,	051,	145,	093,
+                                581,	051,	145,	093,
+                                582,	115,	115,	133,
+                                583,	115,	115,	133,
+                                584,	115,	115,	133,
+                                585,	034,	157,	032,
+                                586,	034,	157,	032,
+                                587,	009,	009,	078,
+                                588,	068,	061,	099,
+                                589,	068,	075,	142,
+                                590,	027,	027,	144,
+                                591,	027,	027,	144,
+                                592,	011,	130,	006,
+                                593,	011,	130,	006,
+                                594,	131,	093,	144,
+                                595,	014,	127,	068,
+                                596,	014,	127,	068,
+                                597,	160,	160,	160,
+                                598,	160,	160,	107,
+                                599,	057,	058,	029,
+                                600,	057,	058,	029,
+                                601,	057,	058,	029,
+                                602,	026,	026,	026,
+                                603,	026,	026,	026,
+                                604,	026,	026,	026,
+                                605,	140,	028,	148,
+                                606,	140,	028,	148,
+                                607,	018,	049,	151,
+                                608,	018,	049,	151,
+                                609,	018,	049,	151,
+                                610,	079,	104,	127,
+                                611,	079,	104,	127,
+                                612,	079,	104,	127,
+                                613,	081,	081,	155,
+                                614,	081,	081,	033,
+                                615,	026,	026,	026,
+                                616,	093,	075,	142,
+                                617,	093,	060,	084,
+                                618,	009,	007,	008,
+                                619,	039,	144,	120,
+                                620,	039,	144,	120,
+                                621,	024,	125,	104,
+                                622,	089,	103,	099,
+                                623,	089,	103,	099,
+                                624,	128,	039,	046,
+                                625,	128,	039,	046,
+                                626,	120,	157,	043,
+                                627,	051,	125,	055,
+                                628,	051,	125,	128,
+                                629,	145,	142,	133,
+                                630,	145,	142,	133,
+                                631,	082,	018,	073,
+                                632,	068,	055,	054,
+                                633,	055,	055,	055,
+                                634,	055,	055,	055,
+                                635,	026,	026,	026,
+                                636,	049,	049,	068,
+                                637,	049,	049,	068,
+                                638,	154,	154,	154,
+                                639,	154,	154,	154,
+                                640,	154,	154,	154,
+                                641,	158,	158,	128,
+                                642,	158,	158,	128,
+                                643,	163,	163,	163,
+                                644,	164,	164,	164,
+                                645,	159,	159,	125,
+                                646,	046,	046,	046,
+                                647,	154,	154,	154,
+                                648,	032,	032,	032,
+                                649,	088,	088,	088,
+                                650,	065,	065,	171,
+                                651,	065,	065,	171,
+                                652,	065,	065,	171,
+                                653,	066,	066,	170,
+                                654,	066,	066,	170,
+                                655,	066,	066,	170,
+                                656,	067,	067,	168,
+                                657,	067,	067,	168,
+                                658,	067,	067,	168,
+                                659,	053,	167,	037,
+                                660,	053,	167,	037,
+                                661,	145,	145,	177,
+                                662,	049,	049,	177,
+                                663,	049,	049,	177,
+                                664,	019,	014,	132,
+                                665,	061,	061,	132,
+                                666,	019,	014,	132,
+                                667,	079,	127,	153,
+                                668,	079,	127,	153,
+                                669,	166,	166,	180,
+                                670,	166,	166,	180,
+                                671,	166,	166,	180,
+                                672,	157,	157,	179,
+                                673,	157,	157,	179,
+                                674,	089,	104,	113,
+                                675,	089,	104,	113,
+                                676,	169,	169,	169,
+                                677,	051,	151,	020,
+                                678,	051,	151,	158,
+                                679,	099,	099,	099,
+                                680,	099,	099,	099,
+                                681,	176,	176,	176,
+                                682,	131,	131,	165,
+                                683,	131,	131,	165,
+                                684,	175,	175,	084,
+                                685,	175,	175,	084,
+                                686,	126,	021,	151,
+                                687,	126,	021,	151,
+                                688,	181,	097,	124,
+                                689,	181,	097,	124,
+                                690,	038,	143,	091,
+                                691,	038,	143,	091,
+                                692,	178,	178,	178,
+                                693,	178,	178,	178,
+                                694,	087,	008,	094,
+                                695,	087,	008,	094,
+                                696,	173,	173,	005,
+                                697,	173,	173,	069,
+                                698,	174,	174,	117,
+                                699,	174,	174,	117,
+                                700,	056,	056,	182,
+                                701,	007,	084,	104,
+                                702,	167,	053,	057,
+                                703,	029,	029,	005,
+                                704,	157,	093,	183,
+                                705,	157,	093,	183,
+                                706,	157,	093,	183,
+                                707,	158,	158,	170,
+                                708,	030,	119,	139,
+                                709,	030,	119,	139,
+                                710,	053,	119,	015,
+                                711,	053,	119,	015,
+                                712,	020,	115,	005,
+                                713,	020,	115,	005,
+                                714,	119,	151,	140,
+                                715,	119,	151,	140,
+                                716,	187,	187,	187,
+                                717,	186,	186,	186,
+                                718,	188,	188,	188,
+                                719,	029,	029,	029,
+                                720,	170,	170,	170,
+                                721,	011,	011,	011,
+                                722,	046,	046,	046,
+                                723,	046,	046,	046,
+                                724,	046,	046,	046,
+                                725,	107,	107,	142,
+                                726,	107,	107,	142,
+                                727,	032,	032,	032,
+                                728,	026,	026,	026,
+                                729,	026,	026,	026,
+                                730,	026,	026,	026,
+                                731,	026,	026,	026,
+                                732,	026,	026,	026,
+                                733,	026,	026,	026,
+                                734,	059,	059,	059,
+                                735,	059,	059,	059,
+                                736,	059,	059,	059,
+                                737,	122,	122,	122,
+                                738,	069,	091,	104,
+                                739,	125,	125,	161,
+                                740,	032,	032,	032,
+                                741,	163,	163,	163,
+                                742,	164,	164,	164,
+                                743,	154,	154,	154,
+                                744,	144,	144,	144,
+                                745,	010,	010,	010,
+                                746,	022,	022,	022,
+                                747,	023,	023,	023,
+                                748,	051,	151,	172,
+                                749,	169,	169,	169,
+                                750,	169,	169,	169,
+                                751,	169,	169,	169,
+                                752,	169,	169,	169,
+                                753,	169,	169,	169,
+                                754,	169,	169,	169,
+                                755,	169,	169,	169,
+                                756,	169,	169,	169,
+                                757,	169,	169,	169,
+                                758,	182,	182,	182,
+                                759,	104,	104,	104,
+                                760,	047,	047,	047,
+                                761,	181,	181,	181,
+                                762,	070,	070,	070,
+                                763,	080,	080,	080,
+                                764,	015,	015,	015,
+                                765,	003,	003,	003,
+                                766,	074,	074,	074,
+                                767,	094,	094,	094,
+                                768,	111,	111,	111,
+                                769,	158,	158,	158,
+                                770,	045,	045,	045,
+                                771,	101,	101,	101,
+                                772,	184,	184,	184,
+                                773,	181,	181,	181,
+                                774,	091,	091,	091,
+                                775,	117,	117,	117,
+                                776,	176,	176,	176,
+                                777,	178,	178,	178,
+                                778,	185,	185,	185,
+                                779,	104,	104,	104,
+                                780,	156,	156,	156,
+                                781,	036,	036,	036,
+                                782,	092,	092,	092,
+                                783,	037,	037,	037,
+                                784,	022,	022,	022,
+                                785,	159,	159,	159,
+                                786,	026,	026,	026,
+                                787,	026,	026,	026,
+                                788,	053,	119,	015,
+                                789,	053,	119,	015,
+                                790,	053,	119,	015,
+                                791,	053,	119,	015,
+                                792,	053,	119,	015,
+                                793,	053,	119,	015,
+                                794,	166,	166,	180,
+                                795,	166,	166,	180,
+                                796,	166,	166,	180,
+                                797,	166,	166,	180,
+                                798,	166,	166,	180,
+                                799,	033,	033,	033,
+                                800,	031,	031,	031,
+                                801,	156,	156,	156,
+                                802,	182,	182,	182,
+                                803,	039,	039,	039,
+                                804,	131,	131,	131,
+                                805,	173,	173,	173,
+                                806,	075,	075,	075,
+                                807,	159,	159,	159,
+                                808,	099,	099,	099,
+                                809,	174,	174,	174,
+                                810,	156,	156,	156,
+                                811,	181,	181,	181,
+                                812,	189,	189,	189,
+                                813,	190,	190,	190,
+                                814,	191,	191,	191,
+                                815,	009,	009,	031,
+                                816,	009,	009,	031,
+                                817,	009,	009,	031,
+                                818,	009,	009,	031,
+                                819,	009,	009,	031,
+                                820,	009,	009,	031,
+                                821,	170,	170,	170,
+                                822,	125,	125,	125,
+                                823,	113,	113,	113,
+                                824,	184,	184,	184,
+                                825,	091,	091,	091,
+                };
+        #endregion
     }
 }

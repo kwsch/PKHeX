@@ -140,7 +140,7 @@ namespace PKHeX
             for (int i = 0; i < newdata.Length / 4; i++)
             {
                 RTB_Code.AppendText((writeoffset + i * 4 + 0x20000000).ToString("X8") + " ");
-                RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + "\n");
+                RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + System.Environment.NewLine);
             }
 
             // Mat's Code - Unfinished
@@ -150,7 +150,7 @@ namespace PKHeX
 
             //    RTB_Code.AppendText("00000001 ");   // 01 00 00 00
             //    RTB_Code.AppendText((writeoffset + i * 4).ToString("X8") + " ");
-            //    RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + "\n");
+            //    RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + System.Environment.NewLine);
             //}
         }
         private void B_Clear_Click(object sender, EventArgs e)
@@ -169,12 +169,12 @@ namespace PKHeX
 
                 if (ncf.Length != length + 4)
                 {
-                    MessageBox.Show("Not a valid code file.", "Error");
+                    Util.Error("Not a valid code file.");
                     return;
                 }
                 if (RTB_Code.Text.Length > 0)
                 {
-                    DialogResult ld = MessageBox.Show("Replace current code?","Alert",MessageBoxButtons.YesNo);
+                    DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Replace current code?");
                     if (ld == DialogResult.Yes)
                         RTB_Code.Clear();
                     else if (ld != DialogResult.No)
@@ -184,7 +184,7 @@ namespace PKHeX
                 {
                     RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 0 * 4).ToString("X8") + " ");
                     RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 1 * 4).ToString("X8") + " ");
-                    RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 2 * 4).ToString("X8") + "\n");
+                    RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 2 * 4).ToString("X8") + System.Environment.NewLine);
                 }
             }
         }
@@ -225,21 +225,17 @@ namespace PKHeX
         private void B_Copy_Click(object sender, EventArgs e)
         {
             if (RTB_Code.Text.Length > 0)
-            {
                 Clipboard.SetText(RTB_Code.Text);
-            }
             else
             {
                 B_Diff.PerformClick();
                 try
                 {
                     Clipboard.SetText(RTB_Code.Text);
-                    MessageBox.Show("Code generated and copied to clipboard!\n\nNext time click [Create Diff] first.", "Alert");
+                    Util.Alert("Code generated and copied to clipboard!", "Next time click [Create Diff] first.");
                 }
                 catch
-                {
-                    MessageBox.Show("No code created!\n\nClick [Create Diff], then make sure that data appears in the Text Box below.\nIf no code appears, then you didn't save your changes.\n\nBe sure to Set the Pokemon you edited back into a Box/Party slot!", "Alert");
-                }
+                { Util.Alert("No code created!", "Click [Create Diff], then make sure that data appears in the Text Box below. If no code appears, then you didn't save your changes.", "Be sure to Set the Pokemon you edited back into a Box/Party slot!"); }
             }
         }
         private void B_Diff_Click(object sender, EventArgs e)
@@ -265,11 +261,11 @@ namespace PKHeX
                 if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
                 {
                     result += ((0x20000000 + i).ToString("X8") + " ");
-                    result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + "\n");
+                    result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + System.Environment.NewLine);
 
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
-                    { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                    { result += ("\n--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
                     if (lines > 10000) goto toomany;
                 }
             }
@@ -284,11 +280,11 @@ namespace PKHeX
                     for (int z = 0; z < newdata.Length; z += 4)
                     {
                         result += ((0x20000000 + i + z).ToString("X8") + " ");
-                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + "\n");
+                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + System.Environment.NewLine);
 
                         lines++;
                         if ((lines % 128 == 0) && CHK_Break.Checked)
-                        { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                        { result += ("\n--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
                         if (lines > 10000) goto toomany;
                     }
                 }
@@ -298,11 +294,11 @@ namespace PKHeX
             if (cybersav[0x14818] != newcyber[0x14818])
             {
                 result += ((0x00000000 + 0x14818).ToString("X8") + " ");
-                result += (newcyber[0x14818].ToString("X8") + "\n");
+                result += (newcyber[0x14818].ToString("X8") + System.Environment.NewLine);
 
                 lines++;
                 if ((lines % 128 == 0) && CHK_Break.Checked)
-                { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                { result += (System.Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
                 if (lines > 10000) goto toomany;
             }
 
@@ -316,11 +312,11 @@ namespace PKHeX
                     for (int z = 0; z < newdata.Length; z += 4)
                     {
                         result += ((0x20000000 + i + z).ToString("X8") + " ");
-                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + "\n");
+                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + System.Environment.NewLine);
 
                         lines++;
                         if ((lines % 128 == 0) && CHK_Break.Checked)
-                        { result += ("\r\n--- Segment " + (lines / 128 + 1).ToString() + " ---\r\n\r\n"); }
+                        { result += (System.Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
                         if (lines > 10000) goto toomany;
                     }
                 }
@@ -328,13 +324,13 @@ namespace PKHeX
 
             if ((lines / 128 > 0) && CHK_Break.Checked)
             {
-                MessageBox.Show((1 + (lines / 128)).ToString() + " Code Segments\n\nLines: " + lines.ToString(), "Alert");
+                Util.Alert(String.Format("{0} Code Segments.", (1 + (lines / 128)).ToString()), String.Format("{0} Lines.", lines.ToString()));
             }
             RTB_Code.Text = result; return;
 
         toomany:
             {
-                MessageBox.Show("Too many differences. Export your save instead.", "Alert");
+                Util.Alert("Too many differences detected.", "Export your save instead.");
             }
         }
 
@@ -355,9 +351,7 @@ namespace PKHeX
                 if (RTB_Code.Lines[i].Length > 0)
                 {
                     if (RTB_Code.Lines[i].Length <= 2 * 8 && RTB_Code.Lines[i].Length > 2 * 8 + 2)
-                    {
-                        MessageBox.Show("Invalid code pasted (Type)", "Error"); return;
-                    }
+                    { Util.Error("Invalid code pasted (Type)"); return; }
                     else
                     {
                         try
@@ -368,10 +362,8 @@ namespace PKHeX
                             Array.Resize(ref data, data.Length + 4);
                             Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[1], NumberStyles.HexNumber)), 0, data, data.Length - 4, 4);
                         }
-                        catch
-                        {
-                            MessageBox.Show("Invalid code pasted (Content)", "Error"); return;
-                        }
+                        catch (Exception x)
+                        { Util.Error("Invalid code pasted (Content):", x.ToString()); return; }
                     }
                 }
             }
@@ -389,7 +381,7 @@ namespace PKHeX
             }
             else
             {
-                MessageBox.Show("Invalid code pasted (Length)", "Error"); return;
+                Util.Error("Invalid code pasted (Length)"); return;
             }
         }
     }

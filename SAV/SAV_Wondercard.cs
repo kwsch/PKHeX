@@ -54,49 +54,60 @@ namespace PKHeX
         }
         private void loadwcdata()
         {
-            // Load up the data according to the wiki!
-            int cardID = BitConverter.ToUInt16(wondercard_data, 0);
-            if (cardID == 0)
+            try
             {
-                RTB.Text = "Empty Slot. No data!";
-                return;
-            }
-            string cardname = Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48);
-            int cardtype = wondercard_data[0x51];
-            RTB.Clear();
-            RTB.AppendText("Card #: " + cardID.ToString("0000") + "\r\n" + cardname + "\r\n");
+                // Load up the data according to the wiki!
+                int cardID = BitConverter.ToUInt16(wondercard_data, 0);
+                if (cardID == 0)
+                {
+                    RTB.Text = "Empty Slot. No data!";
+                    return;
+                }
+                string cardname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48));
+                int cardtype = wondercard_data[0x51];
+                string s = "";
+                s += "Card #: " + cardID.ToString("0000") + System.Environment.NewLine + cardname + System.Environment.NewLine + System.Environment.NewLine;
 
-            if (cardtype == 1) // Item
-            {
-                int item = BitConverter.ToUInt16(wondercard_data, 0x68);
-                int qty = BitConverter.ToUInt16(wondercard_data, 0x70);
+                if (cardtype == 1) // Item
+                {
+                    int item = BitConverter.ToUInt16(wondercard_data, 0x68);
+                    int qty = BitConverter.ToUInt16(wondercard_data, 0x70);
 
-                RTB.AppendText("\r\nItem: " + Form1.itemlist[item] + "\r\n" + "Quantity: " + qty.ToString());
-            }
-            else if (cardtype == 0) // PKM
-            {
-                int species = BitConverter.ToUInt16(wondercard_data, 0x82);
-                int helditem = BitConverter.ToUInt16(wondercard_data, 0x78);
-                int move1 = BitConverter.ToUInt16(wondercard_data, 0x7A);
-                int move2 = BitConverter.ToUInt16(wondercard_data, 0x7C);
-                int move3 = BitConverter.ToUInt16(wondercard_data, 0x7E);
-                int move4 = BitConverter.ToUInt16(wondercard_data, 0x80);
-                int TID = BitConverter.ToUInt16(wondercard_data, 0x68);
-                int SID = BitConverter.ToUInt16(wondercard_data, 0x6A);
+                    s += "Item: " + Form1.itemlist[item] + System.Environment.NewLine + "Quantity: " + qty.ToString();
+                }
+                else if (cardtype == 0) // PKM
+                {
+                    int species = BitConverter.ToUInt16(wondercard_data, 0x82);
+                    int helditem = BitConverter.ToUInt16(wondercard_data, 0x78);
+                    int move1 = BitConverter.ToUInt16(wondercard_data, 0x7A);
+                    int move2 = BitConverter.ToUInt16(wondercard_data, 0x7C);
+                    int move3 = BitConverter.ToUInt16(wondercard_data, 0x7E);
+                    int move4 = BitConverter.ToUInt16(wondercard_data, 0x80);
+                    int TID = BitConverter.ToUInt16(wondercard_data, 0x68);
+                    int SID = BitConverter.ToUInt16(wondercard_data, 0x6A);
 
-                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0xB6, 22));
-                RTB.Text +=
-                    "\r\nSpecies: " + Form1.specieslist[species] + "\r\n"
-                    + "Item: " + Form1.itemlist[helditem] + "\r\n"
-                    + "Move 1: " + Form1.movelist[move1] + "\r\n"
-                    + "Move 2: " + Form1.movelist[move2] + "\r\n"
-                    + "Move 3: " + Form1.movelist[move3] + "\r\n"
-                    + "Move 4: " + Form1.movelist[move4] + "\r\n"
-                    + "OT: " + OTname + "\r\n"
-                    + "ID: " + TID.ToString() + "/" + SID.ToString();
+                    string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0xB6, 22));
+                    s +=
+                        "Species: " + Form1.specieslist[species] + System.Environment.NewLine
+                        + "Item: " + Form1.itemlist[helditem] + System.Environment.NewLine
+                        + "Move 1: " + Form1.movelist[move1] + System.Environment.NewLine
+                        + "Move 2: " + Form1.movelist[move2] + System.Environment.NewLine
+                        + "Move 3: " + Form1.movelist[move3] + System.Environment.NewLine
+                        + "Move 4: " + Form1.movelist[move4] + System.Environment.NewLine
+                        + "OT: " + OTname + System.Environment.NewLine
+                        + "ID: " + TID.ToString() + "/" + SID.ToString();
+                }
+                else
+                    s = "Unsupported Wondercard Type!";
+                RTB.Text = s;
             }
-            else
-                RTB.Text = "Unsupported Wondercard Type!";
+            catch 
+            { 
+                Util.Error("Loading of data failed... is this really a Wondercard?"); 
+                Array.Copy(new Byte[0x108], wondercard_data, 0x108); 
+                RTB.Clear(); 
+                return; 
+            }
         }
         private void populateReceived()
         {
@@ -115,12 +126,12 @@ namespace PKHeX
             if (importwc6.ShowDialog() == DialogResult.OK)
             {
                 string path = importwc6.FileName;
-                byte[] newwc6 = File.ReadAllBytes(path);
-                if (newwc6.Length > 0x108)
+                if (new FileInfo(path).Length > 0x108)
                 {
-                    MessageBox.Show("Not a valid wondercard length.", "Error");
+                    Util.Error("File is not a Wondercard:", path);
                     return;
                 }
+                byte[] newwc6 = File.ReadAllBytes(path);
                 Array.Copy(newwc6, wondercard_data, newwc6.Length);
                 loadwcdata();
             }
@@ -215,6 +226,7 @@ namespace PKHeX
             Close();
         }
 
+        // Delete WC Flag
         private void B_DeleteReceived_Click(object sender, EventArgs e)
         {
             if (LB_Received.SelectedIndex > -1)
@@ -222,6 +234,7 @@ namespace PKHeX
                 LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
         }
 
+        // Drag & Drop Wondercards
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
@@ -230,13 +243,13 @@ namespace PKHeX
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             string path = files[0]; // open first D&D
-
-            byte[] newwc6 = File.ReadAllBytes(path);
-            if (newwc6.Length > 0x108)
+            
+            if (new FileInfo(path).Length > 0x108)
             {
-                MessageBox.Show("Not a valid wondercard length.", "Error");
+                Util.Error("File is not a Wondercard:", path); 
                 return;
             }
+            byte[] newwc6 = File.ReadAllBytes(path);
             Array.Copy(newwc6, wondercard_data, newwc6.Length);
             loadwcdata();
         }

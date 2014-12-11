@@ -43,7 +43,7 @@ namespace PKHeX
                     m_parent.setPKXBoxes();
                 }
                 else
-                    MessageBox.Show("Box data loaded is too big!", "Error");
+                    Util.Error("Box data loaded is too big!");
             }
         }
         private void B_ExportBox_Click(object sender, EventArgs e)

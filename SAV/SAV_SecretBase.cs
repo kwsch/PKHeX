@@ -285,11 +285,11 @@ namespace PKHeX
             // Write data back to save
             int index = LB_Favorite.SelectedIndex; // store for restoring
             if (!GB_PKM.Enabled && index > 0)
-            { MessageBox.Show("Sorry, no overwriting someone else's base with your own data.", "Error"); return; }
+            { Util.Error("Sorry, no overwriting someone else's base with your own data."); return; }
             if (GB_PKM.Enabled && index == 0)
-            { MessageBox.Show("Sorry, no overwriting of your own base with someone else's.","Error"); return; }
+            { Util.Error("Sorry, no overwriting of your own base with someone else's."); return; }
             if (LB_Favorite.Items[index].ToString().Substring(LB_Favorite.Items[index].ToString().Length - 5, 5) == "Empty")
-            { MessageBox.Show("Sorry, no overwriting an empty base with someone else's.", "Error"); return; }
+            { Util.Error("Sorry, no overwriting an empty base with someone else's."); return; }
             if (index < 0) return;
             int offset = fav_offset + 0x5400 + 0x25A;
 
