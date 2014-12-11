@@ -140,7 +140,7 @@ namespace PKHeX
             for (int i = 0; i < newdata.Length / 4; i++)
             {
                 RTB_Code.AppendText((writeoffset + i * 4 + 0x20000000).ToString("X8") + " ");
-                RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + System.Environment.NewLine);
+                RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + Environment.NewLine);
             }
 
             // Mat's Code - Unfinished
@@ -150,7 +150,7 @@ namespace PKHeX
 
             //    RTB_Code.AppendText("00000001 ");   // 01 00 00 00
             //    RTB_Code.AppendText((writeoffset + i * 4).ToString("X8") + " ");
-            //    RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + System.Environment.NewLine);
+            //    RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + Environment.NewLine);
             //}
         }
         private void B_Clear_Click(object sender, EventArgs e)
@@ -184,7 +184,7 @@ namespace PKHeX
                 {
                     RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 0 * 4).ToString("X8") + " ");
                     RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 1 * 4).ToString("X8") + " ");
-                    RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 2 * 4).ToString("X8") + System.Environment.NewLine);
+                    RTB_Code.AppendText(BitConverter.ToUInt32(ncf, i + 2 * 4).ToString("X8") + Environment.NewLine);
                 }
             }
         }
@@ -261,11 +261,11 @@ namespace PKHeX
                 if (BitConverter.ToUInt32(cybersav, i) != BitConverter.ToUInt32(newcyber, i))
                 {
                     result += ((0x20000000 + i).ToString("X8") + " ");
-                    result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + System.Environment.NewLine);
+                    result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + Environment.NewLine);
 
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
-                    { result += ("\n--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
+                    { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + Environment.NewLine + Environment.NewLine); }
                     if (lines > 10000) goto toomany;
                 }
             }
@@ -280,11 +280,11 @@ namespace PKHeX
                     for (int z = 0; z < newdata.Length; z += 4)
                     {
                         result += ((0x20000000 + i + z).ToString("X8") + " ");
-                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + System.Environment.NewLine);
+                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine);
 
                         lines++;
                         if ((lines % 128 == 0) && CHK_Break.Checked)
-                        { result += ("\n--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
+                        { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + Environment.NewLine + Environment.NewLine); }
                         if (lines > 10000) goto toomany;
                     }
                 }
@@ -294,11 +294,11 @@ namespace PKHeX
             if (cybersav[0x14818] != newcyber[0x14818])
             {
                 result += ((0x00000000 + 0x14818).ToString("X8") + " ");
-                result += (newcyber[0x14818].ToString("X8") + System.Environment.NewLine);
+                result += (newcyber[0x14818].ToString("X8") + Environment.NewLine);
 
                 lines++;
                 if ((lines % 128 == 0) && CHK_Break.Checked)
-                { result += (System.Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
+                { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + Environment.NewLine + Environment.NewLine); }
                 if (lines > 10000) goto toomany;
             }
 
@@ -312,11 +312,11 @@ namespace PKHeX
                     for (int z = 0; z < newdata.Length; z += 4)
                     {
                         result += ((0x20000000 + i + z).ToString("X8") + " ");
-                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + System.Environment.NewLine);
+                        result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine);
 
                         lines++;
                         if ((lines % 128 == 0) && CHK_Break.Checked)
-                        { result += (System.Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + System.Environment.NewLine + System.Environment.NewLine); }
+                        { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + Environment.NewLine + Environment.NewLine); }
                         if (lines > 10000) goto toomany;
                     }
                 }

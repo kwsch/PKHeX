@@ -365,19 +365,19 @@ namespace PKHeX
         internal static DialogResult Error(params string[] lines)
         {
             System.Media.SystemSounds.Exclamation.Play();
-            string msg = String.Join(System.Environment.NewLine + System.Environment.NewLine, lines);
+            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
             return (DialogResult)MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         internal static DialogResult Alert(params string[] lines)
         {
             System.Media.SystemSounds.Asterisk.Play();
-            string msg = String.Join(System.Environment.NewLine + System.Environment.NewLine, lines);
+            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
             return (DialogResult)MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
-            string msg = String.Join(System.Environment.NewLine + System.Environment.NewLine, lines);
+            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
             return (DialogResult)MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
     }

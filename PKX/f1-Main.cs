@@ -2734,7 +2734,7 @@ namespace PKHeX
             }
             #endregion
             else
-                Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + System.Environment.NewLine + path);
+                Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
         }
         private void openMAIN(byte[] input, string path, string GameType, bool oras)
         {
@@ -3262,10 +3262,10 @@ namespace PKHeX
                 if (checksum != actualsum)
                 {
                     invalid1++;
-                    RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + System.Environment.NewLine;
+                    RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + Environment.NewLine;
                 }
             }
-            RTB_S.Text += "1st SAV: " + (start.Length - invalid1).ToString() + "/" + start.Length.ToString() + System.Environment.NewLine;
+            RTB_S.Text += "1st SAV: " + (start.Length - invalid1).ToString() + "/" + start.Length.ToString() + Environment.NewLine;
 
             if (cybergadget) return;
 
@@ -3285,10 +3285,10 @@ namespace PKHeX
                 if (checksum != actualsum)
                 {
                     invalid2++;
-                    RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + System.Environment.NewLine;
+                    RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + Environment.NewLine;
                 }
             }
-            RTB_S.Text += "2nd SAV: " + (start.Length - invalid2).ToString() + "/" + start.Length.ToString() + System.Environment.NewLine;
+            RTB_S.Text += "2nd SAV: " + (start.Length - invalid2).ToString() + "/" + start.Length.ToString() + Environment.NewLine;
             if (invalid1 + invalid2 == (start.Length * 2))
                 RTB_S.Text = "No checksums are valid.";
         }
@@ -3430,10 +3430,10 @@ namespace PKHeX
                 if (!hashValue.SequenceEqual(actualhash))
                 {
                     invalid1++;
-                    RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + System.Environment.NewLine;
+                    RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + Environment.NewLine;
                 }
             }
-            RTB_S.Text += "1st SAV: " + (106 - invalid1).ToString() + "/" + 106.ToString() + System.Environment.NewLine;
+            RTB_S.Text += "1st SAV: " + (106 - invalid1).ToString() + "/" + 106.ToString() + Environment.NewLine;
 
             // Check The Second Half of Hashes
             for (int i = 0; i < hashtabledata.Length; i += 4)
@@ -3466,13 +3466,13 @@ namespace PKHeX
                 if (!hashValue.SequenceEqual(actualhash))
                 {
                     invalid2++;
-                    RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + System.Environment.NewLine;
+                    RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + Environment.NewLine;
                 }
             }
-            RTB_S.Text += "2nd SAV: " + (106 - invalid2).ToString() + "/" + 106.ToString() + System.Environment.NewLine;
+            RTB_S.Text += "2nd SAV: " + (106 - invalid2).ToString() + "/" + 106.ToString() + Environment.NewLine;
 
             if (invalid1 + invalid2 == (2 * 106))
-                RTB_S.Text = "None of the IVFC hashes are valid." + System.Environment.NewLine;
+                RTB_S.Text = "None of the IVFC hashes are valid." + Environment.NewLine;
 
             // Check the Upper Level IVFC Hashes
             {
@@ -3483,7 +3483,7 @@ namespace PKHeX
                 Array.Copy(savefile, 0x43C, actualhash, 0, 0x20);
                 if (!hashValue.SequenceEqual(actualhash))
                 {
-                    RTB_S.Text += "Invalid: " + 0x2000.ToString("X5") + " @ " + 0x43C.ToString("X3") + System.Environment.NewLine;
+                    RTB_S.Text += "Invalid: " + 0x2000.ToString("X5") + " @ " + 0x43C.ToString("X3") + Environment.NewLine;
                 }
             }
             {
@@ -3494,7 +3494,7 @@ namespace PKHeX
                 Array.Copy(savefile, 0x30C, actualhash, 0, 0x20);
                 if (!hashValue.SequenceEqual(actualhash))
                 {
-                    RTB_S.Text += "Invalid: " + 0x81000.ToString("X5") + " @ " + 0x30C.ToString("X3") + System.Environment.NewLine;
+                    RTB_S.Text += "Invalid: " + 0x81000.ToString("X5") + " @ " + 0x30C.ToString("X3") + Environment.NewLine;
                 }
             }
             {
@@ -3768,7 +3768,7 @@ namespace PKHeX
                     if (section.SequenceEqual(FFFF))
                     {
                         string problem = String.Format("0x200 chunk @ 0x{0} is FF'd.", (i * 0x200).ToString("X5"))
-                            + System.Environment.NewLine + "Cyber will screw up (as of August 31st)." + System.Environment.NewLine + System.Environment.NewLine;
+                            + Environment.NewLine + "Cyber will screw up (as of August 31st)." + Environment.NewLine + Environment.NewLine;
 
                         // Check to see if it is in the Pokedex
                         if (i * 0x200 > 0x14E00 && i * 0x200 < 0x15700)
@@ -4250,7 +4250,7 @@ namespace PKHeX
         private void setSAVLabel()
         {
             L_SAVINDEX.Text = (savindex + 1).ToString();
-            RTB_S.AppendText("Loaded Save File " + (savindex + 1).ToString() + System.Environment.NewLine);
+            RTB_S.AppendText("Loaded Save File " + (savindex + 1).ToString() + Environment.NewLine);
         }
         private void getSAVOffsets()
         {
@@ -4394,7 +4394,7 @@ namespace PKHeX
         }
         private void Menu_DumpLoadBoxes_Click(object sender, EventArgs e)
         {
-            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + System.Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
+            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
             if (dr != DialogResult.Cancel)
             {
                 string exepath = System.Windows.Forms.Application.StartupPath;
@@ -4706,7 +4706,7 @@ namespace PKHeX
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
             string result = "";
-            result += "PSS List" + System.Environment.NewLine + System.Environment.NewLine;
+            result += "PSS List" + Environment.NewLine + Environment.NewLine;
             string[] headers = {
                                    "PSS Data - Friends",
                                    "PSS Data - Acquaintances",
@@ -4715,7 +4715,7 @@ namespace PKHeX
             int offset = savindex * 0x7F000 + SaveGame.PSS;
             for (int g = 0; g < 3; g++)
             {
-                result += "----" + System.Environment.NewLine + headers[g] + System.Environment.NewLine + "----" + System.Environment.NewLine + System.Environment.NewLine;
+                result += "----" + Environment.NewLine + headers[g] + Environment.NewLine + "----" + Environment.NewLine + Environment.NewLine;
                 uint count = BitConverter.ToUInt32(savefile,offset + 0x4E20);
                 int r_offset = offset;
 
@@ -4751,14 +4751,14 @@ namespace PKHeX
                         gamename = "OR";
                     else gamename = "UNK GAME";
                     result += 
-                        "OT: " + otname + System.Environment.NewLine +
-                        "Message: " + message + System.Environment.NewLine +
-                        "Game: " + gamename + System.Environment.NewLine +
-                        "Country ID: " + country + System.Environment.NewLine + 
-                        "Region ID: " + region + System.Environment.NewLine +
-                        "Favorite: " + specieslist[favpkm] + System.Environment.NewLine;
+                        "OT: " + otname + Environment.NewLine +
+                        "Message: " + message + Environment.NewLine +
+                        "Game: " + gamename + Environment.NewLine +
+                        "Country ID: " + country + Environment.NewLine + 
+                        "Region ID: " + region + Environment.NewLine +
+                        "Favorite: " + specieslist[favpkm] + Environment.NewLine;
 
-                    result += System.Environment.NewLine;
+                    result += Environment.NewLine;
                     r_offset += 0xC8;
                 }
                 offset += 0x5000;

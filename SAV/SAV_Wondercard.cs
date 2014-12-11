@@ -66,14 +66,14 @@ namespace PKHeX
                 string cardname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48));
                 int cardtype = wondercard_data[0x51];
                 string s = "";
-                s += "Card #: " + cardID.ToString("0000") + System.Environment.NewLine + cardname + System.Environment.NewLine + System.Environment.NewLine;
+                s += "Card #: " + cardID.ToString("0000") + Environment.NewLine + cardname + Environment.NewLine + Environment.NewLine;
 
                 if (cardtype == 1) // Item
                 {
                     int item = BitConverter.ToUInt16(wondercard_data, 0x68);
                     int qty = BitConverter.ToUInt16(wondercard_data, 0x70);
 
-                    s += "Item: " + Form1.itemlist[item] + System.Environment.NewLine + "Quantity: " + qty.ToString();
+                    s += "Item: " + Form1.itemlist[item] + Environment.NewLine + "Quantity: " + qty.ToString();
                 }
                 else if (cardtype == 0) // PKM
                 {
@@ -88,13 +88,13 @@ namespace PKHeX
 
                     string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0xB6, 22));
                     s +=
-                        "Species: " + Form1.specieslist[species] + System.Environment.NewLine
-                        + "Item: " + Form1.itemlist[helditem] + System.Environment.NewLine
-                        + "Move 1: " + Form1.movelist[move1] + System.Environment.NewLine
-                        + "Move 2: " + Form1.movelist[move2] + System.Environment.NewLine
-                        + "Move 3: " + Form1.movelist[move3] + System.Environment.NewLine
-                        + "Move 4: " + Form1.movelist[move4] + System.Environment.NewLine
-                        + "OT: " + OTname + System.Environment.NewLine
+                        "Species: " + Form1.specieslist[species] + Environment.NewLine
+                        + "Item: " + Form1.itemlist[helditem] + Environment.NewLine
+                        + "Move 1: " + Form1.movelist[move1] + Environment.NewLine
+                        + "Move 2: " + Form1.movelist[move2] + Environment.NewLine
+                        + "Move 3: " + Form1.movelist[move3] + Environment.NewLine
+                        + "Move 4: " + Form1.movelist[move4] + Environment.NewLine
+                        + "OT: " + OTname + Environment.NewLine
                         + "ID: " + TID.ToString() + "/" + SID.ToString();
                 }
                 else
