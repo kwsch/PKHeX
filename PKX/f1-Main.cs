@@ -1320,13 +1320,13 @@ namespace PKHeX
         {
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            gt = (int)spectable.Rows[species][8];
+            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            gt = MonData.GenderRatio;
 
-            if (gt > 255) // Single gender/genderless
+            if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
 
-            if (gt < 256) // If not a single gender(less) species:
+            if (gt < 255) // If not a single gender(less) species: (should be <254 but whatever, 255 never happens^)
             {
                 if (PKX.getGender(Label_Gender.Text) == 0) // ♂
                     Label_Gender.Text = gendersymbols[1]; // ♀
@@ -1817,17 +1817,17 @@ namespace PKHeX
             // Check for Gender Changes
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            gt = (int)spectable.Rows[species][8];
+            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            gt = MonData.GenderRatio;
 
-            if (gt == 258)      // Genderless
+            if (gt == 255)      // Genderless
                 genderflag = 2;
-            else if (gt == 257) // Female Only
+            else if (gt == 254) // Female Only
                 genderflag = 1;
-            else if (gt == 256) // Male Only
+            else if (gt == 0) // Male Only
                 genderflag = 0;
             else // get gender from old PID correlation
-                genderflag = ((Util.getHEXval(TB_PID) & 0xFF) < gt) ? 1 : 0;
+                genderflag = ((Util.getHEXval(TB_PID) & 0xFF) <= gt) ? 1 : 0;
 
             setGenderLabel();
             updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);

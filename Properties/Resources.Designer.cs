@@ -14834,6 +14834,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal {
+            get {
+                object obj = ResourceManager.GetObject("personal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] PGLDings_NormalRegular {
             get {
                 object obj = ResourceManager.GetObject("PGLDings_NormalRegular", resourceCulture);
@@ -14987,6 +14997,8 @@ namespace PKHeX.Properties {
         ///
         ///// Main Window
         ///
+        ///Right Click on Nickname/Nickname box to bring up the ingame-special characters.
+        ///
         ///Control + Click on...
         ///Randomize IVs: Set all IVs to max.
         ///Randomize EVs: Set all EVs to 0.
@@ -14998,8 +15010,7 @@ namespace PKHeX.Properties {
         ///Control-Drag a Box Slot to Copy-Overwrite
         ///Alt-Drag a Box Slot to Delete-Overwrite
         ///
-        ///Control-Shift-Click a slot to set a Pokemon to every slot in the box.
-        ///Control-Click [rest of string was truncated]&quot;;.
+        ///C [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
