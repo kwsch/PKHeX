@@ -548,6 +548,7 @@
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Nicknamed.UseVisualStyleBackColor = true;
             this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.updateNickname);
+            this.CHK_Nicknamed.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
             // 
             // Label_Gender
             // 
@@ -870,7 +871,9 @@
             // 
             this.TB_Nickname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_Nickname.Location = new System.Drawing.Point(105, 49);
+            this.TB_Nickname.MaximumSize = new System.Drawing.Size(122, 20);
             this.TB_Nickname.MaxLength = 12;
+            this.TB_Nickname.MinimumSize = new System.Drawing.Size(122, 20);
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
             this.TB_Nickname.TabIndex = 5;

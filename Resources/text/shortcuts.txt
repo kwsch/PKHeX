@@ -3,6 +3,8 @@
 
 // Main Window
 
+Right Click on Nickname/Nickname box to bring up the ingame-special characters.
+
 Control + Click on...
 Randomize IVs: Set all IVs to max.
 Randomize EVs: Set all EVs to 0.

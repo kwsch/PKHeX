@@ -180,8 +180,9 @@ namespace PKHeX
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar  + "main"))))
                 openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder() , "root" + Path.DirectorySeparatorChar  + "main")));
 
+            TB_Nickname.Font = PKX.getPKXFont(11F);
             // Close splash screen.  
-            init = true;          
+            init = true; 
             SplashSCR.Join();
             this.BringToFront();
             this.WindowState = FormWindowState.Minimized;
@@ -193,9 +194,9 @@ namespace PKHeX
         }
 
         #region Global Variables: Always Visible!
-        public byte[] buff = new Byte[260];
-        public byte[] savefile = new Byte[0x100000];
-        public byte[] cyberSAV = new Byte[0x65600];
+        public byte[] buff = new byte[260];
+        public byte[] savefile = new byte[0x100000];
+        public byte[] cyberSAV = new byte[0x65600];
         public bool savegame_oras = false;
         public bool cybergadget = false;
         public bool savLoaded = false;
@@ -2233,6 +2234,12 @@ namespace PKHeX
                 }
             }
         }
+        private void updateNicknameClick(object sender, MouseEventArgs e)
+        {
+            // Special Character Form
+            if (e.Button == MouseButtons.Right)
+                (new f2_Text(TB_Nickname)).Show();
+        }
         private void updateNotOT(object sender, EventArgs e)
         {
             if (TB_OTt2.Text == "")
@@ -2558,7 +2565,7 @@ namespace PKHeX
                 try { populateFields(buff); }
                 catch
                 {
-                    Array.Copy(new Byte[232], buff, 232);
+                    Array.Copy(new byte[232], buff, 232);
                     populateFields(buff);
                     Util.Error("Imported code did not decrypt properly", "Please verify that what you imported was correct.");
                 }
@@ -2593,7 +2600,7 @@ namespace PKHeX
                 {
                     try
                     {
-                        byte[] blank = PKX.encryptArray(new Byte[260]);
+                        byte[] blank = PKX.encryptArray(new byte[260]);
 
                         for (int i = 0; i < 232; i++)
                             blank[i] = (byte)(blank[i] ^ input[i]);
@@ -2617,14 +2624,14 @@ namespace PKHeX
             if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
             {
                 // EAD Packet of 363 length
-                byte[] c = new Byte[260];
+                byte[] c = new byte[260];
                 Array.Copy(input, 0x67, c, 0, 260);
                 input = c;
             }
             else if (input.Length == 407 && BitConverter.ToUInt16(input,0x98) == 0)
             {
                 // EAD Packet of 407 length
-                byte[] c = new Byte[260];
+                byte[] c = new byte[260];
                 Array.Copy(input, 0x93, c, 0, 260);
                 input = c;
             }
@@ -2637,6 +2644,9 @@ namespace PKHeX
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
             {
+                if (BitConverter.ToUInt64(input,0x10) != 0) // encrypted save
+                { Util.Error("PKHeX only edits decrypted save files.", "This save file is not decrypted."); return; }
+
                 B_ExportSAV.Enabled = false;
                 B_SwitchSAV.Enabled = false;
                 B_JPEG.Enabled = false;
@@ -2727,7 +2737,7 @@ namespace PKHeX
                 }
                 catch
                 {
-                    Array.Copy(new Byte[232], buff, 232);
+                    Array.Copy(new byte[232], buff, 232);
                     populateFields(buff);
                     Util.Error("Attempted to load previous generation PKM.", "Conversion failed.");
                 }
@@ -2743,7 +2753,7 @@ namespace PKHeX
 
             // Load CyberGadget
             this.savindex = 0;
-            this.savefile = new Byte[0x100000];
+            this.savefile = new byte[0x100000];
             this.cyberSAV = input;
             cybergadget = true;
             B_ExportSAV.Enabled = true;
@@ -2765,14 +2775,14 @@ namespace PKHeX
             SHA256 mySHA256 = SHA256Managed.Create();
 
             // Check both IVFC Hashes
-            byte[] zeroarray = new Byte[0x200];
+            byte[] zeroarray = new byte[0x200];
             Array.Copy(savefile, 0x2000 + 0 * 0x7F000, zeroarray, 0, 0x20);
             byte[] hashValue1 = mySHA256.ComputeHash(zeroarray);
             Array.Copy(savefile, 0x2000 + 1 * 0x7F000, zeroarray, 0, 0x20);
             byte[] hashValue2 = mySHA256.ComputeHash(zeroarray);
 
-            byte[] realHash1 = new Byte[0x20];
-            byte[] realHash2 = new Byte[0x20];
+            byte[] realHash1 = new byte[0x20];
+            byte[] realHash2 = new byte[0x20];
 
             Array.Copy(savefile, 0x43C - 0 * 0x130, realHash1, 0, 0x20);
             Array.Copy(savefile, 0x43C - 1 * 0x130, realHash2, 0, 0x20);
@@ -3096,7 +3106,7 @@ namespace PKHeX
                 if (BitConverter.ToUInt16(pkx, 0x5A + 2 * i) == 0)
                 {
                     Array.Copy(pkx, 0x5C + 2 * i, pkx, 0x5A + 2 * i, 2); // Shift moves down
-                    Array.Copy(new Byte[2], 0, pkx, 0x5C + 2 * i, 2);   // Clear next move (error shifted down)
+                    Array.Copy(new byte[2], 0, pkx, 0x5C + 2 * i, 2);   // Clear next move (error shifted down)
 
                     // Move PP and PP Ups down one byte.
                     pkx[0x62 + i] = pkx[0x63 + i]; pkx[0x63 + i] = 0; // PP
@@ -3110,7 +3120,7 @@ namespace PKHeX
                 if (BitConverter.ToUInt16(pkx, 0x6A + 2 * i) == 0)
                 {
                     Array.Copy(pkx, 0x6C + 2 * i, pkx, 0x6A + 2 * i, 2); // Shift moves down
-                    Array.Copy(new Byte[2], 0, pkx, 0x6C + 2 * i, 2);   // Clear next move (error shifted down)
+                    Array.Copy(new byte[2], 0, pkx, 0x6C + 2 * i, 2);   // Clear next move (error shifted down)
                 }
             }
 
@@ -3255,7 +3265,7 @@ namespace PKHeX
 
             for (int i = 0; i < length.Length; i++)
             {
-                byte[] data = new Byte[length[i]];
+                byte[] data = new byte[length[i]];
                 Array.Copy(savefile, start[i], data, 0, length[i]);
                 ushort checksum = PKX.ccitt16(data);
                 ushort actualsum = BitConverter.ToUInt16(savefile, csoff + i * 0x8);
@@ -3278,7 +3288,7 @@ namespace PKHeX
             int invalid2 = 0;
             for (int i = 0; i < length.Length; i++)
             {
-                byte[] data = new Byte[length[i]];
+                byte[] data = new byte[length[i]];
                 Array.Copy(savefile, start[i], data, 0, length[i]);
                 ushort checksum = PKX.ccitt16(data);
                 ushort actualsum = BitConverter.ToUInt16(savefile,csoff + i * 0x8);
@@ -3421,10 +3431,10 @@ namespace PKHeX
                 uint offset = hashtabledata[2 + 4 * i];
                 uint blocksize = hashtabledata[3 + 4 * i];
 
-                byte[] zeroarray = new Byte[blocksize];
+                byte[] zeroarray = new byte[blocksize];
                 Array.Copy(savefile, start, zeroarray, 0, length + 1);
                 byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new Byte[0x20];
+                byte[] actualhash = new byte[0x20];
                 Array.Copy(savefile, offset, actualhash, 0, 0x20);
 
                 if (!hashValue.SequenceEqual(actualhash))
@@ -3457,10 +3467,10 @@ namespace PKHeX
                 uint offset = hashtabledata[2 + 4 * i];
                 uint blocksize = hashtabledata[3 + 4 * i];
 
-                byte[] zeroarray = new Byte[blocksize];
+                byte[] zeroarray = new byte[blocksize];
                 Array.Copy(savefile, start, zeroarray, 0, length + 1);
                 byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new Byte[0x20];
+                byte[] actualhash = new byte[0x20];
                 Array.Copy(savefile, offset, actualhash, 0, 0x20);
 
                 if (!hashValue.SequenceEqual(actualhash))
@@ -3476,10 +3486,10 @@ namespace PKHeX
 
             // Check the Upper Level IVFC Hashes
             {
-                byte[] zeroarray = new Byte[0x200];
+                byte[] zeroarray = new byte[0x200];
                 Array.Copy(savefile, 0x2000, zeroarray, 0, 0x20);
                 byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new Byte[0x20];
+                byte[] actualhash = new byte[0x20];
                 Array.Copy(savefile, 0x43C, actualhash, 0, 0x20);
                 if (!hashValue.SequenceEqual(actualhash))
                 {
@@ -3487,10 +3497,10 @@ namespace PKHeX
                 }
             }
             {
-                byte[] zeroarray = new Byte[0x200];
+                byte[] zeroarray = new byte[0x200];
                 Array.Copy(savefile, 0x81000, zeroarray, 0, 0x20);
                 byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new Byte[0x20];
+                byte[] actualhash = new byte[0x20];
                 Array.Copy(savefile, 0x30C, actualhash, 0, 0x20);
                 if (!hashValue.SequenceEqual(actualhash))
                 {
@@ -3498,13 +3508,13 @@ namespace PKHeX
                 }
             }
             {
-                byte[] difihash1 = new Byte[0x12C];
-                byte[] difihash2 = new Byte[0x12C];
+                byte[] difihash1 = new byte[0x12C];
+                byte[] difihash2 = new byte[0x12C];
                 Array.Copy(savefile, 0x330, difihash1, 0, 0x12C);
                 Array.Copy(savefile, 0x200, difihash2, 0, 0x12C);
                 byte[] hashValue1 = mySHA256.ComputeHash(difihash1);
                 byte[] hashValue2 = mySHA256.ComputeHash(difihash2);
-                byte[] actualhash = new Byte[0x20];
+                byte[] actualhash = new byte[0x20];
                 Array.Copy(savefile, 0x16C, actualhash, 0, 0x20);
                 if (hashValue1.SequenceEqual(actualhash))
                 {
@@ -3523,7 +3533,7 @@ namespace PKHeX
         private void exportSAV(object sender, EventArgs e)
         {
             // Create another version of the save file.
-            byte[] editedsav = new Byte[0x100000];
+            byte[] editedsav = new byte[0x100000];
             Array.Copy(savefile, editedsav, savefile.Length);
             // Since we only edited one of the save files, we only have to fix half of the chk/hashes!
 
@@ -3549,7 +3559,7 @@ namespace PKHeX
 
                 for (int i = 0; i < length.Length; i++)
                 {
-                    byte[] data = new Byte[length[i]];
+                    byte[] data = new byte[length[i]];
                     Array.Copy(editedsav, start[i], data, 0, length[i]);
                     ushort checksum = PKX.ccitt16(data);
                     Array.Copy(BitConverter.GetBytes(checksum), 0, editedsav, csoff + i * 8, 2);
@@ -3697,7 +3707,7 @@ namespace PKHeX
                     uint offset = hashtabledata[2 + 4 * i];
                     uint blocksize = hashtabledata[3 + 4 * i];
 
-                    byte[] zeroarray = new Byte[blocksize];
+                    byte[] zeroarray = new byte[blocksize];
                     Array.Copy(editedsav, start, zeroarray, 0, length + 1);
                     byte[] hashValue = mySHA256.ComputeHash(zeroarray);
                     Array.Copy(hashValue, 0, editedsav, offset, 0x20);
@@ -3709,7 +3719,7 @@ namespace PKHeX
                     uint offset = hashtabledata[2 + 4 * 1];
                     uint blocksize = hashtabledata[3 + 4 * 1];
 
-                    byte[] zeroarray = new Byte[blocksize];
+                    byte[] zeroarray = new byte[blocksize];
                     Array.Copy(editedsav, start, zeroarray, 0, length + 1);
                     byte[] hashValue = mySHA256.ComputeHash(zeroarray);
 
@@ -3722,7 +3732,7 @@ namespace PKHeX
                     uint offset = hashtabledata[2 + 4 * 0];
                     uint blocksize = hashtabledata[3 + 4 * 0];
 
-                    byte[] zeroarray = new Byte[blocksize];
+                    byte[] zeroarray = new byte[blocksize];
                     Array.Copy(editedsav, start, zeroarray, 0, length + 1);
                     byte[] hashValue = mySHA256.ComputeHash(zeroarray);
 
@@ -3730,7 +3740,7 @@ namespace PKHeX
                 }
                 // Fix IVFC Hash
                 {
-                    byte[] zeroarray = new Byte[0x200];
+                    byte[] zeroarray = new byte[0x200];
                     Array.Copy(editedsav, 0x2000 + savindex * 0x7F000, zeroarray, 0, 0x20);
                     byte[] hashValue = mySHA256.ComputeHash(zeroarray);
 
@@ -3738,7 +3748,7 @@ namespace PKHeX
                 }
                 // Fix DISA Hash
                 {
-                    byte[] difihash = new Byte[0x12C];
+                    byte[] difihash = new byte[0x12C];
                     Array.Copy(editedsav, 0x330 - savindex * 0x130, difihash, 0, 0x12C);
                     byte[] hashValue = mySHA256.ComputeHash(difihash);
 
@@ -3753,12 +3763,12 @@ namespace PKHeX
             // If CyberGadget
             if (cybergadget)
             {
-                byte[] cybersav = new Byte[0x65600];
-                if (savegame_oras) cybersav = new Byte[0x76000];
+                byte[] cybersav = new byte[0x65600];
+                if (savegame_oras) cybersav = new byte[0x76000];
                 Array.Copy(editedsav, 0x5400, cybersav, 0, cybersav.Length);
                 // Chunk Error Checking
-                byte[] FFFF = new Byte[0x200];
-                byte[] section = new Byte[0x200];
+                byte[] FFFF = new byte[0x200];
+                byte[] section = new byte[0x200];
                 for (int i = 0; i < 0x200; i++)
                     FFFF[i] = 0xFF;
                 
@@ -3875,7 +3885,7 @@ namespace PKHeX
             // Load the PKX file
             if (BitConverter.ToUInt64(savefile, offset + 8) != 0)
             {
-                byte[] ekxdata = new Byte[0xE8];
+                byte[] ekxdata = new byte[0xE8];
                 Array.Copy(savefile, offset, ekxdata, 0, 0xE8);
                 byte[] pkxdata = PKX.decryptArray(ekxdata);
                 int species = BitConverter.ToInt16(pkxdata, 0x08); // Get Species
@@ -3893,7 +3903,7 @@ namespace PKHeX
                 {
                     try
                     {
-                        byte[] blank = PKX.encryptArray(new Byte[0xE8]);
+                        byte[] blank = PKX.encryptArray(new byte[0xE8]);
 
                         for (int i = 0; i < 0xE8; i++)
                             blank[i] = (byte)(buff[i] ^ blank[i]);
@@ -3962,7 +3972,7 @@ namespace PKHeX
             if (slot == 30 && partycount == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
             int offset = getPKXOffset(slot);
 
-            byte[] pkxdata = new Byte[0x104];
+            byte[] pkxdata = new byte[0x104];
             byte[] ekxdata = PKX.encryptArray(pkxdata);
 
             if (slot >= 30 && slot < 36) // Party
@@ -4033,7 +4043,7 @@ namespace PKHeX
             for (int i = 0; i < 6; i++)
             {
                 // Gather all the species
-                byte[] data = new Byte[0x104];
+                byte[] data = new byte[0x104];
                 Array.Copy(savefile, offset + i * 0x104, data, 0, 0x104);
                 byte[] decdata = PKX.decryptArray(data);
                 int species = BitConverter.ToInt16(decdata,8);
@@ -4049,7 +4059,7 @@ namespace PKHeX
             // Zero out the party slots that are empty.
             for (int i = 0; i < 6; i++)
                 if (i >= partymembers)
-                    Array.Copy(PKX.encryptArray(new Byte[0x104]), 0, savefile, offset + (i * 0x104), 0x104);
+                    Array.Copy(PKX.encryptArray(new byte[0x104]), 0, savefile, offset + (i * 0x104), 0x104);
 
             // Repeat for Battle Box.
             byte battlemem = 0;
@@ -4057,7 +4067,7 @@ namespace PKHeX
             for (int i = 0; i < 6; i++)
             {
                 // Gather all the species
-                byte[] data = new Byte[0x104];
+                byte[] data = new byte[0x104];
                 Array.Copy(savefile, offset2 + i * 0xE8, data, 0, 0xE8);
                 byte[] decdata = PKX.decryptArray(data);
                 int species = BitConverter.ToInt16(decdata, 8);
@@ -4071,7 +4081,7 @@ namespace PKHeX
             // Zero out the party slots that are empty.
             for (int i = 0; i < 6; i++)
                 if (i >= battlemem)
-                    Array.Copy(PKX.encryptArray(new Byte[0x104]), 0, savefile, offset2 + (i * 0xE8), 0xE8);
+                    Array.Copy(PKX.encryptArray(new byte[0x104]), 0, savefile, offset2 + (i * 0xE8), 0xE8);
 
             if (battlemem == 0)
                 savefile[offset2 + 6 * 0xE8 + savindex * 0x7F000] = 0;
@@ -4273,7 +4283,7 @@ namespace PKHeX
         }
         private void getSlotFiller(int offset, PictureBox pb)
         {
-            byte[] slotdata = new Byte[0xE8];
+            byte[] slotdata = new byte[0xE8];
             Array.Copy(savefile, offset, slotdata, 0, 0xE8);    // Fill Our EKX Slot
             byte[] dslotdata = PKX.decryptArray(slotdata);
 
@@ -4281,7 +4291,7 @@ namespace PKHeX
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
                 chk += BitConverter.ToUInt16(dslotdata, i);
 
-            if (chk != BitConverter.ToUInt16(dslotdata, 6) && (!savLoaded && !slotdata.SequenceEqual(new Byte[0xE8]))) // Bad Egg
+            if (chk != BitConverter.ToUInt16(dslotdata, 6) && (!savLoaded && !slotdata.SequenceEqual(new byte[0xE8]))) // Bad Egg
             {
                 pb.Image = null;
                 pb.BackColor = Color.Red;
@@ -4449,7 +4459,7 @@ namespace PKHeX
                         }
                         for (int i = 0; i < 31 * 30 * size; i += size)
                         {
-                            byte[] ekxdata = new Byte[size];
+                            byte[] ekxdata = new byte[size];
                             Array.Copy(savefile, offset + i, ekxdata, 0, size);
                             byte[] pkxdata = PKX.decryptArray(ekxdata);
 
@@ -4504,7 +4514,7 @@ namespace PKHeX
             // Array.Clear(savefile, offset, size * 30 * 31);
             if (Util.Prompt(MessageBoxButtons.YesNo, "Clear subsequent boxes when importing data?", "If you only want to overwrite for new data, press no.") == DialogResult.Yes)
             {
-                byte[] ezeros = PKX.encryptArray(new Byte[232]);
+                byte[] ezeros = PKX.encryptArray(new byte[232]);
                 for (int i = ctr; i < 30 * 31; i++)
                     Array.Copy(ezeros, 0, savefile, offset + i * 232, 232);
             }
@@ -4521,7 +4531,7 @@ namespace PKHeX
                     && len != 100 && len != 80) // 4th Gen
                     continue;
                 string name = filepaths[i];
-                byte[] data = new Byte[232];
+                byte[] data = new byte[232];
                 string ext = Path.GetExtension(filepaths[i]);
                 if (ext == ".pkm" || ext == ".3gpkm" || ext == ".pk3" || ext == ".pk4" || ext == ".pk5")
                 {
@@ -4824,7 +4834,7 @@ namespace PKHeX
             }
             int length = 0xE004;
 
-            byte[] jpeg = new Byte[length];
+            byte[] jpeg = new byte[length];
             Array.Copy(savefile, offset, jpeg, 0, length);
             SaveFileDialog savejpeg = new SaveFileDialog();
             savejpeg.FileName = filename;
@@ -5051,7 +5061,7 @@ namespace PKHeX
             else
             {
                 if (ModifierKeys == Keys.Alt)
-                    Array.Copy(PKX.encryptArray(new Byte[0xE8]), 0, savefile, pkm_from_offset, 0xE8);
+                    Array.Copy(PKX.encryptArray(new byte[0xE8]), 0, savefile, pkm_from_offset, 0xE8);
                 else if (ModifierKeys != Keys.Control)
                     Array.Copy(savefile, offset, savefile, pkm_from_offset, 0xE8); // Copy from new slot to old slot.
                 Array.Copy(pkm_from, 0, savefile, offset, 0xE8); // Copy from temp slot to new.
@@ -5064,7 +5074,7 @@ namespace PKHeX
             if (e.Data != null)
                 e.Effect = DragDropEffects.Move;
         }
-        private byte[] pkm_from = PKX.encryptArray(new Byte[0xE8]);
+        private byte[] pkm_from = PKX.encryptArray(new byte[0xE8]);
         private int pkm_from_offset = 0;
         private void L_Save_Click(object sender, EventArgs e)
         {
@@ -5099,6 +5109,10 @@ namespace PKHeX
                 BTN_Shinytize.Text = "☆";
             }
         }
+
+        
+
+        
     }
     #region Structs & Classes
     public class cbItem
