@@ -23,7 +23,7 @@ namespace PKHeX
         }
         int berryfoffset;
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
+        public byte[] sav = new byte[0x100000];
         public int savindex; int shiftval;
         public bool editing = false;
 

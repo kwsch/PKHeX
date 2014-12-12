@@ -35,8 +35,8 @@ namespace PKHeX
             B_SAV2FAV(null, null);
         }
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
-        public byte[] wondercard_data = new Byte[0x108];
+        public byte[] sav = new byte[0x100000];
+        public byte[] wondercard_data = new byte[0x108];
         public bool editing = false;
         public int savindex; int sv = 0;
         private int fav_offset = 0x23A00;
@@ -371,7 +371,7 @@ namespace PKHeX
         private void changeObjectIndex(object sender, EventArgs e)
         {
             int objindex = (int)(NUD_FObject.Value) - 1;
-            byte[] objinfo = new Byte[12];
+            byte[] objinfo = new byte[12];
             for (int i = 0; i < 12; i++)
                 objinfo[i] = objdata[objindex, i];
 
@@ -422,7 +422,7 @@ namespace PKHeX
         {
             if (loading || !GB_PKM.Enabled) return;
             int index = currentpkm;
-            byte[] pkm = new Byte[0x34];
+            byte[] pkm = new byte[0x34];
 
             Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_EC)), 0, pkm, 0, 4);  // EC
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Species)), 0, pkm, 8, 2);
@@ -472,7 +472,7 @@ namespace PKHeX
         private void loadFavPKM()
         {
             int index = currentpkm - 1;
-            byte[] fpkm = new Byte[0x34];
+            byte[] fpkm = new byte[0x34];
             for (int i = 0; i < 0x34; i++)
                 fpkm[i] = pkmdata[index, i];
 

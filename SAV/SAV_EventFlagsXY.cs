@@ -63,7 +63,7 @@ namespace PKHeX
                 flag_2546, // Pokedex
             };
             int offset = 0x1A0FC + savshift;
-            byte[] data = new Byte[0x180];
+            byte[] data = new byte[0x180];
             Array.Copy(m_parent.savefile, offset, data, 0, 0x180);
             BitArray BitRegion = new BitArray(data);
             BitRegion.CopyTo(flags, 0);
@@ -147,8 +147,8 @@ namespace PKHeX
                 }
             }
         }
-        private byte[] olddata = new Byte[0x180];
-        private byte[] newdata = new Byte[0x180];
+        private byte[] olddata = new byte[0x180];
+        private byte[] newdata = new byte[0x180];
         private void openSAV(object sender, EventArgs e)
         {
             byte[] eventflags = new byte[0x180];

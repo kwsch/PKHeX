@@ -28,7 +28,7 @@ namespace PKHeX
             LB_BoxSelect.SelectedIndex = m_parent.C_BoxSelect.SelectedIndex;
         }
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
+        public byte[] sav = new byte[0x100000];
         public int savindex;
         public bool editing = false;
         private static uint ToUInt32(String value)

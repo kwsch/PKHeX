@@ -28,7 +28,7 @@ namespace PKHeX
             ToolTip2.SetToolTip(this.B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
+        public byte[] sav = new byte[0x100000];
         public int savindex;
         public bool editing = false;
         private string[] pfa = {
@@ -97,7 +97,7 @@ namespace PKHeX
                 basepuff = 1;
                 basemod = 0x19;
             }
-            byte[] newpuffs = new Byte[100];
+            byte[] newpuffs = new byte[100];
             for (int i = 0; i < 100; i++)
             {
                 newpuffs[i] = (byte)(Util.rnd32() % basemod + basepuff);
@@ -107,7 +107,7 @@ namespace PKHeX
         }
         private void B_None_Click(object sender, EventArgs e)
         {
-            byte[] newpuffs = new Byte[100];
+            byte[] newpuffs = new byte[100];
             newpuffs[0] = 1;
             newpuffs[1] = 2;
             newpuffs[2] = 3;
@@ -118,7 +118,7 @@ namespace PKHeX
         }
         private void B_Sort_Click(object sender, EventArgs e)
         {
-            byte[] puffarray = new Byte[100];
+            byte[] puffarray = new byte[100];
             if (ModifierKeys == Keys.Control)
             {
                 for (int i = 0; i < 100; i++)
@@ -151,7 +151,7 @@ namespace PKHeX
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            byte[] puffarray = new Byte[100];
+            byte[] puffarray = new byte[100];
             int emptyslots = 0;
             for (int i = 0; i < 100; i++)
             {

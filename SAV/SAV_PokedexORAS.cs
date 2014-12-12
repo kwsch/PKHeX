@@ -26,7 +26,7 @@ namespace PKHeX
         }
         private int dexoffset = 0x15000 + 0x5400;
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
+        public byte[] sav = new byte[0x100000];
         public int sv = 0;
         public bool[,] specbools = new bool[9, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
@@ -71,7 +71,7 @@ namespace PKHeX
             // Fill Bit arrays
             for (int i = 0; i < 9; i++)
             {
-                byte[] data = new Byte[0x60];
+                byte[] data = new byte[0x60];
                 int offset = dexoffset + 0x8 + 0x60 * i;
                 Array.Copy(sav, offset, data, 0, 0x60);
                 BitArray BitRegion = new BitArray(data);
@@ -81,7 +81,7 @@ namespace PKHeX
             }
 
             // Fill Language arrays
-            byte[] langdata = new Byte[0x280];
+            byte[] langdata = new byte[0x280];
             Array.Copy(sav, dexoffset + 0x400, langdata, 0, 0x280);
             BitArray LangRegion = new BitArray(langdata);
             for (int b = 0; b < (721); b++) // 721 Species

@@ -14,8 +14,8 @@ namespace PKHeX
 {
     public partial class CodeGenerator : Form
     {
-        byte[] codedata = new Byte[232];
-        byte[] newdata = new Byte[232];
+        byte[] codedata = new byte[232];
+        byte[] newdata = new byte[232];
         SaveGames.SaveStruct SaveGame = new SaveGames.SaveStruct(null);
 
         Form1 m_parent;
@@ -42,7 +42,7 @@ namespace PKHeX
                 if (m_parent.verifiedpkx())
                 {
                     byte[] pkx = m_parent.preparepkx(m_parent.buff);
-                    newdata = new Byte[232];
+                    newdata = new byte[232];
                     Array.Copy(PKX.encryptArray(pkx), newdata, 232);
                 }
                 else return false;
@@ -50,14 +50,14 @@ namespace PKHeX
             }
             else if (CB_Source.SelectedIndex == 1)
             {
-                newdata = new Byte[0xE8];
+                newdata = new byte[0xE8];
                 Array.Copy(m_parent.savefile,
                     SaveGame.Box                   // Box Offset
                         + CB_Box.SelectedIndex * (232 * 30) // Box Shift
                         + CB_Slot.SelectedIndex * 232,      // Slot Shift
                     newdata, 0, 0xE8);
 
-                if (newdata.SequenceEqual(new Byte[0xE8]))
+                if (newdata.SequenceEqual(new byte[0xE8]))
                 {
                     System.Media.SystemSounds.Exclamation.Play();
                     return false;
@@ -66,12 +66,12 @@ namespace PKHeX
             else if (CB_Source.SelectedIndex == 2)
             {
                 // Wondercard
-                newdata = new Byte[0x108];
+                newdata = new byte[0x108];
                 // Wondercard #
                 int wcn = CB_Slot.SelectedIndex;
                 // copy from save, the chosen wondercard offset, to new data
                 Array.Copy(m_parent.savefile, SaveGame.Wondercard + wcn * 0x108 + 0x100, newdata, 0, 0x108);
-                byte[] zerodata = new Byte[0x108];
+                byte[] zerodata = new byte[0x108];
                 if (newdata.SequenceEqual(zerodata))
                 {
                     System.Media.SystemSounds.Exclamation.Play();
@@ -193,7 +193,7 @@ namespace PKHeX
             // Gotta read in the textbox.
             if (RTB_Code.Text.Length < 1) return;
 
-            byte[] ncf = new Byte[4 + (RTB_Code.Lines.Count()-1) * (3 * 4)];
+            byte[] ncf = new byte[4 + (RTB_Code.Lines.Count()-1) * (3 * 4)];
             Array.Copy(BitConverter.GetBytes(ncf.Length - 4), ncf, 4);
 
             for (int i = 0; i < RTB_Code.Lines.Count()-1; i++)
@@ -244,7 +244,7 @@ namespace PKHeX
             RTB_Code.Clear();
             byte[] cybersav = m_parent.cyberSAV;
             byte[] editedsav = m_parent.savefile;
-            byte[] newcyber = new Byte[m_parent.cyberSAV.Length];
+            byte[] newcyber = new byte[m_parent.cyberSAV.Length];
             Array.Copy(editedsav, 0x5400, newcyber, 0, newcyber.Length);
 
             int boxoffset = 0x22600;
@@ -273,8 +273,8 @@ namespace PKHeX
             // Loop Through Party
             for (int i = 0x14200; i < 0x14200 + 260 * 6; i+= 260)
             {
-                byte[] newdata = new Byte[260]; Array.Copy(newcyber, i, newdata, 0, 260);
-                byte[] olddata = new Byte[260]; Array.Copy(cybersav, i, olddata, 0, 260);
+                byte[] newdata = new byte[260]; Array.Copy(newcyber, i, newdata, 0, 260);
+                byte[] olddata = new byte[260]; Array.Copy(cybersav, i, olddata, 0, 260);
                 if (!newdata.SequenceEqual(olddata))
                 {
                     for (int z = 0; z < newdata.Length; z += 4)
@@ -305,8 +305,8 @@ namespace PKHeX
             // Loop Through Boxes
             for (int i = boxoffset; i < boxoffset + (232 * 30 * 31); i += 232)
             {
-                byte[] newdata = new Byte[232]; Array.Copy(newcyber, i, newdata, 0, 232);
-                byte[] olddata = new Byte[232]; Array.Copy(cybersav, i, olddata, 0, 232);
+                byte[] newdata = new byte[232]; Array.Copy(newcyber, i, newdata, 0, 232);
+                byte[] olddata = new byte[232]; Array.Copy(cybersav, i, olddata, 0, 232);
                 if (!newdata.SequenceEqual(olddata))
                 {
                     for (int z = 0; z < newdata.Length; z += 4)
@@ -344,7 +344,7 @@ namespace PKHeX
         {
             // Gotta read in the textbox.
             if (RTB_Code.Text.Length < 1) return;
-            byte[] data = new Byte[0];
+            byte[] data = new byte[0];
             // Get Actual Lines
             for (int i = 0; i < RTB_Code.Lines.Count(); i++)
             {

@@ -31,8 +31,8 @@ namespace PKHeX
             this.DragDrop += new DragEventHandler(tabMain_DragDrop);         
         }
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
-        public byte[] wondercard_data = new Byte[0x108];
+        public byte[] sav = new byte[0x100000];
+        public byte[] wondercard_data = new byte[0x108];
         public int savindex;
         public bool editing = false;
         private int wcoffset = 0x21100;
@@ -104,7 +104,7 @@ namespace PKHeX
             catch 
             { 
                 Util.Error("Loading of data failed... is this really a Wondercard?"); 
-                Array.Copy(new Byte[0x108], wondercard_data, 0x108); 
+                Array.Copy(new byte[0x108], wondercard_data, 0x108); 
                 RTB.Clear(); 
                 return; 
             }
@@ -188,7 +188,7 @@ namespace PKHeX
         {
             int index = LB_WCs.SelectedIndex;
             int offset = wcoffset + savindex * 0x7F000 + index * 0x108;
-            byte[] zeros = new Byte[0x108];
+            byte[] zeros = new byte[0x108];
             Array.Copy(zeros, 0, sav, offset, 0x108);
             populateWClist();
         }

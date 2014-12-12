@@ -89,7 +89,7 @@ namespace PKHeX
 
             for (int i = 0; i < cba.Length; i++)
             {
-                byte[] data = new Byte[cba[i].Items.Count - 1];
+                byte[] data = new byte[cba[i].Items.Count - 1];
                 for (int c = 0; c < cba[i].SelectedIndex; c++)
                 {
                     data[c] = 1;
@@ -116,7 +116,7 @@ namespace PKHeX
             byte[] _3 = new byte[] { 01, 01, 01, 00, };
             byte[] _4 = new byte[] { 01, 01, 01, 01, };
             
-            byte[] data = new Byte[4];
+            byte[] data = new byte[4];
             Array.Copy(m_parent.savefile, o, data, 0, l);
 
             if      (data.SequenceEqual(_4)) return 4;

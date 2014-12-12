@@ -14,7 +14,7 @@ namespace PKHeX
     public partial class MemoryAmie : Form
     {
         Form1 m_parent;
-        public byte[] h = new Byte[260]; // Always Visible
+        public byte[] h = new byte[260]; // Always Visible
         private string disabled = "Disabled";
         private string notleft = "Never left";
         private string ot = "OT";

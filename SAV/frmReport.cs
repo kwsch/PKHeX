@@ -32,7 +32,7 @@ namespace PKHeX
                 for (int SlotNum = 0; SlotNum < 30; SlotNum++)
                 {
                     int offset = boxoffset + 0xE8 * SlotNum;
-                    byte[] slotdata = new Byte[0xE8];
+                    byte[] slotdata = new byte[0xE8];
                     Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
                     byte[] dslotdata = PKX.decryptArray(slotdata);
                     PKX pkm = new PKX(dslotdata);

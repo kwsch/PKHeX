@@ -62,7 +62,7 @@ namespace PKHeX
                     File.WriteAllBytes(path + ".bak", backupfile);
                 }
                 int offset = shiftval + boxoffset + (CB_Box.SelectedIndex) * (0xE8 * 30);
-                byte[] newbox = new Byte[0xE8 * 30];
+                byte[] newbox = new byte[0xE8 * 30];
                 Array.Copy(m_parent.savefile, offset, newbox, 0, 0xE8 * 30);
                 File.WriteAllBytes(path, newbox);
             }

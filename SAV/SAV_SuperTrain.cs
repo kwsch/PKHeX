@@ -32,7 +32,7 @@ namespace PKHeX
             setup();
         }
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
+        public byte[] sav = new byte[0x100000];
         public string[] specieslist;
         public int savindex;
         private int data_offset = 0x24600;
@@ -142,7 +142,7 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Copy Bags
-            byte[] bagarray = new Byte[12];
+            byte[] bagarray = new byte[12];
             int emptyslots = 0;
             for (int i = 0; i < 12; i++)
             {

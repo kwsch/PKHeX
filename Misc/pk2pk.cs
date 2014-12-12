@@ -938,7 +938,7 @@ namespace PKHeX
         }
         public byte[] convertPK3toPK4(byte[] pk3)
         {
-            byte[] pk4 = new Byte[136];
+            byte[] pk4 = new byte[136];
 
             Array.Copy(pk3, 0, pk4, 0, 4);
             Array.Copy(pk3, 0x20, pk4, 0x08, 2); // Species
@@ -1160,7 +1160,7 @@ namespace PKHeX
         }
         public byte[] convertPK4toPK5(byte[] pk4)
         {
-            byte[] pk5 = new Byte[136];
+            byte[] pk5 = new byte[136];
             if (pk4[0x5F] < 0x10 && BitConverter.ToUInt16(pk4, 0x80) > 0x4000)
                 return pk4;
 
@@ -1204,7 +1204,7 @@ namespace PKHeX
                 pk5[0x83] = pk4[0x86];
             // Transfer Nickname and OT Name
             DataTable CT45 = Char4to5();
-            byte[] nicknamestr = new Byte[24];
+            byte[] nicknamestr = new byte[24];
             string nickname = "";
             string trainer = "";
             nicknamestr[22] = nicknamestr[23] = 0xFF;
@@ -1222,7 +1222,7 @@ namespace PKHeX
                     nickname += (char)newval;
                 }
 
-                byte[] OTstr = new Byte[24];
+                byte[] OTstr = new byte[24];
                 OTstr[22] = OTstr[23] = 0xFF;
                 for (int i = 0; i < 24; i += 2)
                 {
@@ -1256,7 +1256,7 @@ namespace PKHeX
         public byte[] convertPK5toPK6(byte[] pk5)
         {
             // To transfer, we will go down the pkm offset list and fill it into the PKX list.
-            byte[] pk6 = new Byte[232]; // Setup new array to store the new PKX
+            byte[] pk6 = new byte[232]; // Setup new array to store the new PKX
 
             // Check if G4PKM
             if (pk5[0x5F] < 0x10 && BitConverter.ToUInt16(pk5, 0x80) < 4000)

@@ -24,7 +24,7 @@ namespace PKHeX
             TB_Spinda.Text = BitConverter.ToUInt32(sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38).ToString("X8");
         }
         Form1 m_parent;
-        public byte[] sav = new Byte[0x100000];
+        public byte[] sav = new byte[0x100000];
         public int savshift = 0;
         public bool[,] specbools = new bool[10, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
@@ -74,7 +74,7 @@ namespace PKHeX
             // Fill Bit arrays
             for (int i = 0; i < 0xA; i++)
             {
-                byte[] data = new Byte[0x60];
+                byte[] data = new byte[0x60];
                 Array.Copy(sav, savshift + 0x1A408 + 0x60 * i, data, 0, 0x60);
                 BitArray BitRegion = new BitArray(data);
                 for (int b = 0; b < (0x60 * 8); b++)
@@ -82,7 +82,7 @@ namespace PKHeX
             }
 
             // Fill Language arrays
-            byte[] langdata = new Byte[0x280];
+            byte[] langdata = new byte[0x280];
             Array.Copy(sav, savshift + 0x1A7C8, langdata, 0, 0x280);
             BitArray LangRegion = new BitArray(langdata);
             for (int b = 0; b < (721); b++) // 721 Species
@@ -91,7 +91,7 @@ namespace PKHeX
 
             // Fill Foreign array
             {
-                byte[] foreigndata = new Byte[0x52];
+                byte[] foreigndata = new byte[0x52];
                 Array.Copy(sav, savshift + 0x1AA4C, foreigndata, 0, 0x52);
                 BitArray ForeignRegion = new BitArray(foreigndata);
                 for (int b = 0; b < (0x52 * 8); b++)
