@@ -2454,7 +2454,7 @@ namespace PKHeX
             int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
 
             int form = cb_forme.SelectedIndex;
-            int[] abils = PKX.getAbilities(species, form);                
+            byte[] abils = PKX.getAbilities(species, form);                
 
             // Build Ability List
             List<string> ability_list = new List<string>();
