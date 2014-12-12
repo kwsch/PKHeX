@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using System.Collections.Generic;
+using System.Drawing.Text;
 
 namespace PKHeX
 {
@@ -1498,8 +1499,8 @@ namespace PKHeX
         public static DataTable MovePPTable()
         {
             DataTable table = new DataTable();
-            table.Columns.Add("Move", typeof(int));
-            table.Columns.Add("PP", typeof(int));
+            table.Columns.Add("Move", typeof(ushort));
+            table.Columns.Add("PP", typeof(byte));
             table.Rows.Add(0, 0);
             table.Rows.Add(1, 35);
             table.Rows.Add(2, 25);
@@ -2249,11 +2250,11 @@ namespace PKHeX
         {
             if (move < 0) { move = 0; }
             DataTable movepptable = MovePPTable();
-            return (int)movepptable.Rows[move][1];
+            return (byte)movepptable.Rows[move][1];
         }
         public static byte[] getRandomEVs()
         {
-            byte[] evs = new Byte[6];
+            byte[] evs = new byte[6];
           start:
             evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
             evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
@@ -2513,7 +2514,7 @@ namespace PKHeX
         // Manipulation
         public static byte[] shuffleArray(byte[] pkx, uint sv)
         {
-            byte[] ekx = new Byte[260];
+            byte[] ekx = new byte[260];
             Array.Copy(pkx, ekx, 8);
 
             // Now to shuffle the blocks
@@ -2539,7 +2540,7 @@ namespace PKHeX
         }
         public static byte[] decryptArray(byte[] ekx)
         {
-            byte[] pkx = new Byte[0x104];
+            byte[] pkx = new byte[0x104];
             Array.Copy(ekx, pkx, ekx.Length);
             uint pv = BitConverter.ToUInt32(pkx, 0);
             uint sv = (((pv & 0x3E000) >> 0xD) % 24);
@@ -2580,7 +2581,7 @@ namespace PKHeX
             uint pv = BitConverter.ToUInt32(pkx, 0);
             uint sv = (((pv & 0x3E000) >> 0xD) % 24);
 
-            byte[] ekxdata = new Byte[pkx.Length];
+            byte[] ekxdata = new byte[pkx.Length];
             Array.Copy(pkx, ekxdata, pkx.Length);
 
             // If I unshuffle 11 times, the 12th (decryption) will always decrypt to ABCD.
@@ -2965,13 +2966,13 @@ namespace PKHeX
         {
             SHA256 mySHA256 = SHA256Managed.Create();
             {
-                byte[] difihash1 = new Byte[0x12C];
-                byte[] difihash2 = new Byte[0x12C];
+                byte[] difihash1 = new byte[0x12C];
+                byte[] difihash2 = new byte[0x12C];
                 Array.Copy(data, 0x330, difihash1, 0, 0x12C);
                 Array.Copy(data, 0x200, difihash2, 0, 0x12C);
                 byte[] hashValue1 = mySHA256.ComputeHash(difihash1);
                 byte[] hashValue2 = mySHA256.ComputeHash(difihash2);
-                byte[] actualhash = new Byte[0x20];
+                byte[] actualhash = new byte[0x20];
                 Array.Copy(data, 0x16C, actualhash, 0, 0x20);
                 if (hashValue1.SequenceEqual(actualhash))
                 {
@@ -3011,6 +3012,22 @@ namespace PKHeX
                 }
             }
             return crc;
+        }
+
+        // Font Related
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont,IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
+        internal static Font getPKXFont(float fontsize)
+        {
+            byte[] fontData = Properties.Resources.PGLDings_NormalRegular;
+            IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
+            System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);            
+            PrivateFontCollection fonts = new PrivateFontCollection();
+            fonts.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length);                   uint dummy = 0;
+            AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
+            System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
+
+            return new Font(fonts.Families[0], fontsize);
         }
 
         // Table Related
