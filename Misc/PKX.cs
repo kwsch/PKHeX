@@ -818,12 +818,12 @@ namespace PKHeX
         // Table Related
 
         // Personal.dat
-        public static PersonalParser PersonalGetter = new PersonalParser();
-        public class PersonalParser
+        internal static PersonalParser PersonalGetter = new PersonalParser();
+        internal class PersonalParser
         {
-            public byte[] file = (byte[])Properties.Resources.ResourceManager.GetObject("personal");
-            public int EntryLength = 0xE;
-            public struct Personal
+            internal byte[] file = (byte[])Properties.Resources.personal;
+            internal int EntryLength = 0xE;
+            internal struct Personal
             {
                 public byte[] BaseStats;
                 public byte[] Abilities;
@@ -834,7 +834,7 @@ namespace PKHeX
                 public byte FormPointer; // 721 + FormPointer + (FormID - 1) = SpeciesIndex           
             }
 
-            public Personal GetPersonal(int species)
+            internal Personal GetPersonal(int species)
             {
                 Personal data = new Personal();
                 byte[] MonData = new byte[EntryLength];
@@ -851,7 +851,7 @@ namespace PKHeX
                 return data;
             }
 
-            public Personal GetPersonal(int species, int formID)
+            internal Personal GetPersonal(int species, int formID)
             {
                 Personal data = GetPersonal(species);
                 if (formID > 0 && formID <= data.AltFormCount && data.AltFormCount > 0 && data.FormPointer > 0) // Working with an Alt Forme with a base stat change
