@@ -238,7 +238,6 @@ namespace PKHeX
         public static string[] wallpapernames = { };
         public static string[] puffs = { };
         public static string[] itempouch = { };
-        public static int[] speciesability = { };
         public static int[] saveoffsets = { };
         public static string origintrack;
         public static string curlanguage;
@@ -1319,13 +1318,14 @@ namespace PKHeX
         {
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            gt = (int)spectable.Rows[species][8];
+            PersonalParser PP = PKX.PersonalGetter;
+            PersonalParser.Personal MonData = PP.GetPersonal(species);
+            gt = MonData.GenderRatio;
 
-            if (gt > 255) // Single gender/genderless
+            if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
 
-            if (gt < 256) // If not a single gender(less) species:
+            if (gt < 255) // If not a single gender(less) species:
             {
                 if (PKX.getGender(Label_Gender.Text) == 0) // ♂
                     Label_Gender.Text = gendersymbols[1]; // ♀
@@ -1816,17 +1816,17 @@ namespace PKHeX
             // Check for Gender Changes
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            gt = (int)spectable.Rows[species][8];
+            PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            gt = MonData.GenderRatio;
 
-            if (gt == 258)      // Genderless
+            if (gt == 255)      // Genderless
                 genderflag = 2;
-            else if (gt == 257) // Female Only
+            else if (gt == 254) // Female Only
                 genderflag = 1;
-            else if (gt == 256) // Male Only
+            else if (gt == 0) // Male Only
                 genderflag = 0;
             else // get gender from old PID correlation
-                genderflag = ((Util.getHEXval(TB_PID) & 0xFF) < gt) ? 1 : 0;
+                genderflag = ((Util.getHEXval(TB_PID) & 0xFF) <= gt) ? 1 : 0;
 
             setGenderLabel();
             updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
@@ -5109,6 +5109,49 @@ namespace PKHeX
         public override string ToString()
         {
             return Text;
+        }
+    }
+    public class PersonalParser
+    {
+        public byte[] file = (byte[])Properties.Resources.ResourceManager.GetObject("personal");
+        public int EntryLength = 0xE;
+        public struct Personal
+        {
+            public byte[] BaseStats;
+            public byte[] Abilities;
+            public byte BaseFriendship;
+            public byte GenderRatio;
+            public byte EXPGrowth;
+            public byte AltFormCount;
+            public byte FormPointer; //721+FormPointer+(FormID-1)=SpeciesIndex           
+        }
+
+        public Personal GetPersonal(int species)
+        {
+            Personal data = new Personal();
+            byte[] MonData = new byte[EntryLength];
+            data.BaseStats = new byte[6];
+            data.Abilities = new byte[3];
+            Array.Copy(file, species * EntryLength, MonData, 0, EntryLength);
+            Array.Copy(MonData, data.BaseStats, 6);
+            Array.Copy(MonData, 6, data.Abilities, 0, 3);
+            data.BaseFriendship = MonData[0x9];
+            data.GenderRatio = MonData[0xA];
+            data.EXPGrowth = MonData[0xB];
+            data.AltFormCount = MonData[0xC];
+            data.FormPointer = MonData[0xD];
+            return data;
+        }
+
+        public Personal GetPersonal(int species, int formID)
+        {
+            Personal data = GetPersonal(species);
+            if (formID > 0 && formID<=data.AltFormCount && data.AltFormCount>0 && data.FormPointer > 0) //Working with an Alt Forme with a base stat change
+            {
+                formID--;
+                data = GetPersonal(721 + formID + data.FormPointer);
+            }
+            return data;
         }
     }
     public class SaveGames

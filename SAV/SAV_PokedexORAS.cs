@@ -138,11 +138,11 @@ namespace PKHeX
                 CHK_P1.Enabled = true;
 
                 int index = LB_Species.SelectedIndex + 1;
-                DataTable spectable = PKX.SpeciesTable();
-                int gt = (int)spectable.Rows[index][8];
+                PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(index);
+                int gt = MonData.GenderRatio;
 
-                CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = (((gt > 255) && (gt != 257)) || gt < 256);
-                CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = (gt != 256) && (gt != 258);
+                CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = (gt != 254); //Not Female-Only
+                CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = (gt != 0) && (gt != 255); //Not Male-Only and Not Genderless
 
                 for (int i = 0; i < 7; i++)
                     CL[i].Enabled = true;
@@ -253,11 +253,11 @@ namespace PKHeX
                 CHK_P1.Checked = !(ModifierKeys == Keys.Control);
             }
             int index = LB_Species.SelectedIndex+1;
-            DataTable spectable = PKX.SpeciesTable();
-            int gt = (int)spectable.Rows[index][8];
+            PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(index);
+            int gt = MonData.GenderRatio;
 
-            CHK_P2.Checked = CHK_P4.Checked = CHK_P6.Checked = CHK_P8.Checked = (((gt > 255) && (gt != 257)) || gt < 256) && !(ModifierKeys == Keys.Control);
-            CHK_P3.Checked = CHK_P5.Checked = CHK_P7.Checked = CHK_P9.Checked = (gt != 256) && (gt != 258) && !(ModifierKeys == Keys.Control);
+            CHK_P2.Checked = CHK_P4.Checked = CHK_P6.Checked = CHK_P8.Checked = ((gt != 254)) && !(ModifierKeys == Keys.Control);
+            CHK_P3.Checked = CHK_P5.Checked = CHK_P7.Checked = CHK_P9.Checked = (gt != 0) && (gt != 255) && !(ModifierKeys == Keys.Control);
 
             changePartitionBool(null, null);
             changeLanguageBool(null, null);

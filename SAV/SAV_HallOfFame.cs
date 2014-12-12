@@ -476,10 +476,17 @@ namespace PKHeX
         {
             // Get Gender Threshold
             int species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            int gt = (int)spectable.Rows[species][8];
+            PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            int gt = MonData.GenderRatio;
 
-            if (gt > 255) // Single gender/genderless
+            if (gt == 255)
+                Label_Gender.Text = gendersymbols[2];
+            else if (gt == 254)
+                Label_Gender.Text = gendersymbols[1];
+            else if (gt == 0)
+                Label_Gender.Text = gendersymbols[0];
+
+            if (gt == 255 || gt == 0 || gt==254) // Single gender/genderless
                 return;
 
             if (gt < 256) // If not a single gender(less) species:

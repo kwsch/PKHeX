@@ -576,14 +576,14 @@ namespace PKHeX
             // Check for Gender Changes
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            gt = (int)spectable.Rows[species][8];
+            PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            int gt = MonData.GenderRatio;
 
-            if (gt == 258)      // Genderless
+            if (gt == 255)      // Genderless
                 genderflag = 2;
-            else if (gt == 257) // Female Only
+            else if (gt == 254) // Female Only
                 genderflag = 1;
-            else if (gt == 256) // Male Only
+            else if (gt == 0) // Male Only
                 genderflag = 0;
 
             setGenderLabel();
@@ -600,15 +600,15 @@ namespace PKHeX
             else if (PKX.getGender(CB_Form.Text) == 1) // ♀
                 Label_Gender.Text = Form1.gendersymbols[1]; // ♀
         }
-        private int species; private int gt; private int genderflag;
+        private int species; private int genderflag;
         private void Label_Gender_Click(object sender, EventArgs e)
         {
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
-            DataTable spectable = PKX.SpeciesTable();
-            gt = (int)spectable.Rows[species][8];
+            PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            int gt = MonData.GenderRatio;
 
-            if (gt > 255) // Single gender/genderless
+            if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
 
             if (gt < 256) // If not a single gender(less) species:
