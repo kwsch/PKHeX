@@ -799,6 +799,7 @@ namespace PKHeX
             // 
             // CB_Region
             // 
+            this.CB_Region.DropDownWidth = 180;
             this.CB_Region.FormattingEnabled = true;
             this.CB_Region.Location = new System.Drawing.Point(99, 131);
             this.CB_Region.Name = "CB_Region";
@@ -807,6 +808,7 @@ namespace PKHeX
             // 
             // CB_Country
             // 
+            this.CB_Country.DropDownWidth = 180;
             this.CB_Country.FormattingEnabled = true;
             this.CB_Country.Location = new System.Drawing.Point(99, 108);
             this.CB_Country.Name = "CB_Country";

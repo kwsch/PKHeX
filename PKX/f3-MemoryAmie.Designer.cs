@@ -390,6 +390,7 @@
             // 
             // CB_Country4
             // 
+            this.CB_Country4.DropDownWidth = 180;
             this.CB_Country4.FormattingEnabled = true;
             this.CB_Country4.Location = new System.Drawing.Point(82, 158);
             this.CB_Country4.Name = "CB_Country4";
@@ -399,6 +400,7 @@
             // 
             // CB_Country3
             // 
+            this.CB_Country3.DropDownWidth = 180;
             this.CB_Country3.FormattingEnabled = true;
             this.CB_Country3.Location = new System.Drawing.Point(82, 126);
             this.CB_Country3.Name = "CB_Country3";
@@ -408,6 +410,7 @@
             // 
             // CB_Country2
             // 
+            this.CB_Country2.DropDownWidth = 180;
             this.CB_Country2.FormattingEnabled = true;
             this.CB_Country2.Location = new System.Drawing.Point(82, 93);
             this.CB_Country2.Name = "CB_Country2";
@@ -417,6 +420,7 @@
             // 
             // CB_Country1
             // 
+            this.CB_Country1.DropDownWidth = 180;
             this.CB_Country1.FormattingEnabled = true;
             this.CB_Country1.Location = new System.Drawing.Point(82, 60);
             this.CB_Country1.Name = "CB_Country1";
@@ -426,6 +430,7 @@
             // 
             // CB_Country0
             // 
+            this.CB_Country0.DropDownWidth = 180;
             this.CB_Country0.FormattingEnabled = true;
             this.CB_Country0.Location = new System.Drawing.Point(82, 27);
             this.CB_Country0.Name = "CB_Country0";
@@ -723,6 +728,7 @@
             // 
             // Region4
             // 
+            this.Region4.DropDownWidth = 180;
             this.Region4.FormattingEnabled = true;
             this.Region4.Location = new System.Drawing.Point(204, 158);
             this.Region4.Name = "Region4";
@@ -731,6 +737,7 @@
             // 
             // Region3
             // 
+            this.Region3.DropDownWidth = 180;
             this.Region3.FormattingEnabled = true;
             this.Region3.Location = new System.Drawing.Point(204, 126);
             this.Region3.Name = "Region3";
@@ -739,6 +746,7 @@
             // 
             // Region2
             // 
+            this.Region2.DropDownWidth = 180;
             this.Region2.FormattingEnabled = true;
             this.Region2.Location = new System.Drawing.Point(204, 93);
             this.Region2.Name = "Region2";
@@ -747,6 +755,7 @@
             // 
             // Region1
             // 
+            this.Region1.DropDownWidth = 180;
             this.Region1.FormattingEnabled = true;
             this.Region1.Location = new System.Drawing.Point(204, 60);
             this.Region1.Name = "Region1";
@@ -755,6 +764,7 @@
             // 
             // Region0
             // 
+            this.Region0.DropDownWidth = 180;
             this.Region0.FormattingEnabled = true;
             this.Region0.Location = new System.Drawing.Point(204, 27);
             this.Region0.Name = "Region0";

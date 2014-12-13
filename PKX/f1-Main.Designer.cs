@@ -675,6 +675,7 @@
             // 
             this.CB_SubRegion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_SubRegion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_SubRegion.DropDownWidth = 180;
             this.CB_SubRegion.FormattingEnabled = true;
             this.CB_SubRegion.Location = new System.Drawing.Point(105, 256);
             this.CB_SubRegion.Name = "CB_SubRegion";
@@ -688,7 +689,7 @@
             // 
             this.CB_Country.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Country.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Country.DropDownWidth = 170;
+            this.CB_Country.DropDownWidth = 180;
             this.CB_Country.FormattingEnabled = true;
             this.CB_Country.Location = new System.Drawing.Point(105, 236);
             this.CB_Country.Name = "CB_Country";
@@ -2566,10 +2567,6 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_File,
-            this.Menu_Tools,
-            this.Menu_Options});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(614, 24);

@@ -61,22 +61,22 @@ namespace PKHeX
         // Load/Save Actions
         private void loadFields()
         {
-            // Save the region/country values.
-            v1cb(Region0, 0x94); v1cb(CB_Country0, 0x95);
-            v1cb(Region1, 0x96); v1cb(CB_Country1, 0x97);
-            v1cb(Region2, 0x98); v1cb(CB_Country2, 0x99);
-            v1cb(Region3, 0x9A); v1cb(CB_Country3, 0x9B);
-            v1cb(Region4, 0x9C); v1cb(CB_Country4, 0x9D);
+            // Load the region/country values.
+            v1cb(CB_Country0, 0x95); v1cb(Region0, 0x94);
+            v1cb(CB_Country1, 0x97); v1cb(Region1, 0x96);
+            v1cb(CB_Country2, 0x99); v1cb(Region2, 0x98);
+            v1cb(CB_Country3, 0x9B); v1cb(Region3, 0x9A);
+            v1cb(CB_Country4, 0x9D); v1cb(Region4, 0x9C);
 
-            // Write the Fullness, and Enjoyment
+            // Load the Fullness, and Enjoyment
             v1s(M_Fullness, 0xAE); v1s(M_Enjoyment, 0xAF);
 
-            // Write the CT Memories
+            // Load the CT Memories
             v1s(M_CT_Friendship, 0xA2); v1s(M_CT_Affection, 0xA3);
             CB_CTQual.SelectedIndex = Math.Max(0,h[0xA4]-1);
-            v1cb(CB_CTMemory, 0xA5); v2cb(CB_CTVar, 0xA8); i1cb(CB_CTFeel, 0xA6); 
+            v1cb(CB_CTMemory, 0xA5); v2cb(CB_CTVar, 0xA8); i1cb(CB_CTFeel, 0xA6);
 
-            // Write the OT Memories
+            // Load the OT Memories
             v1s(M_OT_Friendship, 0xCA); v1s(M_OT_Affection, 0xCB);
             CB_OTQual.SelectedIndex = Math.Max(0,h[0xCC]-1);
             v1cb(CB_OTMemory, 0xCD); v2cb(CB_OTVar, 0xCE); i1cb(CB_OTFeel, 0xD0); 
