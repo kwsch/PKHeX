@@ -691,13 +691,10 @@ namespace PKHeX
                 Label_OTGender.Text = gendersymbols[1];
             else Label_OTGender.Text = gendersymbols[0];
             
-            // Nidoran Gender Fixing Text
-            if (!Convert.ToBoolean(isnick))
+            // Private Use Character Fixing Text
             {
-                if (nicknamestr.Contains((char)0xE08F))
-                    nicknamestr = Regex.Replace(nicknamestr, "\uE08F", "\u2640");
-                else if (nicknamestr.Contains((char)0xE08E))
-                    nicknamestr = Regex.Replace(nicknamestr, "\uE08E", "\u2642");
+                nicknamestr = Regex.Replace(nicknamestr, "\uE08F", "\u2640");
+                nicknamestr = Regex.Replace(nicknamestr, "\uE08E", "\u2642");
             }
             populateMarkings(markings);
             TB_PID.Text = PID.ToString("X8");
