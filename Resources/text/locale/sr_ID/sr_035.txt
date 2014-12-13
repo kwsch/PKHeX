@@ -1,0 +1,3 @@
+Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+000,—,—,—,—,—,—,—,—
+001,マルティニーク,Martinique,Martinique,Martinique,Martinica,Martinica,马提尼克,마르티니크,

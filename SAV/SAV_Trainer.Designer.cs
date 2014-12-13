@@ -406,8 +406,8 @@ namespace PKHeX
             // 
             // GB_Badges
             // 
-            this.GB_Badges.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_Badges.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_Badges.Controls.Add(this.pb8);
             this.GB_Badges.Controls.Add(this.cb8);
             this.GB_Badges.Controls.Add(this.cb7);
@@ -799,7 +799,6 @@ namespace PKHeX
             // 
             // CB_Region
             // 
-            this.CB_Region.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Region.FormattingEnabled = true;
             this.CB_Region.Location = new System.Drawing.Point(99, 131);
             this.CB_Region.Name = "CB_Region";
@@ -808,12 +807,12 @@ namespace PKHeX
             // 
             // CB_Country
             // 
-            this.CB_Country.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Country.FormattingEnabled = true;
             this.CB_Country.Location = new System.Drawing.Point(99, 108);
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(93, 21);
             this.CB_Country.TabIndex = 17;
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.updateCountry);
             // 
             // B_MaxCash
             // 

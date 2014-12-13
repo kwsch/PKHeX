@@ -31,11 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MemoryAmie));
             this.BTN_Save = new System.Windows.Forms.Button();
             this.BTN_Cancel = new System.Windows.Forms.Button();
-            this.Region0 = new System.Windows.Forms.MaskedTextBox();
-            this.Region1 = new System.Windows.Forms.MaskedTextBox();
-            this.Region4 = new System.Windows.Forms.MaskedTextBox();
-            this.Region3 = new System.Windows.Forms.MaskedTextBox();
-            this.Region2 = new System.Windows.Forms.MaskedTextBox();
             this.M_OT_Friendship = new System.Windows.Forms.MaskedTextBox();
             this.L_OT_Friendship = new System.Windows.Forms.Label();
             this.L_Geo0 = new System.Windows.Forms.Label();
@@ -88,6 +83,11 @@
             this.L_Handler = new System.Windows.Forms.Label();
             this.CB_Handler = new System.Windows.Forms.ComboBox();
             this.L_Arguments = new System.Windows.Forms.Label();
+            this.Region4 = new System.Windows.Forms.ComboBox();
+            this.Region3 = new System.Windows.Forms.ComboBox();
+            this.Region2 = new System.Windows.Forms.ComboBox();
+            this.Region1 = new System.Windows.Forms.ComboBox();
+            this.Region0 = new System.Windows.Forms.ComboBox();
             this.GB_M_OT.SuspendLayout();
             this.GB_Residence.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -117,61 +117,6 @@
             this.BTN_Cancel.UseVisualStyleBackColor = true;
             this.BTN_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // Region0
-            // 
-            this.Region0.Enabled = false;
-            this.Region0.Location = new System.Drawing.Point(275, 26);
-            this.Region0.Mask = "000";
-            this.Region0.Name = "Region0";
-            this.Region0.Size = new System.Drawing.Size(24, 20);
-            this.Region0.TabIndex = 2;
-            this.Region0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region0.TextChanged += new System.EventHandler(this.update255_MTB);
-            // 
-            // Region1
-            // 
-            this.Region1.Enabled = false;
-            this.Region1.Location = new System.Drawing.Point(275, 59);
-            this.Region1.Mask = "000";
-            this.Region1.Name = "Region1";
-            this.Region1.Size = new System.Drawing.Size(24, 20);
-            this.Region1.TabIndex = 4;
-            this.Region1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region1.TextChanged += new System.EventHandler(this.update255_MTB);
-            // 
-            // Region4
-            // 
-            this.Region4.Enabled = false;
-            this.Region4.Location = new System.Drawing.Point(275, 157);
-            this.Region4.Mask = "000";
-            this.Region4.Name = "Region4";
-            this.Region4.Size = new System.Drawing.Size(24, 20);
-            this.Region4.TabIndex = 10;
-            this.Region4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region4.TextChanged += new System.EventHandler(this.update255_MTB);
-            // 
-            // Region3
-            // 
-            this.Region3.Enabled = false;
-            this.Region3.Location = new System.Drawing.Point(275, 125);
-            this.Region3.Mask = "000";
-            this.Region3.Name = "Region3";
-            this.Region3.Size = new System.Drawing.Size(24, 20);
-            this.Region3.TabIndex = 8;
-            this.Region3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region3.TextChanged += new System.EventHandler(this.update255_MTB);
-            // 
-            // Region2
-            // 
-            this.Region2.Enabled = false;
-            this.Region2.Location = new System.Drawing.Point(275, 92);
-            this.Region2.Mask = "000";
-            this.Region2.Name = "Region2";
-            this.Region2.Size = new System.Drawing.Size(24, 20);
-            this.Region2.TabIndex = 6;
-            this.Region2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Region2.TextChanged += new System.EventHandler(this.update255_MTB);
-            // 
             // M_OT_Friendship
             // 
             this.M_OT_Friendship.Location = new System.Drawing.Point(86, 16);
@@ -192,66 +137,71 @@
             // 
             // L_Geo0
             // 
-            this.L_Geo0.AutoSize = true;
-            this.L_Geo0.Location = new System.Drawing.Point(6, 29);
+            this.L_Geo0.Location = new System.Drawing.Point(-1, 31);
             this.L_Geo0.Name = "L_Geo0";
-            this.L_Geo0.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo0.Size = new System.Drawing.Size(80, 13);
             this.L_Geo0.TabIndex = 68;
-            this.L_Geo0.Text = "Previous Geolocation 0:";
+            this.L_Geo0.Text = "Latest:";
+            this.L_Geo0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Geo0.Click += new System.EventHandler(this.clickResetLocation);
             // 
             // L_Geo1
             // 
-            this.L_Geo1.AutoSize = true;
-            this.L_Geo1.Location = new System.Drawing.Point(7, 62);
+            this.L_Geo1.Location = new System.Drawing.Point(0, 64);
             this.L_Geo1.Name = "L_Geo1";
-            this.L_Geo1.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo1.Size = new System.Drawing.Size(80, 13);
             this.L_Geo1.TabIndex = 69;
-            this.L_Geo1.Text = "Previous Geolocation 1:";
+            this.L_Geo1.Text = "Past 1:";
+            this.L_Geo1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Geo1.Click += new System.EventHandler(this.clickResetLocation);
             // 
             // L_Region
             // 
-            this.L_Region.AutoSize = true;
-            this.L_Region.Location = new System.Drawing.Point(272, 10);
+            this.L_Region.Location = new System.Drawing.Point(226, 12);
             this.L_Region.Name = "L_Region";
-            this.L_Region.Size = new System.Drawing.Size(41, 13);
+            this.L_Region.Size = new System.Drawing.Size(80, 13);
             this.L_Region.TabIndex = 73;
             this.L_Region.Text = "Region";
+            this.L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Country
             // 
-            this.L_Country.AutoSize = true;
-            this.L_Country.Location = new System.Drawing.Point(161, 10);
+            this.L_Country.Location = new System.Drawing.Point(104, 12);
             this.L_Country.Name = "L_Country";
-            this.L_Country.Size = new System.Drawing.Size(43, 13);
+            this.L_Country.Size = new System.Drawing.Size(80, 13);
             this.L_Country.TabIndex = 74;
             this.L_Country.Text = "Country";
+            this.L_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Geo2
             // 
-            this.L_Geo2.AutoSize = true;
-            this.L_Geo2.Location = new System.Drawing.Point(7, 95);
+            this.L_Geo2.Location = new System.Drawing.Point(0, 97);
             this.L_Geo2.Name = "L_Geo2";
-            this.L_Geo2.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo2.Size = new System.Drawing.Size(80, 13);
             this.L_Geo2.TabIndex = 76;
-            this.L_Geo2.Text = "Previous Geolocation 2:";
+            this.L_Geo2.Text = "Past 2:";
+            this.L_Geo2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Geo2.Click += new System.EventHandler(this.clickResetLocation);
             // 
             // L_Geo3
             // 
-            this.L_Geo3.AutoSize = true;
-            this.L_Geo3.Location = new System.Drawing.Point(7, 128);
+            this.L_Geo3.Location = new System.Drawing.Point(0, 130);
             this.L_Geo3.Name = "L_Geo3";
-            this.L_Geo3.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo3.Size = new System.Drawing.Size(80, 13);
             this.L_Geo3.TabIndex = 77;
-            this.L_Geo3.Text = "Previous Geolocation 3:";
+            this.L_Geo3.Text = "Past 3:";
+            this.L_Geo3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Geo3.Click += new System.EventHandler(this.clickResetLocation);
             // 
             // L_Geo4
             // 
-            this.L_Geo4.AutoSize = true;
-            this.L_Geo4.Location = new System.Drawing.Point(6, 160);
+            this.L_Geo4.Location = new System.Drawing.Point(-1, 162);
             this.L_Geo4.Name = "L_Geo4";
-            this.L_Geo4.Size = new System.Drawing.Size(120, 13);
+            this.L_Geo4.Size = new System.Drawing.Size(80, 13);
             this.L_Geo4.TabIndex = 78;
-            this.L_Geo4.Text = "Previous Geolocation 4:";
+            this.L_Geo4.Text = "Past 4:";
+            this.L_Geo4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Geo4.Click += new System.EventHandler(this.clickResetLocation);
             // 
             // L_OT_Quality
             // 
@@ -414,6 +364,11 @@
             // 
             // GB_Residence
             // 
+            this.GB_Residence.Controls.Add(this.Region4);
+            this.GB_Residence.Controls.Add(this.Region3);
+            this.GB_Residence.Controls.Add(this.Region2);
+            this.GB_Residence.Controls.Add(this.Region1);
+            this.GB_Residence.Controls.Add(this.Region0);
             this.GB_Residence.Controls.Add(this.CB_Country4);
             this.GB_Residence.Controls.Add(this.CB_Country3);
             this.GB_Residence.Controls.Add(this.CB_Country2);
@@ -426,11 +381,6 @@
             this.GB_Residence.Controls.Add(this.L_Region);
             this.GB_Residence.Controls.Add(this.L_Geo1);
             this.GB_Residence.Controls.Add(this.L_Geo0);
-            this.GB_Residence.Controls.Add(this.Region4);
-            this.GB_Residence.Controls.Add(this.Region3);
-            this.GB_Residence.Controls.Add(this.Region2);
-            this.GB_Residence.Controls.Add(this.Region1);
-            this.GB_Residence.Controls.Add(this.Region0);
             this.GB_Residence.Location = new System.Drawing.Point(7, 7);
             this.GB_Residence.Name = "GB_Residence";
             this.GB_Residence.Size = new System.Drawing.Size(332, 188);
@@ -441,7 +391,7 @@
             // CB_Country4
             // 
             this.CB_Country4.FormattingEnabled = true;
-            this.CB_Country4.Location = new System.Drawing.Point(132, 156);
+            this.CB_Country4.Location = new System.Drawing.Point(82, 158);
             this.CB_Country4.Name = "CB_Country4";
             this.CB_Country4.Size = new System.Drawing.Size(102, 21);
             this.CB_Country4.TabIndex = 83;
@@ -450,7 +400,7 @@
             // CB_Country3
             // 
             this.CB_Country3.FormattingEnabled = true;
-            this.CB_Country3.Location = new System.Drawing.Point(132, 124);
+            this.CB_Country3.Location = new System.Drawing.Point(82, 126);
             this.CB_Country3.Name = "CB_Country3";
             this.CB_Country3.Size = new System.Drawing.Size(102, 21);
             this.CB_Country3.TabIndex = 82;
@@ -459,7 +409,7 @@
             // CB_Country2
             // 
             this.CB_Country2.FormattingEnabled = true;
-            this.CB_Country2.Location = new System.Drawing.Point(132, 91);
+            this.CB_Country2.Location = new System.Drawing.Point(82, 93);
             this.CB_Country2.Name = "CB_Country2";
             this.CB_Country2.Size = new System.Drawing.Size(102, 21);
             this.CB_Country2.TabIndex = 81;
@@ -468,7 +418,7 @@
             // CB_Country1
             // 
             this.CB_Country1.FormattingEnabled = true;
-            this.CB_Country1.Location = new System.Drawing.Point(132, 58);
+            this.CB_Country1.Location = new System.Drawing.Point(82, 60);
             this.CB_Country1.Name = "CB_Country1";
             this.CB_Country1.Size = new System.Drawing.Size(102, 21);
             this.CB_Country1.TabIndex = 80;
@@ -477,7 +427,7 @@
             // CB_Country0
             // 
             this.CB_Country0.FormattingEnabled = true;
-            this.CB_Country0.Location = new System.Drawing.Point(132, 25);
+            this.CB_Country0.Location = new System.Drawing.Point(82, 27);
             this.CB_Country0.Name = "CB_Country0";
             this.CB_Country0.Size = new System.Drawing.Size(102, 21);
             this.CB_Country0.TabIndex = 79;
@@ -771,6 +721,46 @@
             this.L_Arguments.Text = "(args)";
             this.L_Arguments.Visible = false;
             // 
+            // Region4
+            // 
+            this.Region4.FormattingEnabled = true;
+            this.Region4.Location = new System.Drawing.Point(204, 158);
+            this.Region4.Name = "Region4";
+            this.Region4.Size = new System.Drawing.Size(102, 21);
+            this.Region4.TabIndex = 88;
+            // 
+            // Region3
+            // 
+            this.Region3.FormattingEnabled = true;
+            this.Region3.Location = new System.Drawing.Point(204, 126);
+            this.Region3.Name = "Region3";
+            this.Region3.Size = new System.Drawing.Size(102, 21);
+            this.Region3.TabIndex = 87;
+            // 
+            // Region2
+            // 
+            this.Region2.FormattingEnabled = true;
+            this.Region2.Location = new System.Drawing.Point(204, 93);
+            this.Region2.Name = "Region2";
+            this.Region2.Size = new System.Drawing.Size(102, 21);
+            this.Region2.TabIndex = 86;
+            // 
+            // Region1
+            // 
+            this.Region1.FormattingEnabled = true;
+            this.Region1.Location = new System.Drawing.Point(204, 60);
+            this.Region1.Name = "Region1";
+            this.Region1.Size = new System.Drawing.Size(102, 21);
+            this.Region1.TabIndex = 85;
+            // 
+            // Region0
+            // 
+            this.Region0.FormattingEnabled = true;
+            this.Region0.Location = new System.Drawing.Point(204, 27);
+            this.Region0.Name = "Region0";
+            this.Region0.Size = new System.Drawing.Size(102, 21);
+            this.Region0.TabIndex = 84;
+            // 
             // MemoryAmie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -797,7 +787,6 @@
             this.GB_M_OT.ResumeLayout(false);
             this.GB_M_OT.PerformLayout();
             this.GB_Residence.ResumeLayout(false);
-            this.GB_Residence.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.Tab_OTMemory.ResumeLayout(false);
             this.Tab_CTMemory.ResumeLayout(false);
@@ -813,11 +802,6 @@
 
         private System.Windows.Forms.Button BTN_Save;
         private System.Windows.Forms.Button BTN_Cancel;
-        private System.Windows.Forms.MaskedTextBox Region0;
-        private System.Windows.Forms.MaskedTextBox Region1;
-        private System.Windows.Forms.MaskedTextBox Region4;
-        private System.Windows.Forms.MaskedTextBox Region3;
-        private System.Windows.Forms.MaskedTextBox Region2;
         private System.Windows.Forms.MaskedTextBox M_OT_Friendship;
         private System.Windows.Forms.Label L_OT_Friendship;
         private System.Windows.Forms.Label L_Geo0;
@@ -870,5 +854,10 @@
         private System.Windows.Forms.RichTextBox RTB_OT;
         private System.Windows.Forms.RichTextBox RTB_CT;
         private System.Windows.Forms.Label L_Arguments;
+        private System.Windows.Forms.ComboBox Region4;
+        private System.Windows.Forms.ComboBox Region3;
+        private System.Windows.Forms.ComboBox Region2;
+        private System.Windows.Forms.ComboBox Region1;
+        private System.Windows.Forms.ComboBox Region0;
     }
 }

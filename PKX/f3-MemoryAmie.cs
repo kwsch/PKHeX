@@ -62,11 +62,11 @@ namespace PKHeX
         private void loadFields()
         {
             // Save the region/country values.
-            v1s(Region0, 0x94); v1cb(CB_Country0, 0x95);
-            v1s(Region1, 0x96); v1cb(CB_Country1, 0x97);
-            v1s(Region2, 0x98); v1cb(CB_Country2, 0x99);
-            v1s(Region3, 0x9A); v1cb(CB_Country3, 0x9B);
-            v1s(Region4, 0x9C); v1cb(CB_Country4, 0x9D);
+            v1cb(Region0, 0x94); v1cb(CB_Country0, 0x95);
+            v1cb(Region1, 0x96); v1cb(CB_Country1, 0x97);
+            v1cb(Region2, 0x98); v1cb(CB_Country2, 0x99);
+            v1cb(Region3, 0x9A); v1cb(CB_Country3, 0x9B);
+            v1cb(Region4, 0x9C); v1cb(CB_Country4, 0x9D);
 
             // Write the Fullness, and Enjoyment
             v1s(M_Fullness, 0xAE); v1s(M_Enjoyment, 0xAF);
@@ -152,11 +152,11 @@ namespace PKHeX
         private void saveFields()
         {
             // Save Region & Country Data
-            s1v(Region0, 0x94); cb1v(CB_Country0, 0x95);
-            s1v(Region1, 0x96); cb1v(CB_Country1, 0x97);
-            s1v(Region2, 0x98); cb1v(CB_Country2, 0x99);
-            s1v(Region3, 0x9A); cb1v(CB_Country3, 0x9B);
-            s1v(Region4, 0x9C); cb1v(CB_Country4, 0x9D);
+            cb1v(Region0, 0x94); cb1v(CB_Country0, 0x95);
+            cb1v(Region1, 0x96); cb1v(CB_Country1, 0x97);
+            cb1v(Region2, 0x98); cb1v(CB_Country2, 0x99);
+            cb1v(Region3, 0x9A); cb1v(CB_Country3, 0x9B);
+            cb1v(Region4, 0x9C); cb1v(CB_Country4, 0x9D);
 
             // Save 0-255 stats
             s1v(M_CT_Friendship, 0xA2); s1v(M_CT_Affection, 0xA3);
@@ -275,138 +275,10 @@ namespace PKHeX
 
         private void getCountries()
         {
-            #region country table
-            var country_list = new[] {
-                            new { Text = "---", Value = 0 },
-                            new { Text = "Albania", Value = 64 },
-                            new { Text = "Andorra", Value = 122 },
-                            new { Text = "Anguilla", Value = 8 },
-                            new { Text = "Antigua and Barbuda", Value = 9 },
-                            new { Text = "Argentina", Value = 10 },
-                            new { Text = "Aruba", Value = 11 },
-                            new { Text = "Australia", Value = 65 },
-                            new { Text = "Austria", Value = 66 },
-                            new { Text = "Azerbaijan", Value = 113 },
-                            new { Text = "Bahamas", Value = 12 },
-                            new { Text = "Barbados", Value = 13 },
-                            new { Text = "Belgium", Value = 67 },
-                            new { Text = "Belize", Value = 14 },
-                            new { Text = "Bermuda", Value = 186 },
-                            new { Text = "Bolivia", Value = 15 },
-                            new { Text = "Bosnia and Herzegovina", Value = 68 },
-                            new { Text = "Botswana", Value = 69 },
-                            new { Text = "Brazil", Value = 16 },
-                            new { Text = "British Virgin Islands", Value = 17 },
-                            new { Text = "Bulgaria", Value = 70 },
-                            new { Text = "Canada", Value = 18 },
-                            new { Text = "Cayman Islands", Value = 19 },
-                            new { Text = "Chad", Value = 117 },
-                            new { Text = "Chile", Value = 20 },
-                            new { Text = "China", Value = 160 },
-                            new { Text = "Colombia", Value = 21 },
-                            new { Text = "Costa Rica", Value = 22 },
-                            new { Text = "Croatia", Value = 71 },
-                            new { Text = "Cyprus", Value = 72 },
-                            new { Text = "Czech Republic", Value = 73 },
-                            new { Text = "Denmark (Kingdom of)", Value = 74 },
-                            new { Text = "Djibouti", Value = 120 },
-                            new { Text = "Dominica", Value = 23 },
-                            new { Text = "Dominican Republic", Value = 24 },
-                            new { Text = "Ecuador", Value = 25 },
-                            new { Text = "El Salvador", Value = 26 },
-                            new { Text = "Eritrea", Value = 119 },
-                            new { Text = "Estonia", Value = 75 },
-                            new { Text = "Finland", Value = 76 },
-                            new { Text = "France", Value = 77 },
-                            new { Text = "French Guiana", Value = 27 },
-                            new { Text = "Germany", Value = 78 },
-                            new { Text = "Gibraltar", Value = 123 },
-                            new { Text = "Greece", Value = 79 },
-                            new { Text = "Grenada", Value = 28 },
-                            new { Text = "Guadeloupe", Value = 29 },
-                            new { Text = "Guatemala", Value = 30 },
-                            new { Text = "Guernsey", Value = 124 },
-                            new { Text = "Guyana", Value = 31 },
-                            new { Text = "Haiti", Value = 32 },
-                            new { Text = "Honduras", Value = 33 },
-                            new { Text = "Hong Kong", Value = 144 },
-                            new { Text = "Hungary", Value = 80 },
-                            new { Text = "Iceland", Value = 81 },
-                            new { Text = "India", Value = 169 },
-                            new { Text = "Ireland", Value = 82 },
-                            new { Text = "Isle of Man", Value = 125 },
-                            new { Text = "Italy", Value = 83 },
-                            new { Text = "Jamaica", Value = 34 },
-                            new { Text = "Japan", Value = 1 },
-                            new { Text = "Jersey", Value = 126 },
-                            new { Text = "Latvia", Value = 84 },
-                            new { Text = "Lesotho", Value = 85 },
-                            new { Text = "Liechtenstein", Value = 86 },
-                            new { Text = "Lithuania", Value = 87 },
-                            new { Text = "Luxembourg", Value = 88 },
-                            new { Text = "Macedonia (Republic of)", Value = 89 },
-                            new { Text = "Malaysia", Value = 156 },
-                            new { Text = "Mali", Value = 115 },
-                            new { Text = "Malta", Value = 90 },
-                            new { Text = "Martinique", Value = 35 },
-                            new { Text = "Mauritania", Value = 114 },
-                            new { Text = "Mexico", Value = 36 },
-                            new { Text = "Monaco", Value = 127 },
-                            new { Text = "Montenegro", Value = 91 },
-                            new { Text = "Montserrat", Value = 37 },
-                            new { Text = "Mozambique", Value = 92 },
-                            new { Text = "Namibia", Value = 93 },
-                            new { Text = "Netherlands", Value = 94 },
-                            new { Text = "Netherlands Antilles", Value = 38 },
-                            new { Text = "New Zealand", Value = 95 },
-                            new { Text = "Nicaragua", Value = 39 },
-                            new { Text = "Niger", Value = 116 },
-                            new { Text = "Norway", Value = 96 },
-                            new { Text = "Panama", Value = 40 },
-                            new { Text = "Paraguay", Value = 41 },
-                            new { Text = "Peru", Value = 42 },
-                            new { Text = "Poland", Value = 97 },
-                            new { Text = "Portugal", Value = 98 },
-                            new { Text = "Romania", Value = 99 },
-                            new { Text = "Russia", Value = 100 },
-                            new { Text = "San Marino", Value = 184 },
-                            new { Text = "Saudi Arabia", Value = 174 },
-                            new { Text = "Serbia and Kosovo", Value = 101 },
-                            new { Text = "Singapore", Value = 153 },
-                            new { Text = "Slovakia", Value = 102 },
-                            new { Text = "Slovenia", Value = 103 },
-                            new { Text = "Somalia", Value = 121 },
-                            new { Text = "South Africa", Value = 104 },
-                            new { Text = "South Korea", Value = 136 },
-                            new { Text = "Spain", Value = 105 },
-                            new { Text = "St. Kitts and Nevis", Value = 43 },
-                            new { Text = "St. Lucia", Value = 44 },
-                            new { Text = "St. Vincent and the Grenadines", Value = 45 },
-                            new { Text = "Sudan", Value = 118 },
-                            new { Text = "Suriname", Value = 46 },
-                            new { Text = "Swaziland", Value = 106 },
-                            new { Text = "Sweden", Value = 107 },
-                            new { Text = "Switzerland", Value = 108 },
-                            new { Text = "Taiwan", Value = 128 },
-                            new { Text = "Trinidad and Tobago", Value = 47 },
-                            new { Text = "Turkey", Value = 109 },
-                            new { Text = "Turks and Caicos Islands", Value = 48 },
-                            new { Text = "U.A.E.", Value = 168 },
-                            new { Text = "United Kingdom", Value = 110 },
-                            new { Text = "United States", Value = 49 },
-                            new { Text = "Uruguay", Value = 50 },
-                            new { Text = "US Virgin Islands", Value = 51 },
-                            new { Text = "Vatican City", Value = 185 },
-                            new { Text = "Venezuela", Value = 52 },
-                            new { Text = "Zambia", Value = 111 },
-                            new { Text = "Zimbabwe", Value = 112 },
-            };
-            #endregion
-
             ComboBox[] cba = new ComboBox[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
             for (int i = 0; i < cba.Length; i++)
             {
-                cba[i].DataSource = new BindingSource(country_list, null);
+                m_parent.setCountrySubRegion(cba[i], "countries");
                 cba[i].DisplayMember = "Text";
                 cba[i].ValueMember = "Value";
             }
@@ -728,20 +600,13 @@ namespace PKHeX
             {
                 CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4
             };
-            MaskedTextBox[] mta = new MaskedTextBox[]
+            ComboBox[] mta = new ComboBox[]
             {
                 Region0, Region1, Region2, Region3, Region4,
             };
-            for (int i = 0; i < cba.Length; i++)
-            {
-                if (cba[i].SelectedIndex == 0)
-                {
-                    mta[i].Text = "0";
-                    mta[i].Enabled = false;
-                }
-                else
-                    mta[i].Enabled = true;
-            }
+            int index = Array.IndexOf(cba, sender as ComboBox);
+            if (Util.getIndex(sender as ComboBox) > 0)
+                m_parent.setCountrySubRegion(mta[index], "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
         }
         private void changeHandler(object sender, EventArgs e)
         {
@@ -775,6 +640,30 @@ namespace PKHeX
                 if (val > 255) mtb.Text = "255";
             }
             catch { mtb.Text = "0"; }
+        }
+
+        private void clickResetLocation(object sender, EventArgs e)
+        {
+            Label[] senderarr = new Label[] 
+            {
+                L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4,
+            };
+            ComboBox[] cba = new ComboBox[]
+            {
+                CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4,
+            };
+            ComboBox[] mta = new ComboBox[]
+            {
+                Region0, Region1, Region2, Region3, Region4,
+            };
+            int index = Array.IndexOf(senderarr, sender as Label);
+            cba[index].SelectedValue = 0;
+            // doesn't work
+            // mta[index].SelectedValue = 0;
+
+            mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
+            mta[index].DisplayMember = "Text";
+            mta[index].ValueMember = "Value";
         }
     }
 }

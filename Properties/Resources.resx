@@ -5464,4 +5464,373 @@
   <data name="personal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\personal;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="countries" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\countries.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="sr_001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_001.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_008" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_008.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_009" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_009.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_010" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_010.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_011" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_011.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_012" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_012.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_013" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_013.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_014" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_014.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_015" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_015.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_016" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_016.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_017" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_017.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_018" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_018.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_019" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_019.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_020" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_020.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_021" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_021.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_022" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_022.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_023" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_023.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_024" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_024.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_025" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_025.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_026" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_026.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_027" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_027.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_028" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_028.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_029" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_029.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_030" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_030.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_031" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_031.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_032" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_032.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_033" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_033.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_034" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_034.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_035" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_035.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_036" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_036.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_037" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_037.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_038" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_038.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_039" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_039.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_040" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_040.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_041" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_041.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_042" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_042.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_043" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_043.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_044" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_044.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_045" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_045.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_046" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_046.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_047" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_047.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_048" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_048.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_049" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_049.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_050" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_050.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_051" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_051.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_052" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_052.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_064" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_064.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_065" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_065.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_066" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_066.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_067" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_067.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_068" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_068.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_069" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_069.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_070" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_070.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_071" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_071.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_072" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_072.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_073" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_073.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_074" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_074.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_075" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_075.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_076" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_076.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_077" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_077.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_078" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_078.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_079" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_079.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_080" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_080.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_081" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_081.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_082" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_082.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_083" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_083.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_084" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_084.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_085" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_085.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_086" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_086.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_087" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_087.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_088" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_088.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_089" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_089.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_090" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_090.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_091" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_091.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_092" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_092.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_093" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_093.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_094" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_094.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_095" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_095.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_096" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_096.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_097" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_097.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_098" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_098.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_099" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_099.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_100.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_101" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_101.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_102" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_102.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_103" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_103.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_104" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_104.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_105" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_105.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_106" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_106.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_107" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_107.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_108" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_108.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_109" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_109.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_110" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_110.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_111" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_111.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_112" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_112.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_113" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_113.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_114" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_114.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_115" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_115.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_116" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_116.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_117" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_117.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_118" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_118.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_119" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_119.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_120" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_120.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_121" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_121.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_122" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_122.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_123" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_123.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_124" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_124.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_125" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_125.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_126" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_126.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_127" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_127.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_128.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_136" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_136.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_144" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_144.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_153" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_153.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_156" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_156.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_160" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_160.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_168" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_168.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_169" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_169.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_174" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_174.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_184" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_184.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_185" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_185.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sr_186" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\sr_ID\sr_186.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

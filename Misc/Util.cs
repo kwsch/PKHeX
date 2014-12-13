@@ -179,7 +179,17 @@ namespace PKHeX
 
             return stringdata;
         }
+        internal static string[] getSimpleStringList(string f)
+        {
+            object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
+            List<string> rawlist = ((string)txt).Split(new char[] { '\n' }).ToList();
 
+            string[] stringdata = new string[rawlist.Count];
+            for (int i = 0; i < rawlist.Count; i++)
+                stringdata[i] = rawlist[i].Trim();
+
+            return stringdata;
+        }
         // Randomization
         internal static Random rand = new Random();
         internal static uint rnd32()

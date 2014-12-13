@@ -688,12 +688,13 @@
             // 
             this.CB_Country.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Country.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Country.DropDownWidth = 170;
             this.CB_Country.FormattingEnabled = true;
             this.CB_Country.Location = new System.Drawing.Point(105, 236);
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(122, 21);
             this.CB_Country.TabIndex = 21;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.updateCountry);
             this.CB_Country.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
             // 

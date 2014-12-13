@@ -236,94 +236,7 @@ namespace PKHeX
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
 
-            var subreg_list = new[] {
-                    new { Text = "sr_0", Value = 0 },
-                    new { Text = "sr_1", Value = 1 },
-                    new { Text = "sr_2", Value = 2 },
-                    new { Text = "sr_3", Value = 3 },
-                    new { Text = "sr_4", Value = 4 },
-                    new { Text = "sr_5", Value = 5 },
-                    new { Text = "sr_6", Value = 6 },
-                    new { Text = "sr_7", Value = 7 },
-                    new { Text = "sr_8", Value = 8 },
-                    new { Text = "sr_9", Value = 9 },
-                    new { Text = "sr_10", Value = 10 },
-                    new { Text = "sr_11", Value = 11 },
-                    new { Text = "sr_12", Value = 12 },
-                    new { Text = "sr_13", Value = 13 },
-                    new { Text = "sr_14", Value = 14 },
-                    new { Text = "sr_15", Value = 15 },
-                    new { Text = "sr_16", Value = 16 },
-                    new { Text = "sr_17", Value = 17 },
-                    new { Text = "sr_18", Value = 18 },
-                    new { Text = "sr_19", Value = 19 },
-                    new { Text = "sr_20", Value = 20 },
-                    new { Text = "sr_21", Value = 21 },
-                    new { Text = "sr_22", Value = 22 },
-                    new { Text = "sr_23", Value = 23 },
-                    new { Text = "sr_24", Value = 24 },
-                    new { Text = "sr_25", Value = 25 },
-                    new { Text = "sr_26", Value = 26 },
-                    new { Text = "sr_27", Value = 27 },
-                    new { Text = "sr_28", Value = 28 },
-                    new { Text = "sr_29", Value = 29 },
-                    new { Text = "sr_30", Value = 30 },
-                    new { Text = "sr_31", Value = 31 },
-                    new { Text = "sr_32", Value = 32 },
-                    new { Text = "sr_33", Value = 33 },
-                    new { Text = "sr_34", Value = 34 },
-                    new { Text = "sr_35", Value = 35 },
-                    new { Text = "sr_36", Value = 36 },
-                    new { Text = "sr_37", Value = 37 },
-                    new { Text = "sr_38", Value = 38 },
-                    new { Text = "sr_39", Value = 39 },
-                    new { Text = "sr_40", Value = 40 },
-                    new { Text = "sr_41", Value = 41 },
-                    new { Text = "sr_42", Value = 42 },
-                    new { Text = "sr_43", Value = 43 },
-                    new { Text = "sr_44", Value = 44 },
-                    new { Text = "sr_45", Value = 45 },
-                    new { Text = "sr_46", Value = 46 },
-                    new { Text = "sr_47", Value = 47 },
-                    new { Text = "sr_48", Value = 48 },
-                    new { Text = "sr_49", Value = 49 },
-                    new { Text = "sr_50", Value = 50 },
-                    new { Text = "sr_51", Value = 51 },
-                    new { Text = "sr_52", Value = 52 },
-                    new { Text = "sr_53", Value = 53 },
-                    new { Text = "sr_54", Value = 54 },
-                    new { Text = "sr_55", Value = 55 },
-                    new { Text = "sr_56", Value = 56 },
-                    new { Text = "sr_57", Value = 57 },
-                    new { Text = "sr_58", Value = 58 },
-                    new { Text = "sr_59", Value = 59 },
-                    new { Text = "sr_60", Value = 60 },
-                    new { Text = "sr_61", Value = 61 },
-                    new { Text = "sr_62", Value = 62 },
-                    new { Text = "sr_63", Value = 63 },
-                    new { Text = "sr_64", Value = 64 },
-                    new { Text = "sr_65", Value = 65 },
-                    new { Text = "sr_66", Value = 66 },
-                    new { Text = "sr_67", Value = 67 },
-                    new { Text = "sr_68", Value = 68 },
-                    new { Text = "sr_69", Value = 69 },
-                    new { Text = "sr_70", Value = 70 },
-                    new { Text = "sr_71", Value = 71 },
-                    new { Text = "sr_72", Value = 72 },
-                    new { Text = "sr_73", Value = 73 },
-                    new { Text = "sr_74", Value = 74 },
-                    new { Text = "sr_75", Value = 75 },
-                    new { Text = "sr_76", Value = 76 },
-                    new { Text = "sr_77", Value = 77 },
-                    new { Text = "sr_78", Value = 78 },
-                    new { Text = "sr_79", Value = 79 },
-                    new { Text = "sr_80", Value = 80 },
-               };
-            CB_Region.DataSource = subreg_list;
-            CB_Region.DisplayMember = "Text";
-            CB_Region.ValueMember = "Value";
-
-            m_parent.setCountry(CB_Country);
+            m_parent.setCountrySubRegion(CB_Country, "countries");
 
             var oras_sprite_list = new[] {
               //new { Text = "Calem",                       Value = 00 },
@@ -761,6 +674,11 @@ namespace PKHeX
             Array.Copy(data,0,sav,savshift + 0x6E00,0x6C);
         }
 
+        private void updateCountry(object sender, EventArgs e)
+        {
+            if (Util.getIndex(sender as ComboBox) > 0)
+                m_parent.setCountrySubRegion(CB_Region, "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
+        }
         private void toggleBadge(object sender, EventArgs e)
         {
             int val = Convert.ToInt16(((PictureBox)sender).Name.Last().ToString())-1;

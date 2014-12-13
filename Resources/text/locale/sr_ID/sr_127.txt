@@ -1,0 +1,3 @@
+Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+000,—,—,—,—,—,—,—,—
+001,モナコ,Monaco,Monaco,Monaco,Monaco (Principato di),Mónaco,摩纳哥,모나코,

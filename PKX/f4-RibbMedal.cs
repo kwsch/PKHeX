@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
-
     public partial class RibbMedal : Form
     {
         Form1 m_parent;

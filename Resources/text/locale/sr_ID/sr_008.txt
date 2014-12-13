@@ -1,0 +1,3 @@
+Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+000,—,—,—,—,—,—,—,—
+001,アンギラ,Anguilla,Anguilla,Anguilla,Anguilla,Anguila,安圭拉,앵귈라,

@@ -1,0 +1,3 @@
+Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+000,—,—,—,—,—,—,—,—
+001,ジンバブエ,Zimbabwe,Zimbabwe,Simbabwe,Zimbabwe,Zimbabue,津巴布韦,짐바브웨,

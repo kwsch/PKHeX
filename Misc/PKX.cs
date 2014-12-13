@@ -815,7 +815,46 @@ namespace PKHeX
             return new Font(fonts.Families[0], fontsize);
         }
 
-        // Table Related
+        // DataSource Providing
+        internal static List<cbItem> getCBList(string textfile, string lang)
+        {
+            // Set up
+            List<cbItem> cbList = new List<cbItem>();
+            string[] inputCSV = Util.getSimpleStringList(textfile);
+
+            // Get Language we're fetching for
+            int index = Array.IndexOf(new string[] { "ja", "en", "de", "fr", "it", "es", "ko", "zh", }, lang);
+
+            // Set up our Temporary Storage
+            string[] unsortedList = new string[inputCSV.Length - 1];
+            int[] indexes = new int[inputCSV.Length - 1];
+
+            // Gather our data from the input file
+            for (int i = 1; i < inputCSV.Length; i++)
+            {
+                string[] countryData = inputCSV[i].Split(',');
+                if (countryData.Length > 1)
+                {
+                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                    unsortedList[i - 1] = countryData[index + 1];
+                }
+            }
+
+            // Sort our input data
+            string[] sortedList = new string[inputCSV.Length - 1];
+            Array.Copy(unsortedList, sortedList, unsortedList.Length);
+            Array.Sort(sortedList);
+
+            // Arrange the input data based on original number
+            for (int i = 0; i < sortedList.Length; i++)
+            {
+                cbItem ncbi = new cbItem();
+                ncbi.Text = sortedList[i];
+                ncbi.Value = indexes[Array.IndexOf(unsortedList, sortedList[i])];
+                cbList.Add(ncbi);
+            }
+            return cbList;
+        }
 
         // Personal.dat
         internal static PersonalParser PersonalGetter = new PersonalParser();
@@ -860,6 +899,17 @@ namespace PKHeX
                     data = GetPersonal(721 + formID + data.FormPointer);
                 }
                 return data;
+            }
+        }
+
+        public class cbItem
+        {
+            public string Text { get; set; }
+            public object Value { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
             }
         }
     }

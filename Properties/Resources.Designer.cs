@@ -10370,6 +10370,23 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Country ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///1,日本,Japan,Japon,Japan,Giappone,Japón,日本,일본
+        ///8,アンギラ,Anguilla,Anguilla,Anguilla,Anguilla,Anguila,安圭拉,앵귈라
+        ///9,アンティグア・バーブーダ,Antigua and Barbuda,Antigua-et-Barbuda,Antigua und Barbuda,Antigua e Barbuda,Antigua y Barbuda,安提瓜和巴布达,앤티가 바부다
+        ///10,アルゼンチン,Argentina,Argentine,Argentinien,Argentina,Argentina,阿根廷,아르헨티나
+        ///11,アルバ,Aruba,Aruba,Aruba,Aruba,Aruba,阿鲁巴,아루바
+        ///12,バハマ,Bahamas,Bahamas,Bahamas,Bahamas,Bahamas,巴哈马,바하마
+        ///13,バルバドス,Barbados,Barbade,Barbados,Barbados,Barbados,巴巴多斯,바베이도스
+        ///14,ベリーズ,Beli [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string countries {
+            get {
+                return ResourceManager.GetString("countries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap country {
@@ -15115,6 +15132,1762 @@ namespace PKHeX.Properties {
             get {
                 object obj = ResourceManager.GetObject("special", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,東京都,Tokyo,Tokyo,Tokio,Tokyo,Tokio,东京都,도쿄 도,
+        ///003,北海道,Hokkaido,Hokkaido,Hokkaido,Hokkaido,Hokaido,北海道,홋카이도,
+        ///004,青森県,Aomori,Aomori,Aomori,Aomori,Aomori,青森县,아오모리 현,
+        ///005,岩手県,Iwate,Iwate,Iwate,Iwate,Iwate,岩手县,이와테 현,
+        ///006,宮城県,Miyagi,Miyagi,Miyagi,Miyagi,Miyagi,宫城县,미야기 현,
+        ///007,秋田県,Akita,Akita,Akita,Akita,Akita,秋田县,아키타 현,
+        ///008,山形県,Yamagata,Yamagata,Yamagata,Yamagata,Yamagata,山形县,야마가타 현,
+        ///009,福島県,Fukushima,Fukushima,Fukushima,Fukushima,Fukushima,福岛县,후쿠 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_001 {
+            get {
+                return ResourceManager.GetString("sr_001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,アンギラ,Anguilla,Anguilla,Anguilla,Anguilla,Anguila,安圭拉,앵귈라,
+        ///.
+        /// </summary>
+        internal static string sr_008 {
+            get {
+                return ResourceManager.GetString("sr_008", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,セント・ジョン,Saint John,Saint-Jean,Saint John&apos;s,Saint John,Saint John,圣约翰区,세인트존,
+        ///003,バーブーダ島,Barbuda,Barbuda,Barbuda,Barbuda,Barbuda,巴布达岛,바부다,
+        ///004,セント・ジョージ,Saint George,Saint-Georges,Saint George,Saint George,Saint George,圣乔治区,세인트조지,
+        ///005,セント・メアリー,Saint Mary,Sainte-Marie,Saint Mary,Saint Mary,Saint Mary,圣玛丽区,세인트메리,
+        ///006,セント・ポール,Saint Paul,Saint-Paul,Saint Paul,Saint Paul,Saint Paul,圣保罗区,세인트폴,
+        ///007,セント・ピーター,Saint Peter,Saint-Pierre,Saint Peter,Saint  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_009 {
+            get {
+                return ResourceManager.GetString("sr_009", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,特別区,Distrito Federal,District Fédéral,Autonome Stadt Buenos Aires,Capitale Federale,Ciudad de Buenos Aires,联邦首都区,아르헨티나 연방구,
+        ///003,ブエノスアイレス州,Buenos Aires,Buenos Aires,Buenos Aires,Buenos Aires,Provincia de Buenos Aires,布宜诺斯艾利斯省,부에노스아이레스 주,
+        ///004,カタマルカ州,Catamarca,Catamarca,Catamarca,Catamarca,Catamarca,卡塔马卡省,카타마르카 주,
+        ///005,チャコ州,Chaco,Chaco,Chaco,Chaco,Chaco,查科省,차코 주,
+        ///006,チュブト州,Chubut,Chubut,Chubut,Chubut,Chubut,丘布特省,추부트 주,
+        ///007,コルドバ州,Córdoba,Córdoba [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_010 {
+            get {
+                return ResourceManager.GetString("sr_010", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,アルバ,Aruba,Aruba,Aruba,Aruba,Aruba,阿鲁巴,아루바,
+        ///.
+        /// </summary>
+        internal static string sr_011 {
+            get {
+                return ResourceManager.GetString("sr_011", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,バハマ,Bahamas,Bahamas,Bahamas,Bahamas,Bahamas,巴哈马,바하마,
+        ///.
+        /// </summary>
+        internal static string sr_012 {
+            get {
+                return ResourceManager.GetString("sr_012", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,バルバドス,Barbados,Barbade,Barbados,Barbados,Barbados,巴巴多斯,바베이도스,
+        ///.
+        /// </summary>
+        internal static string sr_013 {
+            get {
+                return ResourceManager.GetString("sr_013", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,カヨー州,Cayo,Cayo,Cayo,Cayo,Cayo,卡约区,카요 주,
+        ///003,ベリーズ州,Belize,Belize,Belize,Belize,Belice,伯利兹城,벨리즈 주,
+        ///004,コロサル州,Corozal,Corozal,Corozal,Corozal,Corozal,科罗萨尔区,코로살 주,
+        ///005,オレンジウォーク州,Orange Walk,Orange Walk,Orange Walk,Orange Walk,Orange Walk,橘园区,오렌지워크 주,
+        ///006,スタンクリーク州,Stann Creek,Stann Creek,Stann Creek,Stann Creek,Stann Creek,斯坦港区,스탠크리크 주,
+        ///007,トレド州,Toledo,Toledo,Toledo,Toledo,Toledo,托莱多区,톨레도 주,
+        ///.
+        /// </summary>
+        internal static string sr_014 {
+            get {
+                return ResourceManager.GetString("sr_014", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ラパス県,La Paz,La Paz,La Paz,La Paz,La Paz,拉巴斯省,라파스 주,
+        ///003,チュキサカ県,Chuquisaca,Chuquisaca,Chuquisaca,Chuquisaca,Chuquisaca,丘基萨卡省,추키사카 주,
+        ///004,コチャバンバ県,Cochabamba,Cochabamba,Cochabamba,Cochabamba,Cochabamba,科恰班巴省,코차밤바 주,
+        ///005,ベニ県,El Beni,Beni,Beni,Beni,El Beni,贝尼省,엘베니 주,
+        ///006,オルロ県,Oruro,Oruro,Oruro,Oruro,Oruro,奥鲁罗省,오루로 주,
+        ///007,パンド県,Pando,Pando,Pando,Pando,Pando,潘多省,판도 주,
+        ///008,ポトシ県,Potosí,Potosí,Potosí,Potosí,Potosí,波托西省,포토시 주,
+        ///009,サンタ・クルス県,Santa Cruz [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_015 {
+            get {
+                return ResourceManager.GetString("sr_015", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ディストリト・フェデラル州,Distrito Federal,District Fédéral,Distrito Federal,Distretto Federale,Distrito Federal,联邦区,브라질 연방구,
+        ///003,アクレ州,Acre,Acre,Acre,Acre,Acre,阿克里州,아크리 주,
+        ///004,アラゴアス州,Alagoas,Alagoas,Alagoas,Alagoas,Alagoas,阿拉戈斯州,알라고아스 주,
+        ///005,アマパー州,Amapá,Amapá,Amapá,Amapá,Amapá,阿马帕州,아마파 주,
+        ///006,アマゾナス州,Amazonas,Amazonas,Amazonas,Amazonas,Amazonas,亚马孙州,아마조나스 주,
+        ///007,バイア州,Bahia,Bahia,Bahia,Bahia,Bahía,巴伊亚州,바이아 주,
+        ///008,セアラ州,Ceará,Ceará,Ceará,Ceará,Ceará,塞阿拉州, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_016 {
+            get {
+                return ResourceManager.GetString("sr_016", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,英領ヴァージン諸島,British Virgin Islands,Îles Vierges britanniques,Britische Jungferninseln,Isole Vergini Britanniche,Islas Vírgenes Británicas,英属维尔京群岛,영국령 버진아일랜드,
+        ///.
+        /// </summary>
+        internal static string sr_017 {
+            get {
+                return ResourceManager.GetString("sr_017", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,オンタリオ州,Ontario,Ontario,Ontario,Ontario,Ontario,安大略省,온타리오 주,
+        ///003,アルバータ州,Alberta,Alberta,Alberta,Alberta,Alberta,艾伯塔省,앨버타 주,
+        ///004,ブリティッシュ・コロンビア州,British Columbia,Colombie-Britannique,Britisch-Kolumbien,Columbia Britannica,Columbia Británica,不列颠哥伦比亚省,브리티시컬럼비아 주,
+        ///005,マニトバ州,Manitoba,Manitoba,Manitoba,Manitoba,Manitoba,马尼托巴省,매니토바 주,
+        ///006,ニュー・ブランズウィック州,New Brunswick,Nouveau-Brunswick,Neubraunschweig,Nuovo Brunswick,Nuevo Brunswick,新不伦瑞克省,뉴브런즈윅 주,
+        ///00 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_018 {
+            get {
+                return ResourceManager.GetString("sr_018", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ケイマン諸島,Cayman Islands,Îles Caïmans,Kaimaninseln,Isole Cayman,Islas Caimán,开曼群岛,케이맨 제도,
+        ///.
+        /// </summary>
+        internal static string sr_019 {
+            get {
+                return ResourceManager.GetString("sr_019", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,レジョン・メトロポリタナ州,Región Metropolitana,Région Métropolitaine de Santiago,Región Metropolitana,Regione Metropolitana di Santiago,Región Metropolitana,圣地亚哥首都区,산티아고 수도주,
+        ///003,バルパライソ州,Valparaíso,Valparaiso,Valparaíso (Region V),Valparaíso,Valparaíso,瓦尔帕莱索大区,발파라이소 주,
+        ///004,アイセン・デル・Ｇ・カルロス・イバニェス・デル・カンポ州,Aisén del General Carlos Ibáñez del Campo,Aisén del General Carlos Ibáñez del Campo,Aisén (Region XI),Aisén del General Carlos Ibáñez del Campo,Aisén del Ge [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_020 {
+            get {
+                return ResourceManager.GetString("sr_020", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ディストリト・キャピタル,Distrito Capital,District Capital de Santa Fe de Bogotá,Bogotá D.C.,Distretto Capitale,Distrito Capital,波哥大首都区,콜롬비아 수도주,
+        ///003,クンディナマルカ県,Cundinamarca,Cundinamarca,Cundinamarca,Cundinamarca,Cundinamarca,昆迪纳马卡省,쿤디나마르카 주,
+        ///004,アマソナス県,Amazonas,Amazone,Amazonas,Amazonas,Amazonas,亚马孙省,아마소나스 주,
+        ///005,アンティオキア県,Antioquia,Antioquia,Antioquia,Antioquia,Antioquia,安提奥基亚省,안티오키아 주,
+        ///006,アラウカ県,Arauca,Arauca,Arauca,Arauca,Arauca,阿劳卡省,아라우카 주,
+        ///007,アトラン [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_021 {
+            get {
+                return ResourceManager.GetString("sr_021", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,サン・ホセ州,San José,San José,San José,San José,San José,圣何塞省,산호세 주,
+        ///003,アラフエラ州,Alajuela,Alajuela,Alajuela,Alajuela,Alajuela,阿拉胡埃拉省,알라후엘라 주,
+        ///004,カルタゴ州,Cartago,Cartago,Cartago,Cartago,Cartago,卡塔戈省,카르타고 주,
+        ///005,グアナカステ州,Guanacaste,Guanacaste,Guanacaste,Guanacaste,Guanacaste,瓜纳卡斯特省,과나카스테 주,
+        ///006,エレディア州,Heredia,Heredia,Heredia,Heredia,Heredia,埃雷迪亚省,에레디아 주,
+        ///007,リモン州,Limón,Limón,Limón,Limón,Limón,利蒙省,리몬 주,
+        ///008,プンタレナス州,Puntarenas,Puntarenas,Puntarenas,Pu [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_022 {
+            get {
+                return ResourceManager.GetString("sr_022", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ドミニカ国,Dominica,Dominique,Dominica,Dominica,Dominica,多米尼克,도미니카 연방,
+        ///.
+        /// </summary>
+        internal static string sr_023 {
+            get {
+                return ResourceManager.GetString("sr_023", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ディストリト・ナショナル首都圏,Distrito Nacional,District National,Distrito Nacional,Distretto Nazionale,Distrito Nacional,国家区,도미니카 행정구,
+        ///003,アスア,Azua,Azua,Azua,Azua,Azua,阿苏阿省,아수아,
+        ///004,バオルコ,Baoruco,Baoruco,Baoruco,Baoruco,Baoruco,巴奥鲁科省,바오루코,
+        ///005,バラオナ,Barahona,Barahona,Barahona,Barahona,Barahona,巴拉奥纳省,바라오나,
+        ///006,ダハボン,Dajabón,Dajabón,Dajabón,Dajabón,Dajabón,达哈朋省,다하본,
+        ///007,ドゥアルテ,Duarte,Duarte,Duarte,Duarte,Duarte,杜华德省,두아르테,
+        ///008,エスパイジャト,Espaillat,Espaillat,Espa [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_024 {
+            get {
+                return ResourceManager.GetString("sr_024", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ピチンチャ,Pichincha,Pichincha,Pichincha,Pichincha,Pichincha,皮钦查省,피친차,
+        ///003,ガラパゴス,Galápagos,Galápagos,Galapagosinseln,Galápagos,Galápagos,加拉帕戈斯省,갈라파고스,
+        ///004,アスアイ,Azuay,Azuay,Azuay,Azuay,Azuay,阿苏艾省,아수아이,
+        ///005,ボリーバル,Bolívar,Bolívar,Bolívar,Bolívar,Bolívar,玻利瓦尔省,볼리바르,
+        ///006,カニャル,Cañar,Cañar,Cañar,Cañar,Cañar,卡尼亚尔省,카냐르,
+        ///007,カルチ,Carchi,Carchi,Carchi,Carchi,Carchi,卡尔奇省,카르치,
+        ///008,チンボラソ,Chimborazo,Chimborazo,Chimborazo,Chimborazo,Chimborazo,钦博拉索省,침보라소,
+        ///009, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_025 {
+            get {
+                return ResourceManager.GetString("sr_025", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,サン・サルバドル県,San Salvador,San Salvador,San Salvador,San Salvador,San Salvador,圣萨尔瓦多省,산살바도르 주,
+        ///003,アワチャパン県,Ahuachapán,Ahuachapán,Ahuachapán,Ahuachapán,Ahuachapán,阿瓦查潘省,아우아차판 주,
+        ///004,カバニャス県,Cabañas,Cabañas,Cabañas,Cabañas,Cabañas,卡瓦尼亚斯省,카바냐스 주,
+        ///005,チャラテナンゴ県,Chalatenango,Chalatenango,Chalatenango,Chalatenango,Chalatenango,查拉特南戈省,찰라테낭고 주,
+        ///006,クスカトラン県,Cuscatlán,Cuscatlán,Cuscatlán,Cuscatlán,Cuscatlán,库斯卡特兰省,쿠스카틀란 주,
+        ///007,ラ・リベルター県,La Libertad,La Liber [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_026 {
+            get {
+                return ResourceManager.GetString("sr_026", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,フランス領ギアナ,French Guiana,Guyane,Französisch-Guyana,Guyana Francese,Guayana Francesa,法属圭亚那,프랑스령 기아나,
+        ///.
+        /// </summary>
+        internal static string sr_027 {
+            get {
+                return ResourceManager.GetString("sr_027", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,グレナダ,Grenada,Grenade,Grenada,Grenada,Granada,格林纳达,그레나다,
+        ///.
+        /// </summary>
+        internal static string sr_028 {
+            get {
+                return ResourceManager.GetString("sr_028", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,グアドループ,Guadeloupe,Guadeloupe,Guadeloupe,Guadalupa,Guadalupe,瓜德罗普,과들루프,
+        ///.
+        /// </summary>
+        internal static string sr_029 {
+            get {
+                return ResourceManager.GetString("sr_029", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,グアテマラ県,Guatemala,Guatemala,Guatemala,Guatemala,Guatemala,危地马拉省,과테말라 주,
+        ///003,アルタ・べラパス県,Alta Verapaz,Alta Verapaz,Alta Verapaz,Alta Verapaz,Alta Verapaz,上韦拉帕斯省,알타베라파스 주,
+        ///004,バハ・べラパス県,Baja Verapaz,Baja Verapaz,Baja Verapaz,Baja Verapaz,Baja Verapaz,下韦拉帕斯省,바하베라파스 주,
+        ///005,チマルテナンゴ県,Chimaltenango,Chimaltenango,Chimaltenango,Chimaltenango,Chimaltenango,奇马尔特南戈省,치말테낭고 주,
+        ///006,チキムラ県,Chiquimula,Chiquimula,Chiquimula,Chiquimula,Chiquimula,奇基穆拉省,치키물라 주,
+        ///007 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_030 {
+            get {
+                return ResourceManager.GetString("sr_030", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,デメララ・マハイカ州,Demerara-Mahaica,Demerara-Mahaica,Demerara-Mahaica,Demerara-Mahaica,Demerara-Mahaica,德梅拉拉-马海卡区,데메라라-마하이카 주,
+        ///003,バリマ・ワイニ州,Barima-Waini,Barima-Waini,Barima-Waini,Barima-Waini,Barima-Waini,巴里马-瓦伊尼区,바리마-와이니 주,
+        ///004,クユニ・マザルニ州,Cuyuni-Mazaruni,Cuyuni-Mazaruni,Cuyuni-Mazaruni,Cuyuni-Mazaruni,Cuyuni-Mazaruni,库尤尼-马扎鲁尼区,쿠유니-마자루니 주,
+        ///005,東ベルビセ・コレンティネ州,East Berbice-Corentyne,Berbice Oriental-Courantyne,East Berbice-Corentyne,Berbice Orientale-Cor [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_031 {
+            get {
+                return ResourceManager.GetString("sr_031", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,西県,Ouest,Ouest,Ouest,Ovest,Oeste,西部省,서부,
+        ///003,北西県,Nord-Ouest,Nord-Ouest,Nord-Ouest,Nord-Ovest,Noroeste,西北省,북서부,
+        ///004,アルティボニット県,Artibonite,Artibonite,Artibonite,Artibonite,Artibonito,阿蒂博尼特省,아르티보니트,
+        ///005,中央県,Centre,Centre,Centre,Centro,Centro,中部省,중앙부,
+        ///006,湾岸県,Grand&apos;Anse,Grande-Anse,Grand&apos;Anse,Grande Anse,Grand&apos;Anse,大湾省,그랑당스,
+        ///007,北県,Nord,Nord,Nord,Nord,Norte,北部省,북부,
+        ///008,北東県,Nord-Est,Nord-Est,Nord-Est,Nord-Est,Noreste,东北省,북동부,
+        ///009,南県,Sud,Sud,Sud [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_032 {
+            get {
+                return ResourceManager.GetString("sr_032", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,フランシスコ・モラサン,Francisco Morazán,Francisco Morazán,Francisco Morazán,Francisco Morazán,Francisco Morazán,弗朗西斯科-莫拉桑省,프란시스코모라산,
+        ///003,アトランティダ,Atlántida,Atlántida,Atlántida,Atlántida,Atlántida,阿特兰蒂达省,아틀란티다,
+        ///004,チョルテカ,Choluteca,Choluteca,Choluteca,Choluteca,Choluteca,乔卢特卡省,촐루테카,
+        ///005,コロン,Colón,Colón,Colón,Colón,Colón,科隆省,콜론,
+        ///006,コマヤグア,Comayagua,Comayagua,Comayagua,Comayagua,Comayagua,科马亚瓜省,코마야과,
+        ///007,コパン,Copán,Copán,Copán,Copán,Copán,科潘省,코판,
+        ///008,コルテス [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_033 {
+            get {
+                return ResourceManager.GetString("sr_033", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,セント・トーマス,Saint Thomas,Saint-Thomas,Saint Thomas,Saint Thomas,Saint Thomas,圣托马斯区,세인트토머스,
+        ///003,クラレンドン,Clarendon,Clarendon,Clarendon,Clarendon,Clarendon,克拉伦登区,클래런던,
+        ///004,ハノーバー,Hanover,Hanover,Hanover,Hanover,Hanover,汉诺威区,해노버,
+        ///005,マンチェスター,Manchester,Manchester,Manchester,Manchester,Manchester,曼彻斯特区,맨체스터,
+        ///006,ポートランド,Portland,Portland,Portland,Portland,Portland,波特兰区,포틀랜드,
+        ///007,セント・アンドリュー,Saint Andrew,Saint Andrew,Saint Andrew,Saint Andrew,Saint Andr [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_034 {
+            get {
+                return ResourceManager.GetString("sr_034", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,マルティニーク,Martinique,Martinique,Martinique,Martinica,Martinica,马提尼克,마르티니크,
+        ///.
+        /// </summary>
+        internal static string sr_035 {
+            get {
+                return ResourceManager.GetString("sr_035", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ディストリト・フェデラル連邦区,Distrito Federal,District Fédéral,México D.F.,Distretto Federale,Distrito Federal,联邦区,멕시코 연방구,
+        ///003,アグアスカリエンテス州,Aguascalientes,Aguascalientes,Aguascalientes,Aguascalientes,Aguascalientes,阿瓜斯卡连特斯州,아과스칼리엔테스 주,
+        ///004,バハ・カリフォルニア州,Baja California,Basse-Californie,Niederkalifornien,Bassa California,Baja California,下加里福尼亚州,바하칼리포르니아 주,
+        ///005,バハ・カリフォルニア・スル州,Baja California Sur,Basse-Californie du Sud,Süd-Niederkalifornien,Bassa California d [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_036 {
+            get {
+                return ResourceManager.GetString("sr_036", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,モントセラト,Montserrat,Montserrat,Montserrat,Montserrat,Montserrat,蒙特塞拉特,몬트세랫,
+        ///.
+        /// </summary>
+        internal static string sr_037 {
+            get {
+                return ResourceManager.GetString("sr_037", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,オランダ領アンティル,Netherlands Antilles,Antilles néerlandaises,Niederländische Antillen,Antille Olandesi,Antillas Neerlandesas,荷属安的列斯,네덜란드령 앤틸리스,
+        ///.
+        /// </summary>
+        internal static string sr_038 {
+            get {
+                return ResourceManager.GetString("sr_038", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,マナグア,Managua,Managua,Managua,Managua,Managua,马那瓜省,마나과,
+        ///003,ボアコ,Boaco,Boaco,Boaco,Boaco,Boaco,博阿科省,보아코,
+        ///004,カラソ,Carazo,Carazo,Carazo,Carazo,Carazo,卡拉索省,카라소,
+        ///005,チナンデガ,Chinandega,Chinandega,Chinandega,Chinandega,Chinandega,奇南德加省,치난데가,
+        ///006,チョンタレス,Chontales,Chontales,Chontales,Chontales,Chontales,琼塔莱斯省,촌탈레스,
+        ///007,エステリ,Estelí,Estelí,Estelí,Estelí,Estelí,埃斯特利省,에스텔리,
+        ///008,グラナダ,Granada,Granada,Granada,Granada,Granada,格拉纳达省,그라나다,
+        ///009,ヒノテガ,Jinotega,J [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_039 {
+            get {
+                return ResourceManager.GetString("sr_039", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,パナマ,Panamá,Panama,Panama,Panamá,Panamá,巴拿马省,파나마,
+        ///003,ボカズ・デル・トーロ,Bocas del Toro,Bocas del Toro,Bocas del Toro,Bocas del Toro,Bocas del Toro,博卡斯-德尔托罗省,보카스델토로,
+        ///004,チリキ,Chiriquí,Chiriquí,Chiriquí,Chiriquí,Chiriquí,奇里基省,치리키,
+        ///005,コクレ,Coclé,Coclé,Coclé,Coclé,Coclé,科克莱省,코클레,
+        ///006,コロン,Colón,Colón,Colón,Colón,Colón,科隆省,콜론,
+        ///007,ダリエン,Darién,Darién,Darién,Darién,Darién,达连省,다리엔,
+        ///008,エレーラ,Herrera,Herrera,Herrera,Herrera,Herrera,埃雷拉省,에레라,
+        ///009,ロス・サントス,Los  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_040 {
+            get {
+                return ResourceManager.GetString("sr_040", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,セントラル県,Central,Central,Central,Central,Central,中央省,센트랄 주,
+        ///003,アルト・パラナ県,Alto Paraná,Alto Paraná,Alto Paraná,Alto Paraná,Alto Paraná,上巴拉那省,알토파라나 주,
+        ///004,アマンバイ県,Amambay,Amambay,Amambay,Amambay,Amambay,阿曼拜省,아맘바이 주,
+        ///005,カアグアスー県,Caaguazú,Caaguazú,Caaguazú,Caaguazú,Caaguazú,卡瓜苏省,카아과수 주,
+        ///006,カアサパ県,Caazapá,Caazapá,Caazapá,Caazapá,Caazapá,卡萨帕省,카아사파 주,
+        ///007,コンセプシオン県,Concepción,Concepción,Concepción,Concepción,Concepción,康塞普西翁省,콘셉시온 주,
+        ///008,コルディリェラ県,Cord [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_041 {
+            get {
+                return ResourceManager.GetString("sr_041", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,リマ,Lima,Province de Lima,Lima Metropolitana,Lima,Lima,利马省,리마,
+        ///003,アマソナス,Amazonas,Amazone,Amazonas,Amazonas,Amazonas,亚马孙省,아마소나스,
+        ///004,アンカッシュ,Ancash,Ancash,Ancash,Ancash,Ancash,安卡什省,앙카시,
+        ///005,アプリマック,Apurímac,Apurímac,Apurímac,Apurímac,Apurímac,阿普里马克省,아푸리막,
+        ///006,アレキパ,Arequipa,Arequipa,Arequipa,Arequipa,Arequipa,阿雷基帕省,아레키파,
+        ///007,アヤクーチョ,Ayacucho,Ayacucho,Ayacucho,Ayacucho,Ayacucho,阿亚库乔省,아야쿠초,
+        ///008,カハマルカ,Cajamarca,Cajamarca,Cajamarca,Cajamarca,Cajama [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_042 {
+            get {
+                return ResourceManager.GetString("sr_042", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,セント・ジョージ・バセテール,Saint George Basseterre,Saint George Basseterre,Saint George Basseterre,Saint George Basseterre,Saint George Basseterre,圣乔治巴斯特尔区,세인트조지바스테르,
+        ///003,クライスト・チャーチ・ニコラタウン,Christ Church Nichola Town,Christ Church Nichola Town,Christ Church Nichola Town,Christ Church Nichola Town,Christ Church Nichola Town,克赖斯特彻奇尼古拉镇区,크라이스트처치니콜라타운,
+        ///004,セント・アン・サンディ・ポイント,Saint Anne Sandy Point,Saint Anne Sandy Point,Saint Anne Sandy Point,Saint Anne Sandy Po [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_043 {
+            get {
+                return ResourceManager.GetString("sr_043", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,セントルシア,St. Lucia,Sainte-Lucie,St. Lucia,Santa Lucia,Santa Lucía,圣卢西亚,세인트루시아,
+        ///.
+        /// </summary>
+        internal static string sr_044 {
+            get {
+                return ResourceManager.GetString("sr_044", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,セントビンセント・グレナディーン,St. Vincent and the Grenadines,Saint-Vincent-et-les-Grenadines,St. Vincent und die Grenadinen,Saint Vincent e Grenadine,San Vicente y las Granadinas,圣文森特和格林纳丁斯,세인트빈센트 그레나딘,
+        ///.
+        /// </summary>
+        internal static string sr_045 {
+            get {
+                return ResourceManager.GetString("sr_045", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,パラマリボ,Paramaribo,Paramaribo,Paramaribo,Paramaribo,Paramaribo,帕拉马里博市,파라마리보,
+        ///003,ブロコポンド,Brokopondo,Brokopondo,Brokopondo,Brokopondo,Brokopondo,布罗科蓬多区,브로코폰도,
+        ///004,コメウィネ,Commewijne,Commewijne,Commewijne,Commewijne,Commewijne,科默韦讷区,코메베이너,
+        ///005,コロニー,Coronie,Coronie,Coronie,Coronie,Coronie,科罗尼区,코로니,
+        ///006,マロウィネ,Marowijne,Marowijne,Marowijne,Marowijne,Marowijne,马罗韦讷区,마로베이너,
+        ///007,ニッケリー,Nickerie,Nickerie,Nickerie,Nickerie,Nickerie,尼克里区,니케리,
+        ///008,パラ,Para,P [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_046 {
+            get {
+                return ResourceManager.GetString("sr_046", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ポート・オブ・スペイン,Port-of-Spain,Port d&apos;Espagne,Port-of-Spain,Port of Spain,Puerto España,西班牙港市,포트오브스페인,
+        ///003,アリマ,Arima,Arima,Arima,Arima,Arima,阿里马市,아리마,
+        ///004,カロニ州,Caroni,Caroni,Caroni,Caroni,Caroni,卡罗尼郡,카로니 주,
+        ///005,マジャロ州,Mayaro,Mayaro,Mayaro,Mayaro,Mayaro,马亚罗郡,마야로 주,
+        ///006,ナリバ州,Nariva,Nariva,Nariva,Nariva,Nariva,纳里瓦郡,나리바 주,
+        ///007,セント・アンドリュー州,Saint Andrew,Saint Andrew,Saint Andrew,Saint Andrew,Saint Andrew,圣安德鲁郡,세인트앤드루 주,
+        ///008,セント・デビッド州,Saint David,Saint [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_047 {
+            get {
+                return ResourceManager.GetString("sr_047", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,タークス・カイコス諸島,Turks and Caicos Islands,Îles Turques-et-Caïques,Turks- und Caicosinseln,Isole Turks e Caicos,Islas Turcas y Caicos,特克斯和凯科斯群岛,터크스 케이커스 제도,
+        ///.
+        /// </summary>
+        internal static string sr_048 {
+            get {
+                return ResourceManager.GetString("sr_048", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,コロンビア特別区,District of Columbia,Washington (District de Columbia),District of Columbia,Distretto di Columbia,Distrito de Columbia,哥伦比亚特区,컬럼비아 특별구,
+        ///003,アラスカ州,Alaska,Alaska,Alaska,Alaska,Alaska,阿拉斯加州,알래스카 주,
+        ///004,アラバマ州,Alabama,Alabama,Alabama,Alabama,Alabama,亚拉巴马州,앨라배마 주,
+        ///005,アーカンソー州,Arkansas,Arkansas,Arkansas,Arkansas,Arkansas,阿肯色州,아칸소 주,
+        ///006,アリゾナ州,Arizona,Arizona,Arizona,Arizona,Arizona,亚利桑那州,애리조나 주,
+        ///007,カリフォルニア州,California,Californie,Kaliforn [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_049 {
+            get {
+                return ResourceManager.GetString("sr_049", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,モンテビデオ,Montevideo,Montevideo,Montevideo,Montevideo,Montevideo,蒙得维的亚省,몬테비데오,
+        ///003,アルティガス,Artigas,Artigas,Artigas,Artigas,Artigas,阿蒂加斯省,아르티가스,
+        ///004,カネロネス,Canelones,Canelones,Canelones,Canelones,Canelones,卡内洛内斯省,카넬로네스,
+        ///005,セロ・ラルゴ,Cerro Largo,Cerro Largo,Cerro Largo,Cerro Largo,Cerro Largo,塞罗拉尔戈省,세로라르고,
+        ///006,コロニア,Colonia,Colonia,Colonia,Colonia,Colonia,科洛尼亚省,콜로니아,
+        ///007,ドゥラスノ,Durazno,Durazno,Durazno,Durazno,Durazno,杜拉斯诺省,두라스노,
+        ///008,フロレス,Flores,Flore [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_050 {
+            get {
+                return ResourceManager.GetString("sr_050", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,米領バージン諸島,US Virgin Islands,Îles Vierges américaines,Amerikanische Jungferninseln,Isole Vergini Statunitensi,Islas Vírgenes de los EE. UU.,美属维尔京群岛,미국령 버진아일랜드,
+        ///.
+        /// </summary>
+        internal static string sr_051 {
+            get {
+                return ResourceManager.GetString("sr_051", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ディストリト首都地区,Distrito Federal,District Fédéral,Caracas D.F.,Distretto Capitale,Distrito Capital,首都区,베네수엘라 연방구,
+        ///003,アマソナス,Amazonas,Amazone,Amazonas,Amazonas,Amazonas,亚马孙边疆区,아마소나스,
+        ///004,アンソアテギ,Anzoátegui,Anzoátegui,Anzoátegui,Anzoátegui,Anzoátegui,安索阿特吉州,안소아테기,
+        ///005,アプレ,Apure,Apure,Apure,Apure,Apure,阿普雷州,아푸레,
+        ///006,アラグア,Aragua,Aragua,Aragua,Aragua,Aragua,阿拉瓜州,아라과,
+        ///007,バリナス,Barinas,Barinas,Barinas,Barinas,Barinas,巴里纳斯州,바리나스,
+        ///008,ボリーバル,Bolívar,Bolív [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_052 {
+            get {
+                return ResourceManager.GetString("sr_052", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ティラナ州,Tirana,Tirana,Tirana,Tirana,Tirana,地拉那州,티라나 주,
+        ///003,ベラト州,Berat,Berat,Berat,Berat,Berat,培拉特州,베라트 주,
+        ///004,ディブラ州,Dibër,Dibër,Dibra,Dibër,Dibër,迪勃拉州,디브라 주,
+        ///005,デュラス州,Durrës,Durrës,Durrës,Durazzo,Durrës,都拉斯州,두러스 주,
+        ///006,エルバサン州,Elbasan,Elbasan,Elbasan,Elbasan,Elbasan,爱尔巴桑州,엘바산 주,
+        ///007,フィエル州,Fier,Fier,Fier,Fier,Fier,费里州,피에르 주,
+        ///008,ギロカストラ州,Gjirokastër,Gjirokastër,Gjirokastra,Argirocastro,Gjirokastra,吉诺卡斯特州,지로카스터르 주,
+        ///009,コルチャ州,Korçë,Korçë,Korça, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_064 {
+            get {
+                return ResourceManager.GetString("sr_064", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,オーストラリア首都特別地域,Australian Capital Territory,Territoire de la capitale australienne,Australisches Hauptstadtterritorium,Territorio della Capitale Australiana,Territorio de la Capital Australiana,澳大利亚首都直辖区,오스트레일리아캐피털테리토리,
+        ///003,ニューサウスウェールズ州,New South Wales,Nouvelle-Galles du Sud,Neusüdwales,Nuovo Galles del Sud,Nueva Gales del Sur,新南威尔士州,뉴사우스웨일스 주,
+        ///004,ノーザンテリトリー,Northern Territory,Territoire du Nord,Nördliches Territorium,Territorio del Nord,Territ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_065 {
+            get {
+                return ResourceManager.GetString("sr_065", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ウィーン,Vienna,Vienne,Wien,Vienna,Viena,维也纳州,빈,
+        ///003,ブルゲンラント州,Burgenland,Burgenland,Burgenland,Burgenland,Burgenland,布尔根兰州,부르겐란트 주,
+        ///004,ケルンテン州,Carinthia,Carinthie,Kärnten,Carinzia,Carintia,克恩顿州,케른텐 주,
+        ///005,ニーダー・エスターライヒ州,Lower Austria,Basse-Autriche,Niederösterreich,Bassa Austria,Baja Austria,下奥地利州,니더외스터라이히 주,
+        ///006,オーバー・エスターライヒ州,Upper Austria,Haute-Autriche,Oberösterreich,Alta Austria,Alta Austria,上奥地利州,오버외스터라이히 주,
+        ///007,ザルツブルク州,Salzburg,Salzbourg,S [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_066 {
+            get {
+                return ResourceManager.GetString("sr_066", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ブリュッセル首都地域圏,Brussels Region,Région de Bruxelles-Capitale,Region Brüssel-Hauptstadt,Regione di Bruxelles,Región de Bruselas-Capital,布鲁塞尔首都大区,브뤼셀 지역,
+        ///003,フランデレン地域圏,Flanders,Région flamande,Flandern,Fiandre,Región de Flandes,佛兰德大区,플랑드르 지역,
+        ///004,ワロン地域圏,Wallonia,Région wallonne,Wallonien,Vallonia,Región de Valonia,瓦隆大区,왈롱 지역,
+        ///.
+        /// </summary>
+        internal static string sr_067 {
+            get {
+                return ResourceManager.GetString("sr_067", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ボスニア・ヘルツェゴビナ連邦,Federation of Bosnia and Herzegovina,Fédération de Bosnie-Herzégovine,Föderation Bosnien und Herzegowina,Federazione di Bosnia-Erzegovina,Federación de Bosnia-Herzegovina,波黑联邦,보스니아헤르체고비나 연방,
+        ///003,セルビア人共和国,Republika Srpska,République serbe de Bosnie,Serbische Republik,Repubblica Serba di Bosnia-Erzegovina,República Srpska,塞族共和国,스릅스카 공화국,
+        ///004,ブルチュコ,Brčko District,Brčko (district),Brčko-Distrikt,Distretto di Brčko,Distrito de Brčko, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_068 {
+            get {
+                return ResourceManager.GetString("sr_068", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ボツワナ,Botswana,Botswana,Botsuana,Botswana,Botsuana,博茨瓦纳,보츠와나,
+        ///.
+        /// </summary>
+        internal static string sr_069 {
+            get {
+                return ResourceManager.GetString("sr_069", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ソフィア市,Sofia City,Sofia (ville),Sofia (Stadt),Sofia,Ciudad de Sofía,索非亚市,소피아,
+        ///003,ソフィア州,Sofia Province,Sofia (oblast),Sofia (Region),Regione di Sofia,Provincia de Sofía,索非亚州,소피아 주,
+        ///004,ブラゴエブグラト州,Blagoevgrad,Blagoevgrad,Blagoewgrad,Blagoevgrad,Blagoevgrad,布拉格耶夫格勒州,블라고예브그라드 주,
+        ///005,プレベン州,Pleven,Pleven,Plewen,Pleven,Pleven,普列文州,플레벤 주,
+        ///006,ビディン州,Vidin,Vidin,Widin,Vidin,Vidin,维丁州,비딘 주,
+        ///007,バルナ州,Varna,Varna,Warna,Varna,Varna,瓦尔纳州,바르나 주,
+        ///008,ブルガス州, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_070 {
+            get {
+                return ResourceManager.GetString("sr_070", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///006,ザグレブ直轄市,Zagreb,Zagreb (ville),Zagreb (Stadt),Zagabria,Ciudad de Zagreb,萨格勒布市,자그레브,
+        ///007,ビェロヴァル＝ビロゴラ郡,Bjelovar-Bilogora County,Bjelovar-Bilogora,Bjelovar-Bilogora,Regione di Bjelovar e della Bilogora,Condado de Bjelovar-Bilogora,别洛瓦尔-比洛戈拉县,벨로바르-빌로고라 군,
+        ///008,ブロド＝ポサヴィナ郡,Brod-Posavina County,Brod-Posavina,Brod-Posavina,Regione di Brod e della Posavina,Condado de Brod-Posavina,布罗德-波萨维纳县,브로드-포사비나 군,
+        ///009,ドゥブロヴニク＝ネレトヴァ郡,Dubrovnik-Neretva County,Dubrovn [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_071 {
+            get {
+                return ResourceManager.GetString("sr_071", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,キプロス,Cyprus,Chypre,Zypern,Cipro,Chipre,塞浦路斯,키프로스,
+        ///.
+        /// </summary>
+        internal static string sr_072 {
+            get {
+                return ResourceManager.GetString("sr_072", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,プラハ,Prague,Prague,Prag,Praga,Praga,布拉格市,프라하,
+        ///003,中部ボヘミア地方,Central Bohemian Region,Bohême centrale,Mittelböhmische Region,Boemia Centrale,Región de Bohemia Central,中捷克州,스트르제도체스키 지방,
+        ///004,南ボヘミア地方,South Bohemian Region,Bohême du Sud,Südböhmische Region,Boemia Meridionale,Región de Bohemia Meridional,南捷克州,이호체스키 지방,
+        ///005,プルゼニ地方,Plzeň Region,Région de Pilsen,Region Pilsen,Regione di Plseň,Región de Pilsen,比尔森州,플젠 지방,
+        ///006,カールスバート地方,Karlovy Vary Regio [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_073 {
+            get {
+                return ResourceManager.GetString("sr_073", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///018,グリーンランド,Greenland,Groenland,Grönland,Groenlandia,Groenlandia,格陵兰,그린란드,
+        ///019,デンマーク首都地域,Capital Region of Denmark,Hovedstaden,Hauptstadtregion,Hovedstaden,Hovedstaden,首都大区,덴마크 수도권 지역,
+        ///020,中央ユラン地域,Central Denmark Region,Jutland-Central,Mitteljütland,Jutland Centrale,Jutlandia Central,中日德兰大区,중부 덴마크 지역,
+        ///021,北ユラン地域,North Denmark Region,Jutland-du-Nord,Nordjütland,Jutland Settentrionale,Jutlandia Septentrional,北日德兰大区,북부 덴마크 지역,
+        ///022,シェラン地域,Region Zea [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_074 {
+            get {
+                return ResourceManager.GetString("sr_074", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,エストニア,Estonia,Estonie,Estland,Estonia,Estonia,爱沙尼亚,에스토니아,
+        ///.
+        /// </summary>
+        internal static string sr_075 {
+            get {
+                return ResourceManager.GetString("sr_075", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///008,ウーシマー県,Uusimaa / Nyland,Uusimaa,Uusimaa,Uusimaa,Uusimaa,新地区,우시마 주,
+        ///009,ラッピ州,Lappi / Lapland,Laponie,Lappland,Lapponia,Laponia finlandesa,拉普兰省,라피 주,
+        ///010,北ポフヤンマー県,Pohjois-Pohjanmaa / Norra Österbotten,Ostrobotnie du Nord,Nordösterbotten,Ostrobotnia Settentrionale,Ostrobothnia del Norte,北博滕区,북오스트로보트니아 주,
+        ///011,カイヌー県,Kainuu / Kajanaland,Kainuu,Kainuu,Kainuu,Kainuu,凯努区,카이누 주,
+        ///012,北カレリア県,Pohjois-Karjala / Norra Karelen,Carélie du Nord,Nordkarelien,C [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_076 {
+            get {
+                return ResourceManager.GetString("sr_076", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,イール・ド・フランス,Île-de-France,Île-de-France,Île-de-France,Île-de-France,Isla de Francia,法兰西岛大区,일드프랑스,
+        ///003,アルザス,Alsace,Alsace,Elsass,Alsazia,Alsacia,阿尔萨斯大区,알자스,
+        ///004,アキテーヌ,Aquitaine,Aquitaine,Aquitanien,Aquitania,Aquitania,阿基坦大区,아키텐,
+        ///005,オーベルニュ,Auvergne,Auvergne,Auvergne,Alvernia,Auvernia,奥弗涅大区,오베르뉴,
+        ///006,バス・ノルマンディ,Lower Normandy,Basse-Normandie,Basse-Normandie,Bassa Normandia,Baja Normandía,下诺曼底大区,바스노르망디,
+        ///007,ブルゴーニュ,Burgundy,Bourgogne,Burgund,Borg [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_077 {
+            get {
+                return ResourceManager.GetString("sr_077", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ベルリン,Berlin,Berlin,Berlin,Berlino,Berlín,柏林市,베를린,
+        ///003,ヘッセン州,Hesse,Hesse,Hessen,Assia,Hesse,黑森州,헤센 주,
+        ///004,バーデン・ビュルテンベルク州,Baden-Württemberg,Bade-Wurtemberg,Baden-Württemberg,Baden-Württemberg,Baden-Wurtemberg,巴登-符腾堡州,바덴뷔르템베르크 주,
+        ///005,バイエルン州,Bavaria,Bavière,Bayern,Baviera,Baviera,巴伐利亚州,바이에른 주,
+        ///006,ブランデンブルク州,Brandenburg,Brandebourg,Brandenburg,Brandeburgo,Brandeburgo,勃兰登堡州,브란덴부르크 주,
+        ///007,ブレーメン,Bremen,Brême,Bremen,Brema,Bremen,不来梅市,브레멘 주,
+        ///008,ハンブ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_078 {
+            get {
+                return ResourceManager.GetString("sr_078", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,アッティカ,Attica,Attique,Attika,Attica,Ática,阿提卡大区,아티카,
+        ///003,中央ギリシャ,Central Greece,Grèce-Centrale,Mittelgriechenland,Grecia Centrale,Grecia Central,中希腊大区,중부 그리스,
+        ///004,中央マケドニア,Central Macedonia,Macédoine-Centrale,Zentralmakedonien,Macedonia Centrale,Macedonia Central,中马其顿大区,중부 마케도니아,
+        ///005,クレタ,Crete,Crète,Kreta,Creta,Creta,克里特大区,크레타,
+        ///006,東マケドニア・トラキア,East Macedonia and Thrace,Macédoine-Orientale-et-Thrace,Ostmakedonien und Thrakien,Macedonia Orientale [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_079 {
+            get {
+                return ResourceManager.GetString("sr_079", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ブダペスト,Budapest,Budapest,Budapest,Budapest,Budapest,布达佩斯市,부다페스트,
+        ///003,バーチ・キシュクン州,Bács-Kiskun County,Bács-Kiskun,Bács-Kiskun,Bács-Kiskun,Bács-Kiskun,巴奇-基什孔州,바치키슈쿤 주,
+        ///004,バラニャ州,Baranya County,Baranya,Baranya,Baranya,Baranya,巴兰尼亚州,버러녀 주,
+        ///005,ベーケーシュ州,Békés County,Békés,Békés,Békés,Békés,贝凯什州,베케시 주,
+        ///006,ボルショド・アバウーイ・ゼンプレーン州,Borsod-Abaúj-Zemplén County,Borsod-Abaúj-Zemplén,Borsod-Abaúj-Zemplén,Borsod-Abaúj-Zemplén,Borsod-Abaúj-Zemplén,包尔绍德-奥包乌伊-曾普伦州, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_080 {
+            get {
+                return ResourceManager.GetString("sr_080", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,アイスランド,Iceland,Islande,Island,Islanda,Islandia,冰岛,아이슬란드,
+        ///.
+        /// </summary>
+        internal static string sr_081 {
+            get {
+                return ResourceManager.GetString("sr_081", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ダブリン州,Dublin,Dublin,Dublin,Dublino,Dublín,都柏林地区,더블린,
+        ///010,カーロウ州,County Carlow,Carlow,Carlow,Carlow,Carlow,卡洛郡,칼로우 주,
+        ///011,キャバン州,County Cavan,Cavan,Cavan,Cavan,Cavan,卡文郡,캐번 주,
+        ///012,クレア州,County Clare,Clare,Clare,Clare,Clare,克莱尔郡,클레어 주,
+        ///013,コーク州,County Cork,Cork,Cork,Cork,Cork,科克郡,코크 주,
+        ///014,ドニゴール州,County Donegal,Donegal,Donegal,Donegal,Donegal,多内加尔郡,도니골 주,
+        ///015,ゴールウェイ州,County Galway,Galway,Galway,Galway,Galway,戈尔韦郡,골웨이 주,
+        ///016,ケリー州,County Kerry,K [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_082 {
+            get {
+                return ResourceManager.GetString("sr_082", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ラツィオ州,Lazio,Latium,Latium,Lazio,Lacio,拉齐奥大区,라치오 주,
+        ///003,バッレ・ダオスタ州,Aosta Valley,Vallée d&apos;Aoste,Aostatal,Valle d&apos;Aosta,Valle de Aosta,瓦莱-达奥斯塔大区,발레다오스타 주,
+        ///004,ピエモンテ州,Piedmont,Piémont,Piemont,Piemonte,Piamonte,皮埃蒙特大区,피에몬테 주,
+        ///005,リグリア州,Liguria,Ligurie,Ligurien,Liguria,Liguria,利古里亚大区,리구리아 주,
+        ///006,ロンバルディア州,Lombardy,Lombardie,Lombardei,Lombardia,Lombardía,伦巴第大区,롬바르디아 주,
+        ///007,トレンティノ・アルト・アディジェ州,Trentino-Alto Adige,Trentin-Haut-Adige,Trentino-Südtirol,Tr [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_083 {
+            get {
+                return ResourceManager.GetString("sr_083", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ラトビア,Latvia,Lettonie,Lettland,Lettonia,Letonia,拉脱维亚,라트비아,
+        ///.
+        /// </summary>
+        internal static string sr_084 {
+            get {
+                return ResourceManager.GetString("sr_084", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,マセル県,Maseru,Maseru,Maseru,Maseru,Maseru,马塞卢区,마세루 주,
+        ///003,べレア県,Berea,Berea,Berea,Berea,Berea,伯里亚区,베레아 주,
+        ///004,ブータ・ブーテ県,Butha-Buthe,Butha-Buthe,Butha-Buthe,Butha-Buthe,Butha-Buthe,布塔布泰区,부타부테 주,
+        ///005,レリベ県,Leribe,Leribe,Leribe,Leribe,Leribe,莱里贝区,레리베 주,
+        ///006,マフェテング県,Mafeteng,Mafeteng,Mafeteng,Mafeteng,Mafeteng,马费滕区,마페텡 주,
+        ///007,モハーレスフーク県,Mohale&apos;s Hoek,Mohale&apos;s Hoek,Mohale&apos;s Hoek,Mohale&apos;s Hoek,Mohale&apos;s Hoek,莫哈莱斯胡克区,모할레스후크 주,
+        ///008,モコトロング県,Mokhotlong,Mok [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_085 {
+            get {
+                return ResourceManager.GetString("sr_085", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,リヒテンシュタイン,Liechtenstein,Liechtenstein,Liechtenstein,Liechtenstein,Liechtenstein,列支敦士登,리히텐슈타인,
+        ///.
+        /// </summary>
+        internal static string sr_086 {
+            get {
+                return ResourceManager.GetString("sr_086", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ヴィリニュス州,Vilnius,Vilnius,Vilnius,Vilnius,Condado de Vilna,维尔纽斯县,빌뉴스 주,
+        ///003,アリートゥス州,Alytus,Alytus,Alytus,Alytus,Condado de Alytus,阿利图斯县,알리투스 주,
+        ///004,カウナス州,Kaunas,Kaunas,Kaunas,Kaunas,Condado de Kaunas,考纳斯县,카우나스 주,
+        ///005,クライペダ州,Klaipėda,Klaipėda,Klaipėda,Klaipėda,Condado de Klaipėda,克莱佩达县,클라이페다 주,
+        ///006,マリヤンポレ州,Marijampolė,Marijampolė,Marijampolė,Marijampolė,Condado de Marijampolė,马里扬泊列县,마리얌폴레 주,
+        ///007,パネベジス州,Panevėžys,Panevėžys,Panevėžys,Panevėžys,C [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_087 {
+            get {
+                return ResourceManager.GetString("sr_087", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ルクセンブルク,Luxembourg,Luxembourg,Luxemburg,Lussemburgo,Luxemburgo,卢森堡,룩셈부르크,
+        ///.
+        /// </summary>
+        internal static string sr_088 {
+            get {
+                return ResourceManager.GetString("sr_088", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,マケドニア,Macedonia (Republic of),Macédoine (République),Mazedonien (Republik),Macedonia (Repubblica di),Macedonia (República),马其顿,마케도니아 공화국,
+        ///.
+        /// </summary>
+        internal static string sr_089 {
+            get {
+                return ResourceManager.GetString("sr_089", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,マルタ,Malta,Malte,Malta,Malta,Malta,马耳他,몰타,
+        ///.
+        /// </summary>
+        internal static string sr_090 {
+            get {
+                return ResourceManager.GetString("sr_090", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,モンテネグロ,Montenegro,Monténégro,Montenegro,Montenegro,Montenegro,黑山,몬테네그로,
+        ///.
+        /// </summary>
+        internal static string sr_091 {
+            get {
+                return ResourceManager.GetString("sr_091", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,モザンビーク,Mozambique,Mozambique,Mosambik,Mozambico,Mozambique,莫桑比克,모잠비크,
+        ///.
+        /// </summary>
+        internal static string sr_092 {
+            get {
+                return ResourceManager.GetString("sr_092", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ナミビア,Namibia,Namibie,Namibia,Namibia,Namibia,纳米比亚,나미비아,
+        ///.
+        /// </summary>
+        internal static string sr_093 {
+            get {
+                return ResourceManager.GetString("sr_093", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ノールト・ホラント州,North Holland,Hollande-Septentrionale,Nordholland,Olanda Settentrionale,Holanda Septentrional,北荷兰省,노르트홀란트 주,
+        ///003,ドレンテ州,Drenthe,Drenthe,Drenthe,Drenthe,Drente,德伦特省,드렌터 주,
+        ///004,フレボラント州,Flevoland,Flevoland,Flevoland,Flevoland,Flevoland,弗莱福兰省,플레볼란트 주,
+        ///005,フリースラント州,Friesland,Frise,Friesland,Frisia,Frisia,弗里斯兰省,프리슬란트 주,
+        ///006,ヘルデンラント州,Gelderland,Gueldre,Gelderland,Gheldria,Güeldres,海尔德兰省,헬데를란트 주,
+        ///007,フローニンゲン州,Groningen,Groningue,Groningen [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_094 {
+            get {
+                return ResourceManager.GetString("sr_094", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ウェリントン,Wellington,Wellington,Wellington,Wellington,Región de Wellington,惠灵顿大区,웰링턴,
+        ///003,オークランド,Auckland,Auckland,Auckland,Auckland,Región de Auckland,奥克兰大区,오클랜드,
+        ///004,ベイ・オブ・プレンティ,Bay of Plenty,Bay of Plenty,Bay of Plenty,Bay of Plenty,Bahía de Plenty,普伦蒂湾大区,베이오브플렌티,
+        ///005,カンタベリー,Canterbury,Canterbury,Canterbury,Canterbury,Canterbury,坎特伯雷大区,캔터베리,
+        ///006,ダニーデン,Otago,Otago,Otago,Otago,Otago,奥塔戈大区,오타고,
+        ///007,ホークスベイ,Hawke&apos;s Bay,Hawke&apos;s Bay,Hawke&apos;s Bay,Ha [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_095 {
+            get {
+                return ResourceManager.GetString("sr_095", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///007,オスロ,Oslo,Oslo,Oslo,Oslo,Oslo,奥斯陆,오슬로,
+        ///008,アーケシュフース県,Akershus,Akershus,Akershus,Akershus,Akershus,阿克什胡斯郡,아케르스후스 주,
+        ///009,アウスト・アグデル県,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,东阿格德尔郡,에우스트아그데르 주,
+        ///010,ブスケルー県,Buskerud,Buskerud,Buskerud,Buskerud,Buskerud,布斯克吕郡,부스케루 주,
+        ///011,フィンマルク県,Finnmark,Finnmark,Finnmark,Finnmark,Finnmark,芬马克郡,핀마르크 주,
+        ///012,ヘードマルク県,Hedmark,Hedmark,Hedmark,Hedmark,Hedmark,海德马克郡,헤드마르크 주,
+        ///013,ホルダラン県,Hordaland,Hordaland,Ho [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_096 {
+            get {
+                return ResourceManager.GetString("sr_096", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,マゾフシェ,Masovia,Mazovie,Masowien,Masovia,Mazovia,马佐夫舍省,마조프셰,
+        ///003,ドルヌィ・シロンスク,Lower Silesia,Basse-Silésie,Niederschlesien,Bassa Slesia,Baja Silesia,下西里西亚省,하슐레지엔,
+        ///004,クヤヴィ・ポモージェ,Kuyavian-Pomeranian Voivodeship,Cujavie-Poméranie,Kujawien-Pommern,Cuiavia-Pomerania,Cuyavia y Pomerania,库亚瓦滨海省,쿠야비아포메라니아,
+        ///005,ウッジ,Lodz,Łódź,Lodsch,Łódź,Lodz,罗兹省,우치,
+        ///006,ルブリン,Lublin,Lublin,Lublin,Lublino,Lublin,卢布林省,루블린,
+        ///007,ルブシュ,Lubusz,Lubusz,Lebus,Lebus,Lubus,鲁布斯卡省,루부쉬 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_097 {
+            get {
+                return ResourceManager.GetString("sr_097", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,リスボン県,Lisbon,Lisbonne,Lissabon,Lisbona,Distrito de Lisboa,里斯本区,리스보아 주,
+        ///007,マディラ自治州,Madeira,Madère,Madeira,Madera,Madeira,马德拉自治区,마데이라 주,
+        ///008,アソレス自治州,Azores,Açores,Azoren,Azzorre,Azores,亚速尔自治区,아소르스 주,
+        ///009,アヴェイロ県,Aveiro,Aveiro,Aveiro,Aveiro,Distrito de Aveiro,阿威罗区,아베이루 주,
+        ///010,ベージャ県,Beja,Beja,Beja,Beja,Distrito de Beja,贝雅区,베자 주,
+        ///011,ブラガ県,Braga,Braga,Braga,Braga,Distrito de Braga,布拉加区,브라가 주,
+        ///012,ブラガンサ県,Bragança,Bragança,Bragança,Bragança,Distri [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_098 {
+            get {
+                return ResourceManager.GetString("sr_098", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ブカレスト州,Bucharest,Bucarest,Bukarest,Bucarest,Bucarest,布加勒斯特市,부쿠레슈티 주,
+        ///003,アルバ州,Alba,Alba,Alba,Alba,Alba,阿尔巴县,알바 주,
+        ///004,アラド州,Arad,Arad,Arad,Arad,Arad,阿拉德县,아라드 주,
+        ///005,アルジェシュ州,Arges,Argeş,Argeş,Argeş,Argeş,阿尔杰什县,아르제슈 주,
+        ///006,バカウ州,Bacau,Bacău,Bacău,Bacău,Bacău,巴克乌县,바커우 주,
+        ///007,ビホル州,Bihor,Bihor,Bihor,Bihor,Bihor,比霍尔县,비호르 주,
+        ///008,ビストリツァ・ナサウド州,Bistrita-Nasaud,Bistrita-Năsăud,Bistrita-Năsăud,Bistrita-Năsăud,Bistrita-Năsăud,比斯特里察-讷瑟乌德县,비스트리차너서우드 주,
+        ///00 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_099 {
+            get {
+                return ResourceManager.GetString("sr_099", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///009,モスクワ市,Moscow City,Moscou (ville),Moskau (Stadt),Mosca,Ciudad de Moscú,莫斯科市,모스크바,
+        ///010,アディゲ共和国,Adygey,Adyguée,Republik Adygeja,Repubblica di Adigezia,República de Adigueya,阿迪格共和国,아디게야 공화국,
+        ///011,アルタイ共和国,Gorno-Altay,Altaï (république),Republik Altai,Repubblica dell&apos;Altaj,República de Altái,阿尔泰共和国,고르노알타이 공화국,
+        ///012,アルタイ地方,Altay,Altaï (kraï),Region Altai,Territorio dell&apos;Altaj,Territorio de Altái,阿尔泰边疆区,알타이 지방,
+        ///013,アムール州,Amur,Amour,Oblast Amur,Regione [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_100 {
+            get {
+                return ResourceManager.GetString("sr_100", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,セルビア・コソヴォ,Serbia and Kosovo,Serbie et Kosovo,Serbien und Kosovo,Serbia e Kosovo,Serbia y Kosovo,塞尔维亚及科索沃,세르비아 코소보,
+        ///.
+        /// </summary>
+        internal static string sr_101 {
+            get {
+                return ResourceManager.GetString("sr_101", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ブラティスラバ,Bratislava,Bratislava,Bratislava,Bratislava,Bratislava,布拉迪斯拉发州,브라티슬라바,
+        ///003,バンスカ・ビストリツァ,Banská Bystrica,Banská Bystrica,Banská Bystrica,Banská Bystrica,Banská Bystrica,班斯卡-比斯特里察州,반스카비스트리차,
+        ///004,コシツェ,Košice,Košice,Košice,Košice,Košice,科希策州,코시체,
+        ///005,二トラ,Nitra,Nitra,Nitra,Nitra,Nitra,尼特拉州,니트라,
+        ///006,プレショフ,Prešov,Prešov,Prešov,Prešov,Prešov,普雷绍夫州,프레쇼프,
+        ///007,トレンチーン,Trencín,Trenčín,Trenčín,Trenčín,Trenčín,特伦钦州,트렌친,
+        ///008,トルナバ,Trnava,Trnava,Trna [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_102 {
+            get {
+                return ResourceManager.GetString("sr_102", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,スロベニア,Slovenia,Slovénie,Slowenien,Slovenia,Eslovenia,斯洛文尼亚,슬로베니아,
+        ///.
+        /// </summary>
+        internal static string sr_103 {
+            get {
+                return ResourceManager.GetString("sr_103", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ハウテン州,Gauteng,Gauteng,Gauteng,Gauteng,Gauteng,豪登省,하우텡 주,
+        ///003,ウェスタン・ケープ州,Western Cape,Cap-Occidental,Westkap,Capo Occidentale,Cabo Occidental,西开普省,웨스턴케이프 주,
+        ///004,ノーザン・ケープ州,Northern Cape,Cap-du-Nord,Nordkap,Capo Settentrionale,Cabo Septentrional,北开普省,노던케이프 주,
+        ///005,イースタン・ケープ州,Eastern Cape,Cap-Oriental,Ostkap,Capo Orientale,Cabo Oriental,东开普省,이스턴케이프 주,
+        ///006,クワズールー・ナタール州,KwaZulu-Natal,KwaZulu-Natal,KwaZulu-Natal,KwaZulu-Natal,KwaZulu-Natal,夸祖鲁-纳塔尔省, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_104 {
+            get {
+                return ResourceManager.GetString("sr_104", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,マドリード州,Madrid,Madrid,Madrid,Madrid,Madrid,马德里自治区,마드리드 주,
+        ///003,アンダルシーア州,Andalusia,Andalousie,Andalusien,Andalusia,Andalucía,安达卢西亚自治区,안달루시아 주,
+        ///004,アラゴン州,Aragon,Aragon,Aragonien,Aragona,Aragón,阿拉贡自治区,아라곤 주,
+        ///005,アストゥーリアス州,Principality of Asturias,Asturies,Asturien,Principato delle Asturie,Asturias,阿斯图利亚斯自治区,아스투리아스 주,
+        ///006,バレアーレス諸島,Balearic Islands,Îles Baléares,Balearische Inseln,Baleari,Illes Balears,巴利阿里自治区,발레아레스 제도,
+        ///007,カナリア諸島,Canary Islands,Î [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_105 {
+            get {
+                return ResourceManager.GetString("sr_105", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ホホ,Hhohho,Hhohho,Hhohho,Hhohho,Hhohho,霍霍区,호호,
+        ///003,ルボンボ,Lubombo,Lubombo,Lubombo,Lubombo,Lubombo,卢邦博区,로밤바,
+        ///004,マンジニ,Manzini,Manzini,Manzini,Manzini,Manzini,曼齐尼区,만지니,
+        ///005,シセルウェニ,Shiselweni,Shiselweni,Shiselweni,Shiselweni,Shiselweni,希塞卢韦尼区,시셀웨니,
+        ///.
+        /// </summary>
+        internal static string sr_106 {
+            get {
+                return ResourceManager.GetString("sr_106", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ストックホルム州,Stockholm County,Stockholm,Stockholms län,Stoccolma,Estocolmo,斯德哥尔摩省,스톡홀름 주,
+        ///003,スコーネ州,Skåne County,Skåne,Skåne län,Scania,Escania,斯科耐省,스코네 주,
+        ///004,ヴェストラ・イェータランド州,Västra Götaland County,Västra Götaland,Västra Götalands län,Västra Götaland,Västra Götaland,西约特兰省,베스트라예탈란드 주,
+        ///005,エステルイェトランド州,Östergötland County,Östergötland,Östergötlands län,Östergötland,Östergötland,东约特兰省,외스테르예틀란드 주,
+        ///006,セーデルマンランド州,Södermanland County,Södermanland,Söder [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_107 {
+            get {
+                return ResourceManager.GetString("sr_107", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ベルン州,Bern,Berne,Bern,Berna,Berna,伯尔尼州,베른 주,
+        ///004,アールガウ州,Aargau,Argovie,Aargau,Argovia,Argovia,阿尔高州,아르가우 주,
+        ///005,バーゼル＝シュタット準州,Basel-City,Bâle-Ville,Basel-Stadt,Basilea Città,Ciudad de Basilea,巴塞尔州,바젤,
+        ///006,フリブール州,Fribourg,Fribourg,Freiburg,Friburgo,Friburgo,弗里堡州,프리부르 주,
+        ///007,ジュネーヴ州,Geneva,Genève,Genf,Ginevra,Ginebra,日内瓦州,제네바 주,
+        ///008,グラールス州,Glarus,Glaris,Glarus,Glarona,Glaris,格拉鲁斯州,글라루스 주,
+        ///009,グラウビュンデン州,Graubünden,Grisons,Graubünden,Grigioni,Gris [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_108 {
+            get {
+                return ResourceManager.GetString("sr_108", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,アンカラ県,Ankara,Ankara,Ankara,Ankara,Ankara,安卡拉省,앙카라 주,
+        ///003,イスタンブル県,İstanbul,İstanbul,İstanbul,Istanbul,Estambul,伊斯坦布尔省,이스탄불 주,
+        ///004,イズミル県,İzmir,İzmir,İzmir,Smirne,İzmir,伊兹密尔省,이즈미르 주,
+        ///005,ブルサ県,Bursa,Bursa,Bursa,Bursa,Bursa,布尔萨省,부르사 주,
+        ///006,アダナ県,Adana,Adana,Adana,Adana,Adana,阿达纳省,아다나 주,
+        ///007,ガジアンテプ県,Gaziantep,Gaziantep,Gaziantep,Gaziantep,Gaziantep,加济安泰普省,가지안테프 주,
+        ///008,コニヤ県,Konya,Konya,Konya,Konya,Konya,科尼亚省,코니아 주,
+        ///009,アンタリヤ県,Antalya,Antalya,Anta [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_109 {
+            get {
+                return ResourceManager.GetString("sr_109", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,イングランド,England,Angleterre,England,Inghilterra,Inglaterra,英格兰,잉글랜드,
+        ///004,スコットランド,Scotland,Écosse,Schottland,Scozia,Escocia,苏格兰,스코틀랜드,
+        ///005,ウェールズ,Wales,Pays de Galles,Wales,Galles,Gales,威尔士,웨일즈,
+        ///006,北アイルランド,Northern Ireland,Irlande du Nord,Nordirland,Irlanda del Nord,Irlanda del Norte,北爱尔兰,북아일랜드,
+        ///.
+        /// </summary>
+        internal static string sr_110 {
+            get {
+                return ResourceManager.GetString("sr_110", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ザンビア,Zambia,Zambie,Sambia,Zambia,Zambia,赞比亚,잠비아,
+        ///.
+        /// </summary>
+        internal static string sr_111 {
+            get {
+                return ResourceManager.GetString("sr_111", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ジンバブエ,Zimbabwe,Zimbabwe,Simbabwe,Zimbabwe,Zimbabue,津巴布韦,짐바브웨,
+        ///.
+        /// </summary>
+        internal static string sr_112 {
+            get {
+                return ResourceManager.GetString("sr_112", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,アゼルバイジャン,Azerbaijan,Azerbaïdjan,Aserbaidschan,Azerbaigian,Azerbaiyán,阿塞拜疆,아제르바이잔,
+        ///.
+        /// </summary>
+        internal static string sr_113 {
+            get {
+                return ResourceManager.GetString("sr_113", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,モーリタニア,Mauritania,Mauritanie,Mauretanien,Mauritania,Mauritania,毛里塔尼亚,모리타니,
+        ///.
+        /// </summary>
+        internal static string sr_114 {
+            get {
+                return ResourceManager.GetString("sr_114", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,マリ,Mali,Mali,Mali,Mali,Malí,马里,말리,
+        ///.
+        /// </summary>
+        internal static string sr_115 {
+            get {
+                return ResourceManager.GetString("sr_115", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ニジェール,Niger,Niger,Niger,Niger,Níger,尼日尔,니제르,
+        ///.
+        /// </summary>
+        internal static string sr_116 {
+            get {
+                return ResourceManager.GetString("sr_116", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,チャド,Chad,Tchad,Tschad,Ciad,Chad,乍得,차드,
+        ///.
+        /// </summary>
+        internal static string sr_117 {
+            get {
+                return ResourceManager.GetString("sr_117", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,スーダン,Sudan,Soudan,Sudan,Sudan,Sudán,苏丹,수단,
+        ///.
+        /// </summary>
+        internal static string sr_118 {
+            get {
+                return ResourceManager.GetString("sr_118", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,エリトリア,Eritrea,Érythrée,Eritrea,Eritrea,Eritrea,厄立特里亚,에리트레아,
+        ///.
+        /// </summary>
+        internal static string sr_119 {
+            get {
+                return ResourceManager.GetString("sr_119", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ジブチ,Djibouti,Djibouti,Dschibuti,Gibuti,Yibuti,吉布提,지부티,
+        ///.
+        /// </summary>
+        internal static string sr_120 {
+            get {
+                return ResourceManager.GetString("sr_120", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ソマリア,Somalia,Somalie,Somalia,Somalia,Somalia,索马里,소말리아,
+        ///.
+        /// </summary>
+        internal static string sr_121 {
+            get {
+                return ResourceManager.GetString("sr_121", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,アンドラ,Andorra,Andorre,Andorra,Andorra,Andorra,安道尔,안도라,
+        ///.
+        /// </summary>
+        internal static string sr_122 {
+            get {
+                return ResourceManager.GetString("sr_122", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ジブラルタル,Gibraltar,Gibraltar,Gibraltar,Gibilterra,Gibraltar,直布罗陀,지브롤터,
+        ///.
+        /// </summary>
+        internal static string sr_123 {
+            get {
+                return ResourceManager.GetString("sr_123", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ガーンジー島,Guernsey,Guernesey,Guernsey,Guernsey,Guernsey,根西,건지 섬,
+        ///.
+        /// </summary>
+        internal static string sr_124 {
+            get {
+                return ResourceManager.GetString("sr_124", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,マン島,Isle of Man,Île de Man,Isle of Man,Isola di Man,Isla de Man,马恩岛,맨 섬,
+        ///.
+        /// </summary>
+        internal static string sr_125 {
+            get {
+                return ResourceManager.GetString("sr_125", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ジャージー島,Jersey,Jersey,Jersey,Jersey,Jersey,泽西,저지 섬,
+        ///.
+        /// </summary>
+        internal static string sr_126 {
+            get {
+                return ResourceManager.GetString("sr_126", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,モナコ,Monaco,Monaco,Monaco,Monaco (Principato di),Mónaco,摩纳哥,모나코,
+        ///.
+        /// </summary>
+        internal static string sr_127 {
+            get {
+                return ResourceManager.GetString("sr_127", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,台北市,Taipei City,Taipei,Taipeh,Taipei,Taipéi,-,타이베이,
+        ///003,高雄市,Kaohsiung City,Kaohsiung,Kaohsiung,Kaohsiung,Condado de Kaohsiung,-,가오슝,
+        ///004,基隆市,Keelung City,Keelung,Keelung,Keelung,Keelung,-,지룽,
+        ///005,新竹市,Hsinchu City,Hsinchu,Hsinchu,Hsinchu,Hsinchu,-,신주,
+        ///006,台中市,Taichung City,Taichung,Taichung,Taichung,Taichung,-,타이중,
+        ///007,嘉義市,Chiayi City,Chiayi,Chiayi,Chiayi,Chiayi,-,자이,
+        ///008,台南市,Tainan City,Tainan,Tainan,Tainan,Tainan,-,타이난,
+        ///009,新北市,New Taipe [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_128 {
+            get {
+                return ResourceManager.GetString("sr_128", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,ソウル特別市,Seoul-teukbyeolsi,Séoul,Seoul,Seoul,Seúl,首尔特别市,서울특별시,
+        ///003,プサン広域市,Busan-gwangyeoksi,Pusan,Busan,Busan,Busán,釜山广域市,부산광역시,
+        ///004,テグ広域市,Daegu-gwangyeoksi,Daegu,Daegu,Daegu,Daegu,大邱广域市,대구광역시,
+        ///005,インチョン広域市,Incheon-gwangyeoksi,Incheon,Incheon,Incheon,Incheon,仁川广域市,인천광역시,
+        ///006,クァンジュ広域市,Gwangju-gwangyeoksi,Gwangju,Gwangju,Gwangju,Gwangju,光州广域市,광주광역시,
+        ///007,テジョン広域市,Daejeon-gwangyeoksi,Daejeon,Daejeon,Daejeon,Daejeon,大田广域市,대전광역시,
+        ///008,ウルサン広域市,Ulsan- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_136 {
+            get {
+                return ResourceManager.GetString("sr_136", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,ホンコン,Hong Kong,Hong Kong,Hongkong,Hong Kong,Hong Kong,中国 香港,홍콩,
+        ///.
+        /// </summary>
+        internal static string sr_144 {
+            get {
+                return ResourceManager.GetString("sr_144", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,シンガポール,Singapore,Singapour,Singapur,Singapore,Singapur,新加坡,싱가포르,
+        ///.
+        /// </summary>
+        internal static string sr_153 {
+            get {
+                return ResourceManager.GetString("sr_153", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,クアラ・ルンプール,Kuala Lumpur,Kuala Lumpur,Kuala Lumpur,Kuala Lumpur,Kuala Lumpur,吉隆坡联邦直辖区,쿠알라룸푸르,
+        ///003,ジョホール州,Johor,Johor,Johor,Johor,Johor,柔佛州,조호르 주,
+        ///004,ケダ州,Kedah,Kedah,Kedah,Kedah,Kedah,吉打州,케다 주,
+        ///005,ケランタン州,Kelantan,Kelantan,Kelantan,Kelantan,Kelantan,吉兰丹州,켈란탄 주,
+        ///006,マラッカ州,Melaka,Malacca,Malakka,Malacca,Melaka,马六甲州,믈라카 주,
+        ///007,ヌグリ・センビラン州,Negeri Sembilan,Negeri Sembilan,Negeri Sembilan,Negeri Sembilan,Negeri Sembilan,森美兰州,느그리슴빌란 주,
+        ///008,パハン州,Paha [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_156 {
+            get {
+                return ResourceManager.GetString("sr_156", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,北京市,Beijing,Pékin,Peking,Pechino,Pekín,北京市,베이징,
+        ///003,重慶市,Chongqing,Chongqing,Chongqing,Chongqing,Chongqing,重庆市,충칭,
+        ///004,上海市,Shanghai,Shanghai,Shanghai,Shanghai,Shanghái,上海市,상하이,
+        ///005,天津市,Tianjin,Tianjin,Tianjin,Tientsin,Tianjin,天津市,톈진,
+        ///006,安徽省,Anhui,Anhui,Anhui,Anhui,Anhui,安徽省,안후이 성,
+        ///007,福建省,Fujian,Fujian,Fujian,Fujian,Fujian,福建省,푸젠 성,
+        ///008,甘粛省,Gansu,Gansu,Gansu,Gansu,Gansu,甘肃省,간쑤 성,
+        ///009,広東省,Guangdong,Guangdong,Guangdong,Guangdong,Cantón,广东省, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_160 {
+            get {
+                return ResourceManager.GetString("sr_160", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,アブダビ,Abu Dhabi,Abu Dhabi,Abu Dhabi,Abu Dhabi,Abu Dabi,阿布扎比,아부다비,
+        ///003,アジュマン,Ajman,Ajman,Adschman,Ajman,Ajmán,阿治曼,아지만,
+        ///004,シャルジャ,Ash Shariqah,Sharjah,Schardscha,Sharjah,Sarja,沙迦,샤르자,
+        ///005,ラアス・アル・カイマー,Ras al-Khaimah,Ras al-Khaïmah,Ras al-Chaima,Ras al-Khaimah,Ras el Jaima,哈伊马角,라스알카이마,
+        ///006,ドゥバイ,Dubai,Dubaï,Dubai,Dubai,Dubái,迪拜,두바이,
+        ///007,フジャイラー,Al Fujayrah,Fujaïrah,Fudschaira,Fujayrah,Fujaira,富查伊拉,알푸자이라,
+        ///008,ウム・アル・カイワイン,Umm al Qaywayn,Umm al-Qaiw [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_168 {
+            get {
+                return ResourceManager.GetString("sr_168", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,デリー,Delhi,Delhi,Delhi,Delhi,Delhi,德里中央直辖区,델리,
+        ///003,アンダマン・ニコバル諸島,Andaman and Nicobar Islands,Îles Andaman-et-Nicobar,Andamanen und Nikobaren,Andamane e Nicobare,Islas Andamán y Nicobar,安达曼和尼科巴群岛中央直辖区,안다만 니코바르 제도,
+        ///004,アーンドラ・プラデーシュ州,Andhra Pradesh,Andhra Pradesh,Andhra Pradesh,Andhra Pradesh,Andhra Pradesh,安得拉邦,안드라프라데시 주,
+        ///005,アッサム州,Assam,Assam,Assam,Assam,Assam,阿萨姆邦,아삼 주,
+        ///006,チャンディーガル州,Chandīgarh,Chandigarh,Chandigarh,Chandigarh,Chandigarh,昌迪加尔中 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_169 {
+            get {
+                return ResourceManager.GetString("sr_169", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///002,リヤド州,Ar Riyad,Riyad,Riad,Al-Riyad,Riad,利雅得地区,리야드 주,
+        ///003,バーハ州,Al Bahah,Al Bâhah,Baha,Al-Bahah,Al Bahah,巴哈地区,알바하 주,
+        ///004,メディナ州,Al Madinah,Médine,Medina,Medina,Medina,麦地那地区,메디나 주,
+        ///005,東部州,Ash Sharqiyah,Province Est,Asch-Scharqiyya,Ash-Sharqiyah,Región Oriental,东部地区,샤르키야 주,
+        ///006,カスィーム州,Al Qasim,Al Qasim,Qasim,Al-Qasim,Al Qasim,卡西姆地区,카심 주,
+        ///007,アシール州,&apos;Asir,Assir,Asir,&apos;Asir,Asir,阿西尔地区,아시르 주,
+        ///008,ハーイル州,Ha&apos;il,Haïl,Hail,Ha&apos;il,Hail,哈伊勒地区,하일 주,
+        ///009,メッカ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sr_174 {
+            get {
+                return ResourceManager.GetString("sr_174", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,サンマリノ,San Marino,Saint-Marin,San Marino,San Marino,San Marino,圣马力诺,산마리노,
+        ///.
+        /// </summary>
+        internal static string sr_184 {
+            get {
+                return ResourceManager.GetString("sr_184", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,バチカン,Vatican City,Vatican,Vatikanstadt,Vaticano (Città del),Vaticano,梵蒂冈,바티칸,
+        ///.
+        /// </summary>
+        internal static string sr_185 {
+            get {
+                return ResourceManager.GetString("sr_185", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
+        ///000,—,—,—,—,—,—,—,—
+        ///001,バーミューダ,Bermuda,Bermudes,Bermuda,Bermude,Bermudas,百慕大,버뮤다,
+        ///.
+        /// </summary>
+        internal static string sr_186 {
+            get {
+                return ResourceManager.GetString("sr_186", resourceCulture);
             }
         }
         
