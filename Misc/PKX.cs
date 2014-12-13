@@ -527,7 +527,8 @@ namespace PKHeX
 
         private string
             mnicknamestr, mgenderstring, mnotOT, mot, mSpeciesName, mNatureName, mHPName, mAbilityName,
-            mMove1N, mMove2N, mMove3N, mMove4N;
+            mMove1N, mMove2N, mMove3N, mMove4N,
+            mcountryID, mregionID;
 
         private int
             mability, mabilitynum, mnature, mfeflag, mgenderflag, maltforms, mPKRS_Strain, mPKRS_Duration,
@@ -549,7 +550,7 @@ namespace PKHeX
             mmet_year, mmet_month, mmet_day,
             meggloc, mmetloc,
             mball, mencountertype,
-            mgamevers, mcountryID, mregionID, mdsregID, motlang;
+            mgamevers, mdsregID, motlang;
 
         public Image pkimg { get { return pksprite; } }
         public string Nickname { get { return mnicknamestr; } }
@@ -563,6 +564,8 @@ namespace PKHeX
         public string Move2 { get { return mMove2N; } }
         public string Move3 { get { return mMove3N; } }
         public string Move4 { get { return mMove4N; } }
+        public string CountryID { get { return mcountryID; } }
+        public string RegionID { get { return mregionID; } }
 
         #region Extraneous
         public string EC { get { return mEC.ToString("X8"); } }
@@ -634,8 +637,6 @@ namespace PKHeX
         public ushort Ball { get { return mball; } }
         public ushort Encounter { get { return mencountertype; } }
         public ushort GameVersion { get { return mgamevers; } }
-        public ushort CountryID { get { return mcountryID; } }
-        public ushort RegionID { get { return mregionID; } }
         public ushort DSRegionID { get { return mdsregID; } }
         public ushort OTLang { get { return motlang; } }
 
@@ -734,8 +735,9 @@ namespace PKHeX
             motgender = (pkx[0xDD]) >> 7;
             mencountertype = pkx[0xDE];
             mgamevers = pkx[0xDF];
-            mcountryID = pkx[0xE0];
-            mregionID = pkx[0xE1];
+            string[] data = getCountryRegionText(pkx[0xE0], pkx[0xE1], Form1.curlanguage);
+            mcountryID = data[0x0];
+            mregionID = data[0x1];
             mdsregID = pkx[0xE2];
             motlang = pkx[0xE3];
 
