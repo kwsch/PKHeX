@@ -234,6 +234,12 @@ namespace PKHeX
             }
             else return tl;
         }
+        public static bool getIsShiny(uint PID, uint TID, uint SID)
+        {
+            uint PSV = getPSV(PID);
+            uint TSV = getTSV(TID, SID);
+            return ((TSV ^ PSV) < 16);
+        }
         public static uint getEXP(int level, int species)
         {
             // Fetch Growth
@@ -290,7 +296,7 @@ namespace PKHeX
 
             // Get Region Text
             {
-                string[] inputCSV = Util.getSimpleStringList("sr_" + region.ToString("000"));
+                string[] inputCSV = Util.getSimpleStringList("sr_" + country.ToString("000"));
                 // Set up our Temporary Storage
                 string[] unsortedList = new string[inputCSV.Length - 1];
                 int[] indexes = new int[inputCSV.Length - 1];
@@ -307,7 +313,7 @@ namespace PKHeX
                 }
 
                 int regionnum = Array.IndexOf(indexes, region);
-                data[0] = unsortedList[regionnum];
+                data[1] = unsortedList[regionnum];
             }
             return data;
         }
@@ -483,13 +489,13 @@ namespace PKHeX
                 return (chk == BitConverter.ToUInt16(input, 0x6));
             }
         }
-        public static UInt16 getPSV(UInt32 PID)
+        public static uint getPSV(uint PID)
         {
             return Convert.ToUInt16(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
         }
-        public static UInt16 getTSV(UInt16 TID, UInt16 SID)
+        public static uint getTSV(uint TID, uint SID)
         {
-            return Convert.ToUInt16((TID ^ SID) >> 4);
+            return ((TID ^ SID) >> 4);
         }
         public static uint getRandomPID(int species, int cg)
         {
@@ -527,7 +533,7 @@ namespace PKHeX
 
         private string
             mnicknamestr, mgenderstring, mnotOT, mot, mSpeciesName, mNatureName, mHPName, mAbilityName,
-            mMove1N, mMove2N, mMove3N, mMove4N,
+            mMove1N, mMove2N, mMove3N, mMove4N, mhelditemN,
             mcountryID, mregionID;
 
         private int
@@ -538,8 +544,8 @@ namespace PKHeX
             misegg, misnick, misshiny;
 
         private ushort
-            mspecies, mhelditem, mTID, mSID, mTSV, mESV,
-            mmove1, mmove2, mmove3, mmove4,
+            mhelditem, mspecies, mTID, mSID, mTSV, mESV,
+            mmove1, mmove2, mmove3, mmove4, 
             mmove1_pp, mmove2_pp, mmove3_pp, mmove4_pp,
             mmove1_ppu, mmove2_ppu, mmove3_ppu, mmove4_ppu,
             meggmove1, meggmove2, meggmove3, meggmove4,
@@ -564,6 +570,7 @@ namespace PKHeX
         public string Move2 { get { return mMove2N; } }
         public string Move3 { get { return mMove3N; } }
         public string Move4 { get { return mMove4N; } }
+        public string HeldItem { get { return mhelditemN; } }
         public string CountryID { get { return mcountryID; } }
         public string RegionID { get { return mregionID; } }
 
@@ -607,7 +614,6 @@ namespace PKHeX
         public bool IsNicknamed { get { return misnick; } }
         public bool IsShiny { get { return misshiny; } }
 
-        public ushort HeldItem { get { return mhelditem; } }
         public ushort TID { get { return mTID; } }
         public ushort SID { get { return mSID; } }
         public ushort TSV { get { return mTSV; } }
@@ -655,7 +661,7 @@ namespace PKHeX
             mexp = BitConverter.ToUInt32(pkx, 0x10);
             mability = pkx[0x14];
             mabilitynum = pkx[0x15];
-            // 0x16, 0x17 - unknown
+            // 0x16, 0x17 - Training bag
             mPID = BitConverter.ToUInt32(pkx, 0x18);
             mnature = pkx[0x1C];
             mfeflag = pkx[0x1D] % 2;
@@ -785,6 +791,7 @@ namespace PKHeX
             try
             {
                 mSpeciesName = Form1.specieslist[mspecies];
+                mhelditemN = Form1.itemlist[mhelditem];
                 mNatureName = Form1.natures[mnature];
                 mHPName = Form1.types[mhptype];
                 mAbilityName = Form1.abilitylist[mability];
@@ -884,11 +891,8 @@ namespace PKHeX
             for (int i = 1; i < inputCSV.Length; i++)
             {
                 string[] countryData = inputCSV[i].Split(',');
-                if (countryData.Length > 1)
-                {
-                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                    unsortedList[i - 1] = countryData[index + 1];
-                }
+                indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                unsortedList[i - 1] = countryData[index + 1];
             }
 
             // Sort our input data
@@ -902,6 +906,23 @@ namespace PKHeX
                 cbItem ncbi = new cbItem();
                 ncbi.Text = sortedList[i];
                 ncbi.Value = indexes[Array.IndexOf(unsortedList, sortedList[i])];
+                cbList.Add(ncbi);
+            }
+            return cbList;
+        }
+        internal static List<cbItem> getUnsortedCBList(string textfile)
+        {
+            // Set up
+            List<cbItem> cbList = new List<cbItem>();
+            string[] inputCSV = Util.getSimpleStringList(textfile);
+
+            // Gather our data from the input file
+            for (int i = 1; i < inputCSV.Length; i++)
+            {
+                string[] inputData = inputCSV[i].Split(',');
+                cbItem ncbi = new cbItem();
+                ncbi.Value = Convert.ToInt32(inputData[0]);
+                ncbi.Text = inputData[1];
                 cbList.Add(ncbi);
             }
             return cbList;

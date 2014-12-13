@@ -2566,7 +2566,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control; 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_File,
             this.Menu_Tools,
@@ -2692,7 +2692,7 @@
             this.Menu_Unicode.Name = "Menu_Unicode";
             this.Menu_Unicode.Size = new System.Drawing.Size(183, 22);
             this.Menu_Unicode.Text = "Toggle Unicode Text";
-            this.Menu_Unicode.Click += new System.EventHandler(this.Menu_Unicode_Click);
+            this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
             // testToolStripMenuItem
             // 

@@ -337,6 +337,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\text\locale\regions3ds.txt" />
+    <None Include="Resources\text\locale\3dsregions.txt" />
+    <None Include="Resources\text\locale\languages.txt" />
     <None Include="Resources\text\locale\countries.txt" />
     <None Include="Resources\text\locale\country.txt" />
     <None Include="Resources\text\locale\sr_ID\sr_186.txt" />

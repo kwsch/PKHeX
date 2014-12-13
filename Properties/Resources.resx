@@ -5833,4 +5833,10 @@
   <data name="sr_186" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\locale\sr_ID\sr_186.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="languages" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\languages.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="regions3ds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\regions3ds.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
 </root>
