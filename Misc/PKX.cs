@@ -823,7 +823,7 @@ namespace PKHeX
             string[] inputCSV = Util.getSimpleStringList(textfile);
 
             // Get Language we're fetching for
-            int index = Array.IndexOf(new string[] { "ja", "en", "de", "fr", "it", "es", "ko", "zh", }, lang);
+            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
 
             // Set up our Temporary Storage
             string[] unsortedList = new string[inputCSV.Length - 1];
