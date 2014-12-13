@@ -259,6 +259,58 @@ namespace PKHeX
                 return 1;
             else return 2;
         }
+        public static string[] getCountryRegionText(int country, int region, string lang)
+        {
+            // Get Language we're fetching for
+            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
+            // Return value storage
+            string[] data = new string[2]; // country, region
+
+            // Get Country Text
+            {
+                string[] inputCSV = Util.getSimpleStringList("countries");
+                // Set up our Temporary Storage
+                string[] unsortedList = new string[inputCSV.Length - 1];
+                int[] indexes = new int[inputCSV.Length - 1];
+
+                // Gather our data from the input file
+                for (int i = 1; i < inputCSV.Length; i++)
+                {
+                    string[] countryData = inputCSV[i].Split(',');
+                    if (countryData.Length > 1)
+                    {
+                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                        unsortedList[i - 1] = countryData[index + 1];
+                    }
+                }
+
+                int countrynum = Array.IndexOf(indexes, country);
+                data[0] = unsortedList[countrynum];
+            }
+
+            // Get Region Text
+            {
+                string[] inputCSV = Util.getSimpleStringList("sr_" + region.ToString("000"));
+                // Set up our Temporary Storage
+                string[] unsortedList = new string[inputCSV.Length - 1];
+                int[] indexes = new int[inputCSV.Length - 1];
+
+                // Gather our data from the input file
+                for (int i = 1; i < inputCSV.Length; i++)
+                {
+                    string[] countryData = inputCSV[i].Split(',');
+                    if (countryData.Length > 1)
+                    {
+                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                        unsortedList[i - 1] = countryData[index + 1];
+                    }
+                }
+
+                int regionnum = Array.IndexOf(indexes, region);
+                data[0] = unsortedList[regionnum];
+            }
+            return data;
+        }
         public static ushort[] getStats(int species, int level, int nature, int form,
                                         int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
                                         int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
@@ -701,12 +753,9 @@ namespace PKHeX
 
             misshiny = (mTSV == mESV);
             // Nidoran Gender Fixing Text
-            if (!Convert.ToBoolean(misnick))
             {
-                if (mnicknamestr.Contains((char)0xE08F))
-                    mnicknamestr = Regex.Replace(mnicknamestr, "\uE08F", "\u2640");
-                else if (mnicknamestr.Contains((char)0xE08E))
-                    mnicknamestr = Regex.Replace(mnicknamestr, "\uE08E", "\u2642");
+                mnicknamestr = Regex.Replace(mnicknamestr, "\uE08F", "\u2640");
+                mnicknamestr = Regex.Replace(mnicknamestr, "\uE08E", "\u2642");
             }
             {
                 int species = BitConverter.ToInt16(pkx, 0x08); // Get Species
