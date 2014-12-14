@@ -274,48 +274,56 @@ namespace PKHeX
             string[] data = new string[2]; // country, region
 
             // Get Country Text
+            try
             {
-                string[] inputCSV = Util.getSimpleStringList("countries");
-                // Set up our Temporary Storage
-                string[] unsortedList = new string[inputCSV.Length - 1];
-                int[] indexes = new int[inputCSV.Length - 1];
-
-                // Gather our data from the input file
-                for (int i = 1; i < inputCSV.Length; i++)
                 {
-                    string[] countryData = inputCSV[i].Split(',');
-                    if (countryData.Length > 1)
-                    {
-                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                        unsortedList[i - 1] = countryData[index + 1];
-                    }
-                }
+                    string[] inputCSV = Util.getSimpleStringList("countries");
+                    // Set up our Temporary Storage
+                    string[] unsortedList = new string[inputCSV.Length - 1];
+                    int[] indexes = new int[inputCSV.Length - 1];
 
-                int countrynum = Array.IndexOf(indexes, country);
-                data[0] = unsortedList[countrynum];
+                    // Gather our data from the input file
+                    for (int i = 1; i < inputCSV.Length; i++)
+                    {
+                        string[] countryData = inputCSV[i].Split(',');
+                        if (countryData.Length > 1)
+                        {
+                            indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                            unsortedList[i - 1] = countryData[index + 1];
+                        }
+                    }
+
+                    int countrynum = Array.IndexOf(indexes, country);
+                    data[0] = unsortedList[countrynum];
+                }
             }
+            catch { data[0] = "Illegal"; }
 
             // Get Region Text
+            try
             {
-                string[] inputCSV = Util.getSimpleStringList("sr_" + country.ToString("000"));
-                // Set up our Temporary Storage
-                string[] unsortedList = new string[inputCSV.Length - 1];
-                int[] indexes = new int[inputCSV.Length - 1];
-
-                // Gather our data from the input file
-                for (int i = 1; i < inputCSV.Length; i++)
                 {
-                    string[] countryData = inputCSV[i].Split(',');
-                    if (countryData.Length > 1)
-                    {
-                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                        unsortedList[i - 1] = countryData[index + 1];
-                    }
-                }
+                    string[] inputCSV = Util.getSimpleStringList("sr_" + country.ToString("000"));
+                    // Set up our Temporary Storage
+                    string[] unsortedList = new string[inputCSV.Length - 1];
+                    int[] indexes = new int[inputCSV.Length - 1];
 
-                int regionnum = Array.IndexOf(indexes, region);
-                data[1] = unsortedList[regionnum];
+                    // Gather our data from the input file
+                    for (int i = 1; i < inputCSV.Length; i++)
+                    {
+                        string[] countryData = inputCSV[i].Split(',');
+                        if (countryData.Length > 1)
+                        {
+                            indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                            unsortedList[i - 1] = countryData[index + 1];
+                        }
+                    }
+
+                    int regionnum = Array.IndexOf(indexes, region);
+                    data[1] = unsortedList[regionnum];
+                }
             }
+            catch { data[1] = "Illegal"; }
             return data;
         }
         public static string getLocation(bool eggmet, int gameorigin, int locval)
@@ -598,7 +606,7 @@ namespace PKHeX
             mgamevers, mdsregID, motlang;
 
         public string Position { get { return slot; } }
-        public Image pkimg { get { return pksprite; } }
+        public Image Sprite { get { return pksprite; } }
         public string Nickname { get { return mnicknamestr; } }
         public string Species { get { return mSpeciesName; } }
         public string Nature { get { return mNatureName; } }
@@ -828,6 +836,12 @@ namespace PKHeX
                     file = "_0";
 
                 pksprite = (Image)Properties.Resources.ResourceManager.GetObject(file);
+
+                if (misshiny)
+                {   // Is Shiny
+                    // Redraw our image
+                    pksprite = Util.LayerImage(pksprite, Properties.Resources.rare_icon, 0, 0, 0.7);
+                }
             }
             try
             {
