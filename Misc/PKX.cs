@@ -936,14 +936,28 @@ namespace PKHeX
             IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
             System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);            
             PrivateFontCollection fonts = new PrivateFontCollection();
-            fonts.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length);                   uint dummy = 0;
-            AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
-            System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
+            try
+            {
+                fonts.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length); uint dummy = 0;
+                AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
+                System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
+            }
+            catch { Util.Error("Unable to add ingame font."); }
 
             return new Font(fonts.Families[0], fontsize);
         }
 
         // DataSource Providing
+        public class cbItem
+        {
+            public string Text { get; set; }
+            public object Value { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
         internal static List<cbItem> getCBList(string textfile, string lang)
         {
             // Set up
@@ -977,6 +991,34 @@ namespace PKHeX
                 ncbi.Text = sortedList[i];
                 ncbi.Value = indexes[Array.IndexOf(unsortedList, sortedList[i])];
                 cbList.Add(ncbi);
+            }
+            return cbList;
+        }
+        internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
+        {
+            List<cbItem> cbList = new List<cbItem>();
+            if (allowed == null)
+                allowed = new int[][] { Enumerable.Range(0, inStrings.Length).ToArray() };
+
+            foreach (int[] list in allowed)
+            {
+                // Sort the Rest based on String Name
+                string[] unsortedChoices = new string[list.Length];
+                for (int i = 0; i < list.Length; i++)
+                    unsortedChoices[i] = inStrings[list[i]];
+
+                string[] sortedChoices = new string[unsortedChoices.Length];
+                Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
+                Array.Sort(sortedChoices);
+
+                // Add the rest of the items
+                for (int i = 0; i < sortedChoices.Length; i++)
+                {
+                    cbItem ncbi = new cbItem();
+                    ncbi.Text = sortedChoices[i];
+                    ncbi.Value = list[Array.IndexOf(unsortedChoices, sortedChoices[i])];
+                    cbList.Add(ncbi);
+                }
             }
             return cbList;
         }
@@ -1041,17 +1083,6 @@ namespace PKHeX
                     data = GetPersonal(721 + formID + data.FormPointer);
                 }
                 return data;
-            }
-        }
-
-        public class cbItem
-        {
-            public string Text { get; set; }
-            public object Value { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
             }
         }
     }

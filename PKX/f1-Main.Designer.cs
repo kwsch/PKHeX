@@ -2594,7 +2594,7 @@
             this.Menu_Open.ShowShortcutKeys = false;
             this.Menu_Open.Size = new System.Drawing.Size(114, 22);
             this.Menu_Open.Text = "&Open...";
-            this.Menu_Open.Click += new System.EventHandler(this.mainmenuOpen);
+            this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
             // Menu_Save
             // 
@@ -2603,7 +2603,7 @@
             this.Menu_Save.ShowShortcutKeys = false;
             this.Menu_Save.Size = new System.Drawing.Size(114, 22);
             this.Menu_Save.Text = "&Save as...";
-            this.Menu_Save.Click += new System.EventHandler(this.mainmenuSave);
+            this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
             // Menu_Exit
             // 
@@ -2612,7 +2612,7 @@
             this.Menu_Exit.ShowShortcutKeys = false;
             this.Menu_Exit.Size = new System.Drawing.Size(114, 22);
             this.Menu_Exit.Text = "&Exit";
-            this.Menu_Exit.Click += new System.EventHandler(this.mainmenuExit);
+            this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
             // Menu_Tools
             // 
@@ -2630,7 +2630,7 @@
             this.Menu_ToggleBoxUI.Name = "Menu_ToggleBoxUI";
             this.Menu_ToggleBoxUI.Size = new System.Drawing.Size(182, 22);
             this.Menu_ToggleBoxUI.Text = "Toggle Box Interface";
-            this.Menu_ToggleBoxUI.Click += new System.EventHandler(this.mainmenuWiden);
+            this.Menu_ToggleBoxUI.Click += new System.EventHandler(this.mainMenuWiden);
             // 
             // Menu_BoxIO
             // 
@@ -2644,14 +2644,14 @@
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
             this.reportToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.reportToolStripMenuItem.Text = "Box Data Report";
-            this.reportToolStripMenuItem.Click += new System.EventHandler(this.mainmenuBoxReport);
+            this.reportToolStripMenuItem.Click += new System.EventHandler(this.mainMenuBoxReport);
             // 
             // codeGeneratorToolStripMenuItem
             // 
             this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
             this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
-            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.mainmenuCodeGen);
+            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.mainMenuCodeGen);
             // 
             // Menu_Options
             // 
@@ -2685,7 +2685,7 @@
             this.Menu_About.ShowShortcutKeys = false;
             this.Menu_About.Size = new System.Drawing.Size(183, 22);
             this.Menu_About.Text = "A&bout PKHeX";
-            this.Menu_About.Click += new System.EventHandler(this.mainmenuAbout);
+            this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
             // Menu_Unicode
             // 

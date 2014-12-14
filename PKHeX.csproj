@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\Legal.cs" />
     <Compile Include="PKX\f2-Text.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,6 +338,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\text\ko\text_Games_ko.txt" />
+    <None Include="Resources\text\ja\text_Games_ja.txt" />
+    <None Include="Resources\text\it\text_Games_it.txt" />
+    <None Include="Resources\text\fr\text_Games_fr.txt" />
+    <None Include="Resources\text\es\text_Games_es.txt" />
+    <None Include="Resources\text\en\text_Games_en.txt" />
+    <None Include="Resources\text\de\text_Games_de.txt" />
+    <None Include="Resources\text\zh\text_Games_zh.txt" />
+    <None Include="Resources\text\zh\text_EncounterType_zh.txt" />
+    <None Include="Resources\text\ko\text_EncounterType_ko.txt" />
+    <None Include="Resources\text\ja\text_EncounterType_ja.txt" />
+    <None Include="Resources\text\it\text_EncounterType_it.txt" />
+    <None Include="Resources\text\fr\text_EncounterType_fr.txt" />
+    <None Include="Resources\text\es\text_EncounterType_es.txt" />
+    <None Include="Resources\text\en\text_EncounterType_en.txt" />
+    <None Include="Resources\text\de\text_EncounterType_de.txt" />
     <None Include="Resources\text\locale\regions3ds.txt" />
     <None Include="Resources\text\locale\3dsregions.txt" />
     <None Include="Resources\text\locale\languages.txt" />

@@ -351,6 +351,7 @@ namespace PKHeX
         {
             uint flags = Util.ToUInt32(MT_Flags);
             Array.Copy(BitConverter.GetBytes(flags), 0, sav, 0x24800 + 0x140, 4);
+            // Array.Copy(BitConverter.GetBytes(flags), 0, sav, 0x2942C, 4);
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
             Close();
@@ -592,12 +593,10 @@ namespace PKHeX
         private void updateForm(object sender, EventArgs e)
         {
             m_parent.updateAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
-
+            
             // If form has a single gender, account for it.
-            if (PKX.getGender(CB_Form.Text) == 0) // ♂
-                Label_Gender.Text = Form1.gendersymbols[0]; // ♂
-            else if (PKX.getGender(CB_Form.Text) == 1) // ♀
-                Label_Gender.Text = Form1.gendersymbols[1]; // ♀
+            if (PKX.getGender(CB_Form.Text) < 2)
+                Label_Gender.Text = Form1.gendersymbols[CB_Form.SelectedIndex];
         }
 
         private int species; private int genderflag;
@@ -612,22 +611,11 @@ namespace PKHeX
                 return;
 
             if (gt < 256) // If not a single gender(less) species:
-            {
-                if (PKX.getGender(Label_Gender.Text) == 0)
-                    Label_Gender.Text = Form1.gendersymbols[1];
-                else
-                    Label_Gender.Text = Form1.gendersymbols[0];
-            }
+                Label_Gender.Text = Form1.gendersymbols[PKX.getGender(Label_Gender.Text) ^ 1];
         }
         private void setGenderLabel()
         {
-            if (genderflag == 0) // Gender = Male
-                Label_Gender.Text = Form1.gendersymbols[0];
-            
-            else if (genderflag == 1) // Gender = Female
-                Label_Gender.Text = Form1.gendersymbols[1];
-
-            else Label_Gender.Text = Form1.gendersymbols[2];
+            Label_Gender.Text = Form1.gendersymbols[genderflag];
         }
     }
 }

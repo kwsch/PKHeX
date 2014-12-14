@@ -14799,7 +14799,8 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1,JPN (日本語)
+        ///   Looks up a localized string similar to ID,Language
+        ///1,JPN (日本語)
         ///2,ENG (English)
         ///3,FRE (Français)
         ///4,ITA (Italiano)
@@ -14924,7 +14925,8 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0,Japan (日本)
+        ///   Looks up a localized string similar to ID,3DS Region
+        ///0,Japan (日本)
         ///1,Americas (NA/SA)
         ///2,Europe (EU/AU)
         ///4,China (中国)
@@ -19055,6 +19057,270 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_de {
+            get {
+                return ResourceManager.GetString("text_EncounterType_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_en {
+            get {
+                return ResourceManager.GetString("text_EncounterType_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_es {
+            get {
+                return ResourceManager.GetString("text_EncounterType_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_fr {
+            get {
+                return ResourceManager.GetString("text_EncounterType_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_it {
+            get {
+                return ResourceManager.GetString("text_EncounterType_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_ja {
+            get {
+                return ResourceManager.GetString("text_EncounterType_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_ko {
+            get {
+                return ResourceManager.GetString("text_EncounterType_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None
+        ///
+        ///Tall Grass
+        ///
+        ///Dialga/Palkia
+        ///Surfing/Fishing
+        ///
+        ///
+        ///
+        ///Building
+        ///Marsh/Safari
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Starter/Fossil/Gift.
+        /// </summary>
+        internal static string text_EncounterType_zh {
+            get {
+                return ResourceManager.GetString("text_EncounterType_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///
         ///
@@ -22712,6 +22978,294 @@ namespace PKHeX.Properties {
         internal static string text_Forms_zh {
             get {
                 return ResourceManager.GetString("text_Forms_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Saphir
+        ///Rubin
+        ///Smaragd
+        ///Feuerrote
+        ///Blattgrüne
+        ///
+        ///HeartGold
+        ///SoulSilver
+        ///
+        ///Diamant
+        ///Perl
+        ///Platin
+        ///
+        ///
+        ///Kolosseum/XD
+        ///
+        ///
+        ///
+        ///
+        ///Weiße
+        ///Schwarze
+        ///Weiße2
+        ///Schwarze2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_de {
+            get {
+                return ResourceManager.GetString("text_Games_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Sapphire
+        ///Ruby
+        ///Emerald
+        ///FireRed
+        ///LeafGreen
+        ///
+        ///HeartGold
+        ///SoulSilver
+        ///
+        ///Diamond
+        ///Pearl
+        ///Platinum
+        ///
+        ///
+        ///Colosseum/XD
+        ///
+        ///
+        ///
+        ///
+        ///White
+        ///Black
+        ///White2
+        ///Black2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_en {
+            get {
+                return ResourceManager.GetString("text_Games_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Zafiro
+        ///Rubí
+        ///Esmeralda
+        ///RojoFuego
+        ///VerdeHoja
+        ///
+        ///HeartGold
+        ///SoulSilver
+        ///
+        ///Diamante
+        ///Perla
+        ///Platino
+        ///
+        ///
+        ///Colosseum/XD
+        ///
+        ///
+        ///
+        ///
+        ///Blanca
+        ///Negra
+        ///Blanca2
+        ///Negra2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_es {
+            get {
+                return ResourceManager.GetString("text_Games_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Saphir
+        ///Rubis
+        ///Émeraude
+        ///RougeFeu
+        ///VertFeuille
+        ///
+        ///OrHeartGold
+        ///ArgentSoulSilver
+        ///
+        ///Diamant
+        ///Perle
+        ///Platine
+        ///
+        ///
+        ///Colosseum/XD
+        ///
+        ///
+        ///
+        ///
+        ///Blanche
+        ///Noire
+        ///Blanche2
+        ///Noire2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_fr {
+            get {
+                return ResourceManager.GetString("text_Games_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Zaffiro
+        ///Rubino
+        ///Smeraldo
+        ///RossoFuoco
+        ///VerdeFoglia
+        ///
+        ///HeartGold
+        ///SoulSilver
+        ///
+        ///Diamante
+        ///Perla
+        ///Platino
+        ///
+        ///
+        ///Colosseo/XD
+        ///
+        ///
+        ///
+        ///
+        ///Bianca
+        ///Nera
+        ///Bianca2
+        ///Nera2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_it {
+            get {
+                return ResourceManager.GetString("text_Games_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///サファイア
+        ///ルビー
+        ///エメラルド
+        ///ファイアレッド
+        ///リーフグリーン
+        ///
+        ///ハートゴールド
+        ///ソウルシルバー 
+        ///
+        ///ダイヤモンド
+        ///パール
+        ///プラチナ
+        ///
+        ///
+        ///コロシアム/XD
+        ///
+        ///
+        ///
+        ///
+        ///ホワイト
+        ///ブラック
+        ///ホワイト2
+        ///ブラック2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_ja {
+            get {
+                return ResourceManager.GetString("text_Games_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///사파이어
+        ///루비
+        ///에메랄드
+        ///파이어레드
+        ///리프그린
+        ///
+        ///하트골드
+        ///소울실버
+        ///
+        ///디아루가
+        ///펄기아
+        ///Pt기라티나
+        ///
+        ///
+        ///세움/XD
+        ///
+        ///
+        ///
+        ///
+        ///화이트
+        ///블랙
+        ///화이트2
+        ///블랙2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_ko {
+            get {
+                return ResourceManager.GetString("text_Games_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///サファイア
+        ///ルビー
+        ///エメラルド
+        ///ファイアレッド
+        ///リーフグリーン
+        ///
+        ///ハートゴールド
+        ///ソウルシルバー
+        ///
+        ///ダイヤモンド
+        ///パール
+        ///プラチナ
+        ///
+        ///
+        ///コロシアム/XD
+        ///
+        ///
+        ///
+        ///
+        ///ホワイト
+        ///ブラック
+        ///ホワイト2
+        ///ブラック2
+        ///X
+        ///Y
+        ///AS
+        ///OR.
+        /// </summary>
+        internal static string text_Games_zh {
+            get {
+                return ResourceManager.GetString("text_Games_zh", resourceCulture);
             }
         }
         

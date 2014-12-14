@@ -82,7 +82,6 @@ namespace PKHeX
             #endregion
             #region Localize & Populate
             InitializeStrings();
-            // Initialize Fields
             InitializeFields();
             #endregion
             #region Add ContextMenus to the PictureBoxes (PKX slots)
@@ -218,6 +217,8 @@ namespace PKHeX
         public static string[] trainingbags = { };
         public static string[] trainingstage = { };
         public static string[] wallpapernames = { };
+        public static string[] encountertypelist = { };
+        public static string[] gamelist = { };
         public static string[] puffs = { };
         public static string[] itempouch = { };
         public static int[] speciesability = { };
@@ -233,7 +234,7 @@ namespace PKHeX
 
         #region //// MAIN MENU FUNCTIONS ////
         // Main Menu Strip UI Functions
-        private void mainmenuOpen(object sender, EventArgs e)
+        private void mainMenuOpen(object sender, EventArgs e)
         {
             string cyberpath = Util.GetTempFolder();
             SDFLoc = Util.GetSDFLocation();
@@ -263,7 +264,7 @@ namespace PKHeX
                 openQuick(path);
             }
         }
-        private void mainmenuSave(object sender, EventArgs e)
+        private void mainMenuSave(object sender, EventArgs e)
         {
             if (!verifiedpkx()) { return; }
             SavePKX.FileName = TB_Nickname.Text + " - " + TB_PID.Text;
@@ -295,16 +296,16 @@ namespace PKHeX
                 }
             }
         }
-        private void mainmenuExit(object sender, EventArgs e)
+        private void mainMenuExit(object sender, EventArgs e)
         {
             this.Close();
         }
-        private void mainmenuAbout(object sender, EventArgs e)
+        private void mainMenuAbout(object sender, EventArgs e)
         {
             // Open a new form with the About details.
             new About().ShowDialog();
         }
-        private void mainmenuWiden(object sender, EventArgs e)
+        private void mainMenuWiden(object sender, EventArgs e)
         {
             int newwidth;
             if (Width < Height)
@@ -318,7 +319,7 @@ namespace PKHeX
 
             Width = newwidth;
         }
-        private void mainmenuCodeGen(object sender, EventArgs e)
+        private void mainMenuCodeGen(object sender, EventArgs e)
         {
             // Open Code Generator
             CodeGenerator CodeGen = new PKHeX.CodeGenerator(this);
@@ -337,7 +338,7 @@ namespace PKHeX
                 }
             }
         }
-        private void mainmenuBoxReport(object sender, EventArgs e)
+        private void mainMenuBoxReport(object sender, EventArgs e)
         {
             frmReport ReportForm = new frmReport();
             int offset = 0x27A00; if (savegame_oras) offset = 0x33000 + 0x5400;
@@ -625,6 +626,8 @@ namespace PKHeX
             specieslist = Util.getStringList("Species", l);
             wallpapernames = Util.getStringList("Wallpaper", l);
             itempouch = Util.getStringList("ItemPouch", l);
+            encountertypelist = Util.getStringList("EncounterType", l);
+            gamelist = Util.getStringList("Games", l);
 
             if ((l != "zh") || (l == "zh" && !init)) // load initial binaries
             {
@@ -714,23 +717,6 @@ namespace PKHeX
         #region //// PKX WINDOW FUNCTIONS ////
         private void InitializeFields()
         {
-            // Initialize Fields
-            {
-                // Set ComboBox Fields with untranslatable data
-                CB_3DSReg.DataSource = PKX.getUnsortedCBList("regions3ds");
-                CB_3DSReg.DisplayMember = "Text";
-                CB_3DSReg.ValueMember = "Value";
-
-                CB_Language.DataSource = PKX.getUnsortedCBList("languages");
-                CB_Language.DisplayMember = "Text";
-                CB_Language.ValueMember = "Value";
-                                
-                InitializeLanguage();
-            }
-
-            // Finish setting up the ComboBoxes
-            CB_GameOrigin.SelectedIndex = 0;
-
             // Now that the ComboBoxes are ready, load the data.
             populateFields(buff);
             {
@@ -740,6 +726,7 @@ namespace PKHeX
                 CB_GameOrigin.SelectedIndex = 0;
                 CB_Language.SelectedIndex = 0;
                 C_BoxSelect.SelectedIndex = 0;
+                CB_GameOrigin.SelectedIndex = 0;
                 CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
                 CB_Country.SelectedIndex = 0;
@@ -748,271 +735,51 @@ namespace PKHeX
         }
         private void InitializeLanguage()
         {
-            #region Countries
             setCountrySubRegion(CB_Country, "countries");
-            #endregion
-            #region Balls
-            {
-                // Allowed Balls
-                int[] ball_nums = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
-                int[] ball_vals = { 7, 25, 13, 17, 22, 14, 20, 18, 21, 19, 11, 23, 8, 6, 12, 15, 9, 5, 24, 10, 1, 16 };
 
-                // Set up
-                List<cbItem> ball_list = new List<cbItem>();
+            // Set the various ComboBox DataSources up with their allowed entries
+            CB_3DSReg.DataSource = PKX.getUnsortedCBList("regions3ds");
+            CB_Language.DataSource = PKX.getUnsortedCBList("languages");
+            CB_Ball.DataSource = PKX.getCBList(itemlist, new int[] { 4 }, new int[] { 3 }, new int[] { 2 }, Legal.Items_UncommonBall);
+            CB_HeldItem.DataSource = PKX.getCBList(itemlist, (DEV_Ability.Enabled) ? null : Legal.Items_Held);
+            CB_Species.DataSource = PKX.getCBList(specieslist, null);
+            DEV_Ability.DataSource = PKX.getCBList(abilitylist, null);
+            CB_Nature.DataSource = PKX.getCBList(natures, null);
+            CB_GameOrigin.DataSource = PKX.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
+            CB_EncounterType.DataSource = PKX.getCBList(encountertypelist, Legal.Gen4EncounterTypes);
 
-                for (int i = 4; i > 1; i--) // add 4,3,2
-                {
-                    // First 3 Balls are always first
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = itemlist[i];
-                    ncbi.Value = i;
-                    ball_list.Add(ncbi);
-                }
+            // Set the Display
+            CB_3DSReg.DisplayMember = 
+                CB_Language.DisplayMember = 
+                CB_Ball.DisplayMember = 
+                CB_HeldItem.DisplayMember = 
+                CB_Species.DisplayMember = 
+                DEV_Ability.DisplayMember =
+                CB_Nature.DisplayMember =
+                CB_GameOrigin.DisplayMember = 
+                CB_EncounterType.DisplayMember = "Text";
 
-                // Sort the Rest based on String Name
-                string[] ballnames = new string[ball_nums.Length];
-                for (int i = 0; i < ball_nums.Length; i++)
-                    ballnames[i] = itemlist[ball_nums[i]];
-
-                string[] sortedballs = new string[ball_nums.Length];
-                Array.Copy(ballnames, sortedballs, ballnames.Length);
-                Array.Sort(sortedballs);
-
-                // Add the rest of the balls
-                for (int i = 0; i < sortedballs.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedballs[i];
-                    ncbi.Value = ball_vals[Array.IndexOf(ballnames, sortedballs[i])];
-                    ball_list.Add(ncbi);
-                }
-                CB_Ball.DisplayMember = "Text";
-                CB_Ball.ValueMember = "Value";
-                CB_Ball.DataSource = ball_list;
-            }
-            #endregion
-            #region Held Items
-            {
-                // List of valid items to hold
-                int[] item_nums = { 
-                                            000,001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,017,018,019,020,021,022,023,024,025,026,027,028,029,030,031,032,033,034,035,
-                                            036,037,038,039,040,041,042,043,044,045,046,047,048,049,050,051,052,053,054,055,056,057,058,059,060,061,062,063,064,065,066,067,068,069,070,
-                                            071,072,073,074,075,076,077,078,079,080,081,082,083,084,085,086,087,088,089,090,091,092,093,094,099,100,101,102,103,104,105,106,107,108,109,
-                                            110,112,116,117,118,119,134,135,136,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,
-                                            175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,
-                                            210,211,212,213,214,215,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,
-                                            245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,
-                                            280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,
-                                            315,316,317,318,319,320,321,322,323,324,325,326,327,504,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,
-                                            558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,577,580,581,582,583,584,585,586,587,588,589,590,591,639,640,644,645,646,647,
-                                            648,649,650,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,
-                                            684,685,686,687,688,699,704,708,709,710,711,715,
-
-                                            // Appended ORAS Items (Orbs & Mega Stones)
-                                            534,535,
-                                            752,753,754,755,756,757,758,759,760,761,762,763,764,767,768,769,770,
-                                    };
-                if (DEV_Ability.Enabled)    // allow all items to be selected
-                {
-                    item_nums = new int[itemlist.Length];
-                    for (int i = 0; i < itemlist.Length; i++)
-                        item_nums[i] = i;
-                }
-
-                List<cbItem> item_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] itemnames = new string[item_nums.Length];
-                for (int i = 0; i < item_nums.Length; i++)
-                    itemnames[i] = itemlist[item_nums[i]];
-
-                string[] sorteditems = new string[item_nums.Length];
-                Array.Copy(itemnames, sorteditems, itemnames.Length);
-                Array.Sort(sorteditems);
-
-                // Add the rest of the items
-                for (int i = 0; i < sorteditems.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sorteditems[i];
-                    ncbi.Value = item_nums[Array.IndexOf(itemnames, sorteditems[i])];
-                    item_list.Add(ncbi);
-                }
-                CB_HeldItem.DisplayMember = "Text";
-                CB_HeldItem.ValueMember = "Value";
-                CB_HeldItem.DataSource = item_list;
-            }
-            #endregion
-            #region Species
-            {
-                List<cbItem> species_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] sortedspecies = new string[specieslist.Length];
-                Array.Copy(specieslist, sortedspecies, specieslist.Length);
-                Array.Sort(sortedspecies);
-
-                // Add the rest of the items
-                for (int i = 0; i < sortedspecies.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedspecies[i];
-                    ncbi.Value = Array.IndexOf(specieslist, sortedspecies[i]);
-                    species_list.Add(ncbi);
-                }
-                CB_Species.DisplayMember = "Text";
-                CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = species_list;
-            }
-            #endregion
-            #region HAX Ability
-            {
-                List<cbItem> ability_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] sortedability = new string[abilitylist.Length];
-                Array.Copy(abilitylist, sortedability, abilitylist.Length);
-                Array.Sort(sortedability);
-
-                // Add the rest of the items
-                for (int i = 0; i < sortedability.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedability[i];
-                    ncbi.Value = Array.IndexOf(abilitylist, sortedability[i]);
-                    ability_list.Add(ncbi);
-                }
-                DEV_Ability.DisplayMember = "Text";
-                DEV_Ability.ValueMember = "Value";
-                DEV_Ability.DataSource = ability_list;
-            }
-            #endregion
-            #region Natures
-            {
-                List<cbItem> natures_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] sortednatures = new string[natures.Length];
-                Array.Copy(natures, sortednatures, natures.Length);
-                Array.Sort(sortednatures);
-
-                // Add the rest of the items
-                for (int i = 0; i < sortednatures.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortednatures[i];
-                    ncbi.Value = Array.IndexOf(natures, sortednatures[i]);
-                    natures_list.Add(ncbi);
-                }
-                CB_Nature.DisplayMember = "Text";
+            // Set the Value
+            CB_3DSReg.ValueMember = 
+                CB_Language.ValueMember = 
+                CB_Ball.ValueMember = 
+                CB_HeldItem.ValueMember = 
+                CB_Species.ValueMember =
+                DEV_Ability.ValueMember =
+                CB_GameOrigin.ValueMember = 
+                CB_EncounterType.ValueMember = 
                 CB_Nature.ValueMember = "Value";
-                CB_Nature.DataSource = natures_list;
-            }
-            #endregion
-            #region Moves
-            {
-                List<cbItem> move_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] sortedmoves = new string[movelist.Length];
-                Array.Copy(movelist, sortedmoves, movelist.Length);
-                Array.Sort(sortedmoves);
 
-                // Add the rest of the items
-                for (int i = 0; i < sortedmoves.Length; i++)
+                
+            // Set the Move ComboBoxes too..
+            {
+                var moves = PKX.getCBList(movelist, null);
+                foreach (ComboBox cb in new ComboBox[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
                 {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedmoves[i];
-                    ncbi.Value = Array.IndexOf(movelist, sortedmoves[i]);
-                    move_list.Add(ncbi);
+                    cb.DataSource = new BindingSource(moves, null);
+                    cb.DisplayMember = "Text"; cb.ValueMember = "Value";
                 }
-
-                CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
-                CB_RelearnMove1.DisplayMember = CB_RelearnMove2.DisplayMember = CB_RelearnMove3.DisplayMember = CB_RelearnMove4.DisplayMember = "Text";
-                CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
-                CB_RelearnMove1.ValueMember = CB_RelearnMove2.ValueMember = CB_RelearnMove3.ValueMember = CB_RelearnMove4.ValueMember = "Value";
-
-                var move1_list = new BindingSource(move_list, null);
-                CB_Move1.DataSource = move1_list;
-
-                var move2_list = new BindingSource(move_list, null);
-                CB_Move2.DataSource = move2_list;
-
-                var move3_list = new BindingSource(move_list, null);
-                CB_Move3.DataSource = move3_list;
-
-                var move4_list = new BindingSource(move_list, null);
-                CB_Move4.DataSource = move4_list;
-
-                var eggmove1_list = new BindingSource(move_list, null);
-                CB_RelearnMove1.DataSource = eggmove1_list;
-
-                var eggmove2_list = new BindingSource(move_list, null);
-                CB_RelearnMove2.DataSource = eggmove2_list;
-
-                var eggmove3_list = new BindingSource(move_list, null);
-                CB_RelearnMove3.DataSource = eggmove3_list;
-
-                var eggmove4_list = new BindingSource(move_list, null);
-                CB_RelearnMove4.DataSource = eggmove4_list;
             }
-            #endregion
-            #region Encounter Types
-
-            var EncounterType = new[] {
-                    new { Text = "None", Value = 0 },
-                    new { Text = "Tall Grass", Value = 2 },
-                    new { Text = "Dialga/Palkia", Value = 4 },
-                    new { Text = "Cave/Hall of Origin", Value = 5 },
-                    new { Text = "Surfing/Fishing", Value = 7 },
-                    new { Text = "Building", Value = 9 },
-                    new { Text = "Marsh/Safari", Value = 10 },
-                    new { Text = "Starter/Fossil/Gift", Value = 24 }
-                };
-            CB_EncounterType.DataSource = EncounterType;
-            CB_EncounterType.DisplayMember = "Text";
-            CB_EncounterType.ValueMember = "Value";
-            #endregion
-            #region Games
-            List<cbItem> origin_list = new List<cbItem>();
-            // lazy text table... 8 columns
-            string[] langlistorigin = new string[] {
-                // ID       // EN           // JP               // FR               // IT           // DE               // ES               // KO           // ZH
-                    "27",   "OR",           "OR",               "OR",               "OR",           "OR",               "OR",               "OR",          "OR",            
-                    "26",   "AS",           "AS",               "AS",               "AS",           "AS",               "AS",               "AS",          "AS",            
-                    "24",	"X",	        "X",	            "X",	            "X",	        "X",	            "X",	            "X",           "X",	         
-                    "25",	"Y",	        "Y",	            "Y",	            "Y",	        "Y",	            "Y",	            "Y",           "Y",	         
-                    "20",	"White",	    "ホワイト",	        "Blanche",	        "Bianca",	    "Weiße",	        "Blanca",	        "화이트",      "ホワイト",	     
-                    "21",	"Black",	    "ブラック",	        "Noire",	        "Nera",	        "Schwarze",	        "Negra",	        "블랙",        "ブラック",	     
-                    "22",	"White2",	    "ホワイト2",	        "Blanche 2",	    "Bianca2",	    "Weiße2",	        "Blanca2",	        "화이트2",     "ホワイト2",	     
-                    "23",	"Black2",	    "ブラック2",	        "Noire 2",	        "Nera2",	    "Schwarze2",        "Negra2",	        "블랙2",       "ブラック2",	     
-                    "10",	"Diamond",	    "ダイヤモンド",	    "Diamant",	        "Diamante", 	"Diamant",	        "Diamante",	        "디아루가",     "ダイヤモンド",	 
-                    "11",	"Pearl",	    "パール",	        "Perle",	        "Perla",	    "Perl",	            "Perla",	        "펄기아",      "パール",	     
-                    "12",	"Platinum",	    "プラチナ",	        "Platine",	        "Platino",	    "Platin",	        "Platino",	        "Pt 기라티나",  "プラチナ",	     
-                    "7",	"HeartGold",    "ハートゴールド",	"Or HeartGold",     "HeartGold",	"HeartGold",        "HeartGold",	    "하트골드",     "ハートゴールド",
-                    "8",	"SoulSilver",   "ソウルシルバー ",   "Argent SoulSilver","SoulSilver",	"SoulSilver",       "SoulSilver",	    "소울실버",     "ソウルシルバー ",
-                    "2",	"Ruby",	        "ルビー",	        "Rubis",            "Rubino",	    "Rubin",	        "Rubí",	            "루비",        "ルビー",	     
-                    "1",	"Sapphire",	    "サファイア",	    "Saphir",	        "Zaffiro",	    "Saphir",	        "Zafiro",	        "사파이어",     "サファイア",	 
-                    "3",	"Emerald",	    "エメラルド",	    "Émeraude",	        "Smeraldo",	    "Smaragd",	        "Esmeralda",	    "에메랄드",     "エメラルド",	 
-                    "4",	"FireRed",	    "ファイアレッド",	"Rouge Feu",        "Rosso Fuoco",	"Feuerrote ",       "Rojo Fuego",	    "파이어레드",   "ファイアレッド",
-                    "5",	"LeafGreen",	"リーフグリーン",    "Vert Feuille",     "Verde Foglia", "Blattgrüne ",      "Verde Hoja",	    "리프그린",     "リーフグリーン", 
-                    "15",	"Colosseum/XD",	"コロシアム/XD",	    "Colosseum/XD",     "Colosseo/XD",	"Kolosseum/XD",	    "Colosseum/XD",	    "세움/XD",     "コロシアム/XD",
-                };
-            // populate the list
-            for (int i = 0; i < langlistorigin.Length / 9; i++)
-            {
-                cbItem item = new cbItem();
-                item.Text = langlistorigin[i * 9 + CB_MainLanguage.SelectedIndex + 1];
-                item.Value = Convert.ToInt32(langlistorigin[i * 9]);
-                origin_list.Add(item);
-            }
-
-			/*
-			 * Moving the assignment of the Display and ValueMemeber to before the DataSource is assigned
-			as assigning the DataSource causes a onSelectedIndexChanged which causes a call
-			to updateOriginGame which access the SelectedValue property, but since there is no
-			ValueMember assigned it uses the cbItem to string method which returns the Text member
-			*/
-			CB_GameOrigin.DisplayMember = "Text";
-			CB_GameOrigin.ValueMember = "Value";
-            CB_GameOrigin.DataSource = origin_list;
-
-            #endregion
         }
         private void populateFields(byte[] buff)
         {
