@@ -85,9 +85,9 @@ namespace PKHeX
             ToolStripMenuItem mnuSet = new ToolStripMenuItem("Set");
             ToolStripMenuItem mnuDelete = new ToolStripMenuItem("Delete");
             // Assign event handlers
-            mnuView.Click += new EventHandler(rcmView_Click);
-            mnuSet.Click += new EventHandler(rcmSet_Click);
-            mnuDelete.Click += new EventHandler(rcmDelete_Click);
+            mnuView.Click += new EventHandler(clickView);
+            mnuSet.Click += new EventHandler(clickSet);
+            mnuDelete.Click += new EventHandler(clickDelete);
             // Add to main context menu
             mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSet, mnuDelete });
 
@@ -107,7 +107,7 @@ namespace PKHeX
             ToolStripMenuItem mnu2View = new ToolStripMenuItem("View");
 
             // Assign event handlers
-            mnu2View.Click += new EventHandler(rcmView_Click);
+            mnu2View.Click += new EventHandler(clickView);
 
             // Add to main context menu
             mnu2.Items.AddRange(new ToolStripItem[] { mnu2View });
@@ -1384,7 +1384,7 @@ namespace PKHeX
             PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(gameindex == 24 || gameindex == 25 || gameindex == 26 || gameindex == 27)) * 0.9 + 0.1);
         }
         // Label Shortcut Tweaks
-        private void Label_Friendship_Click(object sender, EventArgs e)
+        private void clickFriendship(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // prompt to reset
             {
@@ -1399,7 +1399,7 @@ namespace PKHeX
             else // not reset, not maxed, so max
                 TB_Friendship.Text = "255";
         }
-        private void Label_Gender_Click(object sender, EventArgs e)
+        private void clickGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
@@ -1417,14 +1417,14 @@ namespace PKHeX
                     CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
             }
         }
-        private void Label_PPups_Click(object sender, EventArgs e)
+        private void clickPPUps(object sender, EventArgs e)
         {
             CB_PPu1.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move1) > 0) ? 3 : 0;
             CB_PPu2.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move2) > 0) ? 3 : 0;
             CB_PPu3.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move3) > 0) ? 3 : 0;
             CB_PPu4.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move4) > 0) ? 3 : 0;
         }
-        private void Label_Marking_Click(object sender, EventArgs e)
+        private void clickMarking(object sender, EventArgs e)
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
@@ -1433,7 +1433,7 @@ namespace PKHeX
             cb.Checked = !cb.Checked;
             setMarkings();
         }
-        private void Label_OT_Click(object sender, EventArgs e)
+        private void clickOT(object sender, EventArgs e)
         {
             string OT = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, SaveGame.TrainerCard + 0x48 + savindex * 0x7F000, 0x1A));
             if (OT.Length > 0)
@@ -1465,11 +1465,11 @@ namespace PKHeX
                 updateNickname(null, null);
             }
         }
-        private void Label_CT_Click(object sender, EventArgs e)
+        private void clickCT(object sender, EventArgs e)
         {
             Label_CTGender.Text = gendersymbols[savefile[0x19405 + savindex * 0x7F000]];
         }
-        private void Label_TrainerGender_Click(object sender, EventArgs e)
+        private void clickTRGender(object sender, EventArgs e)
         {
             Label lbl = sender as Label;
             if (lbl.Text == "") 
@@ -2575,7 +2575,7 @@ namespace PKHeX
 
         #region //// SAVE FILE FUNCTIONS ////
         // Integrity Checks // 
-        private void B_VerifyCHK_Click(object sender, EventArgs e)
+        private void clickVerifyCHK(object sender, EventArgs e)
         {
             if (savedited)
             {
@@ -2635,7 +2635,7 @@ namespace PKHeX
             if (invalid1 + invalid2 == (start.Length * 2))
                 RTB_S.Text = "No checksums are valid.";
         }
-        private void B_VerifySHA_Click(object sender, EventArgs e)
+        private void clickVerifySHA(object sender, EventArgs e)
         {
             if (savedited)
             {
@@ -2853,7 +2853,7 @@ namespace PKHeX
                     RTB_S.Text += "ERROR: NO ACTIVE DIFI HASH MATCH";
             }
         }
-        private void exportSAV(object sender, EventArgs e)
+        private void clickExportSAV(object sender, EventArgs e)
         {
             // Create another version of the save file.
             byte[] editedsav = new byte[0x100000];
@@ -3171,19 +3171,19 @@ namespace PKHeX
             }
         }
         // Box/SAV Functions // 
-        private void B_BoxRight_Click(object sender, EventArgs e)
+        private void clickBoxRight(object sender, EventArgs e)
         {
             if (C_BoxSelect.SelectedIndex < 30)
                 C_BoxSelect.SelectedIndex++;
             else C_BoxSelect.SelectedIndex = 0;
         }
-        private void B_BoxLeft_Click(object sender, EventArgs e)
+        private void clickBoxLeft(object sender, EventArgs e)
         {
             if (C_BoxSelect.SelectedIndex > 0)
                 C_BoxSelect.SelectedIndex--;
             else C_BoxSelect.SelectedIndex = 30;
         }
-        private void rcmView_Click(object sender, EventArgs e)
+        private void clickView(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
             int offset = getPKXOffset(slot);
@@ -3242,7 +3242,7 @@ namespace PKHeX
             else
                 System.Media.SystemSounds.Exclamation.Play();
         }
-        private void rcmSet_Click(object sender, EventArgs e)
+        private void clickSet(object sender, EventArgs e)
         {
             if (!verifiedpkx()) { return; }
             int slot = getSlot(sender);
@@ -3288,7 +3288,7 @@ namespace PKHeX
 
             getSlotColor(slot, Properties.Resources.slotSet);
         }
-        private void rcmDelete_Click(object sender, EventArgs e)
+        private void clickDelete(object sender, EventArgs e)
         {
             byte partycount = setParty();
             int slot = getSlot(sender);
@@ -3310,7 +3310,7 @@ namespace PKHeX
 
             getSlotColor(slot, Properties.Resources.slotDel);
         }
-        private void cloneBox(object sender, EventArgs e)
+        private void clickClone(object sender, EventArgs e)
         {
             if (!verifiedpkx()) { return; } // don't copy garbage to the box
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
@@ -3414,13 +3414,13 @@ namespace PKHeX
         private void slotModifier_Click(object sender, EventArgs e)
         {
             if (ModifierKeys == (Keys.Control | Keys.Alt))
-                cloneBox(sender, e);
+                clickClone(sender, e);
             else if (ModifierKeys == Keys.Control)
-                rcmView_Click(sender, e);
+                clickView(sender, e);
             else if (ModifierKeys == Keys.Shift)
-                rcmSet_Click(sender, e);
+                clickSet(sender, e);
             else if (ModifierKeys == Keys.Alt)
-                rcmDelete_Click(sender, e);
+                clickDelete(sender, e);
         }
         // Subfunctions // 
         private int getPKXOffset(int slot)
@@ -3712,7 +3712,7 @@ namespace PKHeX
             uint psv = PKX.getPSV(Util.getHEXval(TB_PID));
             Tip3.SetToolTip(this.TB_PID, "PSV: " + psv.ToString("0000"));
         }
-        private void Menu_DumpLoadBoxes_Click(object sender, EventArgs e)
+        private void mainMenuBoxDumpLoad(object sender, EventArgs e)
         {
             DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
             if (dr != DialogResult.Cancel)
@@ -3911,7 +3911,7 @@ namespace PKHeX
                     Util.Alert(result);
             }
         }
-        // Subfunction Save Buttons // 
+        // Subfunction Save Buttons //
         private void B_OpenWondercards_Click(object sender, EventArgs e)
         {
             // Open Wondercard Menu
@@ -4095,56 +4095,6 @@ namespace PKHeX
             // Open Secret Base Menu
             new SAV_SecretBase(this).ShowDialog();;
         }
-
-        private void L_Save_Click(object sender, EventArgs e)
-        {
-            // Get latest SaveDataFiler save location
-            SDFLoc = Util.GetSDFLocation();
-            string path = null;
-
-            if (SDFLoc != null && ModifierKeys != Keys.Control) // if we have a result
-                path = Path.Combine(SDFLoc, "main");
-            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")))) // else if cgse exists
-                path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"));
-
-            if (path != null)
-            {
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
-                    openQuick(path); // load save
-            }
-        }
-        private void B_OpenTemp_Click(object sender, EventArgs e)
-        {
-            string path;
-            if (ModifierKeys == Keys.Control)
-            {
-                path = Util.GetCacheFolder();
-                if (Directory.Exists(path))
-                    System.Diagnostics.Process.Start("explorer.exe", @path);
-                else
-                    Util.Alert("Can't find the cache folder.");
-            }
-            else
-            {
-                path = Util.GetTempFolder();
-                if (Directory.Exists(Path.Combine(path, "root")))
-                    System.Diagnostics.Process.Start("explorer.exe", @Path.Combine(path, "root"));
-                else if (Directory.Exists(path))
-                    System.Diagnostics.Process.Start("explorer.exe", @path);
-                else { Util.Error("Can't find the temporary file.", "Make sure the Cyber Gadget software is paused."); }
-            }
-        }
-        private void B_SwitchSAV_Click(object sender, EventArgs e)
-        {
-            DialogResult switchsav = Util.Prompt(MessageBoxButtons.YesNo, String.Format("Current Savefile is Save {0}.",(savindex + 1)),String.Format("Would you like to switch to Save {0}?", ((savindex + 1) % 2 + 1)));
-            if (switchsav == DialogResult.Yes)
-            {
-                savindex = (savindex + 1) % 2;
-                setBoxNames();
-                setPKXBoxes();
-                setSAVLabel();
-            }
-        }
         private void B_JPEG_Click(object sender, EventArgs e)
         {
             int offset = 0x7F000 * savindex + SaveGame.JPEG;
@@ -4180,6 +4130,56 @@ namespace PKHeX
         {
             // Allow Import/Export of Boxes
             new PKHeX.SAV_BoxIO(this, SaveGame.Box, SaveGame.PCLayout).ShowDialog();
+        }
+
+        private void clickSaveFileName(object sender, EventArgs e)
+        {
+            // Get latest SaveDataFiler save location
+            SDFLoc = Util.GetSDFLocation();
+            string path = null;
+
+            if (SDFLoc != null && ModifierKeys != Keys.Control) // if we have a result
+                path = Path.Combine(SDFLoc, "main");
+            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")))) // else if cgse exists
+                path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"));
+
+            if (path != null)
+            {
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
+                    openQuick(path); // load save
+            }
+        }
+        private void clickOpenTempFolder(object sender, EventArgs e)
+        {
+            string path;
+            if (ModifierKeys == Keys.Control)
+            {
+                path = Util.GetCacheFolder();
+                if (Directory.Exists(path))
+                    System.Diagnostics.Process.Start("explorer.exe", @path);
+                else
+                    Util.Alert("Can't find the cache folder.");
+            }
+            else
+            {
+                path = Util.GetTempFolder();
+                if (Directory.Exists(Path.Combine(path, "root")))
+                    System.Diagnostics.Process.Start("explorer.exe", @Path.Combine(path, "root"));
+                else if (Directory.Exists(path))
+                    System.Diagnostics.Process.Start("explorer.exe", @path);
+                else { Util.Error("Can't find the temporary file.", "Make sure the Cyber Gadget software is paused."); }
+            }
+        }
+        private void clickSwitchSAV(object sender, EventArgs e)
+        {
+            DialogResult switchsav = Util.Prompt(MessageBoxButtons.YesNo, String.Format("Current Savefile is Save {0}.",(savindex + 1)),String.Format("Would you like to switch to Save {0}?", ((savindex + 1) % 2 + 1)));
+            if (switchsav == DialogResult.Yes)
+            {
+                savindex = (savindex + 1) % 2;
+                setBoxNames();
+                setPKXBoxes();
+                setSAVLabel();
+            }
         }
 
         // Drag & Drop within Box

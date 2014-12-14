@@ -108,6 +108,7 @@
             this.B_DisplayBerries.Size = new System.Drawing.Size(75, 23);
             this.B_DisplayBerries.TabIndex = 4;
             this.B_DisplayBerries.Text = "Berry";
+            this.B_DisplayBerries.UseMnemonic = false;
             this.B_DisplayBerries.UseVisualStyleBackColor = true;
             this.B_DisplayBerries.Click += new System.EventHandler(this.B_DisplayBerries_Click);
             // 
@@ -118,6 +119,7 @@
             this.B_DisplayMedicine.Size = new System.Drawing.Size(75, 23);
             this.B_DisplayMedicine.TabIndex = 3;
             this.B_DisplayMedicine.Text = "Medicine";
+            this.B_DisplayMedicine.UseMnemonic = false;
             this.B_DisplayMedicine.UseVisualStyleBackColor = true;
             this.B_DisplayMedicine.Click += new System.EventHandler(this.B_DisplayMedicine_Click);
             // 
@@ -128,6 +130,7 @@
             this.B_DisplayTMHM.Size = new System.Drawing.Size(75, 23);
             this.B_DisplayTMHM.TabIndex = 2;
             this.B_DisplayTMHM.Text = "TM/HM";
+            this.B_DisplayTMHM.UseMnemonic = false;
             this.B_DisplayTMHM.UseVisualStyleBackColor = true;
             this.B_DisplayTMHM.Click += new System.EventHandler(this.B_DisplayTMHM_Click);
             // 
@@ -138,6 +141,7 @@
             this.B_DisplayKeyItems.Size = new System.Drawing.Size(75, 23);
             this.B_DisplayKeyItems.TabIndex = 1;
             this.B_DisplayKeyItems.Text = "Key Items";
+            this.B_DisplayKeyItems.UseMnemonic = false;
             this.B_DisplayKeyItems.UseVisualStyleBackColor = true;
             this.B_DisplayKeyItems.Click += new System.EventHandler(this.B_DisplayKeyItems_Click);
             // 
@@ -148,6 +152,7 @@
             this.B_DisplayItems.Size = new System.Drawing.Size(75, 23);
             this.B_DisplayItems.TabIndex = 0;
             this.B_DisplayItems.Text = "Items";
+            this.B_DisplayItems.UseMnemonic = false;
             this.B_DisplayItems.UseVisualStyleBackColor = true;
             this.B_DisplayItems.Click += new System.EventHandler(this.B_DisplayItems_Click);
             // 

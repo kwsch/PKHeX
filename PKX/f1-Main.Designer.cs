@@ -559,7 +559,7 @@
             this.Label_Gender.TabIndex = 55;
             this.Label_Gender.Text = "-";
             this.Label_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_Gender.Click += new System.EventHandler(this.Label_Gender_Click);
+            this.Label_Gender.Click += new System.EventHandler(this.clickGender);
             // 
             // CB_Form
             // 
@@ -849,7 +849,7 @@
             this.Label_Friendship.TabIndex = 9;
             this.Label_Friendship.Text = "Friendship:";
             this.Label_Friendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_Friendship.Click += new System.EventHandler(this.Label_Friendship_Click);
+            this.Label_Friendship.Click += new System.EventHandler(this.clickFriendship);
             // 
             // Label_Nature
             // 
@@ -1922,7 +1922,7 @@
             this.Label_PPups.TabIndex = 12;
             this.Label_PPups.Text = "PP Ups";
             this.Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_PPups.Click += new System.EventHandler(this.Label_PPups_Click);
+            this.Label_PPups.Click += new System.EventHandler(this.clickPPUps);
             // 
             // TB_PP4
             // 
@@ -2183,7 +2183,7 @@
             this.Label_CTGender.TabIndex = 57;
             this.Label_CTGender.Text = "G";
             this.Label_CTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_CTGender.Click += new System.EventHandler(this.Label_TrainerGender_Click);
+            this.Label_CTGender.Click += new System.EventHandler(this.clickTRGender);
             // 
             // TB_OTt2
             // 
@@ -2205,7 +2205,7 @@
             this.Label_PrevOT.TabIndex = 42;
             this.Label_PrevOT.Text = "OT:";
             this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_PrevOT.Click += new System.EventHandler(this.Label_CT_Click);
+            this.Label_PrevOT.Click += new System.EventHandler(this.clickCT);
             // 
             // CHK_Triangle
             // 
@@ -2324,7 +2324,7 @@
             this.PB_Mark6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark6.TabIndex = 5;
             this.PB_Mark6.TabStop = false;
-            this.PB_Mark6.Click += new System.EventHandler(this.Label_Marking_Click);
+            this.PB_Mark6.Click += new System.EventHandler(this.clickMarking);
             // 
             // PB_Mark5
             // 
@@ -2336,7 +2336,7 @@
             this.PB_Mark5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark5.TabIndex = 4;
             this.PB_Mark5.TabStop = false;
-            this.PB_Mark5.Click += new System.EventHandler(this.Label_Marking_Click);
+            this.PB_Mark5.Click += new System.EventHandler(this.clickMarking);
             // 
             // PB_Mark4
             // 
@@ -2348,7 +2348,7 @@
             this.PB_Mark4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark4.TabIndex = 3;
             this.PB_Mark4.TabStop = false;
-            this.PB_Mark4.Click += new System.EventHandler(this.Label_Marking_Click);
+            this.PB_Mark4.Click += new System.EventHandler(this.clickMarking);
             // 
             // PB_Mark3
             // 
@@ -2360,7 +2360,7 @@
             this.PB_Mark3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark3.TabIndex = 2;
             this.PB_Mark3.TabStop = false;
-            this.PB_Mark3.Click += new System.EventHandler(this.Label_Marking_Click);
+            this.PB_Mark3.Click += new System.EventHandler(this.clickMarking);
             // 
             // PB_Mark2
             // 
@@ -2372,7 +2372,7 @@
             this.PB_Mark2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark2.TabIndex = 1;
             this.PB_Mark2.TabStop = false;
-            this.PB_Mark2.Click += new System.EventHandler(this.Label_Marking_Click);
+            this.PB_Mark2.Click += new System.EventHandler(this.clickMarking);
             // 
             // PB_Mark1
             // 
@@ -2384,7 +2384,7 @@
             this.PB_Mark1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark1.TabIndex = 0;
             this.PB_Mark1.TabStop = false;
-            this.PB_Mark1.Click += new System.EventHandler(this.Label_Marking_Click);
+            this.PB_Mark1.Click += new System.EventHandler(this.clickMarking);
             // 
             // GB_ExtraBytes
             // 
@@ -2472,7 +2472,7 @@
             this.Label_OTGender.TabIndex = 56;
             this.Label_OTGender.Text = "G";
             this.Label_OTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_OTGender.Click += new System.EventHandler(this.Label_TrainerGender_Click);
+            this.Label_OTGender.Click += new System.EventHandler(this.clickTRGender);
             // 
             // TB_OT
             // 
@@ -2515,7 +2515,7 @@
             this.Label_OT.TabIndex = 5;
             this.Label_OT.Text = "OT:";
             this.Label_OT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_OT.Click += new System.EventHandler(this.Label_OT_Click);
+            this.Label_OT.Click += new System.EventHandler(this.clickOT);
             // 
             // Label_SID
             // 
@@ -2637,7 +2637,7 @@
             this.Menu_BoxIO.Name = "Menu_BoxIO";
             this.Menu_BoxIO.Size = new System.Drawing.Size(182, 22);
             this.Menu_BoxIO.Text = "Load/Dump Boxes";
-            this.Menu_BoxIO.Click += new System.EventHandler(this.Menu_DumpLoadBoxes_Click);
+            this.Menu_BoxIO.Click += new System.EventHandler(this.mainMenuBoxDumpLoad);
             // 
             // reportToolStripMenuItem
             // 
@@ -2730,7 +2730,7 @@
             this.L_Save.Size = new System.Drawing.Size(54, 13);
             this.L_Save.TabIndex = 4;
             this.L_Save.Text = "SAV: N/A";
-            this.L_Save.Click += new System.EventHandler(this.L_Save_Click);
+            this.L_Save.Click += new System.EventHandler(this.clickSaveFileName);
             // 
             // tabBoxMulti
             // 
@@ -3227,7 +3227,7 @@
             this.B_BoxRight.TabIndex = 61;
             this.B_BoxRight.Text = ">>";
             this.B_BoxRight.UseVisualStyleBackColor = true;
-            this.B_BoxRight.Click += new System.EventHandler(this.B_BoxRight_Click);
+            this.B_BoxRight.Click += new System.EventHandler(this.clickBoxRight);
             // 
             // B_BoxLeft
             // 
@@ -3238,7 +3238,7 @@
             this.B_BoxLeft.TabIndex = 60;
             this.B_BoxLeft.Text = "<<";
             this.B_BoxLeft.UseVisualStyleBackColor = true;
-            this.B_BoxLeft.Click += new System.EventHandler(this.B_BoxLeft_Click);
+            this.B_BoxLeft.Click += new System.EventHandler(this.clickBoxLeft);
             // 
             // C_BoxSelect
             // 
@@ -3757,7 +3757,7 @@
             this.B_3DSSETemp.TabIndex = 7;
             this.B_3DSSETemp.Text = "Open Temp 3DSSE ";
             this.B_3DSSETemp.UseVisualStyleBackColor = true;
-            this.B_3DSSETemp.Click += new System.EventHandler(this.B_OpenTemp_Click);
+            this.B_3DSSETemp.Click += new System.EventHandler(this.clickOpenTempFolder);
             // 
             // B_BoxIO
             // 
@@ -3825,7 +3825,7 @@
             this.B_SwitchSAV.TabIndex = 6;
             this.B_SwitchSAV.Text = "Switch SAV";
             this.B_SwitchSAV.UseVisualStyleBackColor = true;
-            this.B_SwitchSAV.Click += new System.EventHandler(this.B_SwitchSAV_Click);
+            this.B_SwitchSAV.Click += new System.EventHandler(this.clickSwitchSAV);
             // 
             // B_VerifyCHK
             // 
@@ -3836,7 +3836,7 @@
             this.B_VerifyCHK.TabIndex = 2;
             this.B_VerifyCHK.Text = "Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
-            this.B_VerifyCHK.Click += new System.EventHandler(this.B_VerifyCHK_Click);
+            this.B_VerifyCHK.Click += new System.EventHandler(this.clickVerifyCHK);
             // 
             // L_IntegrityCheck
             // 
@@ -3856,7 +3856,7 @@
             this.B_VerifySHA.TabIndex = 1;
             this.B_VerifySHA.Text = "Hashes";
             this.B_VerifySHA.UseVisualStyleBackColor = true;
-            this.B_VerifySHA.Click += new System.EventHandler(this.B_VerifySHA_Click);
+            this.B_VerifySHA.Click += new System.EventHandler(this.clickVerifySHA);
             // 
             // B_ExportSAV
             // 
@@ -3867,7 +3867,7 @@
             this.B_ExportSAV.TabIndex = 4;
             this.B_ExportSAV.Text = "Export SAV";
             this.B_ExportSAV.UseVisualStyleBackColor = true;
-            this.B_ExportSAV.Click += new System.EventHandler(this.exportSAV);
+            this.B_ExportSAV.Click += new System.EventHandler(this.clickExportSAV);
             // 
             // RTB_S
             // 
