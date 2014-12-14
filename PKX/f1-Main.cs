@@ -4142,15 +4142,15 @@ namespace PKHeX
             }
             if (isegg == 1)
             {
-                file = "_0"; // Start with a partially transparent species 
-                baseImage = PKHeX.Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject(file), baseImage, 0, 0, 0.33);
-                file = "egg"; // Add the egg layer over-top.
-                baseImage = PKHeX.Util.LayerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject(file), 0, 0, 1);
+                // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
+                baseImage = Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject("_0"), baseImage, 0, 0, 0.33);
+                // Add the egg layer over-top with full opacity.
+                baseImage = Util.LayerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
             }
             if (PKX.getIsShiny(BitConverter.ToUInt32(dslotdata, 0x18),BitConverter.ToUInt16(dslotdata, 0x0C),BitConverter.ToUInt16(dslotdata, 0x0E)))
             {   // Is Shiny
                 // Redraw our image
-                baseImage = PKHeX.Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
+                baseImage = Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
             }
             if (BitConverter.ToUInt16(dslotdata, 0xA) > 0)
             {
@@ -4159,7 +4159,7 @@ namespace PKHeX
                 Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_"+item.ToString());
                 if (itemimg == null) itemimg = Properties.Resources.helditem;
                 // Redraw
-                baseImage = PKHeX.Util.LayerImage(baseImage, itemimg, 22 + (15-itemimg.Width)/2, 15 + (15-itemimg.Height), 1);
+                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15-itemimg.Width)/2, 15 + (15-itemimg.Height), 1);
             }
 
             pb.Image = baseImage;

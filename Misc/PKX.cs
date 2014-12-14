@@ -822,9 +822,6 @@ namespace PKHeX
                 int gender = (pkx[0x1D] >> 1) & 0x3;
 
                 string file;
-                if (isegg == 1)
-                { file = "egg"; }
-                else
                 {
                     file = "_" + species.ToString();
                     if (altforms > 0) // Alt Form Handling
@@ -837,10 +834,26 @@ namespace PKHeX
 
                 pksprite = (Image)Properties.Resources.ResourceManager.GetObject(file);
 
+                if (misegg)
+                {
+                    // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
+                    pksprite = Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject("_0"), pksprite, 0, 0, 0.33);
+                    // Add the egg layer over-top with full opacity.
+                    pksprite = Util.LayerImage(pksprite, (Image)Properties.Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
+                }
                 if (misshiny)
                 {   // Is Shiny
                     // Redraw our image
                     pksprite = Util.LayerImage(pksprite, Properties.Resources.rare_icon, 0, 0, 0.7);
+                }
+                if (mhelditem > 0)
+                {
+                    // Has Item
+                    int item = mhelditem;
+                    Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item.ToString());
+                    if (itemimg == null) itemimg = Properties.Resources.helditem;
+                    // Redraw
+                    pksprite = Util.LayerImage(pksprite, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
                 }
             }
             try
