@@ -737,6 +737,8 @@ namespace PKHeX
                 TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
+                CB_GameOrigin.SelectedIndex = 0;
+                CB_Language.SelectedIndex = 0;
                 C_BoxSelect.SelectedIndex = 0;
                 CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
@@ -4307,7 +4309,9 @@ namespace PKHeX
 
             // Clear out the box data array.
             // Array.Clear(savefile, offset, size * 30 * 31);
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Clear subsequent boxes when importing data?", "If you only want to overwrite for new data, press no.") == DialogResult.Yes)
+            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Clear subsequent boxes when importing data?", "If you only want to overwrite for new data, press no.");
+            if (dr == DialogResult.Cancel) return;
+            else if (dr == DialogResult.Yes)
             {
                 byte[] ezeros = PKX.encryptArray(new byte[232]);
                 for (int i = ctr; i < 30 * 31; i++)
@@ -4724,6 +4728,7 @@ namespace PKHeX
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (Directory.Exists(files[0])) { loadBoxesFromDB(files[0]); return; }
             if (files != null && pkm_from_offset == 0)
             {
                 if (files.Length > 0)
