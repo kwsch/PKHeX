@@ -745,9 +745,9 @@ namespace PKHeX
             CB_Species.DataSource = PKX.getCBList(specieslist, null);
             DEV_Ability.DataSource = PKX.getCBList(abilitylist, null);
             CB_Nature.DataSource = PKX.getCBList(natures, null);
-            CB_GameOrigin.DataSource = PKX.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
             CB_EncounterType.DataSource = PKX.getCBList(encountertypelist, Legal.Gen4EncounterTypes);
-
+            CB_GameOrigin.DataSource = PKX.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
+            
             // Set the Display
             CB_3DSReg.DisplayMember = 
                 CB_Language.DisplayMember = 
@@ -756,8 +756,8 @@ namespace PKHeX
                 CB_Species.DisplayMember = 
                 DEV_Ability.DisplayMember =
                 CB_Nature.DisplayMember =
-                CB_GameOrigin.DisplayMember = 
-                CB_EncounterType.DisplayMember = "Text";
+                CB_EncounterType.DisplayMember =
+                CB_GameOrigin.DisplayMember = "Text";
 
             // Set the Value
             CB_3DSReg.ValueMember = 
@@ -766,9 +766,9 @@ namespace PKHeX
                 CB_HeldItem.ValueMember = 
                 CB_Species.ValueMember =
                 DEV_Ability.ValueMember =
-                CB_GameOrigin.ValueMember = 
-                CB_EncounterType.ValueMember = 
-                CB_Nature.ValueMember = "Value";
+                CB_Nature.ValueMember =
+                CB_EncounterType.ValueMember =
+                CB_GameOrigin.ValueMember = "Value";
 
                 
             // Set the Move ComboBoxes too..
