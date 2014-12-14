@@ -239,7 +239,7 @@ namespace PKHeX
         {
             uint PSV = getPSV(PID);
             uint TSV = getTSV(TID, SID);
-            return ((TSV ^ PSV) < 16);
+            return (TSV == PSV);
         }
         public static uint getEXP(int level, int species)
         {
