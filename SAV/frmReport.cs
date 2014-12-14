@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Reflection;
 using System.Text.RegularExpressions;
+
 namespace PKHeX
 {
     public partial class frmReport : Form
@@ -46,11 +47,38 @@ namespace PKHeX
             dgData.AutoGenerateColumns = true;
             for (int i = 0; i < dgData.Columns.Count; i++)
             {
-                if (dgData.Columns[i].Name == "pkimg") continue; // Don't add sorting for Sprites
+                if (dgData.Columns[i] is DataGridViewImageColumn) continue; // Don't add sorting for Sprites
                 dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
             }
         }
+        private void promptSaveCSV(object sender, FormClosingEventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNo,"Save all the data to CSV?") == DialogResult.Yes)
+            {
+                SaveFileDialog savecsv = new SaveFileDialog();
+                savecsv.Filter = "Spreadsheet|*.csv";
+                savecsv.FileName = "Box Data Dump.csv";
+                if (savecsv.ShowDialog() == DialogResult.OK)
+                    Export_CSV(savecsv.FileName);
+            }
+        }
+        private void Export_CSV(string path)
+        {
+            var sb = new StringBuilder();
+
+            var headers = dgData.Columns.Cast<DataGridViewColumn>();
+            sb.AppendLine(string.Join(",", headers.Select(column => "\"" + column.HeaderText + "\"").ToArray()));
+
+            foreach (DataGridViewRow row in dgData.Rows)
+            {
+                var cells = row.Cells.Cast<DataGridViewCell>();
+                sb.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
+            }
+	        System.IO.File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+        }
+
         public class PokemonList : SortableBindingList<PKX> { }
+
     }
     public static class ExtensionMethods    // Speed up scrolling
     {

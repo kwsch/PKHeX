@@ -46,19 +46,20 @@
             this.dgData.Location = new System.Drawing.Point(0, 0);
             this.dgData.Name = "dgData";
             this.dgData.RowHeadersVisible = false;
-            this.dgData.Size = new System.Drawing.Size(790, 461);
+            this.dgData.Size = new System.Drawing.Size(812, 461);
             this.dgData.TabIndex = 0;
             // 
             // frmReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(790, 461);
+            this.ClientSize = new System.Drawing.Size(812, 461);
             this.Controls.Add(this.dgData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmReport";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Box Data Report";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.promptSaveCSV);
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
             this.ResumeLayout(false);
 
