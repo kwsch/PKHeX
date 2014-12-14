@@ -137,11 +137,13 @@ namespace PKHeX
             ToolTip dragoutTip1 = new ToolTip();
             ToolTip dragoutTip2 = new ToolTip();
             dragoutTip1.SetToolTip(dragout, "PK6 QuickSave");
-            dragoutTip2.SetToolTip(eragout, "EK6 QuickSave");
 
             // Box Drag & Drop
             foreach (PictureBox pb in PAN_Box.Controls)
                 pb.AllowDrop = true;
+
+            // Box to Tabs D&D
+            dragout.AllowDrop = true;
 
             #endregion
             #region Finish Up
@@ -1668,7 +1670,8 @@ namespace PKHeX
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
-            TB_PID.Text = PKX.getRandomPID(Util.getIndex(CB_Species),PKX.getGender(Label_Gender.Text)).ToString("X8");
+            TB_PID.Text = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text)).ToString("X8");
+            getQuickFiller(dragout);
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
@@ -2048,6 +2051,7 @@ namespace PKHeX
                 TB_PID.Text = (((UID ^ XOR) << 16) + LID).ToString("X8");
 
             setIsShiny();
+            getQuickFiller(dragout);
         }
         private void update_ID(object sender, EventArgs e)
         {
@@ -2073,6 +2077,11 @@ namespace PKHeX
                 cb.BackColor = Color.DarkSalmon;
             else
                 cb.BackColor = Color.Empty;
+
+            if (init)
+            {
+                getQuickFiller(dragout);
+            }
         }
         private void validateComboBox2(object sender, EventArgs e)
         {
@@ -2210,11 +2219,13 @@ namespace PKHeX
           invalid:
             { System.Media.SystemSounds.Exclamation.Play(); return false; }
         }
-        public byte[] preparepkx(byte[] buff)
+        public byte[] preparepkx(byte[] buff, bool click = true)
         {
-            tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
+            if (click)
+                tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
             // Stuff the global byte array with our PKX form data
             // Create a new storage so we don't muck up things with the original
+            if (buff.Length == 232) Array.Resize(ref buff, 260);
             byte[] pkx = new byte[0x104];
             Array.Copy(buff, pkx, 0x104);
             // Repopulate PKX with Edited Stuff
@@ -2495,17 +2506,20 @@ namespace PKHeX
                 // Create Temp File to Drag
                 string basepath = System.Windows.Forms.Application.StartupPath;
                 Cursor.Current = Cursors.Hand;
+
                 // Make a new file name
                 byte[] dragdata = preparepkx(buff);
                 PKX pkx = new PKX(dragdata, "Tabs");
                 string filename = pkx.Nickname;
                 if (filename != pkx.Species)
                     filename += " (" + pkx.Species + ")";
-                filename += " - " + pkx.PID + ".pk6";
+                filename += " - " + pkx.PID;
 
+                filename += (ModifierKeys == Keys.Control) ? ".ek6" : ".pk6";
+                dragdata = (ModifierKeys == Keys.Control) ? PKX.encryptArray(preparepkx(buff)) : preparepkx(buff);
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
-                // Make File
+                // Make file
                 string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
                 try
                 {
@@ -2524,52 +2538,21 @@ namespace PKHeX
         {
             e.Effect = DragDropEffects.Move;
         }
-        // Encrypted Export
-        private void eragout_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (!verifiedpkx()) { return; }
-            {
-                // Create Temp File to Drag
-                string basepath = System.Windows.Forms.Application.StartupPath;
-                Cursor.Current = Cursors.Hand;
-
-                // Make a new file name
-                byte[] dragdata = preparepkx(buff);
-                PKX pkx = new PKX(dragdata, "Tabs");
-                string filename = pkx.Nickname;
-                if (filename != pkx.Species)
-                    filename += " (" + pkx.Species + ")";
-                filename += " - " + pkx.PID + ".ek6";
-                dragdata = PKX.encryptArray(preparepkx(buff));
-                // Strip out party stats (if they are there)
-                Array.Resize(ref dragdata, 232);
-                // Make file
-                string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
-                try
-                {
-                    File.WriteAllBytes(newfile, dragdata);
-
-                    string[] filesToDrag = { newfile };
-                    dragout.DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
-                    File.Delete(newfile);
-                }
-                catch (Exception x)
-                { Util.Error("Drag & Drop Error", x.ToString()); }
-                File.Delete(newfile);
-            }
-        }
-        private void eragout_DragOver(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Move;
-        }
-        // Dragout Hover Display
+        // Dragout Display
         private void dragoutHover(object sender, EventArgs e)
         {
-            eragout.BackColor = dragout.BackColor = Color.LightGray;
+            if (Util.getIndex(CB_Species) > 0)
+                dragout.BackgroundImage = Properties.Resources.slotSet;
+            else
+                dragout.BackgroundImage = Properties.Resources.slotDel;
         }
         private void dragoutLeave(object sender, EventArgs e)
         {
-            eragout.BackColor = dragout.BackColor = Color.Transparent;
+            dragout.BackgroundImage = Properties.Resources.slotTrans;
+        }
+        private void dragoutDrop(object sender, DragEventArgs e)
+        {
+            openQuick(((string[])e.Data.GetData(DataFormats.FileDrop))[0]);
         }
         #endregion
 
@@ -3599,6 +3582,68 @@ namespace PKHeX
             GB_SAVtools.Enabled = B_JPEG.Enabled = B_BoxIO.Enabled = B_VerifyCHK.Enabled = B_VerifySHA.Enabled = B_SwitchSAV.Enabled
                 = enableInterface;
         }
+        private void getQuickFiller(PictureBox pb)
+        {
+            byte[] dslotdata = preparepkx(buff, false); // don't perform control loss click
+
+            int species = BitConverter.ToInt16(dslotdata, 0x08); // Get Species
+            uint isegg = (BitConverter.ToUInt32(dslotdata, 0x74) >> 30) & 1;
+
+            int altforms = (dslotdata[0x1D] >> 3);
+            int gender = (dslotdata[0x1D] >> 1) & 0x3;
+
+            string file;
+
+            if (species == 0)
+            { pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); return; }
+
+            else
+            {
+                file = "_" + species.ToString();
+                if (altforms > 0) // Alt Form Handling
+                    file = file + "_" + altforms.ToString();
+                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
+                    file = file = "_" + species.ToString() + "f";
+            }
+
+            // Redrawing logic
+            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
+            if (baseImage == null)
+            {
+                if (species < 722)
+                {
+                    baseImage = PKHeX.Util.LayerImage(
+                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species.ToString()),
+                        (Image)Properties.Resources.unknown,
+                        0, 0, .5);
+                }
+                else
+                    baseImage = (Image)Properties.Resources.unknown;
+            }
+            if (isegg == 1)
+            {
+                // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
+                baseImage = Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject("_0"), baseImage, 0, 0, 0.33);
+                // Add the egg layer over-top with full opacity.
+                baseImage = Util.LayerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
+            }
+            if (PKX.getIsShiny(BitConverter.ToUInt32(dslotdata, 0x18), BitConverter.ToUInt16(dslotdata, 0x0C), BitConverter.ToUInt16(dslotdata, 0x0E)))
+            {   // Is Shiny
+                // Redraw our image
+                baseImage = Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
+            }
+            if (BitConverter.ToUInt16(dslotdata, 0xA) > 0)
+            {
+                // Has Item
+                int item = BitConverter.ToUInt16(dslotdata, 0xA);
+                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item.ToString());
+                if (itemimg == null) itemimg = Properties.Resources.helditem;
+                // Redraw
+                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+            }
+
+            pb.Image = baseImage;
+        }
         private void getSlotFiller(int offset, PictureBox pb)
         {
             byte[] slotdata = new byte[0xE8];
@@ -4262,10 +4307,14 @@ namespace PKHeX
                         byte[] data = File.ReadAllBytes(files[0]);
                         if (fi.Extension == ".pkx" || fi.Extension == ".pk6")
                             data = PKX.encryptArray(data);
-                        else if (fi.Extension != ".ekx" || fi.Extension != ".ekx")
+                        else if (fi.Extension != ".ekx" && fi.Extension != ".ek6")
                         { openQuick(files[0]); return; } // lazy way of aborting 
 
+                        byte[] decdata = PKX.decryptArray(data);
+                        if (!PKX.verifychk(decdata)) Util.Alert("Invalid File Loaded.", "Checksum is not valid.");
                         Array.Copy(data, 0, savefile, offset, 0xE8);
+                        setPokedex(decdata);
+                        getSlotColor(slot, Properties.Resources.slotSet);
                     }
                     else // not PKX/EKX, so load with the general function
                     { openQuick(files[0]); }
@@ -4281,6 +4330,7 @@ namespace PKHeX
                 pkm_from_offset = 0; // Clear offset value
             }
             setPKXBoxes();
+            savedited = true;
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
         {

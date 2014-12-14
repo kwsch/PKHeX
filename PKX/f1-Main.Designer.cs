@@ -225,8 +225,6 @@
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dragout = new System.Windows.Forms.Panel();
-            this.eragout = new System.Windows.Forms.Panel();
             this.L_Save = new System.Windows.Forms.Label();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
@@ -332,6 +330,7 @@
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
+            this.dragout = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -419,6 +418,7 @@
             this.Tab_Tools.SuspendLayout();
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -2700,28 +2700,6 @@
             this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.testToolStripMenuItem.Text = "Test";
             // 
-            // dragout
-            // 
-            this.dragout.Location = new System.Drawing.Point(0, 24);
-            this.dragout.Name = "dragout";
-            this.dragout.Size = new System.Drawing.Size(20, 20);
-            this.dragout.TabIndex = 2;
-            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
-            this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
-            this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
-            this.dragout.MouseHover += new System.EventHandler(this.dragoutHover);
-            // 
-            // eragout
-            // 
-            this.eragout.Location = new System.Drawing.Point(0, 342);
-            this.eragout.Name = "eragout";
-            this.eragout.Size = new System.Drawing.Size(20, 20);
-            this.eragout.TabIndex = 3;
-            this.eragout.DragOver += new System.Windows.Forms.DragEventHandler(this.eragout_DragOver);
-            this.eragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.eragout_MouseDown);
-            this.eragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
-            this.eragout.MouseHover += new System.EventHandler(this.dragoutHover);
-            // 
             // L_Save
             // 
             this.L_Save.AutoSize = true;
@@ -4031,20 +4009,34 @@
             this.L_SAVINDEX.TabIndex = 16;
             this.L_SAVINDEX.Text = "0";
             // 
+            // dragout
+            // 
+            this.dragout.BackColor = System.Drawing.Color.Transparent;
+            this.dragout.Location = new System.Drawing.Point(248, 0);
+            this.dragout.Name = "dragout";
+            this.dragout.Size = new System.Drawing.Size(40, 30);
+            this.dragout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.dragout.TabIndex = 60;
+            this.dragout.TabStop = false;
+            this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragoutDrop);
+            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
+            this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
+            this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
+            this.dragout.MouseHover += new System.EventHandler(this.dragoutHover);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 362);
+            this.Controls.Add(this.dragout);
             this.Controls.Add(this.L_SAVINDEX);
             this.Controls.Add(this.GB_SAVtools);
             this.Controls.Add(this.tabBoxMulti);
             this.Controls.Add(this.L_Save);
             this.Controls.Add(this.tabMain);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.eragout);
-            this.Controls.Add(this.dragout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -4155,6 +4147,7 @@
             this.Tab_SAV.ResumeLayout(false);
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4315,8 +4308,6 @@
         private System.Windows.Forms.Label L_Characteristic;
         private System.Windows.Forms.TextBox TB_IVTotal;
         private System.Windows.Forms.Label L_Potential;
-        private System.Windows.Forms.Panel dragout;
-        private System.Windows.Forms.Panel eragout;
         private System.Windows.Forms.Label L_Save;
         private System.Windows.Forms.TabControl tabBoxMulti;
         private System.Windows.Forms.TabPage Tab_Box;
@@ -4464,6 +4455,7 @@
         public System.Windows.Forms.ComboBox CB_Ball;
         public System.Windows.Forms.ComboBox CB_HeldItem;
         public System.Windows.Forms.ComboBox CB_Nature;
+        private System.Windows.Forms.PictureBox dragout;
     }
 }
 
