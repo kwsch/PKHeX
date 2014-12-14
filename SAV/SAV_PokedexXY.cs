@@ -43,20 +43,7 @@ namespace PKHeX
             // Fill List
             #region Species
             {
-                List<cbItem> species_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] sortedspecies = new string[Form1.specieslist.Length];
-                Array.Copy(Form1.specieslist, sortedspecies, Form1.specieslist.Length);
-                Array.Sort(sortedspecies);
-
-                // Add the rest of the items
-                for (int i = 0; i < sortedspecies.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedspecies[i];
-                    ncbi.Value = Array.IndexOf(Form1.specieslist, sortedspecies[i]);
-                    species_list.Add(ncbi);
-                }
+                var species_list = Util.getCBList(Form1.specieslist, null);
                 species_list.RemoveAt(0); // Remove 0th Entry
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
@@ -131,7 +118,7 @@ namespace PKHeX
             int pk = 0;
             try
             {
-                pk = (int)((PKHeX.cbItem)(CB_Species.SelectedItem)).Value;
+                pk = Util.getIndex(CB_Species);
             }
             catch { pk = (int)LB_Species.SelectedIndex + 1; }
 

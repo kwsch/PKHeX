@@ -16,7 +16,7 @@ namespace PKHeX
     {
         byte[] codedata = new byte[232];
         byte[] newdata = new byte[232];
-        SaveGames.SaveStruct SaveGame = new SaveGames.SaveStruct(null);
+        PKX.SaveGames.SaveStruct SaveGame = new PKX.SaveGames.SaveStruct(null);
 
         Form1 m_parent;
         public CodeGenerator(Form1 frm1)

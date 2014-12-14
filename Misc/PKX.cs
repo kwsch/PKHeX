@@ -873,6 +873,103 @@ namespace PKHeX
             catch { return; }
         }
         #endregion
+        #region SaveGame
+
+        public class SaveGames
+        {
+            public struct SaveStruct
+            {
+                public int Box, TrainerCard, Party, BattleBox, GTS, Daycare, Fused, SUBE, Puff, Item, Trainer1, Trainer2, PCLayout, Wondercard, BerryField, OPower, EventFlag, PokeDex, HoF, PSS, JPEG;
+                public string Name;
+                public SaveStruct(string GameID)
+                {
+                    if (GameID == "XY")
+                    {
+                        Name = "XY";
+                        Box = 0x27A00;
+                        TrainerCard = 0x19400;
+                        Party = 0x19600;
+                        BattleBox = 0x09E00;
+                        Daycare = 0x20600;
+                        GTS = 0x1CC00;
+                        Fused = 0x1B400;
+                        SUBE = 0x22C90;
+
+                        Puff = 0x5400;
+                        Item = 0x5800;
+                        Trainer1 = 0x6800;
+                        Trainer2 = 0x9600;
+                        PCLayout = 0x9800;
+                        Wondercard = 0x21000;
+                        BerryField = 0x20C00;
+                        OPower = 0x1BE00;
+                        EventFlag = 0x19E00;
+                        PokeDex = 0x1A400;
+
+                        HoF = 0x1E800;
+                        JPEG = 0x5C600;
+                        PSS = 0x0A400;
+                    }
+                    else if (GameID == "ORAS")
+                    {
+                        // Temp
+                        Name = "ORAS";
+                        Box = 0x38400;      // Confirmed
+                        TrainerCard = 0x19400; // Confirmed
+                        Party = 0x19600;    // Confirmed
+                        BattleBox = 0x09E00;// Confirmed
+                        Daycare = 0x21000; // Confirmed (thanks Rei)
+                        GTS = 0x1D600; // Confirmed
+                        Fused = 0x1BE00; // Confirmed
+                        SUBE = 0x22C90; // ****not in use, not updating?****
+
+                        Puff = 0x5400; // Confirmed
+                        Item = 0x5800; // Confirmed
+                        Trainer1 = 0x6800; // Confirmed
+                        Trainer2 = 0x9600; // Confirmed
+                        PCLayout = 0x9800; // Confirmed
+                        Wondercard = 0x22000; // Confirmed
+                        BerryField = 0x20C00; // ****changed****
+                        OPower = 0x1BE00;
+                        EventFlag = 0x19E00; // Confirmed
+                        PokeDex = 0x1A400;
+
+                        HoF = 0x1F200; // Confirmed
+                        JPEG = 0x6D000; // Confirmed
+                        PSS = 0x0A400; // Confirmed (thanks Rei)
+                    }
+                    else
+                    {
+                        // Copied...
+                        Name = "Unknown";
+                        Box = 0x27A00;
+                        TrainerCard = 0x19400;
+                        Party = 0x19600;
+                        BattleBox = 0x09E00;
+                        Daycare = 0x20600;
+                        GTS = 0x1CC00;
+                        Fused = 0x1B400;
+                        SUBE = 0x22C90;
+
+                        Puff = 0x5400;
+                        Item = 0x5800;
+                        Trainer1 = 0x6800;
+                        Trainer2 = 0x9600;
+                        PCLayout = 0x9800;
+                        Wondercard = 0x21000;
+                        BerryField = 0x20C00;
+                        OPower = 0x1BE00;
+                        EventFlag = 0x19E00;
+                        PokeDex = 0x1A400;
+
+                        HoF = 0x1E800;
+                        JPEG = 0x5C600;
+                        PSS = 0x0A400;
+                    }
+                }
+            }
+        }
+        #endregion
 
         // Save File Related
         internal static int detectSAVIndex(byte[] data, ref int savindex)
@@ -945,99 +1042,6 @@ namespace PKHeX
             catch { Util.Error("Unable to add ingame font."); }
 
             return new Font(fonts.Families[0], fontsize);
-        }
-
-        // DataSource Providing
-        public class cbItem
-        {
-            public string Text { get; set; }
-            public object Value { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
-        }
-        internal static List<cbItem> getCBList(string textfile, string lang)
-        {
-            // Set up
-            List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = Util.getSimpleStringList(textfile);
-
-            // Get Language we're fetching for
-            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
-
-            // Set up our Temporary Storage
-            string[] unsortedList = new string[inputCSV.Length - 1];
-            int[] indexes = new int[inputCSV.Length - 1];
-
-            // Gather our data from the input file
-            for (int i = 1; i < inputCSV.Length; i++)
-            {
-                string[] countryData = inputCSV[i].Split(',');
-                indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                unsortedList[i - 1] = countryData[index + 1];
-            }
-
-            // Sort our input data
-            string[] sortedList = new string[inputCSV.Length - 1];
-            Array.Copy(unsortedList, sortedList, unsortedList.Length);
-            Array.Sort(sortedList);
-
-            // Arrange the input data based on original number
-            for (int i = 0; i < sortedList.Length; i++)
-            {
-                cbItem ncbi = new cbItem();
-                ncbi.Text = sortedList[i];
-                ncbi.Value = indexes[Array.IndexOf(unsortedList, sortedList[i])];
-                cbList.Add(ncbi);
-            }
-            return cbList;
-        }
-        internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
-        {
-            List<cbItem> cbList = new List<cbItem>();
-            if (allowed == null)
-                allowed = new int[][] { Enumerable.Range(0, inStrings.Length).ToArray() };
-
-            foreach (int[] list in allowed)
-            {
-                // Sort the Rest based on String Name
-                string[] unsortedChoices = new string[list.Length];
-                for (int i = 0; i < list.Length; i++)
-                    unsortedChoices[i] = inStrings[list[i]];
-
-                string[] sortedChoices = new string[unsortedChoices.Length];
-                Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
-                Array.Sort(sortedChoices);
-
-                // Add the rest of the items
-                for (int i = 0; i < sortedChoices.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedChoices[i];
-                    ncbi.Value = list[Array.IndexOf(unsortedChoices, sortedChoices[i])];
-                    cbList.Add(ncbi);
-                }
-            }
-            return cbList;
-        }
-        internal static List<cbItem> getUnsortedCBList(string textfile)
-        {
-            // Set up
-            List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = Util.getSimpleStringList(textfile);
-
-            // Gather our data from the input file
-            for (int i = 1; i < inputCSV.Length; i++)
-            {
-                string[] inputData = inputCSV[i].Split(',');
-                cbItem ncbi = new cbItem();
-                ncbi.Value = Convert.ToInt32(inputData[0]);
-                ncbi.Text = inputData[1];
-                cbList.Add(ncbi);
-            }
-            return cbList;
         }
 
         // Personal.dat

@@ -45,18 +45,12 @@ namespace PKHeX
                 "한국어", // KOR
                 "中文", // CHN
             };
-            int[] main_langnum = new int[] { 2,1,3,4,5,7,8,9 };
-            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh" };
-            
-            for (int i = 0; i < main_langlist.Length; i++)
-            {
-                cbItem item = new cbItem();
-                item.Text = main_langlist[i];
-                item.Value = main_langnum[i];
+            foreach (var cbItem in main_langlist)
+                CB_MainLanguage.Items.Add(cbItem);
 
-                CB_MainLanguage.Items.Add(item);
-            }
             // Try and detect the language
+            int[] main_langnum = new int[] { 2, 1, 3, 4, 5, 7, 8, 9 };
+            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh" };
             string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             string lastTwoChars = filename.Substring(filename.Length - 2);
             int lang = Array.IndexOf(main_langnum,Array.IndexOf(lang_val, lastTwoChars));
@@ -123,16 +117,18 @@ namespace PKHeX
                 pba2[i].ContextMenuStrip = mnu2;
             #endregion
             #region Enable Drag and Drop on the form & tab control.
-            this.tabMain.AllowDrop = true;
+            this.AllowDrop = true;
             this.DragEnter += tabMain_DragEnter;
             this.DragDrop += tabMain_DragDrop;
 
             // Enable Drag and Drop on each tab.
+            tabMain.AllowDrop = true;
             this.tabMain.DragEnter += tabMain_DragEnter;
             this.tabMain.DragDrop += tabMain_DragDrop;
 
             foreach (TabPage tab in tabMain.Controls)
             {
+                tab.AllowDrop = true;
                 tab.DragEnter += tabMain_DragEnter;
                 tab.DragDrop += tabMain_DragDrop;
             }
@@ -146,7 +142,6 @@ namespace PKHeX
             // Box Drag & Drop
             foreach (PictureBox pb in PAN_Box.Controls)
                 pb.AllowDrop = true;
-            tabMain.AllowDrop = true;
 
             #endregion
             #region Finish Up
@@ -229,7 +224,7 @@ namespace PKHeX
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip();
         public ToolTip Tip3 = new ToolTip();
-        public SaveGames.SaveStruct SaveGame = new SaveGames.SaveStruct("XY");
+        public PKX.SaveGames.SaveStruct SaveGame = new PKX.SaveGames.SaveStruct("XY");
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
@@ -523,7 +518,7 @@ namespace PKHeX
         private void openMAIN(byte[] input, string path, string GameType, bool oras)
         {
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new SaveGames.SaveStruct(GameType);
+            SaveGame = new PKX.SaveGames.SaveStruct(GameType);
 
             // Load CyberGadget
             this.savindex = 0;
@@ -538,7 +533,7 @@ namespace PKHeX
         private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new SaveGames.SaveStruct(GameType);
+            SaveGame = new PKX.SaveGames.SaveStruct(GameType);
             savegame_oras = oras;
 
             savefile = input;
@@ -737,17 +732,6 @@ namespace PKHeX
         {
             setCountrySubRegion(CB_Country, "countries");
 
-            // Set the various ComboBox DataSources up with their allowed entries
-            CB_3DSReg.DataSource = PKX.getUnsortedCBList("regions3ds");
-            CB_Language.DataSource = PKX.getUnsortedCBList("languages");
-            CB_Ball.DataSource = PKX.getCBList(itemlist, new int[] { 4 }, new int[] { 3 }, new int[] { 2 }, Legal.Items_UncommonBall);
-            CB_HeldItem.DataSource = PKX.getCBList(itemlist, (DEV_Ability.Enabled) ? null : Legal.Items_Held);
-            CB_Species.DataSource = PKX.getCBList(specieslist, null);
-            DEV_Ability.DataSource = PKX.getCBList(abilitylist, null);
-            CB_Nature.DataSource = PKX.getCBList(natures, null);
-            CB_EncounterType.DataSource = PKX.getCBList(encountertypelist, Legal.Gen4EncounterTypes);
-            CB_GameOrigin.DataSource = PKX.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
-            
             // Set the Display
             CB_3DSReg.DisplayMember = 
                 CB_Language.DisplayMember = 
@@ -770,14 +754,24 @@ namespace PKHeX
                 CB_EncounterType.ValueMember =
                 CB_GameOrigin.ValueMember = "Value";
 
+            // Set the various ComboBox DataSources up with their allowed entries
+            CB_3DSReg.DataSource = Util.getUnsortedCBList("regions3ds");
+            CB_Language.DataSource = Util.getUnsortedCBList("languages");
+            CB_Ball.DataSource = Util.getCBList(itemlist, new int[] { 4 }, new int[] { 3 }, new int[] { 2 }, Legal.Items_UncommonBall);
+            CB_HeldItem.DataSource = Util.getCBList(itemlist, (DEV_Ability.Enabled) ? null : Legal.Items_Held);
+            CB_Species.DataSource = Util.getCBList(specieslist, null);
+            DEV_Ability.DataSource = Util.getCBList(abilitylist, null);
+            CB_Nature.DataSource = Util.getCBList(natures, null);
+            CB_EncounterType.DataSource = Util.getCBList(encountertypelist, Legal.Gen4EncounterTypes);
+            CB_GameOrigin.DataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
                 
             // Set the Move ComboBoxes too..
             {
-                var moves = PKX.getCBList(movelist, null);
+                var moves = Util.getCBList(movelist, null);
                 foreach (ComboBox cb in new ComboBox[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
                 {
-                    cb.DataSource = new BindingSource(moves, null);
                     cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                    cb.DataSource = new BindingSource(moves, null);
                 }
             }
         }
@@ -1093,6 +1087,7 @@ namespace PKHeX
                 cb.DataSource = form_list;
                 cb.DisplayMember = "Text";
                 cb.ValueMember = "Value";
+                cb.Enabled = false;
                 return;
             }
             var form_unown = new[] {
@@ -1373,12 +1368,6 @@ namespace PKHeX
             else if (species == 382 || species == 383) { form_list = form_primal; }
             else if (species == 720) { form_list = form_hoopa; }
 
-            else
-            {
-                cb.Enabled = false;
-                return;
-            };
-
             cb.DataSource = form_list;
             cb.Enabled = true;
         }
@@ -1468,6 +1457,7 @@ namespace PKHeX
 
                 // CB_GameOrigin.SelectedValue = game;
 
+                CB_GameOrigin.SelectedValue = game;
                 CB_SubRegion.SelectedValue = subreg;
                 CB_Country.SelectedValue = country;
                 CB_3DSReg.SelectedValue = _3DSreg;
@@ -1492,7 +1482,7 @@ namespace PKHeX
         {
             ComboBox CB = sender as ComboBox;
             int index = Util.getIndex(CB);
-            CB.DataSource = PKX.getCBList(type, curlanguage);
+            CB.DataSource = Util.getCBList(type, curlanguage);
             CB.DisplayMember = "Text";
             CB.ValueMember = "Value";
 
@@ -1817,114 +1807,26 @@ namespace PKHeX
             {
                 #region BW2 Met Locations
                 {
-                    // Allowed Met Locations
-                    int[] metlocs = { 0, 60002, 30003 };
-
-                    // Set up
-                    List<cbItem> met_list = new List<cbItem>();
-
-                    for (int i = 0; i < metlocs.Length; i++) // add entries to the top
-                    {
-                        cbItem ncbi = new cbItem();
-                        int locval = metlocs[i];
-                        string loctext = "";
-
-                        if (locval < 30000)
-                            loctext = metBW2_00000[locval];
-                        else if (locval < 40000)
-                            loctext = metBW2_30000[locval % 10000 - 1];
-                        else if (locval < 60000)
-                            loctext = metBW2_40000[locval % 10000 - 1];
-                        else
-                            loctext = metBW2_60000[locval % 10000 - 1];
-
-                        ncbi.Text = loctext;
-                        ncbi.Value = locval;
-                        met_list.Add(ncbi);
-                    }
-
-                    metlocs = new int[] 
-                    { 
-                        1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,
-                        30001,30002,30004,30005,30006,30007,30008,30010,30011,30012,30013,30014,30015,
-                        40001,40002,40003,40004,40005,40006,40007,40008,40009,40010,40011,40012,40013,40014,40015,40016,40017,40018,40019,40020,40021,40022,40023,40024,40025,40026,40027,40028,40029,40030,40031,40032,40033,40034,40035,40036,40037,40038,40039,40040,40041,40042,40043,40044,40045,40046,40047,40048,40049,40050,40051,40052,40053,40054,40055,40056,40057,40058,40059,40060,40061,40062,40063,40064,40065,40066,40067,40068,40069,40070,40071,40072,40073,40074,40075,40076,40077,40078,40079,40080,40081,40082,40083,40084,40085,40086,40087,40088,40089,40090,40091,40092,40093,40094,40095,40096,40097,40098,40099,40100,40101,40102,40103,40104,40105,40106,40107,40108,40109,
-                        60001,60003
-                    };
-
-                    // Sort the Rest based on String Name
-                    string[] lt00000 = new string[metBW2_00000.Length];
-                    string[] lt30000 = new string[metBW2_30000.Length];
-                    string[] lt40000 = new string[metBW2_40000.Length];
-                    string[] lt60000 = new string[metBW2_60000.Length];
-                    Array.Copy(metBW2_00000, lt00000, metBW2_00000.Length);
-                    Array.Copy(metBW2_30000, lt30000, metBW2_30000.Length);
-                    Array.Copy(metBW2_40000, lt40000, metBW2_40000.Length);
-                    Array.Copy(metBW2_60000, lt60000, metBW2_60000.Length);
-                    Array.Sort(lt00000);
-                    Array.Sort(lt30000);
-                    Array.Sort(lt40000);
-                    Array.Sort(lt60000);
-
-                    // Add the rest of the 00000
-                    for (int i = 0; i < lt00000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metBW2_00000, lt00000[i]) + 00000);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt00000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-                    // Add the rest of the 30000
-                    for (int i = 0; i < lt30000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metBW2_30000, lt30000[i]) + 30001);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt30000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-                    // Add the rest of the 40000
-                    for (int i = 0; i < lt40000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metBW2_40000, lt40000[i]) + 40001);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt40000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-                    // Add the rest of the 60000
-                    for (int i = 0; i < lt60000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metBW2_60000, lt60000[i]) + 60001);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt60000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-
+                    // Build up our met list
+                    var met_list = Util.getCBList(metBW2_00000, new int[] { 0 });
+                    met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, new int[] { 60002 });
+                    met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, new int[] { 30003 });
+                    met_list = Util.getOffsetCBList(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
+                    met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
+                    met_list = Util.getOffsetCBList(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
+                    met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
                     CB_MetLocation.DataSource = met_list;
                     CB_MetLocation.DisplayMember = "Text";
                     CB_MetLocation.ValueMember = "Value";
                     CB_EggLocation.DataSource = new BindingSource(met_list, null);
-                    origintrack = "Past";
                     CB_EggLocation.DisplayMember = "Text";
                     CB_EggLocation.ValueMember = "Value";
                     CB_EggLocation.SelectedValue = 0;
                     if (gameorigin < 20)
                         CB_MetLocation.SelectedValue = 30001; // Transporter
-                    else CB_MetLocation.SelectedValue = 60001; // Stranger
+                    else 
+                        CB_MetLocation.SelectedValue = 60001; // Stranger
+                    origintrack = "Past";
                 }
                 #endregion
             }
@@ -1932,207 +1834,46 @@ namespace PKHeX
             {
                 #region XY Met Locations
                 {
-                    // Allowed Met Locations
-                    int[] metlocs = { 0, 60002, 30002 };
-
-                    // Set up
-                    List<cbItem> met_list = new List<cbItem>();
-
-                    for (int i = 0; i < metlocs.Length; i++) // add entries to the top
-                    {
-                        cbItem ncbi = new cbItem();
-                        int locval = metlocs[i];
-                        string loctext = "";
-
-                        if (locval < 30000)
-                            loctext = metXY_00000[locval];
-                        else if (locval < 40000)
-                            loctext = metXY_30000[locval % 10000 - 1];
-                        else if (locval < 60000)
-                            loctext = metXY_40000[locval % 10000 - 1];
-                        else
-                            loctext = metXY_60000[locval % 10000 - 1];
-
-                        ncbi.Text = loctext;
-                        ncbi.Value = locval;
-                        met_list.Add(ncbi);
-                    }
-
-                    metlocs = new int[] 
-                    { 
-                        2,6,8,10,12,14,16,17,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,
-                        // ORAS
-                        170,172,174,176,178,180,182,184,186,188,190,192,194,196,198,200,202,204,206,208,210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266,268,270,272,274,276,278,280,282,284,286,288,290,292,294,296,298,300,302,304,306,308,310,312,314,316,318,320,322,324,326,328,330,332,334,336,338,340,342,344,346,348,350,352,354,
-
-                        30001,30003,30004,30005,30006,30007,30008,30009,30010,30011,
-                        40001,40002,40003,40004,40005,40006,40007,40008,40009,40010,40011,40012,40013,40014,40015,40016,40017,40018,40019,40020,40021,40022,40023,40024,40025,40026,40027,40028,40029,40030,40031,40032,40033,40034,40035,40036,40037,40038,40039,40040,40041,40042,40043,40044,40045,40046,40047,40048,40049,40050,40051,40052,40053,40054,40055,40056,40057,40058,40059,40060,40061,40062,40063,40064,40065,40066,40067,40068,40069,40070,40071,40072,40073,40074,40075,40076,40077,40078,40079,
-                        60001,60003,
-                        // ORAS
-                        60004,
-                    };
-
-                    // Sort the Rest based on String Name
-                    string[] lt00000 = new string[metXY_00000.Length];
-                    string[] lt30000 = new string[metXY_30000.Length];
-                    string[] lt40000 = new string[metXY_40000.Length];
-                    string[] lt60000 = new string[metXY_60000.Length];
-                    Array.Copy(metXY_00000, lt00000, metXY_00000.Length);
-                    Array.Copy(metXY_30000, lt30000, metXY_30000.Length);
-                    Array.Copy(metXY_40000, lt40000, metXY_40000.Length);
-                    Array.Copy(metXY_60000, lt60000, metXY_60000.Length);
-                    Array.Sort(lt00000);
-                    Array.Sort(lt30000);
-                    Array.Sort(lt40000);
-                    Array.Sort(lt60000);
-
-                    // Add the rest of the 00000
-                    for (int i = 0; i < lt00000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metXY_00000, lt00000[i]) + 00000);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt00000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-                    // Add the rest of the 30000
-                    for (int i = 0; i < lt30000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metXY_30000, lt30000[i]) + 30001);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt30000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-                    // Add the rest of the 40000
-                    for (int i = 0; i < lt40000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metXY_40000, lt40000[i]) + 40001);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt40000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-                    // Add the rest of the 60000
-                    for (int i = 0; i < lt60000.Length; i++)
-                    {
-                        int locnum = Array.IndexOf(metlocs, Array.IndexOf(metXY_60000, lt60000[i]) + 60001);
-                        if (locnum > 0)	// If the location is allowed (if found, >0)
-                        {
-                            cbItem ncbi = new cbItem();
-                            ncbi.Text = lt60000[i];
-                            ncbi.Value = metlocs[locnum];
-                            met_list.Add(ncbi);
-                        }
-                    }
-
+                    // Build up our met list
+                    var met_list = Util.getCBList(metXY_00000, new int[] { 0 });
+                    met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, new int[] { 60002 });
+                    met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, new int[] { 30002 });
+                    met_list = Util.getOffsetCBList(met_list, metXY_00000, 00000, Legal.Met_XY_0);
+                    met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, Legal.Met_XY_3);
+                    met_list = Util.getOffsetCBList(met_list, metXY_40000, 40001, Legal.Met_XY_4);
+                    met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, Legal.Met_XY_6);
                     CB_MetLocation.DataSource = met_list;
                     CB_MetLocation.DisplayMember = "Text";
                     CB_MetLocation.ValueMember = "Value";
                     CB_EggLocation.DataSource = new BindingSource(met_list, null);
                     CB_EggLocation.DisplayMember = "Text";
                     CB_EggLocation.ValueMember = "Value";
-                    origintrack = "XY";
                     CB_EggLocation.SelectedValue = 0;
                     CB_MetLocation.SelectedValue = 0;
+                    origintrack = "XY";
                 }
                 #endregion
             }
-            if (gameorigin < 13 && gameorigin > 6 && origintrack != "Gen4")
+            if (((gameorigin < 10 && gameorigin > 6) || (gameorigin == 15)) && origintrack != "Gen4")
             {   // Egg Met Locations for Gen 4 are unaltered when transferred to Gen 5. Need a new table if Gen 4 Origin.
                 #region HGSS Met Locations
                 // Allowed Met Locations
                 int[] metlocs = { 0, 2000, 2002, 3001 };
 
                 // Set up
-                List<cbItem> met_list = new List<cbItem>();
-
-                for (int i = 0; i < metlocs.Length; i++) // add entries to the top
-                {
-                    cbItem ncbi = new cbItem();
-                    int locval = metlocs[i];
-                    string loctext = "";
-
-                    if (locval < 2000)
-                        loctext = metHGSS_00000[locval];
-                    else if (locval < 3000)
-                        loctext = metHGSS_02000[locval % 2000];
-                    else
-                        loctext = metHGSS_03000[locval % 3000];
-
-                    ncbi.Text = loctext;
-                    ncbi.Value = locval;
-                    met_list.Add(ncbi);
-                }
-
-                metlocs = new int[] 
-                { 
-                       0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,
-                       2000,2001,2002,2003,2004,2005,2006,2008,2009,2010,2011,2012,2013,2014,
-                       3000,3001,3002,3003,3004,3005,3006,3007,3008,3009,3010,3011,3012,3013,3014,3015,3016,3017,3018,3019,3020,3021,3022,3023,3024,3025,3026,3027,3028,3029,3030,3031,3032,3033,3034,3035,3036,3037,3038,3039,3040,3041,3042,3043,3044,3045,3046,3047,3048,3049,3050,3051,3052,3053,3054,3055,3056,3057,3058,3059,3060,3061,3062,3063,3064,3065,3066,3067,3068,3069,3070,3071,3072,3073,3074,3075,3076
-                };
-
-                // Sort the Rest based on String Name
-                string[] lt00000 = new string[metHGSS_00000.Length];
-                string[] lt02000 = new string[metHGSS_02000.Length];
-                string[] lt03000 = new string[metHGSS_03000.Length];
-                Array.Copy(metHGSS_00000, lt00000, metHGSS_00000.Length);
-                Array.Copy(metHGSS_02000, lt02000, metHGSS_02000.Length);
-                Array.Copy(metHGSS_03000, lt03000, metHGSS_03000.Length);
-                Array.Sort(lt00000);
-                Array.Sort(lt02000);
-                Array.Sort(lt03000);
-
-                // Add the rest of the 0000
-                for (int i = 0; i < lt00000.Length; i++)
-                {
-                    int locnum = Array.IndexOf(metlocs, Array.IndexOf(metHGSS_00000, lt00000[i]) + 0000);
-                    if (locnum > 0)	// If the location is allowed (if found, >0)
-                    {
-                        cbItem ncbi = new cbItem();
-                        ncbi.Text = lt00000[i];
-                        ncbi.Value = metlocs[locnum];
-                        met_list.Add(ncbi);
-                    }
-                }
-                // Add the rest of the 2000
-                for (int i = 0; i < lt02000.Length; i++)
-                {
-                    int locnum = Array.IndexOf(metlocs, Array.IndexOf(metHGSS_02000, lt02000[i]) + 2000);
-                    if (locnum > 0)	// If the location is allowed (if found, >0)
-                    {
-                        cbItem ncbi = new cbItem();
-                        ncbi.Text = lt02000[i];
-                        ncbi.Value = metlocs[locnum];
-                        met_list.Add(ncbi);
-                    }
-                }
-                // Add the rest of the 3000
-                for (int i = 0; i < lt03000.Length; i++)
-                {
-                    int locnum = Array.IndexOf(metlocs, Array.IndexOf(metHGSS_03000, lt03000[i]) + 3000);
-                    if (locnum > 0)	// If the location is allowed (if found, >0)
-                    {
-                        cbItem ncbi = new cbItem();
-                        ncbi.Text = lt03000[i];
-                        ncbi.Value = metlocs[locnum];
-                        met_list.Add(ncbi);
-                    }
-                }
+                var met_list = Util.getCBList(metHGSS_00000, new int[] { 0 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new int[] { 2000 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new int[] { 2002 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new int[] { 3001 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
 
                 CB_EggLocation.DataSource = met_list;
-                origintrack = "Gen4";
                 CB_EggLocation.DisplayMember = "Text";
                 CB_EggLocation.ValueMember = "Value";
                 CB_EggLocation.SelectedValue = 0;
+                origintrack = "Gen4";
                 #endregion
             }
         }
@@ -3846,12 +3587,12 @@ namespace PKHeX
             if (BitConverter.ToUInt32(savefile, 0x6A810 + 0x7F000 * savindex) == 0x42454546)
             {
                 enableInterface = true;
-                SaveGame = new SaveGames.SaveStruct("XY");
+                SaveGame = new PKX.SaveGames.SaveStruct("XY");
             }
             else
             {
                 Util.Error("Unrecognized Save File loaded.");
-                SaveGame = new SaveGames.SaveStruct("Error");
+                SaveGame = new PKX.SaveGames.SaveStruct("Error");
             }
 
             // Enable Buttons
@@ -4478,7 +4219,7 @@ namespace PKHeX
                     File.WriteAllBytes(newfile, dragdata);
 
                     string[] filesToDrag = { newfile };
-                    (sender as PictureBox).DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
+                    this.DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
                     File.Delete(newfile); // after drop, delete the temporary file
                 }
                 catch (ArgumentException x)
@@ -4550,111 +4291,4 @@ namespace PKHeX
         private int pkm_from_offset = 0;
         #endregion
     }
-
-    #region Structs & Classes
-    public class cbItem
-    {
-        public string Text { get; set; }
-        public object Value { get; set; }
-
-        public override string ToString()
-        {
-            return Text;
-        }
-    }
-    public class SaveGames
-    {
-        public struct SaveStruct
-        {
-            public int Box, TrainerCard, Party, BattleBox, GTS, Daycare, Fused, SUBE, Puff, Item, Trainer1, Trainer2, PCLayout, Wondercard, BerryField, OPower, EventFlag, PokeDex, HoF, PSS, JPEG;
-            public string Name;
-            public SaveStruct(string GameID)
-            {
-                if (GameID == "XY")
-                {
-                    Name = "XY";
-                    Box = 0x27A00;
-                    TrainerCard = 0x19400;
-                    Party = 0x19600;
-                    BattleBox = 0x09E00;
-                    Daycare = 0x20600;
-                    GTS = 0x1CC00;
-                    Fused = 0x1B400;
-                    SUBE = 0x22C90;
-
-                    Puff = 0x5400;
-                    Item = 0x5800;
-                    Trainer1 = 0x6800;
-                    Trainer2 = 0x9600;
-                    PCLayout = 0x9800;
-                    Wondercard = 0x21000;
-                    BerryField = 0x20C00;
-                    OPower = 0x1BE00;
-                    EventFlag = 0x19E00;
-                    PokeDex = 0x1A400;
-
-                    HoF = 0x1E800;
-                    JPEG = 0x5C600;
-                    PSS = 0x0A400;
-                }
-                else if (GameID == "ORAS")
-                {
-                    // Temp
-                    Name = "ORAS";
-                    Box = 0x38400;      // Confirmed
-                    TrainerCard = 0x19400; // Confirmed
-                    Party = 0x19600;    // Confirmed
-                    BattleBox = 0x09E00;// Confirmed
-                    Daycare = 0x21000; // Confirmed (thanks Rei)
-                    GTS = 0x1D600; // Confirmed
-                    Fused = 0x1BE00; // Confirmed
-                    SUBE = 0x22C90; // ****not in use, not updating?****
-
-                    Puff = 0x5400; // Confirmed
-                    Item = 0x5800; // Confirmed
-                    Trainer1 = 0x6800; // Confirmed
-                    Trainer2 = 0x9600; // Confirmed
-                    PCLayout = 0x9800; // Confirmed
-                    Wondercard = 0x22000; // Confirmed
-                    BerryField = 0x20C00; // ****changed****
-                    OPower = 0x1BE00;
-                    EventFlag = 0x19E00; // Confirmed
-                    PokeDex = 0x1A400;
-
-                    HoF = 0x1F200; // Confirmed
-                    JPEG = 0x6D000; // Confirmed
-                    PSS = 0x0A400; // Confirmed (thanks Rei)
-                }
-                else
-                {
-                    // Copied...
-                    Name = "Unknown";
-                    Box = 0x27A00;
-                    TrainerCard = 0x19400;
-                    Party = 0x19600;
-                    BattleBox = 0x09E00;
-                    Daycare = 0x20600;
-                    GTS = 0x1CC00;
-                    Fused = 0x1B400;
-                    SUBE = 0x22C90;
-
-                    Puff = 0x5400;
-                    Item = 0x5800;
-                    Trainer1 = 0x6800;
-                    Trainer2 = 0x9600;
-                    PCLayout = 0x9800;
-                    Wondercard = 0x21000;
-                    BerryField = 0x20C00;
-                    OPower = 0x1BE00;
-                    EventFlag = 0x19E00;
-                    PokeDex = 0x1A400;
-
-                    HoF = 0x1E800;
-                    JPEG = 0x5C600;
-                    PSS = 0x0A400;
-                }
-            }
-        }
-    }
-    #endregion
 }

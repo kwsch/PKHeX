@@ -55,31 +55,15 @@ namespace PKHeX
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
-            #region Species
             {
-                List<cbItem> species_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] sortedspecies = new string[specieslist.Length];
-                Array.Copy(specieslist, sortedspecies, specieslist.Length);
-                Array.Sort(sortedspecies);
-
-                // Add the rest of the items
-                for (int i = 0; i < sortedspecies.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedspecies[i];
-                    ncbi.Value = Array.IndexOf(specieslist, sortedspecies[i]);
-                    species_list.Add(ncbi);
-                }
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = species_list;
+                CB_Species.DataSource = new BindingSource(m_parent.CB_Species.DataSource, null);
 
                 CB_S2.DisplayMember = "Text";
                 CB_S2.ValueMember = "Value";
-                CB_S2.DataSource = new BindingSource(species_list, null);
+                CB_S2.DataSource = new BindingSource(m_parent.CB_Species.DataSource, null);
             }
-            #endregion
             listBox1.SelectedIndex = 0;
             fillTrainingBags();
 

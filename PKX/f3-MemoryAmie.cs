@@ -665,5 +665,15 @@ namespace PKHeX
             mta[index].DisplayMember = "Text";
             mta[index].ValueMember = "Value";
         }
+        private class cbItem
+        {
+            public string Text { get; set; }
+            public object Value { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
     }
 }

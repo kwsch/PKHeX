@@ -390,5 +390,128 @@ namespace PKHeX
             string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
             return (DialogResult)MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
+
+        // DataSource Providing
+        public class cbItem
+        {
+            public string Text { get; set; }
+            public object Value { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
+        internal static List<cbItem> getCBList(string textfile, string lang)
+        {
+            // Set up
+            List<cbItem> cbList = new List<cbItem>();
+            string[] inputCSV = Util.getSimpleStringList(textfile);
+
+            // Get Language we're fetching for
+            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
+
+            // Set up our Temporary Storage
+            string[] unsortedList = new string[inputCSV.Length - 1];
+            int[] indexes = new int[inputCSV.Length - 1];
+
+            // Gather our data from the input file
+            for (int i = 1; i < inputCSV.Length; i++)
+            {
+                string[] countryData = inputCSV[i].Split(',');
+                indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                unsortedList[i - 1] = countryData[index + 1];
+            }
+
+            // Sort our input data
+            string[] sortedList = new string[inputCSV.Length - 1];
+            Array.Copy(unsortedList, sortedList, unsortedList.Length);
+            Array.Sort(sortedList);
+
+            // Arrange the input data based on original number
+            for (int i = 0; i < sortedList.Length; i++)
+            {
+                cbItem ncbi = new cbItem();
+                ncbi.Text = sortedList[i];
+                ncbi.Value = indexes[Array.IndexOf(unsortedList, sortedList[i])];
+                cbList.Add(ncbi);
+            }
+            return cbList;
+        }
+        internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
+        {
+            List<cbItem> cbList = new List<cbItem>();
+            if (allowed == null)
+                allowed = new int[][] { Enumerable.Range(0, inStrings.Length).ToArray() };
+
+            foreach (int[] list in allowed)
+            {
+                // Sort the Rest based on String Name
+                string[] unsortedChoices = new string[list.Length];
+                for (int i = 0; i < list.Length; i++)
+                    unsortedChoices[i] = inStrings[list[i]];
+
+                string[] sortedChoices = new string[unsortedChoices.Length];
+                Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
+                Array.Sort(sortedChoices);
+
+                // Add the rest of the items
+                for (int i = 0; i < sortedChoices.Length; i++)
+                {
+                    cbItem ncbi = new cbItem();
+                    ncbi.Text = sortedChoices[i];
+                    ncbi.Value = list[Array.IndexOf(unsortedChoices, sortedChoices[i])];
+                    cbList.Add(ncbi);
+                }
+            }
+            return cbList;
+        }
+        internal static List<cbItem> getOffsetCBList(List<cbItem> cbList, string[] inStrings, int offset, int[] allowed)
+        {
+            if (allowed == null)
+                allowed = Enumerable.Range(0, inStrings.Length).ToArray();
+
+            int[] list = (int[])allowed.Clone();
+            for (int i = 0; i < list.Length; i++)
+                list[i] -= offset;
+
+            {
+                // Sort the Rest based on String Name
+                string[] unsortedChoices = new string[allowed.Length];
+                for (int i = 0; i < allowed.Length; i++)
+                    unsortedChoices[i] = inStrings[list[i]];
+
+                string[] sortedChoices = new string[unsortedChoices.Length];
+                Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
+                Array.Sort(sortedChoices);
+
+                // Add the rest of the items
+                for (int i = 0; i < sortedChoices.Length; i++)
+                {
+                    cbItem ncbi = new cbItem();
+                    ncbi.Text = sortedChoices[i];
+                    ncbi.Value = allowed[Array.IndexOf(unsortedChoices, sortedChoices[i])];
+                    cbList.Add(ncbi);
+                }
+            }
+            return cbList;
+        }
+        internal static List<cbItem> getUnsortedCBList(string textfile)
+        {
+            // Set up
+            List<cbItem> cbList = new List<cbItem>();
+            string[] inputCSV = Util.getSimpleStringList(textfile);
+
+            // Gather our data from the input file
+            for (int i = 1; i < inputCSV.Length; i++)
+            {
+                string[] inputData = inputCSV[i].Split(',');
+                cbItem ncbi = new cbItem();
+                ncbi.Value = Convert.ToInt32(inputData[0]);
+                ncbi.Text = inputData[1];
+                cbList.Add(ncbi);
+            }
+            return cbList;
+        }
     }
 }

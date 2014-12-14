@@ -4185,7 +4185,6 @@
         private System.Windows.Forms.ComboBox CB_PKRSStrain;
         private System.Windows.Forms.ComboBox CB_Language;
         private System.Windows.Forms.ComboBox CB_Ability;
-        private System.Windows.Forms.ComboBox CB_Nature;
         private System.Windows.Forms.Label Label_3DSRegion;
         private System.Windows.Forms.Label Label_SubRegion;
         private System.Windows.Forms.Label Label_Country;
@@ -4256,7 +4255,6 @@
         private System.Windows.Forms.TextBox Stat_HP;
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.ComboBox CB_EncounterType;
-        private System.Windows.Forms.ComboBox CB_Ball;
         public System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.GroupBox GB_EggConditions;
         private System.Windows.Forms.Label Label_EggDate;
@@ -4298,7 +4296,6 @@
         public System.Windows.Forms.TextBox TB_OTt2;
         public System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.Label Label_HeldItem;
-        private System.Windows.Forms.ComboBox CB_HeldItem;
         private System.Windows.Forms.CheckBox CHK_Cured;
         private System.Windows.Forms.CheckBox CHK_Infected;
         private System.Windows.Forms.ComboBox CB_Form;
@@ -4464,6 +4461,9 @@
         private System.Windows.Forms.MaskedTextBox MT_Form;
         private System.Windows.Forms.Button B_OpenSecretBase;
         private System.Windows.Forms.ToolStripMenuItem Menu_Unicode;
+        public System.Windows.Forms.ComboBox CB_Ball;
+        public System.Windows.Forms.ComboBox CB_HeldItem;
+        public System.Windows.Forms.ComboBox CB_Nature;
     }
 }
 
