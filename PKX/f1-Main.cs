@@ -1317,6 +1317,15 @@ namespace PKHeX
         {
             // Form Tables
             // 
+            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            var form_list = new[] { new { Text = "", Value = 0}, };
+            if (MonData.AltFormCount == 0)
+            {
+                cb.DataSource = form_list;
+                cb.DisplayMember = "Text";
+                cb.ValueMember = "Value";
+                return;
+            }
             var form_unown = new[] {
                     new { Text = "A", Value = 0 },
                     new { Text = "B", Value = 1 },
@@ -1503,9 +1512,6 @@ namespace PKHeX
                     new { Text = forms[878], Value = 18 }, // Fancy
                     new { Text = forms[879], Value = 19 }, // Poké Ball
                 };
-            var form_list = new[] {
-                    new { Text = "", Value = 0}, // None
-                };
             var form_pump = new[] {
                     new { Text = forms[904], Value = 0 }, // Small
                     new { Text = forms[710], Value = 1 }, // Average
@@ -1546,20 +1552,16 @@ namespace PKHeX
 
             // Mega List
             int[] mspec = {     // XY
-                                   003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
+                                003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
                                 // ORAS
                                 015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
                           };
-            for (int i = 0; i < mspec.Length; i++)
+            if (Array.IndexOf(mspec,species) > -1)
             {
-                if (mspec[i] == species)
-                {
-                    cb.DataSource = form_mega;
-                    cb.Enabled = true; // Mega Form Selection
-                    return;
-                }
+                cb.DataSource = form_mega;
+                cb.Enabled = true; // Mega Form Selection
+                return;
             }
-
             // MegaXY List
             if ((species == 6) || (species == 150))
             {
@@ -2985,7 +2987,7 @@ namespace PKHeX
                 Cursor.Current = Cursors.Hand;
                 // Make a new file name
                 byte[] dragdata = preparepkx(buff);
-                PKX pkx = new PKX(dragdata);
+                PKX pkx = new PKX(dragdata, "Tabs");
                 string filename = pkx.Nickname;
                 if (filename != pkx.Species)
                     filename += " (" + pkx.Species + ")";
@@ -3023,7 +3025,7 @@ namespace PKHeX
 
                 // Make a new file name
                 byte[] dragdata = preparepkx(buff);
-                PKX pkx = new PKX(dragdata);
+                PKX pkx = new PKX(dragdata, "Tabs");
                 string filename = pkx.Nickname;
                 if (filename != pkx.Species)
                     filename += " (" + pkx.Species + ")";
@@ -4692,7 +4694,7 @@ namespace PKHeX
                 // Make a new file name based off the PID
                 byte[] dragdata = PKX.decryptArray(pkm_from);
                 Array.Resize(ref dragdata, 0xE8);
-                PKX pkx = new PKX(dragdata);
+                PKX pkx = new PKX(dragdata, "Boxes");
                 string filename = pkx.Nickname;
                 if (filename != pkx.Species)
                     filename += " (" + pkx.Species + ")";

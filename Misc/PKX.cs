@@ -14,6 +14,7 @@ namespace PKHeX
     {
         // C# PKX Function Library
         // No WinForm object related code, only to calculate information.
+        // May require re-referencing to main form for string array referencing.
         // Relies on Util for some common operations.
 
         // Data
@@ -317,6 +318,42 @@ namespace PKHeX
             }
             return data;
         }
+        public static string getLocation(bool eggmet, int gameorigin, int locval)
+        {
+            string loctext = "";
+            if (gameorigin < 13 && gameorigin > 6 && eggmet)
+            {
+                if (locval < 2000)
+                    loctext = Form1.metHGSS_00000[locval];
+                else if (locval < 3000)
+                    loctext = Form1.metHGSS_02000[locval % 2000];
+                else
+                    loctext = Form1.metHGSS_03000[locval % 3000];
+            }
+            else if (gameorigin < 24)
+            {
+			    if (locval < 30000)
+                    loctext = Form1.metBW2_00000[locval];
+                else if (locval < 40000)
+                    loctext = Form1.metBW2_30000[locval % 10000 - 1];
+                else if (locval < 60000)
+                    loctext = Form1.metBW2_40000[locval % 10000 - 1];
+                else
+                    loctext = Form1.metBW2_60000[locval % 10000 - 1];
+            }
+            else if (gameorigin > 23)
+            {
+                if (locval < 30000)
+                    loctext = Form1.metXY_00000[locval];
+                else if (locval < 40000)
+                    loctext = Form1.metXY_30000[locval % 10000 - 1];
+                else if (locval < 60000)
+                    loctext = Form1.metXY_40000[locval % 10000 - 1];
+                else
+                    loctext = Form1.metXY_60000[locval % 10000 - 1];
+            }
+            return loctext;
+        }
         public static ushort[] getStats(int species, int level, int nature, int form,
                                         int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
                                         int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
@@ -532,8 +569,10 @@ namespace PKHeX
             mmarkings, mhptype;
 
         private string
+            slot,
             mnicknamestr, mgenderstring, mnotOT, mot, mSpeciesName, mNatureName, mHPName, mAbilityName,
             mMove1N, mMove2N, mMove3N, mMove4N, mhelditemN,
+            mMetLocN, mEggLocN,
             mcountryID, mregionID;
 
         private int
@@ -558,6 +597,7 @@ namespace PKHeX
             mball, mencountertype,
             mgamevers, mdsregID, motlang;
 
+        public string Position { get { return slot; } }
         public Image pkimg { get { return pksprite; } }
         public string Nickname { get { return mnicknamestr; } }
         public string Species { get { return mSpeciesName; } }
@@ -571,6 +611,9 @@ namespace PKHeX
         public string Move3 { get { return mMove3N; } }
         public string Move4 { get { return mMove4N; } }
         public string HeldItem { get { return mhelditemN; } }
+        public string MetLoc { get { return mMetLocN; } }
+        public string EggLoc { get { return mEggLocN; } }
+        public string OT { get { return mot; } }
         public string CountryID { get { return mcountryID; } }
         public string RegionID { get { return mregionID; } }
 
@@ -599,7 +642,6 @@ namespace PKHeX
         public uint Markings { get { return mmarkings; } }
 
         public string NotOT { get { return mnotOT; } }
-        public string OT { get { return mot; } }
 
         public int AbilityNum { get { return mabilitynum; } }
         public int FatefulFlag { get { return mfeflag; } }
@@ -638,8 +680,6 @@ namespace PKHeX
         public ushort Met_Year { get { return mmet_year; } }
         public ushort Met_Day { get { return mmet_month; } }
         public ushort Met_Month { get { return mmet_day; } }
-        public ushort Egg_Location { get { return meggloc; } }
-        public ushort Met_Location { get { return mmetloc; } }
         public ushort Ball { get { return mball; } }
         public ushort Encounter { get { return mencountertype; } }
         public ushort GameVersion { get { return mgamevers; } }
@@ -647,8 +687,9 @@ namespace PKHeX
         public ushort OTLang { get { return motlang; } }
 
         #endregion
-        public PKX(byte[] pkx)
+        public PKX(byte[] pkx, string ident)
         {
+            slot = ident;
             mnicknamestr = "";
             mnotOT = "";
             mot = "";
@@ -799,6 +840,8 @@ namespace PKHeX
                 mMove2N = Form1.movelist[mmove2];
                 mMove3N = Form1.movelist[mmove3];
                 mMove4N = Form1.movelist[mmove4];
+                mMetLocN = PKX.getLocation(false, mgamevers, mmetloc);
+                mEggLocN = PKX.getLocation(true, mgamevers, meggloc);
             }
             catch { return; }
         }
