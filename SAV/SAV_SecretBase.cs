@@ -15,6 +15,7 @@ namespace PKHeX
         public SAV_SecretBase(Form1 frm1)
         {
             InitializeComponent();
+            Util.TranslateInterface(this.Name, Form1.curlanguage, this.Controls);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
@@ -30,8 +31,8 @@ namespace PKHeX
             popFavorite();
 
             LB_Favorite.SelectedIndex = 0;
-            MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString();
-            // MT_Flags.Text = BitConverter.ToUInt32(sav, 0x2942C).ToString();
+            // MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString(); PSS Stat transmitted
+            MT_Flags.Text = BitConverter.ToUInt32(sav, 0x2942C).ToString(); // read counter
             B_SAV2FAV(null, null);
         }
         Form1 m_parent;
@@ -222,8 +223,8 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             uint flags = Util.ToUInt32(MT_Flags);
-            Array.Copy(BitConverter.GetBytes(flags), 0, sav, 0x24800 + 0x140, 4);
-            // Array.Copy(BitConverter.GetBytes(flags), 0, sav, 0x2942C, 4);
+            Array.Copy(BitConverter.GetBytes(flags), 0, sav, 0x24800 + 0x140, 4); // write pss
+            Array.Copy(BitConverter.GetBytes(flags), 0, sav, 0x2942C, 4); // write counter
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
             Close();
