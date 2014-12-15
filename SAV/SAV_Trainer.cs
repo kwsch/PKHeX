@@ -19,6 +19,7 @@ namespace PKHeX
         public SAV_Trainer(Form1 frm1)
         {
             InitializeComponent();
+            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
@@ -28,9 +29,9 @@ namespace PKHeX
                 psssatoffset = 0x24800; Maison += 0xA00;
                 this.Width = (int)((float)Width * (float)428 / (float)590);
                 CB_Multi.Enabled = true;
-                label34.Enabled = true; // Multiplayer Sprite Label
+                L_MultiplayerSprite.Enabled = true; // Multiplayer Sprite Label
 
-                label21.Visible = false; // Style Label
+                L_Style.Visible = false; // Style Label
                 TB_Style.Visible = false;
                 GB_Appear.Visible = false;
             }

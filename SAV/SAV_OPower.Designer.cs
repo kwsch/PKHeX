@@ -67,18 +67,18 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.B_MaxP = new System.Windows.Forms.Button();
             this.B_AllMax = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.CHK_1 = new System.Windows.Forms.CheckBox();
-            this.CHK_2 = new System.Windows.Forms.CheckBox();
-            this.CHK_3 = new System.Windows.Forms.CheckBox();
-            this.CHK_4 = new System.Windows.Forms.CheckBox();
-            this.CHK_5 = new System.Windows.Forms.CheckBox();
-            this.CHK_6 = new System.Windows.Forms.CheckBox();
-            this.CHK_7 = new System.Windows.Forms.CheckBox();
+            this.GB_Event = new System.Windows.Forms.GroupBox();
             this.CHK_8 = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.CHK_7 = new System.Windows.Forms.CheckBox();
+            this.CHK_6 = new System.Windows.Forms.CheckBox();
+            this.CHK_5 = new System.Windows.Forms.CheckBox();
+            this.CHK_4 = new System.Windows.Forms.CheckBox();
+            this.CHK_3 = new System.Windows.Forms.CheckBox();
+            this.CHK_2 = new System.Windows.Forms.CheckBox();
+            this.CHK_1 = new System.Windows.Forms.CheckBox();
+            this.GB_Regular = new System.Windows.Forms.GroupBox();
+            this.GB_Event.SuspendLayout();
+            this.GB_Regular.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_1
@@ -102,7 +102,7 @@
             this.L_1.Name = "L_1";
             this.L_1.Size = new System.Drawing.Size(70, 13);
             this.L_1.TabIndex = 1;
-            this.L_1.Text = "?Bargain:";
+            this.L_1.Text = "Hatching:";
             this.L_1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_2
@@ -111,7 +111,7 @@
             this.L_2.Name = "L_2";
             this.L_2.Size = new System.Drawing.Size(70, 13);
             this.L_2.TabIndex = 3;
-            this.L_2.Text = "?EXP:";
+            this.L_2.Text = "Bargain:";
             this.L_2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_2
@@ -159,7 +159,7 @@
             this.L_4.Name = "L_4";
             this.L_4.Size = new System.Drawing.Size(70, 13);
             this.L_4.TabIndex = 7;
-            this.L_4.Text = "?Hatch:";
+            this.L_4.Text = "EXP:";
             this.L_4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_4
@@ -518,144 +518,23 @@
             this.B_AllMax.UseVisualStyleBackColor = true;
             this.B_AllMax.Click += new System.EventHandler(this.B_AllMax_Click);
             // 
-            // groupBox1
+            // GB_Event
             // 
-            this.groupBox1.Controls.Add(this.CHK_8);
-            this.groupBox1.Controls.Add(this.CHK_7);
-            this.groupBox1.Controls.Add(this.CHK_6);
-            this.groupBox1.Controls.Add(this.CHK_5);
-            this.groupBox1.Controls.Add(this.CHK_4);
-            this.groupBox1.Controls.Add(this.CHK_3);
-            this.groupBox1.Controls.Add(this.CHK_2);
-            this.groupBox1.Controls.Add(this.CHK_1);
-            this.groupBox1.Controls.Add(this.B_AllMax);
-            this.groupBox1.Location = new System.Drawing.Point(268, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(126, 225);
-            this.groupBox1.TabIndex = 38;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Event";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.B_MaxP);
-            this.groupBox2.Controls.Add(this.L_9);
-            this.groupBox2.Controls.Add(this.CB_9);
-            this.groupBox2.Controls.Add(this.L_17);
-            this.groupBox2.Controls.Add(this.CB_17);
-            this.groupBox2.Controls.Add(this.L_16);
-            this.groupBox2.Controls.Add(this.CB_16);
-            this.groupBox2.Controls.Add(this.L_15);
-            this.groupBox2.Controls.Add(this.CB_15);
-            this.groupBox2.Controls.Add(this.L_14);
-            this.groupBox2.Controls.Add(this.CB_14);
-            this.groupBox2.Controls.Add(this.L_13);
-            this.groupBox2.Controls.Add(this.CB_13);
-            this.groupBox2.Controls.Add(this.L_12);
-            this.groupBox2.Controls.Add(this.CB_12);
-            this.groupBox2.Controls.Add(this.L_11);
-            this.groupBox2.Controls.Add(this.CB_11);
-            this.groupBox2.Controls.Add(this.L_10);
-            this.groupBox2.Controls.Add(this.CB_10);
-            this.groupBox2.Controls.Add(this.L_8);
-            this.groupBox2.Controls.Add(this.CB_8);
-            this.groupBox2.Controls.Add(this.L_7);
-            this.groupBox2.Controls.Add(this.CB_7);
-            this.groupBox2.Controls.Add(this.L_6);
-            this.groupBox2.Controls.Add(this.CB_6);
-            this.groupBox2.Controls.Add(this.L_5);
-            this.groupBox2.Controls.Add(this.CB_5);
-            this.groupBox2.Controls.Add(this.L_4);
-            this.groupBox2.Controls.Add(this.CB_4);
-            this.groupBox2.Controls.Add(this.L_3);
-            this.groupBox2.Controls.Add(this.CB_3);
-            this.groupBox2.Controls.Add(this.L_2);
-            this.groupBox2.Controls.Add(this.CB_2);
-            this.groupBox2.Controls.Add(this.L_1);
-            this.groupBox2.Controls.Add(this.CB_1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(250, 270);
-            this.groupBox2.TabIndex = 39;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Regular";
-            // 
-            // CHK_1
-            // 
-            this.CHK_1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_1.Location = new System.Drawing.Point(9, 22);
-            this.CHK_1.Name = "CHK_1";
-            this.CHK_1.Size = new System.Drawing.Size(100, 17);
-            this.CHK_1.TabIndex = 38;
-            this.CHK_1.Text = "?Bargain MAX";
-            this.CHK_1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_1.UseVisualStyleBackColor = true;
-            // 
-            // CHK_2
-            // 
-            this.CHK_2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_2.Location = new System.Drawing.Point(9, 43);
-            this.CHK_2.Name = "CHK_2";
-            this.CHK_2.Size = new System.Drawing.Size(100, 17);
-            this.CHK_2.TabIndex = 39;
-            this.CHK_2.Text = "?EXP MAX";
-            this.CHK_2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_2.UseVisualStyleBackColor = true;
-            // 
-            // CHK_3
-            // 
-            this.CHK_3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_3.Location = new System.Drawing.Point(9, 64);
-            this.CHK_3.Name = "CHK_3";
-            this.CHK_3.Size = new System.Drawing.Size(100, 17);
-            this.CHK_3.TabIndex = 40;
-            this.CHK_3.Text = "?Prize MAX";
-            this.CHK_3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_3.UseVisualStyleBackColor = true;
-            // 
-            // CHK_4
-            // 
-            this.CHK_4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_4.Location = new System.Drawing.Point(9, 85);
-            this.CHK_4.Name = "CHK_4";
-            this.CHK_4.Size = new System.Drawing.Size(100, 17);
-            this.CHK_4.TabIndex = 41;
-            this.CHK_4.Text = "?Hatch MAX";
-            this.CHK_4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_4.UseVisualStyleBackColor = true;
-            // 
-            // CHK_5
-            // 
-            this.CHK_5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_5.Location = new System.Drawing.Point(9, 106);
-            this.CHK_5.Name = "CHK_5";
-            this.CHK_5.Size = new System.Drawing.Size(100, 17);
-            this.CHK_5.TabIndex = 42;
-            this.CHK_5.Text = "?Capture MAX";
-            this.CHK_5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_5.UseVisualStyleBackColor = true;
-            // 
-            // CHK_6
-            // 
-            this.CHK_6.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_6.Location = new System.Drawing.Point(9, 127);
-            this.CHK_6.Name = "CHK_6";
-            this.CHK_6.Size = new System.Drawing.Size(100, 17);
-            this.CHK_6.TabIndex = 43;
-            this.CHK_6.Text = "?Restore MAX";
-            this.CHK_6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_6.UseVisualStyleBackColor = true;
-            // 
-            // CHK_7
-            // 
-            this.CHK_7.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_7.Location = new System.Drawing.Point(9, 148);
-            this.CHK_7.Name = "CHK_7";
-            this.CHK_7.Size = new System.Drawing.Size(100, 17);
-            this.CHK_7.TabIndex = 44;
-            this.CHK_7.Text = "?Befriend MAX";
-            this.CHK_7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_7.UseVisualStyleBackColor = true;
+            this.GB_Event.Controls.Add(this.CHK_8);
+            this.GB_Event.Controls.Add(this.CHK_7);
+            this.GB_Event.Controls.Add(this.CHK_6);
+            this.GB_Event.Controls.Add(this.CHK_5);
+            this.GB_Event.Controls.Add(this.CHK_4);
+            this.GB_Event.Controls.Add(this.CHK_3);
+            this.GB_Event.Controls.Add(this.CHK_2);
+            this.GB_Event.Controls.Add(this.CHK_1);
+            this.GB_Event.Controls.Add(this.B_AllMax);
+            this.GB_Event.Location = new System.Drawing.Point(268, 12);
+            this.GB_Event.Name = "GB_Event";
+            this.GB_Event.Size = new System.Drawing.Size(126, 225);
+            this.GB_Event.TabIndex = 38;
+            this.GB_Event.TabStop = false;
+            this.GB_Event.Text = "Event";
             // 
             // CHK_8
             // 
@@ -668,13 +547,134 @@
             this.CHK_8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_8.UseVisualStyleBackColor = true;
             // 
+            // CHK_7
+            // 
+            this.CHK_7.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_7.Location = new System.Drawing.Point(9, 148);
+            this.CHK_7.Name = "CHK_7";
+            this.CHK_7.Size = new System.Drawing.Size(100, 17);
+            this.CHK_7.TabIndex = 44;
+            this.CHK_7.Text = "?Befriend MAX";
+            this.CHK_7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_7.UseVisualStyleBackColor = true;
+            // 
+            // CHK_6
+            // 
+            this.CHK_6.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_6.Location = new System.Drawing.Point(9, 127);
+            this.CHK_6.Name = "CHK_6";
+            this.CHK_6.Size = new System.Drawing.Size(100, 17);
+            this.CHK_6.TabIndex = 43;
+            this.CHK_6.Text = "?Restore MAX";
+            this.CHK_6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_6.UseVisualStyleBackColor = true;
+            // 
+            // CHK_5
+            // 
+            this.CHK_5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_5.Location = new System.Drawing.Point(9, 106);
+            this.CHK_5.Name = "CHK_5";
+            this.CHK_5.Size = new System.Drawing.Size(100, 17);
+            this.CHK_5.TabIndex = 42;
+            this.CHK_5.Text = "?Capture MAX";
+            this.CHK_5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_4
+            // 
+            this.CHK_4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_4.Location = new System.Drawing.Point(9, 85);
+            this.CHK_4.Name = "CHK_4";
+            this.CHK_4.Size = new System.Drawing.Size(100, 17);
+            this.CHK_4.TabIndex = 41;
+            this.CHK_4.Text = "?Hatch MAX";
+            this.CHK_4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_3
+            // 
+            this.CHK_3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_3.Location = new System.Drawing.Point(9, 64);
+            this.CHK_3.Name = "CHK_3";
+            this.CHK_3.Size = new System.Drawing.Size(100, 17);
+            this.CHK_3.TabIndex = 40;
+            this.CHK_3.Text = "?Prize MAX";
+            this.CHK_3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_2
+            // 
+            this.CHK_2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_2.Location = new System.Drawing.Point(9, 43);
+            this.CHK_2.Name = "CHK_2";
+            this.CHK_2.Size = new System.Drawing.Size(100, 17);
+            this.CHK_2.TabIndex = 39;
+            this.CHK_2.Text = "?EXP MAX";
+            this.CHK_2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_1
+            // 
+            this.CHK_1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_1.Location = new System.Drawing.Point(9, 22);
+            this.CHK_1.Name = "CHK_1";
+            this.CHK_1.Size = new System.Drawing.Size(100, 17);
+            this.CHK_1.TabIndex = 38;
+            this.CHK_1.Text = "?Bargain MAX";
+            this.CHK_1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_1.UseVisualStyleBackColor = true;
+            // 
+            // GB_Regular
+            // 
+            this.GB_Regular.Controls.Add(this.B_MaxP);
+            this.GB_Regular.Controls.Add(this.L_9);
+            this.GB_Regular.Controls.Add(this.CB_9);
+            this.GB_Regular.Controls.Add(this.L_17);
+            this.GB_Regular.Controls.Add(this.CB_17);
+            this.GB_Regular.Controls.Add(this.L_16);
+            this.GB_Regular.Controls.Add(this.CB_16);
+            this.GB_Regular.Controls.Add(this.L_15);
+            this.GB_Regular.Controls.Add(this.CB_15);
+            this.GB_Regular.Controls.Add(this.L_14);
+            this.GB_Regular.Controls.Add(this.CB_14);
+            this.GB_Regular.Controls.Add(this.L_13);
+            this.GB_Regular.Controls.Add(this.CB_13);
+            this.GB_Regular.Controls.Add(this.L_12);
+            this.GB_Regular.Controls.Add(this.CB_12);
+            this.GB_Regular.Controls.Add(this.L_11);
+            this.GB_Regular.Controls.Add(this.CB_11);
+            this.GB_Regular.Controls.Add(this.L_10);
+            this.GB_Regular.Controls.Add(this.CB_10);
+            this.GB_Regular.Controls.Add(this.L_8);
+            this.GB_Regular.Controls.Add(this.CB_8);
+            this.GB_Regular.Controls.Add(this.L_7);
+            this.GB_Regular.Controls.Add(this.CB_7);
+            this.GB_Regular.Controls.Add(this.L_6);
+            this.GB_Regular.Controls.Add(this.CB_6);
+            this.GB_Regular.Controls.Add(this.L_5);
+            this.GB_Regular.Controls.Add(this.CB_5);
+            this.GB_Regular.Controls.Add(this.L_4);
+            this.GB_Regular.Controls.Add(this.CB_4);
+            this.GB_Regular.Controls.Add(this.L_3);
+            this.GB_Regular.Controls.Add(this.CB_3);
+            this.GB_Regular.Controls.Add(this.L_2);
+            this.GB_Regular.Controls.Add(this.CB_2);
+            this.GB_Regular.Controls.Add(this.L_1);
+            this.GB_Regular.Controls.Add(this.CB_1);
+            this.GB_Regular.Location = new System.Drawing.Point(12, 12);
+            this.GB_Regular.Name = "GB_Regular";
+            this.GB_Regular.Size = new System.Drawing.Size(250, 270);
+            this.GB_Regular.TabIndex = 39;
+            this.GB_Regular.TabStop = false;
+            this.GB_Regular.Text = "Regular";
+            // 
             // SAV_OPower
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 292);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.GB_Regular);
+            this.Controls.Add(this.GB_Event);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -684,8 +684,8 @@
             this.Name = "SAV_OPower";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "O-Power Editor";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
+            this.GB_Event.ResumeLayout(false);
+            this.GB_Regular.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -730,7 +730,7 @@
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_MaxP;
         private System.Windows.Forms.Button B_AllMax;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox GB_Event;
         private System.Windows.Forms.CheckBox CHK_8;
         private System.Windows.Forms.CheckBox CHK_7;
         private System.Windows.Forms.CheckBox CHK_6;
@@ -739,6 +739,6 @@
         private System.Windows.Forms.CheckBox CHK_3;
         private System.Windows.Forms.CheckBox CHK_2;
         private System.Windows.Forms.CheckBox CHK_1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox GB_Regular;
     }
 }

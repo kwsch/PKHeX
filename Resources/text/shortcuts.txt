@@ -1,8 +1,8 @@
 ﻿If you are having issues viewing gender symbols, Options -> Toggle Unicode Text.
 
-
 // Main Window
 
+Hold Control when dragging out the Tab PKM to save as ekx.
 Right Click on Nickname/Nickname box to bring up the ingame-special characters.
 
 Control + Click on...
@@ -26,5 +26,5 @@ Control-Click the OpenTemp button to open the CyberGadget Cache folder.
 
 // Inventory Editor
 
-Alt-Click loading a pouch will give all items with quantity x995. Disabled for Key Items and TMs.
+Alt-Click loading a pouch will give all items with quantity x995. *1 for TMHM/Key
 

@@ -283,8 +283,8 @@
             this.Tab_Other = new System.Windows.Forms.TabPage();
             this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.GB_Daycare = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.L_XP2 = new System.Windows.Forms.Label();
+            this.L_XP1 = new System.Windows.Forms.Label();
             this.TB_Daycare2XP = new System.Windows.Forms.TextBox();
             this.TB_Daycare1XP = new System.Windows.Forms.TextBox();
             this.L_DC2 = new System.Windows.Forms.Label();
@@ -305,7 +305,6 @@
             this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
             this.B_3DSSETemp = new System.Windows.Forms.Button();
-            this.B_BoxIO = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.RTB_T = new System.Windows.Forms.RichTextBox();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
@@ -316,7 +315,7 @@
             this.B_VerifySHA = new System.Windows.Forms.Button();
             this.B_ExportSAV = new System.Windows.Forms.Button();
             this.RTB_S = new System.Windows.Forms.RichTextBox();
-            this.B_OUTHallofFame = new System.Windows.Forms.Button();
+            this.B_OpenHallofFame = new System.Windows.Forms.Button();
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
             this.B_OpenBoxLayout = new System.Windows.Forms.Button();
@@ -3491,8 +3490,8 @@
             // 
             // GB_Daycare
             // 
-            this.GB_Daycare.Controls.Add(this.label4);
-            this.GB_Daycare.Controls.Add(this.label3);
+            this.GB_Daycare.Controls.Add(this.L_XP2);
+            this.GB_Daycare.Controls.Add(this.L_XP1);
             this.GB_Daycare.Controls.Add(this.TB_Daycare2XP);
             this.GB_Daycare.Controls.Add(this.TB_Daycare1XP);
             this.GB_Daycare.Controls.Add(this.L_DC2);
@@ -3509,23 +3508,23 @@
             this.GB_Daycare.TabStop = false;
             this.GB_Daycare.Text = "Daycare";
             // 
-            // label4
+            // L_XP2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(74, 88);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(30, 13);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "+XP:";
+            this.L_XP2.AutoSize = true;
+            this.L_XP2.Location = new System.Drawing.Point(74, 88);
+            this.L_XP2.Name = "L_XP2";
+            this.L_XP2.Size = new System.Drawing.Size(30, 13);
+            this.L_XP2.TabIndex = 17;
+            this.L_XP2.Text = "+XP:";
             // 
-            // label3
+            // L_XP1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(74, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "+XP:";
+            this.L_XP1.AutoSize = true;
+            this.L_XP1.Location = new System.Drawing.Point(74, 35);
+            this.L_XP1.Name = "L_XP1";
+            this.L_XP1.Size = new System.Drawing.Size(30, 13);
+            this.L_XP1.TabIndex = 16;
+            this.L_XP1.Text = "+XP:";
             // 
             // TB_Daycare2XP
             // 
@@ -3716,7 +3715,6 @@
             // Tab_Tools
             // 
             this.Tab_Tools.Controls.Add(this.B_3DSSETemp);
-            this.Tab_Tools.Controls.Add(this.B_BoxIO);
             this.Tab_Tools.Controls.Add(this.B_JPEG);
             this.Tab_Tools.Controls.Add(this.RTB_T);
             this.Tab_Tools.Location = new System.Drawing.Point(4, 22);
@@ -3729,7 +3727,7 @@
             // 
             // B_3DSSETemp
             // 
-            this.B_3DSSETemp.Location = new System.Drawing.Point(32, 20);
+            this.B_3DSSETemp.Location = new System.Drawing.Point(49, 20);
             this.B_3DSSETemp.Name = "B_3DSSETemp";
             this.B_3DSSETemp.Size = new System.Drawing.Size(75, 45);
             this.B_3DSSETemp.TabIndex = 7;
@@ -3737,20 +3735,10 @@
             this.B_3DSSETemp.UseVisualStyleBackColor = true;
             this.B_3DSSETemp.Click += new System.EventHandler(this.clickOpenTempFolder);
             // 
-            // B_BoxIO
-            // 
-            this.B_BoxIO.Location = new System.Drawing.Point(197, 20);
-            this.B_BoxIO.Name = "B_BoxIO";
-            this.B_BoxIO.Size = new System.Drawing.Size(75, 45);
-            this.B_BoxIO.TabIndex = 6;
-            this.B_BoxIO.Text = "Open/Save Box Content";
-            this.B_BoxIO.UseVisualStyleBackColor = true;
-            this.B_BoxIO.Click += new System.EventHandler(this.B_BoxIO_Click);
-            // 
             // B_JPEG
             // 
             this.B_JPEG.Enabled = false;
-            this.B_JPEG.Location = new System.Drawing.Point(121, 20);
+            this.B_JPEG.Location = new System.Drawing.Point(178, 20);
             this.B_JPEG.Name = "B_JPEG";
             this.B_JPEG.Size = new System.Drawing.Size(75, 45);
             this.B_JPEG.TabIndex = 5;
@@ -3858,15 +3846,15 @@
             this.RTB_S.Text = "";
             this.RTB_S.WordWrap = false;
             // 
-            // B_OUTHallofFame
+            // B_OpenHallofFame
             // 
-            this.B_OUTHallofFame.Location = new System.Drawing.Point(230, 41);
-            this.B_OUTHallofFame.Name = "B_OUTHallofFame";
-            this.B_OUTHallofFame.Size = new System.Drawing.Size(75, 23);
-            this.B_OUTHallofFame.TabIndex = 4;
-            this.B_OUTHallofFame.Text = "Hall of Fame";
-            this.B_OUTHallofFame.UseVisualStyleBackColor = true;
-            this.B_OUTHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
+            this.B_OpenHallofFame.Location = new System.Drawing.Point(230, 41);
+            this.B_OpenHallofFame.Name = "B_OpenHallofFame";
+            this.B_OpenHallofFame.Size = new System.Drawing.Size(75, 23);
+            this.B_OpenHallofFame.TabIndex = 4;
+            this.B_OpenHallofFame.Text = "Hall of Fame";
+            this.B_OpenHallofFame.UseVisualStyleBackColor = true;
+            this.B_OpenHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
             // 
             // B_OUTPasserby
             // 
@@ -3972,7 +3960,7 @@
             // 
             this.GB_SAVtools.Controls.Add(this.B_OpenSuperTraining);
             this.GB_SAVtools.Controls.Add(this.B_OpenPokedex);
-            this.GB_SAVtools.Controls.Add(this.B_OUTHallofFame);
+            this.GB_SAVtools.Controls.Add(this.B_OpenHallofFame);
             this.GB_SAVtools.Controls.Add(this.B_OpenBerryField);
             this.GB_SAVtools.Controls.Add(this.B_OpenBoxLayout);
             this.GB_SAVtools.Controls.Add(this.B_OpenTrainerInfo);
@@ -4390,8 +4378,8 @@
         private System.Windows.Forms.RichTextBox RTB_S;
         private System.Windows.Forms.Button B_BoxRight;
         private System.Windows.Forms.Button B_BoxLeft;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label L_XP2;
+        private System.Windows.Forms.Label L_XP1;
         private System.Windows.Forms.TextBox TB_Daycare2XP;
         private System.Windows.Forms.TextBox TB_Daycare1XP;
         private System.Windows.Forms.Label L_DC2;
@@ -4400,10 +4388,9 @@
         private System.Windows.Forms.TextBox TB_EC;
         private System.Windows.Forms.TabPage Tab_Tools;
         private System.Windows.Forms.Button B_OUTPasserby;
-        private System.Windows.Forms.Button B_OUTHallofFame;
+        private System.Windows.Forms.Button B_OpenHallofFame;
         private System.Windows.Forms.RichTextBox RTB_T;
         private System.Windows.Forms.Button B_JPEG;
-        private System.Windows.Forms.Button B_BoxIO;
         private System.Windows.Forms.Label L_SAVManipulation;
         private System.Windows.Forms.Button B_SwitchSAV;
         private System.Windows.Forms.Label L_IntegrityCheck;

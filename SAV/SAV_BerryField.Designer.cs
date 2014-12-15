@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BerryField));
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_Unfinished = new System.Windows.Forms.Label();
+            this.L_Field = new System.Windows.Forms.Label();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.TB_Berry = new System.Windows.Forms.TextBox();
@@ -54,6 +54,8 @@
             // 
             // listBox1
             // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Items.AddRange(new object[] {
             "01",
@@ -94,31 +96,33 @@
             "36"});
             this.listBox1.Location = new System.Drawing.Point(12, 25);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(38, 472);
+            this.listBox1.Size = new System.Drawing.Size(38, 264);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.changefield);
             // 
-            // label1
+            // L_Unfinished
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(67, 458);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(173, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Unfinished - Needs More Research";
+            this.L_Unfinished.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_Unfinished.AutoSize = true;
+            this.L_Unfinished.Location = new System.Drawing.Point(67, 258);
+            this.L_Unfinished.Name = "L_Unfinished";
+            this.L_Unfinished.Size = new System.Drawing.Size(173, 13);
+            this.L_Unfinished.TabIndex = 1;
+            this.L_Unfinished.Text = "Unfinished - Needs More Research";
             // 
-            // label2
+            // L_Field
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Field";
+            this.L_Field.AutoSize = true;
+            this.L_Field.Location = new System.Drawing.Point(12, 9);
+            this.L_Field.Name = "L_Field";
+            this.L_Field.Size = new System.Drawing.Size(29, 13);
+            this.L_Field.TabIndex = 2;
+            this.L_Field.Text = "Field";
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(81, 474);
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_Cancel.Location = new System.Drawing.Point(81, 274);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 3;
@@ -128,8 +132,9 @@
             // 
             // B_Save
             // 
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.B_Save.Enabled = false;
-            this.B_Save.Location = new System.Drawing.Point(168, 474);
+            this.B_Save.Location = new System.Drawing.Point(168, 274);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 4;
@@ -276,7 +281,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(256, 505);
+            this.ClientSize = new System.Drawing.Size(256, 305);
             this.Controls.Add(this.TB_u7);
             this.Controls.Add(this.TB_u6);
             this.Controls.Add(this.TB_u5);
@@ -295,8 +300,8 @@
             this.Controls.Add(this.TB_Berry);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Field);
+            this.Controls.Add(this.L_Unfinished);
             this.Controls.Add(this.listBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -313,8 +318,8 @@
         #endregion
 
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_Unfinished;
+        private System.Windows.Forms.Label L_Field;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.TextBox TB_Berry;

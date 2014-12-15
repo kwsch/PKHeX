@@ -13,8 +13,9 @@ namespace PKHeX
     {
         public f2_Text(TextBox TB_NN)
         {
-            this.Hide(); 
+            this.Hide();
             InitializeComponent();
+            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
             TB_Nickname = TB_NN;
             Font pkxFont = PKX.getPKXFont(12F);
             Label[] lbla = new Label[] 

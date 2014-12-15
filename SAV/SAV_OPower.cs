@@ -16,6 +16,7 @@ namespace PKHeX
             m_parent = frm1;
             if (m_parent.savegame_oras) opoweroffset = 0x1C800;
             InitializeComponent();
+            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
             LoadData();
         }
         Form1 m_parent;

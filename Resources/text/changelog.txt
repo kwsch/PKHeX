@@ -395,3 +395,14 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Chinese translation.
  - Fixed: Full Pokedex code causing CyberGadget to corrupt saves.
  - Fixed: Corruption Alert will now appear for ORAS saves, you can ignore it if you are using SaveDataFiler.
+
+12/14/14 - New Update:
+ - Added: Hall of Fame Editor. Thank you SciresM for the implementation!
+ - Added: Country / Region text for all languages. Thank you Slashmolder for the raw data!
+ - Added: Ingame Font characters. To manually enter them, right click the Nickname label. Thank you mapaler (枫谷剑仙)!
+ - Changed: Replaced the Quick-Dragouts for exporting with an overall 'tabs' sprite. Functionality is the same; for encrypted export hold Control.
+ - Changed: A few O-Power labels for X/Y. Thank you RainThunder!
+ - Internal: Tons of code reorganization, might be a little faster/lighter.
+ - Improved: Box Report now is more verbose in terms of Locations and sprites. Can also sort (slow) by clicking the column header, and upon exit you can save a .csv table.
+ - Improved: Message popups should be much more appealing.
+ - Fixed various bugs for drag&drop.

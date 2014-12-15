@@ -37,7 +37,7 @@
             this.CHK_Secret = new System.Windows.Forms.CheckBox();
             this.GB_Medals1 = new System.Windows.Forms.GroupBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_Bag = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.L_Hits = new System.Windows.Forms.Label();
             this.L_SuperTraining = new System.Windows.Forms.Label();
@@ -362,7 +362,7 @@
             // GB_Medals1
             // 
             this.GB_Medals1.Controls.Add(this.comboBox1);
-            this.GB_Medals1.Controls.Add(this.label1);
+            this.GB_Medals1.Controls.Add(this.L_Bag);
             this.GB_Medals1.Controls.Add(this.numericUpDown1);
             this.GB_Medals1.Controls.Add(this.L_Hits);
             this.GB_Medals1.Controls.Add(this.L_SuperTraining);
@@ -402,14 +402,14 @@
             this.comboBox1.Size = new System.Drawing.Size(110, 21);
             this.comboBox1.TabIndex = 23;
             // 
-            // label1
+            // L_Bag
             // 
-            this.label1.Location = new System.Drawing.Point(-1, 169);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 13);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "Last Used Bag:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.L_Bag.Location = new System.Drawing.Point(-1, 169);
+            this.L_Bag.Name = "L_Bag";
+            this.L_Bag.Size = new System.Drawing.Size(100, 13);
+            this.L_Bag.TabIndex = 22;
+            this.L_Bag.Text = "Last Used Bag:";
+            this.L_Bag.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // numericUpDown1
             // 
@@ -743,9 +743,9 @@
             this.TMedal4_7.AutoSize = true;
             this.TMedal4_7.Location = new System.Drawing.Point(96, 114);
             this.TMedal4_7.Name = "TMedal4_7";
-            this.TMedal4_7.Size = new System.Drawing.Size(45, 17);
+            this.TMedal4_7.Size = new System.Drawing.Size(47, 17);
             this.TMedal4_7.TabIndex = 31;
-            this.TMedal4_7.Text = "X/Y";
+            this.TMedal4_7.Text = "Best";
             this.TMedal4_7.UseVisualStyleBackColor = true;
             // 
             // TMedal4_6
@@ -2872,7 +2872,7 @@
         private System.Windows.Forms.PictureBox PB_52;
         private System.Windows.Forms.PictureBox PB_51;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_Bag;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label L_Hits;
         private System.Windows.Forms.CheckBox ORAS_5;

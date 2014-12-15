@@ -32,7 +32,7 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Favorite = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_Favorite = new System.Windows.Forms.Label();
             this.B_FDisplay = new System.Windows.Forms.Button();
             this.f_PKM = new System.Windows.Forms.TabPage();
             this.GB_PKM = new System.Windows.Forms.GroupBox();
@@ -57,7 +57,7 @@
             this.TB_Level = new System.Windows.Forms.MaskedTextBox();
             this.CB_Form = new System.Windows.Forms.ComboBox();
             this.CHK_Shiny = new System.Windows.Forms.CheckBox();
-            this.Label_PPups = new System.Windows.Forms.Label();
+            this.L_PPups = new System.Windows.Forms.Label();
             this.CB_PPu4 = new System.Windows.Forms.ComboBox();
             this.CB_PPu3 = new System.Windows.Forms.ComboBox();
             this.CB_PPu2 = new System.Windows.Forms.ComboBox();
@@ -66,60 +66,60 @@
             this.CB_Move3 = new System.Windows.Forms.ComboBox();
             this.CB_Move2 = new System.Windows.Forms.ComboBox();
             this.CB_Move1 = new System.Windows.Forms.ComboBox();
-            this.label23 = new System.Windows.Forms.Label();
+            this.L_Participant = new System.Windows.Forms.Label();
             this.NUD_FPKM = new System.Windows.Forms.NumericUpDown();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
-            this.label22 = new System.Windows.Forms.Label();
+            this.L_EncryptionConstant = new System.Windows.Forms.Label();
             this.TB_EC = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
+            this.L_EVs = new System.Windows.Forms.Label();
+            this.L_IVs = new System.Windows.Forms.Label();
+            this.L_SPE = new System.Windows.Forms.Label();
+            this.L_SpD = new System.Windows.Forms.Label();
+            this.L_SpA = new System.Windows.Forms.Label();
+            this.L_DEF = new System.Windows.Forms.Label();
+            this.L_ATK = new System.Windows.Forms.Label();
+            this.L_HP = new System.Windows.Forms.Label();
             this.f_MAIN = new System.Windows.Forms.TabPage();
             this.NUD_FBaseLocation = new System.Windows.Forms.NumericUpDown();
             this.TB_FT2 = new System.Windows.Forms.TextBox();
             this.TB_FT1 = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.L_TeamSlogan = new System.Windows.Forms.Label();
+            this.L_TeamName = new System.Windows.Forms.Label();
+            this.GB_Object = new System.Windows.Forms.GroupBox();
+            this.L_Y = new System.Windows.Forms.Label();
+            this.L_X = new System.Windows.Forms.Label();
             this.NUD_FX = new System.Windows.Forms.NumericUpDown();
             this.NUD_FY = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.L_Rotation = new System.Windows.Forms.Label();
+            this.L_Decoration = new System.Windows.Forms.Label();
             this.NUD_FRot = new System.Windows.Forms.NumericUpDown();
             this.NUD_FObjType = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
+            this.L_Index = new System.Windows.Forms.Label();
             this.NUD_FObject = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
+            this.L_BaseLocation = new System.Windows.Forms.Label();
             this.TB_FSay4 = new System.Windows.Forms.TextBox();
             this.TB_FSay3 = new System.Windows.Forms.TextBox();
             this.TB_FSay2 = new System.Windows.Forms.TextBox();
             this.TB_FSay1 = new System.Windows.Forms.TextBox();
             this.TB_FOT = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.L_TrName = new System.Windows.Forms.Label();
+            this.L_Confetti = new System.Windows.Forms.Label();
+            this.L_Blackboard = new System.Windows.Forms.Label();
+            this.L_Encourage = new System.Windows.Forms.Label();
+            this.L_Happy = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.B_GiveDecor = new System.Windows.Forms.Button();
             this.B_FSave = new System.Windows.Forms.Button();
             this.MT_Flags = new System.Windows.Forms.MaskedTextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_FlagsCaptured = new System.Windows.Forms.Label();
             this.f_PKM.SuspendLayout();
             this.GB_PKM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FPKM)).BeginInit();
             this.f_MAIN.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.GB_Object.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FRot)).BeginInit();
@@ -158,14 +158,14 @@
             this.LB_Favorite.Size = new System.Drawing.Size(78, 264);
             this.LB_Favorite.TabIndex = 4;
             // 
-            // label1
+            // L_Favorite
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Favorites:";
+            this.L_Favorite.AutoSize = true;
+            this.L_Favorite.Location = new System.Drawing.Point(12, 9);
+            this.L_Favorite.Name = "L_Favorite";
+            this.L_Favorite.Size = new System.Drawing.Size(53, 13);
+            this.L_Favorite.TabIndex = 6;
+            this.L_Favorite.Text = "Favorites:";
             // 
             // B_FDisplay
             // 
@@ -210,7 +210,7 @@
             this.GB_PKM.Controls.Add(this.TB_Level);
             this.GB_PKM.Controls.Add(this.CB_Form);
             this.GB_PKM.Controls.Add(this.CHK_Shiny);
-            this.GB_PKM.Controls.Add(this.Label_PPups);
+            this.GB_PKM.Controls.Add(this.L_PPups);
             this.GB_PKM.Controls.Add(this.CB_PPu4);
             this.GB_PKM.Controls.Add(this.CB_PPu3);
             this.GB_PKM.Controls.Add(this.CB_PPu2);
@@ -219,21 +219,21 @@
             this.GB_PKM.Controls.Add(this.CB_Move3);
             this.GB_PKM.Controls.Add(this.CB_Move2);
             this.GB_PKM.Controls.Add(this.CB_Move1);
-            this.GB_PKM.Controls.Add(this.label23);
+            this.GB_PKM.Controls.Add(this.L_Participant);
             this.GB_PKM.Controls.Add(this.NUD_FPKM);
             this.GB_PKM.Controls.Add(this.CB_Species);
             this.GB_PKM.Controls.Add(this.CB_HeldItem);
             this.GB_PKM.Controls.Add(this.CB_Nature);
-            this.GB_PKM.Controls.Add(this.label22);
+            this.GB_PKM.Controls.Add(this.L_EncryptionConstant);
             this.GB_PKM.Controls.Add(this.TB_EC);
-            this.GB_PKM.Controls.Add(this.label21);
-            this.GB_PKM.Controls.Add(this.label20);
-            this.GB_PKM.Controls.Add(this.label17);
-            this.GB_PKM.Controls.Add(this.label18);
-            this.GB_PKM.Controls.Add(this.label19);
-            this.GB_PKM.Controls.Add(this.label16);
-            this.GB_PKM.Controls.Add(this.label15);
-            this.GB_PKM.Controls.Add(this.label14);
+            this.GB_PKM.Controls.Add(this.L_EVs);
+            this.GB_PKM.Controls.Add(this.L_IVs);
+            this.GB_PKM.Controls.Add(this.L_SPE);
+            this.GB_PKM.Controls.Add(this.L_SpD);
+            this.GB_PKM.Controls.Add(this.L_SpA);
+            this.GB_PKM.Controls.Add(this.L_DEF);
+            this.GB_PKM.Controls.Add(this.L_ATK);
+            this.GB_PKM.Controls.Add(this.L_HP);
             this.GB_PKM.Location = new System.Drawing.Point(0, 0);
             this.GB_PKM.Name = "GB_PKM";
             this.GB_PKM.Size = new System.Drawing.Size(369, 263);
@@ -455,14 +455,14 @@
             this.CHK_Shiny.Text = "☆";
             this.CHK_Shiny.UseVisualStyleBackColor = true;
             // 
-            // Label_PPups
+            // L_PPups
             // 
-            this.Label_PPups.Location = new System.Drawing.Point(142, 145);
-            this.Label_PPups.Name = "Label_PPups";
-            this.Label_PPups.Size = new System.Drawing.Size(45, 13);
-            this.Label_PPups.TabIndex = 75;
-            this.Label_PPups.Text = "PP Ups";
-            this.Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.L_PPups.Location = new System.Drawing.Point(142, 145);
+            this.L_PPups.Name = "L_PPups";
+            this.L_PPups.Size = new System.Drawing.Size(45, 13);
+            this.L_PPups.TabIndex = 75;
+            this.L_PPups.Text = "PP Ups";
+            this.L_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CB_PPu4
             // 
@@ -560,14 +560,14 @@
             this.CB_Move1.Size = new System.Drawing.Size(121, 21);
             this.CB_Move1.TabIndex = 68;
             // 
-            // label23
+            // L_Participant
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(12, 19);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(60, 13);
-            this.label23.TabIndex = 67;
-            this.label23.Text = "Participant:";
+            this.L_Participant.AutoSize = true;
+            this.L_Participant.Location = new System.Drawing.Point(12, 19);
+            this.L_Participant.Name = "L_Participant";
+            this.L_Participant.Size = new System.Drawing.Size(60, 13);
+            this.L_Participant.TabIndex = 67;
+            this.L_Participant.Text = "Participant:";
             // 
             // NUD_FPKM
             // 
@@ -624,14 +624,14 @@
             this.CB_Nature.Size = new System.Drawing.Size(122, 21);
             this.CB_Nature.TabIndex = 63;
             // 
-            // label22
+            // L_EncryptionConstant
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(12, 47);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(32, 13);
-            this.label22.TabIndex = 62;
-            this.label22.Text = "ENC:";
+            this.L_EncryptionConstant.AutoSize = true;
+            this.L_EncryptionConstant.Location = new System.Drawing.Point(12, 47);
+            this.L_EncryptionConstant.Name = "L_EncryptionConstant";
+            this.L_EncryptionConstant.Size = new System.Drawing.Size(32, 13);
+            this.L_EncryptionConstant.TabIndex = 62;
+            this.L_EncryptionConstant.Text = "ENC:";
             // 
             // TB_EC
             // 
@@ -644,105 +644,105 @@
             this.TB_EC.TabIndex = 61;
             this.TB_EC.Text = "12345678";
             // 
-            // label21
+            // L_EVs
             // 
-            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(294, 12);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(26, 13);
-            this.label21.TabIndex = 23;
-            this.label21.Text = "EVs";
+            this.L_EVs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_EVs.AutoSize = true;
+            this.L_EVs.Location = new System.Drawing.Point(294, 12);
+            this.L_EVs.Name = "L_EVs";
+            this.L_EVs.Size = new System.Drawing.Size(26, 13);
+            this.L_EVs.TabIndex = 23;
+            this.L_EVs.Text = "EVs";
             // 
-            // label20
+            // L_IVs
             // 
-            this.label20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(265, 12);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(22, 13);
-            this.label20.TabIndex = 16;
-            this.label20.Text = "IVs";
+            this.L_IVs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_IVs.AutoSize = true;
+            this.L_IVs.Location = new System.Drawing.Point(265, 12);
+            this.L_IVs.Name = "L_IVs";
+            this.L_IVs.Size = new System.Drawing.Size(22, 13);
+            this.L_IVs.TabIndex = 16;
+            this.L_IVs.Text = "IVs";
             // 
-            // label17
+            // L_SPE
             // 
-            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(235, 140);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(28, 13);
-            this.label17.TabIndex = 13;
-            this.label17.Text = "SPE";
+            this.L_SPE.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SPE.AutoSize = true;
+            this.L_SPE.Location = new System.Drawing.Point(235, 140);
+            this.L_SPE.Name = "L_SPE";
+            this.L_SPE.Size = new System.Drawing.Size(28, 13);
+            this.L_SPE.TabIndex = 13;
+            this.L_SPE.Text = "SPE";
             // 
-            // label18
+            // L_SpD
             // 
-            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(235, 118);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(28, 13);
-            this.label18.TabIndex = 12;
-            this.label18.Text = "SpD";
+            this.L_SpD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SpD.AutoSize = true;
+            this.L_SpD.Location = new System.Drawing.Point(235, 118);
+            this.L_SpD.Name = "L_SpD";
+            this.L_SpD.Size = new System.Drawing.Size(28, 13);
+            this.L_SpD.TabIndex = 12;
+            this.L_SpD.Text = "SpD";
             // 
-            // label19
+            // L_SpA
             // 
-            this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(236, 96);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(27, 13);
-            this.label19.TabIndex = 11;
-            this.label19.Text = "SpA";
+            this.L_SpA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SpA.AutoSize = true;
+            this.L_SpA.Location = new System.Drawing.Point(236, 96);
+            this.L_SpA.Name = "L_SpA";
+            this.L_SpA.Size = new System.Drawing.Size(27, 13);
+            this.L_SpA.TabIndex = 11;
+            this.L_SpA.Text = "SpA";
             // 
-            // label16
+            // L_DEF
             // 
-            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(235, 74);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(28, 13);
-            this.label16.TabIndex = 4;
-            this.label16.Text = "DEF";
+            this.L_DEF.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_DEF.AutoSize = true;
+            this.L_DEF.Location = new System.Drawing.Point(235, 74);
+            this.L_DEF.Name = "L_DEF";
+            this.L_DEF.Size = new System.Drawing.Size(28, 13);
+            this.L_DEF.TabIndex = 4;
+            this.L_DEF.Text = "DEF";
             // 
-            // label15
+            // L_ATK
             // 
-            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(235, 52);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(28, 13);
-            this.label15.TabIndex = 3;
-            this.label15.Text = "ATK";
+            this.L_ATK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_ATK.AutoSize = true;
+            this.L_ATK.Location = new System.Drawing.Point(235, 52);
+            this.L_ATK.Name = "L_ATK";
+            this.L_ATK.Size = new System.Drawing.Size(28, 13);
+            this.L_ATK.TabIndex = 3;
+            this.L_ATK.Text = "ATK";
             // 
-            // label14
+            // L_HP
             // 
-            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(241, 30);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(22, 13);
-            this.label14.TabIndex = 2;
-            this.label14.Text = "HP";
+            this.L_HP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_HP.AutoSize = true;
+            this.L_HP.Location = new System.Drawing.Point(241, 30);
+            this.L_HP.Name = "L_HP";
+            this.L_HP.Size = new System.Drawing.Size(22, 13);
+            this.L_HP.TabIndex = 2;
+            this.L_HP.Text = "HP";
             // 
             // f_MAIN
             // 
             this.f_MAIN.Controls.Add(this.NUD_FBaseLocation);
             this.f_MAIN.Controls.Add(this.TB_FT2);
             this.f_MAIN.Controls.Add(this.TB_FT1);
-            this.f_MAIN.Controls.Add(this.label24);
-            this.f_MAIN.Controls.Add(this.label25);
-            this.f_MAIN.Controls.Add(this.groupBox1);
-            this.f_MAIN.Controls.Add(this.label8);
+            this.f_MAIN.Controls.Add(this.L_TeamSlogan);
+            this.f_MAIN.Controls.Add(this.L_TeamName);
+            this.f_MAIN.Controls.Add(this.GB_Object);
+            this.f_MAIN.Controls.Add(this.L_BaseLocation);
             this.f_MAIN.Controls.Add(this.TB_FSay4);
             this.f_MAIN.Controls.Add(this.TB_FSay3);
             this.f_MAIN.Controls.Add(this.TB_FSay2);
             this.f_MAIN.Controls.Add(this.TB_FSay1);
             this.f_MAIN.Controls.Add(this.TB_FOT);
-            this.f_MAIN.Controls.Add(this.label7);
-            this.f_MAIN.Controls.Add(this.label6);
-            this.f_MAIN.Controls.Add(this.label5);
-            this.f_MAIN.Controls.Add(this.label4);
-            this.f_MAIN.Controls.Add(this.label3);
+            this.f_MAIN.Controls.Add(this.L_TrName);
+            this.f_MAIN.Controls.Add(this.L_Confetti);
+            this.f_MAIN.Controls.Add(this.L_Blackboard);
+            this.f_MAIN.Controls.Add(this.L_Encourage);
+            this.f_MAIN.Controls.Add(this.L_Happy);
             this.f_MAIN.Location = new System.Drawing.Point(4, 22);
             this.f_MAIN.Name = "f_MAIN";
             this.f_MAIN.Padding = new System.Windows.Forms.Padding(3);
@@ -793,66 +793,66 @@
             this.TB_FT1.Size = new System.Drawing.Size(124, 20);
             this.TB_FT1.TabIndex = 14;
             // 
-            // label24
+            // L_TeamSlogan
             // 
-            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(166, 135);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(73, 13);
-            this.label24.TabIndex = 17;
-            this.label24.Text = "Team Slogan:";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_TeamSlogan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_TeamSlogan.AutoSize = true;
+            this.L_TeamSlogan.Location = new System.Drawing.Point(166, 135);
+            this.L_TeamSlogan.Name = "L_TeamSlogan";
+            this.L_TeamSlogan.Size = new System.Drawing.Size(73, 13);
+            this.L_TeamSlogan.TabIndex = 17;
+            this.L_TeamSlogan.Text = "Team Slogan:";
+            this.L_TeamSlogan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label25
+            // L_TeamName
             // 
-            this.label25.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(171, 113);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(68, 13);
-            this.label25.TabIndex = 16;
-            this.label25.Text = "Team Name:";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_TeamName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_TeamName.AutoSize = true;
+            this.L_TeamName.Location = new System.Drawing.Point(171, 113);
+            this.L_TeamName.Name = "L_TeamName";
+            this.L_TeamName.Size = new System.Drawing.Size(68, 13);
+            this.L_TeamName.TabIndex = 16;
+            this.L_TeamName.Text = "Team Name:";
+            this.L_TeamName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // groupBox1
+            // GB_Object
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.GB_Object.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.NUD_FX);
-            this.groupBox1.Controls.Add(this.NUD_FY);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.NUD_FRot);
-            this.groupBox1.Controls.Add(this.NUD_FObjType);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.NUD_FObject);
-            this.groupBox1.Location = new System.Drawing.Point(6, 158);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(357, 103);
-            this.groupBox1.TabIndex = 13;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Object Layout";
+            this.GB_Object.Controls.Add(this.L_Y);
+            this.GB_Object.Controls.Add(this.L_X);
+            this.GB_Object.Controls.Add(this.NUD_FX);
+            this.GB_Object.Controls.Add(this.NUD_FY);
+            this.GB_Object.Controls.Add(this.L_Rotation);
+            this.GB_Object.Controls.Add(this.L_Decoration);
+            this.GB_Object.Controls.Add(this.NUD_FRot);
+            this.GB_Object.Controls.Add(this.NUD_FObjType);
+            this.GB_Object.Controls.Add(this.L_Index);
+            this.GB_Object.Controls.Add(this.NUD_FObject);
+            this.GB_Object.Location = new System.Drawing.Point(6, 158);
+            this.GB_Object.Name = "GB_Object";
+            this.GB_Object.Size = new System.Drawing.Size(357, 103);
+            this.GB_Object.TabIndex = 13;
+            this.GB_Object.TabStop = false;
+            this.GB_Object.Text = "Object Layout";
             // 
-            // label13
+            // L_Y
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(231, 48);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(71, 13);
-            this.label13.TabIndex = 9;
-            this.label13.Text = "Y Coordinate:";
+            this.L_Y.AutoSize = true;
+            this.L_Y.Location = new System.Drawing.Point(231, 48);
+            this.L_Y.Name = "L_Y";
+            this.L_Y.Size = new System.Drawing.Size(71, 13);
+            this.L_Y.TabIndex = 9;
+            this.L_Y.Text = "Y Coordinate:";
             // 
-            // label12
+            // L_X
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(231, 22);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(71, 13);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "X Coordinate:";
+            this.L_X.AutoSize = true;
+            this.L_X.Location = new System.Drawing.Point(231, 22);
+            this.L_X.Name = "L_X";
+            this.L_X.Size = new System.Drawing.Size(71, 13);
+            this.L_X.TabIndex = 8;
+            this.L_X.Text = "X Coordinate:";
             // 
             // NUD_FX
             // 
@@ -880,23 +880,23 @@
             this.NUD_FY.TabIndex = 6;
             this.NUD_FY.ValueChanged += new System.EventHandler(this.changeObjectQuality);
             // 
-            // label11
+            // L_Rotation
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 74);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(68, 13);
-            this.label11.TabIndex = 5;
-            this.label11.Text = "Rotation Val:";
+            this.L_Rotation.AutoSize = true;
+            this.L_Rotation.Location = new System.Drawing.Point(6, 74);
+            this.L_Rotation.Name = "L_Rotation";
+            this.L_Rotation.Size = new System.Drawing.Size(68, 13);
+            this.L_Rotation.TabIndex = 5;
+            this.L_Rotation.Text = "Rotation Val:";
             // 
-            // label10
+            // L_Decoration
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 48);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 13);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "Decoration:";
+            this.L_Decoration.AutoSize = true;
+            this.L_Decoration.Location = new System.Drawing.Point(12, 48);
+            this.L_Decoration.Name = "L_Decoration";
+            this.L_Decoration.Size = new System.Drawing.Size(62, 13);
+            this.L_Decoration.TabIndex = 4;
+            this.L_Decoration.Text = "Decoration:";
             // 
             // NUD_FRot
             // 
@@ -939,14 +939,14 @@
             -2147483648});
             this.NUD_FObjType.ValueChanged += new System.EventHandler(this.changeObjectQuality);
             // 
-            // label9
+            // L_Index
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(38, 22);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(36, 13);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "Index:";
+            this.L_Index.AutoSize = true;
+            this.L_Index.Location = new System.Drawing.Point(38, 22);
+            this.L_Index.Name = "L_Index";
+            this.L_Index.Size = new System.Drawing.Size(36, 13);
+            this.L_Index.TabIndex = 1;
+            this.L_Index.Text = "Index:";
             // 
             // NUD_FObject
             // 
@@ -971,14 +971,14 @@
             0});
             this.NUD_FObject.ValueChanged += new System.EventHandler(this.changeObjectIndex);
             // 
-            // label8
+            // L_BaseLocation
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 35);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(112, 13);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "Secret Base Location:";
+            this.L_BaseLocation.AutoSize = true;
+            this.L_BaseLocation.Location = new System.Drawing.Point(6, 35);
+            this.L_BaseLocation.Name = "L_BaseLocation";
+            this.L_BaseLocation.Size = new System.Drawing.Size(112, 13);
+            this.L_BaseLocation.TabIndex = 11;
+            this.L_BaseLocation.Text = "Secret Base Location:";
             // 
             // TB_FSay4
             // 
@@ -1029,58 +1029,58 @@
             this.TB_FOT.Size = new System.Drawing.Size(93, 20);
             this.TB_FOT.TabIndex = 0;
             // 
-            // label7
+            // L_TrName
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 9);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(74, 13);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "Trainer Name:";
+            this.L_TrName.AutoSize = true;
+            this.L_TrName.Location = new System.Drawing.Point(6, 9);
+            this.L_TrName.Name = "L_TrName";
+            this.L_TrName.Size = new System.Drawing.Size(74, 13);
+            this.L_TrName.TabIndex = 9;
+            this.L_TrName.Text = "Trainer Name:";
             // 
-            // label6
+            // L_Confetti
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(193, 75);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "Confetti:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Confetti.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Confetti.AutoSize = true;
+            this.L_Confetti.Location = new System.Drawing.Point(193, 75);
+            this.L_Confetti.Name = "L_Confetti";
+            this.L_Confetti.Size = new System.Drawing.Size(46, 13);
+            this.L_Confetti.TabIndex = 8;
+            this.L_Confetti.Text = "Confetti:";
+            this.L_Confetti.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label5
+            // L_Blackboard
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(175, 53);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Blackboard:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Blackboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Blackboard.AutoSize = true;
+            this.L_Blackboard.Location = new System.Drawing.Point(175, 53);
+            this.L_Blackboard.Name = "L_Blackboard";
+            this.L_Blackboard.Size = new System.Drawing.Size(64, 13);
+            this.L_Blackboard.TabIndex = 7;
+            this.L_Blackboard.Text = "Blackboard:";
+            this.L_Blackboard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label4
+            // L_Encourage
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(177, 32);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Encourage:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Encourage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Encourage.AutoSize = true;
+            this.L_Encourage.Location = new System.Drawing.Point(177, 32);
+            this.L_Encourage.Name = "L_Encourage";
+            this.L_Encourage.Size = new System.Drawing.Size(62, 13);
+            this.L_Encourage.TabIndex = 6;
+            this.L_Encourage.Text = "Encourage:";
+            this.L_Encourage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // L_Happy
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(198, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Happy:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Happy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Happy.AutoSize = true;
+            this.L_Happy.Location = new System.Drawing.Point(198, 9);
+            this.L_Happy.Name = "L_Happy";
+            this.L_Happy.Size = new System.Drawing.Size(41, 13);
+            this.L_Happy.TabIndex = 5;
+            this.L_Happy.Text = "Happy:";
+            this.L_Happy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tabControl1
             // 
@@ -1124,21 +1124,21 @@
             this.MT_Flags.TabIndex = 21;
             this.MT_Flags.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label2
+            // L_FlagsCaptured
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 307);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 13);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Flags Captured: ";
+            this.L_FlagsCaptured.AutoSize = true;
+            this.L_FlagsCaptured.Location = new System.Drawing.Point(9, 307);
+            this.L_FlagsCaptured.Name = "L_FlagsCaptured";
+            this.L_FlagsCaptured.Size = new System.Drawing.Size(84, 13);
+            this.L_FlagsCaptured.TabIndex = 22;
+            this.L_FlagsCaptured.Text = "Flags Captured: ";
             // 
             // SAV_SecretBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 332);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.L_FlagsCaptured);
             this.Controls.Add(this.MT_Flags);
             this.Controls.Add(this.B_FSave);
             this.Controls.Add(this.B_GiveDecor);
@@ -1146,7 +1146,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.B_FDisplay);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Favorite);
             this.Controls.Add(this.LB_Favorite);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1162,8 +1162,8 @@
             this.f_MAIN.ResumeLayout(false);
             this.f_MAIN.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.GB_Object.ResumeLayout(false);
+            this.GB_Object.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FRot)).EndInit();
@@ -1180,50 +1180,50 @@
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.ListBox LB_Favorite;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_Favorite;
         private System.Windows.Forms.Button B_FDisplay;
         private System.Windows.Forms.TabPage f_PKM;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label L_EVs;
+        private System.Windows.Forms.Label L_IVs;
+        private System.Windows.Forms.Label L_SPE;
+        private System.Windows.Forms.Label L_SpD;
+        private System.Windows.Forms.Label L_SpA;
+        private System.Windows.Forms.Label L_DEF;
+        private System.Windows.Forms.Label L_ATK;
+        private System.Windows.Forms.Label L_HP;
         private System.Windows.Forms.TabPage f_MAIN;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.GroupBox GB_Object;
+        private System.Windows.Forms.Label L_Y;
+        private System.Windows.Forms.Label L_X;
         private System.Windows.Forms.NumericUpDown NUD_FX;
         private System.Windows.Forms.NumericUpDown NUD_FY;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label L_Rotation;
+        private System.Windows.Forms.Label L_Decoration;
         private System.Windows.Forms.NumericUpDown NUD_FRot;
         private System.Windows.Forms.NumericUpDown NUD_FObjType;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label L_Index;
         private System.Windows.Forms.NumericUpDown NUD_FObject;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label L_BaseLocation;
         private System.Windows.Forms.TextBox TB_FSay4;
         private System.Windows.Forms.TextBox TB_FSay3;
         private System.Windows.Forms.TextBox TB_FSay2;
         private System.Windows.Forms.TextBox TB_FSay1;
         private System.Windows.Forms.TextBox TB_FOT;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label L_TrName;
+        private System.Windows.Forms.Label L_Confetti;
+        private System.Windows.Forms.Label L_Blackboard;
+        private System.Windows.Forms.Label L_Encourage;
+        private System.Windows.Forms.Label L_Happy;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label L_EncryptionConstant;
         private System.Windows.Forms.TextBox TB_EC;
         private System.Windows.Forms.ComboBox CB_HeldItem;
         private System.Windows.Forms.ComboBox CB_Nature;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label L_Participant;
         private System.Windows.Forms.NumericUpDown NUD_FPKM;
         public System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.CheckBox CHK_Shiny;
-        private System.Windows.Forms.Label Label_PPups;
+        private System.Windows.Forms.Label L_PPups;
         private System.Windows.Forms.ComboBox CB_PPu4;
         private System.Windows.Forms.ComboBox CB_PPu3;
         private System.Windows.Forms.ComboBox CB_PPu2;
@@ -1257,10 +1257,10 @@
         private System.Windows.Forms.Button B_FSave;
         private System.Windows.Forms.TextBox TB_FT2;
         private System.Windows.Forms.TextBox TB_FT1;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label L_TeamSlogan;
+        private System.Windows.Forms.Label L_TeamName;
         private System.Windows.Forms.NumericUpDown NUD_FBaseLocation;
         private System.Windows.Forms.MaskedTextBox MT_Flags;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_FlagsCaptured;
     }
 }

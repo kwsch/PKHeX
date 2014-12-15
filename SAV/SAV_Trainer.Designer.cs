@@ -32,9 +32,9 @@ namespace PKHeX
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.TB_OTName = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_TrainerName = new System.Windows.Forms.Label();
             this.MT_Money = new System.Windows.Forms.MaskedTextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_Money = new System.Windows.Forms.Label();
             this.L_TID = new System.Windows.Forms.Label();
             this.L_SID = new System.Windows.Forms.Label();
             this.MT_TID = new System.Windows.Forms.MaskedTextBox();
@@ -90,7 +90,7 @@ namespace PKHeX
             this.CB_Game = new System.Windows.Forms.ComboBox();
             this.CB_Gender = new System.Windows.Forms.ComboBox();
             this.TB_Style = new System.Windows.Forms.MaskedTextBox();
-            this.label21 = new System.Windows.Forms.Label();
+            this.L_Style = new System.Windows.Forms.Label();
             this.GB_MaisonBest = new System.Windows.Forms.GroupBox();
             this.TB_MBMS = new System.Windows.Forms.MaskedTextBox();
             this.TB_MBMN = new System.Windows.Forms.MaskedTextBox();
@@ -102,13 +102,13 @@ namespace PKHeX
             this.TB_MBDN = new System.Windows.Forms.MaskedTextBox();
             this.TB_MBSS = new System.Windows.Forms.MaskedTextBox();
             this.TB_MBSN = new System.Windows.Forms.MaskedTextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.GB_SuperB = new System.Windows.Forms.Label();
+            this.L_NormalB = new System.Windows.Forms.Label();
+            this.L_MultiB = new System.Windows.Forms.Label();
+            this.L_RotationB = new System.Windows.Forms.Label();
+            this.L_TriplesB = new System.Windows.Forms.Label();
+            this.L_DoublesB = new System.Windows.Forms.Label();
+            this.L_SinglesB = new System.Windows.Forms.Label();
             this.GB_MaisonCurrent = new System.Windows.Forms.GroupBox();
             this.TB_MCMS = new System.Windows.Forms.MaskedTextBox();
             this.TB_MCMN = new System.Windows.Forms.MaskedTextBox();
@@ -120,19 +120,19 @@ namespace PKHeX
             this.TB_MCDN = new System.Windows.Forms.MaskedTextBox();
             this.TB_MCSS = new System.Windows.Forms.MaskedTextBox();
             this.TB_MCSN = new System.Windows.Forms.MaskedTextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.L_SuperC = new System.Windows.Forms.Label();
+            this.L_NormalC = new System.Windows.Forms.Label();
+            this.L_MultiC = new System.Windows.Forms.Label();
+            this.L_RotationC = new System.Windows.Forms.Label();
+            this.L_TriplesC = new System.Windows.Forms.Label();
+            this.L_DoublesC = new System.Windows.Forms.Label();
+            this.L_SinglesC = new System.Windows.Forms.Label();
+            this.L_CurrentMap = new System.Windows.Forms.Label();
+            this.L_X = new System.Windows.Forms.Label();
+            this.L_Y = new System.Windows.Forms.Label();
+            this.L_Z = new System.Windows.Forms.Label();
             this.GB_Appear = new System.Windows.Forms.GroupBox();
-            this.label35 = new System.Windows.Forms.Label();
+            this.L_Outfit = new System.Windows.Forms.Label();
             this.MT_1403F = new System.Windows.Forms.MaskedTextBox();
             this.MT_1403E = new System.Windows.Forms.MaskedTextBox();
             this.MT_1403D = new System.Windows.Forms.MaskedTextBox();
@@ -152,7 +152,7 @@ namespace PKHeX
             this.MT_14030 = new System.Windows.Forms.MaskedTextBox();
             this.MT_Hat = new System.Windows.Forms.MaskedTextBox();
             this.MT_HairColor = new System.Windows.Forms.MaskedTextBox();
-            this.label32 = new System.Windows.Forms.Label();
+            this.L_Dress = new System.Windows.Forms.Label();
             this.CB_Dress = new System.Windows.Forms.ComboBox();
             this.CB_Bag = new System.Windows.Forms.ComboBox();
             this.CB_Socks = new System.Windows.Forms.ComboBox();
@@ -160,33 +160,33 @@ namespace PKHeX
             this.CB_Shirt = new System.Windows.Forms.ComboBox();
             this.CB_Accessory = new System.Windows.Forms.ComboBox();
             this.CB_Hat = new System.Windows.Forms.ComboBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
+            this.L_Accessory = new System.Windows.Forms.Label();
+            this.L_Bag = new System.Windows.Forms.Label();
+            this.L_Socks = new System.Windows.Forms.Label();
+            this.L_Pants = new System.Windows.Forms.Label();
+            this.L_Shirt = new System.Windows.Forms.Label();
             this.CB_FaceHair = new System.Windows.Forms.ComboBox();
             this.CB_Hair = new System.Windows.Forms.ComboBox();
             this.CB_Eye = new System.Windows.Forms.ComboBox();
             this.CB_Skin = new System.Windows.Forms.ComboBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.L_Hat = new System.Windows.Forms.Label();
+            this.L_FacialHair = new System.Windows.Forms.Label();
+            this.L_Hairstyle = new System.Windows.Forms.Label();
+            this.L_HairColor = new System.Windows.Forms.Label();
+            this.L_SkinColor = new System.Windows.Forms.Label();
             this.GB_Map = new System.Windows.Forms.GroupBox();
             this.TB_CoordY = new System.Windows.Forms.MaskedTextBox();
             this.TB_CoordZ = new System.Windows.Forms.MaskedTextBox();
             this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
             this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
             this.GB_Misc = new System.Windows.Forms.GroupBox();
-            this.label34 = new System.Windows.Forms.Label();
+            this.L_MultiplayerSprite = new System.Windows.Forms.Label();
             this.PB_Sprite = new System.Windows.Forms.PictureBox();
             this.CB_Multi = new System.Windows.Forms.ComboBox();
             this.L_Offset = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
+            this.L_Stats = new System.Windows.Forms.Label();
             this.CB_Stats = new System.Windows.Forms.ComboBox();
-            this.label39 = new System.Windows.Forms.Label();
+            this.L_Value = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
@@ -240,14 +240,14 @@ namespace PKHeX
             this.TB_OTName.Text = "WWWWWWWWWWWW";
             this.TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label1
+            // L_TrainerName
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Trainer Name:";
+            this.L_TrainerName.AutoSize = true;
+            this.L_TrainerName.Location = new System.Drawing.Point(19, 20);
+            this.L_TrainerName.Name = "L_TrainerName";
+            this.L_TrainerName.Size = new System.Drawing.Size(74, 13);
+            this.L_TrainerName.TabIndex = 3;
+            this.L_TrainerName.Text = "Trainer Name:";
             // 
             // MT_Money
             // 
@@ -259,14 +259,14 @@ namespace PKHeX
             this.MT_Money.TabIndex = 4;
             this.MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label2
+            // L_Money
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(102, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(16, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "$:";
+            this.L_Money.AutoSize = true;
+            this.L_Money.Location = new System.Drawing.Point(102, 42);
+            this.L_Money.Name = "L_Money";
+            this.L_Money.Size = new System.Drawing.Size(16, 13);
+            this.L_Money.TabIndex = 5;
+            this.L_Money.Text = "$:";
             // 
             // L_TID
             // 
@@ -661,12 +661,12 @@ namespace PKHeX
             this.GB_Overview.Controls.Add(this.L_3DSReg);
             this.GB_Overview.Controls.Add(this.MT_SID);
             this.GB_Overview.Controls.Add(this.MT_TID);
-            this.GB_Overview.Controls.Add(this.label2);
+            this.GB_Overview.Controls.Add(this.L_Money);
             this.GB_Overview.Controls.Add(this.L_SID);
             this.GB_Overview.Controls.Add(this.MT_Money);
             this.GB_Overview.Controls.Add(this.L_TID);
             this.GB_Overview.Controls.Add(this.TB_OTName);
-            this.GB_Overview.Controls.Add(this.label1);
+            this.GB_Overview.Controls.Add(this.L_TrainerName);
             this.GB_Overview.Controls.Add(this.CB_Game);
             this.GB_Overview.Controls.Add(this.CB_Gender);
             this.GB_Overview.Location = new System.Drawing.Point(12, 12);
@@ -890,14 +890,14 @@ namespace PKHeX
             this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_Style.TextChanged += new System.EventHandler(this.change255);
             // 
-            // label21
+            // L_Style
             // 
-            this.label21.Location = new System.Drawing.Point(42, 70);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(46, 13);
-            this.label21.TabIndex = 7;
-            this.label21.Text = "Style:";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.L_Style.Location = new System.Drawing.Point(42, 70);
+            this.L_Style.Name = "L_Style";
+            this.L_Style.Size = new System.Drawing.Size(46, 13);
+            this.L_Style.TabIndex = 7;
+            this.L_Style.Text = "Style:";
+            this.L_Style.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // GB_MaisonBest
             // 
@@ -912,13 +912,13 @@ namespace PKHeX
             this.GB_MaisonBest.Controls.Add(this.TB_MBDN);
             this.GB_MaisonBest.Controls.Add(this.TB_MBSS);
             this.GB_MaisonBest.Controls.Add(this.TB_MBSN);
-            this.GB_MaisonBest.Controls.Add(this.label9);
-            this.GB_MaisonBest.Controls.Add(this.label8);
-            this.GB_MaisonBest.Controls.Add(this.label7);
-            this.GB_MaisonBest.Controls.Add(this.label6);
-            this.GB_MaisonBest.Controls.Add(this.label5);
-            this.GB_MaisonBest.Controls.Add(this.label4);
-            this.GB_MaisonBest.Controls.Add(this.label3);
+            this.GB_MaisonBest.Controls.Add(this.GB_SuperB);
+            this.GB_MaisonBest.Controls.Add(this.L_NormalB);
+            this.GB_MaisonBest.Controls.Add(this.L_MultiB);
+            this.GB_MaisonBest.Controls.Add(this.L_RotationB);
+            this.GB_MaisonBest.Controls.Add(this.L_TriplesB);
+            this.GB_MaisonBest.Controls.Add(this.L_DoublesB);
+            this.GB_MaisonBest.Controls.Add(this.L_SinglesB);
             this.GB_MaisonBest.Location = new System.Drawing.Point(416, 148);
             this.GB_MaisonBest.Name = "GB_MaisonBest";
             this.GB_MaisonBest.Size = new System.Drawing.Size(155, 134);
@@ -1016,68 +1016,68 @@ namespace PKHeX
             this.TB_MBSN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBSN.TabIndex = 56;
             // 
-            // label9
+            // GB_SuperB
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(104, 17);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 13);
-            this.label9.TabIndex = 45;
-            this.label9.Text = "Super";
+            this.GB_SuperB.AutoSize = true;
+            this.GB_SuperB.Location = new System.Drawing.Point(104, 17);
+            this.GB_SuperB.Name = "GB_SuperB";
+            this.GB_SuperB.Size = new System.Drawing.Size(35, 13);
+            this.GB_SuperB.TabIndex = 45;
+            this.GB_SuperB.Text = "Super";
             // 
-            // label8
+            // L_NormalB
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(58, 17);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(40, 13);
-            this.label8.TabIndex = 44;
-            this.label8.Text = "Normal";
+            this.L_NormalB.AutoSize = true;
+            this.L_NormalB.Location = new System.Drawing.Point(58, 17);
+            this.L_NormalB.Name = "L_NormalB";
+            this.L_NormalB.Size = new System.Drawing.Size(40, 13);
+            this.L_NormalB.TabIndex = 44;
+            this.L_NormalB.Text = "Normal";
             // 
-            // label7
+            // L_MultiB
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 109);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(32, 13);
-            this.label7.TabIndex = 43;
-            this.label7.Text = "Multi:";
+            this.L_MultiB.AutoSize = true;
+            this.L_MultiB.Location = new System.Drawing.Point(8, 109);
+            this.L_MultiB.Name = "L_MultiB";
+            this.L_MultiB.Size = new System.Drawing.Size(32, 13);
+            this.L_MultiB.TabIndex = 43;
+            this.L_MultiB.Text = "Multi:";
             // 
-            // label6
+            // L_RotationB
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 91);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 13);
-            this.label6.TabIndex = 42;
-            this.label6.Text = "Rotation:";
+            this.L_RotationB.AutoSize = true;
+            this.L_RotationB.Location = new System.Drawing.Point(8, 91);
+            this.L_RotationB.Name = "L_RotationB";
+            this.L_RotationB.Size = new System.Drawing.Size(50, 13);
+            this.L_RotationB.TabIndex = 42;
+            this.L_RotationB.Text = "Rotation:";
             // 
-            // label5
+            // L_TriplesB
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 72);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 13);
-            this.label5.TabIndex = 41;
-            this.label5.Text = "Triples:";
+            this.L_TriplesB.AutoSize = true;
+            this.L_TriplesB.Location = new System.Drawing.Point(8, 72);
+            this.L_TriplesB.Name = "L_TriplesB";
+            this.L_TriplesB.Size = new System.Drawing.Size(41, 13);
+            this.L_TriplesB.TabIndex = 41;
+            this.L_TriplesB.Text = "Triples:";
             // 
-            // label4
+            // L_DoublesB
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 53);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 13);
-            this.label4.TabIndex = 40;
-            this.label4.Text = "Doubles:";
+            this.L_DoublesB.AutoSize = true;
+            this.L_DoublesB.Location = new System.Drawing.Point(8, 53);
+            this.L_DoublesB.Name = "L_DoublesB";
+            this.L_DoublesB.Size = new System.Drawing.Size(49, 13);
+            this.L_DoublesB.TabIndex = 40;
+            this.L_DoublesB.Text = "Doubles:";
             // 
-            // label3
+            // L_SinglesB
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 34);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 39;
-            this.label3.Text = "Singles:";
+            this.L_SinglesB.AutoSize = true;
+            this.L_SinglesB.Location = new System.Drawing.Point(8, 34);
+            this.L_SinglesB.Name = "L_SinglesB";
+            this.L_SinglesB.Size = new System.Drawing.Size(44, 13);
+            this.L_SinglesB.TabIndex = 39;
+            this.L_SinglesB.Text = "Singles:";
             // 
             // GB_MaisonCurrent
             // 
@@ -1092,13 +1092,13 @@ namespace PKHeX
             this.GB_MaisonCurrent.Controls.Add(this.TB_MCDN);
             this.GB_MaisonCurrent.Controls.Add(this.TB_MCSS);
             this.GB_MaisonCurrent.Controls.Add(this.TB_MCSN);
-            this.GB_MaisonCurrent.Controls.Add(this.label10);
-            this.GB_MaisonCurrent.Controls.Add(this.label11);
-            this.GB_MaisonCurrent.Controls.Add(this.label12);
-            this.GB_MaisonCurrent.Controls.Add(this.label13);
-            this.GB_MaisonCurrent.Controls.Add(this.label14);
-            this.GB_MaisonCurrent.Controls.Add(this.label15);
-            this.GB_MaisonCurrent.Controls.Add(this.label16);
+            this.GB_MaisonCurrent.Controls.Add(this.L_SuperC);
+            this.GB_MaisonCurrent.Controls.Add(this.L_NormalC);
+            this.GB_MaisonCurrent.Controls.Add(this.L_MultiC);
+            this.GB_MaisonCurrent.Controls.Add(this.L_RotationC);
+            this.GB_MaisonCurrent.Controls.Add(this.L_TriplesC);
+            this.GB_MaisonCurrent.Controls.Add(this.L_DoublesC);
+            this.GB_MaisonCurrent.Controls.Add(this.L_SinglesC);
             this.GB_MaisonCurrent.Location = new System.Drawing.Point(416, 12);
             this.GB_MaisonCurrent.Name = "GB_MaisonCurrent";
             this.GB_MaisonCurrent.Size = new System.Drawing.Size(155, 130);
@@ -1196,108 +1196,108 @@ namespace PKHeX
             this.TB_MCSN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCSN.TabIndex = 46;
             // 
-            // label10
+            // L_SuperC
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(106, 17);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(35, 13);
-            this.label10.TabIndex = 45;
-            this.label10.Text = "Super";
+            this.L_SuperC.AutoSize = true;
+            this.L_SuperC.Location = new System.Drawing.Point(104, 16);
+            this.L_SuperC.Name = "L_SuperC";
+            this.L_SuperC.Size = new System.Drawing.Size(35, 13);
+            this.L_SuperC.TabIndex = 45;
+            this.L_SuperC.Text = "Super";
             // 
-            // label11
+            // L_NormalC
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(58, 16);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(40, 13);
-            this.label11.TabIndex = 44;
-            this.label11.Text = "Normal";
+            this.L_NormalC.AutoSize = true;
+            this.L_NormalC.Location = new System.Drawing.Point(58, 16);
+            this.L_NormalC.Name = "L_NormalC";
+            this.L_NormalC.Size = new System.Drawing.Size(40, 13);
+            this.L_NormalC.TabIndex = 44;
+            this.L_NormalC.Text = "Normal";
             // 
-            // label12
+            // L_MultiC
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(8, 107);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(32, 13);
-            this.label12.TabIndex = 43;
-            this.label12.Text = "Multi:";
+            this.L_MultiC.AutoSize = true;
+            this.L_MultiC.Location = new System.Drawing.Point(8, 107);
+            this.L_MultiC.Name = "L_MultiC";
+            this.L_MultiC.Size = new System.Drawing.Size(32, 13);
+            this.L_MultiC.TabIndex = 43;
+            this.L_MultiC.Text = "Multi:";
             // 
-            // label13
+            // L_RotationC
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(8, 89);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(50, 13);
-            this.label13.TabIndex = 42;
-            this.label13.Text = "Rotation:";
+            this.L_RotationC.AutoSize = true;
+            this.L_RotationC.Location = new System.Drawing.Point(8, 89);
+            this.L_RotationC.Name = "L_RotationC";
+            this.L_RotationC.Size = new System.Drawing.Size(50, 13);
+            this.L_RotationC.TabIndex = 42;
+            this.L_RotationC.Text = "Rotation:";
             // 
-            // label14
+            // L_TriplesC
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 70);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(41, 13);
-            this.label14.TabIndex = 41;
-            this.label14.Text = "Triples:";
+            this.L_TriplesC.AutoSize = true;
+            this.L_TriplesC.Location = new System.Drawing.Point(8, 70);
+            this.L_TriplesC.Name = "L_TriplesC";
+            this.L_TriplesC.Size = new System.Drawing.Size(41, 13);
+            this.L_TriplesC.TabIndex = 41;
+            this.L_TriplesC.Text = "Triples:";
             // 
-            // label15
+            // L_DoublesC
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 51);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 13);
-            this.label15.TabIndex = 40;
-            this.label15.Text = "Doubles:";
+            this.L_DoublesC.AutoSize = true;
+            this.L_DoublesC.Location = new System.Drawing.Point(8, 51);
+            this.L_DoublesC.Name = "L_DoublesC";
+            this.L_DoublesC.Size = new System.Drawing.Size(49, 13);
+            this.L_DoublesC.TabIndex = 40;
+            this.L_DoublesC.Text = "Doubles:";
             // 
-            // label16
+            // L_SinglesC
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(8, 32);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(44, 13);
-            this.label16.TabIndex = 39;
-            this.label16.Text = "Singles:";
+            this.L_SinglesC.AutoSize = true;
+            this.L_SinglesC.Location = new System.Drawing.Point(8, 32);
+            this.L_SinglesC.Name = "L_SinglesC";
+            this.L_SinglesC.Size = new System.Drawing.Size(44, 13);
+            this.L_SinglesC.TabIndex = 39;
+            this.L_SinglesC.Text = "Singles:";
             // 
-            // label17
+            // L_CurrentMap
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(36, 35);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(68, 13);
-            this.label17.TabIndex = 46;
-            this.label17.Text = "Current Map:";
+            this.L_CurrentMap.AutoSize = true;
+            this.L_CurrentMap.Location = new System.Drawing.Point(36, 35);
+            this.L_CurrentMap.Name = "L_CurrentMap";
+            this.L_CurrentMap.Size = new System.Drawing.Size(68, 13);
+            this.L_CurrentMap.TabIndex = 46;
+            this.L_CurrentMap.Text = "Current Map:";
             // 
-            // label18
+            // L_X
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(31, 73);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(71, 13);
-            this.label18.TabIndex = 47;
-            this.label18.Text = "X Coordinate:";
+            this.L_X.AutoSize = true;
+            this.L_X.Location = new System.Drawing.Point(31, 73);
+            this.L_X.Name = "L_X";
+            this.L_X.Size = new System.Drawing.Size(71, 13);
+            this.L_X.TabIndex = 47;
+            this.L_X.Text = "X Coordinate:";
             // 
-            // label19
+            // L_Y
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(31, 151);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(71, 13);
-            this.label19.TabIndex = 49;
-            this.label19.Text = "Y Coordinate:";
+            this.L_Y.AutoSize = true;
+            this.L_Y.Location = new System.Drawing.Point(31, 151);
+            this.L_Y.Name = "L_Y";
+            this.L_Y.Size = new System.Drawing.Size(71, 13);
+            this.L_Y.TabIndex = 49;
+            this.L_Y.Text = "Y Coordinate:";
             // 
-            // label20
+            // L_Z
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(31, 111);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(71, 13);
-            this.label20.TabIndex = 48;
-            this.label20.Text = "Z Coordinate:";
+            this.L_Z.AutoSize = true;
+            this.L_Z.Location = new System.Drawing.Point(31, 111);
+            this.L_Z.Name = "L_Z";
+            this.L_Z.Size = new System.Drawing.Size(71, 13);
+            this.L_Z.TabIndex = 48;
+            this.L_Z.Text = "Z Coordinate:";
             // 
             // GB_Appear
             // 
-            this.GB_Appear.Controls.Add(this.label35);
+            this.GB_Appear.Controls.Add(this.L_Outfit);
             this.GB_Appear.Controls.Add(this.MT_1403F);
             this.GB_Appear.Controls.Add(this.MT_1403E);
             this.GB_Appear.Controls.Add(this.MT_1403D);
@@ -1317,7 +1317,7 @@ namespace PKHeX
             this.GB_Appear.Controls.Add(this.MT_14030);
             this.GB_Appear.Controls.Add(this.MT_Hat);
             this.GB_Appear.Controls.Add(this.MT_HairColor);
-            this.GB_Appear.Controls.Add(this.label32);
+            this.GB_Appear.Controls.Add(this.L_Dress);
             this.GB_Appear.Controls.Add(this.CB_Dress);
             this.GB_Appear.Controls.Add(this.CB_Bag);
             this.GB_Appear.Controls.Add(this.CB_Socks);
@@ -1325,20 +1325,20 @@ namespace PKHeX
             this.GB_Appear.Controls.Add(this.CB_Shirt);
             this.GB_Appear.Controls.Add(this.CB_Accessory);
             this.GB_Appear.Controls.Add(this.CB_Hat);
-            this.GB_Appear.Controls.Add(this.label31);
-            this.GB_Appear.Controls.Add(this.label30);
-            this.GB_Appear.Controls.Add(this.label29);
-            this.GB_Appear.Controls.Add(this.label28);
-            this.GB_Appear.Controls.Add(this.label27);
+            this.GB_Appear.Controls.Add(this.L_Accessory);
+            this.GB_Appear.Controls.Add(this.L_Bag);
+            this.GB_Appear.Controls.Add(this.L_Socks);
+            this.GB_Appear.Controls.Add(this.L_Pants);
+            this.GB_Appear.Controls.Add(this.L_Shirt);
             this.GB_Appear.Controls.Add(this.CB_FaceHair);
             this.GB_Appear.Controls.Add(this.CB_Hair);
             this.GB_Appear.Controls.Add(this.CB_Eye);
             this.GB_Appear.Controls.Add(this.CB_Skin);
-            this.GB_Appear.Controls.Add(this.label26);
-            this.GB_Appear.Controls.Add(this.label25);
-            this.GB_Appear.Controls.Add(this.label24);
-            this.GB_Appear.Controls.Add(this.label23);
-            this.GB_Appear.Controls.Add(this.label22);
+            this.GB_Appear.Controls.Add(this.L_Hat);
+            this.GB_Appear.Controls.Add(this.L_FacialHair);
+            this.GB_Appear.Controls.Add(this.L_Hairstyle);
+            this.GB_Appear.Controls.Add(this.L_HairColor);
+            this.GB_Appear.Controls.Add(this.L_SkinColor);
             this.GB_Appear.Location = new System.Drawing.Point(230, 12);
             this.GB_Appear.Name = "GB_Appear";
             this.GB_Appear.Size = new System.Drawing.Size(180, 270);
@@ -1346,14 +1346,14 @@ namespace PKHeX
             this.GB_Appear.TabStop = false;
             this.GB_Appear.Text = "Current Appearance (X/Y)";
             // 
-            // label35
+            // L_Outfit
             // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(116, 244);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(55, 13);
-            this.label35.TabIndex = 72;
-            this.label35.Text = "Outfit Vals";
+            this.L_Outfit.AutoSize = true;
+            this.L_Outfit.Location = new System.Drawing.Point(116, 244);
+            this.L_Outfit.Name = "L_Outfit";
+            this.L_Outfit.Size = new System.Drawing.Size(55, 13);
+            this.L_Outfit.TabIndex = 72;
+            this.L_Outfit.Text = "Outfit Vals";
             // 
             // MT_1403F
             // 
@@ -1544,15 +1544,15 @@ namespace PKHeX
             this.MT_HairColor.TabIndex = 55;
             this.MT_HairColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label32
+            // L_Dress
             // 
-            this.label32.Location = new System.Drawing.Point(11, 194);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(65, 13);
-            this.label32.TabIndex = 21;
-            this.label32.Text = "Dress:";
-            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label32.Visible = false;
+            this.L_Dress.Location = new System.Drawing.Point(11, 194);
+            this.L_Dress.Name = "L_Dress";
+            this.L_Dress.Size = new System.Drawing.Size(65, 13);
+            this.L_Dress.TabIndex = 21;
+            this.L_Dress.Text = "Dress:";
+            this.L_Dress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Dress.Visible = false;
             // 
             // CB_Dress
             // 
@@ -1624,54 +1624,54 @@ namespace PKHeX
             this.CB_Hat.TabIndex = 14;
             this.CB_Hat.Visible = false;
             // 
-            // label31
+            // L_Accessory
             // 
-            this.label31.Location = new System.Drawing.Point(11, 131);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(65, 13);
-            this.label31.TabIndex = 13;
-            this.label31.Text = "Accessory:";
-            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label31.Visible = false;
+            this.L_Accessory.Location = new System.Drawing.Point(11, 131);
+            this.L_Accessory.Name = "L_Accessory";
+            this.L_Accessory.Size = new System.Drawing.Size(65, 13);
+            this.L_Accessory.TabIndex = 13;
+            this.L_Accessory.Text = "Accessory:";
+            this.L_Accessory.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Accessory.Visible = false;
             // 
-            // label30
+            // L_Bag
             // 
-            this.label30.Location = new System.Drawing.Point(11, 235);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(65, 13);
-            this.label30.TabIndex = 12;
-            this.label30.Text = "Bag:";
-            this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Bag.Location = new System.Drawing.Point(11, 235);
+            this.L_Bag.Name = "L_Bag";
+            this.L_Bag.Size = new System.Drawing.Size(65, 13);
+            this.L_Bag.TabIndex = 12;
+            this.L_Bag.Text = "Bag:";
+            this.L_Bag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label29
+            // L_Socks
             // 
-            this.label29.Location = new System.Drawing.Point(11, 214);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(65, 13);
-            this.label29.TabIndex = 11;
-            this.label29.Text = "Socks:";
-            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label29.Visible = false;
+            this.L_Socks.Location = new System.Drawing.Point(11, 214);
+            this.L_Socks.Name = "L_Socks";
+            this.L_Socks.Size = new System.Drawing.Size(65, 13);
+            this.L_Socks.TabIndex = 11;
+            this.L_Socks.Text = "Socks:";
+            this.L_Socks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Socks.Visible = false;
             // 
-            // label28
+            // L_Pants
             // 
-            this.label28.Location = new System.Drawing.Point(11, 173);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(65, 13);
-            this.label28.TabIndex = 10;
-            this.label28.Text = "Pants:";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label28.Visible = false;
+            this.L_Pants.Location = new System.Drawing.Point(11, 173);
+            this.L_Pants.Name = "L_Pants";
+            this.L_Pants.Size = new System.Drawing.Size(65, 13);
+            this.L_Pants.TabIndex = 10;
+            this.L_Pants.Text = "Pants:";
+            this.L_Pants.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Pants.Visible = false;
             // 
-            // label27
+            // L_Shirt
             // 
-            this.label27.Location = new System.Drawing.Point(11, 152);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(65, 13);
-            this.label27.TabIndex = 9;
-            this.label27.Text = "Shirt:";
-            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label27.Visible = false;
+            this.L_Shirt.Location = new System.Drawing.Point(11, 152);
+            this.L_Shirt.Name = "L_Shirt";
+            this.L_Shirt.Size = new System.Drawing.Size(65, 13);
+            this.L_Shirt.TabIndex = 9;
+            this.L_Shirt.Text = "Shirt:";
+            this.L_Shirt.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Shirt.Visible = false;
             // 
             // CB_FaceHair
             // 
@@ -1713,64 +1713,64 @@ namespace PKHeX
             this.CB_Skin.TabIndex = 5;
             this.CB_Skin.Visible = false;
             // 
-            // label26
+            // L_Hat
             // 
-            this.label26.Location = new System.Drawing.Point(11, 110);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(65, 13);
-            this.label26.TabIndex = 4;
-            this.label26.Text = "Hat:";
-            this.label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Hat.Location = new System.Drawing.Point(11, 110);
+            this.L_Hat.Name = "L_Hat";
+            this.L_Hat.Size = new System.Drawing.Size(65, 13);
+            this.L_Hat.TabIndex = 4;
+            this.L_Hat.Text = "Hat:";
+            this.L_Hat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label25
+            // L_FacialHair
             // 
-            this.label25.Location = new System.Drawing.Point(11, 88);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(65, 13);
-            this.label25.TabIndex = 3;
-            this.label25.Text = "Facial Hair:";
-            this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label25.Visible = false;
+            this.L_FacialHair.Location = new System.Drawing.Point(11, 88);
+            this.L_FacialHair.Name = "L_FacialHair";
+            this.L_FacialHair.Size = new System.Drawing.Size(65, 13);
+            this.L_FacialHair.TabIndex = 3;
+            this.L_FacialHair.Text = "Facial Hair:";
+            this.L_FacialHair.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_FacialHair.Visible = false;
             // 
-            // label24
+            // L_Hairstyle
             // 
-            this.label24.Location = new System.Drawing.Point(11, 67);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(65, 13);
-            this.label24.TabIndex = 2;
-            this.label24.Text = "Hairstyle:";
-            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label24.Visible = false;
+            this.L_Hairstyle.Location = new System.Drawing.Point(11, 67);
+            this.L_Hairstyle.Name = "L_Hairstyle";
+            this.L_Hairstyle.Size = new System.Drawing.Size(65, 13);
+            this.L_Hairstyle.TabIndex = 2;
+            this.L_Hairstyle.Text = "Hairstyle:";
+            this.L_Hairstyle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Hairstyle.Visible = false;
             // 
-            // label23
+            // L_HairColor
             // 
-            this.label23.Location = new System.Drawing.Point(11, 47);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(65, 13);
-            this.label23.TabIndex = 1;
-            this.label23.Text = "Hair Color:";
-            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_HairColor.Location = new System.Drawing.Point(11, 47);
+            this.L_HairColor.Name = "L_HairColor";
+            this.L_HairColor.Size = new System.Drawing.Size(65, 13);
+            this.L_HairColor.TabIndex = 1;
+            this.L_HairColor.Text = "Hair Color:";
+            this.L_HairColor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label22
+            // L_SkinColor
             // 
-            this.label22.Location = new System.Drawing.Point(11, 28);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(65, 13);
-            this.label22.TabIndex = 0;
-            this.label22.Text = "Skin Color:";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label22.Visible = false;
+            this.L_SkinColor.Location = new System.Drawing.Point(11, 28);
+            this.L_SkinColor.Name = "L_SkinColor";
+            this.L_SkinColor.Size = new System.Drawing.Size(65, 13);
+            this.L_SkinColor.TabIndex = 0;
+            this.L_SkinColor.Text = "Skin Color:";
+            this.L_SkinColor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_SkinColor.Visible = false;
             // 
             // GB_Map
             // 
             this.GB_Map.Controls.Add(this.TB_CoordY);
-            this.GB_Map.Controls.Add(this.label19);
+            this.GB_Map.Controls.Add(this.L_Y);
             this.GB_Map.Controls.Add(this.TB_CoordZ);
-            this.GB_Map.Controls.Add(this.label17);
+            this.GB_Map.Controls.Add(this.L_CurrentMap);
             this.GB_Map.Controls.Add(this.TB_CoordX);
-            this.GB_Map.Controls.Add(this.label20);
+            this.GB_Map.Controls.Add(this.L_Z);
             this.GB_Map.Controls.Add(this.TB_CoordM);
-            this.GB_Map.Controls.Add(this.label18);
+            this.GB_Map.Controls.Add(this.L_X);
             this.GB_Map.Location = new System.Drawing.Point(230, 288);
             this.GB_Map.Name = "GB_Map";
             this.GB_Map.Size = new System.Drawing.Size(179, 195);
@@ -1817,10 +1817,10 @@ namespace PKHeX
             // GB_Misc
             // 
             this.GB_Misc.Controls.Add(this.TB_Style);
-            this.GB_Misc.Controls.Add(this.label34);
+            this.GB_Misc.Controls.Add(this.L_MultiplayerSprite);
             this.GB_Misc.Controls.Add(this.PB_Sprite);
             this.GB_Misc.Controls.Add(this.CB_Multi);
-            this.GB_Misc.Controls.Add(this.label21);
+            this.GB_Misc.Controls.Add(this.L_Style);
             this.GB_Misc.Location = new System.Drawing.Point(13, 374);
             this.GB_Misc.Name = "GB_Misc";
             this.GB_Misc.Size = new System.Drawing.Size(209, 109);
@@ -1828,15 +1828,15 @@ namespace PKHeX
             this.GB_Misc.TabStop = false;
             this.GB_Misc.Text = "Misc";
             // 
-            // label34
+            // L_MultiplayerSprite
             // 
-            this.label34.AutoSize = true;
-            this.label34.Enabled = false;
-            this.label34.Location = new System.Drawing.Point(44, 18);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(90, 13);
-            this.label34.TabIndex = 27;
-            this.label34.Text = "Multiplayer Sprite:";
+            this.L_MultiplayerSprite.AutoSize = true;
+            this.L_MultiplayerSprite.Enabled = false;
+            this.L_MultiplayerSprite.Location = new System.Drawing.Point(44, 18);
+            this.L_MultiplayerSprite.Name = "L_MultiplayerSprite";
+            this.L_MultiplayerSprite.Size = new System.Drawing.Size(90, 13);
+            this.L_MultiplayerSprite.TabIndex = 27;
+            this.L_MultiplayerSprite.Text = "Multiplayer Sprite:";
             // 
             // PB_Sprite
             // 
@@ -1869,15 +1869,15 @@ namespace PKHeX
             this.L_Offset.TabIndex = 28;
             this.L_Offset.Text = "(offset)";
             // 
-            // label33
+            // L_Stats
             // 
-            this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(424, 524);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(31, 13);
-            this.label33.TabIndex = 24;
-            this.label33.Text = "Stats";
+            this.L_Stats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Stats.AutoSize = true;
+            this.L_Stats.Location = new System.Drawing.Point(424, 524);
+            this.L_Stats.Name = "L_Stats";
+            this.L_Stats.Size = new System.Drawing.Size(31, 13);
+            this.L_Stats.TabIndex = 24;
+            this.L_Stats.Text = "Stats";
             // 
             // CB_Stats
             // 
@@ -1893,15 +1893,15 @@ namespace PKHeX
             this.CB_Stats.TabIndex = 23;
             this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.changeStat);
             // 
-            // label39
+            // L_Value
             // 
-            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(424, 564);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(34, 13);
-            this.label39.TabIndex = 22;
-            this.label39.Text = "Value";
+            this.L_Value.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Value.AutoSize = true;
+            this.L_Value.Location = new System.Drawing.Point(424, 564);
+            this.L_Value.Name = "L_Value";
+            this.L_Value.Size = new System.Drawing.Size(34, 13);
+            this.L_Value.TabIndex = 22;
+            this.L_Value.Text = "Value";
             // 
             // MT_Stat
             // 
@@ -1928,11 +1928,11 @@ namespace PKHeX
             this.Controls.Add(this.GB_MaisonCurrent);
             this.Controls.Add(this.GB_MaisonBest);
             this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.label33);
+            this.Controls.Add(this.L_Stats);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.CB_Stats);
             this.Controls.Add(this.GB_Overview);
-            this.Controls.Add(this.label39);
+            this.Controls.Add(this.L_Value);
             this.Controls.Add(this.GB_Sayings);
             this.Controls.Add(this.MT_Stat);
             this.Controls.Add(this.GB_Badges);
@@ -1978,9 +1978,9 @@ namespace PKHeX
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.TextBox TB_OTName;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.MaskedTextBox MT_Money;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_Money;
         private System.Windows.Forms.Label L_TID;
         private System.Windows.Forms.Label L_SID;
         private System.Windows.Forms.MaskedTextBox MT_TID;
@@ -2023,34 +2023,34 @@ namespace PKHeX
         private System.Windows.Forms.Label L_Region;
         private System.Windows.Forms.Label L_Country;
         private System.Windows.Forms.GroupBox GB_MaisonBest;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label GB_SuperB;
+        private System.Windows.Forms.Label L_NormalB;
+        private System.Windows.Forms.Label L_MultiB;
+        private System.Windows.Forms.Label L_RotationB;
+        private System.Windows.Forms.Label L_TriplesB;
+        private System.Windows.Forms.Label L_DoublesB;
+        private System.Windows.Forms.Label L_SinglesB;
         private System.Windows.Forms.GroupBox GB_MaisonCurrent;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label L_SuperC;
+        private System.Windows.Forms.Label L_NormalC;
+        private System.Windows.Forms.Label L_MultiC;
+        private System.Windows.Forms.Label L_RotationC;
+        private System.Windows.Forms.Label L_TriplesC;
+        private System.Windows.Forms.Label L_DoublesC;
+        private System.Windows.Forms.Label L_SinglesC;
         private System.Windows.Forms.Label L_Language;
         private System.Windows.Forms.ComboBox CB_Game;
         private System.Windows.Forms.ComboBox CB_Gender;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label L_CurrentMap;
+        private System.Windows.Forms.Label L_X;
+        private System.Windows.Forms.Label L_Y;
+        private System.Windows.Forms.Label L_Z;
         private System.Windows.Forms.MaskedTextBox TB_BP;
         private System.Windows.Forms.MaskedTextBox TB_PM;
         private System.Windows.Forms.Label L_BP;
         private System.Windows.Forms.Label L_PM;
         private System.Windows.Forms.MaskedTextBox TB_Style;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label L_Style;
         private System.Windows.Forms.MaskedTextBox TB_MBMS;
         private System.Windows.Forms.MaskedTextBox TB_MBMN;
         private System.Windows.Forms.MaskedTextBox TB_MBRS;
@@ -2072,7 +2072,7 @@ namespace PKHeX
         private System.Windows.Forms.MaskedTextBox TB_MCSS;
         private System.Windows.Forms.MaskedTextBox TB_MCSN;
         private System.Windows.Forms.GroupBox GB_Appear;
-        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label L_Dress;
         private System.Windows.Forms.ComboBox CB_Dress;
         private System.Windows.Forms.ComboBox CB_Bag;
         private System.Windows.Forms.ComboBox CB_Socks;
@@ -2080,32 +2080,32 @@ namespace PKHeX
         private System.Windows.Forms.ComboBox CB_Shirt;
         private System.Windows.Forms.ComboBox CB_Accessory;
         private System.Windows.Forms.ComboBox CB_Hat;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label L_Accessory;
+        private System.Windows.Forms.Label L_Bag;
+        private System.Windows.Forms.Label L_Socks;
+        private System.Windows.Forms.Label L_Pants;
+        private System.Windows.Forms.Label L_Shirt;
         private System.Windows.Forms.ComboBox CB_FaceHair;
         private System.Windows.Forms.ComboBox CB_Hair;
         private System.Windows.Forms.ComboBox CB_Eye;
         private System.Windows.Forms.ComboBox CB_Skin;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label L_Hat;
+        private System.Windows.Forms.Label L_FacialHair;
+        private System.Windows.Forms.Label L_Hairstyle;
+        private System.Windows.Forms.Label L_HairColor;
+        private System.Windows.Forms.Label L_SkinColor;
         private System.Windows.Forms.GroupBox GB_Map;
         private System.Windows.Forms.MaskedTextBox TB_CoordY;
         private System.Windows.Forms.MaskedTextBox TB_CoordZ;
         private System.Windows.Forms.MaskedTextBox TB_CoordX;
         private System.Windows.Forms.MaskedTextBox TB_CoordM;
         private System.Windows.Forms.GroupBox GB_Misc;
-        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label L_MultiplayerSprite;
         private System.Windows.Forms.PictureBox PB_Sprite;
         private System.Windows.Forms.ComboBox CB_Multi;
-        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label L_Stats;
         private System.Windows.Forms.ComboBox CB_Stats;
-        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label L_Value;
         private System.Windows.Forms.MaskedTextBox MT_Stat;
         private System.Windows.Forms.Label L_Offset;
         private System.Windows.Forms.Label L_Seconds;
@@ -2133,6 +2133,6 @@ namespace PKHeX
         private System.Windows.Forms.MaskedTextBox MT_1403E;
         private System.Windows.Forms.MaskedTextBox MT_1403D;
         private System.Windows.Forms.MaskedTextBox MT_1403C;
-        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label L_Outfit;
     }
 }

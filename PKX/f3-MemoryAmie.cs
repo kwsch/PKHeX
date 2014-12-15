@@ -24,7 +24,7 @@ namespace PKHeX
         public MemoryAmie(Form1 frm1)
         {
             InitializeComponent();
-            Util.TranslateInterface(this.Name, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
             m_parent = frm1;
             string[] arguments = Regex.Split(L_Arguments.Text, " ; ");
 
@@ -286,19 +286,17 @@ namespace PKHeX
         private void getLangStrings()
         {
             // Memory Chooser
-            int memorycount = Form1.memories.Length - 39;
+            int memorycount = Form1.memories.Length - 38;
             string[] memories = new string[memorycount];
             int[] allowed = new int[memorycount];
             for (int i = 0; i < memorycount; i++)
             {
-                memories[i] = Form1.memories[39 + i];
-                allowed[i] = i+1;
+                memories[i] = Form1.memories[38 + i];
+                allowed[i] = i + 1;
             }
-            List<cbItem> memory_list = getComboBoxItems2(memories, allowed);
-            cbItem def = new cbItem();
-            def.Text = Form1.memories[38 + 0];
-            def.Value = 0;
-            memory_list.Insert(0, def);
+            Array.Resize(ref allowed, allowed.Length - 1);
+            var memory_list1 = Util.getCBList(new string[] { memories[0] }, null);
+            var memory_list = Util.getOffsetCBList(memory_list1, memories, 0, allowed);            
 
             CB_OTMemory.DataSource = memory_list;
             CB_OTMemory.DisplayMember = "Text";
@@ -329,19 +327,14 @@ namespace PKHeX
         }
         private void getMemoryArguments(string ARG, ComboBox sender)
         {
-            List<cbItem> argvals = new List<cbItem>();
+            var argvals = Util.getCBList(new string[] { "" }, null);
             #region General Locations
-            // add general locations
             int[] allowed = { };
 
-            allowed = new int[Form1.genloc.Length];
-            for (int i = 0; i < Form1.genloc.Length; i++)
-                allowed[i] = i; // Allow everything.
-
-            List<cbItem> genloc = getComboBoxItems(Form1.genloc, allowed);
+            var genloc = Util.getCBList(Form1.genloc, null);
             #endregion
             #region Items
-            allowed = new int[697] 
+            int[] items_allowed = new int[697] 
             { 
             1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,
             50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,
@@ -359,35 +352,14 @@ namespace PKHeX
             650,651,652,653,654,655,656,657,658,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679,680,681,682,683,684,685,686,687,688,689,690,691,692,693,694,695,696,697,698,699,
             700,701,702,703,704,705,706,707,708,709,710,711,712,713,714,715,716,717
             };
-            List<cbItem> item_list = getComboBoxItems(Form1.itemlist, allowed);
+            var item_list = Util.getCBList(Form1.itemlist, items_allowed);
             #endregion
-            List<cbItem> species_list = (List<cbItem>)m_parent.CB_Species.DataSource;
+            var species_list = new BindingSource(m_parent.CB_Species.DataSource, null);
 
             // Met Locations for Pokecenters healing
-            allowed = new int[] {
-                        2,6,8,10,12,14,16,17,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,
-                        // ORAS
-                        170,172,174,176,178,180,182,184,186,188,190,192,194,196,198,200,202,204,206,208,210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266,268,270,272,274,276,278,280,282,284,286,288,290,292,294,296,298,300,302,304,306,308,310,312,314,316,318,320,322,324,326,328,330,332,334,336,338,340,342,344,346,348,350,352,354,
-            };  // Be sure the legal list matches the one in the main form for Location Selection
-            List<cbItem> locationXY = getComboBoxItems(Form1.metXY_00000, allowed);
-            #region Moves
+            var locationXY = Util.getCBList(Form1.metXY_00000, Legal.Met_XY_0);            
+            var move_list = new BindingSource(m_parent.CB_Move1.DataSource, null);
             
-                List<cbItem> move_list = new List<cbItem>();
-                // Sort the Rest based on String Name
-                string[] sortedmoves = new string[Form1.movelist.Length];
-                Array.Copy(Form1.movelist, sortedmoves, Form1.movelist.Length);
-                Array.Sort(sortedmoves);
-
-                // Add the rest of the items
-                for (int i = 0; i < sortedmoves.Length; i++)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedmoves[i];
-                    ncbi.Value = Array.IndexOf(Form1.movelist, sortedmoves[i]);
-                    move_list.Add(ncbi);
-                }
-            
-            #endregion
             string vs = "";
             bool enabled = true;
             if (ARG == "NONE")
@@ -397,12 +369,12 @@ namespace PKHeX
             }
             else if (ARG == "PKM")
             {
-                argvals = species_list;
+                argvals = Util.getCBList(Form1.specieslist, null);
                 vs = vartypes[0];
             }
             else if (ARG == "GENLOC")
             {
-                argvals = genloc;
+                argvals = Util.getCBList(Form1.genloc, null);
                 vs = vartypes[1];
             }
             else if (ARG == "ITEM")
@@ -412,20 +384,18 @@ namespace PKHeX
             }
             else if (ARG == "MOVE")
             {
-                argvals = move_list;
+                argvals = Util.getCBList(Form1.movelist, null);
                 vs = vartypes[3];
             }
             else if (ARG == "LOCATION")
             {
-                argvals = locationXY;
+                argvals = Util.getCBList(Form1.metXY_00000, allowed);
                 vs = vartypes[4];
             }
 
             if (sender == CB_CTMemory)
             {
-                List<cbItem> CTmemargs = new List<cbItem>();
-                CTmemargs = argvals;
-                CB_CTVar.DataSource = CTmemargs;
+                CB_CTVar.DataSource = argvals;
                 CB_CTVar.DisplayMember = "Text";
                 CB_CTVar.ValueMember = "Value";
                 LCTV.Text = vs;
@@ -433,58 +403,12 @@ namespace PKHeX
             }
             else
             {
-                List<cbItem> OTmemargs = new List<cbItem>();
-                OTmemargs = argvals;
-                CB_OTVar.DataSource = OTmemargs;
+                CB_OTVar.DataSource = argvals;
                 CB_OTVar.DisplayMember = "Text";
                 CB_OTVar.ValueMember = "Value";
                 LOTV.Text = vs;
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = enabled;
             }
-
-        }
-        private List<cbItem> getComboBoxItems(string[] list, int[] allowed)
-        {
-
-            List<cbItem> combolist = new List<cbItem>();
-            // Sort the Rest based on String Name
-            string[] sorter = new string[list.Length];
-            Array.Copy(list, sorter, list.Length);
-            Array.Sort(sorter);
-
-            for (int i = 0; i < sorter.Length; i++)
-            {
-                int locnum = Array.IndexOf(allowed, Array.IndexOf(list, sorter[i]));
-                if (locnum >= 0)	// If the given text is allowed (if found, >0)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sorter[i];
-                    ncbi.Value = allowed[locnum];
-                    combolist.Add(ncbi);
-                }
-            }
-            return combolist;
-        }
-        private List<cbItem> getComboBoxItems2(string[] list, int[] allowed)
-        {
-            List<cbItem> combolist = new List<cbItem>();
-            // Sort the Rest based on String Name
-            string[] sorter = new string[list.Length];
-            Array.Copy(list, sorter, list.Length);
-            Array.Sort(sorter);
-
-            for (int i = 0; i < sorter.Length; i++)
-            {
-                int locnum = Array.IndexOf(list, sorter[i]);
-                if (locnum >= 0)	// If the given text is allowed (if found, >0)
-                {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sorter[i];
-                    ncbi.Value = allowed[locnum];
-                    combolist.Add(ncbi);
-                }
-            }
-            return combolist;
         }
         private string getMemoryString(ComboBox m, ComboBox arg, ComboBox q, ComboBox f, string tr)
         {
@@ -664,16 +588,6 @@ namespace PKHeX
             mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
             mta[index].DisplayMember = "Text";
             mta[index].ValueMember = "Value";
-        }
-        private class cbItem
-        {
-            public string Text { get; set; }
-            public object Value { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
         }
     }
 }

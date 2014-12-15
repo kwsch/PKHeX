@@ -48,20 +48,20 @@
             this.CHK_L3 = new System.Windows.Forms.CheckBox();
             this.CHK_L2 = new System.Windows.Forms.CheckBox();
             this.CHK_L1 = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_goto = new System.Windows.Forms.Label();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_GiveAll = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_FillDex = new System.Windows.Forms.Button();
             this.GB_Language = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.GB_Encountered = new System.Windows.Forms.GroupBox();
+            this.GB_Owned = new System.Windows.Forms.GroupBox();
             this.CHK_F1 = new System.Windows.Forms.CheckBox();
             this.TB_Spinda = new System.Windows.Forms.TextBox();
             this.L_Spinda = new System.Windows.Forms.Label();
             this.GB_Language.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.GB_Encountered.SuspendLayout();
+            this.GB_Owned.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -270,14 +270,14 @@
             this.CHK_L1.UseVisualStyleBackColor = true;
             this.CHK_L1.Click += new System.EventHandler(this.changeLanguageBool);
             // 
-            // label1
+            // L_goto
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "goto:";
+            this.L_goto.AutoSize = true;
+            this.L_goto.Location = new System.Drawing.Point(12, 16);
+            this.L_goto.Name = "L_goto";
+            this.L_goto.Size = new System.Drawing.Size(31, 13);
+            this.L_goto.TabIndex = 20;
+            this.L_goto.Text = "goto:";
             // 
             // CB_Species
             // 
@@ -341,34 +341,34 @@
             this.GB_Language.TabStop = false;
             this.GB_Language.Text = "Languages";
             // 
-            // groupBox1
+            // GB_Encountered
             // 
-            this.groupBox1.Controls.Add(this.CHK_P9);
-            this.groupBox1.Controls.Add(this.CHK_P8);
-            this.groupBox1.Controls.Add(this.CHK_P7);
-            this.groupBox1.Controls.Add(this.CHK_P6);
-            this.groupBox1.Location = new System.Drawing.Point(148, 176);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(115, 89);
-            this.groupBox1.TabIndex = 27;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Encountered";
+            this.GB_Encountered.Controls.Add(this.CHK_P9);
+            this.GB_Encountered.Controls.Add(this.CHK_P8);
+            this.GB_Encountered.Controls.Add(this.CHK_P7);
+            this.GB_Encountered.Controls.Add(this.CHK_P6);
+            this.GB_Encountered.Location = new System.Drawing.Point(148, 176);
+            this.GB_Encountered.Name = "GB_Encountered";
+            this.GB_Encountered.Size = new System.Drawing.Size(115, 89);
+            this.GB_Encountered.TabIndex = 27;
+            this.GB_Encountered.TabStop = false;
+            this.GB_Encountered.Text = "Encountered";
             // 
-            // groupBox2
+            // GB_Owned
             // 
-            this.groupBox2.Controls.Add(this.CHK_F1);
-            this.groupBox2.Controls.Add(this.CHK_P1);
-            this.groupBox2.Controls.Add(this.CHK_P10);
-            this.groupBox2.Controls.Add(this.CHK_P5);
-            this.groupBox2.Controls.Add(this.CHK_P4);
-            this.groupBox2.Controls.Add(this.CHK_P3);
-            this.groupBox2.Controls.Add(this.CHK_P2);
-            this.groupBox2.Location = new System.Drawing.Point(148, 40);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(115, 130);
-            this.groupBox2.TabIndex = 28;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Owned";
+            this.GB_Owned.Controls.Add(this.CHK_F1);
+            this.GB_Owned.Controls.Add(this.CHK_P1);
+            this.GB_Owned.Controls.Add(this.CHK_P10);
+            this.GB_Owned.Controls.Add(this.CHK_P5);
+            this.GB_Owned.Controls.Add(this.CHK_P4);
+            this.GB_Owned.Controls.Add(this.CHK_P3);
+            this.GB_Owned.Controls.Add(this.CHK_P2);
+            this.GB_Owned.Location = new System.Drawing.Point(148, 40);
+            this.GB_Owned.Name = "GB_Owned";
+            this.GB_Owned.Size = new System.Drawing.Size(115, 130);
+            this.GB_Owned.TabIndex = 28;
+            this.GB_Owned.TabStop = false;
+            this.GB_Owned.Text = "Owned";
             // 
             // CHK_F1
             // 
@@ -394,42 +394,42 @@
             // L_Spinda
             // 
             this.L_Spinda.AutoSize = true;
-            this.L_Spinda.Location = new System.Drawing.Point(266, 198);
+            this.L_Spinda.Location = new System.Drawing.Point(269, 198);
             this.L_Spinda.Name = "L_Spinda";
             this.L_Spinda.Size = new System.Drawing.Size(43, 13);
             this.L_Spinda.TabIndex = 30;
             this.L_Spinda.Text = "Spinda:";
             // 
-            // SAV_Pokedex
+            // SAV_PokedexXY
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 272);
             this.Controls.Add(this.L_Spinda);
             this.Controls.Add(this.TB_Spinda);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.GB_Owned);
+            this.Controls.Add(this.GB_Encountered);
             this.Controls.Add(this.GB_Language);
             this.Controls.Add(this.B_FillDex);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_GiveAll);
             this.Controls.Add(this.CB_Species);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_goto);
             this.Controls.Add(this.LB_Species);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SAV_Pokedex";
+            this.Name = "SAV_PokedexXY";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pokédex Editor";
             this.GB_Language.ResumeLayout(false);
             this.GB_Language.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.GB_Encountered.ResumeLayout(false);
+            this.GB_Encountered.PerformLayout();
+            this.GB_Owned.ResumeLayout(false);
+            this.GB_Owned.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -456,14 +456,14 @@
         private System.Windows.Forms.CheckBox CHK_L3;
         private System.Windows.Forms.CheckBox CHK_L2;
         private System.Windows.Forms.CheckBox CHK_L1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_goto;
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Button B_GiveAll;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_FillDex;
         private System.Windows.Forms.GroupBox GB_Language;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox GB_Encountered;
+        private System.Windows.Forms.GroupBox GB_Owned;
         private System.Windows.Forms.CheckBox CHK_F1;
         private System.Windows.Forms.TextBox TB_Spinda;
         private System.Windows.Forms.Label L_Spinda;

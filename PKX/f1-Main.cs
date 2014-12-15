@@ -571,7 +571,6 @@ namespace PKHeX
             GB_SAVtools.Enabled =
                 tabBoxMulti.Enabled = true;
             B_JPEG.Enabled =
-            B_BoxIO.Enabled =
             B_VerifyCHK.Enabled = true;
             B_VerifySHA.Enabled = B_SwitchSAV.Enabled = false;
 
@@ -605,7 +604,7 @@ namespace PKHeX
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
-            Util.TranslateInterface("Form1", curlanguage, Controls, menuStrip1);
+            Util.TranslateInterface(this, curlanguage, Controls, menuStrip1);
             populateFields(buff); // put data back in form
         }
         private void InitializeStrings()
@@ -3579,7 +3578,7 @@ namespace PKHeX
             }
 
             // Enable Buttons
-            GB_SAVtools.Enabled = B_JPEG.Enabled = B_BoxIO.Enabled = B_VerifyCHK.Enabled = B_VerifySHA.Enabled = B_SwitchSAV.Enabled
+            GB_SAVtools.Enabled = B_JPEG.Enabled = B_VerifyCHK.Enabled = B_VerifySHA.Enabled = B_SwitchSAV.Enabled
                 = enableInterface;
         }
         private void getQuickFiller(PictureBox pb)
@@ -4170,11 +4169,6 @@ namespace PKHeX
                 }
                 File.WriteAllBytes(path, jpeg);
             }
-        }
-        private void B_BoxIO_Click(object sender, EventArgs e)
-        {
-            // Allow Import/Export of Boxes
-            new PKHeX.SAV_BoxIO(this, SaveGame.Box, SaveGame.PCLayout).ShowDialog();
         }
 
         private void clickSaveFileName(object sender, EventArgs e)

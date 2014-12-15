@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_EventFlagsXY));
             this.CHK_CustomFlag = new System.Windows.Forms.CheckBox();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.GB_FlagStatus = new System.Windows.Forms.GroupBox();
             this.nud = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_Flag = new System.Windows.Forms.Label();
             this.flag_0001 = new System.Windows.Forms.CheckBox();
             this.flag_0002 = new System.Windows.Forms.CheckBox();
             this.flag_0003 = new System.Windows.Forms.CheckBox();
@@ -43,7 +43,7 @@
             this.flag_2237 = new System.Windows.Forms.CheckBox();
             this.flag_2238 = new System.Windows.Forms.CheckBox();
             this.flag_2239 = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.GB_Researcher = new System.Windows.Forms.GroupBox();
             this.L_UnSet = new System.Windows.Forms.Label();
             this.L_IsSet = new System.Windows.Forms.Label();
             this.TB_NewSAV = new System.Windows.Forms.TextBox();
@@ -57,7 +57,7 @@
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
             this.flag_0114 = new System.Windows.Forms.CheckBox();
             this.flag_0790 = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.GB_Misc = new System.Windows.Forms.GroupBox();
             this.flag_0289 = new System.Windows.Forms.CheckBox();
             this.flag_0288 = new System.Windows.Forms.CheckBox();
             this.flag_0287 = new System.Windows.Forms.CheckBox();
@@ -70,11 +70,11 @@
             this.flag_0286 = new System.Windows.Forms.CheckBox();
             this.flag_0285 = new System.Windows.Forms.CheckBox();
             this.flag_2546 = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
+            this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.GB_Researcher.SuspendLayout();
             this.GB_Rebattle.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.GB_Misc.SuspendLayout();
             this.SuspendLayout();
             // 
             // CHK_CustomFlag
@@ -100,17 +100,17 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // groupBox1
+            // GB_FlagStatus
             // 
-            this.groupBox1.Controls.Add(this.nud);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.CHK_CustomFlag);
-            this.groupBox1.Location = new System.Drawing.Point(14, 135);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(108, 68);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Check Flag Status";
+            this.GB_FlagStatus.Controls.Add(this.nud);
+            this.GB_FlagStatus.Controls.Add(this.L_Flag);
+            this.GB_FlagStatus.Controls.Add(this.CHK_CustomFlag);
+            this.GB_FlagStatus.Location = new System.Drawing.Point(14, 135);
+            this.GB_FlagStatus.Name = "GB_FlagStatus";
+            this.GB_FlagStatus.Size = new System.Drawing.Size(108, 68);
+            this.GB_FlagStatus.TabIndex = 3;
+            this.GB_FlagStatus.TabStop = false;
+            this.GB_FlagStatus.Text = "Check Flag Status";
             // 
             // nud
             // 
@@ -131,14 +131,14 @@
             this.nud.ValueChanged += new System.EventHandler(this.changeCustomFlag);
             this.nud.KeyUp += new System.Windows.Forms.KeyEventHandler(this.changeCustomFlag);
             // 
-            // label1
+            // L_Flag
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Flag:";
+            this.L_Flag.AutoSize = true;
+            this.L_Flag.Location = new System.Drawing.Point(13, 21);
+            this.L_Flag.Name = "L_Flag";
+            this.L_Flag.Size = new System.Drawing.Size(30, 13);
+            this.L_Flag.TabIndex = 2;
+            this.L_Flag.Text = "Flag:";
             // 
             // flag_0001
             // 
@@ -243,22 +243,22 @@
             this.flag_2239.UseVisualStyleBackColor = true;
             this.flag_2239.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // groupBox2
+            // GB_Researcher
             // 
-            this.groupBox2.Controls.Add(this.L_UnSet);
-            this.groupBox2.Controls.Add(this.L_IsSet);
-            this.groupBox2.Controls.Add(this.TB_NewSAV);
-            this.groupBox2.Controls.Add(this.TB_OldSAV);
-            this.groupBox2.Controls.Add(this.TB_UnSet);
-            this.groupBox2.Controls.Add(this.TB_IsSet);
-            this.groupBox2.Controls.Add(this.B_LoadNew);
-            this.groupBox2.Controls.Add(this.B_LoadOld);
-            this.groupBox2.Location = new System.Drawing.Point(14, 210);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(268, 120);
-            this.groupBox2.TabIndex = 13;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "FlagDiff Researcher";
+            this.GB_Researcher.Controls.Add(this.L_UnSet);
+            this.GB_Researcher.Controls.Add(this.L_IsSet);
+            this.GB_Researcher.Controls.Add(this.TB_NewSAV);
+            this.GB_Researcher.Controls.Add(this.TB_OldSAV);
+            this.GB_Researcher.Controls.Add(this.TB_UnSet);
+            this.GB_Researcher.Controls.Add(this.TB_IsSet);
+            this.GB_Researcher.Controls.Add(this.B_LoadNew);
+            this.GB_Researcher.Controls.Add(this.B_LoadOld);
+            this.GB_Researcher.Location = new System.Drawing.Point(14, 210);
+            this.GB_Researcher.Name = "GB_Researcher";
+            this.GB_Researcher.Size = new System.Drawing.Size(268, 120);
+            this.GB_Researcher.TabIndex = 13;
+            this.GB_Researcher.TabStop = false;
+            this.GB_Researcher.Text = "FlagDiff Researcher";
             // 
             // L_UnSet
             // 
@@ -393,25 +393,25 @@
             this.flag_0790.UseVisualStyleBackColor = true;
             this.flag_0790.Click += new System.EventHandler(this.toggleFlag);
             // 
-            // groupBox3
+            // GB_Misc
             // 
-            this.groupBox3.Controls.Add(this.flag_0289);
-            this.groupBox3.Controls.Add(this.flag_0288);
-            this.groupBox3.Controls.Add(this.flag_0287);
-            this.groupBox3.Controls.Add(this.flag_0294);
-            this.groupBox3.Controls.Add(this.flag_0293);
-            this.groupBox3.Controls.Add(this.flag_0292);
-            this.groupBox3.Controls.Add(this.flag_0291);
-            this.groupBox3.Controls.Add(this.flag_0290);
-            this.groupBox3.Controls.Add(this.flag_0675);
-            this.groupBox3.Controls.Add(this.flag_0286);
-            this.groupBox3.Controls.Add(this.flag_0285);
-            this.groupBox3.Location = new System.Drawing.Point(287, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(154, 288);
-            this.groupBox3.TabIndex = 17;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Misc";
+            this.GB_Misc.Controls.Add(this.flag_0289);
+            this.GB_Misc.Controls.Add(this.flag_0288);
+            this.GB_Misc.Controls.Add(this.flag_0287);
+            this.GB_Misc.Controls.Add(this.flag_0294);
+            this.GB_Misc.Controls.Add(this.flag_0293);
+            this.GB_Misc.Controls.Add(this.flag_0292);
+            this.GB_Misc.Controls.Add(this.flag_0291);
+            this.GB_Misc.Controls.Add(this.flag_0290);
+            this.GB_Misc.Controls.Add(this.flag_0675);
+            this.GB_Misc.Controls.Add(this.flag_0286);
+            this.GB_Misc.Controls.Add(this.flag_0285);
+            this.GB_Misc.Location = new System.Drawing.Point(287, 12);
+            this.GB_Misc.Name = "GB_Misc";
+            this.GB_Misc.Size = new System.Drawing.Size(154, 288);
+            this.GB_Misc.TabIndex = 17;
+            this.GB_Misc.TabStop = false;
+            this.GB_Misc.Text = "Misc";
             // 
             // flag_0289
             // 
@@ -562,9 +562,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(449, 342);
             this.Controls.Add(this.flag_2546);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.GB_Misc);
             this.Controls.Add(this.GB_Rebattle);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.GB_Researcher);
             this.Controls.Add(this.flag_2239);
             this.Controls.Add(this.flag_2238);
             this.Controls.Add(this.flag_2237);
@@ -574,7 +574,7 @@
             this.Controls.Add(this.flag_0003);
             this.Controls.Add(this.flag_0002);
             this.Controls.Add(this.flag_0001);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.GB_FlagStatus);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -583,15 +583,15 @@
             this.Name = "SAV_EventFlagsXY";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Event Flag Editor";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.GB_FlagStatus.ResumeLayout(false);
+            this.GB_FlagStatus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.GB_Researcher.ResumeLayout(false);
+            this.GB_Researcher.PerformLayout();
             this.GB_Rebattle.ResumeLayout(false);
             this.GB_Rebattle.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.GB_Misc.ResumeLayout(false);
+            this.GB_Misc.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -601,8 +601,8 @@
 
         private System.Windows.Forms.CheckBox CHK_CustomFlag;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox GB_FlagStatus;
+        private System.Windows.Forms.Label L_Flag;
         private System.Windows.Forms.CheckBox flag_0001;
         private System.Windows.Forms.CheckBox flag_0002;
         private System.Windows.Forms.CheckBox flag_0003;
@@ -613,7 +613,7 @@
         private System.Windows.Forms.CheckBox flag_2237;
         private System.Windows.Forms.CheckBox flag_2238;
         private System.Windows.Forms.CheckBox flag_2239;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox GB_Researcher;
         private System.Windows.Forms.Label L_UnSet;
         private System.Windows.Forms.Label L_IsSet;
         private System.Windows.Forms.TextBox TB_NewSAV;
@@ -627,7 +627,7 @@
         private System.Windows.Forms.GroupBox GB_Rebattle;
         private System.Windows.Forms.CheckBox flag_0114;
         private System.Windows.Forms.CheckBox flag_0790;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox GB_Misc;
         private System.Windows.Forms.CheckBox flag_0289;
         private System.Windows.Forms.CheckBox flag_0288;
         private System.Windows.Forms.CheckBox flag_0287;

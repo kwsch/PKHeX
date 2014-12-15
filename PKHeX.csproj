@@ -147,12 +147,6 @@
     <Compile Include="SAV\SAV_BerryField.Designer.cs">
       <DependentUpon>SAV_BerryField.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV\SAV_BoxIO.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SAV\SAV_BoxIO.Designer.cs">
-      <DependentUpon>SAV_BoxIO.cs</DependentUpon>
-    </Compile>
     <Compile Include="SAV\SAV_BoxLayout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,9 +252,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_BerryField.resx">
       <DependentUpon>SAV_BerryField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SAV\SAV_BoxIO.resx">
-      <DependentUpon>SAV_BoxIO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_BoxLayout.resx">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>

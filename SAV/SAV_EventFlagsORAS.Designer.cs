@@ -31,11 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_EventFlagsORAS));
             this.CHK_CustomFlag = new System.Windows.Forms.CheckBox();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.GB_FlagStatus = new System.Windows.Forms.GroupBox();
             this.nud = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_Flag = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.GB_Researcher = new System.Windows.Forms.GroupBox();
             this.L_UnSet = new System.Windows.Forms.Label();
             this.L_IsSet = new System.Windows.Forms.Label();
             this.TB_NewSAV = new System.Windows.Forms.TextBox();
@@ -47,6 +47,9 @@
             this.flag_0647 = new System.Windows.Forms.CheckBox();
             this.flag_2840 = new System.Windows.Forms.CheckBox();
             this.GB_Rebattle = new System.Windows.Forms.GroupBox();
+            this.flag_2835 = new System.Windows.Forms.CheckBox();
+            this.flag_0420 = new System.Windows.Forms.CheckBox();
+            this.L_SkyTower = new System.Windows.Forms.Label();
             this.flag_2834 = new System.Windows.Forms.CheckBox();
             this.flag_0419 = new System.Windows.Forms.CheckBox();
             this.flag_2828 = new System.Windows.Forms.CheckBox();
@@ -111,13 +114,10 @@
             this.flag_0285 = new System.Windows.Forms.CheckBox();
             this.flag_0284 = new System.Windows.Forms.CheckBox();
             this.MT_Ash = new System.Windows.Forms.MaskedTextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.L_SkyTower = new System.Windows.Forms.Label();
-            this.flag_2835 = new System.Windows.Forms.CheckBox();
-            this.flag_0420 = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
+            this.L_Ash = new System.Windows.Forms.Label();
+            this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.GB_Researcher.SuspendLayout();
             this.GB_Rebattle.SuspendLayout();
             this.GB_Misc.SuspendLayout();
             this.SuspendLayout();
@@ -146,18 +146,18 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // groupBox1
+            // GB_FlagStatus
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.Controls.Add(this.nud);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.CHK_CustomFlag);
-            this.groupBox1.Location = new System.Drawing.Point(314, 436);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(108, 68);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Check Flag Status";
+            this.GB_FlagStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.GB_FlagStatus.Controls.Add(this.nud);
+            this.GB_FlagStatus.Controls.Add(this.L_Flag);
+            this.GB_FlagStatus.Controls.Add(this.CHK_CustomFlag);
+            this.GB_FlagStatus.Location = new System.Drawing.Point(314, 436);
+            this.GB_FlagStatus.Name = "GB_FlagStatus";
+            this.GB_FlagStatus.Size = new System.Drawing.Size(108, 68);
+            this.GB_FlagStatus.TabIndex = 3;
+            this.GB_FlagStatus.TabStop = false;
+            this.GB_FlagStatus.Text = "Check Flag Status";
             // 
             // nud
             // 
@@ -178,14 +178,14 @@
             this.nud.ValueChanged += new System.EventHandler(this.changeCustomFlag);
             this.nud.KeyUp += new System.Windows.Forms.KeyEventHandler(this.changeCustomFlag);
             // 
-            // label1
+            // L_Flag
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Flag:";
+            this.L_Flag.AutoSize = true;
+            this.L_Flag.Location = new System.Drawing.Point(13, 21);
+            this.L_Flag.Name = "L_Flag";
+            this.L_Flag.Size = new System.Drawing.Size(30, 13);
+            this.L_Flag.TabIndex = 2;
+            this.L_Flag.Text = "Flag:";
             // 
             // B_Save
             // 
@@ -198,23 +198,23 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // groupBox2
+            // GB_Researcher
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox2.Controls.Add(this.L_UnSet);
-            this.groupBox2.Controls.Add(this.L_IsSet);
-            this.groupBox2.Controls.Add(this.TB_NewSAV);
-            this.groupBox2.Controls.Add(this.TB_OldSAV);
-            this.groupBox2.Controls.Add(this.TB_UnSet);
-            this.groupBox2.Controls.Add(this.TB_IsSet);
-            this.groupBox2.Controls.Add(this.B_LoadNew);
-            this.groupBox2.Controls.Add(this.B_LoadOld);
-            this.groupBox2.Location = new System.Drawing.Point(314, 309);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(268, 120);
-            this.groupBox2.TabIndex = 13;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "FlagDiff Researcher";
+            this.GB_Researcher.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.GB_Researcher.Controls.Add(this.L_UnSet);
+            this.GB_Researcher.Controls.Add(this.L_IsSet);
+            this.GB_Researcher.Controls.Add(this.TB_NewSAV);
+            this.GB_Researcher.Controls.Add(this.TB_OldSAV);
+            this.GB_Researcher.Controls.Add(this.TB_UnSet);
+            this.GB_Researcher.Controls.Add(this.TB_IsSet);
+            this.GB_Researcher.Controls.Add(this.B_LoadNew);
+            this.GB_Researcher.Controls.Add(this.B_LoadOld);
+            this.GB_Researcher.Location = new System.Drawing.Point(314, 309);
+            this.GB_Researcher.Name = "GB_Researcher";
+            this.GB_Researcher.Size = new System.Drawing.Size(268, 120);
+            this.GB_Researcher.TabIndex = 13;
+            this.GB_Researcher.TabStop = false;
+            this.GB_Researcher.Text = "FlagDiff Researcher";
             // 
             // L_UnSet
             // 
@@ -380,6 +380,39 @@
             this.GB_Rebattle.TabIndex = 16;
             this.GB_Rebattle.TabStop = false;
             this.GB_Rebattle.Text = "Rebattle";
+            // 
+            // flag_2835
+            // 
+            this.flag_2835.AutoSize = true;
+            this.flag_2835.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_2835.Location = new System.Drawing.Point(172, 108);
+            this.flag_2835.Name = "flag_2835";
+            this.flag_2835.Size = new System.Drawing.Size(123, 17);
+            this.flag_2835.TabIndex = 75;
+            this.flag_2835.Text = "(AS) Latios Captured";
+            this.flag_2835.UseVisualStyleBackColor = true;
+            this.flag_2835.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // flag_0420
+            // 
+            this.flag_0420.AutoSize = true;
+            this.flag_0420.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.flag_0420.Location = new System.Drawing.Point(172, 93);
+            this.flag_0420.Name = "flag_0420";
+            this.flag_0420.Size = new System.Drawing.Size(124, 17);
+            this.flag_0420.TabIndex = 74;
+            this.flag_0420.Text = "(AS) Latios Defeated";
+            this.flag_0420.UseVisualStyleBackColor = true;
+            this.flag_0420.Click += new System.EventHandler(this.toggleFlag);
+            // 
+            // L_SkyTower
+            // 
+            this.L_SkyTower.AutoSize = true;
+            this.L_SkyTower.Location = new System.Drawing.Point(215, 12);
+            this.L_SkyTower.Name = "L_SkyTower";
+            this.L_SkyTower.Size = new System.Drawing.Size(62, 13);
+            this.L_SkyTower.TabIndex = 20;
+            this.L_SkyTower.Text = "*Sky Tower";
             // 
             // flag_2834
             // 
@@ -1153,59 +1186,26 @@
             this.MT_Ash.TabIndex = 18;
             this.MT_Ash.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label2
+            // L_Ash
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(429, 438);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Volcanic Ash:";
-            // 
-            // L_SkyTower
-            // 
-            this.L_SkyTower.AutoSize = true;
-            this.L_SkyTower.Location = new System.Drawing.Point(215, 12);
-            this.L_SkyTower.Name = "L_SkyTower";
-            this.L_SkyTower.Size = new System.Drawing.Size(62, 13);
-            this.L_SkyTower.TabIndex = 20;
-            this.L_SkyTower.Text = "*Sky Tower";
-            // 
-            // flag_2835
-            // 
-            this.flag_2835.AutoSize = true;
-            this.flag_2835.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_2835.Location = new System.Drawing.Point(172, 108);
-            this.flag_2835.Name = "flag_2835";
-            this.flag_2835.Size = new System.Drawing.Size(123, 17);
-            this.flag_2835.TabIndex = 75;
-            this.flag_2835.Text = "(AS) Latios Captured";
-            this.flag_2835.UseVisualStyleBackColor = true;
-            this.flag_2835.Click += new System.EventHandler(this.toggleFlag);
-            // 
-            // flag_0420
-            // 
-            this.flag_0420.AutoSize = true;
-            this.flag_0420.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.flag_0420.Location = new System.Drawing.Point(172, 93);
-            this.flag_0420.Name = "flag_0420";
-            this.flag_0420.Size = new System.Drawing.Size(124, 17);
-            this.flag_0420.TabIndex = 74;
-            this.flag_0420.Text = "(AS) Latios Defeated";
-            this.flag_0420.UseVisualStyleBackColor = true;
-            this.flag_0420.Click += new System.EventHandler(this.toggleFlag);
+            this.L_Ash.AutoSize = true;
+            this.L_Ash.Location = new System.Drawing.Point(429, 438);
+            this.L_Ash.Name = "L_Ash";
+            this.L_Ash.Size = new System.Drawing.Size(72, 13);
+            this.L_Ash.TabIndex = 19;
+            this.L_Ash.Text = "Volcanic Ash:";
             // 
             // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(594, 512);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.L_Ash);
             this.Controls.Add(this.MT_Ash);
             this.Controls.Add(this.GB_Misc);
             this.Controls.Add(this.GB_Rebattle);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.GB_Researcher);
+            this.Controls.Add(this.GB_FlagStatus);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1215,11 +1215,11 @@
             this.Name = "SAV_EventFlagsORAS";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Event Flag Editor";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.GB_FlagStatus.ResumeLayout(false);
+            this.GB_FlagStatus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.GB_Researcher.ResumeLayout(false);
+            this.GB_Researcher.PerformLayout();
             this.GB_Rebattle.ResumeLayout(false);
             this.GB_Rebattle.PerformLayout();
             this.GB_Misc.ResumeLayout(false);
@@ -1233,11 +1233,11 @@
 
         private System.Windows.Forms.CheckBox CHK_CustomFlag;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox GB_FlagStatus;
+        private System.Windows.Forms.Label L_Flag;
         private System.Windows.Forms.NumericUpDown nud;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox GB_Researcher;
         private System.Windows.Forms.Label L_UnSet;
         private System.Windows.Forms.Label L_IsSet;
         private System.Windows.Forms.TextBox TB_NewSAV;
@@ -1313,7 +1313,7 @@
         private System.Windows.Forms.CheckBox flag_2834;
         private System.Windows.Forms.CheckBox flag_0419;
         private System.Windows.Forms.MaskedTextBox MT_Ash;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_Ash;
         private System.Windows.Forms.Label L_SkyTower;
         private System.Windows.Forms.CheckBox flag_2835;
         private System.Windows.Forms.CheckBox flag_0420;

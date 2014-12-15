@@ -18,8 +18,8 @@ namespace PKHeX
         public RibbMedal(Form1 frm1)
         {
             InitializeComponent();
+            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
             m_parent = frm1;
-            TranslateInterface("RibbonMedal");
 
             // Set up Training Bag Data
             comboBox1.Items.Clear();
@@ -30,70 +30,6 @@ namespace PKHeX
             numericUpDown1.Value = m_parent.buff[0x16];
 
             getRibbons();
-        }
-        public void TranslateInterface(string FORM_NAME)
-        {
-            string curlanguage = Form1.curlanguage;
-            // Fetch a File
-            // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = System.Windows.Forms.Application.StartupPath +Path.DirectorySeparatorChar + "lang_" + curlanguage + ".txt";
-            string[] rawlist;
-            if (File.Exists(externalLangPath))
-            {
-                rawlist = File.ReadAllLines(externalLangPath);
-            }
-            else
-            {
-                object txt;
-                txt = Properties.Resources.ResourceManager.GetObject("lang_" + curlanguage); // Fetch File, \n to list.
-                if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                string[] stringSeparators = new string[] { "\r\n" };
-                rawlist = ((string)txt).Split(stringSeparators, StringSplitOptions.None);
-            }
-
-            string[] stringdata = new string[rawlist.Length];
-            int itemsToRename = 0;
-            for (int i = 0; i < rawlist.Length; i++)
-            {
-                // Find our starting point
-                if (rawlist[i] == "! " + FORM_NAME) // Start our data
-                {
-                    // Copy our Control Names and Text to a new array for later processing.
-                    for (int j = i + 1; j < rawlist.Length; j++)
-                    {
-                        if (rawlist[j].Length == 0)
-                            continue; // Skip Over Empty Lines, errhandled
-                        if (rawlist[j][0].ToString() != "-") // If line is not a comment line...
-                        {
-                            if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
-                                break; // exit inner loop
-                            stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
-                            itemsToRename++;
-                        }
-                    }
-                    break; // exit outer loop
-                }
-            }
-
-            // Now that we have our items to rename in: Control = Text format, let's execute the changes!
-
-            for (int i = 0; i < itemsToRename; i++)
-            {
-                string[] SplitString = Regex.Split(stringdata[i], " = ");
-                if (SplitString.Length < 2)
-                    continue; // Error in Input, errhandled
-                string ctrl = SplitString[0]; // Control to change the text of...
-                string text = SplitString[1]; // Text to set Control.Text to...
-                Control[] controllist = Controls.Find(ctrl, true);
-                if (controllist.Length == 0) // If Control isn't found...
-                {
-                    // If not found, it is not something to rename and is thus skipped.
-                }
-                else // Set the input control's text.
-                {
-                    controllist[0].Text = text;
-                }
-            }
         }
         private void getRibbons()
         {
@@ -243,38 +179,38 @@ namespace PKHeX
         {
             // pass kalos data
             int kalos1a = 0, kalos1b = 0, kalos2a = 0, kalos2b = 0;
-            kalos1a += addRibbon(Kalos1a_0);
-            kalos1a += addRibbon(Kalos1a_1);
-            kalos1a += addRibbon(Kalos1a_2);
-            kalos1a += addRibbon(Kalos1a_3);
-            kalos1a += addRibbon(Kalos1a_4);
-            kalos1a += addRibbon(Kalos1a_5);
-            kalos1a += addRibbon(Kalos1a_6);
-            kalos1a += addRibbon(Kalos1a_7);////
-            kalos1b += addRibbon(Kalos1b_0);
-            kalos1b += addRibbon(Kalos1b_1);
-            kalos1b += addRibbon(Kalos1b_2);
-            kalos1b += addRibbon(Kalos1b_3);
-            kalos1b += addRibbon(Kalos1b_4);
-            kalos1b += addRibbon(Kalos1b_5);
-            kalos1b += addRibbon(Kalos1b_6);
-            kalos1b += addRibbon(Kalos1b_7);////
-            kalos2a += addRibbon(Kalos2a_0);
-            kalos2a += addRibbon(Kalos2a_1);
-            kalos2a += addRibbon(Kalos2a_2);
-            kalos2a += addRibbon(Kalos2a_3);
-            kalos2a += addRibbon(Kalos2a_4);
-            kalos2a += addRibbon(Kalos2a_5);
-            kalos2a += addRibbon(Kalos2a_6);
-            kalos2a += addRibbon(Kalos2a_7);////
-            kalos2b += addRibbon(Kalos2b_0);
-            kalos2b += addRibbon(Kalos2b_1);
-            kalos2b += addRibbon(Kalos2b_2);
-            kalos2b += addRibbon(Kalos2b_3);
-            kalos2b += addRibbon(Kalos2b_4);
-            kalos2b += addRibbon(Kalos2b_5);
-            kalos2b += addRibbon(Kalos2b_6);
-            kalos2b += addRibbon(Kalos2b_7);////
+            kalos1a |= addRibbon(Kalos1a_0);
+            kalos1a |= addRibbon(Kalos1a_1);
+            kalos1a |= addRibbon(Kalos1a_2);
+            kalos1a |= addRibbon(Kalos1a_3);
+            kalos1a |= addRibbon(Kalos1a_4);
+            kalos1a |= addRibbon(Kalos1a_5);
+            kalos1a |= addRibbon(Kalos1a_6);
+            kalos1a |= addRibbon(Kalos1a_7);////
+            kalos1b |= addRibbon(Kalos1b_0);
+            kalos1b |= addRibbon(Kalos1b_1);
+            kalos1b |= addRibbon(Kalos1b_2);
+            kalos1b |= addRibbon(Kalos1b_3);
+            kalos1b |= addRibbon(Kalos1b_4);
+            kalos1b |= addRibbon(Kalos1b_5);
+            kalos1b |= addRibbon(Kalos1b_6);
+            kalos1b |= addRibbon(Kalos1b_7);////
+            kalos2a |= addRibbon(Kalos2a_0);
+            kalos2a |= addRibbon(Kalos2a_1);
+            kalos2a |= addRibbon(Kalos2a_2);
+            kalos2a |= addRibbon(Kalos2a_3);
+            kalos2a |= addRibbon(Kalos2a_4);
+            kalos2a |= addRibbon(Kalos2a_5);
+            kalos2a |= addRibbon(Kalos2a_6);
+            kalos2a |= addRibbon(Kalos2a_7);////
+            kalos2b |= addRibbon(Kalos2b_0);
+            kalos2b |= addRibbon(Kalos2b_1);
+            kalos2b |= addRibbon(Kalos2b_2);
+            kalos2b |= addRibbon(Kalos2b_3);
+            kalos2b |= addRibbon(Kalos2b_4);
+            kalos2b |= addRibbon(Kalos2b_5);
+            kalos2b |= addRibbon(Kalos2b_6);
+            kalos2b |= addRibbon(Kalos2b_7);////
             m_parent.buff[0x30] = (byte)kalos1a;
             m_parent.buff[0x31] = (byte)kalos1b;
             m_parent.buff[0x32] = (byte)kalos2a;
@@ -282,59 +218,59 @@ namespace PKHeX
 
             // Pass Extra Ribbon
             int extra1 = 0;
-            extra1 += addRibbon(Extra1_0);
-            extra1 += addRibbon(Extra1_1);
-            extra1 += addRibbon(Extra1_2);
-            extra1 += addRibbon(Extra1_3);
-            extra1 += addRibbon(Extra1_4);
+            extra1 |= addRibbon(Extra1_0);
+            extra1 |= addRibbon(Extra1_1);
+            extra1 |= addRibbon(Extra1_2);
+            extra1 |= addRibbon(Extra1_3);
+            extra1 |= addRibbon(Extra1_4);
 
             // ORAS
-            extra1 += addRibbon(Extra1_7); // Hoenn Champ
+            extra1 |= addRibbon(Extra1_7); // Hoenn Champ
             m_parent.buff[0x34] = (byte)extra1;
 
             int oras = 0;
-            oras += addRibbon(ORAS_0);
-            oras += addRibbon(ORAS_1);
-            oras += addRibbon(ORAS_2);
-            oras += addRibbon(ORAS_3);
-            oras += addRibbon(ORAS_4);
-            oras += addRibbon(ORAS_5);
+            oras |= addRibbon(ORAS_0);
+            oras |= addRibbon(ORAS_1);
+            oras |= addRibbon(ORAS_2);
+            oras |= addRibbon(ORAS_3);
+            oras |= addRibbon(ORAS_4);
+            oras |= addRibbon(ORAS_5);
             m_parent.buff[0x35] = (byte)oras;
 
             // Gather Super Training Medals
             int medals1 = 0, medals2 = 0, medals3 = 0, medals4 = 0;
-            medals1 += addRibbon(TMedal1_0);
-            medals1 += addRibbon(TMedal1_1);
-            medals1 += addRibbon(TMedal1_2);
-            medals1 += addRibbon(TMedal1_3);
-            medals1 += addRibbon(TMedal1_4);
-            medals1 += addRibbon(TMedal1_5);
-            medals1 += addRibbon(TMedal1_6);
-            medals1 += addRibbon(TMedal1_7);////
-            medals2 += addRibbon(TMedal2_0);
-            medals2 += addRibbon(TMedal2_1);
-            medals2 += addRibbon(TMedal2_2);
-            medals2 += addRibbon(TMedal2_3);
-            medals2 += addRibbon(TMedal2_4);
-            medals2 += addRibbon(TMedal2_5);
-            medals2 += addRibbon(TMedal2_6);
-            medals2 += addRibbon(TMedal2_7);////
-            medals3 += addRibbon(TMedal3_0);
-            medals3 += addRibbon(TMedal3_1);
-            medals3 += addRibbon(TMedal3_2);
-            medals3 += addRibbon(TMedal3_3);
-            medals3 += addRibbon(TMedal3_4);
-            medals3 += addRibbon(TMedal3_5);
-            medals3 += addRibbon(TMedal3_6);
-            medals3 += addRibbon(TMedal3_7);////
-            medals4 += addRibbon(TMedal4_0);
-            medals4 += addRibbon(TMedal4_1);
-            medals4 += addRibbon(TMedal4_2);
-            medals4 += addRibbon(TMedal4_3);
-            medals4 += addRibbon(TMedal4_4);
-            medals4 += addRibbon(TMedal4_5);
-            medals4 += addRibbon(TMedal4_6);
-            medals4 += addRibbon(TMedal4_7);////
+            medals1 |= addRibbon(TMedal1_0);
+            medals1 |= addRibbon(TMedal1_1);
+            medals1 |= addRibbon(TMedal1_2);
+            medals1 |= addRibbon(TMedal1_3);
+            medals1 |= addRibbon(TMedal1_4);
+            medals1 |= addRibbon(TMedal1_5);
+            medals1 |= addRibbon(TMedal1_6);
+            medals1 |= addRibbon(TMedal1_7);////
+            medals2 |= addRibbon(TMedal2_0);
+            medals2 |= addRibbon(TMedal2_1);
+            medals2 |= addRibbon(TMedal2_2);
+            medals2 |= addRibbon(TMedal2_3);
+            medals2 |= addRibbon(TMedal2_4);
+            medals2 |= addRibbon(TMedal2_5);
+            medals2 |= addRibbon(TMedal2_6);
+            medals2 |= addRibbon(TMedal2_7);////
+            medals3 |= addRibbon(TMedal3_0);
+            medals3 |= addRibbon(TMedal3_1);
+            medals3 |= addRibbon(TMedal3_2);
+            medals3 |= addRibbon(TMedal3_3);
+            medals3 |= addRibbon(TMedal3_4);
+            medals3 |= addRibbon(TMedal3_5);
+            medals3 |= addRibbon(TMedal3_6);
+            medals3 |= addRibbon(TMedal3_7);////
+            medals4 |= addRibbon(TMedal4_0);
+            medals4 |= addRibbon(TMedal4_1);
+            medals4 |= addRibbon(TMedal4_2);
+            medals4 |= addRibbon(TMedal4_3);
+            medals4 |= addRibbon(TMedal4_4);
+            medals4 |= addRibbon(TMedal4_5);
+            medals4 |= addRibbon(TMedal4_6);
+            medals4 |= addRibbon(TMedal4_7);////
             m_parent.buff[0x2C] = (byte)medals1;
             m_parent.buff[0x2D] = (byte)medals2;
             m_parent.buff[0x2E] = (byte)medals3;

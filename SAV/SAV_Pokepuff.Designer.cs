@@ -35,7 +35,7 @@
             this.B_All = new System.Windows.Forms.Button();
             this.B_Sort = new System.Windows.Forms.Button();
             this.B_None = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_Count = new System.Windows.Forms.Label();
             this.MT_CNT = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -115,15 +115,15 @@
             this.B_None.UseVisualStyleBackColor = true;
             this.B_None.Click += new System.EventHandler(this.B_None_Click);
             // 
-            // label1
+            // L_Count
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 240);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "CNT:";
+            this.L_Count.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.L_Count.AutoSize = true;
+            this.L_Count.Location = new System.Drawing.Point(12, 240);
+            this.L_Count.Name = "L_Count";
+            this.L_Count.Size = new System.Drawing.Size(32, 13);
+            this.L_Count.TabIndex = 17;
+            this.L_Count.Text = "CNT:";
             // 
             // MT_CNT
             // 
@@ -142,7 +142,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(224, 272);
             this.Controls.Add(this.MT_CNT);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Count);
             this.Controls.Add(this.B_None);
             this.Controls.Add(this.B_Sort);
             this.Controls.Add(this.B_All);
@@ -171,7 +171,7 @@
         private System.Windows.Forms.Button B_All;
         private System.Windows.Forms.Button B_Sort;
         private System.Windows.Forms.Button B_None;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_Count;
         private System.Windows.Forms.MaskedTextBox MT_CNT;
     }
 }

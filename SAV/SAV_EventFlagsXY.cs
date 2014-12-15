@@ -16,6 +16,7 @@ namespace PKHeX
         public SAV_EventFlagsXY(Form1 frm1)
         {
             InitializeComponent();
+            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
             m_parent = frm1;
             savshift = 0x7F000 * m_parent.savindex;
 

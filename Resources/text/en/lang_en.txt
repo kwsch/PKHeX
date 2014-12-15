@@ -11,13 +11,13 @@
 ! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
-- DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
-! Form1
+- DO NOT CHANGE THIS SECTION. 
+! Form1 = PKHeX
 - Change stuff below this line, not above.
 ----------------Overall PKX Interface------------------
 Menu_File = File ; Open... ; Save as... ; Exit
 Menu_Tools = Tools ; Toggle Box Interface ; Load/Dump Boxes ; Box Data Report ; Code Generator
-Menu_Options = Options ; Language ; About PKHeX
+Menu_Options = Options ; Language ; About PKHeX ; Toggle Unicode
 --------------------Main Tab Data----------------------
 Tab_Main = Main
 Label_PID = PID:
@@ -89,12 +89,12 @@ GB_OT = Trainer Information
 Label_TID = TID:
 Label_SID = SID:
 Label_OT = OT:
-RB_OTM = M
-RB_OTF = F
+RB_OTM = ♂
+RB_OTF = ♀
 GB_nOT = Latest (not OT) Handler
 Label_PrevOT = OT:
-RB_nOTM = M
-RB_nOTF = F
+RB_nOTM = ♂
+RB_nOTF = ♀
 GB_ExtraBytes = Extra Bytes
 GB_Markings = Markings
 BTN_Ribbons = Ribbons/Medals
@@ -110,27 +110,28 @@ Tab_SAV = SAV
 B_OpenPokePuffs = ‎Poké Puffs
 B_OpenItemPouch = Items
 B_OpenTrainerInfo = Trainer Info
+B_OUTPasserby = Passerby
 B_OpenBoxLayout = Box Layout
 B_OpenWondercards = Wondercard
-B_OpenBerryField = Berry Field
+B_OpenSuperTraining = Super Train
+B_OpenHallofFame = Hall of Fame
 B_OpenOPowers = O-Powers
 B_OpenEventFlags = Event Flags
 B_OpenPokedex = Pokédex
-B_OpenSuperTraining = Super Train
+B_OpenBerryField = Berry Field
 --------------------Tab Internals-----------------------
 L_Party = Party:
 L_BattleBox = Battle Box:
+L_ReadOnlyPBB = This is read only.
 GB_Daycare = Daycare
 GB_GTS = GTS
 GB_Fused = Fused
-GB_SUBE = Old Man
+GB_SUBE = OldMan
 DayCare_HasEgg = Egg Available
 L_DaycareSeed = Seed
 L_ReadOnlyOther = This tab is read only.
-B_BoxIO = Open/Save Box Content
+B_3DSSETemp = Open Temp 3DSSE
 B_JPEG = Save PGL .JPEG
-B_OUTHallofFame = Hall of Fame
-B_OUTPasserby = Passerby
 L_IntegrityCheck = Integrity Check:
 B_VerifyCHK = Checksums
 B_VerifySHA = Hashes
@@ -139,8 +140,8 @@ B_SwitchSAV = Switch SAV
 B_ExportSAV = Export SAV
 ! End
 ! -----------------------------------------------------
-- DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
-! RibbonMedal
+- DO NOT CHANGE THIS SECTION. 
+! RibbonMedal = Ribbon / Medal Editor
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
 BTN_All = Give All
@@ -197,6 +198,14 @@ Extra1_3 = National Champ
 Extra1_4 = World Champ
 L_PastContest = Past Contest Ribbons:
 L_PastBattle = Past Battle Ribbons:
+---
+Extra1_7 = Hoenn Champion
+ORAS_0 = Contest Star
+ORAS_1 = Coolness Master
+ORAS_2 = Beauty Master
+ORAS_3 = Cuteness Master
+ORAS_4 = Cleverness Master
+ORAS_5 = Toughness Master
 ------------------Super Training---------------------
 L_SuperTraining = Normal Super Training
 L_Rank1 = Rank 1
@@ -237,11 +246,14 @@ TMedal4_4 = Scatter
 TMedal4_5 = Barrage
 TMedal4_6 = Hydreigon
 L_Rank3 = Rank 8
-TMedal4_7 = X/Y
+TMedal4_7 = Best
+---
+L_Bag = Last Used Bag:
+L_Hits = Hits Remaining:
 ! End
 ! -----------------------------------------------------
-- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
-! MemoryAmie
+- DO NOT CHANGE THIS SECTION. 
+! MemoryAmie = Memory / Amie Editor
 - Change stuff below this line, not above.
 ---------------------Bottom UI-------------------------
 BTN_Cancel = Cancel
@@ -256,6 +268,469 @@ L_CT_Friendship = Friendship:
 L_cT_Affection = Affection:
 Tab_Residence = Residence
 --
+L_Country = Country
+L_Region = Region
+L_Geo0 = Latest:
+L_Geo1 = Past 1:
+L_Geo2 = Past 2:
+L_Geo3 = Past 3:
+L_Geo4 = Past 4:
 --
 L_Arguments = Disabled ; Never left ; OT ; Past Gen ; Memories with ; Pokémon ; Area ; Item(s) ; Move ; Location ;
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! f2_Text = Special Characters
+- Change stuff below this line, not above.
+-------------------------------------------------------
+-- No Elements to rename here.
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_BerryField = Berry Field Viewer
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Berry = Berry:
+L_Field = Field:
+L_Unfinished = Unfinished: Needs More Research
+L_u1 = 1
+L_u2 = 2
+L_u3 = 3
+L_u4 = 4
+L_u5 = 5
+L_u6 = 6
+L_u7 = 7
+B_Cancel = Cancel
+B_Save = Save
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
+! SAV_BoxLayout = Box Layout Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Unlocked = Unlocked:
+B_Cancel = Cancel
+B_Save = Save
+L_Flags = Unlocked BG Flags:
+L_BG = BG:
+L_BoxName = Box Name:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_EventFlagsORAS = Event Flag Editor (ORAS)
+- Change stuff below this line, not above.
+------------------------------------------------------
+L_Ash = Volcanic Ash:
+GB_Misc = Misc
+flag_0288 = Multi Statuette
+flag_0287 = Rotation Statuette
+flag_0286 = Triples Statuette
+flag_0293 = Super Multi Unlocked
+flag_0292 = Super Rotation Unlocked
+flag_0291 = Super Triples Unlocked
+flag_0290 = Super Doubles Unlocked
+flag_0289 = Super Singles Unlocked
+flag_0285 = Doubles Statuette
+flag_0284 = Singles Statuette
+GB_Rebattle = Rebattle
+flag_2835 = (AS) Latios Captured
+flag_0420 = (AS) Latios Defeated
+L_SkyTower = *Sky Tower
+flag_2834 = (OR) Latias Captured
+flag_0419 = (OR) Latias Defeated
+flag_2828 = (OR) Tornadus Captured
+flag_2830 = (OR) Reshiram Captured
+flag_0182 = (OR) Reshiram Defeated
+flag_2820 = (OR) Palkia Captured
+flag_2839 = (OR) Groudon Captured
+flag_0648 = (OR) Groudon Defeated
+flag_2815 = (OR) Ho-Oh Captured
+flag_0208 = (OR) Ho-Oh Defeated
+flag_2824 = Cresselia Captured
+flag_0172 = Cresselia Defeated
+flag_2821 = Heatran Captured
+flag_0260 = Heatran Defeated
+flag_2842 = Deoxys Captured
+flag_0945 = Deoxys Defeated
+flag_2838 = Registeel Captured
+flag_0958 = Registeel Defeated
+flag_2836 = Regirock Captured
+flag_0956 = Regirock Defeated
+flag_2837 = Regice Captured
+flag_0957 = Regice Defeated
+flag_2813 = Suicune Captured
+flag_0175 = Suicune Defeated
+flag_2811 = Raikou Captured
+flag_0173 = Raikou Defeated
+flag_2812 = Entei Captured
+flag_0174 = Entei Defeated
+flag_2832 = Landorus Captured
+flag_2829 = (AS) Thundurus Captured
+flag_2822 = Regigigas Captured
+flag_0252 = Regigigas Defeated
+flag_2827 = Virizion Captured
+flag_0178 = Virizion Defeated
+flag_2826 = Terrakion Captured
+flag_0177 = Terrakion Defeated
+flag_2823 = Giratina Captured
+flag_2819 = (AS) Dialga Captured
+flag_2833 = Kyurem Captured
+flag_0184 = Kyurem Defeated
+flag_2816 = Uxie Captured
+flag_0179 = Uxie Defeated
+flag_2817 = Mesprit Captured
+flag_0180 = Mesprit Defeated
+flag_2825 = Cobalion Captured
+flag_0176 = Cobalion Defeated
+flag_2814 = (AS) Lugia Captured
+flag_0209 = (AS) Lugia Defeated
+flag_2818 = Azelf Captured
+flag_0181 = Azelf Defeated
+flag_2831 = (AS) Zekrom Captured
+flag_0183 = (AS) Zekrom Defeated
+flag_2840 = (AS) Kyogre Captured
+flag_0647 = (AS) Kyogre Defeated
+GB_Researcher = FlagDiff Researcher
+L_UnSet = UnSet
+L_IsSet = IsSet
+B_LoadNew = Load New
+B_LoadOld = Load Old
+GB_FlagStatus = Check Flag Status
+L_Flag = Flag:
+CHK_CustomFlag = Status:
+B_Save = Save
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_EventFlagsXY = Event Flag Editor (XY)
+- Change stuff below this line, not above.
+-------------------------------------------------------
+flag_2546 = Pokédex Obtained
+GB_Misc = Misc
+flag_0289 = Multi Statuette
+flag_0288 = Rotation Statuette
+flag_0287 = Triples Statuette
+flag_0294 = Super Multi Unlocked
+flag_0293 = Super Rotation Unlocked
+flag_0292 = Super Triples Unlocked
+flag_0291 = Super Doubles Unlocked
+flag_0290 = Super Singles Unlocked
+flag_0675 = 50: Beat Chatelaine
+flag_0286 = Doubles Statuette
+flag_0285 = Singles Statuette
+GB_Rebattle = Rebattle
+flag_0114 = Zygarde Captured
+flag_0790 = Zygarde Defeated
+flag_0115 = Mewtwo Captured
+flag_0963 = Mewtwo Defeated
+GB_Researcher = FlagDiff Researcher
+L_UnSet = UnSet
+L_IsSet = IsSet
+B_LoadNew = Load New
+B_LoadOld = Load Old
+flag_2239 = 2239
+flag_2238 = 2238
+flag_2237 = 2237
+B_Save = Save
+flag_0005 = Flag5
+flag_0004 = Flag4
+flag_0003 = Flag3
+flag_0002 = Flag2
+flag_0001 = Flag1
+GB_FlagStatus = Check Flag Status
+L_Flag = Flag:
+CHK_CustomFlag = Status:
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexORAS = Pokédex Editor (ORAS)
+- Change stuff below this line, not above.
+------------------------------------------------------
+L_goto = goto:
+GB_Owned = Owned
+CHK_P1 = Obtained
+CHK_P2 = Male
+CHK_P3 = Female
+CHK_P4 = Shiny Male
+CHK_P5 = Shiny Female
+GB_Encountered = Encountered
+CHK_P6 = Male
+CHK_P7 = Female
+CHK_P8 = Shiny Male
+CHK_P9 = Shiny Female
+L_Battled = Battled:
+GB_Language = Languages
+CHK_L1 = Japanese
+CHK_L2 = English
+CHK_L3 = French
+CHK_L4 = Italian
+CHK_L5 = German
+CHK_L6 = Spanish
+CHK_L7 = Korean
+B_FillDex = Fill Dex
+B_GiveAll = Check All
+L_Spinda = Spinda:
+B_Save = Save
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexXY = Pokédex Editor (XY)
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_goto = goto:
+GB_Owned = Owned
+CHK_F1 = Foreign (Pre)
+CHK_P1 = Native (Kalos)
+CHK_P2 = Male
+CHK_P3 = Female
+CHK_P4 = Shiny Male
+CHK_P5 = Shiny Female
+CHK_P10 = Via Trade
+GB_Encountered = Encountered
+CHK_P6 = Male
+CHK_P7 = Female
+CHK_P8 = Shiny Male
+CHK_P9 = Shiny Female
+GB_Language = Languages
+CHK_L1 = Japanese
+CHK_L2 = English
+CHK_L3 = French
+CHK_L4 = Italian
+CHK_L5 = German
+CHK_L6 = Spanish
+CHK_L7 = Korean
+B_FillDex = Fill Dex
+B_GiveAll = Check All
+L_Spinda = Spinda:
+B_Save = Save
+B_Cancel = Cancel
+! End
+-------------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_HallOfFame = Hall of Fame Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+B_CopyText = Copy txt
+L_Level = Level:
+L_Shiny = Shiny:
+Label_Form = Form:
+B_Cancel = Cancel
+Label_MetDate = Date:
+L_Victory = Victory Number:
+GB_OT = Trainer Information
+Label_OT = OT:
+Label_SID = SID:
+Label_TID = TID:
+Label_HeldItem = Held Item:
+GB_CurrentMoves = Current Moves
+Label_EncryptionConstant = Encryption Constant:
+CHK_Nicknamed = Nickname:
+Label_Species = Species:
+L_PartyNum = Party Index:
+B_Close = Save
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Inventory = Inventory Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Pouch = Pouches
+B_DisplayBerries = Berry
+B_DisplayMedicine = Medicine
+B_DisplayTMHM = TM/HM
+B_DisplayKeyItems = Key Items
+B_DisplayItems = Items
+B_Save = Save
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_OPower = O-Power Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Regular = Regular
+B_MaxP = Give All
+L_1 = Hatching:
+L_2 = Bargain:
+L_3 = ?Prize:
+L_4 = EXP:
+L_5 = Capture:
+L_6 = ?Encounter
+L_7 = ?Stealth:
+L_8 = HP Restore:
+L_9 = ?PP:
+L_10 = ?Befriend:
+L_11 = ?Attack:
+L_12 = ?Defense:
+L_13 = ?Sp. Atk:
+L_14 = ?Sp. Def:
+L_15 = ?Speed:
+L_16 = ?Critical Hit:
+L_17 = ?Accuracy:
+GB_Event = Event
+CHK_1 = ?Bargain MAX
+CHK_2 = ?EXP MAX
+CHK_3 = ?Prize MAX
+CHK_4 = ?Hatch MAX
+CHK_5 = ?Capture MAX
+CHK_6 = ?Restore MAX
+CHK_7 = ?Befriend MAX
+CHK_8 = ?Unused
+B_AllMax = Give All
+B_Save = Save
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Pokepuff = ‎Poké Puffs Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Count = CNT:
+B_None = None
+B_Sort = Sort
+B_All = All
+B_Cancel = Cancel
+B_Save = Save
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_SecretBase = Secret Base Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_FlagsCaptured = Flags Captured: 
+B_FSave = <
+B_GiveDecor = Give All Decorations
+B_Cancel = Cancel
+B_Save = Save
+B_FDisplay = >
+L_Favorite = Favorites:
+--
+L_TrName = Trainer Name:
+L_BaseLocation = Secret Base Location: 
+L_Happy = Happy:
+L_Encourage = Encourage:
+L_Blackboard = Blackboard:
+L_Confetti = Confetti:
+L_TeamName = Team Name:
+L_TeamSlogan = Team Slogan:
+--
+GB_Object = Object Layout
+L_Index = Index:
+L_Decoration = Decoration:
+L_Rotation = Rotation Val:
+L_X = X Coordinate:
+L_Y = Y Coordinate:
+--
+GB_PKM = PKM
+L_Participant = Participant:
+L_EncryptionConstant = ENC:
+L_IVs = IVs
+L_EVs = EVs
+L_HP = HP
+L_ATK = ATK
+L_DEF = DEF
+L_SpA = SpA
+L_SpD = SpD
+L_SPE = SPE
+L_PKFriendship = Friendship:
+L_PPUps = PPUps
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Trainer = Trainer Data Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Misc = Misc
+L_MultiplayerSprite = Multiplayer Sprite:
+L_Style = Style:
+GB_Map = Map Position
+L_Y = Y Coordinate:
+L_CurrentMap = Current Map:
+L_Z = Z Coordinate:
+L_X = X Coordinate:
+L_Offset = (offset)
+GB_Appear = Current Appearance (X/Y)
+L_Outfit = Outfit Vals
+B_GiveAccessories = Give All Accessories
+L_Dress = Dress:
+L_Accessory = Accessory:
+L_Bag = Bag:
+L_Socks = Socks:
+L_Pants = Pants:
+L_Shirt = Shirt:
+L_Hat = Hat:
+L_FacialHair = Facial Hair:
+L_Hairstyle = Hairstyle:
+L_HairColor = Hair Color:
+L_SkinColor = Skin Color:
+GB_MaisonCurrent = Maison Streaks (Current)
+L_SuperC = Super
+L_NormalC = Normal
+L_MultiC = Multi:
+L_RotationC = Rotation:
+L_TriplesC = Triples:
+L_DoublesC = Doubles:
+L_SinglesC = Singles:
+GB_MaisonBest = Maison Streaks (Best)
+GB_SuperB = Super
+L_NormalB = Normal
+L_MultiB = Multi:
+L_RotationB = Rotation:
+L_TriplesB = Triples:
+L_DoublesB = Doubles:
+L_SinglesB = Singles:
+B_Save = Save
+L_Stats = Stats
+B_Cancel = Cancel
+GB_Overview = Overview
+L_Seconds = Sec:
+L_Minutes = Min:
+L_Hours = Hrs:
+L_Language = Language:
+L_PM = PokeMiles:
+L_Region = Region:
+L_BP = BP:
+L_Country = Country:
+B_MaxCash = +
+L_3DSReg = 3DS Region:
+L_Money = $:
+L_SID = SID:
+L_TID = TID:
+L_TrainerName = Trainer Name:
+L_Value = Value
+GB_Sayings = Saved Sayings
+L_Saying1 = 1:
+L_Saying2 = 2:
+L_Saying3 = 3:
+L_Saying4 = 4:
+L_Saying5 = 5:
+GB_Badges = Badges
+cb1 = 1 - Bug
+cb2 = 2 - Cliff
+cb3 = 3 - Rumble
+cb4 = 4 - Plant
+cb5 = 5 - Voltage
+cb6 = 6 - Fairy
+cb7 = 7 - Psychic
+cb8 = 8 - Iceberg
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Wondercard = Wondercard I/O
+- Change stuff below this line, not above.
+-------------------------------------------------------
+B_DeleteFlag = X
+B_DeleteWC = X
+L_Details = Details:
+B_DisplaytoWCSlot = <
+B_WCSlottoDisplay = >
+L_Received = Received List:
+L_WCs = Wondercards:
+B_Import = Import .wc6
+B_Output = Output .wc6
+B_Cancel = Cancel
+B_Save = Save
 ! End

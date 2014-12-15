@@ -15,6 +15,7 @@ namespace PKHeX
         public SAV_PokedexXY(Form1 frm1)
         {
             InitializeComponent();
+            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, sav.Length);
             savshift = m_parent.savindex * 0x7F000;

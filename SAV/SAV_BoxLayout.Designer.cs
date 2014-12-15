@@ -38,7 +38,7 @@
             this.MT_BG2 = new System.Windows.Forms.MaskedTextBox();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_Unlocked = new System.Windows.Forms.Label();
             this.CB_Unlocked = new System.Windows.Forms.ComboBox();
             this.CB_BG = new System.Windows.Forms.ComboBox();
             this.PAN_BG = new System.Windows.Forms.Panel();
@@ -169,15 +169,15 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // label1
+            // L_Unlocked
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(103, 231);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Unlocked:";
+            this.L_Unlocked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_Unlocked.AutoSize = true;
+            this.L_Unlocked.Location = new System.Drawing.Point(103, 231);
+            this.L_Unlocked.Name = "L_Unlocked";
+            this.L_Unlocked.Size = new System.Drawing.Size(56, 13);
+            this.L_Unlocked.TabIndex = 11;
+            this.L_Unlocked.Text = "Unlocked:";
             // 
             // CB_Unlocked
             // 
@@ -249,7 +249,7 @@
             this.Controls.Add(this.PAN_BG);
             this.Controls.Add(this.CB_BG);
             this.Controls.Add(this.CB_Unlocked);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Unlocked);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.MT_BG2);
@@ -282,7 +282,7 @@
         private System.Windows.Forms.MaskedTextBox MT_BG2;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_Unlocked;
         private System.Windows.Forms.ComboBox CB_Unlocked;
         private System.Windows.Forms.ComboBox CB_BG;
         private System.Windows.Forms.Panel PAN_BG;

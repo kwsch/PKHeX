@@ -295,9 +295,37 @@ namespace PKHeX
             }
         }
 
-        // Form Manipulation
-        internal static void TranslateInterface(string FORM_NAME, string lang, Control.ControlCollection Controls, MenuStrip menu = null)
+        internal static void debug(Control.ControlCollection Controls)
         {
+            try
+            {
+                string s = "";
+                foreach (Control c in Controls)
+                {
+                    if (c is GroupBox)
+                    {
+                        s += c.Name + " = " + c.Text + Environment.NewLine;
+                        foreach (Control g in c.Controls)
+                        {
+                            if (g is Label || g is CheckBox || g is Button)
+                                s += g.Name + " = " + g.Text + Environment.NewLine;
+                        }
+                    }
+                    else
+                    {
+                        if (c is Label || c is CheckBox || c is Button)
+                            s += c.Name + " = " + c.Text + Environment.NewLine;
+                    }
+                }
+                Clipboard.SetText(s);
+            }
+            catch { }
+        }
+        // Form Manipulation
+        internal static void TranslateInterface(Control form, string lang, Control.ControlCollection Controls, MenuStrip menu = null)
+        {
+            string FORM_NAME = form.Name;
+            // debug(Controls);
             // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
             string externalLangPath = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + lang + ".txt";
@@ -316,13 +344,14 @@ namespace PKHeX
 
             string[] stringdata = new string[rawlist.Length];
             int itemsToRename = 0;
-            int start = Array.IndexOf(rawlist, "! " + FORM_NAME);
-            if (start < 0) return; // No Translation loaded for this Form.
-            for (int i = start; i < rawlist.Length; i++)
+            for (int i = 0; i < rawlist.Length; i++)
             {
                 // Find our starting point
-                if (rawlist[i] == "! " + FORM_NAME) // Start our data
+                if (rawlist[i].Contains("! " + FORM_NAME)) // Start our data
                 {
+                    // Allow renaming of the Window Title
+                    string[] WindowName = Regex.Split(rawlist[i], " = ");
+                    if (WindowName.Length > 1) form.Text = WindowName[1];
                     // Copy our Control Names and Text to a new array for later processing.
                     for (int j = i + 1; j < rawlist.Length; j++)
                     {
@@ -335,13 +364,15 @@ namespace PKHeX
                             stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
                             itemsToRename++;
                         }
-                    }
-                    break; // exit outer loop
+                    } 
+                    // exit outer loop
+                    goto rename;
                 }
             }
+            return; // Not Found
 
             // Now that we have our items to rename in: Control = Text format, let's execute the changes!
-
+        rename:
             for (int i = 0; i < itemsToRename; i++)
             {
                 string[] SplitString = Regex.Split(stringdata[i], " = ");
