@@ -610,6 +610,7 @@ B_Save = Save
 B_FDisplay = >
 L_Favorite = Favorites:
 --
+f_MAIN = Main
 L_TrName = Trainer Name:
 L_BaseLocation = Secret Base Location: 
 L_Happy = Happy:
@@ -626,6 +627,7 @@ L_Rotation = Rotation Val:
 L_X = X Coordinate:
 L_Y = Y Coordinate:
 --
+f_PKM = Trainer Pokémon
 GB_PKM = PKM
 L_Participant = Participant:
 L_EncryptionConstant = ENC:
@@ -692,7 +694,7 @@ L_Seconds = Sec:
 L_Minutes = Min:
 L_Hours = Hrs:
 L_Language = Language:
-L_PM = PokeMiles:
+L_PM = PokéMiles:
 L_Region = Region:
 L_BP = BP:
 L_Country = Country:

@@ -109,7 +109,7 @@
             this.L_Blackboard = new System.Windows.Forms.Label();
             this.L_Encourage = new System.Windows.Forms.Label();
             this.L_Happy = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.Tab_Base = new System.Windows.Forms.TabControl();
             this.B_GiveDecor = new System.Windows.Forms.Button();
             this.B_FSave = new System.Windows.Forms.Button();
             this.MT_Flags = new System.Windows.Forms.MaskedTextBox();
@@ -125,7 +125,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FRot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObjType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObject)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.Tab_Base.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
@@ -1082,17 +1082,17 @@
             this.L_Happy.Text = "Happy:";
             this.L_Happy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tabControl1
+            // Tab_Base
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.Tab_Base.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.f_MAIN);
-            this.tabControl1.Controls.Add(this.f_PKM);
-            this.tabControl1.Location = new System.Drawing.Point(120, 9);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(378, 288);
-            this.tabControl1.TabIndex = 17;
+            this.Tab_Base.Controls.Add(this.f_MAIN);
+            this.Tab_Base.Controls.Add(this.f_PKM);
+            this.Tab_Base.Location = new System.Drawing.Point(120, 9);
+            this.Tab_Base.Name = "Tab_Base";
+            this.Tab_Base.SelectedIndex = 0;
+            this.Tab_Base.Size = new System.Drawing.Size(378, 288);
+            this.Tab_Base.TabIndex = 17;
             // 
             // B_GiveDecor
             // 
@@ -1144,7 +1144,7 @@
             this.Controls.Add(this.B_GiveDecor);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.Tab_Base);
             this.Controls.Add(this.B_FDisplay);
             this.Controls.Add(this.L_Favorite);
             this.Controls.Add(this.LB_Favorite);
@@ -1169,7 +1169,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FRot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObjType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FObject)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.Tab_Base.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1214,7 +1214,7 @@
         private System.Windows.Forms.Label L_Blackboard;
         private System.Windows.Forms.Label L_Encourage;
         private System.Windows.Forms.Label L_Happy;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl Tab_Base;
         private System.Windows.Forms.Label L_EncryptionConstant;
         private System.Windows.Forms.TextBox TB_EC;
         private System.Windows.Forms.ComboBox CB_HeldItem;
