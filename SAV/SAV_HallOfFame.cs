@@ -82,9 +82,11 @@ namespace PKHeX
 
             #region Species
             {
+                var species_list = Util.getCBList(Form1.specieslist, null);
+                species_list.RemoveAt(0); // Remove 0th Entry
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = new BindingSource(m_parent.CB_Species.DataSource, null);
+                CB_Species.DataSource = species_list;
             }
             #endregion
             #region Moves
@@ -197,7 +199,7 @@ namespace PKHeX
 
             if (sender != null)
             {
-                NUP_PartyIndex.Maximum = moncount;
+                NUP_PartyIndex.Maximum = (moncount == 0) ? 1 : moncount;
                 NUP_PartyIndex.Value = 1;
                 NUP_PartyIndex_ValueChanged(sender, e);
             }
@@ -211,6 +213,8 @@ namespace PKHeX
             editing = false;
             int index = listBox1.SelectedIndex;
             int offset = index * 0x1B4 + (Convert.ToInt32(NUP_PartyIndex.Value)-1) * 0x48;
+
+            if (offset < 0) return;
 
             int species = BitConverter.ToUInt16(data, offset + 0x00);
             CB_Species.SelectedValue = species;
