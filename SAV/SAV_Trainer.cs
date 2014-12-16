@@ -16,6 +16,7 @@ namespace PKHeX
         private int Trainer1 = 0x6800;
         private int Trainer2 = 0x9600;
         private int Maison = 0x205C0;
+        private int VivillonForm = 0x9650;
         public SAV_Trainer(Form1 frm1)
         {
             InitializeComponent();
@@ -25,8 +26,8 @@ namespace PKHeX
             savindex = m_parent.savindex;
             savshift = savindex * 0x7F000;
             if (m_parent.savegame_oras) 
-            { 
-                psssatoffset = 0x24800; Maison += 0xA00;
+            {
+                psssatoffset = 0x24800; Maison += 0xA00; VivillonForm = 0x9644;
                 this.Width = (int)((float)Width * (float)428 / (float)590);
                 CB_Multi.Enabled = true;
                 L_MultiplayerSprite.Enabled = true; // Multiplayer Sprite Label
@@ -319,6 +320,9 @@ namespace PKHeX
             CB_Multi.DataSource = oras_sprite_list;
             CB_Multi.DisplayMember = "Text";
             CB_Multi.ValueMember = "Value";
+
+            L_Vivillon.Text = Form1.specieslist[666] + ":";
+            m_parent.setForms(666, CB_Vivillon);
         }
         private void getBadges()
         {
@@ -483,6 +487,10 @@ namespace PKHeX
             MT_1403D.Text = sav[TrainerCard + 0x3D + savshift].ToString();
             MT_1403E.Text = sav[TrainerCard + 0x3E + savshift].ToString();
             MT_1403F.Text = sav[TrainerCard + 0x3F + savshift].ToString();
+
+            // Vivillon
+            int vivillon = sav[VivillonForm + savshift];
+            CB_Vivillon.SelectedValue = vivillon;
         }
         private void save()
         {
@@ -547,6 +555,7 @@ namespace PKHeX
                 TB_MCRN,TB_MCRS,TB_MBRN,TB_MBRS,
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
+
             for (int i = 0; i < tba.Length; i++)
             {
                 byte[] streak = BitConverter.GetBytes(Util.ToUInt32(tba[i].Text));
@@ -597,6 +606,9 @@ namespace PKHeX
             sav[TrainerCard + 0x3D + savshift] = Byte.Parse(MT_1403D.Text);
             sav[TrainerCard + 0x3E + savshift] = Byte.Parse(MT_1403E.Text);
             sav[TrainerCard + 0x3F + savshift] = Byte.Parse(MT_1403F.Text);
+
+            // Vivillon
+            sav[VivillonForm + savshift] = (byte)Util.ToUInt32(CB_Vivillon.SelectedValue.ToString());
         }
 
         private void showTSV(object sender, EventArgs e)

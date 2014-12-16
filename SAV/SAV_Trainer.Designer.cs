@@ -188,6 +188,8 @@ namespace PKHeX
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.L_Value = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
+            this.L_Vivillon = new System.Windows.Forms.Label();
+            this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -881,7 +883,7 @@ namespace PKHeX
             // 
             // TB_Style
             // 
-            this.TB_Style.Location = new System.Drawing.Point(94, 67);
+            this.TB_Style.Location = new System.Drawing.Point(177, 62);
             this.TB_Style.Mask = "000";
             this.TB_Style.Name = "TB_Style";
             this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -892,7 +894,7 @@ namespace PKHeX
             // 
             // L_Style
             // 
-            this.L_Style.Location = new System.Drawing.Point(42, 70);
+            this.L_Style.Location = new System.Drawing.Point(125, 65);
             this.L_Style.Name = "L_Style";
             this.L_Style.Size = new System.Drawing.Size(46, 13);
             this.L_Style.TabIndex = 7;
@@ -1816,6 +1818,8 @@ namespace PKHeX
             // 
             // GB_Misc
             // 
+            this.GB_Misc.Controls.Add(this.CB_Vivillon);
+            this.GB_Misc.Controls.Add(this.L_Vivillon);
             this.GB_Misc.Controls.Add(this.TB_Style);
             this.GB_Misc.Controls.Add(this.L_MultiplayerSprite);
             this.GB_Misc.Controls.Add(this.PB_Sprite);
@@ -1832,7 +1836,7 @@ namespace PKHeX
             // 
             this.L_MultiplayerSprite.AutoSize = true;
             this.L_MultiplayerSprite.Enabled = false;
-            this.L_MultiplayerSprite.Location = new System.Drawing.Point(44, 18);
+            this.L_MultiplayerSprite.Location = new System.Drawing.Point(8, 22);
             this.L_MultiplayerSprite.Name = "L_MultiplayerSprite";
             this.L_MultiplayerSprite.Size = new System.Drawing.Size(90, 13);
             this.L_MultiplayerSprite.TabIndex = 27;
@@ -1842,7 +1846,7 @@ namespace PKHeX
             // 
             this.PB_Sprite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Sprite.Enabled = false;
-            this.PB_Sprite.Location = new System.Drawing.Point(126, 62);
+            this.PB_Sprite.Location = new System.Drawing.Point(161, 17);
             this.PB_Sprite.Name = "PB_Sprite";
             this.PB_Sprite.Size = new System.Drawing.Size(42, 42);
             this.PB_Sprite.TabIndex = 26;
@@ -1853,9 +1857,9 @@ namespace PKHeX
             this.CB_Multi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Multi.Enabled = false;
             this.CB_Multi.FormattingEnabled = true;
-            this.CB_Multi.Location = new System.Drawing.Point(18, 38);
+            this.CB_Multi.Location = new System.Drawing.Point(9, 38);
             this.CB_Multi.Name = "CB_Multi";
-            this.CB_Multi.Size = new System.Drawing.Size(173, 21);
+            this.CB_Multi.Size = new System.Drawing.Size(148, 21);
             this.CB_Multi.TabIndex = 25;
             this.CB_Multi.SelectedIndexChanged += new System.EventHandler(this.CB_Multi_SelectedIndexChanged);
             // 
@@ -1915,6 +1919,26 @@ namespace PKHeX
             this.MT_Stat.Text = "1231231234";
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
+            // 
+            // L_Vivillon
+            // 
+            this.L_Vivillon.AutoSize = true;
+            this.L_Vivillon.Location = new System.Drawing.Point(8, 65);
+            this.L_Vivillon.Name = "L_Vivillon";
+            this.L_Vivillon.Size = new System.Drawing.Size(43, 13);
+            this.L_Vivillon.TabIndex = 28;
+            this.L_Vivillon.Text = "Vivillon:";
+            this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CB_Vivillon
+            // 
+            this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Vivillon.Enabled = false;
+            this.CB_Vivillon.FormattingEnabled = true;
+            this.CB_Vivillon.Location = new System.Drawing.Point(9, 81);
+            this.CB_Vivillon.Name = "CB_Vivillon";
+            this.CB_Vivillon.Size = new System.Drawing.Size(102, 21);
+            this.CB_Vivillon.TabIndex = 29;
             // 
             // SAV_Trainer
             // 
@@ -2134,5 +2158,7 @@ namespace PKHeX
         private System.Windows.Forms.MaskedTextBox MT_1403D;
         private System.Windows.Forms.MaskedTextBox MT_1403C;
         private System.Windows.Forms.Label L_Outfit;
+        private System.Windows.Forms.ComboBox CB_Vivillon;
+        private System.Windows.Forms.Label L_Vivillon;
     }
 }
