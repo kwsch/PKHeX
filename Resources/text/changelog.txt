@@ -397,6 +397,9 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Corruption Alert will now appear for ORAS saves, you can ignore it if you are using SaveDataFiler.
 
 12/14/14 - New Update:
+ - Added: Fully translatable interface capability.
+ --- Use lang_en.txt for the basis of your translation, as it has a consice list of every control that you can translate.
+ --- Window titles are translatable too; change the existing title within the translation file.
  - Added: Hall of Fame Editor. Thank you SciresM for the implementation!
  - Added: Country / Region text for all languages. Thank you Slashmolder for the raw data!
  - Added: Ingame Font characters. To manually enter them, right click the Nickname label. Thank you mapaler (枫谷剑仙)!

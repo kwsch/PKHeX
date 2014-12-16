@@ -54,7 +54,7 @@
             this.B_FillDex = new System.Windows.Forms.Button();
             this.GB_Language = new System.Windows.Forms.GroupBox();
             this.GB_Encountered = new System.Windows.Forms.GroupBox();
-            this.L_Battled = new System.Windows.Forms.Label();
+            this.L_DexNav = new System.Windows.Forms.Label();
             this.MT_Count = new System.Windows.Forms.MaskedTextBox();
             this.GB_Owned = new System.Windows.Forms.GroupBox();
             this.TB_Spinda = new System.Windows.Forms.TextBox();
@@ -332,7 +332,7 @@
             // 
             // GB_Encountered
             // 
-            this.GB_Encountered.Controls.Add(this.L_Battled);
+            this.GB_Encountered.Controls.Add(this.L_DexNav);
             this.GB_Encountered.Controls.Add(this.CHK_P9);
             this.GB_Encountered.Controls.Add(this.MT_Count);
             this.GB_Encountered.Controls.Add(this.CHK_P8);
@@ -345,21 +345,21 @@
             this.GB_Encountered.TabStop = false;
             this.GB_Encountered.Text = "Encountered";
             // 
-            // L_Battled
+            // L_DexNav
             // 
-            this.L_Battled.AutoSize = true;
-            this.L_Battled.Location = new System.Drawing.Point(9, 85);
-            this.L_Battled.Name = "L_Battled";
-            this.L_Battled.Size = new System.Drawing.Size(43, 13);
-            this.L_Battled.TabIndex = 32;
-            this.L_Battled.Text = "Battled:";
+            this.L_DexNav.AutoSize = true;
+            this.L_DexNav.Location = new System.Drawing.Point(9, 85);
+            this.L_DexNav.Name = "L_DexNav";
+            this.L_DexNav.Size = new System.Drawing.Size(64, 13);
+            this.L_DexNav.TabIndex = 32;
+            this.L_DexNav.Text = "DexNav Lv:";
             // 
             // MT_Count
             // 
-            this.MT_Count.Location = new System.Drawing.Point(63, 82);
-            this.MT_Count.Mask = "00000";
+            this.MT_Count.Location = new System.Drawing.Point(77, 82);
+            this.MT_Count.Mask = "0000";
             this.MT_Count.Name = "MT_Count";
-            this.MT_Count.Size = new System.Drawing.Size(38, 20);
+            this.MT_Count.Size = new System.Drawing.Size(32, 20);
             this.MT_Count.TabIndex = 31;
             this.MT_Count.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_Count.TextChanged += new System.EventHandler(this.changeEncounteredCount);
@@ -463,6 +463,6 @@
         private System.Windows.Forms.TextBox TB_Spinda;
         private System.Windows.Forms.Label L_Spinda;
         private System.Windows.Forms.MaskedTextBox MT_Count;
-        private System.Windows.Forms.Label L_Battled;
+        private System.Windows.Forms.Label L_DexNav;
     }
 }
