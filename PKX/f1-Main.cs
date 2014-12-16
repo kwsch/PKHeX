@@ -355,6 +355,13 @@ namespace PKHeX
                 gendersymbols = new string[] { "♂", "♀", "-" };
                 BTN_Shinytize.Text = "☆";
             }
+            // Switch active gender labels to new if they are active.
+            if (PKX.getGender(Label_Gender.Text) < 2)
+                Label_Gender.Text = gendersymbols[PKX.getGender(Label_Gender.Text)];
+            if (PKX.getGender(Label_OTGender.Text) < 2)
+                Label_OTGender.Text = gendersymbols[PKX.getGender(Label_OTGender.Text)];
+            if (PKX.getGender(Label_CTGender.Text) < 2)
+                Label_CTGender.Text = gendersymbols[PKX.getGender(Label_CTGender.Text)];
         }
         bool unicode = false;
 
@@ -2514,8 +2521,8 @@ namespace PKHeX
                     filename += " (" + pkx.Species + ")";
                 filename += " - " + pkx.PID;
 
-                filename += (ModifierKeys == Keys.Control) ? ".ek6" : ".pk6";
-                dragdata = (ModifierKeys == Keys.Control) ? PKX.encryptArray(preparepkx(buff)) : preparepkx(buff);
+                filename += (e.Button == MouseButtons.Right) ? ".ek6" : ".pk6";
+                dragdata = (e.Button == MouseButtons.Right) ? PKX.encryptArray(preparepkx(buff)) : preparepkx(buff);
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make file
