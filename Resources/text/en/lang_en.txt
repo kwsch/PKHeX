@@ -119,6 +119,8 @@ B_OpenOPowers = O-Powers
 B_OpenEventFlags = Event Flags
 B_OpenPokedex = Pokédex
 B_OpenBerryField = Berry Field
+--
+B_OpenSecretBase = Secret Base
 --------------------Tab Internals-----------------------
 L_Party = Party:
 L_BattleBox = Battle Box:
