@@ -295,32 +295,32 @@ namespace PKHeX
             }
         }
 
-        internal static void debug(Control.ControlCollection Controls)
-        {
-            try
-            {
-                string s = "";
-                foreach (Control c in Controls)
-                {
-                    if (c is GroupBox)
-                    {
-                        s += c.Name + " = " + c.Text + Environment.NewLine;
-                        foreach (Control g in c.Controls)
-                        {
-                            if (g is Label || g is CheckBox || g is Button)
-                                s += g.Name + " = " + g.Text + Environment.NewLine;
-                        }
-                    }
-                    else
-                    {
-                        if (c is Label || c is CheckBox || c is Button)
-                            s += c.Name + " = " + c.Text + Environment.NewLine;
-                    }
-                }
-                Clipboard.SetText(s);
-            }
-            catch { }
-        }
+        //internal static void debug(Control.ControlCollection Controls)
+        //{
+        //    try
+        //    {
+        //        string s = "";
+        //        foreach (Control c in Controls)
+        //        {
+        //            if (c is GroupBox)
+        //            {
+        //                s += c.Name + " = " + c.Text + Environment.NewLine;
+        //                foreach (Control g in c.Controls)
+        //                {
+        //                    if (g is Label || g is CheckBox || g is Button)
+        //                        s += g.Name + " = " + g.Text + Environment.NewLine;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (c is Label || c is CheckBox || c is Button)
+        //                    s += c.Name + " = " + c.Text + Environment.NewLine;
+        //            }
+        //        }
+        //        Clipboard.SetText(s);
+        //    }
+        //    catch { }
+        //}
         // Form Manipulation
         internal static void TranslateInterface(Control form, string lang, Control.ControlCollection Controls, MenuStrip menu = null)
         {
@@ -360,13 +360,11 @@ namespace PKHeX
                         if (rawlist[j][0].ToString() != "-") // If line is not a comment line...
                         {
                             if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
-                                break; // exit inner loop
+                                goto rename;
                             stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
                             itemsToRename++;
                         }
                     } 
-                    // exit outer loop
-                    goto rename;
                 }
             }
             return; // Not Found
