@@ -1059,6 +1059,7 @@ namespace PKHeX
                 MT_Level.Text = level.ToString();
                 MT_Form.Text = altforms.ToString();
             }
+            getQuickFiller(dragout);
         }
         private void populateMarkings(int markings)
         {
@@ -2171,7 +2172,7 @@ namespace PKHeX
         }
         public void updateAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
         {
-            if (!init)
+            if (!init && tb_abil.Text == "")
                 return;
             int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
 
