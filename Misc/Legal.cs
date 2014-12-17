@@ -31,7 +31,7 @@ namespace PKHeX
         internal static readonly int[] Items_CommonBall = { 4, 3, 2 };
         internal static readonly int[] Items_UncommonBall = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
         #endregion
-        internal static readonly int[] Gen4EncounterTypes = { 0, 2, 4, 9, 10, 24 };
+        internal static readonly int[] Gen4EncounterTypes = { 2, 4, 9, 10, 24 };
         #region Games
         internal static readonly int[] Games_6xy = { 24, 25 };
         internal static readonly int[] Games_6oras = { 26, 27 };

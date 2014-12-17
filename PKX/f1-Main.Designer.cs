@@ -1030,7 +1030,7 @@
             // CHK_Fateful
             // 
             this.CHK_Fateful.AutoSize = true;
-            this.CHK_Fateful.Location = new System.Drawing.Point(105, 135);
+            this.CHK_Fateful.Location = new System.Drawing.Point(105, 115);
             this.CHK_Fateful.Name = "CHK_Fateful";
             this.CHK_Fateful.Size = new System.Drawing.Size(110, 17);
             this.CHK_Fateful.TabIndex = 7;
@@ -1098,7 +1098,7 @@
             // Label_EncounterType
             // 
             this.Label_EncounterType.Enabled = false;
-            this.Label_EncounterType.Location = new System.Drawing.Point(25, 114);
+            this.Label_EncounterType.Location = new System.Drawing.Point(25, 138);
             this.Label_EncounterType.Name = "Label_EncounterType";
             this.Label_EncounterType.Size = new System.Drawing.Size(77, 13);
             this.Label_EncounterType.TabIndex = 5;
@@ -1214,7 +1214,7 @@
             this.CB_EncounterType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_EncounterType.DropDownWidth = 140;
             this.CB_EncounterType.FormattingEnabled = true;
-            this.CB_EncounterType.Location = new System.Drawing.Point(105, 110);
+            this.CB_EncounterType.Location = new System.Drawing.Point(105, 135);
             this.CB_EncounterType.Name = "CB_EncounterType";
             this.CB_EncounterType.Size = new System.Drawing.Size(122, 21);
             this.CB_EncounterType.TabIndex = 6;

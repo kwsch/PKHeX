@@ -380,7 +380,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: More rebattle flags; Virizion may not be correct but it's our best guess.
  - - Rebattling Lati@s has yet to be ironed out, we haven't figured out how to go back to the island.
 
-12/8/14 - New Update:
+12/8/14 - New Update: (5200)
  - Added: Unicode Gender text toggle in Options.
  - Fixed: Shiny Star will now appear in boxes.
  - Fixed: Gendered formes will now appear properly in boxes.
@@ -396,7 +396,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Full Pokedex code causing CyberGadget to corrupt saves.
  - Fixed: Corruption Alert will now appear for ORAS saves, you can ignore it if you are using SaveDataFiler.
 
-12/14/14 - New Update:
+12/16/14 - New Update: (810)
  - Added: Fully translatable interface capability.
  --- Use lang_en.txt for the basis of your translation, as it has a consice list of every control that you can translate.
  --- Window titles are translatable too; change the existing title within the translation file.
@@ -409,3 +409,10 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Improved: Box Report now is more verbose in terms of Locations and sprites. Can also sort (slow) by clicking the column header, and upon exit you can save a .csv table.
  - Improved: Message popups should be much more appealing.
  - Fixed various bugs for drag&drop.
+
+12/17/14 - New Update:
+ - Fixed: DexNav levels saving to species-1.
+ - Fixed: EXP growth accessing the wrong exp table.
+ - Fixed: Dragout sprite update triggering errors.
+ - Changed: Gen4 Encounter Type will only appear for Pokemon that originate from Gen 4.
+ - Fixed: Some item sprites.

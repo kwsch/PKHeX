@@ -1,4 +1,4 @@
-! PKHeX Interface Customization File
+﻿! PKHeX Interface Customization File
 ! Languages: Save this file accordingly and put it in the same folder as PKHeX's executable.
 ! lang_en.txt = English
 ! lang_jp.txt = Japanese
@@ -129,7 +129,7 @@ L_DaycareSeed = Seed
 L_ReadOnlyOther = Sólo leer.
 B_BoxIO = Abrir/Guardar Contenidos de la Caja
 B_JPEG = Guardar PGL .JPEG
-B_OUTHallofFame = Hall de la fama
+B_OpenHallofFame = Hall de la fama
 B_OUTPasserby = Transeúntes
 L_IntegrityCheck = Chequeo de integridad:
 B_VerifyCHK = Checksums

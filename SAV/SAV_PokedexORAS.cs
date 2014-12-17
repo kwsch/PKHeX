@@ -497,7 +497,7 @@ namespace PKHeX
         private void changeEncounteredCount(object sender, EventArgs e)
         {
             if (!editing)
-                Array.Copy(BitConverter.GetBytes(Math.Min(0xFFFF,Util.ToUInt32(MT_Count))), 0, sav, dexoffset + 0x686 + (LB_Species.SelectedIndex - 1) * 2, 2);
+                Array.Copy(BitConverter.GetBytes(Math.Min(0xFFFF, Util.ToUInt32(MT_Count))), 0, sav, dexoffset + 0x686 + (Util.getIndex(CB_Species) - 1) * 2, 2);
         }
     }
 }

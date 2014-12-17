@@ -770,7 +770,7 @@ namespace PKHeX
             CB_Species.DataSource = Util.getCBList(specieslist, null);
             DEV_Ability.DataSource = Util.getCBList(abilitylist, null);
             CB_Nature.DataSource = Util.getCBList(natures, null);
-            CB_EncounterType.DataSource = Util.getCBList(encountertypelist, Legal.Gen4EncounterTypes);
+            CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new int[] { 0 }, Legal.Gen4EncounterTypes);
             CB_GameOrigin.DataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
                 
             // Set the Move ComboBoxes too..
@@ -785,6 +785,7 @@ namespace PKHeX
         }
         private void populateFields(byte[] buff)
         {
+            init = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
             Tab_Main.Focus();
             // Encryption Constant
@@ -912,8 +913,7 @@ namespace PKHeX
             CB_HeldItem.SelectedValue = helditem;
             updateAbilityList(TB_AbilityNumber, species, CB_Ability, CB_Form);
             TB_AbilityNumber.Text = abilitynum.ToString();
-            if (abilitynum>>1 < 3) CB_Ability.SelectedIndex = abilitynum>>1; // error handling
-            else CB_Ability.SelectedIndex = 0;
+            CB_Ability.SelectedIndex = (abilitynum < 6) ? abilitynum >> 1 : 0; // error handling
             CB_Nature.SelectedValue = nature;
 
             TB_EXP.Text = exp.ToString();
@@ -1046,7 +1046,11 @@ namespace PKHeX
             if (init)
                 if (!PKX.verifychk(buff))
                     Util.Alert("PKX File has an invalid checksum.");
-            
+
+            CB_EncounterType.Visible = Label_EncounterType.Visible = !(gamevers > 12 || gamevers < 7);
+            if (gamevers > 12 || gamevers < 7)
+                CB_EncounterType.SelectedValue = 0;
+
             init = true;
 
             if (HaX) // DEV Illegality
@@ -1885,6 +1889,10 @@ namespace PKHeX
                 origintrack = "Gen4";
                 #endregion
             }
+
+            CB_EncounterType.Visible = Label_EncounterType.Visible = !(gameorigin > 12 || gameorigin < 7);
+            if (gameorigin > 12 || gameorigin < 7)
+                CB_EncounterType.SelectedValue = 0;
         }
         private void updateExtraByteValue(object sender, EventArgs e)
         {
@@ -3590,6 +3598,7 @@ namespace PKHeX
         }
         private void getQuickFiller(PictureBox pb)
         {
+            if (!init) return;
             byte[] dslotdata = preparepkx(buff, false); // don't perform control loss click
 
             int species = BitConverter.ToInt16(dslotdata, 0x08); // Get Species
