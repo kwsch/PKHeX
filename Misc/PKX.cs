@@ -227,6 +227,7 @@ namespace PKHeX
                         exp = getEXP(100, species);
                         return tl;
                     }
+                    levelxp = (uint)table.Rows[tl][growth + 1];
                     // when calcexp exceeds our exp, we exit loop
                 }
                 if (levelxp == exp) // Matches level threshold
