@@ -269,7 +269,7 @@ namespace PKHeX
         public static string[] getCountryRegionText(int country, int region, string lang)
         {
             // Get Language we're fetching for
-            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
+            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko", }, lang);
             // Return value storage
             string[] data = new string[2]; // country, region
 

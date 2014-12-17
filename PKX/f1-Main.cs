@@ -1494,7 +1494,11 @@ namespace PKHeX
         {
             ComboBox CB = sender as ComboBox;
             int index = Util.getIndex(CB);
-            CB.DataSource = Util.getCBList(type, curlanguage);
+            // fix for Korean / Chinese being swapped
+            string cl = curlanguage + "";
+            cl = (cl == "zh") ? "ko" : (cl == "ko") ? "zh" : cl;
+
+            CB.DataSource = Util.getCBList(type, cl);
             CB.DisplayMember = "Text";
             CB.ValueMember = "Value";
 
@@ -4128,12 +4132,14 @@ namespace PKHeX
                     else if (game == 27)
                         gamename = "OR";
                     else gamename = "UNK GAME";
+
+                    string[] cr = PKX.getCountryRegionText(country, region, curlanguage);
                     result += 
                         "OT: " + otname + Environment.NewLine +
                         "Message: " + message + Environment.NewLine +
                         "Game: " + gamename + Environment.NewLine +
-                        "Country ID: " + country + Environment.NewLine + 
-                        "Region ID: " + region + Environment.NewLine +
+                        "Country ID: " + cr[0] + Environment.NewLine +
+                        "Region ID: " + cr[1] + Environment.NewLine +
                         "Favorite: " + specieslist[favpkm] + Environment.NewLine;
 
                     result += Environment.NewLine;
