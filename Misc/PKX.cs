@@ -216,25 +216,21 @@ namespace PKHeX
             int growth = MonData.EXPGrowth;
             uint levelxp = (uint)table.Rows[tl][growth + 1];
 
-            if (levelxp < exp)
+            while (levelxp < exp)
             {
-                while (levelxp < exp)
+                // While EXP for guessed level is below our current exp
+                tl += 1;
+                if (tl == 100)
                 {
-                    // While EXP for guessed level is below our current exp
-                    tl += 1;
-                    if (tl == 100)
-                    {
-                        exp = getEXP(100, species);
-                        return tl;
-                    }
-                    levelxp = (uint)table.Rows[tl][growth + 1];
-                    // when calcexp exceeds our exp, we exit loop
-                }
-                if (levelxp == exp) // Matches level threshold
+                    exp = getEXP(100, species);
                     return tl;
-                else return (tl - 1);
+                } 
+                levelxp = (uint)table.Rows[tl][growth + 1];
+                // when calcexp >= our exp, we exit loop
             }
-            else return tl;
+            if (levelxp == exp) // Matches level threshold
+                return tl;
+            else return (tl - 1);
         }
         public static bool getIsShiny(uint PID, uint TID, uint SID)
         {

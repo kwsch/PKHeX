@@ -3277,6 +3277,7 @@
             // PAN_BattleBox
             // 
             this.PAN_BattleBox.BackgroundImage = global::PKHeX.Properties.Resources.party;
+            this.PAN_BattleBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_BattleBox.Controls.Add(this.bbpkx1);
             this.PAN_BattleBox.Controls.Add(this.bbpkx2);
             this.PAN_BattleBox.Controls.Add(this.bbpkx3);
@@ -3385,6 +3386,7 @@
             // PAN_Party
             // 
             this.PAN_Party.BackgroundImage = global::PKHeX.Properties.Resources.party;
+            this.PAN_Party.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Party.Controls.Add(this.ppkx1);
             this.PAN_Party.Controls.Add(this.ppkx2);
             this.PAN_Party.Controls.Add(this.ppkx3);

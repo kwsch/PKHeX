@@ -765,7 +765,9 @@ namespace PKHeX
             // Set the various ComboBox DataSources up with their allowed entries
             CB_3DSReg.DataSource = Util.getUnsortedCBList("regions3ds");
             CB_Language.DataSource = Util.getUnsortedCBList("languages");
-            CB_Ball.DataSource = Util.getCBList(itemlist, new int[] { 4 }, new int[] { 3 }, new int[] { 2 }, Legal.Items_UncommonBall);
+            int[] ball_nums = new int[] { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
+            int[] ball_vals = new int[] { 7, 25, 13, 17, 22, 14, 20, 18, 21, 19, 11, 23, 8, 6, 12, 15, 9, 5, 24, 10, 1, 16 };
+            CB_Ball.DataSource = Util.getVariedCBList(Util.getCBList(itemlist, new int[] { 4 }, new int[] { 3 }, new int[] { 2 }, new int[] { 1 }), itemlist, ball_nums, ball_vals);
             CB_HeldItem.DataSource = Util.getCBList(itemlist, (DEV_Ability.Enabled) ? null : Legal.Items_Held);
             CB_Species.DataSource = Util.getCBList(specieslist, null);
             DEV_Ability.DataSource = Util.getCBList(abilitylist, null);

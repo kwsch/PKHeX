@@ -410,9 +410,15 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Improved: Message popups should be much more appealing.
  - Fixed various bugs for drag&drop.
 
-12/17/14 - New Update:
+12/17/14 - New Update: (790)
  - Fixed: DexNav levels saving to species-1.
  - Fixed: EXP growth accessing the wrong exp table.
  - Fixed: Dragout sprite update triggering errors.
  - Changed: Gen4 Encounter Type will only appear for Pokemon that originate from Gen 4.
  - Fixed: Some item sprites.
+
+12/18/14 - New Update:
+ - Fixed: EXP-level defaulting to 100.
+ - Fixed: Abilities not populating correctly.
+ - Fixed: Balls not being set properly.
+ - Added: Some more PSS stat strings to the Trainer Editor.

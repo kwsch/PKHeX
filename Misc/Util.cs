@@ -431,6 +431,13 @@ namespace PKHeX
                 return Text;
             }
         }
+        internal static string[] getFilteredList(string[] data, int[] chosen)
+        {
+            string[] result = new string[chosen.Length];
+            for (int i = 0; i < chosen.Length; i++)
+                result[i] = data[chosen[i]];
+            return result;
+        }
         internal static List<cbItem> getCBList(string textfile, string lang)
         {
             // Set up
@@ -524,6 +531,39 @@ namespace PKHeX
                 }
             }
             return cbList;
+        }
+        internal static List<cbItem> getVariedCBList(List<cbItem> cbList, string[] inStrings, int[] stringNum, int[] stringVal)
+        {
+            // Set up
+            List<cbItem> newlist = new List<cbItem>();
+
+            for (int i = 4; i > 1; i--) // add 4,3,2
+            {
+                // First 3 Balls are always first
+                cbItem ncbi = new cbItem();
+                ncbi.Text = inStrings[i];
+                ncbi.Value = i;
+                newlist.Add(ncbi);
+            }
+
+            // Sort the Rest based on String Name
+            string[] ballnames = new string[stringNum.Length];
+            for (int i = 0; i < stringNum.Length; i++)
+                ballnames[i] = inStrings[stringNum[i]];
+
+            string[] sortedballs = new string[stringNum.Length];
+            Array.Copy(ballnames, sortedballs, ballnames.Length);
+            Array.Sort(sortedballs);
+
+            // Add the rest of the balls
+            for (int i = 0; i < sortedballs.Length; i++)
+            {
+                cbItem ncbi = new cbItem();
+                ncbi.Text = sortedballs[i];
+                ncbi.Value = stringVal[Array.IndexOf(ballnames, sortedballs[i])];
+                newlist.Add(ncbi);
+            }
+            return newlist;
         }
         internal static List<cbItem> getUnsortedCBList(string textfile)
         {
