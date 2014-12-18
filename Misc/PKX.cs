@@ -26,6 +26,14 @@ namespace PKHeX
             seed = (seed * a + c) & 0xFFFFFFFF;
             return seed;
         }
+        public static uint LCRNG(ref uint seed)
+        {
+            uint a = 0x41C64E6D;
+            uint c = 0x00006073;
+
+            seed = (seed * a + c) & 0xFFFFFFFF;
+            return seed;
+        }
         public static DataTable ExpTable()
         {
             DataTable table = new DataTable();
@@ -188,22 +196,23 @@ namespace PKHeX
         }
         public static byte[] getRandomEVs()
         {
-            byte[] evs = new byte[6];
-          start:
-            evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
-            evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
-            evs[2] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1])), 252);
-            evs[3] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2])), 252);
-            evs[4] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2] - evs[3])), 252);
-            evs[5] = (byte)Math.Min((510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4]), 252);
+            byte[] evs = new byte[6] { 0xDE, 0xAD, 0xBE, 0xEF, 0xBA, 0xBE, }; // ha ha, just to start off above 510!
+
+            while (evs.Sum(b => (ushort)b) > 510) // recalculate random EVs...
+            {
+                evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
+                evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
+                evs[2] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1])), 252);
+                evs[3] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2])), 252);
+                evs[4] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2] - evs[3])), 252);
+                evs[5] = (byte)Math.Min((510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4]), 252);
+            }
             Util.Shuffle(evs);
-            if (evs.Sum(b => (ushort)b) > 510) goto start; // try again!
             return evs;
         }
         public static byte getBaseFriendship(int species)
         {
-            PersonalParser.Personal Mon = PersonalGetter.GetPersonal(species);
-            return Mon.BaseFriendship;
+            return PersonalGetter.GetPersonal(species).BaseFriendship;
         }
         public static int getLevel(int species, ref uint exp)
         {
@@ -216,21 +225,18 @@ namespace PKHeX
             int growth = MonData.EXPGrowth;
             uint levelxp = (uint)table.Rows[tl][growth + 1];
 
-            while (levelxp < exp)
+            // Iterate upwards to find the level above our current level
+            while (levelxp <= exp)
             {
-                // While EXP for guessed level is below our current exp
-                tl += 1;
+                levelxp = (uint)table.Rows[++tl][growth + 1];
                 if (tl == 100)
                 {
-                    exp = getEXP(100, species);
-                    return tl;
-                } 
-                levelxp = (uint)table.Rows[tl][growth + 1];
-                // when calcexp >= our exp, we exit loop
+                    exp = getEXP(100, species); // Fix EXP
+                    return 100;
+                }
+                // After we find the level above ours, we're done.
             }
-            if (levelxp == exp) // Matches level threshold
-                return tl;
-            else return (tl - 1);
+            return --tl;
         }
         public static bool getIsShiny(uint PID, uint TID, uint SID)
         {
@@ -422,8 +428,8 @@ namespace PKHeX
         }
         public static byte[] decryptArray(byte[] ekx)
         {
-            byte[] pkx = new byte[0x104];
-            Array.Copy(ekx, pkx, ekx.Length);
+            byte[] pkx = (byte[])ekx.Clone();
+
             uint pv = BitConverter.ToUInt32(pkx, 0);
             uint sv = (((pv & 0x3E000) >> 0xD) % 24);
 
@@ -431,29 +437,16 @@ namespace PKHeX
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-            {
-                int pre = pkx[i] + ((pkx[i + 1]) << 8);
-                seed = PKX.LCRNG(seed);
-                int seedxor = (int)((seed) >> 16);
-                int post = (pre ^ seedxor);
-                pkx[i] = (byte)((post) & 0xFF);
-                pkx[i + 1] = (byte)(((post) >> 8) & 0xFF);
-            }
+                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
 
             // Deshuffle
             pkx = shuffleArray(pkx, sv);
 
             // Decrypt the Party Stats
             seed = pv;
-            for (int i = 232; i < 260; i += 2)
-            {
-                int pre = pkx[i] + ((pkx[i + 1]) << 8);
-                seed = PKX.LCRNG(seed);
-                int seedxor = (int)((seed) >> 16);
-                int post = (pre ^ seedxor);
-                pkx[i] = (byte)((post) & 0xFF);
-                pkx[i + 1] = (byte)(((post) >> 8) & 0xFF);
-            }
+            if (pkx.Length > 232)
+                for (int i = 232; i < 260; i += 2)
+                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
 
             return pkx;
         }
@@ -463,40 +456,26 @@ namespace PKHeX
             uint pv = BitConverter.ToUInt32(pkx, 0);
             uint sv = (((pv & 0x3E000) >> 0xD) % 24);
 
-            byte[] ekxdata = new byte[pkx.Length];
-            Array.Copy(pkx, ekxdata, pkx.Length);
+            byte[] ekx = (byte[])pkx.Clone();
 
             // If I unshuffle 11 times, the 12th (decryption) will always decrypt to ABCD.
             // 2 x 3 x 4 = 12 (possible unshuffle loops -> total iterations)
             for (int i = 0; i < 11; i++)
-                ekxdata = shuffleArray(ekxdata, sv);
+                ekx = shuffleArray(ekx, sv);
 
             uint seed = pv;
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-            {
-                int pre = ekxdata[i] + ((ekxdata[i + 1]) << 8);
-                seed = PKX.LCRNG(seed);
-                int seedxor = (int)((seed) >> 16);
-                int post = (pre ^ seedxor);
-                ekxdata[i] = (byte)((post) & 0xFF);
-                ekxdata[i + 1] = (byte)(((post) >> 8) & 0xFF);
-            }
+                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
 
             // Encrypt the Party Stats
             seed = pv;
-            for (int i = 232; i < 260; i += 2)
-            {
-                int pre = ekxdata[i] + ((ekxdata[i + 1]) << 8);
-                seed = PKX.LCRNG(seed);
-                int seedxor = (int)((seed) >> 16);
-                int post = (pre ^ seedxor);
-                ekxdata[i] = (byte)((post) & 0xFF);
-                ekxdata[i + 1] = (byte)(((post) >> 8) & 0xFF);
-            }
+            if (ekx.Length > 232)
+                for (int i = 232; i < 260; i += 2)
+                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
 
             // Done
-            return ekxdata;
+            return ekx;
         }
         public static ushort getCHK(byte[] data)
         {
