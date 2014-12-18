@@ -54,7 +54,7 @@ namespace PKHeX
                 "0x024",	"Eggs Hatched",
                 "0x028",	"PKMN Evolved",
                 "0x02C",	"0x02C",
-                "0x030",	"0x030",
+                "0x030",	"~People Passed",
                 "0x034",	"0x034",
                 "0x038",	"0x038",
                 "0x03C",	"0x03C",
@@ -109,8 +109,8 @@ namespace PKHeX
                 "0x100",	"Obtained Pokemiles",
                 "0x104",	"0x104",
                 "0x108",	"0x108",
-                "0x10C",	"0x10C",
-                "0x110",	"0x110",
+                "0x10C",	"Super Training Clears",
+                "0x110",	"Times Judged",
                 "0x114",	"0x114",
                 "0x118",	"0x118", // Link Trades?
                 "0x11C",	"Link Battle", // Wins", // ?
@@ -153,7 +153,7 @@ namespace PKHeX
                 "0x1B0",	"0x1B0",
                 "0x1B4",	"0x1B4",
                 "0x1B8",	"0x1B8",
-                "0x1BC",	"0x1BC",
+                "0x1BC",	"Battle Tests",
                 "0x1C0",	"0x1C0",
                 "0x1C4",	"0x1C4",
                 "0x1C8",	"0x1C8",
