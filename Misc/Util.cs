@@ -380,6 +380,7 @@ namespace PKHeX
                 string text = SplitString[1]; // Text to set Control.Text to...
                 Control[] controllist = Controls.Find(ctrl, true);
                 if (controllist.Length == 0) // If Control isn't found...
+                try
                 {
                     // Menu Items can't be found with Controls.Find as they aren't Controls
                     ToolStripDropDownItem TSI = (ToolStripDropDownItem)menu.Items[ctrl];
@@ -395,6 +396,7 @@ namespace PKHeX
                     }
                     // If not found, it is not something to rename and is thus skipped.
                 }
+                catch { }
                 else // Set the input control's text.
                     controllist[0].Text = text;
             }
