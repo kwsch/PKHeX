@@ -28,7 +28,7 @@ namespace PKHeX
             defaultControlWhite = CB_Species.BackColor;
             defaultControlText = Label_Species.ForeColor;
             CB_ExtraBytes.SelectedIndex = 0;
-
+            
             // Resize Main Window to PKX Editing Mode
             largeWidth = this.Width;
             shortWidth = (Width * (30500 / 620)) / 100 + 1;
@@ -159,6 +159,9 @@ namespace PKHeX
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar  + "main"))))
                 openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder() , "root" + Path.DirectorySeparatorChar  + "main")));
 
+            GB_OT.Click += clickGT;
+            GB_nOT.Click += clickGT;
+
             TB_Nickname.Font = PKX.getPKXFont(11F);
             // Close splash screen.  
             init = true; 
@@ -184,11 +187,12 @@ namespace PKHeX
         public int savindex;
         public bool savedited;
         public string SDFLoc = null;
-        public bool HaX = false;
 
+        public static bool HaX = false;
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static int colorizedbox = 32;
+        public static Image mixedHighlight = Util.LayerImage(Properties.Resources.slotSet, Properties.Resources.slotView, 0, 0, 0.5);
         public static Image colorizedcolor = null;
         public static int colorizedslot = 0;
         public static int largeWidth, shortWidth = 0;
@@ -933,15 +937,15 @@ namespace PKHeX
             if (buff[0x93] == 1)  // = 1
             {
                 TB_Friendship.Text = buff[0xA2].ToString();
-                GB_nOT.BackgroundImage = Properties.Resources.slotView;
-                GB_OT.BackgroundImage = Properties.Resources.slotTrans;
+                GB_nOT.BackgroundImage = null;
+                GB_OT.BackgroundImage = mixedHighlight;
 
             }
             else                // = 0
             {
                 TB_Friendship.Text = OTfriendship.ToString();
-                GB_OT.BackgroundImage = Properties.Resources.slotView;
-                GB_nOT.BackgroundImage = Properties.Resources.slotTrans;
+                GB_OT.BackgroundImage = mixedHighlight;
+                GB_nOT.BackgroundImage = null;
             }
             
             CB_Language.SelectedValue = otlang;
@@ -1486,7 +1490,25 @@ namespace PKHeX
         }
         private void clickCT(object sender, EventArgs e)
         {
-            Label_CTGender.Text = gendersymbols[savefile[0x19405 + savindex * 0x7F000]];
+            if (TB_OTt2.Text.Length > 0)
+                Label_CTGender.Text = gendersymbols[savefile[0x19405 + savindex * 0x7F000]];
+        }
+        private void clickGT(object sender, EventArgs e)
+        {
+            if (sender as GroupBox == GB_OT)
+            {
+                buff[0x93] = 0;
+                TB_Friendship.Text = buff[0xCA].ToString();
+                GB_OT.BackgroundImage = mixedHighlight;
+                GB_nOT.BackgroundImage = null;
+            }
+            else if (TB_OTt2.Text.Length > 0)
+            {
+                buff[0x93] = 1;
+                TB_Friendship.Text = buff[0xA2].ToString();
+                GB_OT.BackgroundImage = null;
+                GB_nOT.BackgroundImage = mixedHighlight;
+            }
         }
         private void clickTRGender(object sender, EventArgs e)
         {
@@ -1913,7 +1935,7 @@ namespace PKHeX
         }
         private void updateNickname(object sender, EventArgs e)
         {
-            if (!CHK_Nicknamed.Checked)
+            if (init && (!CHK_Nicknamed.Checked))
             {
                 // Fetch Current Species and set it as Nickname Text
                 int species = Util.getIndex(CB_Species);
@@ -1955,9 +1977,6 @@ namespace PKHeX
             {
                 Label_CTGender.Text = "";
                 TB_Friendship.Text = buff[0xCA].ToString();
-                GB_OT.BackColor = Color.FromArgb(40, 220, 0, 220);
-                GB_nOT.BackColor = Color.Transparent;
-                buff[0x93] = 0;
             }
             else if (Label_CTGender.Text == "")
                 Label_CTGender.Text = gendersymbols[0];
@@ -2011,7 +2030,6 @@ namespace PKHeX
             if (CHK_IsEgg.Checked)
             {
                 CHK_Nicknamed.Checked = false;
-                TB_Nickname.Text = eggname;
                 TB_Friendship.Text = "1";
 
                 // If we are an egg, it won't have a met location.
@@ -2038,6 +2056,13 @@ namespace PKHeX
             // Display hatch counter if it is an egg, Display Friendship if it is not.
             Label_HatchCounter.Visible = CHK_IsEgg.Checked;
             Label_Friendship.Visible = !CHK_IsEgg.Checked;
+
+            // Update image to (not) show egg.
+            if (init)
+            {
+                updateNickname(null, null);
+                getQuickFiller(dragout);
+            }
         }
         private void updateMetAsEgg(object sender, EventArgs e)
         {
@@ -2573,7 +2598,6 @@ namespace PKHeX
             openQuick(((string[])e.Data.GetData(DataFormats.FileDrop))[0]);
         }
         #endregion
-
         #region //// SAVE FILE FUNCTIONS ////
         // Integrity Checks // 
         private void clickVerifyCHK(object sender, EventArgs e)
@@ -3284,7 +3308,7 @@ namespace PKHeX
 
             setParty();
             setPokedex(pkxdata);
-            setPKXBoxes();
+            getQuickFiller(getPictureBox(slot), pkxdata);
             savedited = true;
 
             getSlotColor(slot, Properties.Resources.slotSet);
@@ -3306,30 +3330,37 @@ namespace PKHeX
             else return;
 
             setParty();
-            setPKXBoxes();
+            getQuickFiller(getPictureBox(slot), pkxdata);
             savedited = true;
 
             getSlotColor(slot, Properties.Resources.slotDel);
         }
         private void clickClone(object sender, EventArgs e)
         {
-            if (!verifiedpkx()) { return; } // don't copy garbage to the box
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
+            if (!verifiedpkx()) { return; } // don't copy garbage to the box
 
+            byte[] pkxdata;
             int box = C_BoxSelect.SelectedIndex + 1; // get box we're cloning to
             {
-                DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNo, String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?", box));
-                if (sdr != DialogResult.Yes) // give the option to abort
-                    return;
+                if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?", box)) == DialogResult.Yes)
+                {
+                    pkxdata = preparepkx(buff);
+                    setPokedex(pkxdata);
+                }
+                else if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Pokemon from all slots in Box {0}?", box)) == DialogResult.Yes)
+                    pkxdata = new Byte[0xE8];
+                else
+                    return; // abort clone/delete
             }
-
-            byte[] pkxdata = preparepkx(buff);
+            
             byte[] ekxdata = PKX.encryptArray(pkxdata);
             for (int i = 0; i < 30; i++) // write encrypted array to all box slots
                 Array.Copy(ekxdata, 0, savefile, getPKXOffset(i), 0xE8);
 
-            setPokedex(pkxdata); // set pokedex data if necessary
-            setPKXBoxes();  // refresh box view
+            for (int i = 0; i < 30; i++)
+                getQuickFiller(getPictureBox(i), pkxdata);
+
             savedited = true;
         }
         private void setPokedex(byte[] pkxdata)
@@ -3481,7 +3512,7 @@ namespace PKHeX
             int boxbgval = 1 + savefile[boxbgofst];
             string imagename = "box_wp" + boxbgval.ToString("00"); if (savegame_oras && boxbgval > 16) imagename += "o";
             PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
-            
+
             PictureBox[] pba = {
                                     bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
                                     bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
@@ -3601,10 +3632,26 @@ namespace PKHeX
             GB_SAVtools.Enabled = B_JPEG.Enabled = B_VerifyCHK.Enabled = B_VerifySHA.Enabled = B_SwitchSAV.Enabled
                 = enableInterface;
         }
-        private void getQuickFiller(PictureBox pb)
+        private PictureBox getPictureBox(int slot)
+        {
+            PictureBox[] pba = {
+                                    bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
+                                    bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
+                                    bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
+                                    bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
+                                    bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
+
+                                    ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
+                                    bbpkx1,bbpkx2,bbpkx3,bbpkx4,bbpkx5,bbpkx6,
+
+                                    dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
+                                };
+            return pba[slot];
+        }
+        private void getQuickFiller(PictureBox pb, byte[] dslotdata = null)
         {
             if (!init) return;
-            byte[] dslotdata = preparepkx(buff, false); // don't perform control loss click
+            dslotdata = dslotdata ?? preparepkx(buff, false); // don't perform control loss click
 
             int species = BitConverter.ToInt16(dslotdata, 0x08); // Get Species
             uint isegg = (BitConverter.ToUInt32(dslotdata, 0x74) >> 30) & 1;
@@ -3946,8 +3993,8 @@ namespace PKHeX
 
                     if (!(BitConverter.ToUInt16(decrypteddata, 0xC8) == 0) && !(BitConverter.ToUInt16(decrypteddata, 0x58) == 0))
                         continue; // don't allow improperly encrypted files. they must be encrypted properly.
-                    else if (BitConverter.ToUInt16(decrypteddata, 0x8) == 0) // if species = 0
-                        continue;
+                    //else if (BitConverter.ToUInt16(decrypteddata, 0x8) == 0) // if species = 0
+                    //    continue;
 
                     ushort chk = 0;
                     for (int z = 8; z < 232; z += 2) // Loop through the entire PKX
@@ -4253,8 +4300,8 @@ namespace PKHeX
             if (pb.Image == null)
                 return;
 
-            int slot = getSlot(sender);
-            int offset = getPKXOffset(slot);
+            pkm_from_slot = getSlot(sender);
+            int offset = getPKXOffset(pkm_from_slot);
             if (e.Button == MouseButtons.Left && e.Clicks == 1)
             {
                 // Create Temp File to Drag
@@ -4328,10 +4375,15 @@ namespace PKHeX
                         { openQuick(files[0]); return; } // lazy way of aborting 
 
                         byte[] decdata = PKX.decryptArray(data);
-                        if (!PKX.verifychk(decdata)) Util.Alert("Invalid File Loaded.", "Checksum is not valid.");
-                        Array.Copy(data, 0, savefile, offset, 0xE8);
-                        setPokedex(decdata);
-                        getSlotColor(slot, Properties.Resources.slotSet);
+                        if (!PKX.verifychk(decdata))
+                            Util.Alert("Attempted to load Invalid File.", "Checksum is not valid.");
+                        else
+                        {
+                            Array.Copy(data, 0, savefile, offset, 0xE8);
+                            setPokedex(decdata);
+                            getQuickFiller(getPictureBox(slot), decdata);
+                            getSlotColor(slot, Properties.Resources.slotSet);
+                        }
                     }
                     else // not PKX/EKX, so load with the general function
                     { openQuick(files[0]); }
@@ -4339,14 +4391,32 @@ namespace PKHeX
             }
             else
             {
-                if (ModifierKeys == Keys.Alt)
-                    Array.Copy(PKX.encryptArray(new byte[0xE8]), 0, savefile, pkm_from_offset, 0xE8);
-                else if (ModifierKeys != Keys.Control)
-                    Array.Copy(savefile, offset, savefile, pkm_from_offset, 0xE8); // Copy from new slot to old slot.
+                if (ModifierKeys == Keys.Alt && slot > -1) // overwrite delete old slot
+                {
+                    byte[] cleardata = new Byte[0xE8];
+
+                    // Clear from slot picture
+                    getQuickFiller(getPictureBox(pkm_from_slot), cleardata);
+
+                    // Clear from slot data
+                    Array.Copy(PKX.encryptArray(cleardata), 0, savefile, pkm_from_offset, 0xE8); 
+                }
+                else if (ModifierKeys != Keys.Control && slot > -1)
+                {
+                    byte[] swapdata = new Byte[0xE8];
+                    Array.Copy(swapdata, 0, savefile, pkm_from_offset, 0xE8);
+
+                    // Swap slot picture
+                    getQuickFiller(getPictureBox(pkm_from_slot), PKX.decryptArray(swapdata));
+
+                    // Swap slot data
+                    Array.Copy(savefile, offset, swapdata, 0, 0xE8);
+                }
                 Array.Copy(pkm_from, 0, savefile, offset, 0xE8); // Copy from temp slot to new.
+                getQuickFiller(getPictureBox(slot), PKX.decryptArray(pkm_from));
                 pkm_from_offset = 0; // Clear offset value
             }
-            setPKXBoxes();
+
             savedited = true;
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
@@ -4356,6 +4426,7 @@ namespace PKHeX
         }
         private byte[] pkm_from = PKX.encryptArray(new byte[0xE8]);
         private int pkm_from_offset = 0;
+        private int pkm_from_slot = -1;
         #endregion
     }
 }

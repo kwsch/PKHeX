@@ -53,6 +53,11 @@
             this.L_OT_Affection = new System.Windows.Forms.Label();
             this.M_OT_Affection = new System.Windows.Forms.MaskedTextBox();
             this.GB_Residence = new System.Windows.Forms.GroupBox();
+            this.Region4 = new System.Windows.Forms.ComboBox();
+            this.Region3 = new System.Windows.Forms.ComboBox();
+            this.Region2 = new System.Windows.Forms.ComboBox();
+            this.Region1 = new System.Windows.Forms.ComboBox();
+            this.Region0 = new System.Windows.Forms.ComboBox();
             this.CB_Country4 = new System.Windows.Forms.ComboBox();
             this.CB_Country3 = new System.Windows.Forms.ComboBox();
             this.CB_Country2 = new System.Windows.Forms.ComboBox();
@@ -83,11 +88,6 @@
             this.L_Handler = new System.Windows.Forms.Label();
             this.CB_Handler = new System.Windows.Forms.ComboBox();
             this.L_Arguments = new System.Windows.Forms.Label();
-            this.Region4 = new System.Windows.Forms.ComboBox();
-            this.Region3 = new System.Windows.Forms.ComboBox();
-            this.Region2 = new System.Windows.Forms.ComboBox();
-            this.Region1 = new System.Windows.Forms.ComboBox();
-            this.Region0 = new System.Windows.Forms.ComboBox();
             this.GB_M_OT.SuspendLayout();
             this.GB_Residence.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -387,6 +387,51 @@
             this.GB_Residence.TabIndex = 89;
             this.GB_Residence.TabStop = false;
             this.GB_Residence.Text = "Pokémon has Resided in:";
+            // 
+            // Region4
+            // 
+            this.Region4.DropDownWidth = 180;
+            this.Region4.FormattingEnabled = true;
+            this.Region4.Location = new System.Drawing.Point(204, 158);
+            this.Region4.Name = "Region4";
+            this.Region4.Size = new System.Drawing.Size(102, 21);
+            this.Region4.TabIndex = 88;
+            // 
+            // Region3
+            // 
+            this.Region3.DropDownWidth = 180;
+            this.Region3.FormattingEnabled = true;
+            this.Region3.Location = new System.Drawing.Point(204, 126);
+            this.Region3.Name = "Region3";
+            this.Region3.Size = new System.Drawing.Size(102, 21);
+            this.Region3.TabIndex = 87;
+            // 
+            // Region2
+            // 
+            this.Region2.DropDownWidth = 180;
+            this.Region2.FormattingEnabled = true;
+            this.Region2.Location = new System.Drawing.Point(204, 93);
+            this.Region2.Name = "Region2";
+            this.Region2.Size = new System.Drawing.Size(102, 21);
+            this.Region2.TabIndex = 86;
+            // 
+            // Region1
+            // 
+            this.Region1.DropDownWidth = 180;
+            this.Region1.FormattingEnabled = true;
+            this.Region1.Location = new System.Drawing.Point(204, 60);
+            this.Region1.Name = "Region1";
+            this.Region1.Size = new System.Drawing.Size(102, 21);
+            this.Region1.TabIndex = 85;
+            // 
+            // Region0
+            // 
+            this.Region0.DropDownWidth = 180;
+            this.Region0.FormattingEnabled = true;
+            this.Region0.Location = new System.Drawing.Point(204, 27);
+            this.Region0.Name = "Region0";
+            this.Region0.Size = new System.Drawing.Size(102, 21);
+            this.Region0.TabIndex = 84;
             // 
             // CB_Country4
             // 
@@ -709,12 +754,12 @@
             // CB_Handler
             // 
             this.CB_Handler.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Handler.Enabled = false;
             this.CB_Handler.FormattingEnabled = true;
             this.CB_Handler.Location = new System.Drawing.Point(175, 239);
             this.CB_Handler.Name = "CB_Handler";
             this.CB_Handler.Size = new System.Drawing.Size(117, 21);
             this.CB_Handler.TabIndex = 100;
-            this.CB_Handler.SelectedIndexChanged += new System.EventHandler(this.changeHandler);
             // 
             // L_Arguments
             // 
@@ -725,51 +770,6 @@
             this.L_Arguments.TabIndex = 102;
             this.L_Arguments.Text = "(args)";
             this.L_Arguments.Visible = false;
-            // 
-            // Region4
-            // 
-            this.Region4.DropDownWidth = 180;
-            this.Region4.FormattingEnabled = true;
-            this.Region4.Location = new System.Drawing.Point(204, 158);
-            this.Region4.Name = "Region4";
-            this.Region4.Size = new System.Drawing.Size(102, 21);
-            this.Region4.TabIndex = 88;
-            // 
-            // Region3
-            // 
-            this.Region3.DropDownWidth = 180;
-            this.Region3.FormattingEnabled = true;
-            this.Region3.Location = new System.Drawing.Point(204, 126);
-            this.Region3.Name = "Region3";
-            this.Region3.Size = new System.Drawing.Size(102, 21);
-            this.Region3.TabIndex = 87;
-            // 
-            // Region2
-            // 
-            this.Region2.DropDownWidth = 180;
-            this.Region2.FormattingEnabled = true;
-            this.Region2.Location = new System.Drawing.Point(204, 93);
-            this.Region2.Name = "Region2";
-            this.Region2.Size = new System.Drawing.Size(102, 21);
-            this.Region2.TabIndex = 86;
-            // 
-            // Region1
-            // 
-            this.Region1.DropDownWidth = 180;
-            this.Region1.FormattingEnabled = true;
-            this.Region1.Location = new System.Drawing.Point(204, 60);
-            this.Region1.Name = "Region1";
-            this.Region1.Size = new System.Drawing.Size(102, 21);
-            this.Region1.TabIndex = 85;
-            // 
-            // Region0
-            // 
-            this.Region0.DropDownWidth = 180;
-            this.Region0.FormattingEnabled = true;
-            this.Region0.Location = new System.Drawing.Point(204, 27);
-            this.Region0.Name = "Region0";
-            this.Region0.Size = new System.Drawing.Size(102, 21);
-            this.Region0.TabIndex = 84;
             // 
             // MemoryAmie
             // 

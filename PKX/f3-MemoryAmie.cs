@@ -44,16 +44,9 @@ namespace PKHeX
             catch { };
             h = m_parent.buff;
 
-            // Set the current friendship from main window
-            if (m_parent.buff[0x93] == 0) 
-                m_parent.buff[0xCA] = (byte)Convert.ToUInt16(m_parent.TB_Friendship.Text);
-            else
-                m_parent.buff[0xA2] = (byte)Convert.ToUInt16(m_parent.TB_Friendship.Text);
-
             getCountries();
             getLangStrings();
             loadFields();
-
         }
         public string[] feeling;
         public string[] quality;
@@ -83,17 +76,13 @@ namespace PKHeX
 
             CB_Handler.Items.Clear();
             CB_Handler.Items.AddRange(new object[] { m_parent.TB_OT.Text + " ("+ot+")"});
+
             if (Util.TrimFromZero(m_parent.TB_OTt2.Text) != "")
-            {
                 CB_Handler.Items.AddRange(new object[] { m_parent.TB_OTt2.Text });
-                CB_Handler.Enabled = true;
-            }
             else
-            {
                 m_parent.buff[0x93] = 0;
-                CB_Handler.Enabled = false;
-            }
-            CB_Handler.SelectedIndex = m_parent.buff[0x93];
+
+            tabControl1.SelectedIndex = CB_Handler.SelectedIndex = m_parent.buff[0x93];
 
             if (m_parent.CHK_IsEgg.Checked)
             {
@@ -208,22 +197,6 @@ namespace PKHeX
                 m_parent.buff[0xCC] = (byte)(CB_OTQual.SelectedIndex+1);
             }
             #endregion
-
-            m_parent.buff[0x93] = (byte)CB_Handler.SelectedIndex;
-
-            // Update Current Friendship
-            if (CB_Handler.SelectedIndex == 1)
-            {
-                m_parent.TB_Friendship.Text = M_CT_Friendship.Text;
-                m_parent.GB_nOT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                m_parent.GB_OT.BackColor = Color.Transparent;
-            }
-            else
-            {
-                m_parent.TB_Friendship.Text = M_OT_Friendship.Text;
-                m_parent.GB_OT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                m_parent.GB_nOT.BackColor = Color.Transparent;
-            }
         }
 
         // Singular Actions
@@ -531,28 +504,6 @@ namespace PKHeX
             int index = Array.IndexOf(cba, sender as ComboBox);
             if (Util.getIndex(sender as ComboBox) > 0)
                 m_parent.setCountrySubRegion(mta[index], "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
-        }
-        private void changeHandler(object sender, EventArgs e)
-        {
-            if (CB_Handler.SelectedIndex == 1)
-            {
-                m_parent.TB_Friendship.Text = M_CT_Friendship.Text;
-                m_parent.GB_nOT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                m_parent.GB_OT.BackColor = Color.Transparent;
-
-                GB_M_CT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                GB_M_OT.BackColor = Color.Transparent;
-
-            }
-            else
-            {
-                m_parent.TB_Friendship.Text = M_OT_Friendship.Text;
-                m_parent.GB_OT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                m_parent.GB_nOT.BackColor = Color.Transparent;
-
-                GB_M_OT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                GB_M_CT.BackColor = Color.Transparent;
-            }
         }
 
         private void update255_MTB(object sender, EventArgs e)

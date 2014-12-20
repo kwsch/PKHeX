@@ -497,6 +497,7 @@
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(122, 21);
             this.CB_Language.TabIndex = 15;
+            this.CB_Language.SelectedIndexChanged += new System.EventHandler(this.updateNickname);
             // 
             // MT_Form
             // 
