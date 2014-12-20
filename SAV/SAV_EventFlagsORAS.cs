@@ -16,7 +16,7 @@ namespace PKHeX
         public SAV_EventFlagsORAS(Form1 frm1)
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             savshift = 0x7F000 * m_parent.savindex;
 
@@ -148,7 +148,7 @@ namespace PKHeX
             else
             {
                 CHK_CustomFlag.Enabled = true;
-                nud.BackColor = Color.White;
+                nud.BackColor = Form1.defaultControlWhite;
                 CHK_CustomFlag.Checked = flags[flag];
             }
         }

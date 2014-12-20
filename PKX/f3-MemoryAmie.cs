@@ -24,7 +24,7 @@ namespace PKHeX
         public MemoryAmie(Form1 frm1)
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             string[] arguments = Regex.Split(L_Arguments.Text, " ; ");
 

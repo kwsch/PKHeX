@@ -15,7 +15,7 @@ namespace PKHeX
         public SAV_SecretBase(Form1 frm1)
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;

@@ -14,7 +14,7 @@ namespace PKHeX
         public SAV_Inventory(Form1 frm1)
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
@@ -254,17 +254,17 @@ namespace PKHeX
             // Delete Empty Trash
             for (int i = itemcount - emptyslots; i < itemcount; i++)
             {
-                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 0, 2); // item #
-                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * (i) + 2, 2); // count
+                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * i + 0, 2); // item #
+                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * i + 2, 2); // count
             }
 
             // Load New Button Color, after finished we'll load the new data.
             Button btn = sender as Button;
-            B_DisplayItems.ForeColor = Color.Black;
-            B_DisplayKeyItems.ForeColor = Color.Black;
-            B_DisplayTMHM.ForeColor = Color.Black;
-            B_DisplayMedicine.ForeColor = Color.Black;
-            B_DisplayBerries.ForeColor = Color.Black;
+            B_DisplayItems.ForeColor =
+            B_DisplayKeyItems.ForeColor =
+            B_DisplayTMHM.ForeColor =
+            B_DisplayMedicine.ForeColor =
+            B_DisplayBerries.ForeColor = Form1.defaultControlText;
 
             btn.ForeColor = Color.Red;
         }

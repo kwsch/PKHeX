@@ -15,7 +15,7 @@ namespace PKHeX
         public SAV_PokedexORAS(Form1 frm1)
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, sav.Length);
             sv = m_parent.savindex * 0x7F000;

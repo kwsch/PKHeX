@@ -24,7 +24,7 @@ namespace PKHeX
             offsetSpec = data_offset + 0x188 + 0x7F000 * savindex;
             offsetVal = data_offset + 0x18A + 0x7F000 * savindex;
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage);
             string[] stages = Form1.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 30; i++)
