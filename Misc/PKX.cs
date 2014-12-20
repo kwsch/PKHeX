@@ -217,18 +217,15 @@ namespace PKHeX
         public static int getLevel(int species, ref uint exp)
         {
             if (exp == 0) { return 1; }
-            int tl = 1; // Initial Level
 
             PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
+            int growth = MonData.EXPGrowth;
             DataTable table = PKX.ExpTable();
 
-            int growth = MonData.EXPGrowth;
-            uint levelxp = (uint)table.Rows[tl][growth + 1];
-
             // Iterate upwards to find the level above our current level
-            while (levelxp <= exp)
+            int tl = 0; // Initial Level, immediately incremented before loop.
+            while ((uint)table.Rows[++tl][growth + 1] <= exp)
             {
-                levelxp = (uint)table.Rows[++tl][growth + 1];
                 if (tl == 100)
                 {
                     exp = getEXP(100, species); // Fix EXP
