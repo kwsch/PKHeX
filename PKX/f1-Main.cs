@@ -4403,17 +4403,20 @@ namespace PKHeX
                 }
                 else if (ModifierKeys != Keys.Control && slot > -1)
                 {
+                    // Load data from destination
                     byte[] swapdata = new Byte[0xE8];
-                    Array.Copy(swapdata, 0, savefile, pkm_from_offset, 0xE8);
+                    Array.Copy(savefile, offset, swapdata, 0, 0xE8);
 
                     // Swap slot picture
                     getQuickFiller(getPictureBox(pkm_from_slot), PKX.decryptArray(swapdata));
 
-                    // Swap slot data
-                    Array.Copy(savefile, offset, swapdata, 0, 0xE8);
+                    // Swap slot data to source
+                    Array.Copy(swapdata, 0, savefile, pkm_from_offset, 0xE8);
                 }
-                Array.Copy(pkm_from, 0, savefile, offset, 0xE8); // Copy from temp slot to new.
+                // Copy from temp slot to new.
+                Array.Copy(pkm_from, 0, savefile, offset, 0xE8);
                 getQuickFiller(getPictureBox(slot), PKX.decryptArray(pkm_from));
+
                 pkm_from_offset = 0; // Clear offset value
             }
 
