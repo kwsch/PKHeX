@@ -322,9 +322,10 @@ namespace PKHeX
         //    catch { }
         //}
         // Form Manipulation
-        internal static void TranslateInterface(Control form, string lang, Control.ControlCollection Controls, MenuStrip menu = null)
+        internal static void TranslateInterface(Control form, string lang, MenuStrip menu = null)
         {
             string FORM_NAME = form.Name;
+            Control.ControlCollection Controls = form.Controls;
             // debug(Controls);
             // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
