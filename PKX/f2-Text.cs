@@ -11,11 +11,14 @@ namespace PKHeX
 {
     public partial class f2_Text : Form
     {
-        public f2_Text(TextBox TB_NN)
+        Form1 m_parent;
+        public f2_Text(TextBox TB_NN, Form1 frm1)
         {
+            m_parent = frm1;
+            m_parent.specialChars = true;
             this.Hide();
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage, this.Controls);
+            Util.TranslateInterface(this, Form1.curlanguage);
             TB_Nickname = TB_NN;
             Font pkxFont = PKX.getPKXFont(12F);
             Label[] lbla = new Label[] 
@@ -36,17 +39,21 @@ namespace PKHeX
             {
                 lbla[i].Font = pkxFont;
                 lbla[i].Text = Convert.ToChar(chars[i]).ToString();
-                lbla[i].Click += new EventHandler(OnClick);
+                lbla[i].Click += new EventHandler(onClick);
             }
             this.CenterToParent();
             this.Show();
         }
         TextBox TB_Nickname;
-        private void OnClick(object sender, EventArgs e)
+        private void onClick(object sender, EventArgs e)
         {
             string nickname = TB_Nickname.Text;
             if (nickname.Length < TB_Nickname.MaxLength)
                 TB_Nickname.Text += (sender as Label).Text;
+        }
+        private void onClosed(object sender, FormClosedEventArgs e)
+        {
+            m_parent.specialChars = false;
         }
     }
 }

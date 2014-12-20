@@ -701,7 +701,6 @@
             // CB_PKRSDays
             // 
             this.CB_PKRSDays.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_PKRSDays.Enabled = false;
             this.CB_PKRSDays.FormattingEnabled = true;
             this.CB_PKRSDays.Items.AddRange(new object[] {
             "0",
@@ -713,12 +712,12 @@
             this.CB_PKRSDays.Name = "CB_PKRSDays";
             this.CB_PKRSDays.Size = new System.Drawing.Size(30, 21);
             this.CB_PKRSDays.TabIndex = 20;
+            this.CB_PKRSDays.Visible = false;
             this.CB_PKRSDays.SelectedIndexChanged += new System.EventHandler(this.updatePKRSdays);
             // 
             // CB_PKRSStrain
             // 
             this.CB_PKRSStrain.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_PKRSStrain.Enabled = false;
             this.CB_PKRSStrain.FormattingEnabled = true;
             this.CB_PKRSStrain.Items.AddRange(new object[] {
             "0",
@@ -741,6 +740,7 @@
             this.CB_PKRSStrain.Name = "CB_PKRSStrain";
             this.CB_PKRSStrain.Size = new System.Drawing.Size(43, 21);
             this.CB_PKRSStrain.TabIndex = 19;
+            this.CB_PKRSStrain.Visible = false;
             this.CB_PKRSStrain.SelectedValueChanged += new System.EventHandler(this.updatePKRSstrain);
             // 
             // CB_Nature
@@ -791,6 +791,7 @@
             this.Label_PKRSdays.TabIndex = 15;
             this.Label_PKRSdays.Text = "d:";
             this.Label_PKRSdays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_PKRSdays.Visible = false;
             // 
             // Label_PKRS
             // 
@@ -800,6 +801,7 @@
             this.Label_PKRS.TabIndex = 14;
             this.Label_PKRS.Text = "PkRs:";
             this.Label_PKRS.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_PKRS.Visible = false;
             // 
             // CHK_IsEgg
             // 
@@ -2565,7 +2567,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_File,
             this.Menu_Tools,

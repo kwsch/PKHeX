@@ -25,6 +25,8 @@ namespace PKHeX
             #endregion
             #region Initialize Form
             InitializeComponent();
+            defaultControlWhite = CB_Species.BackColor;
+            defaultControlText = Label_Species.ForeColor;
             CB_ExtraBytes.SelectedIndex = 0;
 
             // Resize Main Window to PKX Editing Mode
@@ -184,6 +186,8 @@ namespace PKHeX
         public string SDFLoc = null;
         public bool HaX = false;
 
+        public static Color defaultControlWhite;
+        public static Color defaultControlText;
         public static int colorizedbox = 32;
         public static Image colorizedcolor = null;
         public static int colorizedslot = 0;
@@ -611,7 +615,7 @@ namespace PKHeX
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
-            Util.TranslateInterface(this, curlanguage, Controls, menuStrip1);
+            Util.TranslateInterface(this, curlanguage, menuStrip1);
             populateFields(buff); // put data back in form
         }
         private void InitializeStrings()
@@ -929,15 +933,15 @@ namespace PKHeX
             if (buff[0x93] == 1)  // = 1
             {
                 TB_Friendship.Text = buff[0xA2].ToString();
-                GB_nOT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                GB_OT.BackColor = Color.Transparent;
+                GB_nOT.BackgroundImage = Properties.Resources.slotView;
+                GB_OT.BackgroundImage = Properties.Resources.slotTrans;
 
             }
             else                // = 0
             {
                 TB_Friendship.Text = OTfriendship.ToString();
-                GB_OT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
-                GB_nOT.BackColor = Color.Transparent;
+                GB_OT.BackgroundImage = Properties.Resources.slotView;
+                GB_nOT.BackgroundImage = Properties.Resources.slotTrans;
             }
             
             CB_Language.SelectedValue = otlang;
@@ -1513,44 +1517,35 @@ namespace PKHeX
             if (Util.getIndex(sender as ComboBox) > 0)
                 setCountrySubRegion(CB_SubRegion, "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
         }
+        private bool changingEXPLevel = false;
         private void updateEXPLevel(object sender, EventArgs e)
         {
-            if ((TB_EXP.Focused == true) && (TB_EXP.Enabled == true))
+            if (changingEXPLevel) return;
+
+            if (sender as MaskedTextBox == TB_EXP)
             {
+                changingEXPLevel = true;
                 // Change the Level
-                TB_Level.Enabled = false;
-                int level;
                 uint exp = Util.ToUInt32(TB_EXP);
-                if (Util.ToInt32(TB_EXP.Text) == 0) { level = 1; }
-                else level = PKX.getLevel(Util.getIndex(CB_Species), ref exp);
+                int level = (Util.ToInt32(TB_EXP.Text) == 0) ? 1 : PKX.getLevel(Util.getIndex(CB_Species), ref exp);
+
                 TB_Level.Text = level.ToString();
-                if (!MT_Level.Visible || level < 100)
+                if (!MT_Level.Visible)
                     TB_EXP.Text = exp.ToString();
-                if (MT_Level.Visible && level < 101 && Util.ToInt32(MT_Level.Text) < 101)
+                else
                     MT_Level.Text = level.ToString();
-
-                TB_Level.Enabled = true;
             }
-            else if ((TB_Level.Focused == true) && (TB_Level.Enabled == true))// TB_Level is focused
+            else
             {
+                changingEXPLevel = true;
                 // Change the XP
-                TB_EXP.Enabled = false;
-                int level = Util.ToInt32(TB_Level.Text);
-                if (level > 100) 
-                { TB_Level.Text = "100"; level = 100; }
+                int level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
+                if (level > 100) TB_Level.Text = "100";
+                if (level > 255) MT_Level.Text = "255";
 
-                {
-                    // Valid Level, recalculate EXP
-                    TB_EXP.Text = PKX.getEXP(level, Util.getIndex(CB_Species)).ToString();
-                    TB_Level.BackColor = Color.White;
-                }
-                TB_EXP.Enabled = true;
-            }
-            else if (MT_Level.Focused == true)
-            {
-                int level = Util.ToInt32(MT_Level.Text); if (level > 255) level = 255;
                 TB_EXP.Text = PKX.getEXP(level, Util.getIndex(CB_Species)).ToString();
             }
+            changingEXPLevel = false;
             updateStats();
         }
         private void updateIVs(object sender, EventArgs e)
@@ -1924,7 +1919,7 @@ namespace PKHeX
                 int species = Util.getIndex(CB_Species);
                 if (species == 0 || species > 721)
                     TB_Nickname.Text = "";
-                else
+                else 
                 {
                     // get language
                     int lang = Util.getIndex(CB_Language);
@@ -1941,16 +1936,18 @@ namespace PKHeX
                         case 7: l = "es"; break;
                         case 8: l = "ko"; break;
                         default: l = curlanguage; break;
-                    }                    
-                    TB_Nickname.Text = Util.getStringList("Species", l)[species];
+                    }
+                    if (CHK_IsEgg.Checked) species = 0; // Set species to 0 to get the egg name.
+                    TB_Nickname.Text = Util.getStringList("Species", l)[(CHK_IsEgg.Checked) ? 0 : species];
                 }
             }
         }
+        public bool specialChars = false; // Open Form Tracking
         private void updateNicknameClick(object sender, MouseEventArgs e)
         {
             // Special Character Form
-            if (e.Button == MouseButtons.Right)
-                (new f2_Text(TB_Nickname)).Show();
+            if (e.Button == MouseButtons.Right && !specialChars)
+                (new f2_Text(TB_Nickname, this)).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
         {
@@ -1958,7 +1955,7 @@ namespace PKHeX
             {
                 Label_CTGender.Text = "";
                 TB_Friendship.Text = buff[0xCA].ToString();
-                GB_OT.BackColor = System.Drawing.Color.FromArgb(232, 255, 255);
+                GB_OT.BackColor = Color.FromArgb(40, 220, 0, 220);
                 GB_nOT.BackColor = Color.Transparent;
                 buff[0x93] = 0;
             }
@@ -1971,10 +1968,10 @@ namespace PKHeX
             if (CHK_Cured.Checked)
             {
                 // Has Had PokeRus
-                CB_PKRSDays.Enabled = false;
+                Label_PKRSdays.Visible = CB_PKRSDays.Visible = false;
                 CB_PKRSDays.SelectedIndex = 0;
 
-                CB_PKRSStrain.Enabled = true;
+                Label_PKRS.Visible = CB_PKRSStrain.Visible = true;
                 CHK_Infected.Checked = true;
 
                 // If we're cured we have to have a strain infection.
@@ -1984,13 +1981,13 @@ namespace PKHeX
             else if (!CHK_Infected.Checked)
             {
                 // Not Infected, Disable the other
-                CB_PKRSStrain.Enabled = false;
+                Label_PKRS.Visible = CB_PKRSStrain.Visible = false;
                 CB_PKRSStrain.SelectedIndex = 0;
             }
             else
             { 
                 // Still Infected for a duration
-                CB_PKRSDays.Enabled = true;
+                Label_PKRSdays.Visible = CB_PKRSDays.Visible = true;
                 CB_PKRSDays.SelectedValue = 1;
             }
             // if not cured yet, days > 0
@@ -2001,8 +1998,8 @@ namespace PKHeX
         }
         private void updatePKRSInfected(object sender, EventArgs e)
         {
-            CB_PKRSDays.Enabled = CB_PKRSStrain.Enabled = CHK_Infected.Checked;
-            if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = 0; CB_PKRSDays.SelectedIndex = 0; }
+            Label_PKRSdays.Visible = CB_PKRSDays.Visible = Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
+            if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = CB_PKRSDays.SelectedIndex = 0; }
             else if (CB_PKRSStrain.SelectedIndex == 0) CB_PKRSStrain.SelectedIndex++;
 
             CB_PKRSDays.SelectedValue = CB_PKRSStrain.SelectedValue = Convert.ToInt32(CHK_Infected.Checked);
@@ -2097,7 +2094,7 @@ namespace PKHeX
             if ((cb.SelectedValue == null))
                 cb.BackColor = Color.DarkSalmon;
             else
-                cb.BackColor = Color.Empty;
+                cb.BackColor = defaultControlWhite;
 
             if (init)
             {
@@ -2162,7 +2159,7 @@ namespace PKHeX
                 Label[] labarray = new Label[] { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
                 // Reset Label Colors
                 foreach (Label label in labarray)
-                    label.ForeColor = DefaultForeColor;
+                    label.ForeColor = defaultControlText;
 
                 // Set Colored StatLabels only if Nature isn't Neutral
                 if (incr != decr)
@@ -2216,7 +2213,7 @@ namespace PKHeX
             for (int i = 0; i < cba.Length; i++)
             {
                 int back = cba[i].BackColor.ToArgb();
-                if (back != System.Drawing.SystemColors.Control.ToArgb() && back != 0 && back != -1)
+                if (back != System.Drawing.SystemColors.Control.ToArgb() && back != 0 && back != -1 & back != defaultControlWhite.ToArgb())
                 {
                     if (i < 6)      // Main Tab
                         tabMain.SelectedIndex = 0;
@@ -3574,7 +3571,8 @@ namespace PKHeX
             }
             catch
             {
-                for (int i = 1; i < 32; i++)
+                C_BoxSelect.Items.Clear(); 
+                for (int i = 1; i < 32; i++) 
                     C_BoxSelect.Items.Add("Box " + i);
             }
             C_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
