@@ -1053,7 +1053,7 @@ namespace PKHeX
             Label_Gender.Text = gendersymbols[genderflag];
             updateStats();
             setIsShiny();
-            if (init)
+            // if (init)
                 if (!PKX.verifychk(buff))
                     Util.Alert("PKX File has an invalid checksum.");
 
@@ -1087,7 +1087,7 @@ namespace PKHeX
             CHK_Star.Checked = Convert.ToBoolean(m5);
             CHK_Diamond.Checked = Convert.ToBoolean(m6);
         }
-        // PKX Data Calculation Functions // 
+        // PKX Data Calculation Functions //
         private void setIsShiny()
         {
             bool isShiny = PKX.getIsShiny(Util.getHEXval(TB_PID),Util.ToUInt32(TB_TID.Text),Util.ToUInt32(TB_SID.Text));
@@ -2222,7 +2222,7 @@ namespace PKHeX
         {
             new MemoryAmie(this).ShowDialog();
         }
-        // Open/Save Array Manipulation // 
+        // Open/Save Array Manipulation //
         public bool verifiedpkx()
         {
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
@@ -2598,6 +2598,7 @@ namespace PKHeX
             openQuick(((string[])e.Data.GetData(DataFormats.FileDrop))[0]);
         }
         #endregion
+
         #region //// SAVE FILE FUNCTIONS ////
         // Integrity Checks // 
         private void clickVerifyCHK(object sender, EventArgs e)
