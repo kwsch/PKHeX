@@ -56,7 +56,7 @@ namespace PKHeX
                 return ForeGround;
             if (ForeGround.A == 255)
                 return ForeGround;
-            int Alpha = Convert.ToInt32(ForeGround.A) + 1;
+            int Alpha = Convert.ToInt32(ForeGround.A);
             int B = Alpha * ForeGround.B + (255 - Alpha) * BackGround.B >> 8;
             int G = Alpha * ForeGround.G + (255 - Alpha) * BackGround.G >> 8;
             int R = Alpha * ForeGround.R + (255 - Alpha) * BackGround.R >> 8;
@@ -295,33 +295,7 @@ namespace PKHeX
             }
         }
 
-        //internal static void debug(Control.ControlCollection Controls)
-        //{
-        //    try
-        //    {
-        //        string s = "";
-        //        foreach (Control c in Controls)
-        //        {
-        //            if (c is GroupBox)
-        //            {
-        //                s += c.Name + " = " + c.Text + Environment.NewLine;
-        //                foreach (Control g in c.Controls)
-        //                {
-        //                    if (g is Label || g is CheckBox || g is Button)
-        //                        s += g.Name + " = " + g.Text + Environment.NewLine;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (c is Label || c is CheckBox || c is Button)
-        //                    s += c.Name + " = " + c.Text + Environment.NewLine;
-        //            }
-        //        }
-        //        Clipboard.SetText(s);
-        //    }
-        //    catch { }
-        //}
-        // Form Manipulation
+        // Form Translation
         internal static void TranslateInterface(Control form, string lang, MenuStrip menu = null)
         {
             string FORM_NAME = form.Name;
@@ -433,13 +407,6 @@ namespace PKHeX
             {
                 return Text;
             }
-        }
-        internal static string[] getFilteredList(string[] data, int[] chosen)
-        {
-            string[] result = new string[chosen.Length];
-            for (int i = 0; i < chosen.Length; i++)
-                result[i] = data[chosen[i]];
-            return result;
         }
         internal static List<cbItem> getCBList(string textfile, string lang)
         {

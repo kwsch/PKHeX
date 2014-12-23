@@ -97,10 +97,8 @@ namespace PKHeX
             }
             else if (sourceindex == 1)
             {
-                CB_Box.Visible = true;
-                L_Box.Visible = true;
-                CB_Slot.Visible = true;
-                L_Slot.Visible = true;
+                CB_Box.Visible = L_Box.Visible = true;
+                CB_Slot.Visible = L_Slot.Visible = true;
 
                 L_Slot.Text = "Slot:";
 
@@ -114,10 +112,8 @@ namespace PKHeX
             }
             else if (sourceindex == 2)
             {
-                CB_Box.Visible = false;
-                L_Box.Visible = false;
-                CB_Slot.Visible = true;
-                L_Slot.Visible = true;
+                CB_Box.Visible = L_Box.Visible = false;
+                CB_Slot.Visible = L_Slot.Visible = true;
 
                 L_Slot.Text = "Card:";
 
