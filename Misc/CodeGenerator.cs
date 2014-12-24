@@ -19,9 +19,11 @@ namespace PKHeX
         PKX.SaveGames.SaveStruct SaveGame = new PKX.SaveGames.SaveStruct(null);
 
         Form1 m_parent;
-        public CodeGenerator(Form1 frm1)
+        byte[] tabdata = null;
+        public CodeGenerator(Form1 frm1, byte[] formdata)
         {
             m_parent = frm1;
+            tabdata = formdata;
             InitializeComponent();
             this.CenterToParent();
             RTB_Code.Clear();
@@ -39,9 +41,9 @@ namespace PKHeX
         {
             if (CB_Source.SelectedIndex == 0)
             {
-                if (m_parent.verifiedpkx())
+                if (tabdata != null)
                 {
-                    byte[] pkx = m_parent.preparepkx(m_parent.buff);
+                    byte[] pkx = tabdata;
                     newdata = new byte[232];
                     Array.Copy(PKX.encryptArray(pkx), newdata, 232);
                 }

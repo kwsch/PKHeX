@@ -189,6 +189,7 @@ namespace PKHeX
         public string SDFLoc = null;
 
         public static bool HaX = false;
+        public static bool specialChars = false; // Open Form Tracking
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static int colorizedbox = 32;
@@ -271,7 +272,7 @@ namespace PKHeX
         }
         private void mainMenuSave(object sender, EventArgs e)
         {
-            if (!verifiedpkx()) { return; }
+            if (!verifiedPKX()) { return; }
             SavePKX.FileName = TB_Nickname.Text + " - " + TB_PID.Text;
             DialogResult result = SavePKX.ShowDialog();
             if (result == DialogResult.OK) // Test result.
@@ -327,7 +328,9 @@ namespace PKHeX
         private void mainMenuCodeGen(object sender, EventArgs e)
         {
             // Open Code Generator
-            CodeGenerator CodeGen = new PKHeX.CodeGenerator(this);
+            byte[] formdata = null;
+            if (verifiedPKX()) formdata = preparepkx(buff);
+            CodeGenerator CodeGen = new PKHeX.CodeGenerator(this, formdata);
             CodeGen.ShowDialog();
             byte[] data = CodeGen.returnArray;
             if (data != null)
@@ -741,7 +744,7 @@ namespace PKHeX
                 CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
                 CB_Country.SelectedIndex = 0;
-                updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+                setAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
             }
         }
         private void InitializeLanguage()
@@ -917,13 +920,22 @@ namespace PKHeX
                 nicknamestr = Regex.Replace(nicknamestr, "\uE08F", "\u2640");
                 nicknamestr = Regex.Replace(nicknamestr, "\uE08E", "\u2642");
             }
-            populateMarkings(markings);
+
+            // Set Markings
+            CHK_Circle.Checked = ((markings >> 0) & 1) == 1;
+            CHK_Triangle.Checked = ((markings >> 1) & 1) == 1;
+            CHK_Square.Checked = ((markings >> 2) & 1) == 1;
+            CHK_Heart.Checked = ((markings >> 3) & 1) == 1;
+            CHK_Star.Checked = ((markings >> 4) & 1) == 1;
+            CHK_Diamond.Checked = ((markings >> 5) & 1) == 1;
+
+            // Set Generic Identification Data
             TB_PID.Text = PID.ToString("X8");
             CB_Species.SelectedValue = species;
             CB_HeldItem.SelectedValue = helditem;
-            updateAbilityList(TB_AbilityNumber, species, CB_Ability, CB_Form);
+            setAbilityList(TB_AbilityNumber, species, CB_Ability, CB_Form);
             TB_AbilityNumber.Text = abilitynum.ToString();
-            CB_Ability.SelectedIndex = (abilitynum < 6) ? abilitynum >> 1 : 0; // error handling
+            CB_Ability.SelectedIndex = (abilitynum < 6) ? abilitynum >> 1 : 0; // with some simple error handling
             CB_Nature.SelectedValue = nature;
 
             TB_EXP.Text = exp.ToString();
@@ -956,12 +968,9 @@ namespace PKHeX
             CB_EncounterType.SelectedValue = encountertype;
             CB_Ball.SelectedValue = ball;
 
-            if (met_month == 0)
-            { met_month = 1; }
-            if (met_day == 0)
-            { met_day = 1; }
-            try
-            { CAL_MetDate.Value = new DateTime(met_year + 2000, met_month, met_day); }
+            if (met_month == 0) { met_month = 1; }
+            if (met_day == 0) { met_day = 1; }
+            try { CAL_MetDate.Value = new DateTime(met_year + 2000, met_month, met_day); }
             catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
 
             if (eggloc != 0)
@@ -971,16 +980,14 @@ namespace PKHeX
                 GB_EggConditions.Enabled = true;
 
                 CB_EggLocation.SelectedValue = eggloc;
-                try
-                { CAL_EggDate.Value = new DateTime(egg_year + 2000, egg_month, egg_day); }
+                try { CAL_EggDate.Value = new DateTime(egg_year + 2000, egg_month, egg_day); }
                 catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
             }
             else { CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
 
             CB_MetLocation.SelectedValue = metloc;
 
-            if (notOTG) Label_CTGender.Text = gendersymbols[1];
-            else Label_CTGender.Text = gendersymbols[0];
+            Label_CTGender.Text = (notOTG) ? gendersymbols[1] : gendersymbols[0];
             if (TB_OTt2.Text == "") Label_CTGender.Text = "";
 
             TB_MetLevel.Text = metlevel.ToString();
@@ -1071,40 +1078,28 @@ namespace PKHeX
             }
             getQuickFiller(dragout);
         }
-        private void populateMarkings(int markings)
+        // General Use Functions shared by other Forms
+        public void setCountrySubRegion(object sender, string type)
         {
-            int m1 = ((markings) & 1);
-            int m2 = ((markings >> 1) & 1);
-            int m3 = ((markings >> 2) & 1);
-            int m4 = ((markings >> 3) & 1);
-            int m5 = ((markings >> 4) & 1);
-            int m6 = ((markings >> 5) & 1);
+            ComboBox CB = sender as ComboBox;
+            int index = Util.getIndex(CB);
+            // fix for Korean / Chinese being swapped
+            string cl = curlanguage + "";
+            cl = (cl == "zh") ? "ko" : (cl == "ko") ? "zh" : cl;
 
-            CHK_Circle.Checked = Convert.ToBoolean(m1);
-            CHK_Triangle.Checked = Convert.ToBoolean(m2);
-            CHK_Square.Checked = Convert.ToBoolean(m3);
-            CHK_Heart.Checked = Convert.ToBoolean(m4);
-            CHK_Star.Checked = Convert.ToBoolean(m5);
-            CHK_Diamond.Checked = Convert.ToBoolean(m6);
-        }
-        // PKX Data Calculation Functions //
-        private void setIsShiny()
-        {
-            bool isShiny = PKX.getIsShiny(Util.getHEXval(TB_PID),Util.ToUInt32(TB_TID.Text),Util.ToUInt32(TB_SID.Text));
-            
-            // Set the Controls
-            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
-            Label_IsShiny.Visible = isShiny;
+            CB.DataSource = Util.getCBList(type, cl);
+            CB.DisplayMember = "Text";
+            CB.ValueMember = "Value";
 
-            // Refresh Markings (for Shiny Star if applicable)
-            setMarkings();
+            if (index > 0 && index <= CB.Items.Count)
+                CB.SelectedValue = index;
         }
         public void setForms(int species, ComboBox cb)
         {
             // Form Tables
             // 
             PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            var form_list = new[] { new { Text = "", Value = 0}, };
+            var form_list = new[] { new { Text = "", Value = 0 }, };
             if (MonData.AltFormCount == 0)
             {
                 cb.DataSource = form_list;
@@ -1272,7 +1267,7 @@ namespace PKHeX
                     new { Text = forms[899], Value = 7 }, // La Reine
                     new { Text = forms[900], Value = 8 }, // Kabuki 
                     new { Text = forms[901], Value = 9 }, // Pharaoh
-                }; 
+                };
             var form_aegislash = new[] {
                     new { Text = forms[681], Value = 0 }, // Shield
                     new { Text = forms[903], Value = 1 }, // Blade
@@ -1343,7 +1338,7 @@ namespace PKHeX
                                 // ORAS
                                 015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
                           };
-            if (Array.IndexOf(mspec,species) > -1)
+            if (Array.IndexOf(mspec, species) > -1)
             {
                 cb.DataSource = form_mega;
                 cb.Enabled = true; // Mega Form Selection
@@ -1394,6 +1389,37 @@ namespace PKHeX
             cb.DataSource = form_list;
             cb.Enabled = true;
         }
+        public void setAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
+        {
+            if (!init && tb_abil.Text == "")
+                return;
+            int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
+
+            int form = cb_forme.SelectedIndex;
+            byte[] abils = PKX.getAbilities(species, form);
+
+            // Build Ability List
+            List<string> ability_list = new List<string>();
+            ability_list.Add(abilitylist[abils[0]] + " (1)");
+            ability_list.Add(abilitylist[abils[1]] + " (2)");
+            ability_list.Add(abilitylist[abils[2]] + " (H)");
+            cb_abil.DataSource = ability_list;
+
+            if (newabil < 3) cb_abil.SelectedIndex = newabil;
+            else cb_abil.SelectedIndex = 0;
+        }
+        // PKX Data Calculation Functions //
+        private void setIsShiny()
+        {
+            bool isShiny = PKX.getIsShiny(Util.getHEXval(TB_PID),Util.ToUInt32(TB_TID.Text),Util.ToUInt32(TB_SID.Text));
+            
+            // Set the Controls
+            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
+            Label_IsShiny.Visible = isShiny;
+
+            // Refresh Markings (for Shiny Star if applicable)
+            setMarkings();
+        }
         private void setMarkings()
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
@@ -1406,7 +1432,7 @@ namespace PKHeX
             int gameindex = Util.getIndex(CB_GameOrigin);
             PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(gameindex == 24 || gameindex == 25 || gameindex == 26 || gameindex == 27)) * 0.9 + 0.1);
         }
-        // Label Shortcut Tweaks
+        // Clicked Label Shortcuts
         private void clickFriendship(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // prompt to reset
@@ -1519,26 +1545,6 @@ namespace PKHeX
                 lbl.Text = (PKX.getGender(lbl.Text) == 0) ? gendersymbols[1] : gendersymbols[0];
         }
         // Prompted Updates of PKX Functions // 
-        public void setCountrySubRegion(object sender, string type)
-        {
-            ComboBox CB = sender as ComboBox;
-            int index = Util.getIndex(CB);
-            // fix for Korean / Chinese being swapped
-            string cl = curlanguage + "";
-            cl = (cl == "zh") ? "ko" : (cl == "ko") ? "zh" : cl;
-
-            CB.DataSource = Util.getCBList(type, cl);
-            CB.DisplayMember = "Text";
-            CB.ValueMember = "Value";
-
-            if (index > 0 && index <= CB.Items.Count)
-                CB.SelectedValue = index;
-        }
-        private void updateCountry(object sender, EventArgs e)
-        {
-            if (Util.getIndex(sender as ComboBox) > 0)
-                setCountrySubRegion(CB_SubRegion, "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
-        }
         private bool changingEXPLevel = false;
         private void updateEXPLevel(object sender, EventArgs e)
         {
@@ -1744,7 +1750,7 @@ namespace PKHeX
         {
             updateStats();
             // Repopulate Abilities if Species Form has different abilities
-            updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+            setAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
 
             // Gender Forms
             if (PKX.getGender(CB_Form.Text) < 2)
@@ -1781,6 +1787,11 @@ namespace PKHeX
                 else CHK_Cured.Checked = true;
             }
         }
+        private void updateCountry(object sender, EventArgs e)
+        {
+            if (Util.getIndex(sender as ComboBox) > 0)
+                setCountrySubRegion(CB_SubRegion, "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
+        }
         private void updateSpecies(object sender, EventArgs e)
         {
             // Change Species Prompted
@@ -1811,7 +1822,7 @@ namespace PKHeX
                 genderflag = ((Util.getHEXval(TB_PID) & 0xFF) <= gt) ? 1 : 0;
 
             Label_Gender.Text = gendersymbols[genderflag];
-            updateAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+            setAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
             updateForm(null, null);
 
             // If species changes and no nickname, set the new name == speciesName.
@@ -1822,27 +1833,10 @@ namespace PKHeX
         {
             int gameorigin = Util.getIndex(CB_GameOrigin);
 
-            if ((gameorigin <= 12) && (gameorigin >= 7))
+            if (gameorigin < 24 && origintrack != "Past") 
             {
-                // Game Originates In Gen 4; Enable Encounter Type
-                CB_EncounterType.Enabled = true;
-                Label_EncounterType.Enabled = true;
-            }
-            else
-            {
-                CB_EncounterType.Enabled = false;
-                Label_EncounterType.Enabled = false;
-                CB_EncounterType.SelectedIndex = 0;
-            }
-            updateLocations(gameorigin);
-            setMarkings();
-            setIsShiny();
-        }
-        private void updateLocations(int gameorigin)
-        {
-            if (gameorigin < 24 && origintrack != "Past") // Load Past Gen Locations
-            {
-                #region BW2 Met Locations
+                // Load Past Gen Locations
+                #region B2W2 Met Locations
                 {
                     // Build up our met list
                     var met_list = Util.getCBList(metBW2_00000, new int[] { 0 });
@@ -1869,7 +1863,8 @@ namespace PKHeX
             }
             else if (gameorigin > 23 && (origintrack != "XY"))
             {
-                #region XY Met Locations
+                // Load X/Y/OR/AS locations
+                #region ORAS Met Locations
                 {
                     // Build up our met list
                     var met_list = Util.getCBList(metXY_00000, new int[] { 0 });
@@ -1892,7 +1887,8 @@ namespace PKHeX
                 #endregion
             }
             if (((gameorigin < 10 && gameorigin > 6) || (gameorigin == 15)) && origintrack != "Gen4")
-            {   // Egg Met Locations for Gen 4 are unaltered when transferred to Gen 5. Need a new table if Gen 4 Origin.
+            {
+                // Load Gen 4 egg locations if Gen 4 Origin.
                 #region HGSS Met Locations
                 // Allowed Met Locations
                 int[] metlocs = { 0, 2000, 2002, 3001 };
@@ -1914,9 +1910,13 @@ namespace PKHeX
                 #endregion
             }
 
+            // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
             CB_EncounterType.Visible = Label_EncounterType.Visible = !(gameorigin > 12 || gameorigin < 7);
+            // If not Gen 4, set Encounter Type to 0 after it set !visible.
             if (gameorigin > 12 || gameorigin < 7)
                 CB_EncounterType.SelectedValue = 0;
+
+            setMarkings(); // Set/Remove KB marking
         }
         private void updateExtraByteValue(object sender, EventArgs e)
         {
@@ -1964,12 +1964,11 @@ namespace PKHeX
                 }
             }
         }
-        public bool specialChars = false; // Open Form Tracking
         private void updateNicknameClick(object sender, MouseEventArgs e)
         {
             // Special Character Form
             if (e.Button == MouseButtons.Right && !specialChars)
-                (new f2_Text(TB_Nickname, this)).Show();
+                (new f2_Text(TB_Nickname)).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
         {
@@ -2194,41 +2193,22 @@ namespace PKHeX
                 }
             }
         }
-        public void updateAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
-        {
-            if (!init && tb_abil.Text == "")
-                return;
-            int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
-
-            int form = cb_forme.SelectedIndex;
-            byte[] abils = PKX.getAbilities(species, form);                
-
-            // Build Ability List
-            List<string> ability_list = new List<string>();
-            ability_list.Add(abilitylist[abils[0]] + " (1)");
-            ability_list.Add(abilitylist[abils[1]] + " (2)");
-            ability_list.Add(abilitylist[abils[2]] + " (H)");
-            cb_abil.DataSource = ability_list;
-
-            if (newabil < 3) cb_abil.SelectedIndex = newabil;
-            else cb_abil.SelectedIndex = 0;
-        }
         // Secondary Windows for Ribbons/Amie/Memories
-        private void openribbons(object sender, EventArgs e)
+        private void openRibbons(object sender, EventArgs e)
         {
             new RibbMedal(this).ShowDialog();
         }
-        private void openhistory(object sender, EventArgs e)
+        private void openHistory(object sender, EventArgs e)
         {
             new MemoryAmie(this).ShowDialog();
         }
         // Open/Save Array Manipulation //
-        public bool verifiedpkx()
+        private bool verifiedPKX()
         {
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
-            #region ComboBoxes
+            #region ComboBoxes to verify they are set.
             ComboBox[] cba = {
                                  CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
                                  CB_MetLocation, CB_EggLocation, CB_Ball,   // Met Tab
@@ -2262,7 +2242,7 @@ namespace PKHeX
           invalid:
             { System.Media.SystemSounds.Exclamation.Play(); return false; }
         }
-        public byte[] preparepkx(byte[] buff, bool click = true)
+        private byte[] preparepkx(byte[] buff, bool click = true)
         {
             if (click)
                 tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
@@ -2544,7 +2524,7 @@ namespace PKHeX
         // Decrypted Export
         private void dragout_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!verifiedpkx()) { return; }
+            if (!verifiedPKX()) { return; }
             {
                 // Create Temp File to Drag
                 string basepath = System.Windows.Forms.Application.StartupPath;
@@ -3209,6 +3189,17 @@ namespace PKHeX
                 C_BoxSelect.SelectedIndex--;
             else C_BoxSelect.SelectedIndex = 30;
         }
+        private void clickSlot(object sender, EventArgs e)
+        {
+            if (ModifierKeys == (Keys.Control | Keys.Alt))
+                clickClone(sender, e);
+            else if (ModifierKeys == Keys.Control)
+                clickView(sender, e);
+            else if (ModifierKeys == Keys.Shift)
+                clickSet(sender, e);
+            else if (ModifierKeys == Keys.Alt)
+                clickDelete(sender, e);
+        }
         private void clickView(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
@@ -3270,7 +3261,7 @@ namespace PKHeX
         }
         private void clickSet(object sender, EventArgs e)
         {
-            if (!verifiedpkx()) { return; }
+            if (!verifiedPKX()) { return; }
             int slot = getSlot(sender);
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { Util.Alert("Can't have empty/egg first slot."); return; }
             int offset = getPKXOffset(slot);
@@ -3339,7 +3330,7 @@ namespace PKHeX
         private void clickClone(object sender, EventArgs e)
         {
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
-            if (!verifiedpkx()) { return; } // don't copy garbage to the box
+            if (!verifiedPKX()) { return; } // don't copy garbage to the box
 
             byte[] pkxdata;
             int box = C_BoxSelect.SelectedIndex + 1; // get box we're cloning to
@@ -3364,6 +3355,7 @@ namespace PKHeX
 
             savedited = true;
         }
+        // Generic Subfunctions // 
         private void setPokedex(byte[] pkxdata)
         {
             if (savindex > 1) return;
@@ -3374,7 +3366,7 @@ namespace PKHeX
             uint pid = BitConverter.ToUInt32(pkxdata, 0x18);
             ushort TID = BitConverter.ToUInt16(pkxdata, 0xC);
             ushort SID = BitConverter.ToUInt16(pkxdata, 0xE);
-            int shiny = Convert.ToInt16(Convert.ToBoolean((PKX.getPSV(pid) ^ PKX.getTSV(TID,SID)) < 16));
+            int shiny = Convert.ToInt16(Convert.ToBoolean((PKX.getPSV(pid) ^ PKX.getTSV(TID, SID)) < 16));
             int dexoff = savindex * 0x7F000 + SaveGame.PokeDex; // Same offset for XY-ORAS
             int langoff = 0x3C8; if (savegame_oras) langoff = 0x400; // Not the same offset for language bools
             int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
@@ -3390,7 +3382,7 @@ namespace PKHeX
 
             // Set the Language
             if (lang < 0) lang = 1;
-                savefile[dexoff + langoff + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
+            savefile[dexoff + langoff + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
         }
         private byte setParty()
         {
@@ -3402,7 +3394,7 @@ namespace PKHeX
                 byte[] data = new byte[0x104];
                 Array.Copy(savefile, offset + i * 0x104, data, 0, 0x104);
                 byte[] decdata = PKX.decryptArray(data);
-                int species = BitConverter.ToInt16(decdata,8);
+                int species = BitConverter.ToInt16(decdata, 8);
                 if ((species != 0) && (species < 722))
                 {
                     Array.Copy(data, 0, savefile, offset + (partymembers) * 0x104, 0x104);
@@ -3444,18 +3436,6 @@ namespace PKHeX
 
             return partymembers;
         }
-        private void slotModifier_Click(object sender, EventArgs e)
-        {
-            if (ModifierKeys == (Keys.Control | Keys.Alt))
-                clickClone(sender, e);
-            else if (ModifierKeys == Keys.Control)
-                clickView(sender, e);
-            else if (ModifierKeys == Keys.Shift)
-                clickSet(sender, e);
-            else if (ModifierKeys == Keys.Alt)
-                clickDelete(sender, e);
-        }
-        // Subfunctions // 
         private int getPKXOffset(int slot)
         {
             int offset = SaveGame.Box + C_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
@@ -3505,7 +3485,7 @@ namespace PKHeX
             int slot = Array.IndexOf(pba, sourceControl.Name);
             return slot;
         }
-        public void setPKXBoxes()
+        private void setPKXBoxes()
         {
             int boxoffset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30);
 
@@ -3588,7 +3568,7 @@ namespace PKHeX
             if (colorizedslot < 32)
                 pba[colorizedslot].BackgroundImage = (colorizedbox == C_BoxSelect.SelectedIndex) ? colorizedcolor : null;
         }
-        public void setBoxNames()
+        private void setBoxNames()
         {
             int selectedbox = C_BoxSelect.SelectedIndex;    // precache selected box
             // Build ComboBox Dropdown Items
@@ -4241,7 +4221,7 @@ namespace PKHeX
                 File.WriteAllBytes(path, jpeg);
             }
         }
-
+        // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
         {
             // Get latest SaveDataFiler save location
@@ -4296,7 +4276,7 @@ namespace PKHeX
         private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
         {
             if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt || ModifierKeys == Keys.Shift || ModifierKeys == (Keys.Control | Keys.Alt))
-            { slotModifier_Click(sender, (EventArgs)e); return; }
+            { clickSlot(sender, (EventArgs)e); return; }
             PictureBox pb = (PictureBox)(sender);
             if (pb.Image == null)
                 return;

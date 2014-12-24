@@ -11,11 +11,9 @@ namespace PKHeX
 {
     public partial class f2_Text : Form
     {
-        Form1 m_parent;
-        public f2_Text(TextBox TB_NN, Form1 frm1)
+        public f2_Text(TextBox TB_NN)
         {
-            m_parent = frm1;
-            m_parent.specialChars = true;
+            Form1.specialChars = true;
             this.Hide();
             InitializeComponent();
             Util.TranslateInterface(this, Form1.curlanguage);
@@ -53,7 +51,7 @@ namespace PKHeX
         }
         private void onClosed(object sender, FormClosedEventArgs e)
         {
-            m_parent.specialChars = false;
+            Form1.specialChars = false;
         }
     }
 }

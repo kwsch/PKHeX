@@ -437,7 +437,7 @@ namespace PKHeX
             CB_Form.SelectedIndex = form;
 
             // Set Ability
-            m_parent.updateAbilityList(MT_AbilNo, spec, CB_Ability, CB_Form);
+            m_parent.setAbilityList(MT_AbilNo, spec, CB_Ability, CB_Form);
         }
 
         private void updateSpecies(object sender, EventArgs e)
@@ -461,11 +461,11 @@ namespace PKHeX
                 genderflag = 0;
 
             setGenderLabel();
-            m_parent.updateAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+            m_parent.setAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
         }
         private void updateForm(object sender, EventArgs e)
         {
-            m_parent.updateAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+            m_parent.setAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
             
             // If form has a single gender, account for it.
             if (PKX.getGender(CB_Form.Text) < 2)

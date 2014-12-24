@@ -86,8 +86,6 @@ namespace PKHeX
         {
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
-            m_parent.setBoxNames();
-            m_parent.setPKXBoxes();
             Close();
         }
 
