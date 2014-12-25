@@ -235,7 +235,7 @@ namespace PKHeX
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip();
         public ToolTip Tip3 = new ToolTip();
-        public PKX.SaveGames.SaveStruct SaveGame = new PKX.SaveGames.SaveStruct("XY");
+        public PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("XY");
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
@@ -538,7 +538,7 @@ namespace PKHeX
         private void openMAIN(byte[] input, string path, string GameType, bool oras)
         {
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new PKX.SaveGames.SaveStruct(GameType);
+            SaveGame = new PKX.Structures.SaveGame(GameType);
 
             // Load CyberGadget
             this.savindex = 0;
@@ -553,7 +553,7 @@ namespace PKHeX
         private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new PKX.SaveGames.SaveStruct(GameType);
+            SaveGame = new PKX.Structures.SaveGame(GameType);
             savegame_oras = oras;
 
             savefile = input;
@@ -1078,7 +1078,7 @@ namespace PKHeX
             }
             getQuickFiller(dragout);
         }
-        // General Use Functions shared by other Forms
+        // General Use Functions shared by other Forms // 
         public void setCountrySubRegion(object sender, string type)
         {
             ComboBox CB = sender as ComboBox;
@@ -1432,7 +1432,7 @@ namespace PKHeX
             int gameindex = Util.getIndex(CB_GameOrigin);
             PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(gameindex == 24 || gameindex == 25 || gameindex == 26 || gameindex == 27)) * 0.9 + 0.1);
         }
-        // Clicked Label Shortcuts
+        // Clicked Label Shortcuts // 
         private void clickFriendship(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // prompt to reset
@@ -3601,12 +3601,12 @@ namespace PKHeX
             if (BitConverter.ToUInt32(savefile, 0x6A810 + 0x7F000 * savindex) == 0x42454546)
             {
                 enableInterface = true;
-                SaveGame = new PKX.SaveGames.SaveStruct("XY");
+                SaveGame = new PKX.Structures.SaveGame("XY");
             }
             else
             {
                 Util.Error("Unrecognized Save File loaded.");
-                SaveGame = new PKX.SaveGames.SaveStruct("Error");
+                SaveGame = new PKX.Structures.SaveGame("Error");
             }
 
             // Enable Buttons

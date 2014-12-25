@@ -26,7 +26,7 @@ namespace PKHeX
             SaveData = new byte[InputData.Length];
             Array.Copy(InputData, SaveData, InputData.Length);
             PokemonList PL = new PokemonList();
-            PKX.SaveGames.SaveStruct SaveGame = new PKX.SaveGames.SaveStruct("XY");
+            PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("XY");
             if (savindex > 1) savindex = 0;
             for (int BoxNum = 0; BoxNum < 31; BoxNum++)
             {

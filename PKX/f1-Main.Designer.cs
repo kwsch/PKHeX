@@ -4176,7 +4176,6 @@
         private System.Windows.Forms.Label Label_Country;
         private System.Windows.Forms.Label Label_PKRSdays;
         private System.Windows.Forms.Label Label_PKRS;
-        public System.Windows.Forms.CheckBox CHK_IsEgg;
         private System.Windows.Forms.OpenFileDialog OpenPKX;
         private System.Windows.Forms.SaveFileDialog SavePKX;
         private System.Windows.Forms.Button BTN_RerollEC;
@@ -4409,7 +4408,6 @@
         private System.Windows.Forms.ToolStripComboBox CB_MainLanguage;
         private System.Windows.Forms.ToolStripMenuItem Menu_About;
         private System.Windows.Forms.ToolStripMenuItem Menu_BoxIO;
-        public System.Windows.Forms.ComboBox CB_Species;
         public System.Windows.Forms.ComboBox CB_Move1;
         public System.Windows.Forms.ComboBox CB_MetLocation;
         public System.Windows.Forms.Label Label_Friendship;
@@ -4448,6 +4446,8 @@
         public System.Windows.Forms.ComboBox CB_HeldItem;
         public System.Windows.Forms.ComboBox CB_Nature;
         private System.Windows.Forms.PictureBox dragout;
+        public System.Windows.Forms.ComboBox CB_Species;
+        public System.Windows.Forms.CheckBox CHK_IsEgg;
     }
 }
 

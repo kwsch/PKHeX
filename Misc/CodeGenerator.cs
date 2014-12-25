@@ -16,7 +16,7 @@ namespace PKHeX
     {
         byte[] codedata = new byte[232];
         byte[] newdata = new byte[232];
-        PKX.SaveGames.SaveStruct SaveGame = new PKX.SaveGames.SaveStruct(null);
+        PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame(null);
 
         Form1 m_parent;
         byte[] tabdata = null;
