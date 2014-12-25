@@ -1298,7 +1298,7 @@ namespace PKHeX
                     new { Text = forms[904], Value = 0 }, // Small
                     new { Text = forms[710], Value = 1 }, // Average
                     new { Text = forms[905], Value = 2 }, // Large
-                    new { Text = forms[907], Value = 3 }, // Super
+                    new { Text = forms[906], Value = 3 }, // Super
                 };
             var form_mega = new[] {
                     new { Text = types[0], Value = 0}, // Normal
