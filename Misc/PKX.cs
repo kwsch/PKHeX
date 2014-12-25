@@ -553,6 +553,7 @@ namespace PKHeX
             slot,
             mnicknamestr, mgenderstring, mnotOT, mot, mSpeciesName, mNatureName, mHPName, mAbilityName,
             mMove1N, mMove2N, mMove3N, mMove4N, mhelditemN,
+            mRMove1N, mRMove2N, mRMove3N, mRMove4N, 
             mMetLocN, mEggLocN,
             mcountryID, mregionID;
 
@@ -648,10 +649,10 @@ namespace PKHeX
         public ushort Move2_PPUp { get { return mmove2_ppu; } }
         public ushort Move3_PPUp { get { return mmove3_ppu; } }
         public ushort Move4_PPUp { get { return mmove4_ppu; } }
-        public ushort EggMove1 { get { return meggmove1; } }
-        public ushort EggMove2 { get { return meggmove2; } }
-        public ushort EggMove3 { get { return meggmove3; } }
-        public ushort EggMove4 { get { return meggmove4; } }
+        public string Relearn1 { get { return mRMove1N; } }
+        public string Relearn2 { get { return mRMove2N; } }
+        public string Relearn3 { get { return mRMove3N; } }
+        public string Relearn4 { get { return mRMove4N; } }
         public ushort Checksum { get { return mchk; } }
         public ushort mFriendship { get { return mOTfriendship; } }
         public ushort OT_Affection { get { return mOTaffection; } }
@@ -840,6 +841,10 @@ namespace PKHeX
                 mMove2N = Form1.movelist[mmove2];
                 mMove3N = Form1.movelist[mmove3];
                 mMove4N = Form1.movelist[mmove4];
+                mRMove1N = Form1.movelist[meggmove1];
+                mRMove2N = Form1.movelist[meggmove2];
+                mRMove3N = Form1.movelist[meggmove3];
+                mRMove4N = Form1.movelist[meggmove4];
                 mMetLocN = PKX.getLocation(false, mgamevers, mmetloc);
                 mEggLocN = PKX.getLocation(true, mgamevers, meggloc);
             }
@@ -1137,7 +1142,7 @@ namespace PKHeX
 
         // Font Related
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont,IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
         internal static Font getPKXFont(float fontsize)
         {
             byte[] fontData = Properties.Resources.PGLDings_NormalRegular;
