@@ -27,7 +27,7 @@ namespace PKHeX
                 534,535,
                 752,753,754,755,756,757,758,759,760,761,762,763,764,767,768,769,770,
         };
-        internal static readonly int[] Items_Ball = { 4, 3, 2, 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
+        internal static readonly int[] Items_Ball = { 000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576, };
         internal static readonly int[] Items_CommonBall = { 4, 3, 2, 1};
         internal static readonly int[] Items_UncommonBall = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 16 };
         #endregion

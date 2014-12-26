@@ -555,14 +555,14 @@ namespace PKHeX
             mMove1N, mMove2N, mMove3N, mMove4N, mhelditemN,
             mRMove1N, mRMove2N, mRMove3N, mRMove4N, 
             mMetLocN, mEggLocN,
-            mcountryID, mregionID;
+            mcountryID, mregionID, mGameN, mBallN, mdsregIDN, motlangN;
 
         private int
-            mability, mabilitynum, mnature, mfeflag, mgenderflag, maltforms, mPKRS_Strain, mPKRS_Duration,
+            mability, mabilitynum, mnature, mgenderflag, maltforms, mPKRS_Strain, mPKRS_Duration,
             mmetlevel, motgender;
 
         private bool
-            misegg, misnick, misshiny;
+            misegg, misnick, misshiny, mfeflag;
 
         private ushort
             mhelditem, mspecies, mTID, mSID, mTSV, mESV,
@@ -595,9 +595,13 @@ namespace PKHeX
         public string HeldItem { get { return mhelditemN; } }
         public string MetLoc { get { return mMetLocN; } }
         public string EggLoc { get { return mEggLocN; } }
+        public string Ball { get { return mBallN; } }
         public string OT { get { return mot; } }
+        public string Version { get { return mGameN; } }
+        public string OTLang { get { return motlangN; } }
         public string CountryID { get { return mcountryID; } }
         public string RegionID { get { return mregionID; } }
+        public string DSRegionID { get { return mdsregIDN; } }
 
         #region Extraneous
         public string EC { get { return mEC.ToString("X8"); } }
@@ -626,7 +630,6 @@ namespace PKHeX
         public string NotOT { get { return mnotOT; } }
 
         public int AbilityNum { get { return mabilitynum; } }
-        public int FatefulFlag { get { return mfeflag; } }
         public int GenderFlag { get { return mgenderflag; } }
         public int AltForms { get { return maltforms; } }
         public int PKRS_Strain { get { return mPKRS_Strain; } }
@@ -634,6 +637,7 @@ namespace PKHeX
         public int MetLevel { get { return mmetlevel; } }
         public int OT_Gender { get { return motgender; } }
 
+        public bool FatefulFlag { get { return mfeflag; } }
         public bool IsEgg { get { return misegg; } }
         public bool IsNicknamed { get { return misnick; } }
         public bool IsShiny { get { return misshiny; } }
@@ -662,11 +666,7 @@ namespace PKHeX
         public ushort Met_Year { get { return mmet_year; } }
         public ushort Met_Day { get { return mmet_month; } }
         public ushort Met_Month { get { return mmet_day; } }
-        public ushort Ball { get { return mball; } }
         public ushort Encounter { get { return mencountertype; } }
-        public ushort GameVersion { get { return mgamevers; } }
-        public ushort DSRegionID { get { return mdsregID; } }
-        public ushort OTLang { get { return motlang; } }
 
         #endregion
         public PKX(byte[] pkx, string ident)
@@ -687,7 +687,7 @@ namespace PKHeX
             // 0x16, 0x17 - Training bag
             mPID = BitConverter.ToUInt32(pkx, 0x18);
             mnature = pkx[0x1C];
-            mfeflag = pkx[0x1D] % 2;
+            mfeflag = (pkx[0x1D] % 2) == 1;
             mgenderflag = (pkx[0x1D] >> 1) & 0x3;
             maltforms = (pkx[0x1D] >> 3);
             mHP_EV = pkx[0x1E];
@@ -847,6 +847,10 @@ namespace PKHeX
                 mRMove4N = Form1.movelist[meggmove4];
                 mMetLocN = PKX.getLocation(false, mgamevers, mmetloc);
                 mEggLocN = PKX.getLocation(true, mgamevers, meggloc);
+                mGameN = Form1.gamelist[mgamevers];
+                mBallN = Form1.balllist[mball];
+                motlangN = Form1.gamelanguages[motlang];
+                mdsregIDN = Form1.consoleregions[mdsregID];
             }
             catch { return; }
         }

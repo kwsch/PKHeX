@@ -37,6 +37,7 @@ namespace PKHeX
                     byte[] slotdata = new byte[0xE8];
                     Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
                     byte[] dslotdata = PKX.decryptArray(slotdata);
+                    if (BitConverter.ToUInt16(dslotdata, 0x8) == 0) continue;
                     string Identifier = String.Format("B{0}:{1}",BoxNum.ToString("00"),SlotNum.ToString("00"));
                     PKX pkm = new PKX(dslotdata, Identifier);
                     if ((pkm.EC == "00000000") && (pkm.Species == "---")) continue;

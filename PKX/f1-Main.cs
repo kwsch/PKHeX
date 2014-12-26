@@ -224,6 +224,9 @@ namespace PKHeX
         public static string[] trainingstage = { };
         public static string[] wallpapernames = { };
         public static string[] encountertypelist = { };
+        public static string[] gamelanguages = { };
+        public static string[] consoleregions = { };
+        public static string[] balllist = { };
         public static string[] gamelist = { };
         public static string[] puffs = { };
         public static string[] itempouch = { };
@@ -642,7 +645,13 @@ namespace PKHeX
             itempouch = Util.getStringList("ItemPouch", l);
             encountertypelist = Util.getStringList("EncounterType", l);
             gamelist = Util.getStringList("Games", l);
-
+            gamelanguages = Util.getSimpleStringList("languages");
+            consoleregions = Util.getSimpleStringList("regions3ds");
+            
+            balllist = new string[Legal.Items_Ball.Length];
+            for (int i = 0; i < balllist.Length; i++)
+                balllist[i] = itemlist[Legal.Items_Ball[i]];
+            
             if ((l != "zh") || (l == "zh" && !init)) // load initial binaries
             {
                 forms = Util.getStringList("Forms", l);
@@ -993,20 +1002,14 @@ namespace PKHeX
             TB_MetLevel.Text = metlevel.ToString();
 
             // Reset
-            CHK_Cured.Checked = false;
-            CHK_Infected.Checked = false;
-
-            CB_PKRSStrain.SelectedIndex = PKRS_Strain;
-            CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7),4); // to strip out bad hacked 'rus
-            if (PKRS_Strain > 0)
+            Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = !(PKRS_Strain == 0);
+            Label_PKRSdays.Visible = CB_PKRSDays.Visible = !(PKRS_Duration == 0);
             {
-                CHK_Infected.Checked = true;
-                if (PKRS_Duration == 0)
-                    CHK_Cured.Checked = true;
+                CHK_Cured.Checked = (PKRS_Strain > 0 && PKRS_Duration == 0);
             }
             // Do it again now that our comboboxes should be properly set?
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
-            CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7),4); // to strip out bad hacked 'rus
+            CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7), 4); // to strip out bad hacked 'rus
 
             TB_Cool.Text = cnt_cool.ToString();
             TB_Beauty.Text = cnt_beauty.ToString();
@@ -1069,6 +1072,8 @@ namespace PKHeX
                 CB_EncounterType.SelectedValue = 0;
 
             init = true;
+            updatePKRSInfected(null, null);
+            updatePKRSCured(null, null);
 
             if (HaX) // DEV Illegality
             {
@@ -1787,6 +1792,51 @@ namespace PKHeX
                 else CHK_Cured.Checked = true;
             }
         }
+        private void updatePKRSCured(object sender, EventArgs e)
+        {
+            if (!init) return;
+            // Cured PokeRus is toggled
+            if (CHK_Cured.Checked)
+            {
+                // Has Had PokeRus
+                Label_PKRSdays.Visible = CB_PKRSDays.Visible = false;
+                CB_PKRSDays.SelectedIndex = 0;
+
+                Label_PKRS.Visible = CB_PKRSStrain.Visible = true;
+                CHK_Infected.Checked = true;
+
+                // If we're cured we have to have a strain infection.
+                if (CB_PKRSStrain.SelectedIndex == 0)
+                    CB_PKRSStrain.SelectedIndex = 1;
+            }
+            else if (!CHK_Infected.Checked)
+            {
+                // Not Infected, Disable the other
+                Label_PKRS.Visible = CB_PKRSStrain.Visible = false;
+                CB_PKRSStrain.SelectedIndex = 0;
+            }
+            else
+            {
+                // Still Infected for a duration
+                Label_PKRSdays.Visible = CB_PKRSDays.Visible = true;
+                CB_PKRSDays.SelectedValue = 1;
+            }
+            // if not cured yet, days > 0
+            if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0)
+                CB_PKRSDays.SelectedIndex++;
+
+            setMarkings();
+        }
+        private void updatePKRSInfected(object sender, EventArgs e)
+        {
+            if (!init) return;
+            Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
+            if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = 0; CB_PKRSDays.SelectedIndex = 0; Label_PKRSdays.Visible = CB_PKRSDays.Visible = false; }
+            else if (CB_PKRSStrain.SelectedIndex == 0) CB_PKRSStrain.SelectedIndex++;
+
+            // if not cured yet, days > 0
+            if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) CB_PKRSDays.SelectedIndex++;
+        }
         private void updateCountry(object sender, EventArgs e)
         {
             if (Util.getIndex(sender as ComboBox) > 0)
@@ -1979,50 +2029,6 @@ namespace PKHeX
             }
             else if (Label_CTGender.Text == "")
                 Label_CTGender.Text = gendersymbols[0];
-        }
-        private void updatePKRSCured(object sender, EventArgs e)
-        {
-            // Cured PokeRus is toggled
-            if (CHK_Cured.Checked)
-            {
-                // Has Had PokeRus
-                Label_PKRSdays.Visible = CB_PKRSDays.Visible = false;
-                CB_PKRSDays.SelectedIndex = 0;
-
-                Label_PKRS.Visible = CB_PKRSStrain.Visible = true;
-                CHK_Infected.Checked = true;
-
-                // If we're cured we have to have a strain infection.
-                if (CB_PKRSStrain.SelectedIndex == 0)
-                    CB_PKRSStrain.SelectedIndex = 1;
-            }
-            else if (!CHK_Infected.Checked)
-            {
-                // Not Infected, Disable the other
-                Label_PKRS.Visible = CB_PKRSStrain.Visible = false;
-                CB_PKRSStrain.SelectedIndex = 0;
-            }
-            else
-            { 
-                // Still Infected for a duration
-                Label_PKRSdays.Visible = CB_PKRSDays.Visible = true;
-                CB_PKRSDays.SelectedValue = 1;
-            }
-            // if not cured yet, days > 0
-            if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) 
-                CB_PKRSDays.SelectedIndex++;
-        
-            setMarkings();
-        }
-        private void updatePKRSInfected(object sender, EventArgs e)
-        {
-            Label_PKRSdays.Visible = CB_PKRSDays.Visible = Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
-            if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = CB_PKRSDays.SelectedIndex = 0; }
-            else if (CB_PKRSStrain.SelectedIndex == 0) CB_PKRSStrain.SelectedIndex++;
-
-            CB_PKRSDays.SelectedValue = CB_PKRSStrain.SelectedValue = Convert.ToInt32(CHK_Infected.Checked);
-            // if not cured yet, days > 0
-            if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) CB_PKRSDays.SelectedIndex++;
         }
         private void updateIsEgg(object sender, EventArgs e)
         {
@@ -4146,8 +4152,6 @@ namespace PKHeX
                     uint unk4 = BitConverter.ToUInt16(savefile, r_offset + 0x54);
                     byte region = savefile[r_offset + 0x56];
                     byte country = savefile[r_offset + 0x57];
-                    byte _3dsreg = savefile[r_offset + 0x58];
-                    byte _lang = savefile[r_offset + 0x59];
                     byte game = savefile[r_offset + 0x5A];
                     ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
                     int favpkm = BitConverter.ToUInt16(savefile, r_offset + 0x9C) & 0x7FF;
@@ -4167,8 +4171,8 @@ namespace PKHeX
                         "OT: " + otname + Environment.NewLine +
                         "Message: " + message + Environment.NewLine +
                         "Game: " + gamename + Environment.NewLine +
-                        "Country ID: " + cr[0] + Environment.NewLine +
-                        "Region ID: " + cr[1] + Environment.NewLine +
+                        "Country: " + cr[0] + Environment.NewLine +
+                        "Region: " + cr[1] + Environment.NewLine +
                         "Favorite: " + specieslist[favpkm] + Environment.NewLine;
 
                     result += Environment.NewLine;
