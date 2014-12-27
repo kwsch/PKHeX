@@ -996,18 +996,17 @@ namespace PKHeX
 
             CB_MetLocation.SelectedValue = metloc;
 
-            Label_CTGender.Text = (notOTG) ? gendersymbols[1] : gendersymbols[0];
-            if (TB_OTt2.Text == "") Label_CTGender.Text = "";
+            // Set CT Gender to None if no CT, else set to gender symbol.
+            Label_CTGender.Text = ((TB_OTt2.Text == "") || (notOT == "")) ? "" : (notOTG) ? gendersymbols[1] : gendersymbols[0];
 
             TB_MetLevel.Text = metlevel.ToString();
 
-            // Reset
+            // Reset Label and ComboBox visibility, as well as non-data checked status.
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = !(PKRS_Strain == 0);
             Label_PKRSdays.Visible = CB_PKRSDays.Visible = !(PKRS_Duration == 0);
-            {
-                CHK_Cured.Checked = (PKRS_Strain > 0 && PKRS_Duration == 0);
-            }
-            // Do it again now that our comboboxes should be properly set?
+            CHK_Cured.Checked = (PKRS_Strain > 0 && PKRS_Duration == 0);
+
+            // Set SelectedIndexes for PKRS
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
             CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7), 4); // to strip out bad hacked 'rus
 
@@ -1048,24 +1047,17 @@ namespace PKHeX
             int level = PKX.getLevel(species, ref exp);
             TB_Level.Text = level.ToString();
 
-            // Setup Forms
-            setForms(species, CB_Form);
-            try { CB_Form.SelectedIndex = altforms; }
-            catch { CB_Form.SelectedIndex = (CB_Form.Items.Count > 1) ? CB_Form.Items.Count - 1 : 0; }
+            // Set Form if count is enough, else if count is more than 1 set equal to max else zero.
+            CB_Form.SelectedIndex = (CB_Form.Items.Count > altforms) ? altforms : (CB_Form.Items.Count > 1) ? CB_Form.Items.Count - 1 : 0;
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = buff[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
-            if ((TB_OTt2.Text == "") || (notOT == ""))
-                Label_CTGender.Text = "";
             
             // Reload Gender Flag
             this.genderflag = ((buff[0x1D] >> 1) & 0x3);
             Label_Gender.Text = gendersymbols[genderflag];
             updateStats();
             setIsShiny();
-            // if (init)
-                if (!PKX.verifychk(buff))
-                    Util.Alert("PKX File has an invalid checksum.");
 
             CB_EncounterType.Visible = Label_EncounterType.Visible = !(gamevers > 12 || gamevers < 7);
             if (gamevers > 12 || gamevers < 7)
@@ -1081,7 +1073,12 @@ namespace PKHeX
                 MT_Level.Text = level.ToString();
                 MT_Form.Text = altforms.ToString();
             }
+
+            // Set the Preview Box
             getQuickFiller(dragout);
+
+            if (!PKX.verifychk(buff))
+                Util.Alert("PKX File has an invalid checksum.");
         }
         // General Use Functions shared by other Forms // 
         public void setCountrySubRegion(object sender, string type)
