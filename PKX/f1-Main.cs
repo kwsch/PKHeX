@@ -161,6 +161,7 @@ namespace PKHeX
 
             GB_OT.Click += clickGT;
             GB_nOT.Click += clickGT;
+            GB_Daycare.Click += switchDaycare;
 
             TB_Nickname.Font = PKX.getPKXFont(11F);
             // Close splash screen.  
@@ -580,7 +581,7 @@ namespace PKHeX
             Array.Copy(savefile, 0x43C - 1 * 0x130, realHash2, 0, 0x20);
 
             B_SwitchSAV.Enabled = (hashValue1.SequenceEqual(realHash1) && hashValue2.SequenceEqual(realHash2));
-            getSAVOffsets(); // to detect if we are ORAS or not
+            getSAVOffsets(ref oras); // to detect if we are ORAS or not
             Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
 
             openSave(oras);
@@ -3179,7 +3180,7 @@ namespace PKHeX
                 }
             }
         }
-        // Box/SAV Functions // 
+        // Box/SAV Functions //
         private void clickBoxRight(object sender, EventArgs e)
         {
             if (C_BoxSelect.SelectedIndex < 30)
@@ -3597,12 +3598,12 @@ namespace PKHeX
             L_SAVINDEX.Text = (savindex + 1).ToString();
             RTB_S.AppendText("Loaded Save File " + (savindex + 1).ToString() + Environment.NewLine);
         }
-        private void getSAVOffsets()
+        private void getSAVOffsets(ref bool oras)
         {
             // Get the save file offsets for the input game
             bool enableInterface = false;
             if (BitConverter.ToUInt32(savefile, 0x6A810 + 0x7F000 * savindex) == 0x42454546)
-            { 
+            {
                 enableInterface = true;
                 SaveGame = new PKX.Structures.SaveGame("XY");
             }
@@ -3610,7 +3611,7 @@ namespace PKHeX
             {
                 enableInterface = true;
                 SaveGame = new PKX.Structures.SaveGame("ORAS");
-                savegame_oras = true;
+                oras = true;
             }
             else
             {
@@ -3813,6 +3814,15 @@ namespace PKHeX
 
             uint psv = PKX.getPSV(Util.getHEXval(TB_PID));
             Tip3.SetToolTip(this.TB_PID, "PSV: " + psv.ToString("0000"));
+        }
+        private void switchDaycare(object sender, EventArgs e)
+        {
+            if (!savegame_oras) return;
+            // If ORAS, alter the daycare offset via toggle.
+            SaveGame.Daycare = (SaveGame.Daycare == 0x21000) ? 0x211F0 : 0x21000;
+
+            // Refresh Boxes
+            setPKXBoxes();
         }
         private void mainMenuBoxDumpLoad(object sender, EventArgs e)
         {
