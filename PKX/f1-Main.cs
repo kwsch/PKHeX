@@ -580,7 +580,7 @@ namespace PKHeX
             Array.Copy(savefile, 0x43C - 1 * 0x130, realHash2, 0, 0x20);
 
             B_SwitchSAV.Enabled = (hashValue1.SequenceEqual(realHash1) && hashValue2.SequenceEqual(realHash2));
-            getSAVOffsets(); // just in case
+            getSAVOffsets(); // to detect if we are ORAS or not
             Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
 
             openSave(oras);
@@ -3602,9 +3602,15 @@ namespace PKHeX
             // Get the save file offsets for the input game
             bool enableInterface = false;
             if (BitConverter.ToUInt32(savefile, 0x6A810 + 0x7F000 * savindex) == 0x42454546)
-            {
+            { 
                 enableInterface = true;
                 SaveGame = new PKX.Structures.SaveGame("XY");
+            }
+            else if (BitConverter.ToUInt32(savefile, 0x7B210 + 0x7F000 * savindex) == 0x42454546)
+            {
+                enableInterface = true;
+                SaveGame = new PKX.Structures.SaveGame("ORAS");
+                savegame_oras = true;
             }
             else
             {
