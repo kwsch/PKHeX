@@ -556,6 +556,54 @@ namespace PKHeX
         }
         private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
+            // Detection of stored Decryption XORpads:
+            if (ModifierKeys != Keys.Control) // Allow bypass via control key.
+            {
+                byte[] savID = new byte[0x10]; Array.Copy(input, 0x20, savID, 0, 0x10);
+                ulong ident = BitConverter.ToUInt64(savID, 0x0);
+                string exepath = System.Windows.Forms.Application.StartupPath;
+                string checkpath = exepath.Clone().ToString();
+                
+                check:
+                {
+                    string[] XORpads = Directory.GetFiles(checkpath);
+                    for (int i = 0; i < XORpads.Length; i++)
+                    {
+                        FileInfo fi = new FileInfo(XORpads[i]);
+                        if (fi.Extension == ".xorpad" && (fi.Length == 0x65610 || fi.Length == 0x76010))
+                        {
+                            byte[] data = File.ReadAllBytes(XORpads[i]);
+                            if (BitConverter.ToUInt64(data, 0) == ident) // we match our cart ident.
+                            {
+                                // Set up faux Cyber Save
+                                int length = (int)fi.Length - 0x10;
+                                byte[] decryptedPS = new byte[length];
+                                Array.Copy(input, 0x5400, decryptedPS, 0, length);
+                                for (int z = 0; z < length; z++)
+                                    decryptedPS[z] ^= data[z + 0x10];
+
+                                // Weakly check the validity of the decrypted content
+                                if (BitConverter.ToUInt32(decryptedPS, length - 0x1F0) != 0x42454546)
+                                    continue; // If the XORpad doesn't decrypt properly, we keep checking.
+                                oras = (length == 0x76000);
+                                GameType = oras ? "ORAS" : "XY";
+                                
+                                // Save file is now decrypted!
+                                openMAIN(decryptedPS, path, GameType, oras);
+                                // Abort the opening of a non-cyber file.
+                                return;
+                            }
+                        }
+                    }
+
+                    // End file check loop, if xorpads folder path exists, check there too.
+                    if (checkpath == exepath && Directory.Exists(Path.Combine(exepath, "xorpads")))
+                    {
+                        checkpath = Path.Combine(exepath, "xorpads");
+                        goto check;
+                    }
+                }
+            }
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new PKX.Structures.SaveGame(GameType);
             savegame_oras = oras;
