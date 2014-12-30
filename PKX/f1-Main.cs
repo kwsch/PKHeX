@@ -2125,9 +2125,7 @@ namespace PKHeX
                 cb.BackColor = defaultControlWhite;
 
             if (init)
-            {
                 getQuickFiller(dragout);
-            }
         }
         private void validateComboBox2(object sender, EventArgs e)
         {
@@ -2267,14 +2265,14 @@ namespace PKHeX
                 uint XOR = (TID ^ LID ^ SID ^ HID);
 
                 // Ensure we don't have a shiny.
-                if (XOR < 16 && XOR >= 8) // Illegal, fix.
+                if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
                 {
                     // Keep as shiny, so we have to mod the PID
-                    PID = (PID ^ XOR);
+                    PID ^= XOR;
                     TB_PID.Text = PID.ToString("X8");
                     TB_EC.Text = PID.ToString("X8");
                 }
-                else if ((XOR ^ 0x8000) >= 8 && (XOR ^ 0x8000) < 16 && (PID != EC))
+                else if ((XOR ^ 0x8000) >> 3 == 1 && PID != EC)
                     TB_EC.Text = (PID ^ 0x80000000).ToString("X8");
                 else // Not Illegal, no fix.
                     TB_EC.Text = PID.ToString("X8");
@@ -2299,28 +2297,28 @@ namespace PKHeX
             fegform |= (PKX.getGender(Label_Gender.Text) << 1);                                 // Gender
             fegform |= (Math.Min((MT_Form.Enabled) ? Convert.ToInt32(MT_Form.Text) : Util.getIndex(CB_Form), 32) << 3); // Form
             pkx[0x1D] = (byte)fegform;
-            pkx[0x1E] = (byte)(Util.ToInt32(TB_HPEV.Text) & 0xFF);       // EVs
-            pkx[0x1F] = (byte)(Util.ToInt32(TB_ATKEV.Text) & 0xFF);
-            pkx[0x20] = (byte)(Util.ToInt32(TB_DEFEV.Text) & 0xFF);
-            pkx[0x21] = (byte)(Util.ToInt32(TB_SPEEV.Text) & 0xFF);
-            pkx[0x22] = (byte)(Util.ToInt32(TB_SPAEV.Text) & 0xFF);
-            pkx[0x23] = (byte)(Util.ToInt32(TB_SPDEV.Text) & 0xFF);
+            pkx[0x1E] = (byte)Util.ToInt32(TB_HPEV.Text);       // EVs
+            pkx[0x1F] = (byte)Util.ToInt32(TB_ATKEV.Text);
+            pkx[0x20] = (byte)Util.ToInt32(TB_DEFEV.Text);
+            pkx[0x21] = (byte)Util.ToInt32(TB_SPEEV.Text);
+            pkx[0x22] = (byte)Util.ToInt32(TB_SPAEV.Text);
+            pkx[0x23] = (byte)Util.ToInt32(TB_SPDEV.Text);
 
-            pkx[0x24] = (byte)(Util.ToInt32(TB_Cool.Text) & 0xFF);       // CNT
-            pkx[0x25] = (byte)(Util.ToInt32(TB_Beauty.Text) & 0xFF);
-            pkx[0x26] = (byte)(Util.ToInt32(TB_Cute.Text) & 0xFF);
-            pkx[0x27] = (byte)(Util.ToInt32(TB_Smart.Text) & 0xFF);
-            pkx[0x28] = (byte)(Util.ToInt32(TB_Tough.Text) & 0xFF);
-            pkx[0x29] = (byte)(Util.ToInt32(TB_Sheen.Text) & 0xFF);
-            // stupid & 0xFF to prevent bad values being stuffed
-            int markings = Convert.ToInt32(CHK_Circle.Checked);
-            markings += Convert.ToInt32(CHK_Triangle.Checked) * 2;
-            markings += Convert.ToInt32(CHK_Square.Checked) * 4;
-            markings += Convert.ToInt32(CHK_Heart.Checked) * 8;
-            markings += Convert.ToInt32(CHK_Star.Checked) * 16;
-            markings += Convert.ToInt32(CHK_Diamond.Checked) * 32;
+            pkx[0x24] = (byte)Util.ToInt32(TB_Cool.Text);       // CNT
+            pkx[0x25] = (byte)Util.ToInt32(TB_Beauty.Text);
+            pkx[0x26] = (byte)Util.ToInt32(TB_Cute.Text);
+            pkx[0x27] = (byte)Util.ToInt32(TB_Smart.Text);
+            pkx[0x28] = (byte)Util.ToInt32(TB_Tough.Text);
+            pkx[0x29] = (byte)Util.ToInt32(TB_Sheen.Text);
+
+            int markings = CHK_Circle.Checked ? (1 << 0) : 0;
+            markings |= CHK_Triangle.Checked ? (1 << 1) : 0;
+            markings |= CHK_Square.Checked ? (1 << 2) : 0;
+            markings |= CHK_Heart.Checked ? (1 << 3) : 0;
+            markings |= CHK_Star.Checked ? (1 << 4) : 0;
+            markings |= CHK_Diamond.Checked ? (1 << 5) : 0;
             pkx[0x2A] = (byte)markings;
-            pkx[0x2B] = (byte)(CB_PKRSDays.SelectedIndex + CB_PKRSStrain.SelectedIndex * 0x10);
+            pkx[0x2B] = (byte)(CB_PKRSStrain.SelectedIndex << 4 | CB_PKRSDays.SelectedIndex);
 
             // Already in buff (then transferred to new pkx)
             // 0x2C, 0x2D, 0x2E, 0x2F
@@ -2349,20 +2347,16 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move3)), 0, pkx, 0x5E, 2);  // Move 3
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move4)), 0, pkx, 0x60, 2);  // Move 4
 
-            pkx[0x62] = (byte)(Util.ToInt32(TB_PP1.Text) & 0xFF);    // Max PP
-            pkx[0x63] = (byte)(Util.ToInt32(TB_PP2.Text) & 0xFF);
-            pkx[0x64] = (byte)(Util.ToInt32(TB_PP3.Text) & 0xFF);
-            pkx[0x65] = (byte)(Util.ToInt32(TB_PP4.Text) & 0xFF);
+            pkx[0x62] = (byte)(Util.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0);    // Max PP
+            pkx[0x63] = (byte)(Util.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0);
+            pkx[0x64] = (byte)(Util.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0);
+            pkx[0x65] = (byte)(Util.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0);
 
-            pkx[0x66] = (byte)(CB_PPu1.SelectedIndex);          // PP Ups
-            pkx[0x67] = (byte)(CB_PPu2.SelectedIndex);
-            pkx[0x68] = (byte)(CB_PPu3.SelectedIndex);
-            pkx[0x69] = (byte)(CB_PPu4.SelectedIndex);
-
-            // Don't allow PP Ups if there is no move.
-            for (int i = 0; i < 4; i++)
-                if (pkx[0x62 + i] == 0) pkx[0x66 + i] = 0;
-
+            pkx[0x66] = (byte)(Util.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0);        // PP Ups
+            pkx[0x67] = (byte)(Util.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0);
+            pkx[0x68] = (byte)(Util.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0);
+            pkx[0x69] = (byte)(Util.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0);
+            
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_RelearnMove1)), 0, pkx, 0x6A, 2);  // EggMove 1
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_RelearnMove2)), 0, pkx, 0x6C, 2);  // EggMove 2
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_RelearnMove3)), 0, pkx, 0x6E, 2);  // EggMove 3
@@ -2372,18 +2366,15 @@ namespace PKHeX
             // 0x73
 
             uint IV32 = Util.ToUInt32(TB_HPIV.Text) & 0x1F;
-            IV32 += ((Util.ToUInt32(TB_ATKIV.Text) & 0x1F) << 5);
-            IV32 += ((Util.ToUInt32(TB_DEFIV.Text) & 0x1F) << 10);
-            IV32 += ((Util.ToUInt32(TB_SPEIV.Text) & 0x1F) << 15);
-            IV32 += ((Util.ToUInt32(TB_SPAIV.Text) & 0x1F) << 20);
-            IV32 += ((Util.ToUInt32(TB_SPDIV.Text) & 0x1F) << 25);
-            IV32 += (Convert.ToUInt32(CHK_IsEgg.Checked) << 30);
-            IV32 += (Convert.ToUInt32(CHK_Nicknamed.Checked) << 31);
+            IV32 |= ((Util.ToUInt32(TB_ATKIV.Text) & 0x1F) << 5);
+            IV32 |= ((Util.ToUInt32(TB_DEFIV.Text) & 0x1F) << 10);
+            IV32 |= ((Util.ToUInt32(TB_SPEIV.Text) & 0x1F) << 15);
+            IV32 |= ((Util.ToUInt32(TB_SPAIV.Text) & 0x1F) << 20);
+            IV32 |= ((Util.ToUInt32(TB_SPDIV.Text) & 0x1F) << 25);
+            IV32 |= (Convert.ToUInt32(CHK_IsEgg.Checked) << 30);
+            IV32 |= (Convert.ToUInt32(CHK_Nicknamed.Checked) << 31);
 
-            pkx[0x74] = (byte)((IV32 >> 00) & 0xFF); // IVs
-            pkx[0x75] = (byte)((IV32 >> 08) & 0xFF);
-            pkx[0x76] = (byte)((IV32 >> 16) & 0xFF);
-            pkx[0x77] = (byte)((IV32 >> 24) & 0xFF);
+            Array.Copy(BitConverter.GetBytes(IV32), 0, pkx, 0x74, 4);  // Copy in IVs
 
             // Block C
             // Convert OTT2 field back to bytes
@@ -2439,7 +2430,7 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(met_location), 0, pkx, 0xDA, 2);   // Met Location
 
             pkx[0xDC] = (byte)Util.getIndex(CB_Ball);
-            pkx[0xDD] = (byte)(((Util.ToInt32(TB_MetLevel.Text) & 0x7F) + (Convert.ToInt32(PKX.getGender(Label_OTGender.Text) == 1) << 7)));
+            pkx[0xDD] = (byte)(((Util.ToInt32(TB_MetLevel.Text) & 0x7F) | (Convert.ToInt32(PKX.getGender(Label_OTGender.Text) == 1) << 7)));
             pkx[0xDE] = (byte)(Util.ToInt32(CB_EncounterType.SelectedValue.ToString()));
             pkx[0xDF] = (byte)Util.getIndex(CB_GameOrigin);
             pkx[0xE0] = (byte)Util.getIndex(CB_Country);
@@ -2509,7 +2500,7 @@ namespace PKHeX
                 chk += BitConverter.ToUInt16(pkx, i);
 
             // Apply New Checksum
-            Array.Copy(BitConverter.GetBytes(chk), 0, pkx, 06, 2);
+            Array.Copy(BitConverter.GetBytes(chk), 0, pkx, 6, 2);
 
             // PKX is now filled
             return pkx;
@@ -3818,6 +3809,7 @@ namespace PKHeX
         private void switchDaycare(object sender, EventArgs e)
         {
             if (!savegame_oras) return;
+            if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Would you like to switch the view to the other Daycare?", String.Format("Currently viewing daycare {0}.",SaveGame.Daycare / 0x211F0 + 1)))
             // If ORAS, alter the daycare offset via toggle.
             SaveGame.Daycare = (SaveGame.Daycare == 0x21000) ? 0x211F0 : 0x21000;
 
