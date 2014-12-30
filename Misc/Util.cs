@@ -142,6 +142,7 @@ namespace PKHeX
                 {
                     // 3DS data found in SD card reader. Let's get the title folder location!
                     string[] folders = Directory.GetDirectories(path_SDF, "*", System.IO.SearchOption.TopDirectoryOnly);
+                    Array.Sort(folders); // Don't need Modified Date, sort by path names just in case.
 
                     // Loop through all the folders in the Nintendo 3DS folder to see if any of them contain 'title'.
                     for (int i = folders.Length - 1; i >= 0; i--)
