@@ -559,7 +559,7 @@ namespace PKHeX
             // Detection of stored Decryption XORpads:
             if (ModifierKeys != Keys.Control) // Allow bypass via control key.
             {
-                byte[] savID = new byte[0x10]; Array.Copy(input, 0x20, savID, 0, 0x10);
+                byte[] savID = new byte[0x10]; Array.Copy(input, 0x10, savID, 0, 0x10);
                 ulong ident = BitConverter.ToUInt64(savID, 0x0);
                 string exepath = System.Windows.Forms.Application.StartupPath;
                 string checkpath = exepath.Clone().ToString();
