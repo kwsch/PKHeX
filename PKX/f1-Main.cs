@@ -422,31 +422,18 @@ namespace PKHeX
                 Array.Resize(ref input, 0x100000);
             }
             #endregion
-            #region Trade Packets
-            if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
-            {
-                // EAD Packet of 363 length
-                byte[] c = new byte[260];
-                Array.Copy(input, 0x67, c, 0, 260);
-                input = c;
-            }
-            else if (input.Length == 407 && BitConverter.ToUInt16(input, 0x98) == 0)
-            {
-                // EAD Packet of 407 length
-                byte[] c = new byte[260];
-                Array.Copy(input, 0x93, c, 0, 260);
-                input = c;
-            }
-            #endregion
+            
             #region Saves
-            else if ((input.Length == 0x76000) && BitConverter.ToUInt32(input, 0x75E10) == 0x42454546) // ORAS
+            if ((input.Length == 0x76000) && BitConverter.ToUInt32(input, 0x75E10) == 0x42454546) // ORAS
                 openMAIN(input, path, "ORAS", true);
             else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input, 0x65410) == 0x42454546) // XY
                 openMAIN(input, path, "XY", false);
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
             {
-                if (BitConverter.ToUInt64(input, 0x10) != 0) // encrypted save
+                if (openXOR(input, path)) // Check if we can load the save via xorpad
+                    return; // only if a save is loaded we abort
+                else if (BitConverter.ToUInt64(input, 0x10) != 0) // encrypted save
                 { Util.Error("PKHeX only edits decrypted save files.", "This save file is not decrypted."); return; }
 
                 B_ExportSAV.Enabled = false;
@@ -536,6 +523,22 @@ namespace PKHeX
                 }
             }
             #endregion
+            #region Trade Packets
+            else if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
+            {
+                // EAD Packet of 363 length
+                byte[] c = new byte[260];
+                Array.Copy(input, 0x67, c, 0, 260);
+                input = c;
+            }
+            else if (input.Length == 407 && BitConverter.ToUInt16(input, 0x98) == 0)
+            {
+                // EAD Packet of 407 length
+                byte[] c = new byte[260];
+                Array.Copy(input, 0x93, c, 0, 260);
+                input = c;
+            }
+            #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
         }
@@ -556,54 +559,6 @@ namespace PKHeX
         }
         private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
-            // Detection of stored Decryption XORpads:
-            if (ModifierKeys != Keys.Control) // Allow bypass via control key.
-            {
-                byte[] savID = new byte[0x10]; Array.Copy(input, 0x10, savID, 0, 0x10);
-                ulong ident = BitConverter.ToUInt64(savID, 0x0);
-                string exepath = System.Windows.Forms.Application.StartupPath;
-                string checkpath = exepath.Clone().ToString();
-                
-                check:
-                {
-                    string[] XORpads = Directory.GetFiles(checkpath);
-                    for (int i = 0; i < XORpads.Length; i++)
-                    {
-                        FileInfo fi = new FileInfo(XORpads[i]);
-                        if (fi.Extension == ".xorpad" && (fi.Length == 0x65610 || fi.Length == 0x76010))
-                        {
-                            byte[] data = File.ReadAllBytes(XORpads[i]);
-                            if (BitConverter.ToUInt64(data, 0) == ident) // we match our cart ident.
-                            {
-                                // Set up faux Cyber Save
-                                int length = (int)fi.Length - 0x10;
-                                byte[] decryptedPS = new byte[length];
-                                Array.Copy(input, 0x5400, decryptedPS, 0, length);
-                                for (int z = 0; z < length; z++)
-                                    decryptedPS[z] ^= data[z + 0x10];
-
-                                // Weakly check the validity of the decrypted content
-                                if (BitConverter.ToUInt32(decryptedPS, length - 0x1F0) != 0x42454546)
-                                    continue; // If the XORpad doesn't decrypt properly, we keep checking.
-                                oras = (length == 0x76000);
-                                GameType = oras ? "ORAS" : "XY";
-                                
-                                // Save file is now decrypted!
-                                openMAIN(decryptedPS, path, GameType, oras);
-                                // Abort the opening of a non-cyber file.
-                                return;
-                            }
-                        }
-                    }
-
-                    // End file check loop, if xorpads folder path exists, check there too.
-                    if (checkpath == exepath && Directory.Exists(Path.Combine(exepath, "xorpads")))
-                    {
-                        checkpath = Path.Combine(exepath, "xorpads");
-                        goto check;
-                    }
-                }
-            }
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new PKX.Structures.SaveGame(GameType);
             savegame_oras = oras;
@@ -633,6 +588,68 @@ namespace PKHeX
             Array.Copy(savefile, 0x5400 + 0x7F000 * savindex, cyberSAV, 0, cyberSAV.Length);
 
             openSave(oras);
+        }
+        private bool openXOR(byte[] input, string path)
+        {
+            // Detection of stored Decryption XORpads:
+            if (ModifierKeys != Keys.Control) // Allow bypass via control key.
+            {
+                byte[] savID = new byte[0x10]; Array.Copy(input, 0x10, savID, 0, 0x10);
+                string exepath = System.Windows.Forms.Application.StartupPath;
+                string[] XORpads = Directory.GetFiles(exepath);
+
+                check:
+                for (int i = 0; i < XORpads.Length; i++)
+                {
+                    FileInfo fi = new FileInfo(XORpads[i]);
+                    if (fi.Name.Contains("xorpad") && (fi.Length == 0x10009C || fi.Length == 0x100000))
+                    {
+                        // Load xorpad in
+                        byte[] xorpad = File.ReadAllBytes(XORpads[i]);
+
+                        // Fix xorpad alignment
+                        if (xorpad.Length == 0x10009C)
+                        {
+                            Array.Copy(xorpad, 0x9C, xorpad, 0, 0x100000);
+                            Array.Resize(ref xorpad, 0x100000);
+                        }
+                        byte[] xorID = new byte[0x10]; Array.Copy(xorpad, 0x10, xorID, 0, 0x10);
+                        if (xorID.SequenceEqual(savID)) // we match our cart ident.
+                        {
+                            // Set up Decrypted File
+                            byte[] decryptedPS = new byte[0x76000];
+                            Array.Copy(input, 0x5400, decryptedPS, 0, 0x76000);
+
+                            // xor through and decrypt
+                            for (int z = 0; z < 0x76000; z++)
+                                decryptedPS[z] ^= xorpad[0x5400 + z];
+
+                            // Weakly check the validity of the decrypted content
+                            if (BitConverter.ToUInt32(decryptedPS, 0x76000 - 0x1F0) != 0x42454546) // Not OR/AS
+                                if (BitConverter.ToUInt32(decryptedPS, 0x76000 - 0x1F0) != 0x42454546)
+                                    continue; // Not X/Y, so continue.
+                                else
+                                    Array.Resize(ref decryptedPS, 0x65600); // set to X/Y size
+                            else Array.Resize(ref decryptedPS, 0x76000); // set to ORAS size just in case
+
+                            // Save file is now decrypted! Reset the loading variables.
+                            bool oras = (decryptedPS.Length == 0x76000);
+                            string GameType = oras ? "ORAS" : "XY";
+
+                            // Trigger Loading of the decrypted save file.
+                            openMAIN(decryptedPS, path, GameType, oras);
+
+                            // Abort the opening of a non-cyber file.
+                            return true;
+                        }
+                    }
+
+                    // End file check loop, check the input path for xorpads too if it isn't the same as the EXE (quite common).
+                    if (Path.GetDirectoryName(path) != exepath)
+                    { XORpads = Directory.GetFiles(Path.GetDirectoryName(path)); goto check; }
+                }
+            }
+            return false; // no xorpad compatible
         }
         private void openSave(bool oras)
         {
@@ -3409,7 +3426,7 @@ namespace PKHeX
             uint pid = BitConverter.ToUInt32(pkxdata, 0x18);
             ushort TID = BitConverter.ToUInt16(pkxdata, 0xC);
             ushort SID = BitConverter.ToUInt16(pkxdata, 0xE);
-            int shiny = Convert.ToInt16(Convert.ToBoolean((PKX.getPSV(pid) ^ PKX.getTSV(TID, SID)) < 16));
+            int shiny = (PKX.getPSV(pid) ^ PKX.getTSV(TID, SID)) >> 4 == 0 ? 1 : 0;
             int dexoff = savindex * 0x7F000 + SaveGame.PokeDex; // Same offset for XY-ORAS
             int langoff = 0x3C8; if (savegame_oras) langoff = 0x400; // Not the same offset for language bools
             int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
