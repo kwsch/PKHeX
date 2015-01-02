@@ -87,9 +87,9 @@ namespace PKHeX
             ToolStripMenuItem mnuSet = new ToolStripMenuItem("Set");
             ToolStripMenuItem mnuDelete = new ToolStripMenuItem("Delete");
             // Assign event handlers
-            mnuView.Click += new EventHandler(clickView);
-            mnuSet.Click += new EventHandler(clickSet);
-            mnuDelete.Click += new EventHandler(clickDelete);
+            mnuView.Click += clickView;
+            mnuSet.Click += clickSet;
+            mnuDelete.Click += clickDelete;
             // Add to main context menu
             mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSet, mnuDelete });
 
@@ -3343,12 +3343,10 @@ namespace PKHeX
                     err = "Ability does not exist in X/Y.";
                 else if (item > 717)
                     err = "Item does not exist in X/Y.";
-                else goto next;
 
-                if (Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
+                if ((err != "") && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
                     return;
             }
-        next:
             if (slot >= 30 && slot < 36) // Party
                 Array.Copy(ekxdata, 0, savefile, offset, 0x104);
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
@@ -3593,14 +3591,11 @@ namespace PKHeX
                 getSlotFiller(offset, pba[i + 42]);
                 dctexta[i].Text = BitConverter.ToUInt32(savefile, SaveGame.Daycare + (0x7F000 * savindex) + 0xF0 * i + 4).ToString();
                 if (Convert.ToBoolean(savefile[SaveGame.Daycare + (0x7F000 * savindex) + 0xF0 * i]))   // If Occupied
-                {
-                    pba[i + 42].Image = Util.ChangeOpacity(pba[i + 42].Image, 1);
-                    dclabela[i].Text = (i + 1) + ": Occupied";
-                }
+                    dclabela[i].Text = (i + 1) + ": ✓";
                 else
                 {
+                    dclabela[i].Text = (i + 1) + ": ✘";
                     pba[i + 42].Image = Util.ChangeOpacity(pba[i + 42].Image, 0.6);
-                    dclabela[i].Text = (i + 1) + ": Not Occupied";
                 }
             }
             DayCare_HasEgg.Checked = Convert.ToBoolean(savefile[SaveGame.Daycare + (0x7F000 * savindex) + 0x1E0]);

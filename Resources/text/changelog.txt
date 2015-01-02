@@ -417,8 +417,23 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: Gen4 Encounter Type will only appear for Pokemon that originate from Gen 4.
  - Fixed: Some item sprites.
 
-12/18/14 - New Update:
+12/18/14 - New Update: (7400)
  - Fixed: EXP-level defaulting to 100.
  - Fixed: Abilities not populating correctly.
  - Fixed: Balls not being set properly.
  - Added: Some more PSS stat strings to the Trainer Editor.
+
+1/1/15 - New Update:
+ - Added: Powersaves decryption via xorpads.
+ - - After Using the Powersaves code-decryption method on a FF'd save file, simply rename the powersaves backup to include the word "xorpad".
+ - - Place the xorpad in either the same folder as PKHeX or in the same folder where you will load the powersaves from.
+ - Added: Loading of manually decrypted ORAS Powersave. Thanks Leanny!
+ - Added: Alt Clicking the Open Temp folder will open the savedatafiler folder if it exists.
+ - Added: Viewing of the second daycare in ORAS; click anywhere in the groupbox to trigger the switching code. Thanks Leanny!
+ - Added: More verbosity to Box Report.
+ - Improved: Data loading speeds (boxes, etc).
+ - Improved: PKRS information will only appear if it has been infected/cured; checkboxes to alter are still always visible.
+ - Fixed: Pumpkaboo form names. Thanks Pkmnninja!
+ - Fixed: Checksum detection should now trigger when loading pkx files. Oops.
+ - Fixed: Translation shouldn't error out if the translation file is malformed.
+ - Fixed: All Encounter Types now appear (refactoring oversight). Thanks sunao!

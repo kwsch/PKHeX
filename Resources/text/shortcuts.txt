@@ -1,5 +1,6 @@
 ﻿If you are having issues viewing gender symbols, Options -> Toggle Unicode Text.
 
+
 // Main Window
 
 Hold Control when dragging out the Tab PKM to save as ekx.
@@ -11,17 +12,23 @@ Randomize EVs: Set all EVs to 0.
 PP Ups Label: Set all PP Ups to 3.
 Friendship Label: Reset Friendship
 
+Click on the OT label to set relevant details to that of the save file.
+
+
+// Save File
+
 Click on the Save File path (above Boxes): Auto-detect/Reload save.
 
 Control-Drag a Box Slot to Copy-Overwrite
 Alt-Drag a Box Slot to Delete-Overwrite
 
-Control-Shift-Click a slot to set a Pokemon to every slot in the box.
+Control-Shift-Click a slot to (clone) set a Pokemon to every slot in the box.
 Control-Click a slot to load slot to tabs.
 Shift-Click a slot to set tabs to slot.
 Alt-Click a slot to delete the data in slot.
 
 Control-Click the OpenTemp button to open the CyberGadget Cache folder.
+Alt-Click the OpenTemp button to open the SaveDataFiler folder.
 
 
 // Inventory Editor
