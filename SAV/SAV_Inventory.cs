@@ -93,7 +93,7 @@ namespace PKHeX
         }
         private void getListMedicine()
         {
-            ushort[] itemlist = Legal.Pouch_Medicine_XY;
+            ushort[] itemlist =  (m_parent.savegame_oras) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
             medicine_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 medicine_val[i] = Form1.itemlist[itemlist[i]];
