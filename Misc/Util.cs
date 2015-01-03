@@ -200,15 +200,15 @@ namespace PKHeX
 
         // Data Retrieval
         internal static int ToInt32(TextBox tb)
-		{
-			string value = tb.Text;
-			return ToInt32(value);
-		}
+        {
+            string value = tb.Text;
+            return ToInt32(value);
+        }
         internal static uint ToUInt32(TextBox tb)
-		{
-			string value = tb.Text;
-			return ToUInt32(value);
-		}
+        {
+            string value = tb.Text;
+            return ToUInt32(value);
+        }
         internal static int ToInt32(MaskedTextBox tb)
         {
             string value = tb.Text;
@@ -222,12 +222,12 @@ namespace PKHeX
         internal static int ToInt32(String value)
         {
             value = value.Replace(" ", "");
-			if (String.IsNullOrEmpty(value))
-				return 0;
+            if (String.IsNullOrEmpty(value))
+                return 0;
             try
-			{
-				value = value.TrimEnd(new char[]{'_'});
-			    return Int32.Parse(value);
+            {
+                value = value.TrimEnd(new char[] { '_' });
+                return Int32.Parse(value);
             }
             catch { return 0; }
         }
@@ -235,10 +235,10 @@ namespace PKHeX
         {
             value = value.Replace(" ", "");
             if (String.IsNullOrEmpty(value))
-                return 0; 
+                return 0;
             try
             {
-				value = value.TrimEnd(new char[]{'_'});
+                value = value.TrimEnd(new char[] { '_' });
                 return UInt32.Parse(value);
             }
             catch { return 0; }
@@ -253,11 +253,11 @@ namespace PKHeX
         internal static int getIndex(ComboBox cb)
         {
             int val = 0;
-			if (cb.SelectedValue == null)
-				return 0;
+            if (cb.SelectedValue == null)
+                return 0;
 
             try
-			{ val = Util.ToInt32(cb.SelectedValue.ToString()); }
+            { val = (int)cb.SelectedValue; }
             catch
             { val = cb.SelectedIndex; if (val < 0) val = 0; }
             return val;
@@ -274,7 +274,7 @@ namespace PKHeX
                 c = str[i];
                 // filter for hex
                 if ((c < 0x0047 && c > 0x002F) || (c < 0x0067 && c > 0x0060))
-                    s+= c;
+                    s += c;
                 else
                     System.Media.SystemSounds.Beep.Play();
             }
@@ -340,7 +340,7 @@ namespace PKHeX
                             stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
                             itemsToRename++;
                         }
-                    } 
+                    }
                 }
             }
             return; // Not Found
@@ -356,23 +356,23 @@ namespace PKHeX
                 string text = SplitString[1]; // Text to set Control.Text to...
                 Control[] controllist = Controls.Find(ctrl, true);
                 if (controllist.Length == 0) // If Control isn't found...
-                try
-                {
-                    // Menu Items can't be found with Controls.Find as they aren't Controls
-                    ToolStripDropDownItem TSI = (ToolStripDropDownItem)menu.Items[ctrl];
-                    if (TSI != null)
+                    try
                     {
-                        // We'll rename the main and child in a row.
-                        string[] ToolItems = Regex.Split(SplitString[1], " ; ");
-                        TSI.Text = ToolItems[0]; // Set parent's text first
-                        if (TSI.DropDownItems.Count != ToolItems.Length - 1)
-                            continue; // Error in Input, errhandled
-                        for (int ti = 1; ti <= TSI.DropDownItems.Count; ti++)
-                            TSI.DropDownItems[ti - 1].Text = ToolItems[ti]; // Set child text
+                        // Menu Items can't be found with Controls.Find as they aren't Controls
+                        ToolStripDropDownItem TSI = (ToolStripDropDownItem)menu.Items[ctrl];
+                        if (TSI != null)
+                        {
+                            // We'll rename the main and child in a row.
+                            string[] ToolItems = Regex.Split(SplitString[1], " ; ");
+                            TSI.Text = ToolItems[0]; // Set parent's text first
+                            if (TSI.DropDownItems.Count != ToolItems.Length - 1)
+                                continue; // Error in Input, errhandled
+                            for (int ti = 1; ti <= TSI.DropDownItems.Count; ti++)
+                                TSI.DropDownItems[ti - 1].Text = ToolItems[ti]; // Set child text
+                        }
+                        // If not found, it is not something to rename and is thus skipped.
                     }
-                    // If not found, it is not something to rename and is thus skipped.
-                }
-                catch { }
+                    catch { }
                 else // Set the input control's text.
                     controllist[0].Text = text;
             }
@@ -403,11 +403,6 @@ namespace PKHeX
         {
             public string Text { get; set; }
             public object Value { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
         }
         internal static List<cbItem> getCBList(string textfile, string lang)
         {

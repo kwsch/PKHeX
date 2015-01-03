@@ -177,14 +177,12 @@ namespace PKHeX
         }
 
         #region Global Variables: Always Visible!
-        public byte[] buff = new byte[260];
+        public byte[] buff = new byte[260]; // Tab Pokemon Data Storage
         public byte[] savefile = new byte[0x100000];
         public byte[] cyberSAV = new byte[0x65600];
         public bool savegame_oras = false;
         public bool cybergadget = false;
         public bool savLoaded = false;
-        public int gt = 258;
-        public int genderflag, species;
         public int savindex;
         public bool savedited;
         public string SDFLoc = null;
@@ -888,7 +886,7 @@ namespace PKHeX
             uint PID = BitConverter.ToUInt32(buff, 0x18);
             int nature = buff[0x1C];
             int feflag = buff[0x1D] % 2;
-            this.genderflag = (buff[0x1D] >> 1) & 0x3;
+            int genderflag = (buff[0x1D] >> 1) & 0x3;
             int altforms = (buff[0x1D] >> 3);
             int HP_EV = buff[0x1E];
             int ATK_EV = buff[0x1F];
@@ -1116,8 +1114,7 @@ namespace PKHeX
             // Load Extrabyte Value
             TB_ExtraByte.Text = buff[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
-            // Reload Gender Flag
-            this.genderflag = ((buff[0x1D] >> 1) & 0x3);
+            // Load Gender Flag
             Label_Gender.Text = gendersymbols[genderflag];
             updateStats();
             setIsShiny();
@@ -1516,9 +1513,8 @@ namespace PKHeX
         private void clickGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
-            species = Util.getIndex(CB_Species);
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            gt = MonData.GenderRatio;
+            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(Util.getIndex(CB_Species));
+            int gt = MonData.GenderRatio;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
@@ -1920,7 +1916,8 @@ namespace PKHeX
             // Get Gender Threshold
             species = Util.getIndex(CB_Species);
             PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            gt = MonData.GenderRatio;
+            int gt = MonData.GenderRatio;
+            int genderflag;
 
             if (gt == 255)      // Genderless
                 genderflag = 2;
@@ -2207,7 +2204,7 @@ namespace PKHeX
         private void updateStats()
         {
             // Gather the needed information.
-            species = Util.getIndex(CB_Species);
+            int species = Util.getIndex(CB_Species);
             int level = Util.ToInt32((MT_Level.Enabled) ? MT_Level.Text : TB_Level.Text);
             if (level == 0) { level = 1; }
             int form = CB_Form.SelectedIndex;
@@ -2621,10 +2618,7 @@ namespace PKHeX
         // Dragout Display
         private void dragoutHover(object sender, EventArgs e)
         {
-            if (Util.getIndex(CB_Species) > 0)
-                dragout.BackgroundImage = Properties.Resources.slotSet;
-            else
-                dragout.BackgroundImage = Properties.Resources.slotDel;
+            dragout.BackgroundImage = (Util.getIndex(CB_Species) > 0) ? Properties.Resources.slotSet : Properties.Resources.slotDel;
         }
         private void dragoutLeave(object sender, EventArgs e)
         {
@@ -2642,7 +2636,7 @@ namespace PKHeX
         {
             if (savedited)
             {
-                RTB_S.Text = "Save has been edited. Cannot integrity check.";
+                Util.Alert("Save has been edited. Cannot integrity check.");
                 return;
             }
             // Verify Checksums
@@ -3236,15 +3230,11 @@ namespace PKHeX
         // Box/SAV Functions //
         private void clickBoxRight(object sender, EventArgs e)
         {
-            if (C_BoxSelect.SelectedIndex < 30)
-                C_BoxSelect.SelectedIndex++;
-            else C_BoxSelect.SelectedIndex = 0;
+            C_BoxSelect.SelectedIndex = (C_BoxSelect.SelectedIndex + 1) % 31;
         }
         private void clickBoxLeft(object sender, EventArgs e)
         {
-            if (C_BoxSelect.SelectedIndex > 0)
-                C_BoxSelect.SelectedIndex--;
-            else C_BoxSelect.SelectedIndex = 30;
+            C_BoxSelect.SelectedIndex = (C_BoxSelect.SelectedIndex + 30) % 31;
         }
         private void clickSlot(object sender, EventArgs e)
         {
@@ -3562,24 +3552,15 @@ namespace PKHeX
                                     dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
                                 };
             for (int i = 0; i < 30; i++)
-            {
-                int offset = boxoffset + 0xE8 * i;
-                getSlotFiller(offset, pba[i]);
-            }
+                getSlotFiller(boxoffset + 0xE8 * i, pba[i]);
 
             // Reload Party
             for (int i = 0; i < 6; i++)
-            {
-                int offset = SaveGame.Party + (0x7F000 * savindex) + 0x104 * i;
-                getSlotFiller(offset, pba[i + 30]);
-            }
+                getSlotFiller(SaveGame.Party + (0x7F000 * savindex) + 0x104 * i, pba[i + 30]);
 
             // Reload Battle Box
             for (int i = 0; i < 6; i++)
-            {
-                int offset = SaveGame.BattleBox + (0x7F000 * savindex) + 0xE8 * i;
-                getSlotFiller(offset, pba[i + 36]);
-            }
+                getSlotFiller(SaveGame.BattleBox + (0x7F000 * savindex) + 0xE8 * i, pba[i + 36]);
 
             // Reload Daycare
             Label[] dclabela = { L_DC1, L_DC2, };
@@ -3587,8 +3568,7 @@ namespace PKHeX
 
             for (int i = 0; i < 2; i++)
             {
-                int offset = SaveGame.Daycare + (0x7F000 * savindex) + 0xE8 * i + 8 * (i + 1);
-                getSlotFiller(offset, pba[i + 42]);
+                getSlotFiller(SaveGame.Daycare + (0x7F000 * savindex) + 0xE8 * i + 8 * (i + 1), pba[i + 42]);
                 dctexta[i].Text = BitConverter.ToUInt32(savefile, SaveGame.Daycare + (0x7F000 * savindex) + 0xF0 * i + 4).ToString();
                 if (Convert.ToBoolean(savefile[SaveGame.Daycare + (0x7F000 * savindex) + 0xF0 * i]))   // If Occupied
                     dclabela[i].Text = (i + 1) + ": ✓";
@@ -4185,7 +4165,7 @@ namespace PKHeX
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
             string result = "";
-            result += "PSS List" + Environment.NewLine + Environment.NewLine;
+            result += "PSS List" + Environment.NewLine;
             string[] headers = {
                                    "PSS Data - Friends",
                                    "PSS Data - Acquaintances",
@@ -4194,14 +4174,18 @@ namespace PKHeX
             int offset = savindex * 0x7F000 + SaveGame.PSS;
             for (int g = 0; g < 3; g++)
             {
-                result += "----" + Environment.NewLine + headers[g] + Environment.NewLine + "----" + Environment.NewLine + Environment.NewLine;
+                result += Environment.NewLine
+                    + "----" + Environment.NewLine
+                    + headers[g] + Environment.NewLine
+                    + "----" + Environment.NewLine;
                 uint count = BitConverter.ToUInt32(savefile, offset + 0x4E20);
                 int r_offset = offset;
 
                 for (int i = 0; i < 100; i++)
                 {
                     ulong unkn = BitConverter.ToUInt64(savefile, r_offset);
-                    if (unkn == 0) break;
+                    if (unkn == 0) break; // No data present here
+                    if (i > 0) result += Environment.NewLine + Environment.NewLine;
 
                     string otname = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, r_offset + 8, 0x1A));
                     string message = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, r_offset + 0x22, 0x22));
@@ -4217,16 +4201,8 @@ namespace PKHeX
                     byte game = savefile[r_offset + 0x5A];
                     ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
                     int favpkm = BitConverter.ToUInt16(savefile, r_offset + 0x9C) & 0x7FF;
-                    string gamename;
-                    if (game == 24)
-                        gamename = "X";
-                    else if (game == 25)
-                        gamename = "Y";
-                    else if (game == 26)
-                        gamename = "AS";
-                    else if (game == 27)
-                        gamename = "OR";
-                    else gamename = "UNK GAME";
+                    string gamename = "UNKNOWN GAME";
+                    try { gamename = gamelist[game]; } catch { }
 
                     string[] cr = PKX.getCountryRegionText(country, region, curlanguage);
                     result +=
@@ -4235,12 +4211,11 @@ namespace PKHeX
                         "Game: " + gamename + Environment.NewLine +
                         "Country: " + cr[0] + Environment.NewLine +
                         "Region: " + cr[1] + Environment.NewLine +
-                        "Favorite: " + specieslist[favpkm] + Environment.NewLine;
+                        "Favorite: " + specieslist[favpkm];
 
-                    result += Environment.NewLine;
-                    r_offset += 0xC8;
+                    r_offset += 0xC8; // Advance to next entry
                 }
-                offset += 0x5000;
+                offset += 0x5000; // Advance to next block
             }
             RTB_T.Text = result;
             RTB_T.Font = new Font("Courier New", 8);

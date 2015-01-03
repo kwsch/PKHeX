@@ -18,7 +18,7 @@ namespace PKHeX
         // Relies on Util for some common operations.
 
         // Data
-        public static uint LCRNG(uint seed)
+        internal static uint LCRNG(uint seed)
         {
             uint a = 0x41C64E6D;
             uint c = 0x00006073;
@@ -26,7 +26,7 @@ namespace PKHeX
             seed = (seed * a + c) & 0xFFFFFFFF;
             return seed;
         }
-        public static uint LCRNG(ref uint seed)
+        internal static uint LCRNG(ref uint seed)
         {
             uint a = 0x41C64E6D;
             uint c = 0x00006073;
@@ -34,7 +34,7 @@ namespace PKHeX
             seed = (seed * a + c) & 0xFFFFFFFF;
             return seed;
         }
-        public static DataTable ExpTable()
+        internal static DataTable ExpTable()
         {
             DataTable table = new DataTable();
             table.Columns.Add("Level", typeof(byte));
@@ -147,13 +147,13 @@ namespace PKHeX
             table.Rows.Add(100, 1000000, 600000, 1640000, 1059860, 800000, 1250000);
             return table;
         }
-        
+
         // Stat Fetching
-        public static int getMovePP(int move, int ppup)
+        internal static int getMovePP(int move, int ppup)
         {
             return (getBasePP(move) * (5 + ppup) / 5);
         }
-        public static int getBasePP(int move)
+        internal static int getBasePP(int move)
         {
             byte[] movepptable = 
             {
@@ -194,7 +194,7 @@ namespace PKHeX
             if (move < 0) { move = 0; }
             return (byte)movepptable[move];
         }
-        public static byte[] getRandomEVs()
+        internal static byte[] getRandomEVs()
         {
             byte[] evs = new byte[6] { 0xDE, 0xAD, 0xBE, 0xEF, 0xBA, 0xBE, }; // ha ha, just to start off above 510!
 
@@ -210,11 +210,11 @@ namespace PKHeX
             Util.Shuffle(evs);
             return evs;
         }
-        public static byte getBaseFriendship(int species)
+        internal static byte getBaseFriendship(int species)
         {
             return PersonalGetter.GetPersonal(species).BaseFriendship;
         }
-        public static int getLevel(int species, ref uint exp)
+        internal static int getLevel(int species, ref uint exp)
         {
             if (exp == 0) { return 1; }
 
@@ -235,13 +235,13 @@ namespace PKHeX
             }
             return --tl;
         }
-        public static bool getIsShiny(uint PID, uint TID, uint SID)
+        internal static bool getIsShiny(uint PID, uint TID, uint SID)
         {
             uint PSV = getPSV(PID);
             uint TSV = getTSV(TID, SID);
             return (TSV == PSV);
         }
-        public static uint getEXP(int level, int species)
+        internal static uint getEXP(int level, int species)
         {
             // Fetch Growth
             if ((level == 0) || (level == 1))
@@ -254,11 +254,11 @@ namespace PKHeX
             uint exp = (uint)PKX.ExpTable().Rows[level][growth + 1];
             return exp;
         }
-        public static byte[] getAbilities(int species, int formnum)
+        internal static byte[] getAbilities(int species, int formnum)
         {
             return PersonalGetter.GetPersonal(species, formnum).Abilities;
         }
-        public static int getGender(string s)
+        internal static int getGender(string s)
         {
             if (s == "♂" || s == "M")
                 return 0;
@@ -266,7 +266,7 @@ namespace PKHeX
                 return 1;
             else return 2;
         }
-        public static string[] getCountryRegionText(int country, int region, string lang)
+        internal static string[] getCountryRegionText(int country, int region, string lang)
         {
             // Get Language we're fetching for
             int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko", }, lang);
@@ -326,7 +326,7 @@ namespace PKHeX
             catch { data[1] = "Illegal"; }
             return data;
         }
-        public static string getLocation(bool eggmet, int gameorigin, int locval)
+        internal static string getLocation(bool eggmet, int gameorigin, int locval)
         {
             string loctext = "";
             if (gameorigin < 13 && gameorigin > 6 && eggmet)
@@ -340,7 +340,7 @@ namespace PKHeX
             }
             else if (gameorigin < 24)
             {
-			    if (locval < 30000)
+                if (locval < 30000)
                     loctext = Form1.metBW2_00000[locval];
                 else if (locval < 40000)
                     loctext = Form1.metBW2_30000[locval % 10000 - 1];
@@ -362,7 +362,7 @@ namespace PKHeX
             }
             return loctext;
         }
-        public static ushort[] getStats(int species, int level, int nature, int form,
+        internal static ushort[] getStats(int species, int level, int nature, int form,
                                         int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
                                         int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
         {
@@ -397,7 +397,7 @@ namespace PKHeX
         }
 
         // Manipulation
-        public static byte[] shuffleArray(byte[] pkx, uint sv)
+        internal static byte[] shuffleArray(byte[] pkx, uint sv)
         {
             byte[] ekx = new byte[260];
             Array.Copy(pkx, ekx, 8);
@@ -423,7 +423,7 @@ namespace PKHeX
 
             return ekx;
         }
-        public static byte[] decryptArray(byte[] ekx)
+        internal static byte[] decryptArray(byte[] ekx)
         {
             byte[] pkx = (byte[])ekx.Clone();
 
@@ -447,7 +447,7 @@ namespace PKHeX
 
             return pkx;
         }
-        public static byte[] encryptArray(byte[] pkx)
+        internal static byte[] encryptArray(byte[] pkx)
         {
             // Shuffle
             uint pv = BitConverter.ToUInt32(pkx, 0);
@@ -474,7 +474,7 @@ namespace PKHeX
             // Done
             return ekx;
         }
-        public static ushort getCHK(byte[] data)
+        internal static ushort getCHK(byte[] data)
         {
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
@@ -482,7 +482,7 @@ namespace PKHeX
 
             return chk;
         }
-        public static bool verifychk(byte[] input)
+        internal static bool verifychk(byte[] input)
         {
             ushort checksum = 0;
             if (input.Length == 100 || input.Length == 80)  // Gen 3 Files
@@ -495,9 +495,9 @@ namespace PKHeX
             else
             {
                 if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
-                    Array.Resize(ref input, 136);                   
+                    Array.Resize(ref input, 136);
                 else if (input.Length == 232 || input.Length == 260) // Gen 6
-                    Array.Resize(ref input, 232);                    
+                    Array.Resize(ref input, 232);
                 else throw new Exception("Wrong sized input array to verifychecksum");
 
                 ushort chk = 0;
@@ -507,15 +507,15 @@ namespace PKHeX
                 return (chk == BitConverter.ToUInt16(input, 0x6));
             }
         }
-        public static uint getPSV(uint PID)
+        internal static uint getPSV(uint PID)
         {
             return Convert.ToUInt16(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
         }
-        public static uint getTSV(uint TID, uint SID)
+        internal static uint getTSV(uint TID, uint SID)
         {
             return ((TID ^ SID) >> 4);
         }
-        public static uint getRandomPID(int species, int cg)
+        internal static uint getRandomPID(int species, int cg)
         {
             PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
             int gt = MonData.GenderRatio;
@@ -553,7 +553,7 @@ namespace PKHeX
             slot,
             mnicknamestr, mgenderstring, mnotOT, mot, mSpeciesName, mNatureName, mHPName, mAbilityName,
             mMove1N, mMove2N, mMove3N, mMove4N, mhelditemN,
-            mRMove1N, mRMove2N, mRMove3N, mRMove4N, 
+            mRMove1N, mRMove2N, mRMove3N, mRMove4N,
             mMetLocN, mEggLocN,
             mcountryID, mregionID, mGameN, mBallN, mdsregIDN, motlangN;
 
@@ -566,7 +566,7 @@ namespace PKHeX
 
         private ushort
             mhelditem, mspecies, mTID, mSID, mTSV, mESV,
-            mmove1, mmove2, mmove3, mmove4, 
+            mmove1, mmove2, mmove3, mmove4,
             mmove1_pp, mmove2_pp, mmove3_pp, mmove4_pp,
             mmove1_ppu, mmove2_ppu, mmove3_ppu, mmove4_ppu,
             meggmove1, meggmove2, meggmove3, meggmove4,
@@ -774,7 +774,7 @@ namespace PKHeX
                 mgenderstring = "♂";
             else if (mgenderflag == 1)
                 mgenderstring = "♀";
-            else 
+            else
                 mgenderstring = "-";
 
             mhptype = (15 * ((mHP_IV & 1) + 2 * (mATK_IV & 1) + 4 * (mDEF_IV & 1) + 8 * (mSPE_IV & 1) + 16 * (mSPA_IV & 1) + 32 * (mSPD_IV & 1))) / 63 + 1;
@@ -863,7 +863,7 @@ namespace PKHeX
             {
                 public uint EC;
                 public ushort Checksum, Sanity;
-                
+
                 public uint PID, Experience;
                 public ushort Species, HeldItem, TID, SID;
                 public byte Ability, AbilityNumber, Nature, Gender, Form;
@@ -1151,7 +1151,7 @@ namespace PKHeX
         {
             byte[] fontData = Properties.Resources.PGLDings_NormalRegular;
             IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
-            System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);            
+            System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
             PrivateFontCollection fonts = new PrivateFontCollection();
             try
             {
@@ -1197,7 +1197,6 @@ namespace PKHeX
                 data.FormPointer = MonData[0xD];
                 return data;
             }
-
             internal Personal GetPersonal(int species, int formID)
             {
                 Personal data = GetPersonal(species);
