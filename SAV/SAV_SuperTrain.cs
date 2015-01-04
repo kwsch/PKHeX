@@ -189,7 +189,7 @@ namespace PKHeX
             {
                 byte[] data = BitConverter.GetBytes(UInt16.Parse(TB_Unk.Text)); 
                 Array.Resize(ref data, 2);
-                Array.Copy(data, 0, sav, offsetVal + 4 * index, 4);
+                Array.Copy(data, 0, sav, offsetVal + 4 * index, 2);
             }
             catch { return; }
         }

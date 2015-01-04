@@ -161,6 +161,7 @@ namespace PKHeX
             dataGridView1.Columns.Add(dgvIndex);
 
             dataGridView1.Rows.Add(itemcount);
+            dataGridView1.CancelEdit();
 
             string itemname = "";
             for (int i = 0; i < itemcount; i++)
