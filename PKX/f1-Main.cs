@@ -621,7 +621,7 @@ namespace PKHeX
 
                             // Weakly check the validity of the decrypted content
                             if (BitConverter.ToUInt32(decryptedPS, 0x76000 - 0x1F0) != 0x42454546) // Not OR/AS
-                                if (BitConverter.ToUInt32(decryptedPS, 0x76000 - 0x1F0) != 0x42454546)
+                                if (BitConverter.ToUInt32(decryptedPS, 0x65600 - 0x1F0) != 0x42454546)
                                     continue; // Not X/Y, so continue.
                                 else
                                     Array.Resize(ref decryptedPS, 0x65600); // set to X/Y size
