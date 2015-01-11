@@ -29,7 +29,7 @@ namespace PKHeX
                 LB_Received.SelectedIndex = 0;
 
             this.DragEnter += new DragEventHandler(tabMain_DragEnter);
-            this.DragDrop += new DragEventHandler(tabMain_DragDrop);         
+            this.DragDrop += new DragEventHandler(tabMain_DragDrop);
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
@@ -102,12 +102,12 @@ namespace PKHeX
                     s = "Unsupported Wondercard Type!";
                 RTB.Text = s;
             }
-            catch 
-            { 
-                Util.Error("Loading of data failed... is this really a Wondercard?"); 
-                Array.Copy(new byte[0x108], wondercard_data, 0x108); 
-                RTB.Clear(); 
-                return; 
+            catch (Exception e)
+            {
+                Util.Error("Loading of data failed... is this really a Wondercard?", e.ToString());
+                Array.Copy(new byte[0x108], wondercard_data, 0x108);
+                RTB.Clear();
+                return;
             }
         }
         private void populateReceived()
@@ -201,23 +201,26 @@ namespace PKHeX
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
+            int offset = wcoffset - 0x100 + savindex * 0x7F000;
+
             // Make sure all of the Received Flags are flipped!
+            byte[] wcflags = new byte[0x100];
             for (int i = 0; i < LB_Received.Items.Count; i++)
             {
-                int offset = wcoffset - 0x100 + savindex * 0x7F000;
                 string cardID = LB_Received.Items[i].ToString();
                 uint cardnum = Util.ToUInt32(cardID);
 
-                sav[offset + (cardnum / 8) % 0x800] |= (byte)(1 << ((byte)cardnum % 8));
+                wcflags[(cardnum / 8) & 0xFF] |= (byte)(1 << ((byte)(cardnum & 0x7)));
             }
+            Array.Copy(wcflags, 0, sav, offset, 0x100);
 
+            offset += 0x100;
             // Make sure there's no space between wondercards
             {
-                int offset = wcoffset + savindex * 0x7F000;
                 for (int i = 0; i < 24; i++)
-                    if (BitConverter.ToUInt16(sav, offset+i*0x108) == 0)
-                        for (int j = (i + 1); j < 24 - i; j++) // Shift everything down
-                            Array.Copy(sav, offset + (j) * 0x108, sav, offset + (j-1) * 0x108, 0x108);
+                    if (BitConverter.ToUInt16(sav, offset + i * 0x108) == 0)
+                        for (int j = i + 1; j < 24 - i; j++) // Shift everything down
+                            Array.Copy(sav, offset + j * 0x108, sav, offset + (j - 1) * 0x108, 0x108);
             }
 
             Array.Copy(sav, m_parent.savefile, 0x100000);
@@ -229,8 +232,8 @@ namespace PKHeX
         private void B_DeleteReceived_Click(object sender, EventArgs e)
         {
             if (LB_Received.SelectedIndex > -1)
-            if (LB_Received.Items.Count > 0)
-                LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
+                if (LB_Received.Items.Count > 0)
+                    LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
         }
 
         // Drag & Drop Wondercards
@@ -242,10 +245,10 @@ namespace PKHeX
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             string path = files[0]; // open first D&D
-            
+
             if (new FileInfo(path).Length > 0x108)
             {
-                Util.Error("File is not a Wondercard:", path); 
+                Util.Error("File is not a Wondercard:", path);
                 return;
             }
             byte[] newwc6 = File.ReadAllBytes(path);
