@@ -403,7 +403,7 @@ namespace PKHeX
                         byte[] blank = PKX.encryptArray(new byte[260]);
 
                         for (int i = 0; i < 232; i++)
-                            blank[i] = (byte)(blank[i] ^ input[i]);
+                            blank[i] ^= input[i];
 
                         openFile(blank, path, ext);
                     }
@@ -597,7 +597,7 @@ namespace PKHeX
                 for (int i = 0; i < XORpads.Length; i++)
                 {
                     FileInfo fi = new FileInfo(XORpads[i]);
-                    if (fi.Name.Contains("xorpad") && (fi.Length == 0x10009C || fi.Length == 0x100000))
+                    if ((fi.Name.ToLower().Contains("xorpad") || fi.Name.ToLower().Contains("key")) && (fi.Length == 0x10009C || fi.Length == 0x100000))
                     {
                         // Load xorpad in
                         byte[] xorpad = File.ReadAllBytes(XORpads[i]);
