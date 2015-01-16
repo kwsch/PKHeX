@@ -423,7 +423,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Balls not being set properly.
  - Added: Some more PSS stat strings to the Trainer Editor.
 
-1/1/15 - New Update:
+1/1/15 - New Update: (5300)
  - Added: Powersaves decryption via xorpads.
  - - After Using the Powersaves code-decryption method on a FF'd save file, simply rename the powersaves backup to include the word "xorpad".
  - - Place the xorpad in either the same folder as PKHeX or in the same folder where you will load the powersaves from.
@@ -437,3 +437,10 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Checksum detection should now trigger when loading pkx files. Oops.
  - Fixed: Translation shouldn't error out if the translation file is malformed.
  - Fixed: All Encounter Types now appear (refactoring oversight). Thanks sunao!
+
+1/11/15 - New Update:
+ - Fixed: Glass (Colored) Flutes should now be in the proper pouch. Thanks SoujiSeta!
+ - Fixed: Super Training copying too much and erroring out. Thanks SoujiSeta!
+ - Fixed: Mono compatibility fix for inventory data editing. Thanks SoujiSeta!
+ - Fixed: Deleting Wondercard recieved flags will actually save. Thanks ifyfg!
+ - Fixed: X/Y xorpad auto-loading/decryption now works instead of hanging.
