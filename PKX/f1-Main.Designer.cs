@@ -2416,7 +2416,6 @@
             this.CB_ExtraBytes.Items.AddRange(new object[] {
             "0x36",
             "0x37",
-            "0x3A",
             "0x3B",
             "0x3C",
             "0x3D",

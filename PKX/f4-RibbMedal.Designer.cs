@@ -236,6 +236,13 @@
             this.Hoenn1b_5 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_6 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_7 = new System.Windows.Forms.CheckBox();
+            this.CHK_D5 = new System.Windows.Forms.CheckBox();
+            this.CHK_D4 = new System.Windows.Forms.CheckBox();
+            this.L_Distro = new System.Windows.Forms.Label();
+            this.CHK_D3 = new System.Windows.Forms.CheckBox();
+            this.CHK_D0 = new System.Windows.Forms.CheckBox();
+            this.CHK_D1 = new System.Windows.Forms.CheckBox();
+            this.CHK_D2 = new System.Windows.Forms.CheckBox();
             this.Tab_Medals.SuspendLayout();
             this.GB_Medals1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -337,6 +344,13 @@
             // 
             // Tab_Medals
             // 
+            this.Tab_Medals.Controls.Add(this.CHK_D5);
+            this.Tab_Medals.Controls.Add(this.CHK_D4);
+            this.Tab_Medals.Controls.Add(this.L_Distro);
+            this.Tab_Medals.Controls.Add(this.CHK_D3);
+            this.Tab_Medals.Controls.Add(this.CHK_D0);
+            this.Tab_Medals.Controls.Add(this.CHK_D1);
+            this.Tab_Medals.Controls.Add(this.CHK_D2);
             this.Tab_Medals.Controls.Add(this.CHK_Secret);
             this.Tab_Medals.Controls.Add(this.GB_Medals1);
             this.Tab_Medals.Controls.Add(this.GB_Medals2);
@@ -351,7 +365,7 @@
             // CHK_Secret
             // 
             this.CHK_Secret.AutoSize = true;
-            this.CHK_Secret.Location = new System.Drawing.Point(295, 17);
+            this.CHK_Secret.Location = new System.Drawing.Point(244, 32);
             this.CHK_Secret.Name = "CHK_Secret";
             this.CHK_Secret.Size = new System.Drawing.Size(140, 17);
             this.CHK_Secret.TabIndex = 19;
@@ -2595,6 +2609,75 @@
             this.Hoenn1b_7.Text = "Smart Master";
             this.Hoenn1b_7.UseVisualStyleBackColor = true;
             // 
+            // CHK_D5
+            // 
+            this.CHK_D5.AutoSize = true;
+            this.CHK_D5.Location = new System.Drawing.Point(447, 16);
+            this.CHK_D5.Name = "CHK_D5";
+            this.CHK_D5.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D5.TabIndex = 44;
+            this.CHK_D5.Text = "5";
+            this.CHK_D5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D4
+            // 
+            this.CHK_D4.AutoSize = true;
+            this.CHK_D4.Location = new System.Drawing.Point(415, 16);
+            this.CHK_D4.Name = "CHK_D4";
+            this.CHK_D4.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D4.TabIndex = 43;
+            this.CHK_D4.Text = "4";
+            this.CHK_D4.UseVisualStyleBackColor = true;
+            // 
+            // L_Distro
+            // 
+            this.L_Distro.AutoSize = true;
+            this.L_Distro.Location = new System.Drawing.Point(318, 3);
+            this.L_Distro.Name = "L_Distro";
+            this.L_Distro.Size = new System.Drawing.Size(62, 13);
+            this.L_Distro.TabIndex = 38;
+            this.L_Distro.Text = "Distribution:";
+            // 
+            // CHK_D3
+            // 
+            this.CHK_D3.AutoSize = true;
+            this.CHK_D3.Location = new System.Drawing.Point(382, 16);
+            this.CHK_D3.Name = "CHK_D3";
+            this.CHK_D3.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D3.TabIndex = 42;
+            this.CHK_D3.Text = "3";
+            this.CHK_D3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D0
+            // 
+            this.CHK_D0.AutoSize = true;
+            this.CHK_D0.Location = new System.Drawing.Point(382, 2);
+            this.CHK_D0.Name = "CHK_D0";
+            this.CHK_D0.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D0.TabIndex = 39;
+            this.CHK_D0.Text = "0";
+            this.CHK_D0.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D1
+            // 
+            this.CHK_D1.AutoSize = true;
+            this.CHK_D1.Location = new System.Drawing.Point(415, 2);
+            this.CHK_D1.Name = "CHK_D1";
+            this.CHK_D1.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D1.TabIndex = 40;
+            this.CHK_D1.Text = "1";
+            this.CHK_D1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D2
+            // 
+            this.CHK_D2.AutoSize = true;
+            this.CHK_D2.Location = new System.Drawing.Point(447, 2);
+            this.CHK_D2.Name = "CHK_D2";
+            this.CHK_D2.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D2.TabIndex = 41;
+            this.CHK_D2.Text = "2";
+            this.CHK_D2.UseVisualStyleBackColor = true;
+            // 
             // RibbMedal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2889,5 +2972,12 @@
         private System.Windows.Forms.CheckBox ORAS_1;
         private System.Windows.Forms.CheckBox ORAS_0;
         private System.Windows.Forms.CheckBox Extra1_7;
+        private System.Windows.Forms.CheckBox CHK_D5;
+        private System.Windows.Forms.CheckBox CHK_D4;
+        private System.Windows.Forms.Label L_Distro;
+        private System.Windows.Forms.CheckBox CHK_D3;
+        private System.Windows.Forms.CheckBox CHK_D0;
+        private System.Windows.Forms.CheckBox CHK_D1;
+        private System.Windows.Forms.CheckBox CHK_D2;
     }
 }

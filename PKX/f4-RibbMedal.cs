@@ -15,6 +15,7 @@ namespace PKHeX
     public partial class RibbMedal : Form
     {
         Form1 m_parent;
+        CheckBox[] distro;
         public RibbMedal(Form1 frm1)
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace PKHeX
                 comboBox1.Items.Add(Form1.trainingbags[i]);
             comboBox1.SelectedIndex = m_parent.buff[0x17];
             numericUpDown1.Value = m_parent.buff[0x16];
-
+            distro = new CheckBox[] { CHK_D0, CHK_D1, CHK_D2, CHK_D3, CHK_D4, CHK_D5 };
             getRibbons();
         }
         private void getRibbons()
@@ -173,6 +174,15 @@ namespace PKHeX
 
             TB_PastContest.Text = m_parent.buff[0x38].ToString();
             TB_PastBattle.Text = m_parent.buff[0x39].ToString();
+
+            rv = m_parent.buff[0x3A];
+            updateRibbon(CHK_D0, rv, 0);
+            updateRibbon(CHK_D1, rv, 1);
+            updateRibbon(CHK_D2, rv, 2);
+            updateRibbon(CHK_D3, rv, 3);
+            updateRibbon(CHK_D4, rv, 4);
+            updateRibbon(CHK_D5, rv, 5);
+
             CHK_Secret.Checked = Convert.ToBoolean(m_parent.buff[0x72]);
         }                                       // Populate Ribbons prompted
         private void setRibbons()
@@ -278,6 +288,16 @@ namespace PKHeX
 
             m_parent.buff[0x38] = (byte)Util.ToUInt32(TB_PastContest.Text);
             m_parent.buff[0x39] = (byte)Util.ToUInt32(TB_PastBattle.Text);
+
+            int dis = 0;
+            dis |= addRibbon(CHK_D0);
+            dis |= addRibbon(CHK_D1);
+            dis |= addRibbon(CHK_D2);
+            dis |= addRibbon(CHK_D3);
+            dis |= addRibbon(CHK_D4);
+            dis |= addRibbon(CHK_D5);
+            m_parent.buff[0x3A] = (byte)dis;
+
             m_parent.buff[0x72] = (byte)Convert.ToByte(CHK_Secret.Checked);
         }                                       // Saving Ribbons prompted
         private void updateRibbon(CheckBox chk, int rv, int sh)
@@ -349,6 +369,7 @@ namespace PKHeX
                                   CHK_Secret
                                 };
                 checkboxFlag(ck, b);
+                foreach (CheckBox chk in distro) chk.Checked = b;
             }
         }                                 // Checkbox Flipping Logic (dependent on Tab)
 
