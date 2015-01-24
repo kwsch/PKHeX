@@ -532,6 +532,10 @@ namespace PKHeX
                 input = c;
             }
             #endregion
+            #region Box Data
+            else if (input.Length == 0xE8 * 30 * 31)
+            { Array.Copy(input, 0, savefile, SaveGame.Box, input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
+            #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
         }
