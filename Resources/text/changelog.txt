@@ -448,3 +448,4 @@ http://projectpokemon.org/forums/showthread.php?36986
 1/25/15 - New Update:
  - Added: PK6 Distribution Super Training flags. Still have to unlock the missions ingame with wondercards. Thanks SciresM!
  - Added: Box Import functionality for use with the spider web exploit.
+ - Added: "All Files" export filter to the [Save File] main menu option.

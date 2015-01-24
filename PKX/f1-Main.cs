@@ -2916,7 +2916,7 @@ namespace PKHeX
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control) { exportBoxes(); return; }
+            if (ModifierKeys == Keys.Control) { exportBox(); return; }
             
             // Create another version of the save file.
             byte[] editedsav = new byte[0x100000];
@@ -4071,7 +4071,7 @@ namespace PKHeX
         }
         private void L_SAVManipulation_Click(object sender, EventArgs e)
         {
-            exportBoxes();
+            exportBox();
         }
         // Subfunction Save Buttons //
         private void B_OpenWondercards_Click(object sender, EventArgs e)
@@ -4482,6 +4482,5 @@ namespace PKHeX
         private int pkm_from_offset = 0;
         private int pkm_from_slot = -1;
         #endregion
-
     }
 }
