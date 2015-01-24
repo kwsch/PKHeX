@@ -3785,6 +3785,7 @@
             this.L_SAVManipulation.Size = new System.Drawing.Size(117, 13);
             this.L_SAVManipulation.TabIndex = 7;
             this.L_SAVManipulation.Text = "Save File Manipulation:";
+            this.L_SAVManipulation.Click += new System.EventHandler(this.L_SAVManipulation_Click);
             // 
             // B_SwitchSAV
             // 

@@ -533,8 +533,8 @@ namespace PKHeX
             }
             #endregion
             #region Box Data
-            else if (input.Length == 0xE8 * 30 * 31)
-            { Array.Copy(input, 0, savefile, SaveGame.Box, input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
+            else if (input.Length == 0xE8 * 30)
+            { Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
             #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
@@ -2916,6 +2916,8 @@ namespace PKHeX
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Control) { exportBoxes(); return; }
+            
             // Create another version of the save file.
             byte[] editedsav = new byte[0x100000];
             Array.Copy(savefile, editedsav, savefile.Length);
@@ -4056,6 +4058,21 @@ namespace PKHeX
                     Util.Alert(result);
             }
         }
+        private void exportBox()
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Export Boxes?") == DialogResult.Yes)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Box Data|*.bin";
+                sfd.FileName = "boxdata.bin";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                    File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex).Take(0xE8 * 30).ToArray());
+            }
+        }
+        private void L_SAVManipulation_Click(object sender, EventArgs e)
+        {
+            exportBoxes();
+        }
         // Subfunction Save Buttons //
         private void B_OpenWondercards_Click(object sender, EventArgs e)
         {
@@ -4465,5 +4482,6 @@ namespace PKHeX
         private int pkm_from_offset = 0;
         private int pkm_from_slot = -1;
         #endregion
+
     }
 }
