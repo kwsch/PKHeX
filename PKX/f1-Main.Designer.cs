@@ -2563,7 +2563,7 @@
             // SavePKX
             // 
             this.SavePKX.DefaultExt = "pk6";
-            this.SavePKX.Filter = "PKX File|*.pk6;.pkx|EKX File|*.ek6;*ekx|BIN File|*.bin";
+            this.SavePKX.Filter = "PKX File|*.pk6;.pkx|EKX File|*.ek6;*ekx|BIN File|*.bin|All Files|*.*";
             // 
             // menuStrip1
             // 
