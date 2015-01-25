@@ -438,7 +438,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Translation shouldn't error out if the translation file is malformed.
  - Fixed: All Encounter Types now appear (refactoring oversight). Thanks sunao!
 
-1/11/15 - New Update:
+1/11/15 - New Update: (6900)
  - Fixed: Glass (Colored) Flutes should now be in the proper pouch. Thanks SoujiSeta!
  - Fixed: Super Training copying too much and erroring out. Thanks SoujiSeta!
  - Fixed: Mono compatibility fix for inventory data editing. Thanks SoujiSeta!

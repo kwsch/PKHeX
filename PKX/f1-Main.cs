@@ -33,6 +33,11 @@ namespace PKHeX
             largeWidth = this.Width;
             shortWidth = (Width * (30500 / 620)) / 100 + 1;
             Width = shortWidth;
+
+            // Initialize Boxes
+            byte[] ezeros = PKX.encryptArray(new byte[232]);
+            for (int i = 0; i < 30 * 31; i++)
+                Array.Copy(ezeros, 0, savefile, SaveGame.Box + i * 0xE8, 0xE8);
             #endregion
             #region Language Detection before loading
             // Set up Language Selection
@@ -163,7 +168,7 @@ namespace PKHeX
             GB_nOT.Click += clickGT;
             GB_Daycare.Click += switchDaycare;
 
-            TB_Nickname.Font = PKX.getPKXFont(11F);
+            TB_Nickname.Font = PKX.getPKXFont(10F);
             // Close splash screen.  
             init = true;
             SplashSCR.Join();
@@ -180,7 +185,7 @@ namespace PKHeX
         public byte[] buff = new byte[260]; // Tab Pokemon Data Storage
         public byte[] savefile = new byte[0x100000];
         public byte[] cyberSAV = new byte[0x65600];
-        public bool savegame_oras = false;
+        public bool savegame_oras = true;
         public bool cybergadget = false;
         public bool savLoaded = false;
         public int savindex;
@@ -237,7 +242,7 @@ namespace PKHeX
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip();
         public ToolTip Tip3 = new ToolTip();
-        public PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("XY");
+        public PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("ORAS");
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
@@ -4060,7 +4065,7 @@ namespace PKHeX
         }
         private void exportBox()
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, "Export Boxes?") == DialogResult.Yes)
+            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Export {1}?" + Environment.NewLine + "(Box {0})", C_BoxSelect.SelectedIndex + 1, C_BoxSelect.Text)) == DialogResult.Yes)
             {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "Box Data|*.bin";
