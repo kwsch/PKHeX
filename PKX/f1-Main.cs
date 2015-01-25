@@ -538,9 +538,24 @@ namespace PKHeX
             }
             #endregion
             #region Box Data
-            else if (input.Length == 0xE8 * 30)
-            { Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
+            else if (input.Length == 0xE8 * 30 && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input , 0) > 0)
+            { Array.Copy(input, 4, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
             #endregion
+            #region injectiondebug
+            else if (input.Length == 0x10000 && input[3] == 0)
+            { 
+                int offset = -1;
+                for (int i = 0; i < 0x300; i++)
+                {
+                    byte[] data = PKX.decryptArray(input.Skip(i).Take(0xE8).ToArray());
+                    if (PKX.getCHK(data) == BitConverter.ToUInt16(data, 6)) { offset = i; break; }
+                }
+                C_BoxSelect.SelectedIndex = 0; 
+                Array.Copy(input, offset, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, 9 * 30 * 0xE8); 
+                setPKXBoxes(); 
+                Util.Alert("Injection Binary loaded."); }
+            #endregion
+
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
         }

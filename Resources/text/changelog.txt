@@ -445,7 +445,12 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Deleting Wondercard recieved flags will actually save. Thanks ifyfg!
  - Fixed: X/Y xorpad auto-loading/decryption now works instead of hanging.
 
-1/25/15 - New Update:
+1/25/15 - New Update: (1800)
  - Added: PK6 Distribution Super Training flags. Still have to unlock the missions ingame with wondercards. Thanks SciresM!
  - Added: Box Import functionality for use with the spider web exploit.
  - Added: "All Files" export filter to the [Save File] main menu option.
+ - Fixed: Boxes are now always initialized with encrypted empty slots (for those without loaded saves).
+ - Changed: Export Box descriptive text to be more obvious on what it was exporting. Access by clicking on the Save Manipulation label above Export SAV.
+
+1/26/15 - New Update:
+ - Added: injectiondebug.bin loading, by popular request.
