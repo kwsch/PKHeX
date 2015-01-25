@@ -538,18 +538,19 @@ namespace PKHeX
             }
             #endregion
             #region Box Data
-            else if (input.Length == 0xE8 * 30 && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input , 0) > 0)
-            { Array.Copy(input, 4, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
+            else if ((input.Length == 0xE8 * 30 || input.Length == 0xE8 * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input , 8) > 0)
+            { Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * ((input.Length == 0xE8*30) ? C_BoxSelect.SelectedIndex : 0), input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
             #endregion
             #region injectiondebug
-            else if (input.Length == 0x10000 && input[3] == 0)
+            else if (input.Length == 0x10000)
             { 
                 int offset = -1;
-                for (int i = 0; i < 0x300; i++)
+                for (int i = 0; i < 0x800; i++)
                 {
                     byte[] data = PKX.decryptArray(input.Skip(i).Take(0xE8).ToArray());
                     if (PKX.getCHK(data) == BitConverter.ToUInt16(data, 6)) { offset = i; break; }
                 }
+                if (offset < 0) { Util.Alert(path, "Unable to read the input file; not an expected injectiondebug.bin."); return; }
                 C_BoxSelect.SelectedIndex = 0; 
                 Array.Copy(input, offset, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, 9 * 30 * 0xE8); 
                 setPKXBoxes(); 
@@ -2935,9 +2936,7 @@ namespace PKHeX
             }
         }
         private void clickExportSAV(object sender, EventArgs e)
-        {
-            if (ModifierKeys == Keys.Control) { exportBox(); return; }
-            
+        {            
             // Create another version of the save file.
             byte[] editedsav = new byte[0x100000];
             Array.Copy(savefile, editedsav, savefile.Length);
@@ -4078,9 +4077,19 @@ namespace PKHeX
                     Util.Alert(result);
             }
         }
-        private void exportBox()
+        private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Export {1}?" + Environment.NewLine + "(Box {0})", C_BoxSelect.SelectedIndex + 1, C_BoxSelect.Text)) == DialogResult.Yes)
+            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Yes: Export All Boxes" + Environment.NewLine + String.Format("No: Export {1} (Box {0})", C_BoxSelect.SelectedIndex + 1, C_BoxSelect.Text) + Environment.NewLine + "Cancel: Abort");
+
+            if (dr == DialogResult.Yes)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Box Data|*.bin";
+                sfd.FileName = "pcdata.bin";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                    File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box).Take(0xE8 * 30 * 31).ToArray());
+            }
+            if (dr == DialogResult.No)
             {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "Box Data|*.bin";
@@ -4088,10 +4097,6 @@ namespace PKHeX
                 if (sfd.ShowDialog() == DialogResult.OK)
                     File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex).Take(0xE8 * 30).ToArray());
             }
-        }
-        private void L_SAVManipulation_Click(object sender, EventArgs e)
-        {
-            exportBox();
         }
         // Subfunction Save Buttons //
         private void B_OpenWondercards_Click(object sender, EventArgs e)

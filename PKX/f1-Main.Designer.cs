@@ -304,6 +304,7 @@
             this.subepkx2 = new System.Windows.Forms.PictureBox();
             this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
+            this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_3DSSETemp = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.RTB_T = new System.Windows.Forms.RichTextBox();
@@ -3718,6 +3719,7 @@
             // 
             // Tab_Tools
             // 
+            this.Tab_Tools.Controls.Add(this.B_SaveBoxBin);
             this.Tab_Tools.Controls.Add(this.B_3DSSETemp);
             this.Tab_Tools.Controls.Add(this.B_JPEG);
             this.Tab_Tools.Controls.Add(this.RTB_T);
@@ -3729,9 +3731,19 @@
             this.Tab_Tools.Text = "Tools";
             this.Tab_Tools.UseVisualStyleBackColor = true;
             // 
+            // B_SaveBoxBin
+            // 
+            this.B_SaveBoxBin.Location = new System.Drawing.Point(122, 20);
+            this.B_SaveBoxBin.Name = "B_SaveBoxBin";
+            this.B_SaveBoxBin.Size = new System.Drawing.Size(75, 45);
+            this.B_SaveBoxBin.TabIndex = 8;
+            this.B_SaveBoxBin.Text = "Save Box Data++";
+            this.B_SaveBoxBin.UseVisualStyleBackColor = true;
+            this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
+            // 
             // B_3DSSETemp
             // 
-            this.B_3DSSETemp.Location = new System.Drawing.Point(49, 20);
+            this.B_3DSSETemp.Location = new System.Drawing.Point(32, 20);
             this.B_3DSSETemp.Name = "B_3DSSETemp";
             this.B_3DSSETemp.Size = new System.Drawing.Size(75, 45);
             this.B_3DSSETemp.TabIndex = 7;
@@ -3742,7 +3754,7 @@
             // B_JPEG
             // 
             this.B_JPEG.Enabled = false;
-            this.B_JPEG.Location = new System.Drawing.Point(178, 20);
+            this.B_JPEG.Location = new System.Drawing.Point(198, 20);
             this.B_JPEG.Name = "B_JPEG";
             this.B_JPEG.Size = new System.Drawing.Size(75, 45);
             this.B_JPEG.TabIndex = 5;
@@ -3785,7 +3797,6 @@
             this.L_SAVManipulation.Size = new System.Drawing.Size(117, 13);
             this.L_SAVManipulation.TabIndex = 7;
             this.L_SAVManipulation.Text = "Save File Manipulation:";
-            this.L_SAVManipulation.Click += new System.EventHandler(this.L_SAVManipulation_Click);
             // 
             // B_SwitchSAV
             // 
@@ -4448,6 +4459,7 @@
         private System.Windows.Forms.PictureBox dragout;
         public System.Windows.Forms.ComboBox CB_Species;
         public System.Windows.Forms.CheckBox CHK_IsEgg;
+        private System.Windows.Forms.Button B_SaveBoxBin;
     }
 }
 
