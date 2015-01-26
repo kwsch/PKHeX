@@ -285,9 +285,11 @@ namespace PKHeX
             if (result == DialogResult.OK) // Test result.
             {
                 string path = SavePKX.FileName;
+                // Injection Dummy Override
+                if (path.Contains("pokemon.ekx")) path = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + "pokemon.ekx";
                 string ext = Path.GetExtension(path);
 
-                if (File.Exists(path))
+                if (File.Exists(path) && !path.Contains("pokemon.ekx"))
                 {
                     // File already exists, save a .bak
                     byte[] backupfile = File.ReadAllBytes(path);

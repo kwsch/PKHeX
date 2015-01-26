@@ -452,6 +452,11 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Boxes are now always initialized with encrypted empty slots (for those without loaded saves).
  - Changed: Export Box descriptive text to be more obvious on what it was exporting. Access by clicking on the Save Manipulation label above Export SAV.
 
-1/26/15 - New Update: (6200+)
+1/26/15 - New Update: (14000)
  - Added: injectiondebug.bin loading, by popular request.
- - Changed: Improved injectiondebug checking.
+ - Update (b): Improved injectiondebug.bin loading to load all variants.
+ - Update (c): Implemented box/pc import/export completely (future).
+
+1/27/15 - New Update: 
+ - Fixed: Scatterbug / Spewpa form selection.
+ - Changed: Saving "pokemon.ekx" will always export extracted and won't tack on extra extensions if you don't have the correct filter.
