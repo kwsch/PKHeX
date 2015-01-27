@@ -2719,7 +2719,6 @@
             this.tabBoxMulti.Controls.Add(this.Tab_Other);
             this.tabBoxMulti.Controls.Add(this.Tab_Tools);
             this.tabBoxMulti.Controls.Add(this.Tab_SAV);
-            this.tabBoxMulti.Enabled = false;
             this.tabBoxMulti.Location = new System.Drawing.Point(300, 27);
             this.tabBoxMulti.Name = "tabBoxMulti";
             this.tabBoxMulti.SelectedIndex = 0;

@@ -123,6 +123,23 @@ namespace PKHeX
             Directory.CreateDirectory(path);
             return path;
         }
+        internal static string get3DSLocation()
+        {
+            try
+            {
+                string path_3DS = null;
+                string[] DriveList = Environment.GetLogicalDrives();
+                for (int i = 1; i < DriveList.Length; i++) // Skip first drive (some users still have floppy drives and would chew up time!)
+                {
+                    string potentialPath = NormalizePath(Path.Combine(DriveList[i], "filer" + Path.DirectorySeparatorChar + "UserSaveData"));
+                    if (Directory.Exists(potentialPath))
+                    { path_3DS = potentialPath; break; }
+                }
+                return path_3DS;
+            }
+            catch { }
+            return null;
+        }
         internal static string GetSDFLocation()
         {
             try

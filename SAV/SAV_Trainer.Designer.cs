@@ -180,6 +180,8 @@ namespace PKHeX
             this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
             this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
             this.GB_Misc = new System.Windows.Forms.GroupBox();
+            this.CB_Vivillon = new System.Windows.Forms.ComboBox();
+            this.L_Vivillon = new System.Windows.Forms.Label();
             this.L_MultiplayerSprite = new System.Windows.Forms.Label();
             this.PB_Sprite = new System.Windows.Forms.PictureBox();
             this.CB_Multi = new System.Windows.Forms.ComboBox();
@@ -188,8 +190,6 @@ namespace PKHeX
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.L_Value = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
-            this.L_Vivillon = new System.Windows.Forms.Label();
-            this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -858,6 +858,7 @@ namespace PKHeX
             // CB_Game
             // 
             this.CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Game.Enabled = false;
             this.CB_Game.FormattingEnabled = true;
             this.CB_Game.Items.AddRange(new object[] {
             "X",
@@ -872,6 +873,7 @@ namespace PKHeX
             // CB_Gender
             // 
             this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Gender.Enabled = false;
             this.CB_Gender.FormattingEnabled = true;
             this.CB_Gender.Items.AddRange(new object[] {
             "♂",
@@ -1832,6 +1834,26 @@ namespace PKHeX
             this.GB_Misc.TabStop = false;
             this.GB_Misc.Text = "Misc";
             // 
+            // CB_Vivillon
+            // 
+            this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Vivillon.Enabled = false;
+            this.CB_Vivillon.FormattingEnabled = true;
+            this.CB_Vivillon.Location = new System.Drawing.Point(9, 81);
+            this.CB_Vivillon.Name = "CB_Vivillon";
+            this.CB_Vivillon.Size = new System.Drawing.Size(102, 21);
+            this.CB_Vivillon.TabIndex = 29;
+            // 
+            // L_Vivillon
+            // 
+            this.L_Vivillon.AutoSize = true;
+            this.L_Vivillon.Location = new System.Drawing.Point(8, 65);
+            this.L_Vivillon.Name = "L_Vivillon";
+            this.L_Vivillon.Size = new System.Drawing.Size(43, 13);
+            this.L_Vivillon.TabIndex = 28;
+            this.L_Vivillon.Text = "Vivillon:";
+            this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // L_MultiplayerSprite
             // 
             this.L_MultiplayerSprite.AutoSize = true;
@@ -1919,26 +1941,6 @@ namespace PKHeX
             this.MT_Stat.Text = "1231231234";
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
-            // 
-            // L_Vivillon
-            // 
-            this.L_Vivillon.AutoSize = true;
-            this.L_Vivillon.Location = new System.Drawing.Point(8, 65);
-            this.L_Vivillon.Name = "L_Vivillon";
-            this.L_Vivillon.Size = new System.Drawing.Size(43, 13);
-            this.L_Vivillon.TabIndex = 28;
-            this.L_Vivillon.Text = "Vivillon:";
-            this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // CB_Vivillon
-            // 
-            this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Vivillon.Enabled = false;
-            this.CB_Vivillon.FormattingEnabled = true;
-            this.CB_Vivillon.Location = new System.Drawing.Point(9, 81);
-            this.CB_Vivillon.Name = "CB_Vivillon";
-            this.CB_Vivillon.Size = new System.Drawing.Size(102, 21);
-            this.CB_Vivillon.TabIndex = 29;
             // 
             // SAV_Trainer
             // 

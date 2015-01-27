@@ -156,11 +156,11 @@ namespace PKHeX
             #region Finish Up
             // Load the arguments
             string[] args = Environment.GetCommandLineArgs();
-            SDFLoc = Util.GetSDFLocation();
+            pathSDF = Util.GetSDFLocation();
             if (args.Length > 1)
                 openQuick(args[1]);
-            else if (SDFLoc != null)
-                openQuick(Path.Combine(SDFLoc, "main"));
+            else if (pathSDF != null)
+                openQuick(Path.Combine(pathSDF, "main"));
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"))))
                 openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")));
 
@@ -190,7 +190,9 @@ namespace PKHeX
         public bool savLoaded = false;
         public int savindex;
         public bool savedited;
-        public string SDFLoc = null;
+        public byte[] ramsav = null;
+        public string pathSDF = null;
+        public string path3DS = null;
 
         public static bool HaX = false;
         public static bool specialChars = false; // Open Form Tracking
@@ -250,10 +252,17 @@ namespace PKHeX
         private void mainMenuOpen(object sender, EventArgs e)
         {
             string cyberpath = Util.GetTempFolder();
-            SDFLoc = Util.GetSDFLocation();
-            if (SDFLoc != null)
+            pathSDF = Util.GetSDFLocation();
+            path3DS = Util.get3DSLocation();
+            if (pathSDF != null)
             {
-                OpenPKX.InitialDirectory = SDFLoc;
+                OpenPKX.InitialDirectory = pathSDF;
+                OpenPKX.RestoreDirectory = true;
+                OpenPKX.FilterIndex = 4;
+            }
+            else if (path3DS != null)
+            {
+                OpenPKX.InitialDirectory = path3DS;
                 OpenPKX.RestoreDirectory = true;
                 OpenPKX.FilterIndex = 4;
             }
@@ -326,7 +335,6 @@ namespace PKHeX
             if (Width < Height)
             {
                 newwidth = largeWidth;
-                tabBoxMulti.Enabled = true;
                 tabBoxMulti.SelectedIndex = 0;
             }
             else
@@ -541,24 +549,35 @@ namespace PKHeX
             #endregion
             #region Box Data
             else if ((input.Length == 0xE8 * 30 || input.Length == 0xE8 * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input , 8) > 0)
-            { Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * ((input.Length == 0xE8*30) ? C_BoxSelect.SelectedIndex : 0), input.Length); setPKXBoxes(); Util.Alert("Box Binary loaded."); }
+            { 
+                Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * ((input.Length == 0xE8*30) ? C_BoxSelect.SelectedIndex : 0), input.Length); 
+                setPKXBoxes();
+                this.Width = largeWidth;
+                Util.Alert("Box Binary loaded."); }
             #endregion
             #region injectiondebug
             else if (input.Length == 0x10000)
             { 
-                int offset = -1;
+                int offset = -1; // Seek to find data start
                 for (int i = 0; i < 0x800; i++)
                 {
                     byte[] data = PKX.decryptArray(input.Skip(i).Take(0xE8).ToArray());
                     if (PKX.getCHK(data) == BitConverter.ToUInt16(data, 6)) { offset = i; break; }
                 }
                 if (offset < 0) { Util.Alert(path, "Unable to read the input file; not an expected injectiondebug.bin."); return; }
-                C_BoxSelect.SelectedIndex = 0; 
-                Array.Copy(input, offset, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, 9 * 30 * 0xE8); 
-                setPKXBoxes(); 
+                C_BoxSelect.SelectedIndex = 0;
+                Array.Copy(input, offset, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, 9 * 30 * 0xE8);
+                setPKXBoxes();
+                this.Width = largeWidth;
                 Util.Alert("Injection Binary loaded."); }
             #endregion
-
+            #region RAMSAV
+            if (( /*XY*/ input.Length == 0x70000 || /*ORAS*/ input.Length == 0x80000) && Path.GetFileName(path) == "ramsav.bin")
+            {
+                bool o = (input.Length == 0x80000);
+                try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o); } catch { }
+            }
+            #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
         }
@@ -677,7 +696,6 @@ namespace PKHeX
             savegame_oras = oras;
             // Enable Secondary Tools
             GB_SAVtools.Enabled =
-                tabBoxMulti.Enabled =
                 B_JPEG.Enabled = 
                 B_VerifyCHK.Enabled = true;
 
@@ -1906,9 +1924,11 @@ namespace PKHeX
         private void updatePKRSInfected(object sender, EventArgs e)
         {
             if (!init) return;
+            if (CHK_Cured.Checked && !CHK_Infected.Checked) { CHK_Cured.Checked = false; return; }
+            else if (CHK_Cured.Checked) return;
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
             if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = 0; CB_PKRSDays.SelectedIndex = 0; Label_PKRSdays.Visible = CB_PKRSDays.Visible = false; }
-            else if (CB_PKRSStrain.SelectedIndex == 0) CB_PKRSStrain.SelectedIndex++;
+            else if (CB_PKRSStrain.SelectedIndex == 0) { CB_PKRSStrain.SelectedIndex = 1; Label_PKRSdays.Visible = CB_PKRSDays.Visible = true; CB_PKRSDays.SelectedIndex = 1; }
 
             // if not cured yet, days > 0
             if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) CB_PKRSDays.SelectedIndex++;
@@ -3166,43 +3186,48 @@ namespace PKHeX
                 byte[] cybersav = new byte[0x65600];
                 if (savegame_oras) cybersav = new byte[0x76000];
                 Array.Copy(editedsav, 0x5400, cybersav, 0, cybersav.Length);
-                // Chunk Error Checking
-                byte[] FFFF = new byte[0x200];
-                byte[] section = new byte[0x200];
-                for (int i = 0; i < 0x200; i++)
-                    FFFF[i] = 0xFF;
-
-                for (int i = 0; i < cybersav.Length / 0x200; i++)
+                if (ramsav == null)
                 {
-                    Array.Copy(cybersav, i * 0x200, section, 0, 0x200);
-                    if (section.SequenceEqual(FFFF))
+                    // Chunk Error Checking
+                    byte[] FFFF = new byte[0x200];
+                    byte[] section = new byte[0x200];
+                    for (int i = 0; i < 0x200; i++)
+                        FFFF[i] = 0xFF;
+
+                    for (int i = 0; i < cybersav.Length / 0x200; i++)
                     {
-                        string problem = String.Format("0x200 chunk @ 0x{0} is FF'd.", (i * 0x200).ToString("X5"))
-                            + Environment.NewLine + "Cyber will screw up (as of August 31st)." + Environment.NewLine + Environment.NewLine;
-
-                        // Check to see if it is in the Pokedex
-                        if (i * 0x200 > 0x14E00 && i * 0x200 < 0x15700)
+                        Array.Copy(cybersav, i * 0x200, section, 0, 0x200);
+                        if (section.SequenceEqual(FFFF))
                         {
-                            problem += "Problem lies in the Pokedex. ";
-                            if (i * 0x200 == 0x15400)
-                                problem += "Remove a language flag for a species ~ ex " + specieslist[548];
-                        }
+                            string problem = String.Format("0x200 chunk @ 0x{0} is FF'd.", (i * 0x200).ToString("X5"))
+                                + Environment.NewLine + "Cyber will screw up (as of August 31st)." + Environment.NewLine + Environment.NewLine;
 
-                        if (Util.Prompt(MessageBoxButtons.YesNo, problem, "Continue saving?") != DialogResult.Yes)
-                            return;
+                            // Check to see if it is in the Pokedex
+                            if (i * 0x200 > 0x14E00 && i * 0x200 < 0x15700)
+                            {
+                                problem += "Problem lies in the Pokedex. ";
+                                if (i * 0x200 == 0x15400)
+                                    problem += "Remove a language flag for a species ~ ex " + specieslist[548];
+                            }
+
+                            if (Util.Prompt(MessageBoxButtons.YesNo, problem, "Continue saving?") != DialogResult.Yes)
+                                return;
+                        }
                     }
                 }
                 SaveFileDialog cySAV = new SaveFileDialog();
 
                 // Try for file path
                 string cyberpath = Util.GetTempFolder();
-                if (SDFLoc != null)
+                if (ramsav != null && Directory.Exists(path3DS))
                 {
-                    if (Directory.Exists(SDFLoc))
-                    {
-                        cySAV.InitialDirectory = SDFLoc;
-                        cySAV.RestoreDirectory = true;
-                    }
+                    cySAV.InitialDirectory = path3DS;
+                    cySAV.RestoreDirectory = true;
+                }
+                else if (pathSDF != null && Directory.Exists(pathSDF))
+                {
+                    cySAV.InitialDirectory = pathSDF;
+                    cySAV.RestoreDirectory = true;
                 }
                 else if (Directory.Exists(Path.Combine(cyberpath, "root")))
                 {
@@ -3214,15 +3239,29 @@ namespace PKHeX
                     cySAV.InitialDirectory = cyberpath;
                     cySAV.RestoreDirectory = true;
                 }
-
-                cySAV.Filter = "Cyber SAV|*.*";
-                cySAV.FileName = Regex.Split(L_Save.Text, ": ")[1];
-                DialogResult sdr = cySAV.ShowDialog();
-                if (sdr == DialogResult.OK)
+                if (ramsav != null)
                 {
-                    string path = cySAV.FileName;
-                    File.WriteAllBytes(path, cybersav);
-                    Util.Alert("Saved Cyber SAV to:", path);
+                    cySAV.Filter = "ramsav|*.bin";
+                    cySAV.FileName = "ramsav.bin";
+                    DialogResult sdr = cySAV.ShowDialog();
+                    if (sdr == DialogResult.OK)
+                    {
+                        string path = cySAV.FileName;
+                        File.WriteAllBytes(path, cybersav);
+                        Util.Alert("Saved RAM SAV to:", path);
+                    }
+                }
+                else
+                {
+                    cySAV.Filter = "Cyber SAV|*.*";
+                    cySAV.FileName = Regex.Split(L_Save.Text, ": ")[1];
+                    DialogResult sdr = cySAV.ShowDialog();
+                    if (sdr == DialogResult.OK)
+                    {
+                        string path = cySAV.FileName;
+                        File.WriteAllBytes(path, cybersav);
+                        Util.Alert("Saved Cyber SAV to:", path);
+                    }
                 }
             }
             else
@@ -4061,7 +4100,6 @@ namespace PKHeX
                 if (Width < Height) // expand if boxes aren't visible
                 {
                     this.Width = largeWidth;
-                    tabBoxMulti.Enabled = true;
                     tabBoxMulti.SelectedIndex = 0;
                 }
                 setPKXBoxes();
@@ -4307,11 +4345,11 @@ namespace PKHeX
         private void clickSaveFileName(object sender, EventArgs e)
         {
             // Get latest SaveDataFiler save location
-            SDFLoc = Util.GetSDFLocation();
+            pathSDF = Util.GetSDFLocation();
             string path = null;
 
-            if (SDFLoc != null && ModifierKeys != Keys.Control) // if we have a result
-                path = Path.Combine(SDFLoc, "main");
+            if (pathSDF != null && ModifierKeys != Keys.Control) // if we have a result
+                path = Path.Combine(pathSDF, "main");
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")))) // else if cgse exists
                 path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"));
 
