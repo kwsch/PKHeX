@@ -577,6 +577,7 @@ namespace PKHeX
             {
                 bool o = (input.Length == 0x80000);
                 try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o, true); } catch { }
+                ramsav = (byte[])input.Clone();
             }
             #endregion
             else
@@ -3250,7 +3251,7 @@ namespace PKHeX
                     if (sdr == DialogResult.OK)
                     {
                         string path = cySAV.FileName;
-                        File.WriteAllBytes(path, cybersav);
+                        File.WriteAllBytes(path, ram2sav.getRAM(ramsav, cybersav));
                         Util.Alert("Saved RAM SAV to:", path);
                     }
                 }

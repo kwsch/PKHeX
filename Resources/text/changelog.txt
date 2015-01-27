@@ -457,6 +457,12 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Update (b): Improved injectiondebug.bin loading to load all variants.
  - Update (c): Implemented box/pc import/export completely (future).
 
-1/27/15 - New Update: 
+1/27/15 - New Update: (13000)
  - Fixed: Scatterbug / Spewpa form selection.
  - Changed: Saving "pokemon.ekx" will always export extracted and won't tack on extra extensions if you don't have the correct filter.
+
+1/28/15 - New Update:
+ - Added: ram2sav save editing for retail carts. Load ramsav.bin and export with Export SAV button in the SAV tab.
+ - Fixed: PKRS display logic should now behave as intended.
+ - Changed: Gender/Game changing in Trainer Info has been disabled (it's not a simple 'switch').
+ - Improved: Loading Box/Debug binaries will display the boxes if they are not visible.
