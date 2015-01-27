@@ -3243,7 +3243,28 @@ namespace PKHeX
                     cySAV.InitialDirectory = cyberpath;
                     cySAV.RestoreDirectory = true;
                 }
-                if (ramsavloaded && ModifierKeys != Keys.Control) // Export RAM SAV if it is the currently loaded one.
+                if (ramsavloaded && ModifierKeys == Keys.Shift) // Export RAM SAV to another.
+                {
+                    Util.Alert("Please specify the target cart/console-RAM save.");
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        string target = ofd.FileName;
+                        byte[] targetRAM = File.ReadAllBytes(target);
+                        byte[] newRAM = ram2sav.getRAM(targetRAM, cybersav);
+
+                        cySAV.Filter = "ramsav|*.bin";
+                        cySAV.FileName = "ramsav.bin";
+                        DialogResult sdr = cySAV.ShowDialog();
+                        if (sdr == DialogResult.OK)
+                        {
+                            string path = cySAV.FileName;
+                            File.WriteAllBytes(path, newRAM);
+                            Util.Alert("Saved RAM SAV to:" + Environment.NewLine + path, "Target RAM:" + Environment.NewLine + target);
+                        }
+                    }
+                }
+                else if (ramsavloaded && ModifierKeys != Keys.Control) // Export RAM SAV if it is the currently loaded one.
                 {
                     cySAV.Filter = "ramsav|*.bin";
                     cySAV.FileName = "ramsav.bin";
