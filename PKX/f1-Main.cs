@@ -191,6 +191,7 @@ namespace PKHeX
         public int savindex;
         public bool savedited;
         public byte[] ramsav = null;
+        public bool ramsavloaded = false;
         public string pathSDF = null;
         public string path3DS = null;
 
@@ -572,17 +573,18 @@ namespace PKHeX
                 Util.Alert("Injection Binary loaded."); }
             #endregion
             #region RAMSAV
-            if (( /*XY*/ input.Length == 0x70000 || /*ORAS*/ input.Length == 0x80000) && Path.GetFileName(path) == "ramsav.bin")
+            else if (( /*XY*/ input.Length == 0x70000 || /*ORAS*/ input.Length == 0x80000) && Path.GetFileName(path) == "ramsav.bin")
             {
                 bool o = (input.Length == 0x80000);
-                try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o); } catch { }
+                try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o, true); } catch { }
             }
             #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
         }
-        private void openMAIN(byte[] input, string path, string GameType, bool oras)
+        private void openMAIN(byte[] input, string path, string GameType, bool oras, bool ram = false)
         {
+            ramsavloaded = ram;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new PKX.Structures.SaveGame(GameType);
 
@@ -599,6 +601,7 @@ namespace PKHeX
         }
         private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
+            ramsavloaded = false;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new PKX.Structures.SaveGame(GameType);
             savegame_oras = oras;
@@ -3239,7 +3242,7 @@ namespace PKHeX
                     cySAV.InitialDirectory = cyberpath;
                     cySAV.RestoreDirectory = true;
                 }
-                if (ramsav != null)
+                if (ramsavloaded && ModifierKeys != Keys.Control) // Export RAM SAV if it is the currently loaded one.
                 {
                     cySAV.Filter = "ramsav|*.bin";
                     cySAV.FileName = "ramsav.bin";

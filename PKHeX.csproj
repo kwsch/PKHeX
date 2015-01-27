@@ -114,6 +114,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Misc\ram2sav.cs" />
     <Compile Include="SAV\SAV_PokedexORAS.cs">
       <SubType>Form</SubType>
     </Compile>
