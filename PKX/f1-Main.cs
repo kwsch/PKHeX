@@ -573,8 +573,13 @@ namespace PKHeX
                 Util.Alert("Injection Binary loaded."); }
             #endregion
             #region RAMSAV
-            else if (( /*XY*/ input.Length == 0x70000 || /*ORAS*/ input.Length == 0x80000) && Path.GetFileName(path) == "ramsav.bin")
+            else if (( /*XY*/ input.Length == 0x70000 || /*ORAS*/ input.Length == 0x80000) && Path.GetFileName(path).Contains("ram"))
             {
+                if (input.Length == 0x80000)
+                    // Scan for FEEB in XY location, 3DS only overwrites data if file already exists.
+                    for (int i = 0x60000; i < 0x64000; i+=4)
+                        if (BitConverter.ToUInt32(input, i) == 0x42454546) { Array.Resize(ref input, 0x70000); break; }
+
                 bool o = (input.Length == 0x80000);
                 try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o, true); } catch { }
                 ramsav = (byte[])input.Clone();
@@ -1856,7 +1861,7 @@ namespace PKHeX
             setAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
 
             // Gender Forms
-            if (PKX.getGender(CB_Form.Text) < 2)
+            if (PKX.getGender(CB_Form.Text) < 2 && Util.getIndex(CB_Species) != 201) // don't do this for Unown
                 Label_Gender.Text = CB_Form.Text;
         }
         private void updatePP(object sender, EventArgs e)
