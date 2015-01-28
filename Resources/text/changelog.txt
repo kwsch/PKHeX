@@ -457,12 +457,22 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Update (b): Improved injectiondebug.bin loading to load all variants.
  - Update (c): Implemented box/pc import/export completely (future).
 
-1/27/15 - New Update: (13000)
+1/27/15 - New Update: (13500)
  - Fixed: Scatterbug / Spewpa form selection.
  - Changed: Saving "pokemon.ekx" will always export extracted and won't tack on extra extensions if you don't have the correct filter.
 
-1/28/15 - New Update:
- - Added: ram2sav save editing for retail carts. Load ramsav.bin and export with Export SAV button in the SAV tab.
+1/28/15 - New Update: (9900)
+ - Added: Save editing for retail games. Load ramsav.bin and export with Export SAV button in the SAV tab. 
+ - - Change the target RAM binary by holding shift while exporting.
  - Fixed: PKRS display logic should now behave as intended.
  - Changed: Gender/Game changing in Trainer Info has been disabled (it's not a simple 'switch').
  - Improved: Loading Box/Debug binaries will display the boxes if they are not visible.
+ - Update (b): Added 2 more types of XY RAMSav types.
+
+1/29/15 - New Update:
+ - Changed: ramsav detection to allow users to store backups with unique names. Be sure it contains "ram" in the file name!
+ - Fixed: Gen4 Egg Locations should now load for pre-GenV origin mons. Thanks Omicron!
+ - Fixed: Unown forms M & F won't alter the gender label. Thanks Favna!
+ - Fixed: ram2sav usage with X/Y after OR/AS and not deleting the OR/AS save before dumping X/Y (data past sav length). Thanks trainboy2019!
+ - Added: Symbol selection for OT/Latest Handler like for Nicknames; access changed to control clicking the TextBox. Thanks ProfShroomish!
+ - Changed: FindIndex hunting to account for rare ramsav types. Thanks Crowhogan33 for reporting and SciresM for fixing!
