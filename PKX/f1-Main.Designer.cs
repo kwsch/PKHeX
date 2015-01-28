@@ -549,7 +549,6 @@
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Nicknamed.UseVisualStyleBackColor = true;
             this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.updateNickname);
-            this.CHK_Nicknamed.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
             // 
             // Label_Gender
             // 
@@ -2199,6 +2198,7 @@
             this.TB_OTt2.TabIndex = 6;
             this.TB_OTt2.WordWrap = false;
             this.TB_OTt2.TextChanged += new System.EventHandler(this.updateNotOT);
+            this.TB_OTt2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
             // 
             // Label_PrevOT
             // 
@@ -2484,6 +2484,7 @@
             this.TB_OT.Name = "TB_OT";
             this.TB_OT.Size = new System.Drawing.Size(94, 20);
             this.TB_OT.TabIndex = 3;
+            this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
             // 
             // TB_SID
             // 

@@ -4,7 +4,7 @@
 // Main Window
 
 Hold Control when dragging out the Tab PKM to save as ekx.
-Right Click on Nickname/Nickname box to bring up the ingame-special characters.
+Control Click on Nickname/OT box to bring up the ingame-special characters.
 
 Control + Click on...
 Randomize IVs: Set all IVs to max.

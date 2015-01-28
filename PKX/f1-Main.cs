@@ -167,8 +167,8 @@ namespace PKHeX
             GB_OT.Click += clickGT;
             GB_nOT.Click += clickGT;
             GB_Daycare.Click += switchDaycare;
-
-            TB_Nickname.Font = PKX.getPKXFont(10F);
+            gameFont = PKX.getPKXFont(11F);
+            TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = gameFont;
             // Close splash screen.  
             init = true;
             SplashSCR.Join();
@@ -197,6 +197,7 @@ namespace PKHeX
 
         public static bool HaX = false;
         public static bool specialChars = false; // Open Form Tracking
+        public static Font gameFont;
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static int colorizedbox = 32;
@@ -2122,9 +2123,10 @@ namespace PKHeX
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
         {
+            TextBox tb = (!(sender is TextBox)) ? TB_Nickname : (sender as TextBox);
             // Special Character Form
-            if (e.Button == MouseButtons.Right && !specialChars)
-                (new f2_Text(TB_Nickname)).Show();
+            if (ModifierKeys == Keys.Control && !specialChars)
+                (new f2_Text(tb)).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
         {
