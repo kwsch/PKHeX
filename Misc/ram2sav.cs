@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +18,7 @@ namespace PKHeX
             uint[] skips = new uint[] { };
             uint[] instances = new uint[] { };
             uint val = BitConverter.ToUInt32(ramsav, 0);
+            uint spos = 0;
             if (ramsav.Length == 0x80000) // ORAS
             {
                 offsets = new uint[] { 0x00005400, 0x00005800, 0x00006400, 0x00006600, 0x00006800, 0x00006A00, 0x00006C00, 0x00006E00, 0x00007000, 0x00007200, 0x00007400, 0x00009600, 0x00009800, 0x00009E00, 0x0000A400, 0x0000F400, 0x00014400, 0x00019400, 0x00019600, 0x00019E00, 0x0001A400, 0x0001B600, 0x0001BE00, 0x0001C000, 0x0001C200, 0x0001C800, 0x0001CA00, 0x0001CE00, 0x0001D600, 0x0001D800, 0x0001DA00, 0x0001DC00, 0x0001DE00, 0x0001E000, 0x0001E800, 0x0001EE00, 0x0001F200, 0x00020E00, 0x00021000, 0x00021400, 0x00021800, 0x00022000, 0x00023C00, 0x00024000, 0x00024800, 0x00024C00, 0x00025600, 0x00025A00, 0x00026200, 0x00027000, 0x00027200, 0x00027400, 0x00028200, 0x00028A00, 0x00028E00, 0x00030A00, 0x00038400, 0x0006D000, 0x0007B200 };
@@ -46,10 +47,14 @@ namespace PKHeX
             {
                 for (int i = 0; i < lens.Length; i++)
                 {
-                    int ofs = FindIndex(ramsav, magics[i], instances[i]);
+                    int ofs = FindIndex(ramsav, magics[i], instances[i], spos);
                     ms.Seek((long)(offsets[i] - 0x5400), SeekOrigin.Begin);
+                    spos += lens[i];
                     if (ofs > 0)
+                    {
                         new MemoryStream(ramsav.Skip(ofs + (int)skips[i]).Take((int)lens[i]).ToArray()).CopyTo(ms);
+                        spos += 4;
+                    }
                     else
                         new MemoryStream(new byte[(int)lens[i]]).CopyTo(ms);
                 }
@@ -71,6 +76,7 @@ namespace PKHeX
             uint[] skips = new uint[] { };
             uint[] instances = new uint[] { };
             uint val = BitConverter.ToUInt32(ramsav, 0);
+            uint spos = 0;
             if (oras) // ORAS
             {
                 offsets = new uint[] { 0x00005400, 0x00005800, 0x00006400, 0x00006600, 0x00006800, 0x00006A00, 0x00006C00, 0x00006E00, 0x00007000, 0x00007200, 0x00007400, 0x00009600, 0x00009800, 0x00009E00, 0x0000A400, 0x0000F400, 0x00014400, 0x00019400, 0x00019600, 0x00019E00, 0x0001A400, 0x0001B600, 0x0001BE00, 0x0001C000, 0x0001C200, 0x0001C800, 0x0001CA00, 0x0001CE00, 0x0001D600, 0x0001D800, 0x0001DA00, 0x0001DC00, 0x0001DE00, 0x0001E000, 0x0001E800, 0x0001EE00, 0x0001F200, 0x00020E00, 0x00021000, 0x00021400, 0x00021800, 0x00022000, 0x00023C00, 0x00024000, 0x00024800, 0x00024C00, 0x00025600, 0x00025A00, 0x00026200, 0x00027000, 0x00027200, 0x00027400, 0x00028200, 0x00028A00, 0x00028E00, 0x00030A00, 0x00038400, 0x0006D000, 0x0007B200 };
@@ -97,21 +103,25 @@ namespace PKHeX
             }
             for (int i = 0; i < lens.Length; i++)
             {
-                int ofs = FindIndex(ramsav, magics[i], instances[i]);
+                int ofs = FindIndex(ramsav, magics[i], instances[i], spos);
+                spos += lens[i];
                 if (ofs > 0)
+                {
                     Array.Copy(main, (int)offsets[i] - 0x5400, newram, ofs + (int)skips[i], lens[i]);
+                    spos += 4;
+                }
                 else { }
                     //Do nothing. Don't Copy blocks we can't find lol
             }
             return newram;
         }
 
-        internal static int FindIndex(byte[] data, uint val, uint instances)
+        internal static int FindIndex(byte[] data, uint val, uint instances, uint start)
         {
             if (val == UNKNOWNVAL)
                 return -1;
 
-            int ofs = 0;
+            int ofs = (int)start;
             int times = 0;
             uint v = (BitConverter.ToUInt32(data, ofs));
             while ((v != val || times != instances) && ofs + 4 < data.Length)
