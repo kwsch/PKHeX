@@ -2042,7 +2042,7 @@ namespace PKHeX
                 }
                 #endregion
             }
-            if (((gameorigin < 10 && gameorigin > 6) || (gameorigin == 15)) && origintrack != "Gen4")
+            if (gameorigin < 0x10 && origintrack != "Gen4")
             {
                 // Load Gen 4 egg locations if Gen 4 Origin.
                 #region HGSS Met Locations
