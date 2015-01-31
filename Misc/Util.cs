@@ -330,7 +330,7 @@ namespace PKHeX
                 object txt;
                 txt = Properties.Resources.ResourceManager.GetObject("lang_" + lang); // Fetch File, \n to list.
                 if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                rawlist = ((string)txt).Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                rawlist = ((string)txt).Split(new string[] { "\n" }, StringSplitOptions.None);
                 rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
             }
 
