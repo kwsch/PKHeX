@@ -241,6 +241,7 @@ namespace PKHeX
             this.TB_OTName.TabIndex = 2;
             this.TB_OTName.Text = "WWWWWWWWWWWW";
             this.TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickOT);
             // 
             // L_TrainerName
             // 

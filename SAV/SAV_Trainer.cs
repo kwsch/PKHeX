@@ -20,12 +20,16 @@ namespace PKHeX
         public SAV_Trainer(Form1 frm1)
         {
             InitializeComponent();
+
+            try { TB_OTName.Font = PKX.getPKXFont(11); }
+            catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
+
             Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
             savindex = m_parent.savindex;
             savshift = savindex * 0x7F000;
-            if (m_parent.savegame_oras) 
+            if (m_parent.savegame_oras)
             {
                 psssatoffset = 0x24800; Maison += 0xA00; VivillonForm = 0x9644;
                 this.Width = (int)((float)Width * (float)428 / (float)590);
@@ -208,8 +212,8 @@ namespace PKHeX
         public bool editing = false;
         public byte badgeval = 0;
         public ToolTip Tip1 = new ToolTip();
-        public ToolTip Tip2 = new ToolTip(); 
-        
+        public ToolTip Tip2 = new ToolTip();
+
         private void getComboBoxes()
         {
             var dsregion_list = new[] {
@@ -230,7 +234,7 @@ namespace PKHeX
                     new { Text = "SPA", Value = 7 },
                     new { Text = "KOR", Value = 8 }
                 };
-            
+
             CB_3DSReg.DataSource = dsregion_list;
             CB_3DSReg.DisplayMember = "Text";
             CB_3DSReg.ValueMember = "Value";
@@ -350,8 +354,8 @@ namespace PKHeX
                                    Properties.Resources.badge_08,
                        };
             }
-            CheckBox[] cba = {cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8,};
-            PictureBox[] pba = {pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8,};
+            CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
+            PictureBox[] pba = { pb1, pb2, pb3, pb4, pb5, pb6, pb7, pb8, };
 
             for (int i = 0; i < 8; i++)
             {
@@ -371,8 +375,8 @@ namespace PKHeX
             // Get Data
             string OT_NAME = Encoding.Unicode.GetString(sav, TrainerCard + 0x48 + savshift, 0x1A);
             string RIV_NAME = Encoding.Unicode.GetString(sav, Trainer2 + 0x10 + savshift, 0x1A);
-            
-            CB_Game.SelectedIndex = sav[TrainerCard + 0x04 + savshift]-0x18;
+
+            CB_Game.SelectedIndex = sav[TrainerCard + 0x04 + savshift] - 0x18;
             CB_Gender.SelectedIndex = sav[TrainerCard + 0x05 + savshift];
 
             int TID = BitConverter.ToUInt16(sav, TrainerCard + 0x0 + savshift);
@@ -419,7 +423,7 @@ namespace PKHeX
 
             TB_MCDN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 4).ToString();
             TB_MCDS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 5).ToString();
-            
+
             TB_MBDN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 6).ToString();
             TB_MBDS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 7).ToString();
 
@@ -440,16 +444,16 @@ namespace PKHeX
 
             TB_MBMN.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 18).ToString();
             TB_MBMS.Text = BitConverter.ToUInt16(sav, savshift + Maison + 2 * 19).ToString();
-                        
+
             TB_CoordM.Text = BitConverter.ToUInt16(sav, savshift + Trainer1 + 0x02).ToString();
             TB_CoordX.Text = BitConverter.ToSingle(sav, savshift + Trainer1 + 0x10).ToString();
             TB_CoordZ.Text = BitConverter.ToSingle(sav, savshift + Trainer1 + 0x14).ToString();
             TB_CoordY.Text = BitConverter.ToSingle(sav, savshift + Trainer1 + 0x18).ToString();
 
             // Load BP and PokeMiles
-            TB_BP.Text = BitConverter.ToUInt32(sav, savshift + Trainer2 + 0x3C - 0xC*Convert.ToInt16(m_parent.savegame_oras)).ToString();
+            TB_BP.Text = BitConverter.ToUInt32(sav, savshift + Trainer2 + 0x3C - 0xC * Convert.ToInt16(m_parent.savegame_oras)).ToString();
             TB_PM.Text = BitConverter.ToUInt32(sav, savshift + psssatoffset + 0xFC).ToString();
-            
+
             // Temp ORAS 
             GB_Misc.Visible = true;
 
@@ -564,14 +568,14 @@ namespace PKHeX
             }
 
             // Copy Position
-            byte[] m = BitConverter.GetBytes( Int16.Parse(TB_CoordM.Text)); Array.Resize(ref m, 2); Array.Copy(m,0,sav, savshift + Trainer1 + 0x02,2);
-            byte[] x = BitConverter.GetBytes(Single.Parse(TB_CoordX.Text)); Array.Resize(ref x, 4); Array.Copy(x,0,sav, savshift + Trainer1 + 0x10,4);
-            byte[] z = BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)); Array.Resize(ref z, 4); Array.Copy(z,0,sav, savshift + Trainer1 + 0x14,4);
-            byte[] y = BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)); Array.Resize(ref y, 4); Array.Copy(y,0,sav, savshift + Trainer1 + 0x18,4);
+            byte[] m = BitConverter.GetBytes(Int16.Parse(TB_CoordM.Text)); Array.Resize(ref m, 2); Array.Copy(m, 0, sav, savshift + Trainer1 + 0x02, 2);
+            byte[] x = BitConverter.GetBytes(Single.Parse(TB_CoordX.Text)); Array.Resize(ref x, 4); Array.Copy(x, 0, sav, savshift + Trainer1 + 0x10, 4);
+            byte[] z = BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)); Array.Resize(ref z, 4); Array.Copy(z, 0, sav, savshift + Trainer1 + 0x14, 4);
+            byte[] y = BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)); Array.Resize(ref y, 4); Array.Copy(y, 0, sav, savshift + Trainer1 + 0x18, 4);
 
             byte[] bp = BitConverter.GetBytes(Util.ToUInt32(TB_BP.Text)); Array.Resize(ref bp, 2); Array.Copy(bp, 0, sav, savshift + 0x963C - 0xC * Convert.ToInt16(m_parent.savegame_oras), 2);
             byte[] pm = BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)); Array.Resize(ref pm, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0xFC, 4); Array.Copy(pm, 0, sav, savshift + psssatoffset + 0x100, 4);
-            sav[0x694D+savshift] = Byte.Parse(TB_Style.Text);
+            sav[0x694D + savshift] = Byte.Parse(TB_Style.Text);
 
             // Copy Badges
             badgeval = 0;
@@ -611,6 +615,13 @@ namespace PKHeX
             sav[VivillonForm + savshift] = (byte)Util.ToUInt32(CB_Vivillon.SelectedValue.ToString());
         }
 
+        private void clickOT(object sender, MouseEventArgs e)
+        {
+            TextBox tb = (!(sender is TextBox)) ? TB_OTName : (sender as TextBox);
+            // Special Character Form
+            if (ModifierKeys == Keys.Control && !Form1.specialChars)
+                (new f2_Text(tb)).Show();
+        }
         private void showTSV(object sender, EventArgs e)
         {
             uint TID = Util.ToUInt32(MT_TID.Text);
@@ -684,7 +695,7 @@ namespace PKHeX
                 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,
                 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
             };
-            Array.Copy(data,0,sav,savshift + 0x6E00,0x6C);
+            Array.Copy(data, 0, sav, savshift + 0x6E00, 0x6C);
         }
 
         private void updateCountry(object sender, EventArgs e)
@@ -694,22 +705,14 @@ namespace PKHeX
         }
         private void toggleBadge(object sender, EventArgs e)
         {
-            int val = Convert.ToInt16(((PictureBox)sender).Name.Last().ToString())-1;
+            int val = Convert.ToInt16(((PictureBox)sender).Name.Last().ToString()) - 1;
             CheckBox[] chka = new CheckBox[] { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8 };
             chka[val].Checked = !chka[val].Checked;
         }
 
         private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (m_parent.savegame_oras)
-            {
-                int sprite = Util.getIndex(CB_Multi);
-                PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_" + sprite.ToString("00"));
-            }
-            else
-            {
-                PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_00");
-            }
+            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject((m_parent.savegame_oras) ? "tr_" + Util.getIndex(CB_Multi).ToString("00") : "tr_00");
         }
     }
 }
