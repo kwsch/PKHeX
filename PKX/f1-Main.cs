@@ -80,10 +80,11 @@ namespace PKHeX
                 CB_Ability.Visible = !HaX;
             }
             #endregion
+            Status = "Language set up";
             #endregion
             #region Localize & Populate
-            InitializeStrings();
-            InitializeFields();
+            InitializeStrings(); Status = "Strings set up";
+            InitializeFields(); Status = "Fields set up";
             #endregion
             #region Add ContextMenus to the PictureBoxes (PKX slots)
 
@@ -151,10 +152,10 @@ namespace PKHeX
 
             // Box to Tabs D&D
             dragout.AllowDrop = true;
-
             #endregion
             #region Finish Up
             // Load the arguments
+            Status = "Checking load args.";
             string[] args = Environment.GetCommandLineArgs();
             pathSDF = Util.GetSDFLocation();
             if (args.Length > 1)
@@ -168,9 +169,11 @@ namespace PKHeX
             GB_nOT.Click += clickGT;
             GB_Daycare.Click += switchDaycare;
 
+            Status = "Setting game font.";
             TB_Nickname.Font = PKX.getPKXFont(11);
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
+            Status = "Initialized!";
 
             // Close splash screen.  
             init = true;
@@ -197,7 +200,8 @@ namespace PKHeX
         public bool ramsavloaded = false;
         public string pathSDF = null;
         public string path3DS = null;
-
+        
+        public static string Status = "Starting up PKHeX...";
         public static bool HaX = false;
         public static bool specialChars = false; // Open Form Tracking
         public static Color defaultControlWhite;
@@ -876,10 +880,10 @@ namespace PKHeX
         }
         private void InitializeLanguage()
         {
-            setCountrySubRegion(CB_Country, "countries");
-
             // Set the Display
-            CB_3DSReg.DisplayMember =
+            CB_Country.DisplayMember = 
+                CB_SubRegion.DisplayMember = 
+                CB_3DSReg.DisplayMember =
                 CB_Language.DisplayMember =
                 CB_Ball.DisplayMember =
                 CB_HeldItem.DisplayMember =
@@ -890,7 +894,9 @@ namespace PKHeX
                 CB_GameOrigin.DisplayMember = "Text";
 
             // Set the Value
-            CB_3DSReg.ValueMember =
+            CB_Country.ValueMember = 
+                CB_SubRegion.ValueMember = 
+                CB_3DSReg.ValueMember =
                 CB_Language.ValueMember =
                 CB_Ball.ValueMember =
                 CB_HeldItem.ValueMember =
@@ -901,6 +907,7 @@ namespace PKHeX
                 CB_GameOrigin.ValueMember = "Value";
 
             // Set the various ComboBox DataSources up with their allowed entries
+            setCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = Util.getUnsortedCBList("regions3ds");
             CB_Language.DataSource = Util.getUnsortedCBList("languages");
             int[] ball_nums = new int[] { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
@@ -1207,8 +1214,6 @@ namespace PKHeX
             cl = (cl == "zh") ? "ko" : (cl == "ko") ? "zh" : cl;
 
             CB.DataSource = Util.getCBList(type, cl);
-            CB.DisplayMember = "Text";
-            CB.ValueMember = "Value";
 
             if (index > 0 && index <= CB.Items.Count)
                 CB.SelectedValue = index;
@@ -1221,16 +1226,16 @@ namespace PKHeX
             var form_list = new[] { new { Text = "", Value = 0 }, };
             if (MonData.AltFormCount == 0 && species != 664 && species != 665)
             {
-                cb.DataSource = form_list;
                 cb.DisplayMember = "Text";
                 cb.ValueMember = "Value";
+                cb.DataSource = form_list;
                 cb.Enabled = false;
                 return;
             }
 
-            cb.DataSource = form_list;
             cb.DisplayMember = "Text";
             cb.ValueMember = "Value";
+            cb.DataSource = form_list;
 
             // Mega List
             int[] mspec = {     // XY
@@ -2005,12 +2010,12 @@ namespace PKHeX
                     met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
                     met_list = Util.getOffsetCBList(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
                     met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
-                    CB_MetLocation.DataSource = met_list;
                     CB_MetLocation.DisplayMember = "Text";
                     CB_MetLocation.ValueMember = "Value";
-                    CB_EggLocation.DataSource = new BindingSource(met_list, null);
+                    CB_MetLocation.DataSource = met_list;
                     CB_EggLocation.DisplayMember = "Text";
                     CB_EggLocation.ValueMember = "Value";
+                    CB_EggLocation.DataSource = new BindingSource(met_list, null);
                     CB_EggLocation.SelectedValue = 0;
                     if (gameorigin < 20)
                         CB_MetLocation.SelectedValue = 30001; // Transporter
@@ -2033,12 +2038,12 @@ namespace PKHeX
                     met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, Legal.Met_XY_3);
                     met_list = Util.getOffsetCBList(met_list, metXY_40000, 40001, Legal.Met_XY_4);
                     met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, Legal.Met_XY_6);
-                    CB_MetLocation.DataSource = met_list;
                     CB_MetLocation.DisplayMember = "Text";
                     CB_MetLocation.ValueMember = "Value";
-                    CB_EggLocation.DataSource = new BindingSource(met_list, null);
+                    CB_MetLocation.DataSource = met_list;
                     CB_EggLocation.DisplayMember = "Text";
                     CB_EggLocation.ValueMember = "Value";
+                    CB_EggLocation.DataSource = new BindingSource(met_list, null);
                     CB_EggLocation.SelectedValue = 0;
                     CB_MetLocation.SelectedValue = 0;
                     origintrack = "XY";
@@ -2061,9 +2066,9 @@ namespace PKHeX
                 met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
                 met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
 
-                CB_EggLocation.DataSource = met_list;
                 CB_EggLocation.DisplayMember = "Text";
                 CB_EggLocation.ValueMember = "Value";
+                CB_EggLocation.DataSource = met_list;
                 CB_EggLocation.SelectedValue = 0;
                 origintrack = "Gen4";
                 #endregion
@@ -2231,7 +2236,7 @@ namespace PKHeX
             ComboBox cb = sender as ComboBox;
             cb.SelectionLength = 0;
 
-            if ((cb.SelectedValue == null))
+            if (cb.SelectedValue == null)
                 cb.BackColor = Color.DarkSalmon;
             else
                 cb.BackColor = defaultControlWhite;
@@ -3445,21 +3450,19 @@ namespace PKHeX
         }
         private void clickDelete(object sender, EventArgs e)
         {
-            byte partycount = setParty();
             int slot = getSlot(sender);
-            if (slot == 30 && partycount == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
+            if (slot == 30 && setParty() == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
             int offset = getPKXOffset(slot);
 
             byte[] pkxdata = new byte[0x104];
             byte[] ekxdata = PKX.encryptArray(pkxdata);
 
             if (slot >= 30 && slot < 36) // Party
-                Array.Copy(ekxdata, 0, savefile, offset, 0x104);
+            { Array.Copy(ekxdata, 0, savefile, offset, 0x104); setParty(); }
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
-                Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
+            { Array.Copy(ekxdata, 0, savefile, offset, 0xE8); }
             else return;
 
-            setParty();
             getQuickFiller(getPictureBox(slot), pkxdata);
             savedited = true;
 
@@ -3598,15 +3601,11 @@ namespace PKHeX
         }
         private int getSlot(object sender)
         {
-            Control sourceControl = null;
-            // Try to cast the sender to a ToolStripItem
-            try { ToolStripItem menuItem = sender as ToolStripItem; ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip; sourceControl = owner.SourceControl; }
-            catch
-            { // try to cast as picturebox 
-                try { PictureBox pbItem = sender as PictureBox; sourceControl = pbItem as Control; }
-                catch
-                { Util.Error("Invalid slot!", "getSlot could not cast the control element."); return 0; }
-            }
+            string name = (sender is ToolStripItem) 
+                ?
+                ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
+                :
+                (sender as PictureBox).Name;
 
             string[] pba = {
                                 "bpkx1", "bpkx2", "bpkx3", "bpkx4", "bpkx5", "bpkx6",
@@ -3620,7 +3619,7 @@ namespace PKHeX
 
                                 "dcpkx1", "dcpkx2", "gtspkx", "fusedpkx","subepkx1","subepkx2","subepkx3",
                             };
-            int slot = Array.IndexOf(pba, sourceControl.Name);
+            int slot = Array.IndexOf(pba, name);
             return slot;
         }
         private void setPKXBoxes()

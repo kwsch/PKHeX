@@ -269,14 +269,11 @@ namespace PKHeX
         }
         internal static int getIndex(ComboBox cb)
         {
-            int val = 0;
-            if (cb.SelectedValue == null)
-                return 0;
+            int val = 0; 
+            if (cb.SelectedValue != null)
+                try { val = int.Parse(cb.SelectedValue.ToString()); }
+                catch { val = cb.SelectedIndex; if (val < 0) val = 0; }
 
-            try
-            { val = (int)cb.SelectedValue; }
-            catch
-            { val = cb.SelectedIndex; if (val < 0) val = 0; }
             return val;
         }
         internal static string getOnlyHex(string str)
