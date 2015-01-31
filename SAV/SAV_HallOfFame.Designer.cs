@@ -68,6 +68,7 @@
             this.TB_Level = new System.Windows.Forms.MaskedTextBox();
             this.L_Level = new System.Windows.Forms.Label();
             this.B_CopyText = new System.Windows.Forms.Button();
+            this.B_Delete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_PartyIndex)).BeginInit();
             this.GB_CurrentMoves.SuspendLayout();
@@ -98,7 +99,7 @@
             "15"});
             this.listBox1.Location = new System.Drawing.Point(7, 12);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(59, 264);
+            this.listBox1.Size = new System.Drawing.Size(59, 238);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.displayEntry);
             // 
@@ -209,6 +210,7 @@
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
             this.TB_Nickname.TabIndex = 37;
             this.TB_Nickname.TextChanged += new System.EventHandler(this.Write_Entry);
+            this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.changeNickname);
             // 
             // TB_EC
             // 
@@ -522,11 +524,23 @@
             this.B_CopyText.UseVisualStyleBackColor = true;
             this.B_CopyText.Click += new System.EventHandler(this.B_CopyText_Click);
             // 
+            // B_Delete
+            // 
+            this.B_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Delete.Location = new System.Drawing.Point(7, 256);
+            this.B_Delete.Name = "B_Delete";
+            this.B_Delete.Size = new System.Drawing.Size(59, 23);
+            this.B_Delete.TabIndex = 80;
+            this.B_Delete.Text = "Delete";
+            this.B_Delete.UseVisualStyleBackColor = true;
+            this.B_Delete.Click += new System.EventHandler(this.B_Delete_Click);
+            // 
             // SAV_HallOfFame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 312);
+            this.Controls.Add(this.B_Delete);
             this.Controls.Add(this.B_CopyText);
             this.Controls.Add(this.TB_Level);
             this.Controls.Add(this.L_Level);
@@ -616,5 +630,6 @@
         private System.Windows.Forms.MaskedTextBox TB_Level;
         private System.Windows.Forms.Label L_Level;
         private System.Windows.Forms.Button B_CopyText;
+        private System.Windows.Forms.Button B_Delete;
     }
 }

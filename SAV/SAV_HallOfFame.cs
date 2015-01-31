@@ -50,8 +50,10 @@ namespace PKHeX
                 Label_EncryptionConstant,
                 Label_MetDate,
             };
-            listBox1.SelectedIndex = 0;           
+            listBox1.SelectedIndex = 0;
             NUP_PartyIndex_ValueChanged(null, null);
+            try { TB_Nickname.Font = PKX.getPKXFont(11); }
+            catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
             editing = true;
         }
         Form1 m_parent;
@@ -474,6 +476,27 @@ namespace PKHeX
         {
             try { Clipboard.SetText(RTB.Text); }
             catch { };
+        }
+
+        private void B_Delete_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex < 1) return;
+            int index = listBox1.SelectedIndex;
+            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Entry {0} from your records?", index)) == DialogResult.Yes)
+            {
+                int offset = index * 0x1B4;
+                if (index != 15) Array.Copy(data, offset + 0x1B4, data, offset, 0x1B4 * (15 - index));
+                // Ensure Last Entry is Cleared
+                Array.Copy(new byte[0x1B4], 0, data, 0x1B4 * 15, 0x1B4);
+            }
+        }
+
+        private void changeNickname(object sender, MouseEventArgs e)
+        {
+            TextBox tb = (!(sender is TextBox)) ? TB_Nickname : (sender as TextBox);
+            // Special Character Form
+            if (ModifierKeys == Keys.Control && !Form1.specialChars)
+                (new f2_Text(tb)).Show();
         }
     }
 }
