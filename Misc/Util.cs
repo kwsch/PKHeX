@@ -131,7 +131,7 @@ namespace PKHeX
                 string[] DriveList = Environment.GetLogicalDrives();
                 for (int i = 1; i < DriveList.Length; i++) // Skip first drive (some users still have floppy drives and would chew up time!)
                 {
-                    string potentialPath = NormalizePath(Path.Combine(DriveList[i], "filer" + Path.DirectorySeparatorChar + "UserSaveData"));
+                    string potentialPath = DriveList[i] + Path.DirectorySeparatorChar + "Nintendo 3DS";
                     if (Directory.Exists(potentialPath))
                     { path_3DS = potentialPath; break; }
                 }
@@ -330,8 +330,7 @@ namespace PKHeX
                 object txt;
                 txt = Properties.Resources.ResourceManager.GetObject("lang_" + lang); // Fetch File, \n to list.
                 if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                string[] stringSeparators = new string[] { "\r\n" }; // Resource files are notepad compatible
-                rawlist = ((string)txt).Split(stringSeparators, StringSplitOptions.None);
+                rawlist = ((string)txt).Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
             }
 
