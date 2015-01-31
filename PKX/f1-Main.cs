@@ -167,8 +167,11 @@ namespace PKHeX
             GB_OT.Click += clickGT;
             GB_nOT.Click += clickGT;
             GB_Daycare.Click += switchDaycare;
-            gameFont = PKX.getPKXFont(11F);
-            TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = gameFont;
+
+            TB_Nickname.Font = PKX.getPKXFont(11);
+            TB_OT.Font = (Font)TB_Nickname.Font.Clone();
+            TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
+
             // Close splash screen.  
             init = true;
             SplashSCR.Join();
@@ -197,7 +200,6 @@ namespace PKHeX
 
         public static bool HaX = false;
         public static bool specialChars = false; // Open Form Tracking
-        public static Font gameFont;
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static int colorizedbox = 32;

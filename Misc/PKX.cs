@@ -1158,10 +1158,11 @@ namespace PKHeX
                 fonts.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length); uint dummy = 0;
                 AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
                 System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
+                Font f = new Font(fonts.Families[0], fontsize);
+                GC.Collect();
+                return f;
             }
-            catch { Util.Error("Unable to add ingame font."); }
-
-            return new Font(fonts.Families[0], fontsize);
+            catch { Util.Error("Unable to add ingame font."); return null; }
         }
 
         // Personal.dat
