@@ -24,6 +24,10 @@ namespace PKHeX
         public MemoryAmie(Form1 frm1)
         {
             InitializeComponent();
+            CB_Country0.DisplayMember = CB_Country1.DisplayMember = CB_Country2.DisplayMember = CB_Country3.DisplayMember = CB_Country4.DisplayMember = "Text";
+            CB_Country0.ValueMember = CB_Country1.ValueMember = CB_Country2.ValueMember = CB_Country3.ValueMember = CB_Country4.ValueMember = "Value";
+            CB_Region0.DisplayMember = CB_Region1.DisplayMember = CB_Region2.DisplayMember = CB_Region3.DisplayMember = CB_Region4.DisplayMember = "Text";
+            CB_Region0.ValueMember = CB_Region1.ValueMember = CB_Region2.ValueMember = CB_Region3.ValueMember = CB_Region4.ValueMember = "Value";
             Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             string[] arguments = Regex.Split(L_Arguments.Text, " ; ");
@@ -55,11 +59,11 @@ namespace PKHeX
         private void loadFields()
         {
             // Load the region/country values.
-            v1cb(CB_Country0, 0x95); v1cb(Region0, 0x94);
-            v1cb(CB_Country1, 0x97); v1cb(Region1, 0x96);
-            v1cb(CB_Country2, 0x99); v1cb(Region2, 0x98);
-            v1cb(CB_Country3, 0x9B); v1cb(Region3, 0x9A);
-            v1cb(CB_Country4, 0x9D); v1cb(Region4, 0x9C);
+            v1cb(CB_Country0, 0x95); v1cb(CB_Region0, 0x94);
+            v1cb(CB_Country1, 0x97); v1cb(CB_Region1, 0x96);
+            v1cb(CB_Country2, 0x99); v1cb(CB_Region2, 0x98);
+            v1cb(CB_Country3, 0x9B); v1cb(CB_Region3, 0x9A);
+            v1cb(CB_Country4, 0x9D); v1cb(CB_Region4, 0x9C);
 
             // Load the Fullness, and Enjoyment
             v1s(M_Fullness, 0xAE); v1s(M_Enjoyment, 0xAF);
@@ -141,11 +145,11 @@ namespace PKHeX
         private void saveFields()
         {
             // Save Region & Country Data
-            cb1v(Region0, 0x94); cb1v(CB_Country0, 0x95);
-            cb1v(Region1, 0x96); cb1v(CB_Country1, 0x97);
-            cb1v(Region2, 0x98); cb1v(CB_Country2, 0x99);
-            cb1v(Region3, 0x9A); cb1v(CB_Country3, 0x9B);
-            cb1v(Region4, 0x9C); cb1v(CB_Country4, 0x9D);
+            cb1v(CB_Region0, 0x94); cb1v(CB_Country0, 0x95);
+            cb1v(CB_Region1, 0x96); cb1v(CB_Country1, 0x97);
+            cb1v(CB_Region2, 0x98); cb1v(CB_Country2, 0x99);
+            cb1v(CB_Region3, 0x9A); cb1v(CB_Country3, 0x9B);
+            cb1v(CB_Region4, 0x9C); cb1v(CB_Country4, 0x9D);
 
             // Save 0-255 stats
             s1v(M_CT_Friendship, 0xA2); s1v(M_CT_Affection, 0xA3);
@@ -251,9 +255,9 @@ namespace PKHeX
             ComboBox[] cba = new ComboBox[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
             for (int i = 0; i < cba.Length; i++)
             {
-                m_parent.setCountrySubRegion(cba[i], "countries");
                 cba[i].DisplayMember = "Text";
                 cba[i].ValueMember = "Value";
+                m_parent.setCountrySubRegion(cba[i], "countries");
             }
         }
         private void getLangStrings()
@@ -269,16 +273,15 @@ namespace PKHeX
             }
             Array.Resize(ref allowed, allowed.Length - 1);
             var memory_list1 = Util.getCBList(new string[] { memories[0] }, null);
-            var memory_list = Util.getOffsetCBList(memory_list1, memories, 0, allowed);            
+            var memory_list = Util.getOffsetCBList(memory_list1, memories, 0, allowed);
 
-            CB_OTMemory.DataSource = memory_list;
             CB_OTMemory.DisplayMember = "Text";
             CB_OTMemory.ValueMember = "Value";
+            CB_OTMemory.DataSource = memory_list;
 
-            var mem1_list = new BindingSource(memory_list, null);
-            CB_CTMemory.DataSource = mem1_list;
             CB_CTMemory.DisplayMember = "Text";
             CB_CTMemory.ValueMember = "Value";
+            CB_CTMemory.DataSource = new BindingSource(memory_list, null);
 
             // Quality Chooser
             CB_CTQual.Items.Clear();
@@ -499,7 +502,7 @@ namespace PKHeX
             };
             ComboBox[] mta = new ComboBox[]
             {
-                Region0, Region1, Region2, Region3, Region4,
+                CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4,
             };
             int index = Array.IndexOf(cba, sender as ComboBox);
             if (Util.getIndex(sender as ComboBox) > 0)
@@ -529,16 +532,15 @@ namespace PKHeX
             };
             ComboBox[] mta = new ComboBox[]
             {
-                Region0, Region1, Region2, Region3, Region4,
+                CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4,
             };
             int index = Array.IndexOf(senderarr, sender as Label);
             cba[index].SelectedValue = 0;
-            // doesn't work
-            // mta[index].SelectedValue = 0;
 
-            mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
             mta[index].DisplayMember = "Text";
             mta[index].ValueMember = "Value";
+            mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
+            mta[index].SelectedValue = 0;
         }
     }
 }

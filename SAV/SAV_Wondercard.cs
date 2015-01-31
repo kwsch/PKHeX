@@ -244,16 +244,44 @@ namespace PKHeX
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            string path = files[0]; // open first D&D
 
-            if (new FileInfo(path).Length > 0x108)
+            // Check for multiple wondercards
+            if (LB_WCs.SelectedIndex < 0) LB_WCs.SelectedIndex = 0;
+            int ctr = LB_WCs.SelectedIndex;
+
+            if (files.Length == 1)
             {
-                Util.Error("File is not a Wondercard:", path);
-                return;
+                string path = files[0]; // open first D&D
+                if (new FileInfo(path).Length > 0x108)
+                {
+                    Util.Error("File is not a Wondercard:", path);
+                    return;
+                }
+                byte[] newwc6 = File.ReadAllBytes(path);
+                Array.Copy(newwc6, wondercard_data, newwc6.Length);
+                loadwcdata();
             }
-            byte[] newwc6 = File.ReadAllBytes(path);
-            Array.Copy(newwc6, wondercard_data, newwc6.Length);
-            loadwcdata();
+            else if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, String.Format("Try to load {0} Wondercards starting at Card {1}?", files.Length, ctr + 1)))
+            {
+                int i = 0;
+                while (i < files.Length && ctr < 24)
+                {
+                    string path = files[i++]; // open first D&D
+                    if (new FileInfo(path).Length != 0x108)
+                    { Util.Error("File is not a Wondercard:", path); continue; }
+
+                    ctr++; // Load in WC
+                    byte[] newwc6 = File.ReadAllBytes(path);
+                    Array.Copy(newwc6, wondercard_data, newwc6.Length);
+                    loadwcdata();
+
+                    // Set in WC
+                    B_DisplaytoWCSlot.PerformClick();
+
+                    // Advance to next WC
+                    if (ctr != 24) LB_WCs.SelectedIndex = ctr;
+                }
+            }
         }
     }
 }

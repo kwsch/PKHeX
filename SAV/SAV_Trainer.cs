@@ -235,13 +235,17 @@ namespace PKHeX
                     new { Text = "KOR", Value = 8 }
                 };
 
-            CB_3DSReg.DataSource = dsregion_list;
             CB_3DSReg.DisplayMember = "Text";
             CB_3DSReg.ValueMember = "Value";
-            CB_Language.DataSource = language_list;
+            CB_3DSReg.DataSource = dsregion_list;
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
+            CB_Language.DataSource = language_list;
 
+            CB_Country.DisplayMember = "Text";
+            CB_Country.ValueMember = "Value";
+            CB_Region.DisplayMember = "Text";
+            CB_Region.ValueMember = "Value";
             m_parent.setCountrySubRegion(CB_Country, "countries");
 
             var oras_sprite_list = new[] {
@@ -321,9 +325,9 @@ namespace PKHeX
                 new { Text = "Archie",                      Value = 73 },
             };
 
-            CB_Multi.DataSource = oras_sprite_list;
             CB_Multi.DisplayMember = "Text";
             CB_Multi.ValueMember = "Value";
+            CB_Multi.DataSource = oras_sprite_list;
 
             L_Vivillon.Text = Form1.specieslist[666] + ":";
             m_parent.setForms(666, CB_Vivillon);

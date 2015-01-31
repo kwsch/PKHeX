@@ -14,7 +14,7 @@ namespace PKHeX
             m_parent = frm1;
             System.Timers.Timer myTimer = new System.Timers.Timer();
             myTimer.Elapsed += new ElapsedEventHandler(DisplayTimeEvent);
-            myTimer.Interval = 5; // milliseconds per trigger interval
+            myTimer.Interval = 50; // milliseconds per trigger interval
             myTimer.Start();
         }
         public void DisplayTimeEvent(object source, ElapsedEventArgs e)
@@ -24,7 +24,7 @@ namespace PKHeX
                 else { L_Status.Text = Form1.Status; }
             else
                 if (InvokeRequired && IsHandleCreated)
-                    Invoke((MethodInvoker)delegate() { Close(); });
+                    try { Invoke((MethodInvoker)delegate() { Close(); }); } catch { Close(); }
                 else Close();
         }
     }

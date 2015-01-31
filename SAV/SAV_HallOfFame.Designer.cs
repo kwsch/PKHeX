@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_HallOfFame));
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.LB_DataEntry = new System.Windows.Forms.ListBox();
             this.RTB = new System.Windows.Forms.RichTextBox();
             this.B_Close = new System.Windows.Forms.Button();
             this.bpkx = new System.Windows.Forms.PictureBox();
@@ -75,12 +75,12 @@
             this.GB_OT.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listBox1
+            // LB_DataEntry
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LB_DataEntry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Items.AddRange(new object[] {
+            this.LB_DataEntry.FormattingEnabled = true;
+            this.LB_DataEntry.Items.AddRange(new object[] {
             "First",
             "01",
             "02",
@@ -97,11 +97,11 @@
             "13",
             "14",
             "15"});
-            this.listBox1.Location = new System.Drawing.Point(7, 12);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(59, 238);
-            this.listBox1.TabIndex = 0;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.displayEntry);
+            this.LB_DataEntry.Location = new System.Drawing.Point(7, 12);
+            this.LB_DataEntry.Name = "LB_DataEntry";
+            this.LB_DataEntry.Size = new System.Drawing.Size(59, 238);
+            this.LB_DataEntry.TabIndex = 0;
+            this.LB_DataEntry.SelectedIndexChanged += new System.EventHandler(this.displayEntry);
             // 
             // RTB
             // 
@@ -569,7 +569,7 @@
             this.Controls.Add(this.bpkx);
             this.Controls.Add(this.B_Close);
             this.Controls.Add(this.RTB);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.LB_DataEntry);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -591,7 +591,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox LB_DataEntry;
         private System.Windows.Forms.RichTextBox RTB;
         private System.Windows.Forms.Button B_Close;
         private System.Windows.Forms.PictureBox bpkx;

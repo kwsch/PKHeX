@@ -158,6 +158,7 @@ namespace PKHeX
             Status = "Checking load args.";
             string[] args = Environment.GetCommandLineArgs();
             pathSDF = Util.GetSDFLocation();
+            path3DS = Util.get3DSLocation();
             if (args.Length > 1)
                 openQuick(args[1]);
             else if (pathSDF != null)
@@ -1208,15 +1209,15 @@ namespace PKHeX
         public void setCountrySubRegion(object sender, string type)
         {
             ComboBox CB = sender as ComboBox;
-            int index = Util.getIndex(CB);
+            int index = CB.SelectedIndex;
             // fix for Korean / Chinese being swapped
             string cl = curlanguage + "";
             cl = (cl == "zh") ? "ko" : (cl == "ko") ? "zh" : cl;
 
             CB.DataSource = Util.getCBList(type, cl);
 
-            if (index > 0 && index <= CB.Items.Count)
-                CB.SelectedValue = index;
+            if (index > 0 && index <= CB.Items.Count && init)
+                CB.SelectedIndex = index;
         }
         public void setForms(int species, ComboBox cb)
         {
@@ -1738,8 +1739,8 @@ namespace PKHeX
                     L_Potential.Text = "++++";
             }
 
-            // Characteristic with PID%6
-            int pm6 = (int)(Util.getHEXval(TB_PID) % 6); // PID MOD 6
+            // Characteristic with EC%6
+            int pm6 = (int)(Util.getHEXval(TB_EC) % 6); // EC MOD 6
             int maxIV = iva.Max();
             int pm6stat = 0;
 
@@ -1747,7 +1748,7 @@ namespace PKHeX
             {
                 pm6stat = (pm6 + i) % 6;
                 if (iva[pm6stat] == maxIV)
-                    break;  // P%6 is this stat
+                    break; // P%6 is this stat
             }
 
             L_Characteristic.Text = characteristics[pm6stat * 5 + maxIV % 5];

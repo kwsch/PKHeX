@@ -1146,23 +1146,32 @@ namespace PKHeX
 
         // Font Related
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
-        internal static Font getPKXFont(float fontsize)
+        internal static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
+        internal static PrivateFontCollection s_FontCollection = new PrivateFontCollection();
+        internal static FontFamily[] FontFamilies
         {
-            byte[] fontData = Properties.Resources.PGLDings_NormalRegular;
-            IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
-            System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-            PrivateFontCollection fonts = new PrivateFontCollection();
+            get 
+            { 
+                if (s_FontCollection.Families.Length == 0) setPKXFont(); 
+                return s_FontCollection.Families; 
+            }
+        }
+        internal static Font getPKXFont(float size)
+        {
+            return new Font(FontFamilies[0], size);
+        }
+        internal static void setPKXFont()
+        {
             try
             {
-                fonts.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length); uint dummy = 0;
+                byte[] fontData = Properties.Resources.PGLDings_NormalRegular;
+                IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
+                System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+                s_FontCollection.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length); uint dummy = 0;
                 AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
                 System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
-                Font f = new Font(fonts.Families[0], fontsize);
-                GC.Collect();
-                return f;
             }
-            catch { Util.Error("Unable to add ingame font."); return null; }
+            catch { Util.Error("Unable to add ingame font."); return; }
         }
 
         // Personal.dat

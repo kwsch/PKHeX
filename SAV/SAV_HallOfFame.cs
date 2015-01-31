@@ -50,7 +50,7 @@ namespace PKHeX
                 Label_EncryptionConstant,
                 Label_MetDate,
             };
-            listBox1.SelectedIndex = 0;
+            LB_DataEntry.SelectedIndex = 0;
             NUP_PartyIndex_ValueChanged(null, null);
             try { TB_Nickname.Font = PKX.getPKXFont(11); }
             catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
@@ -125,7 +125,7 @@ namespace PKHeX
             RTB.Font = new Font("Courier New", 8);
             string s = "";
             RTB.LanguageOption = RichTextBoxLanguageOptions.DualFont;
-            int index = listBox1.SelectedIndex;
+            int index = LB_DataEntry.SelectedIndex;
             int offset = index * 0x1B4;
 
             uint vnd = BitConverter.ToUInt32(data, offset + 0x1B0);
@@ -213,7 +213,7 @@ namespace PKHeX
         private void NUP_PartyIndex_ValueChanged(object sender, EventArgs e)
         {
             editing = false;
-            int index = listBox1.SelectedIndex;
+            int index = LB_DataEntry.SelectedIndex;
             int offset = index * 0x1B4 + (Convert.ToInt32(NUP_PartyIndex.Value)-1) * 0x48;
 
             if (offset < 0) return;
@@ -268,7 +268,7 @@ namespace PKHeX
             byte[] StringBuffer = new byte[22]; //Mimic in-game behavior of not clearing strings. It's awful, but accuracy > good.
             string[] text_writes = new string[6 * 2]; //2 strings per mon, 6 mons
 
-            int index = listBox1.SelectedIndex;
+            int index = LB_DataEntry.SelectedIndex;
 
             int offset = index * 0x1B4;
             for (int i = 0; i < text_writes.Length; i++)
@@ -480,14 +480,15 @@ namespace PKHeX
 
         private void B_Delete_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedIndex < 1) return;
-            int index = listBox1.SelectedIndex;
+            if (LB_DataEntry.SelectedIndex < 1) { Util.Alert("Cannot delete your first Hall of Fame Clear entry."); return; }
+            int index = LB_DataEntry.SelectedIndex;
             if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Entry {0} from your records?", index)) == DialogResult.Yes)
             {
                 int offset = index * 0x1B4;
                 if (index != 15) Array.Copy(data, offset + 0x1B4, data, offset, 0x1B4 * (15 - index));
                 // Ensure Last Entry is Cleared
                 Array.Copy(new byte[0x1B4], 0, data, 0x1B4 * 15, 0x1B4);
+                displayEntry(LB_DataEntry, null);
             }
         }
 

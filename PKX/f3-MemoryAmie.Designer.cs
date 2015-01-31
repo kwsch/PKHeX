@@ -53,11 +53,11 @@
             this.L_OT_Affection = new System.Windows.Forms.Label();
             this.M_OT_Affection = new System.Windows.Forms.MaskedTextBox();
             this.GB_Residence = new System.Windows.Forms.GroupBox();
-            this.Region4 = new System.Windows.Forms.ComboBox();
-            this.Region3 = new System.Windows.Forms.ComboBox();
-            this.Region2 = new System.Windows.Forms.ComboBox();
-            this.Region1 = new System.Windows.Forms.ComboBox();
-            this.Region0 = new System.Windows.Forms.ComboBox();
+            this.CB_Region4 = new System.Windows.Forms.ComboBox();
+            this.CB_Region3 = new System.Windows.Forms.ComboBox();
+            this.CB_Region2 = new System.Windows.Forms.ComboBox();
+            this.CB_Region1 = new System.Windows.Forms.ComboBox();
+            this.CB_Region0 = new System.Windows.Forms.ComboBox();
             this.CB_Country4 = new System.Windows.Forms.ComboBox();
             this.CB_Country3 = new System.Windows.Forms.ComboBox();
             this.CB_Country2 = new System.Windows.Forms.ComboBox();
@@ -364,11 +364,11 @@
             // 
             // GB_Residence
             // 
-            this.GB_Residence.Controls.Add(this.Region4);
-            this.GB_Residence.Controls.Add(this.Region3);
-            this.GB_Residence.Controls.Add(this.Region2);
-            this.GB_Residence.Controls.Add(this.Region1);
-            this.GB_Residence.Controls.Add(this.Region0);
+            this.GB_Residence.Controls.Add(this.CB_Region4);
+            this.GB_Residence.Controls.Add(this.CB_Region3);
+            this.GB_Residence.Controls.Add(this.CB_Region2);
+            this.GB_Residence.Controls.Add(this.CB_Region1);
+            this.GB_Residence.Controls.Add(this.CB_Region0);
             this.GB_Residence.Controls.Add(this.CB_Country4);
             this.GB_Residence.Controls.Add(this.CB_Country3);
             this.GB_Residence.Controls.Add(this.CB_Country2);
@@ -388,53 +388,65 @@
             this.GB_Residence.TabStop = false;
             this.GB_Residence.Text = "Pokémon has Resided in:";
             // 
-            // Region4
+            // CB_Region4
             // 
-            this.Region4.DropDownWidth = 180;
-            this.Region4.FormattingEnabled = true;
-            this.Region4.Location = new System.Drawing.Point(204, 158);
-            this.Region4.Name = "Region4";
-            this.Region4.Size = new System.Drawing.Size(102, 21);
-            this.Region4.TabIndex = 88;
+            this.CB_Region4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Region4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Region4.DropDownWidth = 180;
+            this.CB_Region4.FormattingEnabled = true;
+            this.CB_Region4.Location = new System.Drawing.Point(204, 158);
+            this.CB_Region4.Name = "CB_Region4";
+            this.CB_Region4.Size = new System.Drawing.Size(102, 21);
+            this.CB_Region4.TabIndex = 88;
             // 
-            // Region3
+            // CB_Region3
             // 
-            this.Region3.DropDownWidth = 180;
-            this.Region3.FormattingEnabled = true;
-            this.Region3.Location = new System.Drawing.Point(204, 126);
-            this.Region3.Name = "Region3";
-            this.Region3.Size = new System.Drawing.Size(102, 21);
-            this.Region3.TabIndex = 87;
+            this.CB_Region3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Region3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Region3.DropDownWidth = 180;
+            this.CB_Region3.FormattingEnabled = true;
+            this.CB_Region3.Location = new System.Drawing.Point(204, 126);
+            this.CB_Region3.Name = "CB_Region3";
+            this.CB_Region3.Size = new System.Drawing.Size(102, 21);
+            this.CB_Region3.TabIndex = 87;
             // 
-            // Region2
+            // CB_Region2
             // 
-            this.Region2.DropDownWidth = 180;
-            this.Region2.FormattingEnabled = true;
-            this.Region2.Location = new System.Drawing.Point(204, 93);
-            this.Region2.Name = "Region2";
-            this.Region2.Size = new System.Drawing.Size(102, 21);
-            this.Region2.TabIndex = 86;
+            this.CB_Region2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Region2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Region2.DropDownWidth = 180;
+            this.CB_Region2.FormattingEnabled = true;
+            this.CB_Region2.Location = new System.Drawing.Point(204, 93);
+            this.CB_Region2.Name = "CB_Region2";
+            this.CB_Region2.Size = new System.Drawing.Size(102, 21);
+            this.CB_Region2.TabIndex = 86;
             // 
-            // Region1
+            // CB_Region1
             // 
-            this.Region1.DropDownWidth = 180;
-            this.Region1.FormattingEnabled = true;
-            this.Region1.Location = new System.Drawing.Point(204, 60);
-            this.Region1.Name = "Region1";
-            this.Region1.Size = new System.Drawing.Size(102, 21);
-            this.Region1.TabIndex = 85;
+            this.CB_Region1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Region1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Region1.DropDownWidth = 180;
+            this.CB_Region1.FormattingEnabled = true;
+            this.CB_Region1.Location = new System.Drawing.Point(204, 60);
+            this.CB_Region1.Name = "CB_Region1";
+            this.CB_Region1.Size = new System.Drawing.Size(102, 21);
+            this.CB_Region1.TabIndex = 85;
             // 
-            // Region0
+            // CB_Region0
             // 
-            this.Region0.DropDownWidth = 180;
-            this.Region0.FormattingEnabled = true;
-            this.Region0.Location = new System.Drawing.Point(204, 27);
-            this.Region0.Name = "Region0";
-            this.Region0.Size = new System.Drawing.Size(102, 21);
-            this.Region0.TabIndex = 84;
+            this.CB_Region0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Region0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Region0.DropDownWidth = 180;
+            this.CB_Region0.FormattingEnabled = true;
+            this.CB_Region0.Location = new System.Drawing.Point(204, 27);
+            this.CB_Region0.Name = "CB_Region0";
+            this.CB_Region0.Size = new System.Drawing.Size(102, 21);
+            this.CB_Region0.TabIndex = 84;
             // 
             // CB_Country4
             // 
+            this.CB_Country4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Country4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country4.DropDownWidth = 180;
             this.CB_Country4.FormattingEnabled = true;
             this.CB_Country4.Location = new System.Drawing.Point(82, 158);
@@ -445,6 +457,8 @@
             // 
             // CB_Country3
             // 
+            this.CB_Country3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Country3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country3.DropDownWidth = 180;
             this.CB_Country3.FormattingEnabled = true;
             this.CB_Country3.Location = new System.Drawing.Point(82, 126);
@@ -455,6 +469,8 @@
             // 
             // CB_Country2
             // 
+            this.CB_Country2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Country2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country2.DropDownWidth = 180;
             this.CB_Country2.FormattingEnabled = true;
             this.CB_Country2.Location = new System.Drawing.Point(82, 93);
@@ -465,6 +481,8 @@
             // 
             // CB_Country1
             // 
+            this.CB_Country1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Country1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country1.DropDownWidth = 180;
             this.CB_Country1.FormattingEnabled = true;
             this.CB_Country1.Location = new System.Drawing.Point(82, 60);
@@ -475,6 +493,8 @@
             // 
             // CB_Country0
             // 
+            this.CB_Country0.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.CB_Country0.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country0.DropDownWidth = 180;
             this.CB_Country0.FormattingEnabled = true;
             this.CB_Country0.Location = new System.Drawing.Point(82, 27);
@@ -864,10 +884,10 @@
         private System.Windows.Forms.RichTextBox RTB_OT;
         private System.Windows.Forms.RichTextBox RTB_CT;
         private System.Windows.Forms.Label L_Arguments;
-        private System.Windows.Forms.ComboBox Region4;
-        private System.Windows.Forms.ComboBox Region3;
-        private System.Windows.Forms.ComboBox Region2;
-        private System.Windows.Forms.ComboBox Region1;
-        private System.Windows.Forms.ComboBox Region0;
+        private System.Windows.Forms.ComboBox CB_Region4;
+        private System.Windows.Forms.ComboBox CB_Region3;
+        private System.Windows.Forms.ComboBox CB_Region2;
+        private System.Windows.Forms.ComboBox CB_Region1;
+        private System.Windows.Forms.ComboBox CB_Region0;
     }
 }
