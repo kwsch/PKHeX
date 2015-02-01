@@ -490,5 +490,28 @@ namespace PKHeX
         {
             Label_Gender.Text = Form1.gendersymbols[genderflag];
         }
+
+        private void B_FDelete_Click(object sender, EventArgs e)
+        {
+            if (LB_Favorite.SelectedIndex < 1) { Util.Alert("Cannot delete your Secret Base."); return; }
+            int index = LB_Favorite.SelectedIndex - 1;
+            
+            int playeroff = fav_offset + 0x5400 + 0x326;
+            int favoff = fav_offset + 0x5400 + 0x63A;
+            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + playeroff + 0x218, 0x1A));
+            string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + favoff + index * 0x3E0 + 0x218, 0x1A));
+            if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
+                BaseTrainer = "Empty";
+
+            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete {1}'s base (Entry {0}) from your records?", index, BaseTrainer)) == DialogResult.Yes)
+            {
+                int max = 29; int size = 0x3E0;
+                int offset = sv + favoff + index * size;
+                if (index != max) Array.Copy(sav, offset + size, sav, offset, size * (max - index));
+                // Ensure Last Entry is Cleared
+                Array.Copy(new byte[size], 0, sav, size * max, size);
+                popFavorite();
+            }
+        }
     }
 }

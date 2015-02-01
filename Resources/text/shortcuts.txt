@@ -1,10 +1,10 @@
-﻿If you are having issues viewing gender symbols, Options -> Toggle Unicode Text.
+﻿If you are having issues viewing certain symbols: Options -> Toggle Unicode Text.
 
 
 // Main Window
 
 Hold Control when dragging out the Tab PKM to save as ekx.
-Control Click on Nickname/OT box to bring up the ingame-special characters.
+Control Click on a Nickname/OT box to bring up the ingame-special characters.
 
 Control + Click on...
 Randomize IVs: Set all IVs to max.
@@ -22,7 +22,7 @@ Click on the Save File path (above Boxes): Auto-detect/Reload save.
 Control-Drag a Box Slot to Copy-Overwrite
 Alt-Drag a Box Slot to Delete-Overwrite
 
-Control-Shift-Click a slot to (clone) set a Pokemon to every slot in the box.
+Control-Alt-Click a slot to (Clone/Delete) set a Pokemon to every slot in the box.
 Control-Click a slot to load slot to tabs.
 Shift-Click a slot to set tabs to slot.
 Alt-Click a slot to delete the data in slot.
@@ -30,8 +30,16 @@ Alt-Click a slot to delete the data in slot.
 Control-Click the OpenTemp button to open the CyberGadget Cache folder.
 Alt-Click the OpenTemp button to open the SaveDataFiler folder.
 
+Hold Shift while exporting a ramsav.bin to transplant it to another cart/system.
+Hold Control while exporting a ramsav.bin to export the "main" instead.
 
-// Inventory Editor
 
-Alt-Click loading a pouch will give all items with quantity x995. *1 for TMHM/Key
+// Misc Editors
+
+INVENTORY:
+ - Alt-Click loading a pouch will give all items with quantity x995. *1 for TMHM/Key.
+
+POKEPUFF:
+ - Control Click the All Button to give un-exceptional Pokepuffs.
+ - Control Click the Sort Button to sort in reverse.
 

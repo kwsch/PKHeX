@@ -44,6 +44,7 @@ namespace PKHeX
             getComboBoxes();
             getTextBoxes();
             getBadges();
+            GB_Map.Enabled = !Form1.ramsavloaded;
 
             statdata = new string[] {
                 "0x000",	"0x000", // Steps taken?

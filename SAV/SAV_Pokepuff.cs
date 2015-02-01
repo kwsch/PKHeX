@@ -20,13 +20,10 @@ namespace PKHeX
             pfa = Form1.puffs;
             savindex = m_parent.savindex;
             pfa[0] = "---";
-            setup();
+            Setup();
 
-            ToolTip ToolTip1 = new ToolTip();
-            ToolTip1.SetToolTip(this.B_Sort, "Hold CTRL to reverse sort.");
-
-            ToolTip ToolTip2 = new ToolTip();
-            ToolTip2.SetToolTip(this.B_All, "Hold CTRL to give Deluxe instead of Supreme.");
+            new ToolTip().SetToolTip(this.B_Sort, "Hold CTRL to reverse sort.");
+            new ToolTip().SetToolTip(this.B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
@@ -40,7 +37,7 @@ namespace PKHeX
                                 "Deluxe Sweet","Deluxe Mint","Deluxe Citrus","Deluxe Mocha","Deluxe Spice",
                                 "Supreme Wish","Supreme Honor","Supreme Spring","Supreme Summer","Supreme Fall","Supreme Winter",
                             };
-        private void setup()
+        private void Setup()
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -100,11 +97,10 @@ namespace PKHeX
             }
             byte[] newpuffs = new byte[100];
             for (int i = 0; i < 100; i++)
-            {
                 newpuffs[i] = (byte)(Util.rnd32() % basemod + basepuff);
-            }
+
             Array.Copy(newpuffs, 0, sav, 0x5400 + savindex * 0x7F000, 100);
-            setup();
+            Setup();
         }
         private void B_None_Click(object sender, EventArgs e)
         {
@@ -115,7 +111,7 @@ namespace PKHeX
             newpuffs[3] = 4;
             newpuffs[4] = 5;
             Array.Copy(newpuffs, 0, sav, 0x5400 + savindex * 0x7F000, 100);
-            setup();
+            Setup();
         }
         private void B_Sort_Click(object sender, EventArgs e)
         {
@@ -148,7 +144,7 @@ namespace PKHeX
                 Array.Resize(ref puffarray, 100);
             }
             Array.Copy(puffarray, 0, sav, 0x5400 + savindex * 0x7F000, 100);
-            setup();
+            Setup();
         }
         private void B_Save_Click(object sender, EventArgs e)
         {

@@ -115,6 +115,10 @@
             this.flag_0284 = new System.Windows.Forms.CheckBox();
             this.MT_Ash = new System.Windows.Forms.MaskedTextBox();
             this.L_Ash = new System.Windows.Forms.Label();
+            this.L_Stats = new System.Windows.Forms.Label();
+            this.CB_Stats = new System.Windows.Forms.ComboBox();
+            this.L_Value = new System.Windows.Forms.Label();
+            this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
             this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.GB_Researcher.SuspendLayout();
@@ -1195,11 +1199,60 @@
             this.L_Ash.TabIndex = 19;
             this.L_Ash.Text = "Volcanic Ash:";
             // 
+            // L_Stats
+            // 
+            this.L_Stats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Stats.AutoSize = true;
+            this.L_Stats.Location = new System.Drawing.Point(317, 236);
+            this.L_Stats.Name = "L_Stats";
+            this.L_Stats.Size = new System.Drawing.Size(85, 13);
+            this.L_Stats.TabIndex = 37;
+            this.L_Stats.Text = "Event Constants";
+            // 
+            // CB_Stats
+            // 
+            this.CB_Stats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Stats.DropDownHeight = 156;
+            this.CB_Stats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Stats.DropDownWidth = 180;
+            this.CB_Stats.FormattingEnabled = true;
+            this.CB_Stats.IntegralHeight = false;
+            this.CB_Stats.Location = new System.Drawing.Point(320, 252);
+            this.CB_Stats.Name = "CB_Stats";
+            this.CB_Stats.Size = new System.Drawing.Size(94, 21);
+            this.CB_Stats.TabIndex = 36;
+            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.changeConstantIndex);
+            // 
+            // L_Value
+            // 
+            this.L_Value.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Value.AutoSize = true;
+            this.L_Value.Location = new System.Drawing.Point(317, 276);
+            this.L_Value.Name = "L_Value";
+            this.L_Value.Size = new System.Drawing.Size(34, 13);
+            this.L_Value.TabIndex = 35;
+            this.L_Value.Text = "Value";
+            // 
+            // MT_Stat
+            // 
+            this.MT_Stat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MT_Stat.Location = new System.Drawing.Point(376, 276);
+            this.MT_Stat.Mask = "00000";
+            this.MT_Stat.Name = "MT_Stat";
+            this.MT_Stat.Size = new System.Drawing.Size(38, 20);
+            this.MT_Stat.TabIndex = 34;
+            this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // SAV_EventFlagsORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(594, 512);
+            this.Controls.Add(this.L_Stats);
+            this.Controls.Add(this.CB_Stats);
+            this.Controls.Add(this.L_Value);
+            this.Controls.Add(this.MT_Stat);
             this.Controls.Add(this.L_Ash);
             this.Controls.Add(this.MT_Ash);
             this.Controls.Add(this.GB_Misc);
@@ -1317,5 +1370,9 @@
         private System.Windows.Forms.Label L_SkyTower;
         private System.Windows.Forms.CheckBox flag_2835;
         private System.Windows.Forms.CheckBox flag_0420;
+        private System.Windows.Forms.Label L_Stats;
+        private System.Windows.Forms.ComboBox CB_Stats;
+        private System.Windows.Forms.Label L_Value;
+        private System.Windows.Forms.MaskedTextBox MT_Stat;
     }
 }

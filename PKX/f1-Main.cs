@@ -192,16 +192,16 @@ namespace PKHeX
         public byte[] buff = new byte[260]; // Tab Pokemon Data Storage
         public byte[] savefile = new byte[0x100000];
         public byte[] cyberSAV = new byte[0x65600];
+        public static byte[] ramsav = null;
+        public static bool ramsavloaded = false;
         public bool savegame_oras = true;
         public bool cybergadget = false;
         public bool savLoaded = false;
         public int savindex;
         public bool savedited;
-        public byte[] ramsav = null;
-        public bool ramsavloaded = false;
         public string pathSDF = null;
         public string path3DS = null;
-        
+
         public static string Status = "Starting up PKHeX...";
         public static bool HaX = false;
         public static bool specialChars = false; // Open Form Tracking
@@ -3695,16 +3695,13 @@ namespace PKHeX
         }
         private void setBoxNames()
         {
-            int selectedbox = C_BoxSelect.SelectedIndex;    // precache selected box
+            int selectedbox = C_BoxSelect.SelectedIndex; // precache selected box
             // Build ComboBox Dropdown Items
             try
             {
                 C_BoxSelect.Items.Clear();
                 for (int i = 0; i < 31; i++)
-                {
-                    string boxname = Encoding.Unicode.GetString(savefile, SaveGame.PCLayout + (0x7F000 * savindex) + 0x22 * i, 0x22);
-                    C_BoxSelect.Items.Add(boxname);
-                }
+                    C_BoxSelect.Items.Add(Encoding.Unicode.GetString(savefile, SaveGame.PCLayout + (0x7F000 * savindex) + 0x22 * i, 0x22));
             }
             catch
             {
@@ -4156,7 +4153,7 @@ namespace PKHeX
                 if (sfd.ShowDialog() == DialogResult.OK)
                     File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box).Take(0xE8 * 30 * 31).ToArray());
             }
-            if (dr == DialogResult.No)
+            else if (dr == DialogResult.No)
             {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "Box Data|*.bin";

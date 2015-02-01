@@ -402,7 +402,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  --- Window titles are translatable too; change the existing title within the translation file.
  - Added: Hall of Fame Editor. Thank you SciresM for the implementation!
  - Added: Country / Region text for all languages. Thank you Slashmolder for the raw data!
- - Added: Ingame Font characters. To manually enter them, right click the Nickname label. Thank you mapaler (枫谷剑仙)!
+ - Added: Ingame Font characters. To manually enter them, right click the Nickname label. Thank you mapaler!
  - Changed: Replaced the Quick-Dragouts for exporting with an overall 'tabs' sprite. Functionality is the same; for encrypted export hold Control.
  - Changed: A few O-Power labels for X/Y. Thank you RainThunder!
  - Internal: Tons of code reorganization, might be a little faster/lighter.
@@ -469,10 +469,24 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Improved: Loading Box/Debug binaries will display the boxes if they are not visible.
  - Update (b): Added 2 more types of XY RAMSav types.
 
-1/29/15 - New Update:
+1/29/15 - New Update: (24200)
  - Changed: ramsav detection to allow users to store backups with unique names. Be sure it contains "ram" in the file name!
  - Fixed: Gen4 Egg Locations should now load for pre-GenV origin mons. Thanks Omicron!
  - Fixed: Unown forms M & F won't alter the gender label. Thanks Favna!
  - Fixed: ram2sav usage with X/Y after OR/AS and not deleting the OR/AS save before dumping X/Y (data past sav length). Thanks trainboy2019!
  - Added: Symbol selection for OT/Latest Handler like for Nicknames; access changed to control clicking the TextBox. Thanks ProfShroomish!
  - Changed: FindIndex hunting to account for rare ramsav types. Thanks Crowhogan33 for reporting and SciresM for fixing!
+
+2/1/15 - New Update:
+ - Fixed: Characteristics now match those ingame (EC%6 instead of PID%6). Thanks JubalTheLion!
+ - Fixed: A few Exceptions with loading have been corrected (bad initialization).
+ - Fixed: Splash screen image no longer tiles for some systems with a larger scale.
+ - Fixed: Source code recompiling will no longer cause the program to text-translate improperly. Thanks Slashmolder!
+ - Fixed: Box Report 3DSRegion and Language no longer shows the index number; just the text. Thanks Kaisonic!
+ - Fixed: Ingame Fonts should no longer cause the program to crash when being drawn (FontFamily will no longer be GC'd).
+ - Changed: Special Characters are now accessible by Control Clicking within the TextBox.
+ - Added: Ingame font to Trainer and Hall of Fame windows.
+ - Added: Deletion of Hall of Fame Entries (except First Clear), and Deletion of Favorite Secret Bases.
+ - Added: Loading of multiple Wondercards via Drag & Drop.
+ - Added: Boot Status to help debug some users being stuck on the splash screen.
+ - Added: Event Constant editing to Event Flag window.

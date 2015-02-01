@@ -29,6 +29,7 @@ namespace PKHeX
         bool setup = true;
         public CheckBox[] chka;
         public bool[] flags = new bool[3072];
+        public ushort[] Constants = new ushort[0x2FC / 2];
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -39,20 +40,26 @@ namespace PKHeX
             for (int i = 0; i < chka.Length; i++)
                 flags[getFlagNum(chka[i])] = chka[i].Checked;
 
-            byte[] data = new byte[flags.Length / 8]; 
-            
+            byte[] data = new byte[flags.Length / 8];
+
             for (int i = 0; i < flags.Length; i++)
             {
                 if (flags[i])
-                    data[i/8] |= (byte)(1 << i%8);
+                    data[i / 8] |= (byte)(1 << i % 8);
             }
             Array.Copy(data, 0, m_parent.savefile, 0x1A0FC + savshift, 0x180);
+
+            // Copy back Constants
+            changeConstantIndex(null, null); // Trigger Saving
+            for (int i = 0; i < Constants.Length; i++)
+                Array.Copy(BitConverter.GetBytes((ushort)Constants[i]), 0, m_parent.savefile, 0x19E00 + savshift + 2 * i, 2);
+
             this.Close();
         }
         private void Setup()
         {
             // Fill Bit arrays
-            
+
             chka = new CheckBox[] {
                 flag_0001,flag_0002,flag_0003,flag_0004,flag_0005,
                 flag_2237,flag_2238,flag_2239,
@@ -68,6 +75,15 @@ namespace PKHeX
             Array.Copy(m_parent.savefile, offset, data, 0, 0x180);
             BitArray BitRegion = new BitArray(data);
             BitRegion.CopyTo(flags, 0);
+
+            // Setup Event Constant Editor
+            CB_Stats.Items.Clear();
+            for (int i = 0; i < 0x2FC; i += 2)
+            {
+                CB_Stats.Items.Add(String.Format("0x{0}", i.ToString("X3")));
+                Constants[i / 2] = BitConverter.ToUInt16(m_parent.savefile, 0x19E00 + i);
+            }
+            CB_Stats.SelectedIndex = 0;
 
             // Populate Flags
             setup = true;
@@ -173,18 +189,27 @@ namespace PKHeX
                 { Util.Error("Invalid SAV Size"); return; }
             }
             else return;
-            
+
             Button bs = (Button)sender;
             if (bs.Name == "B_LoadOld")
             {
                 Array.Copy(eventflags, olddata, 0x180);
                 TB_OldSAV.Text = path;
             }
-            else 
+            else
             {
                 Array.Copy(eventflags, newdata, 0x180);
                 TB_NewSAV.Text = path;
             }
+        }
+        int entry = -1;
+        private void changeConstantIndex(object sender, EventArgs e)
+        {
+            if (entry > -1) // Set Entry
+                Constants[entry] = (ushort)(Math.Min(Util.ToUInt32(MT_Stat), 0xFFFF));
+
+            entry = CB_Stats.SelectedIndex; // Get Entry
+            MT_Stat.Text = Constants[entry].ToString();
         }
     }
 }

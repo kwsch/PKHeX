@@ -114,6 +114,7 @@
             this.B_FSave = new System.Windows.Forms.Button();
             this.MT_Flags = new System.Windows.Forms.MaskedTextBox();
             this.L_FlagsCaptured = new System.Windows.Forms.Label();
+            this.B_FDelete = new System.Windows.Forms.Button();
             this.f_PKM.SuspendLayout();
             this.GB_PKM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FPKM)).BeginInit();
@@ -1133,11 +1134,22 @@
             this.L_FlagsCaptured.TabIndex = 22;
             this.L_FlagsCaptured.Text = "Flags Captured: ";
             // 
+            // B_FDelete
+            // 
+            this.B_FDelete.Location = new System.Drawing.Point(96, 85);
+            this.B_FDelete.Name = "B_FDelete";
+            this.B_FDelete.Size = new System.Drawing.Size(18, 24);
+            this.B_FDelete.TabIndex = 23;
+            this.B_FDelete.Text = "X";
+            this.B_FDelete.UseVisualStyleBackColor = true;
+            this.B_FDelete.Click += new System.EventHandler(this.B_FDelete_Click);
+            // 
             // SAV_SecretBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 332);
+            this.Controls.Add(this.B_FDelete);
             this.Controls.Add(this.L_FlagsCaptured);
             this.Controls.Add(this.MT_Flags);
             this.Controls.Add(this.B_FSave);
@@ -1262,5 +1274,6 @@
         private System.Windows.Forms.NumericUpDown NUD_FBaseLocation;
         private System.Windows.Forms.MaskedTextBox MT_Flags;
         private System.Windows.Forms.Label L_FlagsCaptured;
+        private System.Windows.Forms.Button B_FDelete;
     }
 }
