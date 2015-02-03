@@ -849,8 +849,8 @@ namespace PKHeX
                 mEggLocN = PKX.getLocation(true, mgamevers, meggloc);
                 mGameN = Form1.gamelist[mgamevers];
                 mBallN = Form1.balllist[mball];
-                motlangN = Form1.gamelanguages[motlang].Split(',')[1];
-                mdsregIDN = Form1.consoleregions[mdsregID].Split(',')[1];
+                motlangN = Form1.gamelanguages[motlang] ?? String.Format("UNK {0}", motlang);
+                mdsregIDN = Form1.consoleregions[mdsregID] ?? String.Format("UNK {0}", mdsregID);
             }
             catch { return; }
         }

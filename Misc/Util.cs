@@ -208,6 +208,18 @@ namespace PKHeX
 
             return stringdata;
         }
+        internal static string[] getNulledStringArray(string[] SimpleStringList)
+        {
+            try
+            {
+                string[] newlist = new string[Util.ToInt32(SimpleStringList[SimpleStringList.Length - 1].Split(',')[0]) + 1];
+                for (int i = 1; i < SimpleStringList.Length; i++)
+                    newlist[Util.ToInt32(SimpleStringList[i].Split(',')[0])] = SimpleStringList[i].Split(',')[1];
+                return newlist;
+            }
+            catch { return null; }
+        }
+
         // Randomization
         internal static Random rand = new Random();
         internal static uint rnd32()
