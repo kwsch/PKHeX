@@ -20,6 +20,9 @@ namespace PKHeX
             m_parent = frm1;
             savshift = 0x7F000 * m_parent.savindex;
 
+            this.AllowDrop = true;
+            this.DragEnter += tabMain_DragEnter;
+            this.DragDrop += tabMain_DragDrop;
             Setup();
 
             nud.Text = "0"; // Prompts an update for flag 0.
@@ -188,56 +191,47 @@ namespace PKHeX
             BitArray oldBits = new BitArray(olddata);
             BitArray newBits = new BitArray(newdata);
 
+            string tbIsSet = "";
+            string tbUnSet = "";
             for (int i = 0; i < oldBits.Length; i++)
+            {
                 if (oldBits[i] != newBits[i])
+                {
                     if (newBits[i])
-                        TB_IsSet.AppendText(i.ToString("0000") + ",");
+                        tbIsSet += (i.ToString("0000") + ",");
                     else
-                        TB_UnSet.AppendText(i.ToString("0000") + ",");
+                        tbUnSet += (i.ToString("0000") + ",");
+                }
+            }
+            TB_IsSet.Text = tbIsSet;
+            TB_UnSet.Text = tbUnSet;
         }
         private byte[] olddata = new byte[0x180];
         private byte[] newdata = new byte[0x180];
         private void openSAV(object sender, EventArgs e)
         {
-            byte[] eventflags = new byte[0x180];
-            string path = "";
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                path = ofd.FileName;
-                FileInfo fi = new FileInfo(path);
-                if (fi.Length == 0x100000)
-                {
-                    byte[] data = File.ReadAllBytes(path);
-                    Array.Copy(data, 0x1A0FC, eventflags, 0, 0x180);
-                }
-                else if (fi.Length == 0x76000)
-                {
-                    byte[] data = File.ReadAllBytes(path);
-                    Array.Copy(data, 0x1A0FC - 0x5400, eventflags, 0, 0x180);
-                }
-                else if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x80000)
-                {
-                    byte[] data = ram2sav.getMAIN(File.ReadAllBytes(path));
-                    Array.Copy(data, 0x1A0FC - 0x5400, eventflags, 0, 0x180);
-                }
-                else
-                { Util.Error("Invalid SAV Size", String.Format("File Size: {0} (bytes)"), fi.Length.ToString(), "File Loaded: " + path); return; }
-            }
+                loadSAV(sender, ofd.FileName);
+        }
+        private void loadSAV(object sender, string path)
+        {
+            FileInfo fi = new FileInfo(path);
+            byte[] eventflags = new byte[0x180];
+            if (fi.Length == 0x100000)
+                Array.Copy(File.ReadAllBytes(path), 0x1A0FC, eventflags, 0, 0x180);
+            else if (fi.Length == 0x76000)
+                Array.Copy(File.ReadAllBytes(path), 0x1A0FC - 0x5400, eventflags, 0, 0x180);
+            else if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x80000)
+                Array.Copy(ram2sav.getMAIN(File.ReadAllBytes(path)), 0x1A0FC - 0x5400, eventflags, 0, 0x180);
             else
-                return;
+            { Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length.ToString(), fi.Length.ToString("X5")), "File Loaded: " + path); return; }
 
             Button bs = (Button)sender;
             if (bs.Name == "B_LoadOld")
-            {
-                Array.Copy(eventflags, olddata, 0x180);
-                TB_OldSAV.Text = path;
-            }
+            { Array.Copy(eventflags, olddata, 0x180); TB_OldSAV.Text = path; }
             else
-            {
-                Array.Copy(eventflags, newdata, 0x180);
-                TB_NewSAV.Text = path;
-            }
+            { Array.Copy(eventflags, newdata, 0x180); TB_NewSAV.Text = path; }
         }
         int entry = -1;
         private void changeConstantIndex(object sender, EventArgs e)
@@ -247,6 +241,15 @@ namespace PKHeX
 
             entry = CB_Stats.SelectedIndex; // Get Entry
             MT_Stat.Text = Constants[entry].ToString();
+        }
+        private void tabMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+        private void tabMain_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            loadSAV((Util.Prompt(MessageBoxButtons.YesNo, "FlagDiff Researcher:", "Yes: Old Save" + Environment.NewLine + "No: New Save") == DialogResult.Yes) ? B_LoadOld : B_LoadNew, files[0]);
         }
     }
 }
