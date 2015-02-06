@@ -185,10 +185,16 @@ namespace PKHeX
                     byte[] data = File.ReadAllBytes(path);
                     Array.Copy(data, 0x1A0FC - 0x5400, eventflags, 0, 0x180);
                 }
+                else if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x70000)
+                {
+                    byte[] data = ram2sav.getMAIN(File.ReadAllBytes(path));
+                    Array.Copy(data, 0x1A0FC - 0x5400, eventflags, 0, 0x180);
+                }
                 else
-                { Util.Error("Invalid SAV Size"); return; }
+                { Util.Error("Invalid SAV Size", String.Format("File Size: {0} (bytes)"), fi.Length.ToString(), "File Loaded: " + path); return; }
             }
-            else return;
+            else 
+                return;
 
             Button bs = (Button)sender;
             if (bs.Name == "B_LoadOld")
