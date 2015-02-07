@@ -713,13 +713,13 @@ namespace PKHeX
             savegame_oras = oras;
             // Enable Secondary Tools
             GB_SAVtools.Enabled =
-                B_JPEG.Enabled = 
-                B_VerifyCHK.Enabled = true;
+                B_JPEG.Enabled = true;
 
             savedited = false;
             Menu_ToggleBoxUI.Visible = false;
 
             B_VerifySHA.Enabled = !cybergadget;
+            B_VerifyCHK.Enabled = !ramsavloaded;
 
             // Set up Boxes
             C_BoxSelect.SelectedIndex = 0;
