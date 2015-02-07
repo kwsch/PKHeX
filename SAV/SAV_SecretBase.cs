@@ -207,10 +207,12 @@ namespace PKHeX
                     sav[sv + offset + 2 + 12 * i + z] = objdata[i, z];
 
             if (GB_PKM.Enabled) // Copy pkm data back in
+            {
+                saveFavPKM();
                 for (int i = 0; i < 3; i++)
                     for (int z = 0; z < 0x34; z++)
                         sav[sv + offset + 0x32E + 0x34 * i + z] = pkmdata[i, z];
-
+            }
             popFavorite();
             LB_Favorite.SelectedIndex = index;
         }
