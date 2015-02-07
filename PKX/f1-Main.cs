@@ -1202,6 +1202,9 @@ namespace PKHeX
             // Set the Preview Box
             getQuickFiller(dragout);
 
+            // Highlight the Current Handler
+            clickGT((buff[0x93] == 1) ? GB_nOT : GB_OT, null);
+
             if (!PKX.verifychk(buff))
                 Util.Alert("PKX File has an invalid checksum.");
         }
@@ -2140,6 +2143,7 @@ namespace PKHeX
         {
             if (TB_OTt2.Text == "")
             {
+                clickGT(GB_OT, null); // Switch CT over to OT.
                 Label_CTGender.Text = "";
                 TB_Friendship.Text = buff[0xCA].ToString();
             }
