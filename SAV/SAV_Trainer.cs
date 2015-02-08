@@ -659,7 +659,7 @@ namespace PKHeX
         {
             MaskedTextBox box = sender as MaskedTextBox;
             if (box.Text == "") box.Text = "0";
-            if (int.Parse(box.Text) > 255) box.Text = "255";
+            if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
         private int psssatoffset = 0x23800;
         private void changeStat(object sender, EventArgs e)
