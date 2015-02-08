@@ -181,7 +181,7 @@ namespace PKHeX
             populateWClist();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
 
-            if (cardID > 0)
+            if (cardID > 0 && cardID < 0x100 * 8)
                 if (!LB_Received.Items.Contains(cardID.ToString("0000")))
                     LB_Received.Items.Add(cardID.ToString("0000"));
         }
