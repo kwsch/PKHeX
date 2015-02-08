@@ -67,7 +67,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Cancel.Location = new System.Drawing.Point(221, 179);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(48, 23);
@@ -78,7 +78,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Save.Location = new System.Drawing.Point(275, 179);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(48, 23);
@@ -89,6 +89,7 @@
             // 
             // GB_Pouch
             // 
+            this.GB_Pouch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_Pouch.Controls.Add(this.B_DisplayBerries);
             this.GB_Pouch.Controls.Add(this.B_DisplayMedicine);
             this.GB_Pouch.Controls.Add(this.B_DisplayTMHM);
