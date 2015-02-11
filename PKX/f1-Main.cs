@@ -376,8 +376,8 @@ namespace PKHeX
         {
             frmReport ReportForm = new frmReport();
             int offset = 0x27A00; if (savegame_oras) offset = 0x33000 + 0x5400;
+            ReportForm.Show();
             ReportForm.PopulateData(savefile, savindex, offset);
-            ReportForm.ShowDialog();
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
