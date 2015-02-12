@@ -28,11 +28,14 @@ namespace PKHeX
             PokemonList PL = new PokemonList();
             PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("XY");
             if (savindex > 1) savindex = 0;
+            BoxBar.Maximum = 930 + 100;
+            BoxBar.Step = 1;
             for (int BoxNum = 0; BoxNum < 31; BoxNum++)
             {
                 int boxoffset = baseoffset + 0x7F000 * savindex + BoxNum * (0xE8 * 30);
                 for (int SlotNum = 0; SlotNum < 30; SlotNum++)
                 {
+                    BoxBar.PerformStep();
                     int offset = boxoffset + 0xE8 * SlotNum;
                     byte[] slotdata = new byte[0xE8];
                     Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
@@ -46,11 +49,14 @@ namespace PKHeX
             }
             dgData.DataSource = PL;
             dgData.AutoGenerateColumns = true;
+            BoxBar.Maximum = 930 + dgData.Columns.Count;
             for (int i = 0; i < dgData.Columns.Count; i++)
             {
+                BoxBar.PerformStep();
                 if (dgData.Columns[i] is DataGridViewImageColumn) continue; // Don't add sorting for Sprites
                 dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
             }
+            BoxBar.Visible = false;
         }
         private void promptSaveCSV(object sender, FormClosingEventArgs e)
         {
@@ -75,7 +81,7 @@ namespace PKHeX
                 var cells = row.Cells.Cast<DataGridViewCell>();
                 sb.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
             }
-	        System.IO.File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            System.IO.File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
         }
 
         public class PokemonList : SortableBindingList<PKX> { }

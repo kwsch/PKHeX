@@ -559,7 +559,7 @@ namespace PKHeX
 
         private int
             mability, mabilitynum, mnature, mgenderflag, maltforms, mPKRS_Strain, mPKRS_Duration,
-            mmetlevel, motgender;
+            mmetlevel, motgender, mLevel;
 
         private bool
             misegg, misnick, misshiny, mfeflag;
@@ -613,6 +613,7 @@ namespace PKHeX
         public uint SPD_IV { get { return mSPD_IV; } }
         public uint SPE_IV { get { return mSPE_IV; } }
         public uint EXP { get { return mexp; } }
+        public int Level { get { return mLevel; } }
         public uint HP_EV { get { return mHP_EV; } }
         public uint ATK_EV { get { return mATK_EV; } }
         public uint DEF_EV { get { return mDEF_EV; } }
@@ -847,6 +848,7 @@ namespace PKHeX
                 mRMove4N = Form1.movelist[meggmove4];
                 mMetLocN = PKX.getLocation(false, mgamevers, mmetloc);
                 mEggLocN = PKX.getLocation(true, mgamevers, meggloc);
+                mLevel = PKX.getLevel(mspecies, ref mexp);
                 mGameN = Form1.gamelist[mgamevers];
                 mBallN = Form1.balllist[mball];
                 motlangN = Form1.gamelanguages[motlang] ?? String.Format("UNK {0}", motlang);

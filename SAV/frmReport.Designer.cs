@@ -31,6 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReport));
             this.dgData = new System.Windows.Forms.DataGridView();
+            this.BoxBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,11 +50,19 @@
             this.dgData.Size = new System.Drawing.Size(812, 461);
             this.dgData.TabIndex = 0;
             // 
+            // BoxBar
+            // 
+            this.BoxBar.Location = new System.Drawing.Point(13, 13);
+            this.BoxBar.Name = "BoxBar";
+            this.BoxBar.Size = new System.Drawing.Size(787, 23);
+            this.BoxBar.TabIndex = 1;
+            // 
             // frmReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(812, 461);
+            this.Controls.Add(this.BoxBar);
             this.Controls.Add(this.dgData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmReport";
@@ -68,5 +77,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgData;
+        private System.Windows.Forms.ProgressBar BoxBar;
     }
 }
