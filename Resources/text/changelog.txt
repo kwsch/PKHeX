@@ -490,3 +490,11 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Loading of multiple Wondercards via Drag & Drop.
  - Added: Boot Status to help debug some users being stuck on the splash screen.
  - Added: Event Constant editing to Event Flag window.
+
+2/1X/15 - New Update:
+ - Fixed: Shedinja HP stat prediction should now properly show something not '1'.
+ - Fixed: Wondercard flags greater than 2047 will not be erroneously added to the received list.
+ - Changed: Window sizing for mono compatibility on Inventory and other editors. hanks SoujiSeta!
+ - Changed: Box Data Report now shows level and the proper Language/3DS region text will display. Thanks Kaisonic!
+ - Changed: Chinese Translation text. Thanks piva223!
+ - Changed: Checksum validity checking disabled for ramsavs.
