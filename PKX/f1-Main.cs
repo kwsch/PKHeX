@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -1049,8 +1048,8 @@ namespace PKHeX
 
             // Private Use Character Fixing Text
             {
-                nicknamestr = Regex.Replace(nicknamestr, "\uE08F", "\u2640");
-                nicknamestr = Regex.Replace(nicknamestr, "\uE08E", "\u2642");
+                nicknamestr = nicknamestr.Replace("\uE08F", "\u2640");
+                nicknamestr = nicknamestr.Replace("\uE08E", "\u2642");
             }
 
             // Set Markings
@@ -2453,8 +2452,9 @@ namespace PKHeX
             // Convert Nickname field back to bytes
             string nicknamestr = TB_Nickname.Text;
             {
-                nicknamestr = Regex.Replace(nicknamestr, "\u2640", "\uE08F");
-                nicknamestr = Regex.Replace(nicknamestr, "\u2642", "\uE08E");
+                nicknamestr = nicknamestr.Replace("\u2640", "\uE08F");
+                nicknamestr = nicknamestr.Replace("\u2642", "\uE08E");
+                nicknamestr = nicknamestr.Replace("\u0027", "\u2019"); // ' to ’
             }
             byte[] nicknamebytes = Encoding.Unicode.GetBytes(nicknamestr);
             Array.Resize(ref nicknamebytes, 24); // pad with zeroes and effectively keep no trash bytes
@@ -2497,7 +2497,7 @@ namespace PKHeX
 
             // Block C
             // Convert OTT2 field back to bytes
-            byte[] OT2 = Encoding.Unicode.GetBytes(TB_OTt2.Text);
+            byte[] OT2 = Encoding.Unicode.GetBytes(TB_OTt2.Text.Replace("\u0027", "\u2019"));
             Array.Resize(ref OT2, 24);
             Array.Copy(OT2, 0, pkx, 0x78, OT2.Length);
 
@@ -2507,7 +2507,7 @@ namespace PKHeX
 
             // Block D
             // Convert OT field back to bytes
-            byte[] OT = Encoding.Unicode.GetBytes(TB_OT.Text);
+            byte[] OT = Encoding.Unicode.GetBytes(TB_OT.Text.Replace("\u0027", "\u2019"));
             Array.Resize(ref OT, 24);
             Array.Copy(OT, 0, pkx, 0xB0, OT.Length);
 
@@ -3295,7 +3295,7 @@ namespace PKHeX
                 else
                 {
                     cySAV.Filter = "Cyber SAV|*.*";
-                    cySAV.FileName = Regex.Split(L_Save.Text, ": ")[1];
+                    cySAV.FileName = L_Save.Text.Split(new string[] { ": " }, StringSplitOptions.None)[1];
                     DialogResult sdr = cySAV.ShowDialog();
                     if (sdr == DialogResult.OK)
                     {
@@ -3310,7 +3310,7 @@ namespace PKHeX
                 // Save Full Save File
                 SaveFileDialog savesav = new SaveFileDialog();
                 savesav.Filter = "SAV|*.bin;*.sav";
-                savesav.FileName = Regex.Split(L_Save.Text, ": ")[1];
+                savesav.FileName = L_Save.Text.Split(new string[] { ": " }, StringSplitOptions.None)[1];
                 DialogResult result = savesav.ShowDialog();
                 if (result == DialogResult.OK)
                 {
