@@ -1226,24 +1226,37 @@ namespace PKHeX
             public struct Set
             {
                 // Default Set Data
-                public string Nickname = null;
-                public int Species = 0;
-                public string Gender = null;
-                public int Item = 0;
-                public int Ability = -1;
-                public int Level = 100;
-                public bool Shiny = false;
-                public int Happiness = 255;
-                public int Nature = 0;
-                public byte[] EVs = new byte[6];
-                public byte[] IVs = new byte[6];
-                public int[] Moves = new int[4];
+                public string Nickname;
+                public int Species;
+                public string Gender;
+                public int Item;
+                public int Ability;
+                public int Level;
+                public bool Shiny;
+                public int Happiness;
+                public int Nature;
+                public byte[] EVs;
+                public byte[] IVs;
+                public int[] Moves;
 
                 // Parsing Utility
-                private string[] Stats = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+                private string[] Stats;
                 public Set(string input, string[] species, string[] items, string[] natures, string[] moves)
                 {
-                    int[] set = new int[14];
+                    Nickname = null;
+                    Species = 0;
+                    Gender = null;
+                    Item = 0;
+                    Ability = -1;
+                    Level = 100;
+                    Shiny = false;
+                    Happiness = 255;
+                    Nature = 0;
+                    EVs = new byte[6];
+                    IVs = new byte[6];
+                    Moves = new int[4];
+                    Stats = new string[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+
                     string[] lines = input.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
                     Nickname = null;
 
@@ -1282,20 +1295,20 @@ namespace PKHeX
                                 } break;
                         }
 
-                        // Species and Held Item
-                        string[] specitem = lines[0].Split(new string[] { " @ " }, StringSplitOptions.None);
-                        set[0] = Array.IndexOf(species, specitem[0]);
-                        set[1] = Array.IndexOf(species, specitem[1]);
+                        //// Species and Held Item
+                        //string[] specitem = lines[0].Split(new string[] { " @ " }, StringSplitOptions.None);
+                        //set[0] = Array.IndexOf(species, specitem[0]);
+                        //set[1] = Array.IndexOf(species, specitem[1]);
 
 
-                        // Fetch Move Indexes
-                        for (int i = 0; i < 4; i++)
-                        {
-                            string move = lines[4 + i].Substring(2);
-                            if (move.Contains("Hidden Power")) move = "Hidden Power";
+                        //// Fetch Move Indexes
+                        //for (int i = 0; i < 4; i++)
+                        //{
+                        //    string move = lines[4 + i].Substring(2);
+                        //    if (move.Contains("Hidden Power")) move = "Hidden Power";
 
-                            set[10 + i] = Array.IndexOf(moves, move);
-                        }
+                        //    set[10 + i] = Array.IndexOf(moves, move);
+                        //}
                     }
                 }
             }
