@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography;
-using System.Collections.Generic;
 using System.Drawing.Text;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
@@ -1218,6 +1217,87 @@ namespace PKHeX
                     data = GetPersonal(721 + formID + data.FormPointer);
                 }
                 return data;
+            }
+        }
+
+        
+        public class Simulator
+        {
+            public struct Set
+            {
+                // Default Set Data
+                public string Nickname = null;
+                public int Species = 0;
+                public string Gender = null;
+                public int Item = 0;
+                public int Ability = -1;
+                public int Level = 100;
+                public bool Shiny = false;
+                public int Happiness = 255;
+                public int Nature = 0;
+                public byte[] EVs = new byte[6];
+                public byte[] IVs = new byte[6];
+                public int[] Moves = new int[4];
+
+                // Parsing Utility
+                private string[] Stats = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+                public Set(string input, string[] species, string[] items, string[] natures, string[] moves)
+                {
+                    int[] set = new int[14];
+                    string[] lines = input.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+                    Nickname = null;
+
+                    // Seek for start of set
+                    int start = -1;
+                    for (int i = 0; i < lines.Length; i++)
+                        if (lines[i].Contains("@")) { start = i; break; }
+                    lines = lines.Skip(start).Take(lines.Length - start).ToArray();
+
+                    // Abort if no text is found
+                    if (start == -1) { Species = -1; return; }
+
+                    // Detect relevant data
+                    foreach (string line in lines)
+                    {
+                        string[] brokenline = line.Split(new string[] { ": " }, StringSplitOptions.None);
+
+                        switch (brokenline[0])
+                        {
+                            case "Ability": break;
+                            case "Level": break;
+                            case "Shiny": break;
+                            case "Happiness": break;
+                            case "EVs":
+                                {
+                                    // Get EV list String
+                                    string[] evlist = lines[1].Split(new string[] { " / ", " " }, StringSplitOptions.None);
+                                    for (int i = 0; i < evlist.Length / 2; i++)
+                                        EVs[Array.IndexOf(Stats, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
+                                    break;
+                                }
+                            case "IVs": break;
+                            default:
+                                {
+
+                                } break;
+                        }
+
+                        // Species and Held Item
+                        string[] specitem = lines[0].Split(new string[] { " @ " }, StringSplitOptions.None);
+                        set[0] = Array.IndexOf(species, specitem[0]);
+                        set[1] = Array.IndexOf(species, specitem[1]);
+
+
+                        // Fetch Move Indexes
+                        for (int i = 0; i < 4; i++)
+                        {
+                            string move = lines[4 + i].Substring(2);
+                            if (move.Contains("Hidden Power")) move = "Hidden Power";
+
+                            set[10 + i] = Array.IndexOf(moves, move);
+                        }
+                    }
+                }
             }
         }
     }
