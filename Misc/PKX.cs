@@ -1151,10 +1151,10 @@ namespace PKHeX
         internal static PrivateFontCollection s_FontCollection = new PrivateFontCollection();
         internal static FontFamily[] FontFamilies
         {
-            get 
-            { 
-                if (s_FontCollection.Families.Length == 0) setPKXFont(); 
-                return s_FontCollection.Families; 
+            get
+            {
+                if (s_FontCollection.Families.Length == 0) setPKXFont();
+                return s_FontCollection.Families;
             }
         }
         internal static Font getPKXFont(float size)
@@ -1220,7 +1220,7 @@ namespace PKHeX
             }
         }
 
-        
+
         public class Simulator
         {
             public struct Set
@@ -1230,7 +1230,7 @@ namespace PKHeX
                 public int Species;
                 public string Gender;
                 public int Item;
-                public int Ability;
+                public string Ability;
                 public int Level;
                 public bool Shiny;
                 public int Happiness;
@@ -1247,7 +1247,7 @@ namespace PKHeX
                     Species = 0;
                     Gender = null;
                     Item = 0;
-                    Ability = -1;
+                    Ability = null;
                     Level = 100;
                     Shiny = false;
                     Happiness = 255;
@@ -1263,23 +1263,30 @@ namespace PKHeX
                     // Seek for start of set
                     int start = -1;
                     for (int i = 0; i < lines.Length; i++)
-                        if (lines[i].Contains("@")) { start = i; break; }
+                        if (lines[i].Contains(" @ ")) { start = i; break; }
                     lines = lines.Skip(start).Take(lines.Length - start).ToArray();
 
                     // Abort if no text is found
                     if (start == -1) { Species = -1; return; }
-
+                    int movectr = 0;
                     // Detect relevant data
                     foreach (string line in lines)
                     {
-                        string[] brokenline = line.Split(new string[] { ": " }, StringSplitOptions.None);
+                        if (line.Contains("- "))
+                        {
+                            string moveString = line.Substring(2);
+                            if (moveString.Contains("Hidden Power")) moveString = "Hidden Power";
+                            Moves[movectr++] = Array.IndexOf(moves, moveString);
+                            continue;
+                        }
 
+                        string[] brokenline = line.Split(new string[] { ": " }, StringSplitOptions.None);
                         switch (brokenline[0])
                         {
-                            case "Ability": break;
-                            case "Level": break;
-                            case "Shiny": break;
-                            case "Happiness": break;
+                            case "Ability": { Ability = brokenline[1]; break; }
+                            case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
+                            case "Shiny": { Shiny = (brokenline[1] == "Yes"); break; }
+                            case "Happiness": { Happiness = Util.ToInt32(brokenline[1]); break; }
                             case "EVs":
                                 {
                                     // Get EV list String
@@ -1288,27 +1295,44 @@ namespace PKHeX
                                         EVs[Array.IndexOf(Stats, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
                                     break;
                                 }
-                            case "IVs": break;
+                            case "IVs":
+                                {
+                                    // Get IV list String
+                                    string[] ivlist = lines[1].Split(new string[] { " / ", " " }, StringSplitOptions.None);
+                                    for (int i = 0; i < ivlist.Length / 2; i++)
+                                        IVs[Array.IndexOf(Stats, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
+                                    break;
+                                }
                             default:
                                 {
-
+                                    // Either Nature or Gender ItemSpecies
+                                    if (brokenline.Contains(" @ "))
+                                    {
+                                        string[] ld = line.Split(new string[] { " @ " }, StringSplitOptions.None);
+                                        Item = Array.IndexOf(items, ld.Last());
+                                        // Gender Detection
+                                        string last3 = ld[0].Substring(ld[0].Length - 3);
+                                        if (last3 == "(M)" || last3 == "(F)")
+                                        {
+                                            Gender = last3.Substring(1, 1);
+                                            ld[0] = ld[0].Substring(0, ld[ld.Length - 1].Length - 3);
+                                        }
+                                        // Nickname Detection
+                                        string spec = ld[0];
+                                        if (ld[0].Contains("("))
+                                        {
+                                            int index = ld[0].LastIndexOf("(");
+                                            Nickname = ld[0].Substring(0, ld[0].Length - index);
+                                            spec = ld[0].Substring(index).Replace("(", "").Replace(")", "");
+                                        }
+                                        Species = Array.IndexOf(species, spec);
+                                    }
+                                    else if (brokenline.Contains("Nature"))
+                                        Nature = Array.IndexOf(natures, line.Split(' ')[0]);
+                                    else // Fallback
+                                        Species = Array.IndexOf(species, line.Split('(')[0]);
                                 } break;
                         }
-
-                        //// Species and Held Item
-                        //string[] specitem = lines[0].Split(new string[] { " @ " }, StringSplitOptions.None);
-                        //set[0] = Array.IndexOf(species, specitem[0]);
-                        //set[1] = Array.IndexOf(species, specitem[1]);
-
-
-                        //// Fetch Move Indexes
-                        //for (int i = 0; i < 4; i++)
-                        //{
-                        //    string move = lines[4 + i].Substring(2);
-                        //    if (move.Contains("Hidden Power")) move = "Hidden Power";
-
-                        //    set[10 + i] = Array.IndexOf(moves, move);
-                        //}
                     }
                 }
             }
