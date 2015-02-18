@@ -590,7 +590,7 @@ namespace PKHeX
             }
             #endregion
             else
-                Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path);
+                Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path, "File Size:" + Environment.NewLine + new FileInfo(path).Length.ToString("X8"));
         }
         private void openMAIN(byte[] input, string path, string GameType, bool oras, bool ram = false)
         {
