@@ -1220,7 +1220,6 @@ namespace PKHeX
             }
         }
 
-
         public class Simulator
         {
             public struct Set
@@ -1241,7 +1240,7 @@ namespace PKHeX
 
                 // Parsing Utility
                 private string[] Stats;
-                public Set(string input, string[] species, string[] items, string[] natures, string[] moves)
+                public Set(string input, string[] species, string[] items, string[] natures, string[] moves, string[] types)
                 {
                     Nickname = null;
                     Species = 0;
@@ -1253,7 +1252,7 @@ namespace PKHeX
                     Happiness = 255;
                     Nature = 0;
                     EVs = new byte[6];
-                    IVs = new byte[6];
+                    IVs = new byte[6] { 31, 31, 31, 31, 31, 31 };
                     Moves = new int[4];
                     Stats = new string[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
 
