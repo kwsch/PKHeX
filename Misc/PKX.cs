@@ -1220,6 +1220,39 @@ namespace PKHeX
             }
         }
 
+        internal static int[] setHPIVs(string HP, int[] curIVs)
+        {
+            int[] ivmods = hpivs[Array.IndexOf(hptypes, HP)];
+            for (int i = 0; i < 6; i++) // modify IVs
+            { 
+                curIVs[i] &= 0x1E; 
+                curIVs[i] += ivmods[i];
+            }
+            return curIVs;
+        }
+        internal static string[] hptypes = new string[] { 
+            "Fighting", "Flying", "Poison", "Ground",
+            "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
+            "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"
+        };
+        internal static int[][] hpivs = new int[][] {
+            new int[] { 1, 1, 0, 0, 0, 0 }, // Fighting
+            new int[] { 0, 0, 0, 0, 0, 1 }, // Flying
+            new int[] { 1, 1, 0, 0, 0, 1 }, // Poison
+            new int[] { 1, 1, 1, 0, 0, 1 }, // Ground
+            new int[] { 1, 1, 0, 1, 0, 0 }, // Rock
+            new int[] { 1, 0, 0, 1, 0, 1 }, // Bug
+            new int[] { 1, 1, 0, 1, 0, 1 }, // Ghost
+            new int[] { 1, 1, 1, 1, 0, 1 }, // Steel
+            new int[] { 1, 0, 1, 0, 1, 0 }, // Fire
+            new int[] { 1, 0, 0, 0, 1, 1 }, // Water
+            new int[] { 1, 0, 1, 0, 1, 1 }, // Grass
+            new int[] { 1, 1, 1, 0, 1, 1 }, // Electric
+            new int[] { 1, 0, 1, 1, 1, 0 }, // Psychic
+            new int[] { 1, 0, 0, 1, 1, 1 }, // Ice
+            new int[] { 1, 0, 1, 1, 1, 1 }, // Dragon
+            new int[] { 1, 1, 1, 1, 1, 1 }, // Dark
+            };
         public class Simulator
         {
             public struct Set
