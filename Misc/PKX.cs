@@ -1220,15 +1220,11 @@ namespace PKHeX
             }
         }
 
-        internal static int[] setHPIVs(string HP, int[] curIVs)
+        internal static int[] setHPIVs(int type, int[] ivs)
         {
-            int[] ivmods = hpivs[Array.IndexOf(hptypes, HP)];
-            for (int i = 0; i < 6; i++) // modify IVs
-            { 
-                curIVs[i] &= 0x1E; 
-                curIVs[i] += ivmods[i];
-            }
-            return curIVs;
+            for (int i = 0; i < 6; i++)
+                ivs[i] &= 0x1E + hpivs[type][i];
+            return ivs;
         }
         internal static string[] hptypes = new string[] { 
             "Fighting", "Flying", "Poison", "Ground",
