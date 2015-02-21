@@ -755,6 +755,7 @@
             this.CB_Nature.TabIndex = 9;
             this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
             this.CB_Nature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
+            this.CB_Nature.MouseHover += new System.EventHandler(this.getNatureModification);
             this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
             // 
             // Label_3DSRegion

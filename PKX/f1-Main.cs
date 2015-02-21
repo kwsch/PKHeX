@@ -139,7 +139,6 @@ namespace PKHeX
 
             // ToolTips for Drag&Drop
             ToolTip dragoutTip1 = new ToolTip();
-            ToolTip dragoutTip2 = new ToolTip();
             dragoutTip1.SetToolTip(dragout, "PK6 QuickSave");
 
             // Box Drag & Drop
@@ -249,6 +248,7 @@ namespace PKHeX
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip();
         public ToolTip Tip3 = new ToolTip();
+        public ToolTip NatureTip = new ToolTip();
         public PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("ORAS");
         #endregion
 
@@ -2253,7 +2253,7 @@ namespace PKHeX
                 TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
             else if ((cb == CB_Move1) || (cb == CB_Move2) || (cb == CB_Move3) || (cb == CB_Move4))
                 updatePP(sender, e);
-
+            getNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
         }
         private void removedropCB(object sender, KeyEventArgs e)
@@ -3928,11 +3928,29 @@ namespace PKHeX
         private void getTSV(object sender, EventArgs e)
         {
             uint tsv = PKX.getTSV(Util.ToUInt32(TB_TID.Text), Util.ToUInt32(TB_SID.Text));
-            Tip1.SetToolTip(this.TB_TID, "TSV: " + tsv.ToString("0000"));
-            Tip2.SetToolTip(this.TB_SID, "TSV: " + tsv.ToString("0000"));
+            Tip1.SetToolTip(TB_TID, "TSV: " + tsv.ToString("0000"));
+            Tip2.SetToolTip(TB_SID, "TSV: " + tsv.ToString("0000"));
 
             uint psv = PKX.getPSV(Util.getHEXval(TB_PID));
-            Tip3.SetToolTip(this.TB_PID, "PSV: " + psv.ToString("0000"));
+            Tip3.SetToolTip(TB_PID, "PSV: " + psv.ToString("0000"));
+        }
+
+        private void getNatureModification(object sender, EventArgs e)
+        {
+            if (sender is ComboBox && (sender as ComboBox).Name != CB_Nature.Name) return;
+            int nature = Util.getIndex(CB_Nature);
+            int incr = nature / 5;
+            int decr = nature % 5;
+
+            Label[] labarray = new Label[] { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
+            // Reset Label Colors
+            foreach (Label label in labarray)
+                label.ForeColor = defaultControlText;
+
+            // Set Colored StatLabels only if Nature isn't Neutral
+            if (incr != decr)
+                NatureTip.SetToolTip(CB_Nature, String.Format("+{0} / -{1}", labarray[incr].Text, labarray[decr].Text).Replace(":",""));
+            else NatureTip.SetToolTip(CB_Nature, "+/-");
         }
         private void switchDaycare(object sender, EventArgs e)
         {
