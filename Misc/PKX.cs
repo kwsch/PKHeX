@@ -1223,7 +1223,7 @@ namespace PKHeX
         internal static int[] setHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)
-                ivs[i] &= 0x1E + hpivs[type][i];
+                ivs[i] = (ivs[i] & 0x1E) + hpivs[type][i];
             return ivs;
         }
         internal static string[] hptypes = new string[] { 
