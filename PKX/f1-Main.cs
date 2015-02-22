@@ -327,6 +327,8 @@ namespace PKHeX
         }
         private void mainMenuExit(object sender, EventArgs e)
         {
+            if (ModifierKeys == (Keys.Control | Keys.E)) // Hotkey Triggered
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?")) return;
             this.Close();
         }
         private void mainMenuAbout(object sender, EventArgs e)
