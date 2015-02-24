@@ -582,6 +582,16 @@ namespace PKHeX
                 ramsav = (byte[])input.Clone();
             }
             #endregion
+            #region Battle Video
+            else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0)
+            {
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + C_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
+                byte[] ekx = new byte[260];
+                for (int i = 0; i < 24; i++)
+                    Array.Copy(input, 0xE18 + 260 * i + (i / 6) * 8, savefile, SaveGame.Box + i * 0xE8 + C_BoxSelect.SelectedIndex * 30 * 0xE8, 0xE8);
+                setPKXBoxes();
+            }
+            #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path, "File Size:" + Environment.NewLine + new FileInfo(path).Length.ToString("X8"));
         }
