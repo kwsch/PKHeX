@@ -319,7 +319,7 @@ namespace PKHeX
                 }
                 else
                 {
-                    Util.Error("Foreign File Extension", "Exporting as encrypted.");
+                    Util.Error(String.Format("Foreign File Extension: {0}", ext), "Exporting as encrypted.");
                     pkx = PKX.encryptArray(pkx);
                     File.WriteAllBytes(path, pkx);
                 }
@@ -466,11 +466,7 @@ namespace PKHeX
                         DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
                         if (sdr == DialogResult.Cancel)
                             return;
-                        else if (sdr == DialogResult.Yes)
-                            savindex = 0;
-                        else 
-                            savindex = 1;
-
+                        savindex = (sdr == DialogResult.Yes) ? 0 : 1;
                         B_SwitchSAV.Enabled = true;
                         open1MB(input, path, GameType, false);
                     }
@@ -486,12 +482,7 @@ namespace PKHeX
                             savindex = 0;
                             return; // abort load
                         }
-                        else if (sdr == DialogResult.Yes)
-                        {
-                            savindex = 0;
-                            B_SwitchSAV.Enabled = true;
-                        }
-                        else savindex = 1;
+                        savindex = (sdr == DialogResult.Yes) ? 0 : 1;
                         B_SwitchSAV.Enabled = true;
                         open1MB(input, path, GameType, false);
                     }
@@ -516,7 +507,7 @@ namespace PKHeX
                     populateFields(buff);
                 }
                 else
-                    Util.Error("Unable to recognize file.", "Only valid .pk* .ek* .bin supported.");
+                    Util.Error("Unable to recognize file." + Environment.NewLine + "Only valid .pk* .ek* .bin supported.", String.Format("File Loaded:{0}{1}", Environment.NewLine, path));
             }
             #endregion
             #region PK3/PK4/PK5
@@ -559,7 +550,7 @@ namespace PKHeX
             { 
                 Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * ((input.Length == 0xE8*30) ? C_BoxSelect.SelectedIndex : 0), input.Length); 
                 setPKXBoxes();
-                this.Width = largeWidth;
+                Width = largeWidth;
                 Util.Alert("Box Binary loaded."); }
             #endregion
             #region injectiondebug
