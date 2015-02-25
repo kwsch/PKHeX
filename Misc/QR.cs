@@ -10,15 +10,23 @@ namespace PKHeX
 {
     public partial class QR : Form
     {
-        public QR(byte[] data)
+        public QR(byte[] data, Image preview, string top, string bottom, string left, string right)
         {
             InitializeComponent();
-            string server = "http://lunarcookies.github.io/b1s1.html#";
+            string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
             string qrdata = Convert.ToBase64String(data);
             string message = server + qrdata;
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(server + qrdata, QRCodeGenerator.ECCLevel.L);
-            PB_QR.BackgroundImage = qrCode.GetGraphic(10);
+            Image qr = qrCode.GetGraphic(5);
+            Image pic = Util.LayerImage(qr, preview, 2, 2, 1);
+            Graphics g = Graphics.FromImage(pic); 
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            g.DrawString(top, FontLabel.Font, Brushes.Black, new PointF(40, 4));
+            g.DrawString(bottom, FontLabel.Font, Brushes.Black, new PointF(4, 350));
+            g.DrawString(left, FontLabel.Font, Brushes.Black, new PointF(0, 60));
+            g.DrawString(right, FontLabel.Font, Brushes.Black, new PointF(350, 60));
+            PB_QR.BackgroundImage = pic;
         }
         private void PB_QR_Click(object sender, EventArgs e)
         {
