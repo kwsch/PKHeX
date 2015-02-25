@@ -1558,6 +1558,7 @@ namespace PKHeX
             if (!verifiedPKX()) return;
             byte[] pkx = preparepkx(buff);
             byte[] ekx = PKX.encryptArray(pkx);
+            Array.Resize(ref ekx, 232);
             new QR(ekx).ShowDialog();
         }
         private void clickFriendship(object sender, EventArgs e)

@@ -14,10 +14,17 @@ namespace PKHeX
         {
             InitializeComponent();
             string server = "http://lunarcookies.github.io/b1s1.html#";
-            var qrdata = data.Reverse().Select( x => Convert.ToString(x, 2).PadLeft( 8, '0' ));
+            string qrdata = Convert.ToBase64String(data);
+            string message = server + qrdata;
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(server + qrdata.ToString(), QRCodeGenerator.ECCLevel.Q);
+            QRCodeGenerator.QRCode qrCode = qrGenerator.CreateQrCode(server + qrdata, QRCodeGenerator.ECCLevel.L);
             PB_QR.BackgroundImage = qrCode.GetGraphic(10);
+        }
+        private void PB_QR_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Copy QR Image to Clipboard?")) return;
+            try { Clipboard.SetImage(PB_QR.BackgroundImage); }
+            catch { Util.Alert("Failed to set Image to Clipboard"); }
         }
     }
 
