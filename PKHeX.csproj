@@ -72,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Misc\Legal.cs" />
+    <Compile Include="Misc\QR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\QR.Designer.cs">
+      <DependentUpon>QR.cs</DependentUpon>
+    </Compile>
     <Compile Include="PKX\f2-Text.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,6 +221,9 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\Util.cs" />
+    <EmbeddedResource Include="Misc\QR.resx">
+      <DependentUpon>QR.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PKX\f2-Text.resx">
       <DependentUpon>f2-Text.cs</DependentUpon>
     </EmbeddedResource>

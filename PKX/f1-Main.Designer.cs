@@ -331,6 +331,7 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.L_SAVINDEX = new System.Windows.Forms.Label();
             this.dragout = new System.Windows.Forms.PictureBox();
+            this.L_QR = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -2596,7 +2597,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(114, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
@@ -2605,7 +2606,7 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(114, 22);
             this.Menu_Save.Text = "&Save as...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
@@ -2614,7 +2615,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(114, 22);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
@@ -4029,12 +4030,24 @@
             this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
             this.dragout.MouseHover += new System.EventHandler(this.dragoutHover);
             // 
+            // L_QR
+            // 
+            this.L_QR.AutoSize = true;
+            this.L_QR.Location = new System.Drawing.Point(217, 5);
+            this.L_QR.Name = "L_QR";
+            this.L_QR.Size = new System.Drawing.Size(26, 13);
+            this.L_QR.TabIndex = 61;
+            this.L_QR.Text = "QR!";
+            this.L_QR.Visible = false;
+            this.L_QR.Click += new System.EventHandler(this.clickQR);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 362);
+            this.Controls.Add(this.L_QR);
             this.Controls.Add(this.dragout);
             this.Controls.Add(this.L_SAVINDEX);
             this.Controls.Add(this.GB_SAVtools);
@@ -4461,6 +4474,7 @@
         public System.Windows.Forms.ComboBox CB_Species;
         public System.Windows.Forms.CheckBox CHK_IsEgg;
         private System.Windows.Forms.Button B_SaveBoxBin;
+        private System.Windows.Forms.Label L_QR;
     }
 }
 

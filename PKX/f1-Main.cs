@@ -583,7 +583,7 @@ namespace PKHeX
             }
             #endregion
             #region Battle Video
-            else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0)
+            else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0 && BitConverter.ToUInt16(input, 0xE12) == 0)
             {
                 if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + C_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
                 byte[] ekx = new byte[260];
@@ -1552,7 +1552,14 @@ namespace PKHeX
             int gameindex = Util.getIndex(CB_GameOrigin);
             PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (float)(Convert.ToUInt16(gameindex == 24 || gameindex == 25 || gameindex == 26 || gameindex == 27)) * 0.9 + 0.1);
         }
-        // Clicked Label Shortcuts // 
+        // Clicked Label Shortcuts //
+        private void clickQR(object sender, EventArgs e)
+        {
+            if (!verifiedPKX()) return;
+            byte[] pkx = preparepkx(buff);
+            byte[] ekx = PKX.encryptArray(pkx);
+            new QR(ekx).ShowDialog();
+        }
         private void clickFriendship(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // prompt to reset
@@ -2246,7 +2253,7 @@ namespace PKHeX
                 cb.BackColor = defaultControlWhite;
 
             if (init)
-                getQuickFiller(dragout);
+            { getQuickFiller(dragout); }
         }
         private void validateComboBox2(object sender, EventArgs e)
         {
@@ -3774,6 +3781,7 @@ namespace PKHeX
 
             string file;
 
+            if (pb == dragout) L_QR.Visible = (species != 0);
             if (species == 0)
             { pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); return; }
 
