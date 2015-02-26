@@ -1581,7 +1581,7 @@ namespace PKHeX
                 Environment.NewLine + data.SPA_EV.ToString("00"),
                 Environment.NewLine + data.SPD_EV.ToString("00"),
                 Environment.NewLine + data.SPE_EV.ToString("00"));
-            new QR(ekx, dragout.Image, s1, s2, IVs, "").ShowDialog();
+            new QR(ekx, dragout.Image, s1, s2, IVs, "ProjectPokemon.org & PKHeX").ShowDialog();
         }
         private void clickFriendship(object sender, EventArgs e)
         {
@@ -2256,8 +2256,9 @@ namespace PKHeX
             TB_PID.Text = Util.getHEXval(TB_PID).ToString("X8");
             TB_EC.Text = Util.getHEXval(TB_EC).ToString("X8");
 
-            TB_TID.Text = Math.Min(Util.ToUInt32(TB_TID.Text), 65535).ToString(); // max TID/SID is 65535
-            TB_SID.Text = Math.Min(Util.ToUInt32(TB_SID.Text), 65535).ToString();
+            // Max TID/SID is 65535
+            if (Util.ToUInt32(TB_TID.Text) > 65535) TB_TID.Text = "65535";
+            if (Util.ToUInt32(TB_SID.Text) > 65535) TB_SID.Text = "65535";
 
             setIsShiny();
             updateIVs(null, null);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
