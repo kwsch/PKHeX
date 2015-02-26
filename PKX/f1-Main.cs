@@ -1575,7 +1575,7 @@ namespace PKHeX
             }
             catch
             {
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
+                if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
                 {
                     try { Clipboard.SetText(webURL); }
                     catch { Util.Alert("Failed to set text to Clipboard"); }
