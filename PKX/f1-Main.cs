@@ -1560,82 +1560,52 @@ namespace PKHeX
 
             Array.Resize(ref ekx, 232);
 
-            if (ModifierKeys != Keys.Shift) // Not usually bypassable
-            {
-                string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
-                string qrdata = Convert.ToBase64String(ekx);
-                string message = server + qrdata;
-                string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode("http://loadcode.projectpokemon.org/b1s1.html#" + qrdata);
+            string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
+            string qrdata = Convert.ToBase64String(ekx);
+            string message = server + qrdata;
+            string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode("http://loadcode.projectpokemon.org/b1s1.html#" + qrdata);
                 
-                Image qr = null;
-                try
-                {
-                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(webURL);
-                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                    Stream stream = httpWebReponse.GetResponseStream();
-                    qr = Image.FromStream(stream);
-                }
-                catch
-                {
-                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
-                    {
-                        try { Clipboard.SetText(webURL); }
-                        catch { Util.Alert("Failed to set text to Clipboard"); }
-                        return;
-                    }
-                }
-                PKX data = new PKX(pkx, "Tabs");
-                string filename = data.Nickname;
-                if (filename != data.Species)
-                    filename += " (" + data.Species + ")";
-                string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level.ToString(), data.Ability);
-                string s2 = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
-                string IVs = String.Format(
-                    "IV:{0}{1}{2}{3}{4}{5}"
-                    + Environment.NewLine + Environment.NewLine +
-                    "EV:{6}{7}{8}{9}{10}{11}",
-                    Environment.NewLine + data.HP_IV.ToString("00"),
-                    Environment.NewLine + data.ATK_IV.ToString("00"),
-                    Environment.NewLine + data.DEF_IV.ToString("00"),
-                    Environment.NewLine + data.SPA_IV.ToString("00"),
-                    Environment.NewLine + data.SPD_IV.ToString("00"),
-                    Environment.NewLine + data.SPE_IV.ToString("00"),
-                    Environment.NewLine + data.HP_EV.ToString("00"),
-                    Environment.NewLine + data.ATK_EV.ToString("00"),
-                    Environment.NewLine + data.DEF_EV.ToString("00"),
-                    Environment.NewLine + data.SPA_EV.ToString("00"),
-                    Environment.NewLine + data.SPD_EV.ToString("00"),
-                    Environment.NewLine + data.SPE_EV.ToString("00"));
-                new QR(qr, dragout.Image, s1, s2, IVs, "ProjectPokemon.org & PKHeX").ShowDialog();
-            }
-            else
+            Image qr = null;
+            try
             {
-
-                // Old Broken QR Code
-                PKX data = new PKX(pkx, "Tabs");
-                string filename = data.Nickname;
-                if (filename != data.Species)
-                    filename += " (" + data.Species + ")";
-                string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level.ToString(), data.Ability);
-                string s2 = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
-                string IVs = String.Format(
-                    "IV:{0}{1}{2}{3}{4}{5}"
-                    + Environment.NewLine + Environment.NewLine +
-                    "EV:{6}{7}{8}{9}{10}{11}",
-                    Environment.NewLine + data.HP_IV.ToString("00"),
-                    Environment.NewLine + data.ATK_IV.ToString("00"),
-                    Environment.NewLine + data.DEF_IV.ToString("00"),
-                    Environment.NewLine + data.SPA_IV.ToString("00"),
-                    Environment.NewLine + data.SPD_IV.ToString("00"),
-                    Environment.NewLine + data.SPE_IV.ToString("00"),
-                    Environment.NewLine + data.HP_EV.ToString("00"),
-                    Environment.NewLine + data.ATK_EV.ToString("00"),
-                    Environment.NewLine + data.DEF_EV.ToString("00"),
-                    Environment.NewLine + data.SPA_EV.ToString("00"),
-                    Environment.NewLine + data.SPD_EV.ToString("00"),
-                    Environment.NewLine + data.SPE_EV.ToString("00"));
-                new QR(ekx, dragout.Image, s1, s2, IVs, "ProjectPokemon.org & PKHeX").ShowDialog();
+                System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(webURL);
+                System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                Stream stream = httpWebReponse.GetResponseStream();
+                qr = Image.FromStream(stream);
             }
+            catch
+            {
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
+                {
+                    try { Clipboard.SetText(webURL); }
+                    catch { Util.Alert("Failed to set text to Clipboard"); }
+                    return;
+                }
+            }
+            PKX data = new PKX(pkx, "Tabs");
+            string filename = data.Nickname;
+            if (filename != data.Species)
+                filename += " (" + data.Species + ")";
+            string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level.ToString(), data.Ability);
+            string s2 = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
+            string IVs = String.Format(
+                "IV:{0}{1}{2}{3}{4}{5}"
+                + Environment.NewLine + Environment.NewLine +
+                "EV:{6}{7}{8}{9}{10}{11}",
+                Environment.NewLine + data.HP_IV.ToString("00"),
+                Environment.NewLine + data.ATK_IV.ToString("00"),
+                Environment.NewLine + data.DEF_IV.ToString("00"),
+                Environment.NewLine + data.SPA_IV.ToString("00"),
+                Environment.NewLine + data.SPD_IV.ToString("00"),
+                Environment.NewLine + data.SPE_IV.ToString("00"),
+                Environment.NewLine + data.HP_EV.ToString("00"),
+                Environment.NewLine + data.ATK_EV.ToString("00"),
+                Environment.NewLine + data.DEF_EV.ToString("00"),
+                Environment.NewLine + data.SPA_EV.ToString("00"),
+                Environment.NewLine + data.SPD_EV.ToString("00"),
+                Environment.NewLine + data.SPE_EV.ToString("00"));
+
+            new QR(qr, dragout.Image, s1, s2, IVs, "ProjectPokemon.org & PKHeX").ShowDialog();
         }
         private void clickFriendship(object sender, EventArgs e)
         {
