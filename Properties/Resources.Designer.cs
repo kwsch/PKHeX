@@ -14680,7 +14680,7 @@ namespace PKHeX.Properties {
         ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
         ///!
         ///! -----------------------------------------------------
-        ///- DO NO [rest of string was truncated]&quot;;.
+        ///- DO NOT CHANGE THIS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string lang_de {
             get {
@@ -14702,7 +14702,7 @@ namespace PKHeX.Properties {
         ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
         ///!
         ///! -----------------------------------------------------
-        ///- DO NO [rest of string was truncated]&quot;;.
+        ///- DO NOT CHANGE THIS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string lang_en {
             get {
@@ -14724,7 +14724,7 @@ namespace PKHeX.Properties {
         ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
         ///!
         ///! -----------------------------------------------------
-        ///- DO NO [rest of string was truncated]&quot;;.
+        ///- DO NOT CHANGE THIS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string lang_es {
             get {
@@ -14746,7 +14746,7 @@ namespace PKHeX.Properties {
         ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
         ///!
         ///! -----------------------------------------------------
-        ///- DO NO [rest of string was truncated]&quot;;.
+        ///- DO NOT CHANGE THIS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string lang_fr {
             get {
@@ -14768,7 +14768,7 @@ namespace PKHeX.Properties {
         ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
         ///!
         ///! -----------------------------------------------------
-        ///- DO NO [rest of string was truncated]&quot;;.
+        ///- DO NOT CHANGE THIS [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string lang_ja {
             get {
@@ -15040,12 +15040,13 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you are having issues viewing gender symbols, Options -&gt; Toggle Unicode Text.
+        ///   Looks up a localized string similar to If you are having issues viewing certain symbols: Options -&gt; Toggle Unicode Text.
         ///
         ///
         ///// Main Window
         ///
-        ///Right Click on Nickname/Nickname box to bring up the ingame-special characters.
+        ///Hold Control when dragging out the Tab PKM to save as ekx.
+        ///Control Click on a Nickname/OT box to bring up the ingame-special characters.
         ///
         ///Control + Click on...
         ///Randomize IVs: Set all IVs to max.
@@ -15053,12 +15054,12 @@ namespace PKHeX.Properties {
         ///PP Ups Label: Set all PP Ups to 3.
         ///Friendship Label: Reset Friendship
         ///
-        ///Click on the Save File path (above Boxes): Auto-detect/Reload save.
+        ///Click on the OT label to set relevant details to that of the save file.
         ///
-        ///Control-Drag a Box Slot to Copy-Overwrite
-        ///Alt-Drag a Box Slot to Delete-Overwrite
         ///
-        ///C [rest of string was truncated]&quot;;.
+        ///// Save File
+        ///
+        ///Click  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
@@ -19062,9 +19063,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -19095,9 +19096,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -19128,9 +19129,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -19161,9 +19162,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -19194,9 +19195,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -19227,9 +19228,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -19260,9 +19261,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -19293,9 +19294,9 @@ namespace PKHeX.Properties {
         ///Tall Grass
         ///
         ///Dialga/Palkia
+        ///Cave/Hall of Origin
+        ///
         ///Surfing/Fishing
-        ///
-        ///
         ///
         ///Building
         ///Marsh/Safari
@@ -23235,18 +23236,18 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to 
-        ///サファイア
-        ///ルビー
-        ///エメラルド
-        ///ファイアレッド
-        ///リーフグリーン
+        ///蓝宝石
+        ///红宝石
+        ///绿宝石
+        ///火红
+        ///叶绿
         ///
-        ///ハートゴールド
-        ///ソウルシルバー
+        ///心金
+        ///魂银
         ///
-        ///ダイヤモンド
-        ///パール
-        ///プラチナ
+        ///钻石
+        ///珍珠
+        ///白金
         ///
         ///
         ///コロシアム/XD
@@ -23254,14 +23255,15 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///ホワイト
-        ///ブラック
-        ///ホワイト2
-        ///ブラック2
+        ///白
+        ///黑
+        ///白2
+        ///黑2
         ///X
         ///Y
         ///AS
-        ///OR.
+        ///OR
+        ///.
         /// </summary>
         internal static string text_Games_zh {
             get {
