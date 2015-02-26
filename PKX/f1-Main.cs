@@ -1089,8 +1089,8 @@ namespace PKHeX
             else                  // = 0
             {
                 TB_Friendship.Text = OTfriendship.ToString();
-                GB_nOT.BackgroundImage = null;
                 GB_OT.BackgroundImage = mixedHighlight;
+                GB_nOT.BackgroundImage = null;
             }
 
             CB_Language.SelectedValue = otlang;
@@ -1557,7 +1557,22 @@ namespace PKHeX
             if (!verifiedPKX()) return;
             byte[] pkx = preparepkx(buff);
             byte[] ekx = PKX.encryptArray(pkx);
+
             Array.Resize(ref ekx, 232);
+
+            if (ModifierKeys != Keys.Shift) // Not usually bypassable
+            {
+                string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
+                string qrdata = Convert.ToBase64String(ekx);
+                string message = server + qrdata;
+                string webURL = "http://chart.apis.google.com/chart?chs=500x500&cht=qr&chl=http%3A%2F%2Floadcode.projectpokemon.org%2Fb1s1.html%23" + qrdata;
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Copy QR URL to Clipboard?")) return;
+                try { Clipboard.SetText(webURL); }
+                catch { Util.Alert("Failed to set text to Clipboard"); }
+                return;
+            }
+
+            // Old Broken QR Code
             PKX data = new PKX(pkx, "Tabs");
             string filename = data.Nickname;
             if (filename != data.Species)
