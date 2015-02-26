@@ -972,9 +972,9 @@ namespace PKHeX
             // 0x2C, 0x2D, 0x2E, 0x2F
             // 0x33, 0x34, 0x35, 0x36
             // 0x34, 0x35, 0x36, 0x37
-            // 0x38, 0x39
+            // 0x38, 0x39, 0x3A
 
-            // 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F - unused/unknown
+            // 0x3B, 0x3C, 0x3D, 0x3E, 0x3F - Unused/Unknown
 
             // Block B
             string nicknamestr = Util.TrimFromZero(Encoding.Unicode.GetString(buff, 0x40, 24));
@@ -998,7 +998,7 @@ namespace PKHeX
 
             // 0x72 - Super Training Flag - Passed with buff to new form
 
-            // 0x73 - unused/unknown
+            // 0x73 - Unused/Unknown
             uint IV32 = BitConverter.ToUInt32(buff, 0x74);
             uint HP_IV = IV32 & 0x1F;
             uint ATK_IV = (IV32 >> 5) & 0x1F;
@@ -1073,8 +1073,8 @@ namespace PKHeX
             CB_Nature.SelectedValue = nature;
 
             TB_EXP.Text = exp.ToString();
-            TB_TID.Text = TID.ToString();
-            TB_SID.Text = SID.ToString();
+            TB_TID.Text = TID.ToString("00000");
+            TB_SID.Text = SID.ToString("00000");
 
             TB_OT.Text = ot;
             TB_Nickname.Text = nicknamestr;
@@ -1083,15 +1083,14 @@ namespace PKHeX
             if (buff[0x93] == 1)  // = 1
             {
                 TB_Friendship.Text = buff[0xA2].ToString();
-                GB_nOT.BackgroundImage = null;
-                GB_OT.BackgroundImage = mixedHighlight;
-
+                GB_nOT.BackgroundImage = mixedHighlight;
+                GB_OT.BackgroundImage = null;
             }
-            else                // = 0
+            else                  // = 0
             {
                 TB_Friendship.Text = OTfriendship.ToString();
-                GB_OT.BackgroundImage = mixedHighlight;
                 GB_nOT.BackgroundImage = null;
+                GB_OT.BackgroundImage = mixedHighlight;
             }
 
             CB_Language.SelectedValue = otlang;
