@@ -13,6 +13,8 @@ PP Ups Label: Set all PP Ups to 3.
 Friendship Label: Reset Friendship
 QR! to wrap text around QR code.
 
+Alt click QR! to load ekx data from a QR url loaded to your clipboard.
+
 Click on the OT label to set relevant details to that of the save file.
 
 

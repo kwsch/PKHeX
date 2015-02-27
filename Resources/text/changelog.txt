@@ -477,7 +477,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Symbol selection for OT/Latest Handler like for Nicknames; access changed to control clicking the TextBox. Thanks ProfShroomish!
  - Changed: FindIndex hunting to account for rare ramsav types. Thanks Crowhogan33 for reporting and SciresM for fixing!
 
-2/1/15 - New Update:
+2/1/15 - New Update: (100,000)
  - Fixed: Characteristics now match those ingame (EC%6 instead of PID%6). Thanks JubalTheLion!
  - Fixed: A few Exceptions with loading have been corrected (bad initialization).
  - Fixed: Splash screen image no longer tiles for some systems with a larger scale.
@@ -501,7 +501,8 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Jellicent/Meowstic sprites now update properly and have their forms. Thanks Favna & sora10pls!
  - Fixed: Xerneas sprite forms being inverted. Thanks trainboy2019!
  - Fixed: CTRL+X will no longer close the program. Thanks forsureitsme!
+ - Fixed: Encounter Types are now included for uncommon Pt/HGSS types. Thanks The_RickyAll!
  - Changed: Checksum validity checking disabled for ramsavs.
  - Changed: Window sizing for mono compatibility on Inventory and other editors. Thanks SoujiSeta!
- - Changed: Chinese Translation text. Thanks piva223!
- - Changed: Using an apostraphe for a name will be replaced with the ingame variant "’". Thanks supercarotte!
+ - Changed: Chinese Translation text improved. Thanks piva223!
+ - Changed: ' will be replaced with the ingame ’. Thanks supercarotte!

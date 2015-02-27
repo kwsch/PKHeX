@@ -1552,58 +1552,97 @@ namespace PKHeX
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)
         {
-            if (!verifiedPKX()) return;
-            byte[] pkx = preparepkx(buff);
-            byte[] ekx = PKX.encryptArray(pkx);
-
-            Array.Resize(ref ekx, 232);
-
-            string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
-            string qrdata = Convert.ToBase64String(ekx);
-            string message = server + qrdata;
-            string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode("http://loadcode.projectpokemon.org/b1s1.html#" + qrdata);
-                
-            Image qr = null;
-            try
+            if (ModifierKeys == Keys.Alt)
             {
-                System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(webURL);
-                System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                Stream stream = httpWebReponse.GetResponseStream();
-                qr = Image.FromStream(stream);
-            }
-            catch
-            {
-                if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
+                // Fetch data from QR code...
+                string address;
+                try { address = Clipboard.GetText(); }
+                catch { Util.Alert("No text in clipboard"); return; }
+                try { if (address.Substring(0, 3) != "htt") return; }
+                catch { Util.Alert("Clipboard text is not a valid URL", address); return; }
+                string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
+                try
                 {
-                    try { Clipboard.SetText(webURL); }
-                    catch { Util.Alert("Failed to set text to Clipboard"); }
-                    return;
-                }
-            }
-            PKX data = new PKX(pkx, "Tabs");
-            string filename = data.Nickname;
-            if (filename != data.Species)
-                filename += " (" + data.Species + ")";
-            string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level.ToString(), data.Ability);
-            string s2 = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
-            string IVs = String.Format(
-                "IVs:{0}{1}{2}{3}{4}{5}"
-                + Environment.NewLine + Environment.NewLine +
-                "EVs:{6}{7}{8}{9}{10}{11}",
-                Environment.NewLine + data.HP_IV.ToString("00"),
-                Environment.NewLine + data.ATK_IV.ToString("00"),
-                Environment.NewLine + data.DEF_IV.ToString("00"),
-                Environment.NewLine + data.SPA_IV.ToString("00"),
-                Environment.NewLine + data.SPD_IV.ToString("00"),
-                Environment.NewLine + data.SPE_IV.ToString("00"),
-                Environment.NewLine + data.HP_EV.ToString("00"),
-                Environment.NewLine + data.ATK_EV.ToString("00"),
-                Environment.NewLine + data.DEF_EV.ToString("00"),
-                Environment.NewLine + data.SPA_EV.ToString("00"),
-                Environment.NewLine + data.SPD_EV.ToString("00"),
-                Environment.NewLine + data.SPE_EV.ToString("00"));
+                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(webURL);
+                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                    var reader = new StreamReader(httpWebReponse.GetResponseStream());
+                    string data = reader.ReadToEnd();
+                    string pkstr = data.Substring(data.IndexOf("#") + 1).Replace("\",\"error\":null}]}]", "");
+                    pkstr = pkstr.Replace("\\", "");
 
-            new QR(qr, dragout.Image, s1, s2, IVs, "PKHeX @ ProjectPokemon.org").ShowDialog();
+                    byte[] ekx;
+                    try { ekx = Convert.FromBase64String(pkstr); }
+                    catch { Util.Alert("QR string to Data failed.", pkstr); return; }
+
+                    if (ekx.Length != 232) { Util.Alert("Decoded data not 232 bytes.", String.Format("QR Data Size: {0}", ekx.Length));  }
+                    else try {
+                        byte[] pkx = PKX.decryptArray(ekx);
+                        if (PKX.verifychk(pkx))
+                            populateFields(pkx);
+                        else Util.Alert("Invalid checksum in QR data.");
+                    } catch { Util.Alert("Error loading decrypted data"); }
+                }
+                catch // (Exception e)
+                {
+                    Util.Alert("Unable to connect to the internet to decode QR code.");
+                }
+                return;
+            }
+            else
+            {
+                if (!verifiedPKX()) return;
+                byte[] pkx = preparepkx(buff);
+                byte[] ekx = PKX.encryptArray(pkx);
+
+                Array.Resize(ref ekx, 232);
+
+                string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
+                string qrdata = Convert.ToBase64String(ekx);
+                string message = server + qrdata;
+                string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode("http://loadcode.projectpokemon.org/b1s1.html#" + qrdata);
+
+                Image qr = null;
+                try
+                {
+                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(webURL);
+                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                    Stream stream = httpWebReponse.GetResponseStream();
+                    qr = Image.FromStream(stream);
+                }
+                catch
+                {
+                    if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
+                    {
+                        try { Clipboard.SetText(webURL); }
+                        catch { Util.Alert("Failed to set text to Clipboard"); }
+                        return;
+                    }
+                }
+                PKX data = new PKX(pkx, "Tabs");
+                string filename = data.Nickname;
+                if (filename != data.Species)
+                    filename += " (" + data.Species + ")";
+                string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level.ToString(), data.Ability);
+                string s2 = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
+                string IVs = String.Format(
+                    "IVs:{0}{1}{2}{3}{4}{5}"
+                    + Environment.NewLine + Environment.NewLine +
+                    "EVs:{6}{7}{8}{9}{10}{11}",
+                    Environment.NewLine + data.HP_IV.ToString("00"),
+                    Environment.NewLine + data.ATK_IV.ToString("00"),
+                    Environment.NewLine + data.DEF_IV.ToString("00"),
+                    Environment.NewLine + data.SPA_IV.ToString("00"),
+                    Environment.NewLine + data.SPD_IV.ToString("00"),
+                    Environment.NewLine + data.SPE_IV.ToString("00"),
+                    Environment.NewLine + data.HP_EV.ToString("00"),
+                    Environment.NewLine + data.ATK_EV.ToString("00"),
+                    Environment.NewLine + data.DEF_EV.ToString("00"),
+                    Environment.NewLine + data.SPA_EV.ToString("00"),
+                    Environment.NewLine + data.SPD_EV.ToString("00"),
+                    Environment.NewLine + data.SPE_EV.ToString("00"));
+
+                new QR(qr, dragout.Image, s1, s2, IVs, "PKHeX @ ProjectPokemon.org").ShowDialog();
+            }
         }
         private void clickFriendship(object sender, EventArgs e)
         {
@@ -4007,7 +4046,7 @@ namespace PKHeX
             // Set Colored StatLabels only if Nature isn't Neutral
             if (incr != decr)
                 NatureTip.SetToolTip(CB_Nature, String.Format("+{0} / -{1}", labarray[incr].Text, labarray[decr].Text).Replace(":",""));
-            else NatureTip.SetToolTip(CB_Nature, "+/-");
+            else NatureTip.SetToolTip(CB_Nature, "-/-");
         }
         private void switchDaycare(object sender, EventArgs e)
         {
