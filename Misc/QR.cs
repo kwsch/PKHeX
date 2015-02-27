@@ -14,23 +14,24 @@ namespace PKHeX
         public QR(Image qr, Image pkm, string top, string bottom, string left, string right)
         {
             InitializeComponent();
-            Font font = FontLabel.Font; // PKX.getPKXFont(8);
+            Font font = FontLabel.Font;
             Image preview = new Bitmap(45, 45);
             using (Graphics gfx = Graphics.FromImage(preview))
             {
                 gfx.FillRectangle(new SolidBrush(Color.White), 0, 0, preview.Width, preview.Height);
                 gfx.DrawImage(pkm, preview.Width / 2 - pkm.Width / 2, preview.Height / 2 - pkm.Height / 2);
             }
+            // Layer on PokéSprite
             Image pic = Util.LayerImage(qr, preview, qr.Width / 2 - preview.Width / 2, qr.Height / 2 - preview.Height / 2, 1); // Middle
-            // Image pic = Util.LayerImage(qr, preview, 2, 2, 1); // Top Left
-            // g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            
+            // Layer on Text
             if (ModifierKeys == Keys.Control)
             {
                 Graphics g = Graphics.FromImage(pic);
-                g.DrawString(top, font, Brushes.Black, new PointF(20, 5));
-                g.DrawString(bottom, font, Brushes.Black, new PointF(20, pic.Width - 15));
-                g.DrawString(left, font, Brushes.Black, new PointF(0, 20));
-                g.DrawString(right, font, Brushes.Black, new PointF(pic.Width - 15, 20), new System.Drawing.StringFormat(StringFormatFlags.DirectionVertical));
+                g.DrawString(top, font, Brushes.Black, new PointF(18, 5));
+                g.DrawString(bottom, font, Brushes.Black, new PointF(18, pic.Width - 15));
+                g.DrawString(left.Replace("s",""), font, Brushes.Black, new PointF(0, 18)); // trim off *V-s-:
+                g.DrawString(right, font, Brushes.Black, new PointF(pic.Width - 15, 18), new System.Drawing.StringFormat(StringFormatFlags.DirectionVertical));
 
                 PB_QR.BackgroundImage = pic;
             }
@@ -43,10 +44,10 @@ namespace PKHeX
                 g.FillRectangle(new SolidBrush(Color.White), 0, 0, newpic.Width, newpic.Height);
                 g.DrawImage(pic, 0, 0);
 
-                g.DrawString(top, font, Brushes.Black, new PointF(20, qr.Height - 5));
-                g.DrawString(bottom, font, Brushes.Black, new PointF(20, qr.Height + 8));
-                g.DrawString(left.Replace(Environment.NewLine.ToString(), "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(20, qr.Height + 20));
-                g.DrawString(right, font, Brushes.Black, new PointF(20, qr.Height + 32));
+                g.DrawString(top, font, Brushes.Black, new PointF(18, qr.Height - 5));
+                g.DrawString(bottom, font, Brushes.Black, new PointF(18, qr.Height + 8));
+                g.DrawString(left.Replace(Environment.NewLine.ToString(), "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(18, qr.Height + 20));
+                g.DrawString(right, font, Brushes.Black, new PointF(18, qr.Height + 32));
 
                 PB_QR.BackgroundImage = newpic;
             }
