@@ -1226,7 +1226,7 @@ namespace PKHeX
             // 
             PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
             var form_list = new[] { new { Text = "", Value = 0 }, };
-            if (MonData.AltFormCount == 0 && species != 664 && species != 665)
+            if (MonData.AltFormCount == 0 && Array.IndexOf(new int[] { 592, 593, 664, 665, 678 }, species) < 0)
             {
                 cb.DisplayMember = "Text";
                 cb.ValueMember = "Value";
@@ -1237,7 +1237,7 @@ namespace PKHeX
 
             cb.DisplayMember = "Text";
             cb.ValueMember = "Value";
-            cb.DataSource = form_list;
+            cb.Enabled = true;
 
             // Mega List
             int[] mspec = {     // XY
@@ -1245,26 +1245,26 @@ namespace PKHeX
                                 // ORAS
                                 015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
                           };
-            if (Array.IndexOf(mspec, species) > -1)
-            {
-                cb.DataSource = new[] {
+            if (Array.IndexOf(mspec, species) > -1) {
+                form_list = new[] {
                     new { Text = types[0], Value = 0}, // Normal
                     new { Text = forms[723], Value = 1}, // Mega
-                };
-                cb.Enabled = true; // Mega Form Selection
-                return;
-            }
+                };}
             // MegaXY List
-            if ((species == 6) || (species == 150)) {
-                cb.DataSource = new[] {
+            else if ((species == 6) || (species == 150)) {
+                form_list = new[] {
                     new { Text = types[000], Value = 0}, // Normal
                     new { Text = forms[724], Value = 1}, // Mega X
                     new { Text = forms[725], Value = 2}, // Mega Y
-                };
-                cb.Enabled = true; // Mega Form Selection
-                return; }
+                };}
+            // Gender List
+            else if ((species == 592) || (species == 593) || (species == 678)) {
+                form_list = new[] {
+                    new { Text = gendersymbols[0], Value = 0 }, // Male
+                    new { Text = gendersymbols[1], Value = 1 }, // Female
+                };}
             // Regular Form List
-            if (species == 025) {
+            else if (species == 025) {
                 form_list = new[] {
                     new { Text = types[000], Value = 0}, // Normal
                     new { Text = forms[729], Value = 1}, // Rockstar
@@ -1312,6 +1312,11 @@ namespace PKHeX
                     new { Text = forms[790], Value = 2 }, // Rainy
                     new { Text = forms[791], Value = 3 }, // Snowy
                 };}
+            else if (species == 382 || species == 383) {
+                form_list = new[] {
+                    new { Text = types[0], Value = 0}, // Normal
+                    new { Text = forms[800], Value = 1}, // Primal
+                };}
             else if (species == 386) { 
                 form_list = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
@@ -1319,10 +1324,21 @@ namespace PKHeX
                     new { Text = forms[803], Value = 2 }, // Defense
                     new { Text = forms[804], Value = 3 }, // Speed
                 };}
+            else if ((species == 412) || (species == 413)) { 
+                form_list = new[] {
+                    new { Text = forms[412], Value = 0 }, // Plant
+                    new { Text = forms[805], Value = 1 }, // Sandy
+                    new { Text = forms[806], Value = 2 }, // Trash
+                };}
             else if (species == 421) { 
                 form_list = new[] {
                     new { Text = forms[421], Value = 0 }, // Overcast
                     new { Text = forms[809], Value = 1 }, // Sunshine
+                };}
+            else if ((species == 422) || (species == 423)) {
+                form_list = new[] {
+                    new { Text = forms[422], Value = 0 }, // West
+                    new { Text = forms[811], Value = 1 }, // East
                 };}
             else if (species == 479) { 
                 form_list = new[] {
@@ -1363,8 +1379,7 @@ namespace PKHeX
                     new { Text = types[15], Value = 15 },
                     new { Text = types[16], Value = 16 },
                     new { Text = types[17], Value = 17 },
-                }; 
-            }
+                };}
             else if (species == 550) 
             { form_list = new[] {
                     new { Text = forms[550], Value = 0 }, // Red
@@ -1374,6 +1389,18 @@ namespace PKHeX
                 form_list = new[] {
                     new { Text = forms[555], Value = 0 }, // Standard
                     new { Text = forms[843], Value = 1 }, // Zen
+                };}
+            else if ((species == 585) || (species == 586)) { 
+                form_list = new[] {
+                    new { Text = forms[585], Value = 0 }, // Spring
+                    new { Text = forms[844], Value = 1 }, // Summer
+                    new { Text = forms[845], Value = 2 }, // Autumn
+                    new { Text = forms[846], Value = 3 }, // Winter
+                };}
+            else if ((species == 641) || (species == 642) || (species == 645)) {
+                form_list = new[] {
+                    new { Text = forms[641], Value = 0 }, // Incarnate
+                    new { Text = forms[852], Value = 1 }, // Therian
                 };}
             else if (species == 646) { 
                 form_list = new[] {
@@ -1399,67 +1426,7 @@ namespace PKHeX
                     new { Text = types[9], Value = 3 }, // Burn
                     new { Text = types[14], Value = 4 }, // Chill
                 };}
-            else if (species == 676) { 
-                form_list = new[] {
-                    new { Text = forms[676], Value = 0 }, // Natural
-                    new { Text = forms[893], Value = 1 }, // Heart
-                    new { Text = forms[894], Value = 2 }, // Star
-                    new { Text = forms[895], Value = 3 }, // Diamond
-                    new { Text = forms[896], Value = 4 }, // Deputante
-                    new { Text = forms[897], Value = 5 }, // Matron
-                    new { Text = forms[898], Value = 6 }, // Dandy
-                    new { Text = forms[899], Value = 7 }, // La Reine
-                    new { Text = forms[900], Value = 8 }, // Kabuki 
-                    new { Text = forms[901], Value = 9 }, // Pharaoh
-                };}
-            else if (species == 681) { 
-                form_list = new[] {
-                    new { Text = forms[681], Value = 0 }, // Shield
-                    new { Text = forms[903], Value = 1 }, // Blade
-                };}
-            else if (species == 670) { 
-                form_list = new[] {
-                    new { Text = forms[669], Value = 0 }, // Red
-                    new { Text = forms[884], Value = 1 }, // Yellow
-                    new { Text = forms[885], Value = 2 }, // Orange
-                    new { Text = forms[886], Value = 3 }, // Blue
-                    new { Text = forms[887], Value = 4 }, // White
-                    new { Text = forms[888], Value = 5 }, // Eternal
-                };}
-            else if ((species == 669) || (species == 671)) { 
-                form_list = new[] {
-                    new { Text = forms[669], Value = 0 }, // Red
-                    new { Text = forms[884], Value = 1 }, // Yellow
-                    new { Text = forms[885], Value = 2 }, // Orange
-                    new { Text = forms[886], Value = 3 }, // Blue
-                    new { Text = forms[887], Value = 4 }, // White
-                };}
-            else if ((species == 412) || (species == 413)) { 
-                form_list = new[] {
-                    new { Text = forms[412], Value = 0 }, // Plant
-                    new { Text = forms[805], Value = 1 }, // Sandy
-                    new { Text = forms[806], Value = 2 }, // Trash
-                };}
-            else if ((species == 422) || (species == 423)) { 
-                form_list = new[] {
-                    new { Text = forms[422], Value = 0 }, // West
-                    new { Text = forms[811], Value = 1 }, // East
-                };}
-            else if ((species == 585) || (species == 586)) { 
-                form_list = new[] {
-                    new { Text = forms[585], Value = 0 }, // Spring
-                    new { Text = forms[844], Value = 1 }, // Summer
-                    new { Text = forms[845], Value = 2 }, // Autumn
-                    new { Text = forms[846], Value = 3 }, // Winter
-                };}
-            else if ((species == 710) || (species == 711)) { 
-                form_list = new[] {
-                    new { Text = forms[904], Value = 0 }, // Small
-                    new { Text = forms[710], Value = 1 }, // Average
-                    new { Text = forms[905], Value = 2 }, // Large
-                    new { Text = forms[906], Value = 3 }, // Super
-                };}
-            else if ((species == 666) || (species == 665) || (species == 664)) {
+            else if ((species == 664) || (species == 665) || (species == 666)) {
                 form_list = new[] {
                     new { Text = forms[666], Value = 0 }, // Icy Snow
                     new { Text = forms[861], Value = 1 }, // Polar
@@ -1481,32 +1448,56 @@ namespace PKHeX
                     new { Text = forms[877], Value = 17 }, // Jungle
                     new { Text = forms[878], Value = 18 }, // Fancy
                     new { Text = forms[879], Value = 19 }, // Poké Ball
-                };}
-            else if ((species == 592) || (species == 593) || (species == 678)) { 
+                };}            
+            else if ((species == 669) || (species == 671)) { 
                 form_list = new[] {
-                    new { Text = gendersymbols[0], Value = 0 }, // Male
-                    new { Text = gendersymbols[1], Value = 1 }, // Female
+                    new { Text = forms[669], Value = 0 }, // Red
+                    new { Text = forms[884], Value = 1 }, // Yellow
+                    new { Text = forms[885], Value = 2 }, // Orange
+                    new { Text = forms[886], Value = 3 }, // Blue
+                    new { Text = forms[887], Value = 4 }, // White
                 };}
-            else if ((species == 641) || (species == 642) || (species == 645)) { 
+            else if (species == 670) { 
                 form_list = new[] {
-                    new { Text = forms[641], Value = 0 }, // Incarnate
-                    new { Text = forms[852], Value = 1 }, // Therian
+                    new { Text = forms[669], Value = 0 }, // Red
+                    new { Text = forms[884], Value = 1 }, // Yellow
+                    new { Text = forms[885], Value = 2 }, // Orange
+                    new { Text = forms[886], Value = 3 }, // Blue
+                    new { Text = forms[887], Value = 4 }, // White
+                    new { Text = forms[888], Value = 5 }, // Eternal
                 };}
-
-            // ORAS
-            else if (species == 382 || species == 383) {
+            else if (species == 676) { 
                 form_list = new[] {
-                    new { Text = types[0], Value = 0},
-                    new { Text = forms[800], Value = 1},
+                    new { Text = forms[676], Value = 0 }, // Natural
+                    new { Text = forms[893], Value = 1 }, // Heart
+                    new { Text = forms[894], Value = 2 }, // Star
+                    new { Text = forms[895], Value = 3 }, // Diamond
+                    new { Text = forms[896], Value = 4 }, // Deputante
+                    new { Text = forms[897], Value = 5 }, // Matron
+                    new { Text = forms[898], Value = 6 }, // Dandy
+                    new { Text = forms[899], Value = 7 }, // La Reine
+                    new { Text = forms[900], Value = 8 }, // Kabuki 
+                    new { Text = forms[901], Value = 9 }, // Pharaoh
+                };}
+            else if (species == 681) { 
+                form_list = new[] {
+                    new { Text = forms[681], Value = 0 }, // Shield
+                    new { Text = forms[903], Value = 1 }, // Blade
+                };}
+            else if ((species == 710) || (species == 711)) { 
+                form_list = new[] {
+                    new { Text = forms[904], Value = 0 }, // Small
+                    new { Text = forms[710], Value = 1 }, // Average
+                    new { Text = forms[905], Value = 2 }, // Large
+                    new { Text = forms[906], Value = 3 }, // Super
                 };}
             else if (species == 720) {
                 form_list = new[] {
-                    new { Text = types[0], Value = 0},
-                    new { Text = forms[912], Value = 1},
+                    new { Text = types[0], Value = 0}, // Normal
+                    new { Text = forms[912], Value = 1}, // Unbound
                 };}
 
             cb.DataSource = form_list;
-            cb.Enabled = true;
         }
         public void setAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
         {
