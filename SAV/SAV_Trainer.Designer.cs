@@ -298,6 +298,7 @@ namespace PKHeX
             this.MT_TID.Size = new System.Drawing.Size(39, 20);
             this.MT_TID.TabIndex = 8;
             this.MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_TID.TextChanged += new System.EventHandler(this.changeFFFF);
             this.MT_TID.MouseHover += new System.EventHandler(this.showTSV);
             // 
             // MT_SID
@@ -309,6 +310,7 @@ namespace PKHeX
             this.MT_SID.Size = new System.Drawing.Size(39, 20);
             this.MT_SID.TabIndex = 9;
             this.MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_SID.TextChanged += new System.EventHandler(this.changeFFFF);
             this.MT_SID.MouseHover += new System.EventHandler(this.showTSV);
             // 
             // cb1
@@ -939,6 +941,7 @@ namespace PKHeX
             this.TB_MBMS.Name = "TB_MBMS";
             this.TB_MBMS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBMS.TabIndex = 65;
+            this.TB_MBMS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBMN
             // 
@@ -948,6 +951,7 @@ namespace PKHeX
             this.TB_MBMN.Name = "TB_MBMN";
             this.TB_MBMN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBMN.TabIndex = 64;
+            this.TB_MBMN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBRS
             // 
@@ -957,6 +961,7 @@ namespace PKHeX
             this.TB_MBRS.Name = "TB_MBRS";
             this.TB_MBRS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBRS.TabIndex = 63;
+            this.TB_MBRS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBRN
             // 
@@ -966,6 +971,7 @@ namespace PKHeX
             this.TB_MBRN.Name = "TB_MBRN";
             this.TB_MBRN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBRN.TabIndex = 62;
+            this.TB_MBRN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBTS
             // 
@@ -975,6 +981,7 @@ namespace PKHeX
             this.TB_MBTS.Name = "TB_MBTS";
             this.TB_MBTS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBTS.TabIndex = 61;
+            this.TB_MBTS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBTN
             // 
@@ -984,6 +991,7 @@ namespace PKHeX
             this.TB_MBTN.Name = "TB_MBTN";
             this.TB_MBTN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBTN.TabIndex = 60;
+            this.TB_MBTN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBDS
             // 
@@ -993,6 +1001,7 @@ namespace PKHeX
             this.TB_MBDS.Name = "TB_MBDS";
             this.TB_MBDS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBDS.TabIndex = 59;
+            this.TB_MBDS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBDN
             // 
@@ -1002,6 +1011,7 @@ namespace PKHeX
             this.TB_MBDN.Name = "TB_MBDN";
             this.TB_MBDN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBDN.TabIndex = 58;
+            this.TB_MBDN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBSS
             // 
@@ -1011,6 +1021,7 @@ namespace PKHeX
             this.TB_MBSS.Name = "TB_MBSS";
             this.TB_MBSS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBSS.TabIndex = 57;
+            this.TB_MBSS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MBSN
             // 
@@ -1020,6 +1031,7 @@ namespace PKHeX
             this.TB_MBSN.Name = "TB_MBSN";
             this.TB_MBSN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBSN.TabIndex = 56;
+            this.TB_MBSN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // GB_SuperB
             // 
@@ -1119,6 +1131,7 @@ namespace PKHeX
             this.TB_MCMS.Name = "TB_MCMS";
             this.TB_MCMS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCMS.TabIndex = 55;
+            this.TB_MCMS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCMN
             // 
@@ -1128,6 +1141,7 @@ namespace PKHeX
             this.TB_MCMN.Name = "TB_MCMN";
             this.TB_MCMN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCMN.TabIndex = 54;
+            this.TB_MCMN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCRS
             // 
@@ -1137,6 +1151,7 @@ namespace PKHeX
             this.TB_MCRS.Name = "TB_MCRS";
             this.TB_MCRS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCRS.TabIndex = 53;
+            this.TB_MCRS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCRN
             // 
@@ -1146,6 +1161,7 @@ namespace PKHeX
             this.TB_MCRN.Name = "TB_MCRN";
             this.TB_MCRN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCRN.TabIndex = 52;
+            this.TB_MCRN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCTS
             // 
@@ -1155,6 +1171,7 @@ namespace PKHeX
             this.TB_MCTS.Name = "TB_MCTS";
             this.TB_MCTS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCTS.TabIndex = 51;
+            this.TB_MCTS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCTN
             // 
@@ -1164,6 +1181,7 @@ namespace PKHeX
             this.TB_MCTN.Name = "TB_MCTN";
             this.TB_MCTN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCTN.TabIndex = 50;
+            this.TB_MCTN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCDS
             // 
@@ -1173,6 +1191,7 @@ namespace PKHeX
             this.TB_MCDS.Name = "TB_MCDS";
             this.TB_MCDS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCDS.TabIndex = 49;
+            this.TB_MCDS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCDN
             // 
@@ -1182,6 +1201,7 @@ namespace PKHeX
             this.TB_MCDN.Name = "TB_MCDN";
             this.TB_MCDN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCDN.TabIndex = 48;
+            this.TB_MCDN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCSS
             // 
@@ -1191,6 +1211,7 @@ namespace PKHeX
             this.TB_MCSS.Name = "TB_MCSS";
             this.TB_MCSS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCSS.TabIndex = 47;
+            this.TB_MCSS.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // TB_MCSN
             // 
@@ -1200,6 +1221,7 @@ namespace PKHeX
             this.TB_MCSN.Name = "TB_MCSN";
             this.TB_MCSN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCSN.TabIndex = 46;
+            this.TB_MCSN.TextChanged += new System.EventHandler(this.changeFFFF);
             // 
             // L_SuperC
             // 

@@ -403,8 +403,8 @@ namespace PKHeX
             TB_OTName.Text = OT_NAME;
             //TB_Rival.Text = RIV_NAME;
 
-            MT_TID.Text = TID.ToString();
-            MT_SID.Text = SID.ToString();
+            MT_TID.Text = TID.ToString("00000");
+            MT_SID.Text = SID.ToString("00000");
             MT_Money.Text = money.ToString();
 
             TB_Saying1.Text = saying1;
@@ -660,6 +660,12 @@ namespace PKHeX
             MaskedTextBox box = sender as MaskedTextBox;
             if (box.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
+        }
+        private void changeFFFF(object sender, EventArgs e)
+        {
+            MaskedTextBox box = sender as MaskedTextBox;
+            if (box.Text == "") box.Text = "0";
+            if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
         private int psssatoffset = 0x23800;
         private void changeStat(object sender, EventArgs e)
