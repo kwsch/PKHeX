@@ -3554,15 +3554,15 @@ namespace PKHeX
             byte[] pkxdata = new byte[0x104];
             byte[] ekxdata = PKX.encryptArray(pkxdata);
 
+            savedited = true;
+
             if (slot >= 30 && slot < 36) // Party
-            { Array.Copy(ekxdata, 0, savefile, offset, 0x104); setParty(); }
+            { Array.Copy(ekxdata, 0, savefile, offset, 0x104); setParty(); return; }
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
             { Array.Copy(ekxdata, 0, savefile, offset, 0xE8); }
             else return;
 
             getQuickFiller(getPictureBox(slot), pkxdata);
-            savedited = true;
-
             getSlotColor(slot, Properties.Resources.slotDel);
         }
         private void clickClone(object sender, EventArgs e)
@@ -3634,10 +3634,7 @@ namespace PKHeX
                 byte[] decdata = PKX.decryptArray(data);
                 int species = BitConverter.ToInt16(decdata, 8);
                 if ((species != 0) && (species < 722))
-                {
-                    Array.Copy(data, 0, savefile, offset + (partymembers) * 0x104, 0x104);
-                    partymembers++; // Copy in our party member
-                }
+                    Array.Copy(data, 0, savefile, offset + (partymembers++) * 0x104, 0x104);
             }
 
             // Write in the current party count
@@ -3658,10 +3655,7 @@ namespace PKHeX
                 byte[] decdata = PKX.decryptArray(data);
                 int species = BitConverter.ToInt16(decdata, 8);
                 if ((species != 0) && (species < 722))
-                {
-                    Array.Copy(data, 0, savefile, offset2 + (battlemem) * 0xE8, 0xE8);
-                    battlemem++; // Copy in our party member
-                }
+                    Array.Copy(data, 0, savefile, offset2 + (battlemem++) * 0xE8, 0xE8);
             }
 
             // Zero out the party slots that are empty.
@@ -3671,6 +3665,13 @@ namespace PKHeX
 
             if (battlemem == 0)
                 savefile[offset2 + 6 * 0xE8 + savindex * 0x7F000] = 0;
+
+            // Refresh slots
+            for (int i = 0; i < 6; i++)
+            {
+                getQuickFiller(getPictureBox(i + 30), PKX.decryptArray(savefile.Skip(SaveGame.Party + 0x7F000 * savindex + 260 * i).Take(232).ToArray()));
+                getQuickFiller(getPictureBox(i + 36), PKX.decryptArray(savefile.Skip(SaveGame.BattleBox + 0x7F000 * savindex + 232 * i).Take(232).ToArray()));
+            }
 
             return partymembers;
         }
