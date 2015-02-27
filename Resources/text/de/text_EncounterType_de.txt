@@ -1,5 +1,5 @@
 None
-
+Rock Smash (HGSS)
 Tall Grass
 
 Dialga/Palkia
@@ -10,6 +10,7 @@ Surfing/Fishing
 Building
 Marsh/Safari
 
+Starter/Fossil/Gift (DP)
 
 
 
@@ -20,6 +21,5 @@ Marsh/Safari
 
 
 
-
-
-Starter/Fossil/Gift
+Distortion World (Pt)
+Starter/Fossil/Gift (Pt)
