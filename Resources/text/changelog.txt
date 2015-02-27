@@ -458,7 +458,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Update (c): Implemented box/pc import/export completely (future).
 
 1/27/15 - New Update: (13500)
- - Fixed: Scatterbug / Spewpa form selection.
+ - Fixed: Scatterbug / Spewpa form selection. Thanks LunarCookies!
  - Changed: Saving "pokemon.ekx" will always export extracted and won't tack on extra extensions if you don't have the correct filter.
 
 1/28/15 - New Update: (9900)
@@ -491,10 +491,17 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Boot Status to help debug some users being stuck on the splash screen.
  - Added: Event Constant editing to Event Flag window.
 
-2/1X/15 - New Update:
- - Fixed: Shedinja HP stat prediction should now properly show something not '1'.
+3/1/15 - New Update:
+ - Added: QR Code Generation; click "QR!" and a QR window will appear with a scannable image. Requires an active internet connection.
+ - Added: Decrypted Battle Video scraping for ek6 data; battle stats are not kept.
+ - Added: Nature stat +/- on hover of Nature ComboBox (arrow). Thanks swarley!
+ - Added: Box Data Report now shows level and the proper Language/3DS region text will display. Thanks Kaisonic!
  - Fixed: Wondercard flags greater than 2047 will not be erroneously added to the received list.
- - Changed: Window sizing for mono compatibility on Inventory and other editors. hanks SoujiSeta!
- - Changed: Box Data Report now shows level and the proper Language/3DS region text will display. Thanks Kaisonic!
- - Changed: Chinese Translation text. Thanks piva223!
+ - Fixed: Shedinja HP stat prediction should now properly show something not '1'.
+ - Fixed: Jellicent/Meowstic sprites now update properly and have their forms. Thanks Favna & sora10pls!
+ - Fixed: Xerneas sprite forms being inverted. Thanks trainboy2019!
+ - Fixed: CTRL+X will no longer close the program. Thanks forsureitsme!
  - Changed: Checksum validity checking disabled for ramsavs.
+ - Changed: Window sizing for mono compatibility on Inventory and other editors. Thanks SoujiSeta!
+ - Changed: Chinese Translation text. Thanks piva223!
+ - Changed: Using an apostraphe for a name will be replaced with the ingame variant "’". Thanks supercarotte!
