@@ -245,6 +245,7 @@ namespace PKHeX
         public static string origintrack;
         public static string curlanguage;
         public volatile bool init = false;
+        public static bool unicode = false;
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip();
         public ToolTip Tip3 = new ToolTip();
@@ -384,11 +385,13 @@ namespace PKHeX
             {
                 gendersymbols = new string[] { "M", "F", "-" };
                 BTN_Shinytize.Text = "*";
+                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = Label_TID.Font;
             }
             else
             {
                 gendersymbols = new string[] { "♂", "♀", "-" };
                 BTN_Shinytize.Text = "☆";
+                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = PKX.getPKXFont(11);
             }
             // Switch active gender labels to new if they are active.
             if (PKX.getGender(Label_Gender.Text) < 2)
@@ -398,7 +401,6 @@ namespace PKHeX
             if (PKX.getGender(Label_CTGender.Text) < 2)
                 Label_CTGender.Text = gendersymbols[PKX.getGender(Label_CTGender.Text)];
         }
-        bool unicode = false;
 
         // Main Menu Subfunctions
         private void openQuick(string path)

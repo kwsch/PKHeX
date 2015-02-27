@@ -14,7 +14,7 @@ namespace PKHeX
         public QR(Image qr, Image pkm, string top, string bottom, string left, string right)
         {
             InitializeComponent();
-            Font font = FontLabel.Font;
+            Font font = (Form1.unicode) ? FontLabel.Font : PKX.getPKXFont((float)8.25);
             Image preview = new Bitmap(45, 45);
             using (Graphics gfx = Graphics.FromImage(preview))
             {

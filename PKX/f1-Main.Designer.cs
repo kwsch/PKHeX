@@ -2673,7 +2673,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(183, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2688,15 +2688,15 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(183, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "A&bout PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
             // Menu_Unicode
             // 
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(183, 22);
-            this.Menu_Unicode.Text = "Toggle Unicode Text";
+            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Text = "Toggle Font";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
             // testToolStripMenuItem
@@ -3772,7 +3772,6 @@
             this.RTB_T.ReadOnly = true;
             this.RTB_T.Size = new System.Drawing.Size(300, 130);
             this.RTB_T.TabIndex = 1;
-            this.RTB_T.Text = "";
             this.RTB_T.WordWrap = false;
             // 
             // Tab_SAV
@@ -3861,7 +3860,6 @@
             this.RTB_S.ReadOnly = true;
             this.RTB_S.Size = new System.Drawing.Size(300, 130);
             this.RTB_S.TabIndex = 0;
-            this.RTB_S.Text = "";
             this.RTB_S.WordWrap = false;
             // 
             // B_OpenHallofFame

@@ -1,4 +1,4 @@
-﻿If you are having issues viewing certain symbols: Options -> Toggle Unicode Text.
+﻿If you are having issues viewing certain symbols/text: Options -> Toggle Font.
 
 
 // Main Window
@@ -11,6 +11,7 @@ Randomize IVs: Set all IVs to max.
 Randomize EVs: Set all EVs to 0.
 PP Ups Label: Set all PP Ups to 3.
 Friendship Label: Reset Friendship
+QR! to wrap text around QR code.
 
 Click on the OT label to set relevant details to that of the save file.
 
