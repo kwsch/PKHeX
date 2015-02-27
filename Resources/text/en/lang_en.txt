@@ -17,7 +17,7 @@
 ----------------Overall PKX Interface------------------
 Menu_File = File ; Open... ; Save as... ; Exit
 Menu_Tools = Tools ; Toggle Box Interface ; Load/Dump Boxes ; Box Data Report ; Code Generator
-Menu_Options = Options ; Language ; About PKHeX ; Toggle Unicode
+Menu_Options = Options ; Language ; About PKHeX ; Toggle Font
 --------------------Main Tab Data----------------------
 Tab_Main = Main
 Label_PID = PID:
