@@ -171,15 +171,17 @@ namespace PKHeX
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
             Status = "Initialized!";
 
-            // Close splash screen.  
             init = true;
-            SplashSCR.Join();
+            CB_Species.SelectedIndex = 1;
+            try { CB_Language.SelectedIndex = (lang >= 0) ? main_langnum[lang] : 1; }
+            catch { }
+
+            // Splash Screen closes on its own.
             this.BringToFront();
             this.WindowState = FormWindowState.Minimized;
             this.Show();
             this.WindowState = FormWindowState.Normal;
-            if (HaX)
-                Util.Alert("Illegal mode activated.", "Please behave.");
+            if (HaX) Util.Alert("Illegal mode activated.", "Please behave.");
             #endregion
         }
 
@@ -1558,7 +1560,7 @@ namespace PKHeX
                 string address;
                 try { address = Clipboard.GetText(); }
                 catch { Util.Alert("No text in clipboard"); return; }
-                try { if (address.Substring(0, 3) != "htt") return; }
+                try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Util.Alert("Clipboard text is not a valid URL", address); return; } }
                 catch { Util.Alert("Clipboard text is not a valid URL", address); return; }
                 string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
                 try
@@ -1567,6 +1569,7 @@ namespace PKHeX
                     System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
                     var reader = new StreamReader(httpWebReponse.GetResponseStream());
                     string data = reader.ReadToEnd();
+                    if (data.Contains("could not find")) { Util.Alert("Reader could not find QR data in the image."); return; }
                     // Quickly convert the json response to a data string
                     string pkstr = data.Substring(data.IndexOf("#") + 1); // Trim intro
                     pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]")); // Trim outro
