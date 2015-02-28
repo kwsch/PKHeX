@@ -1601,7 +1601,7 @@ namespace PKHeX
                 string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
                 string qrdata = Convert.ToBase64String(ekx);
                 string message = server + qrdata;
-                string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode("http://loadcode.projectpokemon.org/b1s1.html#" + qrdata);
+                string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
 
                 Image qr = null;
                 try
@@ -1676,6 +1676,8 @@ namespace PKHeX
 
                 if (PKX.getGender(CB_Form.Text) < 2) // Gendered Forms
                     CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
+
+                getQuickFiller(dragout);
             }
         }
         private void clickPPUps(object sender, EventArgs e)
@@ -2324,6 +2326,7 @@ namespace PKHeX
             if (Util.ToUInt32(TB_SID.Text) > 65535) TB_SID.Text = "65535";
 
             setIsShiny();
+            getQuickFiller(dragout);
             updateIVs(null, null);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
         }
