@@ -1567,8 +1567,11 @@ namespace PKHeX
                     System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
                     var reader = new StreamReader(httpWebReponse.GetResponseStream());
                     string data = reader.ReadToEnd();
-                    string pkstr = data.Substring(data.IndexOf("#") + 1).Replace("\",\"error\":null}]}]", "");
-                    pkstr = pkstr.Replace("\\", "");
+                    // Quickly convert the json response to a data string
+                    string pkstr = data.Substring(data.IndexOf("#") + 1); // Trim intro
+                    pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]")); // Trim outro
+                    if (pkstr.Contains("nQR-Code:")) pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:")); //  Remove multiple QR codes in same image
+                    pkstr = pkstr.Replace("\\", ""); // Rectify response
 
                     byte[] ekx;
                     try { ekx = Convert.FromBase64String(pkstr); }
@@ -1582,11 +1585,7 @@ namespace PKHeX
                         else Util.Alert("Invalid checksum in QR data.");
                     } catch { Util.Alert("Error loading decrypted data"); }
                 }
-                catch // (Exception e)
-                {
-                    Util.Alert("Unable to connect to the internet to decode QR code.");
-                }
-                return;
+                catch { Util.Alert("Unable to connect to the internet to decode QR code."); }
             }
             else
             {
