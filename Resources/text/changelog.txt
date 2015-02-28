@@ -477,7 +477,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Symbol selection for OT/Latest Handler like for Nicknames; access changed to control clicking the TextBox. Thanks ProfShroomish!
  - Changed: FindIndex hunting to account for rare ramsav types. Thanks Crowhogan33 for reporting and SciresM for fixing!
 
-2/1/15 - New Update: (100,000)
+2/1/15 - New Update: (102,555)
  - Fixed: Characteristics now match those ingame (EC%6 instead of PID%6). Thanks JubalTheLion!
  - Fixed: A few Exceptions with loading have been corrected (bad initialization).
  - Fixed: Splash screen image no longer tiles for some systems with a larger scale.
@@ -493,9 +493,13 @@ http://projectpokemon.org/forums/showthread.php?36986
 
 3/1/15 - New Update:
  - Added: QR Code Generation; click "QR!" and a QR window will appear with a scannable image. Requires an active internet connection.
+ - Added: QR Code to Tabs; hold ALT when clicking "QR!" after copying the URL of the QR to your clipboard (CTRL-C). Requires internet.
  - Added: Decrypted Battle Video scraping for ek6 data; battle stats are not kept.
+ - Added: ramsavs can now be loaded in the Event Flag Editor's FlagDiff researcher.
  - Added: Nature stat +/- on hover of Nature ComboBox (arrow). Thanks swarley!
  - Added: Box Data Report now shows level and the proper Language/3DS region text will display. Thanks Kaisonic!
+ - Added: More Trainer Stat descriptions. Thanks codem8kr & Luciela!
+ - Fixed: Memory text prediction should no longer list the wrong text. Thanks Ceveth & evandixon!
  - Fixed: Wondercard flags greater than 2047 will not be erroneously added to the received list.
  - Fixed: Shedinja HP stat prediction should now properly show something not '1'.
  - Fixed: Jellicent/Meowstic sprites now update properly and have their forms. Thanks Favna & sora10pls!
@@ -503,6 +507,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: CTRL+X will no longer close the program. Thanks forsureitsme!
  - Fixed: Encounter Types are now included for uncommon Pt/HGSS types. Thanks The_RickyAll!
  - Changed: Checksum validity checking disabled for ramsavs.
+ - Changed: ID numbers with a prepended Zero will not be auto trimmed.
  - Changed: Window sizing for mono compatibility on Inventory and other editors. Thanks SoujiSeta!
  - Changed: Chinese Translation text improved. Thanks piva223!
  - Changed: ' will be replaced with the ingame ’. Thanks supercarotte!
