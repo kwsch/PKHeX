@@ -81,6 +81,8 @@ namespace PKHeX
             #region Localize & Populate
             InitializeStrings(); Status = "Strings set up";
             InitializeFields(); Status = "Fields set up";
+            try { CB_Language.SelectedIndex = (lang >= 0) ? main_langnum[lang] : 1; }
+            catch { }
             #endregion
             #region Add ContextMenus to the PictureBoxes (PKX slots)
 
@@ -172,9 +174,6 @@ namespace PKHeX
             Status = "Initialized!";
 
             init = true;
-            CB_Species.SelectedIndex = 1;
-            try { CB_Language.SelectedIndex = (lang >= 0) ? main_langnum[lang] : 1; }
-            catch { }
 
             // Splash Screen closes on its own.
             this.BringToFront();
@@ -872,6 +871,7 @@ namespace PKHeX
                 TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
+                CB_Species.SelectedIndex = 1;
                 CB_GameOrigin.SelectedIndex = 0;
                 CB_Language.SelectedIndex = 0;
                 C_BoxSelect.SelectedIndex = 0;
