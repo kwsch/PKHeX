@@ -1583,8 +1583,7 @@ namespace PKHeX
                     if (ekx.Length != 232) { Util.Alert("Decoded data not 232 bytes.", String.Format("QR Data Size: {0}", ekx.Length));  }
                     else try {
                         byte[] pkx = PKX.decryptArray(ekx);
-                        if (PKX.verifychk(pkx))
-                            populateFields(pkx);
+                        if (PKX.verifychk(pkx)) { Array.Copy(pkx, buff, 0xE8); populateFields(buff); }
                         else Util.Alert("Invalid checksum in QR data.");
                     } catch { Util.Alert("Error loading decrypted data"); }
                 }
