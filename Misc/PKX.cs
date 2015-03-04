@@ -1220,6 +1220,15 @@ namespace PKHeX
             }
         }
 
+        /// <summary>
+        /// Calculate the Hidden Power Type of the entered IVs.
+        /// </summary>
+        /// <param name="ivs">HP/ATK/DEF/SPEED/SPA/SPD</param>
+        /// <returns></returns>
+        internal static int getHPType(int[] ivs)
+        {
+            return (15 * ((ivs[0] & 1) + 2 * (ivs[1] & 1) + 4 * (ivs[2] & 1) + 8 * (ivs[5] & 1) + 16 * (ivs[3] & 1) + 32 * (ivs[4] & 1))) / 63;
+        }
         internal static int[] setHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)
@@ -1248,7 +1257,7 @@ namespace PKHeX
             new int[] { 1, 0, 0, 1, 1, 1 }, // Ice
             new int[] { 1, 0, 1, 1, 1, 1 }, // Dragon
             new int[] { 1, 1, 1, 1, 1, 1 }, // Dark
-            };
+        };
         public class Simulator
         {
             public struct Set

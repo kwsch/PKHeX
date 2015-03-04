@@ -1757,6 +1757,22 @@ namespace PKHeX
             else // set gender label (toggle M/F)
                 lbl.Text = (PKX.getGender(lbl.Text) == 0) ? gendersymbols[1] : gendersymbols[0];
         }
+        private void clickHPType(object sender, EventArgs e)
+        {
+            int[] ivs = new int[] { 
+                Util.ToInt32(TB_HPIV.Text), Util.ToInt32(TB_ATKIV.Text), Util.ToInt32(TB_DEFIV.Text), 
+                Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text), Util.ToInt32(TB_SPEIV.Text) };
+            
+            // Increment the Current Hidden Power Type by +/- 1 and modulate the IVs to match.
+            int[] newIVs = PKX.setHPIVs((PKX.getHPType(ivs) + ((ModifierKeys == Keys.Control) ? 15 : 1)) % 0x10, ivs);
+            TB_HPIV.Text = newIVs[0].ToString();
+            TB_ATKIV.Text = newIVs[1].ToString();
+            TB_DEFIV.Text = newIVs[2].ToString();
+
+            TB_SPAIV.Text = newIVs[3].ToString();
+            TB_SPDIV.Text = newIVs[4].ToString();
+            TB_SPEIV.Text = newIVs[5].ToString();
+        }
         // Prompted Updates of PKX Functions // 
         private bool changingEXPLevel = false;
         private void updateEXPLevel(object sender, EventArgs e)
@@ -1795,20 +1811,14 @@ namespace PKHeX
                 if (Util.ToInt32((sender as MaskedTextBox).Text) > 31)
                     (sender as MaskedTextBox).Text = "31";
 
-            int ivtotal, HP_IV, ATK_IV, DEF_IV, SPA_IV, SPD_IV, SPE_IV;
-            HP_IV = Util.ToInt32(TB_HPIV.Text);
-            ATK_IV = Util.ToInt32(TB_ATKIV.Text);
-            DEF_IV = Util.ToInt32(TB_DEFIV.Text);
-            SPA_IV = Util.ToInt32(TB_SPAIV.Text);
-            SPD_IV = Util.ToInt32(TB_SPDIV.Text);
-            SPE_IV = Util.ToInt32(TB_SPEIV.Text);
+            int[] ivs = new int[] { 
+                Util.ToInt32(TB_HPIV.Text), Util.ToInt32(TB_ATKIV.Text), Util.ToInt32(TB_DEFIV.Text), 
+                Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text), Util.ToInt32(TB_SPEIV.Text) }; 
+            
+            int HPTYPE = PKX.getHPType(ivs);
+            Label_HPTYPE.Text = types[HPTYPE + 1]; // type array has normal at index 0, so we offset by 1.
 
-            int[] iva = new int[] { HP_IV, ATK_IV, DEF_IV, SPE_IV, SPA_IV, SPD_IV };
-
-            int HPTYPE = (15 * ((HP_IV & 1) + 2 * (ATK_IV & 1) + 4 * (DEF_IV & 1) + 8 * (SPE_IV & 1) + 16 * (SPA_IV & 1) + 32 * (SPD_IV & 1))) / 63;
-            Label_HPTYPE.Text = types[HPTYPE + 1]; // type array has normal at index 0, so we offset by 1
-
-            ivtotal = HP_IV + ATK_IV + DEF_IV + SPA_IV + SPD_IV + SPE_IV;
+            int ivtotal = ivs.Sum();
             TB_IVTotal.Text = ivtotal.ToString();
 
             // Potential Reading
@@ -1837,13 +1847,13 @@ namespace PKHeX
 
             // Characteristic with EC%6
             int pm6 = (int)(Util.getHEXval(TB_EC) % 6); // EC MOD 6
-            int maxIV = iva.Max();
+            int maxIV = ivs.Max();
             int pm6stat = 0;
 
             for (int i = 0; i < 6; i++)
             {
                 pm6stat = (pm6 + i) % 6;
-                if (iva[pm6stat] == maxIV)
+                if (ivs[pm6stat] == maxIV)
                     break; // P%6 is this stat
             }
 
