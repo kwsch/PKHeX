@@ -1221,7 +1221,7 @@ namespace PKHeX
 
             CB.DataSource = Util.getCBList(type, cl);
 
-            if (index > 0 && index <= CB.Items.Count && init)
+            if (index > 0 && index < CB.Items.Count && init)
                 CB.SelectedIndex = index;
         }
         public void setForms(int species, ComboBox cb)
