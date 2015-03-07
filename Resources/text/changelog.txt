@@ -514,3 +514,8 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: Changing ID/SID & Gender will refresh the preview.
  - Hotfix: Opening the program via a loaded pkx/ekx will properly load the Species/Language. Thanks rskoopa!
  - Hotfix: Importing QR! will copy all ribbons / nonMain data. Thanks hiten!
+
+X/X/15 - New Update:
+ - Added: Clicking Hidden Power will cycle (Hold Alt to Reverse).
+ - Fixed: Changing Countries with certain SubRegions selected will no longer error. Thanks FullLifeGames!
+ - Fixed: Add ORAS Items to Memory Item Usage List. Thanks liopds!
