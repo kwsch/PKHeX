@@ -1224,52 +1224,47 @@ namespace PKHeX
             if (index > 0 && index < CB.Items.Count && init)
                 CB.SelectedIndex = index;
         }
-        public void setForms(int species, ComboBox cb)
+        public void setForms(int species, ComboBox cb, Label l = null)
         {
             // Form Tables
-            // 
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            var form_list = new[] { new { Text = "", Value = 0 }, };
-            if (MonData.AltFormCount == 0 && Array.IndexOf(new int[] { 592, 593, 664, 665, 678 }, species) < 0)
-            {
-                cb.DisplayMember = "Text";
-                cb.ValueMember = "Value";
-                cb.DataSource = form_list;
-                cb.Enabled = false;
-                return;
-            }
-
             cb.DisplayMember = "Text";
             cb.ValueMember = "Value";
-            cb.Enabled = true;
-
-            // Mega List
-            int[] mspec = {     // XY
-                                003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
-                                // ORAS
-                                015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
-                          };
-            if (Array.IndexOf(mspec, species) > -1) { // ...
-                form_list = new[] {
+            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            bool hasForms = !(MonData.AltFormCount == 0 && species != 664 && species != 665);
+            cb.Enabled = cb.Visible = hasForms;
+            if (l != null) l.Visible = hasForms;
+            
+            // If no forms & not Scatterbug / Spewpa...
+            if (!hasForms) {
+                cb.DataSource = new[] { new { Text = "", Value = 0 }, 
+                };}
+            // Mega List            
+            else if (Array.IndexOf(new int[] 
+                { // XY
+                  003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
+                  // ORAS
+                  015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
+                }, species) > -1) { // ...
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0}, // Normal
                     new { Text = forms[723], Value = 1}, // Mega
                 };}
             // MegaXY List
             else if ((species == 6) || (species == 150)) { // ...
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[000], Value = 0}, // Normal
                     new { Text = forms[724], Value = 1}, // Mega X
                     new { Text = forms[725], Value = 2}, // Mega Y
                 };}
             // Gender List
-            else if ((species == 592) || (species == 593) || (species == 678)) { // Frillish, Jellicent, Meowstic
-                form_list = new[] {
+            else if (species == 678) { // Meowstic
+                cb.DataSource = new[] {
                     new { Text = gendersymbols[0], Value = 0 }, // Male
                     new { Text = gendersymbols[1], Value = 1 }, // Female
                 };}
             // Regular Form List
             else if (species == 025) { // Pikachu
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[000], Value = 0}, // Normal
                     new { Text = forms[729], Value = 1}, // Rockstar
                     new { Text = forms[730], Value = 2}, // Belle
@@ -1279,7 +1274,7 @@ namespace PKHeX
                     new { Text = forms[734], Value = 6}, // Cosplay
                 };}
             else if (species == 201) { // Unown
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = "A", Value = 0 },
                     new { Text = "B", Value = 1 },
                     new { Text = "C", Value = 2 },
@@ -1310,42 +1305,42 @@ namespace PKHeX
                     new { Text = "?", Value = 27 },
                 };}
             else if (species == 351) { // Castform
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
                     new { Text = forms[789], Value = 1 }, // Sunny
                     new { Text = forms[790], Value = 2 }, // Rainy
                     new { Text = forms[791], Value = 3 }, // Snowy
                 };}
             else if (species == 382 || species == 383) { // Kyogre/Groudon
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0}, // Normal
                     new { Text = forms[800], Value = 1}, // Primal
                 };}
             else if (species == 386) { // Deoxys
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
                     new { Text = forms[802], Value = 1 }, // Attack
                     new { Text = forms[803], Value = 2 }, // Defense
                     new { Text = forms[804], Value = 3 }, // Speed
                 };}
             else if ((species == 412) || (species == 413)) { // Wormadam
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[412], Value = 0 }, // Plant
                     new { Text = forms[805], Value = 1 }, // Sandy
                     new { Text = forms[806], Value = 2 }, // Trash
                 };}
             else if (species == 421) { // Cherrim
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[421], Value = 0 }, // Overcast
                     new { Text = forms[809], Value = 1 }, // Sunshine
                 };}
             else if ((species == 422) || (species == 423)) { // Shellos/Gastrodon
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[422], Value = 0 }, // West
                     new { Text = forms[811], Value = 1 }, // East
                 };}
             else if (species == 479) { // Rotom
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
                     new { Text = forms[817], Value = 1 }, // Heat
                     new { Text = forms[818], Value = 2 }, // Wash
@@ -1354,17 +1349,17 @@ namespace PKHeX
                     new { Text = forms[821], Value = 5 }, // Mow
                 };}
             else if (species == 487) { // Giratina
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[487], Value = 0 }, // Altered
                     new { Text = forms[822], Value = 1 }, // Origin
                 };}
             else if (species == 492) { // Shaymin
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[492], Value = 0 }, // Land
                     new { Text = forms[823], Value = 1 }, // Sky
                 };}
             else if (species == 493) { // Arceus
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
                     new { Text = types[1], Value = 1 }, // Fighting
                     new { Text = types[2], Value = 2 }, // Flying
@@ -1385,45 +1380,45 @@ namespace PKHeX
                     new { Text = types[17], Value = 17 },
                 };}
             else if (species == 550) { // Basculin
-                form_list = new[] { 
+                cb.DataSource = new[] { 
                     new { Text = forms[550], Value = 0 }, // Red
                     new { Text = forms[842], Value = 1 }, // Blue
                 };}
             else if (species == 555) { // Darmanitan
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[555], Value = 0 }, // Standard
                     new { Text = forms[843], Value = 1 }, // Zen
                 };}
             else if ((species == 585) || (species == 586)) { // Deerling/Sawsbuck
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[585], Value = 0 }, // Spring
                     new { Text = forms[844], Value = 1 }, // Summer
                     new { Text = forms[845], Value = 2 }, // Autumn
                     new { Text = forms[846], Value = 3 }, // Winter
                 };}
             else if ((species == 641) || (species == 642) || (species == 645)) { // Genies
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[641], Value = 0 }, // Incarnate
                     new { Text = forms[852], Value = 1 }, // Therian
                 };}
             else if (species == 646) { // Kyurem
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
                     new { Text = forms[853], Value = 1 }, // White
                     new { Text = forms[854], Value = 2 }, // Black
                 };}
             else if (species == 647) { // Keldeo
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[647], Value = 0 }, // Ordinary
                     new { Text = forms[855], Value = 1 }, // Resolute
                 };}
             else if (species == 648) { // Meloetta
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[648], Value = 0 }, // Aria
                     new { Text = forms[856], Value = 1 }, // Pirouette
                 };}
             else if (species == 649) { // Genesect
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0 }, // Normal
                     new { Text = types[10], Value = 1 }, // Douse
                     new { Text = types[12], Value = 2 }, // Shock
@@ -1431,7 +1426,7 @@ namespace PKHeX
                     new { Text = types[14], Value = 4 }, // Chill
                 };}
             else if ((species == 664) || (species == 665) || (species == 666)) { // Vivillon + prevos
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[666], Value = 0 }, // Icy Snow
                     new { Text = forms[861], Value = 1 }, // Polar
                     new { Text = forms[862], Value = 2 }, // Tundra
@@ -1454,7 +1449,7 @@ namespace PKHeX
                     new { Text = forms[879], Value = 19 }, // Poké Ball
                 };}            
             else if ((species == 669) || (species == 671)) { // Flabébé
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[669], Value = 0 }, // Red
                     new { Text = forms[884], Value = 1 }, // Yellow
                     new { Text = forms[885], Value = 2 }, // Orange
@@ -1462,7 +1457,7 @@ namespace PKHeX
                     new { Text = forms[887], Value = 4 }, // White
                 };}
             else if (species == 670) { // Floette
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[669], Value = 0 }, // Red
                     new { Text = forms[884], Value = 1 }, // Yellow
                     new { Text = forms[885], Value = 2 }, // Orange
@@ -1471,7 +1466,7 @@ namespace PKHeX
                     new { Text = forms[888], Value = 5 }, // Eternal
                 };}
             else if (species == 676) { // Furfrou
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[676], Value = 0 }, // Natural
                     new { Text = forms[893], Value = 1 }, // Heart
                     new { Text = forms[894], Value = 2 }, // Star
@@ -1484,29 +1479,27 @@ namespace PKHeX
                     new { Text = forms[901], Value = 9 }, // Pharaoh
                 };}
             else if (species == 681) { // Aegislash
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[681], Value = 0 }, // Shield
                     new { Text = forms[903], Value = 1 }, // Blade
                 };}
             else if ((species == 710) || (species == 711)) { // Pumpkaboo/Goregeist
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = forms[904], Value = 0 }, // Small
                     new { Text = forms[710], Value = 1 }, // Average
                     new { Text = forms[905], Value = 2 }, // Large
                     new { Text = forms[906], Value = 3 }, // Super
                 };}
             else if (species == 716) { // Xerneas
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0}, // Normal
                     new { Text = forms[910], Value = 1}, // Active
                 };}
             else if (species == 720) { // Hoopa
-                form_list = new[] {
+                cb.DataSource = new[] {
                     new { Text = types[0], Value = 0}, // Normal
                     new { Text = forms[912], Value = 1}, // Unbound
                 };}
-
-            cb.DataSource = form_list;
         }
         public void setAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
         {
@@ -2070,7 +2063,7 @@ namespace PKHeX
             if (MT_Level.Visible) level = Util.ToInt32(MT_Level.Text);
 
             // Get Forms for Given Species
-            setForms(species, CB_Form);
+            setForms(species, CB_Form, Label_Form);
 
             // Recalculate EXP for Given Level
             uint exp = PKX.getEXP(level, species);
@@ -3890,8 +3883,10 @@ namespace PKHeX
                 file = "_" + species.ToString();
                 if (altforms > 0) // Alt Form Handling
                     file = file + "_" + altforms.ToString();
-                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
-                    file = file = "_" + species.ToString() + "f";
+                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
+                    file = file + "_" + gender.ToString();
+                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
+                    file = "_" + species.ToString() + "f";
             }
 
             // Redrawing logic
@@ -3965,8 +3960,10 @@ namespace PKHeX
                 file = "_" + species.ToString();
                 if (altforms > 0) // Alt Form Handling
                     file = file + "_" + altforms.ToString();
-                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
-                    file = file = "_" + species.ToString() + "f";
+                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
+                    file = file + "_" + gender.ToString();
+                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
+                    file = "_" + species.ToString() + "f";
             }
 
             // Redrawing logic
