@@ -97,6 +97,7 @@
             this.CAL_MetDate = new System.Windows.Forms.DateTimePicker();
             this.CB_EncounterType = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
+            this.CB_HPType = new System.Windows.Forms.ComboBox();
             this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
             this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
             this.L_Potential = new System.Windows.Forms.Label();
@@ -129,7 +130,6 @@
             this.Label_ContestStats = new System.Windows.Forms.Label();
             this.BTN_RandomEVs = new System.Windows.Forms.Button();
             this.BTN_RandomIVs = new System.Windows.Forms.Button();
-            this.Label_HPTYPE = new System.Windows.Forms.Label();
             this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
@@ -1227,6 +1227,7 @@
             // Tab_Stats
             // 
             this.Tab_Stats.AllowDrop = true;
+            this.Tab_Stats.Controls.Add(this.CB_HPType);
             this.Tab_Stats.Controls.Add(this.CHK_HackedStats);
             this.Tab_Stats.Controls.Add(this.Label_CharacteristicPrefix);
             this.Tab_Stats.Controls.Add(this.L_Potential);
@@ -1259,7 +1260,6 @@
             this.Tab_Stats.Controls.Add(this.Label_ContestStats);
             this.Tab_Stats.Controls.Add(this.BTN_RandomEVs);
             this.Tab_Stats.Controls.Add(this.BTN_RandomIVs);
-            this.Tab_Stats.Controls.Add(this.Label_HPTYPE);
             this.Tab_Stats.Controls.Add(this.Label_HiddenPowerPrefix);
             this.Tab_Stats.Controls.Add(this.Label_Stats);
             this.Tab_Stats.Controls.Add(this.Label_EVs);
@@ -1285,6 +1285,18 @@
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
+            // 
+            // CB_HPType
+            // 
+            this.CB_HPType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_HPType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_HPType.DropDownWidth = 80;
+            this.CB_HPType.FormattingEnabled = true;
+            this.CB_HPType.Location = new System.Drawing.Point(162, 176);
+            this.CB_HPType.Name = "CB_HPType";
+            this.CB_HPType.Size = new System.Drawing.Size(70, 21);
+            this.CB_HPType.TabIndex = 44;
+            this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.updateHPType);
             // 
             // CHK_HackedStats
             // 
@@ -1618,16 +1630,6 @@
             this.BTN_RandomIVs.Text = "Randomize IVs";
             this.BTN_RandomIVs.UseVisualStyleBackColor = true;
             this.BTN_RandomIVs.Click += new System.EventHandler(this.updateRandomIVs);
-            // 
-            // Label_HPTYPE
-            // 
-            this.Label_HPTYPE.AutoSize = true;
-            this.Label_HPTYPE.Location = new System.Drawing.Point(160, 179);
-            this.Label_HPTYPE.Name = "Label_HPTYPE";
-            this.Label_HPTYPE.Size = new System.Drawing.Size(33, 13);
-            this.Label_HPTYPE.TabIndex = 30;
-            this.Label_HPTYPE.Text = "(type)";
-            this.Label_HPTYPE.Click += new System.EventHandler(this.clickHPType);
             // 
             // Label_HiddenPowerPrefix
             // 
@@ -4048,8 +4050,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 362);
-            this.Controls.Add(this.L_QR);
             this.Controls.Add(this.dragout);
+            this.Controls.Add(this.L_QR);
             this.Controls.Add(this.L_SAVINDEX);
             this.Controls.Add(this.GB_SAVtools);
             this.Controls.Add(this.tabBoxMulti);
@@ -4245,7 +4247,6 @@
         private System.Windows.Forms.Label Label_ContestStats;
         private System.Windows.Forms.Button BTN_RandomEVs;
         private System.Windows.Forms.Button BTN_RandomIVs;
-        private System.Windows.Forms.Label Label_HPTYPE;
         private System.Windows.Forms.Label Label_HiddenPowerPrefix;
         private System.Windows.Forms.Label Label_Stats;
         private System.Windows.Forms.Label Label_EVs;
@@ -4476,6 +4477,7 @@
         public System.Windows.Forms.CheckBox CHK_IsEgg;
         private System.Windows.Forms.Button B_SaveBoxBin;
         private System.Windows.Forms.Label L_QR;
+        private System.Windows.Forms.ComboBox CB_HPType;
     }
 }
 

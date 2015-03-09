@@ -895,7 +895,8 @@ namespace PKHeX
                 DEV_Ability.DisplayMember =
                 CB_Nature.DisplayMember =
                 CB_EncounterType.DisplayMember =
-                CB_GameOrigin.DisplayMember = "Text";
+                CB_GameOrigin.DisplayMember =
+                CB_HPType.DisplayMember = "Text";
 
             // Set the Value
             CB_Country.ValueMember = 
@@ -908,7 +909,8 @@ namespace PKHeX
                 DEV_Ability.ValueMember =
                 CB_Nature.ValueMember =
                 CB_EncounterType.ValueMember =
-                CB_GameOrigin.ValueMember = "Value";
+                CB_GameOrigin.ValueMember = 
+                CB_HPType.ValueMember = "Value";
 
             // Set the various ComboBox DataSources up with their allowed entries
             setCountrySubRegion(CB_Country, "countries");
@@ -923,6 +925,9 @@ namespace PKHeX
             CB_Nature.DataSource = Util.getCBList(natures, null);
             CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new int[] { 0 }, Legal.Gen4EncounterTypes);
             CB_GameOrigin.DataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
+
+            string[] hptypes = new string[types.Length - 2]; Array.Copy(types, 1, hptypes, 0, hptypes.Length);
+            CB_HPType.DataSource = Util.getCBList(hptypes, null);
 
             // Set the Move ComboBoxes too..
             {
@@ -1750,31 +1755,15 @@ namespace PKHeX
             else // set gender label (toggle M/F)
                 lbl.Text = (PKX.getGender(lbl.Text) == 0) ? gendersymbols[1] : gendersymbols[0];
         }
-        private void clickHPType(object sender, EventArgs e)
-        {
-            int[] ivs = new int[] { 
-                Util.ToInt32(TB_HPIV.Text), Util.ToInt32(TB_ATKIV.Text), Util.ToInt32(TB_DEFIV.Text), 
-                Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text), Util.ToInt32(TB_SPEIV.Text) };
-            
-            // Increment the Current Hidden Power Type by +/- 1 and modulate the IVs to match.
-            int[] newIVs = PKX.setHPIVs((PKX.getHPType(ivs) + ((ModifierKeys == Keys.Control) ? 15 : 1)) % 0x10, ivs);
-            TB_HPIV.Text = newIVs[0].ToString();
-            TB_ATKIV.Text = newIVs[1].ToString();
-            TB_DEFIV.Text = newIVs[2].ToString();
-
-            TB_SPAIV.Text = newIVs[3].ToString();
-            TB_SPDIV.Text = newIVs[4].ToString();
-            TB_SPEIV.Text = newIVs[5].ToString();
-        }
         // Prompted Updates of PKX Functions // 
-        private bool changingEXPLevel = false;
+        private bool changingFields = false;
         private void updateEXPLevel(object sender, EventArgs e)
         {
-            if (changingEXPLevel) return;
+            if (changingFields) return;
 
             if (sender as MaskedTextBox == TB_EXP)
             {
-                changingEXPLevel = true;
+                changingFields = true;
                 // Change the Level
                 uint exp = Util.ToUInt32(TB_EXP);
                 int level = (Util.ToInt32(TB_EXP.Text) == 0) ? 1 : PKX.getLevel(Util.getIndex(CB_Species), ref exp);
@@ -1787,7 +1776,7 @@ namespace PKHeX
             }
             else
             {
-                changingEXPLevel = true;
+                changingFields = true;
                 // Change the XP
                 int level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
                 if (level > 100) TB_Level.Text = "100";
@@ -1795,21 +1784,45 @@ namespace PKHeX
 
                 TB_EXP.Text = PKX.getEXP(level, Util.getIndex(CB_Species)).ToString();
             }
-            changingEXPLevel = false;
+            changingFields = false;
             updateStats();
+        }
+        private void updateHPType(object sender, EventArgs e)
+        {
+            if (changingFields) return;
+            changingFields = true;
+            int[] ivs = new int[] { 
+                Util.ToInt32(TB_HPIV.Text), Util.ToInt32(TB_ATKIV.Text), Util.ToInt32(TB_DEFIV.Text), 
+                Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text), Util.ToInt32(TB_SPEIV.Text) };
+
+            // Change IVs to match the new Hidden Power
+            int[] newIVs = PKX.setHPIVs(Util.getIndex(CB_HPType), ivs);
+            TB_HPIV.Text = newIVs[0].ToString();
+            TB_ATKIV.Text = newIVs[1].ToString();
+            TB_DEFIV.Text = newIVs[2].ToString();
+
+            TB_SPAIV.Text = newIVs[3].ToString();
+            TB_SPDIV.Text = newIVs[4].ToString();
+            TB_SPEIV.Text = newIVs[5].ToString();
+
+            // Refresh View
+            changingFields = false;
+            updateIVs(null, null);
         }
         private void updateIVs(object sender, EventArgs e)
         {
+            if (changingFields) return;
             if (sender != null)
                 if (Util.ToInt32((sender as MaskedTextBox).Text) > 31)
                     (sender as MaskedTextBox).Text = "31";
 
             int[] ivs = new int[] { 
                 Util.ToInt32(TB_HPIV.Text), Util.ToInt32(TB_ATKIV.Text), Util.ToInt32(TB_DEFIV.Text), 
-                Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text), Util.ToInt32(TB_SPEIV.Text) }; 
-            
-            int HPTYPE = PKX.getHPType(ivs);
-            Label_HPTYPE.Text = types[HPTYPE + 1]; // type array has normal at index 0, so we offset by 1.
+                Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text), Util.ToInt32(TB_SPEIV.Text) };
+
+            changingFields = true;
+            CB_HPType.SelectedValue = PKX.getHPType(ivs);
+            changingFields = false;
 
             int ivtotal = ivs.Sum();
             TB_IVTotal.Text = ivtotal.ToString();
