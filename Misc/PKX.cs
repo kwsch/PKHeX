@@ -19,16 +19,16 @@ namespace PKHeX
         // Data
         internal static uint LCRNG(uint seed)
         {
-            uint a = 0x41C64E6D;
-            uint c = 0x00006073;
+            const uint a = 0x41C64E6D;
+            const uint c = 0x00006073;
 
             seed = (seed * a + c) & 0xFFFFFFFF;
             return seed;
         }
         internal static uint LCRNG(ref uint seed)
         {
-            uint a = 0x41C64E6D;
-            uint c = 0x00006073;
+            const uint a = 0x41C64E6D;
+            const uint c = 0x00006073;
 
             seed = (seed * a + c) & 0xFFFFFFFF;
             return seed;
@@ -188,14 +188,14 @@ namespace PKHeX
 	            10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 
 	            10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20, 
 	            10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 
-	            05, 
+	            05 
             };
             if (move < 0) { move = 0; }
-            return (byte)movepptable[move];
+            return movepptable[move];
         }
         internal static byte[] getRandomEVs()
         {
-            byte[] evs = new byte[6] { 0xDE, 0xAD, 0xBE, 0xEF, 0xBA, 0xBE, }; // ha ha, just to start off above 510!
+            byte[] evs = { 0xDE, 0xAD, 0xBE, 0xEF, 0xBA, 0xBE }; // ha ha, just to start off above 510!
 
             while (evs.Sum(b => (ushort)b) > 510) // recalculate random EVs...
             {
@@ -219,7 +219,7 @@ namespace PKHeX
 
             PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
             int growth = MonData.EXPGrowth;
-            DataTable table = PKX.ExpTable();
+            DataTable table = ExpTable();
 
             // Iterate upwards to find the level above our current level
             int tl = 0; // Initial Level, immediately incremented before loop.
@@ -250,7 +250,7 @@ namespace PKHeX
             PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
             int growth = MonData.EXPGrowth;
 
-            uint exp = (uint)PKX.ExpTable().Rows[level][growth + 1];
+            uint exp = (uint)ExpTable().Rows[level][growth + 1];
             return exp;
         }
         internal static byte[] getAbilities(int species, int formnum)
@@ -261,14 +261,14 @@ namespace PKHeX
         {
             if (s == "♂" || s == "M")
                 return 0;
-            else if (s == "♀" || s == "F")
+            if (s == "♀" || s == "F")
                 return 1;
-            else return 2;
+            return 2;
         }
         internal static string[] getCountryRegionText(int country, int region, string lang)
         {
             // Get Language we're fetching for
-            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko", }, lang);
+            int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko"}, lang);
             // Return value storage
             string[] data = new string[2]; // country, region
 
@@ -404,13 +404,13 @@ namespace PKHeX
             // Now to shuffle the blocks
 
             // Define Shuffle Order Structure
-            byte[] aloc = new byte[] { 0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3 };
-            byte[] bloc = new byte[] { 1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2 };
-            byte[] cloc = new byte[] { 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1 };
-            byte[] dloc = new byte[] { 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0 };
+            byte[] aloc = { 0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3 };
+            byte[] bloc = { 1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2 };
+            byte[] cloc = { 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1 };
+            byte[] dloc = { 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0 };
 
             // Get Shuffle Order
-            byte[] shlog = new byte[] { aloc[sv], bloc[sv], cloc[sv], dloc[sv] };
+            byte[] shlog = { aloc[sv], bloc[sv], cloc[sv], dloc[sv] };
 
             // UnShuffle Away!
             for (int b = 0; b < 4; b++)
@@ -433,7 +433,7 @@ namespace PKHeX
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
+                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
 
             // Deshuffle
             pkx = shuffleArray(pkx, sv);
@@ -442,7 +442,7 @@ namespace PKHeX
             seed = pv;
             if (pkx.Length > 232)
                 for (int i = 232; i < 260; i += 2)
-                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
 
             return pkx;
         }
@@ -462,13 +462,13 @@ namespace PKHeX
             uint seed = pv;
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
+                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
 
             // Encrypt the Party Stats
             seed = pv;
             if (ekx.Length > 232)
                 for (int i = 232; i < 260; i += 2)
-                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (PKX.LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
+                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
 
             // Done
             return ekx;
@@ -491,7 +491,6 @@ namespace PKHeX
 
                 return (checksum == BitConverter.ToUInt16(input, 28));
             }
-            else
             {
                 if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
                     Array.Resize(ref input, 136);
@@ -518,7 +517,7 @@ namespace PKHeX
         {
             PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
             int gt = MonData.GenderRatio;
-            uint pid = (uint)Util.rnd32();
+            uint pid = Util.rnd32();
             if (gt == 255) //Genderless
                 return pid;
             if (gt == 254) //Female Only
@@ -528,11 +527,11 @@ namespace PKHeX
                 uint gv = (pid & 0xFF);
                 if (cg == 2) // Genderless
                     break;  // PID Passes
-                else if ((cg == 1) && (gv <= gt)) // Female
+                if ((cg == 1) && (gv <= gt)) // Female
                     break;  // PID Passes
-                else if ((cg == 0) && (gv > gt))
+                if ((cg == 0) && (gv > gt))
                     break;  // PID Passes
-                pid = (uint)Util.rnd32();
+                pid = Util.rnd32();
             }
             return pid;
         }
@@ -790,18 +789,17 @@ namespace PKHeX
             }
             {
                 int species = BitConverter.ToInt16(pkx, 0x08); // Get Species
-                uint isegg = (BitConverter.ToUInt32(pkx, 0x74) >> 30) & 1;
 
                 int altforms = (pkx[0x1D] >> 3);
                 int gender = (pkx[0x1D] >> 1) & 0x3;
 
                 string file;
                 {
-                    file = "_" + species.ToString();
+                    file = "_" + species;
                     if (altforms > 0) // Alt Form Handling
-                        file = file + "_" + altforms.ToString();
+                        file = file + "_" + altforms;
                     else if ((species == 521) && (gender == 1))   // Unfezant
-                        file = "_" + species.ToString() + "f";
+                        file = "_" + species + "f";
                 }
                 if (species == 0)
                     file = "_0";
@@ -824,8 +822,7 @@ namespace PKHeX
                 {
                     // Has Item
                     int item = mhelditem;
-                    Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item.ToString());
-                    if (itemimg == null) itemimg = Properties.Resources.helditem;
+                    Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
                     // Redraw
                     pksprite = Util.LayerImage(pksprite, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
                 }
@@ -845,9 +842,9 @@ namespace PKHeX
                 mRMove2N = Form1.movelist[meggmove2];
                 mRMove3N = Form1.movelist[meggmove3];
                 mRMove4N = Form1.movelist[meggmove4];
-                mMetLocN = PKX.getLocation(false, mgamevers, mmetloc);
-                mEggLocN = PKX.getLocation(true, mgamevers, meggloc);
-                mLevel = PKX.getLevel(mspecies, ref mexp);
+                mMetLocN = getLocation(false, mgamevers, mmetloc);
+                mEggLocN = getLocation(true, mgamevers, meggloc);
+                mLevel = getLevel(mspecies, ref mexp);
                 mGameN = Form1.gamelist[mgamevers];
                 mBallN = Form1.balllist[mball];
                 motlangN = Form1.gamelanguages[motlang] ?? String.Format("UNK {0}", motlang);
@@ -1095,7 +1092,7 @@ namespace PKHeX
         // Save File Related
         internal static int detectSAVIndex(byte[] data, ref int savindex)
         {
-            SHA256 mySHA256 = SHA256Managed.Create();
+            SHA256 mySHA256 = SHA256.Create();
             {
                 byte[] difihash1 = new byte[0x12C];
                 byte[] difihash2 = new byte[0x12C];
@@ -1131,9 +1128,9 @@ namespace PKHeX
         internal static ushort ccitt16(byte[] data)
         {
             ushort crc = 0xFFFF;
-            for (int i = 0; i < data.Length; i++)
+            foreach (byte t in data)
             {
-                crc ^= (ushort)(data[i] << 8);
+                crc ^= (ushort)(t << 8);
                 for (int j = 0; j < 8; j++)
                 {
                     if ((crc & 0x8000) > 0)
@@ -1172,15 +1169,15 @@ namespace PKHeX
                 AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
                 System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
             }
-            catch { Util.Error("Unable to add ingame font."); return; }
+            catch { Util.Error("Unable to add ingame font."); }
         }
 
         // Personal.dat
         internal static PersonalParser PersonalGetter = new PersonalParser();
         internal class PersonalParser
         {
-            internal byte[] file = (byte[])Properties.Resources.personal;
-            internal int EntryLength = 0xE;
+            internal byte[] file = Properties.Resources.personal;
+            internal const int EntryLength = 0xE;
             internal struct Personal
             {
                 public byte[] BaseStats;
@@ -1235,28 +1232,28 @@ namespace PKHeX
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type][i];
             return ivs;
         }
-        internal static string[] hptypes = new string[] { 
+        internal static string[] hptypes = { 
             "Fighting", "Flying", "Poison", "Ground",
             "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
             "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"
         };
-        internal static int[][] hpivs = new int[][] {
-            new int[] { 1, 1, 0, 0, 0, 0 }, // Fighting
-            new int[] { 0, 0, 0, 0, 0, 1 }, // Flying
-            new int[] { 1, 1, 0, 0, 0, 1 }, // Poison
-            new int[] { 1, 1, 1, 0, 0, 1 }, // Ground
-            new int[] { 1, 1, 0, 1, 0, 0 }, // Rock
-            new int[] { 1, 0, 0, 1, 0, 1 }, // Bug
-            new int[] { 1, 1, 0, 1, 0, 1 }, // Ghost
-            new int[] { 1, 1, 1, 1, 0, 1 }, // Steel
-            new int[] { 1, 0, 1, 0, 1, 0 }, // Fire
-            new int[] { 1, 0, 0, 0, 1, 1 }, // Water
-            new int[] { 1, 0, 1, 0, 1, 1 }, // Grass
-            new int[] { 1, 1, 1, 0, 1, 1 }, // Electric
-            new int[] { 1, 0, 1, 1, 1, 0 }, // Psychic
-            new int[] { 1, 0, 0, 1, 1, 1 }, // Ice
-            new int[] { 1, 0, 1, 1, 1, 1 }, // Dragon
-            new int[] { 1, 1, 1, 1, 1, 1 }, // Dark
+        internal static readonly int[][] hpivs = {
+            new[] { 1, 1, 0, 0, 0, 0 }, // Fighting
+            new[] { 0, 0, 0, 0, 0, 1 }, // Flying
+            new[] { 1, 1, 0, 0, 0, 1 }, // Poison
+            new[] { 1, 1, 1, 0, 0, 1 }, // Ground
+            new[] { 1, 1, 0, 1, 0, 0 }, // Rock
+            new[] { 1, 0, 0, 1, 0, 1 }, // Bug
+            new[] { 1, 1, 0, 1, 0, 1 }, // Ghost
+            new[] { 1, 1, 1, 1, 0, 1 }, // Steel
+            new[] { 1, 0, 1, 0, 1, 0 }, // Fire
+            new[] { 1, 0, 0, 0, 1, 1 }, // Water
+            new[] { 1, 0, 1, 0, 1, 1 }, // Grass
+            new[] { 1, 1, 1, 0, 1, 1 }, // Electric
+            new[] { 1, 0, 1, 1, 1, 0 }, // Psychic
+            new[] { 1, 0, 0, 1, 1, 1 }, // Ice
+            new[] { 1, 0, 1, 1, 1, 1 }, // Dragon
+            new[] { 1, 1, 1, 1, 1, 1 }  // Dark
         };
         public class Simulator
         {
@@ -1277,7 +1274,6 @@ namespace PKHeX
                 public int[] Moves;
 
                 // Parsing Utility
-                private string[] Stats;
                 public Set(string input, string[] species, string[] items, string[] natures, string[] moves, string[] types)
                 {
                     Nickname = null;
@@ -1290,11 +1286,11 @@ namespace PKHeX
                     Happiness = 255;
                     Nature = 0;
                     EVs = new byte[6];
-                    IVs = new byte[6] { 31, 31, 31, 31, 31, 31 };
+                    IVs = new byte[] { 31, 31, 31, 31, 31, 31 };
                     Moves = new int[4];
-                    Stats = new string[] { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+                    string[] stats =  { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
 
-                    string[] lines = input.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+                    string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
                     Nickname = null;
 
                     // Seek for start of set
@@ -1317,7 +1313,7 @@ namespace PKHeX
                             continue;
                         }
 
-                        string[] brokenline = line.Split(new string[] { ": " }, StringSplitOptions.None);
+                        string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
                         switch (brokenline[0])
                         {
                             case "Ability": { Ability = brokenline[1]; break; }
@@ -1327,17 +1323,17 @@ namespace PKHeX
                             case "EVs":
                                 {
                                     // Get EV list String
-                                    string[] evlist = lines[1].Split(new string[] { " / ", " " }, StringSplitOptions.None);
+                                    string[] evlist = lines[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
                                     for (int i = 0; i < evlist.Length / 2; i++)
-                                        EVs[Array.IndexOf(Stats, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
+                                        EVs[Array.IndexOf(stats, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
                                     break;
                                 }
                             case "IVs":
                                 {
                                     // Get IV list String
-                                    string[] ivlist = lines[1].Split(new string[] { " / ", " " }, StringSplitOptions.None);
+                                    string[] ivlist = lines[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
                                     for (int i = 0; i < ivlist.Length / 2; i++)
-                                        IVs[Array.IndexOf(Stats, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
+                                        IVs[Array.IndexOf(stats, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
                                     break;
                                 }
                             default:
@@ -1345,7 +1341,7 @@ namespace PKHeX
                                     // Either Nature or Gender ItemSpecies
                                     if (brokenline.Contains(" @ "))
                                     {
-                                        string[] ld = line.Split(new string[] { " @ " }, StringSplitOptions.None);
+                                        string[] ld = line.Split(new[] { " @ " }, StringSplitOptions.None);
                                         Item = Array.IndexOf(items, ld.Last());
                                         // Gender Detection
                                         string last3 = ld[0].Substring(ld[0].Length - 3);
@@ -1358,7 +1354,7 @@ namespace PKHeX
                                         string spec = ld[0];
                                         if (ld[0].Contains("("))
                                         {
-                                            int index = ld[0].LastIndexOf("(");
+                                            int index = ld[0].LastIndexOf("(", StringComparison.Ordinal);
                                             Nickname = ld[0].Substring(0, ld[0].Length - index);
                                             spec = ld[0].Substring(index).Replace("(", "").Replace(")", "");
                                         }
