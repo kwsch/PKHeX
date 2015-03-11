@@ -6,7 +6,7 @@ namespace PKHeX
 {
     public class pk2pk
     {
-        public byte[] ConvertPKM(byte[] input, byte[] savefile, int savindex)
+        public byte[] ConvertPKM(byte[] input, byte[] savefile = null, int savindex = -1)
         {
             #region Initialize Everything
 
@@ -21,22 +21,16 @@ namespace PKHeX
             // Get the 6th Gen Data from the save file if it exists.
             int savshift = savindex * 0x7F000;
 
-            // Import trainer details for importing
-            if (BitConverter.ToUInt32(savefile, 0x6A810 + savshift) == 0x42454546) // Is set for X/Y when a SAV is loaded.
+            // Import trainer details for importing, else use the default values that are already defined.
+            if ((savefile != null && savindex != -1) && (
+                BitConverter.ToUInt32(savefile, 0x6A810 + savshift) == 0x42454546 || 
+                BitConverter.ToUInt32(savefile, 0x7B210 + savshift) == 0x42454546)) // Set for X/Y/OR/AS loaded saves.
             {
                 subreg = savefile[0x19426 + savshift];
                 country = savefile[0x19427 + savshift];
                 _3DSreg = savefile[0x1942C + savshift];
                 g6trname = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, 0x19448 + savshift, 0x1A));
                 g6trgend = savefile[0x19405 + savshift];
-            }
-            else
-            {
-                country = 0x31; // US
-                subreg = 0x7;   // California
-                _3DSreg = 0x1;  // Americas
-                g6trname = "PKHeX";
-                g6trgend = 0;
             }
             #endregion
             #region Convert
@@ -47,20 +41,18 @@ namespace PKHeX
                 byte[] g6data = convertPK5toPK6(g5data);
                 return g6data;
             }
-            if (input.Length == 136 || input.Length == 236 || input.Length == 220)    // Ambiguous Gen4/5 file.
+            if (input.Length != 136 && input.Length != 236 && input.Length != 220)
+                return input; // Should never get here.
+            if (((BitConverter.ToUInt16(input, 0x80) >= 0x3333) || (input[0x5F] >= 0x10)) &&
+                (BitConverter.ToUInt16(input, 0x46) == 0)) return convertPK5toPK6(input);
+            // If from Gen4-- && Not Met Location Poketransfer
+            // Or if Pt met data is set... it'd be hard to mess something up but someone will probably do just that.
             {
-                if (((BitConverter.ToUInt16(input, 0x80) < 0x3333) && (input[0x5F] < 0x10)) || (BitConverter.ToUInt16(input, 0x46) != 0))
-                {
-                    // If from Gen4-- && Not Met Location Poketransfer
-                    // Or if Pt met data is set... it'd be hard to mess something up but someone will probably do just that.
-                    byte[] g5data = convertPK4toPK5(input);
-                    byte[] g6data = convertPK5toPK6(g5data);
-                    return g6data;
-                }
-                return convertPK5toPK6(input);
+                byte[] g5data = convertPK4toPK5(input);
+                byte[] g6data = convertPK5toPK6(g5data);
+                return g6data;
             }
             #endregion
-            return input; // Should never get here.
         }
         #region Utility
         public DateTime moment = DateTime.Now;
@@ -227,12 +219,10 @@ namespace PKHeX
                     char ch = nickname[i];
                     for (int j = 0; j < 247; j++)
                     {
-                        if ((char)chartable.Rows[j][2] == ch)
-                        {
-                            int val = (int)chartable.Rows[j][0];    // fetch gen3 value
-                            pk3[0x8 + i] = (byte)val;
-                            break;
-                        }
+                        if ((char)chartable.Rows[j][2] != ch) continue;
+                        int val = (int)chartable.Rows[j][0];    // fetch gen3 value
+                        pk3[0x8 + i] = (byte)val;
+                        break;
                     }
                 }
                 pk3[0x8 + nickname.Length + 1] = 0xFF; // cap off nickname
@@ -498,31 +488,24 @@ namespace PKHeX
             // Contest Ribbon Counter
             for (int i = 0; i < 8; i++) // Sinnoh 3, Hoenn 1
             {
-                if (((pk5[0x60] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pk5[0x61] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pk5[0x3C] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pk5[0x3D] >> i) & 1) == 1)
-                    contestribbons++;
+                if (((pk5[0x60] >> i) & 1) == 1) contestribbons++;
+                if (((pk5[0x61] >> i) & 1) == 1) contestribbons++;
+                if (((pk5[0x3C] >> i) & 1) == 1) contestribbons++;
+                if (((pk5[0x3D] >> i) & 1) == 1) contestribbons++;
             }
             for (int i = 0; i < 4; i++) // Sinnoh 4, Hoenn 2
             {
-                if (((pk5[0x62] >> i) & 1) == 1)
-                    contestribbons++;
-                if (((pk5[0x3E] >> i) & 1) == 1)
-                    contestribbons++;
+                if (((pk5[0x62] >> i) & 1) == 1) contestribbons++;
+                if (((pk5[0x3E] >> i) & 1) == 1) contestribbons++;
             }
 
             // Battle Ribbon Counter
-            if ((pk5[0x3E] & 0x20) >> 5 == 1)    // Winning Ribbon
-                battleribbons++;
-            if ((pk5[0x3E] & 0x40) >> 6 == 1)    // Victory Ribbon
-                battleribbons++;
+            // Winning Ribbon
+            if ((pk5[0x3E] & 0x20) >> 5 == 1) battleribbons++;
+            // Victory Ribbon
+            if ((pk5[0x3E] & 0x40) >> 6 == 1) battleribbons++;
             for (int i = 1; i < 7; i++)     // Sinnoh Battle Ribbons
-                if (((pk5[0x24] >> i) & 1) == 1)
-                    battleribbons++;
+            if (((pk5[0x24] >> i) & 1) == 1) battleribbons++;
 
             // Fill the Ribbon Counter Bytes
             pk6[0x38] = contestribbons;
@@ -623,8 +606,6 @@ namespace PKHeX
 
             // Apply New Checksum
             Array.Copy(BitConverter.GetBytes(chk), 0, pk6, 06, 2);
-
-            Util.TrimFromZero(Encoding.Unicode.GetString(pk6, 0xB0, 24));
             
             return pk6; // Done!
         }
