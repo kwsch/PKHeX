@@ -393,7 +393,7 @@ namespace PKHeX
                 string desc = getWCDescriptionString(wondercard_data);
                 Image img = PB_Preview.Image;
 
-                new QR(qr, img, desc, "", "", "PKHeX @ ProjectPokemon.org").ShowDialog();
+                new QR(qr, img, desc, "", "", "PKHeX Wondercard @ ProjectPokemon.org").ShowDialog();
             }
         }
     }
