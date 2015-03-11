@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -21,7 +16,7 @@ namespace PKHeX
             shiftval = savindex * 0x7F000;
             if (m_parent.savegame_oras)
             {
-                bagoffsets = new int[] 
+                bagoffsets = new[] 
                 {
                     0x05800,
                     0x05E40,
@@ -58,13 +53,14 @@ namespace PKHeX
         public string[] medicine_val;
         public string[] berries_val;
 
-        public int[] bagoffsets = new int[] {
-                                    0x05800,
-                                    0x05E40,
-                                    0x05FC0,
-                                    0x06168,
-                                    0x06268,
-                                };
+        public int[] bagoffsets =
+        {
+            0x05800,
+            0x05E40,
+            0x05FC0,
+            0x06168,
+            0x06268,
+        };
 
         // Initialize String Tables
         private void getListItems()
@@ -147,11 +143,13 @@ namespace PKHeX
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvItemVal = new DataGridViewComboBoxColumn();
-            dgvItemVal.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+            DataGridViewComboBoxColumn dgvItemVal = new DataGridViewComboBoxColumn
             {
-                for (int i = 0; i < itemarr.Length; i++)
-                    dgvItemVal.Items.Add(itemarr[i]); // add only the Item Names
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
+            };
+            {
+                foreach (string t in itemarr)
+                    dgvItemVal.Items.Add(t); // add only the Item Names
 
                 dgvItemVal.DisplayIndex = 0;
                 dgvItemVal.Width = 135;
@@ -197,31 +195,25 @@ namespace PKHeX
         }
         private void saveBag(object sender)
         {
-            string[] itemstrarr = {};
             int offset = 0;
             if (B_DisplayItems.ForeColor == Color.Red)
             {
-                itemstrarr = item_val;
                 offset = bagoffsets[0] + shiftval;
             }
             else if (B_DisplayKeyItems.ForeColor == Color.Red)
             {
-                itemstrarr = keyitem_val;
                 offset = bagoffsets[1] + shiftval;
             }
             else if (B_DisplayTMHM.ForeColor == Color.Red)
             {
-                itemstrarr = tmhm_val;
                 offset = bagoffsets[2] + shiftval;
             }
             else if (B_DisplayMedicine.ForeColor == Color.Red)
             {
-                itemstrarr = medicine_val;
                 offset = bagoffsets[3] + shiftval;
             }
             else if (B_DisplayBerries.ForeColor == Color.Red)
             {
-                itemstrarr = berries_val;
                 offset = bagoffsets[4] + shiftval;
             }
 
@@ -232,7 +224,7 @@ namespace PKHeX
             {
                 string item = dataGridView1.Rows[i].Cells[0].Value.ToString();
                 int itemindex = Array.IndexOf(Form1.itemlist, item);
-                int itemcnt = 0;
+                int itemcnt;
                 try 
                 { itemcnt = Convert.ToUInt16(dataGridView1.Rows[i].Cells[1].Value.ToString()); }
                 catch { itemcnt = 0; }
@@ -242,7 +234,7 @@ namespace PKHeX
                     emptyslots++;
                     continue;
                 }
-                else if (itemcnt == 0)
+                if (itemcnt == 0)
                     itemcnt++; // No 0 count of items
                 else if (itemcnt > 995)
                     itemcnt = 995;

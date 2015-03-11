@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
     public partial class RibbMedal : Form
     {
         Form1 m_parent;
-        CheckBox[] distro;
         public RibbMedal(Form1 frm1)
         {
             InitializeComponent();
@@ -29,7 +21,6 @@ namespace PKHeX
                 comboBox1.Items.Add(Form1.trainingbags[i]);
             comboBox1.SelectedIndex = m_parent.buff[0x17];
             numericUpDown1.Value = m_parent.buff[0x16];
-            distro = new CheckBox[] { CHK_D0, CHK_D1, CHK_D2, CHK_D3, CHK_D4, CHK_D5 };
             getRibbons();
         }
         private void getRibbons()
@@ -298,7 +289,7 @@ namespace PKHeX
             dis |= addRibbon(CHK_D5);
             m_parent.buff[0x3A] = (byte)dis;
 
-            m_parent.buff[0x72] = (byte)Convert.ToByte(CHK_Secret.Checked);
+            m_parent.buff[0x72] = Convert.ToByte(CHK_Secret.Checked);
         }                                       // Saving Ribbons prompted
         private void updateRibbon(CheckBox chk, int rv, int sh)
         {
@@ -341,11 +332,9 @@ namespace PKHeX
 
                 TB_PastContest.Text = (Convert.ToInt32(b) * 40).ToString();
                 TB_PastBattle.Text = (Convert.ToInt32(b) * 8).ToString();
-                if (m_parent.buff[0xDF] > 0x10)
-                {
-                    TB_PastContest.Text = 0.ToString();
-                    TB_PastBattle.Text = 0.ToString();
-                }
+                if (m_parent.buff[0xDF] <= 0x10) return; // gen3
+                TB_PastContest.Text = 0.ToString(); // no past gen ribbons 4-5
+                TB_PastBattle.Text = 0.ToString();
             }
             else if (tabControl1.SelectedTab == Tab_Medals)
             {
@@ -369,7 +358,7 @@ namespace PKHeX
                                   CHK_Secret
                                 };
                 checkboxFlag(ck, b);
-                foreach (CheckBox chk in distro) chk.Checked = b;
+                foreach (CheckBox chk in new[] { CHK_D0, CHK_D1, CHK_D2, CHK_D3, CHK_D4, CHK_D5 }) chk.Checked = b;
             }
         }                                 // Checkbox Flipping Logic (dependent on Tab)
 
@@ -396,15 +385,13 @@ namespace PKHeX
         private void updateSecretSuper(object sender, EventArgs e)
         {
             GB_Medals2.Enabled = CHK_Secret.Checked;
-            if (!CHK_Secret.Checked)
-            {
-                CheckBox[] ck = {TMedal3_4, 
-                                  TMedal3_5, TMedal3_6, TMedal3_7, TMedal4_0, 
-                                  TMedal4_1, TMedal4_2, TMedal4_3, 
-                                  TMedal4_4, TMedal4_5, TMedal4_6, 
-                                  TMedal4_7};
-                checkboxFlag(ck, false);
-            }
+            if (CHK_Secret.Checked) return;
+            CheckBox[] ck = {
+                TMedal3_4, TMedal3_5, TMedal3_6, TMedal3_7, 
+                TMedal4_0, TMedal4_1, TMedal4_2, TMedal4_3, 
+                TMedal4_4, TMedal4_5, TMedal4_6, TMedal4_7
+                            };
+            checkboxFlag(ck, false);
         }      // Only allow secret if checkbox is toggled.
         private void unusedbits(object sender, EventArgs e)
         {
@@ -458,7 +445,7 @@ namespace PKHeX
             int index = Array.IndexOf(cba, sender as CheckBox);
 
 
-            pba[index].Image = Util.ChangeOpacity(bma[index], (float)(Convert.ToInt32(cba[index].Checked)) * 0.9 + 0.1);
+            pba[index].Image = Util.ChangeOpacity(bma[index], Convert.ToInt32(cba[index].Checked) * 0.9 + 0.1);
         }
         private void pastribbontoggle(object sender, EventArgs e)
         {
@@ -466,18 +453,11 @@ namespace PKHeX
                                     PastContest, PastBattle,
                                 };
 
-            if (Util.ToUInt32(TB_PastContest.Text) < 40)
-                pba2[0].Image = Properties.Resources.contestmemory;
-            else
-                pba2[0].Image = Properties.Resources.contestmemory2;
+            pba2[0].Image = Util.ToUInt32(TB_PastContest.Text) < 40 ? Properties.Resources.contestmemory : Properties.Resources.contestmemory2;
+            pba2[1].Image = Util.ToUInt32(TB_PastBattle.Text) < 8 ? Properties.Resources.battlememory : Properties.Resources.battlememory2;
 
-            if (Util.ToUInt32(TB_PastBattle.Text) < 8)
-                pba2[1].Image = Properties.Resources.battlememory;
-            else
-                pba2[1].Image = Properties.Resources.battlememory2;
-
-            pba2[0].Image = Util.ChangeOpacity(pba2[0].Image, (float)(Util.ToUInt32(TB_PastContest.Text)) * 0.9 + 0.1);
-            pba2[1].Image = Util.ChangeOpacity(pba2[1].Image, (float)(Util.ToUInt32(TB_PastBattle.Text)) * 0.9 + 0.1);
+            pba2[0].Image = Util.ChangeOpacity(pba2[0].Image, Util.ToUInt32(TB_PastContest.Text) * 0.9 + 0.1);
+            pba2[1].Image = Util.ChangeOpacity(pba2[1].Image, Util.ToUInt32(TB_PastBattle.Text) * 0.9 + 0.1);
         }
 
         private void clickRibbon(object sender, EventArgs e)

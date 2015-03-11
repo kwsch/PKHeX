@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -22,8 +16,8 @@ namespace PKHeX
             pfa[0] = "---";
             Setup();
 
-            new ToolTip().SetToolTip(this.B_Sort, "Hold CTRL to reverse sort.");
-            new ToolTip().SetToolTip(this.B_All, "Hold CTRL to give Deluxe instead of Supreme.");
+            new ToolTip().SetToolTip(B_Sort, "Hold CTRL to reverse sort.");
+            new ToolTip().SetToolTip(B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
@@ -51,13 +45,14 @@ namespace PKHeX
                 dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvPuff = new DataGridViewComboBoxColumn();
-            dgvPuff.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
+            DataGridViewComboBoxColumn dgvPuff = new DataGridViewComboBoxColumn
             {
-                for (int i = 0; i < pfa.Length; i++)
-                {
-                    dgvPuff.Items.Add(pfa[i]);
-                }
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
+            };
+            {
+                foreach (string t in pfa)
+                    dgvPuff.Items.Add(t);
+
                 dgvPuff.DisplayIndex = 1;
                 dgvPuff.Width = 135;
                 dgvPuff.FlatStyle = FlatStyle.Flat;
@@ -133,11 +128,9 @@ namespace PKHeX
                 {
                     string puff = dataGridView1.Rows[i].Cells[1].Value.ToString();
                     byte puffval = (byte)Array.IndexOf(pfa, puff);
-                    if (puffval != 0)
-                    {
-                        puffarray[count] = puffval;
-                        count++;
-                    }
+                    if (puffval == 0) continue;
+                    puffarray[count] = puffval;
+                    count++;
                 }
                 Array.Resize(ref puffarray, count);
                 Array.Sort(puffarray);

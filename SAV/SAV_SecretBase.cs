@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 
 namespace PKHeX
 {
@@ -18,13 +12,7 @@ namespace PKHeX
             Util.TranslateInterface(this, Form1.curlanguage);
             m_parent = frm1;
             Array.Copy(m_parent.savefile, sav, 0x100000);
-            savindex = m_parent.savindex;
-
-            specieslist = Form1.specieslist;
-            movelist = Form1.movelist;
-            itemlist = Form1.itemlist;
             abilitylist = Form1.abilitylist;
-            natures = Form1.natures;
 
             setupComboBoxes();
             popFavorite();
@@ -38,16 +26,12 @@ namespace PKHeX
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
         public byte[] wondercard_data = new byte[0x108];
-        public bool editing = false;
-        public int savindex; int sv = 0;
-        private int fav_offset = 0x23A00;
+        public bool editing;
+        private const int sv = 0;
+        private const int fav_offset = 0x23A00;
         private bool loading = true;
 
-        public static string[] specieslist = { };
-        public static string[] movelist = { };
-        public static string[] itemlist = { };
         public static string[] abilitylist = { };
-        public static string[] natures = { };
 
         private void setupComboBoxes()
         {
@@ -89,8 +73,8 @@ namespace PKHeX
         {
             LB_Favorite.Items.Clear();
 
-            int playeroff = fav_offset + 0x5400 + 0x326;
-            int favoff = fav_offset + 0x5400 + 0x63A;
+            const int playeroff = fav_offset + 0x5400 + 0x326;
+            const int favoff = fav_offset + 0x5400 + 0x63A;
             string OT = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + playeroff + 0x218, 0x1A));
             LB_Favorite.Items.Add("* " + OT);
             for (int i = 0; i < 30; i++)
@@ -233,13 +217,13 @@ namespace PKHeX
         }
         private void B_GiveDecor_Click(object sender, EventArgs e)
         {
-            int offset = sv + 0x23A00 + 0x5400;
+            const int offset = sv + 0x23A00 + 0x5400;
             for (int i = 0; i < 173; i++)
             {
                 // int qty = BitConverter.ToUInt16(sav, offset + i * 4);
                 // int has = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
 
-                sav[offset + i * 4] = (byte)25;
+                sav[offset + i * 4] = 25;
                 sav[offset + i * 4 + 2] = 1;
             }
         }
@@ -256,8 +240,8 @@ namespace PKHeX
             byte x = objinfo[2];
             byte y = objinfo[4];
             byte rot = objinfo[6];
-            byte unk1 = objinfo[7];
-            ushort unk2 = BitConverter.ToUInt16(objinfo, 0x8);
+            // byte unk1 = objinfo[7];
+            // ushort unk2 = BitConverter.ToUInt16(objinfo, 0x8);
 
             // Set values to display
             editing = true;
@@ -353,10 +337,10 @@ namespace PKHeX
                 fpkm[i] = pkmdata[index, i];
 
             uint ec = BitConverter.ToUInt32(fpkm, 0);
-            uint unk = BitConverter.ToUInt32(fpkm, 4);
+            // uint unk = BitConverter.ToUInt32(fpkm, 4);
             int spec = BitConverter.ToInt16(fpkm, 8);
             int item = BitConverter.ToInt16(fpkm, 0xA);
-            int abil = fpkm[0xC];
+            // int abil = fpkm[0xC];
             int abil_no = fpkm[0xD];
             MT_AbilNo.Text = abil_no.ToString();
             // 6 unknown bytes, contest?
@@ -444,15 +428,12 @@ namespace PKHeX
 
         private void updateSpecies(object sender, EventArgs e)
         {
-            int species = Util.getIndex(CB_Species);
-            
             // Get Forms for Given Species
-            m_parent.setForms(species, CB_Form);
+            m_parent.setForms(Util.getIndex(CB_Species), CB_Form);
 
             // Check for Gender Changes
             // Get Gender Threshold
-            species = Util.getIndex(CB_Species);
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(Util.getIndex(CB_Species));
             int gt = MonData.GenderRatio;
 
             if (gt == 255)      // Genderless
@@ -474,12 +455,11 @@ namespace PKHeX
                 Label_Gender.Text = Form1.gendersymbols[CB_Form.SelectedIndex];
         }
 
-        private int species; private int genderflag;
+        private int genderflag;
         private void Label_Gender_Click(object sender, EventArgs e)
         {
             // Get Gender Threshold
-            species = Util.getIndex(CB_Species);
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
+            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(Util.getIndex(CB_Species));
             int gt = MonData.GenderRatio;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
@@ -497,23 +477,23 @@ namespace PKHeX
         {
             if (LB_Favorite.SelectedIndex < 1) { Util.Alert("Cannot delete your Secret Base."); return; }
             int index = LB_Favorite.SelectedIndex - 1;
-            
-            int playeroff = fav_offset + 0x5400 + 0x326;
-            int favoff = fav_offset + 0x5400 + 0x63A;
-            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + playeroff + 0x218, 0x1A));
+
+            const int favoff = fav_offset + 0x5400 + 0x63A;
             string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + favoff + index * 0x3E0 + 0x218, 0x1A));
             if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                 BaseTrainer = "Empty";
 
-            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete {1}'s base (Entry {0}) from your records?", index, BaseTrainer)) == DialogResult.Yes)
-            {
-                int max = 29; int size = 0x3E0;
-                int offset = sv + favoff + index * size;
-                if (index != max) Array.Copy(sav, offset + size, sav, offset, size * (max - index));
-                // Ensure Last Entry is Cleared
-                Array.Copy(new byte[size], 0, sav, size * max, size);
-                popFavorite();
-            }
+            if (
+                Util.Prompt(MessageBoxButtons.YesNo,
+                    String.Format("Delete {1}'s base (Entry {0}) from your records?", index, BaseTrainer)) != DialogResult.Yes) 
+                return;
+            const int max = 29; 
+            const int size = 0x3E0;
+            int offset = sv + favoff + index * size;
+            if (index != max) Array.Copy(sav, offset + size, sav, offset, size * (max - index));
+            // Ensure Last Entry is Cleared
+            Array.Copy(new byte[size], 0, sav, size * max, size);
+            popFavorite();
         }
     }
 }

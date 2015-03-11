@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -23,12 +18,12 @@ namespace PKHeX
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            this.SaveData();
-            this.Close();
+            SaveData();
+            Close();
         }
         private int opoweroffset = 0x1BE00;
         private void LoadData()
@@ -36,10 +31,6 @@ namespace PKHeX
             int o = opoweroffset + m_parent.savindex * 0x7F000; // offset
 
             // Fill up the 17 o-powers
-            ComboBox[] cba = new ComboBox[] {
-                CB_1, CB_2, CB_3, CB_4, CB_5, CB_6, CB_7, CB_8, CB_9,
-                CB_10, CB_11, CB_12, CB_13, CB_14, CB_15, CB_16, CB_17,
-            };
             // 1 2 3 4 5 10 use 4 bytes, everything else uses 3
             o++; // Skip first 0
             CB_1.SelectedIndex = getIndex(o, 4); o += 4; o++; // @ 1
@@ -76,11 +67,13 @@ namespace PKHeX
         }
         private void SaveData()
         {
-            ComboBox[] cba = new ComboBox[] {
+            ComboBox[] cba =
+            {
                 CB_1, CB_2, CB_3, CB_4, CB_5, CB_6, CB_7, CB_8, CB_9,
                 CB_10, CB_11, CB_12, CB_13, CB_14, CB_15, CB_16, CB_17,
             };
-            int[] offsets= new int[] {
+            int[] offsets =
+            {
                 1,6,0xB,0x10,0x15,
                 0x1A,0x1D,0x20,0x23,
                 0x27,
@@ -111,21 +104,20 @@ namespace PKHeX
         }
         private int getIndex(int o, int l)
         {
-            byte[] _0 = new byte[] { 00, 00, 00, 00, };
-            byte[] _1 = new byte[] { 01, 00, 00, 00, };
-            byte[] _2 = new byte[] { 01, 01, 00, 00, };
-            byte[] _3 = new byte[] { 01, 01, 01, 00, };
-            byte[] _4 = new byte[] { 01, 01, 01, 01, };
+            byte[] _0 = { 00, 00, 00, 00, };
+            byte[] _1 = { 01, 00, 00, 00, };
+            byte[] _2 = { 01, 01, 00, 00, };
+            byte[] _3 = { 01, 01, 01, 00, };
+            byte[] _4 = { 01, 01, 01, 01, };
             
             byte[] data = new byte[4];
             Array.Copy(m_parent.savefile, o, data, 0, l);
 
-            if      (data.SequenceEqual(_4)) return 4;
-            else if (data.SequenceEqual(_3)) return 3;
-            else if (data.SequenceEqual(_2)) return 2;
-            else if (data.SequenceEqual(_1)) return 1;
-            else if (data.SequenceEqual(_0)) return 0;
-            else return 1;
+            if (data.SequenceEqual(_4)) return 4;
+            if (data.SequenceEqual(_3)) return 3;
+            if (data.SequenceEqual(_2)) return 2;
+            if (data.SequenceEqual(_1)) return 1;
+            return data.SequenceEqual(_0) ? 0 : 1;
         }
         private void B_AllMax_Click(object sender, EventArgs e)
         {
@@ -137,24 +129,25 @@ namespace PKHeX
         }
         private void max(bool s)
         {
-            ComboBox[] cba = new ComboBox[] {
+            ComboBox[] cba =
+            {
                 CB_1, CB_2, CB_3, CB_4, CB_5, CB_6, CB_7, CB_8, CB_9,
                 CB_10, CB_11, CB_12, CB_13, CB_14, CB_15, CB_16, CB_17,
             };
-            CheckBox[] echk = new CheckBox[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8 };
+            CheckBox[] echk = { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8 };
             
-            for (int i = 0; i < cba.Length; i++)
-                cba[i].SelectedIndex = (cba[i].Items.Count-1);
+            foreach (ComboBox t in cba)
+                t.SelectedIndex = (t.Items.Count-1);
 
             if (!s)
-                for (int i = 0; i < echk.Length; i++)
-                    echk[i].Checked = !(ModifierKeys == Keys.Control);
+                foreach (CheckBox t in echk)
+                    t.Checked = ModifierKeys != Keys.Control;
             else if (ModifierKeys == Keys.Control)
             {
-                for (int i = 0; i < cba.Length; i++)
-                    cba[i].SelectedIndex = 0;
-                for (int i = 0; i < echk.Length; i++)
-                    echk[i].Checked = false;
+                foreach (ComboBox t in cba)
+                    t.SelectedIndex = 0;
+                foreach (CheckBox t in echk)
+                    t.Checked = false;
             }
         }
     }

@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
-    public partial class Util
+    public class Util
     {
         // Image Layering/Blending Utility
         internal static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
@@ -22,7 +22,7 @@ namespace PKHeX
             {
                 Color newColor = overlayImage.GetPixel(i % (overlayImage.Width), i / (overlayImage.Width));
                 Color oldColor = newImage.GetPixel(i % (overlayImage.Width) + x, i / (overlayImage.Width) + y);
-                newColor = Color.FromArgb((int)((double)(newColor.A) * trans), newColor.R, newColor.G, newColor.B); // Apply transparency change
+                newColor = Color.FromArgb((int)(newColor.A * trans), newColor.R, newColor.G, newColor.B); // Apply transparency change
                 // if (newColor.A != 0) // If Pixel isn't transparent, we'll overwrite the color.
                 {
                     // if (newColor.A < 100) 
@@ -40,8 +40,7 @@ namespace PKHeX
             if (img == null) return null;
             Bitmap bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
             Graphics graphics = Graphics.FromImage(bmp);
-            ColorMatrix colormatrix = new ColorMatrix();
-            colormatrix.Matrix33 = (float)trans;
+            ColorMatrix colormatrix = new ColorMatrix {Matrix33 = (float) trans};
             ImageAttributes imgAttribute = new ImageAttributes();
             imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
             graphics.DrawImage(img, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttribute);
@@ -78,7 +77,7 @@ namespace PKHeX
         internal static FileInfo GetNewestFile(DirectoryInfo directory)
         {
             return directory.GetFiles()
-                .Union(directory.GetDirectories().Select(d => GetNewestFile(d)))
+                .Union(directory.GetDirectories().Select(GetNewestFile))
                 .OrderByDescending(f => (f == null ? DateTime.MinValue : f.LastWriteTime))
                 .FirstOrDefault();
         }
@@ -137,8 +136,7 @@ namespace PKHeX
                 }
                 return path_3DS;
             }
-            catch { }
-            return null;
+            catch { return null; }
         }
         internal static string GetSDFLocation()
         {
@@ -155,22 +153,19 @@ namespace PKHeX
                 }
                 if (path_SDF == null)
                     return null;
-                else
-                {
-                    // 3DS data found in SD card reader. Let's get the title folder location!
-                    string[] folders = Directory.GetDirectories(path_SDF, "*", System.IO.SearchOption.TopDirectoryOnly);
-                    Array.Sort(folders); // Don't need Modified Date, sort by path names just in case.
+                // 3DS data found in SD card reader. Let's get the title folder location!
+                string[] folders = Directory.GetDirectories(path_SDF, "*", SearchOption.TopDirectoryOnly);
+                Array.Sort(folders); // Don't need Modified Date, sort by path names just in case.
 
-                    // Loop through all the folders in the Nintendo 3DS folder to see if any of them contain 'title'.
-                    for (int i = folders.Length - 1; i >= 0; i--)
-                    {
-                        if (File.Exists(Path.Combine(folders[i], "000011c4" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c4"); // OR
-                        if (File.Exists(Path.Combine(folders[i], "000011c5" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c5"); // AS
-                        if (File.Exists(Path.Combine(folders[i], "0000055d" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "0000055d"); // X
-                        if (File.Exists(Path.Combine(folders[i], "0000055e" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "0000055e"); // Y
-                    }
-                    return null; // Fallthrough
+                // Loop through all the folders in the Nintendo 3DS folder to see if any of them contain 'title'.
+                for (int i = folders.Length - 1; i >= 0; i--)
+                {
+                    if (File.Exists(Path.Combine(folders[i], "000011c4" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c4"); // OR
+                    if (File.Exists(Path.Combine(folders[i], "000011c5" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c5"); // AS
+                    if (File.Exists(Path.Combine(folders[i], "0000055d" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "0000055d"); // X
+                    if (File.Exists(Path.Combine(folders[i], "0000055e" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "0000055e"); // Y
                 }
+                return null; // Fallthrough
             }
             catch { return null; }
         }
@@ -181,15 +176,12 @@ namespace PKHeX
         internal static string TrimFromZero(string input)
         {
             int index = input.IndexOf('\0');
-            if (index < 0)
-                return input;
-
-            return input.Substring(0, index);
+            return index < 0 ? input : input.Substring(0, index);
         }
         internal static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split(new char[] { '\n' }).ToList();
+            List<string> rawlist = ((string)txt).Split(new[] { '\n' }).ToList();
 
             string[] stringdata = new string[rawlist.Count];
             for (int i = 0; i < rawlist.Count; i++)
@@ -200,7 +192,7 @@ namespace PKHeX
         internal static string[] getSimpleStringList(string f)
         {
             object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split(new char[] { '\n' }).ToList();
+            List<string> rawlist = ((string)txt).Split(new[] { '\n' }).ToList();
 
             string[] stringdata = new string[rawlist.Count];
             for (int i = 0; i < rawlist.Count; i++)
@@ -212,9 +204,9 @@ namespace PKHeX
         {
             try
             {
-                string[] newlist = new string[Util.ToInt32(SimpleStringList[SimpleStringList.Length - 1].Split(',')[0]) + 1];
+                string[] newlist = new string[ToInt32(SimpleStringList[SimpleStringList.Length - 1].Split(',')[0]) + 1];
                 for (int i = 1; i < SimpleStringList.Length; i++)
-                    newlist[Util.ToInt32(SimpleStringList[i].Split(',')[0])] = SimpleStringList[i].Split(',')[1];
+                    newlist[ToInt32(SimpleStringList[i].Split(',')[0])] = SimpleStringList[i].Split(',')[1];
                 return newlist;
             }
             catch { return null; }
@@ -255,7 +247,7 @@ namespace PKHeX
                 return 0;
             try
             {
-                value = value.TrimEnd(new char[] { '_' });
+                value = value.TrimEnd(new[] { '_' });
                 return Int32.Parse(value);
             }
             catch { return 0; }
@@ -267,7 +259,7 @@ namespace PKHeX
                 return 0;
             try
             {
-                value = value.TrimEnd(new char[] { '_' });
+                value = value.TrimEnd(new[] { '_' });
                 return UInt32.Parse(value);
             }
             catch { return 0; }
@@ -292,12 +284,10 @@ namespace PKHeX
         {
             if (str == null) return "0";
 
-            char c;
             string s = "";
 
-            for (int i = 0; i < str.Length; i++)
+            foreach (char c in str)
             {
-                c = str[i];
                 // filter for hex
                 if ((c < 0x0047 && c > 0x002F) || (c < 0x0067 && c > 0x0060))
                     s += c;
@@ -330,16 +320,15 @@ namespace PKHeX
             // debug(Controls);
             // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + lang + ".txt";
+            string externalLangPath = Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + lang + ".txt";
             string[] rawlist;
             if (File.Exists(externalLangPath))
                 rawlist = File.ReadAllLines(externalLangPath);
             else
             {
-                object txt;
-                txt = Properties.Resources.ResourceManager.GetObject("lang_" + lang); // Fetch File, \n to list.
+                object txt = Properties.Resources.ResourceManager.GetObject("lang_" + lang);
                 if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                rawlist = ((string)txt).Split(new string[] { "\n" }, StringSplitOptions.None);
+                rawlist = ((string)txt).Split(new[] { "\n" }, StringSplitOptions.None);
                 rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
             }
 
@@ -408,19 +397,19 @@ namespace PKHeX
         {
             System.Media.SystemSounds.Exclamation.Play();
             string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
-            return (DialogResult)MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         internal static DialogResult Alert(params string[] lines)
         {
             System.Media.SystemSounds.Asterisk.Play();
             string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
-            return (DialogResult)MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
             string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
-            return (DialogResult)MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
+            return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
 
         // DataSource Providing
@@ -432,11 +421,10 @@ namespace PKHeX
         internal static List<cbItem> getCBList(string textfile, string lang)
         {
             // Set up
-            List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = Util.getSimpleStringList(textfile);
+            string[] inputCSV = getSimpleStringList(textfile);
 
             // Get Language we're fetching for
-            int index = Array.IndexOf(new string[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
+            int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
 
             // Set up our Temporary Storage
             string[] unsortedList = new string[inputCSV.Length - 1];
@@ -456,20 +444,17 @@ namespace PKHeX
             Array.Sort(sortedList);
 
             // Arrange the input data based on original number
-            for (int i = 0; i < sortedList.Length; i++)
+            return sortedList.Select(s => new cbItem
             {
-                cbItem ncbi = new cbItem();
-                ncbi.Text = sortedList[i];
-                ncbi.Value = indexes[Array.IndexOf(unsortedList, sortedList[i])];
-                cbList.Add(ncbi);
-            }
-            return cbList;
+                Text = s, 
+                Value = indexes[Array.IndexOf(unsortedList, s)]
+            }).ToList();
         }
         internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
         {
             List<cbItem> cbList = new List<cbItem>();
             if (allowed == null)
-                allowed = new int[][] { Enumerable.Range(0, inStrings.Length).ToArray() };
+                allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
             foreach (int[] list in allowed)
             {
@@ -483,13 +468,11 @@ namespace PKHeX
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                for (int i = 0; i < sortedChoices.Length; i++)
+                cbList.AddRange(sortedChoices.Select(t => new cbItem
                 {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedChoices[i];
-                    ncbi.Value = list[Array.IndexOf(unsortedChoices, sortedChoices[i])];
-                    cbList.Add(ncbi);
-                }
+                    Text = t, 
+                    Value = list[Array.IndexOf(unsortedChoices, t)]
+                }));
             }
             return cbList;
         }
@@ -513,13 +496,10 @@ namespace PKHeX
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                for (int i = 0; i < sortedChoices.Length; i++)
+                cbList.AddRange(sortedChoices.Select(s => new cbItem
                 {
-                    cbItem ncbi = new cbItem();
-                    ncbi.Text = sortedChoices[i];
-                    ncbi.Value = allowed[Array.IndexOf(unsortedChoices, sortedChoices[i])];
-                    cbList.Add(ncbi);
-                }
+                    Text = s, Value = allowed[Array.IndexOf(unsortedChoices, s)]
+                }));
             }
             return cbList;
         }
@@ -531,9 +511,11 @@ namespace PKHeX
             for (int i = 4; i > 1; i--) // add 4,3,2
             {
                 // First 3 Balls are always first
-                cbItem ncbi = new cbItem();
-                ncbi.Text = inStrings[i];
-                ncbi.Value = i;
+                cbItem ncbi = new cbItem
+                {
+                    Text = inStrings[i], 
+                    Value = i
+                };
                 newlist.Add(ncbi);
             }
 
@@ -547,28 +529,28 @@ namespace PKHeX
             Array.Sort(sortedballs);
 
             // Add the rest of the balls
-            for (int i = 0; i < sortedballs.Length; i++)
+            newlist.AddRange(sortedballs.Select(t => new cbItem
             {
-                cbItem ncbi = new cbItem();
-                ncbi.Text = sortedballs[i];
-                ncbi.Value = stringVal[Array.IndexOf(ballnames, sortedballs[i])];
-                newlist.Add(ncbi);
-            }
+                Text = t, 
+                Value = stringVal[Array.IndexOf(ballnames, t)]
+            }));
             return newlist;
         }
         internal static List<cbItem> getUnsortedCBList(string textfile)
         {
             // Set up
             List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = Util.getSimpleStringList(textfile);
+            string[] inputCSV = getSimpleStringList(textfile);
 
             // Gather our data from the input file
             for (int i = 1; i < inputCSV.Length; i++)
             {
                 string[] inputData = inputCSV[i].Split(',');
-                cbItem ncbi = new cbItem();
-                ncbi.Value = Convert.ToInt32(inputData[0]);
-                ncbi.Text = inputData[1];
+                cbItem ncbi = new cbItem 
+                {
+                    Text = inputData[1], 
+                    Value = Convert.ToInt32(inputData[0])
+                };
                 cbList.Add(ncbi);
             }
             return cbList;

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -59,7 +54,7 @@ namespace PKHeX
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
         public int savindex; int shiftval;
-        public bool editing = false;
+        public bool editing;
         private int data_offset = 0x1E800;
 
         private string[] types = Form1.types;
@@ -71,16 +66,12 @@ namespace PKHeX
 
         private void Setup()
         {
-            try
-            {
-                CB_Species.Items.Clear();
-                CB_HeldItem.Items.Clear();
-                CB_Move1.Items.Clear();
-                CB_Move2.Items.Clear();
-                CB_Move3.Items.Clear();
-                CB_Move4.Items.Clear();
-            }
-            catch { }
+            CB_Species.Items.Clear();
+            CB_HeldItem.Items.Clear();
+            CB_Move1.Items.Clear();
+            CB_Move2.Items.Clear();
+            CB_Move3.Items.Clear();
+            CB_Move4.Items.Clear();
 
             #region Species
             {
@@ -123,7 +114,6 @@ namespace PKHeX
         {
             editing = false;
             RTB.Font = new Font("Courier New", 8);
-            string s = "";
             RTB.LanguageOption = RichTextBoxLanguageOptions.DualFont;
             int index = LB_DataEntry.SelectedIndex;
             int offset = index * 0x1B4;
@@ -131,7 +121,7 @@ namespace PKHeX
             uint vnd = BitConverter.ToUInt32(data, offset + 0x1B0);
             uint vn = vnd & 0xFF;
             TB_VN.Text = vn.ToString("000");
-            s = "Entry #" + vn + Environment.NewLine;
+            string s = "Entry #" + vn + Environment.NewLine;
             uint date = (vnd >> 14) & 0x1FFFF;
             uint year = (date & 0xFF) + 2000;
             uint month = (date >> 8) & 0xF;
@@ -139,20 +129,17 @@ namespace PKHeX
             if (day == 0)
             {
                 s += "No records in this slot.";
-                for (int i = 0; i < editor_spec.Length; i++)
-                    ((Control)editor_spec[i]).Enabled = false;
+                foreach (object t in editor_spec)
+                    ((Control)t).Enabled = false;
 
                 editing = false;
                 NUP_PartyIndex_ValueChanged(sender, e);
                 goto end;
             }
-            else 
-            {
-                for (int i = 0; i < editor_spec.Length; i++)
-                    ((Control)editor_spec[i]).Enabled = true;
-            }
+            foreach (object t in editor_spec)
+                ((Control)t).Enabled = true;
 
-            s += "Date: " + year.ToString() + "/" + month.ToString() + "/" + day.ToString() + "" + Environment.NewLine + Environment.NewLine;
+            s += "Date: " + year + "/" + month + "/" + day + "" + Environment.NewLine + Environment.NewLine;
             CAL_MetDate.Value = new DateTime((int)year, (int)month, (int)day);
             int moncount = 0;
             for (int i = 0; i < 6; i++)
@@ -168,11 +155,11 @@ namespace PKHeX
                 int SID = BitConverter.ToUInt16(data, offset + 0x12);
 
                 uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
-                uint form = slgf & 0x1F;
+                // uint form = slgf & 0x1F;
                 uint gender = (slgf >> 5) & 3; // 0 M; 1 F; 2 G
                 uint level = (slgf >> 7) & 0x7F;
                 uint shiny = (slgf >> 14) & 0x1;
-                uint unkn = slgf >> 15;
+                // uint unkn = slgf >> 15;
 
                 string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 22));
                 string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 22));
@@ -186,14 +173,14 @@ namespace PKHeX
 
                 s += "Name: " + nickname;
                 s += " (" + Form1.specieslist[species] + " - " + genderstr + ")" + Environment.NewLine;
-                s += "Level: " + level.ToString() + Environment.NewLine;
+                s += "Level: " + level + Environment.NewLine;
                 s += "Shiny: " + shinystr + Environment.NewLine;
                 s += "Held Item: " + Form1.itemlist[helditem] + Environment.NewLine;
                 s += "Move 1: " + Form1.movelist[move1] + Environment.NewLine;
                 s += "Move 2: " + Form1.movelist[move2] + Environment.NewLine;
                 s += "Move 3: " + Form1.movelist[move3] + Environment.NewLine;
                 s += "Move 4: " + Form1.movelist[move4] + Environment.NewLine;
-                s += "OT: " + OTname + " (" + TID.ToString() + "/" + SID.ToString() + ")" + Environment.NewLine;
+                s += "OT: " + OTname + " (" + TID + "/" + SID + ")" + Environment.NewLine;
                 s += Environment.NewLine;
 
                 offset += 0x48;
@@ -412,10 +399,7 @@ namespace PKHeX
 
             if (gt < 256) // If not a single gender(less) species:
             {
-                if (PKX.getGender(Label_Gender.Text) == 0) // ♂
-                    Label_Gender.Text = gendersymbols[1]; // ♀
-                else
-                    Label_Gender.Text = gendersymbols[0]; // ♂
+                Label_Gender.Text = PKX.getGender(Label_Gender.Text) == 0 ? gendersymbols[1] : gendersymbols[0];
 
                 if (PKX.getGender(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
                     CB_Form.SelectedIndex = 1;
@@ -447,26 +431,25 @@ namespace PKHeX
             { bpkx.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
             else
             {
-                file = "_" + species.ToString();
+                file = "_" + species;
                 if (form > 0) // Alt Form Handling
-                    file = file + "_" + form.ToString();
+                    file = file + "_" + form;
                 else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
-                    file = file = "_" + species.ToString() + "f";
+                    file = "_" + species + "f";
             }
 
             Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
             if (shiny)
             {   // Is Shiny
                 // Redraw our image
-                baseImage = PKHeX.Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
+                baseImage = Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
             }
             if (item > 0)
             {
                 // Has Item
-                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item.ToString());
-                if (itemimg == null) itemimg = Properties.Resources.helditem;
+                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
                 // Redraw
-                baseImage = PKHeX.Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
             }
             bpkx.Image = baseImage;
             editing = true;

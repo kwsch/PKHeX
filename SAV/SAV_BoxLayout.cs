@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -22,8 +18,8 @@ namespace PKHeX
 
             // Repopulate Wallpaper names
             CB_BG.Items.Clear();
-            for (int i = 0; i < Form1.wallpapernames.Length; i++)
-                CB_BG.Items.Add(Form1.wallpapernames[i]);
+            foreach (string wallpaper in Form1.wallpapernames)
+                CB_BG.Items.Add(wallpaper);
 
             // Go
             LB_BoxSelect.SelectedIndex = m_parent.C_BoxSelect.SelectedIndex;

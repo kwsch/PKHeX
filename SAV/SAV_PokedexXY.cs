@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -26,7 +20,7 @@ namespace PKHeX
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
-        public int savshift = 0;
+        public int savshift;
         public bool[,] specbools = new bool[10, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
         public bool[] foreignbools = new bool[0x52 * 8];
@@ -34,12 +28,8 @@ namespace PKHeX
         private void Setup()
         {
             // Clear Listbox and ComboBox
-            try
-            {
-                LB_Species.Items.Clear();
-                CB_Species.Items.Clear();
-            }
-            catch { }
+            LB_Species.Items.Clear();
+            CB_Species.Items.Clear();
 
             // Fill List
             #region Species
@@ -93,7 +83,7 @@ namespace PKHeX
                 editing = true;
                 int index = (int)CB_Species.SelectedValue;
                 LB_Species.SelectedIndex = index - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
-                LB_Species.TopIndex = (int)(LB_Species.SelectedIndex);
+                LB_Species.TopIndex = LB_Species.SelectedIndex;
                 loadchks();
                 editing = false;
             }
@@ -116,17 +106,19 @@ namespace PKHeX
         private void loadchks()
         {
             // Load Bools for the data
-            int pk = 0;
+            int pk;
             try
             {
                 pk = Util.getIndex(CB_Species);
             }
-            catch { pk = (int)LB_Species.SelectedIndex + 1; }
+            catch { pk = LB_Species.SelectedIndex + 1; }
 
-            CheckBox[] CP = new CheckBox[] {
+            CheckBox[] CP =
+            {
                 CHK_P1,CHK_P2,CHK_P3,CHK_P4,CHK_P5,CHK_P6,CHK_P7,CHK_P8,CHK_P9,CHK_P10,
             };
-            CheckBox[] CL = new CheckBox[] {
+            CheckBox[] CL =
+            {
                 CHK_L1,CHK_L2,CHK_L3,CHK_L4,CHK_L5,CHK_L6,CHK_L7,
             };
             // Load Partitions
@@ -201,7 +193,7 @@ namespace PKHeX
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -209,7 +201,7 @@ namespace PKHeX
 
             // Return back to the parent savefile
             Array.Copy(sav, m_parent.savefile, sav.Length);
-            this.Close();
+            Close();
         }
         private void saveChanges()
         {
@@ -272,23 +264,23 @@ namespace PKHeX
                 CHK_L4.Checked =
                 CHK_L5.Checked =
                 CHK_L6.Checked =
-                CHK_L7.Checked = !(ModifierKeys == Keys.Control);
+                CHK_L7.Checked = ModifierKeys != Keys.Control;
             }
             if (CHK_P1.Enabled)
             {
                 CHK_P1.Checked =
-                CHK_P10.Checked = !(ModifierKeys == Keys.Control);
+                CHK_P10.Checked = ModifierKeys != Keys.Control;
             }
             if (CHK_F1.Enabled)
             {
-                CHK_F1.Checked = !(ModifierKeys == Keys.Control);
+                CHK_F1.Checked = ModifierKeys != Keys.Control;
             }
             int index = LB_Species.SelectedIndex+1;
             PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(index);
             int gt = MonData.GenderRatio;
 
-            CHK_P2.Checked = CHK_P4.Checked = CHK_P6.Checked = CHK_P8.Checked = ((gt != 254)) && !(ModifierKeys == Keys.Control);
-            CHK_P3.Checked = CHK_P5.Checked = CHK_P7.Checked = CHK_P9.Checked = (gt != 0) && (gt != 255) && !(ModifierKeys == Keys.Control);
+            CHK_P2.Checked = CHK_P4.Checked = CHK_P6.Checked = CHK_P8.Checked = ((gt != 254)) && ModifierKeys != Keys.Control;
+            CHK_P3.Checked = CHK_P5.Checked = CHK_P7.Checked = CHK_P9.Checked = (gt != 0) && (gt != 255) && ModifierKeys != Keys.Control;
  
             changePartitionBool(null, null);
             changeLanguageBool(null, null);

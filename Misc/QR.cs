@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Net;
 
 namespace PKHeX
 {
@@ -31,13 +26,13 @@ namespace PKHeX
                 g.DrawString(top, font, Brushes.Black, new PointF(18, 5));
                 g.DrawString(bottom, font, Brushes.Black, new PointF(18, pic.Width - 15));
                 g.DrawString(left.Replace("s",""), font, Brushes.Black, new PointF(0, 18)); // trim off *V-s-:
-                g.DrawString(right, font, Brushes.Black, new PointF(pic.Width - 15, 18), new System.Drawing.StringFormat(StringFormatFlags.DirectionVertical));
+                g.DrawString(right, font, Brushes.Black, new PointF(pic.Width - 15, 18), new StringFormat(StringFormatFlags.DirectionVertical));
 
                 PB_QR.BackgroundImage = pic;
             }
             else
             {
-                int stretch = 50;
+                const int stretch = 50;
                 Height += stretch;
                 Image newpic = new Bitmap(PB_QR.Width, PB_QR.Height);
                 Graphics g = Graphics.FromImage(newpic);
@@ -46,7 +41,7 @@ namespace PKHeX
 
                 g.DrawString(top, font, Brushes.Black, new PointF(18, qr.Height - 5));
                 g.DrawString(bottom, font, Brushes.Black, new PointF(18, qr.Height + 8));
-                g.DrawString(left.Replace(Environment.NewLine.ToString(), "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(18, qr.Height + 20));
+                g.DrawString(left.Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(18, qr.Height + 20));
                 g.DrawString(right, font, Brushes.Black, new PointF(18, qr.Height + 32));
 
                 PB_QR.BackgroundImage = newpic;

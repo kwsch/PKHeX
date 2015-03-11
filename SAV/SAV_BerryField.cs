@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -16,14 +10,13 @@ namespace PKHeX
             berryfoffset = bfo;
             InitializeComponent();
             Util.TranslateInterface(this, Form1.curlanguage);
-            m_parent = frm1;
-            Array.Copy(m_parent.savefile, sav, 0x100000);
-            savindex = m_parent.savindex;
+            Form1 mParent = frm1;
+            Array.Copy(mParent.savefile, sav, 0x100000);
+            savindex = mParent.savindex;
             shiftval = savindex * 0x7F000;
             listBox1.SelectedIndex = 0;
         }
         int berryfoffset;
-        Form1 m_parent;
         public byte[] sav = new byte[0x100000];
         public int savindex; int shiftval;
         public bool editing = false;

@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
-    public partial class PKX
+    public class PKX
     {
         // C# PKX Function Library
         // No WinForm object related code, only to calculate information.
@@ -225,11 +225,9 @@ namespace PKHeX
             int tl = 0; // Initial Level, immediately incremented before loop.
             while ((uint)table.Rows[++tl][growth + 1] <= exp)
             {
-                if (tl == 100)
-                {
-                    exp = getEXP(100, species); // Fix EXP
-                    return 100;
-                }
+                if (tl != 100) continue;
+                exp = getEXP(100, species); // Fix EXP
+                return 100;
                 // After we find the level above ours, we're done.
             }
             return --tl;
@@ -285,11 +283,9 @@ namespace PKHeX
                     for (int i = 1; i < inputCSV.Length; i++)
                     {
                         string[] countryData = inputCSV[i].Split(',');
-                        if (countryData.Length > 1)
-                        {
-                            indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                            unsortedList[i - 1] = countryData[index + 1];
-                        }
+                        if (countryData.Length <= 1) continue;
+                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                        unsortedList[i - 1] = countryData[index + 1];
                     }
 
                     int countrynum = Array.IndexOf(indexes, country);
@@ -311,11 +307,9 @@ namespace PKHeX
                     for (int i = 1; i < inputCSV.Length; i++)
                     {
                         string[] countryData = inputCSV[i].Split(',');
-                        if (countryData.Length > 1)
-                        {
-                            indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                            unsortedList[i - 1] = countryData[index + 1];
-                        }
+                        if (countryData.Length <= 1) continue;
+                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                        unsortedList[i - 1] = countryData[index + 1];
                     }
 
                     int regionnum = Array.IndexOf(indexes, region);
@@ -385,11 +379,9 @@ namespace PKHeX
             // Account for nature
             int incr = nature / 5 + 1;
             int decr = nature % 5 + 1;
-            if (incr != decr)
-            {
-                stats[incr] *= 11; stats[incr] /= 10;
-                stats[decr] *= 9; stats[decr] /= 10;
-            }
+            if (incr == decr) return stats; // if neutral return stats without mod
+            stats[incr] *= 11; stats[incr] /= 10;
+            stats[decr] *= 9; stats[decr] /= 10;
 
             // Return Result
             return stats;
@@ -440,9 +432,9 @@ namespace PKHeX
 
             // Decrypt the Party Stats
             seed = pv;
-            if (pkx.Length > 232)
-                for (int i = 232; i < 260; i += 2)
-                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
+            if (pkx.Length <= 232) return pkx;
+            for (int i = 232; i < 260; i += 2)
+                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
 
             return pkx;
         }
@@ -478,7 +470,7 @@ namespace PKHeX
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
                 chk += BitConverter.ToUInt16(data, i);
-
+            
             return chk;
         }
         internal static bool verifychk(byte[] input)
@@ -1001,88 +993,80 @@ namespace PKHeX
                 public string Name;
                 public SaveGame(string GameID)
                 {
-                    if (GameID == "XY")
+                    switch (GameID)
                     {
-                        Name = "XY";
-                        Box = 0x27A00;
-                        TrainerCard = 0x19400;
-                        Party = 0x19600;
-                        BattleBox = 0x09E00;
-                        Daycare = 0x20600;
-                        GTS = 0x1CC00;
-                        Fused = 0x1B400;
-                        SUBE = 0x22C90;
-
-                        Puff = 0x5400;
-                        Item = 0x5800;
-                        Trainer1 = 0x6800;
-                        Trainer2 = 0x9600;
-                        PCLayout = 0x9800;
-                        Wondercard = 0x21000;
-                        BerryField = 0x20C00;
-                        OPower = 0x1BE00;
-                        EventFlag = 0x19E00;
-                        PokeDex = 0x1A400;
-
-                        HoF = 0x1E800;
-                        JPEG = 0x5C600;
-                        PSS = 0x0A400;
-                    }
-                    else if (GameID == "ORAS")
-                    {
-                        // Temp
-                        Name = "ORAS";
-                        Box = 0x38400;      // Confirmed
-                        TrainerCard = 0x19400; // Confirmed
-                        Party = 0x19600;    // Confirmed
-                        BattleBox = 0x09E00;// Confirmed
-                        Daycare = 0x21000; // Confirmed (thanks Rei)
-                        GTS = 0x1D600; // Confirmed
-                        Fused = 0x1BE00; // Confirmed
-                        SUBE = 0x22C90; // ****not in use, not updating?****
-
-                        Puff = 0x5400; // Confirmed
-                        Item = 0x5800; // Confirmed
-                        Trainer1 = 0x6800; // Confirmed
-                        Trainer2 = 0x9600; // Confirmed
-                        PCLayout = 0x9800; // Confirmed
-                        Wondercard = 0x22000; // Confirmed
-                        BerryField = 0x20C00; // ****changed****
-                        OPower = 0x1BE00;
-                        EventFlag = 0x19E00; // Confirmed
-                        PokeDex = 0x1A400;
-
-                        HoF = 0x1F200; // Confirmed
-                        JPEG = 0x6D000; // Confirmed
-                        PSS = 0x0A400; // Confirmed (thanks Rei)
-                    }
-                    else
-                    {
-                        // Copied...
-                        Name = "Unknown";
-                        Box = 0x27A00;
-                        TrainerCard = 0x19400;
-                        Party = 0x19600;
-                        BattleBox = 0x09E00;
-                        Daycare = 0x20600;
-                        GTS = 0x1CC00;
-                        Fused = 0x1B400;
-                        SUBE = 0x22C90;
-
-                        Puff = 0x5400;
-                        Item = 0x5800;
-                        Trainer1 = 0x6800;
-                        Trainer2 = 0x9600;
-                        PCLayout = 0x9800;
-                        Wondercard = 0x21000;
-                        BerryField = 0x20C00;
-                        OPower = 0x1BE00;
-                        EventFlag = 0x19E00;
-                        PokeDex = 0x1A400;
-
-                        HoF = 0x1E800;
-                        JPEG = 0x5C600;
-                        PSS = 0x0A400;
+                        case "XY":
+                            Name = "XY";
+                            Box = 0x27A00;
+                            TrainerCard = 0x19400;
+                            Party = 0x19600;
+                            BattleBox = 0x09E00;
+                            Daycare = 0x20600;
+                            GTS = 0x1CC00;
+                            Fused = 0x1B400;
+                            SUBE = 0x22C90;
+                            Puff = 0x5400;
+                            Item = 0x5800;
+                            Trainer1 = 0x6800;
+                            Trainer2 = 0x9600;
+                            PCLayout = 0x9800;
+                            Wondercard = 0x21000;
+                            BerryField = 0x20C00;
+                            OPower = 0x1BE00;
+                            EventFlag = 0x19E00;
+                            PokeDex = 0x1A400;
+                            HoF = 0x1E800;
+                            JPEG = 0x5C600;
+                            PSS = 0x0A400;
+                            break;
+                        case "ORAS":
+                            Name = "ORAS";
+                            Box = 0x38400;      // Confirmed
+                            TrainerCard = 0x19400; // Confirmed
+                            Party = 0x19600;    // Confirmed
+                            BattleBox = 0x09E00;// Confirmed
+                            Daycare = 0x21000; // Confirmed (thanks Rei)
+                            GTS = 0x1D600; // Confirmed
+                            Fused = 0x1BE00; // Confirmed
+                            SUBE = 0x22C90; // ****not in use, not updating?****
+                            Puff = 0x5400; // Confirmed
+                            Item = 0x5800; // Confirmed
+                            Trainer1 = 0x6800; // Confirmed
+                            Trainer2 = 0x9600; // Confirmed
+                            PCLayout = 0x9800; // Confirmed
+                            Wondercard = 0x22000; // Confirmed
+                            BerryField = 0x20C00; // ****changed****
+                            OPower = 0x1BE00;
+                            EventFlag = 0x19E00; // Confirmed
+                            PokeDex = 0x1A400;
+                            HoF = 0x1F200; // Confirmed
+                            JPEG = 0x6D000; // Confirmed
+                            PSS = 0x0A400; // Confirmed (thanks Rei)
+                            break;
+                        default:
+                            Name = "Unknown";
+                            Box = 0x27A00;
+                            TrainerCard = 0x19400;
+                            Party = 0x19600;
+                            BattleBox = 0x09E00;
+                            Daycare = 0x20600;
+                            GTS = 0x1CC00;
+                            Fused = 0x1B400;
+                            SUBE = 0x22C90;
+                            Puff = 0x5400;
+                            Item = 0x5800;
+                            Trainer1 = 0x6800;
+                            Trainer2 = 0x9600;
+                            PCLayout = 0x9800;
+                            Wondercard = 0x21000;
+                            BerryField = 0x20C00;
+                            OPower = 0x1BE00;
+                            EventFlag = 0x19E00;
+                            PokeDex = 0x1A400;
+                            HoF = 0x1E800;
+                            JPEG = 0x5C600;
+                            PSS = 0x0A400;
+                            break;
                     }
                 }
             }
@@ -1118,11 +1102,10 @@ namespace PKHeX
                     savindex = 2;
                 }
             }
-            if ((data[0x168] ^ 1) != savindex && savindex != 2)
-            {
-                Console.WriteLine("ERROR: ACTIVE BLOCK MISMATCH");
-                savindex = 2;
-            }
+            if ((data[0x168] ^ 1) == savindex || savindex == 2) // success
+                return savindex;
+            Console.WriteLine("ERROR: ACTIVE BLOCK MISMATCH");
+            savindex = 2;
             return savindex;
         }
         internal static ushort ccitt16(byte[] data)
@@ -1208,12 +1191,11 @@ namespace PKHeX
             internal Personal GetPersonal(int species, int formID)
             {
                 Personal data = GetPersonal(species);
-                if (formID > 0 && formID <= data.AltFormCount && data.AltFormCount > 0 && data.FormPointer > 0) // Working with an Alt Forme with a base stat change
-                {
-                    formID--;
-                    data = GetPersonal(721 + formID + data.FormPointer);
-                }
-                return data;
+                if (formID <= 0 || formID > data.AltFormCount || data.AltFormCount <= 0 || data.FormPointer <= 0)
+                    return data;
+
+                // Working with an Alt Forme with a base stat change
+                return GetPersonal(721 + --formID + data.FormPointer);
             }
         }
 
@@ -1244,7 +1226,7 @@ namespace PKHeX
             new[] { 1, 1, 1, 0, 0, 1 }, // Ground
             new[] { 1, 1, 0, 1, 0, 0 }, // Rock
             new[] { 1, 0, 0, 1, 0, 1 }, // Bug
-            new[] { 1, 1, 0, 1, 0, 1 }, // Ghost
+            new[] { 1, 0, 1, 1, 0, 1 }, // Ghost
             new[] { 1, 1, 1, 1, 0, 1 }, // Steel
             new[] { 1, 0, 1, 0, 1, 0 }, // Fire
             new[] { 1, 0, 0, 0, 1, 1 }, // Water
@@ -1253,7 +1235,7 @@ namespace PKHeX
             new[] { 1, 0, 1, 1, 1, 0 }, // Psychic
             new[] { 1, 0, 0, 1, 1, 1 }, // Ice
             new[] { 1, 0, 1, 1, 1, 1 }, // Dragon
-            new[] { 1, 1, 1, 1, 1, 1 }  // Dark
+            new[] { 1, 1, 1, 1, 1, 1 }, // Dark
         };
         public class Simulator
         {
@@ -1291,7 +1273,6 @@ namespace PKHeX
                     string[] stats =  { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
 
                     string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-                    Nickname = null;
 
                     // Seek for start of set
                     int start = -1;

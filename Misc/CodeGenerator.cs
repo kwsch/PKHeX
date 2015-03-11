@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace PKHeX
 {
@@ -19,13 +14,13 @@ namespace PKHeX
         PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame(null);
 
         Form1 m_parent;
-        byte[] tabdata = null;
+        byte[] tabdata;
         public CodeGenerator(Form1 frm1, byte[] formdata)
         {
             m_parent = frm1;
             tabdata = formdata;
             InitializeComponent();
-            this.CenterToParent();
+            CenterToParent();
             RTB_Code.Clear();
             TB_Write.Clear();
             SaveGame = m_parent.SaveGame;
@@ -157,8 +152,7 @@ namespace PKHeX
         }
         private void B_Load_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Code File|*.bin";
+            OpenFileDialog ofd = new OpenFileDialog {Filter = "Code File|*.bin"};
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 string path = ofd.FileName;
@@ -205,9 +199,7 @@ namespace PKHeX
                 Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[2], NumberStyles.HexNumber)),0,ncf,4+i*12+8,4);
             }
 
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "code.bin";
-            sfd.Filter = "Code File|*.bin";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = "code.bin", Filter = "Code File|*.bin"};
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string path = sfd.FileName;
@@ -296,7 +288,7 @@ namespace PKHeX
 
                 lines++;
                 if ((lines % 128 == 0) && CHK_Break.Checked)
-                { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1).ToString() + " ---" + Environment.NewLine + Environment.NewLine); }
+                { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1) + " ---" + Environment.NewLine + Environment.NewLine); }
                 if (lines > 10000) goto toomany;
             }
 
@@ -350,19 +342,16 @@ namespace PKHeX
                 {
                     if (RTB_Code.Lines[i].Length <= 2 * 8 && RTB_Code.Lines[i].Length > 2 * 8 + 2)
                     { Util.Error("Invalid code pasted (Type)"); return; }
-                    else
+                    try
                     {
-                        try
-                        {
-                            // Grab Line Data
-                            string line = RTB_Code.Lines[i];
-                            string[] rip = Regex.Split(line, " ");
-                            Array.Resize(ref data, data.Length + 4);
-                            Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[1], NumberStyles.HexNumber)), 0, data, data.Length - 4, 4);
-                        }
-                        catch (Exception x)
-                        { Util.Error("Invalid code pasted (Content):", x.ToString()); return; }
+                        // Grab Line Data
+                        string line = RTB_Code.Lines[i];
+                        string[] rip = Regex.Split(line, " ");
+                        Array.Resize(ref data, data.Length + 4);
+                        Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[1], NumberStyles.HexNumber)), 0, data, data.Length - 4, 4);
                     }
+                    catch (Exception x)
+                    { Util.Error("Invalid code pasted (Content):", x.ToString()); return; }
                 }
             }
             // Go over the data
@@ -373,14 +362,8 @@ namespace PKHeX
                 data[0] = data[1] = data[2] = data[3] = 0;
             }
             if ((data.Length == 232) || (data.Length == 260))
-            {
-                this.returnArray = data;
-                this.Close();
-            }
-            else
-            {
-                Util.Error("Invalid code pasted (Length)"); return;
-            }
+            { returnArray = data; Close(); }
+            else { Util.Error("Invalid code pasted (Length)"); }
         }
     }
 }

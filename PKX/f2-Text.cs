@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -14,19 +9,19 @@ namespace PKHeX
         public f2_Text(TextBox TB_NN)
         {
             Form1.specialChars = true;
-            this.Hide();
+            Hide();
             InitializeComponent();
             Util.TranslateInterface(this, Form1.curlanguage);
             TB_Nickname = TB_NN;
             Font pkxFont = PKX.getPKXFont(12F);
-            Label[] lbla = new Label[] 
+            Label[] lbla =
             { 
                 L00, L01, L02, L03, L04, L05, L06, L07,
                 L08, L09, L0A, L0B, L0C, L0D, L0E, L0F,
                 L10, L11, L12, L13, L14, L15, L16, L17,
                 L18, L19, L1A, L1B, L1C, L1D, L1E, L1F,
             };
-            ushort[] chars = new ushort[]
+            ushort[] chars =
             {
                 0xE081, 0xE082, 0xE083, 0xE084, 0xE085, 0xE086, 0xE087, 0xE08D, 
                 0xE08E, 0xE08F, 0xE090, 0xE091, 0xE092, 0xE093, 0xE094, 0xE095, 
@@ -37,10 +32,10 @@ namespace PKHeX
             {
                 lbla[i].Font = pkxFont;
                 lbla[i].Text = Convert.ToChar(chars[i]).ToString();
-                lbla[i].Click += new EventHandler(onClick);
+                lbla[i].Click += onClick;
             }
-            this.CenterToParent();
-            this.Show();
+            CenterToParent();
+            Show();
         }
         TextBox TB_Nickname;
         private void onClick(object sender, EventArgs e)

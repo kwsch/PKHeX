@@ -1,7 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Timers;
 using System.Windows.Forms;
-using System.Timers;
 
 namespace PKHeX
 {
@@ -13,7 +11,7 @@ namespace PKHeX
             InitializeComponent();
             m_parent = frm1;
             System.Timers.Timer myTimer = new System.Timers.Timer();
-            myTimer.Elapsed += new ElapsedEventHandler(DisplayTimeEvent);
+            myTimer.Elapsed += DisplayTimeEvent;
             myTimer.Interval = 50; // milliseconds per trigger interval
             myTimer.Start();
         }
@@ -24,7 +22,7 @@ namespace PKHeX
                 else { L_Status.Text = Form1.Status; }
             else
                 if (InvokeRequired && IsHandleCreated)
-                    try { Invoke((MethodInvoker)delegate() { Close(); }); } catch { Close(); }
+                    try { Invoke((MethodInvoker)Close); } catch { Close(); }
                 else Close();
         }
     }

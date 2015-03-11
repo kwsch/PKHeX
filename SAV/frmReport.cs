@@ -2,14 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using System.Security.Cryptography;
-using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
@@ -26,7 +22,6 @@ namespace PKHeX
             SaveData = new byte[InputData.Length];
             Array.Copy(InputData, SaveData, InputData.Length);
             PokemonList PL = new PokemonList();
-            PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("XY");
             if (savindex > 1) savindex = 0;
             BoxBar.Maximum = 930 + 100;
             BoxBar.Step = 1;
@@ -62,9 +57,11 @@ namespace PKHeX
         {
             if (Util.Prompt(MessageBoxButtons.YesNo,"Save all the data to CSV?") == DialogResult.Yes)
             {
-                SaveFileDialog savecsv = new SaveFileDialog();
-                savecsv.Filter = "Spreadsheet|*.csv";
-                savecsv.FileName = "Box Data Dump.csv";
+                SaveFileDialog savecsv = new SaveFileDialog
+                {
+                    Filter = "Spreadsheet|*.csv",
+                    FileName = "Box Data Dump.csv"
+                };
                 if (savecsv.ShowDialog() == DialogResult.OK)
                     Export_CSV(savecsv.FileName);
             }
@@ -103,16 +100,16 @@ namespace PKHeX
         private ListSortDirection listSortDirection;
         private PropertyDescriptor propertyDescriptor;
 
-        public SortableBindingList()
+        protected SortableBindingList()
             : base(new List<T>())
         {
-            this.comparers = new Dictionary<Type, PropertyComparer<T>>();
+            comparers = new Dictionary<Type, PropertyComparer<T>>();
         }
 
         public SortableBindingList(IEnumerable<T> enumeration)
             : base(new List<T>(enumeration))
         {
-            this.comparers = new Dictionary<Type, PropertyComparer<T>>();
+            comparers = new Dictionary<Type, PropertyComparer<T>>();
         }
 
         protected override bool SupportsSortingCore
@@ -122,17 +119,17 @@ namespace PKHeX
 
         protected override bool IsSortedCore
         {
-            get { return this.isSorted; }
+            get { return isSorted; }
         }
 
         protected override PropertyDescriptor SortPropertyCore
         {
-            get { return this.propertyDescriptor; }
+            get { return propertyDescriptor; }
         }
 
         protected override ListSortDirection SortDirectionCore
         {
-            get { return this.listSortDirection; }
+            get { return listSortDirection; }
         }
 
         protected override bool SupportsSearchingCore
@@ -142,38 +139,38 @@ namespace PKHeX
 
         protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection direction)
         {
-            List<T> itemsList = (List<T>)this.Items;
+            List<T> itemsList = (List<T>)Items;
 
             Type propertyType = property.PropertyType;
             PropertyComparer<T> comparer;
-            if (!this.comparers.TryGetValue(propertyType, out comparer))
+            if (!comparers.TryGetValue(propertyType, out comparer))
             {
                 comparer = new PropertyComparer<T>(property, direction);
-                this.comparers.Add(propertyType, comparer);
+                comparers.Add(propertyType, comparer);
             }
 
             comparer.SetPropertyAndDirection(property, direction);
             itemsList.Sort(comparer);
 
-            this.propertyDescriptor = property;
-            this.listSortDirection = direction;
-            this.isSorted = true;
+            propertyDescriptor = property;
+            listSortDirection = direction;
+            isSorted = true;
 
-            this.OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
         protected override void RemoveSortCore()
         {
-            this.isSorted = false;
-            this.propertyDescriptor = base.SortPropertyCore;
-            this.listSortDirection = base.SortDirectionCore;
+            isSorted = false;
+            propertyDescriptor = base.SortPropertyCore;
+            listSortDirection = base.SortDirectionCore;
 
-            this.OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
         protected override int FindCore(PropertyDescriptor property, object key)
         {
-            int count = this.Count;
+            int count = Count;
             for (int i = 0; i < count; ++i)
             {
                 T element = this[i];
@@ -194,35 +191,35 @@ namespace PKHeX
 
         public PropertyComparer(PropertyDescriptor property, ListSortDirection direction)
         {
-            this.propertyDescriptor = property;
+            propertyDescriptor = property;
             Type comparerForPropertyType = typeof(Comparer<>).MakeGenericType(property.PropertyType);
-            this.comparer = (IComparer)comparerForPropertyType.InvokeMember("Default", BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, null, null, null);
-            this.SetListSortDirection(direction);
+            comparer = (IComparer)comparerForPropertyType.InvokeMember("Default", BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, null, null, null);
+            SetListSortDirection(direction);
         }
 
         #region IComparer<T> Members
 
         public int Compare(T x, T y)
         {
-            return this.reverse * this.comparer.Compare(this.propertyDescriptor.GetValue(x), this.propertyDescriptor.GetValue(y));
+            return reverse * comparer.Compare(propertyDescriptor.GetValue(x), propertyDescriptor.GetValue(y));
         }
 
         #endregion
 
         private void SetPropertyDescriptor(PropertyDescriptor descriptor)
         {
-            this.propertyDescriptor = descriptor;
+            propertyDescriptor = descriptor;
         }
 
         private void SetListSortDirection(ListSortDirection direction)
         {
-            this.reverse = direction == ListSortDirection.Ascending ? 1 : -1;
+            reverse = direction == ListSortDirection.Ascending ? 1 : -1;
         }
 
         public void SetPropertyAndDirection(PropertyDescriptor descriptor, ListSortDirection direction)
         {
-            this.SetPropertyDescriptor(descriptor);
-            this.SetListSortDirection(direction);
+            SetPropertyDescriptor(descriptor);
+            SetListSortDirection(direction);
         }
     }
 }

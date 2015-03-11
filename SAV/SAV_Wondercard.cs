@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 
 namespace PKHeX
 {
@@ -28,8 +23,8 @@ namespace PKHeX
             if (LB_Received.Items.Count > 0)
                 LB_Received.SelectedIndex = 0;
 
-            this.DragEnter += new DragEventHandler(tabMain_DragEnter);
-            this.DragDrop += new DragEventHandler(tabMain_DragDrop);
+            DragEnter += tabMain_DragEnter;
+            DragDrop += tabMain_DragDrop;
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
@@ -37,7 +32,7 @@ namespace PKHeX
         public int savindex;
         public bool editing = false;
         private int wcoffset = 0x21100;
-        private uint herpesval = 0x225D73C2;
+        private const uint herpesval = 0x225D73C2;
 
         // Repopulation Functions
         private void populateWClist()
@@ -107,7 +102,6 @@ namespace PKHeX
                 Util.Error("Loading of data failed... is this really a Wondercard?", e.ToString());
                 Array.Copy(new byte[0x108], wondercard_data, 0x108);
                 RTB.Clear();
-                return;
             }
         }
         private void populateReceived()
@@ -122,8 +116,7 @@ namespace PKHeX
         // Wondercard IO (.wc6<->window)
         private void B_Import_Click(object sender, EventArgs e)
         {
-            OpenFileDialog importwc6 = new OpenFileDialog();
-            importwc6.Filter = "Wondercard|*.wc6";
+            OpenFileDialog importwc6 = new OpenFileDialog {Filter = "Wondercard|*.wc6"};
             if (importwc6.ShowDialog() == DialogResult.OK)
             {
                 string path = importwc6.FileName;
@@ -205,9 +198,9 @@ namespace PKHeX
 
             // Make sure all of the Received Flags are flipped!
             byte[] wcflags = new byte[0x100];
-            for (int i = 0; i < LB_Received.Items.Count; i++)
+            foreach (object card in LB_Received.Items)
             {
-                string cardID = LB_Received.Items[i].ToString();
+                string cardID = card.ToString();
                 uint cardnum = Util.ToUInt32(cardID);
 
                 wcflags[(cardnum / 8) & 0xFF] |= (byte)(1 << ((byte)(cardnum & 0x7)));

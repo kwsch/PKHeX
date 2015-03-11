@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 
 namespace PKHeX
 {
@@ -20,9 +15,9 @@ namespace PKHeX
             m_parent = frm1;
             savshift = 0x7F000 * m_parent.savindex;
 
-            this.AllowDrop = true;
-            this.DragEnter += tabMain_DragEnter;
-            this.DragDrop += tabMain_DragDrop;
+            AllowDrop = true;
+            DragEnter += tabMain_DragEnter;
+            DragDrop += tabMain_DragDrop;
 
             Setup();
 
@@ -41,8 +36,8 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Gather Updated Flags
-            for (int i = 0; i < chka.Length; i++)
-                flags[getFlagNum(chka[i])] = chka[i].Checked;
+            foreach (CheckBox flag in chka)
+                flags[getFlagNum(flag)] = flag.Checked;
 
             byte[] data = new byte[flags.Length / 8];
 
@@ -56,15 +51,15 @@ namespace PKHeX
             // Copy back Constants
             changeConstantIndex(null, null); // Trigger Saving
             for (int i = 0; i < Constants.Length; i++)
-                Array.Copy(BitConverter.GetBytes((ushort)Constants[i]), 0, m_parent.savefile, 0x19E00 + savshift + 2 * i, 2);
+                Array.Copy(BitConverter.GetBytes(Constants[i]), 0, m_parent.savefile, 0x19E00 + savshift + 2 * i, 2);
 
-            this.Close();
+            Close();
         }
         private void Setup()
         {
             // Fill Bit arrays
 
-            chka = new CheckBox[] {
+            chka = new[] {
                 flag_0001,flag_0002,flag_0003,flag_0004,flag_0005,
                 flag_2237,flag_2238,flag_2239,
                 flag_0115,flag_0963, // Mewtwo
@@ -95,13 +90,11 @@ namespace PKHeX
         }
         private void popFlags()
         {
-            if (setup)
-            {
-                for (int i = 0; i < chka.Length; i++)
-                    chka[i].Checked = flags[getFlagNum(chka[i])];
+            if (!setup) return;
+            foreach (CheckBox flag in chka)
+                flag.Checked = flags[getFlagNum(flag)];
 
-                changeCustomFlag(null, null);
-            }
+            changeCustomFlag(null, null);
         }
 
         private int getFlagNum(CheckBox chk)
@@ -184,14 +177,21 @@ namespace PKHeX
         {
             FileInfo fi = new FileInfo(path);
             byte[] eventflags = new byte[0x180];
-            if (fi.Length == 0x100000)
-                Array.Copy(File.ReadAllBytes(path), 0x1A0FC, eventflags, 0, 0x180);
-            else if (fi.Length == 0x65600)
-                Array.Copy(File.ReadAllBytes(path), 0x1A0FC - 0x5400, eventflags, 0, 0x180);
-            else if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x70000)
-                Array.Copy(ram2sav.getMAIN(File.ReadAllBytes(path)), 0x1A0FC - 0x5400, eventflags, 0, 0x180);
-            else
-            { Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length.ToString(), fi.Length.ToString("X5")), "File Loaded: " + path); return; }
+            switch (fi.Length)
+            {
+                case 0x100000: // ramsav
+                    Array.Copy(File.ReadAllBytes(path), 0x1A0FC, eventflags, 0, 0x180);
+                    break;
+                case 0x65600: // xy main
+                    Array.Copy(File.ReadAllBytes(path), 0x1A0FC - 0x5400, eventflags, 0, 0x180);
+                    break;
+                default: // figure it out
+                    if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x70000)
+                        Array.Copy(ram2sav.getMAIN(File.ReadAllBytes(path)), 0x1A0FC - 0x5400, eventflags, 0, 0x180);
+                    else
+                    { Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length.ToString(), fi.Length.ToString("X5")), "File Loaded: " + path); return; }
+                    break;
+            }
 
             Button bs = (Button)sender;
             if (bs.Name == "B_LoadOld")
