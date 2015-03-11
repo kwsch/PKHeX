@@ -43,11 +43,15 @@
             this.L_Details = new System.Windows.Forms.Label();
             this.B_DeleteWC = new System.Windows.Forms.Button();
             this.B_DeleteFlag = new System.Windows.Forms.Button();
+            this.L_QR = new System.Windows.Forms.Label();
+            this.PB_Preview = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(197, 227);
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Save.Location = new System.Drawing.Point(347, 227);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 0;
@@ -57,7 +61,8 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(120, 227);
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Cancel.Location = new System.Drawing.Point(276, 227);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(71, 23);
             this.B_Cancel.TabIndex = 1;
@@ -67,7 +72,8 @@
             // 
             // B_Output
             // 
-            this.B_Output.Location = new System.Drawing.Point(197, 12);
+            this.B_Output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Output.Location = new System.Drawing.Point(347, 12);
             this.B_Output.Name = "B_Output";
             this.B_Output.Size = new System.Drawing.Size(75, 23);
             this.B_Output.TabIndex = 2;
@@ -95,6 +101,8 @@
             // 
             // LB_Received
             // 
+            this.LB_Received.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.LB_Received.FormattingEnabled = true;
             this.LB_Received.Location = new System.Drawing.Point(12, 155);
             this.LB_Received.Name = "LB_Received";
@@ -142,10 +150,13 @@
             // 
             // RTB
             // 
+            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.RTB.Location = new System.Drawing.Point(120, 59);
             this.RTB.Name = "RTB";
             this.RTB.ReadOnly = true;
-            this.RTB.Size = new System.Drawing.Size(151, 162);
+            this.RTB.Size = new System.Drawing.Size(302, 162);
             this.RTB.TabIndex = 10;
             this.RTB.Text = "";
             // 
@@ -170,6 +181,7 @@
             // 
             // B_DeleteFlag
             // 
+            this.B_DeleteFlag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.B_DeleteFlag.Location = new System.Drawing.Point(96, 197);
             this.B_DeleteFlag.Name = "B_DeleteFlag";
             this.B_DeleteFlag.Size = new System.Drawing.Size(18, 24);
@@ -178,12 +190,35 @@
             this.B_DeleteFlag.UseVisualStyleBackColor = true;
             this.B_DeleteFlag.Click += new System.EventHandler(this.B_DeleteReceived_Click);
             // 
+            // L_QR
+            // 
+            this.L_QR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_QR.AutoSize = true;
+            this.L_QR.Location = new System.Drawing.Point(258, 7);
+            this.L_QR.Name = "L_QR";
+            this.L_QR.Size = new System.Drawing.Size(26, 13);
+            this.L_QR.TabIndex = 62;
+            this.L_QR.Text = "QR!";
+            this.L_QR.Click += new System.EventHandler(this.L_QR_Click);
+            // 
+            // PB_Preview
+            // 
+            this.PB_Preview.BackColor = System.Drawing.Color.Transparent;
+            this.PB_Preview.Location = new System.Drawing.Point(251, 23);
+            this.PB_Preview.Name = "PB_Preview";
+            this.PB_Preview.Size = new System.Drawing.Size(40, 30);
+            this.PB_Preview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Preview.TabIndex = 63;
+            this.PB_Preview.TabStop = false;
+            // 
             // SAV_Wondercard
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(434, 262);
+            this.Controls.Add(this.PB_Preview);
+            this.Controls.Add(this.L_QR);
             this.Controls.Add(this.B_DeleteFlag);
             this.Controls.Add(this.B_DeleteWC);
             this.Controls.Add(this.L_Details);
@@ -198,13 +233,15 @@
             this.Controls.Add(this.B_Output);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(700, 500);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(450, 300);
             this.Name = "SAV_Wondercard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wondercard I/O";
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,5 +263,7 @@
         private System.Windows.Forms.Label L_Details;
         private System.Windows.Forms.Button B_DeleteWC;
         private System.Windows.Forms.Button B_DeleteFlag;
+        private System.Windows.Forms.Label L_QR;
+        private System.Windows.Forms.PictureBox PB_Preview;
     }
 }

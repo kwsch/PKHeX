@@ -1587,9 +1587,9 @@ namespace PKHeX
                 // Fetch data from QR code...
                 string address;
                 try { address = Clipboard.GetText(); }
-                catch { Util.Alert("No text in clipboard"); return; }
-                try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Util.Alert("Clipboard text is not a valid URL", address); return; } }
-                catch { Util.Alert("Clipboard text is not a valid URL", address); return; }
+                catch { Util.Alert("No text (url) in clipboard."); return; }
+                try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Util.Alert("Clipboard text is not a valid URL:", address); return; } }
+                catch { Util.Alert("Clipboard text is not a valid URL:", address); return; }
                 string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
                 try
                 {
@@ -1613,7 +1613,7 @@ namespace PKHeX
                         byte[] pkx = PKX.decryptArray(ekx);
                         if (PKX.verifychk(pkx)) { Array.Copy(pkx, buff, 0xE8); populateFields(buff); }
                         else Util.Alert("Invalid checksum in QR data.");
-                    } catch { Util.Alert("Error loading decrypted data"); }
+                    } catch { Util.Alert("Error loading decrypted data."); }
                 }
                 catch { Util.Alert("Unable to connect to the internet to decode QR code."); }
             }

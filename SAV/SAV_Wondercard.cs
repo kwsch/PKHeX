@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -30,7 +32,6 @@ namespace PKHeX
         public byte[] sav = new byte[0x100000];
         public byte[] wondercard_data = new byte[0x108];
         public int savindex;
-        public bool editing = false;
         private int wcoffset = 0x21100;
         private const uint herpesval = 0x225D73C2;
 
@@ -52,50 +53,8 @@ namespace PKHeX
         {
             try
             {
-                // Load up the data according to the wiki!
-                int cardID = BitConverter.ToUInt16(wondercard_data, 0);
-                if (cardID == 0)
-                {
-                    RTB.Text = "Empty Slot. No data!";
-                    return;
-                }
-                string cardname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48));
-                int cardtype = wondercard_data[0x51];
-                string s = "";
-                s += "Card #: " + cardID.ToString("0000") + Environment.NewLine + cardname + Environment.NewLine + Environment.NewLine;
-
-                if (cardtype == 1) // Item
-                {
-                    int item = BitConverter.ToUInt16(wondercard_data, 0x68);
-                    int qty = BitConverter.ToUInt16(wondercard_data, 0x70);
-
-                    s += "Item: " + Form1.itemlist[item] + Environment.NewLine + "Quantity: " + qty.ToString();
-                }
-                else if (cardtype == 0) // PKM
-                {
-                    int species = BitConverter.ToUInt16(wondercard_data, 0x82);
-                    int helditem = BitConverter.ToUInt16(wondercard_data, 0x78);
-                    int move1 = BitConverter.ToUInt16(wondercard_data, 0x7A);
-                    int move2 = BitConverter.ToUInt16(wondercard_data, 0x7C);
-                    int move3 = BitConverter.ToUInt16(wondercard_data, 0x7E);
-                    int move4 = BitConverter.ToUInt16(wondercard_data, 0x80);
-                    int TID = BitConverter.ToUInt16(wondercard_data, 0x68);
-                    int SID = BitConverter.ToUInt16(wondercard_data, 0x6A);
-
-                    string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(wondercard_data, 0xB6, 22));
-                    s +=
-                        "Species: " + Form1.specieslist[species] + Environment.NewLine
-                        + "Item: " + Form1.itemlist[helditem] + Environment.NewLine
-                        + "Move 1: " + Form1.movelist[move1] + Environment.NewLine
-                        + "Move 2: " + Form1.movelist[move2] + Environment.NewLine
-                        + "Move 3: " + Form1.movelist[move3] + Environment.NewLine
-                        + "Move 4: " + Form1.movelist[move4] + Environment.NewLine
-                        + "OT: " + OTname + Environment.NewLine
-                        + "ID: " + TID.ToString() + "/" + SID.ToString();
-                }
-                else
-                    s = "Unsupported Wondercard Type!";
-                RTB.Text = s;
+                RTB.Text = getWCDescriptionString(wondercard_data);
+                PB_Preview.Image = getWCPreviewImage(wondercard_data);
             }
             catch (Exception e)
             {
@@ -198,13 +157,11 @@ namespace PKHeX
 
             // Make sure all of the Received Flags are flipped!
             byte[] wcflags = new byte[0x100];
-            foreach (object card in LB_Received.Items)
-            {
-                string cardID = card.ToString();
-                uint cardnum = Util.ToUInt32(cardID);
-
+            foreach (uint cardnum in from object card in LB_Received.Items 
+                                     select card.ToString() into cardID 
+                                     select Util.ToUInt32(cardID))
                 wcflags[(cardnum / 8) & 0xFF] |= (byte)(1 << ((byte)(cardnum & 0x7)));
-            }
+
             Array.Copy(wcflags, 0, sav, offset, 0x100);
 
             offset += 0x100;
@@ -274,6 +231,169 @@ namespace PKHeX
                     // Advance to next WC
                     if (ctr != 24) LB_WCs.SelectedIndex = ctr;
                 }
+            }
+        }
+
+        // String Creation
+        private string getWCDescriptionString(byte[] data)
+        {
+            // Load up the data according to the wiki!
+            int cardID = BitConverter.ToUInt16(data, 0);
+            if (cardID == 0) return "Empty Slot. No data!";
+
+            string cardname = Util.TrimFromZero(Encoding.Unicode.GetString(data, 0x2, 0x48));
+            int cardtype = data[0x51];
+            string s = "";
+            s += "Card #: " + cardID.ToString("0000") + " - " + cardname + Environment.NewLine;
+
+            if (cardtype == 1) // Item
+            {
+                int item = BitConverter.ToUInt16(data, 0x68);
+                int qty = BitConverter.ToUInt16(data, 0x70);
+
+                s += "Item: " + Form1.itemlist[item] + Environment.NewLine + "Quantity: " + qty;
+            }
+            else if (cardtype == 0) // PKM
+            {
+                int species = BitConverter.ToUInt16(data, 0x82);
+                int helditem = BitConverter.ToUInt16(data, 0x78);
+                int move1 = BitConverter.ToUInt16(data, 0x7A);
+                int move2 = BitConverter.ToUInt16(data, 0x7C);
+                int move3 = BitConverter.ToUInt16(data, 0x7E);
+                int move4 = BitConverter.ToUInt16(data, 0x80);
+                int TID = BitConverter.ToUInt16(data, 0x68);
+                int SID = BitConverter.ToUInt16(data, 0x6A);
+
+                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, 0xB6, 22));
+                s += String.Format(
+                    "{1} @ {2} --- {7} - {8}/{9}{0}" +
+                    "{3} / {4} / {5} / {6}{0}",
+                    Environment.NewLine,
+                    Form1.specieslist[species],
+                    Form1.itemlist[helditem],
+                    Form1.movelist[move1],
+                    Form1.movelist[move2],
+                    Form1.movelist[move3],
+                    Form1.movelist[move4],
+                    OTname, TID.ToString("00000"), SID.ToString("00000"));
+            }
+            else
+                s += "Unknown Wondercard Type!";
+
+            return s;
+        }
+
+        private Image getWCPreviewImage(byte[] data)
+        {
+            Image img;
+            switch (data[0x51])
+            {
+                case 0:
+                    ushort species = BitConverter.ToUInt16(data, 0x82);
+                    byte altforms = data[0x84];
+                    byte gender = data[0xA1];
+                    string file = "_" + species;
+                    if (altforms > 0) // Alt Form Handling
+                        file = file + "_" + altforms;
+                    else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
+                        file = file + "_" + gender;
+                    else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
+                        file = "_" + species + "f";
+                    img = (Image) Properties.Resources.ResourceManager.GetObject(file);
+
+                    // Improve the Preview
+                    ushort item = BitConverter.ToUInt16(data, 0x78);
+                    if (data[0xD1] > 0) img = Util.LayerImage(img, Properties.Resources.egg, 0, 0, 1);
+                    if (data[0xA3] == 2) img = Util.LayerImage(img, Properties.Resources.rare_icon, 0, 0, 0.7);
+                    if (item > 0)
+                    {
+                        Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
+                        img = Util.LayerImage(img, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+                    }
+                    break;
+                case 1:
+                    img = (Image)Properties.Resources.ResourceManager.GetObject("item_" + BitConverter.ToUInt16(data, 0x68));
+                    break;
+                default:
+                    img = Properties.Resources.unknown;
+                    break;
+            }
+            return img;
+        }
+
+        private void L_QR_Click(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Alt)
+            {
+                // Fetch data from QR code...
+                string address;
+                try { address = Clipboard.GetText(); }
+                catch { Util.Alert("No text (url) in clipboard."); return; }
+                try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Util.Alert("Clipboard text is not a valid URL:", address); return; } }
+                catch { Util.Alert("Clipboard text is not a valid URL:", address); return; }
+                string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
+                try
+                {
+                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
+                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                    var reader = new StreamReader(httpWebReponse.GetResponseStream());
+                    string data = reader.ReadToEnd();
+                    if (data.Contains("could not find")) { Util.Alert("Reader could not find QR data in the image."); return; }
+                    // Quickly convert the json response to a data string
+                    string pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim intro
+                    pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]", StringComparison.Ordinal)); // Trim outro
+                    if (pkstr.Contains("nQR-Code:")) pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:", StringComparison.Ordinal)); //  Remove multiple QR codes in same image
+                    pkstr = pkstr.Replace("\\", ""); // Rectify response
+
+                    byte[] wc;
+                    try { wc = Convert.FromBase64String(pkstr); }
+                    catch { Util.Alert("QR string to Data failed.", pkstr); return; }
+
+                    if (wc.Length != 0x108) { Util.Alert("Decoded data not 0x108 bytes.", String.Format("QR Data Size: 0x{0}", wc.Length.ToString("X"))); }
+                    else try
+                    {
+                        Array.Copy(wc, wondercard_data, wc.Length);
+                        loadwcdata(); 
+                    }
+                    catch { Util.Alert("Error loading wondercard data."); }
+                }
+                catch { Util.Alert("Unable to connect to the internet to decode QR code."); }
+            }
+            else
+            {
+                if (wondercard_data.SequenceEqual((new byte[wondercard_data.Length])))
+                { Util.Alert("No wondercard data found"); return; }
+                // Prep data
+                byte[] wcdata = wondercard_data;
+                // Ensure size
+                Array.Resize(ref wcdata, 0x108);
+                // Setup QR
+                const string server = "http://lunarcookies.github.io/wc.html#";
+                string qrdata = Convert.ToBase64String(wcdata);
+                string message = server + qrdata;
+                string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
+
+                Image qr = null;
+                try
+                {
+                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
+                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                    Stream stream = httpWebReponse.GetResponseStream();
+                    if (stream != null) qr = Image.FromStream(stream);
+                }
+                catch
+                {
+                    if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
+                    {
+                        try { Clipboard.SetText(webURL); }
+                        catch { Util.Alert("Failed to set text to Clipboard"); }
+                        return;
+                    }
+                }
+                string desc = getWCDescriptionString(wondercard_data);
+                Image img = PB_Preview.Image;
+
+                new QR(qr, img, desc, "", "", "PKHeX @ ProjectPokemon.org").ShowDialog();
             }
         }
     }
