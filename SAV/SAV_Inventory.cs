@@ -45,7 +45,6 @@ namespace PKHeX
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
         public int savindex; int shiftval;
-        public bool editing = false;
 
         public string[] item_val;
         public string[] keyitem_val;
@@ -187,11 +186,10 @@ namespace PKHeX
         }
         private void dropclick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0)
-            {
-                ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
-                comboBox.DroppedDown = true;
-            }
+            if (e.ColumnIndex != 0) return;
+
+            ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
+            comboBox.DroppedDown = true;
         }
         private void saveBag(object sender)
         {

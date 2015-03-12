@@ -76,18 +76,17 @@ namespace PKHeX
         private void B_Import_Click(object sender, EventArgs e)
         {
             OpenFileDialog importwc6 = new OpenFileDialog {Filter = "Wondercard|*.wc6"};
-            if (importwc6.ShowDialog() == DialogResult.OK)
+            if (importwc6.ShowDialog() != DialogResult.OK) return;
+
+            string path = importwc6.FileName;
+            if (new FileInfo(path).Length > 0x108)
             {
-                string path = importwc6.FileName;
-                if (new FileInfo(path).Length > 0x108)
-                {
-                    Util.Error("File is not a Wondercard:", path);
-                    return;
-                }
-                byte[] newwc6 = File.ReadAllBytes(path);
-                Array.Copy(newwc6, wondercard_data, newwc6.Length);
-                loadwcdata();
+                Util.Error("File is not a Wondercard:", path);
+                return;
             }
+            byte[] newwc6 = File.ReadAllBytes(path);
+            Array.Copy(newwc6, wondercard_data, newwc6.Length);
+            loadwcdata();
         }
         private void B_Output_Click(object sender, EventArgs e)
         {
@@ -96,19 +95,18 @@ namespace PKHeX
             string cardname = Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48);
             outputwc6.FileName = cardID + " - " + cardname + ".wc6";
             outputwc6.Filter = "Wondercard|*.wc6";
-            if (outputwc6.ShowDialog() == DialogResult.OK)
+            if (outputwc6.ShowDialog() != DialogResult.OK) return;
+
+            string path = outputwc6.FileName;
+
+            if (File.Exists(path))
             {
-                string path = outputwc6.FileName;
-
-                if (File.Exists(path))
-                {
-                    // File already exists, save a .bak
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(path + ".bak", backupfile);
-                }
-
-                File.WriteAllBytes(path, wondercard_data);
+                // File already exists, save a .bak
+                byte[] backupfile = File.ReadAllBytes(path);
+                File.WriteAllBytes(path + ".bak", backupfile);
             }
+
+            File.WriteAllBytes(path, wondercard_data);
         }
 
         // Wondercard RW (window<->sav)
@@ -133,9 +131,10 @@ namespace PKHeX
             populateWClist();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
 
-            if (cardID > 0 && cardID < 0x100 * 8)
-                if (!LB_Received.Items.Contains(cardID.ToString("0000")))
-                    LB_Received.Items.Add(cardID.ToString("0000"));
+            if (cardID <= 0 || cardID >= 0x100*8) return;
+
+            if (!LB_Received.Items.Contains(cardID.ToString("0000")))
+                LB_Received.Items.Add(cardID.ToString("0000"));
         }
         private void B_DeleteWC_Click(object sender, EventArgs e)
         {
@@ -181,9 +180,10 @@ namespace PKHeX
         // Delete WC Flag
         private void B_DeleteReceived_Click(object sender, EventArgs e)
         {
-            if (LB_Received.SelectedIndex > -1)
-                if (LB_Received.Items.Count > 0)
-                    LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
+            if (LB_Received.SelectedIndex <= -1) return;
+
+            if (LB_Received.Items.Count > 0)
+                LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
         }
 
         // Drag & Drop Wondercards

@@ -78,30 +78,24 @@ namespace PKHeX
         }
         private void changeCBSpecies(object sender, EventArgs e)
         {
-            if (!editing)
-            {
-                editing = true;
-                int index = (int)CB_Species.SelectedValue;
-                LB_Species.SelectedIndex = index - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
-                LB_Species.TopIndex = LB_Species.SelectedIndex;
-                loadchks();
-                editing = false;
-            }
+            if (editing) return;
+
+            editing = true;
+            int index = (int)CB_Species.SelectedValue;
+            LB_Species.SelectedIndex = index - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
+            LB_Species.TopIndex = LB_Species.SelectedIndex;
+            loadchks();
+            editing = false;
         }
         private void changeLBSpecies(object sender, EventArgs e)
         {
-            if (!editing)
-            {
-                editing = true;
-                try
-                {
-                    int index = LB_Species.SelectedIndex + 1;
-                    CB_Species.SelectedValue = index;
-                }
-                catch { };
-                loadchks();
-                editing = false;
-            }
+            if (editing) return;
+
+            editing = true;
+            int index = LB_Species.SelectedIndex + 1;
+            CB_Species.SelectedValue = index;
+            loadchks();
+            editing = false;
         }
         private void loadchks()
         {
@@ -245,12 +239,8 @@ namespace PKHeX
             }
 
             // Store Spinda Spot
-            try
-            {
-                uint PID = Util.getHEXval(TB_Spinda);
-                Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38 + savshift, 4);
-            }
-            catch { };
+            uint PID = Util.getHEXval(TB_Spinda);
+            Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38 + savshift, 4);
         }
 
         private void B_GiveAll_Click(object sender, EventArgs e)

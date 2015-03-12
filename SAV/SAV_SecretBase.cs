@@ -25,7 +25,6 @@ namespace PKHeX
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
-        public byte[] wondercard_data = new byte[0x108];
         public bool editing;
         private const int sv = 0;
         private const int fav_offset = 0x23A00;
@@ -82,7 +81,7 @@ namespace PKHeX
                 string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + favoff + i * 0x3E0 + 0x218, 0x1A));
                 if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                     BaseTrainer = "Empty";
-                LB_Favorite.Items.Add(i.ToString() + " " + BaseTrainer);
+                LB_Favorite.Items.Add(i + " " + BaseTrainer);
             }
         }
         private void B_SAV2FAV(object sender, EventArgs e)
@@ -93,8 +92,7 @@ namespace PKHeX
             int offset = fav_offset + 0x5400 + 0x25A;
 
             // Base Offset Changing
-            if (index == 0)
-                offset = fav_offset + 0x5400 + 0x326;
+            if (index == 0) offset = fav_offset + 0x5400 + 0x326;
             else offset += 0x3E0 * index;
 
             string TrainerName = Util.TrimFromZero(Encoding.Unicode.GetString(sav, sv + offset + 0x218, 0x1A));

@@ -221,7 +221,7 @@ namespace PKHeX
                     if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x80000)
                         Array.Copy(ram2sav.getMAIN(File.ReadAllBytes(path)), 0x1A0FC - 0x5400, eventflags, 0, 0x180);
                     else
-                    { Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length.ToString(), fi.Length.ToString("X5")), "File Loaded: " + path); return; }
+                    { Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length, fi.Length.ToString("X5")), "File Loaded: " + path); return; }
                     break;
             }
 

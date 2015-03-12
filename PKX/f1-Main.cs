@@ -287,11 +287,10 @@ namespace PKHeX
             }
 
             DialogResult result = OpenPKX.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                string path = OpenPKX.FileName;
-                openQuick(path);
-            }
+            if (result != DialogResult.OK) return;
+
+            string path = OpenPKX.FileName;
+            openQuick(path);
         }
         private void mainMenuSave(object sender, EventArgs e)
         {
@@ -460,31 +459,29 @@ namespace PKHeX
                 if ((BitConverter.ToUInt32(input, 0x100) != 0x41534944) && (BitConverter.ToUInt32(input, 0x5234) != 0x6E69616D))
                 {
                     DialogResult dialogResult = Util.Prompt(MessageBoxButtons.YesNo, "Save file is not decrypted.", "Press Yes to ignore this warning and continue loading the save file.");
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
-                        if (sdr == DialogResult.Cancel)
-                            return;
-                        savindex = (sdr == DialogResult.Yes) ? 0 : 1;
-                        B_SwitchSAV.Enabled = true;
-                        open1MB(input, path, GameType, false);
-                    }
+                    if (dialogResult != DialogResult.Yes) return;
+
+                    DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
+                    if (sdr == DialogResult.Cancel) return;
+
+                    savindex = (sdr == DialogResult.Yes) ? 0 : 1;
+                    B_SwitchSAV.Enabled = true;
+                    open1MB(input, path, GameType, false);
                 }
                 else if (PKX.detectSAVIndex(input, ref savindex) == 2)
                 {
                     DialogResult dialogResult = Util.Prompt(MessageBoxButtons.YesNo, "Hash verification failed.", "Press Yes to ignore this warning and continue loading the save file.");
-                    if (dialogResult == DialogResult.Yes)
+                    if (dialogResult != DialogResult.Yes) return;
+
+                    DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
+                    if (sdr == DialogResult.Cancel)
                     {
-                        DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
-                        if (sdr == DialogResult.Cancel)
-                        {
-                            savindex = 0;
-                            return; // abort load
-                        }
-                        savindex = (sdr == DialogResult.Yes) ? 0 : 1;
-                        B_SwitchSAV.Enabled = true;
-                        open1MB(input, path, GameType, false);
+                        savindex = 0;
+                        return; // abort load
                     }
+                    savindex = (sdr == DialogResult.Yes) ? 0 : 1;
+                    B_SwitchSAV.Enabled = true;
+                    open1MB(input, path, GameType, false);
                 }
                 else
                 {
@@ -1651,7 +1648,7 @@ namespace PKHeX
                 string filename = data.Nickname;
                 if (filename != data.Species)
                     filename += " (" + data.Species + ")";
-                string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level.ToString(), data.Ability);
+                string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level, data.Ability);
                 string s2 = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
                 string IVs = String.Format(
                     "IVs:{0}{1}{2}{3}{4}{5}"
@@ -2013,28 +2010,26 @@ namespace PKHeX
         }
         private void updatePKRSstrain(object sender, EventArgs e)
         {
-            if (CB_PKRSStrain.SelectedIndex == 0)
-            {
-                // Never Infected
-                CB_PKRSDays.SelectedValue = 0;
-                CHK_Cured.Checked = false;
-                CHK_Infected.Checked = false;
-            }
+            if (CB_PKRSStrain.SelectedIndex != 0) return;
+            // Never Infected
+            CB_PKRSDays.SelectedValue = 0;
+            CHK_Cured.Checked = false;
+            CHK_Infected.Checked = false;
         }
         private void updatePKRSdays(object sender, EventArgs e)
         {
-            if (CB_PKRSDays.SelectedIndex == 0)
+            if (CB_PKRSDays.SelectedIndex != 0) return;
+
+            // If no days are selected
+            if (CB_PKRSStrain.SelectedIndex == 0)
             {
-                // If no days are selected
-                if (CB_PKRSStrain.SelectedIndex == 0)
-                {
-                    // Never Infected
-                    CHK_Cured.Checked = false;
-                    CHK_Infected.Checked = false;
-                }
-                else CHK_Cured.Checked = true;
+                // Never Infected
+                CHK_Cured.Checked = false;
+                CHK_Infected.Checked = false;
             }
+            else CHK_Cured.Checked = true;
         }
+
         private void updatePKRSCured(object sender, EventArgs e)
         {
             if (!init) return;
@@ -2830,11 +2825,10 @@ namespace PKHeX
                 Array.Copy(savefile, start[i], data, 0, length[i]);
                 ushort checksum = PKX.ccitt16(data);
                 ushort actualsum = BitConverter.ToUInt16(savefile, csoff + i * 0x8);
-                if (checksum != actualsum)
-                {
-                    invalid1++;
-                    RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + Environment.NewLine;
-                }
+                if (checksum == actualsum) continue;
+
+                invalid1++;
+                RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + Environment.NewLine;
             }
             RTB_S.Text += "1st SAV: " + (start.Length - invalid1) + "/" + start.Length + Environment.NewLine;
 
@@ -3000,7 +2994,7 @@ namespace PKHeX
                 invalid1++;
                 RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + Environment.NewLine;
             }
-            RTB_S.Text += "1st SAV: " + (106 - invalid1).ToString() + "/" + 106.ToString() + Environment.NewLine;
+            RTB_S.Text += "1st SAV: " + (106 - invalid1) + "/" + 106 + Environment.NewLine;
 
             // Check The Second Half of Hashes
             for (int i = 0; i < hashtabledata.Length; i += 4)
@@ -3034,7 +3028,7 @@ namespace PKHeX
                 invalid2++;
                 RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + Environment.NewLine;
             }
-            RTB_S.Text += "2nd SAV: " + (106 - invalid2).ToString() + "/" + 106.ToString() + Environment.NewLine;
+            RTB_S.Text += "2nd SAV: " + (106 - invalid2) + "/" + 106 + Environment.NewLine;
 
             if (invalid1 + invalid2 == (2 * 106))
                 RTB_S.Text = "None of the IVFC hashes are valid." + Environment.NewLine;
@@ -3810,7 +3804,7 @@ namespace PKHeX
         private void setSAVLabel()
         {
             L_SAVINDEX.Text = (savindex + 1).ToString();
-            RTB_S.AppendText("Loaded Save File " + (savindex + 1).ToString() + Environment.NewLine);
+            RTB_S.AppendText("Loaded Save File " + (savindex + 1) + Environment.NewLine);
         }
         private void getSAVOffsets(ref bool oras)
         {

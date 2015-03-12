@@ -22,7 +22,7 @@ namespace PKHeX
         private int dexoffset = 0x15000 + 0x5400;
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
-        public int sv = 0;
+        public int sv;
         public bool[,] specbools = new bool[9, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
         bool editing = true;
@@ -67,26 +67,21 @@ namespace PKHeX
         }
         private void changeCBSpecies(object sender, EventArgs e)
         {
-            if (!editing)
-            {
-                editing = true;
-                int index = (int)CB_Species.SelectedValue;
-                LB_Species.SelectedIndex = index - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
-                LB_Species.TopIndex = LB_Species.SelectedIndex;
-                loadchks();
-                editing = false;
-            }
+            if (editing) return;
+
+            editing = true;
+            int index = (int)CB_Species.SelectedValue;
+            LB_Species.SelectedIndex = index - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
+            LB_Species.TopIndex = LB_Species.SelectedIndex;
+            loadchks();
+            editing = false;
         }
         private void changeLBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
             editing = true;
-            try
-            {
-                int index = LB_Species.SelectedIndex + 1;
-                CB_Species.SelectedValue = index;
-            }
-            catch { }
+            int index = LB_Species.SelectedIndex + 1;
+            CB_Species.SelectedValue = index;
             loadchks();
             editing = false;
         }
@@ -204,12 +199,8 @@ namespace PKHeX
             }
             
             // Store Spinda Spot
-            try
-            {
-                uint PID = Util.getHEXval(TB_Spinda);
-                Array.Copy(BitConverter.GetBytes(PID), 0, sav, dexoffset + 0x680, 4);
-            }
-            catch { };
+            uint PID = Util.getHEXval(TB_Spinda);
+            Array.Copy(BitConverter.GetBytes(PID), 0, sav, dexoffset + 0x680, 4);
         }
 
         private void B_GiveAll_Click(object sender, EventArgs e)

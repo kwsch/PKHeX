@@ -131,8 +131,9 @@ namespace PKHeX
                 for (int i = 1; i < DriveList.Length; i++) // Skip first drive (some users still have floppy drives and would chew up time!)
                 {
                     string potentialPath = DriveList[i] + Path.DirectorySeparatorChar + "Nintendo 3DS";
-                    if (Directory.Exists(potentialPath))
-                    { path_3DS = potentialPath; break; }
+                    if (!Directory.Exists(potentialPath)) continue;
+
+                    path_3DS = potentialPath; break;
                 }
                 return path_3DS;
             }
@@ -148,8 +149,9 @@ namespace PKHeX
                 for (int i = 1; i < DriveList.Length; i++) // Skip first drive (some users still have floppy drives and would chew up time!)
                 {
                     string potentialPath_SDF = NormalizePath(Path.Combine(DriveList[i], "filer" + Path.DirectorySeparatorChar + "UserSaveData"));
-                    if (Directory.Exists(potentialPath_SDF))
-                    { path_SDF = potentialPath_SDF; break; }
+                    if (!Directory.Exists(potentialPath_SDF)) continue;
+
+                    path_SDF = potentialPath_SDF; break;
                 }
                 if (path_SDF == null)
                     return null;
@@ -273,10 +275,11 @@ namespace PKHeX
         }
         internal static int getIndex(ComboBox cb)
         {
-            int val = 0; 
-            if (cb.SelectedValue != null)
-                try { val = int.Parse(cb.SelectedValue.ToString()); }
-                catch { val = cb.SelectedIndex; if (val < 0) val = 0; }
+            int val;
+            if (cb.SelectedValue == null) return 0;
+
+            try { val = int.Parse(cb.SelectedValue.ToString()); }
+            catch { val = cb.SelectedIndex; if (val < 0) val = 0; }
 
             return val;
         }
@@ -337,24 +340,20 @@ namespace PKHeX
             for (int i = 0; i < rawlist.Length; i++)
             {
                 // Find our starting point
-                if (rawlist[i].Contains("! " + FORM_NAME)) // Start our data
+                if (!rawlist[i].Contains("! " + FORM_NAME)) continue;
+
+                // Allow renaming of the Window Title
+                string[] WindowName = Regex.Split(rawlist[i], " = ");
+                if (WindowName.Length > 1) form.Text = WindowName[1];
+                // Copy our Control Names and Text to a new array for later processing.
+                for (int j = i + 1; j < rawlist.Length; j++)
                 {
-                    // Allow renaming of the Window Title
-                    string[] WindowName = Regex.Split(rawlist[i], " = ");
-                    if (WindowName.Length > 1) form.Text = WindowName[1];
-                    // Copy our Control Names and Text to a new array for later processing.
-                    for (int j = i + 1; j < rawlist.Length; j++)
-                    {
-                        if (rawlist[j].Length == 0)
-                            continue; // Skip Over Empty Lines, errhandled
-                        if (rawlist[j][0].ToString() != "-") // If line is not a comment line...
-                        {
-                            if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
-                                goto rename;
-                            stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
-                            itemsToRename++;
-                        }
-                    }
+                    if (rawlist[j].Length == 0) continue; // Skip Over Empty Lines, errhandled
+                    if (rawlist[j][0].ToString() == "-") continue; // Keep translating if line is a comment line
+                    if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
+                        goto rename;
+                    stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
+                    itemsToRename++;
                 }
             }
             return; // Not Found
@@ -374,16 +373,15 @@ namespace PKHeX
                     {
                         // Menu Items can't be found with Controls.Find as they aren't Controls
                         ToolStripDropDownItem TSI = (ToolStripDropDownItem)menu.Items[ctrl];
-                        if (TSI != null)
-                        {
-                            // We'll rename the main and child in a row.
-                            string[] ToolItems = Regex.Split(SplitString[1], " ; ");
-                            TSI.Text = ToolItems[0]; // Set parent's text first
-                            if (TSI.DropDownItems.Count != ToolItems.Length - 1)
-                                continue; // Error in Input, errhandled
-                            for (int ti = 1; ti <= TSI.DropDownItems.Count; ti++)
-                                TSI.DropDownItems[ti - 1].Text = ToolItems[ti]; // Set child text
-                        }
+                        if (TSI == null) continue;
+
+                        // We'll rename the main and child in a row.
+                        string[] ToolItems = Regex.Split(SplitString[1], " ; ");
+                        TSI.Text = ToolItems[0]; // Set parent's text first
+                        if (TSI.DropDownItems.Count != ToolItems.Length - 1)
+                            continue; // Error in Input, errhandled
+                        for (int ti = 1; ti <= TSI.DropDownItems.Count; ti++)
+                            TSI.DropDownItems[ti - 1].Text = ToolItems[ti]; // Set child text
                         // If not found, it is not something to rename and is thus skipped.
                     }
                     catch { }

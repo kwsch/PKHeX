@@ -457,22 +457,21 @@ namespace PKHeX
 
         private void B_CopyText_Click(object sender, EventArgs e)
         {
-            try { Clipboard.SetText(RTB.Text); }
-            catch { };
+            Clipboard.SetText(RTB.Text);
         }
 
         private void B_Delete_Click(object sender, EventArgs e)
         {
             if (LB_DataEntry.SelectedIndex < 1) { Util.Alert("Cannot delete your first Hall of Fame Clear entry."); return; }
             int index = LB_DataEntry.SelectedIndex;
-            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Entry {0} from your records?", index)) == DialogResult.Yes)
-            {
-                int offset = index * 0x1B4;
-                if (index != 15) Array.Copy(data, offset + 0x1B4, data, offset, 0x1B4 * (15 - index));
-                // Ensure Last Entry is Cleared
-                Array.Copy(new byte[0x1B4], 0, data, 0x1B4 * 15, 0x1B4);
-                displayEntry(LB_DataEntry, null);
-            }
+            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Entry {0} from your records?", index)) 
+                != DialogResult.Yes) return;
+
+            int offset = index * 0x1B4;
+            if (index != 15) Array.Copy(data, offset + 0x1B4, data, offset, 0x1B4 * (15 - index));
+            // Ensure Last Entry is Cleared
+            Array.Copy(new byte[0x1B4], 0, data, 0x1B4 * 15, 0x1B4);
+            displayEntry(LB_DataEntry, null);
         }
 
         private void changeNickname(object sender, MouseEventArgs e)

@@ -27,7 +27,8 @@ namespace PKHeX
             savshift = savindex * 0x7F000;
             if (m_parent.savegame_oras)
             {
-                psssatoffset = 0x24800; Maison += 0xA00; VivillonForm = 0x9644;
+                psssatoffset = 0x24800; Maison += 0xA00; 
+                VivillonForm = 0x9644;
                 Width = (int)((float)Width * 428 / 590);
                 CB_Multi.Enabled = true;
                 L_MultiplayerSprite.Enabled = true; // Multiplayer Sprite Label
@@ -677,17 +678,16 @@ namespace PKHeX
         }
         private void changeStatVal(object sender, EventArgs e)
         {
-            if (!editing)
-            {
-                int pssoff = psssatoffset + savindex * 0x7F000;
-                string offsetstr = statdata[CB_Stats.SelectedIndex * 2];
-                int offset = (int)new System.ComponentModel.Int32Converter().ConvertFromString(offsetstr);
+            if (editing) return;
 
-                uint val = UInt32.Parse(MT_Stat.Text);
-                byte[] data = BitConverter.GetBytes(val);
-                Array.Resize(ref data, 4);
-                Array.Copy(data, 0, sav, pssoff + offset, 4);
-            }
+            int pssoff = psssatoffset + savindex * 0x7F000;
+            string offsetstr = statdata[CB_Stats.SelectedIndex * 2];
+            int offset = (int)new System.ComponentModel.Int32Converter().ConvertFromString(offsetstr);
+
+            uint val = UInt32.Parse(MT_Stat.Text);
+            byte[] data = BitConverter.GetBytes(val);
+            Array.Resize(ref data, 4);
+            Array.Copy(data, 0, sav, pssoff + offset, 4);
         }
         private void giveAllAccessories(object sender, EventArgs e)
         {

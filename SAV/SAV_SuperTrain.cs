@@ -138,14 +138,14 @@ namespace PKHeX
                 Array.Resize(ref data, 4);
                 Array.Copy(data, 0, sav, offsetTime + 4 * 30, 4);
             }
-            catch { };
+            catch { }
             try 
             {
                 byte[] data = BitConverter.GetBytes(Single.Parse(TB_Time2.Text));
                 Array.Resize(ref data, 4);
                 Array.Copy(data, 0, sav, offsetTime + 4 * 31, 4);
             }
-            catch { };
+            catch { }
             {
                 int offsetSpec = data_offset + 0x188 + 0x7F000 * savindex;
                 byte[] data = BitConverter.GetBytes(Convert.ToUInt16(CB_S2.SelectedValue.ToString()));
@@ -155,7 +155,7 @@ namespace PKHeX
             Array.Copy(bagarray, 0, sav, data_offset + 0x308 + savindex * 0x7F000, 12);
             Array.Copy(sav, m_parent.savefile, 0x100000);
             m_parent.savedited = true;
-            this.Close();
+            Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -171,7 +171,7 @@ namespace PKHeX
                 Array.Resize(ref data, 2);
                 Array.Copy(data, 0, sav, offsetSpec + 4 * index, 2);
             }
-            catch { return; }
+            catch { }
         }
         private void changeRecordVal(object sender, EventArgs e)
         {
@@ -183,7 +183,7 @@ namespace PKHeX
                 Array.Resize(ref data, 2);
                 Array.Copy(data, 0, sav, offsetVal + 4 * index, 2);
             }
-            catch { return; }
+            catch { }
         }
         private void changeRecordTime(object sender, EventArgs e)
         {
@@ -195,7 +195,7 @@ namespace PKHeX
                 Array.Resize(ref data, 4);
                 Array.Copy(data, 0, sav, offsetTime + 4 * index, 4);
             }
-            catch { return; }
+            catch { }
         }
     }
 }
