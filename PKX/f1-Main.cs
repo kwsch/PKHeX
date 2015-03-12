@@ -1906,7 +1906,7 @@ namespace PKHeX
         }
         private void updateRandomIVs(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control)
+            if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Shift)
             {
                 // Max IVs
                 TB_HPIV.Text = 31.ToString();
@@ -1928,7 +1928,7 @@ namespace PKHeX
         }
         private void updateRandomEVs(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control)
+            if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Shift)
             {
                 // Max IVs
                 TB_HPEV.Text = 0.ToString();

@@ -535,7 +535,7 @@
             this.TB_PID.MaxLength = 8;
             this.TB_PID.Name = "TB_PID";
             this.TB_PID.Size = new System.Drawing.Size(60, 20);
-            this.TB_PID.TabIndex = 60;
+            this.TB_PID.TabIndex = 1;
             this.TB_PID.Text = "12345678";
             this.TB_PID.TextChanged += new System.EventHandler(this.update_ID);
             this.TB_PID.MouseHover += new System.EventHandler(this.getTSV);
@@ -658,7 +658,7 @@
             this.BTN_RerollPID.Location = new System.Drawing.Point(188, 7);
             this.BTN_RerollPID.Name = "BTN_RerollPID";
             this.BTN_RerollPID.Size = new System.Drawing.Size(40, 20);
-            this.BTN_RerollPID.TabIndex = 2;
+            this.BTN_RerollPID.TabIndex = 1;
             this.BTN_RerollPID.Text = "Reroll";
             this.BTN_RerollPID.UseVisualStyleBackColor = true;
             this.BTN_RerollPID.Click += new System.EventHandler(this.updateRandomPID);
@@ -944,7 +944,7 @@
             this.BTN_Shinytize.Location = new System.Drawing.Point(50, 6);
             this.BTN_Shinytize.Name = "BTN_Shinytize";
             this.BTN_Shinytize.Size = new System.Drawing.Size(26, 22);
-            this.BTN_Shinytize.TabIndex = 58;
+            this.BTN_Shinytize.TabIndex = 1;
             this.BTN_Shinytize.Text = "☆";
             this.BTN_Shinytize.UseVisualStyleBackColor = true;
             this.BTN_Shinytize.Click += new System.EventHandler(this.updateShinyPID);
@@ -1038,7 +1038,7 @@
             this.CHK_Fateful.Location = new System.Drawing.Point(105, 115);
             this.CHK_Fateful.Name = "CHK_Fateful";
             this.CHK_Fateful.Size = new System.Drawing.Size(110, 17);
-            this.CHK_Fateful.TabIndex = 7;
+            this.CHK_Fateful.TabIndex = 6;
             this.CHK_Fateful.Text = "Fateful Encounter";
             this.CHK_Fateful.UseVisualStyleBackColor = true;
             // 
@@ -1065,7 +1065,7 @@
             this.CB_EggLocation.Location = new System.Drawing.Point(71, 19);
             this.CB_EggLocation.Name = "CB_EggLocation";
             this.CB_EggLocation.Size = new System.Drawing.Size(122, 21);
-            this.CB_EggLocation.TabIndex = 11;
+            this.CB_EggLocation.TabIndex = 10;
             this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
             this.CB_EggLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
@@ -1174,7 +1174,7 @@
             this.CB_MetLocation.Location = new System.Drawing.Point(105, 27);
             this.CB_MetLocation.Name = "CB_MetLocation";
             this.CB_MetLocation.Size = new System.Drawing.Size(122, 21);
-            this.CB_MetLocation.TabIndex = 10;
+            this.CB_MetLocation.TabIndex = 2;
             this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
             this.CB_MetLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
@@ -1222,7 +1222,7 @@
             this.CB_EncounterType.Location = new System.Drawing.Point(105, 135);
             this.CB_EncounterType.Name = "CB_EncounterType";
             this.CB_EncounterType.Size = new System.Drawing.Size(122, 21);
-            this.CB_EncounterType.TabIndex = 6;
+            this.CB_EncounterType.TabIndex = 7;
             // 
             // Tab_Stats
             // 
@@ -2165,7 +2165,7 @@
             this.TB_EC.MaxLength = 8;
             this.TB_EC.Name = "TB_EC";
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
-            this.TB_EC.TabIndex = 61;
+            this.TB_EC.TabIndex = 8;
             this.TB_EC.Text = "12345678";
             this.TB_EC.TextChanged += new System.EventHandler(this.update_ID);
             // 
@@ -2177,7 +2177,7 @@
             this.GB_nOT.Location = new System.Drawing.Point(40, 90);
             this.GB_nOT.Name = "GB_nOT";
             this.GB_nOT.Size = new System.Drawing.Size(190, 50);
-            this.GB_nOT.TabIndex = 43;
+            this.GB_nOT.TabIndex = 2;
             this.GB_nOT.TabStop = false;
             this.GB_nOT.Text = "Latest (not OT) Handler";
             // 
@@ -2200,7 +2200,7 @@
             this.TB_OTt2.MaxLength = 12;
             this.TB_OTt2.Name = "TB_OTt2";
             this.TB_OTt2.Size = new System.Drawing.Size(94, 20);
-            this.TB_OTt2.TabIndex = 6;
+            this.TB_OTt2.TabIndex = 1;
             this.TB_OTt2.WordWrap = false;
             this.TB_OTt2.TextChanged += new System.EventHandler(this.updateNotOT);
             this.TB_OTt2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
@@ -2246,7 +2246,7 @@
             this.BTN_RerollEC.Location = new System.Drawing.Point(138, 276);
             this.BTN_RerollEC.Name = "BTN_RerollEC";
             this.BTN_RerollEC.Size = new System.Drawing.Size(38, 20);
-            this.BTN_RerollEC.TabIndex = 16;
+            this.BTN_RerollEC.TabIndex = 7;
             this.BTN_RerollEC.Text = "Reroll";
             this.BTN_RerollEC.UseVisualStyleBackColor = true;
             this.BTN_RerollEC.Click += new System.EventHandler(this.updateRandomEC);
@@ -2256,7 +2256,7 @@
             this.BTN_History.Location = new System.Drawing.Point(138, 250);
             this.BTN_History.Name = "BTN_History";
             this.BTN_History.Size = new System.Drawing.Size(100, 23);
-            this.BTN_History.TabIndex = 15;
+            this.BTN_History.TabIndex = 6;
             this.BTN_History.Text = "Memories/Amie";
             this.BTN_History.UseVisualStyleBackColor = true;
             this.BTN_History.Click += new System.EventHandler(this.openHistory);
@@ -2266,7 +2266,7 @@
             this.BTN_Ribbons.Location = new System.Drawing.Point(32, 250);
             this.BTN_Ribbons.Name = "BTN_Ribbons";
             this.BTN_Ribbons.Size = new System.Drawing.Size(100, 23);
-            this.BTN_Ribbons.TabIndex = 14;
+            this.BTN_Ribbons.TabIndex = 5;
             this.BTN_Ribbons.Text = "Ribbons/Medals";
             this.BTN_Ribbons.UseVisualStyleBackColor = true;
             this.BTN_Ribbons.Click += new System.EventHandler(this.openRibbons);
@@ -2411,7 +2411,7 @@
             this.TB_ExtraByte.Mask = "000";
             this.TB_ExtraByte.Name = "TB_ExtraByte";
             this.TB_ExtraByte.Size = new System.Drawing.Size(28, 20);
-            this.TB_ExtraByte.TabIndex = 8;
+            this.TB_ExtraByte.TabIndex = 2;
             this.TB_ExtraByte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_ExtraByte.TextChanged += new System.EventHandler(this.updateExtraByteValue);
             // 
@@ -2451,7 +2451,7 @@
             this.CB_ExtraBytes.Location = new System.Drawing.Point(20, 18);
             this.CB_ExtraBytes.Name = "CB_ExtraBytes";
             this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 21);
-            this.CB_ExtraBytes.TabIndex = 7;
+            this.CB_ExtraBytes.TabIndex = 1;
             this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.updateExtraByteIndex);
             // 
             // GB_OT
@@ -2466,7 +2466,7 @@
             this.GB_OT.Location = new System.Drawing.Point(40, 13);
             this.GB_OT.Name = "GB_OT";
             this.GB_OT.Size = new System.Drawing.Size(190, 75);
-            this.GB_OT.TabIndex = 2;
+            this.GB_OT.TabIndex = 1;
             this.GB_OT.TabStop = false;
             this.GB_OT.Text = "Trainer Information";
             // 
@@ -2729,7 +2729,7 @@
             this.tabBoxMulti.Name = "tabBoxMulti";
             this.tabBoxMulti.SelectedIndex = 0;
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
-            this.tabBoxMulti.TabIndex = 5;
+            this.tabBoxMulti.TabIndex = 50;
             // 
             // Tab_Box
             // 
@@ -3872,7 +3872,7 @@
             this.B_OpenHallofFame.Location = new System.Drawing.Point(230, 41);
             this.B_OpenHallofFame.Name = "B_OpenHallofFame";
             this.B_OpenHallofFame.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenHallofFame.TabIndex = 4;
+            this.B_OpenHallofFame.TabIndex = 8;
             this.B_OpenHallofFame.Text = "Hall of Fame";
             this.B_OpenHallofFame.UseVisualStyleBackColor = true;
             this.B_OpenHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
@@ -3882,7 +3882,7 @@
             this.B_OUTPasserby.Location = new System.Drawing.Point(230, 12);
             this.B_OUTPasserby.Name = "B_OUTPasserby";
             this.B_OUTPasserby.Size = new System.Drawing.Size(75, 23);
-            this.B_OUTPasserby.TabIndex = 0;
+            this.B_OUTPasserby.TabIndex = 4;
             this.B_OUTPasserby.Text = "Passerby";
             this.B_OUTPasserby.UseVisualStyleBackColor = true;
             this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
@@ -3892,7 +3892,7 @@
             this.B_OpenPokepuffs.Location = new System.Drawing.Point(5, 12);
             this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
             this.B_OpenPokepuffs.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenPokepuffs.TabIndex = 6;
+            this.B_OpenPokepuffs.TabIndex = 1;
             this.B_OpenPokepuffs.Text = "‎Poké Puffs";
             this.B_OpenPokepuffs.UseVisualStyleBackColor = true;
             this.B_OpenPokepuffs.Click += new System.EventHandler(this.B_OpenPokepuffs_Click);
@@ -3902,7 +3902,7 @@
             this.B_OpenBoxLayout.Location = new System.Drawing.Point(5, 41);
             this.B_OpenBoxLayout.Name = "B_OpenBoxLayout";
             this.B_OpenBoxLayout.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenBoxLayout.TabIndex = 7;
+            this.B_OpenBoxLayout.TabIndex = 5;
             this.B_OpenBoxLayout.Text = "Box Layout";
             this.B_OpenBoxLayout.UseVisualStyleBackColor = true;
             this.B_OpenBoxLayout.Click += new System.EventHandler(this.B_OpenBoxLayout_Click);
@@ -3912,7 +3912,7 @@
             this.B_OpenOPowers.Location = new System.Drawing.Point(5, 70);
             this.B_OpenOPowers.Name = "B_OpenOPowers";
             this.B_OpenOPowers.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenOPowers.TabIndex = 8;
+            this.B_OpenOPowers.TabIndex = 9;
             this.B_OpenOPowers.Text = "O-Powers";
             this.B_OpenOPowers.UseVisualStyleBackColor = true;
             this.B_OpenOPowers.Click += new System.EventHandler(this.B_OpenOPowers_Click);
@@ -3922,7 +3922,7 @@
             this.B_OpenItemPouch.Location = new System.Drawing.Point(80, 12);
             this.B_OpenItemPouch.Name = "B_OpenItemPouch";
             this.B_OpenItemPouch.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenItemPouch.TabIndex = 9;
+            this.B_OpenItemPouch.TabIndex = 2;
             this.B_OpenItemPouch.Text = "Items";
             this.B_OpenItemPouch.UseVisualStyleBackColor = true;
             this.B_OpenItemPouch.Click += new System.EventHandler(this.B_OpenItemPouch_Click);
@@ -3942,7 +3942,7 @@
             this.B_OpenWondercards.Location = new System.Drawing.Point(80, 41);
             this.B_OpenWondercards.Name = "B_OpenWondercards";
             this.B_OpenWondercards.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenWondercards.TabIndex = 11;
+            this.B_OpenWondercards.TabIndex = 6;
             this.B_OpenWondercards.Text = "Wondercard";
             this.B_OpenWondercards.UseVisualStyleBackColor = true;
             this.B_OpenWondercards.Click += new System.EventHandler(this.B_OpenWondercards_Click);
@@ -3952,7 +3952,7 @@
             this.B_OpenTrainerInfo.Location = new System.Drawing.Point(155, 12);
             this.B_OpenTrainerInfo.Name = "B_OpenTrainerInfo";
             this.B_OpenTrainerInfo.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenTrainerInfo.TabIndex = 12;
+            this.B_OpenTrainerInfo.TabIndex = 3;
             this.B_OpenTrainerInfo.Text = "Trainer Info";
             this.B_OpenTrainerInfo.UseVisualStyleBackColor = true;
             this.B_OpenTrainerInfo.Click += new System.EventHandler(this.B_OpenTrainerInfo_Click);
@@ -3962,7 +3962,7 @@
             this.B_OpenBerryField.Location = new System.Drawing.Point(230, 70);
             this.B_OpenBerryField.Name = "B_OpenBerryField";
             this.B_OpenBerryField.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenBerryField.TabIndex = 13;
+            this.B_OpenBerryField.TabIndex = 12;
             this.B_OpenBerryField.Text = "Berry Field";
             this.B_OpenBerryField.UseVisualStyleBackColor = true;
             this.B_OpenBerryField.Click += new System.EventHandler(this.B_OpenBerryField_Click);
@@ -3972,7 +3972,7 @@
             this.B_OpenPokedex.Location = new System.Drawing.Point(155, 70);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
             this.B_OpenPokedex.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenPokedex.TabIndex = 14;
+            this.B_OpenPokedex.TabIndex = 11;
             this.B_OpenPokedex.Text = "Pokédex";
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
             this.B_OpenPokedex.Click += new System.EventHandler(this.B_OpenPokedex_Click);
@@ -3995,7 +3995,7 @@
             this.GB_SAVtools.Location = new System.Drawing.Point(300, 254);
             this.GB_SAVtools.Name = "GB_SAVtools";
             this.GB_SAVtools.Size = new System.Drawing.Size(310, 100);
-            this.GB_SAVtools.TabIndex = 15;
+            this.GB_SAVtools.TabIndex = 100;
             this.GB_SAVtools.TabStop = false;
             // 
             // B_OpenSuperTraining
@@ -4004,7 +4004,7 @@
             this.B_OpenSuperTraining.Location = new System.Drawing.Point(155, 41);
             this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
             this.B_OpenSuperTraining.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenSuperTraining.TabIndex = 15;
+            this.B_OpenSuperTraining.TabIndex = 7;
             this.B_OpenSuperTraining.Text = "Super Train";
             this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
             this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);

@@ -102,7 +102,7 @@
             this.BTN_Save.Location = new System.Drawing.Point(286, 266);
             this.BTN_Save.Name = "BTN_Save";
             this.BTN_Save.Size = new System.Drawing.Size(76, 23);
-            this.BTN_Save.TabIndex = 28;
+            this.BTN_Save.TabIndex = 30;
             this.BTN_Save.Text = "Save";
             this.BTN_Save.UseVisualStyleBackColor = true;
             this.BTN_Save.Click += new System.EventHandler(this.B_Save_Click);
@@ -112,7 +112,7 @@
             this.BTN_Cancel.Location = new System.Drawing.Point(204, 266);
             this.BTN_Cancel.Name = "BTN_Cancel";
             this.BTN_Cancel.Size = new System.Drawing.Size(76, 23);
-            this.BTN_Cancel.TabIndex = 27;
+            this.BTN_Cancel.TabIndex = 29;
             this.BTN_Cancel.Text = "Cancel";
             this.BTN_Cancel.UseVisualStyleBackColor = true;
             this.BTN_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
@@ -123,7 +123,7 @@
             this.M_OT_Friendship.Mask = "000";
             this.M_OT_Friendship.Name = "M_OT_Friendship";
             this.M_OT_Friendship.Size = new System.Drawing.Size(24, 20);
-            this.M_OT_Friendship.TabIndex = 23;
+            this.M_OT_Friendship.TabIndex = 2;
             this.M_OT_Friendship.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // L_OT_Friendship
@@ -257,7 +257,7 @@
             this.GB_M_OT.Location = new System.Drawing.Point(7, 7);
             this.GB_M_OT.Name = "GB_M_OT";
             this.GB_M_OT.Size = new System.Drawing.Size(332, 188);
-            this.GB_M_OT.TabIndex = 87;
+            this.GB_M_OT.TabIndex = 1;
             this.GB_M_OT.TabStop = false;
             this.GB_M_OT.Text = "Memories with Original Trainer";
             // 
@@ -267,7 +267,7 @@
             this.RTB_OT.Name = "RTB_OT";
             this.RTB_OT.ReadOnly = true;
             this.RTB_OT.Size = new System.Drawing.Size(332, 47);
-            this.RTB_OT.TabIndex = 103;
+            this.RTB_OT.TabIndex = 8;
             this.RTB_OT.Text = "";
             // 
             // CB_OTVar
@@ -277,7 +277,7 @@
             this.CB_OTVar.Location = new System.Drawing.Point(86, 61);
             this.CB_OTVar.Name = "CB_OTVar";
             this.CB_OTVar.Size = new System.Drawing.Size(170, 21);
-            this.CB_OTVar.TabIndex = 96;
+            this.CB_OTVar.TabIndex = 5;
             this.CB_OTVar.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // CB_OTMemory
@@ -288,7 +288,7 @@
             this.CB_OTMemory.Location = new System.Drawing.Point(86, 38);
             this.CB_OTMemory.Name = "CB_OTMemory";
             this.CB_OTMemory.Size = new System.Drawing.Size(240, 21);
-            this.CB_OTMemory.TabIndex = 95;
+            this.CB_OTMemory.TabIndex = 4;
             this.CB_OTMemory.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // CB_OTQual
@@ -306,7 +306,7 @@
             this.CB_OTQual.Location = new System.Drawing.Point(86, 88);
             this.CB_OTQual.Name = "CB_OTQual";
             this.CB_OTQual.Size = new System.Drawing.Size(240, 21);
-            this.CB_OTQual.TabIndex = 90;
+            this.CB_OTQual.TabIndex = 6;
             this.CB_OTQual.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // CB_OTFeel
@@ -341,7 +341,7 @@
             this.CB_OTFeel.Location = new System.Drawing.Point(86, 111);
             this.CB_OTFeel.Name = "CB_OTFeel";
             this.CB_OTFeel.Size = new System.Drawing.Size(170, 21);
-            this.CB_OTFeel.TabIndex = 89;
+            this.CB_OTFeel.TabIndex = 7;
             this.CB_OTFeel.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // L_OT_Affection
@@ -359,7 +359,7 @@
             this.M_OT_Affection.Mask = "000";
             this.M_OT_Affection.Name = "M_OT_Affection";
             this.M_OT_Affection.Size = new System.Drawing.Size(24, 20);
-            this.M_OT_Affection.TabIndex = 24;
+            this.M_OT_Affection.TabIndex = 3;
             this.M_OT_Affection.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // GB_Residence
@@ -397,7 +397,7 @@
             this.CB_Region4.Location = new System.Drawing.Point(204, 158);
             this.CB_Region4.Name = "CB_Region4";
             this.CB_Region4.Size = new System.Drawing.Size(102, 21);
-            this.CB_Region4.TabIndex = 88;
+            this.CB_Region4.TabIndex = 25;
             // 
             // CB_Region3
             // 
@@ -408,7 +408,7 @@
             this.CB_Region3.Location = new System.Drawing.Point(204, 126);
             this.CB_Region3.Name = "CB_Region3";
             this.CB_Region3.Size = new System.Drawing.Size(102, 21);
-            this.CB_Region3.TabIndex = 87;
+            this.CB_Region3.TabIndex = 23;
             // 
             // CB_Region2
             // 
@@ -419,7 +419,7 @@
             this.CB_Region2.Location = new System.Drawing.Point(204, 93);
             this.CB_Region2.Name = "CB_Region2";
             this.CB_Region2.Size = new System.Drawing.Size(102, 21);
-            this.CB_Region2.TabIndex = 86;
+            this.CB_Region2.TabIndex = 21;
             // 
             // CB_Region1
             // 
@@ -430,7 +430,7 @@
             this.CB_Region1.Location = new System.Drawing.Point(204, 60);
             this.CB_Region1.Name = "CB_Region1";
             this.CB_Region1.Size = new System.Drawing.Size(102, 21);
-            this.CB_Region1.TabIndex = 85;
+            this.CB_Region1.TabIndex = 19;
             // 
             // CB_Region0
             // 
@@ -441,7 +441,7 @@
             this.CB_Region0.Location = new System.Drawing.Point(204, 27);
             this.CB_Region0.Name = "CB_Region0";
             this.CB_Region0.Size = new System.Drawing.Size(102, 21);
-            this.CB_Region0.TabIndex = 84;
+            this.CB_Region0.TabIndex = 17;
             // 
             // CB_Country4
             // 
@@ -452,7 +452,7 @@
             this.CB_Country4.Location = new System.Drawing.Point(82, 158);
             this.CB_Country4.Name = "CB_Country4";
             this.CB_Country4.Size = new System.Drawing.Size(102, 21);
-            this.CB_Country4.TabIndex = 83;
+            this.CB_Country4.TabIndex = 24;
             this.CB_Country4.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
             // 
             // CB_Country3
@@ -464,7 +464,7 @@
             this.CB_Country3.Location = new System.Drawing.Point(82, 126);
             this.CB_Country3.Name = "CB_Country3";
             this.CB_Country3.Size = new System.Drawing.Size(102, 21);
-            this.CB_Country3.TabIndex = 82;
+            this.CB_Country3.TabIndex = 22;
             this.CB_Country3.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
             // 
             // CB_Country2
@@ -476,7 +476,7 @@
             this.CB_Country2.Location = new System.Drawing.Point(82, 93);
             this.CB_Country2.Name = "CB_Country2";
             this.CB_Country2.Size = new System.Drawing.Size(102, 21);
-            this.CB_Country2.TabIndex = 81;
+            this.CB_Country2.TabIndex = 20;
             this.CB_Country2.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
             // 
             // CB_Country1
@@ -488,7 +488,7 @@
             this.CB_Country1.Location = new System.Drawing.Point(82, 60);
             this.CB_Country1.Name = "CB_Country1";
             this.CB_Country1.Size = new System.Drawing.Size(102, 21);
-            this.CB_Country1.TabIndex = 80;
+            this.CB_Country1.TabIndex = 18;
             this.CB_Country1.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
             // 
             // CB_Country0
@@ -500,7 +500,7 @@
             this.CB_Country0.Location = new System.Drawing.Point(82, 27);
             this.CB_Country0.Name = "CB_Country0";
             this.CB_Country0.Size = new System.Drawing.Size(102, 21);
-            this.CB_Country0.TabIndex = 79;
+            this.CB_Country0.TabIndex = 16;
             this.CB_Country0.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
             // 
             // L_Enjoyment
@@ -527,7 +527,7 @@
             this.M_Enjoyment.Mask = "000";
             this.M_Enjoyment.Name = "M_Enjoyment";
             this.M_Enjoyment.Size = new System.Drawing.Size(24, 20);
-            this.M_Enjoyment.TabIndex = 18;
+            this.M_Enjoyment.TabIndex = 28;
             this.M_Enjoyment.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.M_Enjoyment.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
@@ -537,7 +537,7 @@
             this.M_Fullness.Mask = "000";
             this.M_Fullness.Name = "M_Fullness";
             this.M_Fullness.Size = new System.Drawing.Size(24, 20);
-            this.M_Fullness.TabIndex = 17;
+            this.M_Fullness.TabIndex = 27;
             this.M_Fullness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.M_Fullness.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
@@ -550,7 +550,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(355, 228);
-            this.tabControl1.TabIndex = 100;
+            this.tabControl1.TabIndex = 0;
             // 
             // Tab_OTMemory
             // 
@@ -602,7 +602,7 @@
             this.RTB_CT.Name = "RTB_CT";
             this.RTB_CT.ReadOnly = true;
             this.RTB_CT.Size = new System.Drawing.Size(332, 47);
-            this.RTB_CT.TabIndex = 104;
+            this.RTB_CT.TabIndex = 15;
             this.RTB_CT.Text = "";
             // 
             // CB_CTVar
@@ -612,7 +612,7 @@
             this.CB_CTVar.Location = new System.Drawing.Point(86, 61);
             this.CB_CTVar.Name = "CB_CTVar";
             this.CB_CTVar.Size = new System.Drawing.Size(170, 21);
-            this.CB_CTVar.TabIndex = 95;
+            this.CB_CTVar.TabIndex = 12;
             this.CB_CTVar.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // CB_CTMemory
@@ -623,7 +623,7 @@
             this.CB_CTMemory.Location = new System.Drawing.Point(86, 38);
             this.CB_CTMemory.Name = "CB_CTMemory";
             this.CB_CTMemory.Size = new System.Drawing.Size(240, 21);
-            this.CB_CTMemory.TabIndex = 94;
+            this.CB_CTMemory.TabIndex = 11;
             this.CB_CTMemory.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // CB_CTQual
@@ -641,7 +641,7 @@
             this.CB_CTQual.Location = new System.Drawing.Point(86, 88);
             this.CB_CTQual.Name = "CB_CTQual";
             this.CB_CTQual.Size = new System.Drawing.Size(240, 21);
-            this.CB_CTQual.TabIndex = 93;
+            this.CB_CTQual.TabIndex = 13;
             this.CB_CTQual.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // CB_CTFeel
@@ -676,7 +676,7 @@
             this.CB_CTFeel.Location = new System.Drawing.Point(86, 111);
             this.CB_CTFeel.Name = "CB_CTFeel";
             this.CB_CTFeel.Size = new System.Drawing.Size(170, 21);
-            this.CB_CTFeel.TabIndex = 92;
+            this.CB_CTFeel.TabIndex = 14;
             this.CB_CTFeel.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
             // 
             // L_CT_Affection
@@ -703,7 +703,7 @@
             this.M_CT_Affection.Mask = "000";
             this.M_CT_Affection.Name = "M_CT_Affection";
             this.M_CT_Affection.Size = new System.Drawing.Size(24, 20);
-            this.M_CT_Affection.TabIndex = 16;
+            this.M_CT_Affection.TabIndex = 10;
             this.M_CT_Affection.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // M_CT_Friendship
@@ -712,7 +712,7 @@
             this.M_CT_Friendship.Mask = "000";
             this.M_CT_Friendship.Name = "M_CT_Friendship";
             this.M_CT_Friendship.Size = new System.Drawing.Size(24, 20);
-            this.M_CT_Friendship.TabIndex = 15;
+            this.M_CT_Friendship.TabIndex = 9;
             this.M_CT_Friendship.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // LCTV
@@ -779,7 +779,7 @@
             this.CB_Handler.Location = new System.Drawing.Point(175, 239);
             this.CB_Handler.Name = "CB_Handler";
             this.CB_Handler.Size = new System.Drawing.Size(117, 21);
-            this.CB_Handler.TabIndex = 100;
+            this.CB_Handler.TabIndex = 26;
             // 
             // L_Arguments
             // 
