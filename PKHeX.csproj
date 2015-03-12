@@ -341,6 +341,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\text\other\lang_pt.txt" />
     <None Include="Resources\text\ko\text_Games_ko.txt" />
     <None Include="Resources\text\ja\text_Games_ja.txt" />
     <None Include="Resources\text\it\text_Games_it.txt" />

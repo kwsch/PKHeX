@@ -14777,6 +14777,28 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ! PKHeX Interface Customization File
+        ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
+        ///! lang_en.txt = English
+        ///! lang_jp.txt = Japanese
+        ///! lang_fr.txt = French
+        ///! lang_de.txt = German
+        ///! lang_es.txt = Spanish
+        ///! lang_it.txt = Italian
+        ///! lang_ko.txt = Korean
+        ///! lang_pt.txt = Portuguese
+        ///! Make sure that each edit has a &apos; = &apos; between Control name and new Text!
+        ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
+        ///!
+        ///! ----------------------------------------------- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string lang_pt {
+            get {
+                return ResourceManager.GetString("lang_pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to lang_ja=! PKHeX Interface Customization File
         ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
         ///! lang_en.txt = English
@@ -15040,7 +15062,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you are having issues viewing certain symbols: Options -&gt; Toggle Unicode Text.
+        ///   Looks up a localized string similar to If you are having issues viewing certain symbols/text: Options -&gt; Toggle Font.
         ///
         ///
         ///// Main Window
@@ -15053,13 +15075,9 @@ namespace PKHeX.Properties {
         ///Randomize EVs: Set all EVs to 0.
         ///PP Ups Label: Set all PP Ups to 3.
         ///Friendship Label: Reset Friendship
+        ///QR! to wrap text around QR code.
         ///
-        ///Click on the OT label to set relevant details to that of the save file.
-        ///
-        ///
-        ///// Save File
-        ///
-        ///Click  [rest of string was truncated]&quot;;.
+        ///Alt click QR! to load ekx data from a QR url loaded to your clipboar [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
@@ -19059,7 +19077,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19070,6 +19088,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19080,9 +19099,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_de {
             get {
@@ -19092,7 +19110,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19103,6 +19121,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19113,9 +19132,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_en {
             get {
@@ -19125,7 +19143,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19136,6 +19154,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19146,9 +19165,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_es {
             get {
@@ -19158,7 +19176,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19169,6 +19187,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19179,9 +19198,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_fr {
             get {
@@ -19191,7 +19209,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19202,6 +19220,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19212,9 +19231,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_it {
             get {
@@ -19224,7 +19242,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19235,6 +19253,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19245,9 +19264,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_ja {
             get {
@@ -19257,7 +19275,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19268,6 +19286,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19278,9 +19297,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_ko {
             get {
@@ -19290,7 +19308,7 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///
+        ///Rock Smash (HGSS)
         ///Tall Grass
         ///
         ///Dialga/Palkia
@@ -19301,6 +19319,7 @@ namespace PKHeX.Properties {
         ///Building
         ///Marsh/Safari
         ///
+        ///Starter/Fossil/Gift (DP)
         ///
         ///
         ///
@@ -19311,9 +19330,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///Starter/Fossil/Gift.
+        ///Distortion World (Pt)
+        ///Starter/Fossil/Gift (Pt).
         /// </summary>
         internal static string text_EncounterType_zh {
             get {

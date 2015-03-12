@@ -37,31 +37,17 @@ namespace PKHeX
             #endregion
             #region Language Detection before loading
             // Set up Language Selection
-            string[] main_langlist = 
-            {
-                "English", // ENG
-                "日本語", // JPN
-                "Français", // FRE
-                "Italiano", // ITA
-                "Deutsch", // GER
-                "Español", // SPA
-                "한국어", // KOR
-                "中文" // CHN
-            };
             foreach (var cbItem in main_langlist)
                 CB_MainLanguage.Items.Add(cbItem);
 
             // Try and detect the language
-            int[] main_langnum = { 2, 1, 3, 4, 5, 7, 8, 9 };
-            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh" };
+            int[] main_langnum = {2, 1, 3, 4, 5, 7, 8, 9};
+            main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i).ToArray()).ToArray();
             string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             string lastTwoChars = filename.Substring(filename.Length - 2);
             int lang = Array.IndexOf(main_langnum, Array.IndexOf(lang_val, lastTwoChars));
 
-            if (lang >= 0)
-                CB_MainLanguage.SelectedIndex = main_langnum[lang];
-            else
-                CB_MainLanguage.SelectedIndex = ((lastTwoChars == "jp") ? 1 : 0);
+            CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : ((lastTwoChars == "jp") ? 1 : 0);
 
             #region HaX
             HaX = (filename.IndexOf("HaX", StringComparison.Ordinal) >= 0);
@@ -79,9 +65,8 @@ namespace PKHeX
             Status = "Language set up";
             #endregion
             #region Localize & Populate
-            InitializeStrings(); Status = "Strings set up";
             InitializeFields(); Status = "Fields set up";
-            CB_Language.SelectedIndex = (lang >= 0) ? main_langnum[lang] : 1; 
+            CB_Language.SelectedIndex = (lang >= 0 && lang < 7) ? main_langnum[lang] : 1;
             #endregion
             #region Add ContextMenus to the PictureBoxes (PKX slots)
 
@@ -172,6 +157,7 @@ namespace PKHeX
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
             Status = "Initialized!";
+            CB_Species.SelectedIndex = 1;
 
             init = true;
 
@@ -209,6 +195,19 @@ namespace PKHeX
         public static int colorizedslot;
         public static int largeWidth, shortWidth;
         public static string eggname = "";
+        public static string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
+        public static string[] main_langlist = 
+            {
+                "English", // ENG
+                "日本語", // JPN
+                "Français", // FRE
+                "Italiano", // ITA
+                "Deutsch", // GER
+                "Español", // SPA
+                "한국어", // KOR
+                "中文", // CHN
+                "Português", // Portuguese
+            };
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist = { };
         public static string[] movelist = { };
@@ -241,10 +240,8 @@ namespace PKHeX
         public static string[] gamelist = { };
         public static string[] puffs = { };
         public static string[] itempouch = { };
-        public static int[] speciesability = { };
-        public static int[] saveoffsets = { };
         public static string origintrack;
-        public static string curlanguage;
+        public static string curlanguage = "en";
         public volatile bool init;
         public static bool unicode;
         public ToolTip Tip1 = new ToolTip();
@@ -725,19 +722,18 @@ namespace PKHeX
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
-            if (init)
-                buff = preparepkx(buff); // get data currently in form
+            if (init) buff = preparepkx(buff); // get data currently in form
 
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
-            Util.TranslateInterface(this, curlanguage, menuStrip1);
+            Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex], menuStrip1); // Translate the UI to language.
             populateFields(buff); // put data back in form
         }
         private void InitializeStrings()
         {
-            string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh" };
-            curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
+            if (CB_MainLanguage.SelectedIndex < 8)
+                curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
 
             string l = curlanguage;
             natures = Util.getStringList("Natures", l);
@@ -814,7 +810,7 @@ namespace PKHeX
 
             // Localize the Poketransfer to the language (30001)
             string[] ptransp = { "Poké Transfer", "ポケシフター", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
-            metBW2_30000[1 - 1] = ptransp[CB_MainLanguage.SelectedIndex];
+            metBW2_30000[1 - 1] = ptransp[Array.IndexOf(lang_val, curlanguage)];
             metBW2_30000[2 - 1] += " (NPC)";              // Anything from an NPC
             metBW2_30000[3 - 1] += " (" + eggname + ")";  // Egg From Link Trade
 
