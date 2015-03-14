@@ -704,12 +704,6 @@
             // 
             this.CB_PKRSDays.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_PKRSDays.FormattingEnabled = true;
-            this.CB_PKRSDays.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4"});
             this.CB_PKRSDays.Location = new System.Drawing.Point(197, 213);
             this.CB_PKRSDays.Name = "CB_PKRSDays";
             this.CB_PKRSDays.Size = new System.Drawing.Size(30, 21);

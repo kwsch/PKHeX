@@ -192,7 +192,6 @@
             // 
             // L_QR
             // 
-            this.L_QR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_QR.AutoSize = true;
             this.L_QR.Location = new System.Drawing.Point(258, 7);
             this.L_QR.Name = "L_QR";

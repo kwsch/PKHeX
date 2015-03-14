@@ -1073,6 +1073,35 @@ namespace PKHeX
         }
         #endregion
 
+        internal static string[] getPKXSummary(PKX data)
+        {
+            string[] response = new string[3];
+            // Summarize
+            string filename = data.Nickname;
+            if (filename != data.Species)
+                filename += " (" + data.Species + ")";
+            response[0] = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level, data.Ability);
+            response[1] = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
+            response[2] = String.Format(
+                "IVs:{0}{1}{2}{3}{4}{5}"
+                + Environment.NewLine + Environment.NewLine +
+                "EVs:{6}{7}{8}{9}{10}{11}",
+                Environment.NewLine + data.HP_IV.ToString("00"),
+                Environment.NewLine + data.ATK_IV.ToString("00"),
+                Environment.NewLine + data.DEF_IV.ToString("00"),
+                Environment.NewLine + data.SPA_IV.ToString("00"),
+                Environment.NewLine + data.SPD_IV.ToString("00"),
+                Environment.NewLine + data.SPE_IV.ToString("00"),
+                Environment.NewLine + data.HP_EV.ToString("00"),
+                Environment.NewLine + data.ATK_EV.ToString("00"),
+                Environment.NewLine + data.DEF_EV.ToString("00"),
+                Environment.NewLine + data.SPA_EV.ToString("00"),
+                Environment.NewLine + data.SPD_EV.ToString("00"),
+                Environment.NewLine + data.SPE_EV.ToString("00"));
+
+            return response;
+        }
+
         // Save File Related
         internal static int detectSAVIndex(byte[] data, ref int savindex)
         {

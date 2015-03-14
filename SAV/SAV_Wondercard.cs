@@ -320,44 +320,19 @@ namespace PKHeX
             }
             return img;
         }
-
         private void L_QR_Click(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)
             {
-                // Fetch data from QR code...
-                string address;
-                try { address = Clipboard.GetText(); }
-                catch { Util.Alert("No text (url) in clipboard."); return; }
-                try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Util.Alert("Clipboard text is not a valid URL:", address); return; } }
-                catch { Util.Alert("Clipboard text is not a valid URL:", address); return; }
-                string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
-                try
-                {
-                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
-                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                    var reader = new StreamReader(httpWebReponse.GetResponseStream());
-                    string data = reader.ReadToEnd();
-                    if (data.Contains("could not find")) { Util.Alert("Reader could not find QR data in the image."); return; }
-                    // Quickly convert the json response to a data string
-                    string pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim intro
-                    pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]", StringComparison.Ordinal)); // Trim outro
-                    if (pkstr.Contains("nQR-Code:")) pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:", StringComparison.Ordinal)); //  Remove multiple QR codes in same image
-                    pkstr = pkstr.Replace("\\", ""); // Rectify response
+                byte[] wc = Util.getQRData();
 
-                    byte[] wc;
-                    try { wc = Convert.FromBase64String(pkstr); }
-                    catch { Util.Alert("QR string to Data failed.", pkstr); return; }
-
-                    if (wc.Length != 0x108) { Util.Alert("Decoded data not 0x108 bytes.", String.Format("QR Data Size: 0x{0}", wc.Length.ToString("X"))); }
-                    else try
+                if (wc.Length != 0x108) { Util.Alert("Decoded data not 0x108 bytes.", String.Format("QR Data Size: 0x{0}", wc.Length.ToString("X"))); }
+                else try
                     {
                         Array.Copy(wc, wondercard_data, wc.Length);
-                        loadwcdata(); 
+                        loadwcdata();
                     }
                     catch { Util.Alert("Error loading wondercard data."); }
-                }
-                catch { Util.Alert("Unable to connect to the internet to decode QR code."); }
             }
             else
             {
@@ -369,31 +344,12 @@ namespace PKHeX
                 Array.Resize(ref wcdata, 0x108);
                 // Setup QR
                 const string server = "http://lunarcookies.github.io/wc.html#";
-                string qrdata = Convert.ToBase64String(wcdata);
-                string message = server + qrdata;
-                string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
+                Image qr = Util.getQRImage(wcdata, server);
+                if (qr == null) return;
 
-                Image qr = null;
-                try
-                {
-                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
-                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                    Stream stream = httpWebReponse.GetResponseStream();
-                    if (stream != null) qr = Image.FromStream(stream);
-                }
-                catch
-                {
-                    if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
-                    {
-                        try { Clipboard.SetText(webURL); }
-                        catch { Util.Alert("Failed to set text to Clipboard"); }
-                        return;
-                    }
-                }
                 string desc = getWCDescriptionString(wondercard_data);
-                Image img = PB_Preview.Image;
 
-                new QR(qr, img, desc, "", "", "PKHeX Wondercard @ ProjectPokemon.org").ShowDialog();
+                new QR(qr, PB_Preview.Image, desc, "", "", "PKHeX Wondercard @ ProjectPokemon.org").ShowDialog();
             }
         }
     }

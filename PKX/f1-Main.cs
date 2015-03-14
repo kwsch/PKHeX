@@ -306,7 +306,7 @@ namespace PKHeX
                 byte[] backupfile = File.ReadAllBytes(path);
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
-            byte[] pkx = preparepkx(buff);
+            byte[] pkx = preparepkx();
 
             if ((ext == ".ekx") || (ext == ".bin") || (ext == ".pkx") || (ext == ".ek6") || (ext == ".pk6"))
             {
@@ -349,7 +349,7 @@ namespace PKHeX
         {
             // Open Code Generator
             byte[] formdata = null;
-            if (verifiedPKX()) formdata = preparepkx(buff);
+            if (verifiedPKX()) formdata = preparepkx();
             CodeGenerator CodeGen = new CodeGenerator(this, formdata);
             CodeGen.ShowDialog();
             byte[] data = CodeGen.returnArray;
@@ -722,7 +722,7 @@ namespace PKHeX
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
-            if (init) buff = preparepkx(buff); // get data currently in form
+            if (init) buff = preparepkx(); // get data currently in form
 
             Menu_Options.DropDown.Close();
             InitializeStrings();
@@ -916,8 +916,12 @@ namespace PKHeX
                 }
             }
         }
-        private void populateFields(byte[] buff)
+        private void populateFields(byte[] data)
         {
+            // Store all loaded data in a persistent buffer for easy access.
+            Array.Resize(ref buff, data.Length);
+            Array.Copy(data, buff, data.Length);
+
             init = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
             Tab_Main.Focus();
@@ -1578,92 +1582,34 @@ namespace PKHeX
             if (ModifierKeys == Keys.Alt)
             {
                 // Fetch data from QR code...
-                string address;
-                try { address = Clipboard.GetText(); }
-                catch { Util.Alert("No text (url) in clipboard."); return; }
-                try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Util.Alert("Clipboard text is not a valid URL:", address); return; } }
-                catch { Util.Alert("Clipboard text is not a valid URL:", address); return; }
-                string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
-                try
-                {
-                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
-                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                    var reader = new StreamReader(httpWebReponse.GetResponseStream());
-                    string data = reader.ReadToEnd();
-                    if (data.Contains("could not find")) { Util.Alert("Reader could not find QR data in the image."); return; }
-                    // Quickly convert the json response to a data string
-                    string pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim intro
-                    pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]", StringComparison.Ordinal)); // Trim outro
-                    if (pkstr.Contains("nQR-Code:")) pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:", StringComparison.Ordinal)); //  Remove multiple QR codes in same image
-                    pkstr = pkstr.Replace("\\", ""); // Rectify response
+                byte[] ekx = Util.getQRData();
 
-                    byte[] ekx;
-                    try { ekx = Convert.FromBase64String(pkstr); }
-                    catch { Util.Alert("QR string to Data failed.", pkstr); return; }
+                if (ekx == null) return;
 
-                    if (ekx.Length != 232) { Util.Alert("Decoded data not 232 bytes.", String.Format("QR Data Size: {0}", ekx.Length));  }
-                    else try {
+                if (ekx.Length != 232) { Util.Alert("Decoded data not 232 bytes.", String.Format("QR Data Size: {0}", ekx.Length)); }
+                else try
+                    {
                         byte[] pkx = PKX.decryptArray(ekx);
                         if (PKX.verifychk(pkx)) { Array.Copy(pkx, buff, 0xE8); populateFields(buff); }
                         else Util.Alert("Invalid checksum in QR data.");
-                    } catch { Util.Alert("Error loading decrypted data."); }
-                }
-                catch { Util.Alert("Unable to connect to the internet to decode QR code."); }
+                    }
+                    catch { Util.Alert("Error loading decrypted data."); }
             }
             else
             {
                 if (!verifiedPKX()) return;
-                byte[] pkx = preparepkx(buff);
+                byte[] pkx = preparepkx();
                 byte[] ekx = PKX.encryptArray(pkx);
 
                 Array.Resize(ref ekx, 232);
-
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
-                string qrdata = Convert.ToBase64String(ekx);
-                string message = server + qrdata;
-                string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
+                Image qr = Util.getQRImage(ekx, server);
 
-                Image qr = null;
-                try
-                {
-                    System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
-                    System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                    Stream stream = httpWebReponse.GetResponseStream();
-                    if (stream != null) qr = Image.FromStream(stream);
-                }
-                catch
-                {
-                    if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
-                    {
-                        try { Clipboard.SetText(webURL); }
-                        catch { Util.Alert("Failed to set text to Clipboard"); }
-                        return;
-                    }
-                }
+                if (qr == null) return;
+
                 PKX data = new PKX(pkx, "Tabs");
-                string filename = data.Nickname;
-                if (filename != data.Species)
-                    filename += " (" + data.Species + ")";
-                string s1 = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level, data.Ability);
-                string s2 = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
-                string IVs = String.Format(
-                    "IVs:{0}{1}{2}{3}{4}{5}"
-                    + Environment.NewLine + Environment.NewLine +
-                    "EVs:{6}{7}{8}{9}{10}{11}",
-                    Environment.NewLine + data.HP_IV.ToString("00"),
-                    Environment.NewLine + data.ATK_IV.ToString("00"),
-                    Environment.NewLine + data.DEF_IV.ToString("00"),
-                    Environment.NewLine + data.SPA_IV.ToString("00"),
-                    Environment.NewLine + data.SPD_IV.ToString("00"),
-                    Environment.NewLine + data.SPE_IV.ToString("00"),
-                    Environment.NewLine + data.HP_EV.ToString("00"),
-                    Environment.NewLine + data.ATK_EV.ToString("00"),
-                    Environment.NewLine + data.DEF_EV.ToString("00"),
-                    Environment.NewLine + data.SPA_EV.ToString("00"),
-                    Environment.NewLine + data.SPD_EV.ToString("00"),
-                    Environment.NewLine + data.SPE_EV.ToString("00"));
-
-                new QR(qr, dragout.Image, s1, s2, IVs, "PKHeX @ ProjectPokemon.org").ShowDialog();
+                string[] r = PKX.getPKXSummary(data);
+                new QR(qr, dragout.Image, r[0], r[1], r[2], "PKHeX @ ProjectPokemon.org").ShowDialog();
             }
         }
         private void clickFriendship(object sender, EventArgs e)
@@ -1673,7 +1619,6 @@ namespace PKHeX
             else
                 TB_Friendship.Text = TB_Friendship.Text == "255" ? PKX.getBaseFriendship(Util.getIndex(CB_Species)).ToString() : "255";
         }
-
         private void clickGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
@@ -2006,7 +1951,17 @@ namespace PKHeX
         }
         private void updatePKRSstrain(object sender, EventArgs e)
         {
+            // Change the PKRS Days to the legal bounds.
+            int currentDuration = CB_PKRSDays.SelectedIndex;
+            CB_PKRSDays.Items.Clear();
+            int[] days = Enumerable.Range(0, CB_PKRSStrain.SelectedIndex % 4 + 1).Select(i => i).ToArray();
+            foreach (int day in days) CB_PKRSDays.Items.Add(day);
+
+            // Set the days back if they're legal, else set it to 1. (0 always passes).
+            CB_PKRSDays.SelectedIndex = (currentDuration < CB_PKRSDays.Items.Count) ? currentDuration : 1;
+
             if (CB_PKRSStrain.SelectedIndex != 0) return;
+            
             // Never Infected
             CB_PKRSDays.SelectedValue = 0;
             CHK_Cured.Checked = false;
@@ -2025,7 +1980,6 @@ namespace PKHeX
             }
             else CHK_Cured.Checked = true;
         }
-
         private void updatePKRSCured(object sender, EventArgs e)
         {
             if (!init) return;
@@ -2459,16 +2413,16 @@ namespace PKHeX
             // Further logic checking
             if (Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
             { tabMain.SelectedIndex = 2; goto invalid; }
-            if (Util.getIndex(CB_Species) == 0) // Not gonna write 0 species.
-            { tabMain.SelectedIndex = 0; goto invalid; }
-
             // If no errors detected...
-            return true;
-        // else...
+            if (Util.getIndex(CB_Species) != 0) return true;
+            // Else
+            tabMain.SelectedIndex = 0;
+
+            // else...
         invalid:
             { System.Media.SystemSounds.Exclamation.Play(); return false; }
         }
-        private byte[] preparepkx(byte[] buff, bool click = true)
+        private byte[] preparepkx(bool click = true)
         {
             if (click)
                 tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
@@ -2747,7 +2701,7 @@ namespace PKHeX
                 Cursor.Current = Cursors.Hand;
 
                 // Make a new file name
-                byte[] dragdata = preparepkx(buff);
+                byte[] dragdata = preparepkx();
                 PKX pkx = new PKX(dragdata, "Tabs");
                 string filename = pkx.Nickname;
                 if (filename != pkx.Species)
@@ -2755,7 +2709,7 @@ namespace PKHeX
                 filename += " - " + pkx.PID;
 
                 filename += (e.Button == MouseButtons.Right) ? ".ek6" : ".pk6";
-                dragdata = (e.Button == MouseButtons.Right) ? PKX.encryptArray(preparepkx(buff)) : preparepkx(buff);
+                dragdata = (e.Button == MouseButtons.Right) ? PKX.encryptArray(preparepkx()) : preparepkx();
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, 232);
                 // Make file
@@ -3497,7 +3451,7 @@ namespace PKHeX
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { Util.Alert("Can't have empty/egg first slot."); return; }
             int offset = getPKXOffset(slot);
 
-            byte[] pkxdata = preparepkx(buff);
+            byte[] pkxdata = preparepkx();
             byte[] ekxdata = PKX.encryptArray(pkxdata);
 
             if (!savegame_oras)
@@ -3564,7 +3518,7 @@ namespace PKHeX
             {
                 if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?", box)) == DialogResult.Yes)
                 {
-                    pkxdata = preparepkx(buff);
+                    pkxdata = preparepkx();
                     setPokedex(pkxdata);
                 }
                 else if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Pokemon from all slots in Box {0}?", box)) == DialogResult.Yes)
@@ -3846,7 +3800,7 @@ namespace PKHeX
         private void getQuickFiller(PictureBox pb, byte[] dslotdata = null)
         {
             if (!init) return;
-            dslotdata = dslotdata ?? preparepkx(buff, false); // don't perform control loss click
+            dslotdata = dslotdata ?? preparepkx(false); // don't perform control loss click
 
             int species = BitConverter.ToInt16(dslotdata, 0x08); // Get Species
             uint isegg = (BitConverter.ToUInt32(dslotdata, 0x74) >> 30) & 1;
@@ -4654,5 +4608,6 @@ namespace PKHeX
         private int pkm_from_offset;
         private int pkm_from_slot = -1;
         #endregion
+
     }
 }

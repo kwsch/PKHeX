@@ -553,5 +553,59 @@ namespace PKHeX
             }
             return cbList;
         }
+
+        // QR Utility
+        internal static byte[] getQRData()
+        {
+            // Fetch data from QR code...
+            string address;
+            try { address = Clipboard.GetText(); }
+            catch { Alert("No text (url) in clipboard."); return null; }
+            try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Alert("Clipboard text is not a valid URL:", address); return null; } }
+            catch { Alert("Clipboard text is not a valid URL:", address); return null; }
+            string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
+            try
+            {
+                System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
+                System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                var reader = new StreamReader(httpWebReponse.GetResponseStream());
+                string data = reader.ReadToEnd();
+                if (data.Contains("could not find")) { Alert("Reader could not find QR data in the image."); return null; }
+                if (data.Contains("filetype not supported")) { Alert("Input URL is not valid. Double check that it is an image (jpg/png).", address); return null; }
+                // Quickly convert the json response to a data string
+                string pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim intro
+                pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]", StringComparison.Ordinal)); // Trim outro
+                if (pkstr.Contains("nQR-Code:")) pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:", StringComparison.Ordinal)); //  Remove multiple QR codes in same image
+                pkstr = pkstr.Replace("\\", ""); // Rectify response
+
+                try { return Convert.FromBase64String(pkstr); }
+                catch { Alert("QR string to Data failed.", pkstr); return null; }
+            }
+            catch { Alert("Unable to connect to the internet to decode QR code."); return null;}
+        }
+        internal static Image getQRImage(byte[] data, string server)
+        {
+            string qrdata = Convert.ToBase64String(data);
+            string message = server + qrdata;
+            string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
+
+            try
+            {
+                System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
+                System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                Stream stream = httpWebReponse.GetResponseStream();
+                if (stream != null) return Image.FromStream(stream);
+            }
+            catch
+            {
+                if (Prompt(MessageBoxButtons.YesNo, 
+                        "Unable to connect to the internet to receive QR code.",
+                        "Copy QR URL to Clipboard?")
+                        != DialogResult.Yes) return null;
+                try { Clipboard.SetText(webURL); }
+                catch { Alert("Failed to set text to Clipboard"); }
+            }
+            return null;
+        }
     }
 }
