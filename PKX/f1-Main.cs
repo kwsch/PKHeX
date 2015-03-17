@@ -1219,318 +1219,11 @@ namespace PKHeX
             cb.DisplayMember = "Text";
             cb.ValueMember = "Value";
             PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            bool hasForms = !(MonData.AltFormCount == 0 && species != 664 && species != 665);
+            bool hasForms = !(MonData.AltFormCount == 0 && species != 664 && species != 665); // If no forms & not Scatterbug / Spewpa...
             cb.Enabled = cb.Visible = hasForms;
             if (l != null) l.Visible = hasForms;
             
-            // If no forms & not Scatterbug / Spewpa...
-            if (!hasForms) {
-                cb.DataSource = new[] { new { Text = "", Value = 0 }
-                };}
-            // Mega List            
-            else if (Array.IndexOf(new[] 
-                { // XY
-                  003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
-                  // ORAS
-                  015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
-                }, species) > -1) { // ...
-                cb.DataSource = new[] {
-                    new { Text = types[0], Value = 0}, // Normal
-                    new { Text = forms[723], Value = 1}, // Mega
-                };}
-            // MegaXY List
-            else switch (species)
-            {
-                case 6:
-                case 150:
-                    cb.DataSource = new[] {
-                        new { Text = types[000], Value = 0}, // Normal
-                        new { Text = forms[724], Value = 1}, // Mega X
-                        new { Text = forms[725], Value = 2}, // Mega Y
-                    };
-                    break;
-                case 025:
-                    cb.DataSource = new[] {
-                        new { Text = types[000], Value = 0}, // Normal
-                        new { Text = forms[729], Value = 1}, // Rockstar
-                        new { Text = forms[730], Value = 2}, // Belle
-                        new { Text = forms[731], Value = 3}, // Pop
-                        new { Text = forms[732], Value = 4}, // PhD
-                        new { Text = forms[733], Value = 5}, // Libre
-                        new { Text = forms[734], Value = 6}, // Cosplay
-                    };
-                    break;
-                case 201:
-                    cb.DataSource = new[] {
-                        new { Text = "A", Value = 0 },
-                        new { Text = "B", Value = 1 },
-                        new { Text = "C", Value = 2 },
-                        new { Text = "D", Value = 3 },
-                        new { Text = "E", Value = 4 },
-                        new { Text = "F", Value = 5 },
-                        new { Text = "G", Value = 6 },
-                        new { Text = "H", Value = 7 },
-                        new { Text = "I", Value = 8 },
-                        new { Text = "J", Value = 9 },
-                        new { Text = "K", Value = 10 },
-                        new { Text = "L", Value = 11 },
-                        new { Text = "M", Value = 12 },
-                        new { Text = "N", Value = 13 },
-                        new { Text = "O", Value = 14 },
-                        new { Text = "P", Value = 15 },
-                        new { Text = "Q", Value = 16 },
-                        new { Text = "R", Value = 17 },
-                        new { Text = "S", Value = 18 },
-                        new { Text = "T", Value = 19 },
-                        new { Text = "U", Value = 20 },
-                        new { Text = "V", Value = 21 },
-                        new { Text = "W", Value = 22 },
-                        new { Text = "X", Value = 23 },
-                        new { Text = "Y", Value = 24 },
-                        new { Text = "Z", Value = 25 },
-                        new { Text = "!", Value = 26 },
-                        new { Text = "?", Value = 27 },
-                    };
-                    break;
-                case 351:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0 }, // Normal
-                        new { Text = forms[789], Value = 1 }, // Sunny
-                        new { Text = forms[790], Value = 2 }, // Rainy
-                        new { Text = forms[791], Value = 3 }, // Snowy
-                    };
-                    break;
-                case 382:
-                case 383:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0}, // Normal
-                        new { Text = forms[800], Value = 1}, // Primal
-                    };
-                    break;
-                case 386:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0 }, // Normal
-                        new { Text = forms[802], Value = 1 }, // Attack
-                        new { Text = forms[803], Value = 2 }, // Defense
-                        new { Text = forms[804], Value = 3 }, // Speed
-                    };
-                    break;
-                case 412:
-                case 413:
-                    cb.DataSource = new[] {
-                        new { Text = forms[412], Value = 0 }, // Plant
-                        new { Text = forms[805], Value = 1 }, // Sandy
-                        new { Text = forms[806], Value = 2 }, // Trash
-                    };
-                    break;
-                case 421:
-                    cb.DataSource = new[] {
-                        new { Text = forms[421], Value = 0 }, // Overcast
-                        new { Text = forms[809], Value = 1 }, // Sunshine
-                    };
-                    break;
-                case 422:
-                case 423:
-                    cb.DataSource = new[] {
-                        new { Text = forms[422], Value = 0 }, // West
-                        new { Text = forms[811], Value = 1 }, // East
-                    };
-                    break;
-                case 479:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0 }, // Normal
-                        new { Text = forms[817], Value = 1 }, // Heat
-                        new { Text = forms[818], Value = 2 }, // Wash
-                        new { Text = forms[819], Value = 3 }, // Frost
-                        new { Text = forms[820], Value = 4 }, // Fan
-                        new { Text = forms[821], Value = 5 }, // Mow
-                    };
-                    break;
-                case 487:
-                    cb.DataSource = new[] {
-                        new { Text = forms[487], Value = 0 }, // Altered
-                        new { Text = forms[822], Value = 1 }, // Origin
-                    };
-                    break;
-                case 492:
-                    cb.DataSource = new[] {
-                        new { Text = forms[492], Value = 0 }, // Land
-                        new { Text = forms[823], Value = 1 }, // Sky
-                    };
-                    break;
-                case 493:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0 }, // Normal
-                        new { Text = types[1], Value = 1 }, // Fighting
-                        new { Text = types[2], Value = 2 }, // Flying
-                        new { Text = types[3], Value = 3 }, // Poison
-                        new { Text = types[4], Value = 4 }, // etc
-                        new { Text = types[5], Value = 5 },
-                        new { Text = types[6], Value = 6 },
-                        new { Text = types[7], Value = 7 },
-                        new { Text = types[8], Value = 8 },
-                        new { Text = types[9], Value = 9 },
-                        new { Text = types[10], Value = 10 },
-                        new { Text = types[11], Value = 11 },
-                        new { Text = types[12], Value = 12 },
-                        new { Text = types[13], Value = 13 },
-                        new { Text = types[14], Value = 14 },
-                        new { Text = types[15], Value = 15 },
-                        new { Text = types[16], Value = 16 },
-                        new { Text = types[17], Value = 17 },
-                    };
-                    break;
-                case 550:
-                    cb.DataSource = new[] { 
-                        new { Text = forms[550], Value = 0 }, // Red
-                        new { Text = forms[842], Value = 1 }, // Blue
-                    };
-                    break;
-                case 555:
-                    cb.DataSource = new[] {
-                        new { Text = forms[555], Value = 0 }, // Standard
-                        new { Text = forms[843], Value = 1 }, // Zen
-                    };
-                    break;
-                case 585:
-                case 586:
-                    cb.DataSource = new[] {
-                        new { Text = forms[585], Value = 0 }, // Spring
-                        new { Text = forms[844], Value = 1 }, // Summer
-                        new { Text = forms[845], Value = 2 }, // Autumn
-                        new { Text = forms[846], Value = 3 }, // Winter
-                    };
-                    break;
-                case 641:
-                case 642:
-                case 645:
-                    cb.DataSource = new[] {
-                        new { Text = forms[641], Value = 0 }, // Incarnate
-                        new { Text = forms[852], Value = 1 }, // Therian
-                    };
-                    break;
-                case 646:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0 }, // Normal
-                        new { Text = forms[853], Value = 1 }, // White
-                        new { Text = forms[854], Value = 2 }, // Black
-                    };
-                    break;
-                case 647:
-                    cb.DataSource = new[] {
-                        new { Text = forms[647], Value = 0 }, // Ordinary
-                        new { Text = forms[855], Value = 1 }, // Resolute
-                    };
-                    break;
-                case 648:
-                    cb.DataSource = new[] {
-                        new { Text = forms[648], Value = 0 }, // Aria
-                        new { Text = forms[856], Value = 1 }, // Pirouette
-                    };
-                    break;
-                case 649:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0 }, // Normal
-                        new { Text = types[10], Value = 1 }, // Douse
-                        new { Text = types[12], Value = 2 }, // Shock
-                        new { Text = types[9], Value = 3 }, // Burn
-                        new { Text = types[14], Value = 4 }, // Chill
-                    };
-                    break;
-                case 664:
-                case 665:
-                case 666:
-                    cb.DataSource = new[] {
-                        new { Text = forms[666], Value = 0 }, // Icy Snow
-                        new { Text = forms[861], Value = 1 }, // Polar
-                        new { Text = forms[862], Value = 2 }, // Tundra
-                        new { Text = forms[863], Value = 3 }, // Continental 
-                        new { Text = forms[864], Value = 4 }, // Garden
-                        new { Text = forms[865], Value = 5 }, // Elegant
-                        new { Text = forms[866], Value = 6 }, // Meadow
-                        new { Text = forms[867], Value = 7 }, // Modern 
-                        new { Text = forms[868], Value = 8 }, // Marine
-                        new { Text = forms[869], Value = 9 }, // Archipelago
-                        new { Text = forms[870], Value = 10 }, // High-Plains
-                        new { Text = forms[871], Value = 11 }, // Sandstorm
-                        new { Text = forms[872], Value = 12 }, // River
-                        new { Text = forms[873], Value = 13 }, // Monsoon
-                        new { Text = forms[874], Value = 14 }, // Savannah 
-                        new { Text = forms[875], Value = 15 }, // Sun
-                        new { Text = forms[876], Value = 16 }, // Ocean
-                        new { Text = forms[877], Value = 17 }, // Jungle
-                        new { Text = forms[878], Value = 18 }, // Fancy
-                        new { Text = forms[879], Value = 19 }, // Poké Ball
-                    };
-                    break;
-                case 669:
-                case 671:
-                    cb.DataSource = new[] {
-                        new { Text = forms[669], Value = 0 }, // Red
-                        new { Text = forms[884], Value = 1 }, // Yellow
-                        new { Text = forms[885], Value = 2 }, // Orange
-                        new { Text = forms[886], Value = 3 }, // Blue
-                        new { Text = forms[887], Value = 4 }, // White
-                    };
-                    break;
-                case 670:
-                    cb.DataSource = new[] {
-                        new { Text = forms[669], Value = 0 }, // Red
-                        new { Text = forms[884], Value = 1 }, // Yellow
-                        new { Text = forms[885], Value = 2 }, // Orange
-                        new { Text = forms[886], Value = 3 }, // Blue
-                        new { Text = forms[887], Value = 4 }, // White
-                        new { Text = forms[888], Value = 5 }, // Eternal
-                    };
-                    break;
-                case 676:
-                    cb.DataSource = new[] {
-                        new { Text = forms[676], Value = 0 }, // Natural
-                        new { Text = forms[893], Value = 1 }, // Heart
-                        new { Text = forms[894], Value = 2 }, // Star
-                        new { Text = forms[895], Value = 3 }, // Diamond
-                        new { Text = forms[896], Value = 4 }, // Deputante
-                        new { Text = forms[897], Value = 5 }, // Matron
-                        new { Text = forms[898], Value = 6 }, // Dandy
-                        new { Text = forms[899], Value = 7 }, // La Reine
-                        new { Text = forms[900], Value = 8 }, // Kabuki 
-                        new { Text = forms[901], Value = 9 }, // Pharaoh
-                    };
-                    break;
-                case 678:
-                    cb.DataSource = new[] {
-                        new { Text = gendersymbols[0], Value = 0 }, // Male
-                        new { Text = gendersymbols[1], Value = 1 }, // Female
-                    };
-                    break;
-                case 681:
-                    cb.DataSource = new[] {
-                        new { Text = forms[681], Value = 0 }, // Shield
-                        new { Text = forms[903], Value = 1 }, // Blade
-                    };
-                    break;
-                case 710:
-                case 711:
-                    cb.DataSource = new[] {
-                        new { Text = forms[904], Value = 0 }, // Small
-                        new { Text = forms[710], Value = 1 }, // Average
-                        new { Text = forms[905], Value = 2 }, // Large
-                        new { Text = forms[906], Value = 3 }, // Super
-                    };
-                    break;
-                case 716:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0}, // Normal
-                        new { Text = forms[910], Value = 1}, // Active
-                    };
-                    break;
-                case 720:
-                    cb.DataSource = new[] {
-                        new { Text = types[0], Value = 0}, // Normal
-                        new { Text = forms[912], Value = 1}, // Unbound
-                    };
-                    break;
-            }
+            cb.DataSource = PKX.getFormList(species, types, forms, gendersymbols).ToList();
         }
         public void setAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
         {
@@ -2169,6 +1862,7 @@ namespace PKHeX
         }
         private void updateNickname(object sender, EventArgs e)
         {
+            if (init && ModifierKeys == Keys.Control) { getShowdownSet(); return; }
             if (!init || (CHK_Nicknamed.Checked)) return;
 
             // Fetch Current Species and set it as Nickname Text
@@ -2374,6 +2068,74 @@ namespace PKHeX
                 labarray[decr].ForeColor = Color.Blue;
             }
         }
+        private void getShowdownSet()
+        {
+            if (!Clipboard.ContainsText()) return;
+
+            // Get Simulator Data
+            PKX.Simulator.Set Set = new PKX.Simulator.Set(
+                Clipboard.GetText(), // Input Set
+                Util.getStringList("Species", "en"),
+                Util.getStringList("Items", "en"),
+                Util.getStringList("Natures", "en"),
+                Util.getStringList("Moves", "en"),
+                Util.getStringList("Abilities", "en"));
+
+            if (Set.Species < 0) return;
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Clipboard.GetText())) return;
+
+            // Set Species & Nickname
+            CB_Species.SelectedValue = Set.Species;
+            CHK_Nicknamed.Checked = false;
+            if (Set.Nickname != null) TB_Nickname.Text = Set.Nickname;
+
+            // Set Form
+            string[] formStrings = PKX.getFormList(Set.Species,
+                Util.getStringList("Types", "en"),
+                Util.getStringList("Forms", "en"), gendersymbols);
+            int form = 0;
+            for (int i = 0; i < formStrings.Length; i++)
+                if (formStrings[i].Contains(Set.Form ?? ""))
+                { form = i; break; }
+            CB_Form.SelectedIndex = form;
+
+            // Set Ability
+            byte[] abilities = PKX.getAbilities(Set.Species, form);
+            int ability = Array.IndexOf(abilities, (byte)Set.Ability);
+            if (ability < 0) ability = 0;
+            CB_Ability.SelectedIndex = ability;
+            ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4, };
+            for (int i = 0; i < 4; i++) m[i].SelectedValue = Set.Moves[i];
+
+            // Set Item and Nature
+            CB_HeldItem.SelectedValue = (Set.Item < 0) ? 0 : Set.Item;
+            CB_Nature.SelectedValue = (Set.Nature < 0) ? 0 : Set.Nature;
+
+            // Set IVs
+            TB_HPIV.Text = Set.IVs[0].ToString();
+            TB_ATKIV.Text = Set.IVs[1].ToString();
+            TB_DEFIV.Text = Set.IVs[2].ToString();
+            TB_SPAIV.Text = Set.IVs[3].ToString();
+            TB_SPDIV.Text = Set.IVs[4].ToString();
+            TB_SPEIV.Text = Set.IVs[5].ToString();
+
+            // Set EVs
+            TB_HPEV.Text = Set.EVs[0].ToString();
+            TB_ATKEV.Text = Set.EVs[1].ToString();
+            TB_DEFEV.Text = Set.EVs[2].ToString();
+            TB_SPAEV.Text = Set.EVs[3].ToString();
+            TB_SPDEV.Text = Set.EVs[4].ToString();
+            TB_SPEEV.Text = Set.EVs[5].ToString();
+
+            // Set Level and Friendship
+            TB_Level.Text = Set.Level.ToString();
+            TB_Friendship.Text = Set.Friendship.ToString();
+
+            // Reset IV/EVs
+            BTN_RerollPID.PerformClick();
+            BTN_RerollEC.PerformClick();
+            if (Set.Shiny) BTN_Shinytize.PerformClick();
+        }
         // Secondary Windows for Ribbons/Amie/Memories
         private void openRibbons(object sender, EventArgs e)
         {
@@ -2473,7 +2235,7 @@ namespace PKHeX
             pkx[0x1C] = (byte)((Util.getIndex(CB_Nature)));                                     // Nature
             int fegform = Convert.ToInt32(CHK_Fateful.Checked);                                 // Fateful
             fegform |= (PKX.getGender(Label_Gender.Text) << 1);                                 // Gender
-            fegform |= (Math.Min((MT_Form.Enabled) ? Convert.ToInt32(MT_Form.Text) : Util.getIndex(CB_Form), 32) << 3); // Form
+            fegform |= (Math.Min((MT_Form.Enabled) ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex, 32) << 3); // Form
             pkx[0x1D] = (byte)fegform;
             pkx[0x1E] = (byte)Util.ToInt32(TB_HPEV.Text);       // EVs
             pkx[0x1F] = (byte)Util.ToInt32(TB_ATKEV.Text);
@@ -4608,6 +4370,5 @@ namespace PKHeX
         private int pkm_from_offset;
         private int pkm_from_slot = -1;
         #endregion
-
     }
 }

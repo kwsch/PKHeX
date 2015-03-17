@@ -321,39 +321,27 @@ namespace PKHeX
         }
         internal static string getLocation(bool eggmet, int gameorigin, int locval)
         {
-            string loctext = "";
             if (gameorigin < 13 && gameorigin > 6 && eggmet)
             {
-                if (locval < 2000)
-                    loctext = Form1.metHGSS_00000[locval];
-                else if (locval < 3000)
-                    loctext = Form1.metHGSS_02000[locval % 2000];
-                else
-                    loctext = Form1.metHGSS_03000[locval % 3000];
+                if (locval < 2000) return Form1.metHGSS_00000[locval];
+                if (locval < 3000) return Form1.metHGSS_02000[locval % 2000];
+                                   return Form1.metHGSS_03000[locval % 3000];
             }
-            else if (gameorigin < 24)
+            if (gameorigin < 24)
             {
-                if (locval < 30000)
-                    loctext = Form1.metBW2_00000[locval];
-                else if (locval < 40000)
-                    loctext = Form1.metBW2_30000[locval % 10000 - 1];
-                else if (locval < 60000)
-                    loctext = Form1.metBW2_40000[locval % 10000 - 1];
-                else
-                    loctext = Form1.metBW2_60000[locval % 10000 - 1];
+                if (locval < 30000) return Form1.metBW2_00000[locval];
+                if (locval < 40000) return Form1.metBW2_30000[locval % 10000 - 1];
+                if (locval < 60000) return Form1.metBW2_40000[locval % 10000 - 1];
+                                    return Form1.metBW2_60000[locval % 10000 - 1];
             }
-            else if (gameorigin > 23)
+            if (gameorigin > 23)
             {
-                if (locval < 30000)
-                    loctext = Form1.metXY_00000[locval];
-                else if (locval < 40000)
-                    loctext = Form1.metXY_30000[locval % 10000 - 1];
-                else if (locval < 60000)
-                    loctext = Form1.metXY_40000[locval % 10000 - 1];
-                else
-                    loctext = Form1.metXY_60000[locval % 10000 - 1];
+                if (locval < 30000) return Form1.metXY_00000[locval];
+                if (locval < 40000) return Form1.metXY_30000[locval % 10000 - 1];
+                if (locval < 60000) return Form1.metXY_40000[locval % 10000 - 1];
+                                    return Form1.metXY_60000[locval % 10000 - 1];
             }
-            return loctext;
+            return null; // Shouldn't happen.
         }
         internal static ushort[] getStats(int species, int level, int nature, int form,
                                         int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
@@ -456,11 +444,13 @@ namespace PKHeX
             for (int i = 8; i < 232; i += 2)
                 Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
 
+            // If no party stats, return.
+            if (ekx.Length <= 232) return ekx;
+
             // Encrypt the Party Stats
             seed = pv;
-            if (ekx.Length > 232)
-                for (int i = 232; i < 260; i += 2)
-                    Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
+            for (int i = 232; i < 260; i += 2)
+                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
 
             // Done
             return ekx;
@@ -1227,6 +1217,319 @@ namespace PKHeX
                 return GetPersonal(721 + --formID + data.FormPointer);
             }
         }
+        internal static string[] getFormList(int species, string[] t, string[] f, string[] g)
+        {
+            
+            // Mega List            
+            if (Array.IndexOf(new[] 
+                { // XY
+                  003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359, 380, 381, 445, 448, 460, 
+                  // ORAS
+                  015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
+                }, species) > -1) { // ...
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[723], // Mega
+                    };}
+            // MegaXY List
+            switch (species)
+            {
+                case 6:
+                case 150:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[724], // Mega X
+                        f[725], // Mega Y
+                    };
+                case 025:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[729], // Rockstar
+                        f[730], // Belle
+                        f[731], // Pop
+                        f[732], // PhD
+                        f[733], // Libre
+                        f[734], // Cosplay
+                    };
+                case 201:
+                    return new[]
+                    {
+                        "A", "B", "C", "D", "E",
+                        "F", "G", "H", "I", "J",
+                        "K", "L", "M", "N", "O",
+                        "P", "Q", "R", "S", "T",
+                        "U", "V", "W", "X", "Y",
+                        "Z",
+                        "!", "?",
+                    };
+                case 351:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[789], // Sunny
+                        f[790], // Rainy
+                        f[791], // Snowy
+                    };
+                case 382:
+                case 383:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[800], // Primal
+                    };
+                case 386:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[802], // Attack
+                        f[803], // Defense
+                        f[804], // Speed
+                    };
+
+                case 412:
+                case 413:
+                    return new[]
+                    {
+                        f[412], // Plant
+                        f[805], // Sandy
+                        f[806], // Trash
+                    };
+
+                case 421:
+                    return new[]
+                    {
+                        f[421], // Overcast
+                        f[809], // Sunshine
+                    };
+
+                case 422:
+                case 423:
+                    return new[]
+                    {
+                        f[422], // West
+                        f[811], // East
+                    };
+
+                case 479:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[817], // Heat
+                        f[818], // Wash
+                        f[819], // Frost
+                        f[820], // Fan
+                        f[821], // Mow
+                    };
+
+                case 487:
+                    return new[]
+                    {
+                        f[487], // Altered
+                        f[822], // Origin
+                    };
+
+                case 492:
+                    return new[]
+                    {
+                        f[492], // Land
+                        f[823], // Sky
+                    };
+
+                case 493:
+                    return new[]
+                    {
+                        t[00], // Normal
+                        t[01], // Fighting
+                        t[02], // Flying
+                        t[03], // Poison
+                        t[04], // etc
+                        t[05],
+                        t[06],
+                        t[07],
+                        t[08],
+                        t[09],
+                        t[10],
+                        t[11],
+                        t[12],
+                        t[13],
+                        t[14],
+                        t[15],
+                        t[16],
+                        t[17],
+                    };
+
+                case 550:
+                    return new[]
+                    {
+                        f[550], // Red
+                        f[842], // Blue
+                    };
+
+                case 555:
+                    return new[]
+                    {
+                        f[555], // Standard
+                        f[843], // Zen
+                    };
+
+                case 585:
+                case 586:
+                    return new[]
+                    {
+                        f[585], // Spring
+                        f[844], // Summer
+                        f[845], // Autumn
+                        f[846], // Winter
+                    };
+
+                case 641:
+                case 642:
+                case 645:
+                    return new[]
+                    {
+                        f[641], // Incarnate
+                        f[852], // Therian
+                    };
+
+                case 646:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[853], // White
+                        f[854], // Black
+                    };
+
+                case 647:
+                    return new[]
+                    {
+                        f[647], // Ordinary
+                        f[855], // Resolute
+                    };
+
+                case 648:
+                    return new[]
+                    {
+                        f[648], // Aria
+                        f[856], // Pirouette
+                    };
+
+                case 649:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        t[010], // Douse
+                        t[012], // Shock
+                        t[009], // Burn
+                        t[014], // Chill
+                    };
+
+                case 664:
+                case 665:
+                case 666:
+                    return new[]
+                    {
+                        f[666], // Icy Snow
+                        f[861], // Polar
+                        f[862], // Tundra
+                        f[863], // Continental 
+                        f[864], // Garden
+                        f[865], // Elegant
+                        f[866], // Meadow
+                        f[867], // Modern 
+                        f[868], // Marine
+                        f[869], // Archipelago
+                        f[870], // High-Plains
+                        f[871], // Sandstorm
+                        f[872], // River
+                        f[873], // Monsoon
+                        f[874], // Savannah 
+                        f[875], // Sun
+                        f[876], // Ocean
+                        f[877], // Jungle
+                        f[878], // Fancy
+                        f[879], // Poké Ball
+                    };
+
+                case 669:
+                case 671:
+                    return new[]
+                    {
+                        f[669], // Red
+                        f[884], // Yellow
+                        f[885], // Orange
+                        f[886], // Blue
+                        f[887], // White
+                    };
+
+                case 670:
+                    return new[]
+                    {
+                        f[669], // Red
+                        f[884], // Yellow
+                        f[885], // Orange
+                        f[886], // Blue
+                        f[887], // White
+                        f[888], // Eternal
+                    };
+
+                case 676:
+                    return new[]
+                    {
+                        f[676], // Natural
+                        f[893], // Heart
+                        f[894], // Star
+                        f[895], // Diamond
+                        f[896], // Deputante
+                        f[897], // Matron
+                        f[898], // Dandy
+                        f[899], // La Reine
+                        f[900], // Kabuki 
+                        f[901], // Pharaoh
+                    };
+
+                case 678:
+                    return new[]
+                    {
+                        g[000], // Male
+                        g[001], // Female
+                    };
+
+                case 681:
+                    return new[]
+                    {
+                        f[681], // Shield
+                        f[903], // Blade
+                    };
+
+                case 710:
+                case 711:
+                    return new[]
+                    {
+                        f[904], // Small
+                        f[710], // Average
+                        f[905], // Large
+                        f[906], // Super
+                    };
+
+                case 716:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[910], // Active
+                    };
+
+                case 720:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[912], // Unbound
+                    };
+            }
+            return new[] {""};
+        }
 
         /// <summary>
         /// Calculate the Hidden Power Type of the entered IVs.
@@ -1273,31 +1576,33 @@ namespace PKHeX
                 // Default Set Data
                 public string Nickname;
                 public int Species;
+                public string Form;
                 public string Gender;
                 public int Item;
-                public string Ability;
+                public int Ability;
                 public int Level;
                 public bool Shiny;
-                public int Happiness;
+                public int Friendship;
                 public int Nature;
                 public byte[] EVs;
-                public byte[] IVs;
+                public int[] IVs;
                 public int[] Moves;
 
                 // Parsing Utility
-                public Set(string input, string[] species, string[] items, string[] natures, string[] moves, string[] types)
+                public Set(string input, string[] species, string[] items, string[] natures, string[] moves, string[] abilities)
                 {
                     Nickname = null;
                     Species = 0;
+                    Form = null;
                     Gender = null;
                     Item = 0;
-                    Ability = null;
+                    Ability = 0;
                     Level = 100;
                     Shiny = false;
-                    Happiness = 255;
+                    Friendship = 255;
                     Nature = 0;
                     EVs = new byte[6];
-                    IVs = new byte[] { 31, 31, 31, 31, 31, 31 };
+                    IVs = new[] { 31, 31, 31, 31, 31, 31 };
                     Moves = new int[4];
                     string[] stats =  { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
 
@@ -1318,7 +1623,16 @@ namespace PKHeX
                         if (line.Contains("- "))
                         {
                             string moveString = line.Substring(2);
-                            if (moveString.Contains("Hidden Power")) moveString = "Hidden Power";
+                            if (moveString.Contains("Hidden Power"))
+                            {
+                                if (moveString.Length > 11) // Defined Hidden Power
+                                {
+                                    string type = moveString.Remove(0, 12).Replace("[", "").Replace("]", ""); // Trim out excess data
+                                    int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
+                                    if (hpVal >= 0) IVs = setHPIVs(hpVal, IVs); // Get IVs
+                                }
+                                moveString = "Hidden Power";
+                            }
                             Moves[movectr++] = Array.IndexOf(moves, moveString);
                             continue;
                         }
@@ -1326,14 +1640,14 @@ namespace PKHeX
                         string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
                         switch (brokenline[0])
                         {
-                            case "Ability": { Ability = brokenline[1]; break; }
+                            case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1]); break; }
                             case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
                             case "Shiny": { Shiny = (brokenline[1] == "Yes"); break; }
-                            case "Happiness": { Happiness = Util.ToInt32(brokenline[1]); break; }
+                            case "Happiness": { Friendship = Util.ToInt32(brokenline[1]); break; }
                             case "EVs":
                                 {
                                     // Get EV list String
-                                    string[] evlist = lines[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
+                                    string[] evlist = brokenline[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
                                     for (int i = 0; i < evlist.Length / 2; i++)
                                         EVs[Array.IndexOf(stats, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
                                     break;
@@ -1341,7 +1655,7 @@ namespace PKHeX
                             case "IVs":
                                 {
                                     // Get IV list String
-                                    string[] ivlist = lines[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
+                                    string[] ivlist = brokenline[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
                                     for (int i = 0; i < ivlist.Length / 2; i++)
                                         IVs[Array.IndexOf(stats, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
                                     break;
@@ -1349,7 +1663,7 @@ namespace PKHeX
                             default:
                                 {
                                     // Either Nature or Gender ItemSpecies
-                                    if (brokenline.Contains(" @ "))
+                                    if (brokenline[0].Contains(" @ "))
                                     {
                                         string[] ld = line.Split(new[] { " @ " }, StringSplitOptions.None);
                                         Item = Array.IndexOf(items, ld.Last());
@@ -1358,19 +1672,25 @@ namespace PKHeX
                                         if (last3 == "(M)" || last3 == "(F)")
                                         {
                                             Gender = last3.Substring(1, 1);
-                                            ld[0] = ld[0].Substring(0, ld[ld.Length - 1].Length - 3);
+                                            ld[0] = ld[0].Substring(0, ld[ld.Length - 2].Length - 3);
                                         }
                                         // Nickname Detection
                                         string spec = ld[0];
                                         if (ld[0].Contains("("))
                                         {
                                             int index = ld[0].LastIndexOf("(", StringComparison.Ordinal);
-                                            Nickname = ld[0].Substring(0, ld[0].Length - index);
-                                            spec = ld[0].Substring(index).Replace("(", "").Replace(")", "");
+                                            Nickname = ld[0].Substring(0, index - 1);
+                                            spec = ld[0].Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
                                         }
-                                        Species = Array.IndexOf(species, spec);
+                                        Species = Array.IndexOf(species, spec.Replace(" ", ""));
+                                        if (Species < 0) // Has Form
+                                        {
+                                            string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
+                                            Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
+                                            Form = tmp[1].Replace(" ", "");
+                                        }
                                     }
-                                    else if (brokenline.Contains("Nature"))
+                                    else if (brokenline[0].Contains("Nature"))
                                         Nature = Array.IndexOf(natures, line.Split(' ')[0]);
                                     else // Fallback
                                         Species = Array.IndexOf(species, line.Split('(')[0]);
