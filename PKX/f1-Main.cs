@@ -1122,7 +1122,7 @@ namespace PKHeX
 
             // Set SelectedIndexes for PKRS
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
-            CB_PKRSDays.SelectedIndex = Math.Min((PKRS_Duration & 0x7), 4); // to strip out bad hacked 'rus
+            CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSStrain.Items.Count - 1, PKRS_Duration); // to strip out bad hacked 'rus
 
             TB_Cool.Text = cnt_cool.ToString();
             TB_Beauty.Text = cnt_beauty.ToString();
