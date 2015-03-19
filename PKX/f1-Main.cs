@@ -2086,8 +2086,11 @@ namespace PKHeX
 
             // Set Species & Nickname
             CB_Species.SelectedValue = Set.Species;
-            CHK_Nicknamed.Checked = false;
-            if (Set.Nickname != null) TB_Nickname.Text = Set.Nickname;
+            CHK_Nicknamed.Checked = (Set.Nickname != null);
+            if (Set.Nickname != null) 
+                TB_Nickname.Text = Set.Nickname;
+            if (Set.Gender != null && PKX.getGender(Label_Gender.Text) != 2 && PKX.getGender(Set.Gender) != 2) 
+                Label_Gender.Text = Set.Gender;
 
             // Set Form
             string[] formStrings = PKX.getFormList(Set.Species,
@@ -2318,14 +2321,14 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(IV32), 0, pkx, 0x74, 4);  // Copy in IVs
 
             // Block C
-            // Convert OTT2 field back to bytes
-            byte[] OT2 = Encoding.Unicode.GetBytes(TB_OTt2.Text.Replace("\u0027", "\u2019"));
-            Array.Resize(ref OT2, 24);
+            // Convert Latest OT field back to bytes
+            byte[] OT2 = Encoding.Unicode.GetBytes(Util.TrimFromZero(TB_OTt2.Text).Replace("\u0027", "\u2019"));
+            Array.Resize(ref OT2, OT2.Length + 2); // Allow Trash
             Array.Copy(OT2, 0, pkx, 0x78, OT2.Length);
 
-            //0x90-0xAF
+            // 0x90-0xAF
             pkx[0x92] = Convert.ToByte(PKX.getGender(Label_CTGender.Text) == 1);
-            //Plus more, set by MemoryAmie (already in buff)
+            // Plus more, set by MemoryAmie (already in buff)
 
             // Block D
             // Convert OT field back to bytes

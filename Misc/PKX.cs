@@ -1647,7 +1647,7 @@ namespace PKHeX
                             case "EVs":
                                 {
                                     // Get EV list String
-                                    string[] evlist = brokenline[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
+                                    string[] evlist = brokenline[1].Replace("SAtk", "SpA").Replace("SDef", "SpD").Replace("Spd", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
                                     for (int i = 0; i < evlist.Length / 2; i++)
                                         EVs[Array.IndexOf(stats, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
                                     break;
