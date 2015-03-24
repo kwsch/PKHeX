@@ -2333,7 +2333,7 @@ namespace PKHeX
             // Block D
             // Convert OT field back to bytes
             byte[] OT = Encoding.Unicode.GetBytes(TB_OT.Text.Replace("\u0027", "\u2019"));
-            Array.Resize(ref OT, 24);
+            Array.Resize(ref OT, OT.Length + 2); // Pad with \0000 to terminate
             Array.Copy(OT, 0, pkx, 0xB0, OT.Length);
 
             if (pkx[0x93] == 0)
