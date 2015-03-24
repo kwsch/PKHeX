@@ -2282,7 +2282,7 @@ namespace PKHeX
                 nicknamestr = nicknamestr.Replace("\u0027", "\u2019"); // ' to ’
             }
             byte[] nicknamebytes = Encoding.Unicode.GetBytes(nicknamestr);
-            Array.Resize(ref nicknamebytes, 24); // pad with zeroes and effectively keep no trash bytes
+            Array.Resize(ref nicknamebytes, nicknamebytes.Length + 2); // pad with zero byte terminator
             Array.Copy(nicknamebytes, 0, pkx, 0x40, nicknamebytes.Length);
 
             // 0x58, 0x59 unused
