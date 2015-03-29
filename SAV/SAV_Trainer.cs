@@ -328,8 +328,6 @@ namespace PKHeX
             CB_Multi.DataSource = oras_sprite_list;
 
             L_Vivillon.Text = Form1.specieslist[666] + ":";
-            CB_Vivillon.DisplayMember = "Text";
-            CB_Vivillon.ValueMember = "Value";
             m_parent.setForms(666, CB_Vivillon);
         }
         private void getBadges()
