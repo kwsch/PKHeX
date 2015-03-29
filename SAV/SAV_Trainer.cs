@@ -328,6 +328,8 @@ namespace PKHeX
             CB_Multi.DataSource = oras_sprite_list;
 
             L_Vivillon.Text = Form1.specieslist[666] + ":";
+            CB_Vivillon.DisplayMember = "Text";
+            CB_Vivillon.ValueMember = "Value";
             m_parent.setForms(666, CB_Vivillon);
         }
         private void getBadges()
@@ -492,8 +494,8 @@ namespace PKHeX
             MT_1403F.Text = sav[TrainerCard + 0x3F + savshift].ToString();
 
             // Vivillon
-            int vivillon = sav[VivillonForm + savshift];
-            CB_Vivillon.SelectedValue = vivillon;
+            byte vivillon = sav[VivillonForm + savshift];
+            CB_Vivillon.SelectedIndex = vivillon;
         }
         private void save()
         {
@@ -612,7 +614,7 @@ namespace PKHeX
             sav[TrainerCard + 0x3F + savshift] = Byte.Parse(MT_1403F.Text);
 
             // Vivillon
-            sav[VivillonForm + savshift] = (byte)Util.ToUInt32(CB_Vivillon.SelectedValue.ToString());
+            sav[VivillonForm + savshift] = (byte)CB_Vivillon.SelectedIndex;
         }
 
         private void clickOT(object sender, MouseEventArgs e)

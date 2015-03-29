@@ -525,5 +525,6 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Add ORAS Items to Memory Item Usage List. Thanks liopds!
  - Fixed: Trash Bytes now are no longer cleared when saving data. Thanks SciresM & Lunarcookies!
  - Fixed: Re-ordered controls to make tabbing flow down the form. Thanks Favna!
+ - Fixed: Vivillon Form selection in the Trainer (Save)Data editor will now function with refactored code. Thanks KingGengar & Favna!
  - Changed: PKRS Days capped at legal limits.
  - Changed: Forms drop-down and label will be hidden if a Pokémon has no forms.
