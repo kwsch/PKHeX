@@ -583,6 +583,10 @@ namespace PKHeX
                 setPKXBoxes();
             }
             #endregion
+            #region Wondercard
+            else if (input.Length == 0x108 && ext == ".wc6") 
+                new SAV_Wondercard(this, input).Show();
+            #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path, "File Size:" + Environment.NewLine + new FileInfo(path).Length.ToString("X8"));
         }

@@ -519,12 +519,13 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Hidden Power selection drop-down. Changing the selection will modify the IVs appropriately.
  - Added: Showdown/Smogon import (copy text, control click Species label).
  - Added: Wondercard QR exporting/importing (alt-click). No editing is supported.
+ - Added: Opening a Wondercard in the main window (via File->Open or Drag&Drop) will open the Wondercard UI, no save file needed.
  - Added: Portuguese language and capability for more languages in the future if necessary. Thanks Sharinflan!
- - Fixed: Clicking OT with an ORAS savegame loaded will load the OT/Region data to the tabbed Pokémon (XY already worked). Thanks
+ - Fixed: Clicking OT with an ORAS savegame loaded will load the OT/Region data to the tabbed Pokémon (XY already worked).
  - Fixed: Changing Countries with certain SubRegions selected will no longer error. Thanks FullLifeGames!
  - Fixed: Add ORAS Items to Memory Item Usage List. Thanks liopds!
  - Fixed: Trash Bytes now are no longer cleared when saving data. Thanks SciresM & Lunarcookies!
  - Fixed: Re-ordered controls to make tabbing flow down the form. Thanks Favna!
- - Fixed: Vivillon Form selection in the Trainer (Save)Data editor will now function with refactored code. Thanks KingGengar & Favna!
+ - Fixed: Vivillon Form selection in the Trainer Info editor will now function with refactored code. Thanks KingGengar & Favna!
  - Changed: PKRS Days capped at legal limits.
  - Changed: Forms drop-down and label will be hidden if a Pokémon has no forms.

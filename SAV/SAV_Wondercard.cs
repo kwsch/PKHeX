@@ -9,7 +9,7 @@ namespace PKHeX
 {
     public partial class SAV_Wondercard : Form
     {
-        public SAV_Wondercard(Form1 frm1)
+        public SAV_Wondercard(Form1 frm1, byte[] wcdata = null)
         {
             InitializeComponent();
             Util.TranslateInterface(this, Form1.curlanguage);
@@ -27,6 +27,10 @@ namespace PKHeX
 
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
+
+            if (wcdata == null || wcdata.Length != 0x108) return; // No data to load
+            Array.Copy(wcdata, wondercard_data, wcdata.Length);
+            loadwcdata();
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];
@@ -79,7 +83,7 @@ namespace PKHeX
             if (importwc6.ShowDialog() != DialogResult.OK) return;
 
             string path = importwc6.FileName;
-            if (new FileInfo(path).Length > 0x108)
+            if (new FileInfo(path).Length != 0x108)
             {
                 Util.Error("File is not a Wondercard:", path);
                 return;
@@ -202,7 +206,7 @@ namespace PKHeX
             if (files.Length == 1)
             {
                 string path = files[0]; // open first D&D
-                if (new FileInfo(path).Length > 0x108)
+                if (new FileInfo(path).Length != 0x108)
                 {
                     Util.Error("File is not a Wondercard:", path);
                     return;
