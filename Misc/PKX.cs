@@ -1625,9 +1625,9 @@ namespace PKHeX
                             string moveString = line.Substring(2);
                             if (moveString.Contains("Hidden Power"))
                             {
-                                if (moveString.Length > 11) // Defined Hidden Power
+                                if (moveString.Length > 13) // Defined Hidden Power
                                 {
-                                    string type = moveString.Remove(0, 12).Replace("[", "").Replace("]", ""); // Trim out excess data
+                                    string type = moveString.Remove(0, 13).Replace("[", "").Replace("]", ""); // Trim out excess data
                                     int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
                                     if (hpVal >= 0) IVs = setHPIVs(hpVal, IVs); // Get IVs
                                 }
