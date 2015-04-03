@@ -1122,10 +1122,10 @@ namespace PKHeX
             // Reset Label and ComboBox visibility, as well as non-data checked status.
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = PKRS_Strain != 0;
             Label_PKRSdays.Visible = CB_PKRSDays.Visible = PKRS_Duration != 0;
-            CHK_Cured.Checked = (PKRS_Strain > 0 && PKRS_Duration == 0);
 
             // Set SelectedIndexes for PKRS
             CB_PKRSStrain.SelectedIndex = PKRS_Strain;
+            CHK_Cured.Checked = (PKRS_Strain > 0 && PKRS_Duration == 0);
             CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSStrain.Items.Count - 1, PKRS_Duration); // to strip out bad hacked 'rus
 
             TB_Cool.Text = cnt_cool.ToString();
@@ -1651,7 +1651,7 @@ namespace PKHeX
             // Change the PKRS Days to the legal bounds.
             int currentDuration = CB_PKRSDays.SelectedIndex;
             CB_PKRSDays.Items.Clear();
-            int[] days = Enumerable.Range(0, CB_PKRSStrain.SelectedIndex % 4 + 1).Select(i => i).ToArray();
+            int[] days = Enumerable.Range(0, CB_PKRSStrain.SelectedIndex % 4 + 2).Select(i => i).ToArray();
             foreach (int day in days) CB_PKRSDays.Items.Add(day);
 
             // Set the days back if they're legal, else set it to 1. (0 always passes).
@@ -1660,7 +1660,7 @@ namespace PKHeX
             if (CB_PKRSStrain.SelectedIndex != 0) return;
             
             // Never Infected
-            CB_PKRSDays.SelectedValue = 0;
+            CB_PKRSDays.SelectedIndex = 0;
             CHK_Cured.Checked = false;
             CHK_Infected.Checked = false;
         }
@@ -1719,7 +1719,7 @@ namespace PKHeX
             if (CHK_Cured.Checked) return;
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
             if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = 0; CB_PKRSDays.SelectedIndex = 0; Label_PKRSdays.Visible = CB_PKRSDays.Visible = false; }
-            else if (CB_PKRSStrain.SelectedIndex == 0) { CB_PKRSStrain.SelectedIndex = 1; Label_PKRSdays.Visible = CB_PKRSDays.Visible = true; CB_PKRSDays.SelectedIndex = 1; }
+            else if (CB_PKRSStrain.SelectedIndex == 0) { CB_PKRSStrain.SelectedIndex = 1; Label_PKRSdays.Visible = CB_PKRSDays.Visible = true; CHK_Cured.Checked = false; }
 
             // if not cured yet, days > 0
             if (CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) CB_PKRSDays.SelectedIndex++;
