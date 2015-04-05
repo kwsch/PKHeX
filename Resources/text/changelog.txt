@@ -491,7 +491,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Boot Status to help debug some users being stuck on the splash screen.
  - Added: Event Constant editing to Event Flag window.
 
-3/1/15 - New Update: (14140)
+3/1/15 - New Update: (100000)
  - Added: QR Code Generation; click "QR!" and a QR window will appear with a scannable image. Requires an active internet connection.
  - Added: QR Code to Tabs; hold ALT when clicking "QR!" after copying the URL of the QR to your clipboard (CTRL-C). Requires internet.
  - Added: Decrypted Battle Video scraping for ek6 data; battle stats are not kept.
