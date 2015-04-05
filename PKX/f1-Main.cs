@@ -41,12 +41,11 @@ namespace PKHeX
                 CB_MainLanguage.Items.Add(cbItem);
 
             // Try and detect the language
-            int[] main_langnum = {2, 1, 3, 4, 5, 7, 8, 9};
+            int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
             main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i).ToArray()).ToArray();
             string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             string lastTwoChars = filename.Substring(filename.Length - 2);
-            int lang = Array.IndexOf(main_langnum, Array.IndexOf(lang_val, lastTwoChars));
-
+            int lang = Array.IndexOf(lang_val, lastTwoChars);
             CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : ((lastTwoChars == "jp") ? 1 : 0);
 
             #region HaX

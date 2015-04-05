@@ -530,3 +530,6 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: New PKRS capping code will now behave properly. Thanks Favna and evandixon!
  - Changed: PKRS Days capped at legal limits.
  - Changed: Forms drop-down and label will be hidden if a Pokémon has no forms.
+ - Hotfix: Changing the exe name to auto-load a language will now function properly. Thanks supercarotte!
+ - Hotfix: Wondercard QRs with non-held items will no longer error out. Thanks ShinyMeganium!
+ - Hotfix: Prevented export of Eon Ticket Wondercards via QR because extra data has to be altered in order for it to function.

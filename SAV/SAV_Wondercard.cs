@@ -316,7 +316,7 @@ namespace PKHeX
                     }
                     break;
                 case 1:
-                    img = (Image)Properties.Resources.ResourceManager.GetObject("item_" + BitConverter.ToUInt16(data, 0x68));
+                    img = (Image)(Properties.Resources.ResourceManager.GetObject("item_" + BitConverter.ToUInt16(data, 0x68)) ?? Properties.Resources.unknown);
                     break;
                 default:
                     img = Properties.Resources.unknown;
@@ -342,6 +342,8 @@ namespace PKHeX
             {
                 if (wondercard_data.SequenceEqual((new byte[wondercard_data.Length])))
                 { Util.Alert("No wondercard data found"); return; }
+                if (BitConverter.ToUInt16(wondercard_data, 0x68) == 726 && wondercard_data[0x51] == 1)
+                { Util.Alert("Eon Ticket Wondercards will not function properly", "Inject to the save file instead."); return; }
                 // Prep data
                 byte[] wcdata = wondercard_data;
                 // Ensure size
