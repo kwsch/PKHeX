@@ -1592,7 +1592,7 @@ namespace PKHeX
                 public Set(string input, string[] species, string[] items, string[] natures, string[] moves, string[] abilities)
                 {
                     Nickname = null;
-                    Species = 0;
+                    Species = -1;
                     Form = null;
                     Gender = null;
                     Item = 0;
@@ -1615,7 +1615,37 @@ namespace PKHeX
                     lines = lines.Skip(start).Take(lines.Length - start).ToArray();
 
                     // Abort if no text is found
-                    if (start == -1) { Species = -1; return; }
+                    if (start == -1)
+                    {
+                        // Try to parse the first line if it does not have any item
+                        string ld = lines[0];
+                        // Gender Detection
+                        string last3 = ld.Substring(ld.Length - 3);
+                        if (last3 == "(M)" || last3 == "(F)")
+                        {
+                            Gender = last3.Substring(1, 1);
+                            ld = ld.Substring(0, ld.Length - 3);
+                        }
+                        // Nickname Detection
+                        string spec = ld;
+                        if (ld.Contains("("))
+                        {
+                            int index = ld.LastIndexOf("(", StringComparison.Ordinal);
+                            Nickname = ld.Substring(0, index - 1);
+                            spec = ld.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+                        }
+                        Species = Array.IndexOf(species, spec.Replace(" ", ""));
+                        if (Species < 0) // Has Form
+                        {
+                            string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
+                            Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
+                            Form = tmp[1].Replace(" ", "");
+                        }
+                        if (Species < -1)
+                            return;
+                        else
+                            lines = lines.Skip(1).Take(lines.Length - 1).ToArray();
+                    }
                     int movectr = 0;
                     // Detect relevant data
                     foreach (string line in lines)
