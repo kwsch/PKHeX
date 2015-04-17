@@ -1631,8 +1631,12 @@ namespace PKHeX
                         if (ld.Contains("("))
                         {
                             int index = ld.LastIndexOf("(", StringComparison.Ordinal);
-                            Nickname = ld.Substring(0, index - 1);
-                            spec = ld.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+                            string n1 = ld.Substring(0, index - 1);
+                            string n2 = ld.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+
+                            bool inverted = Array.IndexOf(species, n1.Replace(" ", "")) > -1;
+                            spec = inverted ? n1 : n2;
+                            Nickname = inverted ? n2 : n1;
                         }
                         Species = Array.IndexOf(species, spec.Replace(" ", ""));
                         if (Species < 0) // Has Form
@@ -1709,8 +1713,12 @@ namespace PKHeX
                                         if (ld[0].Contains("("))
                                         {
                                             int index = ld[0].LastIndexOf("(", StringComparison.Ordinal);
-                                            Nickname = ld[0].Substring(0, index - 1);
-                                            spec = ld[0].Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+                                            string n1 = ld[0].Substring(0, index - 1);
+                                            string n2 = ld[0].Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+
+                                            bool inverted = Array.IndexOf(species, n1.Replace(" ", "")) > -1;
+                                            spec = inverted ? n1 : n2;
+                                            Nickname = inverted ? n2 : n1;
                                         }
                                         Species = Array.IndexOf(species, spec.Replace(" ", ""));
                                         if (Species < 0) // Has Form
