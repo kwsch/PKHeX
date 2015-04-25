@@ -388,7 +388,7 @@ namespace PKHeX
         {
             string result = "";
             string nn = m_parent.TB_Nickname.Text;
-            string a = ((Util.cbItem)(arg.SelectedItem)).Text;
+            string a = ((Util.cbItem)(arg.SelectedItem) == null) ? arg.Text ?? "ERROR" : ((Util.cbItem)(arg.SelectedItem)).Text;
             int mem = Util.getIndex(m);
 
             bool enabled = false;
