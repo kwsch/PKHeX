@@ -2518,274 +2518,20 @@ namespace PKHeX
         // Integrity Checks // 
         private void clickVerifyCHK(object sender, EventArgs e)
         {
-            if (savedited)
-            {
-                Util.Alert("Save has been edited. Cannot integrity check.");
-                return;
-            }
-            // Verify Checksums
-            RTB_S.Text = "";
-            int invalid1 = 0;
-            uint[] start = { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1AC00, 0x1B400, 0x1B600, 0x1B800, 0x1BE00, 0x1C000, 0x1C400, 0x1CC00, 0x1CE00, 0x1D000, 0x1D200, 0x1D400, 0x1D600, 0x1DE00, 0x1E400, 0x1E800, 0x20400, 0x20600, 0x20800, 0x20C00, 0x21000, 0x22C00, 0x23000, 0x23800, 0x23C00, 0x24600, 0x24A00, 0x25200, 0x26000, 0x26200, 0x26400, 0x27200, 0x27A00, 0x5C600, };
-            uint[] length = { 0x000002C8, 0x00000B88, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000140, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000006A0, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000001F0, 0x00000216, 0x00000390, 0x00001A90, 0x00000308, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00034AD0, 0x0000E058, };
-            int csoff = 0x6A81A;
+            if (savedited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
 
-            if (savegame_oras)
-            {
-                start = new uint[] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1B600, 0x1BE00, 0x1C000, 0x1C200, 0x1C800, 0x1CA00, 0x1CE00, 0x1D600, 0x1D800, 0x1DA00, 0x1DC00, 0x1DE00, 0x1E000, 0x1E800, 0x1EE00, 0x1F200, 0x20E00, 0x21000, 0x21400, 0x21800, 0x22000, 0x23C00, 0x24000, 0x24800, 0x24C00, 0x25600, 0x25A00, 0x26200, 0x27000, 0x27200, 0x27400, 0x28200, 0x28A00, 0x28E00, 0x30A00, 0x38400, 0x6D000, };
-                length = new uint[] { 0x000002C8, 0x00000B90, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000130, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000011CC, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000003E0, 0x00000216, 0x00000640, 0x00001A90, 0x00000400, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00000400, 0x00007AD0, 0x000078B0, 0x00034AD0, 0x0000E058, };
-                csoff = 0x7B21A;
-            }
-
-            for (int i = 0; i < length.Length; i++)
-            {
-                byte[] data = new byte[length[i]];
-                Array.Copy(savefile, start[i], data, 0, length[i]);
-                ushort checksum = PKX.ccitt16(data);
-                ushort actualsum = BitConverter.ToUInt16(savefile, csoff + i * 0x8);
-                if (checksum == actualsum) continue;
-
-                invalid1++;
-                RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + Environment.NewLine;
-            }
-            RTB_S.Text += "1st SAV: " + (start.Length - invalid1) + "/" + start.Length + Environment.NewLine;
-
+            int[] ctr = {0, 0};
+            RTB_S.Text += PKX.verifyG6CHK(savefile, savegame_oras, 0, ref ctr);
             if (cybergadget) return;
+            RTB_S.Text += PKX.verifyG6CHK(savefile, savegame_oras, 1, ref ctr);
 
-            // Do it again, but for the second SAV.
-            csoff += 0x7F000;
-
-            for (int i = 0; i < start.Length; i++) // Shift all the save offsets...
-                start[i] += 0x7F000;
-
-            int invalid2 = 0;
-            for (int i = 0; i < length.Length; i++)
-            {
-                byte[] data = new byte[length[i]];
-                Array.Copy(savefile, start[i], data, 0, length[i]);
-                ushort checksum = PKX.ccitt16(data);
-                ushort actualsum = BitConverter.ToUInt16(savefile, csoff + i * 0x8);
-                if (checksum == actualsum) continue;
-                invalid2++;
-                RTB_S.Text += "Invalid: " + i.ToString("X2") + " @ region " + start[i].ToString("X5") + Environment.NewLine;
-            }
-            RTB_S.Text += "2nd SAV: " + (start.Length - invalid2) + "/" + start.Length + Environment.NewLine;
-            if (invalid1 + invalid2 == (start.Length * 2))
-                RTB_S.Text = "No checksums are valid.";
+            if (ctr[0] == ctr[1]) RTB_S.Text = "No checksums are valid.";
         }
         private void clickVerifySHA(object sender, EventArgs e)
         {
-            if (savedited)
-            {
-                RTB_S.Text = "Save has been edited. Cannot integrity check.";
-                return;
-            }
-            // Verify Hashes
-            RTB_S.Text = "";
-            int invalid1 = 0;
-            #region hash table data
-            uint[] hashtabledata = {
-                                    0x2020,	    0x203F,	    0x2000,	0x200,
-                                    0x2040,	    0x2FFF,	    0x2020,	0x1000,
-                                    0x3000,	    0x3FFF,	    0x2040,	0x1000,
-                                    0x4000,	    0x4FFF,	    0x2060,	0x1000,
-                                    0x5000,	    0x5FFF,	    0x2080,	0x1000,
-                                    0x6000,	    0x6FFF,	    0x20A0,	0x1000,
-                                    0x7000,	    0x7FFF,	    0x20C0,	0x1000,
-                                    0x8000,	    0x8FFF,	    0x20E0,	0x1000,
-                                    0x9000,	    0x9FFF,	    0x2100,	0x1000,
-                                    0xA000,	    0xAFFF,	    0x2120,	0x1000,
-                                    0xB000,	    0xBFFF,	    0x2140,	0x1000,
-                                    0xC000,	    0xCFFF,	    0x2160,	0x1000,
-                                    0xD000,	    0xDFFF,	    0x2180,	0x1000,
-                                    0xE000,	    0xEFFF,	    0x21A0,	0x1000,
-                                    0xF000,	    0xFFFF,	    0x21C0,	0x1000,
-                                    0x10000,	0x10FFF,	0x21E0,	0x1000,
-                                    0x11000,	0x11FFF,	0x2200,	0x1000,
-                                    0x12000,	0x12FFF,	0x2220,	0x1000,
-                                    0x13000,	0x13FFF,	0x2240,	0x1000,
-                                    0x14000,	0x14FFF,	0x2260,	0x1000,
-                                    0x15000,	0x15FFF,	0x2280,	0x1000,
-                                    0x16000,	0x16FFF,	0x22A0,	0x1000,
-                                    0x17000,	0x17FFF,	0x22C0,	0x1000,
-                                    0x18000,	0x18FFF,	0x22E0,	0x1000,
-                                    0x19000,	0x19FFF,	0x2300,	0x1000,
-                                    0x1A000,	0x1AFFF,	0x2320,	0x1000,
-                                    0x1B000,	0x1BFFF,	0x2340,	0x1000,
-                                    0x1C000,	0x1CFFF,	0x2360,	0x1000,
-                                    0x1D000,	0x1DFFF,	0x2380,	0x1000,
-                                    0x1E000,	0x1EFFF,	0x23A0,	0x1000,
-                                    0x1F000,	0x1FFFF,	0x23C0,	0x1000,
-                                    0x20000,	0x20FFF,	0x23E0,	0x1000,
-                                    0x21000,	0x21FFF,	0x2400,	0x1000,
-                                    0x22000,	0x22FFF,	0x2420,	0x1000,
-                                    0x23000,	0x23FFF,	0x2440,	0x1000,
-                                    0x24000,	0x24FFF,	0x2460,	0x1000,
-                                    0x25000,	0x25FFF,	0x2480,	0x1000,
-                                    0x26000,	0x26FFF,	0x24A0,	0x1000,
-                                    0x27000,	0x27FFF,	0x24C0,	0x1000,
-                                    0x28000,	0x28FFF,	0x24E0,	0x1000,
-                                    0x29000,	0x29FFF,	0x2500,	0x1000,
-                                    0x2A000,	0x2AFFF,	0x2520,	0x1000,
-                                    0x2B000,	0x2BFFF,	0x2540,	0x1000,
-                                    0x2C000,	0x2CFFF,	0x2560,	0x1000,
-                                    0x2D000,	0x2DFFF,	0x2580,	0x1000,
-                                    0x2E000,	0x2EFFF,	0x25A0,	0x1000,
-                                    0x2F000,	0x2FFFF,	0x25C0,	0x1000,
-                                    0x30000,	0x30FFF,	0x25E0,	0x1000,
-                                    0x31000,	0x31FFF,	0x2600,	0x1000,
-                                    0x32000,	0x32FFF,	0x2620,	0x1000,
-                                    0x33000,	0x33FFF,	0x2640,	0x1000,
-                                    0x34000,	0x34FFF,	0x2660,	0x1000,
-                                    0x35000,	0x35FFF,	0x2680,	0x1000,
-                                    0x36000,	0x36FFF,	0x26A0,	0x1000,
-                                    0x37000,	0x37FFF,	0x26C0,	0x1000,
-                                    0x38000,	0x38FFF,	0x26E0,	0x1000,
-                                    0x39000,	0x39FFF,	0x2700,	0x1000,
-                                    0x3A000,	0x3AFFF,	0x2720,	0x1000,
-                                    0x3B000,	0x3BFFF,	0x2740,	0x1000,
-                                    0x3C000,	0x3CFFF,	0x2760,	0x1000,
-                                    0x3D000,	0x3DFFF,	0x2780,	0x1000,
-                                    0x3E000,	0x3EFFF,	0x27A0,	0x1000,
-                                    0x3F000,	0x3FFFF,	0x27C0,	0x1000,
-                                    0x40000,	0x40FFF,	0x27E0,	0x1000,
-                                    0x41000,	0x41FFF,	0x2800,	0x1000,
-                                    0x42000,	0x42FFF,	0x2820,	0x1000,
-                                    0x43000,	0x43FFF,	0x2840,	0x1000,
-                                    0x44000,	0x44FFF,	0x2860,	0x1000,
-                                    0x45000,	0x45FFF,	0x2880,	0x1000,
-                                    0x46000,	0x46FFF,	0x28A0,	0x1000,
-                                    0x47000,	0x47FFF,	0x28C0,	0x1000,
-                                    0x48000,	0x48FFF,	0x28E0,	0x1000,
-                                    0x49000,	0x49FFF,	0x2900,	0x1000,
-                                    0x4A000,	0x4AFFF,	0x2920,	0x1000,
-                                    0x4B000,	0x4BFFF,	0x2940,	0x1000,
-                                    0x4C000,	0x4CFFF,	0x2960,	0x1000,
-                                    0x4D000,	0x4DFFF,	0x2980,	0x1000,
-                                    0x4E000,	0x4EFFF,	0x29A0,	0x1000,
-                                    0x4F000,	0x4FFFF,	0x29C0,	0x1000,
-                                    0x50000,	0x50FFF,	0x29E0,	0x1000,
-                                    0x51000,	0x51FFF,	0x2A00,	0x1000,
-                                    0x52000,	0x52FFF,	0x2A20,	0x1000,
-                                    0x53000,	0x53FFF,	0x2A40,	0x1000,
-                                    0x54000,	0x54FFF,	0x2A60,	0x1000,
-                                    0x55000,	0x55FFF,	0x2A80,	0x1000,
-                                    0x56000,	0x56FFF,	0x2AA0,	0x1000,
-                                    0x57000,	0x57FFF,	0x2AC0,	0x1000,
-                                    0x58000,	0x58FFF,	0x2AE0,	0x1000,
-                                    0x59000,	0x59FFF,	0x2B00,	0x1000,
-                                    0x5A000,	0x5AFFF,	0x2B20,	0x1000,
-                                    0x5B000,	0x5BFFF,	0x2B40,	0x1000,
-                                    0x5C000,	0x5CFFF,	0x2B60,	0x1000,
-                                    0x5D000,	0x5DFFF,	0x2B80,	0x1000,
-                                    0x5E000,	0x5EFFF,	0x2BA0,	0x1000,
-                                    0x5F000,	0x5FFFF,	0x2BC0,	0x1000,
-                                    0x60000,	0x60FFF,	0x2BE0,	0x1000,
-                                    0x61000,	0x61FFF,	0x2C00,	0x1000,
-                                    0x62000,	0x62FFF,	0x2C20,	0x1000,
-                                    0x63000,	0x63FFF,	0x2C40,	0x1000,
-                                    0x64000,	0x64FFF,	0x2C60,	0x1000,
-                                    0x65000,	0x65FFF,	0x2C80,	0x1000,
-                                    0x66000,	0x66FFF,	0x2CA0,	0x1000,
-                                    0x67000,	0x67FFF,	0x2CC0,	0x1000,
-                                    0x68000,	0x68FFF,	0x2CE0,	0x1000,
-                                    0x69000,	0x69FFF,	0x2D00,	0x1000,
-                                    0x6A000,	0x6AFFF,	0x2D20,	0x1000,
-                                 };
-            #endregion
-            SHA256 mySHA256 = SHA256.Create();
+            if (savedited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
 
-            for (int i = 0; i < hashtabledata.Length / 4; i++)
-            {
-                uint start = hashtabledata[0 + 4 * i];
-                uint length = hashtabledata[1 + 4 * i] - hashtabledata[0 + 4 * i];
-                uint offset = hashtabledata[2 + 4 * i];
-                uint blocksize = hashtabledata[3 + 4 * i];
-
-                byte[] zeroarray = new byte[blocksize];
-                Array.Copy(savefile, start, zeroarray, 0, length + 1);
-                byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new byte[0x20];
-                Array.Copy(savefile, offset, actualhash, 0, 0x20);
-
-                if (hashValue.SequenceEqual(actualhash)) continue;
-                invalid1++;
-                RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + Environment.NewLine;
-            }
-            RTB_S.Text += "1st SAV: " + (106 - invalid1) + "/" + 106 + Environment.NewLine;
-
-            // Check The Second Half of Hashes
-            for (int i = 0; i < hashtabledata.Length; i += 4)
-            {
-                hashtabledata[i + 0] += 0x7F000;
-                hashtabledata[i + 1] += 0x7F000;
-                hashtabledata[i + 2] += 0x7F000;
-            }
-            // Problem with save2 saves is that 0x3000-0x4FFF doesn't use save2 data. Probably different when hashed, but different when stored.
-            for (int i = 2; i < 4; i++)
-            {
-                hashtabledata[i * 4 + 0] -= 0x7F000;
-                hashtabledata[i * 4 + 1] -= 0x7F000;
-            }
-            int invalid2 = 0;
-
-            for (int i = 0; i < hashtabledata.Length / 4; i++)
-            {
-                uint start = hashtabledata[0 + 4 * i];
-                uint length = hashtabledata[1 + 4 * i] - hashtabledata[0 + 4 * i];
-                uint offset = hashtabledata[2 + 4 * i];
-                uint blocksize = hashtabledata[3 + 4 * i];
-
-                byte[] zeroarray = new byte[blocksize];
-                Array.Copy(savefile, start, zeroarray, 0, length + 1);
-                byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new byte[0x20];
-                Array.Copy(savefile, offset, actualhash, 0, 0x20);
-
-                if (hashValue.SequenceEqual(actualhash)) continue;
-                invalid2++;
-                RTB_S.Text += "Invalid: " + hashtabledata[2 + 4 * i].ToString("X5") + " @ " + hashtabledata[0 + 4 * i].ToString("X5") + "-" + hashtabledata[1 + 4 * i].ToString("X5") + Environment.NewLine;
-            }
-            RTB_S.Text += "2nd SAV: " + (106 - invalid2) + "/" + 106 + Environment.NewLine;
-
-            if (invalid1 + invalid2 == (2 * 106))
-                RTB_S.Text = "None of the IVFC hashes are valid." + Environment.NewLine;
-
-            // Check the Upper Level IVFC Hashes
-            {
-                byte[] zeroarray = new byte[0x200];
-                Array.Copy(savefile, 0x2000, zeroarray, 0, 0x20);
-                byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new byte[0x20];
-                Array.Copy(savefile, 0x43C, actualhash, 0, 0x20);
-                if (!hashValue.SequenceEqual(actualhash))
-                    RTB_S.Text += "Invalid: " + 0x2000.ToString("X5") + " @ " + 0x43C.ToString("X3") + Environment.NewLine;
-            }
-            {
-                byte[] zeroarray = new byte[0x200];
-                Array.Copy(savefile, 0x81000, zeroarray, 0, 0x20);
-                byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                byte[] actualhash = new byte[0x20];
-                Array.Copy(savefile, 0x30C, actualhash, 0, 0x20);
-                if (!hashValue.SequenceEqual(actualhash))
-                    RTB_S.Text += "Invalid: " + 0x81000.ToString("X5") + " @ " + 0x30C.ToString("X3") + Environment.NewLine;
-            }
-            {
-                byte[] difihash1 = new byte[0x12C];
-                byte[] difihash2 = new byte[0x12C];
-                Array.Copy(savefile, 0x330, difihash1, 0, 0x12C);
-                Array.Copy(savefile, 0x200, difihash2, 0, 0x12C);
-                byte[] hashValue1 = mySHA256.ComputeHash(difihash1);
-                byte[] hashValue2 = mySHA256.ComputeHash(difihash2);
-                byte[] actualhash = new byte[0x20];
-                Array.Copy(savefile, 0x16C, actualhash, 0, 0x20);
-                if (hashValue1.SequenceEqual(actualhash))
-                    RTB_S.Text += "Active DIFI partition is Save 1.";
-                else if (hashValue2.SequenceEqual(actualhash))
-                    RTB_S.Text += "Active DIFI partition is Save 2.";
-                else
-                    RTB_S.Text += "ERROR: NO ACTIVE DIFI HASH MATCH";
-            }
+            RTB_S.Text += PKX.verifyG6SHA(savefile, savegame_oras);
         }
         private void clickExportSAV(object sender, EventArgs e)
         {            
@@ -2795,233 +2541,17 @@ namespace PKHeX
             // Since we only edited one of the save files, we only have to fix half of the chk/hashes!
 
             // Fix Checksums
-            {
-                uint[] start = { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1AC00, 0x1B400, 0x1B600, 0x1B800, 0x1BE00, 0x1C000, 0x1C400, 0x1CC00, 0x1CE00, 0x1D000, 0x1D200, 0x1D400, 0x1D600, 0x1DE00, 0x1E400, 0x1E800, 0x20400, 0x20600, 0x20800, 0x20C00, 0x21000, 0x22C00, 0x23000, 0x23800, 0x23C00, 0x24600, 0x24A00, 0x25200, 0x26000, 0x26200, 0x26400, 0x27200, 0x27A00, 0x5C600, };
-                uint[] length = { 0x000002C8, 0x00000B88, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000140, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000006A0, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000001F0, 0x00000216, 0x00000390, 0x00001A90, 0x00000308, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00034AD0, 0x0000E058, };
-                int csoff = 0x6A81A;
-
-                if (savegame_oras)
-                {
-                    start = new uint[] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1B600, 0x1BE00, 0x1C000, 0x1C200, 0x1C800, 0x1CA00, 0x1CE00, 0x1D600, 0x1D800, 0x1DA00, 0x1DC00, 0x1DE00, 0x1E000, 0x1E800, 0x1EE00, 0x1F200, 0x20E00, 0x21000, 0x21400, 0x21800, 0x22000, 0x23C00, 0x24000, 0x24800, 0x24C00, 0x25600, 0x25A00, 0x26200, 0x27000, 0x27200, 0x27400, 0x28200, 0x28A00, 0x28E00, 0x30A00, 0x38400, 0x6D000, };
-                    length = new uint[] { 0x000002C8, 0x00000B90, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000130, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000011CC, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000003E0, 0x00000216, 0x00000640, 0x00001A90, 0x00000400, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00000400, 0x00007AD0, 0x000078B0, 0x00034AD0, 0x0000E058, };
-                    csoff = 0x7B21A;
-                }
-
-                if (savindex == 1)
-                {
-                    csoff += 0x7F000;
-                    for (int i = 0; i < start.Length; i++)
-                        start[i] += 0x7F000;
-                }
-
-                for (int i = 0; i < length.Length; i++)
-                {
-                    byte[] data = new byte[length[i]];
-                    Array.Copy(editedsav, start[i], data, 0, length[i]);
-                    ushort checksum = PKX.ccitt16(data);
-                    Array.Copy(BitConverter.GetBytes(checksum), 0, editedsav, csoff + i * 8, 2);
-                }
-
-                if (cybergadget) goto export;
-            }
-
-            // Fix Hashes
-            {
-                #region hash table data
-                uint[] hashtabledata = {
-                                    0x2020,	    0x203F,	    0x2000,	0x200,
-                                    0x2040,	    0x2FFF,	    0x2020,	0x1000,
-                                    0x3000,	    0x3FFF,	    0x2040,	0x1000,
-                                    0x4000,	    0x4FFF,	    0x2060,	0x1000,
-                                    0x5000,	    0x5FFF,	    0x2080,	0x1000,
-                                    0x6000,	    0x6FFF,	    0x20A0,	0x1000,
-                                    0x7000,	    0x7FFF,	    0x20C0,	0x1000,
-                                    0x8000,	    0x8FFF,	    0x20E0,	0x1000,
-                                    0x9000,	    0x9FFF,	    0x2100,	0x1000,
-                                    0xA000,	    0xAFFF,	    0x2120,	0x1000,
-                                    0xB000,	    0xBFFF,	    0x2140,	0x1000,
-                                    0xC000,	    0xCFFF,	    0x2160,	0x1000,
-                                    0xD000,	    0xDFFF,	    0x2180,	0x1000,
-                                    0xE000,	    0xEFFF,	    0x21A0,	0x1000,
-                                    0xF000,	    0xFFFF,	    0x21C0,	0x1000,
-                                    0x10000,	0x10FFF,	0x21E0,	0x1000,
-                                    0x11000,	0x11FFF,	0x2200,	0x1000,
-                                    0x12000,	0x12FFF,	0x2220,	0x1000,
-                                    0x13000,	0x13FFF,	0x2240,	0x1000,
-                                    0x14000,	0x14FFF,	0x2260,	0x1000,
-                                    0x15000,	0x15FFF,	0x2280,	0x1000,
-                                    0x16000,	0x16FFF,	0x22A0,	0x1000,
-                                    0x17000,	0x17FFF,	0x22C0,	0x1000,
-                                    0x18000,	0x18FFF,	0x22E0,	0x1000,
-                                    0x19000,	0x19FFF,	0x2300,	0x1000,
-                                    0x1A000,	0x1AFFF,	0x2320,	0x1000,
-                                    0x1B000,	0x1BFFF,	0x2340,	0x1000,
-                                    0x1C000,	0x1CFFF,	0x2360,	0x1000,
-                                    0x1D000,	0x1DFFF,	0x2380,	0x1000,
-                                    0x1E000,	0x1EFFF,	0x23A0,	0x1000,
-                                    0x1F000,	0x1FFFF,	0x23C0,	0x1000,
-                                    0x20000,	0x20FFF,	0x23E0,	0x1000,
-                                    0x21000,	0x21FFF,	0x2400,	0x1000,
-                                    0x22000,	0x22FFF,	0x2420,	0x1000,
-                                    0x23000,	0x23FFF,	0x2440,	0x1000,
-                                    0x24000,	0x24FFF,	0x2460,	0x1000,
-                                    0x25000,	0x25FFF,	0x2480,	0x1000,
-                                    0x26000,	0x26FFF,	0x24A0,	0x1000,
-                                    0x27000,	0x27FFF,	0x24C0,	0x1000,
-                                    0x28000,	0x28FFF,	0x24E0,	0x1000,
-                                    0x29000,	0x29FFF,	0x2500,	0x1000,
-                                    0x2A000,	0x2AFFF,	0x2520,	0x1000,
-                                    0x2B000,	0x2BFFF,	0x2540,	0x1000,
-                                    0x2C000,	0x2CFFF,	0x2560,	0x1000,
-                                    0x2D000,	0x2DFFF,	0x2580,	0x1000,
-                                    0x2E000,	0x2EFFF,	0x25A0,	0x1000,
-                                    0x2F000,	0x2FFFF,	0x25C0,	0x1000,
-                                    0x30000,	0x30FFF,	0x25E0,	0x1000,
-                                    0x31000,	0x31FFF,	0x2600,	0x1000,
-                                    0x32000,	0x32FFF,	0x2620,	0x1000,
-                                    0x33000,	0x33FFF,	0x2640,	0x1000,
-                                    0x34000,	0x34FFF,	0x2660,	0x1000,
-                                    0x35000,	0x35FFF,	0x2680,	0x1000,
-                                    0x36000,	0x36FFF,	0x26A0,	0x1000,
-                                    0x37000,	0x37FFF,	0x26C0,	0x1000,
-                                    0x38000,	0x38FFF,	0x26E0,	0x1000,
-                                    0x39000,	0x39FFF,	0x2700,	0x1000,
-                                    0x3A000,	0x3AFFF,	0x2720,	0x1000,
-                                    0x3B000,	0x3BFFF,	0x2740,	0x1000,
-                                    0x3C000,	0x3CFFF,	0x2760,	0x1000,
-                                    0x3D000,	0x3DFFF,	0x2780,	0x1000,
-                                    0x3E000,	0x3EFFF,	0x27A0,	0x1000,
-                                    0x3F000,	0x3FFFF,	0x27C0,	0x1000,
-                                    0x40000,	0x40FFF,	0x27E0,	0x1000,
-                                    0x41000,	0x41FFF,	0x2800,	0x1000,
-                                    0x42000,	0x42FFF,	0x2820,	0x1000,
-                                    0x43000,	0x43FFF,	0x2840,	0x1000,
-                                    0x44000,	0x44FFF,	0x2860,	0x1000,
-                                    0x45000,	0x45FFF,	0x2880,	0x1000,
-                                    0x46000,	0x46FFF,	0x28A0,	0x1000,
-                                    0x47000,	0x47FFF,	0x28C0,	0x1000,
-                                    0x48000,	0x48FFF,	0x28E0,	0x1000,
-                                    0x49000,	0x49FFF,	0x2900,	0x1000,
-                                    0x4A000,	0x4AFFF,	0x2920,	0x1000,
-                                    0x4B000,	0x4BFFF,	0x2940,	0x1000,
-                                    0x4C000,	0x4CFFF,	0x2960,	0x1000,
-                                    0x4D000,	0x4DFFF,	0x2980,	0x1000,
-                                    0x4E000,	0x4EFFF,	0x29A0,	0x1000,
-                                    0x4F000,	0x4FFFF,	0x29C0,	0x1000,
-                                    0x50000,	0x50FFF,	0x29E0,	0x1000,
-                                    0x51000,	0x51FFF,	0x2A00,	0x1000,
-                                    0x52000,	0x52FFF,	0x2A20,	0x1000,
-                                    0x53000,	0x53FFF,	0x2A40,	0x1000,
-                                    0x54000,	0x54FFF,	0x2A60,	0x1000,
-                                    0x55000,	0x55FFF,	0x2A80,	0x1000,
-                                    0x56000,	0x56FFF,	0x2AA0,	0x1000,
-                                    0x57000,	0x57FFF,	0x2AC0,	0x1000,
-                                    0x58000,	0x58FFF,	0x2AE0,	0x1000,
-                                    0x59000,	0x59FFF,	0x2B00,	0x1000,
-                                    0x5A000,	0x5AFFF,	0x2B20,	0x1000,
-                                    0x5B000,	0x5BFFF,	0x2B40,	0x1000,
-                                    0x5C000,	0x5CFFF,	0x2B60,	0x1000,
-                                    0x5D000,	0x5DFFF,	0x2B80,	0x1000,
-                                    0x5E000,	0x5EFFF,	0x2BA0,	0x1000,
-                                    0x5F000,	0x5FFFF,	0x2BC0,	0x1000,
-                                    0x60000,	0x60FFF,	0x2BE0,	0x1000,
-                                    0x61000,	0x61FFF,	0x2C00,	0x1000,
-                                    0x62000,	0x62FFF,	0x2C20,	0x1000,
-                                    0x63000,	0x63FFF,	0x2C40,	0x1000,
-                                    0x64000,	0x64FFF,	0x2C60,	0x1000,
-                                    0x65000,	0x65FFF,	0x2C80,	0x1000,
-                                    0x66000,	0x66FFF,	0x2CA0,	0x1000,
-                                    0x67000,	0x67FFF,	0x2CC0,	0x1000,
-                                    0x68000,	0x68FFF,	0x2CE0,	0x1000,
-                                    0x69000,	0x69FFF,	0x2D00,	0x1000,
-                                    0x6A000,	0x6AFFF,	0x2D20,	0x1000,
-                                 };
-                #endregion
-                if (savindex == 1)
-                {
-                    for (int i = 0; i < hashtabledata.Length / 4; i++)
-                    {
-                        hashtabledata[i * 4 + 0] += 0x7F000;
-                        hashtabledata[i * 4 + 1] += 0x7F000;
-                        hashtabledata[i * 4 + 2] += 0x7F000;
-                    }
-
-                    // Problem with save2 saves is that 0x3000-0x4FFF doesn't use save2 data. Probably different when hashed, but different when stored.
-                    for (int i = 2; i < 4; i++)
-                    {
-                        hashtabledata[i * 4 + 0] -= 0x7F000;
-                        hashtabledata[i * 4 + 1] -= 0x7F000;
-                    }
-                }
-
-                SHA256 mySHA256 = SHA256.Create();
-
-                // Hash for 0x3000 onwards
-                for (int i = 2; i < hashtabledata.Length / 4; i++)
-                {
-                    uint start = hashtabledata[0 + 4 * i];
-                    uint length = hashtabledata[1 + 4 * i] - hashtabledata[0 + 4 * i];
-                    uint offset = hashtabledata[2 + 4 * i];
-                    uint blocksize = hashtabledata[3 + 4 * i];
-
-                    byte[] zeroarray = new byte[blocksize];
-                    Array.Copy(editedsav, start, zeroarray, 0, length + 1);
-                    byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-                    Array.Copy(hashValue, 0, editedsav, offset, 0x20);
-                }
-                // Fix 2nd Hash
-                {
-                    uint start = hashtabledata[0 + 4 * 1];
-                    uint length = hashtabledata[1 + 4 * 1] - hashtabledata[0 + 4 * 1];
-                    uint offset = hashtabledata[2 + 4 * 1];
-                    uint blocksize = hashtabledata[3 + 4 * 1];
-
-                    byte[] zeroarray = new byte[blocksize];
-                    Array.Copy(editedsav, start, zeroarray, 0, length + 1);
-                    byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-
-                    Array.Copy(hashValue, 0, editedsav, offset, 0x20);
-                }
-                // Fix 1st Hash
-                {
-                    uint start = hashtabledata[0 + 4 * 0];
-                    uint length = hashtabledata[1 + 4 * 0] - hashtabledata[0 + 4 * 0];
-                    uint offset = hashtabledata[2 + 4 * 0];
-                    uint blocksize = hashtabledata[3 + 4 * 0];
-
-                    byte[] zeroarray = new byte[blocksize];
-                    Array.Copy(editedsav, start, zeroarray, 0, length + 1);
-                    byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-
-                    Array.Copy(hashValue, 0, editedsav, offset, 0x20);
-                }
-                // Fix IVFC Hash
-                {
-                    byte[] zeroarray = new byte[0x200];
-                    Array.Copy(editedsav, 0x2000 + savindex * 0x7F000, zeroarray, 0, 0x20);
-                    byte[] hashValue = mySHA256.ComputeHash(zeroarray);
-
-                    Array.Copy(hashValue, 0, editedsav, 0x43C - savindex * 0x130, 0x20);
-                }
-                // Fix DISA Hash
-                {
-                    byte[] difihash = new byte[0x12C];
-                    Array.Copy(editedsav, 0x330 - savindex * 0x130, difihash, 0, 0x12C);
-                    byte[] hashValue = mySHA256.ComputeHash(difihash);
-
-                    Array.Copy(hashValue, 0, editedsav, 0x16C, 0x20);
-                }
-            }
+            editedsav = PKX.writeG6CHK(editedsav, savegame_oras, savindex);
+            if (!cybergadget) // Fix Hashes
+                editedsav = PKX.writeG6SHA(editedsav, savegame_oras, savindex);
             // Write the active save index
             editedsav[0x168] = (byte)(savindex ^ 1);
-        export:
             // File Integrity has been restored as well as it can. Export!
 
-            // If CyberGadget
             if (cybergadget)
+            #region Saving CyberGadget/RAMSAV
             {
-                byte[] cybersav = new byte[0x65600];
-                if (savegame_oras) cybersav = new byte[0x76000];
+                byte[] cybersav = new byte[savegame_oras ? 0x76000 : 0x65600];
                 Array.Copy(editedsav, 0x5400, cybersav, 0, cybersav.Length);
                 if (ramsav == null)
                 {
@@ -3112,7 +2642,9 @@ namespace PKHeX
                     Util.Alert("Saved Cyber SAV to:", path);
                 }
             }
+            #endregion
             else
+            #region Saving Full Save File
             {
                 // Save Full Save File
                 SaveFileDialog savesav = new SaveFileDialog
@@ -3133,6 +2665,7 @@ namespace PKHeX
                 File.WriteAllBytes(path, editedsav);
                 Util.Alert("Saved 1MB SAV to:", path);
             }
+            #endregion
         }
         // Box/SAV Functions //
         private void clickBoxRight(object sender, EventArgs e)
@@ -3225,19 +2758,19 @@ namespace PKHeX
             if (!savegame_oras)
             {
                 // User Protection
-                int move1 = BitConverter.ToInt16(pkxdata, 0x5A);
-                int move2 = BitConverter.ToInt16(pkxdata, 0x5C);
-                int move3 = BitConverter.ToInt16(pkxdata, 0x5E);
-                int move4 = BitConverter.ToInt16(pkxdata, 0x60);
-                int ability = pkxdata[0x14];
-                int item = BitConverter.ToInt16(pkxdata, 0x0A);
+                bool move1 = BitConverter.ToInt16(pkxdata, 0x5A) > 617;
+                bool move2 = BitConverter.ToInt16(pkxdata, 0x5C) > 617;
+                bool move3 = BitConverter.ToInt16(pkxdata, 0x5E) > 617;
+                bool move4 = BitConverter.ToInt16(pkxdata, 0x60) > 617;
+                bool ability = pkxdata[0x14] > 188;
+                bool item = BitConverter.ToInt16(pkxdata, 0x0A) > 717;
                 string err = "";
 
-                if (move1 > 617 || move2 > 617 || move3 > 617 || move4 > 617)
+                if (move1 || move2 || move3 || move4)
                     err = "Move does not exist in X/Y.";
-                else if (ability > 188)
+                else if (ability)
                     err = "Ability does not exist in X/Y.";
-                else if (item > 717)
+                else if (item)
                     err = "Item does not exist in X/Y.";
 
                 if ((err != "") && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
@@ -3570,63 +3103,8 @@ namespace PKHeX
             if (!init) return;
             dslotdata = dslotdata ?? preparepkx(false); // don't perform control loss click
 
-            int species = BitConverter.ToInt16(dslotdata, 0x08); // Get Species
-            uint isegg = (BitConverter.ToUInt32(dslotdata, 0x74) >> 30) & 1;
-
-            int altforms = (dslotdata[0x1D] >> 3);
-            int gender = (dslotdata[0x1D] >> 1) & 0x3;
-
-            string file;
-
-            if (pb == dragout) L_QR.Visible = (species != 0);
-            if (species == 0)
-            { pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); return; }
-            {
-                file = "_" + species;
-                if (altforms > 0) // Alt Form Handling
-                    file = file + "_" + altforms;
-                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
-                    file = file + "_" + gender;
-                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
-                    file = "_" + species + "f";
-            }
-
-            // Redrawing logic
-            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
-            if (baseImage == null)
-            {
-                if (species < 722)
-                {
-                    baseImage = Util.LayerImage(
-                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species),
-                        Properties.Resources.unknown,
-                        0, 0, .5);
-                }
-                else
-                    baseImage = Properties.Resources.unknown;
-            }
-            if (isegg == 1)
-            {
-                // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
-                baseImage = Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject("_0"), baseImage, 0, 0, 0.33);
-                // Add the egg layer over-top with full opacity.
-                baseImage = Util.LayerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
-            }
-            if (PKX.getIsShiny(BitConverter.ToUInt32(dslotdata, 0x18), BitConverter.ToUInt16(dslotdata, 0x0C), BitConverter.ToUInt16(dslotdata, 0x0E)))
-            {   // Is Shiny
-                // Redraw our image
-                baseImage = Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
-            }
-            if (BitConverter.ToUInt16(dslotdata, 0xA) > 0)
-            {
-                // Has Item
-                int item = BitConverter.ToUInt16(dslotdata, 0xA);
-                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
-                // Redraw
-                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-            }
-
-            pb.Image = baseImage;
+            if (pb == dragout) L_QR.Visible = (BitConverter.ToInt16(dslotdata, 0x08) != 0); // Species
+            pb.Image = PKX.getSprite(dslotdata);
         }
         private void getSlotFiller(int offset, PictureBox pb)
         {
@@ -3634,70 +3112,16 @@ namespace PKHeX
             Array.Copy(savefile, offset, slotdata, 0, 0xE8);    // Fill Our EKX Slot
             byte[] dslotdata = PKX.decryptArray(slotdata);
 
-            ushort chk = 0;
-            for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
-                chk += BitConverter.ToUInt16(dslotdata, i);
-
-            if (chk != BitConverter.ToUInt16(dslotdata, 6) && (!savLoaded && !slotdata.SequenceEqual(new byte[0xE8]))) // Bad Egg
+            if (PKX.getCHK(dslotdata) != BitConverter.ToUInt16(dslotdata, 6) // Invalid Checksum
+                && (!savLoaded && !slotdata.SequenceEqual(new byte[0xE8]))) // And Save Loaded 
             {
+                // Bad Egg present in slot.
                 pb.Image = null;
                 pb.BackColor = Color.Red;
                 return;
             }
             pb.BackColor = Color.Transparent;
-            int species = BitConverter.ToInt16(dslotdata, 0x08); // Get Species
-            uint isegg = (BitConverter.ToUInt32(dslotdata, 0x74) >> 30) & 1;
-
-            int altforms = (dslotdata[0x1D] >> 3);
-            int gender = (dslotdata[0x1D] >> 1) & 0x3;
-
-            if (species == 0)
-            { pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); return; }
-
-            string file = "_" + species;
-            if (altforms > 0) // Alt Form Handling
-                file = file + "_" + altforms;
-            else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
-                file = file + "_" + gender;
-            else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
-                file = "_" + species + "f";
-
-            // Redrawing logic
-            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
-            if (baseImage == null)
-            {
-                if (species < 722)
-                {
-                    baseImage = Util.LayerImage(
-                        (Image)Properties.Resources.ResourceManager.GetObject("_" + species),
-                        Properties.Resources.unknown,
-                        0, 0, .5);
-                }
-                else
-                    baseImage = Properties.Resources.unknown;
-            }
-            if (isegg == 1)
-            {
-                // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
-                baseImage = Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject("_0"), baseImage, 0, 0, 0.33);
-                // Add the egg layer over-top with full opacity.
-                baseImage = Util.LayerImage(baseImage, (Image)Properties.Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
-            }
-            if (PKX.getIsShiny(BitConverter.ToUInt32(dslotdata, 0x18), BitConverter.ToUInt16(dslotdata, 0x0C), BitConverter.ToUInt16(dslotdata, 0x0E)))
-            {   // Is Shiny
-                // Redraw our image
-                baseImage = Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
-            }
-            if (BitConverter.ToUInt16(dslotdata, 0xA) > 0)
-            {
-                // Has Item
-                int item = BitConverter.ToUInt16(dslotdata, 0xA);
-                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
-                // Redraw
-                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-            }
-
-            pb.Image = baseImage;
+            pb.Image = PKX.getSprite(dslotdata);
         }
         private void getSlotColor(int slot, Image color)
         {
@@ -3890,8 +3314,7 @@ namespace PKHeX
                     && len != 100 && len != 80) // 4th Gen
                     continue;
                 byte[] data = new byte[232];
-                string ext = Path.GetExtension(t);
-                switch (ext)
+                switch (Path.GetExtension(t)) // Filter all files by extension
                 {
                     case ".pk5":
                     case ".pk4":
@@ -3901,13 +3324,11 @@ namespace PKHeX
                     {
                         // Verify PKM (decrypted)
                         byte[] input = File.ReadAllBytes(t);
-                        if (!PKX.verifychk(input))
-                            continue;
+                        if (!PKX.verifychk(input)) continue;
                         {
                             try // to convert g5pkm
                             { data = PKX.encryptArray(Converter.ConvertPKM(input, savefile, savindex)); pastctr++; }
-                            catch
-                            { continue; }
+                            catch { continue; }
                         }
                     }
                         break;
@@ -3921,10 +3342,7 @@ namespace PKHeX
                                 continue;
                             Array.Resize(ref input, 232);
 
-                            ushort chk = 0;
-                            for (int z = 8; z < 232; z += 2) // Loop through the entire PKX
-                                chk += BitConverter.ToUInt16(input, z);
-                            if (chk != BitConverter.ToUInt16(input, 0x6)) continue;
+                            if (PKX.getCHK(input) != BitConverter.ToUInt16(input, 0x6)) continue;
                             data = PKX.encryptArray(input);
                         }
                     }
@@ -3942,19 +3360,15 @@ namespace PKHeX
                             continue; // don't allow improperly encrypted files. they must be encrypted properly.
                         //else if (BitConverter.ToUInt16(decrypteddata, 0x8) == 0) // if species = 0
                         //    continue;
-
-                        ushort chk = 0;
-                        for (int z = 8; z < 232; z += 2) // Loop through the entire PKX
-                            chk += BitConverter.ToUInt16(decrypteddata, z);
-                        if (chk != BitConverter.ToUInt16(decrypteddata, 0x6)) continue;
+                        // We'll allow blank ekx files for those wanting to see the decrypted data.
+                        if (PKX.getCHK(input) != BitConverter.ToUInt16(decrypteddata, 0x6)) continue;
                     }
                         break;
                     default:
                         continue;
                 }
-                Array.Copy(data, 0, savefile, offset + ctr * 232, 232);
+                Array.Copy(data, 0, savefile, offset + ctr++ * 232, 232);
                 setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
-                ctr++;
                 if (ctr == 30 * 31) break; // break out if we have written all 31 boxes
             }
             if (ctr <= 0) return; 
