@@ -244,7 +244,8 @@ namespace PKHeX
             CB_Form.SelectedIndex = (int)form;
             setGenderLabel((int)gender);
             updateNickname(sender, e);
-            UpdateImage(species, (CB_Form.SelectedIndex & 0x1F), Util.getIndex(CB_HeldItem), PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
+            bpkx.Image = PKX.getSprite(species, (int)form, (int)gender, item, false, shiny == 1);
+            editing = true;
         }
         private void Write_Entry(object sender, EventArgs e)
         {           
@@ -338,7 +339,7 @@ namespace PKHeX
             vnd |= (rawvnd & 0x80000000);
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            UpdateImage(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), Util.getIndex(CB_HeldItem), PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
+            bpkx.Image = PKX.getSprite(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), PKX.getGender(Label_Gender.Text), Util.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
             displayEntry(null, null); // refresh text view
         }
         private void Validate_TextBoxes()
@@ -377,7 +378,8 @@ namespace PKHeX
         {
             if (!editing)
                 return; //Don't do writing until loaded
-            UpdateImage(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), Util.getIndex(CB_HeldItem), PKX.getGender(Label_Gender.Text), CHK_Shiny.Checked);
+            bpkx.Image = PKX.getSprite(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), PKX.getGender(Label_Gender.Text), Util.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+
             Write_Entry(null, null);
         }
         private void updateGender(object sender, EventArgs e)
@@ -422,37 +424,6 @@ namespace PKHeX
                 Label_Gender.Text = gendersymbols[2];    // Genderless
 
             Write_Entry(null, null);
-        }
-        private void UpdateImage(int species, int form, int item, int gender, bool shiny)
-        {
-            string file = "";
-
-            if (species == 0)
-            { bpkx.Image = (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
-            else
-            {
-                file = "_" + species;
-                if (form > 0) // Alt Form Handling
-                    file = file + "_" + form;
-                else if ((gender == 1) && (species == 521 || species == 668))   // Unfezant & Pyroar
-                    file = "_" + species + "f";
-            }
-
-            Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
-            if (shiny)
-            {   // Is Shiny
-                // Redraw our image
-                baseImage = Util.LayerImage(baseImage, Properties.Resources.rare_icon, 0, 0, 0.7);
-            }
-            if (item > 0)
-            {
-                // Has Item
-                Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
-                // Redraw
-                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-            }
-            bpkx.Image = baseImage;
-            editing = true;
         }
 
         private void B_CopyText_Click(object sender, EventArgs e)
