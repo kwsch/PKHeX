@@ -290,30 +290,16 @@ namespace PKHeX
         private Image getWCPreviewImage(byte[] data)
         {
             Image img;
-            switch (data[0x51])
+            switch (data[0x51]) // Gift Type
             {
                 case 0:
                     ushort species = BitConverter.ToUInt16(data, 0x82);
-                    byte altforms = data[0x84];
+                    byte form = data[0x84];
                     byte gender = data[0xA1];
-                    string file = "_" + species;
-                    if (altforms > 0) // Alt Form Handling
-                        file = file + "_" + altforms;
-                    else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
-                        file = file + "_" + gender;
-                    else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
-                        file = "_" + species + "f";
-                    img = (Image) Properties.Resources.ResourceManager.GetObject(file);
-
-                    // Improve the Preview
                     ushort item = BitConverter.ToUInt16(data, 0x78);
-                    if (data[0xD1] > 0) img = Util.LayerImage(img, Properties.Resources.egg, 0, 0, 1);
-                    if (data[0xA3] == 2) img = Util.LayerImage(img, Properties.Resources.rare_icon, 0, 0, 0.7);
-                    if (item > 0)
-                    {
-                        Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
-                        img = Util.LayerImage(img, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-                    }
+                    bool isEgg = data[0xD1] == 1;
+                    bool isShiny = data[0xA3] == 2;
+                    img = PKX.getSprite(species, form, gender, item, isEgg, isShiny);
                     break;
                 case 1:
                     img = (Image)(Properties.Resources.ResourceManager.GetObject("item_" + BitConverter.ToUInt16(data, 0x68)) ?? Properties.Resources.unknown);
