@@ -261,7 +261,7 @@
             this.bpkx1 = new System.Windows.Forms.PictureBox();
             this.B_BoxRight = new System.Windows.Forms.Button();
             this.B_BoxLeft = new System.Windows.Forms.Button();
-            this.C_BoxSelect = new System.Windows.Forms.ComboBox();
+            this.CB_BoxSelect = new System.Windows.Forms.ComboBox();
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
             this.PAN_BattleBox = new System.Windows.Forms.Panel();
             this.bbpkx1 = new System.Windows.Forms.PictureBox();
@@ -2724,13 +2724,14 @@
             this.tabBoxMulti.SelectedIndex = 0;
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 50;
+            this.tabBoxMulti.SelectedIndexChanged += new System.EventHandler(this.switchSAVTab);
             // 
             // Tab_Box
             // 
             this.Tab_Box.Controls.Add(this.PAN_Box);
             this.Tab_Box.Controls.Add(this.B_BoxRight);
             this.Tab_Box.Controls.Add(this.B_BoxLeft);
-            this.Tab_Box.Controls.Add(this.C_BoxSelect);
+            this.Tab_Box.Controls.Add(this.CB_BoxSelect);
             this.Tab_Box.Location = new System.Drawing.Point(4, 22);
             this.Tab_Box.Name = "Tab_Box";
             this.Tab_Box.Padding = new System.Windows.Forms.Padding(3);
@@ -3219,11 +3220,11 @@
             this.B_BoxLeft.UseVisualStyleBackColor = true;
             this.B_BoxLeft.Click += new System.EventHandler(this.clickBoxLeft);
             // 
-            // C_BoxSelect
+            // CB_BoxSelect
             // 
-            this.C_BoxSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.C_BoxSelect.FormattingEnabled = true;
-            this.C_BoxSelect.Items.AddRange(new object[] {
+            this.CB_BoxSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_BoxSelect.FormattingEnabled = true;
+            this.CB_BoxSelect.Items.AddRange(new object[] {
             "Box 1",
             "Box 2",
             "Box 3",
@@ -3255,11 +3256,11 @@
             "Box 29",
             "Box 30",
             "Box 31"});
-            this.C_BoxSelect.Location = new System.Drawing.Point(88, 10);
-            this.C_BoxSelect.Name = "C_BoxSelect";
-            this.C_BoxSelect.Size = new System.Drawing.Size(127, 21);
-            this.C_BoxSelect.TabIndex = 0;
-            this.C_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.getBox);
+            this.CB_BoxSelect.Location = new System.Drawing.Point(88, 10);
+            this.CB_BoxSelect.Name = "CB_BoxSelect";
+            this.CB_BoxSelect.Size = new System.Drawing.Size(127, 21);
+            this.CB_BoxSelect.TabIndex = 0;
+            this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.getBox);
             // 
             // Tab_PartyBattle
             // 
@@ -4456,7 +4457,7 @@
         private System.Windows.Forms.Button B_OpenSuperTraining;
         private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Panel PAN_Box;
-        public System.Windows.Forms.ComboBox C_BoxSelect;
+        public System.Windows.Forms.ComboBox CB_BoxSelect;
         private System.Windows.Forms.ComboBox DEV_Ability;
         private System.Windows.Forms.CheckBox CHK_HackedStats;
         private System.Windows.Forms.MaskedTextBox MT_Level;

@@ -22,7 +22,7 @@ namespace PKHeX
                 CB_BG.Items.Add(wallpaper);
 
             // Go
-            LB_BoxSelect.SelectedIndex = m_parent.C_BoxSelect.SelectedIndex;
+            LB_BoxSelect.SelectedIndex = m_parent.CB_BoxSelect.SelectedIndex;
         }
         Form1 m_parent;
         public byte[] sav = new byte[0x100000];

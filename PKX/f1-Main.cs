@@ -538,7 +538,7 @@ namespace PKHeX
             #region Box Data
             else if ((input.Length == 0xE8 * 30 || input.Length == 0xE8 * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input , 8) > 0)
             { 
-                Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * ((input.Length == 0xE8*30) ? C_BoxSelect.SelectedIndex : 0), input.Length); 
+                Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * ((input.Length == 0xE8*30) ? CB_BoxSelect.SelectedIndex : 0), input.Length); 
                 setPKXBoxes();
                 Width = largeWidth;
                 Util.Alert("Box Binary loaded."); }
@@ -554,8 +554,8 @@ namespace PKHeX
                     offset = i; break;
                 }
                 if (offset < 0) { Util.Alert(path, "Unable to read the input file; not an expected injectiondebug.bin."); return; }
-                C_BoxSelect.SelectedIndex = 0;
-                Array.Copy(input, offset, savefile, SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex, 9 * 30 * 0xE8);
+                CB_BoxSelect.SelectedIndex = 0;
+                Array.Copy(input, offset, savefile, SaveGame.Box + 0xE8 * 30 * CB_BoxSelect.SelectedIndex, 9 * 30 * 0xE8);
                 setPKXBoxes();
                 Width = largeWidth;
                 Util.Alert("Injection Binary loaded."); }
@@ -576,9 +576,9 @@ namespace PKHeX
             #region Battle Video
             else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0 && BitConverter.ToUInt16(input, 0xE12) == 0)
             {
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + C_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
                 for (int i = 0; i < 24; i++)
-                    Array.Copy(input, 0xE18 + 260 * i + (i / 6) * 8, savefile, SaveGame.Box + i * 0xE8 + C_BoxSelect.SelectedIndex * 30 * 0xE8, 0xE8);
+                    Array.Copy(input, 0xE18 + 260 * i + (i / 6) * 8, savefile, SaveGame.Box + i * 0xE8 + CB_BoxSelect.SelectedIndex * 30 * 0xE8, 0xE8);
                 setPKXBoxes();
             }
             #endregion
@@ -700,14 +700,11 @@ namespace PKHeX
 
             savedited = false;
             Menu_ToggleBoxUI.Visible = false;
+            int startBox = savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] & 0x1F;
 
             B_VerifySHA.Enabled = !cybergadget;
             B_VerifyCHK.Enabled = !ramsavloaded;
-
-            // Set up Boxes
-            C_BoxSelect.SelectedIndex = 0;
-            tabBoxMulti.SelectedIndex = 0;
-
+            
             setBoxNames();   // Display the Box Names
             setPKXBoxes();   // Reload all of the PKX Windows
             setSAVLabel();   // Reload the label indicating current save
@@ -715,6 +712,9 @@ namespace PKHeX
             // Version Exclusive Editors
             GB_SUBE.Visible = !oras;
             B_OpenSecretBase.Visible = oras;
+
+            if (startBox > 30) {tabBoxMulti.SelectedIndex = 1; }
+            else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
 
             Width = largeWidth;
             savLoaded = true;
@@ -854,7 +854,7 @@ namespace PKHeX
                 CB_Species.SelectedIndex = 1;
                 CB_GameOrigin.SelectedIndex = 0;
                 CB_Language.SelectedIndex = 0;
-                C_BoxSelect.SelectedIndex = 0;
+                CB_BoxSelect.SelectedIndex = 0;
                 CB_GameOrigin.SelectedIndex = 0;
                 CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
@@ -2668,13 +2668,22 @@ namespace PKHeX
             #endregion
         }
         // Box/SAV Functions //
+        private void switchSAVTab(object sender, EventArgs e)
+        {
+            if (tabBoxMulti.SelectedIndex == 0)
+                savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
+            if (tabBoxMulti.SelectedIndex == 1)
+                savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = 31;
+        }
         private void clickBoxRight(object sender, EventArgs e)
         {
-            C_BoxSelect.SelectedIndex = (C_BoxSelect.SelectedIndex + 1) % 31;
+            CB_BoxSelect.SelectedIndex = (CB_BoxSelect.SelectedIndex + 1) % 31;
+            savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
         }
         private void clickBoxLeft(object sender, EventArgs e)
         {
-            C_BoxSelect.SelectedIndex = (C_BoxSelect.SelectedIndex + 30) % 31;
+            CB_BoxSelect.SelectedIndex = (CB_BoxSelect.SelectedIndex + 30) % 31;
+            savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
         }
         private void clickSlot(object sender, EventArgs e)
         {
@@ -2815,7 +2824,7 @@ namespace PKHeX
             if (!verifiedPKX()) { return; } // don't copy garbage to the box
 
             byte[] pkxdata;
-            int box = C_BoxSelect.SelectedIndex + 1; // get box we're cloning to
+            int box = CB_BoxSelect.SelectedIndex + 1; // get box we're cloning to
             {
                 if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?", box)) == DialogResult.Yes)
                 {
@@ -2921,7 +2930,7 @@ namespace PKHeX
         }
         private int getPKXOffset(int slot)
         {
-            int offset = SaveGame.Box + C_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
+            int offset = SaveGame.Box + CB_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
 
             if (slot > 29)          // Not a party
             {
@@ -2966,9 +2975,9 @@ namespace PKHeX
         }
         private void setPKXBoxes()
         {
-            int boxoffset = SaveGame.Box + 0x7F000 * savindex + C_BoxSelect.SelectedIndex * (0xE8 * 30);
+            int boxoffset = SaveGame.Box + 0x7F000 * savindex + CB_BoxSelect.SelectedIndex * (0xE8 * 30);
 
-            int boxbgofst = (0x7F000 * savindex) + 0x9C1E + C_BoxSelect.SelectedIndex;
+            int boxbgofst = (0x7F000 * savindex) + 0x9C1E + CB_BoxSelect.SelectedIndex;
             int boxbgval = 1 + savefile[boxbgofst];
             string imagename = "box_wp" + boxbgval.ToString("00"); if (savegame_oras && boxbgval > 16) imagename += "o";
             PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
@@ -3032,25 +3041,25 @@ namespace PKHeX
 
             // Recoloring of a storage box slot (to not show for other storage boxes)
             if (colorizedslot < 32)
-                pba[colorizedslot].BackgroundImage = (colorizedbox == C_BoxSelect.SelectedIndex) ? colorizedcolor : null;
+                pba[colorizedslot].BackgroundImage = (colorizedbox == CB_BoxSelect.SelectedIndex) ? colorizedcolor : null;
         }
         private void setBoxNames()
         {
-            int selectedbox = C_BoxSelect.SelectedIndex; // precache selected box
+            int selectedbox = CB_BoxSelect.SelectedIndex; // precache selected box
             // Build ComboBox Dropdown Items
             try
             {
-                C_BoxSelect.Items.Clear();
+                CB_BoxSelect.Items.Clear();
                 for (int i = 0; i < 31; i++)
-                    C_BoxSelect.Items.Add(Encoding.Unicode.GetString(savefile, SaveGame.PCLayout + (0x7F000 * savindex) + 0x22 * i, 0x22));
+                    CB_BoxSelect.Items.Add(Encoding.Unicode.GetString(savefile, SaveGame.PCLayout + (0x7F000 * savindex) + 0x22 * i, 0x22));
             }
             catch
             {
-                C_BoxSelect.Items.Clear();
+                CB_BoxSelect.Items.Clear();
                 for (int i = 1; i < 32; i++)
-                    C_BoxSelect.Items.Add("Box " + i);
+                    CB_BoxSelect.Items.Add("Box " + i);
             }
-            C_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
+            CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
         }
         private void setSAVLabel()
         {
@@ -3142,7 +3151,7 @@ namespace PKHeX
                 t.BackgroundImage = null;
 
             if (slot < 32)
-                colorizedbox = C_BoxSelect.SelectedIndex;
+                colorizedbox = CB_BoxSelect.SelectedIndex;
 
             pba[slot].BackgroundImage = color;
             colorizedcolor = color;
@@ -3151,6 +3160,7 @@ namespace PKHeX
         private void getBox(object sender, EventArgs e)
         {
             setPKXBoxes();
+            savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
         }
         private void getTSV(object sender, EventArgs e)
         {
@@ -3287,7 +3297,7 @@ namespace PKHeX
         {
             if (path == "") return;
             int offset = SaveGame.Box;
-            int ctr = C_BoxSelect.SelectedIndex * 30;
+            int ctr = CB_BoxSelect.SelectedIndex * 30;
             int pastctr = 0;
 
             // Clear out the box data array.
@@ -3387,7 +3397,7 @@ namespace PKHeX
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
-            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Yes: Export All Boxes" + Environment.NewLine + String.Format("No: Export {1} (Box {0})", C_BoxSelect.SelectedIndex + 1, C_BoxSelect.Text) + Environment.NewLine + "Cancel: Abort");
+            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Yes: Export All Boxes" + Environment.NewLine + String.Format("No: Export {1} (Box {0})", CB_BoxSelect.SelectedIndex + 1, CB_BoxSelect.Text) + Environment.NewLine + "Cancel: Abort");
 
             if (dr == DialogResult.Yes)
             {
@@ -3399,7 +3409,7 @@ namespace PKHeX
             {
                 SaveFileDialog sfd = new SaveFileDialog {Filter = "Box Data|*.bin", FileName = "boxdata.bin"};
                 if (sfd.ShowDialog() == DialogResult.OK) 
-                    File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box + 0xE8 * 30 * C_BoxSelect.SelectedIndex).Take(0xE8 * 30).ToArray());
+                    File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box + 0xE8 * 30 * CB_BoxSelect.SelectedIndex).Take(0xE8 * 30).ToArray());
             }
         }
         // Subfunction Save Buttons //
@@ -3651,6 +3661,7 @@ namespace PKHeX
             setBoxNames();
             setPKXBoxes();
             setSAVLabel();
+            CB_BoxSelect.SelectedIndex = savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] & 0x1F;
         }
 
         // Drag & Drop within Box
