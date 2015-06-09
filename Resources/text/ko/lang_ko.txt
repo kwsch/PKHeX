@@ -1,0 +1,740 @@
+﻿! PKHeX Interface Customization File
+! Languages: Save this file accordingly and put it in the same folder as PKHeX's executable.
+! lang_en.txt = English
+! lang_jp.txt = Japanese
+! lang_fr.txt = French
+! lang_de.txt = German
+! lang_es.txt = Spanish
+! lang_it.txt = Italian
+! lang_ko.txt = Korean
+! Make sure that each edit has a ' = ' between Control name and new Text!
+! For the Menu Bar, separate the DropDown Item names with ' ; '
+!
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! Form1 = PKHeX (번역 COCOBLUE)
+- Change stuff below this line, not above.
+----------------Overall PKX Interface------------------
+Menu_File = 파일 ; 열기... ; 다른 이름으로 저장... ; 종료
+Menu_Tools = 도구 ; Toggle Box Interface ; Load/Dump Boxes ; 박스 데이터 리포트 ; 코드 생성기
+Menu_Options = 옵션 ; 언어 ; PKHeX에 대하여 ; 폰트 변경
+--------------------Main Tab Data----------------------
+Tab_Main = 기본
+Label_PID = PID:
+BTN_RerollPID = 재설정
+Label_Species = 종류:
+CHK_Nicknamed = 닉네임:
+Label_EXP = 경험치:
+Label_CurLevel = 레벨:
+Label_Nature = 성격:
+Label_HeldItem = 지닌 물건:
+Label_Friendship = 친밀도:
+Label_Form = 폼:
+Label_Ability = 특성:
+Label_Language = 언어:
+CHK_IsEgg = 알 여부
+CHK_Infected = 포켓러스
+CHK_Cured = 면역
+Label_PKRS = PkRs:
+Label_PKRSdays = d:
+Label_Country = 국가:
+Label_SubRegion = 보조 지역:
+Label_3DSRegion = 3DS 국적:
+---------------------Met Tab Data-----------------------
+Tab_Met = 만난 곳
+Label_OriginGame = 만난 게임:
+Label_MetLocation = 만난 위치:
+Label_Ball = 볼 종류:
+Label_MetLevel = 만난 레벨:
+Label_MetDate = 만난 날짜:
+Label_EncounterType = Encounter:
+CHK_Fateful = 운명적인 만남
+---------------------Egg Met Data-----------------------
+CHK_AsEgg = 알에서 태어남
+GB_EggConditions = 알을 만난 곳
+Label_EggLocation = 위치:
+Label_EggDate = 날짜:
+--------------------Stats Tab Data----------------------
+Tab_Stats = 개체값
+Label_IVs = IVs
+Label_EVs = EVs
+Label_Stats = 스탯
+Label_HP = HP(체력):
+Label_ATK = Atk(공격):
+Label_DEF = Def(방어):
+Label_SPA = SpA(특공):
+Label_SPD = SpD(특방):
+Label_SPE = Spe(스피드):
+Label_Total = 합:
+Label_HiddenPowerPrefix = 잠재 속성:
+Label_CharacteristicPrefix = 특징:
+BTN_RandomIVs = IVs를 랜덤으로 구성
+BTN_RandomEVs = EVs를 랜덤으로 구성
+Label_ContestStats = 콘테스트 스탯
+Label_Cool = 근사함
+Label_Beauty = 아름다움
+Label_Cute = 귀여움
+Label_Smart = 슬기로움
+Label_Tough = 강인함
+Label_Sheen = 윤기
+-------------------Attacks Tab Data---------------------
+Tab_Attacks = 기술
+GB_CurrentMoves = 가진 기술
+Label_CurPP = PP
+Label_PPups = PP 업
+GB_RelearnMoves = 잊은 기술
+-------------------OT/Misc Tab Data---------------------
+Tab_OTMisc = 어버이
+GB_OT = 트레이너 정보
+Label_TID = TID:
+Label_SID = SID:
+Label_OT = OT:
+RB_OTM = ♂
+RB_OTF = ♀
+GB_nOT = 최근 (주인이 아닌) 트레이너
+Label_PrevOT = 주인:
+RB_nOTM = ♂
+RB_nOTF = ♀
+GB_ExtraBytes = Extra Bytes
+GB_Markings = 마킹
+BTN_Ribbons = 리본/메달
+BTN_History = 기억
+Label_EncryptionConstant = Encryption Constant:
+BTN_RerollEC = 재설정
+-----------------Save Data Interface--------------------
+Tab_Box = 박스
+Tab_PartyBattle = 파티, 배틀 박스
+Tab_Other = 기타
+Tab_Tools = 도구
+Tab_SAV = SAV
+B_OpenPokePuffs = 포켓파를레
+B_OpenItemPouch = 아이템
+B_OpenTrainerInfo = 트레이너정보
+B_OUTPasserby = 지나친 사람
+B_OpenBoxLayout = 박스 배열
+B_OpenWondercards = 이상한 카드
+B_OpenSuperTraining = 슈퍼트레이닝
+B_OpenHallofFame = 명예의 전당
+B_OpenOPowers = O파워
+B_OpenEventFlags = 이벤트 깃발
+B_OpenPokedex = 포켓몬 도감
+B_OpenBerryField = 농장
+--
+B_OpenSecretBase = 비밀기지
+--------------------Tab Internals-----------------------
+L_Party = 파티:
+L_BattleBox = 배틀박스:
+L_ReadOnlyPBB = 읽기 전용입니다.
+GB_Daycare = 키우미집
+GB_GTS = GTS
+GB_Fused = 알
+GB_SUBE = 노인
+DayCare_HasEgg = 알 발견 가능여부
+L_DaycareSeed = 시드
+L_ReadOnlyOther = 이 탭은 읽기 전용입니다.
+B_3DSSETemp = Open Temp 3DSSE
+B_JPEG = Save PGL .JPEG
+L_IntegrityCheck = 완전성 체크:
+B_VerifyCHK = 체크섬
+B_VerifySHA = 해시
+L_SAVManipulation = 세이브파일 조작:
+B_SwitchSAV = SAV 교체
+B_ExportSAV = SAV 내보내기
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! RibbonMedal = 리본/메달 에디터
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+BTN_All = 모두 주기
+BTN_None = 모두 제거
+BTN_Cancel = 취소
+BTN_Save = 저장
+-------------------Ribbons/Medals----------------------
+Tab_Kalos = 보통 리본
+Tab_Extra = 부가 리본
+Tab_Medals = 트레이닝 메달
+GB_Kalos12 = 셋 1
+Kalos1a_0 = 칼로스 챔피언
+Kalos1a_1 = 호연 챔피언
+Kalos1a_2 = 신호 챔피언
+Kalos1a_3 = 절친
+Kalos1a_4 = 수행
+Kalos1a_5 = 그레이트 배틀
+Kalos1a_6 = 마스터 배틀
+Kalos1a_7 = 노력
+---
+Kalos1b_0 = Alert
+Kalos1b_1 = Shock
+Kalos1b_2 = Downcast
+Kalos1b_3 = Careless
+Kalos1b_4 = Relax
+Kalos1b_5 = Snooze
+Kalos1b_6 = Smile
+Kalos1b_7 = Gorgeous
+---
+GB_Kalos34 = Set 2
+Kalos2a_0 = Royal
+Kalos2a_1 = Gorgeous Royal
+Kalos2a_2 = 아티스트
+Kalos2a_3 = Footprint
+Kalos2a_4 = 기록
+Kalos2a_5 = 전설
+Kalos2a_6 = 나라
+Kalos2a_7 = National
+---
+Kalos2b_0 = 지구
+Kalos2b_1 = World
+Kalos2b_2 = 클래식
+Kalos2b_3 = Premier
+Kalos2b_4 = 이벤트
+Kalos2b_5 = 생일
+Kalos2b_6 = 스페셜
+Kalos2b_7 = Souvenir
+---
+GB_Extra1 = Set 3
+Extra1_0 = 위시
+Extra1_1 = 배틀 챔피언
+Extra1_2 = Regional Champ
+Extra1_3 = National Champ
+Extra1_4 = World Champ
+L_PastContest = 과거 콘테스트 리본:
+L_PastBattle = 과거 배틀 리본:
+---
+Extra1_7 = 호연 챔피언
+ORAS_0 = 콘테스트 스타
+ORAS_1 = 근사함 마스터
+ORAS_2 = 아름다움 마스터
+ORAS_3 = 귀여움 마스터
+ORAS_4 = 슬기로움 마스터
+ORAS_5 = 강인함 마스터
+------------------Super Training---------------------
+L_SuperTraining = 노말슈퍼트레이닝
+L_Rank1 = 랭크 1
+TMedal1_3 = HP(체력)
+TMedal1_4 = Atk(공격)
+TMedal1_7 = Def(방어)
+TMedal1_2 = SpA(특공)
+TMedal1_5 = SpD(특방)
+TMedal1_6 = Spe(스피드)
+L_Rank2 = 랭크 2
+TMedal2_1 = HP(체력)
+TMedal2_2 = Atk(공격)
+TMedal2_5 = Def(방어)
+TMedal2_0 = SpA(특공)
+TMedal2_3 = SpD(특방)
+TMedal2_4 = Spe(스피드)
+L_Rank3 = 랭크 3
+TMedal2_7 = HP(체력)
+TMedal3_0 = Atk(공격)
+TMedal3_3 = Def(방어)
+TMedal2_6 = SpA(특공)
+TMedal3_1 = SpD(특방)
+TMedal3_2 = Spe(스피드)
+CHK_Secret = 비밀 트레이닝 활성화
+L_Rank3 = 랭크 4
+TMedal3_4 = Troubles
+L_Rank3 = 랭크 5
+TMedal3_5 = 풀
+TMedal3_6 = 불
+TMedal3_7 = 물
+TMedal4_0 = Fleeing
+L_Rank3 = 랭크 6
+TMedal4_1 = Second
+TMedal4_2 = Quick
+TMedal4_3 = Long
+L_Rank3 = 랭크 7
+TMedal4_4 = Scatter
+TMedal4_5 = Barrage
+TMedal4_6 = Hydreigon
+L_Rank3 = 랭크 8
+TMedal4_7 = 베스트
+---
+L_Bag = Last Used Bag:
+L_Hits = Hits Remaining:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! MemoryAmie = 기억 / 포플래 에디터
+- Change stuff below this line, not above.
+---------------------Bottom UI-------------------------
+BTN_Cancel = 취소
+BTN_Save = 저장
+L_Handler = Current Handler:
+-
+Tab_OTMemory = 주인과의 기억
+L_OT_Friendship = 친밀도:
+L_OT_Affection = 관심:
+Tab_CTMemory = 주인이 아닌자와의 기억
+L_CT_Friendship = 친밀도:
+L_cT_Affection = 관심:
+Tab_Residence = 거주
+--
+L_Country = 나라
+L_Region = 지역
+L_Geo0 = 최근:
+L_Geo1 = 과거 1:
+L_Geo2 = 과거 2:
+L_Geo3 = 과거 3:
+L_Geo4 = 과거 4:
+--
+L_Arguments = 비활성화됨 ; Never left ; OT ; Past Gen ; 기억 ; Pokémon ; Area ; Item(s) ; Move ; 위치 ;
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! f2_Text = 스페셜 캐릭터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+-- No Elements to rename here.
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_BerryField = Berry Field Viewer
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Berry = Berry:
+L_Field = Field:
+L_Unfinished = Unfinished: Needs More Research
+L_u1 = 1
+L_u2 = 2
+L_u3 = 3
+L_u4 = 4
+L_u5 = 5
+L_u6 = 6
+L_u7 = 7
+B_Cancel = 취소
+B_Save = 저장
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
+! SAV_BoxLayout = 박스 배열 에디터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Unlocked = 해제됨:
+B_Cancel = 취소
+B_Save = 저장
+L_Flags = 해제된 배경:
+L_BG = 배경:
+L_BoxName = 박스 이름:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_EventFlagsORAS = 이벤트 깃발 에디터 (ORAS)
+- Change stuff below this line, not above.
+------------------------------------------------------
+L_Ash = Volcanic Ash:
+GB_Misc = Misc
+flag_0288 = 멀티 조각상
+flag_0287 = 로테이션 조각상
+flag_0286 = 트리플 조각상
+flag_0293 = 슈퍼 멀티 해제
+flag_0292 = 슈퍼 로테이션 해제
+flag_0291 = 슈퍼 트리플 해제
+flag_0290 = 슈퍼 더블 해제
+flag_0289 = 슈퍼 싱글 해제
+flag_0285 = 더블 조각상
+flag_0284 = 싱글 조각상
+GB_Rebattle = Rebattle
+flag_2835 = (AS) 라티오스 포획
+flag_0420 = (AS) 라티오스를 쓰러트림
+L_SkyTower = *Sky Tower
+flag_2834 = (OR) 라티아스 포획
+flag_0419 = (OR) 라티아스를 쓰러트림
+flag_2828 = (OR) 토네로스 포획 
+flag_2830 = (OR) 레시라무 포획
+flag_0182 = (OR) 레시라무를 쓰러트림
+flag_2820 = (OR) 펄기아 포획
+flag_2839 = (OR) 그란돈 포획
+flag_0648 = (OR) 그란돈을 쓰러트림
+flag_2815 = (OR) 칠색조 포획
+flag_0208 = (OR) 칠색조를 쓰러트림
+flag_2824 = 크레세리아 포획
+flag_0172 = 크레세리아를 쓰러트림
+flag_2821 = 히드런 포획
+flag_0260 = 히드런을 쓰러트림
+flag_2842 = 테오키스 포획
+flag_0945 = 테오키스를 쓰러트림
+flag_2838 = 레지스틸 포획
+flag_0958 = 레지스틸을 쓰러트림
+flag_2836 = 레지락 포획
+flag_0956 = 레지락을 쓰러트림
+flag_2837 = 레지아이스 포획
+flag_0957 = 레이아이스를 쓰러트림
+flag_2813 = 스이쿤 포획
+flag_0175 = 스이쿤을 쓰러트림
+flag_2811 = 라이코 포획
+flag_0173 = 라이코를 쓰러트림
+flag_2812 = 앤테이 포획
+flag_0174 = 엔테이를 쓰러트림
+flag_2832 = 랜드로스 포획
+flag_2829 = (AS) 랜드로스 포획
+flag_2822 = 레지기가스 포획
+flag_0252 = 레지기가스를 쓰러트림
+flag_2827 = 비리디온 포획
+flag_0178 = 비리디온을 쓰러트림
+flag_2826 = 테라키온 포획
+flag_0177 = 테라키온을 쓰러트림
+flag_2823 = 기라티나 포획
+flag_2819 = (AS) 디아루가 포획
+flag_2833 = 큐레무 포획
+flag_0184 = 큐레무를 쓰러트림
+flag_2816 = 유크시 포획
+flag_0179 = 유크시를 쓰러트림
+flag_2817 = 엠라이트 포획
+flag_0180 = 엠라이트를 쓰러트림
+flag_2825 = 코바르온 포획
+flag_0176 = 코바르온을 쓰러트림
+flag_2814 = (AS) 루기아 포획
+flag_0209 = (AS) 루기아를 쓰러트림
+flag_2818 = 아그놈 포획
+flag_0181 = 아그놈을 쓰러트림
+flag_2831 = (AS) 제크로무 포획
+flag_0183 = (AS) 제크로무를 쓰러트림
+flag_2840 = (AS) 가이오가 포획
+flag_0647 = (AS) 가이오가를 쓰러트림
+GB_Researcher = FlagDiff Researcher
+L_UnSet = UnSet
+L_IsSet = IsSet
+B_LoadNew = Load New
+B_LoadOld = Load Old
+GB_FlagStatus = Check Flag Status
+L_Flag = 깃발:
+CHK_CustomFlag = 상태:
+B_Save = 저장
+B_Cancel = 취소
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_EventFlagsXY = 이벤트 깃발 에디터 (XY)
+- Change stuff below this line, not above.
+-------------------------------------------------------
+flag_2546 = Pokédex Obtained
+GB_Misc = Misc
+flag_0289 = 멀티 조각상
+flag_0288 = 로테이션 조각상
+flag_0287 = 트리플 조각상
+flag_0294 = 슈퍼 멀티 해제
+flag_0293 = 슈퍼 로테이션 해제
+flag_0292 = 슈퍼 트리플 해제
+flag_0291 = 슈퍼 더블 해제
+flag_0290 = 슈퍼 싱글 해제
+flag_0675 = 50연승 성주를 이김
+flag_0286 = 더블 조각상
+flag_0285 = 싱글 조각상
+GB_Rebattle = Rebattle
+flag_0114 = 지가르데 포획
+flag_0790 = 지가르데를 쓰러트림
+flag_0115 = 뮤츠 포획
+flag_0963 = 뮤츠를 쓰러트림
+GB_Researcher = FlagDiff Researcher
+L_UnSet = UnSet
+L_IsSet = IsSet
+B_LoadNew = Load New
+B_LoadOld = Load Old
+flag_2239 = 2239
+flag_2238 = 2238
+flag_2237 = 2237
+B_Save = Save
+flag_0005 = Flag5
+flag_0004 = Flag4
+flag_0003 = Flag3
+flag_0002 = Flag2
+flag_0001 = Flag1
+GB_FlagStatus = 깃발 상태 체크
+L_Flag = 깃발:
+CHK_CustomFlag = 상태:
+B_Cancel = 취소
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexORAS = 포켓몬 도감 에디터 (ORAS)
+- Change stuff below this line, not above.
+------------------------------------------------------
+L_goto = 이동:
+GB_Owned = Owned
+CHK_P1 = Obtained
+CHK_P2 = 남성
+CHK_P3 = 여성
+CHK_P4 = 남성 이로치
+CHK_P5 = 여성 이로치
+GB_Encountered = Encountered
+CHK_P6 = 남성
+CHK_P7 = 여성
+CHK_P8 = 남성 이로치
+CHK_P9 = 여성 이로치
+L_DexNav = DexNav Lv:
+GB_Language = 언어
+CHK_L1 = 일본어
+CHK_L2 = 영어
+CHK_L3 = 프랑스어
+CHK_L4 = 이탈리아어
+CHK_L5 = 독일어
+CHK_L6 = 러시아어
+CHK_L7 = 한국어
+B_FillDex = 항목 채우기
+B_GiveAll = 모두 체크
+L_Spinda = Spinda:
+B_Save = 저장
+B_Cancel = 취소
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexXY = 포켓몬 도감 에디터 (XY)
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_goto = 이동:
+GB_Owned = Owned
+CHK_F1 = Foreign (Pre)
+CHK_P1 = Native (Kalos)
+CHK_P2 = 남성
+CHK_P3 = 여성
+CHK_P4 = 남성 이로치
+CHK_P5 = 여성 이로치
+CHK_P10 = Via Trade
+GB_Encountered = 만난 것
+CHK_P6 = 남성
+CHK_P7 = 여성
+CHK_P8 = 남성 이로치
+CHK_P9 = 여성 이로치
+GB_Language = 언어
+CHK_L1 = 일본어
+CHK_L2 = 영어
+CHK_L3 = 프랑스어
+CHK_L4 = 이탈리아어
+CHK_L5 = 독일어
+CHK_L6 = 스페인어
+CHK_L7 = 한국어
+B_FillDex = 항목 채우기
+B_GiveAll = 모두 채크
+L_Spinda = Spinda:
+B_Save = 저장
+B_Cancel = 취소
+! End
+-------------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_HallOfFame = 명예의 전당 에디터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+B_CopyText = txt 복사
+L_Level = 레벨:
+L_Shiny = 이로치:
+Label_Form = 폼:
+B_Cancel = 취소
+Label_MetDate = 날짜:
+L_Victory = 승리 숫자:
+GB_OT = 트레이너정보
+Label_OT = OT:
+Label_SID = SID:
+Label_TID = TID:
+Label_HeldItem = 지닌 물건:
+GB_CurrentMoves = 기술
+Label_EncryptionConstant = Encryption Constant:
+CHK_Nicknamed = 닉네임:
+Label_Species = 종류:
+L_PartyNum = 파티 색인:
+B_Close = 저장
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Inventory = 인벤토리 에디터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Pouch = 주머니
+B_DisplayBerries = Berry
+B_DisplayMedicine = 약
+B_DisplayTMHM = TM/HM
+B_DisplayKeyItems = 중요한 물건
+B_DisplayItems = 아이템
+B_Save = 저장
+B_Cancel = 취소
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_OPower = O-파워 에디터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Regular = 보통
+B_MaxP = 모두 주기
+L_1 = 부화:
+L_2 = 할인:
+L_3 = 용돈:
+L_4 = EXP:
+L_5 = 잡기:
+L_6 = 조우
+L_7 = 은밀:
+L_8 = HP 회복:
+L_9 = PP:
+L_10 = 친밀도:
+L_11 = 공격:
+L_12 = 방어:
+L_13 = 특공:
+L_14 = 특방:
+L_15 = 스피드:
+L_16 = 급소:
+L_17 = 명중:
+GB_Event = 이벤트
+CHK_1 = 할인 MAX
+CHK_2 = EXP MAX
+CHK_3 = 용돈 MAX
+CHK_4 = 부화 MAX
+CHK_5 = 잡기 MAX
+CHK_6 = Restore MAX
+CHK_7 = 친밀도 MAX
+CHK_8 = Unused
+B_AllMax = 모두 주기
+B_Save = 저장
+B_Cancel = 취소
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Pokepuff = ‎포켓 포플레 에디터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Count = CNT:
+B_None = None
+B_Sort = 정렬
+B_All = 모두
+B_Cancel = 취소
+B_Save = 저장
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_SecretBase = 비밀기지 에디터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_FlagsCaptured = 획득한 깃발: 
+B_FSave = <
+B_GiveDecor = 모든 장식품 주기
+B_Cancel = 취소
+B_Save = 저장
+B_FDisplay = >
+L_Favorite = Favorites:
+--
+f_MAIN = 메인
+L_TrName = 트레이너 이름:
+L_BaseLocation = 비밀기지 위치: 
+L_Happy = 해피:
+L_Encourage = 용기:
+L_Blackboard = Blackboard:
+L_Confetti = Confetti:
+L_TeamName = 팀 이름:
+L_TeamSlogan = 팀 구호:
+--
+GB_Object = Object Layout
+L_Index = 색인:
+L_Decoration = 장식품:
+L_Rotation = Rotation Val:
+L_X = X Coordinate:
+L_Y = Y Coordinate:
+--
+f_PKM = 트레이너 포켓몬
+GB_PKM = PKM
+L_Participant = 참가자:
+L_EncryptionConstant = ENC:
+L_IVs = IVs
+L_EVs = EVs
+L_HP = HP(체력)
+L_ATK = ATK(공격)
+L_DEF = DEF(방어)
+L_SpA = SpA(특공)
+L_SpD = SpD(특방)
+L_SPE = SPE(스피드)
+L_PKFriendship = 친밀도:
+L_PPUps = PP 업
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Trainer = 트레이너 정보 에디터
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Misc = Misc
+L_MultiplayerSprite = PSS 아이콘:
+L_Style = 스타일:
+GB_Map = 맵 위치
+L_Y = Y 좌표:
+L_CurrentMap = Current Map:
+L_Z = Z 좌표:
+L_X = X 좌표:
+L_Offset = (offset)
+GB_Appear = 기본 모습 (X/Y)
+L_Outfit = Outfit Vals
+B_GiveAccessories = 모든 액세서리 주기
+L_Dress = 옷:
+L_Accessory = 액세서리:
+L_Bag = 가방:
+L_Socks = 양말:
+L_Pants = 바지:
+L_Shirt = 스커트:
+L_Hat = 모자:
+L_FacialHair = Facial Hair:
+L_Hairstyle = 헤어스타일:
+L_HairColor = 머리 색:
+L_SkinColor = 피부 색:
+GB_MaisonCurrent = 연승 (현재)
+L_SuperC = 슈퍼
+L_NormalC = 노말
+L_MultiC = 멀티:
+L_RotationC = 로테이션:
+L_TriplesC = 트리플:
+L_DoublesC = 더블:
+L_SinglesC = 싱글:
+GB_MaisonBest = 연승 (최대)
+GB_SuperB = 슈퍼
+L_NormalB = 노말
+L_MultiB = 멀티:
+L_RotationB = 로테이션:
+L_TriplesB = 트리플:
+L_DoublesB = 더블:
+L_SinglesB = 싱글:
+B_Save = 저장
+L_Stats = 상태
+B_Cancel = 취소
+GB_Overview = Overview
+L_Seconds = 초:
+L_Minutes = 분:
+L_Hours = 시간:
+L_Language = 언어:
+L_PM = 포켓마일:
+L_Region = 지역:
+L_BP = BP:
+L_Country = 국가:
+B_MaxCash = +
+L_3DSReg = 3DS 지역:
+L_Money = ₩:
+L_SID = SID:
+L_TID = TID:
+L_TrainerName = 트레이너 이름:
+L_Value = 값
+GB_Sayings = 저장된 한마디
+L_Saying1 = 1:
+L_Saying2 = 2:
+L_Saying3 = 3:
+L_Saying4 = 4:
+L_Saying5 = 5:
+GB_Badges = 배지
+cb1 = 1 - 벌레
+cb2 = 2 - Cliff
+cb3 = 3 - Rumble
+cb4 = 4 - 풀
+cb5 = 5 - Voltage
+cb6 = 6 - 페어리
+cb7 = 7 - Psychic
+cb8 = 8 - Iceberg
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Wondercard = 이상한 카드
+- Change stuff below this line, not above.
+-------------------------------------------------------
+B_DeleteFlag = X
+B_DeleteWC = X
+L_Details = 세부사항:
+B_DisplaytoWCSlot = <
+B_WCSlottoDisplay = >
+L_Received = 받은 것들:
+L_WCs = 이상한 카드:
+B_Import = .wc6 넣기
+B_Output = .wc6 빼내기
+B_Cancel = 취소
+B_Save = 저장
+! End
