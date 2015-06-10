@@ -515,7 +515,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: Opening the program via a loaded pkx/ekx will properly load the Species/Language. Thanks rskoopa!
  - Hotfix: Importing QR! will copy all ribbons / nonMain data. Thanks hiten!
 
-4/4/15 - New Update (1024):
+4/4/15 - New Update: (1024)
  - Added: Hidden Power selection drop-down. Changing the selection will modify the IVs appropriately.
  - Added: Showdown/Smogon import (copy text, control click Species label).
  - Added: Wondercard QR exporting/importing (alt-click). No editing is supported.
@@ -538,4 +538,5 @@ X/X/15 - New Update:
  - Added: Korean Translation. Thanks cocoblue!
  - Fixed: Showdown Import made a little more flexible for non-exported sets (ie, user created with mistakes). Thanks Favna!
  - Fixed: Showdown Import now recogizes even more edge cases. Thanks Odaxis!
+ - Fixed: Fill Dex now doesn't error out. Thanks ShaKage!
  - Changed: The program now keeps track of the current box to mimic the ingame box system. Thanks codemonkey85!

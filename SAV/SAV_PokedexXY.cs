@@ -43,38 +43,11 @@ namespace PKHeX
             #endregion
 
             for (int i = 1; i < Form1.specieslist.Length; i++)
-            {
                 LB_Species.Items.Add(i.ToString("000") + " - " + Form1.specieslist[i]);
-            }
             for (int i = 722; i <= 0x300; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - ???");
 
-            // Fill Bit arrays
-            for (int i = 0; i < 0xA; i++)
-            {
-                byte[] data = new byte[0x60];
-                Array.Copy(sav, savshift + 0x1A408 + 0x60 * i, data, 0, 0x60);
-                BitArray BitRegion = new BitArray(data);
-                for (int b = 0; b < (0x60 * 8); b++)
-                    specbools[i, b] = BitRegion[b];
-            }
-
-            // Fill Language arrays
-            byte[] langdata = new byte[0x280];
-            Array.Copy(sav, savshift + 0x1A7C8, langdata, 0, 0x280);
-            BitArray LangRegion = new BitArray(langdata);
-            for (int b = 0; b < (721); b++) // 721 Species
-                for (int i = 0; i < 7; i++) // 7 Languages
-                    langbools[i, b] = LangRegion[7 * b + i];
-
-            // Fill Foreign array
-            {
-                byte[] foreigndata = new byte[0x52];
-                Array.Copy(sav, savshift + 0x1AA4C, foreigndata, 0, 0x52);
-                BitArray ForeignRegion = new BitArray(foreigndata);
-                for (int b = 0; b < (0x52 * 8); b++)
-                    foreignbools[b] = ForeignRegion[b];
-            }
+            getBools();
         }
         private void changeCBSpecies(object sender, EventArgs e)
         {
@@ -243,6 +216,36 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38 + savshift, 4);
         }
 
+        private void getBools()
+        {
+            // Fill Bit arrays
+            for (int i = 0; i < 0xA; i++)
+            {
+                byte[] data = new byte[0x60];
+                Array.Copy(sav, savshift + 0x1A408 + 0x60 * i, data, 0, 0x60);
+                BitArray BitRegion = new BitArray(data);
+                for (int b = 0; b < (0x60 * 8); b++)
+                    specbools[i, b] = BitRegion[b];
+            }
+
+            // Fill Language arrays
+            byte[] langdata = new byte[0x280];
+            Array.Copy(sav, savshift + 0x1A7C8, langdata, 0, 0x280);
+            BitArray LangRegion = new BitArray(langdata);
+            for (int b = 0; b < (721); b++) // 721 Species
+                for (int i = 0; i < 7; i++) // 7 Languages
+                    langbools[i, b] = LangRegion[7 * b + i];
+
+            // Fill Foreign array
+            {
+                byte[] foreigndata = new byte[0x52];
+                Array.Copy(sav, savshift + 0x1AA4C, foreigndata, 0, 0x52);
+                BitArray ForeignRegion = new BitArray(foreigndata);
+                for (int b = 0; b < (0x52 * 8); b++)
+                    foreignbools[b] = ForeignRegion[b];
+            }
+        }
+
         private void B_GiveAll_Click(object sender, EventArgs e)
         {
             if (LB_Species.SelectedIndex > 0x2D0) return;
@@ -279,7 +282,6 @@ namespace PKHeX
         private void B_FillDex_Click(object sender, EventArgs e)
         {
             saveChanges();
-            int index = LB_Species.SelectedIndex;
             // Copy Full Dex Byte Array
             byte[] fulldex = Properties.Resources.fulldex_XY;
             if (ModifierKeys != Keys.Control)
@@ -294,10 +296,11 @@ namespace PKHeX
             // Skip the unknown sections then
                 Array.Copy(fulldex, 0x64C, sav, savshift + 0x1AA4C, 0x054);
 
-            editing = true;
-            Setup();
-            editing = false;
-            LB_Species.SelectedIndex = index; // restore selection
+            // Fetch the dex bools
+            getBools();
+            
+            // Reload the current entry
+            loadchks();
         }
     }
 }
