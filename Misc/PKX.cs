@@ -2126,6 +2126,7 @@ namespace PKHeX
                     string[] stats =  { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
 
                     string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                    for (int i = 0; i < lines.Length; i++) lines[i] = lines[i].Replace("'", "’"); // Sanitize apostrophes
 
                     // Seek for start of set
                     int start = -1;
