@@ -150,6 +150,7 @@ namespace PKHeX
             GB_OT.Click += clickGT;
             GB_nOT.Click += clickGT;
             GB_Daycare.Click += switchDaycare;
+            GB_RelearnMoves.Click += clickMoves;
 
             Status = "Setting game font.";
             TB_Nickname.Font = PKX.getPKXFont(11);
@@ -1405,6 +1406,16 @@ namespace PKHeX
             Label lbl = sender as Label;
             if (lbl.Text != "") // set gender label (toggle M/F)
                 lbl.Text = (PKX.getGender(lbl.Text) == 0) ? gendersymbols[1] : gendersymbols[0];
+        }
+        private void clickMoves(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Copy current moves to Relearn Moves?"))
+                return;
+
+            CB_RelearnMove1.SelectedIndex = CB_Move1.SelectedIndex > 0 ? CB_Move1.SelectedIndex : 0;
+            CB_RelearnMove2.SelectedIndex = CB_Move2.SelectedIndex > 0 ? CB_Move2.SelectedIndex : 0;
+            CB_RelearnMove3.SelectedIndex = CB_Move3.SelectedIndex > 0 ? CB_Move3.SelectedIndex : 0;
+            CB_RelearnMove4.SelectedIndex = CB_Move4.SelectedIndex > 0 ? CB_Move4.SelectedIndex : 0;
         }
         // Prompted Updates of PKX Functions // 
         private bool changingFields;
