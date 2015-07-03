@@ -2154,9 +2154,9 @@ namespace PKHeX
                             string n1 = spec.Substring(0, index - 1);
                             string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
 
-                            bool inverted = Array.IndexOf(species, n1.Replace(" ", "")) > -1;
-                            spec = inverted ? n1 : n2;
-                            Nickname = inverted ? n2 : n1;
+                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1;
+                            spec = inverted ? n2 : n1;
+                            Nickname = inverted ? n1 : n2;
                         }
                         Species = Array.IndexOf(species, spec.Replace(" ", ""));
                         if (
@@ -2179,6 +2179,7 @@ namespace PKHeX
                     // Detect relevant data
                     foreach (string line in lines)
                     {
+                        if (line.Length < 2) continue;
                         if (line.Contains("- "))
                         {
                             string moveString = line.Substring(2);
@@ -2241,9 +2242,9 @@ namespace PKHeX
                                             string n1 = spec.Substring(0, index - 1);
                                             string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
 
-                                            bool inverted = Array.IndexOf(species, n1.Replace(" ", "")) > -1;
-                                            spec = inverted ? n1 : n2;
-                                            Nickname = inverted ? n2 : n1;
+                                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1;
+                                            spec = inverted ? n2 : n1;
+                                            Nickname = inverted ? n1 : n2;
                                         }
                                         if (
                                             (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
