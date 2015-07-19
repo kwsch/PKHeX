@@ -1529,7 +1529,7 @@ namespace PKHeX
                     break; // P%6 is this stat
             }
 
-            L_Characteristic.Text = characteristics[pm6stat * 5 + maxIV % 5];
+            L_Characteristic.Text = characteristics[new[]{0, 1, 2, 4, 5, 3}[pm6stat] * 5 + maxIV % 5];
             updateStats();
         }
         private void updateEVs(object sender, EventArgs e)
