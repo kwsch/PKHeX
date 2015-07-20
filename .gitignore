@@ -165,6 +165,23 @@ UpgradeLog*.htm
 App_Data/*.mdf
 App_Data/*.ldf
 
+
+#############
+## Qt Creator
+#############
+
+*.save
+*.autosave
+
+#############
+## GNU Emacs
+#############
+
+\#*
+.\#*
+*.elc
+
+
 #############
 ## Windows detritus
 #############
@@ -179,8 +196,19 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-# Mac crap
+
+#############
+## OS X
+#############
+
 .DS_Store
+
+
+#############
+## C#
+#############
+
+*.resources
 
 
 #############
@@ -208,8 +236,8 @@ pip-log.txt
 .coverage
 .tox
 
-#Translations
+# Translations
 *.mo
 
-#Mr Developer
+# Mr Developer
 .mr.developer.cfg
