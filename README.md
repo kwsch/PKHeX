@@ -19,9 +19,13 @@ The interface is translatable with resource/external text files so that differen
 
 ![Main Window](http://i.snag.gy/dGdB4.jpg?raw=true)
 
+### License
+
+PKHeX is licensed under GPLv3. Refer to LICENSE.md for more information.
+
 ## Building
 
-It can be compiled with any C# compiler.
+PKHeX can be compiled with any C# compiler.
 
 ### IDE
 
