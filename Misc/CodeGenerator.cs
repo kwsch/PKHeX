@@ -42,7 +42,8 @@ namespace PKHeX
                     newdata = new byte[232];
                     Array.Copy(PKX.encryptArray(pkx), newdata, 232);
                 }
-                else return false;
+                else
+                    return false;
 
             }
             else if (CB_Source.SelectedIndex == 1)
@@ -218,10 +219,17 @@ namespace PKHeX
                 try
                 {
                     Clipboard.SetText(RTB_Code.Text);
-                    Util.Alert("Code generated and copied to clipboard!", "Next time click [Create Diff] first.");
+                    Util.Alert(
+		        "Code generated and copied to clipboard!",
+		        "Next time click [Create Diff] first.");
                 }
                 catch
-                { Util.Alert("No code created!", "Click [Create Diff], then make sure that data appears in the Text Box below. If no code appears, then you didn't save your changes.", "Be sure to Set the Pokemon you edited back into a Box/Party slot!"); }
+                {
+                    Util.Alert(
+		        "No code created!",
+		        "Click [Create Diff], then make sure that data appears in the Text Box below. If no code appears, then you didn't save your changes.",
+		        "Be sure to Set the Pokemon you edited back into a Box/Party slot!");
+		}
             }
         }
         private void B_Diff_Click(object sender, EventArgs e)
@@ -236,7 +244,11 @@ namespace PKHeX
             int boxoffset = 0x22600;
             if (m_parent.savegame_oras) boxoffset = 0x33000;
 
-            if (!m_parent.cybergadget) Array.Copy(editedsav, m_parent.savindex * 0x7F000 + 0x5400, newcyber, 0, newcyber.Length);
+            if (!m_parent.cybergadget)
+            {
+               Array.Copy(editedsav, m_parent.savindex * 0x7F000 + 0x5400,
+                          newcyber, 0, newcyber.Length);
+            }
 
             int lines = 0;  // 65400
             for (int i = 0; i < newcyber.Length - 0x200; i += 4)
@@ -251,7 +263,12 @@ namespace PKHeX
 
                 lines++;
                 if ((lines % 128 == 0) && CHK_Break.Checked)
-                { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1) + " ---" + Environment.NewLine + Environment.NewLine); }
+                {
+                    result +=
+                        (Environment.NewLine +
+                         "--- Segment " + (lines / 128 + 1) + " ---" +
+                         Environment.NewLine + Environment.NewLine);
+                }
                 if (lines > 10000) goto toomany;
             }
 
@@ -269,7 +286,12 @@ namespace PKHeX
 
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
-                    { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1) + " ---" + Environment.NewLine + Environment.NewLine); }
+                    {
+                        result +=
+                            (Environment.NewLine +
+                             "--- Segment " + (lines / 128 + 1) + " ---" +
+                             Environment.NewLine + Environment.NewLine);
+                    }
                     if (lines > 10000) goto toomany;
                 }
             }
@@ -282,7 +304,12 @@ namespace PKHeX
 
                 lines++;
                 if ((lines % 128 == 0) && CHK_Break.Checked)
-                { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1) + " ---" + Environment.NewLine + Environment.NewLine); }
+                {
+                    result +=
+                        (Environment.NewLine +
+                         "--- Segment " + (lines / 128 + 1) + " ---" +
+                         Environment.NewLine + Environment.NewLine);
+                }
                 if (lines > 10000) goto toomany;
             }
 
@@ -300,20 +327,29 @@ namespace PKHeX
 
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
-                    { result += (Environment.NewLine + "--- Segment " + (lines / 128 + 1) + " ---" + Environment.NewLine + Environment.NewLine); }
+                    {
+                        result +=
+                            (Environment.NewLine +
+                             "--- Segment " + (lines / 128 + 1) + " ---" +
+                             Environment.NewLine + Environment.NewLine);
+                    }
                     if (lines > 10000) goto toomany;
                 }
             }
 
             if ((lines / 128 > 0) && CHK_Break.Checked)
             {
-                Util.Alert(String.Format("{0} Code Segments.", (1 + (lines / 128))), String.Format("{0} Lines.", lines));
+                Util.Alert(String.Format("{0} Code Segments.",
+                           (1 + (lines / 128))),
+                           String.Format("{0} Lines.", lines));
             }
-            RTB_Code.Text = result; return;
+            RTB_Code.Text = result;
+            return;
 
         toomany:
             {
-                Util.Alert("Too many differences detected.", "Export your save instead.");
+                Util.Alert("Too many differences detected.",
+                           "Export your save instead.");
             }
         }
 

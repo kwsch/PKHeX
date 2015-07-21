@@ -563,7 +563,7 @@ namespace PKHeX
             catch { Alert("No text (url) in clipboard."); return null; }
             try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Alert("Clipboard text is not a valid URL:", address); return null; } }
             catch { Alert("Clipboard text is not a valid URL:", address); return null; }
-            string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
+            string webURL = "https://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
             try
             {
                 System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
@@ -587,7 +587,7 @@ namespace PKHeX
         {
             string qrdata = Convert.ToBase64String(data);
             string message = server + qrdata;
-            string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
+            string webURL = "https://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
 
             try
             {
