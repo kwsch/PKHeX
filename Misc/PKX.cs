@@ -2154,7 +2154,7 @@ namespace PKHeX
                             string n1 = spec.Substring(0, index - 1);
                             string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
 
-                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1;
+                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
                             spec = inverted ? n2 : n1;
                             Nickname = inverted ? n1 : n2;
                         }
@@ -2242,7 +2242,7 @@ namespace PKHeX
                                             string n1 = spec.Substring(0, index - 1);
                                             string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
 
-                                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1;
+                                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
                                             spec = inverted ? n2 : n1;
                                             Nickname = inverted ? n1 : n2;
                                         }
