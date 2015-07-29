@@ -536,7 +536,9 @@ http://projectpokemon.org/forums/showthread.php?36986
 
 X/X/15 - New Update:
  - Added: Korean Translation. Thanks cocoblue!
+ - Added: Can now copy current moves to Relearn Moves by clicking on the Current Moves groupBox.
  - Fixed: Showdown Import made a little more flexible for non-exported sets (ie, user created with mistakes). Thanks Favna!
  - Fixed: Showdown Import now recogizes even more edge cases. Thanks Odaxis!
  - Fixed: Fill Dex now doesn't error out. Thanks ShaKage!
+ - Fixed: Characteristics should now display properly for all cases. Thanks fcugqx!
  - Changed: The program now keeps track of the current box to mimic the ingame box system. Thanks codemonkey85!
