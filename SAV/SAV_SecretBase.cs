@@ -294,12 +294,12 @@ namespace PKHeX
             fegform += ((Util.getIndex(CB_Form)) * 8);
             pkm[0x15] = (byte)fegform;
 
-            pkm[0x16] = (byte)(Convert.ToByte( TB_HPEV.Text) & 0x1F);
-            pkm[0x17] = (byte)(Convert.ToByte(TB_ATKEV.Text) & 0x1F);
-            pkm[0x18] = (byte)(Convert.ToByte(TB_DEFEV.Text) & 0x1F);
-            pkm[0x19] = (byte)(Convert.ToByte(TB_SPAEV.Text) & 0x1F);
-            pkm[0x1A] = (byte)(Convert.ToByte(TB_SPDEV.Text) & 0x1F);
-            pkm[0x1B] = (byte)(Convert.ToByte(TB_SPEEV.Text) & 0x1F);
+            pkm[0x16] = (byte)(Math.Min(Convert.ToInt32( TB_HPEV.Text), 252));
+            pkm[0x17] = (byte)(Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252));
+            pkm[0x18] = (byte)(Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252));
+            pkm[0x19] = (byte)(Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252));
+            pkm[0x1A] = (byte)(Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252));
+            pkm[0x1B] = (byte)(Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252));
 
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move1)), 0, pkm, 0x1C, 2);
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move2)), 0, pkm, 0x1E, 2);
