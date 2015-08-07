@@ -1042,6 +1042,7 @@ namespace PKHeX
             CHK_IsEgg.Checked = Convert.ToBoolean(isegg);
             CHK_Nicknamed.Checked = Convert.ToBoolean(isnick);
             Label_OTGender.Text = gendersymbols[otgender];
+            Label_OTGender.ForeColor = ((otgender == 1) ? Color.Red : Color.Blue);
 
             // Private Use Character Fixing Text
             {
@@ -1116,6 +1117,7 @@ namespace PKHeX
 
             // Set CT Gender to None if no CT, else set to gender symbol.
             Label_CTGender.Text = ((TB_OTt2.Text == "") || (notOT == "")) ? "" : (notOTG) ? gendersymbols[1] : gendersymbols[0];
+            Label_CTGender.ForeColor = ((notOTG) ? Color.Red : Color.Blue);
 
             TB_MetLevel.Text = metlevel.ToString();
 
@@ -1177,6 +1179,7 @@ namespace PKHeX
 
             // Load Gender Flag
             Label_Gender.Text = gendersymbols[genderflag];
+            Label_Gender.ForeColor = (genderflag == 2) ? Label_Species.ForeColor : ((genderflag == 1) ? Color.Red : Color.Blue);
             updateStats();
             setIsShiny();
 
@@ -1326,8 +1329,11 @@ namespace PKHeX
                 return;
 
             if (gt >= 255) return; 
-            // If not a single gender(less) species: (should be <254 but whatever, 255 never happens^)
-            Label_Gender.Text = gendersymbols[PKX.getGender(Label_Gender.Text) ^ 1];
+            // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
+
+            int gender = PKX.getGender(Label_Gender.Text) ^ 1;
+            Label_Gender.Text = gendersymbols[gender];
+            Label_Gender.ForeColor = (gender == 2) ? Label_Species.ForeColor : ((gender == 1) ? Color.Red : Color.Blue);
 
             if (PKX.getGender(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
@@ -1405,7 +1411,12 @@ namespace PKHeX
         {
             Label lbl = sender as Label;
             if (lbl.Text != "") // set gender label (toggle M/F)
-                lbl.Text = (PKX.getGender(lbl.Text) == 0) ? gendersymbols[1] : gendersymbols[0];
+            {
+                int gender = PKX.getGender(lbl.Text) ^ 1;
+                lbl.Text = gendersymbols[gender];
+                lbl.ForeColor = ((gender == 1) ? Color.Red : Color.Blue);
+            }
+                
         }
         private void clickMoves(object sender, EventArgs e)
         {
@@ -1770,6 +1781,7 @@ namespace PKHeX
                 genderflag = ((Util.getHEXval(TB_PID) & 0xFF) <= gt) ? 1 : 0;
 
             Label_Gender.Text = gendersymbols[genderflag];
+            Label_Gender.ForeColor = (genderflag == 2) ? Label_Species.ForeColor : ((genderflag == 1) ? Color.Red : Color.Blue);
             setAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
             updateForm(null, null);
 
