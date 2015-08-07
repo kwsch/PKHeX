@@ -2724,7 +2724,6 @@
             this.tabBoxMulti.SelectedIndex = 0;
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 50;
-            this.tabBoxMulti.SelectedIndexChanged += new System.EventHandler(this.switchSAVTab);
             // 
             // Tab_Box
             // 

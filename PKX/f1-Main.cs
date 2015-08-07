@@ -701,7 +701,6 @@ namespace PKHeX
 
             savedited = false;
             Menu_ToggleBoxUI.Visible = false;
-            int startBox = savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] & 0x1F;
 
             B_VerifySHA.Enabled = !cybergadget;
             B_VerifyCHK.Enabled = !ramsavloaded;
@@ -713,8 +712,9 @@ namespace PKHeX
             // Version Exclusive Editors
             GB_SUBE.Visible = !oras;
             B_OpenSecretBase.Visible = oras;
-
-            if (startBox > 30) {tabBoxMulti.SelectedIndex = 1; }
+            
+            int startBox = savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] & 0x1F;
+            if (startBox > 30) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
             else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
 
             Width = largeWidth;
@@ -1416,7 +1416,6 @@ namespace PKHeX
                 lbl.Text = gendersymbols[gender];
                 lbl.ForeColor = ((gender == 1) ? Color.Red : Color.Blue);
             }
-                
         }
         private void clickMoves(object sender, EventArgs e)
         {
@@ -2557,7 +2556,11 @@ namespace PKHeX
             RTB_S.Text += PKX.verifyG6SHA(savefile, savegame_oras);
         }
         private void clickExportSAV(object sender, EventArgs e)
-        {            
+        {
+            // Set the current box to the save
+            savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)
+                (tabBoxMulti.SelectedIndex == 1 ? 0xFF // If Battle/Party selected
+                : CB_BoxSelect.SelectedIndex); // Box
             // Create another version of the save file.
             byte[] editedsav = new byte[0x100000];
             Array.Copy(savefile, editedsav, savefile.Length);
@@ -2691,22 +2694,13 @@ namespace PKHeX
             #endregion
         }
         // Box/SAV Functions //
-        private void switchSAVTab(object sender, EventArgs e)
-        {
-            if (tabBoxMulti.SelectedIndex == 0)
-                savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
-            if (tabBoxMulti.SelectedIndex == 1)
-                savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = 31;
-        }
         private void clickBoxRight(object sender, EventArgs e)
         {
             CB_BoxSelect.SelectedIndex = (CB_BoxSelect.SelectedIndex + 1) % 31;
-            savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
         }
         private void clickBoxLeft(object sender, EventArgs e)
         {
             CB_BoxSelect.SelectedIndex = (CB_BoxSelect.SelectedIndex + 30) % 31;
-            savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
         }
         private void clickSlot(object sender, EventArgs e)
         {
@@ -3183,7 +3177,6 @@ namespace PKHeX
         private void getBox(object sender, EventArgs e)
         {
             setPKXBoxes();
-            savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] = (byte)CB_BoxSelect.SelectedIndex;
         }
         private void getTSV(object sender, EventArgs e)
         {
@@ -3684,7 +3677,9 @@ namespace PKHeX
             setBoxNames();
             setPKXBoxes();
             setSAVLabel();
-            CB_BoxSelect.SelectedIndex = savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] & 0x1F;
+            int startBox = savefile[SaveGame.PCLayout + savindex * 0x7FFFF + 0x43F] & 0x1F;
+            if (startBox > 30) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
+            else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
         }
 
         // Drag & Drop within Box
