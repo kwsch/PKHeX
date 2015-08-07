@@ -770,44 +770,7 @@ namespace PKHeX
                 mnicknamestr = Regex.Replace(mnicknamestr, "\uE08E", "\u2642");
             }
             {
-                int species = BitConverter.ToInt16(pkx, 0x08); // Get Species
-
-                int altforms = (pkx[0x1D] >> 3);
-                int gender = (pkx[0x1D] >> 1) & 0x3;
-
-                string file;
-                {
-                    file = "_" + species;
-                    if (altforms > 0) // Alt Form Handling
-                        file = file + "_" + altforms;
-                    else if ((species == 521) && (gender == 1))   // Unfezant
-                        file = "_" + species + "f";
-                }
-                if (species == 0)
-                    file = "_0";
-
-                pksprite = (Image)Properties.Resources.ResourceManager.GetObject(file);
-
-                if (misegg)
-                {
-                    // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
-                    pksprite = Util.LayerImage((Image)Properties.Resources.ResourceManager.GetObject("_0"), pksprite, 0, 0, 0.33);
-                    // Add the egg layer over-top with full opacity.
-                    pksprite = Util.LayerImage(pksprite, (Image)Properties.Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
-                }
-                if (misshiny)
-                {   // Is Shiny
-                    // Redraw our image
-                    pksprite = Util.LayerImage(pksprite, Properties.Resources.rare_icon, 0, 0, 0.7);
-                }
-                if (mhelditem > 0)
-                {
-                    // Has Item
-                    int item = mhelditem;
-                    Image itemimg = (Image)Properties.Resources.ResourceManager.GetObject("item_" + item) ?? Properties.Resources.helditem;
-                    // Redraw
-                    pksprite = Util.LayerImage(pksprite, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-                }
+                pksprite = getSprite(pkx);
             }
             try
             {
