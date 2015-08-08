@@ -477,7 +477,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Symbol selection for OT/Latest Handler like for Nicknames; access changed to control clicking the TextBox. Thanks ProfShroomish!
  - Changed: FindIndex hunting to account for rare ramsav types. Thanks Crowhogan33 for reporting and SciresM for fixing!
 
-2/1/15 - New Update: (102,555)
+2/1/15 - New Update: (102555)
  - Fixed: Characteristics now match those ingame (EC%6 instead of PID%6). Thanks JubalTheLion!
  - Fixed: A few Exceptions with loading have been corrected (bad initialization).
  - Fixed: Splash screen image no longer tiles for some systems with a larger scale.
@@ -515,7 +515,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: Opening the program via a loaded pkx/ekx will properly load the Species/Language. Thanks rskoopa!
  - Hotfix: Importing QR! will copy all ribbons / nonMain data. Thanks hiten!
 
-4/4/15 - New Update: (1024)
+4/4/15 - New Update: (103500)
  - Added: Hidden Power selection drop-down. Changing the selection will modify the IVs appropriately.
  - Added: Showdown/Smogon import (copy text, control click Species label).
  - Added: Wondercard QR exporting/importing (alt-click). No editing is supported.
@@ -534,7 +534,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: Wondercard QRs with non-held items will no longer error out. Thanks ShinyMeganium!
  - Hotfix: Prevented export of Eon Ticket Wondercards via QR because extra data has to be altered in order for it to function.
 
-X/X/15 - New Update:
+8/8/15 - New Update:
  - Added: Korean Translation. Thanks cocoblue!
  - Added: Can now copy current moves to Relearn Moves by clicking on the Current Moves groupBox.
  - Fixed: Showdown Import made a little more flexible for non-exported sets (ie, user created with mistakes). Thanks Favna!
@@ -542,3 +542,4 @@ X/X/15 - New Update:
  - Fixed: Fill Dex now doesn't error out. Thanks ShaKage!
  - Fixed: Characteristics should now display properly for all cases. Thanks fcugqx!
  - Changed: The program now keeps track of the current box to mimic the ingame box system. Thanks codemonkey85!
+ - Fixed: Saving the current box will no longer cause black screens when saving on the Party / Battle Box tab. Thanks RustInPeace!
