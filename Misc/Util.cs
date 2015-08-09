@@ -177,8 +177,7 @@ namespace PKHeX
         }
         internal static string TrimFromZero(string input)
         {
-            int index = input.IndexOf('\0');
-            return index < 0 ? input : input.Substring(0, index);
+            return input.TrimEnd('\0');
         }
         internal static string[] getStringList(string f, string l)
         {
