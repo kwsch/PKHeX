@@ -12,7 +12,7 @@
 !
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
-! Form1 = PKHeX (번역 COCOBLUE)
+! Form1 = PKHeX
 - Change stuff below this line, not above.
 ----------------Overall PKX Interface------------------
 Menu_File = 파일 ; 열기... ; 다른 이름으로 저장... ; 종료

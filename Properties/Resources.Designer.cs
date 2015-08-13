@@ -14786,6 +14786,28 @@ namespace PKHeX.Properties {
         ///! lang_es.txt = Spanish
         ///! lang_it.txt = Italian
         ///! lang_ko.txt = Korean
+        ///! Make sure that each edit has a &apos; = &apos; between Control name and new Text!
+        ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
+        ///!
+        ///! -----------------------------------------------------
+        ///- DO NO [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string lang_ko {
+            get {
+                return ResourceManager.GetString("lang_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ! PKHeX Interface Customization File
+        ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
+        ///! lang_en.txt = English
+        ///! lang_jp.txt = Japanese
+        ///! lang_fr.txt = French
+        ///! lang_de.txt = German
+        ///! lang_es.txt = Spanish
+        ///! lang_it.txt = Italian
+        ///! lang_ko.txt = Korean
         ///! lang_pt.txt = Portuguese
         ///! Make sure that each edit has a &apos; = &apos; between Control name and new Text!
         ///! For the Menu Bar, separate the DropDown Item names with &apos; ; &apos;
@@ -15071,13 +15093,14 @@ namespace PKHeX.Properties {
         ///Control Click on a Nickname/OT box to bring up the ingame-special characters.
         ///
         ///Control + Click on...
+        ///Species: Import Showdown/Smogon set from Clipboard.
         ///Randomize IVs: Set all IVs to max.
         ///Randomize EVs: Set all EVs to 0.
         ///PP Ups Label: Set all PP Ups to 3.
         ///Friendship Label: Reset Friendship
         ///QR! to wrap text around QR code.
         ///
-        ///Alt click QR! to load ekx data from a QR url loaded to your clipboar [rest of string was truncated]&quot;;.
+        ///Alt click QR! t [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
