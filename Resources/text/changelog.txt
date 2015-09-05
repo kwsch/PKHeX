@@ -544,7 +544,11 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: The program now keeps track of the current box to mimic the ingame box system. Thanks codemonkey85!
  - Fixed: Saving the current box will no longer cause black screens when saving on the Party / Battle Box tab. Thanks RustInPeace!
 
-9/5/15 - New Update:
- - Added: Auto-loading of SaveDataBackup saves on program start. Click the SAV: XXXX Label to manually trigger.
+9/5/15 - New Update: (2300)
+ - Added: Auto-loading of SaveDataBackup saves on program start. Click the SAV: Label above the Box View to manually trigger.
  - Fixed: Showdown Importing with trailing spaces will now import properly. Thanks Favna & RustInPeace!
  - Fixed: Added Korean Translation file. Thanks cocoblue!
+
+9/6/15 - New Update:
+ - Fixed: Characteristics should now match what is displayed in-game. Thanks StarFisherX!
+ - Fixed: Inventory Editor's width can not be adjusted -- height still can be changed.
