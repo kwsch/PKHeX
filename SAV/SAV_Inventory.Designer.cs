@@ -168,7 +168,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(500, 750);
+            this.MaximumSize = new System.Drawing.Size(350, 750);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(350, 250);
             this.Name = "SAV_Inventory";
