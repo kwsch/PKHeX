@@ -534,7 +534,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: Wondercard QRs with non-held items will no longer error out. Thanks ShinyMeganium!
  - Hotfix: Prevented export of Eon Ticket Wondercards via QR because extra data has to be altered in order for it to function.
 
-8/8/15 - New Update:
+8/8/15 - New Update: (35500)
  - Added: Korean Translation. Thanks cocoblue!
  - Added: Can now copy current moves to Relearn Moves by clicking on the Current Moves groupBox.
  - Fixed: Showdown Import made a little more flexible for non-exported sets (ie, user created with mistakes). Thanks Favna!
@@ -543,3 +543,8 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Characteristics should now display properly for all cases. Thanks fcugqx!
  - Changed: The program now keeps track of the current box to mimic the ingame box system. Thanks codemonkey85!
  - Fixed: Saving the current box will no longer cause black screens when saving on the Party / Battle Box tab. Thanks RustInPeace!
+
+9/5/15 - New Update:
+ - Added: Auto-loading of SaveDataBackup saves on program start. Click the SAV: XXXX Label to manually trigger.
+ - Fixed: Showdown Importing with trailing spaces will now import properly. Thanks Favna & RustInPeace!
+ - Fixed: Added Korean Translation file. Thanks cocoblue!

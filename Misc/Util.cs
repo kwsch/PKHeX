@@ -130,7 +130,7 @@ namespace PKHeX
                 string[] DriveList = Environment.GetLogicalDrives();
                 for (int i = 1; i < DriveList.Length; i++) // Skip first drive (some users still have floppy drives and would chew up time!)
                 {
-                    string potentialPath = DriveList[i] + Path.DirectorySeparatorChar + "Nintendo 3DS";
+                    string potentialPath = Path.Combine(DriveList[i], "Nintendo 3DS");
                     if (!Directory.Exists(potentialPath)) continue;
 
                     path_3DS = potentialPath; break;
