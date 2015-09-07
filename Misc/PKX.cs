@@ -2020,7 +2020,7 @@ namespace PKHeX
         /// <returns></returns>
         internal static int getHPType(int[] ivs)
         {
-            return (15 * ((ivs[0] & 1) + 2 * (ivs[1] & 1) + 4 * (ivs[2] & 1) + 8 * (ivs[5] & 1) + 16 * (ivs[3] & 1) + 32 * (ivs[4] & 1))) / 63;
+            return (15 * ((ivs[0] & 1) + 2 * (ivs[1] & 1) + 4 * (ivs[2] & 1) + 8 * (ivs[3] & 1) + 16 * (ivs[4] & 1) + 32 * (ivs[5] & 1))) / 63;
         }
         internal static int[] setHPIVs(int type, int[] ivs)
         {
