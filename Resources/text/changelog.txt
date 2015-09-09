@@ -549,6 +549,9 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Showdown Importing with trailing spaces will now import properly. Thanks Favna & RustInPeace!
  - Fixed: Added Korean Translation file. Thanks cocoblue!
 
-9/6/15 - New Update:
+9/6/15 - New Update: (5300)
  - Fixed: Characteristics should now match what is displayed in-game. Thanks StarFisherX!
  - Fixed: Inventory Editor's width can not be adjusted -- height still can be changed.
+
+9/7/15 - New Update:
+ - Fixed: Hidden Power ComboBox displaying the wrong Hidden Power Type. Thanks sora10pls!
