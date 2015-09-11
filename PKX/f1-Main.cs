@@ -260,7 +260,13 @@ namespace PKHeX
             string cyberpath = Util.GetTempFolder();
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
-            if (pathSDF != null)
+            if (path3DS != null && File.Exists(Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main")))
+            {
+                OpenPKX.InitialDirectory = Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup");
+                OpenPKX.RestoreDirectory = true;
+                OpenPKX.FilterIndex = 4;
+            }
+            else if (pathSDF != null)
             {
                 OpenPKX.InitialDirectory = pathSDF;
                 OpenPKX.RestoreDirectory = true;
@@ -268,7 +274,7 @@ namespace PKHeX
             }
             else if (path3DS != null)
             {
-                OpenPKX.InitialDirectory = path3DS;
+                OpenPKX.InitialDirectory = Path.GetPathRoot(path3DS);
                 OpenPKX.RestoreDirectory = true;
                 OpenPKX.FilterIndex = 4;
             }
