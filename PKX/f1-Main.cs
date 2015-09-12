@@ -142,8 +142,8 @@ namespace PKHeX
             path3DS = Util.get3DSLocation();
             if (args.Length > 1)
                 openQuick(args[1]);
-            else if (path3DS != null && File.Exists(Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main")))
-                openQuick(Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main"));
+            else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
+                openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
                 openQuick(Path.Combine(pathSDF, "main"));
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"))))
@@ -260,9 +260,9 @@ namespace PKHeX
             string cyberpath = Util.GetTempFolder();
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
-            if (path3DS != null && File.Exists(Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main")))
+            if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
             {
-                OpenPKX.InitialDirectory = Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup");
+                OpenPKX.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
                 OpenPKX.RestoreDirectory = true;
                 OpenPKX.FilterIndex = 4;
             }
@@ -2620,12 +2620,12 @@ namespace PKHeX
                 string cyberpath = Util.GetTempFolder();
                 if (ramsav != null && Directory.Exists(path3DS))
                 {
-                    cySAV.InitialDirectory = path3DS;
+                    cySAV.InitialDirectory = Path.GetPathRoot(path3DS);
                     cySAV.RestoreDirectory = true;
                 }
-                else if (path3DS != null && File.Exists(Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main")))
+                else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                 {
-                    cySAV.InitialDirectory = Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup");
+                    cySAV.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
                     cySAV.RestoreDirectory = true;
                 }
                 else if (pathSDF != null && Directory.Exists(pathSDF))
@@ -3650,10 +3650,10 @@ namespace PKHeX
             // Get latest SaveDataFiler save location
             pathSDF = Util.GetSDFLocation();
             string path = null;
-            bool sdbPath = File.Exists(Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main"));
+            bool sdbPath = File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
 
             if (sdbPath && ModifierKeys != Keys.Control)
-                path = Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main");
+                path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
                 path = Path.Combine(pathSDF, "main");
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")))) // else if cgse exists
@@ -3673,8 +3673,8 @@ namespace PKHeX
                     if (Directory.Exists(path)) System.Diagnostics.Process.Start("explorer.exe", @path); else Util.Alert("Can't find the cache folder."); 
                     break;
                 case Keys.Shift: // SaveDataBackup
-                    Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main");
-                    if (path3DS != null && File.Exists(path = Path.Combine(Path.GetDirectoryName(path3DS), "SaveDataBackup", "main")))
+                    Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
+                    if (path3DS != null && File.Exists(path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                         System.Diagnostics.Process.Start("explorer.exe", @Path.GetDirectoryName(path)); else Util.Alert("Can't find the SaveDataBackup folder.");
                     break;
                 case Keys.Alt: // SaveDataFiler
