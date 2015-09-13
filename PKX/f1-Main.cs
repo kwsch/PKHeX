@@ -141,7 +141,10 @@ namespace PKHeX
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
             if (args.Length > 1)
-                openQuick(args[1]);
+            {
+                foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
+                    openQuick(arg);
+            }
             else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
@@ -159,7 +162,6 @@ namespace PKHeX
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
             Status = "Initialized!";
-            CB_Species.SelectedIndex = 1;
 
             init = true;
 
