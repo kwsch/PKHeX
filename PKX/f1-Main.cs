@@ -141,13 +141,22 @@ namespace PKHeX
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
             if (args.Length > 1)
-                openQuick(args[1]);
+            {
++               string argument = args[1];
++               for (int i = 2; i < args.Length; i++)
++               {
++                   argument += " " + args[i];
++               }
++               openQuick(argument);
++           }
             else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
                 openQuick(Path.Combine(pathSDF, "main"));
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"))))
                 openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")));
+            else
+                CB_Species.SelectedIndex = 1;
 
             GB_OT.Click += clickGT;
             GB_nOT.Click += clickGT;
@@ -159,7 +168,6 @@ namespace PKHeX
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
             Status = "Initialized!";
-            CB_Species.SelectedIndex = 1;
 
             init = true;
 
