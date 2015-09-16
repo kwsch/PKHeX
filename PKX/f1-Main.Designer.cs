@@ -3577,11 +3577,12 @@
             // 
             this.TB_RNGSeed.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TB_RNGSeed.Location = new System.Drawing.Point(61, 140);
+            this.TB_RNGSeed.MaxLength = 16;
             this.TB_RNGSeed.Name = "TB_RNGSeed";
-            this.TB_RNGSeed.ReadOnly = true;
             this.TB_RNGSeed.Size = new System.Drawing.Size(120, 20);
             this.TB_RNGSeed.TabIndex = 8;
             this.TB_RNGSeed.Text = "0123456789ABCDEF";
+            this.TB_RNGSeed.TextChanged += new System.EventHandler(this.updateEggRNGSeed);
             // 
             // dcpkx2
             // 

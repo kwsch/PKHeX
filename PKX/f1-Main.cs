@@ -2878,6 +2878,28 @@ namespace PKHeX
 
             savedited = true;
         }
+        private void updateEggRNGSeed(object sender, EventArgs e)
+        {
+            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
+            string filterText = TB_RNGSeed.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (filterText.Length != TB_RNGSeed.Text.Length)
+            {
+                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_RNGSeed.Text);
+                // Reset to Stored Value
+                TB_RNGSeed.Text = BitConverter.ToUInt64(savefile, SaveGame.Daycare + (0x7F000 * savindex) + 0x1E8).ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            if (TB_RNGSeed.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_RNGSeed.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            // Write final value back to the save
+            Array.Copy(BitConverter.GetBytes(Convert.ToUInt64(TB_RNGSeed.Text, 16)), 0, savefile, SaveGame.Daycare + 0x7F000 * savindex + 0x1E8, 0x8);
+        }
         // Generic Subfunctions // 
         private void setPokedex(byte[] pkxdata)
         {
