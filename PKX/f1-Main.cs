@@ -536,23 +536,30 @@ namespace PKHeX
             else if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
             {
                 // EAD Packet of 363 length
-                byte[] c = new byte[260];
-                Array.Copy(input, 0x67, c, 0, 260);
+                Array.Copy(input, 0x67, buff, 0, 260);
+                populateFields(buff);
             }
             else if (input.Length == 407 && BitConverter.ToUInt16(input, 0x98) == 0)
             {
                 // EAD Packet of 407 length
-                byte[] c = new byte[260];
-                Array.Copy(input, 0x93, c, 0, 260);
+                Array.Copy(input, 0x93, buff, 0, 260);
+                populateFields(buff);
             }
             #endregion
             #region Box Data
             else if ((input.Length == 0xE8 * 30 || input.Length == 0xE8 * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input , 8) > 0)
-            { 
-                Array.Copy(input, 0, savefile, SaveGame.Box + 0xE8 * 30 * ((input.Length == 0xE8*30) ? CB_BoxSelect.SelectedIndex : 0), input.Length); 
+            {
+                int baseOffset = SaveGame.Box + 0xE8*30*((input.Length == 0xE8*30) ? CB_BoxSelect.SelectedIndex : 0);
+                for (int i = 0; i < input.Length / 0xE8; i++)
+                {
+                    byte[] data = input.Skip(0xE8*i).Take(0xE8).ToArray();
+                    Array.Copy(data, 0, savefile, baseOffset + i*0xE8, 0xE8);
+                    setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
+                } 
                 setPKXBoxes();
                 Width = largeWidth;
-                Util.Alert("Box Binary loaded."); }
+                Util.Alert("Box Binary loaded."); 
+            }
             #endregion
             #region injectiondebug
             else if (input.Length == 0x10000)
@@ -566,10 +573,16 @@ namespace PKHeX
                 }
                 if (offset < 0) { Util.Alert(path, "Unable to read the input file; not an expected injectiondebug.bin."); return; }
                 CB_BoxSelect.SelectedIndex = 0;
-                Array.Copy(input, offset, savefile, SaveGame.Box + 0xE8 * 30 * CB_BoxSelect.SelectedIndex, 9 * 30 * 0xE8);
+                for (int i = 0; i < input.Length / (9*30); i++)
+                {
+                    byte[] data = input.Skip(0xE8 * i).Take(0xE8).ToArray();
+                    Array.Copy(data, 0, savefile, SaveGame.Box + i*0xE8, 0xE8);
+                    setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
+                }
                 setPKXBoxes();
                 Width = largeWidth;
-                Util.Alert("Injection Binary loaded."); }
+                Util.Alert("Injection Binary loaded."); 
+            }
             #endregion
             #region RAMSAV
             else if (( /*XY*/ input.Length == 0x70000 || /*ORAS*/ input.Length == 0x80000) && Path.GetFileName(path).Contains("ram"))
@@ -589,8 +602,13 @@ namespace PKHeX
             {
                 if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
                 for (int i = 0; i < 24; i++)
-                    Array.Copy(input, 0xE18 + 260 * i + (i / 6) * 8, savefile, SaveGame.Box + i * 0xE8 + CB_BoxSelect.SelectedIndex * 30 * 0xE8, 0xE8);
+                {
+                    byte[] data = input.Skip(0xE18 + 260*i + (i/6)*8).Take(0xE8).ToArray();
+                    Array.Copy(data, 0, savefile, SaveGame.Box + i * 0xE8 + CB_BoxSelect.SelectedIndex * 30 * 0xE8, 0xE8);
+                    setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
+                }
                 setPKXBoxes();
+                Width = largeWidth;
             }
             #endregion
             #region Wondercard
