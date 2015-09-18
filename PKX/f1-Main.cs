@@ -3277,6 +3277,8 @@ namespace PKHeX
             if (dr == DialogResult.Cancel) return;
             string exepath = Application.StartupPath;
             string path = "";
+            bool dumptoboxes = false;
+            string boxfolder = "";
             {
                 int offset = SaveGame.Box;
                 const int size = 232;
@@ -3318,10 +3320,15 @@ namespace PKHeX
                         }
                         else if (ld == DialogResult.No)
                         {
-                            // open folder dialog
-                            FolderBrowserDialog fbd = new FolderBrowserDialog();
-                            if (fbd.ShowDialog() == DialogResult.OK)
-                                path = fbd.SelectedPath;
+		                    DialogResult sd = Util.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
+		                        if (sd == DialogResult.Yes)
+		                        {
+		                        	dumptoboxes = true;
+		                        }
+		                    // open folder dialog
+		                    FolderBrowserDialog fbd = new FolderBrowserDialog();
+		                    if (fbd.ShowDialog() == DialogResult.OK)
+		                    path = fbd.SelectedPath;
                         }
                         else return;
                     }
@@ -3358,8 +3365,12 @@ namespace PKHeX
                             + chk.ToString("X4") + EC.ToString("X8")
                             + ".pk6";
                         Array.Resize(ref pkxdata, 232);
-                        if (!File.Exists(Path.Combine(path, savedname)))
-                            File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(savedname)), pkxdata);
+                        if (dumptoboxes){
+                        	boxfolder = "Box"+(((i/size)/30)+1).ToString()+"\\";
+                        	Directory.CreateDirectory(Path.Combine(path, boxfolder));
+                        }
+                        if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), savedname)))
+                            File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), Util.CleanFileName(savedname)), pkxdata);
                     }
                 }
             }
