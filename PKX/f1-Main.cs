@@ -536,13 +536,13 @@ namespace PKHeX
             else if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
             {
                 // EAD Packet of 363 length
-                Array.Copy(input, 0x67, buff, 0, 260);
+                Array.Copy(input, 0x67, buff, 0, 0xE8);
                 populateFields(buff);
             }
             else if (input.Length == 407 && BitConverter.ToUInt16(input, 0x98) == 0)
             {
                 // EAD Packet of 407 length
-                Array.Copy(input, 0x93, buff, 0, 260);
+                Array.Copy(input, 0x93, buff, 0, 0xE8);
                 populateFields(buff);
             }
             #endregion
