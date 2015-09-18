@@ -3310,34 +3310,31 @@ namespace PKHeX
                 else if (dr == DialogResult.No)
                 {
                     // Dump all of box content to files.
+                    DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
+                    if (ld == DialogResult.Yes)
                     {
-                        DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
-                        if (ld == DialogResult.Yes)
-                        {
-                            path = Path.Combine(exepath, "db");
-                            if (!Directory.Exists(path))
-                                Directory.CreateDirectory(path);
-                        }
-                        else if (ld == DialogResult.No)
-                        {
-		                    DialogResult sd = Util.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
-		                        if (sd == DialogResult.Yes)
-		                        {
-		                        	dumptoboxes = true;
-		                        }
-		                    // open folder dialog
-		                    FolderBrowserDialog fbd = new FolderBrowserDialog();
-		                    if (fbd.ShowDialog() == DialogResult.OK)
-		                    path = fbd.SelectedPath;
-                        }
-                        else return;
+                        path = Path.Combine(exepath, "db");
+                        if (!Directory.Exists(path))
+                            Directory.CreateDirectory(path);
                     }
+                    else if (ld == DialogResult.No)
+                    {
+                        dumptoboxes = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
+
+		                // open folder dialog
+		                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                        if (fbd.ShowDialog() != DialogResult.OK)
+                            return;
+		                    
+                        path = fbd.SelectedPath;
+                    }
+                    else return;
+
                     for (int i = 0; i < 31 * 30 * size; i += size)
                     {
                         byte[] ekxdata = new byte[size];
                         Array.Copy(savefile, offset + i, ekxdata, 0, size);
                         byte[] pkxdata = PKX.decryptArray(ekxdata);
-
 
                         int species = BitConverter.ToInt16(pkxdata, 0x08);
                         if (species == 0) continue;
@@ -3365,8 +3362,10 @@ namespace PKHeX
                             + chk.ToString("X4") + EC.ToString("X8")
                             + ".pk6";
                         Array.Resize(ref pkxdata, 232);
-                        if (dumptoboxes){
-                        	boxfolder = "Box"+(((i/size)/30)+1).ToString()+"\\";
+
+                        if (dumptoboxes)
+                        {
+                        	boxfolder = "Box"+(((i/size)/30)+1);
                         	Directory.CreateDirectory(Path.Combine(path, boxfolder));
                         }
                         if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), savedname)))
