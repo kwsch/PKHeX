@@ -553,5 +553,13 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Characteristics should now match what is displayed in-game. Thanks StarFisherX!
  - Fixed: Inventory Editor's width can not be adjusted -- height still can be changed.
 
-9/7/15 - New Update:
+9/7/15 - New Update: (19300)
  - Fixed: Hidden Power ComboBox displaying the wrong Hidden Power Type. Thanks sora10pls!
+
+9/20/15 - New Update:
+ - Added: Editing of the Daycare Egg RNG Seed. - 
+ - Added: Exporting all Boxes now allows exporting to individual folders based on Box. Thanks suloku!
+ - Fixed: Importing pcdata/boxdata.bin now sets Pokédex flags. Thanks suloku!
+ - Fixed: Exporting all Boxes to a folder will no longer throw errors (Reverted string trimming method change). Thanks suloku!
+ - Fixed: Main Menu Open and Export Save will now navigate to the root of the 3DS's SD card (if it is inserted) and no SDF files are found. Thanks Odaxis!
+ - Fixed: Importing Trade Packets (from Nov'13-Dec'13) will now actually load the data.
