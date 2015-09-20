@@ -650,6 +650,16 @@ namespace PKHeX
         {
             getBadges();
         }
+        private void changeSpecial(object sender, EventArgs e)
+        {
+            MaskedTextBox box = sender as MaskedTextBox;
+            int val = Util.ToInt32(box.Text);
+
+            if (box == MT_HairColor)
+                box.Text = (val > 7 ? 7 : val).ToString();
+            if (box == MT_Hat)
+                box.Text = (val > 31 ? 31 : val).ToString();
+        }
         private void change255(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;

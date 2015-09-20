@@ -1391,6 +1391,7 @@ namespace PKHeX
             this.MT_1403F.Size = new System.Drawing.Size(26, 20);
             this.MT_1403F.TabIndex = 71;
             this.MT_1403F.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403F.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_1403E
             // 
@@ -1401,6 +1402,7 @@ namespace PKHeX
             this.MT_1403E.Size = new System.Drawing.Size(26, 20);
             this.MT_1403E.TabIndex = 70;
             this.MT_1403E.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403E.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_1403D
             // 
@@ -1411,6 +1413,7 @@ namespace PKHeX
             this.MT_1403D.Size = new System.Drawing.Size(26, 20);
             this.MT_1403D.TabIndex = 69;
             this.MT_1403D.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403D.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_1403C
             // 
@@ -1421,6 +1424,7 @@ namespace PKHeX
             this.MT_1403C.Size = new System.Drawing.Size(26, 20);
             this.MT_1403C.TabIndex = 68;
             this.MT_1403C.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403C.TextChanged += new System.EventHandler(this.change255);
             // 
             // B_GiveAccessories
             // 
@@ -1441,6 +1445,7 @@ namespace PKHeX
             this.MT_1403B.Size = new System.Drawing.Size(26, 20);
             this.MT_1403B.TabIndex = 66;
             this.MT_1403B.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403B.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_1403A
             // 
@@ -1451,6 +1456,7 @@ namespace PKHeX
             this.MT_1403A.Size = new System.Drawing.Size(26, 20);
             this.MT_1403A.TabIndex = 65;
             this.MT_1403A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_1403A.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14039
             // 
@@ -1461,6 +1467,7 @@ namespace PKHeX
             this.MT_14039.Size = new System.Drawing.Size(26, 20);
             this.MT_14039.TabIndex = 64;
             this.MT_14039.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14039.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14038
             // 
@@ -1471,6 +1478,7 @@ namespace PKHeX
             this.MT_14038.Size = new System.Drawing.Size(26, 20);
             this.MT_14038.TabIndex = 63;
             this.MT_14038.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14038.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14037
             // 
@@ -1481,6 +1489,7 @@ namespace PKHeX
             this.MT_14037.Size = new System.Drawing.Size(26, 20);
             this.MT_14037.TabIndex = 61;
             this.MT_14037.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14037.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14036
             // 
@@ -1491,6 +1500,7 @@ namespace PKHeX
             this.MT_14036.Size = new System.Drawing.Size(26, 20);
             this.MT_14036.TabIndex = 62;
             this.MT_14036.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14036.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14035
             // 
@@ -1501,6 +1511,7 @@ namespace PKHeX
             this.MT_14035.Size = new System.Drawing.Size(26, 20);
             this.MT_14035.TabIndex = 60;
             this.MT_14035.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14035.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14034
             // 
@@ -1511,6 +1522,7 @@ namespace PKHeX
             this.MT_14034.Size = new System.Drawing.Size(26, 20);
             this.MT_14034.TabIndex = 59;
             this.MT_14034.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14034.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14033
             // 
@@ -1521,6 +1533,7 @@ namespace PKHeX
             this.MT_14033.Size = new System.Drawing.Size(26, 20);
             this.MT_14033.TabIndex = 58;
             this.MT_14033.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14033.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14032
             // 
@@ -1531,6 +1544,7 @@ namespace PKHeX
             this.MT_14032.Size = new System.Drawing.Size(26, 20);
             this.MT_14032.TabIndex = 57;
             this.MT_14032.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14032.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14031
             // 
@@ -1542,6 +1556,7 @@ namespace PKHeX
             this.MT_14031.Size = new System.Drawing.Size(26, 20);
             this.MT_14031.TabIndex = 54;
             this.MT_14031.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14031.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_14030
             // 
@@ -1552,6 +1567,7 @@ namespace PKHeX
             this.MT_14030.Size = new System.Drawing.Size(26, 20);
             this.MT_14030.TabIndex = 56;
             this.MT_14030.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_14030.TextChanged += new System.EventHandler(this.change255);
             // 
             // MT_Hat
             // 
@@ -1561,6 +1577,7 @@ namespace PKHeX
             this.MT_Hat.Size = new System.Drawing.Size(22, 20);
             this.MT_Hat.TabIndex = 55;
             this.MT_Hat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Hat.TextChanged += new System.EventHandler(this.changeSpecial);
             // 
             // MT_HairColor
             // 
@@ -1570,6 +1587,7 @@ namespace PKHeX
             this.MT_HairColor.Size = new System.Drawing.Size(22, 20);
             this.MT_HairColor.TabIndex = 55;
             this.MT_HairColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_HairColor.TextChanged += new System.EventHandler(this.changeSpecial);
             // 
             // L_Dress
             // 
