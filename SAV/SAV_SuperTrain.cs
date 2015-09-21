@@ -5,30 +5,26 @@ namespace PKHeX
 {
     public partial class SAV_SuperTrain : Form
     {
-        public SAV_SuperTrain(Form1 frm1)
+        public SAV_SuperTrain(Main frm1)
         {
             m_parent = frm1;
-            savindex = m_parent.savindex;
-            Array.Copy(m_parent.savefile, sav, 0x100000);
-            if (m_parent.savegame_oras) data_offset = 0x25600;
-            trba = Form1.trainingbags;
+            sav = (byte[])Main.savefile.Clone();
+            trba = Main.trainingbags;
             trba[0] = "---";
-            offsetTime = data_offset + 0x08 + 0x7F000 * savindex;
-            offsetSpec = data_offset + 0x188 + 0x7F000 * savindex;
-            offsetVal = data_offset + 0x18A + 0x7F000 * savindex;
+            offsetTime = Main.SaveGame.SuperTrain + 0x08;
+            offsetSpec = Main.SaveGame.SuperTrain + 0x188;
+            offsetVal = Main.SaveGame.SuperTrain + 0x18A;
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
-            string[] stages = Form1.trainingstage;
+            Util.TranslateInterface(this, Main.curlanguage);
+            string[] stages = Main.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 30; i++)
                 listBox1.Items.Add((i + 1).ToString("00") + " - " + stages[i + 2]);
 
             setup();
         }
-        Form1 m_parent;
-        public byte[] sav = new byte[0x100000];
-        public int savindex;
-        private int data_offset = 0x24600;
+        Main m_parent;
+        public byte[] sav;
         private string[] trba = {
                                 "Empty",
                                 "HP Bag S","HP Bag M","HP Bag L",
@@ -91,7 +87,7 @@ namespace PKHeX
             dataGridView1.Columns.Add(dgvBag);
 
             dataGridView1.Rows.Add(12);
-            int offset = data_offset + 0x308 + 0x7F000 * savindex;
+            int offset = Main.SaveGame.SuperTrain + 0x308;
             for (int i = 0; i < 12; i++)
             {
                 dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
@@ -131,7 +127,7 @@ namespace PKHeX
                 }
                 bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
             }
-            int offsetTime = data_offset + 0x10 + 0x7F000 * savindex;
+            int offsetTime = Main.SaveGame.SuperTrain + 0x10;
             try
             {
                 byte[] data = BitConverter.GetBytes(Single.Parse(TB_Time1.Text));
@@ -147,14 +143,14 @@ namespace PKHeX
             }
             catch { }
             {
-                int offsetSpec = data_offset + 0x188 + 0x7F000 * savindex;
+                int offsetSpec = Main.SaveGame.SuperTrain + 0x188;
                 byte[] data = BitConverter.GetBytes(Convert.ToUInt16(CB_S2.SelectedValue.ToString()));
                 Array.Resize(ref data, 2);
                 Array.Copy(data, 0, sav, offsetSpec + 4 * 30, 2);
             }
-            Array.Copy(bagarray, 0, sav, data_offset + 0x308 + savindex * 0x7F000, 12);
-            Array.Copy(sav, m_parent.savefile, 0x100000);
-            m_parent.savedited = true;
+            Array.Copy(bagarray, 0, sav, Main.SaveGame.SuperTrain + 0x308, 12);
+            Array.Copy(sav, Main.savefile, Main.savefile.Length);
+            Main.savedited = true;
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

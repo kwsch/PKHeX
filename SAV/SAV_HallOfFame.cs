@@ -7,16 +7,13 @@ namespace PKHeX
 {
     public partial class SAV_HallOfFame : Form
     {
-        public SAV_HallOfFame(Form1 frm1)
+        public SAV_HallOfFame()
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
-            m_parent = frm1;
-            Array.Copy(m_parent.savefile, sav, 0x100000);
-            savindex = m_parent.savindex;
-            shiftval = savindex * 0x7F000;
-            if (m_parent.savegame_oras) data_offset = 0x1F200;
-            Array.Copy(sav, shiftval + data_offset, data, 0, data.Length); //Copy HoF section of save into Data
+            Util.TranslateInterface(this, Main.curlanguage);
+            sav = (byte[])Main.savefile.Clone();
+
+            Array.Copy(sav, Main.SaveGame.HoF, data, 0, data.Length); //Copy HoF section of save into Data
             Setup();
             editor_spec = new object[]{
                 GB_OT,
@@ -51,15 +48,10 @@ namespace PKHeX
             catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
             editing = true;
         }
-        Form1 m_parent;
         public byte[] sav = new byte[0x100000];
-        public int savindex; int shiftval;
         public bool editing;
-        private int data_offset = 0x1E800;
 
-        private string[] types = Form1.types;
-        private string[] forms = Form1.forms;
-        private string[] gendersymbols = Form1.gendersymbols;
+        private string[] gendersymbols = Main.gendersymbols;
         private byte[] data = new byte[0x1B40];
 
         private object[] editor_spec;
@@ -75,7 +67,7 @@ namespace PKHeX
 
             #region Species
             {
-                var species_list = Util.getCBList(Form1.specieslist, null);
+                var species_list = Util.getCBList(Main.specieslist, null);
                 species_list.RemoveAt(0); // Remove 0th Entry
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
@@ -87,17 +79,17 @@ namespace PKHeX
                 CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
                 CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
 
-                CB_Move1.DataSource = new BindingSource(m_parent.CB_Move1.DataSource, null);
-                CB_Move2.DataSource = new BindingSource(m_parent.CB_Move1.DataSource, null);
-                CB_Move3.DataSource = new BindingSource(m_parent.CB_Move1.DataSource, null);
-                CB_Move4.DataSource = new BindingSource(m_parent.CB_Move1.DataSource, null);
+                CB_Move1.DataSource = new BindingSource(Main.MoveDataSource, null);
+                CB_Move2.DataSource = new BindingSource(Main.MoveDataSource, null);
+                CB_Move3.DataSource = new BindingSource(Main.MoveDataSource, null);
+                CB_Move4.DataSource = new BindingSource(Main.MoveDataSource, null);
             }
             #endregion
             #region Items
             {
                 CB_HeldItem.DisplayMember = "Text";
                 CB_HeldItem.ValueMember = "Value";
-                CB_HeldItem.DataSource = new BindingSource(m_parent.CB_HeldItem.DataSource, null);
+                CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
             }
             #endregion
         }
@@ -107,7 +99,7 @@ namespace PKHeX
         }
         private void B_Close_Click(object sender, EventArgs e)
         {
-            Array.Copy(data, 0, m_parent.savefile, shiftval + data_offset, data.Length);
+            Array.Copy(data, 0, Main.savefile, Main.SaveGame.HoF, data.Length);
             Close();
         }
         private void displayEntry(object sender, EventArgs e)
@@ -172,14 +164,14 @@ namespace PKHeX
                 string shinystr = (shiny == 1) ? "Yes" : "No";
 
                 s += "Name: " + nickname;
-                s += " (" + Form1.specieslist[species] + " - " + genderstr + ")" + Environment.NewLine;
+                s += " (" + Main.specieslist[species] + " - " + genderstr + ")" + Environment.NewLine;
                 s += "Level: " + level + Environment.NewLine;
                 s += "Shiny: " + shinystr + Environment.NewLine;
-                s += "Held Item: " + Form1.itemlist[helditem] + Environment.NewLine;
-                s += "Move 1: " + Form1.movelist[move1] + Environment.NewLine;
-                s += "Move 2: " + Form1.movelist[move2] + Environment.NewLine;
-                s += "Move 3: " + Form1.movelist[move3] + Environment.NewLine;
-                s += "Move 4: " + Form1.movelist[move4] + Environment.NewLine;
+                s += "Held Item: " + Main.itemlist[helditem] + Environment.NewLine;
+                s += "Move 1: " + Main.movelist[move1] + Environment.NewLine;
+                s += "Move 2: " + Main.movelist[move2] + Environment.NewLine;
+                s += "Move 3: " + Main.movelist[move3] + Environment.NewLine;
+                s += "Move 4: " + Main.movelist[move4] + Environment.NewLine;
                 s += "OT: " + OTname + " (" + TID + "/" + SID + ")" + Environment.NewLine;
                 s += Environment.NewLine;
 
@@ -240,7 +232,7 @@ namespace PKHeX
 
             CHK_Nicknamed.Checked = nick == 1;
 
-            m_parent.setForms(species, CB_Form);
+            Main.setForms(species, CB_Form);
             CB_Form.SelectedIndex = (int)form;
             setGenderLabel((int)gender);
             updateNickname(sender, e);
@@ -360,7 +352,7 @@ namespace PKHeX
                 else
                 {
                     // get language
-                    string l = Form1.curlanguage;
+                    string l = Main.curlanguage;
                     TB_Nickname.Text = Util.getStringList("Species", l)[species];
                 }
             }
@@ -371,7 +363,7 @@ namespace PKHeX
         private void updateSpecies(object sender, EventArgs e)
         {
             int species = Util.getIndex(CB_Species);
-            m_parent.setForms(species, CB_Form);
+            Main.setForms(species, CB_Form);
             updateNickname(null, null);
         }
         private void updateShiny(object sender, EventArgs e)
@@ -449,7 +441,7 @@ namespace PKHeX
         {
             TextBox tb = (!(sender is TextBox)) ? TB_Nickname : (sender as TextBox);
             // Special Character Form
-            if (ModifierKeys == Keys.Control && !Form1.specialChars)
+            if (ModifierKeys == Keys.Control && !Main.specialChars)
                 (new f2_Text(tb)).Show();
         }
     }

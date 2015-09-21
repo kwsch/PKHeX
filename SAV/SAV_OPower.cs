@@ -6,15 +6,12 @@ namespace PKHeX
 {
     public partial class SAV_OPower : Form
     {
-        public SAV_OPower(Form1 frm1)
+        public SAV_OPower()
         {
-            m_parent = frm1;
-            if (m_parent.savegame_oras) opoweroffset = 0x1C800;
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
+            Util.TranslateInterface(this, Main.curlanguage);
             LoadData();
         }
-        Form1 m_parent;
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -25,10 +22,9 @@ namespace PKHeX
             SaveData();
             Close();
         }
-        private int opoweroffset = 0x1BE00;
         private void LoadData()
         {
-            int o = opoweroffset + m_parent.savindex * 0x7F000; // offset
+            int o = Main.SaveGame.OPower;
 
             // Fill up the 17 o-powers
             // 1 2 3 4 5 10 use 4 bytes, everything else uses 3
@@ -53,17 +49,18 @@ namespace PKHeX
             CB_14.SelectedIndex = getIndex(o, 3); o += 3; // 35-37
             CB_15.SelectedIndex = getIndex(o, 3); o += 3; // 38-3A
             CB_16.SelectedIndex = getIndex(o, 3); o += 3; // 3B-3D
-            CB_17.SelectedIndex = getIndex(o, 3); o += 3; // 3E-40
+            CB_17.SelectedIndex = getIndex(o, 3);//o += 3; // 3E-40
 
             // Load Maxes
-            CHK_1.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x00]);
-            CHK_2.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x05]);
-            CHK_3.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x0A]);
-            CHK_4.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x0F]);
-            CHK_5.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x14]);
-            CHK_6.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x19]);
-            CHK_7.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x26]);
-            CHK_8.Checked = Convert.ToBoolean(m_parent.savefile[0x1BE00 + 0x2B]);
+            o = Main.SaveGame.OPower;
+            CHK_1.Checked = Convert.ToBoolean(Main.savefile[o + 0x00]);
+            CHK_2.Checked = Convert.ToBoolean(Main.savefile[o + 0x05]);
+            CHK_3.Checked = Convert.ToBoolean(Main.savefile[o + 0x0A]);
+            CHK_4.Checked = Convert.ToBoolean(Main.savefile[o + 0x0F]);
+            CHK_5.Checked = Convert.ToBoolean(Main.savefile[o + 0x14]);
+            CHK_6.Checked = Convert.ToBoolean(Main.savefile[o + 0x19]);
+            CHK_7.Checked = Convert.ToBoolean(Main.savefile[o + 0x26]);
+            CHK_8.Checked = Convert.ToBoolean(Main.savefile[o + 0x2B]);
         }
         private void SaveData()
         {
@@ -79,7 +76,7 @@ namespace PKHeX
                 0x27,
                 0x2C,0x2F,0x32,0x35,0x38,0x3B,0x3E,
             };
-            int o = opoweroffset + m_parent.savindex * 0x7F000; // offset
+            int o = Main.SaveGame.OPower; // offset
 
             for (int i = 0; i < cba.Length; i++)
             {
@@ -88,19 +85,19 @@ namespace PKHeX
                 {
                     data[c] = 1;
                 }
-                Array.Copy(data, 0, m_parent.savefile, o + offsets[i], data.Length);
+                Array.Copy(data, 0, Main.savefile, o + offsets[i], data.Length);
             }
 
             // Save Maxes
 
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x00] = Convert.ToByte(CHK_1.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x05] = Convert.ToByte(CHK_2.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x0A] = Convert.ToByte(CHK_3.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x0F] = Convert.ToByte(CHK_4.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x14] = Convert.ToByte(CHK_5.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x19] = Convert.ToByte(CHK_6.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x26] = Convert.ToByte(CHK_7.Checked);
-            m_parent.savefile[m_parent.savindex * 0x7F000 + opoweroffset + 0x2B] = Convert.ToByte(CHK_8.Checked);
+            Main.savefile[o + 0x00] = Convert.ToByte(CHK_1.Checked);
+            Main.savefile[o + 0x05] = Convert.ToByte(CHK_2.Checked);
+            Main.savefile[o + 0x0A] = Convert.ToByte(CHK_3.Checked);
+            Main.savefile[o + 0x0F] = Convert.ToByte(CHK_4.Checked);
+            Main.savefile[o + 0x14] = Convert.ToByte(CHK_5.Checked);
+            Main.savefile[o + 0x19] = Convert.ToByte(CHK_6.Checked);
+            Main.savefile[o + 0x26] = Convert.ToByte(CHK_7.Checked);
+            Main.savefile[o + 0x2B] = Convert.ToByte(CHK_8.Checked);
         }
         private int getIndex(int o, int l)
         {
@@ -111,7 +108,7 @@ namespace PKHeX
             byte[] _4 = { 01, 01, 01, 01, };
             
             byte[] data = new byte[4];
-            Array.Copy(m_parent.savefile, o, data, 0, l);
+            Array.Copy(Main.savefile, o, data, 0, l);
 
             if (data.SequenceEqual(_4)) return 4;
             if (data.SequenceEqual(_3)) return 3;

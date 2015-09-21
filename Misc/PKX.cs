@@ -323,23 +323,23 @@ namespace PKHeX
         {
             if (gameorigin < 13 && gameorigin > 6 && eggmet)
             {
-                if (locval < 2000) return Form1.metHGSS_00000[locval];
-                if (locval < 3000) return Form1.metHGSS_02000[locval % 2000];
-                                   return Form1.metHGSS_03000[locval % 3000];
+                if (locval < 2000) return Main.metHGSS_00000[locval];
+                if (locval < 3000) return Main.metHGSS_02000[locval % 2000];
+                                   return Main.metHGSS_03000[locval % 3000];
             }
             if (gameorigin < 24)
             {
-                if (locval < 30000) return Form1.metBW2_00000[locval];
-                if (locval < 40000) return Form1.metBW2_30000[locval % 10000 - 1];
-                if (locval < 60000) return Form1.metBW2_40000[locval % 10000 - 1];
-                                    return Form1.metBW2_60000[locval % 10000 - 1];
+                if (locval < 30000) return Main.metBW2_00000[locval];
+                if (locval < 40000) return Main.metBW2_30000[locval % 10000 - 1];
+                if (locval < 60000) return Main.metBW2_40000[locval % 10000 - 1];
+                                    return Main.metBW2_60000[locval % 10000 - 1];
             }
             if (gameorigin > 23)
             {
-                if (locval < 30000) return Form1.metXY_00000[locval];
-                if (locval < 40000) return Form1.metXY_30000[locval % 10000 - 1];
-                if (locval < 60000) return Form1.metXY_40000[locval % 10000 - 1];
-                                    return Form1.metXY_60000[locval % 10000 - 1];
+                if (locval < 30000) return Main.metXY_00000[locval];
+                if (locval < 40000) return Main.metXY_30000[locval % 10000 - 1];
+                if (locval < 60000) return Main.metXY_40000[locval % 10000 - 1];
+                                    return Main.metXY_60000[locval % 10000 - 1];
             }
             return null; // Shouldn't happen.
         }
@@ -745,7 +745,7 @@ namespace PKHeX
             motgender = (pkx[0xDD]) >> 7;
             mencountertype = pkx[0xDE];
             mgamevers = pkx[0xDF];
-            string[] data = getCountryRegionText(pkx[0xE0], pkx[0xE1], Form1.curlanguage);
+            string[] data = getCountryRegionText(pkx[0xE0], pkx[0xE1], Main.curlanguage);
             mcountryID = data[0x0];
             mregionID = data[0x1];
             mdsregID = pkx[0xE2];
@@ -774,26 +774,26 @@ namespace PKHeX
             }
             try
             {
-                mSpeciesName = Form1.specieslist[mspecies];
-                mhelditemN = Form1.itemlist[mhelditem];
-                mNatureName = Form1.natures[mnature];
-                mHPName = Form1.types[mhptype];
-                mAbilityName = Form1.abilitylist[mability];
-                mMove1N = Form1.movelist[mmove1];
-                mMove2N = Form1.movelist[mmove2];
-                mMove3N = Form1.movelist[mmove3];
-                mMove4N = Form1.movelist[mmove4];
-                mRMove1N = Form1.movelist[meggmove1];
-                mRMove2N = Form1.movelist[meggmove2];
-                mRMove3N = Form1.movelist[meggmove3];
-                mRMove4N = Form1.movelist[meggmove4];
+                mSpeciesName = Main.specieslist[mspecies];
+                mhelditemN = Main.itemlist[mhelditem];
+                mNatureName = Main.natures[mnature];
+                mHPName = Main.types[mhptype];
+                mAbilityName = Main.abilitylist[mability];
+                mMove1N = Main.movelist[mmove1];
+                mMove2N = Main.movelist[mmove2];
+                mMove3N = Main.movelist[mmove3];
+                mMove4N = Main.movelist[mmove4];
+                mRMove1N = Main.movelist[meggmove1];
+                mRMove2N = Main.movelist[meggmove2];
+                mRMove3N = Main.movelist[meggmove3];
+                mRMove4N = Main.movelist[meggmove4];
                 mMetLocN = getLocation(false, mgamevers, mmetloc);
                 mEggLocN = getLocation(true, mgamevers, meggloc);
                 mLevel = getLevel(mspecies, ref mexp);
-                mGameN = Form1.gamelist[mgamevers];
-                mBallN = Form1.balllist[mball];
-                motlangN = Form1.gamelanguages[motlang] ?? String.Format("UNK {0}", motlang);
-                mdsregIDN = Form1.consoleregions[mdsregID] ?? String.Format("UNK {0}", mdsregID);
+                mGameN = Main.gamelist[mgamevers];
+                mBallN = Main.balllist[mball];
+                motlangN = Main.gamelanguages[motlang] ?? String.Format("UNK {0}", motlang);
+                mdsregIDN = Main.consoleregions[mdsregID] ?? String.Format("UNK {0}", mdsregID);
             }
             catch { return; }
         }
@@ -942,85 +942,138 @@ namespace PKHeX
             }
             public struct SaveGame
             {
-                public int Box, TrainerCard, Party, BattleBox, GTS, Daycare, Fused, SUBE, Puff, Item, Trainer1, Trainer2, PCLayout, Wondercard, BerryField, OPower, EventFlag, PokeDex, HoF, PSS, JPEG;
+                public class Inventory
+                {
+                    public int HeldItem, KeyItem, Medicine, TMHM, Berry;
+                    public Inventory(string GameID, int Offset)
+                    {
+                        switch (GameID)
+                        {
+                            case "XY":
+                                HeldItem = Offset + 0;
+                                KeyItem = Offset + 0x640;
+                                TMHM = Offset + 0x7C0;
+                                Medicine = Offset + 0x968;
+                                Berry = Offset + 0xA68;
+                                break;
+                            case "ORAS":
+                                HeldItem = Offset + 0;
+                                KeyItem = Offset + 0x640;
+                                TMHM = Offset + 0x7C0;
+                                Medicine = Offset + 0x970;
+                                Berry = Offset + 0xA70;
+                                break;
+                            default:
+                                HeldItem = KeyItem = TMHM = Medicine = Berry = 0;
+                                break;
+                        }
+                    }
+                }
+                public int Box, TrainerCard, Party, BattleBox, GTS, Daycare, EonTicket,
+                    Fused, SUBE, Puff, Item, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, Vivillon, SecretBase,
+                    PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh,
+                    PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG;
+
+                public Inventory Items;
                 public string Name;
+                public int[] DaycareSlot;
+                public bool ORAS;
+
                 public SaveGame(string GameID)
                 {
                     switch (GameID)
                     {
                         case "XY":
                             Name = "XY";
-                            Box = 0x27A00;
-                            TrainerCard = 0x19400;
-                            Party = 0x19600;
-                            BattleBox = 0x09E00;
-                            Daycare = 0x20600;
-                            GTS = 0x1CC00;
-                            Fused = 0x1B400;
-                            SUBE = 0x22C90;
-                            Puff = 0x5400;
-                            Item = 0x5800;
-                            Trainer1 = 0x6800;
-                            Trainer2 = 0x9600;
-                            PCLayout = 0x9800;
-                            Wondercard = 0x21000;
-                            BerryField = 0x20C00;
-                            OPower = 0x1BE00;
-                            EventFlag = 0x19E00;
-                            PokeDex = 0x1A400;
-                            HoF = 0x1E800;
-                            JPEG = 0x5C600;
-                            PSS = 0x0A400;
+                            ORAS = false;
+                            Box = 0x22600;
+                            TrainerCard = 0x14000;
+                            Party = 0x14200;
+                            BattleBox = 0x04A00;
+                            Daycare = 0x1B200;
+                            GTS = 0x17800;
+                            Fused = 0x16000;
+                            SUBE = 0x1D890;
+                            Puff = 0x00000;
+                            Item = 0x00400;
+                            Items = new Inventory(Name, Item);
+                            Trainer1 = 0x1400;
+                            Trainer2 = 0x4200;
+                            PCLayout = 0x4400;
+                            PCBackgrounds = PCLayout + 0x41E;
+                            PCFlags = PCLayout + 0x43D;
+                            WondercardFlags = 0x1BC00;
+                            WondercardData = WondercardFlags + 0x100;
+                            BerryField = 0x1B800;
+                            OPower = 0x16A00;
+                            EventConst = 0x14A00;
+                            EventAsh = -1;
+                            EventFlag = EventConst + 0x2FC;
+                            PokeDex = 0x15000;
+                            PokeDexLanguageFlags = PokeDex + 0x3C8;
+                            Spinda = PokeDex + 0x648;
+                            EncounterCount = -1;
+                            HoF = 0x19400;
+                            SuperTrain = 0x1F200;
+                            JPEG = 0x57200;
+                            MaisonStats = 0x1B1C0;
+                            PSS = 0x05000;
+                            PSSStats = 0x1E400;
+                            Vivillon = 0x4250;
+                            SecretBase = -1;
+                            EonTicket = -1;
                             break;
                         case "ORAS":
                             Name = "ORAS";
-                            Box = 0x38400;      // Confirmed
-                            TrainerCard = 0x19400; // Confirmed
-                            Party = 0x19600;    // Confirmed
-                            BattleBox = 0x09E00;// Confirmed
-                            Daycare = 0x21000; // Confirmed (thanks Rei)
-                            GTS = 0x1D600; // Confirmed
-                            Fused = 0x1BE00; // Confirmed
-                            SUBE = 0x22C90; // ****not in use, not updating?****
-                            Puff = 0x5400; // Confirmed
-                            Item = 0x5800; // Confirmed
-                            Trainer1 = 0x6800; // Confirmed
-                            Trainer2 = 0x9600; // Confirmed
-                            PCLayout = 0x9800; // Confirmed
-                            Wondercard = 0x22000; // Confirmed
-                            BerryField = 0x20C00; // ****changed****
-                            OPower = 0x1BE00;
-                            EventFlag = 0x19E00; // Confirmed
-                            PokeDex = 0x1A400;
-                            HoF = 0x1F200; // Confirmed
-                            JPEG = 0x6D000; // Confirmed
-                            PSS = 0x0A400; // Confirmed (thanks Rei)
+                            ORAS = true;
+                            Box = 0x33000;      // Confirmed
+                            TrainerCard = 0x14000; // Confirmed
+                            Party = 0x14200;    // Confirmed
+                            BattleBox = 0x04A00;// Confirmed
+                            Daycare = 0x1BC00; // Confirmed (thanks Rei)
+                            GTS = 0x18200; // Confirmed
+                            Fused = 0x16A00; // Confirmed
+                            SUBE = 0x1D890; // ****not in use, not updating?****
+                            Puff = 0x00000; // Confirmed
+                            Item = 0x00400; // Confirmed
+                            Items = new Inventory(Name, Item);
+                            Trainer1 = 0x01400; // Confirmed
+                            Trainer2 = 0x04200; // Confirmed
+                            PCLayout = 0x04400; // Confirmed
+                            PCBackgrounds = PCLayout + 0x41E;
+                            PCFlags = PCLayout + 0x43D;
+                            WondercardFlags = 0x1CC00; // Confirmed
+                            WondercardData = WondercardFlags + 0x100;
+                            BerryField = 0x1C400; // ****changed****
+                            OPower = 0x17400; // ****changed****
+                            EventConst = 0x14A00;
+                            EventAsh = EventConst + 0x78;
+                            EventFlag = 0x14A00; // Confirmed
+                            PokeDex = 0x15000;
+                            Spinda = PokeDex + 0x680;
+                            EncounterCount = PokeDex + 0x686;
+                            PokeDexLanguageFlags = PokeDex + 0x400;
+                            HoF = 0x19E00; // Confirmed
+                            SuperTrain = 0x20200;
+                            JPEG = 0x67C00; // Confirmed
+                            MaisonStats = 0x1BBC0;
+                            PSS = 0x05000; // Confirmed (thanks Rei)
+                            PSSStats = 0x1F400;
+                            Vivillon = 0x4244;
+                            SecretBase = 0x23A00;
+                            EonTicket = 0x319B8;
                             break;
                         default:
+                            Box = TrainerCard = Party = BattleBox = GTS = Daycare = 
+                            Fused = SUBE = Puff = Item = Trainer1 = Trainer2 = SecretBase = EonTicket = 
+                            PCLayout = PCBackgrounds = PCFlags = WondercardFlags = WondercardData = BerryField = OPower = SuperTrain = MaisonStats = PSSStats = Vivillon = 
+                            EventConst = EventAsh = EventFlag = PokeDex = PokeDexLanguageFlags = Spinda = EncounterCount = HoF = PSS = JPEG = 0;
                             Name = "Unknown";
-                            Box = 0x27A00;
-                            TrainerCard = 0x19400;
-                            Party = 0x19600;
-                            BattleBox = 0x09E00;
-                            Daycare = 0x20600;
-                            GTS = 0x1CC00;
-                            Fused = 0x1B400;
-                            SUBE = 0x22C90;
-                            Puff = 0x5400;
-                            Item = 0x5800;
-                            Trainer1 = 0x6800;
-                            Trainer2 = 0x9600;
-                            PCLayout = 0x9800;
-                            Wondercard = 0x21000;
-                            BerryField = 0x20C00;
-                            OPower = 0x1BE00;
-                            EventFlag = 0x19E00;
-                            PokeDex = 0x1A400;
-                            HoF = 0x1E800;
-                            JPEG = 0x5C600;
-                            PSS = 0x0A400;
+                            ORAS = false;
+                            Items = new Inventory(Name, Item);
                             break;
                     }
+                    DaycareSlot = new[] { Daycare, Daycare + 0x1F0 };
                 }
             }
         }
@@ -1056,7 +1109,7 @@ namespace PKHeX
         }
 
         // SAV Manipulation
-        internal static int detectSAVIndex(byte[] data, ref int savindex)
+        internal static int detectSAVIndex(byte[] data, out int savindex)
         {
             SHA256 mySHA256 = SHA256.Create();
             {
@@ -1106,38 +1159,49 @@ namespace PKHeX
             }
             return crc;
         }
-        internal static string verifyG6CHK(byte[] savefile, bool oras, int savegame, ref int[] ctr)
+        internal static string verifyG6CHK(byte[] savefile)
         {
             string rv = "";
             int invalid = 0;
-            // Prepare Region Loops
-            int[] start = (oras) 
-                ? new [] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1B600, 0x1BE00, 0x1C000, 0x1C200, 0x1C800, 0x1CA00, 0x1CE00, 0x1D600, 0x1D800, 0x1DA00, 0x1DC00, 0x1DE00, 0x1E000, 0x1E800, 0x1EE00, 0x1F200, 0x20E00, 0x21000, 0x21400, 0x21800, 0x22000, 0x23C00, 0x24000, 0x24800, 0x24C00, 0x25600, 0x25A00, 0x26200, 0x27000, 0x27200, 0x27400, 0x28200, 0x28A00, 0x28E00, 0x30A00, 0x38400, 0x6D000, }
-                : new [] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1AC00, 0x1B400, 0x1B600, 0x1B800, 0x1BE00, 0x1C000, 0x1C400, 0x1CC00, 0x1CE00, 0x1D000, 0x1D200, 0x1D400, 0x1D600, 0x1DE00, 0x1E400, 0x1E800, 0x20400, 0x20600, 0x20800, 0x20C00, 0x21000, 0x22C00, 0x23000, 0x23800, 0x23C00, 0x24600, 0x24A00, 0x25200, 0x26000, 0x26200, 0x26400, 0x27200, 0x27A00, 0x5C600, };
-            int[] length = (oras) 
-                ? new [] { 0x000002C8, 0x00000B90, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000130, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000011CC, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000003E0, 0x00000216, 0x00000640, 0x00001A90, 0x00000400, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00000400, 0x00007AD0, 0x000078B0, 0x00034AD0, 0x0000E058, }
-                : new [] { 0x000002C8, 0x00000B88, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000140, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000006A0, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000001F0, 0x00000216, 0x00000390, 0x00001A90, 0x00000308, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00034AD0, 0x0000E058, };
-            int csoff = oras ? 0x7B21A : 0x6A81A;
-            if (savegame == 1) // Offset by 0x7F000
+            // Dynamic handling of checksums regardless of save size.
+
+            int verificationOffset = savefile.Length - 0x200 + 0x10;
+            if (BitConverter.ToUInt32(savefile, verificationOffset) != 0x42454546)
+                verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
+
+            int count = (savefile.Length - verificationOffset - 0x8) / 8;
+            verificationOffset += 4;
+            int[] Lengths = new int[count];
+            ushort[] BlockIDs = new ushort[count];
+            ushort[] Checksums = new ushort[count];
+            int[] Start = new int[count];
+            int CurrentPosition = 0;
+            for (int i = 0; i < count; i++)
             {
-                start = Array.ConvertAll(start, x => x + 0x7F000);
-                csoff += 0x7F000;
+                Start[i] = CurrentPosition;
+                Lengths[i] = BitConverter.ToInt32(savefile, verificationOffset + 0 + 8 * i);
+                BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
+                Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
+
+                CurrentPosition += (Lengths[i] % 0x200 == 0) ? Lengths[i] : (0x200 - Lengths[i] % 0x200 + Lengths[i]);
+
+                if ((BlockIDs[i] != 0) || i == 0) continue;
+                count = i;
+                break;
             }
-            // Calculate checksums and spit out result.
-            for (int i = 0; i < length.Length; i++)
+            // Apply checksums
+            for (int i = 0; i < count; i++)
             {
-                byte[] array = savefile.Skip(start[i]).Take(length[i]).ToArray();
-                ushort checksum = ccitt16(array);
-                ushort actualsum = BitConverter.ToUInt16(savefile, csoff + i*0x8);
-                if (checksum == actualsum) continue;
+                ushort chk = ccitt16(savefile.Skip(Start[i]).Take(Lengths[i]).ToArray());
+                ushort old = BitConverter.ToUInt16(savefile, verificationOffset + 6 + i * 8);
+
+                if (chk == old) continue;
 
                 invalid++;
-                rv += String.Format("Invalid: {0} @ Region {1}", i.ToString("X2"), start[i].ToString("X5") + Environment.NewLine);
+                rv += String.Format("Invalid: {0} @ Region {1}", i.ToString("X2"), Start[i].ToString("X5") + Environment.NewLine);
             }
             // Return Outputs
-            rv += String.Format("SAV{2}: {0}/{1}", (start.Length - invalid), start.Length + Environment.NewLine, savegame + 1);
-            ctr[0] += invalid;
-            ctr[1] += length.Length - 1;
+            rv += String.Format("SAV: {0}/{1}", (count - invalid), count + Environment.NewLine);
             return rv;
         }
         internal static string verifyG6SHA(byte[] savefile, bool oras)
@@ -1350,28 +1414,40 @@ namespace PKHeX
             }
             return rv;
         }
-        internal static byte[] writeG6CHK(byte[] savefile, bool oras, int savegame)
+        internal static void writeG6CHK(byte[] savefile)
         {
-            // Prepare Region Loops
-            int[] start = (oras)
-                ? new[] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1B600, 0x1BE00, 0x1C000, 0x1C200, 0x1C800, 0x1CA00, 0x1CE00, 0x1D600, 0x1D800, 0x1DA00, 0x1DC00, 0x1DE00, 0x1E000, 0x1E800, 0x1EE00, 0x1F200, 0x20E00, 0x21000, 0x21400, 0x21800, 0x22000, 0x23C00, 0x24000, 0x24800, 0x24C00, 0x25600, 0x25A00, 0x26200, 0x27000, 0x27200, 0x27400, 0x28200, 0x28A00, 0x28E00, 0x30A00, 0x38400, 0x6D000, }
-                : new[] { 0x05400, 0x05800, 0x06400, 0x06600, 0x06800, 0x06A00, 0x06C00, 0x06E00, 0x07000, 0x07200, 0x07400, 0x09600, 0x09800, 0x09E00, 0x0A400, 0x0F400, 0x14400, 0x19400, 0x19600, 0x19E00, 0x1A400, 0x1AC00, 0x1B400, 0x1B600, 0x1B800, 0x1BE00, 0x1C000, 0x1C400, 0x1CC00, 0x1CE00, 0x1D000, 0x1D200, 0x1D400, 0x1D600, 0x1DE00, 0x1E400, 0x1E800, 0x20400, 0x20600, 0x20800, 0x20C00, 0x21000, 0x22C00, 0x23000, 0x23800, 0x23C00, 0x24600, 0x24A00, 0x25200, 0x26000, 0x26200, 0x26400, 0x27200, 0x27A00, 0x5C600, };
-            int[] length = (oras)
-                ? new[] { 0x000002C8, 0x00000B90, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000130, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000011CC, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000003E0, 0x00000216, 0x00000640, 0x00001A90, 0x00000400, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00000400, 0x00007AD0, 0x000078B0, 0x00034AD0, 0x0000E058, }
-                : new[] { 0x000002C8, 0x00000B88, 0x0000002C, 0x00000038, 0x00000150, 0x00000004, 0x00000008, 0x000001C0, 0x000000BE, 0x00000024, 0x00002100, 0x00000140, 0x00000440, 0x00000574, 0x00004E28, 0x00004E28, 0x00004E28, 0x00000170, 0x0000061C, 0x00000504, 0x000006A0, 0x00000644, 0x00000104, 0x00000004, 0x00000420, 0x00000064, 0x000003F0, 0x0000070C, 0x00000180, 0x00000004, 0x0000000C, 0x00000048, 0x00000054, 0x00000644, 0x000005C8, 0x000002F8, 0x00001B40, 0x000001F4, 0x000001F0, 0x00000216, 0x00000390, 0x00001A90, 0x00000308, 0x00000618, 0x0000025C, 0x00000834, 0x00000318, 0x000007D0, 0x00000C48, 0x00000078, 0x00000200, 0x00000C84, 0x00000628, 0x00034AD0, 0x0000E058, };
-            int csoff = oras ? 0x7B21A : 0x6A81A;
-            if (savegame == 1) // Offset by 0x7F000
+            // Dynamic handling of checksums regardless of save size.
+
+            int verificationOffset = savefile.Length - 0x200 + 0x10;
+            if (BitConverter.ToUInt32(savefile, verificationOffset) != 0x42454546)
+                verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
+
+            int count = (savefile.Length - verificationOffset - 0x8) / 8;
+            verificationOffset += 4;
+            int[] Lengths = new int[count];
+            ushort[] BlockIDs = new ushort[count];
+            ushort[] Checksums = new ushort[count];
+            int[] Start = new int[count];
+            int CurrentPosition = 0;
+            for (int i = 0; i < count; i++)
             {
-                start = Array.ConvertAll(start, x => x + 0x7F000);
-                csoff += 0x7F000;
+                Start[i] = CurrentPosition;
+                Lengths[i] = BitConverter.ToInt32(savefile, verificationOffset + 0 + 8 * i);
+                BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
+                Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
+
+                CurrentPosition += (Lengths[i]%0x200 == 0) ? Lengths[i] : (0x200 - Lengths[i]%0x200 + Lengths[i]);
+
+                if ((BlockIDs[i] != 0) || i == 0) continue;
+                count = i;
+                break;
             }
-            // Calculate checksums and write back to save file.
-            for (int i = 0; i < length.Length; i++)
+            // Apply checksums
+            for (int i = 0; i < count; i++)
             {
-                byte[] array = savefile.Skip(start[i]).Take(length[i]).ToArray();
-                Array.Copy(BitConverter.GetBytes(ccitt16(array)), 0, savefile, csoff + i * 8, 2);
+                byte[] array = savefile.Skip(Start[i]).Take(Lengths[i]).ToArray();
+                Array.Copy(BitConverter.GetBytes(ccitt16(array)), 0, savefile, verificationOffset + 6 + i * 8, 2);
             }
-            return savefile;
         }
         internal static byte[] writeG6SHA(byte[] savefile, bool oras, int savegame)
         {

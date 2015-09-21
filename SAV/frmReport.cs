@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -17,17 +18,15 @@ namespace PKHeX
             InitializeComponent();
             dgData.DoubleBuffered(true);
         }
-        public void PopulateData(byte[] InputData, int savindex, int baseoffset)
+        public void PopulateData(byte[] InputData, int BoxDataOffset)
         {
-            SaveData = new byte[InputData.Length];
-            Array.Copy(InputData, SaveData, InputData.Length);
+            SaveData = (byte[])InputData.Clone();
             PokemonList PL = new PokemonList();
-            if (savindex > 1) savindex = 0;
             BoxBar.Maximum = 930 + 100;
             BoxBar.Step = 1;
             for (int BoxNum = 0; BoxNum < 31; BoxNum++)
             {
-                int boxoffset = baseoffset + 0x7F000 * savindex + BoxNum * (0xE8 * 30);
+                int boxoffset = BoxDataOffset + BoxNum * (0xE8 * 30);
                 for (int SlotNum = 0; SlotNum < 30; SlotNum++)
                 {
                     BoxBar.PerformStep();
@@ -78,11 +77,10 @@ namespace PKHeX
                 var cells = row.Cells.Cast<DataGridViewCell>();
                 sb.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
             }
-            System.IO.File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
         }
 
         public class PokemonList : SortableBindingList<PKX> { }
-
     }
     public static class ExtensionMethods    // Speed up scrolling
     {

@@ -6,23 +6,18 @@ namespace PKHeX
 {
     public partial class SAV_PokedexORAS : Form
     {
-        public SAV_PokedexORAS(Form1 frm1)
+        public SAV_PokedexORAS()
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
-            m_parent = frm1;
-            Array.Copy(m_parent.savefile, sav, sav.Length);
-            sv = m_parent.savindex * 0x7F000;
-            dexoffset += sv;
+            Util.TranslateInterface(this, Main.curlanguage);
+            sav = (byte[])Main.savefile.Clone();
+
             Setup();
             editing = false;
             LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(sav, dexoffset + 0x680).ToString("X8");
+            TB_Spinda.Text = BitConverter.ToUInt32(sav, Main.SaveGame.Spinda).ToString("X8");
         }
-        private int dexoffset = 0x15000 + 0x5400;
-        Form1 m_parent;
-        public byte[] sav = new byte[0x100000];
-        public int sv;
+        public byte[] sav;
         public bool[,] specbools = new bool[9, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
         bool editing = true;
@@ -35,7 +30,7 @@ namespace PKHeX
             // Fill List
             #region Species
             {
-                var species_list = Util.getCBList(Form1.specieslist, null);
+                var species_list = Util.getCBList(Main.specieslist, null);
                 species_list.RemoveAt(0); // Remove 0th Entry
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
@@ -43,8 +38,8 @@ namespace PKHeX
             }
             #endregion
 
-            for (int i = 1; i < Form1.specieslist.Length; i++)
-                LB_Species.Items.Add(i.ToString("000") + " - " + Form1.specieslist[i]);
+            for (int i = 1; i < Main.specieslist.Length; i++)
+                LB_Species.Items.Add(i.ToString("000") + " - " + Main.specieslist[i]);
 
             getBools();
         }
@@ -105,7 +100,7 @@ namespace PKHeX
 
             // Load Encountered Count
             editing = true;
-            MT_Count.Text = BitConverter.ToUInt16(sav, dexoffset + 0x686 + (pk - 1) * 2).ToString();
+            MT_Count.Text = BitConverter.ToUInt16(sav, Main.SaveGame.EncounterCount + (pk - 1) * 2).ToString();
             editing = false;
         }
         private void removedropCB(object sender, KeyEventArgs e)
@@ -146,7 +141,7 @@ namespace PKHeX
             saveChanges();
 
             // Return back to the parent savefile
-            Array.Copy(sav, m_parent.savefile, sav.Length);
+            Array.Copy(sav, Main.savefile, sav.Length);
             Close();
         }
         private void saveChanges()
@@ -161,7 +156,7 @@ namespace PKHeX
                     if (specbools[p, i])
                         sdata[i / 8] |= (byte)(1 << i % 8);
 
-                Array.Copy(sdata, 0, sav, sv + dexoffset + 0x8 + 0x60 * p, 0x60);
+                Array.Copy(sdata, 0, sav, Main.SaveGame.PokeDex + 0x8 + 0x60 * p, 0x60);
             }
 
             // Build new bool array for the Languages
@@ -178,12 +173,12 @@ namespace PKHeX
                     if (languagedata[i])
                         ldata[i / 8] |= (byte)(1 << i % 8);
 
-                Array.Copy(ldata, 0, sav, sv + dexoffset + 0x400, 0x27C);
+                Array.Copy(ldata, 0, sav, Main.SaveGame.PokeDexLanguageFlags, 0x27C);
             }
             
             // Store Spinda Spot
             uint PID = Util.getHEXval(TB_Spinda);
-            Array.Copy(BitConverter.GetBytes(PID), 0, sav, dexoffset + 0x680, 4);
+            Array.Copy(BitConverter.GetBytes(PID), 0, sav, Main.SaveGame.Spinda, 4);
         }
 
         private void getBools()
@@ -192,7 +187,7 @@ namespace PKHeX
             for (int i = 0; i < 9; i++)
             {
                 byte[] data = new byte[0x60];
-                int offset = dexoffset + 0x8 + 0x60 * i;
+                int offset = Main.SaveGame.PokeDex + 0x8 + 0x60 * i;
                 Array.Copy(sav, offset, data, 0, 0x60);
                 BitArray BitRegion = new BitArray(data);
                 for (int b = 0; b < (0x60 * 8); b++)
@@ -201,7 +196,7 @@ namespace PKHeX
 
             // Fill Language arrays
             byte[] langdata = new byte[0x280];
-            Array.Copy(sav, dexoffset + 0x400, langdata, 0, 0x280);
+            Array.Copy(sav, Main.SaveGame.PokeDexLanguageFlags, langdata, 0, 0x280);
             BitArray LangRegion = new BitArray(langdata);
             for (int b = 0; b < (721); b++) // 721 Species
                 for (int i = 0; i < 7; i++) // 7 Languages
@@ -243,12 +238,12 @@ namespace PKHeX
             // Copy Full Dex Byte Array
             // Native Byte Writing
             for (int i = 0; i < 0x5A; i++)
-                sav[sv + 0x1A400 + 8 + i] = 0xFF;
-            sav[sv + 8 + 0x1A45A] = 0x01;
+                sav[Main.SaveGame.PokeDex + 8 + i] = 0xFF;
+            // Write remainder
+            sav[Main.SaveGame.PokeDex + 8 + 0x5A] = 0x01;
 
             // Midsection Writing
             {
-                // starting at 0x15068;
                 #region Payload
                 uint[] payload =
                 { 
@@ -454,24 +449,25 @@ namespace PKHeX
                 };
                 #endregion
                 for (int i = 0; i < payload.Length; i++)
-                    Array.Copy(BitConverter.GetBytes(payload[i]), 0, sav, sv + 0x5400 + 0x15068 + 4 * i, 4);
+                    Array.Copy(BitConverter.GetBytes(payload[i]), 0, sav, Main.SaveGame.PokeDex + 68 + 4 * i, 4);
             }
 
             // Language Writing
             for (int i = 0; i < 0x9D; i++)
-                Array.Copy(BitConverter.GetBytes(0xFFFFFFFF), 0, sav ,sv + 0x5400 + 0x15400 + 4 * i, 4);
-            Array.Copy(BitConverter.GetBytes(0x007FFFFF), 0, sav ,sv + 0x5400 + 0x15674, 4);
+                Array.Copy(BitConverter.GetBytes(0xFFFFFFFF), 0, sav, Main.SaveGame.PokeDexLanguageFlags + 4 * i, 4);
+            Array.Copy(BitConverter.GetBytes(0x007FFFFF), 0, sav, Main.SaveGame.PokeDexLanguageFlags + 4 * 0x9D, 4);
 
             // Encounter Count Writing (999*all species)
             for (int i = 0; i < 0x2D1; i++)
-                Array.Copy(BitConverter.GetBytes(999), 0, sav, sv + 0x5400 + 0x15686 + i * 2, 2);
+                Array.Copy(BitConverter.GetBytes(999), 0, sav, Main.SaveGame.EncounterCount + i * 2, 2);
+
             // Turn off Italian Petlil
-            sav[0x1A9DF + sv] &= 0xFE;
+            sav[Main.SaveGame.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
 
             // Forms Bool Writing
             for (int i = 0; i < 0x9C; i++)
-                sav[sv + 0x5400 + 0x15000 + 0x364 + i] = 0xFF;
-            sav[sv + 0x5400 + 0x15000 + 0x3FF] = 0x8F; // make sure we don't have FF because CGSE may screw up.
+                sav[Main.SaveGame.PokeDex + 0x364 + i] = 0xFF;
+            sav[Main.SaveGame.PokeDex + 0x3FF] = 0x8F; // make sure we don't have FF because CGSE may screw up.
             
             // Fetch the dex bools
             getBools();
@@ -483,7 +479,7 @@ namespace PKHeX
         private void changeEncounteredCount(object sender, EventArgs e)
         {
             if (!editing)
-                Array.Copy(BitConverter.GetBytes(Math.Min(0xFFFF, Util.ToUInt32(MT_Count))), 0, sav, dexoffset + 0x686 + (Util.getIndex(CB_Species) - 1) * 2, 2);
+                Array.Copy(BitConverter.GetBytes(Math.Min(0xFFFF, Util.ToUInt32(MT_Count))), 0, sav, Main.SaveGame.EncounterCount + (Util.getIndex(CB_Species) - 1) * 2, 2);
         }
     }
 }

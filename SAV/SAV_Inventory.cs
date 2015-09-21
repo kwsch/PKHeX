@@ -6,25 +6,11 @@ namespace PKHeX
 {
     public partial class SAV_Inventory : Form
     {
-        public SAV_Inventory(Form1 frm1)
+        public SAV_Inventory()
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
-            m_parent = frm1;
-            Array.Copy(m_parent.savefile, sav, 0x100000);
-            savindex = m_parent.savindex;
-            shiftval = savindex * 0x7F000;
-            if (m_parent.savegame_oras)
-            {
-                bagoffsets = new[] 
-                {
-                    0x05800,
-                    0x05E40,
-                    0x05FC0,
-                    0x06170,
-                    0x06270, 
-                };
-            }
+            Util.TranslateInterface(this, Main.curlanguage);
+            sav = (byte[])Main.savefile.Clone();
 
             getListItems();
             getListKeyItems();
@@ -36,15 +22,13 @@ namespace PKHeX
 
             popItems();
 
-            B_DisplayItems.Text = Form1.itempouch[0];
-            B_DisplayMedicine.Text = Form1.itempouch[1];
-            B_DisplayTMHM.Text = Form1.itempouch[2];
-            B_DisplayBerries.Text = Form1.itempouch[3];
-            B_DisplayKeyItems.Text = Form1.itempouch[4];
+            B_DisplayItems.Text = Main.itempouch[0];
+            B_DisplayMedicine.Text = Main.itempouch[1];
+            B_DisplayTMHM.Text = Main.itempouch[2];
+            B_DisplayBerries.Text = Main.itempouch[3];
+            B_DisplayKeyItems.Text = Main.itempouch[4];
         }
-        Form1 m_parent;
-        public byte[] sav = new byte[0x100000];
-        public int savindex; int shiftval;
+        public byte[] sav;
 
         public string[] item_val;
         public string[] keyitem_val;
@@ -52,46 +36,38 @@ namespace PKHeX
         public string[] medicine_val;
         public string[] berries_val;
 
-        public int[] bagoffsets =
-        {
-            0x05800,
-            0x05E40,
-            0x05FC0,
-            0x06168,
-            0x06268,
-        };
 
         // Initialize String Tables
         private void getListItems()
         {
-            ushort[] itemlist = (m_parent.savegame_oras) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             item_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                item_val[i] = Form1.itemlist[itemlist[i]];
+                item_val[i] = Main.itemlist[itemlist[i]];
             Array.Sort(item_val);
         }
         private void getListKeyItems()
         {
-            ushort[] itemlist = (m_parent.savegame_oras) ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY;
+            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY;
             keyitem_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                keyitem_val[i] = Form1.itemlist[itemlist[i]];
+                keyitem_val[i] = Main.itemlist[itemlist[i]];
             Array.Sort(keyitem_val);
         }
         private void getListTMHM()
         {
-            ushort[] itemlist = (m_parent.savegame_oras) ? Legal.Pouch_TMHM_ORAS : Legal.Pouch_TMHM_XY;
+            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_TMHM_ORAS : Legal.Pouch_TMHM_XY;
             tmhm_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                tmhm_val[i] = Form1.itemlist[itemlist[i]];
+                tmhm_val[i] = Main.itemlist[itemlist[i]];
             // Array.Sort(tmhm_val); Already sorted, keep HMs last.
         }
         private void getListMedicine()
         {
-            ushort[] itemlist =  (m_parent.savegame_oras) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
+            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
             medicine_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                medicine_val[i] = Form1.itemlist[itemlist[i]];
+                medicine_val[i] = Main.itemlist[itemlist[i]];
             Array.Sort(medicine_val); 
         }
         private void getListBerries()
@@ -99,34 +75,34 @@ namespace PKHeX
             ushort[] itemlist = Legal.Pouch_Berry_XY;
             berries_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
-                berries_val[i] = Form1.itemlist[itemlist[i]];
+                berries_val[i] = Main.itemlist[itemlist[i]];
             Array.Sort(berries_val); 
         }
 
         // Populate DataGrid
         private void popItems()
         {
-            int offset = bagoffsets[0] + shiftval;
+            int offset = Main.SaveGame.Items.HeldItem;
             populateList(item_val, offset, item_val.Length - 1); // max 400
         }
         private void popKeyItems()
         {
-            int offset = bagoffsets[1] + shiftval;
+            int offset = Main.SaveGame.Items.KeyItem;
             populateList(keyitem_val, offset, keyitem_val.Length - 1); // max 96
         }
         private void popTMHM()
         {
-            int offset = bagoffsets[2] + shiftval;
+            int offset = Main.SaveGame.Items.TMHM;
             populateList(tmhm_val, offset, tmhm_val.Length - 1);
         }
         private void popMedicine()
         {
-            int offset = bagoffsets[3] + shiftval;
+            int offset = Main.SaveGame.Items.Medicine;
             populateList(medicine_val, offset, medicine_val.Length - 1); // 64 total slots
         }
         private void popBerries()
         {
-            int offset = bagoffsets[4] + shiftval;
+            int offset = Main.SaveGame.Items.Berry;
             populateList(berries_val, offset, berries_val.Length - 1); // 102 slots
         }
 
@@ -164,7 +140,7 @@ namespace PKHeX
             for (int i = 0; i < itemcount; i++)
             {
                 int itemvalue = BitConverter.ToUInt16(sav, offset + i*4);
-                try { itemname = Form1.itemlist[itemvalue]; }
+                try { itemname = Main.itemlist[itemvalue]; }
                 catch
                 {
                     Util.Error("Unknown item detected.", "Item ID: " + itemvalue, "Item is after: " + itemname);
@@ -195,25 +171,15 @@ namespace PKHeX
         {
             int offset = 0;
             if (B_DisplayItems.ForeColor == Color.Red)
-            {
-                offset = bagoffsets[0] + shiftval;
-            }
+                offset = Main.SaveGame.Items.HeldItem;
             else if (B_DisplayKeyItems.ForeColor == Color.Red)
-            {
-                offset = bagoffsets[1] + shiftval;
-            }
+                offset = Main.SaveGame.Items.KeyItem;
             else if (B_DisplayTMHM.ForeColor == Color.Red)
-            {
-                offset = bagoffsets[2] + shiftval;
-            }
+                offset = Main.SaveGame.Items.TMHM;
             else if (B_DisplayMedicine.ForeColor == Color.Red)
-            {
-                offset = bagoffsets[3] + shiftval;
-            }
+                offset = Main.SaveGame.Items.Medicine;
             else if (B_DisplayBerries.ForeColor == Color.Red)
-            {
-                offset = bagoffsets[4] + shiftval;
-            }
+                offset = Main.SaveGame.Items.Berry;
 
             // Fetch Data
             int itemcount = dataGridView1.Rows.Count;
@@ -221,7 +187,7 @@ namespace PKHeX
             for (int i = 0; i < itemcount; i++)
             {
                 string item = dataGridView1.Rows[i].Cells[0].Value.ToString();
-                int itemindex = Array.IndexOf(Form1.itemlist, item);
+                int itemindex = Array.IndexOf(Main.itemlist, item);
                 int itemcnt;
                 try 
                 { itemcnt = Convert.ToUInt16(dataGridView1.Rows[i].Cells[1].Value.ToString()); }
@@ -235,29 +201,28 @@ namespace PKHeX
                 if (itemcnt == 0)
                     itemcnt++; // No 0 count of items
                 else if (itemcnt > 995)
-                    itemcnt = 995;
+                    itemcnt = 995; // cap out
 
                 // Write Data into Save File
-                Array.Copy(BitConverter.GetBytes(itemindex), 0, sav, offset + 4 * (i - emptyslots), 2); // item #
-                Array.Copy(BitConverter.GetBytes(itemcnt), 0, sav, offset + 4 * (i - emptyslots) + 2, 2); // count
+                Array.Copy(BitConverter.GetBytes((ushort)itemindex), 0, sav, offset + 4 * (i - emptyslots), 2); // item #
+                Array.Copy(BitConverter.GetBytes((ushort)itemcnt), 0, sav, offset + 4 * (i - emptyslots) + 2, 2); // count
             }
 
             // Delete Empty Trash
             for (int i = itemcount - emptyslots; i < itemcount; i++)
             {
-                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * i + 0, 2); // item #
-                Array.Copy(BitConverter.GetBytes(0), 0, sav, offset + 4 * i + 2, 2); // count
+                Array.Copy(BitConverter.GetBytes((ushort)0), 0, sav, offset + 4 * i + 0, 2); // item #
+                Array.Copy(BitConverter.GetBytes((ushort)0), 0, sav, offset + 4 * i + 2, 2); // count
             }
 
             // Load New Button Color, after finished we'll load the new data.
-            Button btn = sender as Button;
             B_DisplayItems.ForeColor =
             B_DisplayKeyItems.ForeColor =
             B_DisplayTMHM.ForeColor =
             B_DisplayMedicine.ForeColor =
-            B_DisplayBerries.ForeColor = Form1.defaultControlText;
+            B_DisplayBerries.ForeColor = Main.defaultControlText;
 
-            btn.ForeColor = Color.Red;
+            (sender as Button).ForeColor = Color.Red;
         }
         private void giveAll(string[] inarray, int count)
         {
@@ -275,7 +240,7 @@ namespace PKHeX
             saveBag(sender);
             popItems();
             if (ModifierKeys == Keys.Alt)
-                giveAll(item_val,995);
+                giveAll(item_val, 995);
         }
         private void B_DisplayKeyItems_Click(object sender, EventArgs e)
         {
@@ -299,7 +264,7 @@ namespace PKHeX
             saveBag(sender);
             popMedicine();
             if (ModifierKeys == Keys.Alt)
-                giveAll(medicine_val,995);
+                giveAll(medicine_val, 995);
         }
         private void B_DisplayBerries_Click(object sender, EventArgs e)
         {
@@ -307,7 +272,7 @@ namespace PKHeX
             saveBag(sender);
             popBerries();
             if (ModifierKeys == Keys.Alt)
-                giveAll(berries_val,995);
+                giveAll(berries_val, 995);
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -316,8 +281,8 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveBag(sender);
-            Array.Copy(sav, m_parent.savefile, 0x100000);
-            m_parent.savedited = true;
+            Array.Copy(sav, Main.savefile, Main.savefile.Length);
+            Main.savedited = true;
             Close();
         }
     }

@@ -8,10 +8,10 @@ namespace PKHeX
     {
         public f2_Text(TextBox TB_NN)
         {
-            Form1.specialChars = true;
+            Main.specialChars = true;
             Hide();
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
+            Util.TranslateInterface(this, Main.curlanguage);
             TB_Nickname = TB_NN;
             Font pkxFont = PKX.getPKXFont(12F);
             Label[] lbla =
@@ -46,7 +46,7 @@ namespace PKHeX
         }
         private void onClosed(object sender, FormClosedEventArgs e)
         {
-            Form1.specialChars = false;
+            Main.specialChars = false;
         }
     }
 }

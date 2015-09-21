@@ -6,7 +6,7 @@ namespace PKHeX
 {
     public partial class MemoryAmie : Form
     {
-        Form1 m_parent;
+        Main m_parent;
         public byte[] h = new byte[260]; // Always Visible
         private string disabled = "Disabled";
         private string notleft = "Never left";
@@ -14,14 +14,14 @@ namespace PKHeX
         private string past = "Past Gen";
         private string withOT = "Memories with"; // these get replaced when the form is translated.
         private string[] vartypes = new string[5];
-        public MemoryAmie(Form1 frm1)
+        public MemoryAmie(Main frm1) // Keeping the form reference as a lot of control elements are required to operate.
         {
             InitializeComponent();
             CB_Country0.DisplayMember = CB_Country1.DisplayMember = CB_Country2.DisplayMember = CB_Country3.DisplayMember = CB_Country4.DisplayMember = "Text";
             CB_Country0.ValueMember = CB_Country1.ValueMember = CB_Country2.ValueMember = CB_Country3.ValueMember = CB_Country4.ValueMember = "Value";
             CB_Region0.DisplayMember = CB_Region1.DisplayMember = CB_Region2.DisplayMember = CB_Region3.DisplayMember = CB_Region4.DisplayMember = "Text";
             CB_Region0.ValueMember = CB_Region1.ValueMember = CB_Region2.ValueMember = CB_Region3.ValueMember = CB_Region4.ValueMember = "Value";
-            Util.TranslateInterface(this, Form1.curlanguage);
+            Util.TranslateInterface(this, Main.curlanguage);
             m_parent = frm1;
             string[] arguments = Regex.Split(L_Arguments.Text, " ; ");
 
@@ -46,7 +46,7 @@ namespace PKHeX
                 past = "Past Gen";
                 withOT = "Memories with";
             }
-            h = m_parent.buff;
+            h = Main.buff;
 
             getCountries();
             getLangStrings();
@@ -85,9 +85,9 @@ namespace PKHeX
             if (Util.TrimFromZero(m_parent.TB_OTt2.Text) != "")
                 CB_Handler.Items.AddRange(new object[] { m_parent.TB_OTt2.Text });
             else
-                m_parent.buff[0x93] = 0;
+                Main.buff[0x93] = 0;
 
-            tabControl1.SelectedIndex = CB_Handler.SelectedIndex = m_parent.buff[0x93];
+            tabControl1.SelectedIndex = CB_Handler.SelectedIndex = Main.buff[0x93];
 
             if (m_parent.CHK_IsEgg.Checked)
             {
@@ -97,8 +97,8 @@ namespace PKHeX
                 BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = false;
                 L_Fullness.Enabled = L_Enjoyment.Enabled = false;
 
-                GB_M_OT.Text = "N/A: " + Form1.eggname;
-                GB_M_CT.Text = "N/A: " + Form1.eggname;
+                GB_M_OT.Text = "N/A: " + Main.eggname;
+                GB_M_CT.Text = "N/A: " + Main.eggname;
             }
             else
             {
@@ -167,8 +167,8 @@ namespace PKHeX
             cb1v(CB_CTMemory, 0xA5);
             if (!CB_CTVar.Enabled)
             {
-                m_parent.buff[0xA8] = 0;
-                m_parent.buff[0xA9] = 0;
+                Main.buff[0xA8] = 0;
+                Main.buff[0xA9] = 0;
             }
             else
                 cb2v(CB_CTVar, 0xA8);
@@ -176,21 +176,21 @@ namespace PKHeX
             // If memory doesn't contain a feeling/quality
             if (!CB_CTFeel.Enabled)
             {
-                m_parent.buff[0xA4] = 0;
-                m_parent.buff[0xA6] = 0;
+                Main.buff[0xA4] = 0;
+                Main.buff[0xA6] = 0;
             }
             else
             {
                 cb1i(CB_CTFeel, 0xA6);
-                m_parent.buff[0xA4] = (byte)(CB_CTQual.SelectedIndex + 1);
+                Main.buff[0xA4] = (byte)(CB_CTQual.SelectedIndex + 1);
             }
             #endregion
             #region // OT MEMORIES
             cb1v(CB_OTMemory, 0xCD);
             if (!CB_OTVar.Enabled)
             {
-                m_parent.buff[0xCE] = 0;
-                m_parent.buff[0xCF] = 0;
+                Main.buff[0xCE] = 0;
+                Main.buff[0xCF] = 0;
             }
             else
                 cb2v(CB_OTVar, 0xCE);
@@ -198,13 +198,13 @@ namespace PKHeX
             // If memory doesn't contain a feeling/quality
             if (!CB_OTFeel.Enabled)
             {
-                m_parent.buff[0xCC] = 0;
-                m_parent.buff[0xD0] = 0;
+                Main.buff[0xCC] = 0;
+                Main.buff[0xD0] = 0;
             }
             else
             {
                 cb1i(CB_OTFeel, 0xD0);
-                m_parent.buff[0xCC] = (byte)(CB_OTQual.SelectedIndex + 1);
+                Main.buff[0xCC] = (byte)(CB_OTQual.SelectedIndex + 1);
             }
             #endregion
         }
@@ -263,19 +263,19 @@ namespace PKHeX
             {
                 comboBox.DisplayMember = "Text";
                 comboBox.ValueMember = "Value";
-                m_parent.setCountrySubRegion(comboBox, "countries");
+                Main.setCountrySubRegion(comboBox, "countries");
             }
         }
 
         private void getLangStrings()
         {
             // Memory Chooser
-            int memorycount = Form1.memories.Length - 38;
+            int memorycount = Main.memories.Length - 38;
             string[] memories = new string[memorycount];
             int[] allowed = new int[memorycount];
             for (int i = 0; i < memorycount; i++)
             {
-                memories[i] = Form1.memories[38 + i];
+                memories[i] = Main.memories[38 + i];
                 allowed[i] = i + 1;
             }
             Array.Resize(ref allowed, allowed.Length - 1);
@@ -295,8 +295,8 @@ namespace PKHeX
             CB_OTQual.Items.Clear();
             for (int i = 0; i < 7; i++)
             {
-                CB_CTQual.Items.Add(Form1.memories[2 + i]);
-                CB_OTQual.Items.Add(Form1.memories[2 + i]);
+                CB_CTQual.Items.Add(Main.memories[2 + i]);
+                CB_OTQual.Items.Add(Main.memories[2 + i]);
             }
 
             // Feeling Chooser
@@ -304,8 +304,8 @@ namespace PKHeX
             CB_OTFeel.Items.Clear();
             for (int i = 0; i < 24; i++)
             {
-                CB_CTFeel.Items.Add(Form1.memories[10 + i]);
-                CB_OTFeel.Items.Add(Form1.memories[10 + i]);
+                CB_CTFeel.Items.Add(Main.memories[10 + i]);
+                CB_OTFeel.Items.Add(Main.memories[10 + i]);
             }
         }
         private void getMemoryArguments(string ARG, ComboBox sender)
@@ -321,11 +321,11 @@ namespace PKHeX
                     vs = "";
                     break;
                 case "PKM":
-                    argvals = Util.getCBList(Form1.specieslist, null);
+                    argvals = Util.getCBList(Main.specieslist, null);
                     vs = vartypes[0];
                     break;
                 case "GENLOC":
-                    argvals = Util.getCBList(Form1.genloc, null);
+                    argvals = Util.getCBList(Main.genloc, null);
                     vs = vartypes[1];
                     break;
                 case "ITEM":
@@ -351,18 +351,18 @@ namespace PKHeX
                         /* ORAS */
                         718,719,720,737,738,739,740,741,742,752,753,754,755,756,757,758,759,760,761,762,763,764,765,767,768, 769,770,775
                     };
-                    var item_list = Util.getCBList(Form1.itemlist, items_allowed);
+                    var item_list = Util.getCBList(Main.itemlist, items_allowed);
                     #endregion
                     argvals = item_list;
                     vs = vartypes[2];
                 }
                     break;
                 case "MOVE":
-                    argvals = Util.getCBList(Form1.movelist, null);
+                    argvals = Util.getCBList(Main.movelist, null);
                     vs = vartypes[3];
                     break;
                 case "LOCATION":
-                    argvals = Util.getCBList(Form1.metXY_00000, Legal.Met_XY_0);
+                    argvals = Util.getCBList(Main.metXY_00000, Legal.Met_XY_0);
                     vs = vartypes[4];
                     break;
             }
@@ -386,17 +386,17 @@ namespace PKHeX
         }
         private string getMemoryString(ComboBox m, ComboBox arg, ComboBox q, ComboBox f, string tr)
         {
-            string result = "";
+            string result;
             string nn = m_parent.TB_Nickname.Text;
             string a = ((Util.cbItem)(arg.SelectedItem) == null) ? arg.Text ?? "ERROR" : ((Util.cbItem)(arg.SelectedItem)).Text;
             int mem = Util.getIndex(m);
 
             bool enabled = false;
             if (mem == 0)
-                result = Form1.memories[38];
+                result = Main.memories[38];
             else
             {
-                result = String.Format(Form1.memories[mem + 38], nn, tr, a, f.Text, q.Text);
+                result = String.Format(Main.memories[mem + 38], nn, tr, a, f.Text, q.Text);
                 enabled = true;
             }
 
@@ -505,7 +505,7 @@ namespace PKHeX
             };
             int index = Array.IndexOf(cba, sender as ComboBox);
             if (Util.getIndex(sender as ComboBox) > 0)
-                m_parent.setCountrySubRegion(mta[index], "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
+                Main.setCountrySubRegion(mta[index], "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
         }
 
         private void update255_MTB(object sender, EventArgs e)

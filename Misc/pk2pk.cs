@@ -6,33 +6,16 @@ namespace PKHeX
 {
     public class pk2pk
     {
-        public byte[] ConvertPKM(byte[] input, byte[] savefile = null, int savindex = -1)
+        public void setG6TrainerInfo(byte SUBREGION, byte COUNTRY, byte _3DSREGION, string TRAINERNAME, byte TRAINERGENDER)
         {
-            #region Initialize Everything
-
-            // Load Species Name Tables
-            speclang_ja = Util.getStringList("Species", "ja");
-            speclang_en = Util.getStringList("Species", "en");
-            speclang_fr = Util.getStringList("Species", "fr");
-            speclang_it = Util.getStringList("Species", "it");
-            speclang_de = Util.getStringList("Species", "de");
-            speclang_es = Util.getStringList("Species", "es");
-
-            // Get the 6th Gen Data from the save file if it exists.
-            int savshift = savindex * 0x7F000;
-
-            // Import trainer details for importing, else use the default values that are already defined.
-            if ((savefile != null && savindex != -1) && (
-                BitConverter.ToUInt32(savefile, 0x6A810 + savshift) == 0x42454546 || 
-                BitConverter.ToUInt32(savefile, 0x7B210 + savshift) == 0x42454546)) // Set for X/Y/OR/AS loaded saves.
-            {
-                subreg = savefile[0x19426 + savshift];
-                country = savefile[0x19427 + savshift];
-                _3DSreg = savefile[0x1942C + savshift];
-                g6trname = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, 0x19448 + savshift, 0x1A));
-                g6trgend = savefile[0x19405 + savshift];
-            }
-            #endregion
+            subreg = SUBREGION;
+            country = COUNTRY;
+            _3DSreg = _3DSREGION;
+            g6trname = TRAINERNAME;
+            g6trgend = TRAINERGENDER;
+        }
+        public byte[] ConvertPKM(byte[] input)
+        {
             #region Convert
             if (input.Length == 100 || input.Length == 80)          // We have a Gen 3 PKM.
             {
@@ -56,12 +39,12 @@ namespace PKHeX
         }
         #region Utility
         public DateTime moment = DateTime.Now;
-        public string[] speclang_ja;
-        public string[] speclang_en;
-        public string[] speclang_fr;
-        public string[] speclang_it;
-        public string[] speclang_de;
-        public string[] speclang_es;
+        public string[] speclang_ja = Util.getStringList("Species", "ja");
+        public string[] speclang_en = Util.getStringList("Species", "en");
+        public string[] speclang_fr = Util.getStringList("Species", "fr");
+        public string[] speclang_it = Util.getStringList("Species", "it");
+        public string[] speclang_de = Util.getStringList("Species", "de");
+        public string[] speclang_es = Util.getStringList("Species", "es");
         public int country = 0x31; // US
         public int subreg = 0x7;   // California
         public int _3DSreg = 0x1;  // Americas

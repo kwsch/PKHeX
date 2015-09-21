@@ -1,6 +1,6 @@
 ﻿namespace PKHeX
 {
-    partial class Form1
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         
         public void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.tabMain = new System.Windows.Forms.TabControl();
             this.Tab_Main = new System.Windows.Forms.TabPage();
             this.CB_Language = new System.Windows.Forms.ComboBox();
@@ -313,7 +313,6 @@
             this.B_SwitchSAV = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
             this.L_IntegrityCheck = new System.Windows.Forms.Label();
-            this.B_VerifySHA = new System.Windows.Forms.Button();
             this.B_ExportSAV = new System.Windows.Forms.Button();
             this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
@@ -538,7 +537,7 @@
             this.TB_PID.TabIndex = 1;
             this.TB_PID.Text = "12345678";
             this.TB_PID.TextChanged += new System.EventHandler(this.update_ID);
-            this.TB_PID.MouseHover += new System.EventHandler(this.getTSV);
+            this.TB_PID.MouseHover += new System.EventHandler(this.updateTSV);
             // 
             // CHK_Nicknamed
             // 
@@ -750,7 +749,7 @@
             this.CB_Nature.TabIndex = 9;
             this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
             this.CB_Nature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Nature.MouseHover += new System.EventHandler(this.getNatureModification);
+            this.CB_Nature.MouseHover += new System.EventHandler(this.updateNatureModification);
             this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
             // 
             // Label_3DSRegion
@@ -2495,7 +2494,7 @@
             this.TB_SID.TabIndex = 2;
             this.TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_SID.TextChanged += new System.EventHandler(this.update_ID);
-            this.TB_SID.MouseHover += new System.EventHandler(this.getTSV);
+            this.TB_SID.MouseHover += new System.EventHandler(this.updateTSV);
             // 
             // TB_TID
             // 
@@ -2507,7 +2506,7 @@
             this.TB_TID.TabIndex = 1;
             this.TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_TID.TextChanged += new System.EventHandler(this.update_ID);
-            this.TB_TID.MouseHover += new System.EventHandler(this.getTSV);
+            this.TB_TID.MouseHover += new System.EventHandler(this.updateTSV);
             // 
             // Label_OT
             // 
@@ -3779,7 +3778,6 @@
             this.Tab_SAV.Controls.Add(this.B_SwitchSAV);
             this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
             this.Tab_SAV.Controls.Add(this.L_IntegrityCheck);
-            this.Tab_SAV.Controls.Add(this.B_VerifySHA);
             this.Tab_SAV.Controls.Add(this.B_ExportSAV);
             this.Tab_SAV.Controls.Add(this.RTB_S);
             this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
@@ -3828,17 +3826,6 @@
             this.L_IntegrityCheck.Size = new System.Drawing.Size(81, 13);
             this.L_IntegrityCheck.TabIndex = 5;
             this.L_IntegrityCheck.Text = "Integrity Check:";
-            // 
-            // B_VerifySHA
-            // 
-            this.B_VerifySHA.Enabled = false;
-            this.B_VerifySHA.Location = new System.Drawing.Point(32, 42);
-            this.B_VerifySHA.Name = "B_VerifySHA";
-            this.B_VerifySHA.Size = new System.Drawing.Size(75, 23);
-            this.B_VerifySHA.TabIndex = 1;
-            this.B_VerifySHA.Text = "Hashes";
-            this.B_VerifySHA.UseVisualStyleBackColor = true;
-            this.B_VerifySHA.Click += new System.EventHandler(this.clickVerifySHA);
             // 
             // B_ExportSAV
             // 
@@ -4039,7 +4026,7 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
-            // Form1
+            // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4056,7 +4043,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PKHeX";
             this.tabMain.ResumeLayout(false);
@@ -4400,7 +4387,6 @@
         private System.Windows.Forms.TabPage Tab_SAV;
         private System.Windows.Forms.Button B_ExportSAV;
         private System.Windows.Forms.Button B_VerifyCHK;
-        private System.Windows.Forms.Button B_VerifySHA;
         private System.Windows.Forms.RichTextBox RTB_S;
         private System.Windows.Forms.Button B_BoxRight;
         private System.Windows.Forms.Button B_BoxLeft;

@@ -6,21 +6,17 @@ namespace PKHeX
 {
     public partial class SAV_PokedexXY : Form
     {
-        public SAV_PokedexXY(Form1 frm1)
+        public SAV_PokedexXY()
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
-            m_parent = frm1;
-            Array.Copy(m_parent.savefile, sav, sav.Length);
-            savshift = m_parent.savindex * 0x7F000;
+            Util.TranslateInterface(this, Main.curlanguage);
+            sav = (byte[])Main.savefile.Clone();
             Setup();
             editing = false;
             LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38).ToString("X8");
+            TB_Spinda.Text = BitConverter.ToUInt32(sav, Main.SaveGame.Spinda).ToString("X8");
         }
-        Form1 m_parent;
-        public byte[] sav = new byte[0x100000];
-        public int savshift;
+        public byte[] sav;
         public bool[,] specbools = new bool[10, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
         public bool[] foreignbools = new bool[0x52 * 8];
@@ -34,7 +30,7 @@ namespace PKHeX
             // Fill List
             #region Species
             {
-                var species_list = Util.getCBList(Form1.specieslist, null);
+                var species_list = Util.getCBList(Main.specieslist, null);
                 species_list.RemoveAt(0); // Remove 0th Entry
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
@@ -42,8 +38,8 @@ namespace PKHeX
             }
             #endregion
 
-            for (int i = 1; i < Form1.specieslist.Length; i++)
-                LB_Species.Items.Add(i.ToString("000") + " - " + Form1.specieslist[i]);
+            for (int i = 1; i < Main.specieslist.Length; i++)
+                LB_Species.Items.Add(i.ToString("000") + " - " + Main.specieslist[i]);
             for (int i = 722; i <= 0x300; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - ???");
 
@@ -167,7 +163,7 @@ namespace PKHeX
             saveChanges();
 
             // Return back to the parent savefile
-            Array.Copy(sav, m_parent.savefile, sav.Length);
+            Array.Copy(sav, Main.savefile, sav.Length);
             Close();
         }
         private void saveChanges()
@@ -182,7 +178,7 @@ namespace PKHeX
                     if (specbools[p, i])
                         sdata[i / 8] |= (byte)(1 << i % 8);
 
-                Array.Copy(sdata, 0, sav, savshift + 0x1A408 + 0x60 * p, 0x60);
+                Array.Copy(sdata, 0, sav, Main.SaveGame.PokeDex + 8 + 0x60 * p, 0x60);
             }
 
             // Build new bool array for the Languages
@@ -199,7 +195,7 @@ namespace PKHeX
                     if (languagedata[i])
                         ldata[i / 8] |= (byte)(1 << i % 8);
 
-                Array.Copy(ldata, 0, sav, savshift + 0x1A7C8, 0x280);
+                Array.Copy(ldata, 0, sav, Main.SaveGame.PokeDexLanguageFlags, 0x280);
             }
 
             // Return Foreign Array
@@ -208,12 +204,12 @@ namespace PKHeX
                 for (int i = 0; i < 0x52 * 8; i++)
                     if (foreignbools[i])
                         foreigndata[i / 8] |= (byte)(1 << i % 8);
-                Array.Copy(foreigndata, 0, sav, savshift + 0x1AA4C, 0x52);
+                Array.Copy(foreigndata, 0, sav, Main.SaveGame.PokeDex + 0x64C, 0x52);
             }
 
             // Store Spinda Spot
             uint PID = Util.getHEXval(TB_Spinda);
-            Array.Copy(BitConverter.GetBytes(PID), 0, sav, 0x1AA48 + Convert.ToInt16(m_parent.savegame_oras) * 0x38 + savshift, 4);
+            Array.Copy(BitConverter.GetBytes(PID), 0, sav, Main.SaveGame.Spinda, 4);
         }
 
         private void getBools()
@@ -222,7 +218,7 @@ namespace PKHeX
             for (int i = 0; i < 0xA; i++)
             {
                 byte[] data = new byte[0x60];
-                Array.Copy(sav, savshift + 0x1A408 + 0x60 * i, data, 0, 0x60);
+                Array.Copy(sav, Main.SaveGame.PokeDex + 8 + 0x60 * i, data, 0, 0x60);
                 BitArray BitRegion = new BitArray(data);
                 for (int b = 0; b < (0x60 * 8); b++)
                     specbools[i, b] = BitRegion[b];
@@ -230,7 +226,7 @@ namespace PKHeX
 
             // Fill Language arrays
             byte[] langdata = new byte[0x280];
-            Array.Copy(sav, savshift + 0x1A7C8, langdata, 0, 0x280);
+            Array.Copy(sav, Main.SaveGame.PokeDexLanguageFlags, langdata, 0, 0x280);
             BitArray LangRegion = new BitArray(langdata);
             for (int b = 0; b < (721); b++) // 721 Species
                 for (int i = 0; i < 7; i++) // 7 Languages
@@ -239,7 +235,7 @@ namespace PKHeX
             // Fill Foreign array
             {
                 byte[] foreigndata = new byte[0x52];
-                Array.Copy(sav, savshift + 0x1AA4C, foreigndata, 0, 0x52);
+                Array.Copy(sav, Main.SaveGame.PokeDex + 0x64C, foreigndata, 0, 0x52);
                 BitArray ForeignRegion = new BitArray(foreigndata);
                 for (int b = 0; b < (0x52 * 8); b++)
                     foreignbools[b] = ForeignRegion[b];
@@ -286,15 +282,15 @@ namespace PKHeX
             byte[] fulldex = Properties.Resources.fulldex_XY;
             if (ModifierKeys != Keys.Control)
             {
-                Array.Copy(fulldex, 0x008, sav, savshift + 0x1A408, 0x638);
+                Array.Copy(fulldex, 0x008, sav, Main.SaveGame.PokeDex + 8, 0x638);
             }
             else
             {
-                Array.Copy(fulldex, 0x008, sav, savshift + 0x1A408, 0x1E0); // Copy Partitions 1-5
-                Array.Copy(fulldex, 0x368, sav, savshift + 0x1A768, 0x2D8); // Copy A & language
+                Array.Copy(fulldex, 0x008, sav, Main.SaveGame.PokeDex + 8, 0x1E0); // Copy Partitions 1-5
+                Array.Copy(fulldex, 0x368, sav, Main.SaveGame.PokeDex + 0x368, 0x2D8); // Copy A & language
             }
             // Skip the unknown sections then
-                Array.Copy(fulldex, 0x64C, sav, savshift + 0x1AA4C, 0x054);
+            Array.Copy(fulldex, 0x64C, sav, Main.SaveGame.PokeDex + 0x64C, 0x054);
 
             // Fetch the dex bools
             getBools();

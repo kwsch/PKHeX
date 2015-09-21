@@ -5,14 +5,13 @@ namespace PKHeX
 {
     public partial class SAV_Pokepuff : Form
     {
-        public SAV_Pokepuff(Form1 frm1)
+        public SAV_Pokepuff()
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Form1.curlanguage);
-            m_parent = frm1;
-            Array.Copy(m_parent.savefile, sav, 0x100000);
-            pfa = Form1.puffs;
-            savindex = m_parent.savindex;
+            Util.TranslateInterface(this, Main.curlanguage);
+            sav = (byte[])Main.savefile.Clone();
+
+            pfa = Main.puffs;
             pfa[0] = "---";
             Setup();
 
@@ -20,9 +19,7 @@ namespace PKHeX
             new ToolTip().SetToolTip(B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
 
-        private Form1 m_parent;
-        public byte[] sav = new byte[0x100000];
-        public int savindex;
+        public byte[] sav;
         private string[] pfa =
         {
             "Empty",
@@ -34,8 +31,8 @@ namespace PKHeX
         };
         private void Setup()
         {
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();
+            dgv.Rows.Clear();
+            dgv.Columns.Clear();
 
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
             {
@@ -57,24 +54,21 @@ namespace PKHeX
                 dgvPuff.Width = 135;
                 dgvPuff.FlatStyle = FlatStyle.Flat;
             }
-            dataGridView1.Columns.Add(dgvIndex);
-            dataGridView1.Columns.Add(dgvPuff);
+            dgv.Columns.Add(dgvIndex);
+            dgv.Columns.Add(dgvPuff);
 
-            dataGridView1.Rows.Add(100);
-            int offset = 0x5400 + 0x7F000*savindex;
+            dgv.Rows.Add(100);
             for (int i = 0; i < 100; i++)
             {
-                dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
-                dataGridView1.Rows[i].Cells[1].Value = pfa[sav[offset + i]];
+                dgv.Rows[i].Cells[0].Value = (i + 1).ToString();
+                dgv.Rows[i].Cells[1].Value = pfa[sav[Main.SaveGame.Puff + i]];
             }
-            MT_CNT.Text = BitConverter.ToUInt32(sav, offset + 100).ToString("0");
+            MT_CNT.Text = BitConverter.ToUInt32(sav, Main.SaveGame.Puff + 100).ToString("0");
         }
         private void dropclick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex != 1) return;
-
-            ComboBox comboBox = (ComboBox) dataGridView1.EditingControl;
-            comboBox.DroppedDown = true;
+            ((ComboBox)(sender as DataGridView).EditingControl).DroppedDown = true;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -94,7 +88,7 @@ namespace PKHeX
             for (int i = 0; i < 100; i++)
                 newpuffs[i] = (byte) (Util.rnd32()%basemod + basepuff);
 
-            Array.Copy(newpuffs, 0, sav, 0x5400 + savindex*0x7F000, 100);
+            Array.Copy(newpuffs, 0, sav, Main.SaveGame.Puff, 100);
             Setup();
         }
         private void B_None_Click(object sender, EventArgs e)
@@ -105,7 +99,7 @@ namespace PKHeX
             newpuffs[2] = 3;
             newpuffs[3] = 4;
             newpuffs[4] = 5;
-            Array.Copy(newpuffs, 0, sav, 0x5400 + savindex*0x7F000, 100);
+            Array.Copy(newpuffs, 0, sav, Main.SaveGame.Puff, 100);
             Setup();
         }
         private void B_Sort_Click(object sender, EventArgs e)
@@ -115,7 +109,7 @@ namespace PKHeX
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    string puff = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    string puff = dgv.Rows[i].Cells[1].Value.ToString();
                     puffarray[i] = (byte) Array.IndexOf(pfa, puff);
                 }
                 Array.Sort(puffarray);
@@ -126,7 +120,7 @@ namespace PKHeX
                 int count = 0;
                 for (int i = 0; i < 100; i++)
                 {
-                    string puff = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    string puff = dgv.Rows[i].Cells[1].Value.ToString();
                     byte puffval = (byte) Array.IndexOf(pfa, puff);
                     if (puffval == 0) continue;
                     puffarray[count] = puffval;
@@ -136,7 +130,7 @@ namespace PKHeX
                 Array.Sort(puffarray);
                 Array.Resize(ref puffarray, 100);
             }
-            Array.Copy(puffarray, 0, sav, 0x5400 + savindex*0x7F000, 100);
+            Array.Copy(puffarray, 0, sav, Main.SaveGame.Puff, 100);
             Setup();
         }
         private void B_Save_Click(object sender, EventArgs e)
@@ -145,7 +139,7 @@ namespace PKHeX
             int emptyslots = 0;
             for (int i = 0; i < 100; i++)
             {
-                string puff = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                string puff = dgv.Rows[i].Cells[1].Value.ToString();
                 if (Array.IndexOf(pfa, puff) == 0)
                 {
                     emptyslots++;
@@ -154,9 +148,9 @@ namespace PKHeX
 
                 puffarray[i - emptyslots] = (byte) Array.IndexOf(pfa, puff);
             }
-            Array.Copy(puffarray, 0, sav, 0x5400 + savindex*0x7F000, 100);
-            Array.Copy(sav, m_parent.savefile, 0x100000);
-            m_parent.savedited = true;
+            Array.Copy(puffarray, 0, sav, Main.SaveGame.Puff, 100);
+            Array.Copy(sav, Main.savefile, sav.Length);
+            Main.savedited = true;
             Close();
         }
     }
