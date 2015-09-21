@@ -2823,10 +2823,11 @@ namespace PKHeX
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
                 Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
             else return;
+            
+            if (slot >= 30 && slot < 36) setParty();
+            else getQuickFiller(SlotPictureBoxes[slot], pkxdata);
 
-            setParty();
             setPokedex(pkxdata);
-            getQuickFiller(SlotPictureBoxes[slot], pkxdata);
             savedited = true;
 
             getSlotColor(slot, Properties.Resources.slotSet);
