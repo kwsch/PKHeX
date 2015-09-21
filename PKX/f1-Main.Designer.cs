@@ -2785,7 +2785,6 @@
             this.bpkx30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx30.TabIndex = 59;
             this.bpkx30.TabStop = false;
-            this.bpkx30.Click += new System.EventHandler(this.clickSlot);
             this.bpkx30.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx30.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx30.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2799,7 +2798,6 @@
             this.bpkx29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx29.TabIndex = 58;
             this.bpkx29.TabStop = false;
-            this.bpkx29.Click += new System.EventHandler(this.clickSlot);
             this.bpkx29.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx29.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx29.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2813,7 +2811,6 @@
             this.bpkx28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx28.TabIndex = 57;
             this.bpkx28.TabStop = false;
-            this.bpkx28.Click += new System.EventHandler(this.clickSlot);
             this.bpkx28.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx28.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx28.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2827,7 +2824,6 @@
             this.bpkx27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx27.TabIndex = 56;
             this.bpkx27.TabStop = false;
-            this.bpkx27.Click += new System.EventHandler(this.clickSlot);
             this.bpkx27.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx27.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx27.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2841,7 +2837,6 @@
             this.bpkx26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx26.TabIndex = 55;
             this.bpkx26.TabStop = false;
-            this.bpkx26.Click += new System.EventHandler(this.clickSlot);
             this.bpkx26.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx26.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx26.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2855,7 +2850,6 @@
             this.bpkx25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx25.TabIndex = 54;
             this.bpkx25.TabStop = false;
-            this.bpkx25.Click += new System.EventHandler(this.clickSlot);
             this.bpkx25.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx25.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx25.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2869,7 +2863,6 @@
             this.bpkx24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx24.TabIndex = 53;
             this.bpkx24.TabStop = false;
-            this.bpkx24.Click += new System.EventHandler(this.clickSlot);
             this.bpkx24.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx24.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx24.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2883,7 +2876,6 @@
             this.bpkx23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx23.TabIndex = 52;
             this.bpkx23.TabStop = false;
-            this.bpkx23.Click += new System.EventHandler(this.clickSlot);
             this.bpkx23.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx23.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx23.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2897,7 +2889,6 @@
             this.bpkx22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx22.TabIndex = 51;
             this.bpkx22.TabStop = false;
-            this.bpkx22.Click += new System.EventHandler(this.clickSlot);
             this.bpkx22.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx22.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx22.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2911,7 +2902,6 @@
             this.bpkx21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx21.TabIndex = 50;
             this.bpkx21.TabStop = false;
-            this.bpkx21.Click += new System.EventHandler(this.clickSlot);
             this.bpkx21.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx21.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx21.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2925,7 +2915,6 @@
             this.bpkx20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx20.TabIndex = 49;
             this.bpkx20.TabStop = false;
-            this.bpkx20.Click += new System.EventHandler(this.clickSlot);
             this.bpkx20.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx20.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx20.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2939,7 +2928,6 @@
             this.bpkx19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx19.TabIndex = 48;
             this.bpkx19.TabStop = false;
-            this.bpkx19.Click += new System.EventHandler(this.clickSlot);
             this.bpkx19.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx19.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2953,7 +2941,6 @@
             this.bpkx18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx18.TabIndex = 47;
             this.bpkx18.TabStop = false;
-            this.bpkx18.Click += new System.EventHandler(this.clickSlot);
             this.bpkx18.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx18.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2967,7 +2954,6 @@
             this.bpkx17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx17.TabIndex = 46;
             this.bpkx17.TabStop = false;
-            this.bpkx17.Click += new System.EventHandler(this.clickSlot);
             this.bpkx17.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx17.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2981,7 +2967,6 @@
             this.bpkx16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx16.TabIndex = 45;
             this.bpkx16.TabStop = false;
-            this.bpkx16.Click += new System.EventHandler(this.clickSlot);
             this.bpkx16.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx16.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -2995,7 +2980,6 @@
             this.bpkx15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx15.TabIndex = 44;
             this.bpkx15.TabStop = false;
-            this.bpkx15.Click += new System.EventHandler(this.clickSlot);
             this.bpkx15.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx15.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3009,7 +2993,6 @@
             this.bpkx14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx14.TabIndex = 43;
             this.bpkx14.TabStop = false;
-            this.bpkx14.Click += new System.EventHandler(this.clickSlot);
             this.bpkx14.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx14.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3023,7 +3006,6 @@
             this.bpkx13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx13.TabIndex = 42;
             this.bpkx13.TabStop = false;
-            this.bpkx13.Click += new System.EventHandler(this.clickSlot);
             this.bpkx13.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx13.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3037,7 +3019,6 @@
             this.bpkx12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx12.TabIndex = 41;
             this.bpkx12.TabStop = false;
-            this.bpkx12.Click += new System.EventHandler(this.clickSlot);
             this.bpkx12.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx12.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3051,7 +3032,6 @@
             this.bpkx11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx11.TabIndex = 40;
             this.bpkx11.TabStop = false;
-            this.bpkx11.Click += new System.EventHandler(this.clickSlot);
             this.bpkx11.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx11.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3065,7 +3045,6 @@
             this.bpkx10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx10.TabIndex = 39;
             this.bpkx10.TabStop = false;
-            this.bpkx10.Click += new System.EventHandler(this.clickSlot);
             this.bpkx10.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx10.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3079,7 +3058,6 @@
             this.bpkx9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx9.TabIndex = 38;
             this.bpkx9.TabStop = false;
-            this.bpkx9.Click += new System.EventHandler(this.clickSlot);
             this.bpkx9.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx9.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3093,7 +3071,6 @@
             this.bpkx8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx8.TabIndex = 37;
             this.bpkx8.TabStop = false;
-            this.bpkx8.Click += new System.EventHandler(this.clickSlot);
             this.bpkx8.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx8.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3107,7 +3084,6 @@
             this.bpkx7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx7.TabIndex = 36;
             this.bpkx7.TabStop = false;
-            this.bpkx7.Click += new System.EventHandler(this.clickSlot);
             this.bpkx7.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx7.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3121,7 +3097,6 @@
             this.bpkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx6.TabIndex = 35;
             this.bpkx6.TabStop = false;
-            this.bpkx6.Click += new System.EventHandler(this.clickSlot);
             this.bpkx6.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx6.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3135,7 +3110,6 @@
             this.bpkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx5.TabIndex = 34;
             this.bpkx5.TabStop = false;
-            this.bpkx5.Click += new System.EventHandler(this.clickSlot);
             this.bpkx5.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx5.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3149,7 +3123,6 @@
             this.bpkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx4.TabIndex = 33;
             this.bpkx4.TabStop = false;
-            this.bpkx4.Click += new System.EventHandler(this.clickSlot);
             this.bpkx4.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx4.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3163,7 +3136,6 @@
             this.bpkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx3.TabIndex = 32;
             this.bpkx3.TabStop = false;
-            this.bpkx3.Click += new System.EventHandler(this.clickSlot);
             this.bpkx3.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx3.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3177,7 +3149,6 @@
             this.bpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx2.TabIndex = 31;
             this.bpkx2.TabStop = false;
-            this.bpkx2.Click += new System.EventHandler(this.clickSlot);
             this.bpkx2.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx2.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3191,7 +3162,6 @@
             this.bpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx1.TabIndex = 30;
             this.bpkx1.TabStop = false;
-            this.bpkx1.Click += new System.EventHandler(this.clickSlot);
             this.bpkx1.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
             this.bpkx1.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -3298,7 +3268,6 @@
             this.bbpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.bbpkx1.TabIndex = 8;
             this.bbpkx1.TabStop = false;
-            this.bbpkx1.Click += new System.EventHandler(this.clickSlot);
             this.bbpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx2
@@ -3309,7 +3278,6 @@
             this.bbpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.bbpkx2.TabIndex = 9;
             this.bbpkx2.TabStop = false;
-            this.bbpkx2.Click += new System.EventHandler(this.clickSlot);
             this.bbpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx3
@@ -3320,7 +3288,6 @@
             this.bbpkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.bbpkx3.TabIndex = 10;
             this.bbpkx3.TabStop = false;
-            this.bbpkx3.Click += new System.EventHandler(this.clickSlot);
             this.bbpkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx4
@@ -3331,7 +3298,6 @@
             this.bbpkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.bbpkx4.TabIndex = 11;
             this.bbpkx4.TabStop = false;
-            this.bbpkx4.Click += new System.EventHandler(this.clickSlot);
             this.bbpkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx5
@@ -3342,7 +3308,6 @@
             this.bbpkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.bbpkx5.TabIndex = 12;
             this.bbpkx5.TabStop = false;
-            this.bbpkx5.Click += new System.EventHandler(this.clickSlot);
             this.bbpkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // bbpkx6
@@ -3353,7 +3318,6 @@
             this.bbpkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.bbpkx6.TabIndex = 13;
             this.bbpkx6.TabStop = false;
-            this.bbpkx6.Click += new System.EventHandler(this.clickSlot);
             this.bbpkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // L_ReadOnlyPBB
@@ -3407,7 +3371,6 @@
             this.ppkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx1.TabIndex = 2;
             this.ppkx1.TabStop = false;
-            this.ppkx1.Click += new System.EventHandler(this.clickSlot);
             this.ppkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx2
@@ -3418,7 +3381,6 @@
             this.ppkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx2.TabIndex = 3;
             this.ppkx2.TabStop = false;
-            this.ppkx2.Click += new System.EventHandler(this.clickSlot);
             this.ppkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx3
@@ -3429,7 +3391,6 @@
             this.ppkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx3.TabIndex = 4;
             this.ppkx3.TabStop = false;
-            this.ppkx3.Click += new System.EventHandler(this.clickSlot);
             this.ppkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx4
@@ -3440,7 +3401,6 @@
             this.ppkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx4.TabIndex = 5;
             this.ppkx4.TabStop = false;
-            this.ppkx4.Click += new System.EventHandler(this.clickSlot);
             this.ppkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx5
@@ -3451,7 +3411,6 @@
             this.ppkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx5.TabIndex = 6;
             this.ppkx5.TabStop = false;
-            this.ppkx5.Click += new System.EventHandler(this.clickSlot);
             this.ppkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // ppkx6
@@ -3462,7 +3421,6 @@
             this.ppkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx6.TabIndex = 7;
             this.ppkx6.TabStop = false;
-            this.ppkx6.Click += new System.EventHandler(this.clickSlot);
             this.ppkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // Tab_Other
@@ -3592,7 +3550,6 @@
             this.dcpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.dcpkx2.TabIndex = 11;
             this.dcpkx2.TabStop = false;
-            this.dcpkx2.Click += new System.EventHandler(this.clickSlot);
             this.dcpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // dcpkx1
@@ -3604,7 +3561,6 @@
             this.dcpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.dcpkx1.TabIndex = 10;
             this.dcpkx1.TabStop = false;
-            this.dcpkx1.Click += new System.EventHandler(this.clickSlot);
             this.dcpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // DayCare_HasEgg
@@ -3637,7 +3593,6 @@
             this.gtspkx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.gtspkx.TabIndex = 23;
             this.gtspkx.TabStop = false;
-            this.gtspkx.Click += new System.EventHandler(this.clickSlot);
             this.gtspkx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // GB_Fused
@@ -3659,7 +3614,6 @@
             this.fusedpkx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.fusedpkx.TabIndex = 24;
             this.fusedpkx.TabStop = false;
-            this.fusedpkx.Click += new System.EventHandler(this.clickSlot);
             this.fusedpkx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // L_ReadOnlyOther
@@ -3693,7 +3647,6 @@
             this.subepkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.subepkx1.TabIndex = 18;
             this.subepkx1.TabStop = false;
-            this.subepkx1.Click += new System.EventHandler(this.clickSlot);
             this.subepkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
             // subepkx2
