@@ -477,7 +477,7 @@ namespace PKHeX
         public void CalculateStats()
         {
             ushort[] Stats = getStats(this);
-            Stat_HPMax = Stats[0];
+            Stat_HPMax = Stat_HPCurrent = Stats[0];
             Stat_ATK = Stats[1];
             Stat_DEF = Stats[2];
             Stat_SPE = Stats[3];
