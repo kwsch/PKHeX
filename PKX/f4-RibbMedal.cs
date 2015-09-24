@@ -13,12 +13,12 @@ namespace PKHeX
             Util.TranslateInterface(this, Main.curlanguage);
 
             // Set up Training Bag Data
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add("---");
+            CB_Bag.Items.Clear();
+            CB_Bag.Items.Add("---");
             for (int i = 1; i < Main.trainingbags.Length - 1; i++)
-                comboBox1.Items.Add(Main.trainingbags[i]);
-            comboBox1.SelectedIndex = Main.buff[0x17];
-            numericUpDown1.Value = Main.buff[0x16];
+                CB_Bag.Items.Add(Main.trainingbags[i]);
+            CB_Bag.SelectedIndex = Main.pk6.TrainingBag;
+            NUD_BagHits.Value = Main.pk6.TrainingBagHits;
             getRibbons();
         }
         private void getRibbons()
@@ -66,7 +66,7 @@ namespace PKHeX
                 pba[i].Image = Util.ChangeOpacity(bma[i], 0.1);
 
             // Populate Medals (what a mess)
-            int rv = Main.buff[0x2C];
+            int rv = Main.pk6.Data[0x2C];
             updateRibbon(TMedal1_0, rv, 0);
             updateRibbon(TMedal1_1, rv, 1);
             updateRibbon(TMedal1_2, rv, 2);
@@ -75,7 +75,7 @@ namespace PKHeX
             updateRibbon(TMedal1_5, rv, 5);
             updateRibbon(TMedal1_6, rv, 6);
             updateRibbon(TMedal1_7, rv, 7);
-            rv = Main.buff[0x2D];
+            rv = Main.pk6.Data[0x2D];
             updateRibbon(TMedal2_0, rv, 0);
             updateRibbon(TMedal2_1, rv, 1);
             updateRibbon(TMedal2_2, rv, 2);
@@ -84,7 +84,7 @@ namespace PKHeX
             updateRibbon(TMedal2_5, rv, 5);
             updateRibbon(TMedal2_6, rv, 6);
             updateRibbon(TMedal2_7, rv, 7);
-            rv = Main.buff[0x2E];
+            rv = Main.pk6.Data[0x2E];
             updateRibbon(TMedal3_0, rv, 0);
             updateRibbon(TMedal3_1, rv, 1);
             updateRibbon(TMedal3_2, rv, 2);
@@ -93,7 +93,7 @@ namespace PKHeX
             updateRibbon(TMedal3_5, rv, 5);
             updateRibbon(TMedal3_6, rv, 6);
             updateRibbon(TMedal3_7, rv, 7);
-            rv = Main.buff[0x2F];
+            rv = Main.pk6.Data[0x2F];
             updateRibbon(TMedal4_0, rv, 0);
             updateRibbon(TMedal4_1, rv, 1);
             updateRibbon(TMedal4_2, rv, 2);
@@ -104,7 +104,7 @@ namespace PKHeX
             updateRibbon(TMedal4_7, rv, 7);
 
             // Populate Kalos Ribbons
-            rv = Main.buff[0x30];
+            rv = Main.pk6.Data[0x30];
             updateRibbon(Kalos1a_0, rv, 0);
             updateRibbon(Kalos1a_1, rv, 1);
             updateRibbon(Kalos1a_2, rv, 2);
@@ -113,7 +113,7 @@ namespace PKHeX
             updateRibbon(Kalos1a_5, rv, 5);
             updateRibbon(Kalos1a_6, rv, 6);
             updateRibbon(Kalos1a_7, rv, 7);
-            rv = Main.buff[0x31];
+            rv = Main.pk6.Data[0x31];
             updateRibbon(Kalos1b_0, rv, 0);
             updateRibbon(Kalos1b_1, rv, 1);
             updateRibbon(Kalos1b_2, rv, 2);
@@ -122,7 +122,7 @@ namespace PKHeX
             updateRibbon(Kalos1b_5, rv, 5);
             updateRibbon(Kalos1b_6, rv, 6);
             updateRibbon(Kalos1b_7, rv, 7);
-            rv = Main.buff[0x32];
+            rv = Main.pk6.Data[0x32];
             updateRibbon(Kalos2a_0, rv, 0);
             updateRibbon(Kalos2a_1, rv, 1);
             updateRibbon(Kalos2a_2, rv, 2);
@@ -131,7 +131,7 @@ namespace PKHeX
             updateRibbon(Kalos2a_5, rv, 5);
             updateRibbon(Kalos2a_6, rv, 6);
             updateRibbon(Kalos2a_7, rv, 7);
-            rv = Main.buff[0x33];
+            rv = Main.pk6.Data[0x33];
             updateRibbon(Kalos2b_0, rv, 0);
             updateRibbon(Kalos2b_1, rv, 1);
             updateRibbon(Kalos2b_2, rv, 2);
@@ -142,7 +142,7 @@ namespace PKHeX
             updateRibbon(Kalos2b_7, rv, 7);
 
             // Populate Extra Ribbons
-            rv = Main.buff[0x34];
+            rv = Main.pk6.Data[0x34];
             updateRibbon(Extra1_0, rv, 0);
             updateRibbon(Extra1_1, rv, 1);
             updateRibbon(Extra1_2, rv, 2);
@@ -151,7 +151,7 @@ namespace PKHeX
 
             // oras
             updateRibbon(Extra1_7, rv, 7);
-            rv = Main.buff[0x35];
+            rv = Main.pk6.Data[0x35];
             updateRibbon(ORAS_0, rv, 0);
             updateRibbon(ORAS_1, rv, 1);
             updateRibbon(ORAS_2, rv, 2);
@@ -159,10 +159,10 @@ namespace PKHeX
             updateRibbon(ORAS_4, rv, 4);
             updateRibbon(ORAS_5, rv, 5);
 
-            TB_PastContest.Text = Main.buff[0x38].ToString();
-            TB_PastBattle.Text = Main.buff[0x39].ToString();
+            TB_PastContest.Text = Main.pk6.Data[0x38].ToString();
+            TB_PastBattle.Text = Main.pk6.Data[0x39].ToString();
 
-            rv = Main.buff[0x3A];
+            rv = Main.pk6.Data[0x3A];
             updateRibbon(CHK_D0, rv, 0);
             updateRibbon(CHK_D1, rv, 1);
             updateRibbon(CHK_D2, rv, 2);
@@ -170,7 +170,7 @@ namespace PKHeX
             updateRibbon(CHK_D4, rv, 4);
             updateRibbon(CHK_D5, rv, 5);
 
-            CHK_Secret.Checked = Convert.ToBoolean(Main.buff[0x72]);
+            CHK_Secret.Checked = Convert.ToBoolean(Main.pk6.Data[0x72]);
         }                                       // Populate Ribbons prompted
         private void setRibbons()
         {
@@ -208,10 +208,10 @@ namespace PKHeX
             kalos2b |= addRibbon(Kalos2b_5);
             kalos2b |= addRibbon(Kalos2b_6);
             kalos2b |= addRibbon(Kalos2b_7);////
-            Main.buff[0x30] = (byte)kalos1a;
-            Main.buff[0x31] = (byte)kalos1b;
-            Main.buff[0x32] = (byte)kalos2a;
-            Main.buff[0x33] = (byte)kalos2b;
+            Main.pk6.Data[0x30] = (byte)kalos1a;
+            Main.pk6.Data[0x31] = (byte)kalos1b;
+            Main.pk6.Data[0x32] = (byte)kalos2a;
+            Main.pk6.Data[0x33] = (byte)kalos2b;
 
             // Pass Extra Ribbon
             int extra1 = 0;
@@ -223,7 +223,7 @@ namespace PKHeX
 
             // ORAS
             extra1 |= addRibbon(Extra1_7); // Hoenn Champ
-            Main.buff[0x34] = (byte)extra1;
+            Main.pk6.Data[0x34] = (byte)extra1;
 
             int oras = 0;
             oras |= addRibbon(ORAS_0);
@@ -232,7 +232,7 @@ namespace PKHeX
             oras |= addRibbon(ORAS_3);
             oras |= addRibbon(ORAS_4);
             oras |= addRibbon(ORAS_5);
-            Main.buff[0x35] = (byte)oras;
+            Main.pk6.Data[0x35] = (byte)oras;
 
             // Gather Super Training Medals
             int medals1 = 0, medals2 = 0, medals3 = 0, medals4 = 0;
@@ -268,13 +268,13 @@ namespace PKHeX
             medals4 |= addRibbon(TMedal4_5);
             medals4 |= addRibbon(TMedal4_6);
             medals4 |= addRibbon(TMedal4_7);////
-            Main.buff[0x2C] = (byte)medals1;
-            Main.buff[0x2D] = (byte)medals2;
-            Main.buff[0x2E] = (byte)medals3;
-            Main.buff[0x2F] = (byte)medals4;
+            Main.pk6.Data[0x2C] = (byte)medals1;
+            Main.pk6.Data[0x2D] = (byte)medals2;
+            Main.pk6.Data[0x2E] = (byte)medals3;
+            Main.pk6.Data[0x2F] = (byte)medals4;
 
-            Main.buff[0x38] = (byte)Util.ToUInt32(TB_PastContest.Text);
-            Main.buff[0x39] = (byte)Util.ToUInt32(TB_PastBattle.Text);
+            Main.pk6.Data[0x38] = (byte)Util.ToUInt32(TB_PastContest.Text);
+            Main.pk6.Data[0x39] = (byte)Util.ToUInt32(TB_PastBattle.Text);
 
             int dis = 0;
             dis |= addRibbon(CHK_D0);
@@ -283,9 +283,9 @@ namespace PKHeX
             dis |= addRibbon(CHK_D3);
             dis |= addRibbon(CHK_D4);
             dis |= addRibbon(CHK_D5);
-            Main.buff[0x3A] = (byte)dis;
+            Main.pk6.Data[0x3A] = (byte)dis;
 
-            Main.buff[0x72] = Convert.ToByte(CHK_Secret.Checked);
+            Main.pk6.Data[0x72] = Convert.ToByte(CHK_Secret.Checked);
         }                                       // Saving Ribbons prompted
         private void updateRibbon(CheckBox chk, int rv, int sh)
         {
@@ -328,7 +328,7 @@ namespace PKHeX
 
                 TB_PastContest.Text = (Convert.ToInt32(b) * 40).ToString();
                 TB_PastBattle.Text = (Convert.ToInt32(b) * 8).ToString();
-                if (Main.buff[0xDF] <= 0x10) return; // gen3
+                if (Main.pk6.Data[0xDF] <= 0x10) return; // gen3
                 TB_PastContest.Text = 0.ToString(); // no past gen ribbons 4-5
                 TB_PastBattle.Text = 0.ToString();
             }
@@ -360,8 +360,8 @@ namespace PKHeX
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
-            Main.buff[0x17] = (byte)comboBox1.SelectedIndex;
-            Main.buff[0x16] = (byte)numericUpDown1.Value;
+            Main.pk6.Data[0x17] = (byte)CB_Bag.SelectedIndex;
+            Main.pk6.Data[0x16] = (byte)NUD_BagHits.Value;
             setRibbons();
             Close();
         }         // Save Button

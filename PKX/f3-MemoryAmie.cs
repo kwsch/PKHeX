@@ -46,7 +46,7 @@ namespace PKHeX
                 past = "Past Gen";
                 withOT = "Memories with";
             }
-            h = Main.buff;
+            h = Main.pk6.Data;
 
             getCountries();
             getLangStrings();
@@ -85,9 +85,9 @@ namespace PKHeX
             if (Util.TrimFromZero(m_parent.TB_OTt2.Text) != "")
                 CB_Handler.Items.AddRange(new object[] { m_parent.TB_OTt2.Text });
             else
-                Main.buff[0x93] = 0;
+                Main.pk6.CurrentHandler = 0;
 
-            tabControl1.SelectedIndex = CB_Handler.SelectedIndex = Main.buff[0x93];
+            tabControl1.SelectedIndex = CB_Handler.SelectedIndex = Main.pk6.CurrentHandler;
 
             if (m_parent.CHK_IsEgg.Checked)
             {
@@ -167,8 +167,8 @@ namespace PKHeX
             cb1v(CB_CTMemory, 0xA5);
             if (!CB_CTVar.Enabled)
             {
-                Main.buff[0xA8] = 0;
-                Main.buff[0xA9] = 0;
+                Main.pk6.Data[0xA8] = 0;
+                Main.pk6.Data[0xA9] = 0;
             }
             else
                 cb2v(CB_CTVar, 0xA8);
@@ -176,21 +176,21 @@ namespace PKHeX
             // If memory doesn't contain a feeling/quality
             if (!CB_CTFeel.Enabled)
             {
-                Main.buff[0xA4] = 0;
-                Main.buff[0xA6] = 0;
+                Main.pk6.Data[0xA4] = 0;
+                Main.pk6.Data[0xA6] = 0;
             }
             else
             {
                 cb1i(CB_CTFeel, 0xA6);
-                Main.buff[0xA4] = (byte)(CB_CTQual.SelectedIndex + 1);
+                Main.pk6.Data[0xA4] = (byte)(CB_CTQual.SelectedIndex + 1);
             }
             #endregion
             #region // OT MEMORIES
             cb1v(CB_OTMemory, 0xCD);
             if (!CB_OTVar.Enabled)
             {
-                Main.buff[0xCE] = 0;
-                Main.buff[0xCF] = 0;
+                Main.pk6.Data[0xCE] = 0;
+                Main.pk6.Data[0xCF] = 0;
             }
             else
                 cb2v(CB_OTVar, 0xCE);
@@ -198,13 +198,13 @@ namespace PKHeX
             // If memory doesn't contain a feeling/quality
             if (!CB_OTFeel.Enabled)
             {
-                Main.buff[0xCC] = 0;
-                Main.buff[0xD0] = 0;
+                Main.pk6.Data[0xCC] = 0;
+                Main.pk6.Data[0xD0] = 0;
             }
             else
             {
                 cb1i(CB_OTFeel, 0xD0);
-                Main.buff[0xCC] = (byte)(CB_OTQual.SelectedIndex + 1);
+                Main.pk6.Data[0xCC] = (byte)(CB_OTQual.SelectedIndex + 1);
             }
             #endregion
         }

@@ -5,7 +5,6 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
@@ -213,7 +212,7 @@ namespace PKHeX
         {
             return PersonalGetter.GetPersonal(species).BaseFriendship;
         }
-        internal static int getLevel(int species, ref uint exp)
+        internal static int getLevel(int species, uint exp)
         {
             if (exp == 0) { return 1; }
 
@@ -226,7 +225,6 @@ namespace PKHeX
             while ((uint)table.Rows[++tl][growth + 1] <= exp)
             {
                 if (tl != 100) continue;
-                exp = getEXP(100, species); // Fix EXP
                 return 100;
                 // After we find the level above ours, we're done.
             }
@@ -257,6 +255,8 @@ namespace PKHeX
         }
         internal static int getGender(string s)
         {
+            if (s == null) 
+                return -1;
             if (s == "♂" || s == "M")
                 return 0;
             if (s == "♀" || s == "F")
@@ -518,286 +518,6 @@ namespace PKHeX
             return pid;
         }
 
-        // Object
-        #region PKX Object
-        private Image pksprite;
-        private uint mEC, mPID, mIV32,
-
-            mexp,
-            mHP_EV, mATK_EV, mDEF_EV, mSPA_EV, mSPD_EV, mSPE_EV,
-            mHP_IV, mATK_IV, mDEF_IV, mSPE_IV, mSPA_IV, mSPD_IV,
-            mcnt_cool, mcnt_beauty, mcnt_cute, mcnt_smart, mcnt_tough, mcnt_sheen,
-            mmarkings, mhptype;
-
-        private string
-            slot,
-            mnicknamestr, mgenderstring, mnotOT, mot, mSpeciesName, mNatureName, mHPName, mAbilityName,
-            mMove1N, mMove2N, mMove3N, mMove4N, mhelditemN,
-            mRMove1N, mRMove2N, mRMove3N, mRMove4N,
-            mMetLocN, mEggLocN,
-            mcountryID, mregionID, mGameN, mBallN, mdsregIDN, motlangN;
-
-        private int
-            mability, mabilitynum, mnature, mgenderflag, maltforms, mPKRS_Strain, mPKRS_Duration,
-            mmetlevel, motgender, mLevel;
-
-        private bool
-            misegg, misnick, misshiny, mfeflag;
-
-        private ushort
-            mhelditem, mspecies, mTID, mSID, mTSV, mESV,
-            mmove1, mmove2, mmove3, mmove4,
-            mmove1_pp, mmove2_pp, mmove3_pp, mmove4_pp,
-            mmove1_ppu, mmove2_ppu, mmove3_ppu, mmove4_ppu,
-            meggmove1, meggmove2, meggmove3, meggmove4,
-            mchk,
-
-            mOTfriendship, mOTaffection,
-            megg_year, megg_month, megg_day,
-            mmet_year, mmet_month, mmet_day,
-            meggloc, mmetloc,
-            mball, mencountertype,
-            mgamevers, mdsregID, motlang;
-
-        public string Position { get { return slot; } }
-        public Image Sprite { get { return pksprite; } }
-        public string Nickname { get { return mnicknamestr; } }
-        public string Species { get { return mSpeciesName; } }
-        public string Nature { get { return mNatureName; } }
-        public string Gender { get { return mgenderstring; } }
-        public string ESV { get { return mESV.ToString("0000"); } }
-        public string HP_Type { get { return mHPName; } }
-        public string Ability { get { return mAbilityName; } }
-        public string Move1 { get { return mMove1N; } }
-        public string Move2 { get { return mMove2N; } }
-        public string Move3 { get { return mMove3N; } }
-        public string Move4 { get { return mMove4N; } }
-        public string HeldItem { get { return mhelditemN; } }
-        public string MetLoc { get { return mMetLocN; } }
-        public string EggLoc { get { return mEggLocN; } }
-        public string Ball { get { return mBallN; } }
-        public string OT { get { return mot; } }
-        public string Version { get { return mGameN; } }
-        public string OTLang { get { return motlangN; } }
-        public string CountryID { get { return mcountryID; } }
-        public string RegionID { get { return mregionID; } }
-        public string DSRegionID { get { return mdsregIDN; } }
-
-        #region Extraneous
-        public string EC { get { return mEC.ToString("X8"); } }
-        public string PID { get { return mPID.ToString("X8"); } }
-        public uint HP_IV { get { return mHP_IV; } }
-        public uint ATK_IV { get { return mATK_IV; } }
-        public uint DEF_IV { get { return mDEF_IV; } }
-        public uint SPA_IV { get { return mSPA_IV; } }
-        public uint SPD_IV { get { return mSPD_IV; } }
-        public uint SPE_IV { get { return mSPE_IV; } }
-        public uint EXP { get { return mexp; } }
-        public int Level { get { return mLevel; } }
-        public uint HP_EV { get { return mHP_EV; } }
-        public uint ATK_EV { get { return mATK_EV; } }
-        public uint DEF_EV { get { return mDEF_EV; } }
-        public uint SPA_EV { get { return mSPA_EV; } }
-        public uint SPD_EV { get { return mSPD_EV; } }
-        public uint SPE_EV { get { return mSPE_EV; } }
-        public uint Cool { get { return mcnt_cool; } }
-        public uint Beauty { get { return mcnt_beauty; } }
-        public uint Cute { get { return mcnt_cute; } }
-        public uint Smart { get { return mcnt_smart; } }
-        public uint Tough { get { return mcnt_tough; } }
-        public uint Sheen { get { return mcnt_sheen; } }
-        public uint Markings { get { return mmarkings; } }
-
-        public string NotOT { get { return mnotOT; } }
-
-        public int AbilityNum { get { return mabilitynum; } }
-        public int GenderFlag { get { return mgenderflag; } }
-        public int AltForms { get { return maltforms; } }
-        public int PKRS_Strain { get { return mPKRS_Strain; } }
-        public int PKRS_Days { get { return mPKRS_Duration; } }
-        public int MetLevel { get { return mmetlevel; } }
-        public int OT_Gender { get { return motgender; } }
-
-        public bool FatefulFlag { get { return mfeflag; } }
-        public bool IsEgg { get { return misegg; } }
-        public bool IsNicknamed { get { return misnick; } }
-        public bool IsShiny { get { return misshiny; } }
-
-        public ushort TID { get { return mTID; } }
-        public ushort SID { get { return mSID; } }
-        public ushort TSV { get { return mTSV; } }
-        public ushort Move1_PP { get { return mmove1_pp; } }
-        public ushort Move2_PP { get { return mmove2_pp; } }
-        public ushort Move3_PP { get { return mmove3_pp; } }
-        public ushort Move4_PP { get { return mmove4_pp; } }
-        public ushort Move1_PPUp { get { return mmove1_ppu; } }
-        public ushort Move2_PPUp { get { return mmove2_ppu; } }
-        public ushort Move3_PPUp { get { return mmove3_ppu; } }
-        public ushort Move4_PPUp { get { return mmove4_ppu; } }
-        public string Relearn1 { get { return mRMove1N; } }
-        public string Relearn2 { get { return mRMove2N; } }
-        public string Relearn3 { get { return mRMove3N; } }
-        public string Relearn4 { get { return mRMove4N; } }
-        public ushort Checksum { get { return mchk; } }
-        public ushort mFriendship { get { return mOTfriendship; } }
-        public ushort OT_Affection { get { return mOTaffection; } }
-        public ushort Egg_Year { get { return megg_year; } }
-        public ushort Egg_Day { get { return megg_month; } }
-        public ushort Egg_Month { get { return megg_day; } }
-        public ushort Met_Year { get { return mmet_year; } }
-        public ushort Met_Day { get { return mmet_month; } }
-        public ushort Met_Month { get { return mmet_day; } }
-        public ushort Encounter { get { return mencountertype; } }
-
-        #endregion
-        public PKX(byte[] pkx, string ident)
-        {
-            slot = ident;
-            mnicknamestr = "";
-            mnotOT = "";
-            mot = "";
-            mEC = BitConverter.ToUInt32(pkx, 0);
-            mchk = BitConverter.ToUInt16(pkx, 6);
-            mspecies = BitConverter.ToUInt16(pkx, 0x08);
-            mhelditem = BitConverter.ToUInt16(pkx, 0x0A);
-            mTID = BitConverter.ToUInt16(pkx, 0x0C);
-            mSID = BitConverter.ToUInt16(pkx, 0x0E);
-            mexp = BitConverter.ToUInt32(pkx, 0x10);
-            mability = pkx[0x14];
-            mabilitynum = pkx[0x15];
-            // 0x16, 0x17 - Training bag
-            mPID = BitConverter.ToUInt32(pkx, 0x18);
-            mnature = pkx[0x1C];
-            mfeflag = (pkx[0x1D] % 2) == 1;
-            mgenderflag = (pkx[0x1D] >> 1) & 0x3;
-            maltforms = (pkx[0x1D] >> 3);
-            mHP_EV = pkx[0x1E];
-            mATK_EV = pkx[0x1F];
-            mDEF_EV = pkx[0x20];
-            mSPA_EV = pkx[0x22];
-            mSPD_EV = pkx[0x23];
-            mSPE_EV = pkx[0x21];
-            mcnt_cool = pkx[0x24];
-            mcnt_beauty = pkx[0x25];
-            mcnt_cute = pkx[0x26];
-            mcnt_smart = pkx[0x27];
-            mcnt_tough = pkx[0x28];
-            mcnt_sheen = pkx[0x29];
-            mmarkings = pkx[0x2A];
-            mPKRS_Strain = pkx[0x2B] >> 4;
-            mPKRS_Duration = pkx[0x2B] % 0x10;
-
-            // Block B
-            mnicknamestr = Util.TrimFromZero(Encoding.Unicode.GetString(pkx, 0x40, 24));
-            // 0x58, 0x59 - unused
-            mmove1 = BitConverter.ToUInt16(pkx, 0x5A);
-            mmove2 = BitConverter.ToUInt16(pkx, 0x5C);
-            mmove3 = BitConverter.ToUInt16(pkx, 0x5E);
-            mmove4 = BitConverter.ToUInt16(pkx, 0x60);
-            mmove1_pp = pkx[0x62];
-            mmove2_pp = pkx[0x63];
-            mmove3_pp = pkx[0x64];
-            mmove4_pp = pkx[0x65];
-            mmove1_ppu = pkx[0x66];
-            mmove2_ppu = pkx[0x67];
-            mmove3_ppu = pkx[0x68];
-            mmove4_ppu = pkx[0x69];
-            meggmove1 = BitConverter.ToUInt16(pkx, 0x6A);
-            meggmove2 = BitConverter.ToUInt16(pkx, 0x6C);
-            meggmove3 = BitConverter.ToUInt16(pkx, 0x6E);
-            meggmove4 = BitConverter.ToUInt16(pkx, 0x70);
-
-            // 0x72 - Super Training Flag - Passed with pkx to new form
-
-            // 0x73 - unused/unknown
-            mIV32 = BitConverter.ToUInt32(pkx, 0x74);
-            mHP_IV = mIV32 & 0x1F;
-            mATK_IV = (mIV32 >> 5) & 0x1F;
-            mDEF_IV = (mIV32 >> 10) & 0x1F;
-            mSPE_IV = (mIV32 >> 15) & 0x1F;
-            mSPA_IV = (mIV32 >> 20) & 0x1F;
-            mSPD_IV = (mIV32 >> 25) & 0x1F;
-            misegg = Convert.ToBoolean((mIV32 >> 30) & 1);
-            misnick = Convert.ToBoolean((mIV32 >> 31));
-
-            // Block C
-            mnotOT = Util.TrimFromZero(Encoding.Unicode.GetString(pkx, 0x78, 24));
-            bool notOTG = Convert.ToBoolean(pkx[0x92]);
-            // Memory Editor edits everything else with pkx in a new form
-
-            // Block D
-            mot = Util.TrimFromZero(Encoding.Unicode.GetString(pkx, 0xB0, 24));
-            // 0xC8, 0xC9 - unused
-            mOTfriendship = pkx[0xCA];
-            mOTaffection = pkx[0xCB]; // Handled by Memory Editor
-            // 0xCC, 0xCD, 0xCE, 0xCF, 0xD0
-            megg_year = pkx[0xD1];
-            megg_month = pkx[0xD2];
-            megg_day = pkx[0xD3];
-            mmet_year = pkx[0xD4];
-            mmet_month = pkx[0xD5];
-            mmet_day = pkx[0xD6];
-            // 0xD7 - unused
-            meggloc = BitConverter.ToUInt16(pkx, 0xD8);
-            mmetloc = BitConverter.ToUInt16(pkx, 0xDA);
-            mball = pkx[0xDC];
-            mmetlevel = pkx[0xDD] & 0x7F;
-            motgender = (pkx[0xDD]) >> 7;
-            mencountertype = pkx[0xDE];
-            mgamevers = pkx[0xDF];
-            string[] data = getCountryRegionText(pkx[0xE0], pkx[0xE1], Main.curlanguage);
-            mcountryID = data[0x0];
-            mregionID = data[0x1];
-            mdsregID = pkx[0xE2];
-            motlang = pkx[0xE3];
-
-            if (mgenderflag == 0)
-                mgenderstring = "♂";
-            else if (mgenderflag == 1)
-                mgenderstring = "♀";
-            else
-                mgenderstring = "-";
-
-            mhptype = (15 * ((mHP_IV & 1) + 2 * (mATK_IV & 1) + 4 * (mDEF_IV & 1) + 8 * (mSPE_IV & 1) + 16 * (mSPA_IV & 1) + 32 * (mSPD_IV & 1))) / 63 + 1;
-
-            mTSV = (ushort)((mTID ^ mSID) >> 4);
-            mESV = (ushort)(((mPID >> 16) ^ (mPID & 0xFFFF)) >> 4);
-
-            misshiny = (mTSV == mESV);
-            // Nidoran Gender Fixing Text
-            {
-                mnicknamestr = Regex.Replace(mnicknamestr, "\uE08F", "\u2640");
-                mnicknamestr = Regex.Replace(mnicknamestr, "\uE08E", "\u2642");
-            }
-            {
-                pksprite = getSprite(pkx);
-            }
-            try
-            {
-                mSpeciesName = Main.specieslist[mspecies];
-                mhelditemN = Main.itemlist[mhelditem];
-                mNatureName = Main.natures[mnature];
-                mHPName = Main.types[mhptype];
-                mAbilityName = Main.abilitylist[mability];
-                mMove1N = Main.movelist[mmove1];
-                mMove2N = Main.movelist[mmove2];
-                mMove3N = Main.movelist[mmove3];
-                mMove4N = Main.movelist[mmove4];
-                mRMove1N = Main.movelist[meggmove1];
-                mRMove2N = Main.movelist[meggmove2];
-                mRMove3N = Main.movelist[meggmove3];
-                mRMove4N = Main.movelist[meggmove4];
-                mMetLocN = getLocation(false, mgamevers, mmetloc);
-                mEggLocN = getLocation(true, mgamevers, meggloc);
-                mLevel = getLevel(mspecies, ref mexp);
-                mGameN = Main.gamelist[mgamevers];
-                mBallN = Main.balllist[mball];
-                motlangN = Main.gamelanguages[motlang] ?? String.Format("UNK {0}", motlang);
-                mdsregIDN = Main.consoleregions[mdsregID] ?? String.Format("UNK {0}", mdsregID);
-            }
-            catch { return; }
-        }
-        #endregion
         #region SaveGame
 
         public class Structures
@@ -1048,7 +768,7 @@ namespace PKHeX
                             OPower = 0x17400; // ****changed****
                             EventConst = 0x14A00;
                             EventAsh = EventConst + 0x78;
-                            EventFlag = 0x14A00; // Confirmed
+                            EventFlag = EventConst + 0x2FC;
                             PokeDex = 0x15000;
                             Spinda = PokeDex + 0x680;
                             EncounterCount = PokeDex + 0x686;
@@ -1078,35 +798,6 @@ namespace PKHeX
             }
         }
         #endregion
-
-        internal static string[] getPKXSummary(PKX data)
-        {
-            string[] response = new string[3];
-            // Summarize
-            string filename = data.Nickname;
-            if (filename != data.Species)
-                filename += " (" + data.Species + ")";
-            response[0] = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, data.HeldItem, data.Nature, data.Level, data.Ability);
-            response[1] = String.Format("{0} / {1} / {2} / {3}", data.Move1, data.Move2, data.Move3, data.Move4);
-            response[2] = String.Format(
-                "IVs:{0}{1}{2}{3}{4}{5}"
-                + Environment.NewLine + Environment.NewLine +
-                "EVs:{6}{7}{8}{9}{10}{11}",
-                Environment.NewLine + data.HP_IV.ToString("00"),
-                Environment.NewLine + data.ATK_IV.ToString("00"),
-                Environment.NewLine + data.DEF_IV.ToString("00"),
-                Environment.NewLine + data.SPA_IV.ToString("00"),
-                Environment.NewLine + data.SPD_IV.ToString("00"),
-                Environment.NewLine + data.SPE_IV.ToString("00"),
-                Environment.NewLine + data.HP_EV.ToString("00"),
-                Environment.NewLine + data.ATK_EV.ToString("00"),
-                Environment.NewLine + data.DEF_EV.ToString("00"),
-                Environment.NewLine + data.SPA_EV.ToString("00"),
-                Environment.NewLine + data.SPD_EV.ToString("00"),
-                Environment.NewLine + data.SPE_EV.ToString("00"));
-
-            return response;
-        }
 
         // SAV Manipulation
         internal static int detectSAVIndex(byte[] data, out int savindex)
@@ -1638,19 +1329,6 @@ namespace PKHeX
         }
 
         // Data Requests
-        internal static Image getSprite(byte[] data)
-        {
-            int species = BitConverter.ToInt16(data, 0x08); // Get Species
-            int form = (data[0x1D] >> 3);
-            int gender = (data[0x1D] >> 1) & 0x3;
-            int item = BitConverter.ToUInt16(data, 0xA);
-            bool isEgg = ((BitConverter.ToUInt32(data, 0x74) >> 30) & 1) == 1;
-            bool isShiny = getIsShiny(BitConverter.ToUInt32(data, 0x18),
-                BitConverter.ToUInt16(data, 0x0C),
-                BitConverter.ToUInt16(data, 0x0E));
-
-            return getSprite(species, form, gender, item, isEgg, isShiny);
-        }
         internal static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny)
         {
             string file;
@@ -1700,7 +1378,21 @@ namespace PKHeX
             }
             return baseImage;
         }
+        internal static Image getSprite(PK6 pk6)
+        {
+            return pk6.Sprite;
+        }
+        internal static Image getSprite(byte[] data)
+        {
+            return new PK6(data).Sprite;
+        }
 
+        internal static string[] getShowdownText(string Nickname, int Species, int HeldItem, int Ability, int[] EVs,
+            int HPType, int Move1, int Move2, int Move3, int Move4)
+        {
+            // TODO
+            return null;
+        }
 
         // Font Related
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
@@ -2167,6 +1859,8 @@ namespace PKHeX
                     string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
                     for (int i = 0; i < lines.Length; i++) lines[i] = lines[i].Replace("'", "’").Trim(); // Sanitize apostrophes
 
+                    if (lines.Length < 3) return;
+
                     // Seek for start of set
                     int start = -1;
                     for (int i = 0; i < lines.Length; i++)
@@ -2211,8 +1905,7 @@ namespace PKHeX
                         }
                         if (Species < -1)
                             return;
-                        else
-                            lines = lines.Skip(1).Take(lines.Length - 1).ToArray();
+                        lines = lines.Skip(1).Take(lines.Length - 1).ToArray();
                     }
                     int movectr = 0;
                     // Detect relevant data
@@ -2239,6 +1932,7 @@ namespace PKHeX
                         string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
                         switch (brokenline[0])
                         {
+                            case "Trait":
                             case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1]); break; }
                             case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
                             case "Shiny": { Shiny = (brokenline[1] == "Yes"); break; }

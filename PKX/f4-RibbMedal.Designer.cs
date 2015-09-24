@@ -34,11 +34,18 @@
             this.BTN_None = new System.Windows.Forms.Button();
             this.BTN_Cancel = new System.Windows.Forms.Button();
             this.Tab_Medals = new System.Windows.Forms.TabPage();
+            this.CHK_D5 = new System.Windows.Forms.CheckBox();
+            this.CHK_D4 = new System.Windows.Forms.CheckBox();
+            this.L_Distro = new System.Windows.Forms.Label();
+            this.CHK_D3 = new System.Windows.Forms.CheckBox();
+            this.CHK_D0 = new System.Windows.Forms.CheckBox();
+            this.CHK_D1 = new System.Windows.Forms.CheckBox();
+            this.CHK_D2 = new System.Windows.Forms.CheckBox();
             this.CHK_Secret = new System.Windows.Forms.CheckBox();
             this.GB_Medals1 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.CB_Bag = new System.Windows.Forms.ComboBox();
             this.L_Bag = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_BagHits = new System.Windows.Forms.NumericUpDown();
             this.L_Hits = new System.Windows.Forms.Label();
             this.L_SuperTraining = new System.Windows.Forms.Label();
             this.L_Rank3 = new System.Windows.Forms.Label();
@@ -236,16 +243,9 @@
             this.Hoenn1b_5 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_6 = new System.Windows.Forms.CheckBox();
             this.Hoenn1b_7 = new System.Windows.Forms.CheckBox();
-            this.CHK_D5 = new System.Windows.Forms.CheckBox();
-            this.CHK_D4 = new System.Windows.Forms.CheckBox();
-            this.L_Distro = new System.Windows.Forms.Label();
-            this.CHK_D3 = new System.Windows.Forms.CheckBox();
-            this.CHK_D0 = new System.Windows.Forms.CheckBox();
-            this.CHK_D1 = new System.Windows.Forms.CheckBox();
-            this.CHK_D2 = new System.Windows.Forms.CheckBox();
             this.Tab_Medals.SuspendLayout();
             this.GB_Medals1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_BagHits)).BeginInit();
             this.GB_Medals2.SuspendLayout();
             this.Tab_Extra.SuspendLayout();
             this.GB_Extra2.SuspendLayout();
@@ -362,6 +362,75 @@
             this.Tab_Medals.Text = "Training Medals";
             this.Tab_Medals.UseVisualStyleBackColor = true;
             // 
+            // CHK_D5
+            // 
+            this.CHK_D5.AutoSize = true;
+            this.CHK_D5.Location = new System.Drawing.Point(447, 16);
+            this.CHK_D5.Name = "CHK_D5";
+            this.CHK_D5.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D5.TabIndex = 44;
+            this.CHK_D5.Text = "5";
+            this.CHK_D5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D4
+            // 
+            this.CHK_D4.AutoSize = true;
+            this.CHK_D4.Location = new System.Drawing.Point(415, 16);
+            this.CHK_D4.Name = "CHK_D4";
+            this.CHK_D4.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D4.TabIndex = 43;
+            this.CHK_D4.Text = "4";
+            this.CHK_D4.UseVisualStyleBackColor = true;
+            // 
+            // L_Distro
+            // 
+            this.L_Distro.AutoSize = true;
+            this.L_Distro.Location = new System.Drawing.Point(318, 3);
+            this.L_Distro.Name = "L_Distro";
+            this.L_Distro.Size = new System.Drawing.Size(62, 13);
+            this.L_Distro.TabIndex = 38;
+            this.L_Distro.Text = "Distribution:";
+            // 
+            // CHK_D3
+            // 
+            this.CHK_D3.AutoSize = true;
+            this.CHK_D3.Location = new System.Drawing.Point(382, 16);
+            this.CHK_D3.Name = "CHK_D3";
+            this.CHK_D3.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D3.TabIndex = 42;
+            this.CHK_D3.Text = "3";
+            this.CHK_D3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D0
+            // 
+            this.CHK_D0.AutoSize = true;
+            this.CHK_D0.Location = new System.Drawing.Point(382, 2);
+            this.CHK_D0.Name = "CHK_D0";
+            this.CHK_D0.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D0.TabIndex = 39;
+            this.CHK_D0.Text = "0";
+            this.CHK_D0.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D1
+            // 
+            this.CHK_D1.AutoSize = true;
+            this.CHK_D1.Location = new System.Drawing.Point(415, 2);
+            this.CHK_D1.Name = "CHK_D1";
+            this.CHK_D1.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D1.TabIndex = 40;
+            this.CHK_D1.Text = "1";
+            this.CHK_D1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_D2
+            // 
+            this.CHK_D2.AutoSize = true;
+            this.CHK_D2.Location = new System.Drawing.Point(447, 2);
+            this.CHK_D2.Name = "CHK_D2";
+            this.CHK_D2.Size = new System.Drawing.Size(32, 17);
+            this.CHK_D2.TabIndex = 41;
+            this.CHK_D2.Text = "2";
+            this.CHK_D2.UseVisualStyleBackColor = true;
+            // 
             // CHK_Secret
             // 
             this.CHK_Secret.AutoSize = true;
@@ -375,9 +444,9 @@
             // 
             // GB_Medals1
             // 
-            this.GB_Medals1.Controls.Add(this.comboBox1);
+            this.GB_Medals1.Controls.Add(this.CB_Bag);
             this.GB_Medals1.Controls.Add(this.L_Bag);
-            this.GB_Medals1.Controls.Add(this.numericUpDown1);
+            this.GB_Medals1.Controls.Add(this.NUD_BagHits);
             this.GB_Medals1.Controls.Add(this.L_Hits);
             this.GB_Medals1.Controls.Add(this.L_SuperTraining);
             this.GB_Medals1.Controls.Add(this.L_Rank3);
@@ -407,14 +476,14 @@
             this.GB_Medals1.TabIndex = 5;
             this.GB_Medals1.TabStop = false;
             // 
-            // comboBox1
+            // CB_Bag
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(105, 166);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(110, 21);
-            this.comboBox1.TabIndex = 23;
+            this.CB_Bag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Bag.FormattingEnabled = true;
+            this.CB_Bag.Location = new System.Drawing.Point(105, 166);
+            this.CB_Bag.Name = "CB_Bag";
+            this.CB_Bag.Size = new System.Drawing.Size(110, 21);
+            this.CB_Bag.TabIndex = 23;
             // 
             // L_Bag
             // 
@@ -425,19 +494,19 @@
             this.L_Bag.Text = "Last Used Bag:";
             this.L_Bag.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // numericUpDown1
+            // NUD_BagHits
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(105, 187);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.NUD_BagHits.Location = new System.Drawing.Point(105, 187);
+            this.NUD_BagHits.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(50, 20);
-            this.numericUpDown1.TabIndex = 21;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.NUD_BagHits.Name = "NUD_BagHits";
+            this.NUD_BagHits.Size = new System.Drawing.Size(50, 20);
+            this.NUD_BagHits.TabIndex = 21;
+            this.NUD_BagHits.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.NUD_BagHits.Value = new decimal(new int[] {
             255,
             0,
             0,
@@ -2609,75 +2678,6 @@
             this.Hoenn1b_7.Text = "Smart Master";
             this.Hoenn1b_7.UseVisualStyleBackColor = true;
             // 
-            // CHK_D5
-            // 
-            this.CHK_D5.AutoSize = true;
-            this.CHK_D5.Location = new System.Drawing.Point(447, 16);
-            this.CHK_D5.Name = "CHK_D5";
-            this.CHK_D5.Size = new System.Drawing.Size(32, 17);
-            this.CHK_D5.TabIndex = 44;
-            this.CHK_D5.Text = "5";
-            this.CHK_D5.UseVisualStyleBackColor = true;
-            // 
-            // CHK_D4
-            // 
-            this.CHK_D4.AutoSize = true;
-            this.CHK_D4.Location = new System.Drawing.Point(415, 16);
-            this.CHK_D4.Name = "CHK_D4";
-            this.CHK_D4.Size = new System.Drawing.Size(32, 17);
-            this.CHK_D4.TabIndex = 43;
-            this.CHK_D4.Text = "4";
-            this.CHK_D4.UseVisualStyleBackColor = true;
-            // 
-            // L_Distro
-            // 
-            this.L_Distro.AutoSize = true;
-            this.L_Distro.Location = new System.Drawing.Point(318, 3);
-            this.L_Distro.Name = "L_Distro";
-            this.L_Distro.Size = new System.Drawing.Size(62, 13);
-            this.L_Distro.TabIndex = 38;
-            this.L_Distro.Text = "Distribution:";
-            // 
-            // CHK_D3
-            // 
-            this.CHK_D3.AutoSize = true;
-            this.CHK_D3.Location = new System.Drawing.Point(382, 16);
-            this.CHK_D3.Name = "CHK_D3";
-            this.CHK_D3.Size = new System.Drawing.Size(32, 17);
-            this.CHK_D3.TabIndex = 42;
-            this.CHK_D3.Text = "3";
-            this.CHK_D3.UseVisualStyleBackColor = true;
-            // 
-            // CHK_D0
-            // 
-            this.CHK_D0.AutoSize = true;
-            this.CHK_D0.Location = new System.Drawing.Point(382, 2);
-            this.CHK_D0.Name = "CHK_D0";
-            this.CHK_D0.Size = new System.Drawing.Size(32, 17);
-            this.CHK_D0.TabIndex = 39;
-            this.CHK_D0.Text = "0";
-            this.CHK_D0.UseVisualStyleBackColor = true;
-            // 
-            // CHK_D1
-            // 
-            this.CHK_D1.AutoSize = true;
-            this.CHK_D1.Location = new System.Drawing.Point(415, 2);
-            this.CHK_D1.Name = "CHK_D1";
-            this.CHK_D1.Size = new System.Drawing.Size(32, 17);
-            this.CHK_D1.TabIndex = 40;
-            this.CHK_D1.Text = "1";
-            this.CHK_D1.UseVisualStyleBackColor = true;
-            // 
-            // CHK_D2
-            // 
-            this.CHK_D2.AutoSize = true;
-            this.CHK_D2.Location = new System.Drawing.Point(447, 2);
-            this.CHK_D2.Name = "CHK_D2";
-            this.CHK_D2.Size = new System.Drawing.Size(32, 17);
-            this.CHK_D2.TabIndex = 41;
-            this.CHK_D2.Text = "2";
-            this.CHK_D2.UseVisualStyleBackColor = true;
-            // 
             // RibbMedal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2699,7 +2699,7 @@
             this.Tab_Medals.PerformLayout();
             this.GB_Medals1.ResumeLayout(false);
             this.GB_Medals1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_BagHits)).EndInit();
             this.GB_Medals2.ResumeLayout(false);
             this.GB_Medals2.PerformLayout();
             this.Tab_Extra.ResumeLayout(false);
@@ -2954,9 +2954,9 @@
         private System.Windows.Forms.PictureBox PB_53;
         private System.Windows.Forms.PictureBox PB_52;
         private System.Windows.Forms.PictureBox PB_51;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox CB_Bag;
         private System.Windows.Forms.Label L_Bag;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown NUD_BagHits;
         private System.Windows.Forms.Label L_Hits;
         private System.Windows.Forms.CheckBox ORAS_5;
         private System.Windows.Forms.CheckBox ORAS_4;

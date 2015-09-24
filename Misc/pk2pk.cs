@@ -160,7 +160,7 @@ namespace PKHeX
             pk4[0x5F] = (byte)((origins >> 7) & 0xF);   // Hometown Game
             pk4[0x82] = pk3[0x44];                      // Copy Pokerus
             pk4[0x83] = (byte)((origins >> 11) & 0xF);  // Ball
-            pk4[0x84] = (byte)((pk3[0x47] & 0x80) | ((byte)PKX.getLevel(species, ref exp)));
+            pk4[0x84] = (byte)((pk3[0x47] & 0x80) | ((byte)PKX.getLevel(species, exp)));
 
             // Nickname and OT Name handling...
             byte[][] trash = new byte[8][];
@@ -348,8 +348,8 @@ namespace PKHeX
             // Fix Level
             pk5[0x84] &= 0x80;
             uint exp = BitConverter.ToUInt32(pk5, 0x10);
-            pk5[0x84] |= (byte)PKX.getLevel(species, ref exp);
-
+            pk5[0x84] |= (byte)PKX.getLevel(species, exp);
+            
             // Fix Checksum
             ushort chk = 0;
             for (int i = 8; i < 136; i += 2) // Loop through the entire PKX
