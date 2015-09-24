@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -23,7 +22,7 @@ namespace PKHeX
             CB_Region0.ValueMember = CB_Region1.ValueMember = CB_Region2.ValueMember = CB_Region3.ValueMember = CB_Region4.ValueMember = "Value";
             Util.TranslateInterface(this, Main.curlanguage);
             m_parent = frm1;
-            string[] arguments = Regex.Split(L_Arguments.Text, " ; ");
+            string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
             for (int i = 5; i < Math.Min(arguments.Length, vartypes.Length + 5); i++)
             {

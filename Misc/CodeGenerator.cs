@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -139,7 +138,7 @@ namespace PKHeX
             for (int i = 0; i < RTB_Code.Lines.Count()-1; i++)
             {
                 string line = RTB_Code.Lines[i];
-                string[] rip = Regex.Split(line, " ");
+                string[] rip = line.Split(new[] {" "}, StringSplitOptions.None);
 
                 // Write the 3 u32's to an array.
                 Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[0], NumberStyles.HexNumber)),0,ncf,4+i*12+0,4);
@@ -317,7 +316,7 @@ namespace PKHeX
                 {
                     // Grab Line Data
                     string line = RTB_Code.Lines[i];
-                    string[] rip = Regex.Split(line, " ");
+                    string[] rip = line.Split(new[] { " " }, StringSplitOptions.None);
                     Array.Resize(ref data, data.Length + 4);
                     Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[1], NumberStyles.HexNumber)), 0, data, data.Length - 4, 4);
                 }

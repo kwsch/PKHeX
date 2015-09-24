@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
-using System.Text.RegularExpressions;
 
 namespace PKHeX
 {
@@ -343,7 +342,7 @@ namespace PKHeX
                 if (!rawlist[i].Contains("! " + FORM_NAME)) continue;
 
                 // Allow renaming of the Window Title
-                string[] WindowName = Regex.Split(rawlist[i], " = ");
+                string[] WindowName = rawlist[i].Split(new[] {" = "}, StringSplitOptions.None);
                 if (WindowName.Length > 1) form.Text = WindowName[1];
                 // Copy our Control Names and Text to a new array for later processing.
                 for (int j = i + 1; j < rawlist.Length; j++)
@@ -362,7 +361,7 @@ namespace PKHeX
         rename:
             for (int i = 0; i < itemsToRename; i++)
             {
-                string[] SplitString = Regex.Split(stringdata[i], " = ");
+                string[] SplitString = stringdata[i].Split(new[] {" = "}, StringSplitOptions.None);
                 if (SplitString.Length < 2)
                     continue; // Error in Input, errhandled
                 string ctrl = SplitString[0]; // Control to change the text of...
@@ -376,7 +375,7 @@ namespace PKHeX
                         if (TSI == null) continue;
 
                         // We'll rename the main and child in a row.
-                        string[] ToolItems = Regex.Split(SplitString[1], " ; ");
+                        string[] ToolItems = SplitString[1].Split(new[] {" ; "}, StringSplitOptions.None);
                         TSI.Text = ToolItems[0]; // Set parent's text first
                         if (TSI.DropDownItems.Count != ToolItems.Length - 1)
                             continue; // Error in Input, errhandled
