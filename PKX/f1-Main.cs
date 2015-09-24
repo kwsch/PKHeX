@@ -1199,8 +1199,7 @@ namespace PKHeX
 
                 if (qr == null) return;
 
-                PK6 data = new PK6(pkx, "Tabs");
-                string[] r = data.Summarize(specieslist[data.Species]);
+                string[] r = new PK6(pkx, "Tabs").QRText;
                 new QR(qr, dragout.Image, r[0], r[1], r[2], "PKHeX @ ProjectPokemon.org").ShowDialog();
             }
         }

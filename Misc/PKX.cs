@@ -262,6 +262,7 @@ namespace PKHeX
                 return 1;
             return 2;
         }
+
         internal static string[] getCountryRegionText(int country, int region, string lang)
         {
             // Get Language we're fetching for
@@ -342,6 +343,40 @@ namespace PKHeX
             }
             return null; // Shouldn't happen.
         }
+        internal static string[] getQRText(PK6 pk6)
+        {
+            string[] response = new string[3];
+            // Summarize
+            string filename = pk6.Nickname;
+            if (pk6.Nickname != Main.specieslist[pk6.Species] && Main.specieslist[pk6.Species] != null)
+                filename += " (" + Main.specieslist[pk6.Species] + ")";
+            response[0] = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, Main.itemlist[pk6.HeldItem], Main.natures[pk6.Nature], pk6.Stat_Level, Main.abilitylist[pk6.Ability]);
+            response[1] = String.Format("{0} / {1} / {2} / {3}", Main.movelist[pk6.Move1], Main.movelist[pk6.Move2], Main.movelist[pk6.Move3], Main.movelist[pk6.Move4]);
+            response[2] = String.Format(
+                "IVs:{0}{1}{2}{3}{4}{5}"
+                + Environment.NewLine + Environment.NewLine +
+                "EVs:{6}{7}{8}{9}{10}{11}",
+                Environment.NewLine + pk6.IV_HP.ToString("00"),
+                Environment.NewLine + pk6.IV_ATK.ToString("00"),
+                Environment.NewLine + pk6.IV_DEF.ToString("00"),
+                Environment.NewLine + pk6.IV_SPA.ToString("00"),
+                Environment.NewLine + pk6.IV_SPD.ToString("00"),
+                Environment.NewLine + pk6.IV_SPE.ToString("00"),
+                Environment.NewLine + pk6.EV_HP.ToString("00"),
+                Environment.NewLine + pk6.EV_ATK.ToString("00"),
+                Environment.NewLine + pk6.EV_DEF.ToString("00"),
+                Environment.NewLine + pk6.EV_SPA.ToString("00"),
+                Environment.NewLine + pk6.EV_SPD.ToString("00"),
+                Environment.NewLine + pk6.EV_SPE.ToString("00"));
+
+            return response;
+        }
+        internal static ushort[] getStats(PK6 pk6)
+        {
+            return getStats(pk6.Species, pk6.Stat_Level, pk6.Nature, pk6.AltForm,
+                pk6.EV_HP, pk6.EV_ATK, pk6.EV_DEF, pk6.EV_SPA, pk6.EV_SPD, pk6.EV_SPE,
+                pk6.IV_HP, pk6.IV_ATK, pk6.IV_DEF, pk6.IV_SPA, pk6.IV_SPD, pk6.IV_SPE);
+        }
         internal static ushort[] getStats(int species, int level, int nature, int form,
                                         int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
                                         int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
@@ -373,6 +408,7 @@ namespace PKHeX
             // Return Result
             return stats;
         }
+
 
         // PKX Manipulation
         internal static byte[] shuffleArray(byte[] pkx, uint sv)
@@ -955,6 +991,10 @@ namespace PKHeX
             return new PK6(data).Sprite;
         }
 
+        internal static string[] getShowdownText(PK6 pk6)
+        {
+            return getShowdownText(pk6.Nickname, pk6.Species, pk6.HeldItem, pk6.Ability, pk6.EVs, pk6.HPType, pk6.Move1, pk6.Move2, pk6.Move3, pk6.Move4);
+        }
         internal static string[] getShowdownText(string Nickname, int Species, int HeldItem, int Ability, int[] EVs,
             int HPType, int Move1, int Move2, int Move3, int Move4)
         {

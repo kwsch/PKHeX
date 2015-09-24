@@ -402,10 +402,11 @@ namespace PKHeX
         public bool IsShiny { get { return TSV == PSV; } }
         public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
         public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
-        public string[] ShowdownText { get { return getShowdownText(Nickname, Species, HeldItem, Ability, EVs, HPType, Move1, Move2, Move3, Move4); } }
 
         // Complex Generated Attributes
-        public Image Sprite { get { return getSprite(Species, AltForm, Gender, HeldItem, IsEgg, IsShiny); } }
+        public Image Sprite { get { return getSprite(this); } }
+        public string[] ShowdownText { get { return getShowdownText(this); } }
+        public string[] QRText { get { return getQRText(this); } }
         public int HPType
         {
             get { return (15 * ((IV_HP & 1) + 2 * (IV_ATK & 1) + 4 * (IV_DEF & 1) + 8 * (IV_SPE & 1) + 16 * (IV_SPA & 1) + 32 * (IV_SPD & 1))) / 63; }
@@ -475,44 +476,13 @@ namespace PKHeX
         }
         public void CalculateStats()
         {
-            ushort[] Stats = getStats(Species, Stat_Level, Nature, AltForm, 
-                EV_HP, EV_ATK, EV_DEF, EV_SPA, EV_SPD, EV_SPE, 
-                IV_HP, IV_ATK, IV_DEF, IV_SPA, IV_SPD, IV_SPE);
-
+            ushort[] Stats = getStats(this);
             Stat_HPMax = Stats[0];
             Stat_ATK = Stats[1];
             Stat_DEF = Stats[2];
             Stat_SPE = Stats[3];
             Stat_SPA = Stats[4];
             Stat_SPD = Stats[5];
-        }
-        public string[] Summarize(string SpeciesName = null)
-        {
-            string[] response = new string[3];
-            // Summarize
-            string filename = Nickname;
-            if (Nickname != SpeciesName && SpeciesName != null)
-                filename += " (" + SpeciesName + ")";
-            response[0] = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, HeldItem, Nature, Stat_Level, Ability);
-            response[1] = String.Format("{0} / {1} / {2} / {3}", Move1, Move2, Move3, Move4);
-            response[2] = String.Format(
-                "IVs:{0}{1}{2}{3}{4}{5}"
-                + Environment.NewLine + Environment.NewLine +
-                "EVs:{6}{7}{8}{9}{10}{11}",
-                Environment.NewLine + IV_HP.ToString("00"),
-                Environment.NewLine + IV_ATK.ToString("00"),
-                Environment.NewLine + IV_DEF.ToString("00"),
-                Environment.NewLine + IV_SPA.ToString("00"),
-                Environment.NewLine + IV_SPD.ToString("00"),
-                Environment.NewLine + IV_SPE.ToString("00"),
-                Environment.NewLine + EV_HP.ToString("00"),
-                Environment.NewLine + EV_ATK.ToString("00"),
-                Environment.NewLine + EV_DEF.ToString("00"),
-                Environment.NewLine + EV_SPA.ToString("00"),
-                Environment.NewLine + EV_SPD.ToString("00"),
-                Environment.NewLine + EV_SPE.ToString("00"));
-
-            return response;
         }
     }
 }
