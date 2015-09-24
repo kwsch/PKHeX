@@ -7,23 +7,13 @@ namespace PKHeX
 {
     public partial class RibbMedal : Form
     {
+        private Bitmap[] bma;
+        private PictureBox[] pba;
+        private CheckBox[] cba;
         public RibbMedal()
         {
             InitializeComponent();
-            Util.TranslateInterface(this, Main.curlanguage);
-
-            // Set up Training Bag Data
-            CB_Bag.Items.Clear();
-            CB_Bag.Items.Add("---");
-            for (int i = 1; i < Main.trainingbags.Length - 1; i++)
-                CB_Bag.Items.Add(Main.trainingbags[i]);
-            CB_Bag.SelectedIndex = Main.pk6.TrainingBag;
-            NUD_BagHits.Value = Main.pk6.TrainingBagHits;
-            getRibbons();
-        }
-        private void getRibbons()
-        {
-            Bitmap[] bma = {
+            bma = new[] {
                                    Properties.Resources.kaloschamp, Properties.Resources.hoennchamp,        Properties.Resources.sinnohchamp,   Properties.Resources.bestfriends,
                                    Properties.Resources.training,   Properties.Resources.skillfullbattler,  Properties.Resources.expertbattler, Properties.Resources.effort,
 
@@ -42,7 +32,7 @@ namespace PKHeX
                                    Properties.Resources.ribbon_40,Properties.Resources.ribbon_41,Properties.Resources.ribbon_42,Properties.Resources.ribbon_43,
                                    Properties.Resources.ribbon_44,Properties.Resources.ribbon_45,Properties.Resources.ribbon_46,
                            };
-            PictureBox[] pba = { 
+            pba = new[] { 
                                    PB_10, PB_11, PB_12, PB_13, 
                                    PB_14, PB_15, PB_16, PB_17,
 
@@ -61,276 +51,249 @@ namespace PKHeX
                                    PB_57,
                                    PB_O0, PB_O1,PB_O2,PB_O3,PB_O4,PB_O5,
                                };
+            cba = new [] {
+                                   Kalos1a_0, Kalos1a_1, Kalos1a_2, Kalos1a_3, Kalos1a_4, Kalos1a_5, Kalos1a_6, Kalos1a_7,
+                                   Kalos1b_0, Kalos1b_1, Kalos1b_2, Kalos1b_3, Kalos1b_4, Kalos1b_5, Kalos1b_6, Kalos1b_7,
+                                   Kalos2a_0, Kalos2a_1, Kalos2a_2, Kalos2a_3, Kalos2a_4, Kalos2a_5, Kalos2a_6, Kalos2a_7,
+                                   Kalos2b_0, Kalos2b_1, Kalos2b_2, Kalos2b_3, Kalos2b_4, Kalos2b_5, Kalos2b_6, Kalos2b_7,
+                                   Extra1_0,  Extra1_1,  Extra1_2,  Extra1_3,  Extra1_4,
 
+                                   Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
+                             };
             for (int i = 0; i < bma.Length; i++)
                 pba[i].Image = Util.ChangeOpacity(bma[i], 0.1);
+            Util.TranslateInterface(this, Main.curlanguage);
 
-            // Populate Medals (what a mess)
-            int rv = Main.pk6.Data[0x2C];
-            updateRibbon(TMedal1_0, rv, 0);
-            updateRibbon(TMedal1_1, rv, 1);
-            updateRibbon(TMedal1_2, rv, 2);
-            updateRibbon(TMedal1_3, rv, 3);
-            updateRibbon(TMedal1_4, rv, 4);
-            updateRibbon(TMedal1_5, rv, 5);
-            updateRibbon(TMedal1_6, rv, 6);
-            updateRibbon(TMedal1_7, rv, 7);
-            rv = Main.pk6.Data[0x2D];
-            updateRibbon(TMedal2_0, rv, 0);
-            updateRibbon(TMedal2_1, rv, 1);
-            updateRibbon(TMedal2_2, rv, 2);
-            updateRibbon(TMedal2_3, rv, 3);
-            updateRibbon(TMedal2_4, rv, 4);
-            updateRibbon(TMedal2_5, rv, 5);
-            updateRibbon(TMedal2_6, rv, 6);
-            updateRibbon(TMedal2_7, rv, 7);
-            rv = Main.pk6.Data[0x2E];
-            updateRibbon(TMedal3_0, rv, 0);
-            updateRibbon(TMedal3_1, rv, 1);
-            updateRibbon(TMedal3_2, rv, 2);
-            updateRibbon(TMedal3_3, rv, 3);
-            updateRibbon(TMedal3_4, rv, 4);
-            updateRibbon(TMedal3_5, rv, 5);
-            updateRibbon(TMedal3_6, rv, 6);
-            updateRibbon(TMedal3_7, rv, 7);
-            rv = Main.pk6.Data[0x2F];
-            updateRibbon(TMedal4_0, rv, 0);
-            updateRibbon(TMedal4_1, rv, 1);
-            updateRibbon(TMedal4_2, rv, 2);
-            updateRibbon(TMedal4_3, rv, 3);
-            updateRibbon(TMedal4_4, rv, 4);
-            updateRibbon(TMedal4_5, rv, 5);
-            updateRibbon(TMedal4_6, rv, 6);
-            updateRibbon(TMedal4_7, rv, 7);
+            // Set up Training Bag Data
+            CB_Bag.Items.Clear();
+            CB_Bag.Items.Add("---");
+            for (int i = 1; i < Main.trainingbags.Length - 1; i++)
+                CB_Bag.Items.Add(Main.trainingbags[i]);
+            CB_Bag.SelectedIndex = Main.pk6.TrainingBag;
+            NUD_BagHits.Value = Main.pk6.TrainingBagHits;
+            getRibbons();
+        }
+        private void getRibbons()
+        {
+            CHK_Secret.Checked = Main.pk6.SecretSuperTraining;
 
-            // Populate Kalos Ribbons
-            rv = Main.pk6.Data[0x30];
-            updateRibbon(Kalos1a_0, rv, 0);
-            updateRibbon(Kalos1a_1, rv, 1);
-            updateRibbon(Kalos1a_2, rv, 2);
-            updateRibbon(Kalos1a_3, rv, 3);
-            updateRibbon(Kalos1a_4, rv, 4);
-            updateRibbon(Kalos1a_5, rv, 5);
-            updateRibbon(Kalos1a_6, rv, 6);
-            updateRibbon(Kalos1a_7, rv, 7);
-            rv = Main.pk6.Data[0x31];
-            updateRibbon(Kalos1b_0, rv, 0);
-            updateRibbon(Kalos1b_1, rv, 1);
-            updateRibbon(Kalos1b_2, rv, 2);
-            updateRibbon(Kalos1b_3, rv, 3);
-            updateRibbon(Kalos1b_4, rv, 4);
-            updateRibbon(Kalos1b_5, rv, 5);
-            updateRibbon(Kalos1b_6, rv, 6);
-            updateRibbon(Kalos1b_7, rv, 7);
-            rv = Main.pk6.Data[0x32];
-            updateRibbon(Kalos2a_0, rv, 0);
-            updateRibbon(Kalos2a_1, rv, 1);
-            updateRibbon(Kalos2a_2, rv, 2);
-            updateRibbon(Kalos2a_3, rv, 3);
-            updateRibbon(Kalos2a_4, rv, 4);
-            updateRibbon(Kalos2a_5, rv, 5);
-            updateRibbon(Kalos2a_6, rv, 6);
-            updateRibbon(Kalos2a_7, rv, 7);
-            rv = Main.pk6.Data[0x33];
-            updateRibbon(Kalos2b_0, rv, 0);
-            updateRibbon(Kalos2b_1, rv, 1);
-            updateRibbon(Kalos2b_2, rv, 2);
-            updateRibbon(Kalos2b_3, rv, 3);
-            updateRibbon(Kalos2b_4, rv, 4);
-            updateRibbon(Kalos2b_5, rv, 5);
-            updateRibbon(Kalos2b_6, rv, 6);
-            updateRibbon(Kalos2b_7, rv, 7);
+            TMedal1_0.Checked = Main.pk6.Unused0;
+            TMedal1_1.Checked = Main.pk6.Unused1;
+            TMedal1_2.Checked = Main.pk6.ST1_SPA;
+            TMedal1_3.Checked = Main.pk6.ST1_HP;
+            TMedal1_4.Checked = Main.pk6.ST1_ATK;
+            TMedal1_5.Checked = Main.pk6.ST1_SPD;
+            TMedal1_6.Checked = Main.pk6.ST1_SPE;
+            TMedal1_7.Checked = Main.pk6.ST1_DEF;
 
-            // Populate Extra Ribbons
-            rv = Main.pk6.Data[0x34];
-            updateRibbon(Extra1_0, rv, 0);
-            updateRibbon(Extra1_1, rv, 1);
-            updateRibbon(Extra1_2, rv, 2);
-            updateRibbon(Extra1_3, rv, 3);
-            updateRibbon(Extra1_4, rv, 4);
+            TMedal2_0.Checked = Main.pk6.ST2_SPA;
+            TMedal2_1.Checked = Main.pk6.ST2_HP;
+            TMedal2_2.Checked = Main.pk6.ST2_ATK;
+            TMedal2_3.Checked = Main.pk6.ST2_SPD;
+            TMedal2_4.Checked = Main.pk6.ST2_SPE;
+            TMedal2_5.Checked = Main.pk6.ST2_DEF;
+            TMedal2_6.Checked = Main.pk6.ST3_SPA;
+            TMedal2_7.Checked = Main.pk6.ST3_HP;
 
-            // oras
-            updateRibbon(Extra1_7, rv, 7);
-            rv = Main.pk6.Data[0x35];
-            updateRibbon(ORAS_0, rv, 0);
-            updateRibbon(ORAS_1, rv, 1);
-            updateRibbon(ORAS_2, rv, 2);
-            updateRibbon(ORAS_3, rv, 3);
-            updateRibbon(ORAS_4, rv, 4);
-            updateRibbon(ORAS_5, rv, 5);
+            TMedal3_0.Checked = Main.pk6.ST3_ATK;
+            TMedal3_1.Checked = Main.pk6.ST3_SPD;
+            TMedal3_2.Checked = Main.pk6.ST3_SPE;
+            TMedal3_3.Checked = Main.pk6.ST3_DEF;
+            TMedal3_4.Checked = Main.pk6.ST4_1;
+            TMedal3_5.Checked = Main.pk6.ST5_1;
+            TMedal3_6.Checked = Main.pk6.ST5_2;
+            TMedal3_7.Checked = Main.pk6.ST5_3;
 
-            TB_PastContest.Text = Main.pk6.Data[0x38].ToString();
-            TB_PastBattle.Text = Main.pk6.Data[0x39].ToString();
+            TMedal4_0.Checked = Main.pk6.ST5_4;
+            TMedal4_1.Checked = Main.pk6.ST6_1;
+            TMedal4_2.Checked = Main.pk6.ST6_2;
+            TMedal4_3.Checked = Main.pk6.ST6_3;
+            TMedal4_4.Checked = Main.pk6.ST7_1;
+            TMedal4_5.Checked = Main.pk6.ST7_2;
+            TMedal4_6.Checked = Main.pk6.ST7_3;
+            TMedal4_7.Checked = Main.pk6.ST8_1;
 
-            rv = Main.pk6.Data[0x3A];
-            updateRibbon(CHK_D0, rv, 0);
-            updateRibbon(CHK_D1, rv, 1);
-            updateRibbon(CHK_D2, rv, 2);
-            updateRibbon(CHK_D3, rv, 3);
-            updateRibbon(CHK_D4, rv, 4);
-            updateRibbon(CHK_D5, rv, 5);
+            CHK_D0.Checked = Main.pk6.Dist1;
+            CHK_D1.Checked = Main.pk6.Dist2;
+            CHK_D2.Checked = Main.pk6.Dist3;
+            CHK_D3.Checked = Main.pk6.Dist4;
+            CHK_D4.Checked = Main.pk6.Dist5;
+            CHK_D5.Checked = Main.pk6.Dist6;
 
-            CHK_Secret.Checked = Convert.ToBoolean(Main.pk6.Data[0x72]);
-        }                                       // Populate Ribbons prompted
+            Kalos1a_0.Checked = Main.pk6.RIB0_0;
+            Kalos1a_1.Checked = Main.pk6.RIB0_1;
+            Kalos1a_2.Checked = Main.pk6.RIB0_2;
+            Kalos1a_3.Checked = Main.pk6.RIB0_3;
+            Kalos1a_4.Checked = Main.pk6.RIB0_4;
+            Kalos1a_5.Checked = Main.pk6.RIB0_5;
+            Kalos1a_6.Checked = Main.pk6.RIB0_6;
+            Kalos1a_7.Checked = Main.pk6.RIB0_7;
+
+            Kalos1b_0.Checked = Main.pk6.RIB1_0;
+            Kalos1b_1.Checked = Main.pk6.RIB1_1;
+            Kalos1b_2.Checked = Main.pk6.RIB1_2;
+            Kalos1b_3.Checked = Main.pk6.RIB1_3;
+            Kalos1b_4.Checked = Main.pk6.RIB1_4;
+            Kalos1b_5.Checked = Main.pk6.RIB1_5;
+            Kalos1b_6.Checked = Main.pk6.RIB1_6;
+            Kalos1b_7.Checked = Main.pk6.RIB1_7;
+
+            Kalos2a_0.Checked = Main.pk6.RIB2_0;
+            Kalos2a_1.Checked = Main.pk6.RIB2_1;
+            Kalos2a_2.Checked = Main.pk6.RIB2_2;
+            Kalos2a_3.Checked = Main.pk6.RIB2_3;
+            Kalos2a_4.Checked = Main.pk6.RIB2_4;
+            Kalos2a_5.Checked = Main.pk6.RIB2_5;
+            Kalos2a_6.Checked = Main.pk6.RIB2_6;
+            Kalos2a_7.Checked = Main.pk6.RIB2_7;
+
+            Kalos2b_0.Checked = Main.pk6.RIB3_0;
+            Kalos2b_1.Checked = Main.pk6.RIB3_1;
+            Kalos2b_2.Checked = Main.pk6.RIB3_2;
+            Kalos2b_3.Checked = Main.pk6.RIB3_3;
+            Kalos2b_4.Checked = Main.pk6.RIB3_4;
+            Kalos2b_5.Checked = Main.pk6.RIB3_5;
+            Kalos2b_6.Checked = Main.pk6.RIB3_6;
+            Kalos2b_7.Checked = Main.pk6.RIB3_7;
+
+            Extra1_0.Checked = Main.pk6.RIB4_0;
+            Extra1_1.Checked = Main.pk6.RIB4_1;
+            Extra1_2.Checked = Main.pk6.RIB4_2;
+            Extra1_3.Checked = Main.pk6.RIB4_3;
+            Extra1_4.Checked = Main.pk6.RIB4_4;
+
+            // Introduced in ORAS
+            Extra1_7.Checked = Main.pk6.RIB4_7;
+
+            ORAS_0.Checked = Main.pk6.RIB5_0;
+            ORAS_1.Checked = Main.pk6.RIB5_1;
+            ORAS_2.Checked = Main.pk6.RIB5_2;
+            ORAS_3.Checked = Main.pk6.RIB5_3;
+            ORAS_4.Checked = Main.pk6.RIB5_4;
+            ORAS_5.Checked = Main.pk6.RIB5_5;
+
+            TB_PastContest.Text = Main.pk6.Memory_ContestCount.ToString();
+            TB_PastBattle.Text = Main.pk6.Memory_BattleCount.ToString();
+        }
         private void setRibbons()
         {
-            // pass kalos data
-            int kalos1a = 0, kalos1b = 0, kalos2a = 0, kalos2b = 0;
-            kalos1a |= addRibbon(Kalos1a_0);
-            kalos1a |= addRibbon(Kalos1a_1);
-            kalos1a |= addRibbon(Kalos1a_2);
-            kalos1a |= addRibbon(Kalos1a_3);
-            kalos1a |= addRibbon(Kalos1a_4);
-            kalos1a |= addRibbon(Kalos1a_5);
-            kalos1a |= addRibbon(Kalos1a_6);
-            kalos1a |= addRibbon(Kalos1a_7);////
-            kalos1b |= addRibbon(Kalos1b_0);
-            kalos1b |= addRibbon(Kalos1b_1);
-            kalos1b |= addRibbon(Kalos1b_2);
-            kalos1b |= addRibbon(Kalos1b_3);
-            kalos1b |= addRibbon(Kalos1b_4);
-            kalos1b |= addRibbon(Kalos1b_5);
-            kalos1b |= addRibbon(Kalos1b_6);
-            kalos1b |= addRibbon(Kalos1b_7);////
-            kalos2a |= addRibbon(Kalos2a_0);
-            kalos2a |= addRibbon(Kalos2a_1);
-            kalos2a |= addRibbon(Kalos2a_2);
-            kalos2a |= addRibbon(Kalos2a_3);
-            kalos2a |= addRibbon(Kalos2a_4);
-            kalos2a |= addRibbon(Kalos2a_5);
-            kalos2a |= addRibbon(Kalos2a_6);
-            kalos2a |= addRibbon(Kalos2a_7);////
-            kalos2b |= addRibbon(Kalos2b_0);
-            kalos2b |= addRibbon(Kalos2b_1);
-            kalos2b |= addRibbon(Kalos2b_2);
-            kalos2b |= addRibbon(Kalos2b_3);
-            kalos2b |= addRibbon(Kalos2b_4);
-            kalos2b |= addRibbon(Kalos2b_5);
-            kalos2b |= addRibbon(Kalos2b_6);
-            kalos2b |= addRibbon(Kalos2b_7);////
-            Main.pk6.Data[0x30] = (byte)kalos1a;
-            Main.pk6.Data[0x31] = (byte)kalos1b;
-            Main.pk6.Data[0x32] = (byte)kalos2a;
-            Main.pk6.Data[0x33] = (byte)kalos2b;
+            Main.pk6.SecretSuperTraining = CHK_Secret.Checked;
 
-            // Pass Extra Ribbon
-            int extra1 = 0;
-            extra1 |= addRibbon(Extra1_0);
-            extra1 |= addRibbon(Extra1_1);
-            extra1 |= addRibbon(Extra1_2);
-            extra1 |= addRibbon(Extra1_3);
-            extra1 |= addRibbon(Extra1_4);
+            Main.pk6.Unused0 = TMedal1_0.Checked;
+            Main.pk6.Unused1 = TMedal1_1.Checked;
+            Main.pk6.ST1_SPA = TMedal1_2.Checked;
+            Main.pk6.ST1_HP  = TMedal1_3.Checked;
+            Main.pk6.ST1_ATK = TMedal1_4.Checked;
+            Main.pk6.ST1_SPD = TMedal1_5.Checked;
+            Main.pk6.ST1_SPE = TMedal1_6.Checked;
+            Main.pk6.ST1_DEF = TMedal1_7.Checked;
 
-            // ORAS
-            extra1 |= addRibbon(Extra1_7); // Hoenn Champ
-            Main.pk6.Data[0x34] = (byte)extra1;
+            Main.pk6.ST2_SPA = TMedal2_0.Checked;
+            Main.pk6.ST2_HP  = TMedal2_1.Checked;
+            Main.pk6.ST2_ATK = TMedal2_2.Checked;
+            Main.pk6.ST2_SPD = TMedal2_3.Checked;
+            Main.pk6.ST2_SPE = TMedal2_4.Checked;
+            Main.pk6.ST2_DEF = TMedal2_5.Checked;
+            Main.pk6.ST3_SPA = TMedal2_6.Checked;
+            Main.pk6.ST3_HP  = TMedal2_7.Checked;
 
-            int oras = 0;
-            oras |= addRibbon(ORAS_0);
-            oras |= addRibbon(ORAS_1);
-            oras |= addRibbon(ORAS_2);
-            oras |= addRibbon(ORAS_3);
-            oras |= addRibbon(ORAS_4);
-            oras |= addRibbon(ORAS_5);
-            Main.pk6.Data[0x35] = (byte)oras;
+            Main.pk6.ST3_ATK = TMedal3_0.Checked;
+            Main.pk6.ST3_SPD = TMedal3_1.Checked;
+            Main.pk6.ST3_SPE = TMedal3_2.Checked;
+            Main.pk6.ST3_DEF = TMedal3_3.Checked;
+            Main.pk6.ST4_1 = TMedal3_4.Checked;
+            Main.pk6.ST5_1 = TMedal3_5.Checked;
+            Main.pk6.ST5_2 = TMedal3_6.Checked;
+            Main.pk6.ST5_3 = TMedal3_7.Checked;
 
-            // Gather Super Training Medals
-            int medals1 = 0, medals2 = 0, medals3 = 0, medals4 = 0;
-            medals1 |= addRibbon(TMedal1_0);
-            medals1 |= addRibbon(TMedal1_1);
-            medals1 |= addRibbon(TMedal1_2);
-            medals1 |= addRibbon(TMedal1_3);
-            medals1 |= addRibbon(TMedal1_4);
-            medals1 |= addRibbon(TMedal1_5);
-            medals1 |= addRibbon(TMedal1_6);
-            medals1 |= addRibbon(TMedal1_7);////
-            medals2 |= addRibbon(TMedal2_0);
-            medals2 |= addRibbon(TMedal2_1);
-            medals2 |= addRibbon(TMedal2_2);
-            medals2 |= addRibbon(TMedal2_3);
-            medals2 |= addRibbon(TMedal2_4);
-            medals2 |= addRibbon(TMedal2_5);
-            medals2 |= addRibbon(TMedal2_6);
-            medals2 |= addRibbon(TMedal2_7);////
-            medals3 |= addRibbon(TMedal3_0);
-            medals3 |= addRibbon(TMedal3_1);
-            medals3 |= addRibbon(TMedal3_2);
-            medals3 |= addRibbon(TMedal3_3);
-            medals3 |= addRibbon(TMedal3_4);
-            medals3 |= addRibbon(TMedal3_5);
-            medals3 |= addRibbon(TMedal3_6);
-            medals3 |= addRibbon(TMedal3_7);////
-            medals4 |= addRibbon(TMedal4_0);
-            medals4 |= addRibbon(TMedal4_1);
-            medals4 |= addRibbon(TMedal4_2);
-            medals4 |= addRibbon(TMedal4_3);
-            medals4 |= addRibbon(TMedal4_4);
-            medals4 |= addRibbon(TMedal4_5);
-            medals4 |= addRibbon(TMedal4_6);
-            medals4 |= addRibbon(TMedal4_7);////
-            Main.pk6.Data[0x2C] = (byte)medals1;
-            Main.pk6.Data[0x2D] = (byte)medals2;
-            Main.pk6.Data[0x2E] = (byte)medals3;
-            Main.pk6.Data[0x2F] = (byte)medals4;
+            Main.pk6.ST5_4 = TMedal4_0.Checked;
+            Main.pk6.ST6_1 = TMedal4_1.Checked;
+            Main.pk6.ST6_2 = TMedal4_2.Checked;
+            Main.pk6.ST6_3 = TMedal4_3.Checked;
+            Main.pk6.ST7_1 = TMedal4_4.Checked;
+            Main.pk6.ST7_2 = TMedal4_5.Checked;
+            Main.pk6.ST7_3 = TMedal4_6.Checked;
+            Main.pk6.ST8_1 = TMedal4_7.Checked;
 
-            Main.pk6.Data[0x38] = (byte)Util.ToUInt32(TB_PastContest.Text);
-            Main.pk6.Data[0x39] = (byte)Util.ToUInt32(TB_PastBattle.Text);
+            Main.pk6.Dist1 = CHK_D0.Checked;
+            Main.pk6.Dist2 = CHK_D1.Checked;
+            Main.pk6.Dist3 = CHK_D2.Checked;
+            Main.pk6.Dist4 = CHK_D3.Checked;
+            Main.pk6.Dist5 = CHK_D4.Checked;
+            Main.pk6.Dist6 = CHK_D5.Checked;
 
-            int dis = 0;
-            dis |= addRibbon(CHK_D0);
-            dis |= addRibbon(CHK_D1);
-            dis |= addRibbon(CHK_D2);
-            dis |= addRibbon(CHK_D3);
-            dis |= addRibbon(CHK_D4);
-            dis |= addRibbon(CHK_D5);
-            Main.pk6.Data[0x3A] = (byte)dis;
+            Main.pk6.RIB0_0 = Kalos1a_0.Checked;
+            Main.pk6.RIB0_1 = Kalos1a_1.Checked;
+            Main.pk6.RIB0_2 = Kalos1a_2.Checked;
+            Main.pk6.RIB0_3 = Kalos1a_3.Checked;
+            Main.pk6.RIB0_4 = Kalos1a_4.Checked;
+            Main.pk6.RIB0_5 = Kalos1a_5.Checked;
+            Main.pk6.RIB0_6 = Kalos1a_6.Checked;
+            Main.pk6.RIB0_7 = Kalos1a_7.Checked;
 
-            Main.pk6.Data[0x72] = Convert.ToByte(CHK_Secret.Checked);
-        }                                       // Saving Ribbons prompted
-        private void updateRibbon(CheckBox chk, int rv, int sh)
-        {
-            chk.Checked = Convert.ToBoolean((rv >> sh) & 1);
-        }         // Checkbox back to bitflag
-        private int addRibbon(CheckBox cb)
-        {
-            string a = cb.Name;
-            int sv = Convert.ToInt32(a.Substring(a.Length - 1, 1));
-            int cv = Convert.ToInt32(cb.Checked);
-            return (cv << sv);
-        }                              // Add Ribbon if Checked
-        private void checkboxFlag(CheckBox[] ck, bool b)
-        {
-            for (int i = 0; i < ck.Count(); i++)
-                ck[i].Checked = b;
-        }                // Checkbox flipping dependent on T/F
+            Main.pk6.RIB1_0 = Kalos1b_0.Checked;
+            Main.pk6.RIB1_1 = Kalos1b_1.Checked;
+            Main.pk6.RIB1_2 = Kalos1b_2.Checked;
+            Main.pk6.RIB1_3 = Kalos1b_3.Checked;
+            Main.pk6.RIB1_4 = Kalos1b_4.Checked;
+            Main.pk6.RIB1_5 = Kalos1b_5.Checked;
+            Main.pk6.RIB1_6 = Kalos1b_6.Checked;
+            Main.pk6.RIB1_7 = Kalos1b_7.Checked;
+
+            Main.pk6.RIB2_0 = Kalos2a_0.Checked;
+            Main.pk6.RIB2_1 = Kalos2a_1.Checked;
+            Main.pk6.RIB2_2 = Kalos2a_2.Checked;
+            Main.pk6.RIB2_3 = Kalos2a_3.Checked;
+            Main.pk6.RIB2_4 = Kalos2a_4.Checked;
+            Main.pk6.RIB2_5 = Kalos2a_5.Checked;
+            Main.pk6.RIB2_6 = Kalos2a_6.Checked;
+            Main.pk6.RIB2_7 = Kalos2a_7.Checked;
+
+            Main.pk6.RIB3_0 = Kalos2b_0.Checked;
+            Main.pk6.RIB3_1 = Kalos2b_1.Checked;
+            Main.pk6.RIB3_2 = Kalos2b_2.Checked;
+            Main.pk6.RIB3_3 = Kalos2b_3.Checked;
+            Main.pk6.RIB3_4 = Kalos2b_4.Checked;
+            Main.pk6.RIB3_5 = Kalos2b_5.Checked;
+            Main.pk6.RIB3_6 = Kalos2b_6.Checked;
+            Main.pk6.RIB3_7 = Kalos2b_7.Checked;
+
+            Main.pk6.RIB4_0 = Extra1_0.Checked;
+            Main.pk6.RIB4_1 = Extra1_1.Checked;
+            Main.pk6.RIB4_2 = Extra1_2.Checked;
+            Main.pk6.RIB4_3 = Extra1_3.Checked;
+            Main.pk6.RIB4_4 = Extra1_4.Checked;
+
+            // Introduced in ORAS
+            Main.pk6.RIB4_7 = Extra1_7.Checked;
+
+            Main.pk6.RIB5_0 = ORAS_0.Checked;
+            Main.pk6.RIB5_1 = ORAS_1.Checked;
+            Main.pk6.RIB5_2 = ORAS_2.Checked;
+            Main.pk6.RIB5_3 = ORAS_3.Checked;
+            Main.pk6.RIB5_4 = ORAS_4.Checked;
+            Main.pk6.RIB5_5 = ORAS_5.Checked;
+
+            Main.pk6.Memory_ContestCount = Util.ToInt32(TB_PastContest.Text);
+            Main.pk6.Memory_BattleCount = Util.ToInt32(TB_PastBattle.Text);
+        }
         private void buttonFlag(bool b)
         {
             if (tabControl1.SelectedTab == Tab_Kalos)
             {
                 // Kalos
-                CheckBox[] ck = { 
-                                  Kalos1a_0, Kalos1a_1, Kalos1a_2, Kalos1a_3, Kalos1a_4, Kalos1a_5, Kalos1a_6, Kalos1a_7, 
-                                  Kalos1b_0, Kalos1b_1, Kalos1b_2, Kalos1b_3, Kalos1b_4, Kalos1b_5, Kalos1b_6, Kalos1b_7,
-                                  Kalos2a_0, Kalos2a_1, Kalos2a_2, Kalos2a_3, Kalos2a_4, Kalos2a_5, Kalos2a_6, Kalos2a_7,
-                                  Kalos2b_0, Kalos2b_1, Kalos2b_2, Kalos2b_3, Kalos2b_4, Kalos2b_5, Kalos2b_6, Kalos2b_7
-                                };
-                checkboxFlag(ck, b);
+                foreach (var chk in cba.Skip(0).Take(32))
+                    chk.Checked = b;
             }
             else if (tabControl1.SelectedTab == Tab_Extra)
             {
                 // Extra
-                CheckBox[] ck = { 
-                                  Extra1_0, Extra1_1, Extra1_2, Extra1_3, Extra1_4, 
-                                  
-                                  Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
-                                };
-                checkboxFlag(ck, b);
+                foreach (var chk in cba.Skip(32))
+                    chk.Checked = b;
 
-                TB_PastContest.Text = (Convert.ToInt32(b) * 40).ToString();
-                TB_PastBattle.Text = (Convert.ToInt32(b) * 8).ToString();
-                if (Main.pk6.Data[0xDF] <= 0x10) return; // gen3
-                TB_PastContest.Text = 0.ToString(); // no past gen ribbons 4-5
-                TB_PastBattle.Text = 0.ToString();
+                if (Main.pk6.Version >= 0x10) return; // No Memory Ribbons for Pokémon from Generation 4+
+                TB_PastContest.Text = (b ? 40 : 0).ToString();
+                TB_PastBattle.Text = (b ? 8 : 0).ToString();
             }
             else if (tabControl1.SelectedTab == Tab_Medals)
             {
@@ -344,52 +307,53 @@ namespace PKHeX
                                   TMedal4_4, TMedal4_5, TMedal4_6, 
                                   TMedal4_7
                                 };
-                    checkboxFlag(ck2, b);
+                    foreach (var chk in ck2) chk.Checked = b;
                 }
                 CheckBox[] ck = { 
-                                  //TMedal1_0, TMedal1_1, 
+                                  // TMedal1_0, TMedal1_1, 
                                   TMedal1_2, TMedal1_3, TMedal1_4, TMedal1_5, TMedal1_6, TMedal1_7, 
                                   TMedal2_0, TMedal2_1, TMedal2_2, TMedal2_3, TMedal2_4, TMedal2_5, 
                                   TMedal2_6, TMedal2_7, TMedal3_0, TMedal3_1, TMedal3_2, TMedal3_3, 
                                   CHK_Secret
                                 };
-                checkboxFlag(ck, b);
+                foreach (var chk in ck) chk.Checked = b;
                 foreach (CheckBox chk in new[] { CHK_D0, CHK_D1, CHK_D2, CHK_D3, CHK_D4, CHK_D5 }) chk.Checked = b;
             }
-        }                                 // Checkbox Flipping Logic (dependent on Tab)
+        }
 
-        private void BTN_Save_Click(object sender, EventArgs e)
+        private void B_Save_Click(object sender, EventArgs e)
         {
-            Main.pk6.Data[0x17] = (byte)CB_Bag.SelectedIndex;
-            Main.pk6.Data[0x16] = (byte)NUD_BagHits.Value;
+            Main.pk6.TrainingBag = CB_Bag.SelectedIndex;
+            Main.pk6.TrainingBagHits = (int)NUD_BagHits.Value;
             setRibbons();
             Close();
-        }         // Save Button
-        private void BTN_Cancel_Click(object sender, EventArgs e)
+        }
+        private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
-        }       // Cancel Button
-        private void BTN_AllRibbons_Click(object sender, EventArgs e)
+        }
+        private void B_AllRibbons_Click(object sender, EventArgs e)
         {
             buttonFlag(true);
-        }   // All checkboxes Button
-        private void BTN_NoRibbons_Click(object sender, EventArgs e)
+        }
+        private void B_NoRibbons_Click(object sender, EventArgs e)
         {
             buttonFlag(false);
-        }    // No checkboxes Button
+        }
 
         private void updateSecretSuper(object sender, EventArgs e)
         {
             GB_Medals2.Enabled = CHK_Secret.Checked;
             if (CHK_Secret.Checked) return;
+
             CheckBox[] ck = {
                 TMedal3_4, TMedal3_5, TMedal3_6, TMedal3_7, 
                 TMedal4_0, TMedal4_1, TMedal4_2, TMedal4_3, 
                 TMedal4_4, TMedal4_5, TMedal4_6, TMedal4_7
                             };
-            checkboxFlag(ck, false);
-        }      // Only allow secret if checkbox is toggled.
-        private void unusedbits(object sender, EventArgs e)
+            foreach (var chk in ck) chk.Checked = false;
+        }
+        private void updateUnused(object sender, EventArgs e)
         {
             // Futureproofing: If either of the unused bitflags are 1 (true), 
             // we'll display them to alert the user.
@@ -397,105 +361,33 @@ namespace PKHeX
             TMedal1_1.Visible = TMedal1_1.Checked;
         }
 
-        private void toggleribbon(object sender, EventArgs e)
+        private void updateRibbon(object sender, EventArgs e)
         {
-            PictureBox[] pba = { 
-                                   PB_10, PB_11, PB_12, PB_13, PB_14, PB_15, PB_16, PB_17,
-                                   PB_20, PB_21, PB_22, PB_23, PB_24, PB_25, PB_26, PB_27,
-                                   PB_30, PB_31, PB_32, PB_33, PB_34, PB_35, PB_36, PB_37,  
-                                   PB_40, PB_41, PB_42, PB_43, PB_44, PB_45, PB_46, PB_47,
-                                   PB_50, PB_51, PB_52, PB_53, PB_54,               PB_57,
-
-                                   PB_O0, PB_O1, PB_O2, PB_O3, PB_O4, PB_O5,    
-                               };
-            CheckBox[] cba = {
-                                   Kalos1a_0, Kalos1a_1, Kalos1a_2, Kalos1a_3, Kalos1a_4, Kalos1a_5, Kalos1a_6, Kalos1a_7,
-                                   Kalos1b_0, Kalos1b_1, Kalos1b_2, Kalos1b_3, Kalos1b_4, Kalos1b_5, Kalos1b_6, Kalos1b_7,
-                                   Kalos2a_0, Kalos2a_1, Kalos2a_2, Kalos2a_3, Kalos2a_4, Kalos2a_5, Kalos2a_6, Kalos2a_7,
-                                   Kalos2b_0, Kalos2b_1, Kalos2b_2, Kalos2b_3, Kalos2b_4, Kalos2b_5, Kalos2b_6, Kalos2b_7,
-                                   Extra1_0,  Extra1_1,  Extra1_2,  Extra1_3,  Extra1_4,
-
-                                   Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
-                             };
-
-            Bitmap[] bma = {
-                                   Properties.Resources.kaloschamp, Properties.Resources.hoennchamp,        Properties.Resources.sinnohchamp,   Properties.Resources.bestfriends,
-                                   Properties.Resources.training,   Properties.Resources.skillfullbattler,  Properties.Resources.expertbattler, Properties.Resources.effort,
-
-                                   Properties.Resources.alert,      Properties.Resources.shock,             Properties.Resources.downcast,      Properties.Resources.careless,
-                                   Properties.Resources.relax,      Properties.Resources.snooze,            Properties.Resources.smile,         Properties.Resources.gorgeous,
-
-                                   Properties.Resources.royal,      Properties.Resources.gorgeousroyal,     Properties.Resources.artist,        Properties.Resources.footprint,
-                                   Properties.Resources.record,     Properties.Resources.legend,            Properties.Resources.country,       Properties.Resources.national,
-
-                                   Properties.Resources.earth,      Properties.Resources.world,             Properties.Resources.classic,       Properties.Resources.premier,
-                                   Properties.Resources._event,     Properties.Resources.birthday,          Properties.Resources.special,       Properties.Resources.souvenir,
-
-                                   Properties.Resources.wishing,    Properties.Resources.battlechamp,       Properties.Resources.regionalchamp, Properties.Resources.nationalchamp,
-                                   Properties.Resources.worldchamp,
-
-                                   // ORAS
-                                   Properties.Resources.ribbon_40,Properties.Resources.ribbon_41,Properties.Resources.ribbon_42,Properties.Resources.ribbon_43,
-                                   Properties.Resources.ribbon_44,Properties.Resources.ribbon_45,Properties.Resources.ribbon_46,
-                           };
             int index = Array.IndexOf(cba, sender as CheckBox);
-
-
-            pba[index].Image = Util.ChangeOpacity(bma[index], Convert.ToInt32(cba[index].Checked) * 0.9 + 0.1);
+            pba[index].Image = Util.ChangeOpacity(bma[index], (cba[index].Checked ? 1 : 0) * 0.9 + 0.1);
         }
-        private void pastribbontoggle(object sender, EventArgs e)
+        private void updateMemoryRibbon(object sender, EventArgs e)
         {
-            PictureBox[] pba2 = {
-                                    PastContest, PastBattle,
-                                };
-
-            pba2[0].Image = Util.ToUInt32(TB_PastContest.Text) < 40 ? Properties.Resources.contestmemory : Properties.Resources.contestmemory2;
-            pba2[1].Image = Util.ToUInt32(TB_PastBattle.Text) < 8 ? Properties.Resources.battlememory : Properties.Resources.battlememory2;
-
-            pba2[0].Image = Util.ChangeOpacity(pba2[0].Image, Util.ToUInt32(TB_PastContest.Text) * 0.9 + 0.1);
-            pba2[1].Image = Util.ChangeOpacity(pba2[1].Image, Util.ToUInt32(TB_PastBattle.Text) * 0.9 + 0.1);
+            if ((sender as MaskedTextBox).Text.Length == 0) { (sender as MaskedTextBox).Text = 0.ToString(); return; }
+            if ((sender as MaskedTextBox) == TB_PastContest)
+            {
+                var val = Util.ToInt32(TB_PastContest.Text);
+                if (val > 40) { TB_PastContest.Text = 40.ToString(); return; }
+                PastContest.Image = Util.ChangeOpacity(val < 40 ? Properties.Resources.contestmemory : Properties.Resources.contestmemory2,
+                    (val != 0 ? 1 : 0) * 0.9 + 0.1);
+            }
+            else
+            {
+                var val = Util.ToInt32(TB_PastBattle.Text);
+                if (val > 8) { TB_PastBattle.Text = 8.ToString(); return; }
+                PastBattle.Image = Util.ChangeOpacity(Util.ToUInt32(TB_PastBattle.Text) < 40 ? Properties.Resources.battlememory : Properties.Resources.battlememory2,
+                    (val != 0 ? 1 : 0) * 0.9 + 0.1);
+            }
         }
-
         private void clickRibbon(object sender, EventArgs e)
         {
-            PictureBox[] pba = { 
-                                   PB_10, PB_11, PB_12, PB_13, 
-                                   PB_14, PB_15, PB_16, PB_17,
-
-                                   PB_20, PB_21, PB_22, PB_23, 
-                                   PB_24, PB_25, PB_26, PB_27,
-
-                                   PB_30, PB_31, PB_32, PB_33, 
-                                   PB_34, PB_35, PB_36, PB_37,  
-
-                                   PB_40, PB_41, PB_42, PB_43, 
-                                   PB_44, PB_45, PB_46, PB_47,
-
-                                   PB_50, PB_51, PB_52, PB_53, 
-                                   PB_54,               PB_57,
-
-                                   PB_O0, PB_O1, PB_O2, PB_O3, PB_O4, PB_O5,                                    
-                               };
-            CheckBox[] cba = {
-                                 Kalos1a_0,Kalos1a_1,Kalos1a_2,Kalos1a_3,
-                                 Kalos1a_4,Kalos1a_5,Kalos1a_6,Kalos1a_7,
-
-                                 Kalos1b_0,Kalos1b_1,Kalos1b_2,Kalos1b_3,
-                                 Kalos1b_4,Kalos1b_5,Kalos1b_6,Kalos1b_7,
-
-                                 Kalos2a_0,Kalos2a_1,Kalos2a_2,Kalos2a_3,
-                                 Kalos2a_4,Kalos2a_5,Kalos2a_6,Kalos2a_7,
-
-                                 Kalos2b_0,Kalos2b_1,Kalos2b_2,Kalos2b_3,
-                                 Kalos2b_4,Kalos2b_5,Kalos2b_6,Kalos2b_7,
-
-                                 Extra1_0,Extra1_1,Extra1_2,Extra1_3,Extra1_4,
-
-                                 Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
-                             };
-
             CheckBox cb = cba[Array.IndexOf(pba, sender as PictureBox)];
             cb.Checked = !cb.Checked;
-        }             
+        }
     }
 }

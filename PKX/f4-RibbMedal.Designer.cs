@@ -310,7 +310,7 @@
             this.BTN_Save.TabIndex = 1;
             this.BTN_Save.Text = "Save";
             this.BTN_Save.UseVisualStyleBackColor = true;
-            this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
+            this.BTN_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
             // BTN_All
             // 
@@ -320,7 +320,7 @@
             this.BTN_All.TabIndex = 2;
             this.BTN_All.Text = "Give All";
             this.BTN_All.UseVisualStyleBackColor = true;
-            this.BTN_All.Click += new System.EventHandler(this.BTN_AllRibbons_Click);
+            this.BTN_All.Click += new System.EventHandler(this.B_AllRibbons_Click);
             // 
             // BTN_None
             // 
@@ -330,7 +330,7 @@
             this.BTN_None.TabIndex = 3;
             this.BTN_None.Text = "Remove All";
             this.BTN_None.UseVisualStyleBackColor = true;
-            this.BTN_None.Click += new System.EventHandler(this.BTN_NoRibbons_Click);
+            this.BTN_None.Click += new System.EventHandler(this.B_NoRibbons_Click);
             // 
             // BTN_Cancel
             // 
@@ -340,7 +340,7 @@
             this.BTN_Cancel.TabIndex = 4;
             this.BTN_Cancel.Text = "Cancel";
             this.BTN_Cancel.UseVisualStyleBackColor = true;
-            this.BTN_Cancel.Click += new System.EventHandler(this.BTN_Cancel_Click);
+            this.BTN_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
             // Tab_Medals
             // 
@@ -952,7 +952,7 @@
             this.TMedal1_0.Text = "1_0";
             this.TMedal1_0.UseVisualStyleBackColor = true;
             this.TMedal1_0.Visible = false;
-            this.TMedal1_0.CheckedChanged += new System.EventHandler(this.unusedbits);
+            this.TMedal1_0.CheckedChanged += new System.EventHandler(this.updateUnused);
             // 
             // TMedal1_1
             // 
@@ -965,7 +965,7 @@
             this.TMedal1_1.Text = "1_1";
             this.TMedal1_1.UseVisualStyleBackColor = true;
             this.TMedal1_1.Visible = false;
-            this.TMedal1_1.CheckedChanged += new System.EventHandler(this.unusedbits);
+            this.TMedal1_1.CheckedChanged += new System.EventHandler(this.updateUnused);
             // 
             // Tab_Extra
             // 
@@ -1011,7 +1011,7 @@
             this.ORAS_5.TabIndex = 57;
             this.ORAS_5.Text = "Toughness Master";
             this.ORAS_5.UseVisualStyleBackColor = true;
-            this.ORAS_5.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.ORAS_5.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // ORAS_4
             // 
@@ -1022,7 +1022,7 @@
             this.ORAS_4.TabIndex = 56;
             this.ORAS_4.Text = "Cleverness Master";
             this.ORAS_4.UseVisualStyleBackColor = true;
-            this.ORAS_4.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.ORAS_4.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // PB_57
             // 
@@ -1055,7 +1055,7 @@
             this.ORAS_3.TabIndex = 48;
             this.ORAS_3.Text = "Cuteness Master";
             this.ORAS_3.UseVisualStyleBackColor = true;
-            this.ORAS_3.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.ORAS_3.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // PB_O4
             // 
@@ -1121,7 +1121,7 @@
             this.ORAS_2.TabIndex = 47;
             this.ORAS_2.Text = "Beauty Master";
             this.ORAS_2.UseVisualStyleBackColor = true;
-            this.ORAS_2.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.ORAS_2.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // ORAS_1
             // 
@@ -1132,7 +1132,7 @@
             this.ORAS_1.TabIndex = 46;
             this.ORAS_1.Text = "Coolness Master";
             this.ORAS_1.UseVisualStyleBackColor = true;
-            this.ORAS_1.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.ORAS_1.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // ORAS_0
             // 
@@ -1143,7 +1143,7 @@
             this.ORAS_0.TabIndex = 45;
             this.ORAS_0.Text = "Contest Star";
             this.ORAS_0.UseVisualStyleBackColor = true;
-            this.ORAS_0.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.ORAS_0.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Extra1_7
             // 
@@ -1154,7 +1154,7 @@
             this.Extra1_7.TabIndex = 44;
             this.Extra1_7.Text = "Hoenn Champion";
             this.Extra1_7.UseVisualStyleBackColor = true;
-            this.Extra1_7.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Extra1_7.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // GB_Extra1
             // 
@@ -1184,7 +1184,7 @@
             // PastBattle
             // 
             this.PastBattle.Image = global::PKHeX.Properties.Resources.battlememory;
-            this.PastBattle.Location = new System.Drawing.Point(27, 170);
+            this.PastBattle.Location = new System.Drawing.Point(164, 167);
             this.PastBattle.Name = "PastBattle";
             this.PastBattle.Size = new System.Drawing.Size(40, 40);
             this.PastBattle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1194,7 +1194,7 @@
             // PastContest
             // 
             this.PastContest.Image = global::PKHeX.Properties.Resources.contestmemory;
-            this.PastContest.Location = new System.Drawing.Point(27, 131);
+            this.PastContest.Location = new System.Drawing.Point(164, 127);
             this.PastContest.Name = "PastContest";
             this.PastContest.Size = new System.Drawing.Size(40, 40);
             this.PastContest.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1265,7 +1265,7 @@
             this.Extra1_4.TabIndex = 4;
             this.Extra1_4.Text = "World Champ";
             this.Extra1_4.UseVisualStyleBackColor = true;
-            this.Extra1_4.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Extra1_4.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Extra1_3
             // 
@@ -1276,7 +1276,7 @@
             this.Extra1_3.TabIndex = 3;
             this.Extra1_3.Text = "National Champ";
             this.Extra1_3.UseVisualStyleBackColor = true;
-            this.Extra1_3.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Extra1_3.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Extra1_2
             // 
@@ -1287,7 +1287,7 @@
             this.Extra1_2.TabIndex = 2;
             this.Extra1_2.Text = "Regional Champ";
             this.Extra1_2.UseVisualStyleBackColor = true;
-            this.Extra1_2.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Extra1_2.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Extra1_1
             // 
@@ -1298,7 +1298,7 @@
             this.Extra1_1.TabIndex = 1;
             this.Extra1_1.Text = "Battle Champ";
             this.Extra1_1.UseVisualStyleBackColor = true;
-            this.Extra1_1.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Extra1_1.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Extra1_0
             // 
@@ -1309,45 +1309,45 @@
             this.Extra1_0.TabIndex = 0;
             this.Extra1_0.Text = "Wishing";
             this.Extra1_0.UseVisualStyleBackColor = true;
-            this.Extra1_0.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Extra1_0.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // L_PastBattle
             // 
-            this.L_PastBattle.AutoSize = true;
-            this.L_PastBattle.Location = new System.Drawing.Point(74, 184);
+            this.L_PastBattle.Location = new System.Drawing.Point(0, 177);
             this.L_PastBattle.Name = "L_PastBattle";
-            this.L_PastBattle.Size = new System.Drawing.Size(103, 13);
+            this.L_PastBattle.Size = new System.Drawing.Size(127, 16);
             this.L_PastBattle.TabIndex = 21;
             this.L_PastBattle.Text = "Past Battle Ribbons:";
+            this.L_PastBattle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_PastContest
             // 
-            this.TB_PastContest.Location = new System.Drawing.Point(183, 141);
+            this.TB_PastContest.Location = new System.Drawing.Point(133, 137);
             this.TB_PastContest.Mask = "00";
             this.TB_PastContest.Name = "TB_PastContest";
             this.TB_PastContest.Size = new System.Drawing.Size(21, 20);
             this.TB_PastContest.TabIndex = 5;
             this.TB_PastContest.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_PastContest.TextChanged += new System.EventHandler(this.pastribbontoggle);
+            this.TB_PastContest.TextChanged += new System.EventHandler(this.updateMemoryRibbon);
             // 
             // L_PastContest
             // 
-            this.L_PastContest.AutoSize = true;
-            this.L_PastContest.Location = new System.Drawing.Point(65, 145);
+            this.L_PastContest.Location = new System.Drawing.Point(0, 137);
             this.L_PastContest.Name = "L_PastContest";
-            this.L_PastContest.Size = new System.Drawing.Size(112, 13);
+            this.L_PastContest.Size = new System.Drawing.Size(127, 19);
             this.L_PastContest.TabIndex = 20;
             this.L_PastContest.Text = "Past Contest Ribbons:";
+            this.L_PastContest.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_PastBattle
             // 
-            this.TB_PastBattle.Location = new System.Drawing.Point(183, 180);
+            this.TB_PastBattle.Location = new System.Drawing.Point(133, 177);
             this.TB_PastBattle.Mask = "00";
             this.TB_PastBattle.Name = "TB_PastBattle";
             this.TB_PastBattle.Size = new System.Drawing.Size(21, 20);
             this.TB_PastBattle.TabIndex = 6;
             this.TB_PastBattle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_PastBattle.TextChanged += new System.EventHandler(this.pastribbontoggle);
+            this.TB_PastBattle.TextChanged += new System.EventHandler(this.updateMemoryRibbon);
             // 
             // Tab_Kalos
             // 
@@ -1587,7 +1587,7 @@
             this.Kalos2b_7.TabIndex = 15;
             this.Kalos2b_7.Text = "Souvenir";
             this.Kalos2b_7.UseVisualStyleBackColor = true;
-            this.Kalos2b_7.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_7.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2b_6
             // 
@@ -1598,7 +1598,7 @@
             this.Kalos2b_6.TabIndex = 14;
             this.Kalos2b_6.Text = "Special";
             this.Kalos2b_6.UseVisualStyleBackColor = true;
-            this.Kalos2b_6.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_6.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2b_5
             // 
@@ -1609,7 +1609,7 @@
             this.Kalos2b_5.TabIndex = 13;
             this.Kalos2b_5.Text = "Birthday";
             this.Kalos2b_5.UseVisualStyleBackColor = true;
-            this.Kalos2b_5.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_5.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2b_4
             // 
@@ -1620,7 +1620,7 @@
             this.Kalos2b_4.TabIndex = 12;
             this.Kalos2b_4.Text = "Event";
             this.Kalos2b_4.UseVisualStyleBackColor = true;
-            this.Kalos2b_4.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_4.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2b_3
             // 
@@ -1631,7 +1631,7 @@
             this.Kalos2b_3.TabIndex = 11;
             this.Kalos2b_3.Text = "Premier";
             this.Kalos2b_3.UseVisualStyleBackColor = true;
-            this.Kalos2b_3.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_3.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2b_2
             // 
@@ -1642,7 +1642,7 @@
             this.Kalos2b_2.TabIndex = 10;
             this.Kalos2b_2.Text = "Classic";
             this.Kalos2b_2.UseVisualStyleBackColor = true;
-            this.Kalos2b_2.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_2.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2b_1
             // 
@@ -1653,7 +1653,7 @@
             this.Kalos2b_1.TabIndex = 9;
             this.Kalos2b_1.Text = "World";
             this.Kalos2b_1.UseVisualStyleBackColor = true;
-            this.Kalos2b_1.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_1.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2b_0
             // 
@@ -1664,7 +1664,7 @@
             this.Kalos2b_0.TabIndex = 8;
             this.Kalos2b_0.Text = "Earth";
             this.Kalos2b_0.UseVisualStyleBackColor = true;
-            this.Kalos2b_0.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2b_0.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_7
             // 
@@ -1675,7 +1675,7 @@
             this.Kalos2a_7.TabIndex = 7;
             this.Kalos2a_7.Text = "National";
             this.Kalos2a_7.UseVisualStyleBackColor = true;
-            this.Kalos2a_7.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_7.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_6
             // 
@@ -1686,7 +1686,7 @@
             this.Kalos2a_6.TabIndex = 6;
             this.Kalos2a_6.Text = "Country";
             this.Kalos2a_6.UseVisualStyleBackColor = true;
-            this.Kalos2a_6.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_6.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_5
             // 
@@ -1697,7 +1697,7 @@
             this.Kalos2a_5.TabIndex = 5;
             this.Kalos2a_5.Text = "Legend";
             this.Kalos2a_5.UseVisualStyleBackColor = true;
-            this.Kalos2a_5.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_5.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_4
             // 
@@ -1708,7 +1708,7 @@
             this.Kalos2a_4.TabIndex = 4;
             this.Kalos2a_4.Text = "Record";
             this.Kalos2a_4.UseVisualStyleBackColor = true;
-            this.Kalos2a_4.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_4.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_3
             // 
@@ -1719,7 +1719,7 @@
             this.Kalos2a_3.TabIndex = 3;
             this.Kalos2a_3.Text = "Footprint";
             this.Kalos2a_3.UseVisualStyleBackColor = true;
-            this.Kalos2a_3.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_3.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_2
             // 
@@ -1730,7 +1730,7 @@
             this.Kalos2a_2.TabIndex = 2;
             this.Kalos2a_2.Text = "Artist";
             this.Kalos2a_2.UseVisualStyleBackColor = true;
-            this.Kalos2a_2.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_2.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_1
             // 
@@ -1741,7 +1741,7 @@
             this.Kalos2a_1.TabIndex = 1;
             this.Kalos2a_1.Text = "Gorgeous Royal";
             this.Kalos2a_1.UseVisualStyleBackColor = true;
-            this.Kalos2a_1.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_1.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos2a_0
             // 
@@ -1752,7 +1752,7 @@
             this.Kalos2a_0.TabIndex = 0;
             this.Kalos2a_0.Text = "Royal";
             this.Kalos2a_0.UseVisualStyleBackColor = true;
-            this.Kalos2a_0.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos2a_0.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // GB_Kalos12
             // 
@@ -1980,7 +1980,7 @@
             this.Kalos1b_7.TabIndex = 15;
             this.Kalos1b_7.Text = "Gorgeous";
             this.Kalos1b_7.UseVisualStyleBackColor = true;
-            this.Kalos1b_7.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_7.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1b_6
             // 
@@ -1991,7 +1991,7 @@
             this.Kalos1b_6.TabIndex = 14;
             this.Kalos1b_6.Text = "Smile";
             this.Kalos1b_6.UseVisualStyleBackColor = true;
-            this.Kalos1b_6.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_6.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1b_5
             // 
@@ -2002,7 +2002,7 @@
             this.Kalos1b_5.TabIndex = 13;
             this.Kalos1b_5.Text = "Snooze";
             this.Kalos1b_5.UseVisualStyleBackColor = true;
-            this.Kalos1b_5.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_5.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1b_4
             // 
@@ -2013,7 +2013,7 @@
             this.Kalos1b_4.TabIndex = 12;
             this.Kalos1b_4.Text = "Relax";
             this.Kalos1b_4.UseVisualStyleBackColor = true;
-            this.Kalos1b_4.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_4.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1b_3
             // 
@@ -2024,7 +2024,7 @@
             this.Kalos1b_3.TabIndex = 11;
             this.Kalos1b_3.Text = "Careless";
             this.Kalos1b_3.UseVisualStyleBackColor = true;
-            this.Kalos1b_3.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_3.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1b_2
             // 
@@ -2035,7 +2035,7 @@
             this.Kalos1b_2.TabIndex = 10;
             this.Kalos1b_2.Text = "Downcast";
             this.Kalos1b_2.UseVisualStyleBackColor = true;
-            this.Kalos1b_2.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_2.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1b_1
             // 
@@ -2046,7 +2046,7 @@
             this.Kalos1b_1.TabIndex = 9;
             this.Kalos1b_1.Text = "Shock";
             this.Kalos1b_1.UseVisualStyleBackColor = true;
-            this.Kalos1b_1.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_1.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1b_0
             // 
@@ -2057,7 +2057,7 @@
             this.Kalos1b_0.TabIndex = 8;
             this.Kalos1b_0.Text = "Alert";
             this.Kalos1b_0.UseVisualStyleBackColor = true;
-            this.Kalos1b_0.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1b_0.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_7
             // 
@@ -2068,7 +2068,7 @@
             this.Kalos1a_7.TabIndex = 7;
             this.Kalos1a_7.Text = "Effort";
             this.Kalos1a_7.UseVisualStyleBackColor = true;
-            this.Kalos1a_7.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_7.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_6
             // 
@@ -2079,7 +2079,7 @@
             this.Kalos1a_6.TabIndex = 6;
             this.Kalos1a_6.Text = "Expert Battler";
             this.Kalos1a_6.UseVisualStyleBackColor = true;
-            this.Kalos1a_6.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_6.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_5
             // 
@@ -2090,7 +2090,7 @@
             this.Kalos1a_5.TabIndex = 5;
             this.Kalos1a_5.Text = "Skillfull Battler";
             this.Kalos1a_5.UseVisualStyleBackColor = true;
-            this.Kalos1a_5.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_5.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_4
             // 
@@ -2101,7 +2101,7 @@
             this.Kalos1a_4.TabIndex = 4;
             this.Kalos1a_4.Text = "Training";
             this.Kalos1a_4.UseVisualStyleBackColor = true;
-            this.Kalos1a_4.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_4.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_3
             // 
@@ -2112,7 +2112,7 @@
             this.Kalos1a_3.TabIndex = 3;
             this.Kalos1a_3.Text = "Best Friends";
             this.Kalos1a_3.UseVisualStyleBackColor = true;
-            this.Kalos1a_3.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_3.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_2
             // 
@@ -2123,7 +2123,7 @@
             this.Kalos1a_2.TabIndex = 2;
             this.Kalos1a_2.Text = "Sinnoh Champ";
             this.Kalos1a_2.UseVisualStyleBackColor = true;
-            this.Kalos1a_2.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_2.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_1
             // 
@@ -2134,7 +2134,7 @@
             this.Kalos1a_1.TabIndex = 1;
             this.Kalos1a_1.Text = "Hoenn Champ";
             this.Kalos1a_1.UseVisualStyleBackColor = true;
-            this.Kalos1a_1.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_1.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // Kalos1a_0
             // 
@@ -2145,7 +2145,7 @@
             this.Kalos1a_0.TabIndex = 0;
             this.Kalos1a_0.Text = "Kalos Champ";
             this.Kalos1a_0.UseVisualStyleBackColor = true;
-            this.Kalos1a_0.CheckedChanged += new System.EventHandler(this.toggleribbon);
+            this.Kalos1a_0.CheckedChanged += new System.EventHandler(this.updateRibbon);
             // 
             // tabControl1
             // 
