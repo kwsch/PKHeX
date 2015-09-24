@@ -984,7 +984,7 @@ namespace PKHeX
         }
         internal static Image getSprite(PK6 pk6)
         {
-            return pk6.Sprite;
+            return getSprite(pk6.Species, pk6.AltForm, pk6.Gender, pk6.HeldItem, pk6.IsEgg, pk6.IsShiny);
         }
         internal static Image getSprite(byte[] data)
         {
