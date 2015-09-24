@@ -310,11 +310,9 @@
             this.RTB_T = new System.Windows.Forms.RichTextBox();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
             this.L_SAVManipulation = new System.Windows.Forms.Label();
-            this.B_SwitchSAV = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
             this.L_IntegrityCheck = new System.Windows.Forms.Label();
             this.B_ExportSAV = new System.Windows.Forms.Button();
-            this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
@@ -328,9 +326,9 @@
             this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
-            this.L_SAVINDEX = new System.Windows.Forms.Label();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
+            this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -2593,7 +2591,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(114, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
@@ -2602,7 +2600,7 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(114, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(152, 22);
             this.Menu_Save.Text = "&Save as...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
@@ -2611,7 +2609,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(114, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
@@ -3671,7 +3669,6 @@
             // 
             // Tab_Tools
             // 
-            this.Tab_Tools.Controls.Add(this.B_SaveBoxBin);
             this.Tab_Tools.Controls.Add(this.B_3DSSETemp);
             this.Tab_Tools.Controls.Add(this.B_JPEG);
             this.Tab_Tools.Controls.Add(this.RTB_T);
@@ -3685,7 +3682,7 @@
             // 
             // B_SaveBoxBin
             // 
-            this.B_SaveBoxBin.Location = new System.Drawing.Point(122, 20);
+            this.B_SaveBoxBin.Location = new System.Drawing.Point(117, 20);
             this.B_SaveBoxBin.Name = "B_SaveBoxBin";
             this.B_SaveBoxBin.Size = new System.Drawing.Size(75, 45);
             this.B_SaveBoxBin.TabIndex = 8;
@@ -3727,8 +3724,8 @@
             // 
             // Tab_SAV
             // 
+            this.Tab_SAV.Controls.Add(this.B_SaveBoxBin);
             this.Tab_SAV.Controls.Add(this.L_SAVManipulation);
-            this.Tab_SAV.Controls.Add(this.B_SwitchSAV);
             this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
             this.Tab_SAV.Controls.Add(this.L_IntegrityCheck);
             this.Tab_SAV.Controls.Add(this.B_ExportSAV);
@@ -3743,29 +3740,18 @@
             // L_SAVManipulation
             // 
             this.L_SAVManipulation.AutoSize = true;
-            this.L_SAVManipulation.Location = new System.Drawing.Point(154, 7);
+            this.L_SAVManipulation.Location = new System.Drawing.Point(208, 7);
             this.L_SAVManipulation.Name = "L_SAVManipulation";
-            this.L_SAVManipulation.Size = new System.Drawing.Size(117, 13);
+            this.L_SAVManipulation.Size = new System.Drawing.Size(54, 13);
             this.L_SAVManipulation.TabIndex = 7;
-            this.L_SAVManipulation.Text = "Save File Manipulation:";
-            // 
-            // B_SwitchSAV
-            // 
-            this.B_SwitchSAV.Enabled = false;
-            this.B_SwitchSAV.Location = new System.Drawing.Point(122, 20);
-            this.B_SwitchSAV.Name = "B_SwitchSAV";
-            this.B_SwitchSAV.Size = new System.Drawing.Size(75, 45);
-            this.B_SwitchSAV.TabIndex = 6;
-            this.B_SwitchSAV.Text = "Switch SAV";
-            this.B_SwitchSAV.UseVisualStyleBackColor = true;
-            this.B_SwitchSAV.Click += new System.EventHandler(this.clickSwitchSAV);
+            this.L_SAVManipulation.Text = "Save File:";
             // 
             // B_VerifyCHK
             // 
             this.B_VerifyCHK.Enabled = false;
             this.B_VerifyCHK.Location = new System.Drawing.Point(32, 20);
             this.B_VerifyCHK.Name = "B_VerifyCHK";
-            this.B_VerifyCHK.Size = new System.Drawing.Size(75, 23);
+            this.B_VerifyCHK.Size = new System.Drawing.Size(75, 45);
             this.B_VerifyCHK.TabIndex = 2;
             this.B_VerifyCHK.Text = "Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
@@ -3790,17 +3776,6 @@
             this.B_ExportSAV.Text = "Export SAV";
             this.B_ExportSAV.UseVisualStyleBackColor = true;
             this.B_ExportSAV.Click += new System.EventHandler(this.clickExportSAV);
-            // 
-            // RTB_S
-            // 
-            this.RTB_S.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_S.Location = new System.Drawing.Point(1, 68);
-            this.RTB_S.Name = "RTB_S";
-            this.RTB_S.ReadOnly = true;
-            this.RTB_S.Size = new System.Drawing.Size(300, 130);
-            this.RTB_S.TabIndex = 0;
-            this.RTB_S.Text = "";
-            this.RTB_S.WordWrap = false;
             // 
             // B_OpenHallofFame
             // 
@@ -3944,15 +3919,6 @@
             this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
             this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);
             // 
-            // L_SAVINDEX
-            // 
-            this.L_SAVINDEX.AutoSize = true;
-            this.L_SAVINDEX.Location = new System.Drawing.Point(600, 5);
-            this.L_SAVINDEX.Name = "L_SAVINDEX";
-            this.L_SAVINDEX.Size = new System.Drawing.Size(13, 13);
-            this.L_SAVINDEX.TabIndex = 16;
-            this.L_SAVINDEX.Text = "0";
-            // 
             // dragout
             // 
             this.dragout.BackColor = System.Drawing.Color.Transparent;
@@ -3979,6 +3945,17 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
+            // RTB_S
+            // 
+            this.RTB_S.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_S.Location = new System.Drawing.Point(1, 68);
+            this.RTB_S.Name = "RTB_S";
+            this.RTB_S.ReadOnly = true;
+            this.RTB_S.Size = new System.Drawing.Size(300, 130);
+            this.RTB_S.TabIndex = 0;
+            this.RTB_S.Text = "";
+            this.RTB_S.WordWrap = false;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -3987,7 +3964,6 @@
             this.ClientSize = new System.Drawing.Size(614, 362);
             this.Controls.Add(this.dragout);
             this.Controls.Add(this.L_QR);
-            this.Controls.Add(this.L_SAVINDEX);
             this.Controls.Add(this.GB_SAVtools);
             this.Controls.Add(this.tabBoxMulti);
             this.Controls.Add(this.L_Save);
@@ -4340,7 +4316,6 @@
         private System.Windows.Forms.TabPage Tab_SAV;
         private System.Windows.Forms.Button B_ExportSAV;
         private System.Windows.Forms.Button B_VerifyCHK;
-        private System.Windows.Forms.RichTextBox RTB_S;
         private System.Windows.Forms.Button B_BoxRight;
         private System.Windows.Forms.Button B_BoxLeft;
         private System.Windows.Forms.Label L_XP2;
@@ -4357,9 +4332,7 @@
         private System.Windows.Forms.RichTextBox RTB_T;
         private System.Windows.Forms.Button B_JPEG;
         private System.Windows.Forms.Label L_SAVManipulation;
-        private System.Windows.Forms.Button B_SwitchSAV;
         private System.Windows.Forms.Label L_IntegrityCheck;
-        private System.Windows.Forms.Label L_SAVINDEX;
         private System.Windows.Forms.ComboBox CB_EggLocation;
         private System.Windows.Forms.Label Label_CharacteristicPrefix;
         private System.Windows.Forms.ToolStripMenuItem Menu_Tools;
@@ -4412,6 +4385,7 @@
         private System.Windows.Forms.Button B_SaveBoxBin;
         private System.Windows.Forms.Label L_QR;
         private System.Windows.Forms.ComboBox CB_HPType;
+        private System.Windows.Forms.RichTextBox RTB_S;
     }
 }
 

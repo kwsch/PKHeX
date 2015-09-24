@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -196,7 +195,6 @@ namespace PKHeX
         public static byte[] ramsav;
         public static bool ramsavloaded;
         public bool savLoaded;
-        public int savindex;
         public static bool savedited;
         public string pathSDF;
         public string path3DS;
@@ -485,30 +483,17 @@ namespace PKHeX
                     DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
                     if (sdr == DialogResult.Cancel) return;
 
-                    savindex = (sdr == DialogResult.Yes) ? 0 : 1;
-                    B_SwitchSAV.Enabled = true;
                     open1MB(input, path, GameType, false);
                 }
-                else if (PKX.detectSAVIndex(input, out savindex) == 2)
+                else
                 {
                     DialogResult dialogResult = Util.Prompt(MessageBoxButtons.YesNo, "Hash verification failed.", "Press Yes to ignore this warning and continue loading the save file.");
                     if (dialogResult != DialogResult.Yes) return;
 
                     DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
                     if (sdr == DialogResult.Cancel)
-                    {
-                        savindex = 0;
                         return; // abort load
-                    }
-                    savindex = (sdr == DialogResult.Yes) ? 0 : 1;
-                    B_SwitchSAV.Enabled = true;
-                    open1MB(input, path, GameType, false);
-                }
-                else
-                {
-                    B_ExportSAV.Enabled = true;
-                    B_SwitchSAV.Enabled = true;
-                    PKX.detectSAVIndex(input, out savindex);
+
                     open1MB(input, path, GameType, false);
                 }
             }
@@ -638,11 +623,9 @@ namespace PKHeX
             SaveGame = new PKX.Structures.SaveGame(GameType);
 
             // Load CyberGadget
-            savindex = 0;
             savefile = input;
             powersave = null;
             B_ExportSAV.Enabled = true;
-            B_SwitchSAV.Enabled = false;
             savefile = input;
 
             openSave(oras);
@@ -655,15 +638,6 @@ namespace PKHeX
 
             powersave = input;
             savefile = input.Skip(0x5400).Take(oras ? 0x76000 : 0x65600).ToArray();
-
-            // Logic to allow unlocking of Switch SAV
-            // Check both IVFC Hashes
-            SHA256 mySHA256 = SHA256.Create();
-            byte[] hashValue1 = mySHA256.ComputeHash(powersave.Skip(0x2000 + 0 * 0x7F000).Take(0x20).ToArray());
-            byte[] hashValue2 = mySHA256.ComputeHash(powersave.Skip(0x2000 + 1 * 0x7F000).Take(0x20).ToArray());
-            byte[] realHash1 = powersave.Skip(0x43C - 0*0x130).Take(0x20).ToArray();
-            byte[] realHash2 = powersave.Skip(0x43C - 1*0x130).Take(0x20).ToArray();
-            B_SwitchSAV.Enabled = (hashValue1.SequenceEqual(realHash1) && hashValue2.SequenceEqual(realHash2));
 
             getSAVOffsets(ref oras); // to detect if we are ORAS or not
 
@@ -735,7 +709,6 @@ namespace PKHeX
             
             setBoxNames();   // Display the Box Names
             setPKXBoxes();   // Reload all of the PKX Windows
-            setSAVLabel();   // Reload the label indicating current save
 
             // Version Exclusive Editors
             GB_SUBE.Visible = !oras;
@@ -2730,7 +2703,6 @@ namespace PKHeX
         // Generic Subfunctions // 
         private void setPokedex(byte[] pkxdata)
         {
-            if (savindex > 1) return;
             int species = BitConverter.ToUInt16(pkxdata, 0x8);  // Species
             int lang = pkxdata[0xE3] - 1; if (lang > 5) lang--; // 0-6 language vals
             int origin = pkxdata[0xDF];                         // Native / Non Native
@@ -2910,11 +2882,6 @@ namespace PKHeX
             }
             CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
         }
-        private void setSAVLabel()
-        {
-            L_SAVINDEX.Text = (savindex + 1).ToString();
-            RTB_S.AppendText("Loaded Save File " + (savindex + 1) + Environment.NewLine);
-        }
         private void getSAVOffsets(ref bool oras)
         {
             // Get the save file offsets for the input game
@@ -2937,8 +2904,7 @@ namespace PKHeX
             }
 
             // Enable Buttons
-            GB_SAVtools.Enabled = B_JPEG.Enabled = B_VerifyCHK.Enabled = B_SwitchSAV.Enabled
-                = enableInterface;
+            GB_SAVtools.Enabled = B_JPEG.Enabled = B_VerifyCHK.Enabled = enableInterface;
         }
         private void getQuickFiller(PictureBox pb, byte[] dslotdata = null)
         {
@@ -3474,17 +3440,6 @@ namespace PKHeX
                     else { Util.Error("Can't find the temporary file.", "Make sure the Cyber Gadget software is paused."); }
                     break;
             }
-        }
-
-        private void clickSwitchSAV(object sender, EventArgs e)
-        {
-            if (DialogResult.Yes !=
-                Util.Prompt(MessageBoxButtons.YesNo, String.Format("Current Savefile is Save {0}.", (savindex + 1)),
-                    String.Format("Would you like to switch to Save {0}?", ((savindex + 1)%2 + 1))))
-                return;
-
-            savefile = powersave.Skip(0x5400 + 0x7F000 + savindex).Take(savefile.Length).ToArray();
-            openSave(SaveGame.ORAS);
         }
 
         // Drag & Drop within Box
