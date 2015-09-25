@@ -72,7 +72,7 @@ namespace PKHeX
         }
         public int Nature { get { return Data[0x1C]; } set { Data[0x1C] = (byte)value; } }
         public bool FatefulEncounter { get { return (Data[0x1D] & 1) == 1; } set { Data[0x1D] = (byte)(Data[0x1D] & ~0x01 | (value ? 1 : 0)); } }
-        public int Gender { get { return (Data[0x1D] >> 1) & 0x3; } set { Data[0x1D] = (byte)(Data[0x1D] & 0xF9 | (value << 1)); } }
+        public int Gender { get { return (Data[0x1D] >> 1) & 0x3; } set { Data[0x1D] = (byte)(Data[0x1D] & ~0x06 | (value << 1)); } }
         public int AltForm { get { return Data[0x1D] >> 3; } set { Data[0x1D] = (byte)(Data[0x1D] & 0x07 | (value << 3)); } }
         public int EV_HP { get { return Data[0x1E]; } set { Data[0x1E] = (byte)value; } }
         public int EV_ATK { get { return Data[0x1F]; } set { Data[0x1F] = (byte)value; } }
@@ -374,8 +374,8 @@ namespace PKHeX
         public int Egg_Location { get { return BitConverter.ToUInt16(Data, 0xD8); } set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0xD8, 2); } }
         public int Met_Location { get { return BitConverter.ToUInt16(Data, 0xDA); } set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0xDA, 2); } }
         public int Ball { get { return Data[0xDC]; } set { Data[0xDC] = (byte)value; } }
-        public int Met_Level { get { return Data[0xDD] & 0x80; } set { Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | value); } }
-        public int OT_Gender { get { return Data[0xDD] >> 7; } set { Data[0xDD] = (byte)((Data[0xDD] & 0x80) | (value << 7)); } }
+        public int Met_Level { get { return Data[0xDD] & ~0x80; } set { Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); } }
+        public int OT_Gender { get { return Data[0xDD] >> 7; } set { Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); } }
         public int EncounterType { get { return Data[0xDE]; } set { Data[0xDE] = (byte)value; } }
         public int Version { get { return Data[0xDF]; } set { Data[0xDF] = (byte)value; } }
         public int Country { get { return Data[0xE0]; } set { Data[0xE0] = (byte)value; } }
