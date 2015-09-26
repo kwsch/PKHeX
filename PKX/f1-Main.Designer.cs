@@ -304,15 +304,16 @@
             this.subepkx2 = new System.Windows.Forms.PictureBox();
             this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
-            this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_3DSSETemp = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.RTB_T = new System.Windows.Forms.RichTextBox();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
+            this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.L_SAVManipulation = new System.Windows.Forms.Label();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
             this.L_IntegrityCheck = new System.Windows.Forms.Label();
             this.B_ExportSAV = new System.Windows.Forms.Button();
+            this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
@@ -328,7 +329,6 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
-            this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -1675,6 +1675,7 @@
             this.Label_SPE.TabIndex = 24;
             this.Label_SPE.Text = "Spe:";
             this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_SPE.MouseClick += clickIV;
             // 
             // Label_SPD
             // 
@@ -1684,6 +1685,7 @@
             this.Label_SPD.TabIndex = 23;
             this.Label_SPD.Text = "SpD:";
             this.Label_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_SPD.MouseClick += clickIV;
             // 
             // Label_SPA
             // 
@@ -1693,6 +1695,7 @@
             this.Label_SPA.TabIndex = 22;
             this.Label_SPA.Text = "SpA:";
             this.Label_SPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_SPA.MouseClick += clickIV;
             // 
             // Label_DEF
             // 
@@ -1702,6 +1705,7 @@
             this.Label_DEF.TabIndex = 21;
             this.Label_DEF.Text = "Def:";
             this.Label_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_DEF.MouseClick += clickIV;
             // 
             // Label_ATK
             // 
@@ -1711,6 +1715,7 @@
             this.Label_ATK.TabIndex = 20;
             this.Label_ATK.Text = "Atk:";
             this.Label_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_ATK.MouseClick += clickIV;
             // 
             // Label_HP
             // 
@@ -1720,6 +1725,7 @@
             this.Label_HP.TabIndex = 19;
             this.Label_HP.Text = "HP:";
             this.Label_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_HP.MouseClick += clickIV;
             // 
             // TB_EVTotal
             // 
@@ -2591,7 +2597,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(114, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
@@ -2600,7 +2606,7 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(114, 22);
             this.Menu_Save.Text = "&Save as...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
@@ -2609,7 +2615,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(114, 22);
             this.Menu_Exit.Text = "&Exit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
@@ -3680,16 +3686,6 @@
             this.Tab_Tools.Text = "Tools";
             this.Tab_Tools.UseVisualStyleBackColor = true;
             // 
-            // B_SaveBoxBin
-            // 
-            this.B_SaveBoxBin.Location = new System.Drawing.Point(117, 20);
-            this.B_SaveBoxBin.Name = "B_SaveBoxBin";
-            this.B_SaveBoxBin.Size = new System.Drawing.Size(75, 45);
-            this.B_SaveBoxBin.TabIndex = 8;
-            this.B_SaveBoxBin.Text = "Save Box Data++";
-            this.B_SaveBoxBin.UseVisualStyleBackColor = true;
-            this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
-            // 
             // B_3DSSETemp
             // 
             this.B_3DSSETemp.Location = new System.Drawing.Point(32, 20);
@@ -3737,6 +3733,16 @@
             this.Tab_SAV.Text = "SAV";
             this.Tab_SAV.UseVisualStyleBackColor = true;
             // 
+            // B_SaveBoxBin
+            // 
+            this.B_SaveBoxBin.Location = new System.Drawing.Point(117, 20);
+            this.B_SaveBoxBin.Name = "B_SaveBoxBin";
+            this.B_SaveBoxBin.Size = new System.Drawing.Size(75, 45);
+            this.B_SaveBoxBin.TabIndex = 8;
+            this.B_SaveBoxBin.Text = "Save Box Data++";
+            this.B_SaveBoxBin.UseVisualStyleBackColor = true;
+            this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
+            // 
             // L_SAVManipulation
             // 
             this.L_SAVManipulation.AutoSize = true;
@@ -3776,6 +3782,17 @@
             this.B_ExportSAV.Text = "Export SAV";
             this.B_ExportSAV.UseVisualStyleBackColor = true;
             this.B_ExportSAV.Click += new System.EventHandler(this.clickExportSAV);
+            // 
+            // RTB_S
+            // 
+            this.RTB_S.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_S.Location = new System.Drawing.Point(1, 68);
+            this.RTB_S.Name = "RTB_S";
+            this.RTB_S.ReadOnly = true;
+            this.RTB_S.Size = new System.Drawing.Size(300, 130);
+            this.RTB_S.TabIndex = 0;
+            this.RTB_S.Text = "";
+            this.RTB_S.WordWrap = false;
             // 
             // B_OpenHallofFame
             // 
@@ -3944,17 +3961,6 @@
             this.L_QR.Text = "QR!";
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
-            // 
-            // RTB_S
-            // 
-            this.RTB_S.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_S.Location = new System.Drawing.Point(1, 68);
-            this.RTB_S.Name = "RTB_S";
-            this.RTB_S.ReadOnly = true;
-            this.RTB_S.Size = new System.Drawing.Size(300, 130);
-            this.RTB_S.TabIndex = 0;
-            this.RTB_S.Text = "";
-            this.RTB_S.WordWrap = false;
             // 
             // Main
             // 

@@ -1218,6 +1218,24 @@ namespace PKHeX
             cb.Checked = !cb.Checked;
             setMarkings();
         }
+        private void clickIV(object sender, MouseEventArgs e)
+        {
+            if (!(ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt))
+                return;
+
+            int index = Array.IndexOf(new[] { Label_HP, Label_ATK, Label_DEF, Label_SPA, Label_SPD, Label_SPE }, sender as Label);
+
+            if (ModifierKeys == Keys.Alt) // EV
+            {
+                var arrayEV = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV};
+                arrayEV[index].Text = ((e.Button == MouseButtons.Left)
+                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal) + Util.ToInt32(arrayEV[index]), 0), 252) 
+                    : 0).ToString();
+            }
+            else
+            (new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV})[index].Text =
+                ((e.Button == MouseButtons.Left) ? 31 : 0).ToString();
+        }
         private void clickOT(object sender, EventArgs e)
         {
             string OT = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, SaveGame.TrainerCard + 0x48, 0x1A));
