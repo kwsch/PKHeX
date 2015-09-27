@@ -2844,9 +2844,9 @@ namespace PKHeX
 
             for (int i = 0; i < 2; i++)
             {
-                getSlotFiller(SaveGame.Daycare + 0xE8 * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
-                dctexta[i].Text = BitConverter.ToUInt32(savefile, SaveGame.Daycare + 0xF0 * i + 4).ToString();
-                if (Convert.ToBoolean(savefile[SaveGame.Daycare + 0xF0 * i]))   // If Occupied
+                getSlotFiller(SaveGame.DaycareSlot[DaycareSlot] + 0xE8 * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
+                dctexta[i].Text = BitConverter.ToUInt32(savefile, SaveGame.DaycareSlot[DaycareSlot] + 0xF0 * i + 4).ToString();
+                if (Convert.ToBoolean(savefile[SaveGame.DaycareSlot[DaycareSlot] + 0xF0 * i]))   // If Occupied
                     dclabela[i].Text = (i + 1) + ": ✓";
                 else
                 {
@@ -2854,8 +2854,8 @@ namespace PKHeX
                     SlotPictureBoxes[i + 42].Image = Util.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
                 }
             }
-            DayCare_HasEgg.Checked = Convert.ToBoolean(savefile[SaveGame.Daycare + 0x1E0]);
-            TB_RNGSeed.Text = BitConverter.ToUInt64(savefile, SaveGame.Daycare + 0x1E8).ToString("X16");
+            DayCare_HasEgg.Checked = Convert.ToBoolean(savefile[SaveGame.DaycareSlot[DaycareSlot] + 0x1E0]);
+            TB_RNGSeed.Text = BitConverter.ToUInt64(savefile, SaveGame.DaycareSlot[DaycareSlot] + 0x1E8).ToString("X16");
 
             // GTS
             getSlotFiller(SaveGame.GTS, SlotPictureBoxes[44]);
