@@ -207,8 +207,6 @@
             this.Label_TID = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
             this.Label_Diamond = new System.Windows.Forms.Label();
-            this.OpenPKX = new System.Windows.Forms.OpenFileDialog();
-            this.SavePKX = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Open = new System.Windows.Forms.ToolStripMenuItem();
@@ -1416,6 +1414,7 @@
             this.TB_SPEIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPEIV.TabIndex = 6;
             this.TB_SPEIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPEIV.Click += new System.EventHandler(this.clickIV);
             this.TB_SPEIV.TextChanged += new System.EventHandler(this.updateIVs);
             // 
             // TB_SPDIV
@@ -1427,6 +1426,7 @@
             this.TB_SPDIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPDIV.TabIndex = 5;
             this.TB_SPDIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPDIV.Click += new System.EventHandler(this.clickIV);
             this.TB_SPDIV.TextChanged += new System.EventHandler(this.updateIVs);
             // 
             // TB_SPAIV
@@ -1438,6 +1438,7 @@
             this.TB_SPAIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPAIV.TabIndex = 4;
             this.TB_SPAIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPAIV.Click += new System.EventHandler(this.clickIV);
             this.TB_SPAIV.TextChanged += new System.EventHandler(this.updateIVs);
             // 
             // TB_DEFIV
@@ -1449,6 +1450,7 @@
             this.TB_DEFIV.Size = new System.Drawing.Size(22, 20);
             this.TB_DEFIV.TabIndex = 3;
             this.TB_DEFIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_DEFIV.Click += new System.EventHandler(this.clickIV);
             this.TB_DEFIV.TextChanged += new System.EventHandler(this.updateIVs);
             // 
             // TB_ATKIV
@@ -1460,6 +1462,7 @@
             this.TB_ATKIV.Size = new System.Drawing.Size(22, 20);
             this.TB_ATKIV.TabIndex = 2;
             this.TB_ATKIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_ATKIV.Click += new System.EventHandler(this.clickIV);
             this.TB_ATKIV.TextChanged += new System.EventHandler(this.updateIVs);
             // 
             // TB_HPIV
@@ -1471,6 +1474,7 @@
             this.TB_HPIV.Size = new System.Drawing.Size(22, 20);
             this.TB_HPIV.TabIndex = 1;
             this.TB_HPIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_HPIV.Click += new System.EventHandler(this.clickIV);
             this.TB_HPIV.TextChanged += new System.EventHandler(this.updateIVs);
             // 
             // TB_ATKEV
@@ -1482,6 +1486,7 @@
             this.TB_ATKEV.Size = new System.Drawing.Size(31, 20);
             this.TB_ATKEV.TabIndex = 8;
             this.TB_ATKEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_ATKEV.Click += new System.EventHandler(this.clickEV);
             this.TB_ATKEV.TextChanged += new System.EventHandler(this.updateEVs);
             // 
             // TB_DEFEV
@@ -1493,6 +1498,7 @@
             this.TB_DEFEV.Size = new System.Drawing.Size(31, 20);
             this.TB_DEFEV.TabIndex = 9;
             this.TB_DEFEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_DEFEV.Click += new System.EventHandler(this.clickEV);
             this.TB_DEFEV.TextChanged += new System.EventHandler(this.updateEVs);
             // 
             // TB_SPEEV
@@ -1504,6 +1510,7 @@
             this.TB_SPEEV.Size = new System.Drawing.Size(31, 20);
             this.TB_SPEEV.TabIndex = 12;
             this.TB_SPEEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPEEV.Click += new System.EventHandler(this.clickEV);
             this.TB_SPEEV.TextChanged += new System.EventHandler(this.updateEVs);
             // 
             // TB_SPDEV
@@ -1515,6 +1522,7 @@
             this.TB_SPDEV.Size = new System.Drawing.Size(31, 20);
             this.TB_SPDEV.TabIndex = 11;
             this.TB_SPDEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPDEV.Click += new System.EventHandler(this.clickEV);
             this.TB_SPDEV.TextChanged += new System.EventHandler(this.updateEVs);
             // 
             // TB_SPAEV
@@ -1526,6 +1534,7 @@
             this.TB_SPAEV.Size = new System.Drawing.Size(31, 20);
             this.TB_SPAEV.TabIndex = 10;
             this.TB_SPAEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SPAEV.Click += new System.EventHandler(this.clickEV);
             this.TB_SPAEV.TextChanged += new System.EventHandler(this.updateEVs);
             // 
             // TB_HPEV
@@ -1537,6 +1546,7 @@
             this.TB_HPEV.Size = new System.Drawing.Size(31, 20);
             this.TB_HPEV.TabIndex = 7;
             this.TB_HPEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_HPEV.Click += new System.EventHandler(this.clickEV);
             this.TB_HPEV.TextChanged += new System.EventHandler(this.updateEVs);
             // 
             // Label_Sheen
@@ -1675,7 +1685,7 @@
             this.Label_SPE.TabIndex = 24;
             this.Label_SPE.Text = "Spe:";
             this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPE.MouseClick += clickIV;
+            this.Label_SPE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
             // 
             // Label_SPD
             // 
@@ -1685,7 +1695,7 @@
             this.Label_SPD.TabIndex = 23;
             this.Label_SPD.Text = "SpD:";
             this.Label_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPD.MouseClick += clickIV;
+            this.Label_SPD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
             // 
             // Label_SPA
             // 
@@ -1695,7 +1705,7 @@
             this.Label_SPA.TabIndex = 22;
             this.Label_SPA.Text = "SpA:";
             this.Label_SPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPA.MouseClick += clickIV;
+            this.Label_SPA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
             // 
             // Label_DEF
             // 
@@ -1705,7 +1715,7 @@
             this.Label_DEF.TabIndex = 21;
             this.Label_DEF.Text = "Def:";
             this.Label_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_DEF.MouseClick += clickIV;
+            this.Label_DEF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
             // 
             // Label_ATK
             // 
@@ -1715,7 +1725,7 @@
             this.Label_ATK.TabIndex = 20;
             this.Label_ATK.Text = "Atk:";
             this.Label_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_ATK.MouseClick += clickIV;
+            this.Label_ATK.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
             // 
             // Label_HP
             // 
@@ -1725,7 +1735,7 @@
             this.Label_HP.TabIndex = 19;
             this.Label_HP.Text = "HP:";
             this.Label_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_HP.MouseClick += clickIV;
+            this.Label_HP.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
             // 
             // TB_EVTotal
             // 
@@ -2559,15 +2569,6 @@
             this.Label_Diamond.TabIndex = 11;
             this.Label_Diamond.Text = " ♦";
             this.Label_Diamond.Visible = false;
-            // 
-            // OpenPKX
-            // 
-            this.OpenPKX.Filter = "PKX Files|*pk6;*.pkx|EKX Files|*ek6;*.ekx|Binary Files|*.bin|All Files|*.*";
-            // 
-            // SavePKX
-            // 
-            this.SavePKX.DefaultExt = "pk6";
-            this.SavePKX.Filter = "PKX File|*.pk6;*.pkx|EKX File|*.ek6;*.ekx|BIN File|*.bin|All Files|*.*";
             // 
             // menuStrip1
             // 
@@ -4121,8 +4122,6 @@
         private System.Windows.Forms.Label Label_Country;
         private System.Windows.Forms.Label Label_PKRSdays;
         private System.Windows.Forms.Label Label_PKRS;
-        private System.Windows.Forms.OpenFileDialog OpenPKX;
-        private System.Windows.Forms.SaveFileDialog SavePKX;
         private System.Windows.Forms.Button BTN_RerollEC;
         private System.Windows.Forms.Button BTN_History;
         private System.Windows.Forms.Button BTN_Ribbons;
@@ -4218,7 +4217,6 @@
         private System.Windows.Forms.MaskedTextBox TB_Cool;
         private System.Windows.Forms.MaskedTextBox TB_SID;
         private System.Windows.Forms.MaskedTextBox TB_TID;
-        public System.Windows.Forms.MaskedTextBox TB_Friendship;
         private System.Windows.Forms.MaskedTextBox TB_Level;
         private System.Windows.Forms.MaskedTextBox TB_EXP;
         private System.Windows.Forms.MaskedTextBox TB_ExtraByte;
@@ -4348,10 +4346,7 @@
         private System.Windows.Forms.ToolStripComboBox CB_MainLanguage;
         private System.Windows.Forms.ToolStripMenuItem Menu_About;
         private System.Windows.Forms.ToolStripMenuItem Menu_BoxIO;
-        public System.Windows.Forms.ComboBox CB_Move1;
         public System.Windows.Forms.ComboBox CB_MetLocation;
-        public System.Windows.Forms.Label Label_Friendship;
-        public System.Windows.Forms.Label Label_HatchCounter;
         private System.Windows.Forms.Label Label_CTGender;
         private System.Windows.Forms.Label Label_OTGender;
         private System.Windows.Forms.PictureBox PB_MarkPentagon;
@@ -4375,7 +4370,6 @@
         private System.Windows.Forms.Button B_OpenSuperTraining;
         private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Panel PAN_Box;
-        public System.Windows.Forms.ComboBox CB_BoxSelect;
         private System.Windows.Forms.ComboBox DEV_Ability;
         private System.Windows.Forms.CheckBox CHK_HackedStats;
         private System.Windows.Forms.MaskedTextBox MT_Level;
@@ -4383,8 +4377,6 @@
         private System.Windows.Forms.Button B_OpenSecretBase;
         private System.Windows.Forms.ToolStripMenuItem Menu_Unicode;
         public System.Windows.Forms.ComboBox CB_Ball;
-        public System.Windows.Forms.ComboBox CB_HeldItem;
-        public System.Windows.Forms.ComboBox CB_Nature;
         private System.Windows.Forms.PictureBox dragout;
         public System.Windows.Forms.ComboBox CB_Species;
         public System.Windows.Forms.CheckBox CHK_IsEgg;
@@ -4392,6 +4384,13 @@
         private System.Windows.Forms.Label L_QR;
         private System.Windows.Forms.ComboBox CB_HPType;
         private System.Windows.Forms.RichTextBox RTB_S;
+        private System.Windows.Forms.ComboBox CB_HeldItem;
+        private System.Windows.Forms.ComboBox CB_Nature;
+        private System.Windows.Forms.MaskedTextBox TB_Friendship;
+        private System.Windows.Forms.ComboBox CB_Move1;
+        private System.Windows.Forms.ComboBox CB_BoxSelect;
+        public System.Windows.Forms.Label Label_Friendship;
+        public System.Windows.Forms.Label Label_HatchCounter;
     }
 }
 

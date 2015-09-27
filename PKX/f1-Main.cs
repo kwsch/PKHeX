@@ -242,50 +242,63 @@ namespace PKHeX
             string cyberpath = Util.GetTempFolder();
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "PKX File|*.pk6;*.pkx" +
+                         "|EKX File|*.ek6;*.ekx" +
+                         "|BIN File|*.bin" +
+                         "|All Files|*.*",
+            };
             if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
             {
-                OpenPKX.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
-                OpenPKX.RestoreDirectory = true;
-                OpenPKX.FilterIndex = 4;
+                ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
+                ofd.RestoreDirectory = true;
+                ofd.FilterIndex = 4;
             }
             else if (pathSDF != null)
             {
-                OpenPKX.InitialDirectory = pathSDF;
-                OpenPKX.RestoreDirectory = true;
-                OpenPKX.FilterIndex = 4;
+                ofd.InitialDirectory = pathSDF;
+                ofd.RestoreDirectory = true;
+                ofd.FilterIndex = 4;
             }
             else if (path3DS != null)
             {
-                OpenPKX.InitialDirectory = Path.GetPathRoot(path3DS);
-                OpenPKX.RestoreDirectory = true;
-                OpenPKX.FilterIndex = 4;
+                ofd.InitialDirectory = Path.GetPathRoot(path3DS);
+                ofd.RestoreDirectory = true;
+                ofd.FilterIndex = 4;
             }
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
             {
-                OpenPKX.InitialDirectory = Path.Combine(cyberpath, "root");
-                OpenPKX.RestoreDirectory = true;
-                OpenPKX.FilterIndex = 4;
+                ofd.InitialDirectory = Path.Combine(cyberpath, "root");
+                ofd.RestoreDirectory = true;
+                ofd.FilterIndex = 4;
             }
             else if (Directory.Exists(cyberpath))
             {
-                OpenPKX.InitialDirectory = cyberpath;
-                OpenPKX.RestoreDirectory = true;
-                OpenPKX.FilterIndex = 4;
+                ofd.InitialDirectory = cyberpath;
+                ofd.RestoreDirectory = true;
+                ofd.FilterIndex = 4;
             }
 
-            DialogResult result = OpenPKX.ShowDialog();
-            if (result != DialogResult.OK) return;
+            if (ofd.ShowDialog() != DialogResult.OK) 
+                return;
 
-            string path = OpenPKX.FileName;
-            openQuick(path);
+            openQuick(ofd.FileName);
         }
         private void mainMenuSave(object sender, EventArgs e)
         {
             if (!verifiedPKX()) { return; }
-            SavePKX.FileName = TB_Nickname.Text + " - " + TB_PID.Text;
-            DialogResult result = SavePKX.ShowDialog();
-            if (result != DialogResult.OK) return;
-            string path = SavePKX.FileName;
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "PKX File|*.pk6;*.pkx" +
+                         "|EKX File|*.ek6;*.ekx" +
+                         "|BIN File|*.bin" +
+                         "|All Files|*.*",
+                DefaultExt = "pk6",
+                FileName = TB_Nickname.Text + " - " + TB_PID.Text
+            };
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+            string path = sfd.FileName;
             // Injection Dummy Override
             if (path.Contains("pokemon.ekx")) path = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + "pokemon.ekx";
             string ext = Path.GetExtension(path);
@@ -1218,7 +1231,7 @@ namespace PKHeX
             cb.Checked = !cb.Checked;
             setMarkings();
         }
-        private void clickIV(object sender, MouseEventArgs e)
+        private void clickStatLabel(object sender, MouseEventArgs e)
         {
             if (!(ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt))
                 return;
@@ -1235,6 +1248,20 @@ namespace PKHeX
             else
             (new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV})[index].Text =
                 ((e.Button == MouseButtons.Left) ? 31 : 0).ToString();
+        }
+        private void clickIV(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Control)
+                (sender as MaskedTextBox).Text = 31.ToString();
+            else if (ModifierKeys == Keys.Alt)
+                (sender as MaskedTextBox).Text = 0.ToString();
+        }
+        private void clickEV(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Control) // EV
+                (sender as MaskedTextBox).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal) + Util.ToInt32((sender as MaskedTextBox)), 0), 252).ToString();
+            else if (ModifierKeys == Keys.Alt)
+                (sender as MaskedTextBox).Text = 0.ToString();
         }
         private void clickOT(object sender, EventArgs e)
         {
