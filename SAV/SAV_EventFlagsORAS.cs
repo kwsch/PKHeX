@@ -43,13 +43,13 @@ namespace PKHeX
 
             Array.Copy(data, 0, Main.savefile, Main.SaveGame.EventFlag, 0x180);
 
-            // Copy back Volcanic Ash counter
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(MT_Ash)), 0, Main.savefile, Main.SaveGame.EventAsh, 2);
-
             // Copy back Constants
             changeConstantIndex(null, null); // Trigger Saving
             for (int i = 0; i < Constants.Length; i++)
                 Array.Copy(BitConverter.GetBytes(Constants[i]), 0, Main.savefile, Main.SaveGame.EventConst + 2 * i, 2);
+
+            // Copy back Volcanic Ash counter
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(MT_Ash)), 0, Main.savefile, Main.SaveGame.EventAsh, 2);
 
             Close();
         }
