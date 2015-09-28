@@ -2142,11 +2142,7 @@ namespace PKHeX
         {
             if (click)
                 tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
-            // Stuff the global byte array with our PKX form data
-            // Create a new storage so we don't muck up things with the original
-            if (pk6.Data.Length == 232) Array.Resize(ref pk6.Data, 260);
-            byte[] pkx = new byte[0x104];
-            Array.Copy(pk6.Data, pkx, 0x104);
+
             // Repopulate PKX with Edited Stuff
             if (Util.getIndex(CB_GameOrigin) < 24)
             {
@@ -2308,21 +2304,22 @@ namespace PKHeX
             pk6.Language = Util.getIndex(CB_Language);
             // 0xE4-0xE7
 
-            Array.Resize(ref pkx, 260);
-            // Party Stats
-            pkx[0xE8] = 0; pkx[0xE9] = 0;
-            pkx[0xEA] = 0; pkx[0xEB] = 0;
-            pkx[0xEC] = (byte)Util.ToInt32(TB_Level.Text);                                                     // Level
-            pkx[0xED] = 0; pkx[0xEE] = 0; pkx[0xEF] = 0;
-            Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_HP.Text), 65535)), 0, pkx, 0xF0, 2);   // Current HP
-            Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_HP.Text), 65535)), 0, pkx, 0xF2, 2);   // Max HP
-            Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_ATK.Text), 65535)), 0, pkx, 0xF4, 2);  // ATK
-            Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_DEF.Text), 65535)), 0, pkx, 0xF6, 2);  // DEF
-            Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_SPE.Text), 65535)), 0, pkx, 0xF8, 2);  // SPE
-            Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_SPA.Text), 65535)), 0, pkx, 0xFA, 2);  // SPA
-            Array.Copy(BitConverter.GetBytes(Math.Min(Util.ToInt32(Stat_SPD.Text), 65535)), 0, pkx, 0xFC, 2);  // SPD
-            pkx[0xFE] = 0; pkx[0xFF] = 0;
-            pkx[0x100] = 0; pkx[0x101] = 0; pkx[0x102] = 0; pkx[0x103] = 0;
+            // Toss in Party Stats
+            Array.Resize(ref pk6.Data, 260);
+            pk6.Stat_Level = Util.ToInt32(TB_Level.Text);
+            pk6.Stat_HPCurrent = Math.Min(Util.ToInt32(Stat_HP.Text), 65535);
+            pk6.Stat_HPMax = Math.Min(Util.ToInt32(Stat_HP.Text), 65535);
+            pk6.Stat_ATK = Math.Min(Util.ToInt32(Stat_ATK.Text), 65535);
+            pk6.Stat_DEF = Math.Min(Util.ToInt32(Stat_DEF.Text), 65535);
+            pk6.Stat_SPE = Math.Min(Util.ToInt32(Stat_SPE.Text), 65535);
+            pk6.Stat_SPA = Math.Min(Util.ToInt32(Stat_SPA.Text), 65535);
+            pk6.Stat_SPD = Math.Min(Util.ToInt32(Stat_SPD.Text), 65535);
+
+            // Unneeded Party Stats (Status, Flags, Unused)
+            pk6.Data[0xE8] = pk6.Data[0xE9] = pk6.Data[0xEA] = pk6.Data[0xEB] = 
+                pk6.Data[0xED] = pk6.Data[0xEE] = pk6.Data[0xEF] = 
+                pk6.Data[0xFE] = pk6.Data[0xFF] = pk6.Data[0x100] = 
+                pk6.Data[0x101] = pk6.Data[0x102] = pk6.Data[0x103] = 0;
 
             // Hax Illegality
             if (HaX)
@@ -2331,31 +2328,14 @@ namespace PKHeX
                 pk6.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);                          // Level
             }
 
-            // Fix Moves if a slot is empty
-            for (int i = 0; i < 3; i++)
-            {
-                if (BitConverter.ToUInt16(pkx, 0x5A + 2*i) != 0) continue;
-                Array.Copy(pkx, 0x5C + 2 * i, pkx, 0x5A + 2 * i, 2); // Shift moves down
-                Array.Copy(new byte[2], 0, pkx, 0x5C + 2 * i, 2);   // Clear next move (error shifted down)
+            // Fix Moves if a slot is empty 
+            pk6.FixMoves();
+            pk6.FixRelearn();
+            if (pk6.Move1 == 0)
+                Util.Alert("Pokémon has no moves!");
 
-                // Move PP and PP Ups down one byte.
-                pkx[0x62 + i] = pkx[0x63 + i]; pkx[0x63 + i] = 0; // PP
-                pkx[0x66 + i] = pkx[0x67 + i]; pkx[0x67 + i] = 0; // PP Ups
-            }
-
-            // Fix Relearn moves if a slot is empty
-            for (int i = 0; i < 3; i++)
-            {
-                if (BitConverter.ToUInt16(pkx, 0x6A + 2*i) != 0) continue;
-                Array.Copy(pkx, 0x6C + 2 * i, pkx, 0x6A + 2 * i, 2); // Shift moves down
-                Array.Copy(new byte[2], 0, pkx, 0x6C + 2 * i, 2);   // Clear next move (error shifted down)
-            }
-
-            // No foreign memories for Pokemon without a foreign trainer
-            if (BitConverter.ToUInt16(pkx, 0x78) == 0)
-            {
-                pk6.HT_Friendship = pk6.HT_Affection = pk6.HT_TextVar = pk6.HT_Memory = pk6.HT_Intensity = pk6.HT_Feeling = 0;
-            }
+            // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer
+            pk6.FixHandler();
 
             // PKX is now filled
             return pk6.Write();
