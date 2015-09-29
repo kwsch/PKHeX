@@ -233,7 +233,10 @@ namespace PKHeX
         public static string[] wallpapernames, puffs, itempouch = { };
         public static string curlanguage = "en";
         public static bool unicode;
-        public ToolTip Tip1, Tip2, Tip3, NatureTip = new ToolTip();
+        public ToolTip Tip1 = new ToolTip();
+        public ToolTip Tip2 = new ToolTip();
+        public ToolTip Tip3 = new ToolTip();
+        public ToolTip NatureTip = new ToolTip();
         public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource;
         private PictureBox[] SlotPictureBoxes;
         #endregion
