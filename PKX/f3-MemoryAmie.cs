@@ -5,15 +5,13 @@ namespace PKHeX
 {
     public partial class MemoryAmie : Form
     {
-        Main m_parent;
-        public byte[] h = new byte[260]; // Always Visible
-        private string disabled = "Disabled";
-        private string notleft = "Never left";
-        private string ot = "OT";
-        private string past = "Past Gen";
-        private string withOT = "Memories with"; // these get replaced when the form is translated.
+        private string disabled;
+        private string notleft;
+        private string ot;
+        private string past;
+        private string withOT; // these get replaced when the form is translated.
         private string[] vartypes = new string[5];
-        public MemoryAmie(Main frm1) // Keeping the form reference as a lot of control elements are required to operate.
+        public MemoryAmie() // Keeping the form reference as a lot of control elements are required to operate.
         {
             InitializeComponent();
             CB_Country0.DisplayMember = CB_Country1.DisplayMember = CB_Country2.DisplayMember = CB_Country3.DisplayMember = CB_Country4.DisplayMember = "Text";
@@ -21,7 +19,6 @@ namespace PKHeX
             CB_Region0.DisplayMember = CB_Region1.DisplayMember = CB_Region2.DisplayMember = CB_Region3.DisplayMember = CB_Region4.DisplayMember = "Text";
             CB_Region0.ValueMember = CB_Region1.ValueMember = CB_Region2.ValueMember = CB_Region3.ValueMember = CB_Region4.ValueMember = "Value";
             Util.TranslateInterface(this, Main.curlanguage);
-            m_parent = frm1;
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
             for (int i = 5; i < Math.Min(arguments.Length, vartypes.Length + 5); i++)
@@ -45,7 +42,6 @@ namespace PKHeX
                 past = "Past Gen";
                 withOT = "Memories with";
             }
-            h = Main.pk6.Data;
 
             getCountries();
             getLangStrings();
@@ -59,189 +55,120 @@ namespace PKHeX
         private void loadFields()
         {
             // Load the region/country values.
-            v1cb(CB_Country0, 0x95); v1cb(CB_Region0, 0x94);
-            v1cb(CB_Country1, 0x97); v1cb(CB_Region1, 0x96);
-            v1cb(CB_Country2, 0x99); v1cb(CB_Region2, 0x98);
-            v1cb(CB_Country3, 0x9B); v1cb(CB_Region3, 0x9A);
-            v1cb(CB_Country4, 0x9D); v1cb(CB_Region4, 0x9C);
+            CB_Country0.SelectedValue = Main.pk6.Geo1_Country;
+            CB_Country1.SelectedValue = Main.pk6.Geo2_Country;
+            CB_Country2.SelectedValue = Main.pk6.Geo3_Country;
+            CB_Country3.SelectedValue = Main.pk6.Geo4_Country;
+            CB_Country4.SelectedValue = Main.pk6.Geo5_Country;
+            CB_Region0.SelectedValue = Main.pk6.Geo1_Region;
+            CB_Region1.SelectedValue = Main.pk6.Geo2_Region;
+            CB_Region2.SelectedValue = Main.pk6.Geo3_Region;
+            CB_Region3.SelectedValue = Main.pk6.Geo4_Region;
+            CB_Region4.SelectedValue = Main.pk6.Geo5_Region;
 
             // Load the Fullness, and Enjoyment
-            v1s(M_Fullness, 0xAE); v1s(M_Enjoyment, 0xAF);
+            M_Fullness.Text = Main.pk6.Fullness.ToString();
+            M_Enjoyment.Text = Main.pk6.Enjoyment.ToString();
 
             // Load the CT Memories
-            v1s(M_CT_Friendship, 0xA2); v1s(M_CT_Affection, 0xA3);
-            CB_CTQual.SelectedIndex = Math.Max(0, h[0xA4] - 1);
-            v1cb(CB_CTMemory, 0xA5); v2cb(CB_CTVar, 0xA8); i1cb(CB_CTFeel, 0xA6);
+            M_CT_Friendship.Text = Main.pk6.HT_Friendship.ToString();
+            M_CT_Affection.Text = Main.pk6.HT_Affection.ToString();
+            CB_CTQual.SelectedIndex = Math.Max(0, Main.pk6.HT_Intensity - 1);
+            CB_CTMemory.SelectedValue = Main.pk6.HT_Memory;
+            CB_CTVar.SelectedValue = Main.pk6.HT_TextVar;
+            CB_CTFeel.SelectedIndex = Main.pk6.HT_Feeling;
 
             // Load the OT Memories
-            v1s(M_OT_Friendship, 0xCA); v1s(M_OT_Affection, 0xCB);
-            CB_OTQual.SelectedIndex = Math.Max(0, h[0xCC] - 1);
-            v1cb(CB_OTMemory, 0xCD); v2cb(CB_OTVar, 0xCE); i1cb(CB_OTFeel, 0xD0);
-
+            M_OT_Friendship.Text = Main.pk6.OT_Friendship.ToString();
+            M_OT_Affection.Text = Main.pk6.OT_Affection.ToString();
+            CB_OTQual.SelectedIndex = Math.Max(0, Main.pk6.OT_Intensity - 1);
+            CB_OTMemory.SelectedValue = Main.pk6.OT_Memory;
+            CB_OTVar.SelectedValue = Main.pk6.OT_TextVar;
+            CB_OTFeel.SelectedIndex = Main.pk6.OT_Feeling;
+            
             CB_Handler.Items.Clear();
-            CB_Handler.Items.AddRange(new object[] { m_parent.TB_OT.Text + " (" + ot + ")" });
+            CB_Handler.Items.AddRange(new object[] { Main.pk6.OT_Name + " (" + ot + ")" });
 
-            if (Util.TrimFromZero(m_parent.TB_OTt2.Text) != "")
-                CB_Handler.Items.AddRange(new object[] { m_parent.TB_OTt2.Text });
+            if (Util.TrimFromZero(Main.pk6.HT_Name) != "")
+                CB_Handler.Items.AddRange(new object[] { Main.pk6.HT_Name });
             else
                 Main.pk6.CurrentHandler = 0;
 
             tabControl1.SelectedIndex = CB_Handler.SelectedIndex = Main.pk6.CurrentHandler;
 
-            if (m_parent.CHK_IsEgg.Checked)
-            {
-                L_OT_Friendship.Text = m_parent.Label_HatchCounter.Text;
-                GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled = false;
+            GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled = 
+            BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = 
+            L_Fullness.Enabled = L_Enjoyment.Enabled = (!Main.pk6.IsEgg);
 
-                BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = false;
-                L_Fullness.Enabled = L_Enjoyment.Enabled = false;
-
-                GB_M_OT.Text = "N/A: " + Main.eggname;
-                GB_M_CT.Text = "N/A: " + Main.eggname;
-            }
-            else
-            {
-                L_OT_Friendship.Text = m_parent.Label_Friendship.Text;
-                GB_M_OT.Enabled = GB_M_CT.Enabled = true;
-                GB_Residence.Enabled = true;
-
-                BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = true;
-                L_Fullness.Enabled = L_Enjoyment.Enabled = true;
-
-                GB_M_OT.Text = String.Format(withOT + " (" + ot + ")", m_parent.TB_OT.Text);
-                GB_M_CT.Text = String.Format(withOT, m_parent.TB_OTt2.Text);
-            }
-
-            GB_M_CT.Enabled = true;
-            GB_Residence.Enabled = true;
-
-            if ((!m_parent.CHK_IsEgg.Checked))
+            GB_M_OT.Text = (Main.pk6.IsEgg) ? "N/A: " + Main.eggname : String.Format(withOT + " (" + ot + ")", Main.pk6.OT_Name);
+            GB_M_CT.Text = (Main.pk6.IsEgg) ? "N/A: " + Main.eggname : GB_M_CT.Text = String.Format(withOT, Main.pk6.HT_Name);
+            
+            if ((!Main.pk6.IsEgg))
             {
                 bool enable;
-                int game = Util.getIndex(m_parent.CB_GameOrigin);
+                int game = Main.pk6.Version;
                 if ((game < 24) && (game != 0))
                 {
                     // Banked Mon
-                    GB_M_CT.Text = withOT + " " + m_parent.TB_OTt2.Text;
-                    GB_M_OT.Text = past + " " + ot + ": " + m_parent.TB_OT.Text;
+                    GB_M_CT.Text = withOT + " " + Main.pk6.HT_Name;
+                    GB_M_OT.Text = past + " " + ot + ": " + Main.pk6.OT_Name;
                     enable = false;
                 }
                 else
                 {
                     enable = true;
-                    GB_M_OT.Text = withOT + " " + m_parent.TB_OT.Text + " (" + ot + ")";
-                    GB_M_CT.Text = withOT + m_parent.TB_OTt2.Text;
-                    if ((m_parent.TB_OTt2.Text == ""))
+                    GB_M_OT.Text = withOT + " " + Main.pk6.OT_Name + " (" + ot + ")";
+                    GB_M_CT.Text = withOT + Main.pk6.HT_Name;
+                    if ((Main.pk6.HT_Name == ""))
                     {
-                        GB_M_CT.Enabled = GB_Residence.Enabled = false;
+                        CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled = 
+                        CB_Region1.Enabled = CB_Region2.Enabled = CB_Region3.Enabled = CB_Region4.Enabled = 
+                        GB_M_CT.Enabled = false;
                         GB_M_CT.Text = notleft + " " + ot + " - " + disabled;
                     }
                     else
-                        GB_M_CT.Text = withOT + " " + m_parent.TB_OTt2.Text;
+                        GB_M_CT.Text = withOT + " " + Main.pk6.HT_Name;
                 }
                 RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
             }
             init = true;
 
             // Manually load the Memory Parse
-            RTB_CT.Text = getMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, m_parent.TB_OTt2.Text);
-            RTB_OT.Text = getMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, m_parent.TB_OT.Text);
+            RTB_CT.Text = getMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, Main.pk6.HT_Name);
+            RTB_OT.Text = getMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, Main.pk6.OT_Name);
         }
         private void saveFields()
         {
             // Save Region & Country Data
-            cb1v(CB_Region0, 0x94); cb1v(CB_Country0, 0x95);
-            cb1v(CB_Region1, 0x96); cb1v(CB_Country1, 0x97);
-            cb1v(CB_Region2, 0x98); cb1v(CB_Country2, 0x99);
-            cb1v(CB_Region3, 0x9A); cb1v(CB_Country3, 0x9B);
-            cb1v(CB_Region4, 0x9C); cb1v(CB_Country4, 0x9D);
+            Main.pk6.Geo1_Region = Util.getIndex(CB_Region0);
+            Main.pk6.Geo2_Region = Util.getIndex(CB_Region1);
+            Main.pk6.Geo3_Region = Util.getIndex(CB_Region2);
+            Main.pk6.Geo4_Region = Util.getIndex(CB_Region3);
+            Main.pk6.Geo5_Region = Util.getIndex(CB_Region4);
+            Main.pk6.Geo1_Country = Util.getIndex(CB_Country0);
+            Main.pk6.Geo2_Country = Util.getIndex(CB_Country1);
+            Main.pk6.Geo3_Country = Util.getIndex(CB_Country2);
+            Main.pk6.Geo4_Country = Util.getIndex(CB_Country3);
+            Main.pk6.Geo5_Country = Util.getIndex(CB_Country4);
 
             // Save 0-255 stats
-            s1v(M_CT_Friendship, 0xA2); s1v(M_CT_Affection, 0xA3);
-            s1v(M_OT_Friendship, 0xCA); s1v(M_OT_Affection, 0xCB);
-            s1v(M_Fullness, 0xAE); s1v(M_Enjoyment, 0xAF);
+            Main.pk6.HT_Friendship = Util.ToInt32(M_CT_Friendship);
+            Main.pk6.HT_Affection = Util.ToInt32(M_CT_Affection);
+            Main.pk6.OT_Friendship = Util.ToInt32(M_OT_Friendship);
+            Main.pk6.OT_Affection = Util.ToInt32(M_OT_Affection);
+            Main.pk6.Fullness = (byte)Util.ToInt32(M_Fullness);
+            Main.pk6.Enjoyment = (byte)Util.ToInt32(M_Enjoyment);
 
             // Save Memories
-            #region // CT MEMORIES
-            cb1v(CB_CTMemory, 0xA5);
-            if (!CB_CTVar.Enabled)
-            {
-                Main.pk6.Data[0xA8] = 0;
-                Main.pk6.Data[0xA9] = 0;
-            }
-            else
-                cb2v(CB_CTVar, 0xA8);
+            Main.pk6.HT_Memory = Util.getIndex(CB_CTMemory);
+            Main.pk6.HT_TextVar = (CB_CTVar.Enabled) ? Util.getIndex(CB_CTVar) : 0;
+            Main.pk6.HT_Intensity = (CB_CTFeel.Enabled) ? CB_CTQual.SelectedIndex + 1 : 0;
+            Main.pk6.HT_Feeling = (CB_CTFeel.Enabled) ? Util.getIndex(CB_CTFeel) : 0;
 
-            // If memory doesn't contain a feeling/quality
-            if (!CB_CTFeel.Enabled)
-            {
-                Main.pk6.Data[0xA4] = 0;
-                Main.pk6.Data[0xA6] = 0;
-            }
-            else
-            {
-                cb1i(CB_CTFeel, 0xA6);
-                Main.pk6.Data[0xA4] = (byte)(CB_CTQual.SelectedIndex + 1);
-            }
-            #endregion
-            #region // OT MEMORIES
-            cb1v(CB_OTMemory, 0xCD);
-            if (!CB_OTVar.Enabled)
-            {
-                Main.pk6.Data[0xCE] = 0;
-                Main.pk6.Data[0xCF] = 0;
-            }
-            else
-                cb2v(CB_OTVar, 0xCE);
-
-            // If memory doesn't contain a feeling/quality
-            if (!CB_OTFeel.Enabled)
-            {
-                Main.pk6.Data[0xCC] = 0;
-                Main.pk6.Data[0xD0] = 0;
-            }
-            else
-            {
-                cb1i(CB_OTFeel, 0xD0);
-                Main.pk6.Data[0xCC] = (byte)(CB_OTQual.SelectedIndex + 1);
-            }
-            #endregion
-        }
-
-        // Singular Actions
-        private void v1s(MaskedTextBox t, int o)
-        {
-            t.Text = h[o].ToString();
-        }  // Value (from ByteArray) to String (textBox): 1 byte
-        private void s1v(MaskedTextBox t, int o)
-        {
-            h[o] = (byte)Util.ToUInt32(t.Text);
-        }  // String (textBox) to Value (in ByteArray): 1 byte
-
-        private void v1cb(ComboBox cb, int o)
-        {
-            cb.SelectedValue = (int)h[o];
-        }
-        private void i1cb(ComboBox cb, int o)
-        {
-            cb.SelectedIndex = h[o];
-        }
-        private void v2cb(ComboBox cb, int o)
-        {
-            cb.SelectedValue = h[o] + h[o + 1] * 0x100;
-        }
-        private void cb1v(ComboBox cb, int o)
-        {
-            h[o] = (byte)Convert.ToUInt32(cb.SelectedValue);
-        }
-        private void cb1i(ComboBox cb, int o)
-        {
-            h[o] = (byte)Convert.ToUInt32(cb.SelectedIndex);
-        }
-        private void cb2v(ComboBox cb, int o)
-        {
-            h[o] = (byte)(Convert.ToUInt32(cb.SelectedValue) & 0xFF);
-            h[o + 1] = (byte)(Convert.ToUInt32(cb.SelectedValue) >> 8);
+            Main.pk6.OT_Memory = Util.getIndex(CB_OTMemory);
+            Main.pk6.OT_TextVar = (CB_OTVar.Enabled) ? Util.getIndex(CB_OTVar) : 0;
+            Main.pk6.OT_Intensity = (CB_OTFeel.Enabled) ? CB_OTQual.SelectedIndex + 1 : 0;
+            Main.pk6.OT_Feeling = (CB_OTFeel.Enabled) ? Util.getIndex(CB_OTFeel) : 0;
         }
 
         // Event Actions
@@ -386,7 +313,7 @@ namespace PKHeX
         private string getMemoryString(ComboBox m, ComboBox arg, ComboBox q, ComboBox f, string tr)
         {
             string result;
-            string nn = m_parent.TB_Nickname.Text;
+            string nn = Main.pk6.Nickname;
             string a = ((Util.cbItem)(arg.SelectedItem) == null) ? arg.Text ?? "ERROR" : ((Util.cbItem)(arg.SelectedItem)).Text;
             int mem = Util.getIndex(m);
 
@@ -489,22 +416,34 @@ namespace PKHeX
             }
 
             if (!init) return;
-            RTB_OT.Text = getMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, m_parent.TB_OT.Text);
-            RTB_CT.Text = getMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, m_parent.TB_OTt2.Text);
+            RTB_OT.Text = getMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, Main.pk6.OT_Name);
+            RTB_CT.Text = getMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, Main.pk6.HT_Name);
         }
-        private void changeCountry(object sender, EventArgs e)
+        private void changeCountryIndex(object sender, EventArgs e)
         {
-            ComboBox[] cba =
-            {
-                CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4
-            };
-            ComboBox[] mta =
-            {
-                CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4,
-            };
+            ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
+            ComboBox[] mta = { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
+
             int index = Array.IndexOf(cba, sender as ComboBox);
             if (Util.getIndex(sender as ComboBox) > 0)
+            {
                 Main.setCountrySubRegion(mta[index], "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
+                mta[index].Enabled = true;
+            }
+            else
+            {
+                mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
+                mta[index].Enabled = false;
+                mta[index].SelectedValue = 0;
+            }
+        }
+        private void changeCountryText(object sender, EventArgs e)
+        {
+            if ((sender as ComboBox).Text == "")
+            {
+                (sender as ComboBox).SelectedValue = 0;
+                changeCountryIndex(sender, e);
+            }
         }
 
         private void update255_MTB(object sender, EventArgs e)
@@ -520,18 +459,9 @@ namespace PKHeX
 
         private void clickResetLocation(object sender, EventArgs e)
         {
-            Label[] senderarr =
-            {
-                L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4,
-            };
-            ComboBox[] cba =
-            {
-                CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4,
-            };
-            ComboBox[] mta =
-            {
-                CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4,
-            };
+            Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4, };
+            ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
+            ComboBox[] mta = { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             int index = Array.IndexOf(senderarr, sender as Label);
             cba[index].SelectedValue = 0;
 
@@ -540,5 +470,6 @@ namespace PKHeX
             mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
             mta[index].SelectedValue = 0;
         }
+
     }
 }

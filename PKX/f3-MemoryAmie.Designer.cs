@@ -453,7 +453,8 @@
             this.CB_Country4.Name = "CB_Country4";
             this.CB_Country4.Size = new System.Drawing.Size(102, 21);
             this.CB_Country4.TabIndex = 24;
-            this.CB_Country4.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
+            this.CB_Country4.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
+            this.CB_Country4.TextChanged += new System.EventHandler(this.changeCountryText);
             // 
             // CB_Country3
             // 
@@ -465,7 +466,8 @@
             this.CB_Country3.Name = "CB_Country3";
             this.CB_Country3.Size = new System.Drawing.Size(102, 21);
             this.CB_Country3.TabIndex = 22;
-            this.CB_Country3.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
+            this.CB_Country3.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
+            this.CB_Country3.TextChanged += new System.EventHandler(this.changeCountryText);
             // 
             // CB_Country2
             // 
@@ -477,7 +479,8 @@
             this.CB_Country2.Name = "CB_Country2";
             this.CB_Country2.Size = new System.Drawing.Size(102, 21);
             this.CB_Country2.TabIndex = 20;
-            this.CB_Country2.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
+            this.CB_Country2.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
+            this.CB_Country2.TextChanged += new System.EventHandler(this.changeCountryText);
             // 
             // CB_Country1
             // 
@@ -489,7 +492,8 @@
             this.CB_Country1.Name = "CB_Country1";
             this.CB_Country1.Size = new System.Drawing.Size(102, 21);
             this.CB_Country1.TabIndex = 18;
-            this.CB_Country1.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
+            this.CB_Country1.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
+            this.CB_Country1.TextChanged += new System.EventHandler(this.changeCountryText);
             // 
             // CB_Country0
             // 
@@ -501,7 +505,8 @@
             this.CB_Country0.Name = "CB_Country0";
             this.CB_Country0.Size = new System.Drawing.Size(102, 21);
             this.CB_Country0.TabIndex = 16;
-            this.CB_Country0.SelectedIndexChanged += new System.EventHandler(this.changeCountry);
+            this.CB_Country0.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
+            this.CB_Country0.TextChanged += new System.EventHandler(this.changeCountryText);
             // 
             // L_Enjoyment
             // 

@@ -2095,11 +2095,16 @@ namespace PKHeX
         }
         private void openHistory(object sender, EventArgs e)
         {
+            // Write back current values
+            pk6.Version = Util.getIndex(CB_GameOrigin);
+            pk6.HT_Name = TB_OTt2.Text;
+            pk6.OT_Name = TB_OT.Text;
+            pk6.IsEgg = CHK_IsEgg.Checked;
             if (pk6.CurrentHandler == 0)
                 pk6.OT_Friendship = Util.ToInt32(TB_Friendship.Text);
             else          // 1
                 pk6.HT_Friendship = Util.ToInt32(TB_Friendship.Text);
-            new MemoryAmie(this).ShowDialog();
+            new MemoryAmie().ShowDialog();
             TB_Friendship.Text = (pk6.CurrentHandler == 0 ? pk6.OT_Friendship : pk6.HT_Friendship).ToString();
         }
         // Open/Save Array Manipulation //
@@ -2337,8 +2342,8 @@ namespace PKHeX
             if (pk6.Move1 == 0)
                 Util.Alert("Pokémon has no moves!");
 
-            // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer
-            pk6.FixHandler();
+            // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer (none for eggs)
+            pk6.FixMemories();
 
             // PKX is now filled
             return pk6.Write();
