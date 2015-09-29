@@ -353,7 +353,7 @@ namespace PKHeX
                 .Replace("\u2640", "\uE08F") // nidoran
                 .Replace("\u2642", "\uE08E") // nidoran
                 .Replace("\u0027", "\u2019") // farfetch'd
-                .PadRight(12, '\0'); // Null Terminator
+                .PadRight(value.Length + 1, '\0'); // Null Terminator
                 byte[] nameBytes = Encoding.Unicode.GetBytes(TempNick);
                 Array.Copy(nameBytes, 0, Data, 0xB0, nameBytes.Length);
             }
@@ -537,7 +537,7 @@ namespace PKHeX
                 /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
-                HT_Name = "".PadRight(12, '\0');
+                HT_Name = "".PadRight(11, '\0');
                 return;
             }
             
