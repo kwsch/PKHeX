@@ -46,6 +46,9 @@ namespace PKHeX
             byte[] ezeros = PKX.encryptArray(new byte[232]);
             for (int i = 0; i < 30 * 31; i++)
                 Array.Copy(ezeros, 0, savefile, SaveGame.Box + i * 0xE8, 0xE8);
+
+            // Initialize Tab Storage with Default Data (to skip Move check)
+            pk6.Move1 = 1;
             #endregion
             #region Language Detection before loading
             // Set up Language Selection
