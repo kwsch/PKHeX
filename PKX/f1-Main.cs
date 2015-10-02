@@ -2990,6 +2990,25 @@ namespace PKHeX
         {
             setPKXBoxes();
         }
+        private void sortBoxes()
+        {
+            const int len = 31*30; // amount of pk6's in boxes
+            PK6[] boxdata = new PK6[len];
+            for (int i = 0; i < len; i++)
+                boxdata[i] = new PK6(PKX.decryptArray(savefile.Skip(SaveGame.Box + i*0xE8).Take(0xE8).ToArray()));
+
+            // separate slots
+            var emptySlots = from PK6 p in boxdata where p.Species == 0 select p;
+            var filledSlots = from PK6 p in boxdata where p.Species == 0 select p;
+
+            // sort
+            PK6[] data = filledSlots.OrderBy(p => p.IsEgg.ToString() + p.Species + p.Nickname).ToArray();
+            PK6[] finalData = data.Concat(emptySlots).ToArray();
+
+            // write back
+            for (int i = 0; i < len; i++)
+                Array.Copy(PKX.encryptArray(finalData[i].Data), 0, savefile, SaveGame.Box + i * 0xE8, 0xE8);
+        }
 
         private int DaycareSlot;
         private void switchDaycare(object sender, EventArgs e)
