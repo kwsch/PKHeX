@@ -3450,17 +3450,17 @@ namespace PKHeX
         {
             // Get latest SaveDataFiler save location
             pathSDF = Util.GetSDFLocation();
+            path3DS = Util.get3DSLocation();
             string path = null;
-            bool sdbPath = File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
 
-            if (sdbPath && ModifierKeys != Keys.Control)
+            if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "SaveDataBackup")) && ModifierKeys != Keys.Control)
                 path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
                 path = Path.Combine(pathSDF, "main");
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")))) // else if cgse exists
                 path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"));
 
-            if (path == null) return;
+            if (path == null || !File.Exists(path)) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
                 openQuick(path); // load save
         }
