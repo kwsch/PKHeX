@@ -717,13 +717,14 @@ namespace PKHeX
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
-            if (init) pk6.Data = preparepkx(); // get data currently in form
-
+            byte[] data = pk6.Data;
+            if (init) data = preparepkx(); // get data currently in form
+            init = false;
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
             Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex], menuStrip1); // Translate the UI to language.
-            populateFields(pk6.Data); // put data back in form
+            populateFields(data); // put data back in form
         }
         private void InitializeStrings()
         {
