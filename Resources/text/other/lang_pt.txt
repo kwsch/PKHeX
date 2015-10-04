@@ -7,13 +7,14 @@
 ! lang_es.txt = Spanish
 ! lang_it.txt = Italian
 ! lang_ko.txt = Korean
+! lang_zh.txt = Chinese
 ! lang_pt.txt = Portuguese
 ! Make sure that each edit has a ' = ' between Control name and new Text!
 ! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
-- DO NOT CHANGE THIS SECTION. 
-! Form1 = PKHeX
+- DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
+! Main = PKHeX
 - Change stuff below this line, not above.
 ----------------Overall PKX Interface------------------
 Menu_File = Ficheiro ; Abrir... ; Guardar como... ; Sair

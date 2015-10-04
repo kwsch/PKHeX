@@ -1,4 +1,4 @@
-﻿lang_ja=! PKHeX Interface Customization File
+﻿! PKHeX Interface Customization File
 ! Languages: Save this file accordingly and put it in the same folder as PKHeX's executable.
 ! lang_en.txt = English
 ! lang_jp.txt = Japanese
@@ -8,12 +8,13 @@
 ! lang_it.txt = Italian
 ! lang_ko.txt = Korean
 ! lang_zh.txt = Chinese
+! lang_pt.txt = Portuguese
 ! Make sure that each edit has a ' = ' between Control name and new Text!
 ! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
-- DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
-! Form1
+- DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
+! Main = PKHeX
 - Change stuff below this line, not above.
 ----------------Overall PKX Interface------------------
 Menu_File = 文件 ; 读取... ; 保存... ; 退出
@@ -235,6 +236,9 @@ TMedal4_5 = Barrage
 TMedal4_6 = Hydreigon
 L_Rank3 = ランク8
 TMedal4_7 = X/Y
+---
+L_Bag = Last Used Bag:
+L_Hits = Hits Remaining:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
