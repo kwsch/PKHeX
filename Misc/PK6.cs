@@ -412,12 +412,12 @@ namespace PKHeX
             get { return (15 * ((IV_HP & 1) + 2 * (IV_ATK & 1) + 4 * (IV_DEF & 1) + 8 * (IV_SPE & 1) + 16 * (IV_SPA & 1) + 32 * (IV_SPD & 1))) / 63; }
             set
             {
-                IV_HP = (IV_HP & ~1) + hpivs[value][0];
-                IV_ATK = (IV_ATK & ~1) + hpivs[value][1];
-                IV_DEF = (IV_DEF & ~1) + hpivs[value][2];
-                IV_SPE = (IV_SPE & ~1) + hpivs[value][3];
-                IV_SPA = (IV_SPA & ~1) + hpivs[value][4];
-                IV_SPD = (IV_SPD & ~1) + hpivs[value][5];
+                IV_HP = (IV_HP & ~1) + hpivs[value, 0];
+                IV_ATK = (IV_ATK & ~1) + hpivs[value, 1];
+                IV_DEF = (IV_DEF & ~1) + hpivs[value, 2];
+                IV_SPE = (IV_SPE & ~1) + hpivs[value, 3];
+                IV_SPA = (IV_SPA & ~1) + hpivs[value, 4];
+                IV_SPD = (IV_SPD & ~1) + hpivs[value, 5];
             }
         }
         public int Characteristic
