@@ -2993,21 +2993,27 @@ namespace PKHeX
         private void sortBoxes()
         {
             const int len = 31*30; // amount of pk6's in boxes
-            PK6[] boxdata = new PK6[len];
+            
+            // Fetch encrypted box data
+            byte[][] bdata = new byte[len][];
             for (int i = 0; i < len; i++)
-                boxdata[i] = new PK6(PKX.decryptArray(savefile.Skip(SaveGame.Box + i*0xE8).Take(0xE8).ToArray()));
+                bdata[i] = savefile.Skip(SaveGame.Box + i*0xE8).Take(0xE8).ToArray();
 
-            // separate slots
-            var emptySlots = from PK6 p in boxdata where p.Species == 0 select p;
-            var filledSlots = from PK6 p in boxdata where p.Species == 0 select p;
+            // Sorting Method: Data will sort empty slots to the end, then from the filled slots eggs will be last, then species will be sorted.
+            var query = from i in bdata
+                        let p = new PK6(PKX.decryptArray(i)) orderby 
+                        p.Species == 0 ascending,
+                        p.IsEgg ascending,
+                        p.Species ascending,
+                        p.IsNicknamed ascending
+                        select i;
+            byte[][] sorted = query.ToArray();
 
-            // sort
-            PK6[] data = filledSlots.OrderBy(p => p.IsEgg.ToString() + p.Species + p.Nickname).ToArray();
-            PK6[] finalData = data.Concat(emptySlots).ToArray();
-
-            // write back
+            // Write data back
             for (int i = 0; i < len; i++)
-                Array.Copy(PKX.encryptArray(finalData[i].Data), 0, savefile, SaveGame.Box + i * 0xE8, 0xE8);
+                Array.Copy(sorted[i], 0, savefile, SaveGame.Box + i * 0xE8, 0xE8);
+
+            setPKXBoxes();
         }
 
         private int DaycareSlot;
