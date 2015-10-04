@@ -3746,12 +3746,12 @@
             // 
             // L_SAVManipulation
             // 
-            this.L_SAVManipulation.AutoSize = true;
-            this.L_SAVManipulation.Location = new System.Drawing.Point(208, 7);
+            this.L_SAVManipulation.Location = new System.Drawing.Point(117, 6);
             this.L_SAVManipulation.Name = "L_SAVManipulation";
-            this.L_SAVManipulation.Size = new System.Drawing.Size(54, 13);
+            this.L_SAVManipulation.Size = new System.Drawing.Size(156, 14);
             this.L_SAVManipulation.TabIndex = 7;
             this.L_SAVManipulation.Text = "Save File:";
+            this.L_SAVManipulation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_VerifyCHK
             // 
