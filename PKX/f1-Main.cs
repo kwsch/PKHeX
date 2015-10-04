@@ -187,7 +187,7 @@ namespace PKHeX
         #region Global Variables: Always Visible!
         public static PK6 pk6 = new PK6(new byte[260]); // Tab Pokemon Data Storage
         public static byte[] savefile = new byte[0x760000]; // required to initialize the program
-        public static PKX.Structures.SaveGame SaveGame = new PKX.Structures.SaveGame("ORAS");
+        public static PKX.SaveGame SaveGame = new PKX.SaveGame("ORAS");
         public static byte[] originalSAV; // original save
         public static byte[] powersave; // raw Powersave file
         public static byte[] ramsav;
@@ -606,7 +606,7 @@ namespace PKHeX
         {
             ramsavloaded = ram;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new PKX.Structures.SaveGame(GameType);
+            SaveGame = new PKX.SaveGame(GameType);
 
             // Load CyberGadget
             savefile = input;
@@ -620,7 +620,7 @@ namespace PKHeX
         {
             ramsavloaded = false;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new PKX.Structures.SaveGame(GameType);
+            SaveGame = new PKX.SaveGame(GameType);
 
             powersave = input;
             savefile = input.Skip(0x5400).Take(oras ? 0x76000 : 0x65600).ToArray();
@@ -2920,18 +2920,18 @@ namespace PKHeX
             if (savefile.Length == 0x65600 && BitConverter.ToUInt32(savefile, savefile.Length - 0x1F0) == 0x42454546)
             {
                 enableInterface = true;
-                SaveGame = new PKX.Structures.SaveGame("XY");
+                SaveGame = new PKX.SaveGame("XY");
             }
             else if (savefile.Length == 0x76000 && BitConverter.ToUInt32(savefile, savefile.Length - 0x1F0) == 0x42454546)
             {
                 enableInterface = true;
-                SaveGame = new PKX.Structures.SaveGame("ORAS");
+                SaveGame = new PKX.SaveGame("ORAS");
                 oras = true;
             }
             else
             {
                 Util.Error("Unrecognized Save File loaded.");
-                SaveGame = new PKX.Structures.SaveGame("Error");
+                SaveGame = new PKX.SaveGame("Error");
             }
 
             // Enable Buttons
