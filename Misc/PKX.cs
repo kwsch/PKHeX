@@ -410,31 +410,27 @@ namespace PKHeX
 
 
         // PKX Manipulation
-        internal static byte[] shuffleArray(byte[] pkx, uint sv)
+        internal static readonly byte[][] blockPosition =
         {
-            byte[] ekx = new byte[260];
-            Array.Copy(pkx, ekx, 8);
+            new byte[] {0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3},
+            new byte[] {1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2},
+            new byte[] {2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1},
+            new byte[] {3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0},
+        };
+        internal static byte[] shuffleArray(byte[] data, uint sv)
+        {
+            byte[] sdata = new byte[260];
+            Array.Copy(data, sdata, 8); // Copy unshuffled bytes
 
-            // Now to shuffle the blocks
-
-            // Define Shuffle Order Structure
-            byte[] aloc = { 0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3 };
-            byte[] bloc = { 1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2 };
-            byte[] cloc = { 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1 };
-            byte[] dloc = { 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0 };
-
-            // Get Shuffle Order
-            byte[] shlog = { aloc[sv], bloc[sv], cloc[sv], dloc[sv] };
-
-            // UnShuffle Away!
-            for (int b = 0; b < 4; b++)
-                Array.Copy(pkx, 8 + 56 * shlog[b], ekx, 8 + 56 * b, 56);
+            // Shuffle Away!
+            for (int block = 0; block < 4; block++)
+                Array.Copy(data, 8 + 56*blockPosition[block][sv], sdata, 8 + 56*block, 56);
 
             // Fill the Battle Stats back
-            if (pkx.Length > 232)
-                Array.Copy(pkx, 232, ekx, 232, 28);
+            if (data.Length > 232)
+                Array.Copy(data, 232, sdata, 232, 28);
 
-            return ekx;
+            return sdata;
         }
         internal static byte[] decryptArray(byte[] ekx)
         {
