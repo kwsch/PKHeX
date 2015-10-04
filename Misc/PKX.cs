@@ -692,6 +692,9 @@ namespace PKHeX
         #endregion
 
         // SAV Manipulation
+        /// <summary>Calculates the CRC16-CCITT checksum.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <returns>Checksum</returns>
         internal static ushort ccitt16(byte[] data)
         {
             ushort crc = 0xFFFF;
@@ -708,6 +711,51 @@ namespace PKHeX
             }
             return crc;
         }
+        /// <summary>Simple check to see if the save is valid.</summary>
+        /// <param name="savefile">Input binary file</param>
+        /// <returns>True/False</returns>
+        internal static bool verifyG6SAV(byte[] savefile)
+        {
+            // Dynamic handling of checksums regardless of save size.
+
+            int verificationOffset = savefile.Length - 0x200 + 0x10;
+            if (BitConverter.ToUInt32(savefile, verificationOffset) != 0x42454546)
+                verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
+
+            int count = (savefile.Length - verificationOffset - 0x8) / 8;
+            verificationOffset += 4;
+            int[] Lengths = new int[count];
+            ushort[] BlockIDs = new ushort[count];
+            ushort[] Checksums = new ushort[count];
+            int[] Start = new int[count];
+            int CurrentPosition = 0;
+            for (int i = 0; i < count; i++)
+            {
+                Start[i] = CurrentPosition;
+                Lengths[i] = BitConverter.ToInt32(savefile, verificationOffset + 0 + 8 * i);
+                BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
+                Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
+
+                CurrentPosition += (Lengths[i] % 0x200 == 0) ? Lengths[i] : (0x200 - Lengths[i] % 0x200 + Lengths[i]);
+
+                if ((BlockIDs[i] != 0) || i == 0) continue;
+                count = i;
+                break;
+            }
+            // Verify checksums
+            for (int i = 0; i < count; i++)
+            {
+                ushort chk = ccitt16(savefile.Skip(Start[i]).Take(Lengths[i]).ToArray());
+                ushort old = BitConverter.ToUInt16(savefile, verificationOffset + 6 + i * 8);
+
+                if (chk != old) 
+                    return false;
+            }
+            return true;
+        }
+        /// <summary>Verbose check to see if the save is valid.</summary>
+        /// <param name="savefile">Input binary file</param>
+        /// <returns>String containing invalid blocks.</returns>
         internal static string verifyG6CHK(byte[] savefile)
         {
             string rv = "";
@@ -753,6 +801,9 @@ namespace PKHeX
             rv += String.Format("SAV: {0}/{1}", (count - invalid), count + Environment.NewLine);
             return rv;
         }
+        /// <summary>Fix checksums in the input save file.</summary>
+        /// <param name="savefile">Input binary file</param>
+        /// <returns>Fixed save file.</returns>
         internal static void writeG6CHK(byte[] savefile)
         {
             // Dynamic handling of checksums regardless of save size.
@@ -1246,11 +1297,9 @@ namespace PKHeX
             return new[] {""};
         }
 
-        /// <summary>
-        /// Calculate the Hidden Power Type of the entered IVs.
-        /// </summary>
-        /// <param name="ivs">HP/ATK/DEF/SPEED/SPA/SPD</param>
-        /// <returns></returns>
+        /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
+        /// <param name="ivs">Order: HP,ATK,DEF,SPEED,SPA,SPD</param>
+        /// <returns>Hidden Power Type</returns>
         internal static int getHPType(int[] ivs)
         {
             return (15 * ((ivs[0] & 1) + 2 * (ivs[1] & 1) + 4 * (ivs[2] & 1) + 8 * (ivs[3] & 1) + 16 * (ivs[4] & 1) + 32 * (ivs[5] & 1))) / 63;
