@@ -1291,7 +1291,7 @@ namespace PKHeX
         internal static int[] setHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)
-                ivs[i] = (ivs[i] & 0x1E) + hpivs[type][i];
+                ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
         }
         internal static string[] hptypes = { 
@@ -1299,23 +1299,23 @@ namespace PKHeX
             "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
             "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"
         };
-        internal static readonly int[][] hpivs = {
-            new[] { 1, 1, 0, 0, 0, 0 }, // Fighting
-            new[] { 0, 0, 0, 0, 0, 1 }, // Flying
-            new[] { 1, 1, 0, 0, 0, 1 }, // Poison
-            new[] { 1, 1, 1, 0, 0, 1 }, // Ground
-            new[] { 1, 1, 0, 1, 0, 0 }, // Rock
-            new[] { 1, 0, 0, 1, 0, 1 }, // Bug
-            new[] { 1, 0, 1, 1, 0, 1 }, // Ghost
-            new[] { 1, 1, 1, 1, 0, 1 }, // Steel
-            new[] { 1, 0, 1, 0, 1, 0 }, // Fire
-            new[] { 1, 0, 0, 0, 1, 1 }, // Water
-            new[] { 1, 0, 1, 0, 1, 1 }, // Grass
-            new[] { 1, 1, 1, 0, 1, 1 }, // Electric
-            new[] { 1, 0, 1, 1, 1, 0 }, // Psychic
-            new[] { 1, 0, 0, 1, 1, 1 }, // Ice
-            new[] { 1, 0, 1, 1, 1, 1 }, // Dragon
-            new[] { 1, 1, 1, 1, 1, 1 }, // Dark
+        internal static readonly int[,] hpivs = {
+            { 1, 1, 0, 0, 0, 0 }, // Fighting
+            { 0, 0, 0, 0, 0, 1 }, // Flying
+            { 1, 1, 0, 0, 0, 1 }, // Poison
+            { 1, 1, 1, 0, 0, 1 }, // Ground
+            { 1, 1, 0, 1, 0, 0 }, // Rock
+            { 1, 0, 0, 1, 0, 1 }, // Bug
+            { 1, 0, 1, 1, 0, 1 }, // Ghost
+            { 1, 1, 1, 1, 0, 1 }, // Steel
+            { 1, 0, 1, 0, 1, 0 }, // Fire
+            { 1, 0, 0, 0, 1, 1 }, // Water
+            { 1, 0, 1, 0, 1, 1 }, // Grass
+            { 1, 1, 1, 0, 1, 1 }, // Electric
+            { 1, 0, 1, 1, 1, 0 }, // Psychic
+            { 1, 0, 0, 1, 1, 1 }, // Ice
+            { 1, 0, 1, 1, 1, 1 }, // Dragon
+            { 1, 1, 1, 1, 1, 1 }, // Dark
         };
         public class Simulator
         {
