@@ -2734,28 +2734,39 @@ namespace PKHeX
         // Generic Subfunctions // 
         private void setPokedex(byte[] pkxdata)
         {
-            int species = BitConverter.ToUInt16(pkxdata, 0x8);  // Species
-            int lang = pkxdata[0xE3] - 1; if (lang > 5) lang--; // 0-6 language vals
-            int origin = pkxdata[0xDF];                         // Native / Non Native
-            int gender = (pkxdata[0x1D] & 2) >> 1;              // Gender
-            uint pid = BitConverter.ToUInt32(pkxdata, 0x18);
-            ushort TID = BitConverter.ToUInt16(pkxdata, 0xC);
-            ushort SID = BitConverter.ToUInt16(pkxdata, 0xE);
-            int shiny = (PKX.getPSV(pid) ^ PKX.getTSV(TID, SID)) >> 4 == 0 ? 1 : 0;
+            var pk = new PK6(pkxdata);
+
+            int species = pk.Species;
+            int lang = pk.Language - 1; if (lang > 5) lang--; // 0-6 language vals
+            int origin = pk.Version;
+            int gender = pk.Gender;
+            int shiny = pk.IsShiny ? 1 : 0;
             int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
 
             // Set the [Species/Gender/Shiny] Owned Flag
-            savefile[SaveGame.PokeDex + shiftoff + (species - 1) / 8 + 0x8] |= (byte)(1 << ((species - 1) % 8));
+            savefile[SaveGame.PokeDex + shiftoff + (species - 1)/8 + 0x8] |= (byte)(1 << ((species - 1)%8));
 
             // Owned quality flag
             if (origin < 0x18 && species < 650 && !SaveGame.ORAS) // Pre 650 for X/Y, and not for ORAS; Set the Foreign Owned Flag
-                savefile[SaveGame.PokeDex + 0x64C + (species - 1) / 8] |= (byte)(1 << ((species - 1) % 8));
+                savefile[SaveGame.PokeDex + 0x64C + (species - 1)/8] |= (byte)(1 << ((species - 1)%8));
             else if (origin >= 0x18 || SaveGame.ORAS) // Set Native Owned Flag (should always happen)
-                savefile[SaveGame.PokeDex + (species - 1) / 8 + 0x8] |= (byte)(1 << ((species - 1) % 8));
+                savefile[SaveGame.PokeDex + (species - 1)/8 + 0x8] |= (byte)(1 << ((species - 1)%8));
+
+            // Set the Display flag if none are set
+            bool[] chk =
+            {
+                // Flag Regions (base index 1 to reference Wiki and editor)
+                (savefile[SaveGame.PokeDex + 0x60*(6-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
+                (savefile[SaveGame.PokeDex + 0x60*(7-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
+                (savefile[SaveGame.PokeDex + 0x60*(8-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
+                (savefile[SaveGame.PokeDex + 0x60*(9-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
+            };
+            if (!chk.Contains(true)) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
+                savefile[SaveGame.PokeDex + shiftoff + 0x60*(6-2) + (species - 1)/8 + 0x8] |= (byte)(1 << ((species - 1)%8));
 
             // Set the Language
             if (lang < 0) lang = 1;
-            savefile[SaveGame.PokeDex + SaveGame.PokeDexLanguageFlags + ((species - 1) * 7 + lang) / 8] |= (byte)(1 << ((((species - 1) * 7) + lang) % 8));
+            savefile[SaveGame.PokeDex + SaveGame.PokeDexLanguageFlags + ((species - 1)*7 + lang)/8] |= (byte)(1 << ((((species - 1)*7) + lang)%8));
         }
         private byte setParty()
         {
