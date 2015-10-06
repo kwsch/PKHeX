@@ -32,10 +32,6 @@
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Species = new System.Windows.Forms.ListBox();
             this.CHK_P1 = new System.Windows.Forms.CheckBox();
-            this.CHK_P2 = new System.Windows.Forms.CheckBox();
-            this.CHK_P3 = new System.Windows.Forms.CheckBox();
-            this.CHK_P4 = new System.Windows.Forms.CheckBox();
-            this.CHK_P5 = new System.Windows.Forms.CheckBox();
             this.CHK_P6 = new System.Windows.Forms.CheckBox();
             this.CHK_P7 = new System.Windows.Forms.CheckBox();
             this.CHK_P8 = new System.Windows.Forms.CheckBox();
@@ -53,15 +49,21 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.B_FillDex = new System.Windows.Forms.Button();
             this.GB_Language = new System.Windows.Forms.GroupBox();
-            this.GB_Encountered = new System.Windows.Forms.GroupBox();
+            this.GB_Displayed = new System.Windows.Forms.GroupBox();
             this.L_DexNav = new System.Windows.Forms.Label();
             this.MT_Count = new System.Windows.Forms.MaskedTextBox();
             this.GB_Owned = new System.Windows.Forms.GroupBox();
             this.TB_Spinda = new System.Windows.Forms.TextBox();
             this.L_Spinda = new System.Windows.Forms.Label();
+            this.GB_Encountered = new System.Windows.Forms.GroupBox();
+            this.CHK_P5 = new System.Windows.Forms.CheckBox();
+            this.CHK_P4 = new System.Windows.Forms.CheckBox();
+            this.CHK_P3 = new System.Windows.Forms.CheckBox();
+            this.CHK_P2 = new System.Windows.Forms.CheckBox();
             this.GB_Language.SuspendLayout();
-            this.GB_Encountered.SuspendLayout();
+            this.GB_Displayed.SuspendLayout();
             this.GB_Owned.SuspendLayout();
+            this.GB_Encountered.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -86,62 +88,17 @@
             // CHK_P1
             // 
             this.CHK_P1.AutoSize = true;
-            this.CHK_P1.Location = new System.Drawing.Point(12, 86);
+            this.CHK_P1.Location = new System.Drawing.Point(6, 14);
             this.CHK_P1.Name = "CHK_P1";
             this.CHK_P1.Size = new System.Drawing.Size(69, 17);
             this.CHK_P1.TabIndex = 3;
             this.CHK_P1.Text = "Obtained";
             this.CHK_P1.UseVisualStyleBackColor = true;
-            this.CHK_P1.Click += new System.EventHandler(this.changePartitionBool);
-            // 
-            // CHK_P2
-            // 
-            this.CHK_P2.AutoSize = true;
-            this.CHK_P2.Location = new System.Drawing.Point(12, 18);
-            this.CHK_P2.Name = "CHK_P2";
-            this.CHK_P2.Size = new System.Drawing.Size(49, 17);
-            this.CHK_P2.TabIndex = 4;
-            this.CHK_P2.Text = "Male";
-            this.CHK_P2.UseVisualStyleBackColor = true;
-            this.CHK_P2.Click += new System.EventHandler(this.changePartitionBool);
-            // 
-            // CHK_P3
-            // 
-            this.CHK_P3.AutoSize = true;
-            this.CHK_P3.Location = new System.Drawing.Point(12, 33);
-            this.CHK_P3.Name = "CHK_P3";
-            this.CHK_P3.Size = new System.Drawing.Size(60, 17);
-            this.CHK_P3.TabIndex = 5;
-            this.CHK_P3.Text = "Female";
-            this.CHK_P3.UseVisualStyleBackColor = true;
-            this.CHK_P3.Click += new System.EventHandler(this.changePartitionBool);
-            // 
-            // CHK_P4
-            // 
-            this.CHK_P4.AutoSize = true;
-            this.CHK_P4.Location = new System.Drawing.Point(12, 48);
-            this.CHK_P4.Name = "CHK_P4";
-            this.CHK_P4.Size = new System.Drawing.Size(78, 17);
-            this.CHK_P4.TabIndex = 6;
-            this.CHK_P4.Text = "Shiny Male";
-            this.CHK_P4.UseVisualStyleBackColor = true;
-            this.CHK_P4.Click += new System.EventHandler(this.changePartitionBool);
-            // 
-            // CHK_P5
-            // 
-            this.CHK_P5.AutoSize = true;
-            this.CHK_P5.Location = new System.Drawing.Point(12, 63);
-            this.CHK_P5.Name = "CHK_P5";
-            this.CHK_P5.Size = new System.Drawing.Size(89, 17);
-            this.CHK_P5.TabIndex = 7;
-            this.CHK_P5.Text = "Shiny Female";
-            this.CHK_P5.UseVisualStyleBackColor = true;
-            this.CHK_P5.Click += new System.EventHandler(this.changePartitionBool);
             // 
             // CHK_P6
             // 
             this.CHK_P6.AutoSize = true;
-            this.CHK_P6.Location = new System.Drawing.Point(12, 20);
+            this.CHK_P6.Location = new System.Drawing.Point(5, 13);
             this.CHK_P6.Name = "CHK_P6";
             this.CHK_P6.Size = new System.Drawing.Size(49, 17);
             this.CHK_P6.TabIndex = 8;
@@ -152,7 +109,7 @@
             // CHK_P7
             // 
             this.CHK_P7.AutoSize = true;
-            this.CHK_P7.Location = new System.Drawing.Point(12, 35);
+            this.CHK_P7.Location = new System.Drawing.Point(5, 27);
             this.CHK_P7.Name = "CHK_P7";
             this.CHK_P7.Size = new System.Drawing.Size(60, 17);
             this.CHK_P7.TabIndex = 9;
@@ -163,7 +120,7 @@
             // CHK_P8
             // 
             this.CHK_P8.AutoSize = true;
-            this.CHK_P8.Location = new System.Drawing.Point(12, 50);
+            this.CHK_P8.Location = new System.Drawing.Point(5, 41);
             this.CHK_P8.Name = "CHK_P8";
             this.CHK_P8.Size = new System.Drawing.Size(78, 17);
             this.CHK_P8.TabIndex = 10;
@@ -174,7 +131,7 @@
             // CHK_P9
             // 
             this.CHK_P9.AutoSize = true;
-            this.CHK_P9.Location = new System.Drawing.Point(12, 65);
+            this.CHK_P9.Location = new System.Drawing.Point(5, 55);
             this.CHK_P9.Name = "CHK_P9";
             this.CHK_P9.Size = new System.Drawing.Size(89, 17);
             this.CHK_P9.TabIndex = 11;
@@ -191,7 +148,6 @@
             this.CHK_L7.TabIndex = 19;
             this.CHK_L7.Text = "Korean";
             this.CHK_L7.UseVisualStyleBackColor = true;
-            this.CHK_L7.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L6
             // 
@@ -202,7 +158,6 @@
             this.CHK_L6.TabIndex = 18;
             this.CHK_L6.Text = "Spanish";
             this.CHK_L6.UseVisualStyleBackColor = true;
-            this.CHK_L6.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L5
             // 
@@ -213,7 +168,6 @@
             this.CHK_L5.TabIndex = 17;
             this.CHK_L5.Text = "German";
             this.CHK_L5.UseVisualStyleBackColor = true;
-            this.CHK_L5.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L4
             // 
@@ -224,7 +178,6 @@
             this.CHK_L4.TabIndex = 16;
             this.CHK_L4.Text = "Italian";
             this.CHK_L4.UseVisualStyleBackColor = true;
-            this.CHK_L4.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L3
             // 
@@ -235,7 +188,6 @@
             this.CHK_L3.TabIndex = 15;
             this.CHK_L3.Text = "French";
             this.CHK_L3.UseVisualStyleBackColor = true;
-            this.CHK_L3.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L2
             // 
@@ -246,7 +198,6 @@
             this.CHK_L2.TabIndex = 14;
             this.CHK_L2.Text = "English";
             this.CHK_L2.UseVisualStyleBackColor = true;
-            this.CHK_L2.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // CHK_L1
             // 
@@ -257,7 +208,6 @@
             this.CHK_L1.TabIndex = 13;
             this.CHK_L1.Text = "Japanese";
             this.CHK_L1.UseVisualStyleBackColor = true;
-            this.CHK_L1.Click += new System.EventHandler(this.changeLanguageBool);
             // 
             // L_goto
             // 
@@ -330,33 +280,30 @@
             this.GB_Language.TabStop = false;
             this.GB_Language.Text = "Languages";
             // 
-            // GB_Encountered
+            // GB_Displayed
             // 
-            this.GB_Encountered.Controls.Add(this.L_DexNav);
-            this.GB_Encountered.Controls.Add(this.CHK_P9);
-            this.GB_Encountered.Controls.Add(this.MT_Count);
-            this.GB_Encountered.Controls.Add(this.CHK_P8);
-            this.GB_Encountered.Controls.Add(this.CHK_P7);
-            this.GB_Encountered.Controls.Add(this.CHK_P6);
-            this.GB_Encountered.Location = new System.Drawing.Point(148, 154);
-            this.GB_Encountered.Name = "GB_Encountered";
-            this.GB_Encountered.Size = new System.Drawing.Size(115, 111);
-            this.GB_Encountered.TabIndex = 27;
-            this.GB_Encountered.TabStop = false;
-            this.GB_Encountered.Text = "Encountered";
+            this.GB_Displayed.Controls.Add(this.CHK_P9);
+            this.GB_Displayed.Controls.Add(this.CHK_P8);
+            this.GB_Displayed.Controls.Add(this.CHK_P7);
+            this.GB_Displayed.Controls.Add(this.CHK_P6);
+            this.GB_Displayed.Location = new System.Drawing.Point(148, 157);
+            this.GB_Displayed.Name = "GB_Displayed";
+            this.GB_Displayed.Size = new System.Drawing.Size(115, 76);
+            this.GB_Displayed.TabIndex = 27;
+            this.GB_Displayed.TabStop = false;
+            this.GB_Displayed.Text = "Displayed";
             // 
             // L_DexNav
             // 
-            this.L_DexNav.AutoSize = true;
-            this.L_DexNav.Location = new System.Drawing.Point(9, 85);
+            this.L_DexNav.Location = new System.Drawing.Point(184, 242);
             this.L_DexNav.Name = "L_DexNav";
-            this.L_DexNav.Size = new System.Drawing.Size(64, 13);
+            this.L_DexNav.Size = new System.Drawing.Size(104, 27);
             this.L_DexNav.TabIndex = 32;
             this.L_DexNav.Text = "DexNav Lv:";
             // 
             // MT_Count
             // 
-            this.MT_Count.Location = new System.Drawing.Point(77, 82);
+            this.MT_Count.Location = new System.Drawing.Point(148, 239);
             this.MT_Count.Mask = "0000";
             this.MT_Count.Name = "MT_Count";
             this.MT_Count.Size = new System.Drawing.Size(32, 20);
@@ -367,13 +314,9 @@
             // GB_Owned
             // 
             this.GB_Owned.Controls.Add(this.CHK_P1);
-            this.GB_Owned.Controls.Add(this.CHK_P5);
-            this.GB_Owned.Controls.Add(this.CHK_P4);
-            this.GB_Owned.Controls.Add(this.CHK_P3);
-            this.GB_Owned.Controls.Add(this.CHK_P2);
-            this.GB_Owned.Location = new System.Drawing.Point(148, 40);
+            this.GB_Owned.Location = new System.Drawing.Point(148, 120);
             this.GB_Owned.Name = "GB_Owned";
-            this.GB_Owned.Size = new System.Drawing.Size(115, 108);
+            this.GB_Owned.Size = new System.Drawing.Size(115, 34);
             this.GB_Owned.TabIndex = 28;
             this.GB_Owned.TabStop = false;
             this.GB_Owned.Text = "Owned";
@@ -397,15 +340,71 @@
             this.L_Spinda.TabIndex = 30;
             this.L_Spinda.Text = "Spinda:";
             // 
+            // GB_Encountered
+            // 
+            this.GB_Encountered.Controls.Add(this.CHK_P5);
+            this.GB_Encountered.Controls.Add(this.CHK_P4);
+            this.GB_Encountered.Controls.Add(this.CHK_P3);
+            this.GB_Encountered.Controls.Add(this.CHK_P2);
+            this.GB_Encountered.Location = new System.Drawing.Point(148, 40);
+            this.GB_Encountered.Name = "GB_Encountered";
+            this.GB_Encountered.Size = new System.Drawing.Size(115, 78);
+            this.GB_Encountered.TabIndex = 31;
+            this.GB_Encountered.TabStop = false;
+            this.GB_Encountered.Text = "Encountered";
+            // 
+            // CHK_P5
+            // 
+            this.CHK_P5.AutoSize = true;
+            this.CHK_P5.Location = new System.Drawing.Point(6, 57);
+            this.CHK_P5.Name = "CHK_P5";
+            this.CHK_P5.Size = new System.Drawing.Size(89, 17);
+            this.CHK_P5.TabIndex = 7;
+            this.CHK_P5.Text = "Shiny Female";
+            this.CHK_P5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_P4
+            // 
+            this.CHK_P4.AutoSize = true;
+            this.CHK_P4.Location = new System.Drawing.Point(6, 43);
+            this.CHK_P4.Name = "CHK_P4";
+            this.CHK_P4.Size = new System.Drawing.Size(78, 17);
+            this.CHK_P4.TabIndex = 6;
+            this.CHK_P4.Text = "Shiny Male";
+            this.CHK_P4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_P3
+            // 
+            this.CHK_P3.AutoSize = true;
+            this.CHK_P3.Location = new System.Drawing.Point(6, 29);
+            this.CHK_P3.Name = "CHK_P3";
+            this.CHK_P3.Size = new System.Drawing.Size(60, 17);
+            this.CHK_P3.TabIndex = 5;
+            this.CHK_P3.Text = "Female";
+            this.CHK_P3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_P2
+            // 
+            this.CHK_P2.AutoSize = true;
+            this.CHK_P2.Location = new System.Drawing.Point(6, 15);
+            this.CHK_P2.Name = "CHK_P2";
+            this.CHK_P2.Size = new System.Drawing.Size(49, 17);
+            this.CHK_P2.TabIndex = 4;
+            this.CHK_P2.Text = "Male";
+            this.CHK_P2.UseVisualStyleBackColor = true;
+            // 
             // SAV_PokedexORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 272);
+            this.Controls.Add(this.L_DexNav);
+            this.Controls.Add(this.GB_Encountered);
             this.Controls.Add(this.L_Spinda);
+            this.Controls.Add(this.MT_Count);
             this.Controls.Add(this.TB_Spinda);
             this.Controls.Add(this.GB_Owned);
-            this.Controls.Add(this.GB_Encountered);
+            this.Controls.Add(this.GB_Displayed);
             this.Controls.Add(this.GB_Language);
             this.Controls.Add(this.B_FillDex);
             this.Controls.Add(this.B_Save);
@@ -423,10 +422,12 @@
             this.Text = "Pokédex Editor";
             this.GB_Language.ResumeLayout(false);
             this.GB_Language.PerformLayout();
-            this.GB_Encountered.ResumeLayout(false);
-            this.GB_Encountered.PerformLayout();
+            this.GB_Displayed.ResumeLayout(false);
+            this.GB_Displayed.PerformLayout();
             this.GB_Owned.ResumeLayout(false);
             this.GB_Owned.PerformLayout();
+            this.GB_Encountered.ResumeLayout(false);
+            this.GB_Encountered.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,10 +438,6 @@
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.ListBox LB_Species;
         private System.Windows.Forms.CheckBox CHK_P1;
-        private System.Windows.Forms.CheckBox CHK_P2;
-        private System.Windows.Forms.CheckBox CHK_P3;
-        private System.Windows.Forms.CheckBox CHK_P4;
-        private System.Windows.Forms.CheckBox CHK_P5;
         private System.Windows.Forms.CheckBox CHK_P6;
         private System.Windows.Forms.CheckBox CHK_P7;
         private System.Windows.Forms.CheckBox CHK_P8;
@@ -458,11 +455,16 @@
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_FillDex;
         private System.Windows.Forms.GroupBox GB_Language;
-        private System.Windows.Forms.GroupBox GB_Encountered;
+        private System.Windows.Forms.GroupBox GB_Displayed;
         private System.Windows.Forms.GroupBox GB_Owned;
         private System.Windows.Forms.TextBox TB_Spinda;
         private System.Windows.Forms.Label L_Spinda;
         private System.Windows.Forms.MaskedTextBox MT_Count;
         private System.Windows.Forms.Label L_DexNav;
+        private System.Windows.Forms.GroupBox GB_Encountered;
+        private System.Windows.Forms.CheckBox CHK_P5;
+        private System.Windows.Forms.CheckBox CHK_P4;
+        private System.Windows.Forms.CheckBox CHK_P3;
+        private System.Windows.Forms.CheckBox CHK_P2;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -9,6 +10,8 @@ namespace PKHeX
         public SAV_PokedexORAS()
         {
             InitializeComponent();
+            CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
+            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
             Util.TranslateInterface(this, Main.curlanguage);
             sav = (byte[])Main.savefile.Clone();
 
@@ -17,6 +20,8 @@ namespace PKHeX
             LB_Species.SelectedIndex = 0;
             TB_Spinda.Text = BitConverter.ToUInt32(sav, Main.SaveGame.Spinda).ToString("X8");
         }
+
+        private CheckBox[] CP, CL;
         public byte[] sav;
         public bool[,] specbools = new bool[9, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
@@ -46,10 +51,11 @@ namespace PKHeX
         private void changeCBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
+            setBools();
 
             editing = true;
-            int index = (int)CB_Species.SelectedValue;
-            LB_Species.SelectedIndex = index - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
+            species = (int)CB_Species.SelectedValue;
+            LB_Species.SelectedIndex = species - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
             LB_Species.TopIndex = LB_Species.SelectedIndex;
             loadchks();
             editing = false;
@@ -57,28 +63,21 @@ namespace PKHeX
         private void changeLBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
+            setBools();
+
             editing = true;
-            int index = LB_Species.SelectedIndex + 1;
-            CB_Species.SelectedValue = index;
+            species = LB_Species.SelectedIndex + 1;
+            CB_Species.SelectedValue = species;
             loadchks();
             editing = false;
         }
         private void loadchks()
         {
             // Load Bools for the data
-            int pk;
-            try
-            { pk = Util.getIndex(CB_Species); }
-            catch { pk = LB_Species.SelectedIndex + 1; }
+            int pk = species;
 
-            CheckBox[] CP =
-            {
-                CHK_P1,CHK_P2,CHK_P3,CHK_P4,CHK_P5,CHK_P6,CHK_P7,CHK_P8,CHK_P9,
-            };
-            CheckBox[] CL =
-            {
-                CHK_L1,CHK_L2,CHK_L3,CHK_L4,CHK_L5,CHK_L6,CHK_L7,
-            };
+            L_Spinda.Visible = TB_Spinda.Visible = pk == 327;
+
             // Load Partitions
             for (int i = 0; i < 9; i++)
                 CP[i].Checked = specbools[i, pk-1];
@@ -107,20 +106,23 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void changeLanguageBool(object sender, EventArgs e)
-        {
-            int species = LB_Species.SelectedIndex + 1;
-            langbools[0, (species - 1)] = CHK_L1.Checked;
-            langbools[1, (species - 1)] = CHK_L2.Checked;
-            langbools[2, (species - 1)] = CHK_L3.Checked;
-            langbools[3, (species - 1)] = CHK_L4.Checked;
-            langbools[4, (species - 1)] = CHK_L5.Checked;
-            langbools[5, (species - 1)] = CHK_L6.Checked;
-            langbools[6, (species - 1)] = CHK_L7.Checked;
-        }
         private void changePartitionBool(object sender, EventArgs e)
         {
-            int species = LB_Species.SelectedIndex + 1;
+            if (!(sender as CheckBox).Checked) 
+                return;
+
+            CHK_P6.Checked = (sender as CheckBox == CHK_P6);
+            CHK_P7.Checked = (sender as CheckBox == CHK_P7);
+            CHK_P8.Checked = (sender as CheckBox == CHK_P8);
+            CHK_P9.Checked = (sender as CheckBox == CHK_P9);
+        }
+
+        private int species = -1;
+        private void setBools()
+        {
+            if (species < 0)
+                return;
+
             specbools[0, (species - 1)] = CHK_P1.Checked;
             specbools[1, (species - 1)] = CHK_P2.Checked;
             specbools[2, (species - 1)] = CHK_P3.Checked;
@@ -130,6 +132,14 @@ namespace PKHeX
             specbools[6, (species - 1)] = CHK_P7.Checked;
             specbools[7, (species - 1)] = CHK_P8.Checked;
             specbools[8, (species - 1)] = CHK_P9.Checked;
+
+            langbools[0, (species - 1)] = CHK_L1.Checked;
+            langbools[1, (species - 1)] = CHK_L2.Checked;
+            langbools[2, (species - 1)] = CHK_L3.Checked;
+            langbools[3, (species - 1)] = CHK_L4.Checked;
+            langbools[4, (species - 1)] = CHK_L5.Checked;
+            langbools[5, (species - 1)] = CHK_L6.Checked;
+            langbools[6, (species - 1)] = CHK_L7.Checked;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -225,11 +235,20 @@ namespace PKHeX
             PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(index);
             int gt = MonData.GenderRatio;
 
-            CHK_P2.Checked = CHK_P4.Checked = CHK_P6.Checked = CHK_P8.Checked = ((gt != 254)) && ModifierKeys != Keys.Control;
-            CHK_P3.Checked = CHK_P5.Checked = CHK_P7.Checked = CHK_P9.Checked = (gt != 0) && (gt != 255) && ModifierKeys != Keys.Control;
- 
-            changePartitionBool(null, null);
-            changeLanguageBool(null, null);
+            CHK_P2.Checked = CHK_P4.Checked = (gt != 254) && ModifierKeys != Keys.Control;
+            CHK_P3.Checked = CHK_P5.Checked = (gt != 0) && (gt != 255) && ModifierKeys != Keys.Control;
+
+            bool[] disp = {CHK_P6.Checked, CHK_P7.Checked, CHK_P8.Checked, CHK_P9.Checked};
+            if (ModifierKeys == Keys.Control)
+                foreach (var chk in new[]{CHK_P6, CHK_P7, CHK_P8, CHK_P9})
+                    chk.Checked = false;
+            else if (!disp.Contains(true))
+            {
+                if (gt != 254)
+                    CHK_P6.Checked = true;
+                else 
+                    CHK_P7.Checked = true;
+            }
             LB_Species.SelectedIndex++;
         }
         private void B_FillDex_Click(object sender, EventArgs e)
@@ -465,8 +484,8 @@ namespace PKHeX
             sav[Main.SaveGame.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
 
             // Forms Bool Writing
-            for (int i = 0; i < 0x9C; i++)
-                sav[Main.SaveGame.PokeDex + 0x364 + i] = 0xFF;
+            for (int i = 0; i < 0x98; i++)
+                sav[Main.SaveGame.PokeDex + 0x368 + i] = 0xFF;
             sav[Main.SaveGame.PokeDex + 0x3FF] = 0x8F; // make sure we don't have FF because CGSE may screw up.
             
             // Fetch the dex bools
