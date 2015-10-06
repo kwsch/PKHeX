@@ -302,6 +302,7 @@
             this.subepkx2 = new System.Windows.Forms.PictureBox();
             this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_Tools = new System.Windows.Forms.TabPage();
+            this.B_OpenDB = new System.Windows.Forms.Button();
             this.B_3DSSETemp = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.RTB_T = new System.Windows.Forms.RichTextBox();
@@ -3676,6 +3677,7 @@
             // 
             // Tab_Tools
             // 
+            this.Tab_Tools.Controls.Add(this.B_OpenDB);
             this.Tab_Tools.Controls.Add(this.B_3DSSETemp);
             this.Tab_Tools.Controls.Add(this.B_JPEG);
             this.Tab_Tools.Controls.Add(this.RTB_T);
@@ -3686,6 +3688,16 @@
             this.Tab_Tools.TabIndex = 4;
             this.Tab_Tools.Text = "Tools";
             this.Tab_Tools.UseVisualStyleBackColor = true;
+            // 
+            // B_OpenDB
+            // 
+            this.B_OpenDB.Location = new System.Drawing.Point(116, 20);
+            this.B_OpenDB.Name = "B_OpenDB";
+            this.B_OpenDB.Size = new System.Drawing.Size(75, 45);
+            this.B_OpenDB.TabIndex = 8;
+            this.B_OpenDB.Text = "Open PK6 Database";
+            this.B_OpenDB.UseVisualStyleBackColor = true;
+            this.B_OpenDB.Click += new System.EventHandler(this.B_OpenDB_Click);
             // 
             // B_3DSSETemp
             // 
@@ -3736,7 +3748,7 @@
             // 
             // B_SaveBoxBin
             // 
-            this.B_SaveBoxBin.Location = new System.Drawing.Point(117, 20);
+            this.B_SaveBoxBin.Location = new System.Drawing.Point(116, 20);
             this.B_SaveBoxBin.Name = "B_SaveBoxBin";
             this.B_SaveBoxBin.Size = new System.Drawing.Size(75, 45);
             this.B_SaveBoxBin.TabIndex = 8;
@@ -4391,6 +4403,7 @@
         private System.Windows.Forms.TextBox TB_OTt2;
         private System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.ComboBox CB_GameOrigin;
+        private System.Windows.Forms.Button B_OpenDB;
     }
 }
 

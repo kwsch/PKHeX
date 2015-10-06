@@ -123,6 +123,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Misc\ram2sav.cs" />
+    <Compile Include="SAV\SAV_Database.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SAV\SAV_Database.Designer.cs">
+      <DependentUpon>SAV_Database.cs</DependentUpon>
+    </Compile>
     <Compile Include="SAV\SAV_PokedexORAS.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PKX\f3-MemoryAmie.resx">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SAV\SAV_Database.resx">
+      <DependentUpon>SAV_Database.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_PokedexORAS.resx">
       <DependentUpon>SAV_PokedexORAS.cs</DependentUpon>

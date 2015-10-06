@@ -918,7 +918,7 @@ namespace PKHeX
                 }
             }
         }
-        private void populateFields(byte[] data)
+        public void populateFields(byte[] data)
         {
             pk6 = new PK6(data);
             if (init & !PKX.verifychk(pk6.Data))
@@ -3451,6 +3451,10 @@ namespace PKHeX
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
             File.WriteAllBytes(path, jpeg);
+        }
+        private void B_OpenDB_Click(object sender, EventArgs e)
+        {
+            new SAV_Database(this).Show();
         }
         // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
