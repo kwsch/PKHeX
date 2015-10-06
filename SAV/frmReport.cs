@@ -33,7 +33,7 @@ namespace PKHeX
             public string Move4 { get { return Main.movelist[pk6.Move4]; } }
             public string HeldItem { get { return Main.itemlist[pk6.HeldItem]; } }
             public string MetLoc { get { return PKX.getLocation(false, pk6.Version, pk6.Met_Location); } }
-            public string EggLoc { get { return PKX.getLocation(false, pk6.Version, pk6.Egg_Location); } }
+            public string EggLoc { get { return PKX.getLocation(true, pk6.Version, pk6.Egg_Location); } }
             public string Ball { get { return Main.balllist[pk6.Ball]; } }
             public string OT { get { return pk6.OT_Name; } }
             public string Version { get { return Main.gamelist[pk6.Version]; } }
@@ -132,9 +132,11 @@ namespace PKHeX
                     Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
                     byte[] dslotdata = PKX.decryptArray(slotdata);
                     if (BitConverter.ToUInt16(dslotdata, 0x8) == 0) continue;
-                    string Identifier = String.Format("B{0}:{1}",BoxNum.ToString("00"),SlotNum.ToString("00"));
+                    string Identifier = String.Format("B{0}:{1}", (BoxNum + 1).ToString("00"), (SlotNum + 1).ToString("00"));
                     PK6 pkm = new PK6(dslotdata, Identifier);
                     if ((pkm.EncryptionConstant == 0) && (pkm.Species == 0)) continue;
+                    if (pkm.Checksum != pkm.CalculateChecksum()) 
+                        continue;
                     PL.Add(new Preview(pkm));
                 }
             }
