@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -106,7 +105,7 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void changePartitionBool(object sender, EventArgs e)
+        private void changeDisplayed(object sender, EventArgs e)
         {
             if (!(sender as CheckBox).Checked) 
                 return;
@@ -115,6 +114,27 @@ namespace PKHeX
             CHK_P7.Checked = (sender as CheckBox == CHK_P7);
             CHK_P8.Checked = (sender as CheckBox == CHK_P8);
             CHK_P9.Checked = (sender as CheckBox == CHK_P9);
+
+            if (CHK_P6.Checked) CHK_P2.Checked = true;
+            if (CHK_P7.Checked) CHK_P3.Checked = true;
+            if (CHK_P8.Checked) CHK_P4.Checked = true;
+            if (CHK_P9.Checked) CHK_P5.Checked = true;
+        }
+        private void changeEncountered(object sender, EventArgs e)
+        {
+            if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
+                CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
+            else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
+            {
+                if (sender as CheckBox == CHK_P2 && CHK_P2.Checked)
+                    CHK_P6.Checked = true;
+                else if (sender as CheckBox == CHK_P3 && CHK_P3.Checked)
+                    CHK_P7.Checked = true;
+                else if (sender as CheckBox == CHK_P4 && CHK_P4.Checked)
+                    CHK_P8.Checked = true;
+                else if (sender as CheckBox == CHK_P5 && CHK_P5.Checked)
+                    CHK_P9.Checked = true;
+            }
         }
 
         private int species = -1;
@@ -238,11 +258,10 @@ namespace PKHeX
             CHK_P2.Checked = CHK_P4.Checked = (gt != 254) && ModifierKeys != Keys.Control;
             CHK_P3.Checked = CHK_P5.Checked = (gt != 0) && (gt != 255) && ModifierKeys != Keys.Control;
 
-            bool[] disp = {CHK_P6.Checked, CHK_P7.Checked, CHK_P8.Checked, CHK_P9.Checked};
             if (ModifierKeys == Keys.Control)
                 foreach (var chk in new[]{CHK_P6, CHK_P7, CHK_P8, CHK_P9})
                     chk.Checked = false;
-            else if (!disp.Contains(true))
+            else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
             {
                 if (gt != 254)
                     CHK_P6.Checked = true;

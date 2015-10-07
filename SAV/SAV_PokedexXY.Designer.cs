@@ -103,6 +103,7 @@
             this.CHK_P2.TabIndex = 4;
             this.CHK_P2.Text = "Male";
             this.CHK_P2.UseVisualStyleBackColor = true;
+            this.CHK_P2.Click += new System.EventHandler(this.changeEncountered);
             // 
             // CHK_P3
             // 
@@ -113,6 +114,7 @@
             this.CHK_P3.TabIndex = 5;
             this.CHK_P3.Text = "Female";
             this.CHK_P3.UseVisualStyleBackColor = true;
+            this.CHK_P3.Click += new System.EventHandler(this.changeEncountered);
             // 
             // CHK_P4
             // 
@@ -123,6 +125,7 @@
             this.CHK_P4.TabIndex = 6;
             this.CHK_P4.Text = "Shiny Male";
             this.CHK_P4.UseVisualStyleBackColor = true;
+            this.CHK_P4.Click += new System.EventHandler(this.changeEncountered);
             // 
             // CHK_P5
             // 
@@ -133,6 +136,7 @@
             this.CHK_P5.TabIndex = 7;
             this.CHK_P5.Text = "Shiny Female";
             this.CHK_P5.UseVisualStyleBackColor = true;
+            this.CHK_P5.Click += new System.EventHandler(this.changeEncountered);
             // 
             // CHK_P6
             // 
@@ -143,7 +147,7 @@
             this.CHK_P6.TabIndex = 8;
             this.CHK_P6.Text = "Male";
             this.CHK_P6.UseVisualStyleBackColor = true;
-            this.CHK_P6.Click += new System.EventHandler(this.changePartitionBool);
+            this.CHK_P6.Click += new System.EventHandler(this.changeDisplayed);
             // 
             // CHK_P7
             // 
@@ -154,7 +158,7 @@
             this.CHK_P7.TabIndex = 9;
             this.CHK_P7.Text = "Female";
             this.CHK_P7.UseVisualStyleBackColor = true;
-            this.CHK_P7.Click += new System.EventHandler(this.changePartitionBool);
+            this.CHK_P7.Click += new System.EventHandler(this.changeDisplayed);
             // 
             // CHK_P8
             // 
@@ -165,7 +169,7 @@
             this.CHK_P8.TabIndex = 10;
             this.CHK_P8.Text = "Shiny Male";
             this.CHK_P8.UseVisualStyleBackColor = true;
-            this.CHK_P8.Click += new System.EventHandler(this.changePartitionBool);
+            this.CHK_P8.Click += new System.EventHandler(this.changeDisplayed);
             // 
             // CHK_P9
             // 
@@ -176,7 +180,7 @@
             this.CHK_P9.TabIndex = 11;
             this.CHK_P9.Text = "Shiny Female";
             this.CHK_P9.UseVisualStyleBackColor = true;
-            this.CHK_P9.Click += new System.EventHandler(this.changePartitionBool);
+            this.CHK_P9.Click += new System.EventHandler(this.changeDisplayed);
             // 
             // CHK_L7
             // 
