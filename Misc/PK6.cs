@@ -397,6 +397,7 @@ namespace PKHeX
         // Simple Generated Attributes
         public int[] IVs { get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; } }
         public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
+        public int[] Moves { get { return new[] { Move1, Move2, Move3, Move4 }; } }
         public int PSV { get { return (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4); } }
         public int TSV { get { return (TID ^ SID) >> 4; } }
         public bool IsShiny { get { return TSV == PSV; } }

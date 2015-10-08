@@ -237,7 +237,7 @@ namespace PKHeX
         public ToolTip Tip2 = new ToolTip();
         public ToolTip Tip3 = new ToolTip();
         public ToolTip NatureTip = new ToolTip();
-        public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource;
+        public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
         private PictureBox[] SlotPictureBoxes;
         #endregion
 
@@ -895,16 +895,17 @@ namespace PKHeX
             ItemDataSource = Util.getCBList(itemlist, (DEV_Ability.Enabled) ? null : Legal.Items_Held);
             SpeciesDataSource = Util.getCBList(specieslist, null);
             NatureDataSource = Util.getCBList(natures, null);
+            AbilityDataSource = Util.getCBList(abilitylist, null);
+            VersionDataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
 
             CB_Ball.DataSource = new BindingSource(BallDataSource, null);
             CB_Species.DataSource = new BindingSource(SpeciesDataSource, null);
             CB_HeldItem.DataSource = new BindingSource(ItemDataSource, null);
             CB_Nature.DataSource = new BindingSource(NatureDataSource, null);
 
-            DEV_Ability.DataSource = Util.getCBList(abilitylist, null);
+            DEV_Ability.DataSource = new BindingSource(AbilityDataSource, null);
             CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
-            CB_GameOrigin.DataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
-
+            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource, null);
             string[] hptypes = new string[types.Length - 2]; Array.Copy(types, 1, hptypes, 0, hptypes.Length);
             CB_HPType.DataSource = Util.getCBList(hptypes, null);
 
