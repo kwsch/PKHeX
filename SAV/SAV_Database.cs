@@ -358,6 +358,7 @@ namespace PKHeX
                     break;
             }
 
+            slotSelected = -1; // reset the slot last viewed
             var results = res.ToArray();
             if (results.Length == 0)
                 Util.Alert("No results found!");
