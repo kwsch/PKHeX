@@ -421,10 +421,8 @@ namespace PKHeX
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
             if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
 
-            if (SCR_Box.Value != 0)
-                SCR_Box.Value = 0;
-            else 
-                FillPKXBoxes(0);
+            SCR_Box.Value = 0;
+            FillPKXBoxes(0);
 
             L_Count.Text = String.Format(Counter, Results.Count);
         }
