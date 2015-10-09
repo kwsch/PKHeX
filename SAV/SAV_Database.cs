@@ -95,8 +95,8 @@ namespace PKHeX
             // Prepare Database
             prepareDBForSearch();
         }
-        private string DatabasePath = Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), "db");
         private Main m_parent;
+        private const string DatabasePath = "db";
         private List<DatabaseList> Database = new List<DatabaseList>();
         private List<PK6> Results;
         private List<PK6> RawDB;

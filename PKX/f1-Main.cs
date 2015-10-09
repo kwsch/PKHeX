@@ -3466,7 +3466,11 @@ namespace PKHeX
         }
         private void B_OpenDB_Click(object sender, EventArgs e)
         {
-            new SAV_Database(this).Show();
+            if (Directory.Exists("db"))
+                new SAV_Database(this).Show();
+            else
+                Util.Alert("PKHeX's database was not found",
+                    "Please dump all boxes from a save file, then ensure the 'db' folder exists.");
         }
         // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
