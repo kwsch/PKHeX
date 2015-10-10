@@ -266,8 +266,6 @@ namespace PKHeX
 
         private void B_Search_Click(object sender, EventArgs e)
         {
-            // Util.Alert("I don't do everything!", "For now...");
-
             // Populate Search Query Result
             IEnumerable<PK6> res = RawDB;
 
@@ -358,6 +356,22 @@ namespace PKHeX
                     res = res.Where(pk => pk.EVs.Sum() >= 508);
                     break;
             }
+            switch (CB_Generation.SelectedIndex)
+            {
+                case 0: break; // Do nothing
+                case 1: // Gen 6
+                    res = res.Where(pk => pk.Gen6);
+                    break;
+                case 2: // Gen 5
+                    res = res.Where(pk => pk.Gen5);
+                    break;
+                case 3: // Gen 4
+                    res = res.Where(pk => pk.Gen4);
+                    break;
+                case 4: // Gen 3
+                    res = res.Where(pk => pk.Gen3);
+                    break;
+            }
 
             slotSelected = -1; // reset the slot last viewed
             var results = res.ToArray();
@@ -402,6 +416,16 @@ namespace PKHeX
         {
             if (CB_Level.SelectedIndex == 0)
                 TB_Level.Text = "";
+        }
+        private void changeGame(object sender, EventArgs e)
+        {
+            if (CB_GameOrigin.SelectedIndex != 0)
+                CB_Generation.SelectedIndex = 0;
+        }
+        private void changeGeneration(object sender, EventArgs e)
+        {
+            if (CB_Generation.SelectedIndex != 0)
+                CB_GameOrigin.SelectedIndex = 0;
         }
 
         // View Updates

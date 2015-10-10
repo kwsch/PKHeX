@@ -97,6 +97,13 @@
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
+            this.PAN_Box = new System.Windows.Forms.Panel();
+            this.bpkx66 = new System.Windows.Forms.PictureBox();
+            this.bpkx65 = new System.Windows.Forms.PictureBox();
+            this.bpkx64 = new System.Windows.Forms.PictureBox();
+            this.bpkx63 = new System.Windows.Forms.PictureBox();
+            this.bpkx62 = new System.Windows.Forms.PictureBox();
+            this.bpkx61 = new System.Windows.Forms.PictureBox();
             this.CB_Ability = new System.Windows.Forms.ComboBox();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
@@ -131,13 +138,8 @@
             this.MT_ESV = new System.Windows.Forms.MaskedTextBox();
             this.L_ESV = new System.Windows.Forms.Label();
             this.L_Count = new System.Windows.Forms.Label();
-            this.PAN_Box = new System.Windows.Forms.Panel();
-            this.bpkx66 = new System.Windows.Forms.PictureBox();
-            this.bpkx65 = new System.Windows.Forms.PictureBox();
-            this.bpkx64 = new System.Windows.Forms.PictureBox();
-            this.bpkx63 = new System.Windows.Forms.PictureBox();
-            this.bpkx62 = new System.Windows.Forms.PictureBox();
-            this.bpkx61 = new System.Windows.Forms.PictureBox();
+            this.L_Generation = new System.Windows.Forms.Label();
+            this.CB_Generation = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -941,6 +943,147 @@
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
             // 
+            // PAN_Box
+            // 
+            this.PAN_Box.BackgroundImage = global::PKHeX.Properties.Resources.box_wp16;
+            this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PAN_Box.Controls.Add(this.bpkx66);
+            this.PAN_Box.Controls.Add(this.bpkx65);
+            this.PAN_Box.Controls.Add(this.bpkx64);
+            this.PAN_Box.Controls.Add(this.bpkx63);
+            this.PAN_Box.Controls.Add(this.bpkx62);
+            this.PAN_Box.Controls.Add(this.bpkx61);
+            this.PAN_Box.Controls.Add(this.bpkx30);
+            this.PAN_Box.Controls.Add(this.bpkx1);
+            this.PAN_Box.Controls.Add(this.bpkx60);
+            this.PAN_Box.Controls.Add(this.bpkx31);
+            this.PAN_Box.Controls.Add(this.bpkx29);
+            this.PAN_Box.Controls.Add(this.bpkx32);
+            this.PAN_Box.Controls.Add(this.bpkx33);
+            this.PAN_Box.Controls.Add(this.bpkx28);
+            this.PAN_Box.Controls.Add(this.bpkx34);
+            this.PAN_Box.Controls.Add(this.bpkx59);
+            this.PAN_Box.Controls.Add(this.bpkx35);
+            this.PAN_Box.Controls.Add(this.bpkx27);
+            this.PAN_Box.Controls.Add(this.bpkx36);
+            this.PAN_Box.Controls.Add(this.bpkx37);
+            this.PAN_Box.Controls.Add(this.bpkx26);
+            this.PAN_Box.Controls.Add(this.bpkx38);
+            this.PAN_Box.Controls.Add(this.bpkx58);
+            this.PAN_Box.Controls.Add(this.bpkx39);
+            this.PAN_Box.Controls.Add(this.bpkx25);
+            this.PAN_Box.Controls.Add(this.bpkx40);
+            this.PAN_Box.Controls.Add(this.bpkx41);
+            this.PAN_Box.Controls.Add(this.bpkx24);
+            this.PAN_Box.Controls.Add(this.bpkx42);
+            this.PAN_Box.Controls.Add(this.bpkx57);
+            this.PAN_Box.Controls.Add(this.bpkx43);
+            this.PAN_Box.Controls.Add(this.bpkx23);
+            this.PAN_Box.Controls.Add(this.bpkx44);
+            this.PAN_Box.Controls.Add(this.bpkx22);
+            this.PAN_Box.Controls.Add(this.bpkx45);
+            this.PAN_Box.Controls.Add(this.bpkx46);
+            this.PAN_Box.Controls.Add(this.bpkx21);
+            this.PAN_Box.Controls.Add(this.bpkx2);
+            this.PAN_Box.Controls.Add(this.bpkx56);
+            this.PAN_Box.Controls.Add(this.bpkx47);
+            this.PAN_Box.Controls.Add(this.bpkx20);
+            this.PAN_Box.Controls.Add(this.bpkx3);
+            this.PAN_Box.Controls.Add(this.bpkx4);
+            this.PAN_Box.Controls.Add(this.bpkx19);
+            this.PAN_Box.Controls.Add(this.bpkx48);
+            this.PAN_Box.Controls.Add(this.bpkx55);
+            this.PAN_Box.Controls.Add(this.bpkx5);
+            this.PAN_Box.Controls.Add(this.bpkx18);
+            this.PAN_Box.Controls.Add(this.bpkx6);
+            this.PAN_Box.Controls.Add(this.bpkx49);
+            this.PAN_Box.Controls.Add(this.bpkx17);
+            this.PAN_Box.Controls.Add(this.bpkx7);
+            this.PAN_Box.Controls.Add(this.bpkx54);
+            this.PAN_Box.Controls.Add(this.bpkx8);
+            this.PAN_Box.Controls.Add(this.bpkx16);
+            this.PAN_Box.Controls.Add(this.bpkx50);
+            this.PAN_Box.Controls.Add(this.bpkx9);
+            this.PAN_Box.Controls.Add(this.bpkx15);
+            this.PAN_Box.Controls.Add(this.bpkx10);
+            this.PAN_Box.Controls.Add(this.bpkx53);
+            this.PAN_Box.Controls.Add(this.bpkx51);
+            this.PAN_Box.Controls.Add(this.bpkx14);
+            this.PAN_Box.Controls.Add(this.bpkx11);
+            this.PAN_Box.Controls.Add(this.bpkx12);
+            this.PAN_Box.Controls.Add(this.bpkx13);
+            this.PAN_Box.Controls.Add(this.bpkx52);
+            this.PAN_Box.Location = new System.Drawing.Point(3, 3);
+            this.PAN_Box.Name = "PAN_Box";
+            this.PAN_Box.Size = new System.Drawing.Size(251, 346);
+            this.PAN_Box.TabIndex = 63;
+            // 
+            // bpkx66
+            // 
+            this.bpkx66.BackColor = System.Drawing.Color.Transparent;
+            this.bpkx66.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx66.Location = new System.Drawing.Point(207, 312);
+            this.bpkx66.Name = "bpkx66";
+            this.bpkx66.Size = new System.Drawing.Size(42, 32);
+            this.bpkx66.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx66.TabIndex = 65;
+            this.bpkx66.TabStop = false;
+            // 
+            // bpkx65
+            // 
+            this.bpkx65.BackColor = System.Drawing.Color.Transparent;
+            this.bpkx65.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx65.Location = new System.Drawing.Point(166, 312);
+            this.bpkx65.Name = "bpkx65";
+            this.bpkx65.Size = new System.Drawing.Size(42, 32);
+            this.bpkx65.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx65.TabIndex = 64;
+            this.bpkx65.TabStop = false;
+            // 
+            // bpkx64
+            // 
+            this.bpkx64.BackColor = System.Drawing.Color.Transparent;
+            this.bpkx64.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx64.Location = new System.Drawing.Point(125, 312);
+            this.bpkx64.Name = "bpkx64";
+            this.bpkx64.Size = new System.Drawing.Size(42, 32);
+            this.bpkx64.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx64.TabIndex = 63;
+            this.bpkx64.TabStop = false;
+            // 
+            // bpkx63
+            // 
+            this.bpkx63.BackColor = System.Drawing.Color.Transparent;
+            this.bpkx63.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx63.Location = new System.Drawing.Point(84, 312);
+            this.bpkx63.Name = "bpkx63";
+            this.bpkx63.Size = new System.Drawing.Size(42, 32);
+            this.bpkx63.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx63.TabIndex = 62;
+            this.bpkx63.TabStop = false;
+            // 
+            // bpkx62
+            // 
+            this.bpkx62.BackColor = System.Drawing.Color.Transparent;
+            this.bpkx62.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx62.Location = new System.Drawing.Point(43, 312);
+            this.bpkx62.Name = "bpkx62";
+            this.bpkx62.Size = new System.Drawing.Size(42, 32);
+            this.bpkx62.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx62.TabIndex = 61;
+            this.bpkx62.TabStop = false;
+            // 
+            // bpkx61
+            // 
+            this.bpkx61.BackColor = System.Drawing.Color.Transparent;
+            this.bpkx61.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx61.Location = new System.Drawing.Point(2, 312);
+            this.bpkx61.Name = "bpkx61";
+            this.bpkx61.Size = new System.Drawing.Size(42, 32);
+            this.bpkx61.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.bpkx61.TabIndex = 60;
+            this.bpkx61.TabStop = false;
+            // 
             // CB_Ability
             // 
             this.CB_Ability.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1140,6 +1283,7 @@
             this.CB_GameOrigin.Name = "CB_GameOrigin";
             this.CB_GameOrigin.Size = new System.Drawing.Size(122, 21);
             this.CB_GameOrigin.TabIndex = 97;
+            this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.changeGame);
             // 
             // CHK_IsEgg
             // 
@@ -1331,152 +1475,40 @@
             this.L_Count.Text = "Count: {0}";
             this.L_Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // PAN_Box
+            // L_Generation
             // 
-            this.PAN_Box.BackgroundImage = global::PKHeX.Properties.Resources.box_wp16;
-            this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PAN_Box.Controls.Add(this.bpkx66);
-            this.PAN_Box.Controls.Add(this.bpkx65);
-            this.PAN_Box.Controls.Add(this.bpkx64);
-            this.PAN_Box.Controls.Add(this.bpkx63);
-            this.PAN_Box.Controls.Add(this.bpkx62);
-            this.PAN_Box.Controls.Add(this.bpkx61);
-            this.PAN_Box.Controls.Add(this.bpkx30);
-            this.PAN_Box.Controls.Add(this.bpkx1);
-            this.PAN_Box.Controls.Add(this.bpkx60);
-            this.PAN_Box.Controls.Add(this.bpkx31);
-            this.PAN_Box.Controls.Add(this.bpkx29);
-            this.PAN_Box.Controls.Add(this.bpkx32);
-            this.PAN_Box.Controls.Add(this.bpkx33);
-            this.PAN_Box.Controls.Add(this.bpkx28);
-            this.PAN_Box.Controls.Add(this.bpkx34);
-            this.PAN_Box.Controls.Add(this.bpkx59);
-            this.PAN_Box.Controls.Add(this.bpkx35);
-            this.PAN_Box.Controls.Add(this.bpkx27);
-            this.PAN_Box.Controls.Add(this.bpkx36);
-            this.PAN_Box.Controls.Add(this.bpkx37);
-            this.PAN_Box.Controls.Add(this.bpkx26);
-            this.PAN_Box.Controls.Add(this.bpkx38);
-            this.PAN_Box.Controls.Add(this.bpkx58);
-            this.PAN_Box.Controls.Add(this.bpkx39);
-            this.PAN_Box.Controls.Add(this.bpkx25);
-            this.PAN_Box.Controls.Add(this.bpkx40);
-            this.PAN_Box.Controls.Add(this.bpkx41);
-            this.PAN_Box.Controls.Add(this.bpkx24);
-            this.PAN_Box.Controls.Add(this.bpkx42);
-            this.PAN_Box.Controls.Add(this.bpkx57);
-            this.PAN_Box.Controls.Add(this.bpkx43);
-            this.PAN_Box.Controls.Add(this.bpkx23);
-            this.PAN_Box.Controls.Add(this.bpkx44);
-            this.PAN_Box.Controls.Add(this.bpkx22);
-            this.PAN_Box.Controls.Add(this.bpkx45);
-            this.PAN_Box.Controls.Add(this.bpkx46);
-            this.PAN_Box.Controls.Add(this.bpkx21);
-            this.PAN_Box.Controls.Add(this.bpkx2);
-            this.PAN_Box.Controls.Add(this.bpkx56);
-            this.PAN_Box.Controls.Add(this.bpkx47);
-            this.PAN_Box.Controls.Add(this.bpkx20);
-            this.PAN_Box.Controls.Add(this.bpkx3);
-            this.PAN_Box.Controls.Add(this.bpkx4);
-            this.PAN_Box.Controls.Add(this.bpkx19);
-            this.PAN_Box.Controls.Add(this.bpkx48);
-            this.PAN_Box.Controls.Add(this.bpkx55);
-            this.PAN_Box.Controls.Add(this.bpkx5);
-            this.PAN_Box.Controls.Add(this.bpkx18);
-            this.PAN_Box.Controls.Add(this.bpkx6);
-            this.PAN_Box.Controls.Add(this.bpkx49);
-            this.PAN_Box.Controls.Add(this.bpkx17);
-            this.PAN_Box.Controls.Add(this.bpkx7);
-            this.PAN_Box.Controls.Add(this.bpkx54);
-            this.PAN_Box.Controls.Add(this.bpkx8);
-            this.PAN_Box.Controls.Add(this.bpkx16);
-            this.PAN_Box.Controls.Add(this.bpkx50);
-            this.PAN_Box.Controls.Add(this.bpkx9);
-            this.PAN_Box.Controls.Add(this.bpkx15);
-            this.PAN_Box.Controls.Add(this.bpkx10);
-            this.PAN_Box.Controls.Add(this.bpkx53);
-            this.PAN_Box.Controls.Add(this.bpkx51);
-            this.PAN_Box.Controls.Add(this.bpkx14);
-            this.PAN_Box.Controls.Add(this.bpkx11);
-            this.PAN_Box.Controls.Add(this.bpkx12);
-            this.PAN_Box.Controls.Add(this.bpkx13);
-            this.PAN_Box.Controls.Add(this.bpkx52);
-            this.PAN_Box.Location = new System.Drawing.Point(3, 3);
-            this.PAN_Box.Name = "PAN_Box";
-            this.PAN_Box.Size = new System.Drawing.Size(251, 346);
-            this.PAN_Box.TabIndex = 63;
+            this.L_Generation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Generation.Location = new System.Drawing.Point(318, 325);
+            this.L_Generation.Name = "L_Generation";
+            this.L_Generation.Size = new System.Drawing.Size(80, 14);
+            this.L_Generation.TabIndex = 116;
+            this.L_Generation.Text = "Generation:";
+            this.L_Generation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // bpkx66
+            // CB_Generation
             // 
-            this.bpkx66.BackColor = System.Drawing.Color.Transparent;
-            this.bpkx66.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx66.Location = new System.Drawing.Point(207, 312);
-            this.bpkx66.Name = "bpkx66";
-            this.bpkx66.Size = new System.Drawing.Size(42, 32);
-            this.bpkx66.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.bpkx66.TabIndex = 65;
-            this.bpkx66.TabStop = false;
-            // 
-            // bpkx65
-            // 
-            this.bpkx65.BackColor = System.Drawing.Color.Transparent;
-            this.bpkx65.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx65.Location = new System.Drawing.Point(166, 312);
-            this.bpkx65.Name = "bpkx65";
-            this.bpkx65.Size = new System.Drawing.Size(42, 32);
-            this.bpkx65.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.bpkx65.TabIndex = 64;
-            this.bpkx65.TabStop = false;
-            // 
-            // bpkx64
-            // 
-            this.bpkx64.BackColor = System.Drawing.Color.Transparent;
-            this.bpkx64.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx64.Location = new System.Drawing.Point(125, 312);
-            this.bpkx64.Name = "bpkx64";
-            this.bpkx64.Size = new System.Drawing.Size(42, 32);
-            this.bpkx64.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.bpkx64.TabIndex = 63;
-            this.bpkx64.TabStop = false;
-            // 
-            // bpkx63
-            // 
-            this.bpkx63.BackColor = System.Drawing.Color.Transparent;
-            this.bpkx63.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx63.Location = new System.Drawing.Point(84, 312);
-            this.bpkx63.Name = "bpkx63";
-            this.bpkx63.Size = new System.Drawing.Size(42, 32);
-            this.bpkx63.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.bpkx63.TabIndex = 62;
-            this.bpkx63.TabStop = false;
-            // 
-            // bpkx62
-            // 
-            this.bpkx62.BackColor = System.Drawing.Color.Transparent;
-            this.bpkx62.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx62.Location = new System.Drawing.Point(43, 312);
-            this.bpkx62.Name = "bpkx62";
-            this.bpkx62.Size = new System.Drawing.Size(42, 32);
-            this.bpkx62.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.bpkx62.TabIndex = 61;
-            this.bpkx62.TabStop = false;
-            // 
-            // bpkx61
-            // 
-            this.bpkx61.BackColor = System.Drawing.Color.Transparent;
-            this.bpkx61.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx61.Location = new System.Drawing.Point(2, 312);
-            this.bpkx61.Name = "bpkx61";
-            this.bpkx61.Size = new System.Drawing.Size(42, 32);
-            this.bpkx61.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.bpkx61.TabIndex = 60;
-            this.bpkx61.TabStop = false;
+            this.CB_Generation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Generation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Generation.FormattingEnabled = true;
+            this.CB_Generation.Items.AddRange(new object[] {
+            "Any",
+            "Gen 6 (XY/ORAS)",
+            "Gen 5 (BW/B2W2)",
+            "Gen 4 (DPPt/HGSS)",
+            "Gen 3 (RSE/FRLG/CXD)"});
+            this.CB_Generation.Location = new System.Drawing.Point(400, 323);
+            this.CB_Generation.Name = "CB_Generation";
+            this.CB_Generation.Size = new System.Drawing.Size(122, 21);
+            this.CB_Generation.TabIndex = 115;
+            this.CB_Generation.SelectedIndexChanged += new System.EventHandler(this.changeGeneration);
             // 
             // SAV_Database
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 387);
+            this.Controls.Add(this.L_Generation);
+            this.Controls.Add(this.CB_Generation);
             this.Controls.Add(this.L_Count);
             this.Controls.Add(this.L_ESV);
             this.Controls.Add(this.MT_ESV);
@@ -1708,6 +1740,8 @@
         private System.Windows.Forms.PictureBox bpkx63;
         private System.Windows.Forms.PictureBox bpkx62;
         private System.Windows.Forms.PictureBox bpkx61;
+        private System.Windows.Forms.Label L_Generation;
+        private System.Windows.Forms.ComboBox CB_Generation;
 
     }
 }
