@@ -1157,8 +1157,8 @@ namespace PKHeX
             PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, (!BTN_Shinytize.Enabled ? 1 : 0) * 0.9 + 0.1);
             PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, (CHK_Cured.Checked ? 1 : 0) * 0.9 + 0.1);
 
-            int Version = Util.getIndex(CB_GameOrigin);
-            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, ((Version == 24 || Version == 25 || Version == 26 || Version == 27) ? 1 : 0) * 0.9 + 0.1);
+            int Version = Util.getIndex(CB_GameOrigin); // 24,25 = XY, 26,27 = ORAS, 28,29 = ???
+            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, ((Version >= 24 && Version <= 29) ? 1 : 0) * 0.9 + 0.1);
         }
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)
