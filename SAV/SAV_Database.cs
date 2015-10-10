@@ -97,13 +97,17 @@ namespace PKHeX
             prepareDBForSearch();
         }
         private Main m_parent;
+        private PictureBox[] PKXBOXES;
         private const string DatabasePath = "db";
         private List<DatabaseList> Database = new List<DatabaseList>();
         private List<PK6> Results;
         private List<PK6> RawDB;
+        private int slotSelected = -1; // = null;
+        private const int RES_MAX = 66;
+        private const int RES_MIN = 6;
         private string Counter;
 
-        private int slotSelected = -1; // = null;
+        // Important Events
         private void clickView(object sender, EventArgs e)
         {
             string name = (sender is ToolStripItem)
@@ -193,14 +197,10 @@ namespace PKHeX
             CB_Move1.SelectedIndex = CB_Move2.SelectedIndex = CB_Move3.SelectedIndex = CB_Move4.SelectedIndex = 0;
 
             CB_GameOrigin.SelectedIndex = 0;
+            CB_Generation.SelectedIndex = 0;
         }
 
-        private void loadDatabase(byte[] data)
-        {
-            var db = new DatabaseList(data);
-            if (db.Slot.Count > 0)
-                Database.Add(db);
-        }
+        // IO Usage
         private class DatabaseList
         {
             public List<PK6> Slot = new List<PK6>();
@@ -258,12 +258,30 @@ namespace PKHeX
                 }
             }
         }
+        private void loadDatabase(byte[] data)
+        {
+            var db = new DatabaseList(data);
+            if (db.Slot.Count > 0)
+                Database.Add(db);
+        }
+        private void prepareDBForSearch()
+        {
+            RawDB = new List<PK6>();
+
+            foreach (var db in Database)
+                RawDB.AddRange(db.Slot);
+
+            RawDB = new List<PK6>(RawDB.Where(pk => pk.Checksum == pk.CalculateChecksum()));
+            RawDB = new List<PK6>(RawDB.Distinct());
+            setResults(RawDB);
+        }
         private void openDB(object sender, EventArgs e)
         {
             if (Directory.Exists(DatabasePath))
                 Process.Start("explorer.exe", @DatabasePath);
         }
 
+        // View Updates
         private void B_Search_Click(object sender, EventArgs e)
         {
             // Populate Search Query Result
@@ -386,9 +404,18 @@ namespace PKHeX
             if (e.OldValue != e.NewValue)
                 FillPKXBoxes(e.NewValue);
         }
+        private void setResults(List<PK6> res)
+        {
+            Results = new List<PK6>(res);
 
-        private const int RES_MAX = 66;
-        private const int RES_MIN = 6;
+            SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
+            if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
+
+            SCR_Box.Value = 0;
+            FillPKXBoxes(0);
+
+            L_Count.Text = String.Format(Counter, Results.Count);
+        }
         private void FillPKXBoxes(int start)
         {
             if (Results == null)
@@ -405,7 +432,6 @@ namespace PKHeX
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)
                 PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = Resources.slotView;
         }
-        private PictureBox[] PKXBOXES;
 
         // Misc Update Methods
         private void toggleESV(object sender, EventArgs e)
@@ -426,31 +452,6 @@ namespace PKHeX
         {
             if (CB_Generation.SelectedIndex != 0)
                 CB_GameOrigin.SelectedIndex = 0;
-        }
-
-        // View Updates
-        private void prepareDBForSearch()
-        {
-            RawDB = new List<PK6>();
-
-            foreach (var db in Database)
-                RawDB.AddRange(db.Slot);
-
-            RawDB = new List<PK6>(RawDB.Where(pk => pk.Checksum == pk.CalculateChecksum()));
-            RawDB = new List<PK6>(RawDB.Distinct());
-            setResults(RawDB);
-        }
-        private void setResults(List<PK6> res)
-        {
-            Results = new List<PK6>(res);
-
-            SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
-            if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
-
-            SCR_Box.Value = 0;
-            FillPKXBoxes(0);
-
-            L_Count.Text = String.Format(Counter, Results.Count);
         }
 
         // Debug
