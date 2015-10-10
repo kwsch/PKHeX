@@ -403,6 +403,11 @@ namespace PKHeX
         public bool IsShiny { get { return TSV == PSV; } }
         public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
         public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
+        public bool Gen6 { get { return Version >= 24 && Version <= 29; } }
+        public bool Gen5 { get { return Version >= 20 && Version <= 23; } }
+        public bool Gen4 { get { return (Version >= 10 && Version < 12) || (Version >= 7 && Version <= 8); } }
+        public bool Gen3 { get { return ((Version >= 1 && Version <= 5) || Version == 15); } }
+        public bool GenU { get { return !(Gen6 || Gen5 || Gen4 || Gen3); } }
 
         // Complex Generated Attributes
         public Image Sprite { get { return getSprite(this); } }
