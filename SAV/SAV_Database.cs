@@ -78,13 +78,14 @@ namespace PKHeX
             });
 
             // Load databases
-            foreach (string file in Directory.GetFiles(DatabasePath))
+            foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
             {
                 if ((new FileInfo(file)).Extension == ".pk6")
                     Database[0].Slot.Add(new PK6(File.ReadAllBytes(file), file));
                 else
                     loadDatabase(File.ReadAllBytes(file));
             }
+            // Fetch from save file
             for (int i = 0; i < 930; i++)
             {
                 PK6 pk6 = new PK6(PKX.decryptArray(Main.savefile.Skip(Main.SaveGame.Box + 0xE8*i).Take(0xE8).ToArray()), "Boxes");
