@@ -491,6 +491,7 @@ namespace PKHeX
             Stat_SPD = Stats[5];
         }
 
+        // General User-error Fixes
         public void FixMoves()
         {
             if (Move4 != 0 && Move3 == 0)
@@ -586,6 +587,79 @@ namespace PKHeX
                 Geo1_Country = Country;
                 Geo1_Region = Region;
             }
+        }
+
+        // Synthetic Trading Logic
+        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION)
+        {
+            // Eggs do not have any modifications done if they are traded
+            if (IsEgg)
+                return;
+            // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
+            if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION))
+                TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION);
+        }
+        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION)
+        {
+            // Check to see if the OT matches the SAV's OT info.
+            if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID))
+                return false;
+
+            CurrentHandler = 0;
+            if (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region)
+                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+
+            return true;
+        }
+        private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION)
+        {
+            if (SAV_Trainer != HT_Name || SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region)
+                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+
+            CurrentHandler = 1;
+
+            // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
+            if (HT_Memory == 0)
+                TradeMemory();
+        }
+        private void TradeGeoLocation(int GeoCountry, int GeoRegion)
+        {
+            // Allow the method to abort if the values are invalid
+            if (GeoCountry < 0 || GeoRegion < 0)
+                return;
+
+            // Trickle down
+            Geo5_Country = Geo4_Country;
+            Geo5_Region = Geo4_Region;
+
+            Geo4_Country = Geo3_Country;
+            Geo4_Region = Geo3_Region;
+
+            Geo3_Country = Geo2_Country;
+            Geo3_Region = Geo2_Region;
+
+            Geo2_Country = Geo1_Country;
+            Geo2_Region = Geo1_Region;
+
+            Geo1_Country = Country;
+            Geo1_Region = Region;
+        }
+        private void TradeMemory()
+        {
+            HT_Memory = 4; // Link trade to [VAR: General Location]
+            HT_TextVar = 9; // Pokécenter
+            HT_Intensity = 1;
+            HT_Feeling = Util.rand.Next(0, 9);
+        }
+        public void TradeFriendshipAffection(string SAV_TRAINER)
+        {
+            // Don't alter the data if the info is the same.
+            if (SAV_TRAINER == HT_Name) 
+                return;
+
+            // Reset
+            HT_Friendship = getBaseFriendship(Species);
+            HT_Affection = 0;
         }
     }
 }
