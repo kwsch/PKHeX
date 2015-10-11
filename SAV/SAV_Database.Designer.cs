@@ -930,7 +930,8 @@
             // 
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.Size = new System.Drawing.Size(176, 22);
-            this.Menu_Report.Text = "Box Data Report";
+            this.Menu_Report.Text = "Create Data Report";
+            this.Menu_Report.Click += new System.EventHandler(this.generateDBReport);
             // 
             // P_Results
             // 

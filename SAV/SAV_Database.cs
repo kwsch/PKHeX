@@ -88,7 +88,8 @@ namespace PKHeX
             // Fetch from save file
             for (int i = 0; i < 930; i++)
             {
-                PK6 pk6 = new PK6(PKX.decryptArray(Main.savefile.Skip(Main.SaveGame.Box + 0xE8*i).Take(0xE8).ToArray()), "Boxes");
+                string Identifier = String.Format("B{0}:{1}", (i / 30 + 1).ToString("00"), (i % 30 + 1).ToString("00"));
+                PK6 pk6 = new PK6(PKX.decryptArray(Main.savefile.Skip(Main.SaveGame.Box + 0xE8*i).Take(0xE8).ToArray()), Identifier);
                 if (pk6.Species != 0)
                     Database[0].Slot.Add(pk6);
             }
@@ -198,6 +199,16 @@ namespace PKHeX
 
             CB_GameOrigin.SelectedIndex = 0;
             CB_Generation.SelectedIndex = 0;
+        }
+        private void generateDBReport(object sender, EventArgs e)
+        {
+            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Generate a Report on all data?", "This may take a while...")
+                != DialogResult.Yes)
+                return;
+
+            frmReport ReportForm = new frmReport();
+            ReportForm.Show();
+            ReportForm.PopulateData(Results.ToArray());
         }
 
         // IO Usage

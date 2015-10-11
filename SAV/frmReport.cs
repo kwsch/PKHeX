@@ -151,6 +151,24 @@ namespace PKHeX
             }
             BoxBar.Visible = false;
         }
+        public void PopulateData(PK6[] data)
+        {
+            BoxBar.Step = 1;
+            PokemonList PL = new PokemonList();
+            foreach (PK6 p in data)
+                PL.Add(new Preview(p));
+
+            dgData.DataSource = PL;
+            dgData.AutoGenerateColumns = true;
+            BoxBar.Maximum = data.Length + dgData.Columns.Count;
+            for (int i = 0; i < dgData.Columns.Count; i++)
+            {
+                BoxBar.PerformStep();
+                if (dgData.Columns[i] is DataGridViewImageColumn) continue; // Don't add sorting for Sprites
+                dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+            }
+            BoxBar.Visible = false;
+        }
         private void promptSaveCSV(object sender, FormClosingEventArgs e)
         {
             if (Util.Prompt(MessageBoxButtons.YesNo,"Save all the data to CSV?") == DialogResult.Yes)
