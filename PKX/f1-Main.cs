@@ -919,7 +919,7 @@ namespace PKHeX
                 }
             }
         }
-        public void populateFields(byte[] data)
+        public void populateFields(byte[] data, bool focus = true)
         {
             pk6 = new PK6(data);
             if (init & !PKX.verifychk(pk6.Data))
@@ -928,7 +928,8 @@ namespace PKHeX
             // Reset a little.
             init = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
-            Tab_Main.Focus();
+            if (focus)
+                Tab_Main.Focus();
 
             // Do first
             pk6.Stat_Level = PKX.getLevel(pk6.Species, pk6.EXP);
