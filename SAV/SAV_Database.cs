@@ -54,6 +54,8 @@ namespace PKHeX
             }
             
             Counter = L_Count.Text;
+            Viewed = L_Viewed.Text;
+            L_Viewed.Text = ""; // invis for now
             populateComboBoxes();
 
             ContextMenuStrip mnu = new ContextMenuStrip();
@@ -107,6 +109,7 @@ namespace PKHeX
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private string Counter;
+        private string Viewed;
 
         // Important Events
         private void clickView(object sender, EventArgs e)
@@ -121,9 +124,10 @@ namespace PKHeX
                 System.Media.SystemSounds.Exclamation.Play();
             else
             {
-                m_parent.populateFields(dataArr[index].Data);
+                m_parent.populateFields(dataArr[index].Data, false);
                 slotSelected = index + SCR_Box.Value * RES_MIN;
                 FillPKXBoxes(SCR_Box.Value);
+                L_Viewed.Text = String.Format(Viewed, dataArr[index].Identifier);
             }
         }
         private void populateComboBoxes()

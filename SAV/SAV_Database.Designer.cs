@@ -127,11 +127,11 @@
             this.CB_IV = new System.Windows.Forms.ComboBox();
             this.B_Search = new System.Windows.Forms.Button();
             this.CB_Level = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.L_Version = new System.Windows.Forms.Label();
+            this.L_Move1 = new System.Windows.Forms.Label();
+            this.L_Move2 = new System.Windows.Forms.Label();
+            this.L_Move3 = new System.Windows.Forms.Label();
+            this.L_Move4 = new System.Windows.Forms.Label();
             this.L_Potential = new System.Windows.Forms.Label();
             this.L_EVTraining = new System.Windows.Forms.Label();
             this.B_Reset = new System.Windows.Forms.Button();
@@ -140,6 +140,7 @@
             this.L_Count = new System.Windows.Forms.Label();
             this.L_Generation = new System.Windows.Forms.Label();
             this.CB_Generation = new System.Windows.Forms.ComboBox();
+            this.L_Viewed = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -1364,55 +1365,55 @@
             this.CB_Level.TabIndex = 103;
             this.CB_Level.SelectedIndexChanged += new System.EventHandler(this.changeLevel);
             // 
-            // label1
+            // L_Version
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(318, 303);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 14);
-            this.label1.TabIndex = 104;
-            this.label1.Text = "OT Version:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Version.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Version.Location = new System.Drawing.Point(318, 303);
+            this.L_Version.Name = "L_Version";
+            this.L_Version.Size = new System.Drawing.Size(80, 14);
+            this.L_Version.TabIndex = 104;
+            this.L_Version.Text = "OT Version:";
+            this.L_Version.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label2
+            // L_Move1
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Location = new System.Drawing.Point(314, 216);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 14);
-            this.label2.TabIndex = 105;
-            this.label2.Text = "Move 1:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Move1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Move1.Location = new System.Drawing.Point(314, 216);
+            this.L_Move1.Name = "L_Move1";
+            this.L_Move1.Size = new System.Drawing.Size(80, 14);
+            this.L_Move1.TabIndex = 105;
+            this.L_Move1.Text = "Move 1:";
+            this.L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // L_Move2
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Location = new System.Drawing.Point(314, 237);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 14);
-            this.label3.TabIndex = 106;
-            this.label3.Text = "Move 2:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Move2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Move2.Location = new System.Drawing.Point(314, 237);
+            this.L_Move2.Name = "L_Move2";
+            this.L_Move2.Size = new System.Drawing.Size(80, 14);
+            this.L_Move2.TabIndex = 106;
+            this.L_Move2.Text = "Move 2:";
+            this.L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label4
+            // L_Move3
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.Location = new System.Drawing.Point(314, 258);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 14);
-            this.label4.TabIndex = 107;
-            this.label4.Text = "Move 3:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Move3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Move3.Location = new System.Drawing.Point(314, 258);
+            this.L_Move3.Name = "L_Move3";
+            this.L_Move3.Size = new System.Drawing.Size(80, 14);
+            this.L_Move3.TabIndex = 107;
+            this.L_Move3.Text = "Move 3:";
+            this.L_Move3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label5
+            // L_Move4
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.Location = new System.Drawing.Point(314, 279);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 14);
-            this.label5.TabIndex = 108;
-            this.label5.Text = "Move 4:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Move4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Move4.Location = new System.Drawing.Point(314, 279);
+            this.L_Move4.Name = "L_Move4";
+            this.L_Move4.Size = new System.Drawing.Size(80, 14);
+            this.L_Move4.TabIndex = 108;
+            this.L_Move4.Text = "Move 4:";
+            this.L_Move4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Potential
             // 
@@ -1503,11 +1504,21 @@
             this.CB_Generation.TabIndex = 115;
             this.CB_Generation.SelectedIndexChanged += new System.EventHandler(this.changeGeneration);
             // 
+            // L_Viewed
+            // 
+            this.L_Viewed.Location = new System.Drawing.Point(9, 381);
+            this.L_Viewed.Name = "L_Viewed";
+            this.L_Viewed.Size = new System.Drawing.Size(535, 13);
+            this.L_Viewed.TabIndex = 117;
+            this.L_Viewed.Text = "Last Viewed: {0}";
+            this.L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // SAV_Database
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 387);
+            this.ClientSize = new System.Drawing.Size(544, 397);
+            this.Controls.Add(this.L_Viewed);
             this.Controls.Add(this.L_Generation);
             this.Controls.Add(this.CB_Generation);
             this.Controls.Add(this.L_Count);
@@ -1516,11 +1527,11 @@
             this.Controls.Add(this.B_Reset);
             this.Controls.Add(this.L_EVTraining);
             this.Controls.Add(this.L_Potential);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Move4);
+            this.Controls.Add(this.L_Move3);
+            this.Controls.Add(this.L_Move2);
+            this.Controls.Add(this.L_Move1);
+            this.Controls.Add(this.L_Version);
             this.Controls.Add(this.CB_Level);
             this.Controls.Add(this.B_Search);
             this.Controls.Add(this.CB_IV);
@@ -1549,9 +1560,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(800, 425);
+            this.MaximumSize = new System.Drawing.Size(800, 435);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(560, 425);
+            this.MinimumSize = new System.Drawing.Size(560, 435);
             this.Name = "SAV_Database";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Database";
@@ -1723,11 +1734,11 @@
         private System.Windows.Forms.ComboBox CB_IV;
         private System.Windows.Forms.Button B_Search;
         private System.Windows.Forms.ComboBox CB_Level;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label L_Version;
+        private System.Windows.Forms.Label L_Move1;
+        private System.Windows.Forms.Label L_Move2;
+        private System.Windows.Forms.Label L_Move3;
+        private System.Windows.Forms.Label L_Move4;
         private System.Windows.Forms.Label L_Potential;
         private System.Windows.Forms.Label L_EVTraining;
         private System.Windows.Forms.Button B_Reset;
@@ -1743,6 +1754,7 @@
         private System.Windows.Forms.PictureBox bpkx61;
         private System.Windows.Forms.Label L_Generation;
         private System.Windows.Forms.ComboBox CB_Generation;
+        private System.Windows.Forms.Label L_Viewed;
 
     }
 }
