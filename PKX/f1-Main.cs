@@ -1085,7 +1085,7 @@ namespace PKHeX
             }
             
             // Set the Preview Box
-            getQuickFiller(dragout);
+            dragout.Image = pk6.Sprite;
 
             // Highlight the Current Handler
             clickGT((pk6.CurrentHandler == 1) ? GB_nOT : GB_OT, null);
