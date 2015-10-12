@@ -203,6 +203,8 @@ namespace PKHeX
 
             CB_GameOrigin.SelectedIndex = 0;
             CB_Generation.SelectedIndex = 0;
+
+            MT_ESV.Visible = L_ESV.Visible = false;
         }
         private void generateDBReport(object sender, EventArgs e)
         {
