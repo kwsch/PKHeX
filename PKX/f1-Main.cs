@@ -839,6 +839,7 @@ namespace PKHeX
         private void InitializeFields()
         {
             // Now that the ComboBoxes are ready, load the data.
+            pk6.RefreshChecksum();
             populateFields(pk6.Data);
             {
                 TB_OT.Text = "PKHeX";
