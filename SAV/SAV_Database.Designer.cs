@@ -141,6 +141,7 @@
             this.L_Generation = new System.Windows.Forms.Label();
             this.CB_Generation = new System.Windows.Forms.ComboBox();
             this.L_Viewed = new System.Windows.Forms.Label();
+            this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -915,7 +916,8 @@
             // 
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenDB,
-            this.Menu_Report});
+            this.Menu_Report,
+            this.Menu_Export});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
@@ -923,14 +925,14 @@
             // Menu_OpenDB
             // 
             this.Menu_OpenDB.Name = "Menu_OpenDB";
-            this.Menu_OpenDB.Size = new System.Drawing.Size(176, 22);
-            this.Menu_OpenDB.Text = "Open Box Database";
+            this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
+            this.Menu_OpenDB.Text = "Open Database Folder";
             this.Menu_OpenDB.Click += new System.EventHandler(this.openDB);
             // 
             // Menu_Report
             // 
             this.Menu_Report.Name = "Menu_Report";
-            this.Menu_Report.Size = new System.Drawing.Size(176, 22);
+            this.Menu_Report.Size = new System.Drawing.Size(197, 22);
             this.Menu_Report.Text = "Create Data Report";
             this.Menu_Report.Click += new System.EventHandler(this.generateDBReport);
             // 
@@ -1506,12 +1508,20 @@
             // 
             // L_Viewed
             // 
+            this.L_Viewed.AutoSize = true;
             this.L_Viewed.Location = new System.Drawing.Point(9, 381);
             this.L_Viewed.Name = "L_Viewed";
-            this.L_Viewed.Size = new System.Drawing.Size(535, 13);
+            this.L_Viewed.Size = new System.Drawing.Size(85, 13);
             this.L_Viewed.TabIndex = 117;
             this.L_Viewed.Text = "Last Viewed: {0}";
             this.L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Menu_Export
+            // 
+            this.Menu_Export.Name = "Menu_Export";
+            this.Menu_Export.Size = new System.Drawing.Size(197, 22);
+            this.Menu_Export.Text = "Export Results to Folder";
+            this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
             // 
             // SAV_Database
             // 
@@ -1557,7 +1567,6 @@
             this.Controls.Add(this.CB_Species);
             this.Controls.Add(this.P_Results);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(800, 435);
@@ -1755,6 +1764,7 @@
         private System.Windows.Forms.Label L_Generation;
         private System.Windows.Forms.ComboBox CB_Generation;
         private System.Windows.Forms.Label L_Viewed;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Export;
 
     }
 }

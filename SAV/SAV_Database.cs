@@ -297,6 +297,26 @@ namespace PKHeX
             if (Directory.Exists(DatabasePath))
                 Process.Start("explorer.exe", @DatabasePath);
         }
+        private void Menu_Export_Click(object sender, EventArgs e)
+        {
+            if (Results == null || Results.Count == 0)
+            { Util.Alert("No results to export."); return; }
+
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Export to a folder?"))
+                return;
+
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (DialogResult.OK != fbd.ShowDialog())
+                return;
+
+            string path = fbd.SelectedPath;
+            if (!Directory.Exists(path)) // just in case...
+                Directory.CreateDirectory(path);
+
+            foreach (PK6 pk6 in Results)
+                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk6.FileName)),
+                    pk6.Data.Take(0xE8).ToArray());
+        }
 
         // View Updates
         private void B_Search_Click(object sender, EventArgs e)
