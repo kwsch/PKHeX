@@ -3049,10 +3049,7 @@ namespace PKHeX
             string exepath = Application.StartupPath;
             string path = "";
             bool dumptoboxes = false;
-            string boxfolder = "";
             {
-                int offset = SaveGame.Box;
-                const int size = 232;
                 if (dr == DialogResult.Yes) // Import
                 {
                     if (Directory.Exists(Path.Combine(exepath, "db")))
@@ -3101,48 +3098,26 @@ namespace PKHeX
                     }
                     else return;
 
-                    for (int i = 0; i < 31 * 30 * size; i += size)
-                    {
-                        byte[] ekxdata = new byte[size];
-                        Array.Copy(savefile, offset + i, ekxdata, 0, size);
-                        byte[] pkxdata = PKX.decryptArray(ekxdata);
-
-                        int species = BitConverter.ToInt16(pkxdata, 0x08);
-                        if (species == 0) continue;
-                        uint chk = BitConverter.ToUInt16(pkxdata, 0x06);
-                        uint EC = BitConverter.ToUInt32(pkxdata, 0);
-                        uint IV32 = BitConverter.ToUInt32(pkxdata, 0x74);
-
-                        string nick;
-                        if (Convert.ToBoolean((IV32 >> 31) & 1))
-                            nick = Util.TrimFromZero(Encoding.Unicode.GetString(pkxdata, 0x40, 24)) + " (" + specieslist[species] + ")";
-                        else
-                            nick = specieslist[species];
-                        if (Convert.ToBoolean((IV32 >> 30) & 1))
-                            nick += " (" + eggname + ")";
-
-                        string isshiny = "";
-
-                        // Is Shiny
-                        if (PKX.getIsShiny(BitConverter.ToUInt32(pkxdata, 0x18), Util.ToUInt32(TB_TID.Text), Util.ToUInt32(TB_SID.Text)))
-                            isshiny = " ★";
-
-                        string savedname =
-                            species.ToString("000") + isshiny + " - "
-                            + nick + " - "
-                            + chk.ToString("X4") + EC.ToString("X8")
-                            + ".pk6";
-                        Array.Resize(ref pkxdata, 232);
-
-                        if (dumptoboxes)
-                        {
-                        	boxfolder = "Box"+(((i/size)/30)+1);
-                        	Directory.CreateDirectory(Path.Combine(path, boxfolder));
-                        }
-                        if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), savedname)))
-                            File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), Util.CleanFileName(savedname)), pkxdata);
-                    }
+                    dumpBoxesToDB(path, dumptoboxes);
                 }
+            }
+        }
+
+        private void dumpBoxesToDB(string path, bool individualBoxFolders)
+        {
+            const int size = 0xE8;
+            for (int i = 0; i < 31 * 30 * size; i += size)
+            {
+                PK6 pk = new PK6(PKX.decryptArray(savefile.Skip(SaveGame.Box).Take(size).ToArray()));
+                string fileName = Util.CleanFileName(pk.FileName);
+                string boxfolder = "";
+                if (individualBoxFolders)
+                {
+                    boxfolder = "Box" + (((i / size) / 30) + 1);
+                    Directory.CreateDirectory(Path.Combine(path, boxfolder));
+                }
+                if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
+                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.Data.Take(size).ToArray());
             }
         }
         private void loadBoxesFromDB(string path)
