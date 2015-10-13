@@ -360,6 +360,18 @@ namespace PKHeX
 
             return response;
         }
+        internal static string getFileName(PK6 pk6)
+        {
+            return
+                pk6.Species.ToString("000")
+                + (pk6.IsShiny ? " ★" : "")
+                + " - "
+                + pk6.Nickname // Rather not have language-specific.
+                + " - "
+                + pk6.Checksum.ToString("X4") 
+                + pk6.EncryptionConstant.ToString("X8")
+                + ".pk6";
+        }
         internal static ushort[] getStats(PK6 pk6)
         {
             return getStats(pk6.Species, pk6.Stat_Level, pk6.Nature, pk6.AltForm,

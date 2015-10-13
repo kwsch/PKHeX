@@ -456,6 +456,7 @@ namespace PKHeX
                 return ivTotal <= 150 ? 2 : 3;
             }
         }
+        public string FileName { get { return getFileName(this); } }
 
         // Methods
         public void RefreshChecksum()
