@@ -2963,10 +2963,9 @@ namespace PKHeX
         {
             byte[] slotdata = new byte[0xE8];
             Array.Copy(savefile, offset, slotdata, 0, 0xE8);    // Fill Our EKX Slot
-            byte[] dslotdata = PKX.decryptArray(slotdata);
-
-            if (PKX.getCHK(dslotdata) != BitConverter.ToUInt16(dslotdata, 6) // Invalid Checksum
-                && (!savLoaded && !slotdata.SequenceEqual(new byte[0xE8]))) // And Save Loaded 
+            PK6 p = new PK6(PKX.decryptArray(slotdata));
+            if (p.Sanity != 0 || p.Checksum != p.CalculateChecksum()
+                || (!savLoaded && !slotdata.SequenceEqual(new byte[0xE8]))) // Invalid
             {
                 // Bad Egg present in slot.
                 pb.Image = null;
@@ -2974,7 +2973,7 @@ namespace PKHeX
                 return;
             }
             pb.BackColor = Color.Transparent;
-            pb.Image = PKX.getSprite(dslotdata);
+            pb.Image = p.Sprite;
         }
         private void getSlotColor(int slot, Image color)
         {
