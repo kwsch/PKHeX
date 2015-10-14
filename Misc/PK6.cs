@@ -28,7 +28,7 @@ namespace PKHeX
         }
         public ushort Sanity
         {
-            get { return BitConverter.ToUInt16(Data, 0x02); }
+            get { return BitConverter.ToUInt16(Data, 0x04); }
             // set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x04, 2); }
         }
         public ushort Checksum
