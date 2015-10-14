@@ -559,7 +559,7 @@ namespace PKHeX
                 CB_BoxSelect.SelectedIndex = 0;
                 for (int i = 0; i < input.Length / (9*30); i++)
                 {
-                    byte[] data = input.Skip(0xE8 * i).Take(0xE8).ToArray();
+                    byte[] data = input.Skip(offset + 0xE8 * i).Take(0xE8).ToArray();
                     Array.Copy(data, 0, savefile, SaveGame.Box + i*0xE8, 0xE8);
                     setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
                 }
