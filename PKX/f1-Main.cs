@@ -575,8 +575,9 @@ namespace PKHeX
                         if (BitConverter.ToUInt32(input, i) == 0x42454546) { Array.Resize(ref input, 0x70000); break; }
 
                 bool o = (input.Length == 0x80000);
-                try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o, true); } catch { return; }
                 ramsav = (byte[])input.Clone();
+                try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o, true); }
+                catch { ramsav = null; return; }
             }
             #endregion
             #region Battle Video
@@ -687,7 +688,7 @@ namespace PKHeX
             savedited = false;
             Menu_ToggleBoxUI.Visible = false;
 
-            B_VerifyCHK.Enabled = ramsav != null;
+            B_VerifyCHK.Enabled = ramsav == null;
             DaycareSlot = 0;
             
             setBoxNames();   // Display the Box Names
