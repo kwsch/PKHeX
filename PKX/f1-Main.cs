@@ -192,7 +192,6 @@ namespace PKHeX
         public static byte[] powersave; // raw Powersave file
         public static byte[] ramsav;
         public static bool ramsavloaded;
-        public bool savLoaded;
         public static bool savedited;
         public string pathSDF;
         public string path3DS;
@@ -705,7 +704,6 @@ namespace PKHeX
             else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
 
             Width = largeWidth;
-            savLoaded = true;
 
             // Refresh instance of pk2pk
             refreshTrainerInfo();
@@ -2963,9 +2961,14 @@ namespace PKHeX
         {
             byte[] slotdata = new byte[0xE8];
             Array.Copy(savefile, offset, slotdata, 0, 0xE8);    // Fill Our EKX Slot
+            if (slotdata.SequenceEqual(new byte[0xE8]))
+            {
+                pb.Image = null;
+                pb.BackColor = Color.Transparent;
+                return;
+            }
             PK6 p = new PK6(PKX.decryptArray(slotdata));
-            if (p.Sanity != 0 || p.Checksum != p.CalculateChecksum()
-                || (!savLoaded && !slotdata.SequenceEqual(new byte[0xE8]))) // Invalid
+            if (p.Sanity != 0 || p.Checksum != p.CalculateChecksum()) // Invalid
             {
                 // Bad Egg present in slot.
                 pb.Image = null;
