@@ -577,7 +577,7 @@ namespace PKHeX
                 bool o = (input.Length == 0x80000);
                 ramsav = (byte[])input.Clone();
                 try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o, true); }
-                catch { ramsav = null; return; }
+                catch { ramsav = null; }
             }
             #endregion
             #region Battle Video
@@ -2618,20 +2618,14 @@ namespace PKHeX
 
             if (!SaveGame.ORAS)
             {
+                PK6 pk = new PK6(pkxdata);
                 // User Protection
-                bool move1 = BitConverter.ToInt16(pkxdata, 0x5A) > 617;
-                bool move2 = BitConverter.ToInt16(pkxdata, 0x5C) > 617;
-                bool move3 = BitConverter.ToInt16(pkxdata, 0x5E) > 617;
-                bool move4 = BitConverter.ToInt16(pkxdata, 0x60) > 617;
-                bool ability = pkxdata[0x14] > 188;
-                bool item = BitConverter.ToInt16(pkxdata, 0x0A) > 717;
                 string err = "";
-
-                if (move1 || move2 || move3 || move4)
+                if (pk.Moves.Any(m => m > 617))
                     err = "Move does not exist in X/Y.";
-                else if (ability)
+                else if (pk.Ability > 188)
                     err = "Ability does not exist in X/Y.";
-                else if (item)
+                else if (pk.HeldItem > 717)
                     err = "Item does not exist in X/Y.";
 
                 if ((err != "") && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
