@@ -191,7 +191,6 @@ namespace PKHeX
         public static byte[] originalSAV; // original save
         public static byte[] powersave; // raw Powersave file
         public static byte[] ramsav;
-        public static bool ramsavloaded;
         public static bool savedited;
         public string pathSDF;
         public string path3DS;
@@ -603,7 +602,8 @@ namespace PKHeX
         }
         private void openMAIN(byte[] input, string path, string GameType, bool oras, bool ram = false)
         {
-            ramsavloaded = ram;
+            if (!ram)
+                ramsav = null;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new PKX.SaveGame(GameType);
 
@@ -617,14 +617,12 @@ namespace PKHeX
         }
         private void open1MB(byte[] input, string path, string GameType, bool oras)
         {
-            ramsavloaded = false;
+            ramsav = null;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SaveGame = new PKX.SaveGame(GameType);
 
             powersave = input;
             savefile = input.Skip(0x5400).Take(oras ? 0x76000 : 0x65600).ToArray();
-
-            getSAVOffsets(ref oras); // to detect if we are ORAS or not
 
             openSave(oras);
         }
@@ -689,7 +687,7 @@ namespace PKHeX
             savedited = false;
             Menu_ToggleBoxUI.Visible = false;
 
-            B_VerifyCHK.Enabled = !ramsavloaded;
+            B_VerifyCHK.Enabled = ramsav != null;
             DaycareSlot = 0;
             
             setBoxNames();   // Display the Box Names
@@ -2491,7 +2489,7 @@ namespace PKHeX
             }
 
             // Export
-            if (ramsavloaded && ModifierKeys == Keys.Shift) // Export RAM SAV to another.
+            if (ramsav != null && ModifierKeys == Keys.Shift) // Export RAM SAV to another.
             {
                 Util.Alert("Please specify the target cart/console-RAM save.");
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -2508,7 +2506,7 @@ namespace PKHeX
                 File.WriteAllBytes(path, newRAM);
                 Util.Alert("Saved RAM SAV to:" + Environment.NewLine + path, "Target RAM:" + Environment.NewLine + target);
             }
-            else if (ramsavloaded && ModifierKeys != Keys.Control) // Export RAM SAV if it is the currently loaded one.
+            else if (ramsav != null && ModifierKeys != Keys.Control) // Export RAM SAV if it is the currently loaded one.
             {
                 cySAV.Filter = "ramsav|*.bin";
                 cySAV.FileName = "ramsav.bin";
@@ -2924,30 +2922,6 @@ namespace PKHeX
                     CB_BoxSelect.Items.Add("Box " + i);
             }
             CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
-        }
-        private void getSAVOffsets(ref bool oras)
-        {
-            // Get the save file offsets for the input game
-            bool enableInterface = false;
-            if (savefile.Length == 0x65600 && BitConverter.ToUInt32(savefile, savefile.Length - 0x1F0) == 0x42454546)
-            {
-                enableInterface = true;
-                SaveGame = new PKX.SaveGame("XY");
-            }
-            else if (savefile.Length == 0x76000 && BitConverter.ToUInt32(savefile, savefile.Length - 0x1F0) == 0x42454546)
-            {
-                enableInterface = true;
-                SaveGame = new PKX.SaveGame("ORAS");
-                oras = true;
-            }
-            else
-            {
-                Util.Error("Unrecognized Save File loaded.");
-                SaveGame = new PKX.SaveGame("Error");
-            }
-
-            // Enable Buttons
-            GB_SAVtools.Enabled = B_JPEG.Enabled = B_VerifyCHK.Enabled = enableInterface;
         }
         private void getQuickFiller(PictureBox pb, byte[] dslotdata = null)
         {
