@@ -2552,21 +2552,7 @@ namespace PKHeX
             int slot = getSlot(sender);
             int offset = getPKXOffset(slot);
 
-            PictureBox[] pba = {
-                                    bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
-                                    bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
-                                    bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
-                                    bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
-                                    bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
-
-                                    ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
-                                    bbpkx1,bbpkx2,bbpkx3,bbpkx4,bbpkx5,bbpkx6,
-
-                                    dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
-                                };
-
-            PictureBox picturebox = pba[slot];
-            if (picturebox.Image == null)
+            if (SlotPictureBoxes[slot].Image == null)
             { System.Media.SystemSounds.Exclamation.Play(); return; }
 
             // Load the PKX file
@@ -2651,8 +2637,7 @@ namespace PKHeX
             if (slot == 30 && setParty() == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
             int offset = getPKXOffset(slot);
 
-            byte[] pkxdata = new byte[0x104];
-            byte[] ekxdata = PKX.encryptArray(pkxdata);
+            byte[] ekxdata = PKX.encryptArray(new byte[0x104]);
 
             savedited = true;
 
@@ -2662,7 +2647,7 @@ namespace PKHeX
             { Array.Copy(ekxdata, 0, savefile, offset, 0xE8); }
             else return;
 
-            getQuickFiller(SlotPictureBoxes[slot], pkxdata);
+            SlotPictureBoxes[slot].Image = null;
             getSlotColor(slot, Properties.Resources.slotDel);
         }
         private void clickClone(object sender, EventArgs e)
@@ -2945,7 +2930,7 @@ namespace PKHeX
                 return;
             }
             pb.BackColor = Color.Transparent;
-            pb.Image = p.Sprite;
+            pb.Image = p.Species == 0 ? null : p.Sprite;
         }
         private void getSlotColor(int slot, Image color)
         {
