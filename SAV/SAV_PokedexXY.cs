@@ -264,7 +264,6 @@ namespace PKHeX
 
         private void B_GiveAll_Click(object sender, EventArgs e)
         {
-            if (LB_Species.SelectedIndex > 0x2D0) return;
             if (CHK_L1.Enabled)
             {
                 CHK_L1.Checked =
@@ -300,29 +299,26 @@ namespace PKHeX
                 else
                     CHK_P7.Checked = true;
             }
-            LB_Species.SelectedIndex++;
         }
         private void B_FillDex_Click(object sender, EventArgs e)
         {
-            saveChanges();
-            // Copy Full Dex Byte Array
-            byte[] fulldex = Properties.Resources.fulldex_XY;
-            if (ModifierKeys != Keys.Control)
+            // Write Checkboxes manually (Gender stuff done automatically by form)
+            for (int i = 0; i < CB_Species.Items.Count; i++)
             {
-                Array.Copy(fulldex, 0x008, sav, Main.SaveGame.PokeDex + 8, 0x638);
+                CB_Species.SelectedIndex = i;
+                B_GiveAll.PerformClick();
             }
-            else
-            {
-                Array.Copy(fulldex, 0x008, sav, Main.SaveGame.PokeDex + 8, 0x1E0); // Copy Partitions 1-5
-                Array.Copy(fulldex, 0x368 + 0x60, sav, Main.SaveGame.PokeDex + 0x368 + 0x60, 0x2D8 - 0x60); // Copy language
 
-                // Forms Bool Writing
-                for (int i = 0; i < 0x98; i++)
-                    sav[Main.SaveGame.PokeDex + 0x368 + i] = 0xFF;
-                sav[Main.SaveGame.PokeDex + 0x3FF] = 0x8F; // make sure we don't have FF because CGSE may screw up.
-            }
-            // Skip the unknown sections then
-            Array.Copy(fulldex, 0x64C, sav, Main.SaveGame.PokeDex + 0x64C, 0x054);
+            // Switch to byte editing
+            setBools();
+            saveChanges();
+
+            // Forms Bool Writing
+            for (int i = 0; i < 0x60; i++)
+                sav[Main.SaveGame.PokeDex + 0x368 + i] = 0xFF;
+
+            // Turn off Italian Petlil
+            sav[Main.SaveGame.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
 
             // Fetch the dex bools
             getBools();

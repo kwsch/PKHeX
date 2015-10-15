@@ -268,244 +268,30 @@ namespace PKHeX
                 else 
                     CHK_P7.Checked = true;
             }
-            LB_Species.SelectedIndex++;
         }
         private void B_FillDex_Click(object sender, EventArgs e)
         {
-            saveChanges();
-            // Copy Full Dex Byte Array
-            // Native Byte Writing
-            for (int i = 0; i < 0x5A; i++)
-                sav[Main.SaveGame.PokeDex + 8 + i] = 0xFF;
-            // Write remainder
-            sav[Main.SaveGame.PokeDex + 8 + 0x5A] = 0x01;
-
-            // Midsection Writing
+            // Write Checkboxes manually (Gender stuff done automatically by form)
+            for (int i = 0; i < CB_Species.Items.Count; i++)
             {
-                #region Payload
-                uint[] payload =
-                { 
-                    0x8FFFFFFF, // 20015068  
-                    0xFFFFFFFF, // 2001506C 
-                    0xFFFFFFFF, // 20015070 
-                    0xF7FAFFFF, // 20015074 
-                    0xFFFFFFFF, // 20015078 
-                    0xFFFFFFFF, // 2001507C 
-                    0xFFFFFFFF, // 20015080 
-                    0xFFFCDFFF, // 20015084 
-                    0xFFFFFFFF, // 20015088 
-                    0xFDFFFFFF, // 2001508C 
-                    0xFFFFFFFF, // 20015090 
-                    0xF7FFFFFF, // 20015094 
-                    0x6FFFFFFF, // 20015098 
-                    0xFF7FFFFF, // 2001509C 
-                    0xDFFFFFFF, // 200150A0 
-                    0xFFFFFF7F, // 200150A4 
-                    0xFFFFFFFF, // 200150A8 
-                    0xFFFFFFE7, // 200150AC 
-                    0xFFFFFFFF, // 200150B0 
-                    0xFFCFFFFF, // 200150B4 
-                    0x8FFFFFFF, // 200150B8 
-                    0xFFFFFFFF, // 200150BC 
-                    0x0001FFFF, // 200150C0 
-                    0x00000000, // 
- 
-                    0x7FFFFFFF, // 200150C8 
-                    0xFFFFFFFC, // 200150CC 
-                    0xFFFCFFFF, // 200150D0 
-                    0x7E7FF9E7, // 200150D4 
-                    0xFF9C7EF7, // 200150D8 
-                    0xFFFFFFFF, // 200150DC 
-                    0xFFFFFEFF, // 200150E0 
-                    0xF8E3E6FF, // 200150E4 
-                    0xFFFFFFFF, // 200150E8 
-                    0xFEFFFFF7, // 200150EC 
-                    0xFF3CFFFF, // 200150F0 
-                    0x081FFFFF, // 200150F4 
-                    0xDFFFFFFC, // 200150F8 
-                    0xFFE7FFFF, // 200150FC 
-                    0x39FFDFFF, // 20015100 
-                    0xFFFFC090, // 20015104 
-                    0xF9FFFFFF, // 20015108 
-                    0xFFFFFFFF, // 2001510C 
-                    0xFE3FFFFF, // 20015110 
-                    0x1FF39FBF, // 20015114 
-                    0xFFFFFE00, // 20015118 
-                    0xBFFFFFFF, // 2001511C 
-                    0x000007FF, // 10015120 
-                    0x00000000, // 
-
-                    0x8FFFFFFF, // 20015128 
-                    0xFFFFFFFF, // 2001512C 
-                    0xFFFFFFFF, // 20015130 
-                    0xF7FAFFFF, // 20015134 
-                    0xFFFFFFFF, // 20015138 
-                    0xFFFFFFFF, // 2001513C 
-                    0xFFFFFFFF, // 20015140 
-                    0xFFFCDFFF, // 20015144 
-                    0xFFFFFFFF, // 20015148 
-                    0xFDFFFFFF, // 2001514C 
-                    0xFFFFFFFF, // 20015150 
-                    0xF7FFFFFF, // 20015154 
-                    0x6FFFFFFF, // 20015158 
-                    0xFF7FFFFF, // 2001515C 
-                    0xDFFFFFFF, // 20015160 
-                    0xFFFFFF7F, // 20015164 
-                    0xFFFFFFFF, // 20015168 
-                    0xFFFFFFE7, // 2001516C 
-                    0xFFFFFFFF, // 20015170 
-                    0xFFCFFFFF, // 20015174 
-                    0x8FFFFFFF, // 20015178 
-                    0xFFFFFFFF, // 2001517C 
-                    0x0001FFFF, // 20015180 
-                    0x00000000, //  
-
-                    0x7FFFFFFF, // 20015188 
-                    0xFFFFFFFC, // 2001518C 
-                    0xFFFCFFFF, // 20015190 
-                    0x7E7FF9E7, // 20015194 
-                    0xFF9C7EF7, // 20015198 
-                    0xFFFFFFFF, // 2001519C 
-                    0xFFFFFEFF, // 200151A0 
-                    0xF8E3E6FF, // 200151A4 
-                    0xFFFFFFFF, // 200151A8 
-                    0xFEFFFFF7, // 200151AC 
-                    0xFF3CFFFF, // 200151B0 
-                    0x081FFFFF, // 200151B4 
-                    0xDFFFFFFC, // 200151B8 
-                    0xFFE7FFFF, // 200151BC 
-                    0x39FFDFFF, // 200151C0 
-                    0xFFFFC090, // 200151C4 
-                    0xF9FFFFFF, // 200151C8 
-                    0xFFFFFFFF, // 200151CC 
-                    0xFE3FFFFF, // 200151D0 
-                    0x1FF39FBF, // 200151D4 
-                    0xFFFFFE00, // 200151D8 
-                    0xBFFFFFFF, // 200151DC 
-                    0x000007FF, // 100151E0 
-                    0x00000000, // 
-
-                    0x8FFFFFFF, // 200151E8 
-                    0xFFFFFFFF, // 200151EC 
-                    0xFFFFFFFF, // 200151F0 
-                    0xF7FAFFFF, // 200151F4 
-                    0xFFFFFFFF, // 200151F8 
-                    0xFFFFFFFF, // 200151FC 
-                    0xFFFFFFFF, // 20015200 
-                    0xFFFCDFFF, // 20015204 
-                    0xFFFFFFFF, // 20015208 
-                    0xFDFFFFFF, // 2001520C 
-                    0xFFFFFFFF, // 20015210 
-                    0xF7FFFFFF, // 20015214 
-                    0x6FFFFFFF, // 20015218 
-                    0xFF7FFFFF, // 2001521C 
-                    0xDFFFFFFF, // 20015220 
-                    0xFFFFFF7F, // 20015224 
-                    0xFFFFFFFF, // 20015228 
-                    0xFFFFFFE7, // 2001522C 
-                    0xFFFFFFFF, // 20015230 
-                    0xFFCFFFFF, // 20015234 
-                    0x8FFFFFFF, // 20015238 
-                    0xFFFFFFFF, // 2001523C 
-                    0x0001FFFF, // 20015240 
-                    0x00000000, // 
-
-                    0x7FFFFFFF, // 20015248 
-                    0xFFFFFFFC, // 2001524C 
-                    0xFFFCFFFF, // 20015250 
-                    0x7E7FF9E7, // 20015254 
-                    0xFF9C7EF7, // 20015258 
-                    0xFFFFFFFF, // 2001525C 
-                    0xFFFFFEFF, // 20015260 
-                    0xF8E3E6FF, // 20015264 
-                    0xFFFFFFFF, // 20015268 
-                    0xFEFFFFF7, // 2001526C 
-                    0xFF3CFFFF, // 20015270 
-                    0x081FFFFF, // 20015274 
-                    0xDFFFFFFC, // 20015278 
-                    0xFFE7FFFF, // 2001527C 
-                    0x39FFDFFF, // 20015280 
-                    0xFFFFC090, // 20015284 
-                    0xF9FFFFFF, // 20015288 
-                    0xFFFFFFFF, // 2001528C 
-                    0xFE3FFFFF, // 20015290 
-                    0x1FF39FBF, // 20015294 
-                    0xFFFFFE00, // 20015298 
-                    0xBFFFFFFF, // 2001529C 
-                    0x000007FF, // 100152A0 
-                    0x00000000, // 
-
-                    0x8FFFFFFF, // 200152A8 
-                    0xFFFFFFFF, // 200152AC 
-                    0xFFFFFFFF, // 200152B0 
-                    0xF7FAFFFF, // 200152B4 
-                    0xFFFFFFFF, // 200152B8 
-                    0xFFFFFFFF, // 200152BC 
-                    0xFFFFFFFF, // 200152C0 
-                    0xFFFCDFFF, // 200152C4 
-                    0xFFFFFFFF, // 200152C8 
-                    0xFDFFFFFF, // 200152CC 
-                    0xFFFFFFFF, // 200152D0 
-                    0xF7FFFFFF, // 200152D4 
-                    0x6FFFFFFF, // 200152D8 
-                    0xFF7FFFFF, // 200152DC 
-                    0xDFFFFFFF, // 200152E0 
-                    0xFFFFFF7F, // 200152E4 
-                    0xFFFFFFFF, // 200152E8 
-                    0xFFFFFFE7, // 200152EC 
-                    0xFFFFFFFF, // 200152F0 
-                    0xFFCFFFFF, // 200152F4 
-                    0x8FFFFFFF, // 200152F8 
-                    0xFFFFFFFF, // 200152FC 
-                    0x0001FFFF, // 20015300 
-                    0x00000000, // 
-
-                    0x7FFFFFFF, // 20015308 
-                    0xFFFFFFFC, // 2001530C 
-                    0xFFFCFFFF, // 20015310 
-                    0x7E7FF9E7, // 20015314 
-                    0xFF9C7EF7, // 20015318 
-                    0xFFFFFFFF, // 2001531C 
-                    0xFFFFFEFF, // 20015320 
-                    0xF8E3E6FF, // 20015324 
-                    0xFFFFFFFF, // 20015328 
-                    0xFEFFFFF7, // 2001532C 
-                    0xFF3CFFFF, // 20015330 
-                    0x081FFFFF, // 20015334 
-                    0xDFFFFFFC, // 20015338 
-                    0xFFE7FFFF, // 2001533C 
-                    0x39FFDFFF, // 20015340 
-                    0xFFFFC090, // 20015344 
-                    0xF9FFFFFF, // 20015348 
-                    0xFFFFFFFF, // 2001534C 
-                    0xFE3FFFFF, // 20015350 
-                    0x1FF39FBF, // 20015354 
-                    0xFFFFFE00, // 20015358 
-                    0xBFFFFFFF, // 2001535C 
-                    0x000007FF, // 10015360 
-                    0x00000000, // 
-                };
-                #endregion
-                for (int i = 0; i < payload.Length; i++)
-                    Array.Copy(BitConverter.GetBytes(payload[i]), 0, sav, Main.SaveGame.PokeDex + 68 + 4 * i, 4);
+                CB_Species.SelectedIndex = i;
+                B_GiveAll.PerformClick();
             }
 
-            // Language Writing
-            for (int i = 0; i < 0x9D; i++)
-                Array.Copy(BitConverter.GetBytes(0xFFFFFFFF), 0, sav, Main.SaveGame.PokeDexLanguageFlags + 4 * i, 4);
-            Array.Copy(BitConverter.GetBytes(0x007FFFFF), 0, sav, Main.SaveGame.PokeDexLanguageFlags + 4 * 0x9D, 4);
+            // Switch to byte editing
+            setBools();
+            saveChanges();
 
             // Encounter Count Writing (999*all species)
             for (int i = 0; i < 0x2D1; i++)
                 Array.Copy(BitConverter.GetBytes(999), 0, sav, Main.SaveGame.EncounterCount + i * 2, 2);
-
-            // Turn off Italian Petlil
-            sav[Main.SaveGame.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
-
+            
             // Forms Bool Writing
             for (int i = 0; i < 0x98; i++)
                 sav[Main.SaveGame.PokeDex + 0x368 + i] = 0xFF;
-            sav[Main.SaveGame.PokeDex + 0x3FF] = 0x8F; // make sure we don't have FF because CGSE may screw up.
+
+            // Turn off Italian Petlil
+            sav[Main.SaveGame.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
             
             // Fetch the dex bools
             getBools();
