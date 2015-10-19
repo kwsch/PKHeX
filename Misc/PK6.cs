@@ -591,19 +591,19 @@ namespace PKHeX
         }
 
         // Synthetic Trading Logic
-        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION)
+        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank, int Day = 1, int Month = 1, int Year = 2015)
         {
             // Eggs do not have any modifications done if they are traded
-            if (IsEgg)
-                return;
+            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+                UpdateEgg(Day, Month, Year);
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
-            if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION))
-                TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION);
+            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER))
+                TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
         }
-        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION)
+        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER)
         {
             // Check to see if the OT matches the SAV's OT info.
-            if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID))
+            if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
                 return false;
 
             CurrentHandler = 0;
@@ -612,16 +612,24 @@ namespace PKHeX
 
             return true;
         }
-        private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION)
+        private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
-            if (SAV_Trainer != HT_Name || SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region)
+            if (SAV_Trainer != HT_Name || SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region || SAV_GENDER != HT_Gender)
                 TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             CurrentHandler = 1;
 
             // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
             if (HT_Memory == 0)
-                TradeMemory();
+                TradeMemory(Bank);
+        }
+        // Misc Updates
+        private void UpdateEgg(int Day, int Month, int Year)
+        {
+            Egg_Location = 30002;
+            Egg_Day = Day;
+            Egg_Month = Month;
+            Egg_Year = Year;
         }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {
@@ -645,10 +653,10 @@ namespace PKHeX
             Geo1_Country = Country;
             Geo1_Region = Region;
         }
-        private void TradeMemory()
+        private void TradeMemory(bool Bank)
         {
             HT_Memory = 4; // Link trade to [VAR: General Location]
-            HT_TextVar = 9; // Pokécenter
+            HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
             HT_Intensity = 1;
             HT_Feeling = Util.rand.Next(0, 9);
         }
