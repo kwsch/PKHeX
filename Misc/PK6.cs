@@ -618,6 +618,8 @@ namespace PKHeX
                 TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             CurrentHandler = 1;
+            HT_Name = SAV_Trainer;
+            HT_Gender = SAV_GENDER;
 
             // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
             if (HT_Memory == 0)

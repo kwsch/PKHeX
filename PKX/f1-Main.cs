@@ -2600,6 +2600,13 @@ namespace PKHeX
             int offset = getPKXOffset(slot);
 
             byte[] pkxdata = preparepkx();
+            if (Menu_Modify.Checked)
+            {
+                PK6 pk = new PK6(pkxdata);
+                // TODO: Trade
+                // pk.Trade();
+                pkxdata = pk.Write();
+            }
             byte[] ekxdata = PKX.encryptArray(pkxdata);
 
             if (!SaveGame.ORAS)

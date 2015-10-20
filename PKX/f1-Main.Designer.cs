@@ -328,6 +328,7 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
+            this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -2664,8 +2665,9 @@
             // 
             this.Menu_Options.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_Language,
-            this.Menu_About,
-            this.Menu_Unicode});
+            this.Menu_Unicode,
+            this.Menu_Modify,
+            this.Menu_About});
             this.Menu_Options.Name = "Menu_Options";
             this.Menu_Options.Size = new System.Drawing.Size(61, 20);
             this.Menu_Options.Text = "Options";
@@ -2675,7 +2677,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(186, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2690,14 +2692,14 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(139, 22);
+            this.Menu_About.Size = new System.Drawing.Size(186, 22);
             this.Menu_About.Text = "A&bout PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
             // Menu_Unicode
             // 
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(186, 22);
             this.Menu_Unicode.Text = "Toggle Font";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -3975,6 +3977,15 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
+            // Menu_Modify
+            // 
+            this.Menu_Modify.Checked = true;
+            this.Menu_Modify.CheckOnClick = true;
+            this.Menu_Modify.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_Modify.Name = "Menu_Modify";
+            this.Menu_Modify.Size = new System.Drawing.Size(186, 22);
+            this.Menu_Modify.Text = "Modify on Set to SAV";
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -4404,6 +4415,7 @@
         private System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.Button B_OpenDB;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Modify;
     }
 }
 
