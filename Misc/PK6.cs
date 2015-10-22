@@ -10,12 +10,12 @@ namespace PKHeX
         internal static readonly int SIZE_PARTY = 0x104;
         internal static readonly int SIZE_STORED = 0xE8;
 
-        public PK6(byte[] pkx, string ident = null)
+        public PK6(byte[] decryptedData, string ident = null)
         {
-            Data = (byte[])pkx.Clone();
+            Data = (byte[])decryptedData.Clone();
             Identifier = ident;
-            if (Data.Length != 260)
-                Array.Resize(ref Data, 260);
+            if (Data.Length != SIZE_PARTY)
+                Array.Resize(ref Data, SIZE_PARTY);
         }
 
         // Internal Attributes set on creation
@@ -469,7 +469,7 @@ namespace PKHeX
         public ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
+            for (int i = 8; i < SIZE_STORED; i += 2) // Loop through the entire PK6
                 chk += BitConverter.ToUInt16(Data, i);
 
             return chk;
