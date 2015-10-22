@@ -80,6 +80,7 @@
     <Compile Include="Misc\QR.Designer.cs">
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\SAV6.cs" />
     <Compile Include="PKX\f2-Text.cs">
       <SubType>Form</SubType>
     </Compile>
