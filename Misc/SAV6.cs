@@ -127,14 +127,14 @@ namespace PKHeX
             {
                 switch (Game)
                 {
-                    case 1:
+                    case 0:
                         HeldItem = Offset + 0;
                         KeyItem = Offset + 0x640;
                         TMHM = Offset + 0x7C0;
                         Medicine = Offset + 0x968;
                         Berry = Offset + 0xA68;
                         break;
-                    case 2: 
+                    case 1: 
                         HeldItem = Offset + 0;
                         KeyItem = Offset + 0x640;
                         TMHM = Offset + 0x7C0;
@@ -355,7 +355,7 @@ namespace PKHeX
             int bit = pk6.Species - 1;
             int lang = pk6.Language - 1; if (lang > 5) lang--; // 0-6 language vals
             int origin = pk6.Version;
-            int gender = pk6.Gender;
+            int gender = pk6.Gender % 2; // genderless -> male
             int shiny = pk6.IsShiny ? 1 : 0;
             int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
 
