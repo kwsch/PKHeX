@@ -2397,24 +2397,9 @@ namespace PKHeX
             byte[] sav = SAV.Write();
 
             // Chunk Error Checking
-            byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
-            for (int i = 0; i < sav.Length / 0x200; i++)
-            {
-                if (!FFFF.SequenceEqual(sav.Skip(i*0x200).Take(0x200))) continue;
-                string problem = String.Format("0x200 chunk @ 0x{0} is FF'd.", (i * 0x200).ToString("X5"))
-                                    + Environment.NewLine + "Cyber will screw up (as of August 31st)." + Environment.NewLine + Environment.NewLine;
-
-                // Check to see if it is in the Pokedex
-                if (i * 0x200 > SAV.PokeDex && i * 0x200 < SAV.PokeDex + 0x900)
-                {
-                    problem += "Problem lies in the Pokedex. ";
-                    if (i * 0x200 == SAV.PokeDex + 0x400)
-                        problem += "Remove a language flag for a species ~ ex " + specieslist[548];
-                }
-
-                if (Util.Prompt(MessageBoxButtons.YesNo, problem, "Continue saving?") != DialogResult.Yes)
-                    return;
-            }
+            string err = SAV.checkChunkFF();
+            if (err.Length > 0 && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
+                return;
 
             SaveFileDialog cySAV = new SaveFileDialog();
             // Try for file path

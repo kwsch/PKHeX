@@ -471,5 +471,28 @@ namespace PKHeX
             for (int i = 0; i < len; i++)
                 setData(sorted[i], Box + i * PK6.SIZE_STORED);
         }
+
+        // Writeback Validity
+        public string checkChunkFF()
+        {
+            string r = "";
+            byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
+            for (int i = 0; i < Data.Length / 0x200; i++)
+            {
+                if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
+                r = String.Format("0x200 chunk @ 0x{0} is FF'd.", (i * 0x200).ToString("X5"))
+                                    + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
+
+                // Check to see if it is in the Pokedex
+                if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
+                {
+                    r += "Problem lies in the Pokedex. ";
+                    if (i * 0x200 == PokeDex + 0x400)
+                        r += "Remove a language flag for a species < 585, ie Petilil";
+                }
+                break;
+            }
+            return r;
+        }
     }
 }
