@@ -46,9 +46,8 @@ namespace PKHeX
             Width = shortWidth;
 
             // Initialize Boxes
-            byte[] ezeros = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
             for (int i = 0; i < 30*31; i++)
-                SAV.setEK6Stored(ezeros, SAV.Box + i*PK6.SIZE_STORED);
+                SAV.setEK6Stored(blankEK6, SAV.Box + i*PK6.SIZE_STORED);
 
             // Initialize Tab Storage with Default Data (to skip Move check)
             pk6.Move1 = 1;
@@ -188,11 +187,11 @@ namespace PKHeX
         }
 
         #region Global Variables: Always Visible!
+        public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
         public static PK6 pk6 = new PK6(new byte[PK6.SIZE_PARTY]); // Tab Pokemon Data Storage
         public static SAV6 SAV = new SAV6(new byte[0x760000]);
-        public static byte[] originalSAV; // original save
-        public static byte[] ramsav;
-        public static bool savedited;
+        public static byte[] originalSAV; // original save for CyberGadget Codes
+        public static byte[] ramsav; // original ramsav for ramsav exporting
         public string pathSDF;
         public string path3DS;
         public pk2pk Converter = new pk2pk();
@@ -232,10 +231,7 @@ namespace PKHeX
         public static string[] wallpapernames, puffs, itempouch = { };
         public static string curlanguage = "en";
         public static bool unicode;
-        public ToolTip Tip1 = new ToolTip();
-        public ToolTip Tip2 = new ToolTip();
-        public ToolTip Tip3 = new ToolTip();
-        public ToolTip NatureTip = new ToolTip();
+        public ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
         private PictureBox[] SlotPictureBoxes;
         #endregion
@@ -432,7 +428,7 @@ namespace PKHeX
                 {
                     try
                     {
-                        byte[] blank = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
+                        byte[] blank = (byte[])blankEK6.Clone();
 
                         for (int i = 0; i < PK6.SIZE_STORED; i++)
                             blank[i] ^= input[i];
@@ -664,7 +660,7 @@ namespace PKHeX
             GB_SAVtools.Enabled =
                 B_JPEG.Enabled = true;
 
-            savedited = false;
+            SAV.Edited = false;
             Menu_ToggleBoxUI.Visible = false;
 
             B_VerifyCHK.Enabled = ramsav == null;
@@ -677,7 +673,7 @@ namespace PKHeX
             GB_SUBE.Visible = !oras;
             B_OpenSecretBase.Visible = oras;
 
-            int startBox = SAV.CurrentBox;
+            int startBox = SAV.CurrentBox; // FF if BattleBox
             if (startBox > 30) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
             else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
 
@@ -1231,7 +1227,7 @@ namespace PKHeX
                     : 0).ToString();
             }
             else
-            (new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV})[index].Text =
+            new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV}[index].Text =
                 ((e.Button == MouseButtons.Left) ? 31 : 0).ToString();
         }
         private void clickIV(object sender, EventArgs e)
@@ -2387,7 +2383,7 @@ namespace PKHeX
         // Integrity Checks // 
         private void clickVerifyCHK(object sender, EventArgs e)
         {
-            if (savedited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
+            if (SAV.Edited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
 
             RTB_S.Text += PKX.verifyG6CHK(SAV.Data);
         }
@@ -2527,7 +2523,7 @@ namespace PKHeX
                 {
                     try
                     {
-                        byte[] blank = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
+                        byte[] blank = (byte[])blankEK6.Clone();
 
                         for (int i = 0; i < PK6.SIZE_STORED; i++)
                             blank[i] = (byte)(pk6.Data[i] ^ blank[i]);
@@ -2634,7 +2630,12 @@ namespace PKHeX
             }
 
             // Write final value back to the save
-            SAV.DaycareRNGSeed = Convert.ToUInt64(TB_RNGSeed.Text, 16);
+            ulong value = Convert.ToUInt64(TB_RNGSeed.Text, 16);
+            if (value != SAV.DaycareRNGSeed)
+            {
+                SAV.DaycareRNGSeed = value;
+                SAV.Edited = true;
+            }            
         }
         private void refreshTrainerInfo()
         {
@@ -2746,12 +2747,12 @@ namespace PKHeX
             {
                 CB_BoxSelect.Items.Clear();
                 for (int i = 0; i < 31; i++)
-                    CB_BoxSelect.Items.Add(Encoding.Unicode.GetString(SAV.Data, SAV.PCLayout + 0x22 * i, 0x22));
+                    CB_BoxSelect.Items.Add(SAV.getBoxName(i));
             }
             catch
             {
                 CB_BoxSelect.Items.Clear();
-                for (int i = 1; i < 32; i++)
+                for (int i = 1; i < 31; i++)
                     CB_BoxSelect.Items.Add("Box " + i);
             }
             CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
@@ -2914,9 +2915,8 @@ namespace PKHeX
             if (dr == DialogResult.Cancel) return;
             if (dr == DialogResult.Yes)
             {
-                byte[] ezeros = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
                 for (int i = ctr; i < 30 * 31; i++)
-                    SAV.setEK6Stored(ezeros, offset + i * PK6.SIZE_STORED);
+                    SAV.setEK6Stored(blankEK6, offset + i * PK6.SIZE_STORED);
             }
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
 
@@ -3399,14 +3399,14 @@ namespace PKHeX
                 pkm_from_offset = 0; // Clear offset value
             }
 
-            savedited = true;
+            SAV.Edited = true;
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data != null)
                 e.Effect = DragDropEffects.Move;
         }
-        private byte[] pkm_from = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
+        private byte[] pkm_from = (byte[])blankEK6.Clone();
         private int pkm_from_offset;
         private int pkm_from_slot = -1;
         #endregion

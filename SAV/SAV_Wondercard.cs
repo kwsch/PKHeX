@@ -180,7 +180,7 @@ namespace PKHeX
             }
 
             Array.Copy(sav, Main.SAV.Data, sav.Length);
-            Main.savedited = true;
+            Main.SAV.Edited = true;
             Close();
         }
 

@@ -206,7 +206,7 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.PSSStats + 0x140, 4); // write pss
             Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.SecretBase + 0x62C, 4); // write counter
             Array.Copy(sav, Main.SAV.Data, sav.Length);
-            Main.savedited = true;
+            Main.SAV.Edited = true;
             Close();
         }
         private void B_GiveDecor_Click(object sender, EventArgs e)

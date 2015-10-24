@@ -100,6 +100,7 @@ namespace PKHeX
         private void B_Close_Click(object sender, EventArgs e)
         {
             Array.Copy(data, 0, Main.SAV.Data, Main.SAV.HoF, data.Length);
+            Main.SAV.Edited = true;
             Close();
         }
         private void displayEntry(object sender, EventArgs e)

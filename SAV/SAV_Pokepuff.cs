@@ -150,7 +150,7 @@ namespace PKHeX
             }
             Array.Copy(puffarray, 0, sav, Main.SAV.Puff, 100);
             Array.Copy(sav, Main.SAV.Data, sav.Length);
-            Main.savedited = true;
+            Main.SAV.Edited = true;
             Close();
         }
     }

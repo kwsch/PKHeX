@@ -150,7 +150,7 @@ namespace PKHeX
             }
             Array.Copy(bagarray, 0, sav, Main.SAV.SuperTrain + 0x308, 12);
             Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
-            Main.savedited = true;
+            Main.SAV.Edited = true;
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

@@ -64,7 +64,7 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             Array.Copy(sav, Main.SAV.Data, sav.Length);
-            Main.savedited = true;
+            Main.SAV.Edited = true;
             Close();
         }
 

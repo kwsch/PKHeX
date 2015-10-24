@@ -173,6 +173,7 @@ namespace PKHeX
 
             // Return back to the parent savefile
             Array.Copy(sav, Main.SAV.Data, sav.Length);
+            Main.SAV.Edited = true;
             Close();
         }
         private void saveChanges()

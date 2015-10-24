@@ -600,7 +600,7 @@ namespace PKHeX
         {
             save();
             Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
-            Main.savedited = true;
+            Main.SAV.Edited = true;
             Close();
         }
         private void B_MaxCash_Click(object sender, EventArgs e)

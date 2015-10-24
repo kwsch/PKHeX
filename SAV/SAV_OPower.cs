@@ -98,6 +98,7 @@ namespace PKHeX
             Main.SAV.Data[o + 0x19] = Convert.ToByte(CHK_6.Checked);
             Main.SAV.Data[o + 0x26] = Convert.ToByte(CHK_7.Checked);
             Main.SAV.Data[o + 0x2B] = Convert.ToByte(CHK_8.Checked);
+            Main.SAV.Edited = true;
         }
         private int getIndex(int o, int l)
         {

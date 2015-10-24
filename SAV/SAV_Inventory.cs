@@ -282,7 +282,7 @@ namespace PKHeX
         {
             saveBag(sender);
             Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
-            Main.savedited = true;
+            Main.SAV.Edited = true;
             Close();
         }
     }

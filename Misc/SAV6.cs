@@ -26,6 +26,7 @@ namespace PKHeX
         // Save Data Attributes
         public byte[] Data;
         public bool Exportable;
+        public bool Edited;
         public SAV6(byte[] data)
         {
             Exportable = !data.SequenceEqual(new byte[data.Length]);
@@ -226,7 +227,7 @@ namespace PKHeX
             setChecksums();
             return Data;
         }
-        public int CurrentBox { get { return Data[LastViewedBox] & 0x1F; } set { Data[LastViewedBox] = (byte)value; } }
+        public int CurrentBox { get { return Data[LastViewedBox]; } set { Data[LastViewedBox] = (byte)value; } }
 
         // Player Information
         public ushort TID { get { return BitConverter.ToUInt16(Data, TrainerCard + 0); } }
@@ -310,6 +311,7 @@ namespace PKHeX
             byte[] ek6 = encryptArray(pk6.Data);
             Array.Resize(ref ek6, PK6.SIZE_PARTY);
             setData(ek6, offset);
+            Edited = true;
         }
         public void setPK6Stored(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
@@ -321,6 +323,7 @@ namespace PKHeX
             byte[] ek6 = encryptArray(pk6.Data);
             Array.Resize(ref ek6, PK6.SIZE_STORED);
             setData(ek6, offset);
+            Edited = true;
         }
         public void setEK6Stored(byte[] ek6, int offset, bool? trade = null, bool? dex = null)
         {
@@ -332,6 +335,7 @@ namespace PKHeX
 
             Array.Resize(ref ek6, PK6.SIZE_STORED);
             setData(ek6, offset);
+            Edited = true;
         }
 
         // Meta
@@ -396,6 +400,10 @@ namespace PKHeX
         public int getBoxWallpaper(int box)
         {
             return 1 + Data[BoxWallpapers + box];
+        }
+        public string getBoxName(int box)
+        {
+            return Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22).Trim();
         }
         public void setParty()
         {
