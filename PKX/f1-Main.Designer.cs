@@ -1095,7 +1095,6 @@
             // 
             // Label_EncounterType
             // 
-            this.Label_EncounterType.Enabled = false;
             this.Label_EncounterType.Location = new System.Drawing.Point(25, 138);
             this.Label_EncounterType.Name = "Label_EncounterType";
             this.Label_EncounterType.Size = new System.Drawing.Size(77, 13);
