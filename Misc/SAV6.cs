@@ -13,6 +13,9 @@ namespace PKHeX
     }
     public class SAV6 : PKX
     {
+        // Global Settings
+        internal static bool SetUpdatePokedex = true;
+        internal static bool SetUpdatePK6 = true;
         // Save Data Attributes
         public byte[] Data;
         public bool Exportable;
@@ -307,41 +310,47 @@ namespace PKHeX
         {
             return new PK6(decryptArray(getData(offset, PK6.SIZE_STORED)));
         }
-        public void setPK6Party(PK6 pk6, int offset, bool trade = true)
+        public void setPK6Party(PK6 pk6, int offset, bool? trade = null)
         {
-            if (trade)
+            if (SetUpdatePK6 || (trade ?? false))
             {
                 // Apply to this Save File
                 // pk6.Trade();
                 // pk6.Write();
             }
-            setPokeDex(pk6);
+            if (SetUpdatePokedex)
+                setPokeDex(pk6);
+
             byte[] ek6 = encryptArray(pk6.Data);
             setData(ek6, offset);
         }
-        public void setPK6Stored(PK6 pk6, int offset, bool trade = true)
+        public void setPK6Stored(PK6 pk6, int offset, bool? trade = null)
         {
-            if (trade)
+            if (SetUpdatePK6 || (trade ?? false))
             {
                 // Apply to this Save File
                 // pk6.Trade();
                 // pk6.Write();
             }
-            setPokeDex(pk6);
+            if (SetUpdatePokedex)
+                setPokeDex(pk6);
+
             byte[] ek6 = encryptArray(pk6.Data);
             Array.Resize(ref ek6, PK6.SIZE_STORED);
             setData(ek6, offset);
         }
-        public void setEK6Stored(byte[] ek6, int offset, bool trade = true)
+        public void setEK6Stored(byte[] ek6, int offset, bool? trade = null)
         {
             PK6 pk6 = new PK6(decryptArray(ek6));
-            if (trade)
+            if (SetUpdatePK6 || (trade ?? false))
             {
                 // Apply to this Save File
                 // pk6.Trade();
                 // pk6.Write();
             }
-            setPokeDex(pk6);
+            if (SetUpdatePokedex)
+                setPokeDex(pk6);
+
             Array.Resize(ref ek6, PK6.SIZE_STORED);
             setData(ek6, offset);
         }
