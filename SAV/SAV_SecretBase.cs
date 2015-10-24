@@ -10,7 +10,7 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.savefile.Clone();
+            sav = (byte[])Main.SAV.Data.Clone();
             abilitylist = Main.abilitylist;
 
             setupComboBoxes();
@@ -19,7 +19,7 @@ namespace PKHeX
 
             LB_Favorite.SelectedIndex = 0;
             // MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString(); PSS Stat transmitted
-            MT_Flags.Text = BitConverter.ToUInt32(sav, Main.SaveGame.SecretBase + 0x62C).ToString(); // read counter
+            MT_Flags.Text = BitConverter.ToUInt32(sav, Main.SAV.SecretBase + 0x62C).ToString(); // read counter
             B_SAV2FAV(null, null);
         }
         public byte[] sav;
@@ -68,8 +68,8 @@ namespace PKHeX
         {
             LB_Favorite.Items.Clear();
 
-            int playeroff = Main.SaveGame.SecretBase + 0x326;
-            int favoff = Main.SaveGame.SecretBase + 0x63A;
+            int playeroff = Main.SAV.SecretBase + 0x326;
+            int favoff = Main.SAV.SecretBase + 0x63A;
             string OT = Util.TrimFromZero(Encoding.Unicode.GetString(sav, playeroff + 0x218, 0x1A));
             LB_Favorite.Items.Add("* " + OT);
             for (int i = 0; i < 30; i++)
@@ -85,10 +85,10 @@ namespace PKHeX
             loading = true;
             int index = LB_Favorite.SelectedIndex;
             if (index < 0) return;
-            int offset = Main.SaveGame.SecretBase + 0x25A;
+            int offset = Main.SAV.SecretBase + 0x25A;
 
             // Base Offset Changing
-            if (index == 0) offset = Main.SaveGame.SecretBase + 0x326;
+            if (index == 0) offset = Main.SAV.SecretBase + 0x326;
             else offset += 0x3E0 * index;
 
             string TrainerName = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x218, 0x1A));
@@ -142,11 +142,11 @@ namespace PKHeX
             if (LB_Favorite.Items[index].ToString().Substring(LB_Favorite.Items[index].ToString().Length - 5, 5) == "Empty")
             { Util.Error("Sorry, no overwriting an empty base with someone else's."); return; }
             if (index < 0) return;
-            int offset = Main.SaveGame.SecretBase + 0x25A;
+            int offset = Main.SAV.SecretBase + 0x25A;
 
             // Base Offset Changing
             if (index == 0)
-                offset = Main.SaveGame.SecretBase + 0x326;
+                offset = Main.SAV.SecretBase + 0x326;
             else offset += 0x3E0 * index;
 
             string TrainerName = TB_FOT.Text;
@@ -203,9 +203,9 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             uint flags = Util.ToUInt32(MT_Flags);
-            Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SaveGame.PSSStats + 0x140, 4); // write pss
-            Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SaveGame.SecretBase + 0x62C, 4); // write counter
-            Array.Copy(sav, Main.savefile, sav.Length);
+            Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.PSSStats + 0x140, 4); // write pss
+            Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.SecretBase + 0x62C, 4); // write counter
+            Array.Copy(sav, Main.SAV.Data, sav.Length);
             Main.savedited = true;
             Close();
         }
@@ -216,8 +216,8 @@ namespace PKHeX
                 // int qty = BitConverter.ToUInt16(sav, offset + i * 4);
                 // int has = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
 
-                sav[Main.SaveGame.SecretBase + i * 4] = 25;
-                sav[Main.SaveGame.SecretBase + i * 4 + 2] = 1;
+                sav[Main.SAV.SecretBase + i * 4] = 25;
+                sav[Main.SAV.SecretBase + i * 4 + 2] = 1;
             }
         }
 
@@ -471,7 +471,7 @@ namespace PKHeX
             if (LB_Favorite.SelectedIndex < 1) { Util.Alert("Cannot delete your Secret Base."); return; }
             int index = LB_Favorite.SelectedIndex - 1;
 
-            int favoff = Main.SaveGame.SecretBase + 0x63A;
+            int favoff = Main.SAV.SecretBase + 0x63A;
             string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(sav, favoff + index * 0x3E0 + 0x218, 0x1A));
             if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                 BaseTrainer = "Empty";

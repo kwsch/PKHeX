@@ -10,7 +10,7 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.savefile.Clone();
+            sav = (byte[])Main.SAV.Data.Clone();
 
             getListItems();
             getListKeyItems();
@@ -40,7 +40,7 @@ namespace PKHeX
         // Initialize String Tables
         private void getListItems()
         {
-            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
+            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
             item_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 item_val[i] = Main.itemlist[itemlist[i]];
@@ -48,7 +48,7 @@ namespace PKHeX
         }
         private void getListKeyItems()
         {
-            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY;
+            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY;
             keyitem_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 keyitem_val[i] = Main.itemlist[itemlist[i]];
@@ -56,7 +56,7 @@ namespace PKHeX
         }
         private void getListTMHM()
         {
-            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_TMHM_ORAS : Legal.Pouch_TMHM_XY;
+            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_TMHM_ORAS : Legal.Pouch_TMHM_XY;
             tmhm_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 tmhm_val[i] = Main.itemlist[itemlist[i]];
@@ -64,7 +64,7 @@ namespace PKHeX
         }
         private void getListMedicine()
         {
-            ushort[] itemlist = (Main.SaveGame.ORAS) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
+            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
             medicine_val = new string[itemlist.Length];
             for (int i = 0; i < itemlist.Length; i++)
                 medicine_val[i] = Main.itemlist[itemlist[i]];
@@ -82,27 +82,27 @@ namespace PKHeX
         // Populate DataGrid
         private void popItems()
         {
-            int offset = Main.SaveGame.Items.HeldItem;
+            int offset = Main.SAV.Items.HeldItem;
             populateList(item_val, offset, item_val.Length - 1); // max 400
         }
         private void popKeyItems()
         {
-            int offset = Main.SaveGame.Items.KeyItem;
+            int offset = Main.SAV.Items.KeyItem;
             populateList(keyitem_val, offset, keyitem_val.Length - 1); // max 96
         }
         private void popTMHM()
         {
-            int offset = Main.SaveGame.Items.TMHM;
+            int offset = Main.SAV.Items.TMHM;
             populateList(tmhm_val, offset, tmhm_val.Length - 1);
         }
         private void popMedicine()
         {
-            int offset = Main.SaveGame.Items.Medicine;
+            int offset = Main.SAV.Items.Medicine;
             populateList(medicine_val, offset, medicine_val.Length - 1); // 64 total slots
         }
         private void popBerries()
         {
-            int offset = Main.SaveGame.Items.Berry;
+            int offset = Main.SAV.Items.Berry;
             populateList(berries_val, offset, berries_val.Length - 1); // 102 slots
         }
 
@@ -171,15 +171,15 @@ namespace PKHeX
         {
             int offset = 0;
             if (B_DisplayItems.ForeColor == Color.Red)
-                offset = Main.SaveGame.Items.HeldItem;
+                offset = Main.SAV.Items.HeldItem;
             else if (B_DisplayKeyItems.ForeColor == Color.Red)
-                offset = Main.SaveGame.Items.KeyItem;
+                offset = Main.SAV.Items.KeyItem;
             else if (B_DisplayTMHM.ForeColor == Color.Red)
-                offset = Main.SaveGame.Items.TMHM;
+                offset = Main.SAV.Items.TMHM;
             else if (B_DisplayMedicine.ForeColor == Color.Red)
-                offset = Main.SaveGame.Items.Medicine;
+                offset = Main.SAV.Items.Medicine;
             else if (B_DisplayBerries.ForeColor == Color.Red)
-                offset = Main.SaveGame.Items.Berry;
+                offset = Main.SAV.Items.Berry;
 
             // Fetch Data
             int itemcount = dataGridView1.Rows.Count;
@@ -281,7 +281,7 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveBag(sender);
-            Array.Copy(sav, Main.savefile, Main.savefile.Length);
+            Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
             Main.savedited = true;
             Close();
         }

@@ -220,8 +220,9 @@
             this.Menu_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
-            this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Save = new System.Windows.Forms.Label();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
@@ -328,7 +329,8 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
-            this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyPK6 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -2665,8 +2667,8 @@
             // 
             this.Menu_Options.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_Language,
-            this.Menu_Unicode,
             this.Menu_Modify,
+            this.Menu_Unicode,
             this.Menu_About});
             this.Menu_Options.Name = "Menu_Options";
             this.Menu_Options.Size = new System.Drawing.Size(61, 20);
@@ -2677,7 +2679,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(186, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2687,21 +2689,30 @@
             this.CB_MainLanguage.Size = new System.Drawing.Size(121, 23);
             this.CB_MainLanguage.SelectedIndexChanged += new System.EventHandler(this.changeMainLanguage);
             // 
+            // Menu_Unicode
+            // 
+            this.Menu_Unicode.Name = "Menu_Unicode";
+            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Text = "Toggle Font";
+            this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
+            // 
+            // Menu_Modify
+            // 
+            this.Menu_Modify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_ModifyDex,
+            this.Menu_ModifyPK6});
+            this.Menu_Modify.Name = "Menu_Modify";
+            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Text = "Set to SAV";
+            // 
             // Menu_About
             // 
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(186, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "A&bout PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
-            // 
-            // Menu_Unicode
-            // 
-            this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(186, 22);
-            this.Menu_Unicode.Text = "Toggle Font";
-            this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
             // testToolStripMenuItem
             // 
@@ -3977,14 +3988,25 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
-            // Menu_Modify
+            // Menu_ModifyDex
             // 
-            this.Menu_Modify.Checked = true;
-            this.Menu_Modify.CheckOnClick = true;
-            this.Menu_Modify.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(186, 22);
-            this.Menu_Modify.Text = "Modify on Set to SAV";
+            this.Menu_ModifyDex.Checked = true;
+            this.Menu_ModifyDex.CheckOnClick = true;
+            this.Menu_ModifyDex.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ModifyDex.Name = "Menu_ModifyDex";
+            this.Menu_ModifyDex.Size = new System.Drawing.Size(159, 22);
+            this.Menu_ModifyDex.Text = "Modify Pokédex";
+            this.Menu_ModifyDex.Click += new System.EventHandler(this.Menu_ModifyDex_Click);
+            // 
+            // Menu_ModifyPK6
+            // 
+            this.Menu_ModifyPK6.Checked = true;
+            this.Menu_ModifyPK6.CheckOnClick = true;
+            this.Menu_ModifyPK6.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ModifyPK6.Name = "Menu_ModifyPK6";
+            this.Menu_ModifyPK6.Size = new System.Drawing.Size(159, 22);
+            this.Menu_ModifyPK6.Text = "Modify PK6 Info";
+            this.Menu_ModifyPK6.Click += new System.EventHandler(this.Menu_ModifyPK6_Click);
             // 
             // Main
             // 
@@ -4416,6 +4438,8 @@
         private System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.Button B_OpenDB;
         private System.Windows.Forms.ToolStripMenuItem Menu_Modify;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ModifyDex;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ModifyPK6;
     }
 }
 

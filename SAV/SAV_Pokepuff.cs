@@ -9,7 +9,7 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.savefile.Clone();
+            sav = (byte[])Main.SAV.Data.Clone();
 
             pfa = Main.puffs;
             pfa[0] = "---";
@@ -61,9 +61,9 @@ namespace PKHeX
             for (int i = 0; i < 100; i++)
             {
                 dgv.Rows[i].Cells[0].Value = (i + 1).ToString();
-                dgv.Rows[i].Cells[1].Value = pfa[sav[Main.SaveGame.Puff + i]];
+                dgv.Rows[i].Cells[1].Value = pfa[sav[Main.SAV.Puff + i]];
             }
-            MT_CNT.Text = BitConverter.ToUInt32(sav, Main.SaveGame.Puff + 100).ToString("0");
+            MT_CNT.Text = BitConverter.ToUInt32(sav, Main.SAV.Puff + 100).ToString("0");
         }
         private void dropclick(object sender, DataGridViewCellEventArgs e)
         {
@@ -88,7 +88,7 @@ namespace PKHeX
             for (int i = 0; i < 100; i++)
                 newpuffs[i] = (byte) (Util.rnd32()%basemod + basepuff);
 
-            Array.Copy(newpuffs, 0, sav, Main.SaveGame.Puff, 100);
+            Array.Copy(newpuffs, 0, sav, Main.SAV.Puff, 100);
             Setup();
         }
         private void B_None_Click(object sender, EventArgs e)
@@ -99,7 +99,7 @@ namespace PKHeX
             newpuffs[2] = 3;
             newpuffs[3] = 4;
             newpuffs[4] = 5;
-            Array.Copy(newpuffs, 0, sav, Main.SaveGame.Puff, 100);
+            Array.Copy(newpuffs, 0, sav, Main.SAV.Puff, 100);
             Setup();
         }
         private void B_Sort_Click(object sender, EventArgs e)
@@ -130,7 +130,7 @@ namespace PKHeX
                 Array.Sort(puffarray);
                 Array.Resize(ref puffarray, 100);
             }
-            Array.Copy(puffarray, 0, sav, Main.SaveGame.Puff, 100);
+            Array.Copy(puffarray, 0, sav, Main.SAV.Puff, 100);
             Setup();
         }
         private void B_Save_Click(object sender, EventArgs e)
@@ -148,8 +148,8 @@ namespace PKHeX
 
                 puffarray[i - emptyslots] = (byte) Array.IndexOf(pfa, puff);
             }
-            Array.Copy(puffarray, 0, sav, Main.SaveGame.Puff, 100);
-            Array.Copy(sav, Main.savefile, sav.Length);
+            Array.Copy(puffarray, 0, sav, Main.SAV.Puff, 100);
+            Array.Copy(sav, Main.SAV.Data, sav.Length);
             Main.savedited = true;
             Close();
         }

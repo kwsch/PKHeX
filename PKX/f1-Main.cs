@@ -21,6 +21,9 @@ namespace PKHeX
             #region Initialize Form
             pk6.RefreshChecksum();
             InitializeComponent();
+            // Initialize SAV-Set Parameters in case compilation settings were changed.
+            SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
+            SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
             SlotPictureBoxes = new[] {
                                     bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
                                     bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
@@ -43,9 +46,9 @@ namespace PKHeX
             Width = shortWidth;
 
             // Initialize Boxes
-            byte[] ezeros = PKX.encryptArray(new byte[232]);
-            for (int i = 0; i < 30 * 31; i++)
-                Array.Copy(ezeros, 0, savefile, SaveGame.Box + i * 0xE8, 0xE8);
+            byte[] ezeros = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
+            for (int i = 0; i < 30*31; i++)
+                SAV.setEK6Stored(ezeros, SAV.Box + i*PK6.SIZE_STORED);
 
             // Initialize Tab Storage with Default Data (to skip Move check)
             pk6.Move1 = 1;
@@ -185,11 +188,9 @@ namespace PKHeX
         }
 
         #region Global Variables: Always Visible!
-        public static PK6 pk6 = new PK6(new byte[260]); // Tab Pokemon Data Storage
-        public static byte[] savefile = new byte[0x760000]; // required to initialize the program
-        public static PKX.SaveGame SaveGame = new PKX.SaveGame("ORAS");
+        public static PK6 pk6 = new PK6(new byte[PK6.SIZE_PARTY]); // Tab Pokemon Data Storage
+        public static SAV6 SAV = new SAV6(new byte[0x760000]);
         public static byte[] originalSAV; // original save
-        public static byte[] powersave; // raw Powersave file
         public static byte[] ramsav;
         public static bool savedited;
         public string pathSDF;
@@ -362,11 +363,11 @@ namespace PKHeX
             byte[] data = CodeGen.returnArray;
             if (data == null) return;
             byte[] decdata = PKX.decryptArray(data);
-            Array.Copy(decdata, pk6.Data, 232);
+            Array.Copy(decdata, pk6.Data, PK6.SIZE_STORED);
             try { populateFields(pk6.Data); }
             catch
             {
-                Array.Copy(new byte[232], pk6.Data, 232);
+                Array.Copy(new byte[PK6.SIZE_STORED], pk6.Data, PK6.SIZE_STORED);
                 populateFields(pk6.Data);
                 Util.Error("Imported code did not decrypt properly", "Please verify that what you imported was correct.");
             }
@@ -375,7 +376,7 @@ namespace PKHeX
         {
             frmReport ReportForm = new frmReport();
             ReportForm.Show();
-            ReportForm.PopulateData(savefile, SaveGame.Box);
+            ReportForm.PopulateData(SAV.Data, SAV.Box);
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
@@ -400,6 +401,14 @@ namespace PKHeX
             if (PKX.getGender(Label_CTGender.Text) < 2)
                 Label_CTGender.Text = gendersymbols[PKX.getGender(Label_CTGender.Text)];
         }
+        private void Menu_ModifyDex_Click(object sender, EventArgs e)
+        {
+            SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
+        }
+        private void Menu_ModifyPK6_Click(object sender, EventArgs e)
+        {
+            SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
+        }
 
         // Main Menu Subfunctions
         private void openQuick(string path)
@@ -423,9 +432,9 @@ namespace PKHeX
                 {
                     try
                     {
-                        byte[] blank = PKX.encryptArray(new byte[260]);
+                        byte[] blank = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
 
-                        for (int i = 0; i < 232; i++)
+                        for (int i = 0; i < PK6.SIZE_STORED; i++)
                             blank[i] ^= input[i];
 
                         openFile(blank, path, ext);
@@ -446,9 +455,9 @@ namespace PKHeX
 
             #region Saves
             if ((input.Length == 0x76000) && BitConverter.ToUInt32(input, 0x75E10) == 0x42454546) // ORAS
-                openMAIN(input, path, "ORAS", true);
+                openMAIN(input, path);
             else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input, 0x65410) == 0x42454546) // XY
-                openMAIN(input, path, "XY", false);
+                openMAIN(input, path);
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
             {
@@ -456,34 +465,24 @@ namespace PKHeX
                     return; // only if a save is loaded we abort
                 if (BitConverter.ToUInt64(input, 0x10) != 0) // encrypted save
                 { Util.Error("PKHeX only edits decrypted save files.", "This save file is not decrypted."); return; }
+                
+                DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
+                int savshift = 0;
+                if (sdr == DialogResult.Yes)
+                    savshift += 0x7F000;
+                if (sdr == DialogResult.Cancel)
+                    return;
+                byte[] psdata = input.Skip(0x5400 + savshift).Take(0x76000).ToArray();
+                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != 0x42454546)
+                    Array.Resize(ref psdata, 0x65600);
+                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != 0x42454546)
+                    return;
 
-                string GameType = "XY"; // Default Game Type to load.
-                if (BitConverter.ToUInt32(input, 0x7B210) == 0x42454546) GameType = "ORAS"; // BEEF magic in checksum block
-                if ((BitConverter.ToUInt32(input, 0x100) != 0x41534944) && (BitConverter.ToUInt32(input, 0x5234) != 0x6E69616D))
-                {
-                    DialogResult dialogResult = Util.Prompt(MessageBoxButtons.YesNo, "Save file is not decrypted.", "Press Yes to ignore this warning and continue loading the save file.");
-                    if (dialogResult != DialogResult.Yes) return;
-
-                    DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
-                    if (sdr == DialogResult.Cancel) return;
-
-                    open1MB(input, path, GameType, false);
-                }
-                else
-                {
-                    DialogResult dialogResult = Util.Prompt(MessageBoxButtons.YesNo, "Hash verification failed.", "Press Yes to ignore this warning and continue loading the save file.");
-                    if (dialogResult != DialogResult.Yes) return;
-
-                    DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
-                    if (sdr == DialogResult.Cancel)
-                        return; // abort load
-
-                    open1MB(input, path, GameType, false);
-                }
+                openMAIN(psdata, path);
             }
             #endregion
             #region PK6/EK6
-            else if ((input.Length == 260) || (input.Length == 232))
+            else if ((input.Length == PK6.SIZE_PARTY) || (input.Length == PK6.SIZE_STORED))
             {
                 // Check if Input is PKX
                 if ((ext == ".pk6") || (ext == ".ek6") || (ext == ".pkx") || (ext == ".ekx") || (ext == ".bin") || (ext == ""))
@@ -502,12 +501,12 @@ namespace PKHeX
                 try // to convert g5pkm
                 {
                     byte[] data = Converter.ConvertPKM(input);
-                    Array.Resize(ref data, 232);
+                    Array.Resize(ref data, PK6.SIZE_STORED);
                     populateFields(data);
                 }
                 catch
                 {
-                    populateFields(new byte[232]);
+                    populateFields(new byte[PK6.SIZE_STORED]);
                     Util.Error("Attempted to load previous generation PKM.", "Conversion failed.");
                 }
             }
@@ -516,28 +515,27 @@ namespace PKHeX
             else if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
             {
                 // EAD Packet of 363 length
-                Array.Copy(input, 0x67, pk6.Data, 0, 0xE8);
-                Array.Resize(ref pk6.Data, 232);
+                Array.Copy(input, 0x67, pk6.Data, 0, PK6.SIZE_STORED);
+                Array.Resize(ref pk6.Data, PK6.SIZE_STORED);
                 populateFields(pk6.Data);
             }
             else if (input.Length == 407 && BitConverter.ToUInt16(input, 0x98) == 0)
             {
                 // EAD Packet of 407 length
-                Array.Copy(input, 0x93, pk6.Data, 0, 0xE8);
-                Array.Resize(ref pk6.Data, 232);
+                Array.Copy(input, 0x93, pk6.Data, 0, PK6.SIZE_STORED);
+                Array.Resize(ref pk6.Data, PK6.SIZE_STORED);
                 populateFields(pk6.Data);
             }
             #endregion
             #region Box Data
-            else if ((input.Length == 0xE8 * 30 || input.Length == 0xE8 * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input , 8) > 0)
+            else if ((input.Length == PK6.SIZE_STORED * 30 || input.Length == PK6.SIZE_STORED * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input, 8) > 0)
             {
-                int baseOffset = SaveGame.Box + 0xE8*30*((input.Length == 0xE8*30) ? CB_BoxSelect.SelectedIndex : 0);
-                for (int i = 0; i < input.Length / 0xE8; i++)
+                int baseOffset = SAV.Box + PK6.SIZE_STORED * 30 * ((input.Length == PK6.SIZE_STORED * 30) ? CB_BoxSelect.SelectedIndex : 0);
+                for (int i = 0; i < input.Length / PK6.SIZE_STORED; i++)
                 {
-                    byte[] data = input.Skip(0xE8*i).Take(0xE8).ToArray();
-                    Array.Copy(data, 0, savefile, baseOffset + i*0xE8, 0xE8);
-                    setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
-                } 
+                    byte[] data = input.Skip(PK6.SIZE_STORED * i).Take(PK6.SIZE_STORED).ToArray();
+                    SAV.setEK6Stored(data, baseOffset + i * PK6.SIZE_STORED);
+                }
                 setPKXBoxes();
                 Width = largeWidth;
                 Util.Alert("Box Binary loaded."); 
@@ -549,7 +547,7 @@ namespace PKHeX
                 int offset = -1; // Seek to find data start
                 for (int i = 0; i < 0x800; i++)
                 {
-                    byte[] data = PKX.decryptArray(input.Skip(i).Take(0xE8).ToArray());
+                    byte[] data = PKX.decryptArray(input.Skip(i).Take(PK6.SIZE_STORED).ToArray());
                     if (PKX.getCHK(data) != BitConverter.ToUInt16(data, 6)) continue;
                     offset = i; break;
                 }
@@ -557,9 +555,8 @@ namespace PKHeX
                 CB_BoxSelect.SelectedIndex = 0;
                 for (int i = 0; i < input.Length / (9*30); i++)
                 {
-                    byte[] data = input.Skip(offset + 0xE8 * i).Take(0xE8).ToArray();
-                    Array.Copy(data, 0, savefile, SaveGame.Box + i*0xE8, 0xE8);
-                    setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
+                    byte[] data = input.Skip(offset + PK6.SIZE_STORED * i).Take(PK6.SIZE_STORED).ToArray();
+                    SAV.setEK6Stored(data, SAV.Box + i * PK6.SIZE_STORED);
                 }
                 setPKXBoxes();
                 Width = largeWidth;
@@ -574,9 +571,8 @@ namespace PKHeX
                     for (int i = 0x60000; i < 0x64000; i+=4)
                         if (BitConverter.ToUInt32(input, i) == 0x42454546) { Array.Resize(ref input, 0x70000); break; }
 
-                bool o = (input.Length == 0x80000);
                 ramsav = (byte[])input.Clone();
-                try { openMAIN(ram2sav.getMAIN(input), path, (o) ? "ORAS" : "XY", o, true); }
+                try { openMAIN(ram2sav.getMAIN(input), path); }
                 catch { ramsav = null; }
             }
             #endregion
@@ -586,9 +582,8 @@ namespace PKHeX
                 if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
                 for (int i = 0; i < 24; i++)
                 {
-                    byte[] data = input.Skip(0xE18 + 260*i + (i/6)*8).Take(0xE8).ToArray();
-                    Array.Copy(data, 0, savefile, SaveGame.Box + i * 0xE8 + CB_BoxSelect.SelectedIndex * 30 * 0xE8, 0xE8);
-                    setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
+                    byte[] data = input.Skip(0xE18 + PK6.SIZE_PARTY * i + (i / 6) * 8).Take(PK6.SIZE_STORED).ToArray();
+                    SAV.setEK6Stored(data, SAV.Box + i*PK6.SIZE_STORED + CB_BoxSelect.SelectedIndex*30*PK6.SIZE_STORED);
                 }
                 setPKXBoxes();
                 Width = largeWidth;
@@ -601,31 +596,17 @@ namespace PKHeX
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path, "File Size:" + Environment.NewLine + new FileInfo(path).Length.ToString("X8"));
         }
-        private void openMAIN(byte[] input, string path, string GameType, bool oras, bool ram = false)
+        private void openMAIN(byte[] input, string path, bool ram = false)
         {
             if (!ram)
                 ramsav = null;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new PKX.SaveGame(GameType);
+            SAV = new SAV6(input);
 
             // Load CyberGadget
-            savefile = input;
-            powersave = null;
             B_ExportSAV.Enabled = true;
-            savefile = input;
 
-            openSave(oras);
-        }
-        private void open1MB(byte[] input, string path, string GameType, bool oras)
-        {
-            ramsav = null;
-            L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SaveGame = new PKX.SaveGame(GameType);
-
-            powersave = input;
-            savefile = input.Skip(0x5400).Take(oras ? 0x76000 : 0x65600).ToArray();
-
-            openSave(oras);
+            openSave(SAV.ORAS);
         }
         private bool openXOR(byte[] input, string path)
         {
@@ -665,12 +646,10 @@ namespace PKHeX
                         Array.Resize(ref decryptedPS, 0x65600); // set to X/Y size
                 else Array.Resize(ref decryptedPS, 0x76000); // set to ORAS size just in case
 
-                // Save file is now decrypted! Reset the loading variables.
-                bool oras = (decryptedPS.Length == 0x76000);
-                string GameType = oras ? "ORAS" : "XY";
+                // Save file is now decrypted!
 
                 // Trigger Loading of the decrypted save file.
-                openMAIN(decryptedPS, path, GameType, oras);
+                openMAIN(decryptedPS, path);
 
                 // Abort the opening of a non-cyber file.
                 return true;
@@ -697,8 +676,8 @@ namespace PKHeX
             // Version Exclusive Editors
             GB_SUBE.Visible = !oras;
             B_OpenSecretBase.Visible = oras;
-            
-            int startBox = savefile[SaveGame.PCLayout + 0x43F] & 0x1F;
+
+            int startBox = SAV.CurrentBox;
             if (startBox > 30) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
             else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
 
@@ -1169,7 +1148,7 @@ namespace PKHeX
 
                 if (ekx == null) return;
 
-                if (ekx.Length != 232) { Util.Alert("Decoded data not 232 bytes.", String.Format("QR Data Size: {0}", ekx.Length)); }
+                if (ekx.Length != PK6.SIZE_STORED) { Util.Alert(String.Format("Decoded data not {0} bytes.", PK6.SIZE_STORED), String.Format("QR Data Size: {0}", ekx.Length)); }
                 else try
                     {
                         byte[] pkx = PKX.decryptArray(ekx);
@@ -1184,7 +1163,7 @@ namespace PKHeX
                 byte[] pkx = preparepkx();
                 byte[] ekx = PKX.encryptArray(pkx);
 
-                Array.Resize(ref ekx, 232);
+                Array.Resize(ref ekx, PK6.SIZE_STORED);
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
                 Image qr = Util.getQRImage(ekx, server);
 
@@ -1272,36 +1251,27 @@ namespace PKHeX
         }
         private void clickOT(object sender, EventArgs e)
         {
-            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, SaveGame.TrainerCard + 0x48, 0x1A));
+            string OT = SAV.OT;
             if (OT.Length <= 0) return;
 
             TB_OT.Text = OT;
             // Set Gender Label
-            int g6trgend = savefile[SaveGame.TrainerCard + 0x5];
-            Label_OTGender.Text = g6trgend == 1 ? gendersymbols[1] : gendersymbols[0];
+            Label_OTGender.Text = SAV.Gender == 1 ? gendersymbols[1] : gendersymbols[0];
 
-            // Get TID/SID
-            TB_TID.Text = BitConverter.ToUInt16(savefile, SaveGame.TrainerCard + 0).ToString();
-            TB_SID.Text = BitConverter.ToUInt16(savefile, SaveGame.TrainerCard + 2).ToString();
-            int game = savefile[SaveGame.TrainerCard + 0x4];
-            int subreg = savefile[SaveGame.TrainerCard + 0x26];
-            int country = savefile[SaveGame.TrainerCard + 0x27];
-            int _3DSreg = savefile[SaveGame.TrainerCard + 0x2C];
-            int lang = savefile[SaveGame.TrainerCard + 0x2D];
-
-            // CB_GameOrigin.SelectedValue = game;
-
-            CB_GameOrigin.SelectedValue = game;
-            CB_SubRegion.SelectedValue = subreg;
-            CB_Country.SelectedValue = country;
-            CB_3DSReg.SelectedValue = _3DSreg;
-            CB_Language.SelectedValue = lang;
+            // Get Save Information
+            TB_TID.Text = SAV.TID.ToString();
+            TB_SID.Text = SAV.SID.ToString();
+            CB_GameOrigin.SelectedValue = SAV.Game;
+            CB_SubRegion.SelectedValue = SAV.SubRegion;
+            CB_Country.SelectedValue = SAV.Country;
+            CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
+            CB_Language.SelectedValue = SAV.Language;
             updateNickname(null, null);
         }
         private void clickCT(object sender, EventArgs e)
         {
             if (TB_OTt2.Text.Length > 0)
-                Label_CTGender.Text = gendersymbols[savefile[SaveGame.TrainerCard + 0x5]];
+                Label_CTGender.Text = gendersymbols[SAV.Gender];
         }
         private void clickGT(object sender, EventArgs e)
         {
@@ -2155,7 +2125,7 @@ namespace PKHeX
             if (click)
                 tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
 
-            // Repopulate PKX with Edited Stuff
+            // Repopulate PK6 with Edited Stuff
             if (Util.getIndex(CB_GameOrigin) < 24)
             {
                 uint EC = Util.getHEXval(TB_EC);
@@ -2233,7 +2203,6 @@ namespace PKHeX
             // Block B
             // Convert Nickname field back to bytes
             pk6.Nickname = TB_Nickname.Text;
-            // 0x58, 0x59 unused
             pk6.Move1 = Util.getIndex(CB_Move1);
             pk6.Move2 = Util.getIndex(CB_Move2);
             pk6.Move3 = Util.getIndex(CB_Move3);
@@ -2278,7 +2247,7 @@ namespace PKHeX
             else          // 1
                 pk6.HT_Friendship = Util.ToInt32(TB_Friendship.Text);
 
-            int egg_year = 2000;                                   // Dates
+            int egg_year = 2000;                                   // Default Dates
             int egg_month = 0;
             int egg_day = 0;
             int egg_location = 0;
@@ -2298,7 +2267,7 @@ namespace PKHeX
             pk6.Met_Year = CAL_MetDate.Value.Year - 2000;
             pk6.Met_Month = CAL_MetDate.Value.Month;
             pk6.Met_Day = CAL_MetDate.Value.Day;
-            pk6.Met_Location = Util.getIndex(CB_MetLocation);    // Locations
+            pk6.Met_Location = Util.getIndex(CB_MetLocation);
 
             if (pk6.IsEgg && pk6.Met_Location == 0)    // If still an egg, it has no hatch location/date. Zero it!
                 pk6.Egg_Year = pk6.Egg_Month = pk6.Egg_Day = 0;
@@ -2317,7 +2286,7 @@ namespace PKHeX
             // 0xE4-0xE7
 
             // Toss in Party Stats
-            Array.Resize(ref pk6.Data, 260);
+            Array.Resize(ref pk6.Data, PK6.SIZE_PARTY);
             pk6.Stat_Level = Util.ToInt32(TB_Level.Text);
             pk6.Stat_HPCurrent = Math.Min(Util.ToInt32(Stat_HP.Text), 65535);
             pk6.Stat_HPMax = Math.Min(Util.ToInt32(Stat_HP.Text), 65535);
@@ -2336,8 +2305,8 @@ namespace PKHeX
             // Hax Illegality
             if (HaX)
             {
-                pk6.Ability = (byte)Util.getIndex(DEV_Ability);                                                // Ability
-                pk6.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);                          // Level
+                pk6.Ability = (byte)Util.getIndex(DEV_Ability);
+                pk6.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);
             }
 
             // Fix Moves if a slot is empty 
@@ -2383,7 +2352,7 @@ namespace PKHeX
                 filename += (e.Button == MouseButtons.Right) ? ".ek6" : ".pk6";
                 dragdata = (e.Button == MouseButtons.Right) ? PKX.encryptArray(preparepkx()) : preparepkx();
                 // Strip out party stats (if they are there)
-                Array.Resize(ref dragdata, 232);
+                Array.Resize(ref dragdata, PK6.SIZE_STORED);
                 // Make file
                 string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
                 try
@@ -2424,21 +2393,16 @@ namespace PKHeX
         {
             if (savedited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
 
-            RTB_S.Text += PKX.verifyG6CHK(savefile);
+            RTB_S.Text += PKX.verifyG6CHK(SAV.Data);
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
             // Set the current box to the save
-            savefile[SaveGame.PCLayout + 0x43F] = (byte)
+            SAV.CurrentBox = 
                 (tabBoxMulti.SelectedIndex == 1 ? 0xFF // If Battle/Party selected
                 : CB_BoxSelect.SelectedIndex); // Box
-            // Create another version of the save file.
 
-            byte[] sav = (byte[])savefile.Clone();
-            // Since we only edited one of the save files, we only have to fix half of the chk/hashes!
-
-            // Fix Checksums
-            PKX.writeG6CHK(sav);
+            byte[] sav = SAV.Write();
 
             // Chunk Error Checking
             byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
@@ -2449,10 +2413,10 @@ namespace PKHeX
                                     + Environment.NewLine + "Cyber will screw up (as of August 31st)." + Environment.NewLine + Environment.NewLine;
 
                 // Check to see if it is in the Pokedex
-                if (i * 0x200 > SaveGame.PokeDex && i * 0x200 < SaveGame.PokeDex + 0x900)
+                if (i * 0x200 > SAV.PokeDex && i * 0x200 < SAV.PokeDex + 0x900)
                 {
                     problem += "Problem lies in the Pokedex. ";
-                    if (i * 0x200 == SaveGame.PokeDex + 0x400)
+                    if (i * 0x200 == SAV.PokeDex + 0x400)
                         problem += "Remove a language flag for a species ~ ex " + specieslist[548];
                 }
 
@@ -2556,29 +2520,20 @@ namespace PKHeX
             { System.Media.SystemSounds.Exclamation.Play(); return; }
 
             // Load the PKX file
-            if (BitConverter.ToUInt64(savefile, offset + 8) != 0)
+            PK6 pk = SAV.getPK6Stored(offset);
+            if (pk.Sanity == 0 && pk.Species != 0)
             {
-                byte[] ekxdata = new byte[0xE8];
-                Array.Copy(savefile, offset, ekxdata, 0, 0xE8);
-                byte[] pkxdata = PKX.decryptArray(ekxdata);
-                int species = BitConverter.ToInt16(pkxdata, 0x08); // Get Species
-                if (species == 0)
-                {
-                    System.Media.SystemSounds.Exclamation.Play();
-                    return;
-                }
                 try
-                {
-                    Array.Resize(ref pkxdata, 0xE8);
-                    populateFields(pkxdata);
+                { 
+                    populateFields(pk.Data);
                 }
                 catch // If it fails, try XORing encrypted zeroes
                 {
                     try
                     {
-                        byte[] blank = PKX.encryptArray(new byte[0xE8]);
+                        byte[] blank = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
 
-                        for (int i = 0; i < 0xE8; i++)
+                        for (int i = 0; i < PK6.SIZE_STORED; i++)
                             blank[i] = (byte)(pk6.Data[i] ^ blank[i]);
 
                         populateFields(blank);
@@ -2600,16 +2555,7 @@ namespace PKHeX
             int offset = getPKXOffset(slot);
 
             byte[] pkxdata = preparepkx();
-            if (Menu_Modify.Checked)
-            {
-                PK6 pk = new PK6(pkxdata);
-                // TODO: Trade
-                // pk.Trade();
-                pkxdata = pk.Write();
-            }
-            byte[] ekxdata = PKX.encryptArray(pkxdata);
-
-            if (!SaveGame.ORAS)
+            if (!SAV.ORAS)
             {
                 PK6 pk = new PK6(pkxdata);
                 // User Protection
@@ -2625,33 +2571,27 @@ namespace PKHeX
                     return;
             }
             if (slot >= 30 && slot < 36) // Party
-                Array.Copy(ekxdata, 0, savefile, offset, 0x104);
+                SAV.setPK6Party(new PK6(pkxdata), offset);
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
-                Array.Copy(ekxdata, 0, savefile, offset, 0xE8);
+                SAV.setPK6Stored(new PK6(pkxdata), offset);
             else return;
             
-            if (slot >= 30 && slot < 36) setParty();
-            else getQuickFiller(SlotPictureBoxes[slot], pkxdata);
-
-            setPokedex(pkxdata);
-            savedited = true;
+            if (slot >= 30 && slot < 36) 
+                setParty();
+            else 
+                getQuickFiller(SlotPictureBoxes[slot], pkxdata);
 
             getSlotColor(slot, Properties.Resources.slotSet);
         }
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
-            if (slot == 30 && setParty() == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
-            int offset = getPKXOffset(slot);
-
-            byte[] ekxdata = PKX.encryptArray(new byte[0x104]);
-
-            savedited = true;
-
+            if (slot == 30 && SAV.PartyCount == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
+            
             if (slot >= 30 && slot < 36) // Party
-            { Array.Copy(ekxdata, 0, savefile, offset, 0x104); setParty(); return; }
+            { SAV.setPK6Party(new PK6(new byte[PK6.SIZE_PARTY]), getPKXOffset(slot)); setParty(); return; }
             if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
-            { Array.Copy(ekxdata, 0, savefile, offset, 0xE8); }
+            { SAV.setPK6Stored(new PK6(new byte[PK6.SIZE_STORED]), getPKXOffset(slot)); }
             else return;
 
             SlotPictureBoxes[slot].Image = null;
@@ -2664,26 +2604,19 @@ namespace PKHeX
 
             byte[] pkxdata;
             int box = CB_BoxSelect.SelectedIndex + 1; // get box we're cloning to
-            {
-                if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?", box)) == DialogResult.Yes)
-                {
-                    pkxdata = preparepkx();
-                    setPokedex(pkxdata);
-                }
-                else if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Pokemon from all slots in Box {0}?", box)) == DialogResult.Yes)
-                    pkxdata = new Byte[0xE8];
-                else
-                    return; // abort clone/delete
-            }
 
-            byte[] ekxdata = PKX.encryptArray(pkxdata);
+            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?", box)) == DialogResult.Yes)
+                pkxdata = preparepkx();
+            else if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Pokemon from all slots in Box {0}?", box)) == DialogResult.Yes)
+                pkxdata = new Byte[PK6.SIZE_STORED];
+            else
+                return; // abort clone/delete
+
             for (int i = 0; i < 30; i++) // write encrypted array to all box slots
-                Array.Copy(ekxdata, 0, savefile, getPKXOffset(i), 0xE8);
-
-            for (int i = 0; i < 30; i++)
+            {
+                SAV.setPK6Stored(new PK6(pkxdata), getPKXOffset(i));
                 getQuickFiller(SlotPictureBoxes[i], pkxdata);
-
-            savedited = true;
+            }
         }
         private void updateEggRNGSeed(object sender, EventArgs e)
         {
@@ -2693,7 +2626,7 @@ namespace PKHeX
             {
                 Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_RNGSeed.Text);
                 // Reset to Stored Value
-                TB_RNGSeed.Text = BitConverter.ToUInt64(savefile, SaveGame.DaycareSlot[DaycareSlot] + 0x1E8).ToString("X16");
+                TB_RNGSeed.Text = SAV.DaycareRNGSeed.ToString("X16");
                 return; // recursively triggers this method, no need to continue
             }
 
@@ -2705,124 +2638,41 @@ namespace PKHeX
             }
 
             // Write final value back to the save
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt64(TB_RNGSeed.Text, 16)), 0, savefile, SaveGame.DaycareSlot[DaycareSlot] + 0x1E8, 0x8);
+            SAV.DaycareRNGSeed = Convert.ToUInt64(TB_RNGSeed.Text, 16);
         }
         private void refreshTrainerInfo()
         {
-            // Set Gender Label
-            byte subreg = savefile[SaveGame.TrainerCard + 0x26];
-            byte country = savefile[SaveGame.TrainerCard + 0x27];
-            byte _3DSreg = savefile[SaveGame.TrainerCard + 0x2C];
-            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, SaveGame.TrainerCard + 0x48, 0x1A));
-            byte g6trgend = savefile[SaveGame.TrainerCard + 0x5];
-            Converter.setG6TrainerInfo(subreg, country, _3DSreg, OT, g6trgend);
+            Converter.setG6TrainerInfo(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
         }
-        // Generic Subfunctions // 
-        private void setPokedex(byte[] pkxdata)
+        // Generic Subfunctions //
+        private void setParty()
         {
-            var pk = new PK6(pkxdata);
-
-            int species = pk.Species;
-            int lang = pk.Language - 1; if (lang > 5) lang--; // 0-6 language vals
-            int origin = pk.Version;
-            int gender = pk.Gender;
-            int shiny = pk.IsShiny ? 1 : 0;
-            int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
-
-            // Set the [Species/Gender/Shiny] Owned Flag
-            savefile[SaveGame.PokeDex + shiftoff + (species - 1)/8 + 0x8] |= (byte)(1 << ((species - 1)%8));
-
-            // Owned quality flag
-            if (origin < 0x18 && species < 650 && !SaveGame.ORAS) // Pre 650 for X/Y, and not for ORAS; Set the Foreign Owned Flag
-                savefile[SaveGame.PokeDex + 0x64C + (species - 1)/8] |= (byte)(1 << ((species - 1)%8));
-            else if (origin >= 0x18 || SaveGame.ORAS) // Set Native Owned Flag (should always happen)
-                savefile[SaveGame.PokeDex + (species - 1)/8 + 0x8] |= (byte)(1 << ((species - 1)%8));
-
-            // Set the Display flag if none are set
-            bool[] chk =
-            {
-                // Flag Regions (base index 1 to reference Wiki and editor)
-                (savefile[SaveGame.PokeDex + 0x60*(6-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
-                (savefile[SaveGame.PokeDex + 0x60*(7-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
-                (savefile[SaveGame.PokeDex + 0x60*(8-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
-                (savefile[SaveGame.PokeDex + 0x60*(9-1) + (species - 1)/8 + 0x8] & (byte) (1 << ((species - 1)%8))) != 0,
-            };
-            if (!chk.Contains(true)) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
-                savefile[SaveGame.PokeDex + shiftoff + 0x60*(6-2) + (species - 1)/8 + 0x8] |= (byte)(1 << ((species - 1)%8));
-
-            // Set the Language
-            if (lang < 0) lang = 1;
-            savefile[SaveGame.PokeDex + SaveGame.PokeDexLanguageFlags + ((species - 1)*7 + lang)/8] |= (byte)(1 << ((((species - 1)*7) + lang)%8));
-        }
-        private byte setParty()
-        {
-            byte partymembers = 0; // start off with a ctr of 0
-            for (int i = 0; i < 6; i++)
-            {
-                // Gather all the species
-                byte[] data = new byte[0x104];
-                Array.Copy(savefile, SaveGame.Party + i * 0x104, data, 0, 0x104);
-                byte[] decdata = PKX.decryptArray(data);
-                int species = BitConverter.ToInt16(decdata, 8);
-                if ((species != 0) && (species < 722))
-                    Array.Copy(data, 0, savefile, SaveGame.Party + (partymembers++) * 0x104, 0x104);
-            }
-
-            // Write in the current party count
-            savefile[SaveGame.Party + 6 * 0x104] = partymembers;
-            // Zero out the party slots that are empty.
-            for (int i = 0; i < 6; i++)
-                if (i >= partymembers)
-                    Array.Copy(PKX.encryptArray(new byte[0x104]), 0, savefile, SaveGame.Party + (i * 0x104), 0x104);
-
-            // Repeat for Battle Box.
-            byte battlemem = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                // Gather all the species
-                byte[] data = new byte[0x104];
-                Array.Copy(savefile, SaveGame.BattleBox + i * 0xE8, data, 0, 0xE8);
-                byte[] decdata = PKX.decryptArray(data);
-                int species = BitConverter.ToInt16(decdata, 8);
-                if ((species != 0) && (species < 722))
-                    Array.Copy(data, 0, savefile, SaveGame.BattleBox + (battlemem++) * 0xE8, 0xE8);
-            }
-
-            // Zero out the party slots that are empty.
-            for (int i = 0; i < 6; i++)
-                if (i >= battlemem)
-                    Array.Copy(PKX.encryptArray(new byte[0x104]), 0, savefile, SaveGame.BattleBox + (i * 0xE8), 0xE8);
-
-            if (battlemem == 0)
-                savefile[SaveGame.BattleBox + 6 * 0xE8] = 0;
-
+            SAV.setParty();
             // Refresh slots
             for (int i = 0; i < 6; i++)
             {
-                getQuickFiller(SlotPictureBoxes[i + 30], PKX.decryptArray(savefile.Skip(SaveGame.Party + 260 * i).Take(232).ToArray()));
-                getQuickFiller(SlotPictureBoxes[i + 36], PKX.decryptArray(savefile.Skip(SaveGame.BattleBox + 232 * i).Take(232).ToArray()));
+                getQuickFiller(SlotPictureBoxes[i + 30], SAV.getPK6Stored(SAV.Party + PK6.SIZE_PARTY*i).Data);
+                getQuickFiller(SlotPictureBoxes[i + 36], SAV.getPK6Stored(SAV.BattleBox + PK6.SIZE_STORED*i).Data);
             }
-
-            return partymembers;
         }
         private int getPKXOffset(int slot)
         {
-            int offset = SaveGame.Box + CB_BoxSelect.SelectedIndex * (0xE8 * 30) + slot * 0xE8;
+            int offset = SAV.Box + (30 * CB_BoxSelect.SelectedIndex + slot) * PK6.SIZE_STORED;
 
             if (slot > 29)          // Not a party
             {
                 if (slot < 36)      // Party Slot
-                    offset = SaveGame.Party + (slot - 30) * 0x104;
+                    offset = SAV.Party + (slot - 30) * PK6.SIZE_PARTY;
                 else if (slot < 42) // Battle Box Slot
-                    offset = SaveGame.BattleBox + (slot - 36) * 0xE8;
+                    offset = SAV.BattleBox + (slot - 36) * PK6.SIZE_STORED;
                 else if (slot < 44) // Daycare
-                    offset = SaveGame.DaycareSlot[DaycareSlot] + 8 + (slot - 42) * 0xF0;
+                    offset = SAV.DaycareSlot[DaycareSlot] + 8 + (slot - 42) * (PK6.SIZE_STORED + 8);
                 else if (slot < 45) // GTS
-                    offset = SaveGame.GTS;
+                    offset = SAV.GTS;
                 else if (slot < 46) // Fused
-                    offset = SaveGame.Fused;
+                    offset = SAV.Fused;
                 else                // SUBE
-                    offset = SaveGame.SUBE + (slot - 46) * 0xEC;
+                    offset = SAV.SUBE + (slot - 46) * (PK6.SIZE_STORED + 4);
             }
             return offset;
         }
@@ -2836,33 +2686,33 @@ namespace PKHeX
         }
         private void setPKXBoxes()
         {
-            int boxoffset = SaveGame.Box + CB_BoxSelect.SelectedIndex * (0xE8 * 30);
-
-            int boxbgofst = 0x481E + CB_BoxSelect.SelectedIndex;
-            int boxbgval = 1 + savefile[boxbgofst];
-            string imagename = "box_wp" + boxbgval.ToString("00"); if (SaveGame.ORAS && boxbgval > 16) imagename += "o";
+            int boxoffset = SAV.Box + CB_BoxSelect.SelectedIndex * (PK6.SIZE_STORED * 30);
+            int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
+            string imagename = "box_wp" + boxbgval.ToString("00"); if (SAV.ORAS && boxbgval > 16) imagename += "o";
             PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
 
             for (int i = 0; i < 30; i++)
-                getSlotFiller(boxoffset + 0xE8 * i, SlotPictureBoxes[i]);
+                getSlotFiller(boxoffset + PK6.SIZE_STORED * i, SlotPictureBoxes[i]);
 
             // Reload Party
             for (int i = 0; i < 6; i++)
-                getSlotFiller(SaveGame.Party + 0x104 * i, SlotPictureBoxes[i + 30]);
+                getSlotFiller(SAV.Party + PK6.SIZE_PARTY * i, SlotPictureBoxes[i + 30]);
 
             // Reload Battle Box
             for (int i = 0; i < 6; i++)
-                getSlotFiller(SaveGame.BattleBox + 0xE8 * i, SlotPictureBoxes[i + 36]);
+                getSlotFiller(SAV.BattleBox + PK6.SIZE_STORED * i, SlotPictureBoxes[i + 36]);
 
             // Reload Daycare
             Label[] dclabela = { L_DC1, L_DC2, };
             TextBox[] dctexta = { TB_Daycare1XP, TB_Daycare2XP };
+            var exp = new[] {SAV.DaycareEXP1, SAV.DaycareEXP2};
+            var occ = new[] {SAV.DaycareOccupied1, SAV.DaycareOccupied2};
 
             for (int i = 0; i < 2; i++)
             {
-                getSlotFiller(SaveGame.DaycareSlot[DaycareSlot] + 0xE8 * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
-                dctexta[i].Text = BitConverter.ToUInt32(savefile, SaveGame.DaycareSlot[DaycareSlot] + 0xF0 * i + 4).ToString();
-                if (Convert.ToBoolean(savefile[SaveGame.DaycareSlot[DaycareSlot] + 0xF0 * i]))   // If Occupied
+                getSlotFiller(SAV.DaycareSlot[DaycareSlot] + PK6.SIZE_STORED * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
+                dctexta[i].Text = exp[i].ToString();
+                if (occ[i])   // If Occupied
                     dclabela[i].Text = (i + 1) + ": ✓";
                 else
                 {
@@ -2870,20 +2720,20 @@ namespace PKHeX
                     SlotPictureBoxes[i + 42].Image = Util.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
                 }
             }
-            DayCare_HasEgg.Checked = Convert.ToBoolean(savefile[SaveGame.DaycareSlot[DaycareSlot] + 0x1E0]);
-            TB_RNGSeed.Text = BitConverter.ToUInt64(savefile, SaveGame.DaycareSlot[DaycareSlot] + 0x1E8).ToString("X16");
+            DayCare_HasEgg.Checked = SAV.DaycareHasEgg;
+            TB_RNGSeed.Text = SAV.DaycareRNGSeed.ToString("X16");
 
             // GTS
-            getSlotFiller(SaveGame.GTS, SlotPictureBoxes[44]);
+            getSlotFiller(SAV.GTS, SlotPictureBoxes[44]);
 
             // Fused
-            getSlotFiller(SaveGame.Fused, SlotPictureBoxes[45]);
+            getSlotFiller(SAV.Fused, SlotPictureBoxes[45]);
 
             // SUBE
             for (int i = 0; i < 3; i++)
             {
-                int offset = 0x1D890 + i * 0xEC;
-                if (BitConverter.ToUInt64(savefile, offset) != 0)
+                int offset = SAV.SUBE + i * (PK6.SIZE_STORED + 4);
+                if (BitConverter.ToUInt64(SAV.Data, offset) != 0)
                     getSlotFiller(offset, SlotPictureBoxes[46 + i]);
                 else SlotPictureBoxes[46 + i].Image = null;
             }
@@ -2900,7 +2750,7 @@ namespace PKHeX
             {
                 CB_BoxSelect.Items.Clear();
                 for (int i = 0; i < 31; i++)
-                    CB_BoxSelect.Items.Add(Encoding.Unicode.GetString(savefile, SaveGame.PCLayout + 0x22 * i, 0x22));
+                    CB_BoxSelect.Items.Add(Encoding.Unicode.GetString(SAV.Data, SAV.PCLayout + 0x22 * i, 0x22));
             }
             catch
             {
@@ -2920,15 +2770,13 @@ namespace PKHeX
         }
         private void getSlotFiller(int offset, PictureBox pb)
         {
-            byte[] slotdata = new byte[0xE8];
-            Array.Copy(savefile, offset, slotdata, 0, 0xE8);    // Fill Our EKX Slot
-            if (slotdata.SequenceEqual(new byte[0xE8]))
+            if (SAV.getData(offset, PK6.SIZE_STORED).SequenceEqual(new byte[PK6.SIZE_STORED]))
             {
                 pb.Image = null;
                 pb.BackColor = Color.Transparent;
                 return;
             }
-            PK6 p = new PK6(PKX.decryptArray(slotdata));
+            PK6 p = SAV.getPK6Stored(offset);
             if (p.Sanity != 0 || p.Checksum != p.CalculateChecksum()) // Invalid
             {
                 // Bad Egg present in slot.
@@ -2975,7 +2823,7 @@ namespace PKHeX
             // Fetch encrypted box data
             byte[][] bdata = new byte[len][];
             for (int i = 0; i < len; i++)
-                bdata[i] = savefile.Skip(SaveGame.Box + i*0xE8).Take(0xE8).ToArray();
+                bdata[i] = SAV.getData(SAV.Box + i * PK6.SIZE_STORED, PK6.SIZE_STORED);
 
             // Sorting Method: Data will sort empty slots to the end, then from the filled slots eggs will be last, then species will be sorted.
             var query = from i in bdata
@@ -2989,7 +2837,7 @@ namespace PKHeX
 
             // Write data back
             for (int i = 0; i < len; i++)
-                Array.Copy(sorted[i], 0, savefile, SaveGame.Box + i * 0xE8, 0xE8);
+                SAV.setData(sorted[i], SAV.Box + i * PK6.SIZE_STORED);
 
             setPKXBoxes();
         }
@@ -2997,7 +2845,7 @@ namespace PKHeX
         private int DaycareSlot;
         private void switchDaycare(object sender, EventArgs e)
         {
-            if (!SaveGame.ORAS) return;
+            if (!SAV.ORAS) return;
             if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Would you like to switch the view to the other Daycare?", String.Format("Currently viewing daycare {0}.", DaycareSlot + 1)))
                 // If ORAS, alter the daycare offset via toggle.
                 DaycareSlot ^= 1;
@@ -3005,6 +2853,7 @@ namespace PKHeX
             // Refresh Boxes
             setPKXBoxes();
         }
+
         private void mainMenuBoxDumpLoad(object sender, EventArgs e)
         {
             DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
@@ -3065,28 +2914,26 @@ namespace PKHeX
                 }
             }
         }
-
         private void dumpBoxesToDB(string path, bool individualBoxFolders)
         {
-            const int size = 0xE8;
-            for (int i = 0; i < 31 * 30 * size; i += size)
+            for (int i = 0; i < 31 * 30; i++)
             {
-                PK6 pk = new PK6(PKX.decryptArray(savefile.Skip(SaveGame.Box).Take(size).ToArray()));
+                PK6 pk = SAV.getPK6Stored(SAV.Box + i * PK6.SIZE_STORED);
                 string fileName = Util.CleanFileName(pk.FileName);
                 string boxfolder = "";
                 if (individualBoxFolders)
                 {
-                    boxfolder = "Box" + (((i / size) / 30) + 1);
+                    boxfolder = "Box" + ((i / 30) + 1);
                     Directory.CreateDirectory(Path.Combine(path, boxfolder));
                 }
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
-                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.Data.Take(size).ToArray());
+                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.Data.Take(PK6.SIZE_STORED).ToArray());
             }
         }
         private void loadBoxesFromDB(string path)
         {
             if (path == "") return;
-            int offset = SaveGame.Box;
+            int offset = SAV.Box;
             int ctr = CB_BoxSelect.SelectedIndex * 30;
             int pastctr = 0;
 
@@ -3096,23 +2943,23 @@ namespace PKHeX
             if (dr == DialogResult.Cancel) return;
             if (dr == DialogResult.Yes)
             {
-                byte[] ezeros = PKX.encryptArray(new byte[232]);
+                byte[] ezeros = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
                 for (int i = ctr; i < 30 * 31; i++)
-                    Array.Copy(ezeros, 0, savefile, offset + i * 232, 232);
+                    SAV.setEK6Stored(ezeros, offset + i * PK6.SIZE_STORED);
             }
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
 
             foreach (string t in filepaths)
             {
                 long len = new FileInfo(t).Length;
-                if (len > 260)
+                if (len > PK6.SIZE_PARTY)
                     continue;
                 if (
-                    len != 232 && len != 260 // 6th Gen
+                    len != PK6.SIZE_STORED && len != PK6.SIZE_PARTY // 6th Gen
                     && len != 136 && len != 220 && len != 236 // 5th Gen
                     && len != 100 && len != 80) // 4th Gen
                     continue;
-                byte[] data = new byte[232];
+                byte[] data = new byte[PK6.SIZE_STORED];
                 switch (Path.GetExtension(t)) // Filter all files by extension
                 {
                     case ".pk5":
@@ -3139,7 +2986,7 @@ namespace PKHeX
                         {
                             if (BitConverter.ToUInt16(input, 0x8) == 0) // if species = 0
                                 continue;
-                            Array.Resize(ref input, 232);
+                            Array.Resize(ref input, PK6.SIZE_STORED);
 
                             if (PKX.getCHK(input) != BitConverter.ToUInt16(input, 0x6)) continue;
                             data = PKX.encryptArray(input);
@@ -3150,8 +2997,8 @@ namespace PKHeX
                     case ".ekx":
                     {
                         byte[] input = File.ReadAllBytes(t);
-                        Array.Resize(ref input, 232);
-                        Array.Copy(input, data, 232);
+                        Array.Resize(ref input, PK6.SIZE_STORED);
+                        Array.Copy(input, data, PK6.SIZE_STORED);
                         // check if it is good data
                         byte[] decrypteddata = PKX.decryptArray(input);
 
@@ -3166,8 +3013,7 @@ namespace PKHeX
                     default:
                         continue;
                 }
-                Array.Copy(data, 0, savefile, offset + ctr++ * 232, 232);
-                setPokedex(PKX.decryptArray(data)); // Set the Pokedex data
+                SAV.setEK6Stored(data, offset + ctr++ * PK6.SIZE_STORED);
                 if (ctr == 30 * 31) break; // break out if we have written all 31 boxes
             }
             if (ctr <= 0) return; 
@@ -3191,16 +3037,17 @@ namespace PKHeX
             if (dr == DialogResult.Yes)
             {
                 SaveFileDialog sfd = new SaveFileDialog {Filter = "Box Data|*.bin", FileName = "pcdata.bin"};
-                if (sfd.ShowDialog() == DialogResult.OK) 
-                    File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box).Take(0xE8 * 30 * 31).ToArray());
+                if (sfd.ShowDialog() == DialogResult.OK)
+                    File.WriteAllBytes(sfd.FileName, SAV.getData(SAV.Box, PK6.SIZE_STORED * 30 * 31));
             }
             else if (dr == DialogResult.No)
             {
                 SaveFileDialog sfd = new SaveFileDialog {Filter = "Box Data|*.bin", FileName = "boxdata.bin"};
-                if (sfd.ShowDialog() == DialogResult.OK) 
-                    File.WriteAllBytes(sfd.FileName, savefile.Skip(SaveGame.Box + 0xE8 * 30 * CB_BoxSelect.SelectedIndex).Take(0xE8 * 30).ToArray());
+                if (sfd.ShowDialog() == DialogResult.OK)
+                    File.WriteAllBytes(sfd.FileName, SAV.getData(SAV.Box + PK6.SIZE_STORED * 30 * CB_BoxSelect.SelectedIndex, PK6.SIZE_STORED * 30));
             }
         }
+
         // Subfunction Save Buttons //
         private void B_OpenWondercards_Click(object sender, EventArgs e)
         {
@@ -3229,7 +3076,7 @@ namespace PKHeX
         }
         private void B_OpenBerryField_Click(object sender, EventArgs e)
         {
-            if (SaveGame.ORAS)
+            if (SAV.ORAS)
             {
                 DialogResult dr = Util.Prompt(MessageBoxButtons.YesNo, "No editing support for ORAS :(", "Repopulate all with random berries?");
                 if (dr != DialogResult.Yes) return; // abort
@@ -3246,10 +3093,10 @@ namespace PKHeX
                 };
                 for (int i = 0; i < 90; i++)
                 {
-                    Array.Copy(ready, 0, savefile, SaveGame.BerryField + 0x10 * i, 0x10); // prep the berry template tree (which we replace offset 0x6 for the Tree Item)
+                    Array.Copy(ready, 0, SAV.Data, SAV.BerryField + 0x10 * i, 0x10); // prep the berry template tree (which we replace offset 0x6 for the Tree Item)
                     int randberry = (int)(Util.rnd32() % berrylist.Length); // generate a random berry that will go into the tree
                     int index = berrylist[randberry]; // get berry item ID from list
-                    Array.Copy(BitConverter.GetBytes(index), 0, savefile, SaveGame.BerryField + 0x10 * i + 6, 2); // put berry into tree.
+                    Array.Copy(BitConverter.GetBytes(index), 0, SAV.Data, SAV.BerryField + 0x10 * i + 6, 2); // put berry into tree.
                 }
             }
             else
@@ -3258,7 +3105,7 @@ namespace PKHeX
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
             // Open Flag Menu
-            if (SaveGame.ORAS)
+            if (SAV.ORAS)
                 new SAV_EventFlagsORAS().ShowDialog();
             else
                 new SAV_EventFlagsXY().ShowDialog();
@@ -3271,7 +3118,7 @@ namespace PKHeX
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
             // Open O-Power Menu
-            if (SaveGame.ORAS)
+            if (SAV.ORAS)
             {
                 DialogResult dr = Util.Prompt(MessageBoxButtons.YesNo, "No editing support for ORAS :(", "Max O-Powers with a working code?");
                 if (dr != DialogResult.Yes) return;
@@ -3295,7 +3142,7 @@ namespace PKHeX
                     0x01, 0x01, 0x01, 0x01,
                     0x01, 0x00, 0x00, 0x00, 
                 };
-                Array.Copy(maxoras, 0, savefile, SaveGame.OPower, 0x44);
+                Array.Copy(maxoras, 0, SAV.Data, SAV.OPower, 0x44);
             }
             else
                 new SAV_OPower().ShowDialog();
@@ -3303,7 +3150,7 @@ namespace PKHeX
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
             // Open Pokedex Menu
-            if (SaveGame.ORAS)
+            if (SAV.ORAS)
                 new SAV_PokedexORAS().ShowDialog();
             else
                 new SAV_PokedexXY().ShowDialog();
@@ -3317,7 +3164,7 @@ namespace PKHeX
                                    "PSS Data - Acquaintances",
                                    "PSS Data - Passerby",
                                };
-            int offset = SaveGame.PSS;
+            int offset = SAV.PSS;
             for (int g = 0; g < 3; g++)
             {
                 result += Environment.NewLine
@@ -3329,12 +3176,12 @@ namespace PKHeX
 
                 for (int i = 0; i < 100; i++)
                 {
-                    ulong unkn = BitConverter.ToUInt64(savefile, r_offset);
+                    ulong unkn = BitConverter.ToUInt64(SAV.Data, r_offset);
                     if (unkn == 0) break; // No data present here
                     if (i > 0) result += Environment.NewLine + Environment.NewLine;
 
-                    string otname = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, r_offset + 8, 0x1A));
-                    string message = Util.TrimFromZero(Encoding.Unicode.GetString(savefile, r_offset + 0x22, 0x22));
+                    string otname = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, r_offset + 8, 0x1A));
+                    string message = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, r_offset + 0x22, 0x22));
 
                     // Trim terminated
 
@@ -3342,11 +3189,11 @@ namespace PKHeX
                     // ulong unk2 = BitConverter.ToUInt64(savefile, r_offset + 0x48);
                     // uint unk3 = BitConverter.ToUInt32(savefile, r_offset + 0x50);
                     // uint unk4 = BitConverter.ToUInt16(savefile, r_offset + 0x54);
-                    byte region = savefile[r_offset + 0x56];
-                    byte country = savefile[r_offset + 0x57];
-                    byte game = savefile[r_offset + 0x5A];
+                    byte region = SAV.Data[r_offset + 0x56];
+                    byte country = SAV.Data[r_offset + 0x57];
+                    byte game = SAV.Data[r_offset + 0x5A];
                     // ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
-                    int favpkm = BitConverter.ToUInt16(savefile, r_offset + 0x9C) & 0x7FF;
+                    int favpkm = BitConverter.ToUInt16(SAV.Data, r_offset + 0x9C) & 0x7FF;
                     string gamename;
                     try { gamename = gamelist[game]; }
                     catch { gamename = "UNKNOWN GAME"; }
@@ -3380,11 +3227,11 @@ namespace PKHeX
         }
         private void B_JPEG_Click(object sender, EventArgs e)
         {
-            int offset = SaveGame.JPEG;
-            string filename = Encoding.Unicode.GetString(savefile, offset, 0x1A).Trim();
+            int offset = SAV.JPEG;
+            string filename = Encoding.Unicode.GetString(SAV.Data, offset, 0x1A).Trim();
             filename += "'s picture";
             offset += 0x54;
-            if (savefile[offset] != 0xFF)
+            if (SAV.Data[offset] != 0xFF)
             {
                 Util.Alert("No PGL picture data found in the save file!");
                 return;
@@ -3392,7 +3239,7 @@ namespace PKHeX
             const int length = 0xE004;
 
             byte[] jpeg = new byte[length];
-            Array.Copy(savefile, offset, jpeg, 0, length);
+            Array.Copy(SAV.Data, offset, jpeg, 0, length);
             SaveFileDialog savejpeg = new SaveFileDialog {FileName = filename, Filter = "JPEG|*.jpeg"};
             if (savejpeg.ShowDialog() != DialogResult.OK) return;
             string path = savejpeg.FileName;
@@ -3475,12 +3322,12 @@ namespace PKHeX
             Cursor.Current = Cursors.Hand;
 
             // Prepare Data
-            Array.Copy(savefile, offset, pkm_from, 0, 0xE8);
+            pkm_from = SAV.getData(offset, PK6.SIZE_STORED);
             pkm_from_offset = offset;
 
             // Make a new file name based off the PID
             byte[] dragdata = PKX.decryptArray(pkm_from);
-            Array.Resize(ref dragdata, 0xE8);
+            Array.Resize(ref dragdata, PK6.SIZE_STORED);
             var pkx = new PK6(dragdata, "Boxes");
             string filename = pkx.Nickname;
             if (filename != specieslist[pkx.Species])
@@ -3524,12 +3371,12 @@ namespace PKHeX
                         try // to convert past gen pkm
                         {
                             byte[] data = Converter.ConvertPKM(input);
-                            Array.Copy(PKX.encryptArray(data), 0, savefile, offset, 0xE8);
+                            SAV.setPK6Stored(new PK6(data), offset);
                         }
                         catch
                         { Util.Error("Attempted to load previous generation PKM.", "Conversion failed."); }
                     }
-                    else if (fi.Length == 232 || fi.Length == 260)
+                    else if (fi.Length == PK6.SIZE_STORED || fi.Length == PK6.SIZE_PARTY)
                     {
                         byte[] data = File.ReadAllBytes(files[0]);
                         if (fi.Extension == ".pkx" || fi.Extension == ".pk6")
@@ -3542,8 +3389,7 @@ namespace PKHeX
                             Util.Alert("Attempted to load Invalid File.", "Checksum is not valid.");
                         else
                         {
-                            Array.Copy(data, 0, savefile, offset, 0xE8);
-                            setPokedex(decdata);
+                            SAV.setEK6Stored(data, offset);
                             getQuickFiller(SlotPictureBoxes[slot], decdata);
                             getSlotColor(slot, Properties.Resources.slotSet);
                         }
@@ -3556,28 +3402,27 @@ namespace PKHeX
             {
                 if (ModifierKeys == Keys.Alt && slot > -1) // overwrite delete old slot
                 {
-                    byte[] cleardata = new Byte[0xE8];
+                    byte[] cleardata = new Byte[PK6.SIZE_STORED];
 
                     // Clear from slot picture
                     getQuickFiller(SlotPictureBoxes[pkm_from_slot], cleardata);
 
                     // Clear from slot data
-                    Array.Copy(PKX.encryptArray(cleardata), 0, savefile, pkm_from_offset, 0xE8);
+                    SAV.setPK6Stored(new PK6(cleardata), pkm_from_offset);
                 }
                 else if (ModifierKeys != Keys.Control && slot > -1)
                 {
                     // Load data from destination
-                    byte[] swapdata = new Byte[0xE8];
-                    Array.Copy(savefile, offset, swapdata, 0, 0xE8);
+                    PK6 pk = SAV.getPK6Stored(offset);
 
                     // Swap slot picture
-                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], PKX.decryptArray(swapdata));
+                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], pk.Data);
 
                     // Swap slot data to source
-                    Array.Copy(swapdata, 0, savefile, pkm_from_offset, 0xE8);
+                    SAV.setPK6Stored(pk, pkm_from_offset);
                 }
                 // Copy from temp slot to new.
-                Array.Copy(pkm_from, 0, savefile, offset, 0xE8);
+                SAV.setEK6Stored(pkm_from, offset);
                 getQuickFiller(SlotPictureBoxes[slot], PKX.decryptArray(pkm_from));
 
                 pkm_from_offset = 0; // Clear offset value
@@ -3590,7 +3435,7 @@ namespace PKHeX
             if (e.Data != null)
                 e.Effect = DragDropEffects.Move;
         }
-        private byte[] pkm_from = PKX.encryptArray(new byte[0xE8]);
+        private byte[] pkm_from = PKX.encryptArray(new byte[PK6.SIZE_STORED]);
         private int pkm_from_offset;
         private int pkm_from_slot = -1;
         #endregion

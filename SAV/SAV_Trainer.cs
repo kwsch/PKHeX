@@ -16,8 +16,8 @@ namespace PKHeX
             catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
 
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.savefile.Clone();
-            if (Main.SaveGame.ORAS)
+            sav = (byte[])Main.SAV.Data.Clone();
+            if (Main.SAV.ORAS)
             {
                 Width = (int)((float)Width * 428 / 590);
                 CB_Multi.Enabled = true;
@@ -320,7 +320,7 @@ namespace PKHeX
         private void getBadges()
         {
             // Fetch Badges
-            Bitmap[] bma = (Main.SaveGame.ORAS) ? 
+            Bitmap[] bma = (Main.SAV.ORAS) ? 
                 new[] {
                                    Properties.Resources.badge_01, // ORAS Badges
                                    Properties.Resources.badge_02,  
@@ -349,31 +349,31 @@ namespace PKHeX
         }
         private void getTextBoxes()
         {
-            badgeval = sav[Main.SaveGame.Trainer2 + 0xC];
+            badgeval = sav[Main.SAV.Trainer2 + 0xC];
             CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
             for (int i = 0; i < 8; i++)
                 cba[i].Checked = (badgeval & (1 << i)) != 0;
 
             // Get Data
-            string OT_NAME = Encoding.Unicode.GetString(sav, Main.SaveGame.TrainerCard + 0x48, 0x1A);
+            string OT_NAME = Encoding.Unicode.GetString(sav, Main.SAV.TrainerCard + 0x48, 0x1A);
 
-            CB_Game.SelectedIndex = sav[Main.SaveGame.TrainerCard + 0x04] - 0x18;
-            CB_Gender.SelectedIndex = sav[Main.SaveGame.TrainerCard + 0x05];
+            CB_Game.SelectedIndex = sav[Main.SAV.TrainerCard + 0x04] - 0x18;
+            CB_Gender.SelectedIndex = sav[Main.SAV.TrainerCard + 0x05];
 
-            int TID = BitConverter.ToUInt16(sav, Main.SaveGame.TrainerCard + 0x0);
-            int SID = BitConverter.ToUInt16(sav, Main.SaveGame.TrainerCard + 0x2);
-            uint money = BitConverter.ToUInt32(sav, Main.SaveGame.Trainer2 + 0x8);
+            int TID = BitConverter.ToUInt16(sav, Main.SAV.TrainerCard + 0x0);
+            int SID = BitConverter.ToUInt16(sav, Main.SAV.TrainerCard + 0x2);
+            uint money = BitConverter.ToUInt32(sav, Main.SAV.Trainer2 + 0x8);
 
-            string saying1 = Encoding.Unicode.GetString(sav, Main.SaveGame.TrainerCard + 0x7C, 0x20);
-            string saying2 = Encoding.Unicode.GetString(sav, Main.SaveGame.TrainerCard + 0x9E, 0x20);
-            string saying3 = Encoding.Unicode.GetString(sav, Main.SaveGame.TrainerCard + 0xC0, 0x20);
-            string saying4 = Encoding.Unicode.GetString(sav, Main.SaveGame.TrainerCard + 0xE2, 0x20);
-            string saying5 = Encoding.Unicode.GetString(sav, Main.SaveGame.TrainerCard + 0x104, 0x20);
+            string saying1 = Encoding.Unicode.GetString(sav, Main.SAV.TrainerCard + 0x7C, 0x20);
+            string saying2 = Encoding.Unicode.GetString(sav, Main.SAV.TrainerCard + 0x9E, 0x20);
+            string saying3 = Encoding.Unicode.GetString(sav, Main.SAV.TrainerCard + 0xC0, 0x20);
+            string saying4 = Encoding.Unicode.GetString(sav, Main.SAV.TrainerCard + 0xE2, 0x20);
+            string saying5 = Encoding.Unicode.GetString(sav, Main.SAV.TrainerCard + 0x104, 0x20);
 
-            int _region = sav[Main.SaveGame.TrainerCard + 0x26];
-            int _country = sav[Main.SaveGame.TrainerCard + 0x27];
-            int _3dsreg = sav[Main.SaveGame.TrainerCard + 0x2C];
-            int _language = sav[Main.SaveGame.TrainerCard + 0x2D];
+            int _region = sav[Main.SAV.TrainerCard + 0x26];
+            int _country = sav[Main.SAV.TrainerCard + 0x27];
+            int _3dsreg = sav[Main.SAV.TrainerCard + 0x2C];
+            int _language = sav[Main.SAV.TrainerCard + 0x2D];
 
             // Display Data
             TB_OTName.Text = OT_NAME;
@@ -395,44 +395,44 @@ namespace PKHeX
             CB_Language.SelectedValue = _language;
 
             // Maison Data
-            TB_MCSN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 0).ToString();
-            TB_MCSS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 1).ToString();
+            TB_MCSN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 0).ToString();
+            TB_MCSS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 1).ToString();
 
-            TB_MBSN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 2).ToString();
-            TB_MBSS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 3).ToString();
+            TB_MBSN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 2).ToString();
+            TB_MBSS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 3).ToString();
 
-            TB_MCDN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 4).ToString();
-            TB_MCDS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 5).ToString();
+            TB_MCDN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 4).ToString();
+            TB_MCDS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 5).ToString();
 
-            TB_MBDN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 6).ToString();
-            TB_MBDS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 7).ToString();
+            TB_MBDN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 6).ToString();
+            TB_MBDS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 7).ToString();
 
-            TB_MCTN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 8).ToString();
-            TB_MCTS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 9).ToString();
+            TB_MCTN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 8).ToString();
+            TB_MCTS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 9).ToString();
 
-            TB_MBTN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 10).ToString();
-            TB_MBTS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 11).ToString();
+            TB_MBTN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 10).ToString();
+            TB_MBTS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 11).ToString();
 
-            TB_MCRN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 12).ToString();
-            TB_MCRS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 13).ToString();
+            TB_MCRN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 12).ToString();
+            TB_MCRS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 13).ToString();
 
-            TB_MBRN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 14).ToString();
-            TB_MBRS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 15).ToString();
+            TB_MBRN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 14).ToString();
+            TB_MBRS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 15).ToString();
 
-            TB_MCMN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 16).ToString();
-            TB_MCMS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 17).ToString();
+            TB_MCMN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 16).ToString();
+            TB_MCMS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 17).ToString();
 
-            TB_MBMN.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 18).ToString();
-            TB_MBMS.Text = BitConverter.ToUInt16(sav, Main.SaveGame.MaisonStats + 2 * 19).ToString();
+            TB_MBMN.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 18).ToString();
+            TB_MBMS.Text = BitConverter.ToUInt16(sav, Main.SAV.MaisonStats + 2 * 19).ToString();
 
-            TB_CoordM.Text = BitConverter.ToUInt16(sav, Main.SaveGame.Trainer1 + 0x02).ToString();
-            TB_CoordX.Text = BitConverter.ToSingle(sav, Main.SaveGame.Trainer1 + 0x10).ToString();
-            TB_CoordZ.Text = BitConverter.ToSingle(sav, Main.SaveGame.Trainer1 + 0x14).ToString();
-            TB_CoordY.Text = BitConverter.ToSingle(sav, Main.SaveGame.Trainer1 + 0x18).ToString();
+            TB_CoordM.Text = BitConverter.ToUInt16(sav, Main.SAV.Trainer1 + 0x02).ToString();
+            TB_CoordX.Text = BitConverter.ToSingle(sav, Main.SAV.Trainer1 + 0x10).ToString();
+            TB_CoordZ.Text = BitConverter.ToSingle(sav, Main.SAV.Trainer1 + 0x14).ToString();
+            TB_CoordY.Text = BitConverter.ToSingle(sav, Main.SAV.Trainer1 + 0x18).ToString();
 
             // Load BP and PokeMiles
-            TB_BP.Text = BitConverter.ToUInt32(sav, Main.SaveGame.Trainer2 + 0x3C - 0xC * Convert.ToInt16(Main.SaveGame.ORAS)).ToString();
-            TB_PM.Text = BitConverter.ToUInt32(sav, Main.SaveGame.PSSStats + 0xFC).ToString();
+            TB_BP.Text = BitConverter.ToUInt32(sav, Main.SAV.Trainer2 + 0x3C - 0xC * Convert.ToInt16(Main.SAV.ORAS)).ToString();
+            TB_PM.Text = BitConverter.ToUInt32(sav, Main.SAV.PSSStats + 0xFC).ToString();
 
             // Temp ORAS
             GB_Misc.Visible = true;
@@ -445,35 +445,35 @@ namespace PKHeX
             MT_Seconds.Text = sav[0x6C03].ToString();
 
             // Load PSS Sprite
-            int sprite = sav[Main.SaveGame.TrainerCard + 0x07];
+            int sprite = sav[Main.SAV.TrainerCard + 0x07];
             CB_Multi.SelectedValue = sprite;
             PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject("tr_" + sprite.ToString("00"));
 
             // Load Clothing Data
-            int hat = sav[Main.SaveGame.TrainerCard + 0x31] >> 3;
-            int haircolor = sav[Main.SaveGame.TrainerCard + 0x31] & 7;
+            int hat = sav[Main.SAV.TrainerCard + 0x31] >> 3;
+            int haircolor = sav[Main.SAV.TrainerCard + 0x31] & 7;
             MT_Hat.Text = hat.ToString();
             MT_HairColor.Text = haircolor.ToString();
 
-            MT_14030.Text = sav[Main.SaveGame.TrainerCard + 0x30].ToString();
-            MT_14031.Text = sav[Main.SaveGame.TrainerCard + 0x31].ToString();
-            MT_14032.Text = sav[Main.SaveGame.TrainerCard + 0x32].ToString();
-            MT_14033.Text = sav[Main.SaveGame.TrainerCard + 0x33].ToString();
-            MT_14034.Text = sav[Main.SaveGame.TrainerCard + 0x34].ToString();
-            MT_14035.Text = sav[Main.SaveGame.TrainerCard + 0x35].ToString();
-            MT_14036.Text = sav[Main.SaveGame.TrainerCard + 0x36].ToString();
-            MT_14037.Text = sav[Main.SaveGame.TrainerCard + 0x37].ToString();
-            MT_14038.Text = sav[Main.SaveGame.TrainerCard + 0x38].ToString();
-            MT_14039.Text = sav[Main.SaveGame.TrainerCard + 0x39].ToString();
-            MT_1403A.Text = sav[Main.SaveGame.TrainerCard + 0x3A].ToString();
-            MT_1403B.Text = sav[Main.SaveGame.TrainerCard + 0x3B].ToString();
-            MT_1403C.Text = sav[Main.SaveGame.TrainerCard + 0x3C].ToString();
-            MT_1403D.Text = sav[Main.SaveGame.TrainerCard + 0x3D].ToString();
-            MT_1403E.Text = sav[Main.SaveGame.TrainerCard + 0x3E].ToString();
-            MT_1403F.Text = sav[Main.SaveGame.TrainerCard + 0x3F].ToString();
+            MT_14030.Text = sav[Main.SAV.TrainerCard + 0x30].ToString();
+            MT_14031.Text = sav[Main.SAV.TrainerCard + 0x31].ToString();
+            MT_14032.Text = sav[Main.SAV.TrainerCard + 0x32].ToString();
+            MT_14033.Text = sav[Main.SAV.TrainerCard + 0x33].ToString();
+            MT_14034.Text = sav[Main.SAV.TrainerCard + 0x34].ToString();
+            MT_14035.Text = sav[Main.SAV.TrainerCard + 0x35].ToString();
+            MT_14036.Text = sav[Main.SAV.TrainerCard + 0x36].ToString();
+            MT_14037.Text = sav[Main.SAV.TrainerCard + 0x37].ToString();
+            MT_14038.Text = sav[Main.SAV.TrainerCard + 0x38].ToString();
+            MT_14039.Text = sav[Main.SAV.TrainerCard + 0x39].ToString();
+            MT_1403A.Text = sav[Main.SAV.TrainerCard + 0x3A].ToString();
+            MT_1403B.Text = sav[Main.SAV.TrainerCard + 0x3B].ToString();
+            MT_1403C.Text = sav[Main.SAV.TrainerCard + 0x3C].ToString();
+            MT_1403D.Text = sav[Main.SAV.TrainerCard + 0x3D].ToString();
+            MT_1403E.Text = sav[Main.SAV.TrainerCard + 0x3E].ToString();
+            MT_1403F.Text = sav[Main.SAV.TrainerCard + 0x3F].ToString();
 
             // Vivillon
-            byte vivillon = sav[Main.SaveGame.Vivillon];
+            byte vivillon = sav[Main.SAV.Vivillon];
             CB_Vivillon.SelectedIndex = vivillon;
         }
         private void save()
@@ -481,8 +481,8 @@ namespace PKHeX
             string OT_Name = TB_OTName.Text;
             //string RIV_Name = TB_Rival.Text;
 
-            sav[Main.SaveGame.TrainerCard + 0x04] = (byte)(CB_Game.SelectedIndex + 0x18);
-            sav[Main.SaveGame.TrainerCard + 0x05] = (byte)CB_Gender.SelectedIndex;
+            sav[Main.SAV.TrainerCard + 0x04] = (byte)(CB_Game.SelectedIndex + 0x18);
+            sav[Main.SAV.TrainerCard + 0x05] = (byte)CB_Gender.SelectedIndex;
 
             uint TID = Util.ToUInt32(MT_TID.Text);
             uint SID = Util.ToUInt32(MT_SID.Text);
@@ -499,21 +499,21 @@ namespace PKHeX
             uint _3dsreg = Util.ToUInt32(CB_3DSReg.SelectedValue.ToString());
             uint _language = Util.ToUInt32(CB_Language.SelectedValue.ToString());
 
-            Array.Copy(BitConverter.GetBytes(TID), 0, sav, Main.SaveGame.TrainerCard + 0x0, 2);
-            Array.Copy(BitConverter.GetBytes(SID), 0, sav, Main.SaveGame.TrainerCard + 0x2, 2);
-            Array.Copy(BitConverter.GetBytes(money), 0, sav, Main.SaveGame.Trainer2 + 0x8, 4);
-            Array.Copy(BitConverter.GetBytes(_region), 0, sav, Main.SaveGame.TrainerCard + 0x26, 1);
-            Array.Copy(BitConverter.GetBytes(_country), 0, sav, Main.SaveGame.TrainerCard + 0x27, 1);
-            Array.Copy(BitConverter.GetBytes(_3dsreg), 0, sav, Main.SaveGame.TrainerCard + 0x2C, 1);
-            Array.Copy(BitConverter.GetBytes(_language), 0, sav, Main.SaveGame.TrainerCard + 0x2D, 1);
+            Array.Copy(BitConverter.GetBytes(TID), 0, sav, Main.SAV.TrainerCard + 0x0, 2);
+            Array.Copy(BitConverter.GetBytes(SID), 0, sav, Main.SAV.TrainerCard + 0x2, 2);
+            Array.Copy(BitConverter.GetBytes(money), 0, sav, Main.SAV.Trainer2 + 0x8, 4);
+            Array.Copy(BitConverter.GetBytes(_region), 0, sav, Main.SAV.TrainerCard + 0x26, 1);
+            Array.Copy(BitConverter.GetBytes(_country), 0, sav, Main.SAV.TrainerCard + 0x27, 1);
+            Array.Copy(BitConverter.GetBytes(_3dsreg), 0, sav, Main.SAV.TrainerCard + 0x2C, 1);
+            Array.Copy(BitConverter.GetBytes(_language), 0, sav, Main.SAV.TrainerCard + 0x2D, 1);
 
-            Array.Copy(Encoding.Unicode.GetBytes(OT_Name.PadRight(13, '\0')), 0, sav, Main.SaveGame.TrainerCard + 0x48, 0x1A);
+            Array.Copy(Encoding.Unicode.GetBytes(OT_Name.PadRight(13, '\0')), 0, sav, Main.SAV.TrainerCard + 0x48, 0x1A);
 
-            Array.Copy(Encoding.Unicode.GetBytes(saying1.PadRight(17, '\0')), 0, sav, Main.SaveGame.TrainerCard + 0x7C, 0x22);
-            Array.Copy(Encoding.Unicode.GetBytes(saying2.PadRight(17, '\0')), 0, sav, Main.SaveGame.TrainerCard + 0x9E, 0x22);
-            Array.Copy(Encoding.Unicode.GetBytes(saying3.PadRight(17, '\0')), 0, sav, Main.SaveGame.TrainerCard + 0xC0, 0x22);
-            Array.Copy(Encoding.Unicode.GetBytes(saying4.PadRight(17, '\0')), 0, sav, Main.SaveGame.TrainerCard + 0xE2, 0x22);
-            Array.Copy(Encoding.Unicode.GetBytes(saying5.PadRight(17, '\0')), 0, sav, Main.SaveGame.TrainerCard + 0x104, 0x22);
+            Array.Copy(Encoding.Unicode.GetBytes(saying1.PadRight(17, '\0')), 0, sav, Main.SAV.TrainerCard + 0x7C, 0x22);
+            Array.Copy(Encoding.Unicode.GetBytes(saying2.PadRight(17, '\0')), 0, sav, Main.SAV.TrainerCard + 0x9E, 0x22);
+            Array.Copy(Encoding.Unicode.GetBytes(saying3.PadRight(17, '\0')), 0, sav, Main.SAV.TrainerCard + 0xC0, 0x22);
+            Array.Copy(Encoding.Unicode.GetBytes(saying4.PadRight(17, '\0')), 0, sav, Main.SAV.TrainerCard + 0xE2, 0x22);
+            Array.Copy(Encoding.Unicode.GetBytes(saying5.PadRight(17, '\0')), 0, sav, Main.SAV.TrainerCard + 0x104, 0x22);
 
             // New stuff.
             // Copy Maison Data in
@@ -526,17 +526,17 @@ namespace PKHeX
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
             for (int i = 0; i < tba.Length; i++)
-                Array.Copy(BitConverter.GetBytes(UInt16.Parse(tba[i].Text)), 0, sav, Main.SaveGame.MaisonStats + 2 * i, 2);
+                Array.Copy(BitConverter.GetBytes(UInt16.Parse(tba[i].Text)), 0, sav, Main.SAV.MaisonStats + 2 * i, 2);
 
             // Copy Position
-            Array.Copy(BitConverter.GetBytes(UInt16.Parse(TB_CoordM.Text)), 0, sav, Main.SaveGame.Trainer1 + 0x02, 2); // m
-            Array.Copy(BitConverter.GetBytes(Single.Parse(TB_CoordX.Text)), 0, sav, Main.SaveGame.Trainer1 + 0x10, 4); // x
-            Array.Copy(BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)), 0, sav, Main.SaveGame.Trainer1 + 0x14, 4); // y
-            Array.Copy(BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)), 0, sav, Main.SaveGame.Trainer1 + 0x18, 4); // z
+            Array.Copy(BitConverter.GetBytes(UInt16.Parse(TB_CoordM.Text)), 0, sav, Main.SAV.Trainer1 + 0x02, 2); // m
+            Array.Copy(BitConverter.GetBytes(Single.Parse(TB_CoordX.Text)), 0, sav, Main.SAV.Trainer1 + 0x10, 4); // x
+            Array.Copy(BitConverter.GetBytes(Single.Parse(TB_CoordZ.Text)), 0, sav, Main.SAV.Trainer1 + 0x14, 4); // y
+            Array.Copy(BitConverter.GetBytes(Single.Parse(TB_CoordY.Text)), 0, sav, Main.SAV.Trainer1 + 0x18, 4); // z
 
-            Array.Copy(BitConverter.GetBytes(UInt16.Parse(TB_BP.Text)), 0, sav, 0x963C - 0xC * Convert.ToInt16(Main.SaveGame.ORAS), 2);
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)), 0, sav, Main.SaveGame.PSSStats + 0xFC, 4);
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)), 0, sav, Main.SaveGame.PSSStats + 0x100, 4);
+            Array.Copy(BitConverter.GetBytes(UInt16.Parse(TB_BP.Text)), 0, sav, 0x963C - 0xC * Convert.ToInt16(Main.SAV.ORAS), 2);
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)), 0, sav, Main.SAV.PSSStats + 0xFC, 4);
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)), 0, sav, Main.SAV.PSSStats + 0x100, 4);
             sav[0x694D] = Byte.Parse(TB_Style.Text);
 
             // Copy Badges
@@ -552,28 +552,28 @@ namespace PKHeX
             sav[0x6C03] = (byte)(UInt16.Parse(MT_Seconds.Text) % 60);
 
             // Sprite
-            sav[Main.SaveGame.TrainerCard + 0x07] = Convert.ToByte(CB_Multi.SelectedValue);
+            sav[Main.SAV.TrainerCard + 0x07] = Convert.ToByte(CB_Multi.SelectedValue);
 
             // Appearance
-            sav[Main.SaveGame.TrainerCard + 0x30] = Byte.Parse(MT_14030.Text);
-            sav[Main.SaveGame.TrainerCard + 0x31] = (byte)(Byte.Parse(MT_HairColor.Text) + (Byte.Parse(MT_Hat.Text) << 3));
-            sav[Main.SaveGame.TrainerCard + 0x32] = Byte.Parse(MT_14032.Text);
-            sav[Main.SaveGame.TrainerCard + 0x33] = Byte.Parse(MT_14033.Text);
-            sav[Main.SaveGame.TrainerCard + 0x34] = Byte.Parse(MT_14034.Text);
-            sav[Main.SaveGame.TrainerCard + 0x35] = Byte.Parse(MT_14035.Text);
-            sav[Main.SaveGame.TrainerCard + 0x36] = Byte.Parse(MT_14036.Text);
-            sav[Main.SaveGame.TrainerCard + 0x37] = Byte.Parse(MT_14037.Text);
-            sav[Main.SaveGame.TrainerCard + 0x38] = Byte.Parse(MT_14038.Text);
-            sav[Main.SaveGame.TrainerCard + 0x39] = Byte.Parse(MT_14039.Text);
-            sav[Main.SaveGame.TrainerCard + 0x3A] = Byte.Parse(MT_1403A.Text);
-            sav[Main.SaveGame.TrainerCard + 0x3B] = Byte.Parse(MT_1403B.Text);
-            sav[Main.SaveGame.TrainerCard + 0x3C] = Byte.Parse(MT_1403C.Text);
-            sav[Main.SaveGame.TrainerCard + 0x3D] = Byte.Parse(MT_1403D.Text);
-            sav[Main.SaveGame.TrainerCard + 0x3E] = Byte.Parse(MT_1403E.Text);
-            sav[Main.SaveGame.TrainerCard + 0x3F] = Byte.Parse(MT_1403F.Text);
+            sav[Main.SAV.TrainerCard + 0x30] = Byte.Parse(MT_14030.Text);
+            sav[Main.SAV.TrainerCard + 0x31] = (byte)(Byte.Parse(MT_HairColor.Text) + (Byte.Parse(MT_Hat.Text) << 3));
+            sav[Main.SAV.TrainerCard + 0x32] = Byte.Parse(MT_14032.Text);
+            sav[Main.SAV.TrainerCard + 0x33] = Byte.Parse(MT_14033.Text);
+            sav[Main.SAV.TrainerCard + 0x34] = Byte.Parse(MT_14034.Text);
+            sav[Main.SAV.TrainerCard + 0x35] = Byte.Parse(MT_14035.Text);
+            sav[Main.SAV.TrainerCard + 0x36] = Byte.Parse(MT_14036.Text);
+            sav[Main.SAV.TrainerCard + 0x37] = Byte.Parse(MT_14037.Text);
+            sav[Main.SAV.TrainerCard + 0x38] = Byte.Parse(MT_14038.Text);
+            sav[Main.SAV.TrainerCard + 0x39] = Byte.Parse(MT_14039.Text);
+            sav[Main.SAV.TrainerCard + 0x3A] = Byte.Parse(MT_1403A.Text);
+            sav[Main.SAV.TrainerCard + 0x3B] = Byte.Parse(MT_1403B.Text);
+            sav[Main.SAV.TrainerCard + 0x3C] = Byte.Parse(MT_1403C.Text);
+            sav[Main.SAV.TrainerCard + 0x3D] = Byte.Parse(MT_1403D.Text);
+            sav[Main.SAV.TrainerCard + 0x3E] = Byte.Parse(MT_1403E.Text);
+            sav[Main.SAV.TrainerCard + 0x3F] = Byte.Parse(MT_1403F.Text);
 
             // Vivillon
-            sav[Main.SaveGame.Vivillon] = (byte)CB_Vivillon.SelectedIndex;
+            sav[Main.SAV.Vivillon] = (byte)CB_Vivillon.SelectedIndex;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
@@ -599,7 +599,7 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             save();
-            Array.Copy(sav, Main.savefile, Main.savefile.Length);
+            Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
             Main.savedited = true;
             Close();
         }
@@ -640,7 +640,7 @@ namespace PKHeX
                 string offsetstr = statdata[CB_Stats.SelectedIndex * 2];
                 int offset = (int)new System.ComponentModel.Int32Converter().ConvertFromString(offsetstr);
 
-                MT_Stat.Text = BitConverter.ToUInt32(sav, Main.SaveGame.PSSStats + offset).ToString();
+                MT_Stat.Text = BitConverter.ToUInt32(sav, Main.SAV.PSSStats + offset).ToString();
                 L_Offset.Text = "0x" + offset.ToString("X3");
             }
             editing = false;
@@ -655,7 +655,7 @@ namespace PKHeX
             uint val = UInt32.Parse(MT_Stat.Text);
             byte[] data = BitConverter.GetBytes(val);
             Array.Resize(ref data, 4);
-            Array.Copy(data, 0, sav, Main.SaveGame.PSSStats + offset, 4);
+            Array.Copy(data, 0, sav, Main.SAV.PSSStats + offset, 4);
         }
         private void giveAllAccessories(object sender, EventArgs e)
         {
@@ -686,7 +686,7 @@ namespace PKHeX
 
         private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject((Main.SaveGame.ORAS) ? "tr_" + Util.getIndex(CB_Multi).ToString("00") : "tr_00");
+            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject((Main.SAV.ORAS) ? "tr_" + Util.getIndex(CB_Multi).ToString("00") : "tr_00");
         }
     }
 }

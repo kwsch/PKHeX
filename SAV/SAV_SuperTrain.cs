@@ -8,12 +8,12 @@ namespace PKHeX
         public SAV_SuperTrain(Main frm1)
         {
             m_parent = frm1;
-            sav = (byte[])Main.savefile.Clone();
+            sav = (byte[])Main.SAV.Data.Clone();
             trba = Main.trainingbags;
             trba[0] = "---";
-            offsetTime = Main.SaveGame.SuperTrain + 0x08;
-            offsetSpec = Main.SaveGame.SuperTrain + 0x188;
-            offsetVal = Main.SaveGame.SuperTrain + 0x18A;
+            offsetTime = Main.SAV.SuperTrain + 0x08;
+            offsetSpec = Main.SAV.SuperTrain + 0x188;
+            offsetVal = Main.SAV.SuperTrain + 0x18A;
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
             string[] stages = Main.trainingstage;
@@ -87,7 +87,7 @@ namespace PKHeX
             dataGridView1.Columns.Add(dgvBag);
 
             dataGridView1.Rows.Add(12);
-            int offset = Main.SaveGame.SuperTrain + 0x308;
+            int offset = Main.SAV.SuperTrain + 0x308;
             for (int i = 0; i < 12; i++)
             {
                 dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
@@ -127,7 +127,7 @@ namespace PKHeX
                 }
                 bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
             }
-            int offsetTime = Main.SaveGame.SuperTrain + 0x10;
+            int offsetTime = Main.SAV.SuperTrain + 0x10;
             try
             {
                 byte[] data = BitConverter.GetBytes(Single.Parse(TB_Time1.Text));
@@ -143,13 +143,13 @@ namespace PKHeX
             }
             catch { }
             {
-                int offsetSpec = Main.SaveGame.SuperTrain + 0x188;
+                int offsetSpec = Main.SAV.SuperTrain + 0x188;
                 byte[] data = BitConverter.GetBytes(Convert.ToUInt16(CB_S2.SelectedValue.ToString()));
                 Array.Resize(ref data, 2);
                 Array.Copy(data, 0, sav, offsetSpec + 4 * 30, 2);
             }
-            Array.Copy(bagarray, 0, sav, Main.SaveGame.SuperTrain + 0x308, 12);
-            Array.Copy(sav, Main.savefile, Main.savefile.Length);
+            Array.Copy(bagarray, 0, sav, Main.SAV.SuperTrain + 0x308, 12);
+            Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
             Main.savedited = true;
             Close();
         }

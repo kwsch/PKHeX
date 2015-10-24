@@ -44,8 +44,8 @@ namespace PKHeX
             else if (CB_Source.SelectedIndex == 1)
             {
                 newdata = new byte[0xE8];
-                Array.Copy(Main.savefile,
-                    Main.SaveGame.Box                   // Box Offset
+                Array.Copy(Main.SAV.Data,
+                    Main.SAV.Box                   // Box Offset
                         + CB_Box.SelectedIndex * (232 * 30) // Box Shift
                         + CB_Slot.SelectedIndex * 232,      // Slot Shift
                     newdata, 0, 0xE8);
@@ -62,7 +62,7 @@ namespace PKHeX
                 // Wondercard #
                 int index = CB_Slot.SelectedIndex;
                 // copy from save, the chosen wondercard offset, to new data
-                Array.Copy(Main.savefile, Main.SaveGame.WondercardData + index * 0x108, newdata, 0, 0x108);
+                Array.Copy(Main.SAV.Data, Main.SAV.WondercardData + index * 0x108, newdata, 0, 0x108);
                 byte[] zerodata = new byte[0x108];
                 if (!newdata.SequenceEqual(zerodata)) return true;
 
@@ -186,9 +186,9 @@ namespace PKHeX
             string result = ""; 
             RTB_Code.Clear();
             byte[] cybersav = Main.originalSAV;
-            byte[] newcyber = Main.savefile;
+            byte[] newcyber = Main.SAV.Data;
 
-            int boxoffset = Main.SaveGame.Box;
+            int boxoffset = Main.SAV.Box;
             
             int lines = 0;  // 65400
             for (int i = 0; i < newcyber.Length - 0x200; i += 4)

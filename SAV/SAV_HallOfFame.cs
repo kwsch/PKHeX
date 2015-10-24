@@ -11,9 +11,9 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.savefile.Clone();
+            sav = (byte[])Main.SAV.Data.Clone();
 
-            Array.Copy(sav, Main.SaveGame.HoF, data, 0, data.Length); //Copy HoF section of save into Data
+            Array.Copy(sav, Main.SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
             Setup();
             editor_spec = new object[]{
                 GB_OT,
@@ -99,7 +99,7 @@ namespace PKHeX
         }
         private void B_Close_Click(object sender, EventArgs e)
         {
-            Array.Copy(data, 0, Main.savefile, Main.SaveGame.HoF, data.Length);
+            Array.Copy(data, 0, Main.SAV.Data, Main.SAV.HoF, data.Length);
             Close();
         }
         private void displayEntry(object sender, EventArgs e)

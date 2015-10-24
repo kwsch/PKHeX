@@ -13,7 +13,7 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.savefile.Clone();
+            sav = (byte[])Main.SAV.Data.Clone();
             populateWClist();
             populateReceived();
 
@@ -39,7 +39,7 @@ namespace PKHeX
             LB_WCs.Items.Clear();
             for (int i = 0; i < 24; i++)
             {
-                int offset = Main.SaveGame.WondercardData + i * 0x108;
+                int offset = Main.SAV.WondercardData + i * 0x108;
                 int cardID = BitConverter.ToUInt16(sav, offset);
                 if (cardID == 0)
                     LB_WCs.Items.Add((i + 1).ToString("00") + " - Empty");
@@ -75,7 +75,7 @@ namespace PKHeX
         {
             LB_Received.Items.Clear();
             for (int i = 1; i < 2048; i++)
-                if ((((sav[Main.SaveGame.WondercardFlags + i / 8]) >> (i % 8)) & 0x1) == 1)
+                if ((((sav[Main.SAV.WondercardFlags + i / 8]) >> (i % 8)) & 0x1) == 1)
                     LB_Received.Items.Add(i.ToString("0000"));
         }
 
@@ -121,7 +121,7 @@ namespace PKHeX
         {
             // Load Wondercard from Save File
             int index = LB_WCs.SelectedIndex;
-            int offset = Main.SaveGame.WondercardData + index * 0x108;
+            int offset = Main.SAV.WondercardData + index * 0x108;
             Array.Copy(sav, offset, wondercard_data, 0, 0x108);
             loadwcdata();
         }
@@ -129,11 +129,11 @@ namespace PKHeX
         {
             // Write Wondercard to Save File
             int index = LB_WCs.SelectedIndex;
-            int offset = Main.SaveGame.WondercardData + index * 0x108;
-            if (Main.SaveGame.ORAS) // ORAS Only
+            int offset = Main.SAV.WondercardData + index * 0x108;
+            if (Main.SAV.ORAS) // ORAS Only
                 if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
                     if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
-                        Array.Copy(BitConverter.GetBytes(EonTicketConst), 0, sav, Main.SaveGame.EonTicket, 4);
+                        Array.Copy(BitConverter.GetBytes(EonTicketConst), 0, sav, Main.SAV.EonTicket, 4);
             Array.Copy(wondercard_data, 0, sav, offset, 0x108);
             populateWClist();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
@@ -146,7 +146,7 @@ namespace PKHeX
         private void B_DeleteWC_Click(object sender, EventArgs e)
         {
             int index = LB_WCs.SelectedIndex;
-            int offset = Main.SaveGame.WondercardData + index * 0x108;
+            int offset = Main.SAV.WondercardData + index * 0x108;
             byte[] zeros = new byte[0x108];
             Array.Copy(zeros, 0, sav, offset, 0x108);
             populateWClist();
@@ -159,7 +159,7 @@ namespace PKHeX
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            int offset = Main.SaveGame.WondercardFlags;
+            int offset = Main.SAV.WondercardFlags;
 
             // Make sure all of the Received Flags are flipped!
             byte[] wcflags = new byte[0x100];
@@ -179,7 +179,7 @@ namespace PKHeX
                             Array.Copy(sav, offset + j * 0x108, sav, offset + (j - 1) * 0x108, 0x108);
             }
 
-            Array.Copy(sav, Main.savefile, sav.Length);
+            Array.Copy(sav, Main.SAV.Data, sav.Length);
             Main.savedited = true;
             Close();
         }

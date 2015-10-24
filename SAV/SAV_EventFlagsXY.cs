@@ -24,7 +24,7 @@ namespace PKHeX
         bool setup = true;
         public CheckBox[] chka;
         public bool[] flags = new bool[3072];
-        public ushort[] Constants = new ushort[(Main.SaveGame.EventFlag - Main.SaveGame.EventConst) / 2];
+        public ushort[] Constants = new ushort[(Main.SAV.EventFlag - Main.SAV.EventConst) / 2];
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -41,7 +41,7 @@ namespace PKHeX
                 if (flags[i])
                     data[i / 8] |= (byte)(1 << i % 8);
 
-            Array.Copy(data, 0, Main.savefile, Main.SaveGame.EventFlag, 0x180);
+            Array.Copy(data, 0, Main.SAV.Data, Main.SAV.EventFlag, 0x180);
 
             // No Volcanic Ash in X/Y
 
@@ -49,7 +49,7 @@ namespace PKHeX
             // Copy back Constants
             changeConstantIndex(null, null); // Trigger Saving
             for (int i = 0; i < Constants.Length; i++)
-                Array.Copy(BitConverter.GetBytes(Constants[i]), 0, Main.savefile, Main.SaveGame.EventConst + 2 * i, 2);
+                Array.Copy(BitConverter.GetBytes(Constants[i]), 0, Main.SAV.Data, Main.SAV.EventConst + 2 * i, 2);
 
             Close();
         }
@@ -68,7 +68,7 @@ namespace PKHeX
                 flag_2546, // Pokedex
             };
             byte[] data = new byte[0x180];
-            Array.Copy(Main.savefile, Main.SaveGame.EventFlag, data, 0, 0x180);
+            Array.Copy(Main.SAV.Data, Main.SAV.EventFlag, data, 0, 0x180);
             BitArray BitRegion = new BitArray(data);
             BitRegion.CopyTo(flags, 0);
 
@@ -77,7 +77,7 @@ namespace PKHeX
             for (int i = 0; i < Constants.Length; i += 2)
             {
                 CB_Stats.Items.Add(String.Format("0x{0}", i.ToString("X3")));
-                Constants[i / 2] = BitConverter.ToUInt16(Main.savefile, Main.SaveGame.EventConst + i);
+                Constants[i / 2] = BitConverter.ToUInt16(Main.SAV.Data, Main.SAV.EventConst + i);
             }
             CB_Stats.SelectedIndex = 0;
 
@@ -175,14 +175,14 @@ namespace PKHeX
             switch (fi.Length)
             {
                 case 0x100000: // ramsav
-                    Array.Copy(File.ReadAllBytes(path), Main.SaveGame.EventFlag, eventflags, 0, 0x180);
+                    Array.Copy(File.ReadAllBytes(path), Main.SAV.EventFlag, eventflags, 0, 0x180);
                     break;
                 case 0x76000: // oras main
-                    Array.Copy(File.ReadAllBytes(path), Main.SaveGame.EventFlag, eventflags, 0, 0x180);
+                    Array.Copy(File.ReadAllBytes(path), Main.SAV.EventFlag, eventflags, 0, 0x180);
                     break;
                 default: // figure it out
                     if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x80000)
-                        Array.Copy(ram2sav.getMAIN(File.ReadAllBytes(path)), Main.SaveGame.EventFlag, eventflags, 0, 0x180);
+                        Array.Copy(ram2sav.getMAIN(File.ReadAllBytes(path)), Main.SAV.EventFlag, eventflags, 0, 0x180);
                     else
                     { Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length, fi.Length.ToString("X5")), "File Loaded: " + path); return; }
                     break;
