@@ -398,6 +398,10 @@ namespace PKHeX
         #endregion
 
         // Simple Generated Attributes
+        public int CurrentFriendship { 
+            get { return CurrentHandler == 0 ? OT_Friendship : HT_Friendship; } 
+            set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; } 
+        }
         public int[] IVs { get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; } }
         public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
         public int[] Moves { get { return new[] { Move1, Move2, Move3, Move4 }; } }

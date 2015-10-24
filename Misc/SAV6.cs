@@ -338,8 +338,22 @@ namespace PKHeX
         public void setPK6(PK6 pk6)
         {
             // Apply to this Save File
+            int CT = pk6.CurrentHandler;
             DateTime Date = DateTime.Now;
             pk6.Trade(OT, TID, SID, Country, SubRegion, Gender, false, Date.Day, Date.Month, Date.Year);
+            if (CT != pk6.CurrentHandler) // Logic updated Friendship
+            {
+                if (pk6.Moves.Contains(216) && pk6.CurrentFriendship != 255) // Return
+                    if (pk6.CurrentHandler == 0)
+                        pk6.OT_Friendship = 255;
+                    else pk6.HT_Friendship = 255;
+                else if (pk6.Moves.Contains(218) && pk6.CurrentFriendship != 0)  // Frustration
+                    if (pk6.CurrentHandler == 0)
+                        pk6.OT_Friendship = 0;
+                    else pk6.HT_Friendship = 0;
+                else if (pk6.CurrentHandler == 1) // OT->HT, needs new Friendship/Affection
+                    pk6.TradeFriendshipAffection(OT);
+            }
             pk6.RefreshChecksum();
         }
         public void setDex(PK6 pk6)

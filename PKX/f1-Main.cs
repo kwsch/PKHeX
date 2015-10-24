@@ -941,15 +941,14 @@ namespace PKHeX
             TB_Nickname.Text = pk6.Nickname;
             TB_OT.Text = pk6.OT_Name;
             TB_OTt2.Text = pk6.HT_Name;
+            TB_Friendship.Text = pk6.CurrentFriendship.ToString();
             if (pk6.CurrentHandler == 1)  // HT
             {
-                TB_Friendship.Text = pk6.HT_Friendship.ToString();
                 GB_nOT.BackgroundImage = mixedHighlight;
                 GB_OT.BackgroundImage = null;
             }
             else                  // = 0
             {
-                TB_Friendship.Text = pk6.OT_Friendship.ToString();
                 GB_OT.BackgroundImage = mixedHighlight;
                 GB_nOT.BackgroundImage = null;
             }
@@ -2242,10 +2241,7 @@ namespace PKHeX
             // Convert OT field back to bytes
             pk6.OT_Name = TB_OT.Text;
 
-            if (pk6.CurrentHandler == 0)
-                pk6.OT_Friendship = Util.ToInt32(TB_Friendship.Text);
-            else          // 1
-                pk6.HT_Friendship = Util.ToInt32(TB_Friendship.Text);
+            pk6.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
 
             int egg_year = 2000;                                   // Default Dates
             int egg_month = 0;
