@@ -120,19 +120,11 @@ namespace PKHeX
                 EonTicket = 0x319B8;
                 LastViewedBox = PCLayout + 0x43F;
             }
-            else
-            {
-                Box = TrainerCard = Party = BattleBox = GTS = Daycare =
-                Fused = SUBE = Puff = Item = Trainer1 = Trainer2 = SecretBase = EonTicket = LastViewedBox = BoxWallpapers = 
-                PCLayout = PCBackgrounds = PCFlags = WondercardFlags = WondercardData = BerryField = OPower = SuperTrain = MaisonStats = PSSStats = Vivillon =
-                EventConst = EventAsh = EventFlag = PokeDex = PokeDexLanguageFlags = Spinda = EncounterCount = HoF = PSS = JPEG = 0;
-                Items = new Inventory(Item, -1);
-            }
             DaycareSlot = new[] { Daycare, Daycare + 0x1F0 };
         }
         public class Inventory
         {
-            public int HeldItem, KeyItem, Medicine, TMHM, Berry;
+            public int HeldItem, KeyItem, Medicine, TMHM, Berry = 0;
             public Inventory(int Offset, int Game)
             {
                 switch (Game)
@@ -151,18 +143,16 @@ namespace PKHeX
                         Medicine = Offset + 0x970;
                         Berry = Offset + 0xA70;
                         break;
-                    default:
-                        HeldItem = KeyItem = TMHM = Medicine = Berry = 0;
-                        break;
                 }
             }
         }
-        public Inventory Items;
-        public int Box, Party, BattleBox, GTS, Daycare, EonTicket,
+        public Inventory Items = new Inventory(0, -1);
+        public int BattleBox, GTS, Daycare, EonTicket,
             Fused, SUBE, Puff, Item, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, Vivillon, SecretBase, BoxWallpapers, LastViewedBox,
             PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh,
-            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG;
+            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG = 0;
         public int TrainerCard = 0x14000;
+        public int Box = 0x33000, Party = 0x14200;
         public int[] DaycareSlot;
         public int DaycareIndex = 0;
 
