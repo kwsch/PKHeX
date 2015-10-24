@@ -303,27 +303,20 @@ namespace PKHeX
         public void setPK6Party(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
             if (SetUpdatePK6 || (trade ?? false))
-            {
-                // Apply to this Save File
-                // pk6.Trade();
-                // pk6.Write();
-            }
+                setPK6(pk6);
             if (SetUpdateDex || (dex ?? false))
-                setPokeDex(pk6);
+                setDex(pk6);
 
             byte[] ek6 = encryptArray(pk6.Data);
+            Array.Resize(ref ek6, PK6.SIZE_PARTY);
             setData(ek6, offset);
         }
         public void setPK6Stored(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
             if (SetUpdatePK6 || (trade ?? false))
-            {
-                // Apply to this Save File
-                // pk6.Trade();
-                // pk6.Write();
-            }
+                setPK6(pk6);
             if (SetUpdateDex || (dex ?? false))
-                setPokeDex(pk6);
+                setDex(pk6);
 
             byte[] ek6 = encryptArray(pk6.Data);
             Array.Resize(ref ek6, PK6.SIZE_STORED);
@@ -333,20 +326,23 @@ namespace PKHeX
         {
             PK6 pk6 = new PK6(decryptArray(ek6));
             if (SetUpdatePK6 || (trade ?? false))
-            {
-                // Apply to this Save File
-                // pk6.Trade();
-                // pk6.Write();
-            }
+                setPK6(pk6);
             if (SetUpdateDex || (dex ?? false))
-                setPokeDex(pk6);
+                setDex(pk6);
 
             Array.Resize(ref ek6, PK6.SIZE_STORED);
             setData(ek6, offset);
         }
 
         // Meta
-        public void setPokeDex(PK6 pk6)
+        public void setPK6(PK6 pk6)
+        {
+            // Apply to this Save File
+            DateTime Date = DateTime.Now;
+            pk6.Trade(OT, TID, SID, Country, SubRegion, Gender, false, Date.Day, Date.Month, Date.Year);
+            pk6.RefreshChecksum();
+        }
+        public void setDex(PK6 pk6)
         {
             if (pk6.Species == 0)
                 return;
