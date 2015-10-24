@@ -439,5 +439,29 @@ namespace PKHeX
             if (battlemem == 0)
                 BattleBoxLocked = false;
         }
+        public void sortBoxes()
+        {
+            const int len = 31 * 30; // amount of pk6's in boxes
+
+            // Fetch encrypted box data
+            byte[][] bdata = new byte[len][];
+            for (int i = 0; i < len; i++)
+                bdata[i] = getData(Box + i * PK6.SIZE_STORED, PK6.SIZE_STORED);
+
+            // Sorting Method: Data will sort empty slots to the end, then from the filled slots eggs will be last, then species will be sorted.
+            var query = from i in bdata
+                        let p = new PK6(decryptArray(i))
+                        orderby
+                            p.Species == 0 ascending,
+                            p.IsEgg ascending,
+                            p.Species ascending,
+                            p.IsNicknamed ascending
+                        select i;
+            byte[][] sorted = query.ToArray();
+
+            // Write data back
+            for (int i = 0; i < len; i++)
+                setData(sorted[i], Box + i * PK6.SIZE_STORED);
+        }
     }
 }
