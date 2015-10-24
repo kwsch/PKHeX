@@ -11,10 +11,17 @@ namespace PKHeX
         public ushort ID;
         public ushort Checksum;
     }
+    public enum GameVersion
+    {
+        X = 24, Y = 25,
+        AS = 26, OR = 27,
+        Z = 28,
+        Unknown = -1,
+    }
     public class SAV6 : PKX
     {
         // Global Settings
-        internal static bool SetUpdatePokedex = true;
+        internal static bool SetUpdateDex = true;
         internal static bool SetUpdatePK6 = true;
         // Save Data Attributes
         public byte[] Data;
@@ -159,13 +166,6 @@ namespace PKHeX
         public int[] DaycareSlot;
         public int DaycareIndex = 0;
 
-        public enum GameVersion
-        {
-            X = 24, Y = 25,
-            AS = 26, OR = 27,
-            Z = 28,
-            Unknown = -1,
-        }
         public GameVersion Version
         {
             get
@@ -310,7 +310,7 @@ namespace PKHeX
         {
             return new PK6(decryptArray(getData(offset, PK6.SIZE_STORED)));
         }
-        public void setPK6Party(PK6 pk6, int offset, bool? trade = null)
+        public void setPK6Party(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
             if (SetUpdatePK6 || (trade ?? false))
             {
@@ -318,13 +318,13 @@ namespace PKHeX
                 // pk6.Trade();
                 // pk6.Write();
             }
-            if (SetUpdatePokedex)
+            if (SetUpdateDex || (dex ?? false))
                 setPokeDex(pk6);
 
             byte[] ek6 = encryptArray(pk6.Data);
             setData(ek6, offset);
         }
-        public void setPK6Stored(PK6 pk6, int offset, bool? trade = null)
+        public void setPK6Stored(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
             if (SetUpdatePK6 || (trade ?? false))
             {
@@ -332,14 +332,14 @@ namespace PKHeX
                 // pk6.Trade();
                 // pk6.Write();
             }
-            if (SetUpdatePokedex)
+            if (SetUpdateDex || (dex ?? false))
                 setPokeDex(pk6);
 
             byte[] ek6 = encryptArray(pk6.Data);
             Array.Resize(ref ek6, PK6.SIZE_STORED);
             setData(ek6, offset);
         }
-        public void setEK6Stored(byte[] ek6, int offset, bool? trade = null)
+        public void setEK6Stored(byte[] ek6, int offset, bool? trade = null, bool? dex = null)
         {
             PK6 pk6 = new PK6(decryptArray(ek6));
             if (SetUpdatePK6 || (trade ?? false))
@@ -348,7 +348,7 @@ namespace PKHeX
                 // pk6.Trade();
                 // pk6.Write();
             }
-            if (SetUpdatePokedex)
+            if (SetUpdateDex || (dex ?? false))
                 setPokeDex(pk6);
 
             Array.Resize(ref ek6, PK6.SIZE_STORED);
