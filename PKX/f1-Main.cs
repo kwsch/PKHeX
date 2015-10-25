@@ -397,13 +397,73 @@ namespace PKHeX
             if (PKX.getGender(Label_CTGender.Text) < 2)
                 Label_CTGender.Text = gendersymbols[PKX.getGender(Label_CTGender.Text)];
         }
-        private void Menu_ModifyDex_Click(object sender, EventArgs e)
+        private void mainMenuModifyDex(object sender, EventArgs e)
         {
             SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
         }
-        private void Menu_ModifyPK6_Click(object sender, EventArgs e)
+        private void mainMenuModifyPK6(object sender, EventArgs e)
         {
             SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
+        }
+        private void mainMenuBoxDumpLoad(object sender, EventArgs e)
+        {
+            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
+            if (dr == DialogResult.Cancel) return;
+            string exepath = Application.StartupPath;
+            string path = "";
+            bool dumptoboxes = false;
+            {
+                if (dr == DialogResult.Yes) // Import
+                {
+                    if (Directory.Exists(Path.Combine(exepath, "db")))
+                    {
+                        DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Load from PKHeX's database?");
+                        if (ld == DialogResult.Yes)
+                            path = Path.Combine(exepath, "db");
+                        else if (ld == DialogResult.No)
+                        {
+                            // open folder dialog
+                            FolderBrowserDialog fbd = new FolderBrowserDialog();
+                            if (fbd.ShowDialog() == DialogResult.OK)
+                                path = fbd.SelectedPath;
+                        }
+                        else return;
+                    }
+                    else
+                    {
+                        // open folder dialog
+                        FolderBrowserDialog fbd = new FolderBrowserDialog();
+                        if (fbd.ShowDialog() == DialogResult.OK)
+                            path = fbd.SelectedPath;
+                    }
+                    loadBoxesFromDB(path);
+                }
+                else if (dr == DialogResult.No)
+                {
+                    // Dump all of box content to files.
+                    DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
+                    if (ld == DialogResult.Yes)
+                    {
+                        path = Path.Combine(exepath, "db");
+                        if (!Directory.Exists(path))
+                            Directory.CreateDirectory(path);
+                    }
+                    else if (ld == DialogResult.No)
+                    {
+                        dumptoboxes = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
+
+                        // open folder dialog
+                        FolderBrowserDialog fbd = new FolderBrowserDialog();
+                        if (fbd.ShowDialog() != DialogResult.OK)
+                            return;
+
+                        path = fbd.SelectedPath;
+                    }
+                    else return;
+
+                    dumpBoxesToDB(path, dumptoboxes);
+                }
+            }
         }
 
         // Main Menu Subfunctions
@@ -2771,26 +2831,13 @@ namespace PKHeX
         }
         private void getSlotColor(int slot, Image color)
         {
-            PictureBox[] pba = {
-                                    bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
-                                    bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
-                                    bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
-                                    bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
-                                    bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
-
-                                    ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
-                                    bbpkx1,bbpkx2,bbpkx3,bbpkx4,bbpkx5,bbpkx6,
-
-                                    dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
-                                };
-
-            foreach (PictureBox t in pba)
+            foreach (PictureBox t in SlotPictureBoxes)
                 t.BackgroundImage = null;
 
             if (slot < 32)
                 colorizedbox = CB_BoxSelect.SelectedIndex;
 
-            pba[slot].BackgroundImage = color;
+            SlotPictureBoxes[slot].BackgroundImage = color;
             colorizedcolor = color;
             colorizedslot = slot;
         }
@@ -2811,66 +2858,6 @@ namespace PKHeX
             setPKXBoxes();
         }
 
-        private void mainMenuBoxDumpLoad(object sender, EventArgs e)
-        {
-            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
-            if (dr == DialogResult.Cancel) return;
-            string exepath = Application.StartupPath;
-            string path = "";
-            bool dumptoboxes = false;
-            {
-                if (dr == DialogResult.Yes) // Import
-                {
-                    if (Directory.Exists(Path.Combine(exepath, "db")))
-                    {
-                        DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Load from PKHeX's database?");
-                        if (ld == DialogResult.Yes)
-                            path = Path.Combine(exepath, "db");
-                        else if (ld == DialogResult.No)
-                        {
-                            // open folder dialog
-                            FolderBrowserDialog fbd = new FolderBrowserDialog();
-                            if (fbd.ShowDialog() == DialogResult.OK)
-                                path = fbd.SelectedPath;
-                        }
-                        else return;
-                    }
-                    else
-                    {
-                        // open folder dialog
-                        FolderBrowserDialog fbd = new FolderBrowserDialog();
-                        if (fbd.ShowDialog() == DialogResult.OK)
-                            path = fbd.SelectedPath;
-                    }
-                    loadBoxesFromDB(path);
-                }
-                else if (dr == DialogResult.No)
-                {
-                    // Dump all of box content to files.
-                    DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
-                    if (ld == DialogResult.Yes)
-                    {
-                        path = Path.Combine(exepath, "db");
-                        if (!Directory.Exists(path))
-                            Directory.CreateDirectory(path);
-                    }
-                    else if (ld == DialogResult.No)
-                    {
-                        dumptoboxes = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
-
-		                // open folder dialog
-		                FolderBrowserDialog fbd = new FolderBrowserDialog();
-                        if (fbd.ShowDialog() != DialogResult.OK)
-                            return;
-		                    
-                        path = fbd.SelectedPath;
-                    }
-                    else return;
-
-                    dumpBoxesToDB(path, dumptoboxes);
-                }
-            }
-        }
         private void dumpBoxesToDB(string path, bool individualBoxFolders)
         {
             for (int i = 0; i < 31 * 30; i++)
@@ -2910,6 +2897,7 @@ namespace PKHeX
                 long len = new FileInfo(t).Length;
                 if (len > PK6.SIZE_PARTY)
                     continue;
+
                 if (
                     len != PK6.SIZE_STORED && len != PK6.SIZE_PARTY // 6th Gen
                     && len != 136 && len != 220 && len != 236 // 5th Gen
@@ -2959,10 +2947,9 @@ namespace PKHeX
                         byte[] decrypteddata = PKX.decryptArray(input);
 
                         if (BitConverter.ToUInt16(decrypteddata, 0xC8) != 0 && BitConverter.ToUInt16(decrypteddata, 0x58) != 0)
-                            continue; // don't allow improperly encrypted files. they must be encrypted properly.
-                        //else if (BitConverter.ToUInt16(decrypteddata, 0x8) == 0) // if species = 0
-                        //    continue;
-                        // We'll allow blank ekx files for those wanting to see the decrypted data.
+                            continue; 
+                        if (BitConverter.ToUInt16(decrypteddata, 0x8) == 0) // if species = 0
+                            continue;
                         if (PKX.getCHK(input) != BitConverter.ToUInt16(decrypteddata, 0x6)) continue;
                     }
                         break;

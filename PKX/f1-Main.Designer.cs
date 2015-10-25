@@ -3995,7 +3995,7 @@
             this.Menu_ModifyDex.Name = "Menu_ModifyDex";
             this.Menu_ModifyDex.Size = new System.Drawing.Size(159, 22);
             this.Menu_ModifyDex.Text = "Modify Pokédex";
-            this.Menu_ModifyDex.Click += new System.EventHandler(this.Menu_ModifyDex_Click);
+            this.Menu_ModifyDex.Click += new System.EventHandler(this.mainMenuModifyDex);
             // 
             // Menu_ModifyPK6
             // 
@@ -4005,7 +4005,7 @@
             this.Menu_ModifyPK6.Name = "Menu_ModifyPK6";
             this.Menu_ModifyPK6.Size = new System.Drawing.Size(159, 22);
             this.Menu_ModifyPK6.Text = "Modify PK6 Info";
-            this.Menu_ModifyPK6.Click += new System.EventHandler(this.Menu_ModifyPK6_Click);
+            this.Menu_ModifyPK6.Click += new System.EventHandler(this.mainMenuModifyPK6);
             // 
             // Main
             // 
