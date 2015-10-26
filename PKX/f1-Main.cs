@@ -2449,17 +2449,13 @@ namespace PKHeX
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
-            // Set the current box to the save
-            SAV.CurrentBox = 
-                (tabBoxMulti.SelectedIndex == 1 ? 0xFF // If Battle/Party selected
-                : CB_BoxSelect.SelectedIndex); // Box
-
-            byte[] sav = SAV.Write();
-
             // Chunk Error Checking
             string err = SAV.checkChunkFF();
             if (err.Length > 0 && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
                 return;
+
+            SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
+            byte[] sav = SAV.Write();
 
             SaveFileDialog cySAV = new SaveFileDialog();
             // Try for file path
