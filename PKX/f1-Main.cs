@@ -479,7 +479,6 @@ namespace PKHeX
                 Util.Error("Input file is too large.", path);
             else
             {
-
                 byte[] input; try { input = File.ReadAllBytes(path); }
                 catch { Util.Error("File is in use by another program!", path); return; }
 
@@ -628,7 +627,7 @@ namespace PKHeX
                         if (BitConverter.ToUInt32(input, i) == 0x42454546) { Array.Resize(ref input, 0x70000); break; }
 
                 ramsav = (byte[])input.Clone();
-                try { openMAIN(ram2sav.getMAIN(input), path); }
+                try { openMAIN(ram2sav.getMAIN(input), path, true); }
                 catch { ramsav = null; }
             }
             #endregion
