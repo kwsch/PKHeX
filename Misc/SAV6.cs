@@ -232,12 +232,12 @@ namespace PKHeX
         // Player Information
         public ushort TID { get { return BitConverter.ToUInt16(Data, TrainerCard + 0); } }
         public ushort SID { get { return BitConverter.ToUInt16(Data, TrainerCard + 2); } }
-        public byte Game { get { return Data[TrainerCard + 4]; } }
-        public byte Gender { get { return Data[TrainerCard + 5]; } }
-        public byte SubRegion { get { return Data[TrainerCard + 0x26]; } }
-        public byte Country { get { return Data[TrainerCard + 0x27]; } }
-        public byte ConsoleRegion { get { return Data[TrainerCard + 0x2C]; } }
-        public byte Language { get { return Data[TrainerCard + 0x2D]; } }
+        public int Game { get { return Data[TrainerCard + 4]; } }
+        public int Gender { get { return Data[TrainerCard + 5]; } }
+        public int SubRegion { get { return Data[TrainerCard + 0x26]; } }
+        public int Country { get { return Data[TrainerCard + 0x27]; } }
+        public int ConsoleRegion { get { return Data[TrainerCard + 0x2C]; } }
+        public int Language { get { return Data[TrainerCard + 0x2D]; } }
         public string OT { get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x48, 0x1A)); } }
 
         // Misc Properties

@@ -6,7 +6,7 @@ namespace PKHeX
 {
     public class pk2pk
     {
-        public void setG6TrainerInfo(byte SUBREGION, byte COUNTRY, byte _3DSREGION, string TRAINERNAME, byte TRAINERGENDER)
+        public void setG6TrainerInfo(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER)
         {
             subreg = SUBREGION;
             country = COUNTRY;
@@ -49,7 +49,7 @@ namespace PKHeX
         public int subreg = 0x7;   // California
         public int _3DSreg = 0x1;  // Americas
         public string g6trname = "PKHeX";
-        public byte g6trgend;
+        public int g6trgend;
         private int getAbilityNumber(int species, int ability, int formnum)
         {
             PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species, formnum);
@@ -561,7 +561,7 @@ namespace PKHeX
             // 01 - Not handled by OT
             // 07 - CA
             // 31 - USA
-            byte[] x90x = { 0x00, 0x00, g6trgend, 0x01, (byte)subreg, (byte)country, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, PKX.getBaseFriendship(species), 0x00, 0x01, 0x04, (byte)(Util.rnd32() % 10), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            byte[] x90x = { 0x00, 0x00, (byte)g6trgend, 0x01, (byte)subreg, (byte)country, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, PKX.getBaseFriendship(species), 0x00, 0x01, 0x04, (byte)(Util.rnd32() % 10), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             Array.Copy(x90x, 0, pk6, 0x90, x90x.Length);
             // When transferred, friendship gets reset.
             pk6[0xCA] = PKX.getBaseFriendship(species);
