@@ -870,7 +870,7 @@ namespace PKHeX
         {
             // Now that the ComboBoxes are ready, load the data.
             fieldsInitialized = true;
-            pk6.Species = 151;
+            pk6.Species = 493;
             pk6.Move1 = 1;
             pk6.RefreshChecksum();
 
