@@ -48,9 +48,6 @@ namespace PKHeX
             // Initialize Boxes
             for (int i = 0; i < 30*31; i++)
                 SAV.setEK6Stored(blankEK6, SAV.Box + i*PK6.SIZE_STORED);
-
-            // Initialize Tab Storage with Default Data (to skip Move check)
-            pk6.Move1 = 1;
             #endregion
             #region Language Detection before loading
             // Set up Language Selection
@@ -177,7 +174,7 @@ namespace PKHeX
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
 
-            init = true;
+            formInitialized = true;
 
             // Splash Screen closes on its own.
             BringToFront();
@@ -198,7 +195,7 @@ namespace PKHeX
         public string path3DS;
         public pk2pk Converter = new pk2pk();
 
-        public static volatile bool init;
+        public static volatile bool formInitialized, fieldsInitialized;
         public static bool HaX;
         public static bool specialChars; // Open Form Tracking
         public static Color defaultControlWhite;
@@ -751,8 +748,8 @@ namespace PKHeX
         private void changeMainLanguage(object sender, EventArgs e)
         {
             byte[] data = pk6.Data;
-            if (init) data = preparepkx(); // get data currently in form
-            init = false;
+            if (fieldsInitialized) data = preparepkx(); // get data currently in form
+            fieldsInitialized = false;
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
@@ -783,7 +780,7 @@ namespace PKHeX
             for (int i = 0; i < balllist.Length; i++)
                 balllist[i] = itemlist[Legal.Items_Ball[i]];
 
-            if ((l != "zh") || (l == "zh" && !init)) // load initial binaries
+            if ((l != "zh") || (l == "zh" && !fieldsInitialized)) // load initial binaries
             {
                 forms = Util.getStringList("Forms", l);
                 memories = Util.getStringList("Memories", l);
@@ -863,7 +860,7 @@ namespace PKHeX
             // Force an update to the met locations
             origintrack = "";
 
-            if (init)
+            if (fieldsInitialized)
                 updateIVs(null, null); // Prompt an update for the characteristics
         }
         #endregion
@@ -872,13 +869,17 @@ namespace PKHeX
         private void InitializeFields()
         {
             // Now that the ComboBoxes are ready, load the data.
+            fieldsInitialized = true;
+            pk6.Species = 151;
+            pk6.Move1 = 1;
             pk6.RefreshChecksum();
+
+            // Load Data
             populateFields(pk6.Data);
             {
                 TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
-                CB_Species.SelectedIndex = 1;
                 CB_GameOrigin.SelectedIndex = 0;
                 CB_Language.SelectedIndex = 0;
                 CB_BoxSelect.SelectedIndex = 0;
@@ -956,12 +957,12 @@ namespace PKHeX
         public void populateFields(byte[] data, bool focus = true)
         {
             pk6 = new PK6(data);
-            if (init & !PKX.verifychk(pk6.Data))
+            if (fieldsInitialized & !PKX.verifychk(pk6.Data))
                 Util.Alert("PKX File has an invalid checksum.");
 
             // Reset a little.
-            bool oldInit = init;
-            init = false;
+            bool oldInit = fieldsInitialized;
+            fieldsInitialized = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
             if (focus)
                 Tab_Main.Focus();
@@ -1104,7 +1105,7 @@ namespace PKHeX
             if (pk6.Version > 12 || pk6.Version < 7)
                 CB_EncounterType.SelectedValue = 0;
 
-            init = oldInit;
+            fieldsInitialized = oldInit;
             updateIVs(null, null);
             updatePKRSInfected(null, null);
             updatePKRSCured(null, null);
@@ -1135,7 +1136,7 @@ namespace PKHeX
 
             CB.DataSource = Util.getCBList(type, cl);
 
-            if (index > 0 && index < CB.Items.Count && init)
+            if (index > 0 && index < CB.Items.Count && fieldsInitialized)
                 CB.SelectedIndex = index;
         }
         internal static void setForms(int species, ComboBox cb, Label l = null)
@@ -1152,7 +1153,7 @@ namespace PKHeX
         }
         internal static void setAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
         {
-            if (!init && tb_abil.Text == "")
+            if (!fieldsInitialized && tb_abil.Text == "")
                 return;
             int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
 
@@ -1404,7 +1405,7 @@ namespace PKHeX
         }
         private void updateHPType(object sender, EventArgs e)
         {
-            if (changingFields || !init) return;
+            if (changingFields || !fieldsInitialized) return;
             changingFields = true;
             int[] ivs =
             {
@@ -1428,7 +1429,7 @@ namespace PKHeX
         }
         private void updateIVs(object sender, EventArgs e)
         {
-            if (changingFields || !init) return;
+            if (changingFields || !fieldsInitialized) return;
             if (sender != null)
                 if (Util.ToInt32((sender as MaskedTextBox).Text) > 31)
                     (sender as MaskedTextBox).Text = "31";
@@ -1621,7 +1622,7 @@ namespace PKHeX
         }
         private void updatePKRSCured(object sender, EventArgs e)
         {
-            if (!init) return;
+            if (!fieldsInitialized) return;
             // Cured PokeRus is toggled
             if (CHK_Cured.Checked)
             {
@@ -1656,7 +1657,7 @@ namespace PKHeX
         }
         private void updatePKRSInfected(object sender, EventArgs e)
         {
-            if (!init) return;
+            if (!fieldsInitialized) return;
             if (CHK_Cured.Checked && !CHK_Infected.Checked) { CHK_Cured.Checked = false; return; }
             if (CHK_Cured.Checked) return;
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
@@ -1827,8 +1828,8 @@ namespace PKHeX
         }
         private void updateNickname(object sender, EventArgs e)
         {
-            if (init && ModifierKeys == Keys.Control) { getShowdownSet(); return; }
-            if (!init || (CHK_Nicknamed.Checked)) return;
+            if (fieldsInitialized && ModifierKeys == Keys.Control) { getShowdownSet(); return; }
+            if (!fieldsInitialized || (CHK_Nicknamed.Checked)) return;
 
             // Fetch Current Species and set it as Nickname Text
             int species = Util.getIndex(CB_Species);
@@ -1906,7 +1907,7 @@ namespace PKHeX
             Label_Friendship.Visible = !CHK_IsEgg.Checked;
 
             // Update image to (not) show egg.
-            if (!init) return;
+            if (!fieldsInitialized) return;
             updateNickname(null, null);
             getQuickFiller(dragout);
         }
@@ -1975,7 +1976,7 @@ namespace PKHeX
 
             cb.BackColor = cb.SelectedValue == null ? Color.DarkSalmon : defaultControlWhite;
 
-            if (init)
+            if (fieldsInitialized)
             { getQuickFiller(dragout); }
         }
         private void validateComboBox2(object sender, EventArgs e)
@@ -2366,7 +2367,7 @@ namespace PKHeX
             // Fix Moves if a slot is empty 
             pk6.FixMoves();
             pk6.FixRelearn();
-            if (init && pk6.Moves.All(m => m == 0))
+            if (fieldsInitialized && pk6.Moves.All(m => m == 0))
                 Util.Alert("Pokémon has no moves!");
 
             // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer (none for eggs)
@@ -2802,7 +2803,7 @@ namespace PKHeX
         }
         private void getQuickFiller(PictureBox pb, byte[] dslotdata = null)
         {
-            if (!init) return;
+            if (!fieldsInitialized) return;
             dslotdata = dslotdata ?? preparepkx(false); // don't perform control loss click
 
             if (pb == dragout) L_QR.Visible = (BitConverter.ToInt16(dslotdata, 0x08) != 0); // Species

@@ -10,7 +10,7 @@ namespace PKHeX
             InitializeComponent();
             new Thread(() =>
             {
-                while (!Main.init)
+                while (!Main.formInitialized)
                     Thread.Sleep(50);
 
                 if (InvokeRequired)
