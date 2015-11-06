@@ -42,7 +42,7 @@ namespace PKHeX
 
             // Resize Main Window to PKX Editing Mode
             largeWidth = Width;
-            shortWidth = (Width * (30500 / 620)) / 100 + 1;
+            shortWidth = (Width*306)/620; // 306 = small, 620 = large
             Width = shortWidth;
 
             // Initialize Boxes
