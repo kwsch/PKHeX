@@ -960,6 +960,7 @@ namespace PKHeX
                 Util.Alert("PKX File has an invalid checksum.");
 
             // Reset a little.
+            bool oldInit = init;
             init = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
             if (focus)
@@ -1103,7 +1104,7 @@ namespace PKHeX
             if (pk6.Version > 12 || pk6.Version < 7)
                 CB_EncounterType.SelectedValue = 0;
 
-            init = true;
+            init = oldInit;
             updateIVs(null, null);
             updatePKRSInfected(null, null);
             updatePKRSCured(null, null);
@@ -2365,7 +2366,7 @@ namespace PKHeX
             // Fix Moves if a slot is empty 
             pk6.FixMoves();
             pk6.FixRelearn();
-            if (pk6.Move1 == 0)
+            if (init && pk6.Moves.All(m => m == 0))
                 Util.Alert("Pokémon has no moves!");
 
             // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer (none for eggs)
