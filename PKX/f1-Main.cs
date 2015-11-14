@@ -2862,6 +2862,8 @@ namespace PKHeX
             for (int i = 0; i < 31 * 30; i++)
             {
                 PK6 pk = SAV.getPK6Stored(SAV.Box + i * PK6.SIZE_STORED);
+                if (pk.Species == 0 || pk.Sanity != 0)
+                    continue;
                 string fileName = Util.CleanFileName(pk.FileName);
                 string boxfolder = "";
                 if (individualBoxFolders)
