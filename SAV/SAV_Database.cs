@@ -288,7 +288,7 @@ namespace PKHeX
             foreach (var db in Database)
                 RawDB.AddRange(db.Slot);
 
-            RawDB = new List<PK6>(RawDB.Where(pk => pk.Checksum == pk.CalculateChecksum()));
+            RawDB = new List<PK6>(RawDB.Where(pk => pk.Checksum == pk.CalculateChecksum() && pk.Species != 0 && pk.Sanity == 0));
             RawDB = new List<PK6>(RawDB.Distinct());
             setResults(RawDB);
         }
@@ -428,11 +428,21 @@ namespace PKHeX
                     break;
             }
 
+            // Filter for Selected Source
+            if (!Menu_SearchBoxes.Checked)
+                res = res.Where(pk => pk.Identifier.Contains("db\\"));
+            if (!Menu_SearchDatabase.Checked)
+                res = res.Where(pk => !pk.Identifier.Contains("db\\"));
+
             slotSelected = -1; // reset the slot last viewed
             var results = res.ToArray();
             if (results.Length == 0)
-                Util.Alert("No results found!");
-
+            {
+                if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked)
+                    Util.Alert("No data source to search!", "No results found!");
+                else
+                    Util.Alert("No results found!");
+            }
             setResults(new List<PK6>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
         }

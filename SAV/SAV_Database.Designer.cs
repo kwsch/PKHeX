@@ -96,6 +96,7 @@
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
             this.PAN_Box = new System.Windows.Forms.Panel();
             this.bpkx66 = new System.Windows.Forms.PictureBox();
@@ -141,7 +142,9 @@
             this.L_Generation = new System.Windows.Forms.Label();
             this.CB_Generation = new System.Windows.Forms.ComboBox();
             this.L_Viewed = new System.Windows.Forms.Label();
-            this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchBoxes = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -915,6 +918,7 @@
             // Menu_Tools
             // 
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.searchSettingsToolStripMenuItem,
             this.Menu_OpenDB,
             this.Menu_Report,
             this.Menu_Export});
@@ -935,6 +939,13 @@
             this.Menu_Report.Size = new System.Drawing.Size(197, 22);
             this.Menu_Report.Text = "Create Data Report";
             this.Menu_Report.Click += new System.EventHandler(this.generateDBReport);
+            // 
+            // Menu_Export
+            // 
+            this.Menu_Export.Name = "Menu_Export";
+            this.Menu_Export.Size = new System.Drawing.Size(197, 22);
+            this.Menu_Export.Text = "Export Results to Folder";
+            this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
             // 
             // P_Results
             // 
@@ -1516,12 +1527,32 @@
             this.L_Viewed.Text = "Last Viewed: {0}";
             this.L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Menu_Export
+            // searchSettingsToolStripMenuItem
             // 
-            this.Menu_Export.Name = "Menu_Export";
-            this.Menu_Export.Size = new System.Drawing.Size(197, 22);
-            this.Menu_Export.Text = "Export Results to Folder";
-            this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
+            this.searchSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_SearchBoxes,
+            this.Menu_SearchDatabase});
+            this.searchSettingsToolStripMenuItem.Name = "searchSettingsToolStripMenuItem";
+            this.searchSettingsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.searchSettingsToolStripMenuItem.Text = "Search Settings";
+            // 
+            // Menu_SearchBoxes
+            // 
+            this.Menu_SearchBoxes.Checked = true;
+            this.Menu_SearchBoxes.CheckOnClick = true;
+            this.Menu_SearchBoxes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchBoxes.Name = "Menu_SearchBoxes";
+            this.Menu_SearchBoxes.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchBoxes.Text = "Search Within Boxes";
+            // 
+            // Menu_SearchDatabase
+            // 
+            this.Menu_SearchDatabase.Checked = true;
+            this.Menu_SearchDatabase.CheckOnClick = true;
+            this.Menu_SearchDatabase.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchDatabase.Name = "Menu_SearchDatabase";
+            this.Menu_SearchDatabase.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchDatabase.Text = "Search Within Database";
             // 
             // SAV_Database
             // 
@@ -1765,6 +1796,9 @@
         private System.Windows.Forms.ComboBox CB_Generation;
         private System.Windows.Forms.Label L_Viewed;
         private System.Windows.Forms.ToolStripMenuItem Menu_Export;
+        private System.Windows.Forms.ToolStripMenuItem searchSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Menu_SearchBoxes;
+        private System.Windows.Forms.ToolStripMenuItem Menu_SearchDatabase;
 
     }
 }
