@@ -2393,7 +2393,6 @@ namespace PKHeX
             if (!verifiedPKX()) { return; }
             {
                 // Create Temp File to Drag
-                string basepath = Application.StartupPath;
                 Cursor.Current = Cursors.Hand;
 
                 // Make a new file name
@@ -2409,14 +2408,11 @@ namespace PKHeX
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, PK6.SIZE_STORED);
                 // Make file
-                string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
+                string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
                 try
                 {
                     File.WriteAllBytes(newfile, dragdata);
-
-                    string[] filesToDrag = { newfile };
-                    dragout.DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
-                    File.Delete(newfile);
+                    DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
                 }
                 catch (Exception x)
                 { Util.Error("Drag & Drop Error", x.ToString()); }
@@ -3264,7 +3260,6 @@ namespace PKHeX
             int offset = getPKXOffset(pkm_from_slot);
             if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
             // Create Temp File to Drag
-            string basepath = Application.StartupPath;
             Cursor.Current = Cursors.Hand;
 
             // Prepare Data
@@ -3281,14 +3276,11 @@ namespace PKHeX
             filename += " - " + pkx.PID + ".pk6";
 
             // Make File
-            string newfile = Path.Combine(basepath, Util.CleanFileName(filename));
+            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
             try
             {
                 File.WriteAllBytes(newfile, dragdata);
-
-                string[] filesToDrag = { newfile };
-                DoDragDrop(new DataObject(DataFormats.FileDrop, filesToDrag), DragDropEffects.Move);
-                File.Delete(newfile); // after drop, delete the temporary file
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (ArgumentException x)
             { Util.Error("Drag & Drop Error:", x.ToString()); }
