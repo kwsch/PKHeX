@@ -527,5 +527,10 @@ namespace PKHeX
             var any = result[0][0].Data;
             m_parent.populateFields(any);
         }
+
+        private void Menu_Exit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
