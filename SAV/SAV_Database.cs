@@ -166,8 +166,6 @@ namespace PKHeX
                     int offset = Main.SAV.Box + spot*PK6.SIZE_STORED;
                     var pkSAV = Main.SAV.getPK6Stored(offset);
 
-                    File.WriteAllBytes("wtfSAV.bin", pkSAV.Data);
-                    File.WriteAllBytes("wtfDB.bin", pk.Data);
                     if (pkSAV.Data.SequenceEqual(pk.Data))
                     {
                         Main.SAV.setEK6Stored(Main.blankEK6, offset);
