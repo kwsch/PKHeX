@@ -2721,7 +2721,7 @@ namespace PKHeX
 
             return Array.FindIndex(SlotPictureBoxes, p => p.Name == name);
         }
-        private void setPKXBoxes()
+        public void setPKXBoxes()
         {
             int boxoffset = SAV.Box + CB_BoxSelect.SelectedIndex * (PK6.SIZE_STORED * 30);
             int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);

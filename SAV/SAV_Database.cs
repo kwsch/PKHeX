@@ -60,12 +60,14 @@ namespace PKHeX
 
             ContextMenuStrip mnu = new ContextMenuStrip();
             ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
+            ToolStripMenuItem mnuDelete = new ToolStripMenuItem("Delete");
 
             // Assign event handlers
             mnuView.Click += clickView;
+            mnuDelete.Click += clickDelete;
 
             // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView });
+            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuDelete });
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)
@@ -128,6 +130,56 @@ namespace PKHeX
                 slotSelected = index + SCR_Box.Value * RES_MIN;
                 FillPKXBoxes(SCR_Box.Value);
                 L_Viewed.Text = String.Format(Viewed, dataArr[index].Identifier);
+            }
+        }
+        private void clickDelete(object sender, EventArgs e)
+        {
+            string name = (sender is ToolStripItem)
+                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
+                : (sender as PictureBox).Name;
+
+            int index = Array.FindIndex(PKXBOXES, p => p.Name == name);
+            var dataArr = Results.Skip(SCR_Box.Value * RES_MIN).Take(RES_MAX).ToArray();
+            if (index >= dataArr.Length)
+                System.Media.SystemSounds.Exclamation.Play();
+            else
+            {
+                var pk = dataArr[index];
+                string path = pk.Identifier;
+
+                if (path.Contains(Path.DirectorySeparatorChar))
+                {
+                    // Data from Database: Delete file from disk
+                    File.Delete(path);
+                }
+                else
+                {
+                    // Data from Box: Delete from save file
+                    string[] split = pk.Identifier.Split(':');
+                    int box = Convert.ToInt32(split[0].Substring(1)) - 1;
+                    int slot = Convert.ToInt32(split[1]) - 1;
+                    int spot = box*30 + slot;
+                    int offset = Main.SAV.Box + spot*PK6.SIZE_STORED;
+                    var pkSAV = Main.SAV.getPK6Stored(offset);
+
+                    File.WriteAllBytes("wtfSAV.bin", pkSAV.Data);
+                    File.WriteAllBytes("wtfDB.bin", pk.Data);
+                    if (pkSAV.Data.SequenceEqual(pk.Data))
+                    {
+                        Main.SAV.setEK6Stored(Main.blankEK6, offset);
+                        m_parent.setPKXBoxes();
+                    }
+                    else
+                    {
+                        Util.Error("Database slot data does not match save data!", "Don't move Pokémon after initializing the Database, please re-open the Database viewer.");
+                        return;
+                    }
+                }
+                // Remove from database.
+                RawDB.Remove(pk);
+                Results.Remove(pk);
+                // Refresh database view.
+                FillPKXBoxes(SCR_Box.Value);
             }
         }
         private void populateComboBoxes()
