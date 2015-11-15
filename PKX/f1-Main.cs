@@ -206,6 +206,7 @@ namespace PKHeX
         public static int colorizedslot;
         public static int largeWidth, shortWidth;
         public static string eggname = "";
+        public static string DatabasePath = "db";
         public static string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
         public static string[] main_langlist = 
             {
@@ -408,17 +409,16 @@ namespace PKHeX
         {
             DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
             if (dr == DialogResult.Cancel) return;
-            string exepath = Application.StartupPath;
             string path = "";
             bool dumptoboxes = false;
             {
                 if (dr == DialogResult.Yes) // Import
                 {
-                    if (Directory.Exists(Path.Combine(exepath, "db")))
+                    if (Directory.Exists(DatabasePath))
                     {
                         DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Load from PKHeX's database?");
                         if (ld == DialogResult.Yes)
-                            path = Path.Combine(exepath, "db");
+                            path = DatabasePath;
                         else if (ld == DialogResult.No)
                         {
                             // open folder dialog
@@ -443,7 +443,7 @@ namespace PKHeX
                     DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
                     if (ld == DialogResult.Yes)
                     {
-                        path = Path.Combine(exepath, "db");
+                        path = DatabasePath;
                         if (!Directory.Exists(path))
                             Directory.CreateDirectory(path);
                     }
@@ -2140,7 +2140,7 @@ namespace PKHeX
             TB_Friendship.Text = (pk6.CurrentHandler == 0 ? pk6.OT_Friendship : pk6.HT_Friendship).ToString();
         }
         // Open/Save Array Manipulation //
-        private bool verifiedPKX()
+        public bool verifiedPKX()
         {
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
@@ -2178,7 +2178,7 @@ namespace PKHeX
         invalid:
             { System.Media.SystemSounds.Exclamation.Play(); return false; }
         }
-        private byte[] preparepkx(bool click = true)
+        public byte[] preparepkx(bool click = true)
         {
             if (click)
                 tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)

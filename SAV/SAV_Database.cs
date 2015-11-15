@@ -50,6 +50,10 @@ namespace PKHeX
                 {
                     if (ModifierKeys == Keys.Control)
                         clickView(sender, args);
+                    else if (ModifierKeys == Keys.Alt)
+                        clickDelete(sender, args);
+                    else if (ModifierKeys == Keys.Shift)
+                        clickSet(sender, args);
                 };
             }
             
@@ -103,7 +107,7 @@ namespace PKHeX
         }
         private Main m_parent;
         private PictureBox[] PKXBOXES;
-        private const string DatabasePath = "db";
+        private string DatabasePath = Main.DatabasePath;
         private List<DatabaseList> Database = new List<DatabaseList>();
         private List<PK6> Results;
         private List<PK6> RawDB;
@@ -179,8 +183,40 @@ namespace PKHeX
                 RawDB.Remove(pk);
                 Results.Remove(pk);
                 // Refresh database view.
+                L_Count.Text = String.Format(Counter, Results.Count);
                 FillPKXBoxes(SCR_Box.Value);
+                System.Media.SystemSounds.Asterisk.Play();
             }
+        }
+        private void clickSet(object sender, EventArgs e)
+        {
+            // Don't care what slot was clicked, just add it to the database
+            if (!m_parent.verifiedPKX())
+                return;
+
+            PK6 pk = new PK6(m_parent.preparepkx());
+            if (!Directory.Exists(DatabasePath))
+                Directory.CreateDirectory(DatabasePath);
+
+            string path = Path.Combine(DatabasePath, Util.CleanFileName(pk.FileName));
+
+            if (RawDB.Any(p => p.Identifier == path))
+            {
+                Util.Alert("File already exists in database!");
+                return;
+            }
+
+            File.WriteAllBytes(path, pk.Data.Take(PK6.SIZE_STORED).ToArray());
+            pk.Identifier = path;
+
+            RawDB.Add(pk);
+            RawDB = new List<PK6>(RawDB.Distinct()); // just in case
+            Results.Add(pk);
+            Results = new List<PK6>(Results.Distinct()); // just in case
+            // Refresh database view.
+            L_Count.Text = String.Format(Counter, Results.Count);
+            FillPKXBoxes(SCR_Box.Value);
+            Util.Alert("Added Pokémon from tabs to database", "Please refresh the search to ensure it shows up; it may be at the bottom of the results.");
         }
         private void populateComboBoxes()
         {
