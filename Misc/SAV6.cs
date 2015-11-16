@@ -219,7 +219,7 @@ namespace PKHeX
             for (int i = 0; i < Blocks.Length; i++)
             {
                 byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
-                Array.Copy(BitConverter.GetBytes(ccitt16(array)), 0, Data, BlockInfoOffset + 6 + i * 8, 2);
+                BitConverter.GetBytes(ccitt16(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
             }
         }
         public byte[] Write()
@@ -467,6 +467,57 @@ namespace PKHeX
             // Write data back
             for (int i = 0; i < len; i++)
                 setData(sorted[i], Box + i * PK6.SIZE_STORED);
+        }
+
+        // Informational
+        public PK6[] BoxData
+        {
+            get
+            {
+                PK6[] data = new PK6[31*30];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = getPK6Stored(Box + PK6.SIZE_STORED * i);
+                return data;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                if (value.Length != 31*30)
+                    throw new ArgumentException("Expected 930, got " + value.Length);
+
+                for (int i = 0; i < value.Length; i++)
+                    setPK6Stored(value[i], Box + PK6.SIZE_STORED * i);
+            }
+        }
+        public PK6[] PartyData
+        {
+            get
+            {
+                PK6[] data = new PK6[6];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = getPK6Party(Party + PK6.SIZE_PARTY * i);
+                return data;
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                if (value.Length == 0 || value.Length > 6)
+                    throw new ArgumentException("Expected 1-6, got " + value.Length);
+                if (value[0].Species == 0)
+                    throw new ArgumentException("Can't have an empty first slot." + value.Length);
+
+                PK6[] newParty = value.Where(pk => (pk.Species != 0)).ToArray();
+                
+                PartyCount = newParty.Length;
+                Array.Resize(ref newParty, 6);
+
+                for (int i = PartyCount; i < newParty.Length; i++)
+                    newParty[i] = new PK6();
+                for (int i = 0; i < newParty.Length; i++)
+                    setPK6Party(newParty[i], Party + PK6.SIZE_PARTY*i);
+            }
         }
 
         // Writeback Validity
