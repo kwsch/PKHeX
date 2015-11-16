@@ -476,7 +476,10 @@ namespace PKHeX
             {
                 PK6[] data = new PK6[31*30];
                 for (int i = 0; i < data.Length; i++)
+                {
                     data[i] = getPK6Stored(Box + PK6.SIZE_STORED * i);
+                    data[i].Identifier = String.Format("B{0}:{1}", (i / 30 + 1).ToString("00"), (i % 30 + 1).ToString("00"));
+                }
                 return data;
             }
             set
