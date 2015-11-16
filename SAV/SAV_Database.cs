@@ -94,13 +94,8 @@ namespace PKHeX
                     loadDatabase(File.ReadAllBytes(file));
             }
             // Fetch from save file
-            for (int i = 0; i < 930; i++)
-            {
-                string Identifier = String.Format("B{0}:{1}", (i / 30 + 1).ToString("00"), (i % 30 + 1).ToString("00"));
-                PK6 pk6 = new PK6(PKX.decryptArray(Main.SAV.Data.Skip(Main.SAV.Box + 0xE8*i).Take(0xE8).ToArray()), Identifier);
-                if (pk6.Species != 0)
-                    Database[0].Slot.Add(pk6);
-            }
+            foreach (var pk6 in Main.SAV.BoxData.Where(pk => pk.Species != 0))
+                Database[0].Slot.Add(pk6);
 
             // Prepare Database
             prepareDBForSearch();
