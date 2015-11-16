@@ -10,9 +10,9 @@ namespace PKHeX
         internal static readonly int SIZE_PARTY = 0x104;
         internal static readonly int SIZE_STORED = 0xE8;
 
-        public PK6(byte[] decryptedData, string ident = null)
+        public PK6(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])decryptedData.Clone();
+            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
