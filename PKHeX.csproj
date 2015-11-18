@@ -351,6 +351,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\Trainer Sprites\tr_129.png" />
+    <None Include="Resources\img\Trainer Sprites\tr_128.png" />
+    <None Include="Resources\img\Trainer Sprites\tr_81.png" />
+    <None Include="Resources\img\Trainer Sprites\tr_80.png" />
     <None Include="Resources\text\ko\lang_ko.txt" />
     <None Include="Resources\text\other\lang_pt.txt" />
     <None Include="Resources\text\ko\text_Games_ko.txt" />
