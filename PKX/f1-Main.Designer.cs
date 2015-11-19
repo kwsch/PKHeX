@@ -29,6 +29,7 @@
         
         public void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.tabMain = new System.Windows.Forms.TabControl();
             this.Tab_Main = new System.Windows.Forms.TabPage();
@@ -220,15 +221,20 @@
             this.Menu_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
-            this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyPK6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Save = new System.Windows.Forms.Label();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
             this.PAN_Box = new System.Windows.Forms.Panel();
             this.bpkx30 = new System.Windows.Forms.PictureBox();
+            this.mnuVSD = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSet = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.bpkx29 = new System.Windows.Forms.PictureBox();
             this.bpkx28 = new System.Windows.Forms.PictureBox();
             this.bpkx27 = new System.Windows.Forms.PictureBox();
@@ -264,6 +270,8 @@
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
             this.PAN_BattleBox = new System.Windows.Forms.Panel();
             this.bbpkx1 = new System.Windows.Forms.PictureBox();
+            this.mnuV = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnu2View = new System.Windows.Forms.ToolStripMenuItem();
             this.bbpkx2 = new System.Windows.Forms.PictureBox();
             this.bbpkx3 = new System.Windows.Forms.PictureBox();
             this.bbpkx4 = new System.Windows.Forms.PictureBox();
@@ -329,8 +337,6 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
-            this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ModifyPK6 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -359,6 +365,7 @@
             this.Tab_Box.SuspendLayout();
             this.PAN_Box.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
+            this.mnuVSD.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx27)).BeginInit();
@@ -391,6 +398,7 @@
             this.Tab_PartyBattle.SuspendLayout();
             this.PAN_BattleBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx1)).BeginInit();
+            this.mnuV.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx4)).BeginInit();
@@ -434,6 +442,8 @@
             this.tabMain.SelectedIndex = 0;
             this.tabMain.Size = new System.Drawing.Size(280, 325);
             this.tabMain.TabIndex = 0;
+            this.tabMain.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabMain_DragDrop);
+            this.tabMain.DragEnter += new System.Windows.Forms.DragEventHandler(this.tabMain_DragEnter);
             // 
             // Tab_Main
             // 
@@ -2678,7 +2688,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2688,36 +2698,50 @@
             this.CB_MainLanguage.Size = new System.Drawing.Size(121, 23);
             this.CB_MainLanguage.SelectedIndexChanged += new System.EventHandler(this.changeMainLanguage);
             // 
-            // Menu_Unicode
-            // 
-            this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
-            this.Menu_Unicode.Text = "Toggle Font";
-            this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
-            // 
             // Menu_Modify
             // 
             this.Menu_Modify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_ModifyDex,
             this.Menu_ModifyPK6});
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
+            // 
+            // Menu_ModifyDex
+            // 
+            this.Menu_ModifyDex.Checked = true;
+            this.Menu_ModifyDex.CheckOnClick = true;
+            this.Menu_ModifyDex.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ModifyDex.Name = "Menu_ModifyDex";
+            this.Menu_ModifyDex.Size = new System.Drawing.Size(159, 22);
+            this.Menu_ModifyDex.Text = "Modify Pokédex";
+            this.Menu_ModifyDex.Click += new System.EventHandler(this.mainMenuModifyDex);
+            // 
+            // Menu_ModifyPK6
+            // 
+            this.Menu_ModifyPK6.Checked = true;
+            this.Menu_ModifyPK6.CheckOnClick = true;
+            this.Menu_ModifyPK6.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ModifyPK6.Name = "Menu_ModifyPK6";
+            this.Menu_ModifyPK6.Size = new System.Drawing.Size(159, 22);
+            this.Menu_ModifyPK6.Text = "Modify PK6 Info";
+            this.Menu_ModifyPK6.Click += new System.EventHandler(this.mainMenuModifyPK6);
+            // 
+            // Menu_Unicode
+            // 
+            this.Menu_Unicode.Name = "Menu_Unicode";
+            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Unicode.Text = "Toggle Font";
+            this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
             // Menu_About
             // 
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(139, 22);
             this.Menu_About.Text = "A&bout PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.testToolStripMenuItem.Text = "Test";
             // 
             // L_Save
             // 
@@ -2797,6 +2821,7 @@
             // bpkx30
             // 
             this.bpkx30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx30.ContextMenuStrip = this.mnuVSD;
             this.bpkx30.Location = new System.Drawing.Point(207, 126);
             this.bpkx30.Name = "bpkx30";
             this.bpkx30.Size = new System.Drawing.Size(42, 32);
@@ -2807,9 +2832,40 @@
             this.bpkx30.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.bpkx30.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
+            // mnuVSD
+            // 
+            this.mnuVSD.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuView,
+            this.mnuSet,
+            this.mnuDelete});
+            this.mnuVSD.Name = "mnuVSD";
+            this.mnuVSD.Size = new System.Drawing.Size(108, 70);
+            // 
+            // mnuView
+            // 
+            this.mnuView.Name = "mnuView";
+            this.mnuView.Size = new System.Drawing.Size(107, 22);
+            this.mnuView.Text = "View";
+            this.mnuView.Click += new System.EventHandler(this.clickView);
+            // 
+            // mnuSet
+            // 
+            this.mnuSet.Name = "mnuSet";
+            this.mnuSet.Size = new System.Drawing.Size(107, 22);
+            this.mnuSet.Text = "Set";
+            this.mnuSet.Click += new System.EventHandler(this.clickSet);
+            // 
+            // mnuDelete
+            // 
+            this.mnuDelete.Name = "mnuDelete";
+            this.mnuDelete.Size = new System.Drawing.Size(107, 22);
+            this.mnuDelete.Text = "Delete";
+            this.mnuDelete.Click += new System.EventHandler(this.clickDelete);
+            // 
             // bpkx29
             // 
             this.bpkx29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx29.ContextMenuStrip = this.mnuVSD;
             this.bpkx29.Location = new System.Drawing.Point(166, 126);
             this.bpkx29.Name = "bpkx29";
             this.bpkx29.Size = new System.Drawing.Size(42, 32);
@@ -2823,6 +2879,7 @@
             // bpkx28
             // 
             this.bpkx28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx28.ContextMenuStrip = this.mnuVSD;
             this.bpkx28.Location = new System.Drawing.Point(125, 126);
             this.bpkx28.Name = "bpkx28";
             this.bpkx28.Size = new System.Drawing.Size(42, 32);
@@ -2836,6 +2893,7 @@
             // bpkx27
             // 
             this.bpkx27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx27.ContextMenuStrip = this.mnuVSD;
             this.bpkx27.Location = new System.Drawing.Point(84, 126);
             this.bpkx27.Name = "bpkx27";
             this.bpkx27.Size = new System.Drawing.Size(42, 32);
@@ -2849,6 +2907,7 @@
             // bpkx26
             // 
             this.bpkx26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx26.ContextMenuStrip = this.mnuVSD;
             this.bpkx26.Location = new System.Drawing.Point(43, 126);
             this.bpkx26.Name = "bpkx26";
             this.bpkx26.Size = new System.Drawing.Size(42, 32);
@@ -2862,6 +2921,7 @@
             // bpkx25
             // 
             this.bpkx25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx25.ContextMenuStrip = this.mnuVSD;
             this.bpkx25.Location = new System.Drawing.Point(2, 126);
             this.bpkx25.Name = "bpkx25";
             this.bpkx25.Size = new System.Drawing.Size(42, 32);
@@ -2875,6 +2935,7 @@
             // bpkx24
             // 
             this.bpkx24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx24.ContextMenuStrip = this.mnuVSD;
             this.bpkx24.Location = new System.Drawing.Point(207, 95);
             this.bpkx24.Name = "bpkx24";
             this.bpkx24.Size = new System.Drawing.Size(42, 32);
@@ -2888,6 +2949,7 @@
             // bpkx23
             // 
             this.bpkx23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx23.ContextMenuStrip = this.mnuVSD;
             this.bpkx23.Location = new System.Drawing.Point(166, 95);
             this.bpkx23.Name = "bpkx23";
             this.bpkx23.Size = new System.Drawing.Size(42, 32);
@@ -2901,6 +2963,7 @@
             // bpkx22
             // 
             this.bpkx22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx22.ContextMenuStrip = this.mnuVSD;
             this.bpkx22.Location = new System.Drawing.Point(125, 95);
             this.bpkx22.Name = "bpkx22";
             this.bpkx22.Size = new System.Drawing.Size(42, 32);
@@ -2914,6 +2977,7 @@
             // bpkx21
             // 
             this.bpkx21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx21.ContextMenuStrip = this.mnuVSD;
             this.bpkx21.Location = new System.Drawing.Point(84, 95);
             this.bpkx21.Name = "bpkx21";
             this.bpkx21.Size = new System.Drawing.Size(42, 32);
@@ -2927,6 +2991,7 @@
             // bpkx20
             // 
             this.bpkx20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx20.ContextMenuStrip = this.mnuVSD;
             this.bpkx20.Location = new System.Drawing.Point(43, 95);
             this.bpkx20.Name = "bpkx20";
             this.bpkx20.Size = new System.Drawing.Size(42, 32);
@@ -2940,6 +3005,7 @@
             // bpkx19
             // 
             this.bpkx19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx19.ContextMenuStrip = this.mnuVSD;
             this.bpkx19.Location = new System.Drawing.Point(2, 95);
             this.bpkx19.Name = "bpkx19";
             this.bpkx19.Size = new System.Drawing.Size(42, 32);
@@ -2953,6 +3019,7 @@
             // bpkx18
             // 
             this.bpkx18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx18.ContextMenuStrip = this.mnuVSD;
             this.bpkx18.Location = new System.Drawing.Point(207, 64);
             this.bpkx18.Name = "bpkx18";
             this.bpkx18.Size = new System.Drawing.Size(42, 32);
@@ -2966,6 +3033,7 @@
             // bpkx17
             // 
             this.bpkx17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx17.ContextMenuStrip = this.mnuVSD;
             this.bpkx17.Location = new System.Drawing.Point(166, 64);
             this.bpkx17.Name = "bpkx17";
             this.bpkx17.Size = new System.Drawing.Size(42, 32);
@@ -2979,6 +3047,7 @@
             // bpkx16
             // 
             this.bpkx16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx16.ContextMenuStrip = this.mnuVSD;
             this.bpkx16.Location = new System.Drawing.Point(125, 64);
             this.bpkx16.Name = "bpkx16";
             this.bpkx16.Size = new System.Drawing.Size(42, 32);
@@ -2992,6 +3061,7 @@
             // bpkx15
             // 
             this.bpkx15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx15.ContextMenuStrip = this.mnuVSD;
             this.bpkx15.Location = new System.Drawing.Point(84, 64);
             this.bpkx15.Name = "bpkx15";
             this.bpkx15.Size = new System.Drawing.Size(42, 32);
@@ -3005,6 +3075,7 @@
             // bpkx14
             // 
             this.bpkx14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx14.ContextMenuStrip = this.mnuVSD;
             this.bpkx14.Location = new System.Drawing.Point(43, 64);
             this.bpkx14.Name = "bpkx14";
             this.bpkx14.Size = new System.Drawing.Size(42, 32);
@@ -3018,6 +3089,7 @@
             // bpkx13
             // 
             this.bpkx13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx13.ContextMenuStrip = this.mnuVSD;
             this.bpkx13.Location = new System.Drawing.Point(2, 64);
             this.bpkx13.Name = "bpkx13";
             this.bpkx13.Size = new System.Drawing.Size(42, 32);
@@ -3031,6 +3103,7 @@
             // bpkx12
             // 
             this.bpkx12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx12.ContextMenuStrip = this.mnuVSD;
             this.bpkx12.Location = new System.Drawing.Point(207, 33);
             this.bpkx12.Name = "bpkx12";
             this.bpkx12.Size = new System.Drawing.Size(42, 32);
@@ -3044,6 +3117,7 @@
             // bpkx11
             // 
             this.bpkx11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx11.ContextMenuStrip = this.mnuVSD;
             this.bpkx11.Location = new System.Drawing.Point(166, 33);
             this.bpkx11.Name = "bpkx11";
             this.bpkx11.Size = new System.Drawing.Size(42, 32);
@@ -3057,6 +3131,7 @@
             // bpkx10
             // 
             this.bpkx10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx10.ContextMenuStrip = this.mnuVSD;
             this.bpkx10.Location = new System.Drawing.Point(125, 33);
             this.bpkx10.Name = "bpkx10";
             this.bpkx10.Size = new System.Drawing.Size(42, 32);
@@ -3070,6 +3145,7 @@
             // bpkx9
             // 
             this.bpkx9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx9.ContextMenuStrip = this.mnuVSD;
             this.bpkx9.Location = new System.Drawing.Point(84, 33);
             this.bpkx9.Name = "bpkx9";
             this.bpkx9.Size = new System.Drawing.Size(42, 32);
@@ -3083,6 +3159,7 @@
             // bpkx8
             // 
             this.bpkx8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx8.ContextMenuStrip = this.mnuVSD;
             this.bpkx8.Location = new System.Drawing.Point(43, 33);
             this.bpkx8.Name = "bpkx8";
             this.bpkx8.Size = new System.Drawing.Size(42, 32);
@@ -3096,6 +3173,7 @@
             // bpkx7
             // 
             this.bpkx7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx7.ContextMenuStrip = this.mnuVSD;
             this.bpkx7.Location = new System.Drawing.Point(2, 33);
             this.bpkx7.Name = "bpkx7";
             this.bpkx7.Size = new System.Drawing.Size(42, 32);
@@ -3109,6 +3187,7 @@
             // bpkx6
             // 
             this.bpkx6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx6.ContextMenuStrip = this.mnuVSD;
             this.bpkx6.Location = new System.Drawing.Point(207, 2);
             this.bpkx6.Name = "bpkx6";
             this.bpkx6.Size = new System.Drawing.Size(42, 32);
@@ -3122,6 +3201,7 @@
             // bpkx5
             // 
             this.bpkx5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx5.ContextMenuStrip = this.mnuVSD;
             this.bpkx5.Location = new System.Drawing.Point(166, 2);
             this.bpkx5.Name = "bpkx5";
             this.bpkx5.Size = new System.Drawing.Size(42, 32);
@@ -3135,6 +3215,7 @@
             // bpkx4
             // 
             this.bpkx4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx4.ContextMenuStrip = this.mnuVSD;
             this.bpkx4.Location = new System.Drawing.Point(125, 2);
             this.bpkx4.Name = "bpkx4";
             this.bpkx4.Size = new System.Drawing.Size(42, 32);
@@ -3148,6 +3229,7 @@
             // bpkx3
             // 
             this.bpkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx3.ContextMenuStrip = this.mnuVSD;
             this.bpkx3.Location = new System.Drawing.Point(84, 2);
             this.bpkx3.Name = "bpkx3";
             this.bpkx3.Size = new System.Drawing.Size(42, 32);
@@ -3161,6 +3243,7 @@
             // bpkx2
             // 
             this.bpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx2.ContextMenuStrip = this.mnuVSD;
             this.bpkx2.Location = new System.Drawing.Point(43, 2);
             this.bpkx2.Name = "bpkx2";
             this.bpkx2.Size = new System.Drawing.Size(42, 32);
@@ -3174,6 +3257,7 @@
             // bpkx1
             // 
             this.bpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bpkx1.ContextMenuStrip = this.mnuVSD;
             this.bpkx1.Location = new System.Drawing.Point(2, 2);
             this.bpkx1.Name = "bpkx1";
             this.bpkx1.Size = new System.Drawing.Size(42, 32);
@@ -3280,6 +3364,7 @@
             // 
             // bbpkx1
             // 
+            this.bbpkx1.ContextMenuStrip = this.mnuV;
             this.bbpkx1.Location = new System.Drawing.Point(11, 14);
             this.bbpkx1.Name = "bbpkx1";
             this.bbpkx1.Size = new System.Drawing.Size(40, 30);
@@ -3288,8 +3373,23 @@
             this.bbpkx1.TabStop = false;
             this.bbpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
+            // mnuV
+            // 
+            this.mnuV.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnu2View});
+            this.mnuV.Name = "mnuV";
+            this.mnuV.Size = new System.Drawing.Size(100, 26);
+            // 
+            // mnu2View
+            // 
+            this.mnu2View.Name = "mnu2View";
+            this.mnu2View.Size = new System.Drawing.Size(99, 22);
+            this.mnu2View.Text = "View";
+            this.mnu2View.Click += new System.EventHandler(this.clickView);
+            // 
             // bbpkx2
             // 
+            this.bbpkx2.ContextMenuStrip = this.mnuV;
             this.bbpkx2.Location = new System.Drawing.Point(60, 35);
             this.bbpkx2.Name = "bbpkx2";
             this.bbpkx2.Size = new System.Drawing.Size(40, 30);
@@ -3300,6 +3400,7 @@
             // 
             // bbpkx3
             // 
+            this.bbpkx3.ContextMenuStrip = this.mnuV;
             this.bbpkx3.Location = new System.Drawing.Point(11, 54);
             this.bbpkx3.Name = "bbpkx3";
             this.bbpkx3.Size = new System.Drawing.Size(40, 30);
@@ -3310,6 +3411,7 @@
             // 
             // bbpkx4
             // 
+            this.bbpkx4.ContextMenuStrip = this.mnuV;
             this.bbpkx4.Location = new System.Drawing.Point(60, 75);
             this.bbpkx4.Name = "bbpkx4";
             this.bbpkx4.Size = new System.Drawing.Size(40, 30);
@@ -3320,6 +3422,7 @@
             // 
             // bbpkx5
             // 
+            this.bbpkx5.ContextMenuStrip = this.mnuV;
             this.bbpkx5.Location = new System.Drawing.Point(11, 94);
             this.bbpkx5.Name = "bbpkx5";
             this.bbpkx5.Size = new System.Drawing.Size(40, 30);
@@ -3330,6 +3433,7 @@
             // 
             // bbpkx6
             // 
+            this.bbpkx6.ContextMenuStrip = this.mnuV;
             this.bbpkx6.Location = new System.Drawing.Point(60, 115);
             this.bbpkx6.Name = "bbpkx6";
             this.bbpkx6.Size = new System.Drawing.Size(40, 30);
@@ -3383,6 +3487,7 @@
             // 
             // ppkx1
             // 
+            this.ppkx1.ContextMenuStrip = this.mnuVSD;
             this.ppkx1.Location = new System.Drawing.Point(11, 14);
             this.ppkx1.Name = "ppkx1";
             this.ppkx1.Size = new System.Drawing.Size(40, 30);
@@ -3393,6 +3498,7 @@
             // 
             // ppkx2
             // 
+            this.ppkx2.ContextMenuStrip = this.mnuVSD;
             this.ppkx2.Location = new System.Drawing.Point(60, 35);
             this.ppkx2.Name = "ppkx2";
             this.ppkx2.Size = new System.Drawing.Size(40, 30);
@@ -3403,6 +3509,7 @@
             // 
             // ppkx3
             // 
+            this.ppkx3.ContextMenuStrip = this.mnuVSD;
             this.ppkx3.Location = new System.Drawing.Point(11, 54);
             this.ppkx3.Name = "ppkx3";
             this.ppkx3.Size = new System.Drawing.Size(40, 30);
@@ -3413,6 +3520,7 @@
             // 
             // ppkx4
             // 
+            this.ppkx4.ContextMenuStrip = this.mnuVSD;
             this.ppkx4.Location = new System.Drawing.Point(60, 75);
             this.ppkx4.Name = "ppkx4";
             this.ppkx4.Size = new System.Drawing.Size(40, 30);
@@ -3423,6 +3531,7 @@
             // 
             // ppkx5
             // 
+            this.ppkx5.ContextMenuStrip = this.mnuVSD;
             this.ppkx5.Location = new System.Drawing.Point(11, 94);
             this.ppkx5.Name = "ppkx5";
             this.ppkx5.Size = new System.Drawing.Size(40, 30);
@@ -3433,6 +3542,7 @@
             // 
             // ppkx6
             // 
+            this.ppkx6.ContextMenuStrip = this.mnuVSD;
             this.ppkx6.Location = new System.Drawing.Point(60, 115);
             this.ppkx6.Name = "ppkx6";
             this.ppkx6.Size = new System.Drawing.Size(40, 30);
@@ -3562,6 +3672,7 @@
             // dcpkx2
             // 
             this.dcpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dcpkx2.ContextMenuStrip = this.mnuV;
             this.dcpkx2.Location = new System.Drawing.Point(26, 71);
             this.dcpkx2.Name = "dcpkx2";
             this.dcpkx2.Size = new System.Drawing.Size(42, 32);
@@ -3573,6 +3684,7 @@
             // dcpkx1
             // 
             this.dcpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dcpkx1.ContextMenuStrip = this.mnuV;
             this.dcpkx1.Location = new System.Drawing.Point(26, 18);
             this.dcpkx1.Name = "dcpkx1";
             this.dcpkx1.Size = new System.Drawing.Size(42, 32);
@@ -3605,6 +3717,7 @@
             // gtspkx
             // 
             this.gtspkx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gtspkx.ContextMenuStrip = this.mnuV;
             this.gtspkx.Location = new System.Drawing.Point(9, 18);
             this.gtspkx.Name = "gtspkx";
             this.gtspkx.Size = new System.Drawing.Size(42, 32);
@@ -3626,6 +3739,7 @@
             // fusedpkx
             // 
             this.fusedpkx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.fusedpkx.ContextMenuStrip = this.mnuV;
             this.fusedpkx.Location = new System.Drawing.Point(9, 18);
             this.fusedpkx.Name = "fusedpkx";
             this.fusedpkx.Size = new System.Drawing.Size(42, 32);
@@ -3659,6 +3773,7 @@
             // subepkx1
             // 
             this.subepkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx1.ContextMenuStrip = this.mnuV;
             this.subepkx1.Location = new System.Drawing.Point(9, 18);
             this.subepkx1.Name = "subepkx1";
             this.subepkx1.Size = new System.Drawing.Size(42, 32);
@@ -3670,6 +3785,7 @@
             // subepkx2
             // 
             this.subepkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx2.ContextMenuStrip = this.mnuV;
             this.subepkx2.Location = new System.Drawing.Point(62, 19);
             this.subepkx2.Name = "subepkx2";
             this.subepkx2.Size = new System.Drawing.Size(42, 34);
@@ -3680,6 +3796,7 @@
             // subepkx3
             // 
             this.subepkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.subepkx3.ContextMenuStrip = this.mnuV;
             this.subepkx3.Location = new System.Drawing.Point(109, 19);
             this.subepkx3.Name = "subepkx3";
             this.subepkx3.Size = new System.Drawing.Size(42, 34);
@@ -3987,26 +4104,6 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
-            // Menu_ModifyDex
-            // 
-            this.Menu_ModifyDex.Checked = true;
-            this.Menu_ModifyDex.CheckOnClick = true;
-            this.Menu_ModifyDex.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_ModifyDex.Name = "Menu_ModifyDex";
-            this.Menu_ModifyDex.Size = new System.Drawing.Size(159, 22);
-            this.Menu_ModifyDex.Text = "Modify Pokédex";
-            this.Menu_ModifyDex.Click += new System.EventHandler(this.mainMenuModifyDex);
-            // 
-            // Menu_ModifyPK6
-            // 
-            this.Menu_ModifyPK6.Checked = true;
-            this.Menu_ModifyPK6.CheckOnClick = true;
-            this.Menu_ModifyPK6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_ModifyPK6.Name = "Menu_ModifyPK6";
-            this.Menu_ModifyPK6.Size = new System.Drawing.Size(159, 22);
-            this.Menu_ModifyPK6.Text = "Modify PK6 Info";
-            this.Menu_ModifyPK6.Click += new System.EventHandler(this.mainMenuModifyPK6);
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -4026,6 +4123,8 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PKHeX";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabMain_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.tabMain_DragEnter);
             this.tabMain.ResumeLayout(false);
             this.Tab_Main.ResumeLayout(false);
             this.Tab_Main.PerformLayout();
@@ -4063,6 +4162,7 @@
             this.Tab_Box.ResumeLayout(false);
             this.PAN_Box.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).EndInit();
+            this.mnuVSD.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx27)).EndInit();
@@ -4097,6 +4197,7 @@
             this.PAN_BattleBox.ResumeLayout(false);
             this.PAN_BattleBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx1)).EndInit();
+            this.mnuV.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx4)).EndInit();
@@ -4275,7 +4376,6 @@
         private System.Windows.Forms.MaskedTextBox TB_MetLevel;
         public System.Windows.Forms.GroupBox GB_nOT;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Menu_File;
         private System.Windows.Forms.ToolStripMenuItem Menu_Open;
         private System.Windows.Forms.ToolStripMenuItem Menu_Save;
@@ -4439,6 +4539,12 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Modify;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyDex;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyPK6;
+        private System.Windows.Forms.ContextMenuStrip mnuVSD;
+        private System.Windows.Forms.ToolStripMenuItem mnuView;
+        private System.Windows.Forms.ToolStripMenuItem mnuSet;
+        private System.Windows.Forms.ToolStripMenuItem mnuDelete;
+        private System.Windows.Forms.ContextMenuStrip mnuV;
+        private System.Windows.Forms.ToolStripMenuItem mnu2View;
     }
 }
 

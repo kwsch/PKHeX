@@ -21,6 +21,7 @@ namespace PKHeX
             #region Initialize Form
             pk6.RefreshChecksum();
             InitializeComponent();
+            string filename = Path.GetFileNameWithoutExtension(this.Name);
             // Initialize SAV-Set Parameters in case compilation settings were changed.
             SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
             SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
@@ -48,93 +49,10 @@ namespace PKHeX
             // Initialize Boxes
             for (int i = 0; i < 30*31; i++)
                 SAV.setEK6Stored(blankEK6, SAV.Box + i*PK6.SIZE_STORED);
-            #endregion
-            #region Language Detection before loading
+
             // Set up Language Selection
             foreach (var cbItem in main_langlist)
                 CB_MainLanguage.Items.Add(cbItem);
-
-            // Try and detect the language
-            int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
-            main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i).ToArray()).ToArray();
-            string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-            string lastTwoChars = filename.Substring(filename.Length - 2);
-            int lang = Array.IndexOf(lang_val, lastTwoChars);
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : ((lastTwoChars == "jp") ? 1 : 0);
-
-            #region HaX
-            HaX = (filename.IndexOf("HaX", StringComparison.Ordinal) >= 0);
-            {
-                CHK_HackedStats.Enabled = CHK_HackedStats.Visible =
-                DEV_Ability.Enabled = DEV_Ability.Visible =
-                MT_Level.Enabled = MT_Level.Visible =
-                TB_AbilityNumber.Visible =
-                MT_Form.Enabled = MT_Form.Visible = HaX;
-
-                TB_Level.Visible =
-                CB_Ability.Visible = !HaX;
-            }
-            #endregion
-            #endregion
-            #region Localize & Populate
-            InitializeFields();
-            CB_Language.SelectedIndex = (lang >= 0 && lang < 7) ? main_langnum[lang] : 1;
-            #endregion
-            #region Add ContextMenus to the PictureBoxes (PKX slots)
-
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
-            ToolStripMenuItem mnuSet = new ToolStripMenuItem("Set");
-            ToolStripMenuItem mnuDelete = new ToolStripMenuItem("Delete");
-            // Assign event handlers
-            mnuView.Click += clickView;
-            mnuSet.Click += clickSet;
-            mnuDelete.Click += clickDelete;
-            // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSet, mnuDelete });
-
-            // Assign to datagridview for Box Pokemon and Party Pokemon
-            foreach (PictureBox pb in PAN_Box.Controls)
-                pb.ContextMenuStrip = mnu;
-            foreach (PictureBox pb in PAN_Party.Controls)
-                pb.ContextMenuStrip = mnu;
-
-            // Add ContextMenus to the PictureBoxes that are read only
-            PictureBox[] pba2 = {
-                                    bbpkx1,bbpkx2,bbpkx3,bbpkx4,bbpkx5,bbpkx6,
-
-                                    dcpkx1, dcpkx2, gtspkx, fusedpkx, subepkx1, subepkx2, subepkx3
-                               };
-            ContextMenuStrip mnu2 = new ContextMenuStrip();
-            ToolStripMenuItem mnu2View = new ToolStripMenuItem("View");
-
-            // Assign event handlers
-            mnu2View.Click += clickView;
-
-            // Add to main context menu
-            mnu2.Items.AddRange(new ToolStripItem[] { mnu2View });
-
-            // Assign to datagridview
-            foreach (PictureBox p in pba2)
-                p.ContextMenuStrip = mnu2;
-
-            #endregion
-            #region Enable Drag and Drop on the form & tab control.
-            AllowDrop = true;
-            DragEnter += tabMain_DragEnter;
-            DragDrop += tabMain_DragDrop;
-
-            // Enable Drag and Drop on each tab.
-            tabMain.AllowDrop = true;
-            tabMain.DragEnter += tabMain_DragEnter;
-            tabMain.DragDrop += tabMain_DragDrop;
-
-            foreach (TabPage tab in tabMain.Controls)
-            {
-                tab.AllowDrop = true;
-                tab.DragEnter += tabMain_DragEnter;
-                tab.DragDrop += tabMain_DragDrop;
-            }
 
             // ToolTips for Drag&Drop
             new ToolTip().SetToolTip(dragout, "PK6 QuickSave");
@@ -142,11 +60,29 @@ namespace PKHeX
             // Box Drag & Drop
             foreach (PictureBox pb in PAN_Box.Controls)
                 pb.AllowDrop = true;
-
             // Box to Tabs D&D
             dragout.AllowDrop = true;
+
+            HaX = (filename.IndexOf("HaX", StringComparison.Ordinal) >= 0);
+            // Show Hacked Stuff if HaX
+            CHK_HackedStats.Enabled = CHK_HackedStats.Visible = DEV_Ability.Enabled = DEV_Ability.Visible =
+            MT_Level.Enabled = MT_Level.Visible = TB_AbilityNumber.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
+            // Hide Regular Stuff if !HaX
+            TB_Level.Visible = CB_Ability.Visible = !HaX;
             #endregion
-            #region Finish Up
+            #region Localize & Populate Fields
+
+            // Try and detect the language
+            int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
+            main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i).ToArray()).ToArray();
+            string lastTwoChars = filename.Substring(filename.Length - 2);
+            int lang = Array.IndexOf(lang_val, lastTwoChars);
+            CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : ((lastTwoChars == "jp") ? 1 : 0);
+
+            InitializeFields();
+            CB_Language.SelectedIndex = (lang >= 0 && lang < 7) ? main_langnum[lang] : 1;
+            #endregion
+            #region Load Initial File(s)
             // Load the arguments
             string[] args = Environment.GetCommandLineArgs();
             pathSDF = Util.GetSDFLocation();
@@ -173,7 +109,6 @@ namespace PKHeX
             TB_Nickname.Font = PKX.getPKXFont(11);
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
-
             formInitialized = true;
 
             // Splash Screen closes on its own.
