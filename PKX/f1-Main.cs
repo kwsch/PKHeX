@@ -21,7 +21,7 @@ namespace PKHeX
             #region Initialize Form
             pk6.RefreshChecksum();
             InitializeComponent();
-            string filename = Path.GetFileNameWithoutExtension(this.Name);
+            string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             // Initialize SAV-Set Parameters in case compilation settings were changed.
             SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
             SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
