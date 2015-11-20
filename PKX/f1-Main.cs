@@ -2791,7 +2791,7 @@ namespace PKHeX
         private void dumpBoxesToDB(string path, bool individualBoxFolders)
         {
             PK6[] boxdata = SAV.BoxData;
-            for (int i = 0; i < 31 * 30; i++)
+            for (int i = 0; i < boxdata.Length; i++)
             {
                 PK6 pk = boxdata[i];
                 if (pk.Species == 0 || pk.Sanity != 0)
