@@ -74,10 +74,11 @@ namespace PKHeX
                 MaisonStats = 0x1B1C0;
                 PSS = 0x05000;
                 PSSStats = 0x1E400;
-                Vivillon = 0x4250;
                 BoxWallpapers = 0x481E;
                 SecretBase = -1;
                 EonTicket = -1;
+                PlayTime = 0x1800;
+                Accessories = 0x1A00;
                 LastViewedBox = PCLayout + 0x43F;
             }
             else if (ORAS)
@@ -115,10 +116,11 @@ namespace PKHeX
                 MaisonStats = 0x1BBC0;
                 PSS = 0x05000; // Confirmed (thanks Rei)
                 PSSStats = 0x1F400;
-                Vivillon = 0x4244;
                 BoxWallpapers = 0x481E;
                 SecretBase = 0x23A00;
                 EonTicket = 0x319B8;
+                PlayTime = 0x1800;
+                Accessories = 0x1A00;
                 LastViewedBox = PCLayout + 0x43F;
             }
             DaycareSlot = new[] { Daycare, Daycare + 0x1F0 };
@@ -149,8 +151,8 @@ namespace PKHeX
         }
         public Inventory Items = new Inventory(0, -1);
         public int BattleBox, GTS, Daycare, EonTicket,
-            Fused, SUBE, Puff, Item, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, Vivillon, SecretBase, BoxWallpapers, LastViewedBox,
-            PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh,
+            Fused, SUBE, Puff, Item, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, SecretBase, BoxWallpapers, LastViewedBox,
+            PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh, PlayTime, Accessories,
             PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG = 0;
         public int TrainerCard = 0x14000;
         public int Box = 0x33000, Party = 0x14200;
@@ -230,15 +232,147 @@ namespace PKHeX
         public int CurrentBox { get { return Data[LastViewedBox]; } set { Data[LastViewedBox] = (byte)value; } }
 
         // Player Information
-        public ushort TID { get { return BitConverter.ToUInt16(Data, TrainerCard + 0); } }
-        public ushort SID { get { return BitConverter.ToUInt16(Data, TrainerCard + 2); } }
-        public int Game { get { return Data[TrainerCard + 4]; } }
-        public int Gender { get { return Data[TrainerCard + 5]; } }
-        public int SubRegion { get { return Data[TrainerCard + 0x26]; } }
-        public int Country { get { return Data[TrainerCard + 0x27]; } }
-        public int ConsoleRegion { get { return Data[TrainerCard + 0x2C]; } }
-        public int Language { get { return Data[TrainerCard + 0x2D]; } }
-        public string OT { get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x48, 0x1A)); } }
+        public ushort TID
+        {
+            get { return BitConverter.ToUInt16(Data, TrainerCard + 0); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0); }
+        }
+        public ushort SID
+        {
+            get { return BitConverter.ToUInt16(Data, TrainerCard + 2); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 2); }
+        }
+        public int Game
+        {
+            get { return Data[TrainerCard + 4]; }
+            set { Data[TrainerCard + 4] = (byte)value; }
+        }
+        public int Gender
+        {
+            get { return Data[TrainerCard + 5]; }
+            set { Data[TrainerCard + 5] = (byte)value; }
+        }
+        public int Sprite
+        {
+            get { return Data[TrainerCard + 7]; }
+            set { Data[TrainerCard + 7] = (byte)value; }
+        }
+        public int SubRegion
+        {
+            get { return Data[TrainerCard + 0x26]; }
+            set { Data[TrainerCard + 0x26] = (byte)value; }
+        }
+        public int Country
+        {
+            get { return Data[TrainerCard + 0x27]; }
+            set { Data[TrainerCard + 0x27] = (byte)value; }
+        }
+        public int ConsoleRegion
+        {
+            get { return Data[TrainerCard + 0x2C]; }
+            set { Data[TrainerCard + 0x2C] = (byte)value; }
+        }
+        public int Language
+        {
+            get { return Data[TrainerCard + 0x2D]; }
+            set { Data[TrainerCard + 0x2D] = (byte)value; }
+        }
+        public string OT
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x48, 0x1A)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(13, '\0')).CopyTo(Data, TrainerCard + 0x48); }
+        }
+        public string Saying1
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 0, 0x22)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 0); }
+        }
+        public string Saying2
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 1, 0x22)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 1); }
+        }
+        public string Saying3
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 2, 0x22)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 2); }
+        }
+        public string Saying4
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 3, 0x22)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 3); }
+        }
+        public string Saying5
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 4, 0x22)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 4); }
+        }
+
+        public int M
+        {
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x02); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x02); }
+        }
+        public float X
+        {
+            get { return BitConverter.ToSingle(Data, Trainer1 + 0x10) / 18; }
+            set { BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x10); }
+        }
+        public float Z
+        {
+            get { return BitConverter.ToSingle(Data, Trainer1 + 0x14); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14); }
+        }
+        public float Y
+        {
+            get { return BitConverter.ToSingle(Data, Trainer1 + 0x18) / 18; }
+            set { BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x18); }
+        }
+        public int Style
+        {
+            get { return Data[Trainer1 + 0x14D]; }
+            set { Data[Trainer1 + 0x14D] = (byte)value; }
+        }
+        public uint Money
+        {
+            get { return BitConverter.ToUInt32(Data, Trainer2 + 0x8); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer2 + 0x8); }
+        }
+        public int Badges
+        {
+            get { return Data[Trainer2 + 0xC]; }
+            set { Data[Trainer2 + 0xC] = (byte)value; }
+        }
+        public int Vivillon
+        {
+            get
+            {
+                int offset = Trainer2 + 0x50;
+                if (ORAS) offset -= 0xC; // 0x44
+                return Data[offset];
+            }
+            set
+            {
+                int offset = Trainer2 + 0x50;
+                if (ORAS) offset -= 0xC; // 0x44
+                Data[offset] = (byte)value;
+            }
+        }
+
+        public int PlayedHours{ 
+            get { return BitConverter.ToUInt16(Data, PlayTime); } 
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime); } 
+        }
+        public int PlayedMinutes
+        {
+            get { return Data[PlayTime + 2]; }
+            set { Data[PlayTime + 2] = (byte)value; } 
+        }
+        public int PlayedSeconds
+        {
+            get { return Data[PlayTime + 3]; }
+            set { Data[PlayTime + 3] = (byte)value; }
+        }
 
         // Misc Properties
         public int PartyCount

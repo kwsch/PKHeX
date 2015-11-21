@@ -175,10 +175,6 @@ namespace PKHeX
             this.L_HairColor = new System.Windows.Forms.Label();
             this.L_SkinColor = new System.Windows.Forms.Label();
             this.GB_Map = new System.Windows.Forms.GroupBox();
-            this.TB_CoordY = new System.Windows.Forms.MaskedTextBox();
-            this.TB_CoordZ = new System.Windows.Forms.MaskedTextBox();
-            this.TB_CoordX = new System.Windows.Forms.MaskedTextBox();
-            this.TB_CoordM = new System.Windows.Forms.MaskedTextBox();
             this.GB_Misc = new System.Windows.Forms.GroupBox();
             this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.L_Vivillon = new System.Windows.Forms.Label();
@@ -190,6 +186,10 @@ namespace PKHeX
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.L_Value = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
+            this.NUD_X = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Y = new System.Windows.Forms.NumericUpDown();
+            this.NUD_M = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Z = new System.Windows.Forms.NumericUpDown();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -207,6 +207,10 @@ namespace PKHeX
             this.GB_Map.SuspendLayout();
             this.GB_Misc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Sprite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -1808,13 +1812,13 @@ namespace PKHeX
             // 
             // GB_Map
             // 
-            this.GB_Map.Controls.Add(this.TB_CoordY);
+            this.GB_Map.Controls.Add(this.NUD_Z);
+            this.GB_Map.Controls.Add(this.NUD_M);
+            this.GB_Map.Controls.Add(this.NUD_Y);
+            this.GB_Map.Controls.Add(this.NUD_X);
             this.GB_Map.Controls.Add(this.L_Y);
-            this.GB_Map.Controls.Add(this.TB_CoordZ);
             this.GB_Map.Controls.Add(this.L_CurrentMap);
-            this.GB_Map.Controls.Add(this.TB_CoordX);
             this.GB_Map.Controls.Add(this.L_Z);
-            this.GB_Map.Controls.Add(this.TB_CoordM);
             this.GB_Map.Controls.Add(this.L_X);
             this.GB_Map.Location = new System.Drawing.Point(230, 288);
             this.GB_Map.Name = "GB_Map";
@@ -1822,42 +1826,6 @@ namespace PKHeX
             this.GB_Map.TabIndex = 51;
             this.GB_Map.TabStop = false;
             this.GB_Map.Text = "Map Position";
-            // 
-            // TB_CoordY
-            // 
-            this.TB_CoordY.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordY.Location = new System.Drawing.Point(109, 148);
-            this.TB_CoordY.Mask = "0000";
-            this.TB_CoordY.Name = "TB_CoordY";
-            this.TB_CoordY.Size = new System.Drawing.Size(35, 20);
-            this.TB_CoordY.TabIndex = 3;
-            // 
-            // TB_CoordZ
-            // 
-            this.TB_CoordZ.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordZ.Location = new System.Drawing.Point(109, 108);
-            this.TB_CoordZ.Mask = "0000";
-            this.TB_CoordZ.Name = "TB_CoordZ";
-            this.TB_CoordZ.Size = new System.Drawing.Size(35, 20);
-            this.TB_CoordZ.TabIndex = 2;
-            // 
-            // TB_CoordX
-            // 
-            this.TB_CoordX.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordX.Location = new System.Drawing.Point(109, 70);
-            this.TB_CoordX.Mask = "0000";
-            this.TB_CoordX.Name = "TB_CoordX";
-            this.TB_CoordX.Size = new System.Drawing.Size(35, 20);
-            this.TB_CoordX.TabIndex = 1;
-            // 
-            // TB_CoordM
-            // 
-            this.TB_CoordM.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_CoordM.Location = new System.Drawing.Point(109, 32);
-            this.TB_CoordM.Mask = "0000";
-            this.TB_CoordM.Name = "TB_CoordM";
-            this.TB_CoordM.Size = new System.Drawing.Size(35, 20);
-            this.TB_CoordM.TabIndex = 0;
             // 
             // GB_Misc
             // 
@@ -1983,6 +1951,61 @@ namespace PKHeX
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
             // 
+            // NUD_X
+            // 
+            this.NUD_X.DecimalPlaces = 1;
+            this.NUD_X.Location = new System.Drawing.Point(109, 71);
+            this.NUD_X.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_X.Name = "NUD_X";
+            this.NUD_X.Size = new System.Drawing.Size(50, 20);
+            this.NUD_X.TabIndex = 50;
+            // 
+            // NUD_Y
+            // 
+            this.NUD_Y.DecimalPlaces = 1;
+            this.NUD_Y.Location = new System.Drawing.Point(109, 149);
+            this.NUD_Y.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Y.Name = "NUD_Y";
+            this.NUD_Y.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Y.TabIndex = 51;
+            // 
+            // NUD_M
+            // 
+            this.NUD_M.Location = new System.Drawing.Point(109, 33);
+            this.NUD_M.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.NUD_M.Name = "NUD_M";
+            this.NUD_M.Size = new System.Drawing.Size(50, 20);
+            this.NUD_M.TabIndex = 52;
+            // 
+            // NUD_Z
+            // 
+            this.NUD_Z.Location = new System.Drawing.Point(109, 109);
+            this.NUD_Z.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Z.Minimum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            -2147483648});
+            this.NUD_Z.Name = "NUD_Z";
+            this.NUD_Z.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Z.TabIndex = 53;
+            // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2035,6 +2058,10 @@ namespace PKHeX
             this.GB_Misc.ResumeLayout(false);
             this.GB_Misc.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Sprite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2162,10 +2189,6 @@ namespace PKHeX
         private System.Windows.Forms.Label L_HairColor;
         private System.Windows.Forms.Label L_SkinColor;
         private System.Windows.Forms.GroupBox GB_Map;
-        private System.Windows.Forms.MaskedTextBox TB_CoordY;
-        private System.Windows.Forms.MaskedTextBox TB_CoordZ;
-        private System.Windows.Forms.MaskedTextBox TB_CoordX;
-        private System.Windows.Forms.MaskedTextBox TB_CoordM;
         private System.Windows.Forms.GroupBox GB_Misc;
         private System.Windows.Forms.Label L_MultiplayerSprite;
         private System.Windows.Forms.PictureBox PB_Sprite;
@@ -2203,5 +2226,9 @@ namespace PKHeX
         private System.Windows.Forms.Label L_Outfit;
         private System.Windows.Forms.ComboBox CB_Vivillon;
         private System.Windows.Forms.Label L_Vivillon;
+        private System.Windows.Forms.NumericUpDown NUD_Y;
+        private System.Windows.Forms.NumericUpDown NUD_X;
+        private System.Windows.Forms.NumericUpDown NUD_Z;
+        private System.Windows.Forms.NumericUpDown NUD_M;
     }
 }
