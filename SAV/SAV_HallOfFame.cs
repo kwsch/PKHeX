@@ -11,9 +11,8 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
 
-            Array.Copy(sav, Main.SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
+            Array.Copy(Main.SAV.Data, Main.SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
             Setup();
             editor_spec = new object[]{
                 GB_OT,
@@ -48,8 +47,7 @@ namespace PKHeX
             catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
             editing = true;
         }
-        public byte[] sav = new byte[0x100000];
-        public bool editing;
+        private bool editing;
 
         private string[] gendersymbols = Main.gendersymbols;
         private byte[] data = new byte[0x1B40];
