@@ -81,6 +81,7 @@
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\SAV6.cs" />
+    <Compile Include="Misc\WC6.cs" />
     <Compile Include="PKX\f2-Text.cs">
       <SubType>Form</SubType>
     </Compile>

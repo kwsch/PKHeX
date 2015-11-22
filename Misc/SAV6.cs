@@ -439,6 +439,9 @@ namespace PKHeX
         public byte[] Puffs { get { return Data.Skip(Puff).Take(100).ToArray(); } set { value.CopyTo(Data, Puff); } }
         public int PuffCount { get { return BitConverter.ToInt32(Data, Puff + 100); } set { BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); } }
 
+        public byte[] getWondercard(int i) { return Data.Skip(WondercardData + i*WC6.Size).Take(WC6.Size).ToArray(); }
+        public void setWondercard(int i, byte[] data) { data.CopyTo(data, WondercardData + i * WC6.Size); }
+
         // Data Accessing
         public byte[] getData(int Offset, int Length)
         {
