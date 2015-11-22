@@ -63,7 +63,7 @@ namespace PKHeX
                 dgv.Rows[i].Cells[0].Value = (i + 1).ToString();
                 dgv.Rows[i].Cells[1].Value = pfa[sav[Main.SAV.Puff + i]];
             }
-            MT_CNT.Text = BitConverter.ToUInt32(sav, Main.SAV.Puff + 100).ToString("0");
+            MT_CNT.Text = Main.SAV.PuffCount.ToString();
         }
         private void dropclick(object sender, DataGridViewCellEventArgs e)
         {
@@ -145,11 +145,10 @@ namespace PKHeX
                     emptyslots++;
                     continue;
                 }
-
-                puffarray[i - emptyslots] = (byte) Array.IndexOf(pfa, puff);
+                puffarray[i - emptyslots] = (byte)Array.IndexOf(pfa, puff);
             }
-            Array.Copy(puffarray, 0, sav, Main.SAV.Puff, 100);
-            Array.Copy(sav, Main.SAV.Data, sav.Length);
+            Main.SAV.Puffs = puffarray;
+            Main.SAV.PuffCount = Util.ToInt32(MT_CNT);
             Main.SAV.Edited = true;
             Close();
         }

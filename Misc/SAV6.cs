@@ -436,6 +436,9 @@ namespace PKHeX
             set { Data[DaycareSlot[DaycareIndex] + (PK6.SIZE_STORED + 8) * 1] = (byte)(value ? 1 : 0); }
         }
 
+        public byte[] Puffs { get { return Data.Skip(Puff).Take(100).ToArray(); } set { value.CopyTo(Data, Puff); } }
+        public int PuffCount { get { return BitConverter.ToInt32(Data, Puff + 100); } set { BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); } }
+
         // Data Accessing
         public byte[] getData(int Offset, int Length)
         {
