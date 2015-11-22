@@ -61,8 +61,7 @@ namespace PKHeX
             foreach (PictureBox pb in PAN_Box.Controls)
             {
                 pb.AllowDrop = true;
-                pb.DragDrop += tabMain_DragDrop;
-                pb.DragEnter += tabMain_DragEnter;
+                // The PictureBoxes have their own drag&drop event handlers.
             }
             foreach (TabPage tab in tabMain.TabPages)
             {
@@ -3314,7 +3313,9 @@ namespace PKHeX
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data != null)
+            if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
+                e.Effect = DragDropEffects.Copy;
+            else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
         }
         private byte[] pkm_from = (byte[])blankEK6.Clone();
