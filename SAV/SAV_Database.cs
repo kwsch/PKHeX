@@ -209,7 +209,7 @@ namespace PKHeX
             // Refresh database view.
             L_Count.Text = String.Format(Counter, Results.Count);
             FillPKXBoxes(SCR_Box.Value);
-            Util.Alert("Added Pokémon from tabs to database", "Please refresh the search to ensure it shows up; it may be at the bottom of the results.");
+            Util.Alert("Added Pokémon from tabs to database.", "Please refresh the search to ensure it shows up; it may be at the bottom of the results.");
         }
         private void populateComboBoxes()
         {

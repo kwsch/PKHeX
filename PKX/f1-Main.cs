@@ -2727,8 +2727,8 @@ namespace PKHeX
             catch
             {
                 CB_BoxSelect.Items.Clear();
-                for (int i = 1; i < 31; i++)
-                    CB_BoxSelect.Items.Add("Box " + i);
+                for (int i = 0; i < 31; i++)
+                    CB_BoxSelect.Items.Add("Box " + (i+1));
             }
             CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
         }
