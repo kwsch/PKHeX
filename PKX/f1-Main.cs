@@ -59,7 +59,23 @@ namespace PKHeX
 
             // Box Drag & Drop
             foreach (PictureBox pb in PAN_Box.Controls)
+            {
                 pb.AllowDrop = true;
+                pb.DragDrop += tabMain_DragDrop;
+                pb.DragEnter += tabMain_DragEnter;
+            }
+            foreach (TabPage tab in tabMain.TabPages)
+            {
+                tab.AllowDrop = true;
+                tab.DragDrop += tabMain_DragDrop;
+                tab.DragEnter += tabMain_DragEnter;
+            }
+            foreach (TabPage tab in tabBoxMulti.TabPages)
+            {
+                tab.AllowDrop = true;
+                tab.DragDrop += tabMain_DragDrop;
+                tab.DragEnter += tabMain_DragEnter;
+            }
             // Box to Tabs D&D
             dragout.AllowDrop = true;
 
