@@ -2349,12 +2349,7 @@ namespace PKHeX
                 // Make a new file name
                 byte[] dragdata = preparepkx();
                 var pkx = new PK6(dragdata, "Tabs");
-                string filename = pkx.Nickname;
-                if (filename != specieslist[pkx.Species])
-                    filename += " (" + pkx.Species + ")";
-                filename += " - " + pkx.PID;
-
-                filename += (e.Button == MouseButtons.Right) ? ".ek6" : ".pk6";
+                string filename = Path.GetFileNameWithoutExtension(pkx.FileName) + ((e.Button == MouseButtons.Right) ? ".ek6" : ".pk6");
                 dragdata = (e.Button == MouseButtons.Right) ? PKX.encryptArray(preparepkx()) : preparepkx();
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, PK6.SIZE_STORED);
@@ -3222,10 +3217,7 @@ namespace PKHeX
             byte[] dragdata = PKX.decryptArray(pkm_from);
             Array.Resize(ref dragdata, PK6.SIZE_STORED);
             var pkx = new PK6(dragdata, "Boxes");
-            string filename = pkx.Nickname;
-            if (filename != specieslist[pkx.Species])
-                filename += " (" + pkx.Species + ")";
-            filename += " - " + pkx.PID + ".pk6";
+            string filename = pkx.FileName;
 
             // Make File
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
