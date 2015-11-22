@@ -343,6 +343,21 @@ namespace PKHeX
             get { return Data[Trainer2 + 0xC]; }
             set { Data[Trainer2 + 0xC] = (byte)value; }
         }
+        public int BP
+        {
+            get
+            {
+                int offset = Trainer2 + 0x3C;
+                if (ORAS) offset -= 0xC; // 0x30
+                return BitConverter.ToUInt16(Data, offset);
+            }
+            set
+            {
+                int offset = Trainer2 + 0x3C;
+                if (ORAS) offset -= 0xC; // 0x30
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, offset);
+            }
+        }
         public int Vivillon
         {
             get
@@ -373,6 +388,11 @@ namespace PKHeX
             get { return Data[PlayTime + 3]; }
             set { Data[PlayTime + 3] = (byte)value; }
         }
+
+        public uint getPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
+        public void setPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }
+        public ushort getMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + 2 * index); }
+        public void setMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + 2*index); }
 
         // Misc Properties
         public int PartyCount

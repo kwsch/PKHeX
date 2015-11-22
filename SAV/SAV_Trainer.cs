@@ -389,7 +389,7 @@ namespace PKHeX
 
             // Maison Data
             for (int i = 0; i < MaisonRecords.Length; i++)
-                MaisonRecords[i].Text = BitConverter.ToUInt16(SAV.Data, SAV.MaisonStats + 2 * i).ToString();
+                MaisonRecords[i].Text = SAV.getMaisonStat(i).ToString();
 
             NUD_M.Value = SAV.M;
             NUD_X.Value = (decimal)SAV.X;
@@ -397,8 +397,8 @@ namespace PKHeX
             NUD_Y.Value = (decimal)SAV.Y;
 
             // Load BP and PokeMiles
-            TB_BP.Text = BitConverter.ToUInt32(SAV.Data, Main.SAV.Trainer2 + 0x3C - 0xC * Convert.ToInt16(Main.SAV.ORAS)).ToString();
-            TB_PM.Text = BitConverter.ToUInt32(SAV.Data, Main.SAV.PSSStats + 0xFC).ToString();
+            TB_BP.Text = SAV.BP.ToString();
+            TB_PM.Text = SAV.getPSSStat(0xFC/4).ToString();
 
             // Temp ORAS
             GB_Misc.Visible = true;
@@ -462,10 +462,9 @@ namespace PKHeX
             SAV.Saying4 = TB_Saying4.Text;
             SAV.Saying5 = TB_Saying5.Text;
 
-            // New stuff.
             // Copy Maison Data in
             for (int i = 0; i < MaisonRecords.Length; i++)
-                Array.Copy(BitConverter.GetBytes(UInt16.Parse(MaisonRecords[i].Text)), 0, SAV.Data, SAV.MaisonStats + 2 * i, 2);
+                SAV.setMaisonStat(i, UInt16.Parse(MaisonRecords[i].Text));
 
             // Copy Position
             SAV.M = (int)NUD_M.Value;
@@ -473,10 +472,11 @@ namespace PKHeX
             SAV.Z = (float)NUD_M.Value;
             SAV.Y = (float)NUD_Y.Value;
 
-            Array.Copy(BitConverter.GetBytes(UInt16.Parse(TB_BP.Text)), 0, SAV.Data, 0x963C - 0x5400 - 0xC * Convert.ToInt16(SAV.ORAS), 2);
-
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)), 0, SAV.Data, SAV.PSSStats + 0xFC, 4);
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(TB_PM.Text)), 0, SAV.Data, SAV.PSSStats + 0x100, 4);
+            SAV.BP = UInt16.Parse(TB_BP.Text);
+            // Set Current PokéMiles
+            SAV.setPSSStat(0xFC / 4, Util.ToUInt32(TB_PM.Text));
+            // Set Max Obtained Pokémiles
+            SAV.setPSSStat(0x100 / 4, Util.ToUInt32(TB_PM.Text));
             SAV.Style = Byte.Parse(TB_Style.Text);
 
             // Copy Badges
@@ -580,7 +580,7 @@ namespace PKHeX
         {
             editing = true;
             int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2));
-            MT_Stat.Text = BitConverter.ToUInt32(SAV.Data, Main.SAV.PSSStats + offset).ToString();
+            MT_Stat.Text = SAV.getPSSStat(offset/4).ToString();
             L_Offset.Text = "0x" + offset.ToString("X3");
             editing = false;
         }
@@ -588,7 +588,7 @@ namespace PKHeX
         {
             if (editing) return;
             int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2));
-            BitConverter.GetBytes(UInt32.Parse(MT_Stat.Text)).CopyTo(SAV.Data, SAV.PSSStats + offset);
+            SAV.setPSSStat(offset/4, UInt32.Parse(MT_Stat.Text));
         }
         private void giveAllAccessories(object sender, EventArgs e)
         {
