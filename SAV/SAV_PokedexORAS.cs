@@ -86,8 +86,7 @@ namespace PKHeX
                 CHK_P1.Enabled = true;
 
                 int index = LB_Species.SelectedIndex + 1;
-                PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(index);
-                int gt = MonData.GenderRatio;
+                int gt = PKX.Personal[index].Gender;
 
                 CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = (gt != 254); // Not Female-Only
                 CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = (gt != 0) && (gt != 255); // Not Male-Only and Not Genderless
@@ -253,9 +252,7 @@ namespace PKHeX
                 CHK_P1.Checked = ModifierKeys != Keys.Control;
             }
             int index = LB_Species.SelectedIndex+1;
-
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(index);
-            int gt = MonData.GenderRatio;
+            int gt = PKX.Personal[index].Gender;
 
             CHK_P2.Checked = CHK_P4.Checked = (gt != 254) && ModifierKeys != Keys.Control;
             CHK_P3.Checked = CHK_P5.Checked = (gt != 0) && (gt != 255) && ModifierKeys != Keys.Control;

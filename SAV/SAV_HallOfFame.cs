@@ -377,8 +377,7 @@ namespace PKHeX
         {
             // Get Gender Threshold
             int species = Util.getIndex(CB_Species);
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            int gt = MonData.GenderRatio;
+            int gt = PKX.Personal[species].Gender;
 
             if (gt == 255)
                 Label_Gender.Text = gendersymbols[2];

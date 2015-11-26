@@ -594,7 +594,7 @@ namespace PKHeX
             }
             #endregion
             #region Wondercard
-            else if (input.Length == 0x108 && ext == ".wc6") 
+            else if (input.Length == 0x108 && ext == ".wc6")
                 new SAV_Wondercard(input).Show();
             #endregion
             else
@@ -877,7 +877,7 @@ namespace PKHeX
             int[] ball_nums = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
             int[] ball_vals = { 7, 25, 13, 17, 22, 14, 20, 18, 21, 19, 11, 23, 8, 6, 12, 15, 9, 5, 24, 10, 1, 16 };
             BallDataSource = Util.getVariedCBList(Util.getCBList(itemlist, new[] { 4 }, new[] { 3 }, new[] { 2 }, new[] { 1 }), itemlist, ball_nums, ball_vals);
-            ItemDataSource = Util.getCBList(itemlist, (DEV_Ability.Enabled) ? null : Legal.Items_Held);
+            ItemDataSource = Util.getCBList(itemlist, DEV_Ability.Enabled ? null : Legal.Items_Held);
             SpeciesDataSource = Util.getCBList(specieslist, null);
             NatureDataSource = Util.getCBList(natures, null);
             AbilityDataSource = Util.getCBList(abilitylist, null);
@@ -1094,8 +1094,7 @@ namespace PKHeX
             // Form Tables
             cb.DisplayMember = "Text";
             cb.ValueMember = "Value";
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            bool hasForms = !(MonData.AltFormCount == 0 && species != 664 && species != 665); // If no forms & not Scatterbug / Spewpa...
+            bool hasForms = !(PKX.Personal[species].FormeCount == 1 && species != 664 && species != 665); // If no forms & not Scatterbug / Spewpa...
             cb.Enabled = cb.Visible = hasForms;
             if (l != null) l.Visible = hasForms;
             
@@ -1191,8 +1190,7 @@ namespace PKHeX
         private void clickGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(Util.getIndex(CB_Species));
-            int gt = MonData.GenderRatio;
+            int gt = PKX.Personal[Util.getIndex(CB_Species)].Gender;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
@@ -1638,8 +1636,7 @@ namespace PKHeX
 
             // Check for Gender Changes
             // Get Gender Threshold
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(Species);
-            int gt = MonData.GenderRatio;
+            int gt = PKX.Personal[Species].Gender;
             int genderflag;
 
             if (gt == 255)      // Genderless

@@ -52,9 +52,7 @@ namespace PKHeX
         public int g6trgend;
         private int getAbilityNumber(int species, int ability, int formnum)
         {
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species, formnum);
-            int[] spec_abilities = new int[3];
-            Array.Copy(MonData.Abilities, spec_abilities, 3);
+            byte[] spec_abilities = PKX.Personal[PKX.Personal[species].FormeIndex(species, formnum)].Abilities;
             int abilval = Array.IndexOf(spec_abilities, ability);
             if (abilval >= 0)
                 return 1 << abilval;
@@ -126,8 +124,7 @@ namespace PKHeX
             }
 
             // Gender Form Fateful
-            PKX.PersonalParser.Personal MonData = PKX.PersonalGetter.GetPersonal(species);
-            int genderratio = MonData.GenderRatio;
+            int genderratio = PKX.Personal[species].Gender;
             uint PID = BitConverter.ToUInt32(pk4, 0);
             int gv = (int)(PID & 0xFF);
             int gender;

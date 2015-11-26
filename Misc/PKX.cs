@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using System.Linq;
 
 namespace PKHeX
@@ -136,6 +137,40 @@ namespace PKHeX
         };
         #endregion
 
+        internal static string[][] SpeciesLang = 
+        {
+            Util.getStringList("Species", "ja"), // none
+            Util.getStringList("Species", "ja"), // 1
+            Util.getStringList("Species", "en"), // 2
+            Util.getStringList("Species", "fr"), // 3
+            Util.getStringList("Species", "it"), // 4
+            Util.getStringList("Species", "de"), // 5
+            Util.getStringList("Species", "es"), // none
+            Util.getStringList("Species", "es"), // 7
+            Util.getStringList("Species", "ko"), // 8
+        };
+
+        internal static string getSpeciesName(int species, int lang)
+        {
+            try { return SpeciesLang[lang][species]; }
+            catch { return ""; }
+        }
+        internal static PersonalInfo[] Personal = getPersonalArray(Properties.Resources.personal);
+        internal static PersonalInfo[] getPersonalArray(byte[] data)
+        {
+            PersonalInfo[] d = new PersonalInfo[data.Length / PersonalInfo.Size];
+            int formeIndex = 723;
+            for (int i = 0; i < d.Length; i++)
+            {
+                d[i] = new PersonalInfo(data.Skip(i*PersonalInfo.Size).Take(PersonalInfo.Size).ToArray());
+                if (d[i].FormeCount <= 1) continue;
+
+                d[i].FormeOffset = formeIndex;
+                formeIndex += d[i].FormeCount;
+            }
+            return d;
+        }
+
         // Stat Fetching
         internal static int getMovePP(int move, int ppup)
         {
@@ -200,14 +235,13 @@ namespace PKHeX
         }
         internal static byte getBaseFriendship(int species)
         {
-            return PersonalGetter.GetPersonal(species).BaseFriendship;
+            return Personal[species].BaseFriendship;
         }
         internal static int getLevel(int species, uint exp)
         {
             if (exp == 0) { return 1; }
 
-            PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
-            int growth = MonData.EXPGrowth;
+            int growth = Personal[species].EXPGrowth;
 
             // Iterate upwards to find the level above our current level
             int tl = 0; // Initial Level, immediately incremented before loop.
@@ -231,15 +265,11 @@ namespace PKHeX
             if ((level == 0) || (level == 1))
                 return 0;
             if (level > 100) level = 100;
-
-            PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
-            int growth = MonData.EXPGrowth;
-
-            return ExpTable[level, growth];
+            return ExpTable[level, Personal[species].EXPGrowth];
         }
         internal static byte[] getAbilities(int species, int formnum)
         {
-            return PersonalGetter.GetPersonal(species, formnum).Abilities;
+            return Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
         }
         internal static int getGender(string s)
         {
@@ -382,13 +412,13 @@ namespace PKHeX
                                         int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
                                         int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
         {
-            PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species, form);
-            int HP_B = MonData.BaseStats[0];
-            int ATK_B = MonData.BaseStats[1];
-            int DEF_B = MonData.BaseStats[2];
-            int SPE_B = MonData.BaseStats[3];
-            int SPA_B = MonData.BaseStats[4];
-            int SPD_B = MonData.BaseStats[5];
+            PersonalInfo p = Personal[Personal[species].FormeIndex(species, form)];
+            int HP_B = p.HP;
+            int ATK_B = p.ATK;
+            int DEF_B = p.DEF;
+            int SPE_B = p.SPE;
+            int SPA_B = p.SPA;
+            int SPD_B = p.SPD;
 
             // Calculate Stats
             ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
@@ -529,8 +559,7 @@ namespace PKHeX
         }
         internal static uint getRandomPID(int species, int cg)
         {
-            PersonalParser.Personal MonData = PersonalGetter.GetPersonal(species);
-            int gt = MonData.GenderRatio;
+            int gt = Personal[species].Gender;
             uint pid = Util.rnd32();
             if (gt == 255) //Genderless
                 return pid;
@@ -800,48 +829,6 @@ namespace PKHeX
         }
 
         // Personal.dat
-        internal static PersonalParser PersonalGetter = new PersonalParser();
-        internal class PersonalParser
-        {
-            internal byte[] file = Properties.Resources.personal;
-            internal const int EntryLength = 0xE;
-            internal struct Personal
-            {
-                public byte[] BaseStats;
-                public byte[] Abilities;
-                public byte BaseFriendship;
-                public byte GenderRatio;
-                public byte EXPGrowth;
-                public byte AltFormCount;
-                public byte FormPointer; // 721 + FormPointer + (FormID - 1) = SpeciesIndex           
-            }
-
-            internal Personal GetPersonal(int species)
-            {
-                Personal data = new Personal();
-                byte[] MonData = new byte[EntryLength];
-                data.BaseStats = new byte[6];
-                data.Abilities = new byte[3];
-                Array.Copy(file, species * EntryLength, MonData, 0, EntryLength);
-                Array.Copy(MonData, data.BaseStats, 6);
-                Array.Copy(MonData, 6, data.Abilities, 0, 3);
-                data.BaseFriendship = MonData[0x9];
-                data.GenderRatio = MonData[0xA];
-                data.EXPGrowth = MonData[0xB];
-                data.AltFormCount = MonData[0xC];
-                data.FormPointer = MonData[0xD];
-                return data;
-            }
-            internal Personal GetPersonal(int species, int formID)
-            {
-                Personal data = GetPersonal(species);
-                if (formID <= 0 || formID > data.AltFormCount || data.AltFormCount <= 0 || data.FormPointer <= 0)
-                    return data;
-
-                // Working with an Alt Forme with a base stat change
-                return GetPersonal(721 + --formID + data.FormPointer);
-            }
-        }
         internal static string[] getFormList(int species, string[] t, string[] f, string[] g)
         {
             
@@ -1369,6 +1356,119 @@ namespace PKHeX
                                         Species = Array.IndexOf(species, line.Split('(')[0]);
                                 } break;
                         }
+                    }
+                }
+            }
+        }
+
+        public class PersonalInfo
+        {
+            internal static int Size = 0x50;
+            public byte HP, ATK, DEF, SPE, SPA, SPD;
+            public int BST;
+            public int EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD;
+            public byte[] Types = new byte[2];
+            public byte CatchRate, EvoStage;
+            public ushort[] Items = new ushort[3];
+            public byte Gender, HatchCycles, BaseFriendship, EXPGrowth;
+            public byte[] EggGroups = new byte[2];
+            public byte[] Abilities = new byte[3];
+            public ushort FormStats, FormeSprite, BaseEXP;
+            public byte FormeCount, Color;
+            public float Height, Weight;
+            public bool[] TMHM;
+            public bool[] Tutors;
+            public bool[][] ORASTutors = new bool[4][];
+            public byte EscapeRate;
+            
+            public PersonalInfo(byte[] data)
+            {
+                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
+                {
+                    HP = br.ReadByte(); ATK = br.ReadByte(); DEF = br.ReadByte();
+                    SPE = br.ReadByte(); SPA = br.ReadByte(); SPD = br.ReadByte();
+                    BST = HP + ATK + DEF + SPE + SPA + SPD;
+
+                    Types = new[] { br.ReadByte(), br.ReadByte() };
+                    CatchRate = br.ReadByte();
+                    EvoStage = br.ReadByte();
+
+                    ushort EVs = br.ReadUInt16();
+                    EV_HP = ((EVs >> 0) & 0x3);
+                    EV_ATK = ((EVs >> 2) & 0x3);
+                    EV_DEF = ((EVs >> 4) & 0x3);
+                    EV_SPE = ((EVs >> 6) & 0x3);
+                    EV_SPA = ((EVs >> 8) & 0x3);
+                    EV_SPD = ((EVs >> 10) & 0x3);
+
+                    Items = new[] { br.ReadUInt16(), br.ReadUInt16(), br.ReadUInt16() };
+                    Gender = br.ReadByte();
+                    HatchCycles = br.ReadByte();
+                    BaseFriendship = br.ReadByte();
+
+                    EXPGrowth = br.ReadByte();
+                    EggGroups = new[] { br.ReadByte(), br.ReadByte() };
+                    Abilities = new[] { br.ReadByte(), br.ReadByte(), br.ReadByte() };
+                    EscapeRate = br.ReadByte();
+                    FormStats = br.ReadUInt16();
+
+                    FormeSprite = br.ReadUInt16();
+                    FormeCount = br.ReadByte();
+                    Color = br.ReadByte();
+                    BaseEXP = br.ReadUInt16();
+
+                    Height = br.ReadUInt16();
+                    Weight = br.ReadUInt16();
+
+                    byte[] TMHMData = br.ReadBytes(0x10);
+                    TMHM = new bool[8 * TMHMData.Length];
+                    for (int j = 0; j < TMHM.Length; j++)
+                        TMHM[j] = ((TMHMData[j / 8] >> (j % 8)) & 0x1) == 1; //Bitflags for TMHM
+
+                    byte[] TutorData = br.ReadBytes(8);
+                    Tutors = new bool[8 * TutorData.Length];
+                    for (int j = 0; j < Tutors.Length; j++)
+                        Tutors[j] = ((TutorData[j / 8] >> (j % 8)) & 0x1) == 1; //Bitflags for Tutors
+
+                    if (br.BaseStream.Length - br.BaseStream.Position == 0x10) // ORAS
+                    {
+                        byte[][] ORASTutorData =
+                        {
+                            br.ReadBytes(2), // 15
+                            br.ReadBytes(3), // 17
+                            br.ReadBytes(2), // 16
+                            br.ReadBytes(2), // 15
+                        };
+                        for (int i = 0; i < 4; i++)
+                        {
+                            ORASTutors[i] = new bool[8 * ORASTutorData[i].Length];
+                            for (int b = 0; b < 8 * ORASTutorData[i].Length; b++)
+                                ORASTutors[i][b] = ((ORASTutorData[i][b / 8] >> (b % 8)) & 0x1) == 1;
+                        }
+                    }
+                }
+            }
+
+            // Data Manipulation
+            public int FormeOffset;
+            public int FormeIndex(int species, int forme)
+            {
+                return forme == 0 ? species : FormeOffset;
+            }
+            public int RandomGender
+            {
+                get
+                {
+                    switch (Gender)
+                    {
+                        case 255: // Genderless
+                            return 2;
+                        case 254: // Female
+                            return 1;
+                        case 0: // Male
+                            return 0;
+                        default:
+                            return (int)Util.rnd32()%2;
                     }
                 }
             }

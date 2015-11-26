@@ -407,7 +407,12 @@ namespace PKHeX
             get { return CurrentHandler == 1 ? OT_Friendship : HT_Friendship; }
             set { if (CurrentHandler == 1) OT_Friendship = value; else HT_Friendship = value; }
         }
-        public int[] IVs { get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; } }
+
+        public int[] IVs {
+            get { return new[] {IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD}; }
+            set { if (value == null || value.Length != 6) return;
+                  IV_HP = value[0];  IV_ATK = value[1]; IV_DEF = value[2];
+                  IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5]; } }
         public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
         public int[] Moves { get { return new[] { Move1, Move2, Move3, Move4 }; } }
         public int PSV { get { return (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4); } }
@@ -667,7 +672,7 @@ namespace PKHeX
             Geo1_Country = Country;
             Geo1_Region = Region;
         }
-        private void TradeMemory(bool Bank)
+        public void TradeMemory(bool Bank)
         {
             HT_Memory = 4; // Link trade to [VAR: General Location]
             HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
