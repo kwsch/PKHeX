@@ -159,15 +159,8 @@ namespace PKHeX
         internal static PersonalInfo[] getPersonalArray(byte[] data)
         {
             PersonalInfo[] d = new PersonalInfo[data.Length / PersonalInfo.Size];
-            int formeIndex = 723;
             for (int i = 0; i < d.Length; i++)
-            {
                 d[i] = new PersonalInfo(data.Skip(i*PersonalInfo.Size).Take(PersonalInfo.Size).ToArray());
-                if (d[i].FormeCount <= 1) continue;
-
-                d[i].FormeOffset = formeIndex;
-                formeIndex += d[i].FormeCount;
-            }
             return d;
         }
 
@@ -1450,10 +1443,9 @@ namespace PKHeX
             }
 
             // Data Manipulation
-            public int FormeOffset;
             public int FormeIndex(int species, int forme)
             {
-                return FormStats == 0 ? species : FormStats + forme - 1;
+                return forme == 0 || FormStats == 0 ? species : (FormStats + forme - 1);
             }
             public int RandomGender
             {
