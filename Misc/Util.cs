@@ -450,7 +450,7 @@ namespace PKHeX
         internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
         {
             List<cbItem> cbList = new List<cbItem>();
-            if (allowed == null)
+            if (allowed == null || allowed.First() == null)
                 allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
             foreach (int[] list in allowed)
