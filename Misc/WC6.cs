@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace PKHeX
@@ -89,7 +90,7 @@ namespace PKHeX
             get { return Data[0x85]; } 
             set { Data[0x85] = (byte)value; } }
         public string Nickname {
-            get { return Encoding.Unicode.GetString(Data, 0x86, 0x1A).Trim(); }
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x86, 0x1A)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(12 + 1, '\0')).CopyTo(Data, 0x86); } }
         public int Nature {
             get { return Data[0xA0]; } 
@@ -123,9 +124,10 @@ namespace PKHeX
         public int IV_SPE { get { return Data[0xB2]; } set { Data[0xB2] = (byte)value; } }
         public int IV_SPA { get { return Data[0xB3]; } set { Data[0xB3] = (byte)value; } }
         public int IV_SPD { get { return Data[0xB4]; } set { Data[0xB4] = (byte)value; } }
-        
+
+        public int OTGender { get { return Data[0xB5]; } set { Data[0xB5] = (byte)value; } }
         public string OT {
-            get { return Encoding.Unicode.GetString(Data, 0xB6, 0x1A).Trim(); }
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB6, 0x1A)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0xB6); } }
         public int Level { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
         public bool IsEgg { get { return Data[0xD1] == 1; } set { Data[0xD1] = (byte)(value ? 1 : 0); } }
@@ -188,6 +190,151 @@ namespace PKHeX
                 if (value.Length > 2) RelearnMove3 = value[2];
                 if (value.Length > 3) RelearnMove4 = value[3];
             }
+        }
+
+        public PK6 convertToPK6(SAV6 SAV)
+        {
+            if (!IsPokémon)
+                return null;
+
+            int currentLevel = Level > 0 ? Level : (int)(Util.rnd32()%100 + 1);
+            PK6 pk = new PK6
+            {
+                Species = Species,
+                HeldItem = HeldItem,
+                TID = TID,
+                SID = SID,
+                Met_Level = currentLevel,
+                Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
+                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PKX.Personal[Species].RandomGender),
+                AltForm = Form,
+                EncryptionConstant = EncryptionConstant == 0 ? Util.rnd32() : EncryptionConstant,
+                Version = OriginGame == 0 ? SAV.Game : OriginGame,
+                Language = Language == 0 ? SAV.Language : Language,
+                Ball = Pokéball,
+                Country = SAV.Country,
+                Region = SAV.SubRegion,
+                ConsoleRegion = SAV.ConsoleRegion,
+                Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
+                Move1_PP = PKX.getBasePP(Move1),
+                Move2_PP = PKX.getBasePP(Move2),
+                Move3_PP = PKX.getBasePP(Move3),
+                Move4_PP = PKX.getBasePP(Move4),
+                RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
+                RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
+                Met_Location = MetLocation,
+                Met_Day = (int)Day,
+                Met_Month = (int)Month,
+                Met_Year = (int)Year - 2000,
+                Egg_Location = EggLocation,
+                CNT_Cool = CNT_Cool,
+                CNT_Beauty = CNT_Beauty,
+                CNT_Cute = CNT_Cute,
+                CNT_Smart = CNT_Smart,
+                CNT_Tough = CNT_Tough,
+                CNT_Sheen = CNT_Sheen,
+
+                OT_Name = OT.Length > 0 ? OT : SAV.OT,
+                OT_Gender = OTGender != 3 ? OTGender % 2 : SAV.Gender,
+                HT_Name = OT.Length > 0 ? SAV.OT : "",
+                HT_Gender = OT.Length > 0 ? SAV.Gender : 0,
+                CurrentHandler = OT.Length > 0 ? 1 : 0,
+                
+                EXP = PKX.getEXP(Level, Species),
+
+                // Ribbons
+                RIB2_6 = RIB0_3, // Country Ribbon
+                RIB2_7 = RIB0_4, // National Ribbon
+
+                RIB3_0 = RIB0_5, // Earth Ribbon
+                RIB3_1 = RIB0_6, // World Ribbon
+                RIB3_2 = RIB1_5, // Classic Ribbon
+                RIB3_3 = RIB1_6, // Premier Ribbon
+                RIB3_4 = RIB0_7, // Event Ribbon
+                RIB3_5 = RIB1_1, // Birthday Ribbon
+                RIB3_6 = RIB1_2, // Special Ribbon
+                RIB3_7 = RIB1_3, // Souvenir Ribbon
+
+                RIB4_0 = RIB1_4, // Wishing Ribbon
+                RIB4_1 = RIB0_0, // Battle Champ Ribbon
+                RIB4_2 = RIB0_1, // Regional Champ Ribbon
+                RIB4_3 = RIB0_2, // National Champ Ribbon
+                RIB4_4 = RIB1_0, // World Champ Ribbon
+                
+                // Memories
+                CurrentFriendship = PKX.getBaseFriendship(Species),
+                Geo1_Country = SAV.Country,
+                Geo1_Region = SAV.SubRegion,
+            };
+            pk.TradeMemory(Bank: false);
+            pk.IsNicknamed = IsNicknamed;
+            pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
+
+            // More 'complex' logic to determine final values
+            
+            // Dumb way to generate random IVs.
+            int[] finalIVs = new int[6];
+            do 
+            {
+                for (int i = 0; i < 6; i++)
+                    switch (IVs[i])
+                    {
+                        case 0xFE:
+                            finalIVs[i] = 31;
+                            break;
+                        case 0xFF:
+                            finalIVs[i] = (int)(Util.rnd32() & 0x1F);
+                            break;
+                        default:
+                            finalIVs[i] = IVs[i];
+                            break;
+                    } // more than 3 definable IVs and not enough flawless IVs
+            } while (IVs.Count(r => r > 31) < 3 && finalIVs.Count(r => r == 31) < 3);
+            pk.IVs = finalIVs;
+
+            int av = 0;
+            switch (AbilityType)
+            {
+                case 00: // 0 - 0
+                case 01: // 1 - 1
+                case 02: // 2 - H
+                    av = AbilityType;
+                    break;
+                case 03: // 0/1
+                case 04: // 0/1/H
+                    av = (int)(Util.rnd32()%(AbilityType - 1));
+                    break;
+            }
+            pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
+            pk.AbilityNumber = 1 << av;
+
+            switch (PIDType)
+            {
+                case 00: // Specified
+                    pk.PID = PID;
+                    break;
+                case 01: // Random
+                    pk.PID = Util.rnd32();
+                    break;
+                case 02: // Random Shiny
+                    pk.PID = Util.rnd32();
+                    pk.PID = (uint)(((TID ^ SID ^ (PID & 0xFFFF)) << 16) + (PID & 0xFFFF));
+                    break;
+                case 03: // Random Nonshiny
+                    do { pk.PID = Util.rnd32(); } while ((uint)(((TID ^ SID ^ (PID & 0xFFFF)) << 16) + (PID & 0xFFFF)) < 16);
+                    break;
+            }
+
+            if (IsEgg)
+            {
+                pk.IsEgg = true;
+                pk.Egg_Day = (int) Day;
+                pk.Egg_Month = (int) Month;
+                pk.Egg_Year = (int) Year;
+            }
+
+            pk.RefreshChecksum();
+            return pk;
         }
     }
 }

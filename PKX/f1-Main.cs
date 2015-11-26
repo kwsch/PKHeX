@@ -595,7 +595,10 @@ namespace PKHeX
             #endregion
             #region Wondercard
             else if (input.Length == 0x108 && ext == ".wc6")
-                new SAV_Wondercard(input).Show();
+                if (ModifierKeys == Keys.Control)
+                    new SAV_Wondercard(input).Show();
+                else
+                    populateFields(new WC6(input).convertToPK6(SAV).Data);
             #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path, "File Size:" + Environment.NewLine + new FileInfo(path).Length.ToString("X8"));
