@@ -1453,7 +1453,7 @@ namespace PKHeX
             public int FormeOffset;
             public int FormeIndex(int species, int forme)
             {
-                return forme == 0 ? species : FormeOffset;
+                return FormStats == 0 ? species : FormStats + forme - 1;
             }
             public int RandomGender
             {
