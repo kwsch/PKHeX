@@ -262,11 +262,23 @@ namespace PKHeX
                 RIB4_4 = RIB1_0, // World Champ Ribbon
                 
                 // Memories
-                CurrentFriendship = PKX.getBaseFriendship(Species),
-                Geo1_Country = SAV.Country,
-                Geo1_Region = SAV.SubRegion,
+                OT_Friendship = PKX.getBaseFriendship(Species),
             };
-            pk.TradeMemory(Bank: false);
+            if (pk.CurrentHandler == 0) // OT
+            {
+                pk.OT_Memory = 3;
+                pk.OT_TextVar = 9;
+                pk.OT_Intensity = 1;
+                pk.OT_Feeling = Util.rand.Next(0, 9);
+            }
+            else
+            {
+                pk.HT_Memory = 3;
+                pk.HT_TextVar = 9;
+                pk.HT_Intensity = 1;
+                pk.HT_Feeling = Util.rand.Next(0, 9);
+                pk.HT_Friendship = pk.OT_Friendship;
+            }
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
 
