@@ -261,8 +261,8 @@ namespace PKHeX
                 RIB4_3 = RIB0_2, // National Champ Ribbon
                 RIB4_4 = RIB1_0, // World Champ Ribbon
                 
-                // Memories
                 OT_Friendship = PKX.getBaseFriendship(Species),
+                FatefulEncounter = true,
             };
             if (pk.CurrentHandler == 0) // OT
             {
@@ -301,7 +301,7 @@ namespace PKHeX
                             finalIVs[i] = IVs[i];
                             break;
                     } // more than 3 definable IVs and not enough flawless IVs
-            } while (IVs.Count(r => r > 31) < 3 && finalIVs.Count(r => r == 31) < 3);
+            } while (IVs.Count(r => r > 31) > 3 && finalIVs.Count(r => r == 31) < 3);
             pk.IVs = finalIVs;
 
             int av = 0;
