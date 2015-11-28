@@ -598,10 +598,16 @@ namespace PKHeX
                 if (ModifierKeys == Keys.Control)
                     new SAV_Wondercard(input).Show();
                 else
-                    populateFields(new WC6(input).convertToPK6(SAV).Data);
+                {
+                    PK6 pk = new WC6(input).convertToPK6(SAV);
+                    if (pk != null && pk.Species != 0)
+                        populateFields(pk.Data);
+                }
             #endregion
             else
-                Util.Error("Attempted to load an unsupported file type/size.", "File Loaded:" + Environment.NewLine + path, "File Size:" + Environment.NewLine + new FileInfo(path).Length.ToString("X8"));
+                Util.Error("Attempted to load an unsupported file type/size.", 
+                    String.Format("File Loaded:{0}{1}", Environment.NewLine, path), 
+                    String.Format("File Size:{0}{1} bytes (0x{2})", Environment.NewLine, input.Length, input.Length.ToString("X4")));
         }
         private void openMAIN(byte[] input, string path, bool ram = false)
         {
