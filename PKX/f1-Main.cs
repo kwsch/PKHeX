@@ -600,8 +600,13 @@ namespace PKHeX
                 else
                 {
                     PK6 pk = new WC6(input).convertToPK6(SAV);
-                    if (pk != null && pk.Species != 0)
-                        populateFields(pk.Data);
+                    if (pk == null || pk.Species == 0 || pk.Species > 721)
+                    {
+                        Util.Error("Failed to convert Wondercard.",
+                            (pk == null ? "Not a Pokémon Wondercard." : "Invalid species."));
+                        return;
+                    }
+                    populateFields(pk.Data);
                 }
             #endregion
             else
