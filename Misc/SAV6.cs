@@ -20,6 +20,10 @@ namespace PKHeX
     }
     public class SAV6 : PKX
     {
+        internal static readonly int SIZE_XY = 0x65600;
+        internal static readonly int SIZE_ORAS = 0x76000;
+        internal static readonly int BEEF = 0x42454546;
+
         // Global Settings
         internal static bool SetUpdateDex = true;
         internal static bool SetUpdatePK6 = true;
@@ -182,7 +186,7 @@ namespace PKHeX
         private void getBlockInfo()
         {
             BlockInfoOffset = Data.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(Data, BlockInfoOffset) != 0x42454546) // BEEF, nice!
+            if (BitConverter.ToUInt32(Data, BlockInfoOffset) != BEEF)
                 BlockInfoOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
             int count = (Data.Length - BlockInfoOffset - 0x8) / 8;
             BlockInfoOffset += 4;

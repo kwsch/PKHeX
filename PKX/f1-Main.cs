@@ -138,7 +138,7 @@ namespace PKHeX
         #region Global Variables: Always Visible!
         public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
         public static PK6 pk6 = new PK6(new byte[PK6.SIZE_PARTY]); // Tab Pokemon Data Storage
-        public static SAV6 SAV = new SAV6(new byte[0x760000]);
+        public static SAV6 SAV = new SAV6(new byte[SAV6.SIZE_ORAS]);
         public static byte[] originalSAV; // original save for CyberGadget Codes
         public static byte[] ramsav; // original ramsav for ramsav exporting
         public string pathSDF;
@@ -458,9 +458,9 @@ namespace PKHeX
             #endregion
 
             #region Saves
-            if ((input.Length == 0x76000) && BitConverter.ToUInt32(input, 0x75E10) == 0x42454546) // ORAS
+            if ((input.Length == SAV6.SIZE_ORAS) && BitConverter.ToUInt32(input, SAV6.SIZE_ORAS - 0x1F0) == SAV6.BEEF) // ORAS
                 openMAIN(input, path);
-            else if ((input.Length == 0x65600) && BitConverter.ToUInt32(input, 0x65410) == 0x42454546) // XY
+            else if ((input.Length == SAV6.SIZE_XY) && BitConverter.ToUInt32(input, SAV6.SIZE_XY - 0x1F0) == SAV6.BEEF) // XY
                 openMAIN(input, path);
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
@@ -476,10 +476,10 @@ namespace PKHeX
                     savshift += 0x7F000;
                 if (sdr == DialogResult.Cancel)
                     return;
-                byte[] psdata = input.Skip(0x5400 + savshift).Take(0x76000).ToArray();
-                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != 0x42454546)
-                    Array.Resize(ref psdata, 0x65600);
-                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != 0x42454546)
+                byte[] psdata = input.Skip(0x5400 + savshift).Take(SAV6.SIZE_ORAS).ToArray();
+                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SAV6.BEEF)
+                    Array.Resize(ref psdata, SAV6.SIZE_XY);
+                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SAV6.BEEF)
                     return;
 
                 openMAIN(psdata, path);
@@ -573,7 +573,7 @@ namespace PKHeX
                 if (input.Length == 0x80000)
                     // Scan for FEEB in XY location, 3DS only overwrites data if file already exists.
                     for (int i = 0x60000; i < 0x64000; i+=4)
-                        if (BitConverter.ToUInt32(input, i) == 0x42454546) { Array.Resize(ref input, 0x70000); break; }
+                        if (BitConverter.ToUInt32(input, i) == SAV6.BEEF) { Array.Resize(ref input, 0x70000); break; }
 
                 ramsav = (byte[])input.Clone();
                 try { openMAIN(ram2sav.getMAIN(input), path, true); }
@@ -630,7 +630,7 @@ namespace PKHeX
         {
             // Detection of stored Decryption XORpads:
             if (ModifierKeys == Keys.Control) return false; // no xorpad compatible
-            byte[] savID = new byte[0x10]; Array.Copy(input, 0x10, savID, 0, 0x10);
+            byte[] savID = input.Take(0x10).ToArray();
             string exepath = Application.StartupPath;
             string xorpath = exepath.Clone().ToString();
             string[] XORpads = Directory.GetFiles(xorpath);
@@ -640,29 +640,25 @@ namespace PKHeX
             {
                 // Fix xorpad alignment
                 byte[] xorpad = data;
-                if (xorpad.Length == 0x10009C)
-                {
-                    Array.Copy(xorpad, 0x9C, xorpad, 0, 0x100000);
-                    Array.Resize(ref xorpad, 0x100000);
-                }
-                byte[] xorID = new byte[0x10]; Array.Copy(xorpad, 0x10, xorID, 0, 0x10);
-                if (!xorID.SequenceEqual(savID)) continue;
+                if (xorpad.Length == 0x10009C) // Trim off Powersaves' header
+                    xorpad = xorpad.Skip(0x9C).ToArray(); // returns 0x100000
+
+                if (!xorpad.Take(0x10).SequenceEqual(savID)) continue;
 
                 // Set up Decrypted File
-                byte[] decryptedPS = new byte[0x76000];
-                Array.Copy(input, 0x5400, decryptedPS, 0, 0x76000);
+                byte[] decryptedPS = input.Skip(0x5400).Take(SAV6.SIZE_ORAS).ToArray();
 
                 // xor through and decrypt
-                for (int z = 0; z < 0x76000; z++)
+                for (int z = 0; z < decryptedPS.Length; z++)
                     decryptedPS[z] ^= xorpad[0x5400 + z];
 
                 // Weakly check the validity of the decrypted content
-                if (BitConverter.ToUInt32(decryptedPS, 0x76000 - 0x1F0) != 0x42454546) // Not OR/AS
-                    if (BitConverter.ToUInt32(decryptedPS, 0x65600 - 0x1F0) != 0x42454546)
-                        continue; // Not X/Y, so continue.
+                if (BitConverter.ToUInt32(decryptedPS, SAV6.SIZE_ORAS - 0x1F0) != SAV6.BEEF) // Not OR/AS
+                    if (BitConverter.ToUInt32(decryptedPS, SAV6.SIZE_XY - 0x1F0) != SAV6.BEEF) // Not X/Y
+                        continue;
                     else
-                        Array.Resize(ref decryptedPS, 0x65600); // set to X/Y size
-                else Array.Resize(ref decryptedPS, 0x76000); // set to ORAS size just in case
+                        Array.Resize(ref decryptedPS, SAV6.SIZE_XY); // set to X/Y size
+                else Array.Resize(ref decryptedPS, SAV6.SIZE_ORAS); // set to ORAS size just in case
 
                 // Save file is now decrypted!
 

@@ -600,7 +600,7 @@ namespace PKHeX
             // Dynamic handling of checksums regardless of save size.
 
             int verificationOffset = savefile.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(savefile, verificationOffset) != 0x42454546)
+            if (BitConverter.ToUInt32(savefile, verificationOffset) != SAV6.BEEF)
                 verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
 
             int count = (savefile.Length - verificationOffset - 0x8) / 8;
@@ -644,7 +644,7 @@ namespace PKHeX
             // Dynamic handling of checksums regardless of save size.
 
             int verificationOffset = savefile.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(savefile, verificationOffset) != 0x42454546)
+            if (BitConverter.ToUInt32(savefile, verificationOffset) != SAV6.BEEF)
                 verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
 
             int count = (savefile.Length - verificationOffset - 0x8) / 8;
@@ -690,7 +690,7 @@ namespace PKHeX
             // Dynamic handling of checksums regardless of save size.
 
             int verificationOffset = savefile.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(savefile, verificationOffset) != 0x42454546)
+            if (BitConverter.ToUInt32(savefile, verificationOffset) != SAV6.BEEF)
                 verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
 
             int count = (savefile.Length - verificationOffset - 0x8) / 8;
