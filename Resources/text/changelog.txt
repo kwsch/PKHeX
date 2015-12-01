@@ -556,7 +556,7 @@ http://projectpokemon.org/forums/showthread.php?36986
 9/7/15 - New Update: (19300)
  - Fixed: Hidden Power ComboBox displaying the wrong Hidden Power Type. Thanks sora10pls!
 
-9/20/15 - New Update:
+9/20/15 - New Update: (63275+)
  - Added: Editing of the Daycare Egg RNG Seed.
  - Added: Exporting all Boxes now allows exporting to individual folders based on Box. Thanks suloku!
  - Fixed: Importing pcdata/boxdata.bin now sets Pokédex flags. Thanks suloku!
@@ -565,13 +565,22 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Importing Trade Packets (from Nov'13-Dec'13) will now actually load the data.
 
 X/XX/15 - New Update:
- - Added: 508 EVs will now show up as Yellow in the total EVs box.
- - Added: PKHeX will now alert the user if the Tabs Pokémon has no moves.
- - Added: Blank spaces between moves will now be removed.
- - Added: Click Events to the Stat Labels and MaskedTextBoxes. More info in the shortcuts window. Thanks sora10pls!
- - Fixed: Removing party members will now behave properly. 
+ - Added: Wondercards can now be converted into pk6 files. Drop/Open the wc6 and the Wondercard will be loaded to tabs.
+ - Added: Database Viewer to search for Pokémon within your save file or database folder.
+ - Removed: 1MB save (Powersave) exporting; all files are now treated as 'main' files for simplicity.
+
+ - Added: Multiple usability improvements:
+ - - When setting to your save file, Memories and Handler will be updated (if required). Can be disabled via Options.
+ - - When setting to your save file, Pokédex entries will be updated (if required). Can be disabled via Options.
+ - - 508 EVs will now show up as Yellow in the total EVs box.
+ - - PKHeX will now alert the user if the Tabs Pokémon has no moves.
+ - - Blank spaces between moves will now be removed.
+ - - Click Events to the Stat Labels and MaskedTextBoxes. More info in the shortcuts window. Thanks sora10pls!
+ - - Drag & Drop now works more efficiently. Dropping from external sources to a box slot now loads to that slot (instead of tabs).
+ - - Trainer Map Coordinates now display their actual values.
+ - - Memory Editing now locks the user out from editing in memories for situations that should not have any.
+
+ - Fixed: Removing party members will now behave properly.
  - Fixed: Setting to party with empty slots above will now behave properly.
- - Fixed: Memory Editing now locks the user out from editing in memories for situations that should not have any.
- - Removed: 1MB save support; all files are now treated as 'main' files for simplicity.
- - Changed: Refactored pk6/sav handling objects to tuck away offsets into a single location. Makes reading the source code easier.
- - Fixed: Various refactoring bugs. Thanks Odaxis, RustInPeace, MilesPikachu, and SciresM!
+ - Changed: Refactored pk6/sav handling objects to tuck away offsets into a single location.
+ - Fixed: Various refactoring bugs. Thanks Odaxis, RustInPeace, MilesPikachu, Wanderer1391, suloku, and SciresM!
