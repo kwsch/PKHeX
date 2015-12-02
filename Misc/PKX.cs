@@ -1174,6 +1174,11 @@ namespace PKHeX
         };
         public class Simulator
         {
+            public static string[] species = Util.getStringList("Species", "en");
+            public static string[] items = Util.getStringList("Items", "en");
+            public static string[] natures = Util.getStringList("Natures", "en");
+            public static string[] moves = Util.getStringList("Moves", "en");
+            public static string[] abilities = Util.getStringList("Abilities", "en");
             public struct Set
             {
                 // Default Set Data
@@ -1192,7 +1197,7 @@ namespace PKHeX
                 public int[] Moves;
 
                 // Parsing Utility
-                public Set(string input, string[] species, string[] items, string[] natures, string[] moves, string[] abilities)
+                public Set(string input)
                 {
                     Nickname = null;
                     Species = -1;
@@ -1464,6 +1469,7 @@ namespace PKHeX
                     }
                 }
             }
+            public bool HasFormes { get { return FormeCount > 1; } }
         }
     }
 }

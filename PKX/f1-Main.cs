@@ -976,7 +976,7 @@ namespace PKHeX
             CB_SubRegion.SelectedValue = pk6.Region;
             CB_3DSReg.SelectedValue = pk6.ConsoleRegion;
             CB_GameOrigin.SelectedValue = pk6.Version;
-            CB_EncounterType.SelectedValue = pk6.EncounterType;
+            CB_EncounterType.SelectedValue = (pk6.Gen4) ? pk6.EncounterType : 0;
             CB_Ball.SelectedValue = pk6.Ball;
 
             if (pk6.Met_Month == 0) { pk6.Met_Month = 1; }
@@ -999,8 +999,8 @@ namespace PKHeX
             CB_MetLocation.SelectedValue = pk6.Met_Location;
 
             // Set CT Gender to None if no CT, else set to gender symbol.
-            Label_CTGender.Text = ((TB_OTt2.Text == "") || (pk6.HT_Name == "")) ? "" : gendersymbols[pk6.HT_Gender];
-            Label_CTGender.ForeColor = ((pk6.HT_Gender == 1) ? Color.Red : Color.Blue);
+            Label_CTGender.Text = pk6.HT_Name == "" ? "" : gendersymbols[pk6.HT_Gender];
+            Label_CTGender.ForeColor = pk6.HT_Gender == 1 ? Color.Red : Color.Blue;
 
             TB_MetLevel.Text = pk6.Met_Level.ToString();
 
@@ -1053,7 +1053,7 @@ namespace PKHeX
             TB_PP4.Text = pk6.Move4_PP.ToString();
             
             // Set Form if count is enough, else if count is more than 1 set equal to max else zero.
-            CB_Form.SelectedIndex = (CB_Form.Items.Count > pk6.AltForm) ? pk6.AltForm : (CB_Form.Items.Count > 1) ? CB_Form.Items.Count - 1 : 0;
+            CB_Form.SelectedIndex = (CB_Form.Items.Count > pk6.AltForm) ? pk6.AltForm : (CB_Form.Items.Count > 1 ? CB_Form.Items.Count - 1 : 0);
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk6.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
@@ -1061,9 +1061,7 @@ namespace PKHeX
             updateStats();
             setIsShiny();
 
-            CB_EncounterType.Visible = Label_EncounterType.Visible = !(pk6.Version > 12 || pk6.Version < 7);
-            if (pk6.Version > 12 || pk6.Version < 7)
-                CB_EncounterType.SelectedValue = 0;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = !pk6.Gen4;
 
             fieldsInitialized = oldInit;
             updateIVs(null, null);
@@ -1072,7 +1070,7 @@ namespace PKHeX
 
             TB_EXP.Text = pk6.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk6.Gender];
-            Label_Gender.ForeColor = (pk6.Gender == 2) ? Label_Species.ForeColor : ((pk6.Gender == 1) ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = pk6.Gender == 2 ? Label_Species.ForeColor : (pk6.Gender == 1 ? Color.Red : Color.Blue);
             if (HaX) // DEV Illegality
             {
                 DEV_Ability.SelectedValue = pk6.Ability;
@@ -1084,7 +1082,7 @@ namespace PKHeX
             dragout.Image = pk6.Sprite;
 
             // Highlight the Current Handler
-            clickGT((pk6.CurrentHandler == 1) ? GB_nOT : GB_OT, null);
+            clickGT(pk6.CurrentHandler == 1 ? GB_nOT : GB_OT, null);
         }
         // General Use Functions shared by other Forms // 
         internal static void setCountrySubRegion(ComboBox CB, string type)
@@ -1104,7 +1102,7 @@ namespace PKHeX
             // Form Tables
             cb.DisplayMember = "Text";
             cb.ValueMember = "Value";
-            bool hasForms = !(PKX.Personal[species].FormeCount == 1 && species != 664 && species != 665); // If no forms & not Scatterbug / Spewpa...
+            bool hasForms = PKX.Personal[species].HasFormes;
             cb.Enabled = cb.Visible = hasForms;
             if (l != null) l.Visible = hasForms;
             
@@ -1542,18 +1540,17 @@ namespace PKHeX
         }
         private void updatePP(object sender, EventArgs e)
         {
-            TB_PP1.Text = (PKX.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex)).ToString();
-            TB_PP2.Text = (PKX.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex)).ToString();
-            TB_PP3.Text = (PKX.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex)).ToString();
-            TB_PP4.Text = (PKX.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex)).ToString();
+            TB_PP1.Text = PKX.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex).ToString();
+            TB_PP2.Text = PKX.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex).ToString();
+            TB_PP3.Text = PKX.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex).ToString();
+            TB_PP4.Text = PKX.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex).ToString();
         }
         private void updatePKRSstrain(object sender, EventArgs e)
         {
             // Change the PKRS Days to the legal bounds.
             int currentDuration = CB_PKRSDays.SelectedIndex;
             CB_PKRSDays.Items.Clear();
-            int[] days = Enumerable.Range(0, CB_PKRSStrain.SelectedIndex % 4 + 2).Select(i => i).ToArray();
-            foreach (int day in days) CB_PKRSDays.Items.Add(day);
+            foreach (int day in Enumerable.Range(0, CB_PKRSStrain.SelectedIndex % 4 + 2)) CB_PKRSDays.Items.Add(day);
 
             // Set the days back if they're legal, else set it to 1. (0 always passes).
             CB_PKRSDays.SelectedIndex = (currentDuration < CB_PKRSDays.Items.Count) ? currentDuration : 1;
@@ -1660,7 +1657,7 @@ namespace PKHeX
 
             int Gender = genderflag;
             Label_Gender.Text = gendersymbols[Gender];
-            Label_Gender.ForeColor = (Gender == 2) ? Label_Species.ForeColor : ((Gender == 1) ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
             setAbilityList(TB_AbilityNumber, Species, CB_Ability, CB_Form);
             updateForm(null, null);
 
@@ -1796,21 +1793,8 @@ namespace PKHeX
             {
                 // get language
                 int lang = Util.getIndex(CB_Language);
-
-                string l;
-                switch (lang)
-                {
-                    case 1: l = "ja"; break;
-                    case 2: l = "en"; break;
-                    case 3: l = "fr"; break;
-                    case 4: l = "it"; break;
-                    case 5: l = "de"; break;
-                    case 7: l = "es"; break;
-                    case 8: l = "ko"; break;
-                    default: l = curlanguage; break;
-                }
                 if (CHK_IsEgg.Checked) species = 0; // Set species to 0 to get the egg name.
-                TB_Nickname.Text = Util.getStringList("Species", l)[(CHK_IsEgg.Checked) ? 0 : species];
+                TB_Nickname.Text = PKX.getSpeciesName(CHK_IsEgg.Checked ? 0 : species, lang);
             }
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
@@ -2007,13 +1991,7 @@ namespace PKHeX
             if (!Clipboard.ContainsText()) return;
 
             // Get Simulator Data
-            PKX.Simulator.Set Set = new PKX.Simulator.Set(
-                Clipboard.GetText(), // Input Set
-                Util.getStringList("Species", "en"),
-                Util.getStringList("Items", "en"),
-                Util.getStringList("Natures", "en"),
-                Util.getStringList("Moves", "en"),
-                Util.getStringList("Abilities", "en"));
+            PKX.Simulator.Set Set = new PKX.Simulator.Set(Clipboard.GetText());
 
             if (Set.Species < 0) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Clipboard.GetText())) return;
@@ -2027,7 +2005,7 @@ namespace PKHeX
             {
                 int Gender = PKX.getGender(Set.Gender);
                 Label_Gender.Text = gendersymbols[Gender];
-                Label_Gender.ForeColor = (Gender == 2) ? Label_Species.ForeColor : ((Gender == 1) ? Color.Red : Color.Blue);
+                Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
             }
 
             // Set Form
@@ -2761,6 +2739,7 @@ namespace PKHeX
         {
             if (SAV.getData(offset, PK6.SIZE_STORED).SequenceEqual(new byte[PK6.SIZE_STORED]))
             {
+                // 00s present in slot.
                 pb.Image = null;
                 pb.BackColor = Color.Transparent;
                 return;
@@ -2773,8 +2752,9 @@ namespace PKHeX
                 pb.BackColor = Color.Red;
                 return;
             }
-            pb.BackColor = Color.Transparent;
+            // Something stored in slot. Only display if species is valid.
             pb.Image = p.Species == 0 ? null : p.Sprite;
+            pb.BackColor = Color.Transparent;
         }
         private void getSlotColor(int slot, Image color)
         {
@@ -3106,7 +3086,7 @@ namespace PKHeX
             }
             RTB_T.Text = result;
             RTB_T.Font = new Font("Courier New", 8);
-            tabBoxMulti.SelectedIndex = 3;
+            tabBoxMulti.SelectedIndex = 3; // Tools tab (where RTB_T is)
         }
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
         {
