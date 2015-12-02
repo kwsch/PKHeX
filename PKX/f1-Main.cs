@@ -1061,7 +1061,7 @@ namespace PKHeX
             updateStats();
             setIsShiny();
 
-            CB_EncounterType.Visible = Label_EncounterType.Visible = !pk6.Gen4;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pk6.Gen4;
 
             fieldsInitialized = oldInit;
             updateIVs(null, null);
