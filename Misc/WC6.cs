@@ -300,8 +300,8 @@ namespace PKHeX
                         default:
                             finalIVs[i] = IVs[i];
                             break;
-                    } // more than 3 definable IVs and not enough flawless IVs
-            } while (IVs.Count(r => r > 31) > 3 && finalIVs.Count(r => r == 31) < 3);
+                    } // Unbreedable Pokémon get 3 flawless IVs by default if enough IVs are randomizable.
+            } while (Legal.Unbreedables.Contains(pk.Species) && IVs.Count(r => r > 31) > 3 && finalIVs.Count(r => r == 31) < 3);
             pk.IVs = finalIVs;
 
             int av = 0;
@@ -330,10 +330,10 @@ namespace PKHeX
                     break;
                 case 02: // Random Shiny
                     pk.PID = Util.rnd32();
-                    pk.PID = (uint)(((TID ^ SID ^ (PID & 0xFFFF)) << 16) + (PID & 0xFFFF));
+                    pk.PID = (uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF));
                     break;
                 case 03: // Random Nonshiny
-                    do { pk.PID = Util.rnd32(); } while ((uint)(((TID ^ SID ^ (PID & 0xFFFF)) << 16) + (PID & 0xFFFF)) < 16);
+                    do { pk.PID = Util.rnd32(); } while ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF)) < 16);
                     break;
             }
 
