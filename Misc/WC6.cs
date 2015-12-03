@@ -286,22 +286,27 @@ namespace PKHeX
             
             // Dumb way to generate random IVs.
             int[] finalIVs = new int[6];
-            do 
+            switch (IVs[0])
             {
-                for (int i = 0; i < 6; i++)
-                    switch (IVs[i])
-                    {
-                        case 0xFE:
-                            finalIVs[i] = 31;
-                            break;
-                        case 0xFF:
-                            finalIVs[i] = (int)(Util.rnd32() & 0x1F);
-                            break;
-                        default:
-                            finalIVs[i] = IVs[i];
-                            break;
-                    } // Unbreedable Pokémon get 3 flawless IVs by default if enough IVs are randomizable.
-            } while (Legal.Unbreedables.Contains(pk.Species) && IVs.Count(r => r > 31) > 3 && finalIVs.Count(r => r == 31) < 3);
+                case 0xFE:
+                    finalIVs[0] = 31;
+                    do { // 31 HP IV, 2 other 31s
+                    for (int i = 1; i < 6; i++)
+                        finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
+                    } while (finalIVs.Count(r => r == 31) < 3); // 31 + 2*31
+                    break;
+                case 0xFD: 
+                    finalIVs[0] = 25;
+                    do { // 25 HP IV, 2 other 31s
+                    for (int i = 1; i < 6; i++)
+                        finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
+                    } while (finalIVs.Count(r => r == 31) < 2); // 25 + 2*31
+                    break;
+                default: // Random IVs
+                    for (int i = 0; i < 6; i++)
+                        finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
+                    break;
+            }
             pk.IVs = finalIVs;
 
             int av = 0;
