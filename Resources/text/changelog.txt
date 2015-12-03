@@ -580,7 +580,7 @@ X/XX/15 - New Update:
  - - Trainer Map Coordinates now display their actual values.
  - - Memory Editing now locks the user out from editing in memories for situations that should not have any.
 
+ - Changed: Refactored pk6/sav handling objects to tuck away offsets into a single location.
  - Fixed: Removing party members will now behave properly.
  - Fixed: Setting to party with empty slots above will now behave properly.
- - Changed: Refactored pk6/sav handling objects to tuck away offsets into a single location.
  - Fixed: Various refactoring bugs. Thanks Odaxis, RustInPeace, MilesPikachu, Wanderer1391, suloku, and SciresM!
