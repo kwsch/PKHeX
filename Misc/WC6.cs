@@ -296,11 +296,10 @@ namespace PKHeX
                     } while (finalIVs.Count(r => r == 31) < 3); // 31 + 2*31
                     break;
                 case 0xFD: 
-                    finalIVs[0] = 25;
-                    do { // 25 HP IV, 2 other 31s
-                    for (int i = 1; i < 6; i++)
+                    do { // 2 other 31s
+                    for (int i = 0; i < 6; i++)
                         finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
-                    } while (finalIVs.Count(r => r == 31) < 2); // 25 + 2*31
+                    } while (finalIVs.Count(r => r == 31) < 2); // 2*31
                     break;
                 default: // Random IVs
                     for (int i = 0; i < 6; i++)
