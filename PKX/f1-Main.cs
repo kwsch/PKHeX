@@ -1102,7 +1102,7 @@ namespace PKHeX
             // Form Tables
             cb.DisplayMember = "Text";
             cb.ValueMember = "Value";
-            bool hasForms = PKX.Personal[species].HasFormes;
+            bool hasForms = PKX.Personal[species].HasFormes || new[] { 664, 665, 414, }.Contains(species);
             cb.Enabled = cb.Visible = hasForms;
             if (l != null) l.Visible = hasForms;
             
