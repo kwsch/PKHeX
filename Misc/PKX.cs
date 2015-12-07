@@ -724,18 +724,16 @@ namespace PKHeX
         // Data Requests
         internal static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny)
         {
-            string file;
             if (species == 0)
-            { return (Image)Properties.Resources.ResourceManager.GetObject("_0"); }
-            {
-                file = "_" + species;
-                if (form > 0) // Alt Form Handling
-                    file = file + "_" + form;
-                else if (gender == 1 && (species == 592 || species == 593)) // Frillish & Jellicent
-                    file = file + "_" + gender;
-                else if (gender == 1 && (species == 521 || species == 668)) // Unfezant & Pyroar
-                    file = "_" + species + "f";
-            }
+                return (Image)Properties.Resources.ResourceManager.GetObject("_0");
+            if (new[] { 664, 665, 414, 493 }.Contains(species)) // Species who show their default sprite regardless of Form
+                form = 0;
+
+            string file = "_" + species;
+            if (form > 0) // Alt Form Handling
+                file = file + "_" + form;
+            else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
+                file = file + "_" + gender;
 
             // Redrawing logic
             Image baseImage = (Image)Properties.Resources.ResourceManager.GetObject(file);
@@ -824,7 +822,6 @@ namespace PKHeX
         // Personal.dat
         internal static string[] getFormList(int species, string[] t, string[] f, string[] g)
         {
-            
             // Mega List            
             if (Array.IndexOf(new[] 
                 { // XY
@@ -896,6 +893,7 @@ namespace PKHeX
 
                 case 412:
                 case 413:
+                case 414:
                     return new[]
                     {
                         f[412], // Plant

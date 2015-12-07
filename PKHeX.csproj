@@ -119,11 +119,6 @@
     <Compile Include="PKX\f3-MemoryAmie.Designer.cs">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Misc\ram2sav.cs" />
     <Compile Include="SAV\SAV_Database.cs">
       <SubType>Form</SubType>
@@ -271,7 +266,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_BerryField.resx">
       <DependentUpon>SAV_BerryField.cs</DependentUpon>
@@ -352,6 +346,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\414-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\414-1.png" />
     <None Include="Resources\img\Trainer Sprites\tr_129.png" />
     <None Include="Resources\img\Trainer Sprites\tr_128.png" />
     <None Include="Resources\img\Trainer Sprites\tr_81.png" />
