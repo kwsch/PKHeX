@@ -467,9 +467,9 @@ namespace PKHeX
         }
         public void setPK6Party(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
-            if (SetUpdatePK6 || (trade ?? false))
+            if (trade ?? SetUpdatePK6)
                 setPK6(pk6);
-            if (SetUpdateDex || (dex ?? false))
+            if (dex ?? SetUpdateDex)
                 setDex(pk6);
 
             byte[] ek6 = encryptArray(pk6.Data);
@@ -479,9 +479,9 @@ namespace PKHeX
         }
         public void setPK6Stored(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
-            if (SetUpdatePK6 || (trade ?? false))
+            if (trade ?? SetUpdatePK6)
                 setPK6(pk6);
-            if (SetUpdateDex || (dex ?? false))
+            if (dex ?? SetUpdateDex)
                 setDex(pk6);
 
             byte[] ek6 = encryptArray(pk6.Data);
@@ -492,9 +492,9 @@ namespace PKHeX
         public void setEK6Stored(byte[] ek6, int offset, bool? trade = null, bool? dex = null)
         {
             PK6 pk6 = new PK6(decryptArray(ek6));
-            if (SetUpdatePK6 || (trade ?? false))
+            if (trade ?? SetUpdatePK6)
                 setPK6(pk6);
-            if (SetUpdateDex || (dex ?? false))
+            if (dex ?? SetUpdateDex)
                 setDex(pk6);
 
             Array.Resize(ref ek6, PK6.SIZE_STORED);
