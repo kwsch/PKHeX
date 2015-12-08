@@ -778,17 +778,6 @@ namespace PKHeX
             return new PK6(data).Sprite;
         }
 
-        internal static string[] getShowdownText(PK6 pk6)
-        {
-            return getShowdownText(pk6.Nickname, pk6.Species, pk6.HeldItem, pk6.Ability, pk6.EVs, pk6.HPType, pk6.Move1, pk6.Move2, pk6.Move3, pk6.Move4);
-        }
-        internal static string[] getShowdownText(string Nickname, int Species, int HeldItem, int Ability, int[] EVs,
-            int HPType, int Move1, int Move2, int Move3, int Move4)
-        {
-            // TODO
-            return null;
-        }
-
         // Font Related
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
         internal static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
@@ -1170,191 +1159,215 @@ namespace PKHeX
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
-        public class Simulator
+
+        internal static string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+        public class ShowdownSet
         {
-            public static string[] species = Util.getStringList("Species", "en");
-            public static string[] items = Util.getStringList("Items", "en");
-            public static string[] natures = Util.getStringList("Natures", "en");
-            public static string[] moves = Util.getStringList("Moves", "en");
-            public static string[] abilities = Util.getStringList("Abilities", "en");
-            public struct Set
+            internal static string[] species = Util.getStringList("Species", "en");
+            internal static string[] items = Util.getStringList("Items", "en");
+            internal static string[] natures = Util.getStringList("Natures", "en");
+            internal static string[] moves = Util.getStringList("Moves", "en");
+            internal static string[] abilities = Util.getStringList("Abilities", "en");
+
+            // Default Set Data
+            public string Text;
+            public string Nickname;
+            public int Species;
+            public string Form;
+            public string Gender;
+            public int Item;
+            public int Ability;
+            public int Level;
+            public bool Shiny;
+            public int Friendship;
+            public int Nature;
+            public int[] EVs;
+            public int[] IVs;
+            public int[] Moves;
+
+            // Parsing Utility
+            public ShowdownSet(string input = null)
             {
-                // Default Set Data
-                public string Nickname;
-                public int Species;
-                public string Form;
-                public string Gender;
-                public int Item;
-                public int Ability;
-                public int Level;
-                public bool Shiny;
-                public int Friendship;
-                public int Nature;
-                public byte[] EVs;
-                public int[] IVs;
-                public int[] Moves;
+                if (input == null)
+                    return;
 
-                // Parsing Utility
-                public Set(string input)
+                Text = input;
+                Nickname = null;
+                Species = -1;
+                Form = null;
+                Gender = null;
+                Item = 0;
+                Ability = 0;
+                Level = 100;
+                Shiny = false;
+                Friendship = 255;
+                Nature = 0;
+                EVs = new int[6];
+                IVs = new[] { 31, 31, 31, 31, 31, 31 };
+                Moves = new int[4];
+
+                string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                for (int i = 0; i < lines.Length; i++) lines[i] = lines[i].Replace("'", "’").Trim(); // Sanitize apostrophes
+
+                if (lines.Length < 3) return;
+
+                // Seek for start of set
+                int start = -1;
+                for (int i = 0; i < lines.Length; i++)
+                    if (lines[i].Contains(" @ ")) { start = i; break; }
+                lines = lines.Skip(start).Take(lines.Length - start).ToArray();
+
+                // Abort if no text is found
+                if (start == -1)
                 {
-                    Nickname = null;
-                    Species = -1;
-                    Form = null;
-                    Gender = null;
-                    Item = 0;
-                    Ability = 0;
-                    Level = 100;
-                    Shiny = false;
-                    Friendship = 255;
-                    Nature = 0;
-                    EVs = new byte[6];
-                    IVs = new[] { 31, 31, 31, 31, 31, 31 };
-                    Moves = new int[4];
-                    string[] stats =  { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
-
-                    string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-                    for (int i = 0; i < lines.Length; i++) lines[i] = lines[i].Replace("'", "’").Trim(); // Sanitize apostrophes
-
-                    if (lines.Length < 3) return;
-
-                    // Seek for start of set
-                    int start = -1;
-                    for (int i = 0; i < lines.Length; i++)
-                        if (lines[i].Contains(" @ ")) { start = i; break; }
-                    lines = lines.Skip(start).Take(lines.Length - start).ToArray();
-
-                    // Abort if no text is found
-                    if (start == -1)
+                    // Try to parse the first line if it does not have any item
+                    string ld = lines[0];
+                    // Gender Detection
+                    string last3 = ld.Substring(ld.Length - 3);
+                    if (last3 == "(M)" || last3 == "(F)")
                     {
-                        // Try to parse the first line if it does not have any item
-                        string ld = lines[0];
-                        // Gender Detection
-                        string last3 = ld.Substring(ld.Length - 3);
-                        if (last3 == "(M)" || last3 == "(F)")
-                        {
-                            Gender = last3.Substring(1, 1);
-                            ld = ld.Substring(0, ld.Length - 3);
-                        }
-                        // Nickname Detection
-                        string spec = ld;
-                        if (spec.Contains("("))
-                        {
-                            int index = spec.LastIndexOf("(", StringComparison.Ordinal);
-                            string n1 = spec.Substring(0, index - 1);
-                            string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
-
-                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
-                            spec = inverted ? n2 : n1;
-                            Nickname = inverted ? n1 : n2;
-                        }
-                        Species = Array.IndexOf(species, spec.Replace(" ", ""));
-                        if (
-                            (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
-                            &&
-                            (Species = Array.IndexOf(species, spec.Replace(" ", ""))) < 0 // Has Form
-                            ) 
-                        {
-                            string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
-                            if (tmp.Length < 2) return;
-                            Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
-                            Form = tmp[1].Replace(" ", "");
-                        }
-                        if (Species < -1)
-                            return;
-                        lines = lines.Skip(1).Take(lines.Length - 1).ToArray();
+                        Gender = last3.Substring(1, 1);
+                        ld = ld.Substring(0, ld.Length - 3);
                     }
-                    int movectr = 0;
-                    // Detect relevant data
-                    foreach (string line in lines)
+                    // Nickname Detection
+                    string spec = ld;
+                    if (spec.Contains("("))
                     {
-                        if (line.Length < 2) continue;
-                        if (line.Contains("- "))
+                        int index = spec.LastIndexOf("(", StringComparison.Ordinal);
+                        string n1 = spec.Substring(0, index - 1);
+                        string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+
+                        bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
+                        spec = inverted ? n2 : n1;
+                        Nickname = inverted ? n1 : n2;
+                    }
+                    Species = Array.IndexOf(species, spec.Replace(" ", ""));
+                    if (
+                        (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
+                        &&
+                        (Species = Array.IndexOf(species, spec.Replace(" ", ""))) < 0 // Has Form
+                        ) 
+                    {
+                        string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
+                        if (tmp.Length < 2) return;
+                        Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
+                        Form = tmp[1].Replace(" ", "");
+                    }
+                    if (Species < -1)
+                        return;
+                    lines = lines.Skip(1).Take(lines.Length - 1).ToArray();
+                }
+                int movectr = 0;
+                // Detect relevant data
+                foreach (string line in lines)
+                {
+                    if (line.Length < 2) continue;
+                    if (line.Contains("- "))
+                    {
+                        string moveString = line.Substring(2);
+                        if (moveString.Contains("Hidden Power"))
                         {
-                            string moveString = line.Substring(2);
-                            if (moveString.Contains("Hidden Power"))
+                            if (moveString.Length > 13) // Defined Hidden Power
                             {
-                                if (moveString.Length > 13) // Defined Hidden Power
-                                {
-                                    string type = moveString.Remove(0, 13).Replace("[", "").Replace("]", ""); // Trim out excess data
-                                    int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
-                                    if (hpVal >= 0) IVs = setHPIVs(hpVal, IVs); // Get IVs
-                                }
-                                moveString = "Hidden Power";
+                                string type = moveString.Remove(0, 13).Replace("[", "").Replace("]", ""); // Trim out excess data
+                                int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
+                                if (hpVal >= 0) IVs = setHPIVs(hpVal, IVs); // Get IVs
                             }
-                            Moves[movectr++] = Array.IndexOf(moves, moveString);
-                            continue;
+                            moveString = "Hidden Power";
                         }
+                        Moves[movectr++] = Array.IndexOf(moves, moveString);
+                        continue;
+                    }
 
-                        string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
-                        switch (brokenline[0])
-                        {
-                            case "Trait":
-                            case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1]); break; }
-                            case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
-                            case "Shiny": { Shiny = (brokenline[1] == "Yes"); break; }
-                            case "Happiness": { Friendship = Util.ToInt32(brokenline[1]); break; }
-                            case "EVs":
+                    string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
+                    switch (brokenline[0])
+                    {
+                        case "Trait":
+                        case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1]); break; }
+                        case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
+                        case "Shiny": { Shiny = (brokenline[1] == "Yes"); break; }
+                        case "Happiness": { Friendship = Util.ToInt32(brokenline[1]); break; }
+                        case "EVs":
+                            {
+                                // Get EV list String
+                                string[] evlist = brokenline[1].Replace("SAtk", "SpA").Replace("SDef", "SpD").Replace("Spd", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
+                                for (int i = 0; i < evlist.Length / 2; i++)
+                                    EVs[Array.IndexOf(StatNames, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
+                                break;
+                            }
+                        case "IVs":
+                            {
+                                // Get IV list String
+                                string[] ivlist = brokenline[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
+                                for (int i = 0; i < ivlist.Length / 2; i++)
+                                    IVs[Array.IndexOf(StatNames, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
+                                break;
+                            }
+                        default:
+                            {
+                                // Either Nature or Gender ItemSpecies
+                                if (brokenline[0].Contains(" @ "))
                                 {
-                                    // Get EV list String
-                                    string[] evlist = brokenline[1].Replace("SAtk", "SpA").Replace("SDef", "SpD").Replace("Spd", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
-                                    for (int i = 0; i < evlist.Length / 2; i++)
-                                        EVs[Array.IndexOf(stats, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
-                                    break;
-                                }
-                            case "IVs":
-                                {
-                                    // Get IV list String
-                                    string[] ivlist = brokenline[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
-                                    for (int i = 0; i < ivlist.Length / 2; i++)
-                                        IVs[Array.IndexOf(stats, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
-                                    break;
-                                }
-                            default:
-                                {
-                                    // Either Nature or Gender ItemSpecies
-                                    if (brokenline[0].Contains(" @ "))
+                                    string[] ld = line.Split(new[] { " @ " }, StringSplitOptions.None);
+                                    Item = Array.IndexOf(items, ld.Last());
+                                    // Gender Detection
+                                    string last3 = ld[0].Substring(ld[0].Length - 3);
+                                    if (last3 == "(M)" || last3 == "(F)")
                                     {
-                                        string[] ld = line.Split(new[] { " @ " }, StringSplitOptions.None);
-                                        Item = Array.IndexOf(items, ld.Last());
-                                        // Gender Detection
-                                        string last3 = ld[0].Substring(ld[0].Length - 3);
-                                        if (last3 == "(M)" || last3 == "(F)")
-                                        {
-                                            Gender = last3.Substring(1, 1);
-                                            ld[0] = ld[0].Substring(0, ld[ld.Length - 2].Length - 3);
-                                        }
-                                        // Nickname Detection
-                                        string spec = ld[0];
-                                        if (spec.Contains("("))
-                                        {
-                                            int index = spec.LastIndexOf("(", StringComparison.Ordinal);
-                                            string n1 = spec.Substring(0, index - 1);
-                                            string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
-
-                                            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
-                                            spec = inverted ? n2 : n1;
-                                            Nickname = inverted ? n1 : n2;
-                                        }
-                                        if (
-                                            (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
-                                            &&
-                                            (Species = Array.IndexOf(species, spec.Replace(" ", ""))) < 0 // Has Form
-                                            ) 
-                                        {
-                                            string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
-                                            Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
-                                            Form = tmp[1].Replace(" ", "");
-                                        }
+                                        Gender = last3.Substring(1, 1);
+                                        ld[0] = ld[0].Substring(0, ld[ld.Length - 2].Length - 3);
                                     }
-                                    else if (brokenline[0].Contains("Nature"))
-                                        Nature = Array.IndexOf(natures, line.Split(' ')[0]);
-                                    else // Fallback
-                                        Species = Array.IndexOf(species, line.Split('(')[0]);
-                                } break;
-                        }
+                                    // Nickname Detection
+                                    string spec = ld[0];
+                                    if (spec.Contains("("))
+                                    {
+                                        int index = spec.LastIndexOf("(", StringComparison.Ordinal);
+                                        string n1 = spec.Substring(0, index - 1);
+                                        string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+
+                                        bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
+                                        spec = inverted ? n2 : n1;
+                                        Nickname = inverted ? n1 : n2;
+                                    }
+                                    if (
+                                        (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
+                                        &&
+                                        (Species = Array.IndexOf(species, spec.Replace(" ", ""))) < 0 // Has Form
+                                        ) 
+                                    {
+                                        string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
+                                        Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
+                                        Form = tmp[1].Replace(" ", "");
+                                    }
+                                }
+                                else if (brokenline[0].Contains("Nature"))
+                                    Nature = Array.IndexOf(natures, line.Split(' ')[0]);
+                                else // Fallback
+                                    Species = Array.IndexOf(species, line.Split('(')[0]);
+                            } break;
                     }
                 }
             }
+            public string getText()
+            {
+                // TODO: Set to Text
+                return null;
+            }
+        }
+        internal static string getShowdownText(PK6 pk6)
+        {
+            // TODO
+            ShowdownSet Set = new ShowdownSet
+            {
+                Nickname = pk6.Nickname,
+                Species = pk6.Species,
+                Item = pk6.HeldItem,
+                Ability = pk6.Ability,
+                EVs = pk6.EVs,
+                IVs = pk6.IVs,
+                Moves = pk6.Moves,
+            };
+            return Set.getText();
         }
 
         public class PersonalInfo

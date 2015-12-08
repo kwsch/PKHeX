@@ -1991,7 +1991,7 @@ namespace PKHeX
             if (!Clipboard.ContainsText()) return;
 
             // Get Simulator Data
-            PKX.Simulator.Set Set = new PKX.Simulator.Set(Clipboard.GetText());
+            PKX.ShowdownSet Set = new PKX.ShowdownSet(Clipboard.GetText());
 
             if (Set.Species < 0) return;
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Clipboard.GetText())) return;

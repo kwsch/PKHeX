@@ -428,7 +428,7 @@ namespace PKHeX
 
         // Complex Generated Attributes
         public Image Sprite { get { return getSprite(this); } }
-        public string[] ShowdownText { get { return getShowdownText(this); } }
+        public string ShowdownText { get { return getShowdownText(this); } }
         public string[] QRText { get { return getQRText(this); } }
         public int HPType
         {
