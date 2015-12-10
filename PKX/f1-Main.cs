@@ -1782,7 +1782,22 @@ namespace PKHeX
         }
         private void updateNickname(object sender, EventArgs e)
         {
-            if (fieldsInitialized && ModifierKeys == Keys.Control) { getShowdownSet(); return; }
+            if (fieldsInitialized && ModifierKeys == Keys.Control) // Import Showdown
+            {
+                getShowdownSet();
+                return;
+            }
+            if (fieldsInitialized && ModifierKeys == Keys.Alt) // Export Showdown
+            {
+                if (!verifiedPKX())
+                {
+                    Util.Alert("Fix data before exporting.");
+                    return;
+                }
+                Clipboard.SetText(new PK6(preparepkx()).ShowdownText);
+                Util.Alert("Exported Showdown Set to Clipboard:", Clipboard.GetText());
+                return; 
+            }
             if (!fieldsInitialized || (CHK_Nicknamed.Checked)) return;
 
             // Fetch Current Species and set it as Nickname Text
