@@ -661,7 +661,7 @@ namespace PKHeX
         {
             get
             {
-                PK6[] data = new PK6[6];
+                PK6[] data = new PK6[PartyCount];
                 for (int i = 0; i < data.Length; i++)
                     data[i] = getPK6Party(Party + PK6.SIZE_PARTY * i);
                 return data;
