@@ -686,6 +686,20 @@ namespace PKHeX
                     setPK6Party(newParty[i], Party + PK6.SIZE_PARTY*i);
             }
         }
+        public PK6[] BattleBoxData
+        {
+            get
+            {
+                PK6[] data = new PK6[6];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = getPK6Stored(BattleBox + PK6.SIZE_STORED * i);
+                    if (data[i].Species == 0)
+                        return data.Take(i).ToArray();
+                }
+                return data;
+            }
+        }
 
         // Writeback Validity
         public string checkChunkFF()
