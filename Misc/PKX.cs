@@ -1351,7 +1351,7 @@ namespace PKHeX
             public string getText()
             {
                 if (Species == 0 || Species > 722)
-                    return null;
+                    return "";
 
                 // First Line: Name, Nickname, Gender, Item
                 string result = String.Format((species[Species] != Nickname) ? "{0} {1}" : "{1}", Nickname, species[Species])
@@ -1415,7 +1415,7 @@ namespace PKHeX
                 Nature = pk6.Nature,
                 Gender = new[] { " (M)", " (F)", "" }[pk6.Gender],
                 Friendship = pk6.CurrentFriendship,
-                Level = pk6.Stat_Level,
+                Level = getLevel(pk6.Species, pk6.EXP),
                 Shiny = pk6.IsShiny,
             };
             return Set.getText();
