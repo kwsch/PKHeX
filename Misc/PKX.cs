@@ -1354,7 +1354,8 @@ namespace PKHeX
                     return "";
 
                 // First Line: Name, Nickname, Gender, Item
-                string result = String.Format((species[Species] != Nickname) ? "{0} {1}" : "{1}", Nickname, species[Species])
+                string result = String.Format(((species[Species] != Nickname) ? "{0} " : "") + "{1}", Nickname, 
+                    species[Species] + ((Form ?? "") != "" ? "-" + Form : "")) // Species (& Form if necessary)
                                 + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
                 // IVs
@@ -1403,6 +1404,7 @@ namespace PKHeX
         }
         internal static string getShowdownText(PK6 pk6)
         {
+            if (pk6.Species == 0) return "";
             ShowdownSet Set = new ShowdownSet
             {
                 Nickname = pk6.Nickname,
@@ -1417,7 +1419,11 @@ namespace PKHeX
                 Friendship = pk6.CurrentFriendship,
                 Level = getLevel(pk6.Species, pk6.EXP),
                 Shiny = pk6.IsShiny,
+                Form = (pk6.AltForm > 0) ? getFormList(pk6.Species,
+                Util.getStringList("Types", "en"),
+                Util.getStringList("Forms", "en"), new [] {"", "F", ""})[pk6.AltForm] : "",
             };
+            if (Set.Form == "F") Set.Gender = "";
             return Set.getText();
         }
 
