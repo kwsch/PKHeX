@@ -1350,13 +1350,59 @@ namespace PKHeX
             }
             public string getText()
             {
-                // TODO: Set to Text
-                return null;
+                if (Species == 0 || Species > 722)
+                    return null;
+
+                // First Line: Name, Nickname, Gender, Item
+                string result = String.Format((species[Species] != Nickname) ? "{0} {1}" : "{1}", Nickname, species[Species])
+                                + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
+
+                // IVs
+                string[] ivstr = new string[6];
+                int ivctr = 0;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (IVs[i] == 31) continue;
+                    ivstr[ivctr++] += String.Format("{0} {1}", IVs[i], StatNames[i]);
+                }
+                if (ivctr > 0)
+                result += "IVs: " + string.Join(" / ", ivstr.Take(ivctr)) + Environment.NewLine;
+
+                // EVs
+                string[] evstr = new string[6];
+                int evctr = 0;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (EVs[i] == 0) continue;
+                    evstr[evctr++] += String.Format("{0} {1}", EVs[i], StatNames[i]);
+                }
+                if (evctr > 0)
+                    result += "EVs: " + string.Join(" / ", evstr.Take(evctr)) + Environment.NewLine;
+
+                // Secondary Stats
+                result += "Ability: " + abilities[Ability] + Environment.NewLine;
+                result += "Level: " + Level + Environment.NewLine;
+                if (Shiny)
+                    result += "Shiny: Yes" + Environment.NewLine;
+
+                result += natures[Nature] + " Nature" + Environment.NewLine;
+                // Add in Moves
+                string[] MoveLines = new string[Moves.Length];
+                int movectr = 0;
+                foreach (int move in Moves.Where(move => move != 0 && move < moves.Length))
+                {
+                    MoveLines[movectr] += "- " + moves[move];
+                    if (move == 237)
+                        MoveLines[movectr] += " [" + hptypes[getHPType(IVs)] + "]";
+                    movectr++;
+                }
+                result += string.Join(Environment.NewLine, MoveLines.Take(movectr));
+
+                return result;
             }
         }
         internal static string getShowdownText(PK6 pk6)
         {
-            // TODO
             ShowdownSet Set = new ShowdownSet
             {
                 Nickname = pk6.Nickname,
@@ -1366,6 +1412,11 @@ namespace PKHeX
                 EVs = pk6.EVs,
                 IVs = pk6.IVs,
                 Moves = pk6.Moves,
+                Nature = pk6.Nature,
+                Gender = new[] { " (M)", " (F)", "" }[pk6.Gender],
+                Friendship = pk6.CurrentFriendship,
+                Level = pk6.Stat_Level,
+                Shiny = pk6.IsShiny,
             };
             return Set.getText();
         }
