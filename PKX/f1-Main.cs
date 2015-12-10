@@ -2611,6 +2611,28 @@ namespace PKHeX
         {
             Converter.setG6TrainerInfo(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
         }
+        private void clickExportParty(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(
+                    SAV.PartyData.Aggregate("", (current, pk) => current + pk.ShowdownText 
+                            + Environment.NewLine + Environment.NewLine).Trim());
+                Util.Alert("Showdown Team (Party) set to Clipboard.");
+            }
+            catch { }
+        }
+        private void clickExportBattleBox(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(
+                    SAV.BattleBoxData.Aggregate("", (current, pk) => current + pk.ShowdownText
+                            + Environment.NewLine + Environment.NewLine).Trim());
+                Util.Alert("Showdown Team (Battle Box) set to Clipboard.");
+            }
+            catch { }
+        }
         // Generic Subfunctions //
         private void setParty()
         {

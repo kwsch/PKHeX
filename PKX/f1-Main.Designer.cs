@@ -3460,6 +3460,7 @@
             this.L_BattleBox.Size = new System.Drawing.Size(58, 13);
             this.L_BattleBox.TabIndex = 1;
             this.L_BattleBox.Text = "Battle Box:";
+            this.L_BattleBox.DoubleClick += new System.EventHandler(this.clickExportBattleBox);
             // 
             // L_Party
             // 
@@ -3469,6 +3470,7 @@
             this.L_Party.Size = new System.Drawing.Size(34, 13);
             this.L_Party.TabIndex = 0;
             this.L_Party.Text = "Party:";
+            this.L_Party.DoubleClick += new System.EventHandler(this.clickExportParty);
             // 
             // PAN_Party
             // 
