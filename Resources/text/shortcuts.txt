@@ -4,17 +4,19 @@
 // Main Window
 
 Hold Control when dragging out the Tab PKM to save as ekx.
-Control Click on a Nickname/OT box to bring up the ingame-special characters.
 
 Control + Click on...
-Species: Import Showdown/Smogon set from Clipboard.
-Randomize IVs: Set all IVs to max.
-Randomize EVs: Set all EVs to 0.
-PP Ups Label: Set all PP Ups to 3.
-Friendship Label: Reset Friendship
-QR! to wrap text around QR code.
+- Species: Import Showdown/Smogon set from Clipboard.
+- Nickname/OT box: Bring up the ingame-special characters.
+- Randomize IVs: Set all IVs to max.
+- Randomize EVs: Set all EVs to 0.
+- PP Ups Label: Set all PP Ups to 3.
+- Friendship Label: Reset Friendship
+- QR! to wrap text around QR code.
 
-Alt click QR! to load ekx data from a QR url loaded to your clipboard.
+Alt + Click on...
+- QR! to load ekx data from a QR url loaded to your clipboard.
+- Species: Export Showdown/Smogon set to Clipboard.
 
 Click on the OT label to set relevant details to that of the save file.
 
@@ -36,6 +38,8 @@ Alt-Click the OpenTemp button to open the SaveDataFiler folder.
 
 Hold Shift while exporting a ramsav.bin to transplant it to another cart/system.
 Hold Control while exporting a ramsav.bin to export the "main" instead.
+
+Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team) to Clipboard.
 
 
 // Misc Editors
