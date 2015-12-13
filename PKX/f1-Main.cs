@@ -635,6 +635,7 @@ namespace PKHeX
             string xorpath = exepath.Clone().ToString();
             string[] XORpads = Directory.GetFiles(xorpath);
 
+            int loop = 0;
             check:
             foreach (byte[] data in from file in XORpads let fi = new FileInfo(file) where (fi.Name.ToLower().Contains("xorpad") || fi.Name.ToLower().Contains("key")) && (fi.Length == 0x10009C || fi.Length == 0x100000) select File.ReadAllBytes(file))
             {
@@ -669,7 +670,7 @@ namespace PKHeX
                 return true;
             }
             // End file check loop, check the input path for xorpads too if it isn't the same as the EXE (quite common).
-            if (xorpath != exepath) return false; // no xorpad compatible
+            if (xorpath != exepath || loop++ > 0) return false; // no xorpad compatible
             xorpath = Path.GetDirectoryName(path); goto check;
         }
         private void openSave(bool oras)
