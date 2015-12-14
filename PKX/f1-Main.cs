@@ -113,8 +113,8 @@ namespace PKHeX
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
                 openQuick(Path.Combine(pathSDF, "main"));
-            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"))))
-                openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")));
+            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"))))
+                openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")));
 
             GB_OT.Click += clickGT;
             GB_nOT.Click += clickGT;
@@ -251,7 +251,7 @@ namespace PKHeX
             if (sfd.ShowDialog() != DialogResult.OK) return;
             string path = sfd.FileName;
             // Injection Dummy Override
-            if (path.Contains("pokemon.ekx")) path = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + "pokemon.ekx";
+            if (path.Contains("pokemon.ekx")) path = Path.Combine(Path.GetDirectoryName(path), "pokemon.ekx");
             string ext = Path.GetExtension(path);
 
             if (File.Exists(path) && !path.Contains("pokemon.ekx"))
@@ -902,8 +902,7 @@ namespace PKHeX
             DEV_Ability.DataSource = new BindingSource(AbilityDataSource, null);
             CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
             CB_GameOrigin.DataSource = new BindingSource(VersionDataSource, null);
-            string[] hptypes = new string[types.Length - 2]; Array.Copy(types, 1, hptypes, 0, hptypes.Length);
-            CB_HPType.DataSource = Util.getCBList(hptypes, null);
+            CB_HPType.DataSource = Util.getCBList(types.Skip(1).Take(16).ToArray(), null);
 
             // Set the Move ComboBoxes too..
             {
@@ -3184,8 +3183,8 @@ namespace PKHeX
                 path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
                 path = Path.Combine(pathSDF, "main");
-            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main")))) // else if cgse exists
-                path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root" + Path.DirectorySeparatorChar + "main"));
+            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // else if cgse exists
+                path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
 
             if (path == null || !File.Exists(path)) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
