@@ -468,7 +468,7 @@ namespace PKHeX
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkx, i);
 
             // Deshuffle
             pkx = shuffleArray(pkx, sv);
@@ -477,7 +477,7 @@ namespace PKHeX
             seed = pv;
             if (pkx.Length <= 232) return pkx;
             for (int i = 232; i < 260; i += 2)
-                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))), 0, pkx, i, 2);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkx, i);
 
             return pkx;
         }
@@ -497,7 +497,7 @@ namespace PKHeX
             uint seed = pv;
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekx, i);
 
             // If no party stats, return.
             if (ekx.Length <= 232) return ekx;
@@ -505,7 +505,7 @@ namespace PKHeX
             // Encrypt the Party Stats
             seed = pv;
             for (int i = 232; i < 260; i += 2)
-                Array.Copy(BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))), 0, ekx, i, 2);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekx, i);
 
             // Done
             return ekx;
@@ -717,7 +717,7 @@ namespace PKHeX
             for (int i = 0; i < count; i++)
             {
                 byte[] array = savefile.Skip(Start[i]).Take(Lengths[i]).ToArray();
-                Array.Copy(BitConverter.GetBytes(ccitt16(array)), 0, savefile, verificationOffset + 6 + i * 8, 2);
+                BitConverter.GetBytes(ccitt16(array)).CopyTo(savefile, verificationOffset + 6 + i * 8);
             }
         }
 

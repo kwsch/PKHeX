@@ -27,42 +27,42 @@ namespace PKHeX
         public uint EncryptionConstant
         {
             get { return BitConverter.ToUInt32(Data, 0x00); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x00, 4); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
         }
         public ushort Sanity
         {
             get { return BitConverter.ToUInt16(Data, 0x04); }
-            // set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x04, 2); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, 0x04); } // Should always be zero...
         }
         public ushort Checksum
         {
             get { return BitConverter.ToUInt16(Data, 0x06); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x06, 2); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, 0x06); }
         }
         public int Species
         {
             get { return BitConverter.ToUInt16(Data, 0x08); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x08, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08); }
         }
         public int HeldItem
         {
             get { return BitConverter.ToUInt16(Data, 0x0A); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x0A, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0A); }
         }
         public int TID
         {
             get { return BitConverter.ToUInt16(Data, 0x0C); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x0C, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
         }
         public int SID
         {
             get { return BitConverter.ToUInt16(Data, 0x0E); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x0E, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0E); }
         }
         public uint EXP
         {
             get { return BitConverter.ToUInt32(Data, 0x10); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x10, 4); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
         }
         public int Ability { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
         public int AbilityNumber { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
@@ -71,7 +71,7 @@ namespace PKHeX
         public uint PID
         {
             get { return BitConverter.ToUInt32(Data, 0x18); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x18, 4); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, 0x18); }
         }
         public int Nature { get { return Data[0x1C]; } set { Data[0x1C] = (byte)value; } }
         public bool FatefulEncounter { get { return (Data[0x1D] & 1) == 1; } set { Data[0x1D] = (byte)(Data[0x1D] & ~0x01 | (value ? 1 : 0)); } }
@@ -220,34 +220,35 @@ namespace PKHeX
             }
             set
             {
+                if (value.Length > 12)
+                    value = value.Substring(0, 12); // Hard cap
                 string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // nidoran
-                .Replace("\u2642", "\uE08E") // nidoran
-                .Replace("\u0027", "\u2019") // farfetch'd
-                .PadRight(value.Length + 1, '\0'); // Null Terminator
-                byte[] NickBytes = Encoding.Unicode.GetBytes(TempNick);
-                Array.Copy(NickBytes, 0, Data, 0x40, NickBytes.Length);
+                    .Replace("\u2640", "\uE08F") // nidoran
+                    .Replace("\u2642", "\uE08E") // nidoran
+                    .Replace("\u0027", "\u2019") // farfetch'd
+                    .PadRight(value.Length + 1, '\0'); // Null Terminator
+                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x40);
             }
         }
         public int Move1
         {
             get { return BitConverter.ToUInt16(Data, 0x5A); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x5A, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5A); }
         }
         public int Move2
         {
             get { return BitConverter.ToUInt16(Data, 0x5C); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x5C, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C); }
         }
         public int Move3
         {
             get { return BitConverter.ToUInt16(Data, 0x5E); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x5E, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); }
         }
         public int Move4
         {
             get { return BitConverter.ToUInt16(Data, 0x60); }
-            set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x60, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60); }
         }
         public int Move1_PP { get { return Data[0x62]; } set { Data[0x62] = (byte)value; } }
         public int Move2_PP { get { return Data[0x63]; } set { Data[0x63] = (byte)value; } }
@@ -260,26 +261,26 @@ namespace PKHeX
         public int RelearnMove1
         {
             get { return BitConverter.ToUInt16(Data, 0x6A); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x6A, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); }
         }
         public int RelearnMove2
         {
             get { return BitConverter.ToUInt16(Data, 0x6C); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x6C, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6C); }
         }
         public int RelearnMove3
         {
             get { return BitConverter.ToUInt16(Data, 0x6E); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x6E, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6E); }
         }
         public int RelearnMove4
         {
             get { return BitConverter.ToUInt16(Data, 0x70); }
-            set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0x70, 2); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
         }
         public bool SecretSuperTraining { get { return Data[0x72] == 1; } set { Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); } }
         public byte _0x73 { get { return Data[0x73]; } set { Data[0x73] = value; } }
-        private uint IV32 { get { return BitConverter.ToUInt32(Data, 0x74); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0x74, 4); } }
+        private uint IV32 { get { return BitConverter.ToUInt32(Data, 0x74); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x74); } }
         public int IV_HP { get { return (int)(IV32 >> 00) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); } }
         public int IV_ATK { get { return (int)(IV32 >> 05) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); } }
         public int IV_DEF { get { return (int)(IV32 >> 10) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); } }
@@ -301,13 +302,14 @@ namespace PKHeX
             }
             set
             {
+                if (value.Length > 12)
+                    value = value.Substring(0, 12); // Hard cap
                 string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // nidoran
-                .Replace("\u2642", "\uE08E") // nidoran
-                .Replace("\u0027", "\u2019") // farfetch'd
-                .PadRight(value.Length + 1, '\0'); // Null Terminator
-                byte[] nameBytes = Encoding.Unicode.GetBytes(TempNick);
-                Array.Copy(nameBytes, 0, Data, 0x78, nameBytes.Length);
+                    .Replace("\u2640", "\uE08F") // nidoran
+                    .Replace("\u2642", "\uE08E") // nidoran
+                    .Replace("\u0027", "\u2019") // farfetch'd
+                    .PadRight(value.Length + 1, '\0'); // Null Terminator
+                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x78);
             }
         }
         public int HT_Gender { get { return Data[0x92]; } set { Data[0x92] = (byte)value; } }
@@ -332,7 +334,7 @@ namespace PKHeX
         public int HT_Memory { get { return Data[0xA5]; } set { Data[0xA5] = (byte)value; } }
         public int HT_Feeling { get { return Data[0xA6]; } set { Data[0xA6] = (byte)value; } }
         public byte _0xA7 { get { return Data[0xA7]; } set { Data[0xA7] = value; } }
-        public int HT_TextVar { get { return BitConverter.ToUInt16(Data, 0xA8); } set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0xA8, 2); } }
+        public int HT_TextVar { get { return BitConverter.ToUInt16(Data, 0xA8); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); } }
         public byte _0xAA { get { return Data[0xAA]; } set { Data[0xAA] = value; } }
         public byte _0xAB { get { return Data[0xAB]; } set { Data[0xAB] = value; } }
         public byte _0xAC { get { return Data[0xAC]; } set { Data[0xAC] = value; } }
@@ -346,26 +348,27 @@ namespace PKHeX
             get
             {
                 return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB0, 24))
-                    .Replace("\uE08F", "\u2640") // nidoran
-                    .Replace("\uE08E", "\u2642") // nidoran
+                    .Replace("\uE08F", "\u2640") // Nidoran ♂
+                    .Replace("\uE08E", "\u2642") // Nidoran ♀
                     .Replace("\u2019", "\u0027"); // farfetch'd
             }
             set
             {
+                if (value.Length > 12)
+                    value = value.Substring(0, 12); // Hard cap
                 string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // nidoran
-                .Replace("\u2642", "\uE08E") // nidoran
-                .Replace("\u0027", "\u2019") // farfetch'd
+                .Replace("\u2640", "\uE08F") // Nidoran ♂
+                .Replace("\u2642", "\uE08E") // Nidoran ♀
+                .Replace("\u0027", "\u2019") // Farfetch'd
                 .PadRight(value.Length + 1, '\0'); // Null Terminator
-                byte[] nameBytes = Encoding.Unicode.GetBytes(TempNick);
-                Array.Copy(nameBytes, 0, Data, 0xB0, nameBytes.Length);
+                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0xB0);
             }
         }
         public int OT_Friendship { get { return Data[0xCA]; } set { Data[0xCA] = (byte)value; } }
         public int OT_Affection { get { return Data[0xCB]; } set { Data[0xCB] = (byte)value; } }
         public int OT_Intensity { get { return Data[0xCC]; } set { Data[0xCC] = (byte)value; } }
         public int OT_Memory { get { return Data[0xCD]; } set { Data[0xCD] = (byte)value; } }
-        public int OT_TextVar { get { return BitConverter.ToUInt16(Data, 0xCE); } set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0xCE, 2); } }
+        public int OT_TextVar { get { return BitConverter.ToUInt16(Data, 0xCE); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCE); } }
         public int OT_Feeling { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
         public int Egg_Year { get { return Data[0xD1]; } set { Data[0xD1] = (byte)value; } }
         public int Egg_Month { get { return Data[0xD2]; } set { Data[0xD2] = (byte)value; } }
@@ -374,8 +377,8 @@ namespace PKHeX
         public int Met_Month { get { return Data[0xD5]; } set { Data[0xD5] = (byte)value; } }
         public int Met_Day { get { return Data[0xD6]; } set { Data[0xD6] = (byte)value; } }
         public byte _0xD7 { get { return Data[0xD7]; } set { Data[0xD7] = value; } }
-        public int Egg_Location { get { return BitConverter.ToUInt16(Data, 0xD8); } set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0xD8, 2); } }
-        public int Met_Location { get { return BitConverter.ToUInt16(Data, 0xDA); } set { Array.Copy(BitConverter.GetBytes((ushort)value), 0, Data, 0xDA, 2); } }
+        public int Egg_Location { get { return BitConverter.ToUInt16(Data, 0xD8); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xD8); } }
+        public int Met_Location { get { return BitConverter.ToUInt16(Data, 0xDA); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDA); } }
         public int Ball { get { return Data[0xDC]; } set { Data[0xDC] = (byte)value; } }
         public int Met_Level { get { return Data[0xDD] & ~0x80; } set { Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); } }
         public int OT_Gender { get { return Data[0xDD] >> 7; } set { Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); } }
@@ -388,13 +391,13 @@ namespace PKHeX
         #endregion
         #region Battle Stats
         public int Stat_Level { get { return Data[0xEC]; } set { Data[0xEC] = (byte)value; } }
-        public int Stat_HPCurrent { get { return BitConverter.ToUInt16(Data, 0xF0); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0xF0, 2); } }
-        public int Stat_HPMax { get { return BitConverter.ToUInt16(Data, 0xF2); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0xF2, 2); } }
-        public int Stat_ATK { get { return BitConverter.ToUInt16(Data, 0xF4); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0xF4, 2); } }
-        public int Stat_DEF { get { return BitConverter.ToUInt16(Data, 0xF6); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0xF6, 2); } }
-        public int Stat_SPE { get { return BitConverter.ToUInt16(Data, 0xF8); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0xF8, 2); } }
-        public int Stat_SPA { get { return BitConverter.ToUInt16(Data, 0xFA); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0xFA, 2); } }
-        public int Stat_SPD { get { return BitConverter.ToUInt16(Data, 0xFC); } set { Array.Copy(BitConverter.GetBytes(value), 0, Data, 0xFC, 2); } }
+        public int Stat_HPCurrent { get { return BitConverter.ToUInt16(Data, 0xF0); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF0); } }
+        public int Stat_HPMax { get { return BitConverter.ToUInt16(Data, 0xF2); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF2); } }
+        public int Stat_ATK { get { return BitConverter.ToUInt16(Data, 0xF4); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF4); } }
+        public int Stat_DEF { get { return BitConverter.ToUInt16(Data, 0xF6); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF6); } }
+        public int Stat_SPE { get { return BitConverter.ToUInt16(Data, 0xF8); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF8); } }
+        public int Stat_SPA { get { return BitConverter.ToUInt16(Data, 0xFA); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFA); } }
+        public int Stat_SPD { get { return BitConverter.ToUInt16(Data, 0xFC); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFC); } }
         #endregion
 
         // Simple Generated Attributes
