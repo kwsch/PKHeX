@@ -111,8 +111,7 @@ namespace PKHeX
             IVs &= 0x3FFFFFFF;
             Array.Copy(BitConverter.GetBytes(IVs), 0, pk4, 0x38, 4);
             int abilnum = pk3[0x4B] >> 7;
-            DataTable g3abiltable = Gen3Abilities();
-            pk4[0x15] = (byte)(int)((g3abiltable.Rows[species][1 + abilnum]));
+            pk4[0x15] = Gen3Abilities[species][abilnum];
             bool isegg = false;
             // check if the user transferred an egg... if so, hatch it...
             if (((pk4[0x3B] >> 6) & 1) == 1)
@@ -3439,408 +3438,398 @@ namespace PKHeX
             #endregion
             return table;
         }
-        static DataTable Gen3Abilities()
+        static byte[][] Gen3Abilities =
         {
-            
-            DataTable table = new DataTable();
-            table.Columns.Add("Species", typeof(int));
-            table.Columns.Add("Ability0", typeof(int));
-            table.Columns.Add("Ability1", typeof(int));
-
-            DataColumn[] keyColumns = new DataColumn[1];
-            keyColumns[0] = table.Columns["Species"];
-            table.PrimaryKey = keyColumns;
-            #region entries
-            table.Rows.Add(0, 0, 0);
-            table.Rows.Add(1,0x41,0x41);
-            table.Rows.Add(2,0x41,0x41);
-            table.Rows.Add(3,0x41,0x41);
-            table.Rows.Add(4,0x42,0x42);
-            table.Rows.Add(5,0x42,0x42);
-            table.Rows.Add(6,0x42,0x42);
-            table.Rows.Add(7,0x43,0x43);
-            table.Rows.Add(8,0x43,0x43);
-            table.Rows.Add(9,0x43,0x43);
-            table.Rows.Add(10,0x13,0x13);
-            table.Rows.Add(11,0x3d,0x3d);
-            table.Rows.Add(12,0x0e,0x0e);
-            table.Rows.Add(13,0x13,0x13);
-            table.Rows.Add(14,0x3d,0x3d);
-            table.Rows.Add(15,0x44,0x44);
-            table.Rows.Add(16,0x33,0x33);
-            table.Rows.Add(17,0x33,0x33);
-            table.Rows.Add(18,0x33,0x33);
-            table.Rows.Add(19,0x32,0x3e);
-            table.Rows.Add(20,0x32,0x3e);
-            table.Rows.Add(21,0x33,0x33);
-            table.Rows.Add(22,0x33,0x33);
-            table.Rows.Add(23,0x3d,0x16);
-            table.Rows.Add(24,0x3d,0x16);
-            table.Rows.Add(25,0x09,0x09);
-            table.Rows.Add(26,0x09,0x09);
-            table.Rows.Add(27,0x08,0x08);
-            table.Rows.Add(28,0x08,0x08);
-            table.Rows.Add(29,0x26,0x26);
-            table.Rows.Add(30,0x26,0x26);
-            table.Rows.Add(31,0x26,0x26);
-            table.Rows.Add(32,0x26,0x26);
-            table.Rows.Add(33,0x26,0x26);
-            table.Rows.Add(34,0x26,0x26);
-            table.Rows.Add(35,0x38,0x38);
-            table.Rows.Add(36,0x38,0x38);
-            table.Rows.Add(37,0x12,0x12);
-            table.Rows.Add(38,0x12,0x12);
-            table.Rows.Add(39,0x38,0x38);
-            table.Rows.Add(40,0x38,0x38);
-            table.Rows.Add(41,0x27,0x27);
-            table.Rows.Add(42,0x27,0x27);
-            table.Rows.Add(43,0x22,0x22);
-            table.Rows.Add(44,0x22,0x22);
-            table.Rows.Add(45,0x22,0x22);
-            table.Rows.Add(46,0x1b,0x1b);
-            table.Rows.Add(47,0x1b,0x1b);
-            table.Rows.Add(48,0x0e,0x0e);
-            table.Rows.Add(49,0x13,0x13);
-            table.Rows.Add(50,0x08,0x47);
-            table.Rows.Add(51,0x08,0x47);
-            table.Rows.Add(52,0x35,0x35);
-            table.Rows.Add(53,0x07,0x07);
-            table.Rows.Add(54,0x06,0x0d);
-            table.Rows.Add(55,0x06,0x0d);
-            table.Rows.Add(56,0x48,0x48);
-            table.Rows.Add(57,0x48,0x48);
-            table.Rows.Add(58,0x16,0x12);
-            table.Rows.Add(59,0x16,0x12);
-            table.Rows.Add(60,0x06,0x0b);
-            table.Rows.Add(61,0x06,0x0b);
-            table.Rows.Add(62,0x06,0x0b);
-            table.Rows.Add(63,0x1c,0x27);
-            table.Rows.Add(64,0x1c,0x27);
-            table.Rows.Add(65,0x1c,0x27);
-            table.Rows.Add(66,0x3e,0x3e);
-            table.Rows.Add(67,0x3e,0x3e);
-            table.Rows.Add(68,0x3e,0x3e);
-            table.Rows.Add(69,0x22,0x22);
-            table.Rows.Add(70,0x22,0x22);
-            table.Rows.Add(71,0x22,0x22);
-            table.Rows.Add(72,0x1d,0x40);
-            table.Rows.Add(73,0x1d,0x40);
-            table.Rows.Add(74,0x45,0x05);
-            table.Rows.Add(75,0x45,0x05);
-            table.Rows.Add(76,0x45,0x05);
-            table.Rows.Add(77,0x32,0x12);
-            table.Rows.Add(78,0x32,0x12);
-            table.Rows.Add(79,0x0c,0x14);
-            table.Rows.Add(80,0x0c,0x14);
-            table.Rows.Add(81,0x2a,0x05);
-            table.Rows.Add(82,0x2a,0x05);
-            table.Rows.Add(83,0x33,0x27);
-            table.Rows.Add(84,0x32,0x30);
-            table.Rows.Add(85,0x32,0x30);
-            table.Rows.Add(86,0x2f,0x2f);
-            table.Rows.Add(87,0x2f,0x2f);
-            table.Rows.Add(88,0x01,0x3c);
-            table.Rows.Add(89,0x01,0x3c);
-            table.Rows.Add(90,0x4b,0x4b);
-            table.Rows.Add(91,0x4b,0x4b);
-            table.Rows.Add(92,0x1a,0x1a);
-            table.Rows.Add(93,0x1a,0x1a);
-            table.Rows.Add(94,0x1a,0x1a);
-            table.Rows.Add(95,0x45,0x05);
-            table.Rows.Add(96,0x0f,0x0f);
-            table.Rows.Add(97,0x0f,0x0f);
-            table.Rows.Add(98,0x34,0x4b);
-            table.Rows.Add(99,0x34,0x4b);
-            table.Rows.Add(100,0x2b,0x09);
-            table.Rows.Add(101,0x2b,0x09);
-            table.Rows.Add(102,0x22,0x22);
-            table.Rows.Add(103,0x22,0x22);
-            table.Rows.Add(104,0x45,0x1f);
-            table.Rows.Add(105,0x45,0x1f);
-            table.Rows.Add(106,0x07,0x07);
-            table.Rows.Add(107,0x33,0x33);
-            table.Rows.Add(108,0x0c,0x14);
-            table.Rows.Add(109,0x1a,0x1a);
-            table.Rows.Add(110,0x1a,0x1a);
-            table.Rows.Add(111,0x45,0x1f);
-            table.Rows.Add(112,0x45,0x1f);
-            table.Rows.Add(113,0x1e,0x20);
-            table.Rows.Add(114,0x22,0x22);
-            table.Rows.Add(115,0x30,0x30);
-            table.Rows.Add(116,0x21,0x21);
-            table.Rows.Add(117,0x26,0x26);
-            table.Rows.Add(118,0x21,0x29);
-            table.Rows.Add(119,0x21,0x29);
-            table.Rows.Add(120,0x23,0x1e);
-            table.Rows.Add(121,0x23,0x1e);
-            table.Rows.Add(122,0x2b,0x2b);
-            table.Rows.Add(123,0x44,0x44);
-            table.Rows.Add(124,0x0c,0x0c);
-            table.Rows.Add(125,0x09,0x09);
-            table.Rows.Add(126,0x31,0x31);
-            table.Rows.Add(127,0x34,0x34);
-            table.Rows.Add(128,0x16,0x16);
-            table.Rows.Add(129,0x21,0x21);
-            table.Rows.Add(130,0x16,0x16);
-            table.Rows.Add(131,0x0b,0x4b);
-            table.Rows.Add(132,0x07,0x07);
-            table.Rows.Add(133,0x32,0x32);
-            table.Rows.Add(134,0x0b,0x0b);
-            table.Rows.Add(135,0x0a,0x0a);
-            table.Rows.Add(136,0x12,0x12);
-            table.Rows.Add(137,0x24,0x24);
-            table.Rows.Add(138,0x21,0x4b);
-            table.Rows.Add(139,0x21,0x4b);
-            table.Rows.Add(140,0x21,0x04);
-            table.Rows.Add(141,0x21,0x04);
-            table.Rows.Add(142,0x45,0x2e);
-            table.Rows.Add(143,0x11,0x2f);
-            table.Rows.Add(144,0x2e,0x2e);
-            table.Rows.Add(145,0x2e,0x2e);
-            table.Rows.Add(146,0x2e,0x2e);
-            table.Rows.Add(147,0x3d,0x3d);
-            table.Rows.Add(148,0x3d,0x3d);
-            table.Rows.Add(149,0x27,0x27);
-            table.Rows.Add(150,0x2e,0x2e);
-            table.Rows.Add(151,0x1c,0x1c);
-            table.Rows.Add(152,0x41,0x41);
-            table.Rows.Add(153,0x41,0x41);
-            table.Rows.Add(154,0x41,0x41);
-            table.Rows.Add(155,0x42,0x42);
-            table.Rows.Add(156,0x42,0x42);
-            table.Rows.Add(157,0x42,0x42);
-            table.Rows.Add(158,0x43,0x43);
-            table.Rows.Add(159,0x43,0x43);
-            table.Rows.Add(160,0x43,0x43);
-            table.Rows.Add(161,0x32,0x33);
-            table.Rows.Add(162,0x32,0x33);
-            table.Rows.Add(163,0x0f,0x33);
-            table.Rows.Add(164,0x0f,0x33);
-            table.Rows.Add(165,0x44,0x30);
-            table.Rows.Add(166,0x44,0x30);
-            table.Rows.Add(167,0x0f,0x44);
-            table.Rows.Add(168,0x0f,0x44);
-            table.Rows.Add(169,0x27,0x27);
-            table.Rows.Add(170,0x0a,0x23);
-            table.Rows.Add(171,0x0a,0x23);
-            table.Rows.Add(172,0x09,0x09);
-            table.Rows.Add(173,0x38,0x38);
-            table.Rows.Add(174,0x38,0x38);
-            table.Rows.Add(175,0x37,0x20);
-            table.Rows.Add(176,0x37,0x20);
-            table.Rows.Add(177,0x1c,0x30);
-            table.Rows.Add(178,0x1c,0x30);
-            table.Rows.Add(179,0x09,0x09);
-            table.Rows.Add(180,0x09,0x09);
-            table.Rows.Add(181,0x09,0x09);
-            table.Rows.Add(182,0x22,0x22);
-            table.Rows.Add(183,0x2f,0x25);
-            table.Rows.Add(184,0x2f,0x25);
-            table.Rows.Add(185,0x45,0x05);
-            table.Rows.Add(186,0x06,0x0b);
-            table.Rows.Add(187,0x22,0x22);
-            table.Rows.Add(188,0x22,0x22);
-            table.Rows.Add(189,0x22,0x22);
-            table.Rows.Add(190,0x32,0x35);
-            table.Rows.Add(191,0x22,0x22);
-            table.Rows.Add(192,0x22,0x22);
-            table.Rows.Add(193,0x03,0x0e);
-            table.Rows.Add(194,0x06,0x0b);
-            table.Rows.Add(195,0x06,0x0b);
-            table.Rows.Add(196,0x1c,0x1c);
-            table.Rows.Add(197,0x1c,0x1c);
-            table.Rows.Add(198,0x0f,0x0f);
-            table.Rows.Add(199,0x0c,0x14);
-            table.Rows.Add(200,0x1a,0x1a);
-            table.Rows.Add(201,0x1a,0x1a);
-            table.Rows.Add(202,0x17,0x17);
-            table.Rows.Add(203,0x27,0x30);
-            table.Rows.Add(204,0x05,0x05);
-            table.Rows.Add(205,0x05,0x05);
-            table.Rows.Add(206,0x20,0x32);
-            table.Rows.Add(207,0x08,0x34);
-            table.Rows.Add(208,0x45,0x05);
-            table.Rows.Add(209,0x16,0x32);
-            table.Rows.Add(210,0x16,0x16);
-            table.Rows.Add(211,0x21,0x26);
-            table.Rows.Add(212,0x44,0x44);
-            table.Rows.Add(213,0x05,0x05);
-            table.Rows.Add(214,0x44,0x3e);
-            table.Rows.Add(215,0x27,0x33);
-            table.Rows.Add(216,0x35,0x35);
-            table.Rows.Add(217,0x3e,0x3e);
-            table.Rows.Add(218,0x28,0x31);
-            table.Rows.Add(219,0x28,0x31);
-            table.Rows.Add(220,0x0c,0x0c);
-            table.Rows.Add(221,0x0c,0x0c);
-            table.Rows.Add(222,0x37,0x1e);
-            table.Rows.Add(223,0x37,0x37);
-            table.Rows.Add(224,0x15,0x15);
-            table.Rows.Add(225,0x37,0x48);
-            table.Rows.Add(226,0x21,0x0b);
-            table.Rows.Add(227,0x33,0x05);
-            table.Rows.Add(228,0x30,0x12);
-            table.Rows.Add(229,0x30,0x12);
-            table.Rows.Add(230,0x21,0x21);
-            table.Rows.Add(231,0x35,0x35);
-            table.Rows.Add(232,0x05,0x05);
-            table.Rows.Add(233,0x24,0x24);
-            table.Rows.Add(234,0x16,0x16);
-            table.Rows.Add(235,0x14,0x14);
-            table.Rows.Add(236,0x3e,0x3e);
-            table.Rows.Add(237,0x16,0x16);
-            table.Rows.Add(238,0x0c,0x0c);
-            table.Rows.Add(239,0x09,0x09);
-            table.Rows.Add(240,0x31,0x31);
-            table.Rows.Add(241,0x2f,0x2f);
-            table.Rows.Add(242,0x1e,0x20);
-            table.Rows.Add(243,0x2e,0x2e);
-            table.Rows.Add(244,0x2e,0x2e);
-            table.Rows.Add(245,0x2e,0x2e);
-            table.Rows.Add(246,0x3e,0x3e);
-            table.Rows.Add(247,0x3d,0x3d);
-            table.Rows.Add(248,0x2d,0x2d);
-            table.Rows.Add(249,0x2e,0x2e);
-            table.Rows.Add(250,0x2e,0x2e);
-            table.Rows.Add(251,0x1e,0x1e);
-            table.Rows.Add(252,0x41,0x41);
-            table.Rows.Add(253,0x41,0x41);
-            table.Rows.Add(254,0x41,0x41);
-            table.Rows.Add(255,0x42,0x42);
-            table.Rows.Add(256,0x42,0x42);
-            table.Rows.Add(257,0x42,0x42);
-            table.Rows.Add(258,0x43,0x43);
-            table.Rows.Add(259,0x43,0x43);
-            table.Rows.Add(260,0x43,0x43);
-            table.Rows.Add(261,0x32,0x32);
-            table.Rows.Add(262,0x16,0x16);
-            table.Rows.Add(263,0x35,0x35);
-            table.Rows.Add(264,0x35,0x35);
-            table.Rows.Add(265,0x13,0x13);
-            table.Rows.Add(266,0x3d,0x3d);
-            table.Rows.Add(267,0x44,0x44);
-            table.Rows.Add(268,0x3d,0x3d);
-            table.Rows.Add(269,0x13,0x13);
-            table.Rows.Add(270,0x21,0x2c);
-            table.Rows.Add(271,0x21,0x2c);
-            table.Rows.Add(272,0x21,0x2c);
-            table.Rows.Add(273,0x22,0x30);
-            table.Rows.Add(274,0x22,0x30);
-            table.Rows.Add(275,0x22,0x30);
-            table.Rows.Add(276,0x3e,0x3e);
-            table.Rows.Add(277,0x3e,0x3e);
-            table.Rows.Add(278,0x33,0x33);
-            table.Rows.Add(279,0x33,0x33);
-            table.Rows.Add(280,0x1c,0x24);
-            table.Rows.Add(281,0x1c,0x24);
-            table.Rows.Add(282,0x1c,0x24);
-            table.Rows.Add(283,0x21,0x21);
-            table.Rows.Add(284,0x16,0x16);
-            table.Rows.Add(285,0x1b,0x1b);
-            table.Rows.Add(286,0x1b,0x1b);
-            table.Rows.Add(287,0x36,0x36);
-            table.Rows.Add(288,0x48,0x48);
-            table.Rows.Add(289,0x36,0x36);
-            table.Rows.Add(290,0x0e,0x0e);
-            table.Rows.Add(291,0x03,0x03);
-            table.Rows.Add(292,0x19,0x19);
-            table.Rows.Add(293,0x2b,0x2b);
-            table.Rows.Add(294,0x2b,0x2b);
-            table.Rows.Add(295,0x2b,0x2b);
-            table.Rows.Add(296,0x2f,0x3e);
-            table.Rows.Add(297,0x2f,0x3e);
-            table.Rows.Add(298,0x2f,0x3e);
-            table.Rows.Add(299,0x05,0x2a);
-            table.Rows.Add(300,0x38,0x38);
-            table.Rows.Add(301,0x38,0x38);
-            table.Rows.Add(302,0x33,0x33);
-            table.Rows.Add(303,0x34,0x16);
-            table.Rows.Add(304,0x45,0x05);
-            table.Rows.Add(305,0x45,0x05);
-            table.Rows.Add(306,0x45,0x05);
-            table.Rows.Add(307,0x4a,0x4a);
-            table.Rows.Add(308,0x4a,0x4a);
-            table.Rows.Add(309,0x09,0x1f);
-            table.Rows.Add(310,0x09,0x1f);
-            table.Rows.Add(311,0x39,0x39);
-            table.Rows.Add(312,0x3a,0x3a);
-            table.Rows.Add(313,0x23,0x44);
-            table.Rows.Add(314,0x0c,0x0c);
-            table.Rows.Add(315,0x1e,0x26);
-            table.Rows.Add(316,0x40,0x3c);
-            table.Rows.Add(317,0x40,0x3c);
-            table.Rows.Add(318,0x18,0x18);
-            table.Rows.Add(319,0x18,0x18);
-            table.Rows.Add(320,0x29,0x0c);
-            table.Rows.Add(321,0x29,0x0c);
-            table.Rows.Add(322,0x0c,0x0c);
-            table.Rows.Add(323,0x28,0x28);
-            table.Rows.Add(324,0x49,0x49);
-            table.Rows.Add(325,0x2f,0x14);
-            table.Rows.Add(326,0x2f,0x14);
-            table.Rows.Add(327,0x14,0x14);
-            table.Rows.Add(328,0x34,0x47);
-            table.Rows.Add(329,0x1a,0x1a);
-            table.Rows.Add(330,0x1a,0x1a);
-            table.Rows.Add(331,0x08,0x08);
-            table.Rows.Add(332,0x08,0x08);
-            table.Rows.Add(333,0x1e,0x1e);
-            table.Rows.Add(334,0x1e,0x1e);
-            table.Rows.Add(335,0x11,0x11);
-            table.Rows.Add(336,0x3d,0x3d);
-            table.Rows.Add(337,0x1a,0x1a);
-            table.Rows.Add(338,0x1a,0x1a);
-            table.Rows.Add(339,0x0c,0x0c);
-            table.Rows.Add(340,0x0c,0x0c);
-            table.Rows.Add(341,0x34,0x4b);
-            table.Rows.Add(342,0x34,0x4b);
-            table.Rows.Add(343,0x1a,0x1a);
-            table.Rows.Add(344,0x1a,0x1a);
-            table.Rows.Add(345,0x15,0x15);
-            table.Rows.Add(346,0x15,0x15);
-            table.Rows.Add(347,0x04,0x04);
-            table.Rows.Add(348,0x04,0x04);
-            table.Rows.Add(349,0x21,0x21);
-            table.Rows.Add(350,0x3f,0x3f);
-            table.Rows.Add(351,0x3b,0x3b);
-            table.Rows.Add(352,0x10,0x10);
-            table.Rows.Add(353,0x0f,0x0f);
-            table.Rows.Add(354,0x0f,0x0f);
-            table.Rows.Add(355,0x1a,0x1a);
-            table.Rows.Add(356,0x2e,0x2e);
-            table.Rows.Add(357,0x22,0x22);
-            table.Rows.Add(358,0x1a,0x1a);
-            table.Rows.Add(359,0x2e,0x2e);
-            table.Rows.Add(360,0x17,0x17);
-            table.Rows.Add(361,0x27,0x27);
-            table.Rows.Add(362,0x27,0x27);
-            table.Rows.Add(363,0x2f,0x2f);
-            table.Rows.Add(364,0x2f,0x2f);
-            table.Rows.Add(365,0x2f,0x2f);
-            table.Rows.Add(366,0x4b,0x4b);
-            table.Rows.Add(367,0x21,0x21);
-            table.Rows.Add(368,0x21,0x21);
-            table.Rows.Add(369,0x21,0x45);
-            table.Rows.Add(370,0x21,0x21);
-            table.Rows.Add(371,0x45,0x45);
-            table.Rows.Add(372,0x45,0x45);
-            table.Rows.Add(373,0x16,0x16);
-            table.Rows.Add(374,0x1d,0x1d);
-            table.Rows.Add(375,0x1d,0x1d);
-            table.Rows.Add(376,0x1d,0x1d);
-            table.Rows.Add(377,0x1d,0x1d);
-            table.Rows.Add(378,0x1d,0x1d);
-            table.Rows.Add(379,0x1d,0x1d);
-            table.Rows.Add(380,0x1a,0x1a);
-            table.Rows.Add(381,0x1a,0x1a);
-            table.Rows.Add(382,0x02,0x02);
-            table.Rows.Add(383,0x46,0x46);
-            table.Rows.Add(384,0x4c,0x4c);
-            table.Rows.Add(385,0x20,0x20);
-            table.Rows.Add(386,0x2e,0x2e);
+            #region Table
+            new byte[] {0x00, 0x00}, // 000
+            new byte[] {0x41, 0x41}, // 001
+            new byte[] {0x41, 0x41}, // 002
+            new byte[] {0x41, 0x41}, // 003
+            new byte[] {0x42, 0x42}, // 004
+            new byte[] {0x42, 0x42}, // 005
+            new byte[] {0x42, 0x42}, // 006
+            new byte[] {0x43, 0x43}, // 007
+            new byte[] {0x43, 0x43}, // 008
+            new byte[] {0x43, 0x43}, // 009
+            new byte[] {0x13, 0x13}, // 010
+            new byte[] {0x3d, 0x3d}, // 011
+            new byte[] {0x0e, 0x0e}, // 012
+            new byte[] {0x13, 0x13}, // 013
+            new byte[] {0x3d, 0x3d}, // 014
+            new byte[] {0x44, 0x44}, // 015
+            new byte[] {0x33, 0x33}, // 016
+            new byte[] {0x33, 0x33}, // 017
+            new byte[] {0x33, 0x33}, // 018
+            new byte[] {0x32, 0x3e}, // 019
+            new byte[] {0x32, 0x3e}, // 020
+            new byte[] {0x33, 0x33}, // 021
+            new byte[] {0x33, 0x33}, // 022
+            new byte[] {0x3d, 0x16}, // 023
+            new byte[] {0x3d, 0x16}, // 024
+            new byte[] {0x09, 0x09}, // 025
+            new byte[] {0x09, 0x09}, // 026
+            new byte[] {0x08, 0x08}, // 027
+            new byte[] {0x08, 0x08}, // 028
+            new byte[] {0x26, 0x26}, // 029
+            new byte[] {0x26, 0x26}, // 030
+            new byte[] {0x26, 0x26}, // 031
+            new byte[] {0x26, 0x26}, // 032
+            new byte[] {0x26, 0x26}, // 033
+            new byte[] {0x26, 0x26}, // 034
+            new byte[] {0x38, 0x38}, // 035
+            new byte[] {0x38, 0x38}, // 036
+            new byte[] {0x12, 0x12}, // 037
+            new byte[] {0x12, 0x12}, // 038
+            new byte[] {0x38, 0x38}, // 039
+            new byte[] {0x38, 0x38}, // 040
+            new byte[] {0x27, 0x27}, // 041
+            new byte[] {0x27, 0x27}, // 042
+            new byte[] {0x22, 0x22}, // 043
+            new byte[] {0x22, 0x22}, // 044
+            new byte[] {0x22, 0x22}, // 045
+            new byte[] {0x1b, 0x1b}, // 046
+            new byte[] {0x1b, 0x1b}, // 047
+            new byte[] {0x0e, 0x0e}, // 048
+            new byte[] {0x13, 0x13}, // 049
+            new byte[] {0x08, 0x47}, // 050
+            new byte[] {0x08, 0x47}, // 051
+            new byte[] {0x35, 0x35}, // 052
+            new byte[] {0x07, 0x07}, // 053
+            new byte[] {0x06, 0x0d}, // 054
+            new byte[] {0x06, 0x0d}, // 055
+            new byte[] {0x48, 0x48}, // 056
+            new byte[] {0x48, 0x48}, // 057
+            new byte[] {0x16, 0x12}, // 058
+            new byte[] {0x16, 0x12}, // 059
+            new byte[] {0x06, 0x0b}, // 060
+            new byte[] {0x06, 0x0b}, // 061
+            new byte[] {0x06, 0x0b}, // 062
+            new byte[] {0x1c, 0x27}, // 063
+            new byte[] {0x1c, 0x27}, // 064
+            new byte[] {0x1c, 0x27}, // 065
+            new byte[] {0x3e, 0x3e}, // 066
+            new byte[] {0x3e, 0x3e}, // 067
+            new byte[] {0x3e, 0x3e}, // 068
+            new byte[] {0x22, 0x22}, // 069
+            new byte[] {0x22, 0x22}, // 070
+            new byte[] {0x22, 0x22}, // 071
+            new byte[] {0x1d, 0x40}, // 072
+            new byte[] {0x1d, 0x40}, // 073
+            new byte[] {0x45, 0x05}, // 074
+            new byte[] {0x45, 0x05}, // 075
+            new byte[] {0x45, 0x05}, // 076
+            new byte[] {0x32, 0x12}, // 077
+            new byte[] {0x32, 0x12}, // 078
+            new byte[] {0x0c, 0x14}, // 079
+            new byte[] {0x0c, 0x14}, // 080
+            new byte[] {0x2a, 0x05}, // 081
+            new byte[] {0x2a, 0x05}, // 082
+            new byte[] {0x33, 0x27}, // 083
+            new byte[] {0x32, 0x30}, // 084
+            new byte[] {0x32, 0x30}, // 085
+            new byte[] {0x2f, 0x2f}, // 086
+            new byte[] {0x2f, 0x2f}, // 087
+            new byte[] {0x01, 0x3c}, // 088
+            new byte[] {0x01, 0x3c}, // 089
+            new byte[] {0x4b, 0x4b}, // 090
+            new byte[] {0x4b, 0x4b}, // 091
+            new byte[] {0x1a, 0x1a}, // 092
+            new byte[] {0x1a, 0x1a}, // 093
+            new byte[] {0x1a, 0x1a}, // 094
+            new byte[] {0x45, 0x05}, // 095
+            new byte[] {0x0f, 0x0f}, // 096
+            new byte[] {0x0f, 0x0f}, // 097
+            new byte[] {0x34, 0x4b}, // 098
+            new byte[] {0x34, 0x4b}, // 099
+            new byte[] {0x2b, 0x09}, // 100
+            new byte[] {0x2b, 0x09}, // 101
+            new byte[] {0x22, 0x22}, // 102
+            new byte[] {0x22, 0x22}, // 103
+            new byte[] {0x45, 0x1f}, // 104
+            new byte[] {0x45, 0x1f}, // 105
+            new byte[] {0x07, 0x07}, // 106
+            new byte[] {0x33, 0x33}, // 107
+            new byte[] {0x0c, 0x14}, // 108
+            new byte[] {0x1a, 0x1a}, // 109
+            new byte[] {0x1a, 0x1a}, // 110
+            new byte[] {0x45, 0x1f}, // 111
+            new byte[] {0x45, 0x1f}, // 112
+            new byte[] {0x1e, 0x20}, // 113
+            new byte[] {0x22, 0x22}, // 114
+            new byte[] {0x30, 0x30}, // 115
+            new byte[] {0x21, 0x21}, // 116
+            new byte[] {0x26, 0x26}, // 117
+            new byte[] {0x21, 0x29}, // 118
+            new byte[] {0x21, 0x29}, // 119
+            new byte[] {0x23, 0x1e}, // 120
+            new byte[] {0x23, 0x1e}, // 121
+            new byte[] {0x2b, 0x2b}, // 122
+            new byte[] {0x44, 0x44}, // 123
+            new byte[] {0x0c, 0x0c}, // 124
+            new byte[] {0x09, 0x09}, // 125
+            new byte[] {0x31, 0x31}, // 126
+            new byte[] {0x34, 0x34}, // 127
+            new byte[] {0x16, 0x16}, // 128
+            new byte[] {0x21, 0x21}, // 129
+            new byte[] {0x16, 0x16}, // 130
+            new byte[] {0x0b, 0x4b}, // 131
+            new byte[] {0x07, 0x07}, // 132
+            new byte[] {0x32, 0x32}, // 133
+            new byte[] {0x0b, 0x0b}, // 134
+            new byte[] {0x0a, 0x0a}, // 135
+            new byte[] {0x12, 0x12}, // 136
+            new byte[] {0x24, 0x24}, // 137
+            new byte[] {0x21, 0x4b}, // 138
+            new byte[] {0x21, 0x4b}, // 139
+            new byte[] {0x21, 0x04}, // 140
+            new byte[] {0x21, 0x04}, // 141
+            new byte[] {0x45, 0x2e}, // 142
+            new byte[] {0x11, 0x2f}, // 143
+            new byte[] {0x2e, 0x2e}, // 144
+            new byte[] {0x2e, 0x2e}, // 145
+            new byte[] {0x2e, 0x2e}, // 146
+            new byte[] {0x3d, 0x3d}, // 147
+            new byte[] {0x3d, 0x3d}, // 148
+            new byte[] {0x27, 0x27}, // 149
+            new byte[] {0x2e, 0x2e}, // 150
+            new byte[] {0x1c, 0x1c}, // 151
+            new byte[] {0x41, 0x41}, // 152
+            new byte[] {0x41, 0x41}, // 153
+            new byte[] {0x41, 0x41}, // 154
+            new byte[] {0x42, 0x42}, // 155
+            new byte[] {0x42, 0x42}, // 156
+            new byte[] {0x42, 0x42}, // 157
+            new byte[] {0x43, 0x43}, // 158
+            new byte[] {0x43, 0x43}, // 159
+            new byte[] {0x43, 0x43}, // 160
+            new byte[] {0x32, 0x33}, // 161
+            new byte[] {0x32, 0x33}, // 162
+            new byte[] {0x0f, 0x33}, // 163
+            new byte[] {0x0f, 0x33}, // 164
+            new byte[] {0x44, 0x30}, // 165
+            new byte[] {0x44, 0x30}, // 166
+            new byte[] {0x0f, 0x44}, // 167
+            new byte[] {0x0f, 0x44}, // 168
+            new byte[] {0x27, 0x27}, // 169
+            new byte[] {0x0a, 0x23}, // 170
+            new byte[] {0x0a, 0x23}, // 171
+            new byte[] {0x09, 0x09}, // 172
+            new byte[] {0x38, 0x38}, // 173
+            new byte[] {0x38, 0x38}, // 174
+            new byte[] {0x37, 0x20}, // 175
+            new byte[] {0x37, 0x20}, // 176
+            new byte[] {0x1c, 0x30}, // 177
+            new byte[] {0x1c, 0x30}, // 178
+            new byte[] {0x09, 0x09}, // 179
+            new byte[] {0x09, 0x09}, // 180
+            new byte[] {0x09, 0x09}, // 181
+            new byte[] {0x22, 0x22}, // 182
+            new byte[] {0x2f, 0x25}, // 183
+            new byte[] {0x2f, 0x25}, // 184
+            new byte[] {0x45, 0x05}, // 185
+            new byte[] {0x06, 0x0b}, // 186
+            new byte[] {0x22, 0x22}, // 187
+            new byte[] {0x22, 0x22}, // 188
+            new byte[] {0x22, 0x22}, // 189
+            new byte[] {0x32, 0x35}, // 190
+            new byte[] {0x22, 0x22}, // 191
+            new byte[] {0x22, 0x22}, // 192
+            new byte[] {0x03, 0x0e}, // 193
+            new byte[] {0x06, 0x0b}, // 194
+            new byte[] {0x06, 0x0b}, // 195
+            new byte[] {0x1c, 0x1c}, // 196
+            new byte[] {0x1c, 0x1c}, // 197
+            new byte[] {0x0f, 0x0f}, // 198
+            new byte[] {0x0c, 0x14}, // 199
+            new byte[] {0x1a, 0x1a}, // 200
+            new byte[] {0x1a, 0x1a}, // 201
+            new byte[] {0x17, 0x17}, // 202
+            new byte[] {0x27, 0x30}, // 203
+            new byte[] {0x05, 0x05}, // 204
+            new byte[] {0x05, 0x05}, // 205
+            new byte[] {0x20, 0x32}, // 206
+            new byte[] {0x08, 0x34}, // 207
+            new byte[] {0x45, 0x05}, // 208
+            new byte[] {0x16, 0x32}, // 209
+            new byte[] {0x16, 0x16}, // 210
+            new byte[] {0x21, 0x26}, // 211
+            new byte[] {0x44, 0x44}, // 212
+            new byte[] {0x05, 0x05}, // 213
+            new byte[] {0x44, 0x3e}, // 214
+            new byte[] {0x27, 0x33}, // 215
+            new byte[] {0x35, 0x35}, // 216
+            new byte[] {0x3e, 0x3e}, // 217
+            new byte[] {0x28, 0x31}, // 218
+            new byte[] {0x28, 0x31}, // 219
+            new byte[] {0x0c, 0x0c}, // 220
+            new byte[] {0x0c, 0x0c}, // 221
+            new byte[] {0x37, 0x1e}, // 222
+            new byte[] {0x37, 0x37}, // 223
+            new byte[] {0x15, 0x15}, // 224
+            new byte[] {0x37, 0x48}, // 225
+            new byte[] {0x21, 0x0b}, // 226
+            new byte[] {0x33, 0x05}, // 227
+            new byte[] {0x30, 0x12}, // 228
+            new byte[] {0x30, 0x12}, // 229
+            new byte[] {0x21, 0x21}, // 230
+            new byte[] {0x35, 0x35}, // 231
+            new byte[] {0x05, 0x05}, // 232
+            new byte[] {0x24, 0x24}, // 233
+            new byte[] {0x16, 0x16}, // 234
+            new byte[] {0x14, 0x14}, // 235
+            new byte[] {0x3e, 0x3e}, // 236
+            new byte[] {0x16, 0x16}, // 237
+            new byte[] {0x0c, 0x0c}, // 238
+            new byte[] {0x09, 0x09}, // 239
+            new byte[] {0x31, 0x31}, // 240
+            new byte[] {0x2f, 0x2f}, // 241
+            new byte[] {0x1e, 0x20}, // 242
+            new byte[] {0x2e, 0x2e}, // 243
+            new byte[] {0x2e, 0x2e}, // 244
+            new byte[] {0x2e, 0x2e}, // 245
+            new byte[] {0x3e, 0x3e}, // 246
+            new byte[] {0x3d, 0x3d}, // 247
+            new byte[] {0x2d, 0x2d}, // 248
+            new byte[] {0x2e, 0x2e}, // 249
+            new byte[] {0x2e, 0x2e}, // 250
+            new byte[] {0x1e, 0x1e}, // 251
+            new byte[] {0x41, 0x41}, // 252
+            new byte[] {0x41, 0x41}, // 253
+            new byte[] {0x41, 0x41}, // 254
+            new byte[] {0x42, 0x42}, // 255
+            new byte[] {0x42, 0x42}, // 256
+            new byte[] {0x42, 0x42}, // 257
+            new byte[] {0x43, 0x43}, // 258
+            new byte[] {0x43, 0x43}, // 259
+            new byte[] {0x43, 0x43}, // 260
+            new byte[] {0x32, 0x32}, // 261
+            new byte[] {0x16, 0x16}, // 262
+            new byte[] {0x35, 0x35}, // 263
+            new byte[] {0x35, 0x35}, // 264
+            new byte[] {0x13, 0x13}, // 265
+            new byte[] {0x3d, 0x3d}, // 266
+            new byte[] {0x44, 0x44}, // 267
+            new byte[] {0x3d, 0x3d}, // 268
+            new byte[] {0x13, 0x13}, // 269
+            new byte[] {0x21, 0x2c}, // 270
+            new byte[] {0x21, 0x2c}, // 271
+            new byte[] {0x21, 0x2c}, // 272
+            new byte[] {0x22, 0x30}, // 273
+            new byte[] {0x22, 0x30}, // 274
+            new byte[] {0x22, 0x30}, // 275
+            new byte[] {0x3e, 0x3e}, // 276
+            new byte[] {0x3e, 0x3e}, // 277
+            new byte[] {0x33, 0x33}, // 278
+            new byte[] {0x33, 0x33}, // 279
+            new byte[] {0x1c, 0x24}, // 280
+            new byte[] {0x1c, 0x24}, // 281
+            new byte[] {0x1c, 0x24}, // 282
+            new byte[] {0x21, 0x21}, // 283
+            new byte[] {0x16, 0x16}, // 284
+            new byte[] {0x1b, 0x1b}, // 285
+            new byte[] {0x1b, 0x1b}, // 286
+            new byte[] {0x36, 0x36}, // 287
+            new byte[] {0x48, 0x48}, // 288
+            new byte[] {0x36, 0x36}, // 289
+            new byte[] {0x0e, 0x0e}, // 290
+            new byte[] {0x03, 0x03}, // 291
+            new byte[] {0x19, 0x19}, // 292
+            new byte[] {0x2b, 0x2b}, // 293
+            new byte[] {0x2b, 0x2b}, // 294
+            new byte[] {0x2b, 0x2b}, // 295
+            new byte[] {0x2f, 0x3e}, // 296
+            new byte[] {0x2f, 0x3e}, // 297
+            new byte[] {0x2f, 0x3e}, // 298
+            new byte[] {0x05, 0x2a}, // 299
+            new byte[] {0x38, 0x38}, // 300
+            new byte[] {0x38, 0x38}, // 301
+            new byte[] {0x33, 0x33}, // 302
+            new byte[] {0x34, 0x16}, // 303
+            new byte[] {0x45, 0x05}, // 304
+            new byte[] {0x45, 0x05}, // 305
+            new byte[] {0x45, 0x05}, // 306
+            new byte[] {0x4a, 0x4a}, // 307
+            new byte[] {0x4a, 0x4a}, // 308
+            new byte[] {0x09, 0x1f}, // 309
+            new byte[] {0x09, 0x1f}, // 310
+            new byte[] {0x39, 0x39}, // 311
+            new byte[] {0x3a, 0x3a}, // 312
+            new byte[] {0x23, 0x44}, // 313
+            new byte[] {0x0c, 0x0c}, // 314
+            new byte[] {0x1e, 0x26}, // 315
+            new byte[] {0x40, 0x3c}, // 316
+            new byte[] {0x40, 0x3c}, // 317
+            new byte[] {0x18, 0x18}, // 318
+            new byte[] {0x18, 0x18}, // 319
+            new byte[] {0x29, 0x0c}, // 320
+            new byte[] {0x29, 0x0c}, // 321
+            new byte[] {0x0c, 0x0c}, // 322
+            new byte[] {0x28, 0x28}, // 323
+            new byte[] {0x49, 0x49}, // 324
+            new byte[] {0x2f, 0x14}, // 325
+            new byte[] {0x2f, 0x14}, // 326
+            new byte[] {0x14, 0x14}, // 327
+            new byte[] {0x34, 0x47}, // 328
+            new byte[] {0x1a, 0x1a}, // 329
+            new byte[] {0x1a, 0x1a}, // 330
+            new byte[] {0x08, 0x08}, // 331
+            new byte[] {0x08, 0x08}, // 332
+            new byte[] {0x1e, 0x1e}, // 333
+            new byte[] {0x1e, 0x1e}, // 334
+            new byte[] {0x11, 0x11}, // 335
+            new byte[] {0x3d, 0x3d}, // 336
+            new byte[] {0x1a, 0x1a}, // 337
+            new byte[] {0x1a, 0x1a}, // 338
+            new byte[] {0x0c, 0x0c}, // 339
+            new byte[] {0x0c, 0x0c}, // 340
+            new byte[] {0x34, 0x4b}, // 341
+            new byte[] {0x34, 0x4b}, // 342
+            new byte[] {0x1a, 0x1a}, // 343
+            new byte[] {0x1a, 0x1a}, // 344
+            new byte[] {0x15, 0x15}, // 345
+            new byte[] {0x15, 0x15}, // 346
+            new byte[] {0x04, 0x04}, // 347
+            new byte[] {0x04, 0x04}, // 348
+            new byte[] {0x21, 0x21}, // 349
+            new byte[] {0x3f, 0x3f}, // 350
+            new byte[] {0x3b, 0x3b}, // 351
+            new byte[] {0x10, 0x10}, // 352
+            new byte[] {0x0f, 0x0f}, // 353
+            new byte[] {0x0f, 0x0f}, // 354
+            new byte[] {0x1a, 0x1a}, // 355
+            new byte[] {0x2e, 0x2e}, // 356
+            new byte[] {0x22, 0x22}, // 357
+            new byte[] {0x1a, 0x1a}, // 358
+            new byte[] {0x2e, 0x2e}, // 359
+            new byte[] {0x17, 0x17}, // 360
+            new byte[] {0x27, 0x27}, // 361
+            new byte[] {0x27, 0x27}, // 362
+            new byte[] {0x2f, 0x2f}, // 363
+            new byte[] {0x2f, 0x2f}, // 364
+            new byte[] {0x2f, 0x2f}, // 365
+            new byte[] {0x4b, 0x4b}, // 366
+            new byte[] {0x21, 0x21}, // 367
+            new byte[] {0x21, 0x21}, // 368
+            new byte[] {0x21, 0x45}, // 369
+            new byte[] {0x21, 0x21}, // 370
+            new byte[] {0x45, 0x45}, // 371
+            new byte[] {0x45, 0x45}, // 372
+            new byte[] {0x16, 0x16}, // 373
+            new byte[] {0x1d, 0x1d}, // 374
+            new byte[] {0x1d, 0x1d}, // 375
+            new byte[] {0x1d, 0x1d}, // 376
+            new byte[] {0x1d, 0x1d}, // 377
+            new byte[] {0x1d, 0x1d}, // 378
+            new byte[] {0x1d, 0x1d}, // 379
+            new byte[] {0x1a, 0x1a}, // 380
+            new byte[] {0x1a, 0x1a}, // 381
+            new byte[] {0x02, 0x02}, // 382
+            new byte[] {0x46, 0x46}, // 383
+            new byte[] {0x4c, 0x4c}, // 384
+            new byte[] {0x20, 0x20}, // 385
+            new byte[] {0x2e, 0x2e}, // 386
             #endregion
-            return table;
-        }
+        };
 
         private int getg3species(int g3index)
         {
