@@ -261,6 +261,11 @@ namespace PKHeX
             get { return Data[TrainerCard + 7]; }
             set { Data[TrainerCard + 7] = (byte)value; }
         }
+        public ulong GameSyncID
+        {
+            get { return BitConverter.ToUInt64(Data, TrainerCard + 8); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 8); }
+        }
         public int SubRegion
         {
             get { return Data[TrainerCard + 0x26]; }
