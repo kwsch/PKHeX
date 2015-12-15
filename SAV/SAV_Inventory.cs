@@ -12,15 +12,16 @@ namespace PKHeX
             Util.TranslateInterface(this, Main.curlanguage);
             sav = (byte[])Main.SAV.Data.Clone();
 
-            getListItems();
-            getListKeyItems();
-            getListTMHM();
-            getListMedicine();
-            getListBerries();
+            item_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY);
+            keyitem_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY);
+            tmhm_val = getItems(Main.SAV.ORAS ? Legal.Pouch_TMHM_ORAS : Legal.Pouch_TMHM_XY, sort: false);
+            medicine_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY);
+            berries_val = getItems(Legal.Pouch_Berry_XY);
 
             B_DisplayItems.ForeColor = Color.Red;
 
-            popItems();
+            // Load Items
+            populateList(item_val, Main.SAV.Items.HeldItem);
 
             B_DisplayItems.Text = Main.itempouch[0];
             B_DisplayMedicine.Text = Main.itempouch[1];
@@ -29,84 +30,22 @@ namespace PKHeX
             B_DisplayKeyItems.Text = Main.itempouch[4];
         }
         public byte[] sav;
-
-        public string[] item_val;
-        public string[] keyitem_val;
-        public string[] tmhm_val;
-        public string[] medicine_val;
-        public string[] berries_val;
+        public string[] item_val, keyitem_val, tmhm_val, medicine_val, berries_val;
 
 
         // Initialize String Tables
-        private void getListItems()
+        private string[] getItems(ushort[] items, bool sort = true)
         {
-            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY;
-            item_val = new string[itemlist.Length];
-            for (int i = 0; i < itemlist.Length; i++)
-                item_val[i] = Main.itemlist[itemlist[i]];
-            Array.Sort(item_val);
-        }
-        private void getListKeyItems()
-        {
-            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY;
-            keyitem_val = new string[itemlist.Length];
-            for (int i = 0; i < itemlist.Length; i++)
-                keyitem_val[i] = Main.itemlist[itemlist[i]];
-            Array.Sort(keyitem_val);
-        }
-        private void getListTMHM()
-        {
-            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_TMHM_ORAS : Legal.Pouch_TMHM_XY;
-            tmhm_val = new string[itemlist.Length];
-            for (int i = 0; i < itemlist.Length; i++)
-                tmhm_val[i] = Main.itemlist[itemlist[i]];
-            // Array.Sort(tmhm_val); Already sorted, keep HMs last.
-        }
-        private void getListMedicine()
-        {
-            ushort[] itemlist = (Main.SAV.ORAS) ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY;
-            medicine_val = new string[itemlist.Length];
-            for (int i = 0; i < itemlist.Length; i++)
-                medicine_val[i] = Main.itemlist[itemlist[i]];
-            Array.Sort(medicine_val); 
-        }
-        private void getListBerries()
-        {
-            ushort[] itemlist = Legal.Pouch_Berry_XY;
-            berries_val = new string[itemlist.Length];
-            for (int i = 0; i < itemlist.Length; i++)
-                berries_val[i] = Main.itemlist[itemlist[i]];
-            Array.Sort(berries_val); 
+            string[] res = new string[items.Length];
+            for (int i = 0; i < res.Length; i++)
+                res[i] = Main.itemlist[items[i]];
+            if (sort)
+                Array.Sort(res);
+            return res;
         }
 
         // Populate DataGrid
-        private void popItems()
-        {
-            int offset = Main.SAV.Items.HeldItem;
-            populateList(item_val, offset, item_val.Length - 1); // max 400
-        }
-        private void popKeyItems()
-        {
-            int offset = Main.SAV.Items.KeyItem;
-            populateList(keyitem_val, offset, keyitem_val.Length - 1); // max 96
-        }
-        private void popTMHM()
-        {
-            int offset = Main.SAV.Items.TMHM;
-            populateList(tmhm_val, offset, tmhm_val.Length - 1);
-        }
-        private void popMedicine()
-        {
-            int offset = Main.SAV.Items.Medicine;
-            populateList(medicine_val, offset, medicine_val.Length - 1); // 64 total slots
-        }
-        private void popBerries()
-        {
-            int offset = Main.SAV.Items.Berry;
-            populateList(berries_val, offset, berries_val.Length - 1); // 102 slots
-        }
-
-        private void populateList(string[] itemarr, int offset, int itemcount)
+        private void populateList(string[] itemarr, int offset, int itemcount = -1)
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -120,20 +59,18 @@ namespace PKHeX
             }
             DataGridViewComboBoxColumn dgvItemVal = new DataGridViewComboBoxColumn
             {
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+                DisplayIndex = 0,
+                Width = 135,
+                FlatStyle = FlatStyle.Flat
             };
-            {
-                foreach (string t in itemarr)
-                    dgvItemVal.Items.Add(t); // add only the Item Names
+            foreach (string t in itemarr)
+                dgvItemVal.Items.Add(t); // add only the Item Names
 
-                dgvItemVal.DisplayIndex = 0;
-                dgvItemVal.Width = 135;
-                dgvItemVal.FlatStyle = FlatStyle.Flat;
-            }
             dataGridView1.Columns.Add(dgvItemVal);
             dataGridView1.Columns.Add(dgvIndex);
 
-            dataGridView1.Rows.Add(itemcount);
+            dataGridView1.Rows.Add(itemcount > 0 ? itemcount : itemarr.Length - 1);
             dataGridView1.CancelEdit();
 
             string itemname = "";
@@ -146,12 +83,12 @@ namespace PKHeX
                     Util.Error("Unknown item detected.", "Item ID: " + itemvalue, "Item is after: " + itemname);
                     continue;
                 }
-                int itemarrayval = Array.IndexOf(itemarr,itemname);
+                int itemarrayval = Array.IndexOf(itemarr, itemname);
                 if (itemarrayval == -1)
                 {
                     dataGridView1.Rows[i].Cells[0].Value = itemarr[0];
                     dataGridView1.Rows[i].Cells[1].Value = 0;
-                    Util.Alert(itemname + " removed from item pouch.", "If you exit the Item Editor by saving changes, the item will no longer be in the pouch.");
+                    Util.Alert(itemname + " removed from item pouch.", "If you save changes the item will no longer be in the pouch.");
                 }
                 else
                 {
@@ -204,15 +141,15 @@ namespace PKHeX
                     itemcnt = 995; // cap out
 
                 // Write Data into Save File
-                Array.Copy(BitConverter.GetBytes((ushort)itemindex), 0, sav, offset + 4 * (i - emptyslots), 2); // item #
-                Array.Copy(BitConverter.GetBytes((ushort)itemcnt), 0, sav, offset + 4 * (i - emptyslots) + 2, 2); // count
+                BitConverter.GetBytes((ushort)itemindex).CopyTo(sav, offset + 4 * (i - emptyslots)); // item #
+                BitConverter.GetBytes((ushort)itemcnt).CopyTo(sav, offset + 4 * (i - emptyslots) + 2); // count
             }
 
             // Delete Empty Trash
             for (int i = itemcount - emptyslots; i < itemcount; i++)
             {
-                Array.Copy(BitConverter.GetBytes((ushort)0), 0, sav, offset + 4 * i + 0, 2); // item #
-                Array.Copy(BitConverter.GetBytes((ushort)0), 0, sav, offset + 4 * i + 2, 2); // count
+                BitConverter.GetBytes((ushort)0).CopyTo(sav, offset + 4 * i + 0); // item #
+                BitConverter.GetBytes((ushort)0).CopyTo(sav, offset + 4 * i + 2); // count
             }
 
             // Load New Button Color, after finished we'll load the new data.
@@ -238,7 +175,7 @@ namespace PKHeX
         {
             // Store Current Items back to the save file
             saveBag(sender);
-            popItems();
+            populateList(item_val, Main.SAV.Items.HeldItem);
             if (ModifierKeys == Keys.Alt)
                 giveAll(item_val, 995);
         }
@@ -246,7 +183,7 @@ namespace PKHeX
         {
             // Store Current Items back to the save file
             saveBag(sender);
-            popKeyItems();
+            populateList(keyitem_val, Main.SAV.Items.KeyItem);
             if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo, String.Format("Warning: Adding all {0} is dangerous.", B_DisplayKeyItems.Text), "Continue?") == DialogResult.Yes)
                 giveAll(keyitem_val, 1);
         }
@@ -254,7 +191,7 @@ namespace PKHeX
         {
             // Store Current Items back to the save file
             saveBag(sender);
-            popTMHM();
+            populateList(tmhm_val, Main.SAV.Items.TMHM);
             if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo, String.Format("Warning: Adding all {0} is dangerous.", B_DisplayTMHM.Text), "Continue?") == DialogResult.Yes)
                 giveAll(tmhm_val, 1);
         }
@@ -262,7 +199,7 @@ namespace PKHeX
         {
             // Store Current Items back to the save file
             saveBag(sender);
-            popMedicine();
+            populateList(medicine_val, Main.SAV.Items.Medicine);
             if (ModifierKeys == Keys.Alt)
                 giveAll(medicine_val, 995);
         }
@@ -270,7 +207,7 @@ namespace PKHeX
         {
             // Store Current Items back to the save file
             saveBag(sender);
-            popBerries();
+            populateList(berries_val, Main.SAV.Items.Berry);
             if (ModifierKeys == Keys.Alt)
                 giveAll(berries_val, 995);
         }
