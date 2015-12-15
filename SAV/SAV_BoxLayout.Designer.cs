@@ -134,7 +134,6 @@
             this.MT_BG1.Size = new System.Drawing.Size(29, 20);
             this.MT_BG1.TabIndex = 6;
             this.MT_BG1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_BG1.TextChanged += new System.EventHandler(this.changeBoxDetails);
             // 
             // MT_BG2
             // 
@@ -145,7 +144,6 @@
             this.MT_BG2.Size = new System.Drawing.Size(29, 20);
             this.MT_BG2.TabIndex = 7;
             this.MT_BG2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_BG2.TextChanged += new System.EventHandler(this.changeBoxDetails);
             // 
             // B_Save
             // 
@@ -220,7 +218,6 @@
             this.CB_Unlocked.Name = "CB_Unlocked";
             this.CB_Unlocked.Size = new System.Drawing.Size(40, 21);
             this.CB_Unlocked.TabIndex = 12;
-            this.CB_Unlocked.TextChanged += new System.EventHandler(this.changeBoxDetails);
             // 
             // CB_BG
             // 
@@ -231,7 +228,6 @@
             this.CB_BG.Size = new System.Drawing.Size(101, 21);
             this.CB_BG.TabIndex = 13;
             this.CB_BG.SelectedIndexChanged += new System.EventHandler(this.changeBoxBG);
-            this.CB_BG.TextChanged += new System.EventHandler(this.changeBoxDetails);
             // 
             // PAN_BG
             // 
