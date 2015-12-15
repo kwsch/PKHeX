@@ -42,8 +42,13 @@ namespace PKHeX
                 past = "Past Gen";
                 withOT = "Memories with";
             }
-
-            getCountries();
+            ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
+            foreach (ComboBox comboBox in cba)
+            {
+                comboBox.DisplayMember = "Text";
+                comboBox.ValueMember = "Value";
+                Main.setCountrySubRegion(comboBox, "countries");
+            }
             getLangStrings();
             loadFields();
         }
@@ -182,16 +187,6 @@ namespace PKHeX
             Close();
         }    // Button: Cancel pressed.
 
-        private void getCountries()
-        {
-            ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
-            foreach (ComboBox comboBox in cba)
-            {
-                comboBox.DisplayMember = "Text";
-                comboBox.ValueMember = "Value";
-                Main.setCountrySubRegion(comboBox, "countries");
-            }
-        }
 
         private void getLangStrings()
         {
