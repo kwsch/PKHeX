@@ -2631,7 +2631,7 @@ namespace PKHeX
             string filterText = TB_GameSync.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
             if (filterText.Length != TB_GameSync.Text.Length)
             {
-                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_RNGSeed.Text);
+                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_GameSync.Text);
                 // Reset to Stored Value
                 TB_GameSync.Text = SAV.GameSyncID.ToString("X16");
                 return; // recursively triggers this method, no need to continue
