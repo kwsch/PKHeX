@@ -337,6 +337,8 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
+            this.L_GameSync = new System.Windows.Forms.Label();
+            this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -3864,6 +3866,8 @@
             // 
             // Tab_SAV
             // 
+            this.Tab_SAV.Controls.Add(this.L_GameSync);
+            this.Tab_SAV.Controls.Add(this.TB_GameSync);
             this.Tab_SAV.Controls.Add(this.B_SaveBoxBin);
             this.Tab_SAV.Controls.Add(this.L_SAVManipulation);
             this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
@@ -3930,10 +3934,10 @@
             // RTB_S
             // 
             this.RTB_S.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_S.Location = new System.Drawing.Point(1, 68);
+            this.RTB_S.Location = new System.Drawing.Point(1, 95);
             this.RTB_S.Name = "RTB_S";
             this.RTB_S.ReadOnly = true;
-            this.RTB_S.Size = new System.Drawing.Size(300, 130);
+            this.RTB_S.Size = new System.Drawing.Size(300, 103);
             this.RTB_S.TabIndex = 0;
             this.RTB_S.Text = "";
             this.RTB_S.WordWrap = false;
@@ -4105,6 +4109,27 @@
             this.L_QR.Text = "QR!";
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
+            // 
+            // L_GameSync
+            // 
+            this.L_GameSync.Location = new System.Drawing.Point(33, 69);
+            this.L_GameSync.Name = "L_GameSync";
+            this.L_GameSync.Size = new System.Drawing.Size(115, 20);
+            this.L_GameSync.TabIndex = 11;
+            this.L_GameSync.Text = "Game Sync ID:";
+            this.L_GameSync.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_GameSync
+            // 
+            this.TB_GameSync.Enabled = false;
+            this.TB_GameSync.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_GameSync.Location = new System.Drawing.Point(151, 69);
+            this.TB_GameSync.MaxLength = 16;
+            this.TB_GameSync.Name = "TB_GameSync";
+            this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
+            this.TB_GameSync.TabIndex = 10;
+            this.TB_GameSync.Text = "0000000000000000";
+            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateGameSync);
             // 
             // Main
             // 
@@ -4547,6 +4572,8 @@
         private System.Windows.Forms.ToolStripMenuItem mnuDelete;
         private System.Windows.Forms.ContextMenuStrip mnuV;
         private System.Windows.Forms.ToolStripMenuItem mnu2View;
+        private System.Windows.Forms.Label L_GameSync;
+        private System.Windows.Forms.TextBox TB_GameSync;
     }
 }
 

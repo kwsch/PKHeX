@@ -696,6 +696,9 @@ namespace PKHeX
             if (startBox > 30) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
             else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
 
+            TB_GameSync.Enabled = SAV.GameSyncID != 0;
+            TB_GameSync.Text = SAV.GameSyncID.ToString("X16");
+
             Width = largeWidth;
 
             // Refresh instance of pk2pk
@@ -2621,6 +2624,33 @@ namespace PKHeX
                 SAV.DaycareRNGSeed = value;
                 SAV.Edited = true;
             }            
+        }
+        private void updateGameSync(object sender, EventArgs e)
+        {
+            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
+            string filterText = TB_GameSync.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (filterText.Length != TB_GameSync.Text.Length)
+            {
+                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_RNGSeed.Text);
+                // Reset to Stored Value
+                TB_GameSync.Text = SAV.GameSyncID.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            if (TB_GameSync.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_GameSync.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            // Write final value back to the save
+            ulong value = Convert.ToUInt64(TB_GameSync.Text, 16);
+            if (value != SAV.GameSyncID)
+            {
+                SAV.GameSyncID = value;
+                SAV.Edited = true;
+            }
         }
         private void refreshTrainerInfo()
         {
