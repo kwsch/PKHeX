@@ -2886,7 +2886,7 @@ namespace PKHeX
                 string boxfolder = "";
                 if (individualBoxFolders)
                 {
-                    boxfolder = "Box" + ((i / 30) + 1);
+                    boxfolder = "BOX" + ((i / 30) + 1);
                     Directory.CreateDirectory(Path.Combine(path, boxfolder));
                 }
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
