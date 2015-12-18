@@ -107,7 +107,6 @@ BTN_RerollEC = Gerar
 Tab_Box = Box
 Tab_PartyBattle = Box Equipa-Batalha
 Tab_Other = Outro
-Tab_Tools = Ferramentas
 Tab_SAV = SAV
 B_OpenPokePuffs = ?Poké Puffs
 B_OpenItemPouch = Itens

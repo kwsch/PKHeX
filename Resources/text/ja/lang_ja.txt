@@ -103,7 +103,6 @@ BTN_RerollEC = 新規作成
 Tab_Box = ボックス
 Tab_PartyBattle = パーティバトル
 Tab_Other = その他
-Tab_Tools = ツール
 Tab_SAV = SAV
 B_OpenPokePuffs = ‎ポフレ
 B_OpenItemPouch = アイテム

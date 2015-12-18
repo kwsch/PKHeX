@@ -107,7 +107,6 @@ BTN_RerollEC = 재설정
 Tab_Box = 박스
 Tab_PartyBattle = 파티, 배틀 박스
 Tab_Other = 기타
-Tab_Tools = 도구
 Tab_SAV = SAV
 B_OpenPokePuffs = 포켓파를레
 B_OpenItemPouch = 아이템

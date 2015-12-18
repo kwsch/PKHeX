@@ -107,7 +107,6 @@ BTN_RerollEC = Edit.
 Tab_Box = Boîtes PC
 Tab_PartyBattle = Partie
 Tab_Other = Autres
-Tab_Tools = Outils
 Tab_SAV = SAV
 B_OpenPokePuffs = Pofiteroles
 B_OpenItemPouch = Objets

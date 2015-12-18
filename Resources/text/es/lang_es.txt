@@ -107,7 +107,6 @@ BTN_RerollEC = Generar
 Tab_Box = Caja
 Tab_PartyBattle = Caja de combate
 Tab_Other = Otro
-Tab_Tools = Herramientas
 Tab_SAV = SAV
 B_OpenPokePuffs = ‎Pokélito
 B_OpenItemPouch = Objeto

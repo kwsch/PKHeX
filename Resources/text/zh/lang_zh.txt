@@ -103,7 +103,6 @@ BTN_RerollEC = 新建
 Tab_Box = 箱子
 Tab_PartyBattle = 队伍-战斗箱
 Tab_Other = 其它
-Tab_Tools = 工具
 Tab_SAV = 保存
 B_OpenPokePuffs = 口袋泡芙
 B_OpenItemPouch = 道具
