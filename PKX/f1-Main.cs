@@ -2409,7 +2409,7 @@ namespace PKHeX
                 if (Util.Prompt(MessageBoxButtons.YesNo, "Export Backup of current SAV?") != DialogResult.Yes)
                     return;
 
-                SaveFileDialog sfd = new SaveFileDialog { FileName = String.Format("main ({0} - {1}).bak", SAV.OT, SAV.TID) };
+                SaveFileDialog sfd = new SaveFileDialog { FileName = Util.CleanFileName(String.Format("main ({0} - {1}).bak", SAV.OT, SAV.TID)) };
                 if (sfd.ShowDialog() != DialogResult.OK) 
                     return;
 
