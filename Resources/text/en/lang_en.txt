@@ -113,7 +113,7 @@ B_OpenItemPouch = Items
 B_OpenTrainerInfo = Trainer Info
 B_OUTPasserby = Passerby
 B_OpenBoxLayout = Box Layout
-B_OpenWondercards = Wondercard
+B_OpenWondercards = WonderCard
 B_OpenSuperTraining = Super Train
 B_OpenHallofFame = Hall of Fame
 B_OpenOPowers = O-Powers
@@ -724,7 +724,7 @@ cb8 = 8 - Iceberg
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Wondercard = Wondercard I/O
+! SAV_Wondercard = Wonder Card I/O
 - Change stuff below this line, not above.
 -------------------------------------------------------
 B_DeleteFlag = X
@@ -733,7 +733,7 @@ L_Details = Details:
 B_DisplaytoWCSlot = <
 B_WCSlottoDisplay = >
 L_Received = Received List:
-L_WCs = Wondercards:
+L_WCs = Wonder Cards:
 B_Import = Import .wc6
 B_Output = Output .wc6
 B_Cancel = Cancel

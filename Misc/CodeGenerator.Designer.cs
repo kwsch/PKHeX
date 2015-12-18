@@ -96,7 +96,7 @@
             this.CB_Source.Items.AddRange(new object[] {
             "Loaded EKX (Tabs)",
             "Box EKX",
-            "Wondercard"});
+            "Wonder Card"});
             this.CB_Source.Location = new System.Drawing.Point(29, 148);
             this.CB_Source.Name = "CB_Source";
             this.CB_Source.Size = new System.Drawing.Size(132, 21);
@@ -141,7 +141,7 @@
             this.CB_Slot.Items.AddRange(new object[] {
             "Loaded EKX (Tabs)",
             "Box EKX ",
-            "Wondercard"});
+            "Wonder Card"});
             this.CB_Slot.Location = new System.Drawing.Point(126, 169);
             this.CB_Slot.Name = "CB_Slot";
             this.CB_Slot.Size = new System.Drawing.Size(35, 21);
