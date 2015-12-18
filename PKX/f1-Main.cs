@@ -2812,7 +2812,7 @@ namespace PKHeX
             {
                 CB_BoxSelect.Items.Clear();
                 for (int i = 0; i < 31; i++)
-                    CB_BoxSelect.Items.Add("Box " + (i+1));
+                    CB_BoxSelect.Items.Add("BOX " + (i+1));
             }
             CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
         }
