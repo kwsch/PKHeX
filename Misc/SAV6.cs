@@ -28,13 +28,14 @@ namespace PKHeX
         internal static bool SetUpdateDex = true;
         internal static bool SetUpdatePK6 = true;
         // Save Data Attributes
-        public byte[] Data;
+        public byte[] Data, BAK;
         public bool Exportable;
         public bool Edited;
         public SAV6(byte[] data)
         {
             Exportable = !data.SequenceEqual(new byte[data.Length]);
-            Data = data;
+            Data = (byte[])data.Clone();
+            BAK = (byte[])data.Clone();
 
             // Load Info
             getBlockInfo();

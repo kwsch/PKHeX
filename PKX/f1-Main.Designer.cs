@@ -310,18 +310,15 @@
             this.subepkx1 = new System.Windows.Forms.PictureBox();
             this.subepkx2 = new System.Windows.Forms.PictureBox();
             this.subepkx3 = new System.Windows.Forms.PictureBox();
-            this.Tab_Tools = new System.Windows.Forms.TabPage();
+            this.Tab_SAV = new System.Windows.Forms.TabPage();
             this.B_OpenDB = new System.Windows.Forms.Button();
             this.B_3DSSETemp = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
-            this.RTB_T = new System.Windows.Forms.RichTextBox();
-            this.Tab_SAV = new System.Windows.Forms.TabPage();
+            this.L_GameSync = new System.Windows.Forms.Label();
+            this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
-            this.L_SAVManipulation = new System.Windows.Forms.Label();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
-            this.L_IntegrityCheck = new System.Windows.Forms.Label();
             this.B_ExportSAV = new System.Windows.Forms.Button();
-            this.RTB_S = new System.Windows.Forms.RichTextBox();
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
@@ -337,8 +334,6 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
-            this.L_GameSync = new System.Windows.Forms.Label();
-            this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -425,7 +420,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).BeginInit();
-            this.Tab_Tools.SuspendLayout();
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
@@ -2760,7 +2754,6 @@
             this.tabBoxMulti.Controls.Add(this.Tab_Box);
             this.tabBoxMulti.Controls.Add(this.Tab_PartyBattle);
             this.tabBoxMulti.Controls.Add(this.Tab_Other);
-            this.tabBoxMulti.Controls.Add(this.Tab_Tools);
             this.tabBoxMulti.Controls.Add(this.Tab_SAV);
             this.tabBoxMulti.Location = new System.Drawing.Point(300, 27);
             this.tabBoxMulti.Name = "tabBoxMulti";
@@ -3808,36 +3801,39 @@
             this.subepkx3.TabIndex = 20;
             this.subepkx3.TabStop = false;
             // 
-            // Tab_Tools
+            // Tab_SAV
             // 
-            this.Tab_Tools.Controls.Add(this.B_OpenDB);
-            this.Tab_Tools.Controls.Add(this.B_3DSSETemp);
-            this.Tab_Tools.Controls.Add(this.B_JPEG);
-            this.Tab_Tools.Controls.Add(this.RTB_T);
-            this.Tab_Tools.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Tools.Name = "Tab_Tools";
-            this.Tab_Tools.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Tools.Size = new System.Drawing.Size(302, 199);
-            this.Tab_Tools.TabIndex = 4;
-            this.Tab_Tools.Text = "Tools";
-            this.Tab_Tools.UseVisualStyleBackColor = true;
+            this.Tab_SAV.Controls.Add(this.B_OpenDB);
+            this.Tab_SAV.Controls.Add(this.B_3DSSETemp);
+            this.Tab_SAV.Controls.Add(this.B_JPEG);
+            this.Tab_SAV.Controls.Add(this.L_GameSync);
+            this.Tab_SAV.Controls.Add(this.TB_GameSync);
+            this.Tab_SAV.Controls.Add(this.B_SaveBoxBin);
+            this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
+            this.Tab_SAV.Controls.Add(this.B_ExportSAV);
+            this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
+            this.Tab_SAV.Name = "Tab_SAV";
+            this.Tab_SAV.Size = new System.Drawing.Size(302, 199);
+            this.Tab_SAV.TabIndex = 3;
+            this.Tab_SAV.Text = "SAV";
+            this.Tab_SAV.UseVisualStyleBackColor = true;
             // 
             // B_OpenDB
             // 
-            this.B_OpenDB.Location = new System.Drawing.Point(116, 20);
+            this.B_OpenDB.Location = new System.Drawing.Point(116, 135);
             this.B_OpenDB.Name = "B_OpenDB";
             this.B_OpenDB.Size = new System.Drawing.Size(75, 45);
-            this.B_OpenDB.TabIndex = 8;
+            this.B_OpenDB.TabIndex = 14;
             this.B_OpenDB.Text = "Open PK6 Database";
             this.B_OpenDB.UseVisualStyleBackColor = true;
             this.B_OpenDB.Click += new System.EventHandler(this.B_OpenDB_Click);
             // 
             // B_3DSSETemp
             // 
-            this.B_3DSSETemp.Location = new System.Drawing.Point(32, 20);
+            this.B_3DSSETemp.Location = new System.Drawing.Point(32, 135);
             this.B_3DSSETemp.Name = "B_3DSSETemp";
             this.B_3DSSETemp.Size = new System.Drawing.Size(75, 45);
-            this.B_3DSSETemp.TabIndex = 7;
+            this.B_3DSSETemp.TabIndex = 13;
             this.B_3DSSETemp.Text = "Open Temp 3DSSE ";
             this.B_3DSSETemp.UseVisualStyleBackColor = true;
             this.B_3DSSETemp.Click += new System.EventHandler(this.clickOpenTempFolder);
@@ -3845,41 +3841,34 @@
             // B_JPEG
             // 
             this.B_JPEG.Enabled = false;
-            this.B_JPEG.Location = new System.Drawing.Point(198, 20);
+            this.B_JPEG.Location = new System.Drawing.Point(198, 135);
             this.B_JPEG.Name = "B_JPEG";
             this.B_JPEG.Size = new System.Drawing.Size(75, 45);
-            this.B_JPEG.TabIndex = 5;
+            this.B_JPEG.TabIndex = 12;
             this.B_JPEG.Text = "Save PGL .JPEG";
             this.B_JPEG.UseVisualStyleBackColor = true;
             this.B_JPEG.Click += new System.EventHandler(this.B_JPEG_Click);
             // 
-            // RTB_T
+            // L_GameSync
             // 
-            this.RTB_T.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_T.Location = new System.Drawing.Point(1, 68);
-            this.RTB_T.Name = "RTB_T";
-            this.RTB_T.ReadOnly = true;
-            this.RTB_T.Size = new System.Drawing.Size(300, 130);
-            this.RTB_T.TabIndex = 1;
-            this.RTB_T.Text = "";
-            this.RTB_T.WordWrap = false;
+            this.L_GameSync.Location = new System.Drawing.Point(33, 69);
+            this.L_GameSync.Name = "L_GameSync";
+            this.L_GameSync.Size = new System.Drawing.Size(115, 20);
+            this.L_GameSync.TabIndex = 11;
+            this.L_GameSync.Text = "Game Sync ID:";
+            this.L_GameSync.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // Tab_SAV
+            // TB_GameSync
             // 
-            this.Tab_SAV.Controls.Add(this.L_GameSync);
-            this.Tab_SAV.Controls.Add(this.TB_GameSync);
-            this.Tab_SAV.Controls.Add(this.B_SaveBoxBin);
-            this.Tab_SAV.Controls.Add(this.L_SAVManipulation);
-            this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
-            this.Tab_SAV.Controls.Add(this.L_IntegrityCheck);
-            this.Tab_SAV.Controls.Add(this.B_ExportSAV);
-            this.Tab_SAV.Controls.Add(this.RTB_S);
-            this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
-            this.Tab_SAV.Name = "Tab_SAV";
-            this.Tab_SAV.Size = new System.Drawing.Size(302, 199);
-            this.Tab_SAV.TabIndex = 3;
-            this.Tab_SAV.Text = "SAV";
-            this.Tab_SAV.UseVisualStyleBackColor = true;
+            this.TB_GameSync.Enabled = false;
+            this.TB_GameSync.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_GameSync.Location = new System.Drawing.Point(151, 69);
+            this.TB_GameSync.MaxLength = 16;
+            this.TB_GameSync.Name = "TB_GameSync";
+            this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
+            this.TB_GameSync.TabIndex = 10;
+            this.TB_GameSync.Text = "0000000000000000";
+            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateGameSync);
             // 
             // B_SaveBoxBin
             // 
@@ -3891,15 +3880,6 @@
             this.B_SaveBoxBin.UseVisualStyleBackColor = true;
             this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
             // 
-            // L_SAVManipulation
-            // 
-            this.L_SAVManipulation.Location = new System.Drawing.Point(117, 6);
-            this.L_SAVManipulation.Name = "L_SAVManipulation";
-            this.L_SAVManipulation.Size = new System.Drawing.Size(156, 14);
-            this.L_SAVManipulation.TabIndex = 7;
-            this.L_SAVManipulation.Text = "Save File:";
-            this.L_SAVManipulation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // B_VerifyCHK
             // 
             this.B_VerifyCHK.Enabled = false;
@@ -3907,18 +3887,9 @@
             this.B_VerifyCHK.Name = "B_VerifyCHK";
             this.B_VerifyCHK.Size = new System.Drawing.Size(75, 45);
             this.B_VerifyCHK.TabIndex = 2;
-            this.B_VerifyCHK.Text = "Checksums";
+            this.B_VerifyCHK.Text = "Verify Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.clickVerifyCHK);
-            // 
-            // L_IntegrityCheck
-            // 
-            this.L_IntegrityCheck.AutoSize = true;
-            this.L_IntegrityCheck.Location = new System.Drawing.Point(30, 7);
-            this.L_IntegrityCheck.Name = "L_IntegrityCheck";
-            this.L_IntegrityCheck.Size = new System.Drawing.Size(81, 13);
-            this.L_IntegrityCheck.TabIndex = 5;
-            this.L_IntegrityCheck.Text = "Integrity Check:";
             // 
             // B_ExportSAV
             // 
@@ -3930,17 +3901,6 @@
             this.B_ExportSAV.Text = "Export SAV";
             this.B_ExportSAV.UseVisualStyleBackColor = true;
             this.B_ExportSAV.Click += new System.EventHandler(this.clickExportSAV);
-            // 
-            // RTB_S
-            // 
-            this.RTB_S.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RTB_S.Location = new System.Drawing.Point(1, 95);
-            this.RTB_S.Name = "RTB_S";
-            this.RTB_S.ReadOnly = true;
-            this.RTB_S.Size = new System.Drawing.Size(300, 103);
-            this.RTB_S.TabIndex = 0;
-            this.RTB_S.Text = "";
-            this.RTB_S.WordWrap = false;
             // 
             // B_OpenHallofFame
             // 
@@ -4110,27 +4070,6 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
-            // L_GameSync
-            // 
-            this.L_GameSync.Location = new System.Drawing.Point(33, 69);
-            this.L_GameSync.Name = "L_GameSync";
-            this.L_GameSync.Size = new System.Drawing.Size(115, 20);
-            this.L_GameSync.TabIndex = 11;
-            this.L_GameSync.Text = "Game Sync ID:";
-            this.L_GameSync.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TB_GameSync
-            // 
-            this.TB_GameSync.Enabled = false;
-            this.TB_GameSync.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_GameSync.Location = new System.Drawing.Point(151, 69);
-            this.TB_GameSync.MaxLength = 16;
-            this.TB_GameSync.Name = "TB_GameSync";
-            this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
-            this.TB_GameSync.TabIndex = 10;
-            this.TB_GameSync.Text = "0000000000000000";
-            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateGameSync);
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -4254,7 +4193,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).EndInit();
-            this.Tab_Tools.ResumeLayout(false);
             this.Tab_SAV.ResumeLayout(false);
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
@@ -4498,13 +4436,8 @@
         private System.Windows.Forms.Label L_DC1;
         private System.Windows.Forms.TextBox TB_PID;
         private System.Windows.Forms.TextBox TB_EC;
-        private System.Windows.Forms.TabPage Tab_Tools;
         private System.Windows.Forms.Button B_OUTPasserby;
         private System.Windows.Forms.Button B_OpenHallofFame;
-        private System.Windows.Forms.RichTextBox RTB_T;
-        private System.Windows.Forms.Button B_JPEG;
-        private System.Windows.Forms.Label L_SAVManipulation;
-        private System.Windows.Forms.Label L_IntegrityCheck;
         private System.Windows.Forms.ComboBox CB_EggLocation;
         private System.Windows.Forms.Label Label_CharacteristicPrefix;
         private System.Windows.Forms.ToolStripMenuItem Menu_Tools;
@@ -4536,7 +4469,6 @@
         private System.Windows.Forms.Panel PAN_Party;
         private System.Windows.Forms.Panel PAN_BattleBox;
         private System.Windows.Forms.Button B_OpenSuperTraining;
-        private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Panel PAN_Box;
         private System.Windows.Forms.ComboBox DEV_Ability;
         private System.Windows.Forms.CheckBox CHK_HackedStats;
@@ -4551,7 +4483,6 @@
         private System.Windows.Forms.Button B_SaveBoxBin;
         private System.Windows.Forms.Label L_QR;
         private System.Windows.Forms.ComboBox CB_HPType;
-        private System.Windows.Forms.RichTextBox RTB_S;
         private System.Windows.Forms.ComboBox CB_HeldItem;
         private System.Windows.Forms.ComboBox CB_Nature;
         private System.Windows.Forms.MaskedTextBox TB_Friendship;
@@ -4562,7 +4493,6 @@
         private System.Windows.Forms.TextBox TB_OTt2;
         private System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.ComboBox CB_GameOrigin;
-        private System.Windows.Forms.Button B_OpenDB;
         private System.Windows.Forms.ToolStripMenuItem Menu_Modify;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyDex;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyPK6;
@@ -4574,6 +4504,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnu2View;
         private System.Windows.Forms.Label L_GameSync;
         private System.Windows.Forms.TextBox TB_GameSync;
+        private System.Windows.Forms.Button B_OpenDB;
+        private System.Windows.Forms.Button B_3DSSETemp;
+        private System.Windows.Forms.Button B_JPEG;
     }
 }
 

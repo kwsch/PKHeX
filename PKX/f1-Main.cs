@@ -2392,10 +2392,32 @@ namespace PKHeX
         {
             if (SAV.Edited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
 
-            RTB_S.Text += PKX.verifyG6CHK(SAV.Data);
+            if (PKX.verifyG6SAV(SAV.Data))
+            { 
+                Util.Alert("Checksums are correct.");
+                return;
+            }
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Export Checksum Info to Clipboard?"))
+                return;
+
+            Clipboard.SetText(PKX.verifyG6CHK(SAV.Data));
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Alt && SAV.Exportable)
+            {
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Export Backup of current SAV?") != DialogResult.Yes)
+                    return;
+
+                SaveFileDialog sfd = new SaveFileDialog { FileName = String.Format("main ({0} - {1}).bak", SAV.OT, SAV.TID) };
+                if (sfd.ShowDialog() != DialogResult.OK) 
+                    return;
+
+                string path = sfd.FileName;
+                File.WriteAllBytes(sfd.FileName, SAV.BAK);
+                Util.Alert("Saved Backup of current SAV to:", path);
+            }
+
             // Chunk Error Checking
             string err = SAV.checkChunkFF();
             if (err.Length > 0 && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
@@ -3097,13 +3119,11 @@ namespace PKHeX
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
-            string result = "";
-            result += "PSS List" + Environment.NewLine;
-            string[] headers = {
-                                   "PSS Data - Friends",
-                                   "PSS Data - Acquaintances",
-                                   "PSS Data - Passerby",
-                               };
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Export Passerby Info to Clipboard?"))
+                return;
+
+            string result = "PSS List" + Environment.NewLine;
+            string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby", };
             int offset = SAV.PSS;
             for (int g = 0; g < 3; g++)
             {
@@ -3151,9 +3171,7 @@ namespace PKHeX
                 }
                 offset += 0x5000; // Advance to next block
             }
-            RTB_T.Text = result;
-            RTB_T.Font = new Font("Courier New", 8);
-            tabBoxMulti.SelectedIndex = 3; // Tools tab (where RTB_T is)
+            Clipboard.SetText(result);
         }
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
         {
