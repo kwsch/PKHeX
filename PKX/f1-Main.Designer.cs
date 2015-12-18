@@ -334,6 +334,7 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
+            this.PB_Locked = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -423,6 +424,7 @@
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Locked)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -3346,6 +3348,7 @@
             // 
             this.PAN_BattleBox.BackgroundImage = global::PKHeX.Properties.Resources.party;
             this.PAN_BattleBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PAN_BattleBox.Controls.Add(this.PB_Locked);
             this.PAN_BattleBox.Controls.Add(this.bbpkx1);
             this.PAN_BattleBox.Controls.Add(this.bbpkx2);
             this.PAN_BattleBox.Controls.Add(this.bbpkx3);
@@ -4070,6 +4073,16 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
+            // PB_Locked
+            // 
+            this.PB_Locked.Image = global::PKHeX.Properties.Resources.locked;
+            this.PB_Locked.Location = new System.Drawing.Point(76, 2);
+            this.PB_Locked.Name = "PB_Locked";
+            this.PB_Locked.Size = new System.Drawing.Size(32, 32);
+            this.PB_Locked.TabIndex = 14;
+            this.PB_Locked.TabStop = false;
+            this.PB_Locked.Visible = false;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -4197,6 +4210,7 @@
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Locked)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4507,6 +4521,7 @@
         private System.Windows.Forms.Button B_OpenDB;
         private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Button B_JPEG;
+        private System.Windows.Forms.PictureBox PB_Locked;
     }
 }
 

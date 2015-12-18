@@ -698,6 +698,7 @@ namespace PKHeX
 
             TB_GameSync.Enabled = SAV.GameSyncID != 0;
             TB_GameSync.Text = SAV.GameSyncID.ToString("X16");
+            PB_Locked.Visible = SAV.BattleBoxLocked;
 
             Width = largeWidth;
 
