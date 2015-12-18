@@ -64,7 +64,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Inventory Editing
  - Trainer Info Editing
  - Box Layout (Name/Background) editing
- - Wondercard Adding/Exporting
+ - Wonder Card Adding/Exporting
  - Berry Field Viewing (basic)
  - Added: Integrity Checking for Checksums and SHA256 Hashes of save files.
  - Added: Save file hash correction export to re-sign everything but the AES MAC (needs a hacked 3DS).
@@ -185,7 +185,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Unchecking Nickname will set the species name.
  - Added: Preventing export of invalid IVs/EVs
  - Added: RAM Edit Code Generator
- - Exports codes for Tabs/Box Pokemon, and Wondercards. Specify the write offset.
+ - Exports codes for Tabs/Box Pokemon, and Wonder Cards. Specify the write offset.
  - Requires a hacked 3DS with redirected nand and a spawned thread running the code interpreter.
  - Added: Mega selection for the 4 ORAS megas revealed thus far. Ability/Stats are not implemented.
 
@@ -193,8 +193,8 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Shinifying now behaves properly
  - Fixed: Invalid ID/SIDs are now no longer enterable
  - Added: Box Data Report - Generates a verbose info table with all of the data from the Pokemon loaded/imported in the boxes.
- - Changed: Code Generator now exports codes compatible with the CyberGadget save editor. Currently, only Box and Wondercard insertion is supported.
- - Add 0xE8 to a Box Offset, 0x108 for Wondercards to change from Slot 1.
+ - Changed: Code Generator now exports codes compatible with the CyberGadget save editor. Currently, only Box and Wonder Card insertion is supported.
+ - Add 0xE8 to a Box Offset, 0x108 for Wonder Cards to change from Slot 1.
 
 07/26/14 - New Update: (80)
  - Added Decrypted Cyber Gadget save loading/saving support.
@@ -376,7 +376,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Secret Base flag count editing
  - Added: Ash count editing (inside Event Flags)
  - Added: Partially decrypted Powersaves game loading, view only.
- - Added: Eon Ticket wondercard injection now adds the required data. It is now safe to add the extracted wondercard.
+ - Added: Eon Ticket Wonder Card injection now adds the required data. It is now safe to add the extracted Wonder Card.
  - Added: More rebattle flags; Virizion may not be correct but it's our best guess.
  - - Rebattling Lati@s has yet to be ironed out, we haven't figured out how to go back to the island.
 
@@ -442,11 +442,11 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Glass (Colored) Flutes should now be in the proper pouch. Thanks SoujiSeta!
  - Fixed: Super Training copying too much and erroring out. Thanks SoujiSeta!
  - Fixed: Mono compatibility fix for inventory data editing. Thanks SoujiSeta!
- - Fixed: Deleting Wondercard recieved flags will actually save. Thanks ifyfg!
+ - Fixed: Deleting Wonder Card recieved flags will actually save. Thanks ifyfg!
  - Fixed: X/Y xorpad auto-loading/decryption now works instead of hanging.
 
 1/25/15 - New Update: (1800)
- - Added: PK6 Distribution Super Training flags. Still have to unlock the missions ingame with wondercards. Thanks SciresM!
+ - Added: PK6 Distribution Super Training flags. Still have to unlock the missions ingame with Wonder Cards. Thanks SciresM!
  - Added: Box Import functionality for use with the spider web exploit.
  - Added: "All Files" export filter to the [Save File] main menu option.
  - Fixed: Boxes are now always initialized with encrypted empty slots (for those without loaded saves).
@@ -487,7 +487,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: Special Characters are now accessible by Control Clicking within the TextBox.
  - Added: Ingame font to Trainer and Hall of Fame windows.
  - Added: Deletion of Hall of Fame Entries (except First Clear), and Deletion of Favorite Secret Bases.
- - Added: Loading of multiple Wondercards via Drag & Drop.
+ - Added: Loading of multiple Wonder Cards via Drag & Drop.
  - Added: Boot Status to help debug some users being stuck on the splash screen.
  - Added: Event Constant editing to Event Flag window.
 
@@ -500,7 +500,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Box Data Report now shows level and the proper Language/3DS region text will display. Thanks Kaisonic!
  - Added: More Trainer Stat descriptions. Thanks codem8kr & Luciela!
  - Fixed: Memory text prediction should no longer list the wrong text. Thanks Ceveth & evandixon!
- - Fixed: Wondercard flags greater than 2047 will not be erroneously added to the received list.
+ - Fixed: Wonder Card flags greater than 2047 will not be erroneously added to the received list.
  - Fixed: Shedinja HP stat prediction should now properly show something not '1'.
  - Fixed: Jellicent/Meowstic sprites now update properly and have their forms. Thanks Favna & sora10pls!
  - Fixed: Xerneas sprite forms being inverted. Thanks trainboy2019!
@@ -518,8 +518,8 @@ http://projectpokemon.org/forums/showthread.php?36986
 4/4/15 - New Update: (103500)
  - Added: Hidden Power selection drop-down. Changing the selection will modify the IVs appropriately.
  - Added: Showdown/Smogon import (copy text, control click Species label).
- - Added: Wondercard QR exporting/importing (alt-click). No editing is supported.
- - Added: Opening a Wondercard in the main window (via File->Open or Drag&Drop) will open the Wondercard UI, no save file needed.
+ - Added: Wonder Card QR exporting/importing (alt-click). No editing is supported.
+ - Added: Opening a Wonder Card in the main window (via File->Open or Drag&Drop) will open the Wonder Card UI, no save file needed.
  - Added: Portuguese language and capability for more languages in the future if necessary. Thanks Sharinflan!
  - Fixed: Clicking OT with an ORAS savegame loaded will load the OT/Region data to the tabbed Pokémon (XY already worked).
  - Fixed: Changing Countries with certain SubRegions selected will no longer error. Thanks FullLifeGames!
@@ -531,8 +531,8 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: PKRS Days capped at legal limits.
  - Changed: Forms drop-down and label will be hidden if a Pokémon has no forms.
  - Hotfix: Changing the exe name to auto-load a language will now function properly. Thanks supercarotte!
- - Hotfix: Wondercard QRs with non-held items will no longer error out. Thanks ShinyMeganium!
- - Hotfix: Prevented export of Eon Ticket Wondercards via QR because extra data has to be altered in order for it to function.
+ - Hotfix: Wonder Card QRs with non-held items will no longer error out. Thanks ShinyMeganium!
+ - Hotfix: Prevented export of Eon Ticket Wonder Cards via QR because extra data has to be altered in order for it to function.
 
 8/8/15 - New Update: (35500)
  - Added: Korean Translation. Thanks cocoblue!
@@ -565,9 +565,13 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Importing Trade Packets (from Nov'13-Dec'13) will now actually load the data.
 
 X/XX/15 - New Update:
- - Added: Wondercards can now be converted into pk6 files. Drop/Open the wc6 and the Wondercard will be loaded to tabs.
+ - Added: Wonder Cards can now be converted into pk6 files. Drop/Open the wc6 and the Wonder Card will be loaded to tabs.
+ - Added: Wonder Card I/O will now preview all contents as if it was a box of Pokémon to show all Wonder Cards at once.
  - Added: Database Viewer to search for Pokémon within your save file or database folder. Access via the Tools tab.
  - Added: Showdown Text Export. Alt-Click Species to export current or double click box / battle box for a full team!
+ - Added: Battle Box Locked indication.
+ - Added: Game Sync ID editing / resetting.
+ - Added: Exporting unedited save file to another location for backup purposes.
  - Removed: 1MB save (Powersave) exporting; all files are now treated as 'main' files for simplicity.
 
  - Added: Multiple usability improvements:
