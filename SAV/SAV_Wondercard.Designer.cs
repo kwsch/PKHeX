@@ -74,6 +74,10 @@
             this.PB_Card21 = new System.Windows.Forms.PictureBox();
             this.PB_Card20 = new System.Windows.Forms.PictureBox();
             this.PB_Card19 = new System.Windows.Forms.PictureBox();
+            this.L_r1 = new System.Windows.Forms.Label();
+            this.L_r2 = new System.Windows.Forms.Label();
+            this.L_r3 = new System.Windows.Forms.Label();
+            this.L_r4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card01)).BeginInit();
             this.mnuVSD.SuspendLayout();
@@ -631,12 +635,56 @@
             this.PB_Card19.TabStop = false;
             this.PB_Card19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
             // 
+            // L_r1
+            // 
+            this.L_r1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_r1.Location = new System.Drawing.Point(97, 122);
+            this.L_r1.Name = "L_r1";
+            this.L_r1.Size = new System.Drawing.Size(48, 32);
+            this.L_r1.TabIndex = 88;
+            this.L_r1.Text = "1-6:";
+            this.L_r1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_r2
+            // 
+            this.L_r2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_r2.Location = new System.Drawing.Point(97, 153);
+            this.L_r2.Name = "L_r2";
+            this.L_r2.Size = new System.Drawing.Size(48, 32);
+            this.L_r2.TabIndex = 89;
+            this.L_r2.Text = "7-12:";
+            this.L_r2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_r3
+            // 
+            this.L_r3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_r3.Location = new System.Drawing.Point(97, 185);
+            this.L_r3.Name = "L_r3";
+            this.L_r3.Size = new System.Drawing.Size(48, 32);
+            this.L_r3.TabIndex = 90;
+            this.L_r3.Text = "13-18:";
+            this.L_r3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_r4
+            // 
+            this.L_r4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_r4.Location = new System.Drawing.Point(97, 215);
+            this.L_r4.Name = "L_r4";
+            this.L_r4.Size = new System.Drawing.Size(48, 32);
+            this.L_r4.TabIndex = 91;
+            this.L_r4.Text = "19-24:";
+            this.L_r4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Wondercard
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 287);
+            this.Controls.Add(this.L_r4);
+            this.Controls.Add(this.L_r3);
+            this.Controls.Add(this.L_r2);
+            this.Controls.Add(this.L_r1);
             this.Controls.Add(this.PB_Card24);
             this.Controls.Add(this.PB_Card23);
             this.Controls.Add(this.PB_Card22);
@@ -762,5 +810,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuSet;
         private System.Windows.Forms.ToolStripMenuItem mnuDelete;
+        private System.Windows.Forms.Label L_r1;
+        private System.Windows.Forms.Label L_r2;
+        private System.Windows.Forms.Label L_r3;
+        private System.Windows.Forms.Label L_r4;
     }
 }
