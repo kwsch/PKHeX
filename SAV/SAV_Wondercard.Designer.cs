@@ -195,7 +195,7 @@
             this.B_WCSlottoDisplay.TabIndex = 8;
             this.B_WCSlottoDisplay.Text = ">";
             this.B_WCSlottoDisplay.UseVisualStyleBackColor = true;
-            this.B_WCSlottoDisplay.Click += new System.EventHandler(this.B_SAV2WC);
+            this.B_WCSlottoDisplay.Click += new System.EventHandler(this.cardView);
             // 
             // B_DisplaytoWCSlot
             // 
@@ -205,7 +205,7 @@
             this.B_DisplaytoWCSlot.TabIndex = 9;
             this.B_DisplaytoWCSlot.Text = "<";
             this.B_DisplaytoWCSlot.UseVisualStyleBackColor = true;
-            this.B_DisplaytoWCSlot.Click += new System.EventHandler(this.B_WC2SAV);
+            this.B_DisplaytoWCSlot.Click += new System.EventHandler(this.cardSet);
             // 
             // RTB
             // 
@@ -236,7 +236,7 @@
             this.B_DeleteWC.TabIndex = 12;
             this.B_DeleteWC.Text = "X";
             this.B_DeleteWC.UseVisualStyleBackColor = true;
-            this.B_DeleteWC.Click += new System.EventHandler(this.B_DeleteWC_Click);
+            this.B_DeleteWC.Click += new System.EventHandler(this.cardDelete);
             // 
             // B_DeleteFlag
             // 

@@ -43,8 +43,26 @@ namespace PKHeX
         private PictureBox[] pba;
 
         // Repopulation Functions
+        private void setBackground(int index, Image bg)
+        {
+            for (int i = 0; i < 24; i++)
+                pba[i].BackgroundImage = index == i ? bg : null;
+        }
+        private void removeEmptyWC6s()
+        {
+            byte[][] ca = new byte[24][];
+            for (int i = 0; i < ca.Length; i++)
+                ca[i] = sav.Skip(Main.SAV.WondercardData + WC6.Size*i).Take(WC6.Size).ToArray();
+
+            ca = ca.Where(c => BitConverter.ToUInt16(c, 0) > 0).ToArray();
+            for (int i = 0; i < ca.Length; i++)
+                ca[i].CopyTo(sav, Main.SAV.WondercardData + WC6.Size * i);
+            for (int i = ca.Length; i < 24; i++)
+                new byte[WC6.Size].CopyTo(sav, Main.SAV.WondercardData + WC6.Size * i);
+        }
         private void populateWClist()
         {
+            removeEmptyWC6s();
             LB_WCs.Items.Clear();
             for (int i = 0; i < 24; i++)
             {
@@ -132,18 +150,20 @@ namespace PKHeX
         }
 
         // Wondercard RW (window<->sav)
-        private void B_SAV2WC(object sender, EventArgs e)
+        private void cardView(object sender, EventArgs e)
         {
             // Load Wondercard from Save File
             int index = LB_WCs.SelectedIndex;
+            setBackground(index, Properties.Resources.slotView);
             int offset = Main.SAV.WondercardData + index * 0x108;
             Array.Copy(sav, offset, wondercard_data, 0, 0x108);
             loadwcdata();
         }
-        private void B_WC2SAV(object sender, EventArgs e)
+        private void cardSet(object sender, EventArgs e)
         {
             // Write Wondercard to Save File
             int index = LB_WCs.SelectedIndex;
+            setBackground(index, Properties.Resources.slotSet);
             int offset = Main.SAV.WondercardData + index * 0x108;
             if (Main.SAV.ORAS) // ORAS Only
                 if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
@@ -158,9 +178,10 @@ namespace PKHeX
             if (!LB_Received.Items.Contains(cardID.ToString("0000")))
                 LB_Received.Items.Add(cardID.ToString("0000"));
         }
-        private void B_DeleteWC_Click(object sender, EventArgs e)
+        private void cardDelete(object sender, EventArgs e)
         {
             int index = LB_WCs.SelectedIndex;
+            setBackground(index, Properties.Resources.slotDel);
             int offset = Main.SAV.WondercardData + index * 0x108;
             byte[] zeros = new byte[0x108];
             Array.Copy(zeros, 0, sav, offset, 0x108);
