@@ -402,6 +402,7 @@ namespace PKHeX
             if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
 
             int index = Array.FindIndex(pba, p => p.Name == (sender as PictureBox).Name);
+            wc_slot = index;
             // Create Temp File to Drag
             Cursor.Current = Cursors.Hand;
 
@@ -420,6 +421,7 @@ namespace PKHeX
             catch (ArgumentException x)
             { Util.Error("Drag & Drop Error:", x.ToString()); }
             File.Delete(newfile);
+            wc_slot = -1;
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
@@ -431,18 +433,32 @@ namespace PKHeX
                 index = lastUnfilled;
 
             // Check for In-Dropped files (PKX,SAV,ETC)
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (files.Length < 1 || new FileInfo(files[0]).Length != WC6.Size)
-                return;
+            if (wc_slot == -1)
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            byte[] wcdata = File.ReadAllBytes(files[0]);
-            wcdata.CopyTo(sav, Main.SAV.WondercardData + WC6.Size * index);
-            populateWClist();
+                if (files.Length < 1 || new FileInfo(files[0]).Length != WC6.Size)
+                    return;
+
+                byte[] wcdata = File.ReadAllBytes(files[0]);
+                wcdata.CopyTo(sav, Main.SAV.WondercardData + WC6.Size * index);
+                wcdata.CopyTo(wondercard_data, 0);
+                loadwcdata();
+                setCardID(BitConverter.ToUInt16(wcdata, 0));
+            }
+            else // Swap Data
+            {
+                // Check to see if they copied beyond blank slots.
+                if (index > Math.Max(wc_slot, lastUnfilled - 1))
+                    index = Math.Max(wc_slot, lastUnfilled - 1);
+                byte[] s1 = sav.Skip(Main.SAV.WondercardData + WC6.Size * index).Take(WC6.Size).ToArray();
+                byte[] s2 = sav.Skip(Main.SAV.WondercardData + WC6.Size * wc_slot).Take(WC6.Size).ToArray();
+                s1.CopyTo(sav, Main.SAV.WondercardData + WC6.Size * wc_slot);
+                s2.CopyTo(sav, Main.SAV.WondercardData + WC6.Size * index);
+            }
             setBackground(index, Properties.Resources.slotView);
-            Array.Copy(wcdata, wondercard_data, wcdata.Length);
-            loadwcdata();
-            setCardID(BitConverter.ToUInt16(wcdata, 0));
+            populateWClist();
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
         {
@@ -451,5 +467,6 @@ namespace PKHeX
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
         }
+        private int wc_slot = -1;
     }
 }
