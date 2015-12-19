@@ -105,7 +105,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(347, 277);
+            this.B_Save.Location = new System.Drawing.Point(347, 252);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 0;
@@ -116,7 +116,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(276, 277);
+            this.B_Cancel.Location = new System.Drawing.Point(276, 252);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(71, 23);
             this.B_Cancel.TabIndex = 1;
@@ -137,9 +137,10 @@
             // 
             // B_Import
             // 
-            this.B_Import.Location = new System.Drawing.Point(120, 12);
+            this.B_Import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Import.Location = new System.Drawing.Point(347, 34);
             this.B_Import.Name = "B_Import";
-            this.B_Import.Size = new System.Drawing.Size(71, 23);
+            this.B_Import.Size = new System.Drawing.Size(75, 23);
             this.B_Import.TabIndex = 3;
             this.B_Import.Text = "Import .wc6";
             this.B_Import.UseVisualStyleBackColor = true;
@@ -160,7 +161,7 @@
             this.LB_Received.FormattingEnabled = true;
             this.LB_Received.Location = new System.Drawing.Point(12, 194);
             this.LB_Received.Name = "LB_Received";
-            this.LB_Received.Size = new System.Drawing.Size(78, 95);
+            this.LB_Received.Size = new System.Drawing.Size(78, 82);
             this.LB_Received.Sorted = true;
             this.LB_Received.TabIndex = 5;
             // 
@@ -236,7 +237,7 @@
             // B_DeleteFlag
             // 
             this.B_DeleteFlag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_DeleteFlag.Location = new System.Drawing.Point(96, 247);
+            this.B_DeleteFlag.Location = new System.Drawing.Point(96, 252);
             this.B_DeleteFlag.Name = "B_DeleteFlag";
             this.B_DeleteFlag.Size = new System.Drawing.Size(18, 24);
             this.B_DeleteFlag.TabIndex = 13;
@@ -270,7 +271,7 @@
             this.PB_Card01.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card01.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card01.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card01.Location = new System.Drawing.Point(128, 122);
+            this.PB_Card01.Location = new System.Drawing.Point(147, 122);
             this.PB_Card01.Name = "PB_Card01";
             this.PB_Card01.Size = new System.Drawing.Size(42, 32);
             this.PB_Card01.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -314,7 +315,7 @@
             this.PB_Card02.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card02.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card02.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card02.Location = new System.Drawing.Point(176, 122);
+            this.PB_Card02.Location = new System.Drawing.Point(188, 122);
             this.PB_Card02.Name = "PB_Card02";
             this.PB_Card02.Size = new System.Drawing.Size(42, 32);
             this.PB_Card02.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -328,7 +329,7 @@
             this.PB_Card03.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card03.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card03.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card03.Location = new System.Drawing.Point(224, 122);
+            this.PB_Card03.Location = new System.Drawing.Point(229, 122);
             this.PB_Card03.Name = "PB_Card03";
             this.PB_Card03.Size = new System.Drawing.Size(42, 32);
             this.PB_Card03.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -342,7 +343,7 @@
             this.PB_Card04.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card04.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card04.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card04.Location = new System.Drawing.Point(272, 122);
+            this.PB_Card04.Location = new System.Drawing.Point(270, 122);
             this.PB_Card04.Name = "PB_Card04";
             this.PB_Card04.Size = new System.Drawing.Size(42, 32);
             this.PB_Card04.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -356,7 +357,7 @@
             this.PB_Card05.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card05.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card05.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card05.Location = new System.Drawing.Point(320, 122);
+            this.PB_Card05.Location = new System.Drawing.Point(311, 122);
             this.PB_Card05.Name = "PB_Card05";
             this.PB_Card05.Size = new System.Drawing.Size(42, 32);
             this.PB_Card05.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -370,7 +371,7 @@
             this.PB_Card06.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card06.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card06.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card06.Location = new System.Drawing.Point(368, 122);
+            this.PB_Card06.Location = new System.Drawing.Point(352, 122);
             this.PB_Card06.Name = "PB_Card06";
             this.PB_Card06.Size = new System.Drawing.Size(42, 32);
             this.PB_Card06.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -384,7 +385,7 @@
             this.PB_Card12.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card12.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card12.Location = new System.Drawing.Point(368, 160);
+            this.PB_Card12.Location = new System.Drawing.Point(352, 153);
             this.PB_Card12.Name = "PB_Card12";
             this.PB_Card12.Size = new System.Drawing.Size(42, 32);
             this.PB_Card12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -398,7 +399,7 @@
             this.PB_Card11.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card11.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card11.Location = new System.Drawing.Point(320, 160);
+            this.PB_Card11.Location = new System.Drawing.Point(311, 153);
             this.PB_Card11.Name = "PB_Card11";
             this.PB_Card11.Size = new System.Drawing.Size(42, 32);
             this.PB_Card11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -412,7 +413,7 @@
             this.PB_Card10.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card10.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card10.Location = new System.Drawing.Point(272, 160);
+            this.PB_Card10.Location = new System.Drawing.Point(270, 153);
             this.PB_Card10.Name = "PB_Card10";
             this.PB_Card10.Size = new System.Drawing.Size(42, 32);
             this.PB_Card10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -426,7 +427,7 @@
             this.PB_Card09.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card09.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card09.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card09.Location = new System.Drawing.Point(224, 160);
+            this.PB_Card09.Location = new System.Drawing.Point(229, 153);
             this.PB_Card09.Name = "PB_Card09";
             this.PB_Card09.Size = new System.Drawing.Size(42, 32);
             this.PB_Card09.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -440,7 +441,7 @@
             this.PB_Card08.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card08.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card08.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card08.Location = new System.Drawing.Point(176, 160);
+            this.PB_Card08.Location = new System.Drawing.Point(188, 153);
             this.PB_Card08.Name = "PB_Card08";
             this.PB_Card08.Size = new System.Drawing.Size(42, 32);
             this.PB_Card08.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -454,7 +455,7 @@
             this.PB_Card07.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card07.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card07.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card07.Location = new System.Drawing.Point(128, 160);
+            this.PB_Card07.Location = new System.Drawing.Point(147, 153);
             this.PB_Card07.Name = "PB_Card07";
             this.PB_Card07.Size = new System.Drawing.Size(42, 32);
             this.PB_Card07.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -468,7 +469,7 @@
             this.PB_Card18.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card18.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card18.Location = new System.Drawing.Point(368, 198);
+            this.PB_Card18.Location = new System.Drawing.Point(352, 184);
             this.PB_Card18.Name = "PB_Card18";
             this.PB_Card18.Size = new System.Drawing.Size(42, 32);
             this.PB_Card18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -482,7 +483,7 @@
             this.PB_Card17.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card17.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card17.Location = new System.Drawing.Point(320, 198);
+            this.PB_Card17.Location = new System.Drawing.Point(311, 184);
             this.PB_Card17.Name = "PB_Card17";
             this.PB_Card17.Size = new System.Drawing.Size(42, 32);
             this.PB_Card17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -496,7 +497,7 @@
             this.PB_Card16.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card16.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card16.Location = new System.Drawing.Point(272, 198);
+            this.PB_Card16.Location = new System.Drawing.Point(270, 184);
             this.PB_Card16.Name = "PB_Card16";
             this.PB_Card16.Size = new System.Drawing.Size(42, 32);
             this.PB_Card16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -510,7 +511,7 @@
             this.PB_Card15.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card15.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card15.Location = new System.Drawing.Point(224, 198);
+            this.PB_Card15.Location = new System.Drawing.Point(229, 184);
             this.PB_Card15.Name = "PB_Card15";
             this.PB_Card15.Size = new System.Drawing.Size(42, 32);
             this.PB_Card15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -524,7 +525,7 @@
             this.PB_Card14.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card14.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card14.Location = new System.Drawing.Point(176, 198);
+            this.PB_Card14.Location = new System.Drawing.Point(188, 184);
             this.PB_Card14.Name = "PB_Card14";
             this.PB_Card14.Size = new System.Drawing.Size(42, 32);
             this.PB_Card14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -538,7 +539,7 @@
             this.PB_Card13.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card13.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card13.Location = new System.Drawing.Point(128, 198);
+            this.PB_Card13.Location = new System.Drawing.Point(147, 184);
             this.PB_Card13.Name = "PB_Card13";
             this.PB_Card13.Size = new System.Drawing.Size(42, 32);
             this.PB_Card13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -552,7 +553,7 @@
             this.PB_Card24.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card24.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card24.Location = new System.Drawing.Point(368, 236);
+            this.PB_Card24.Location = new System.Drawing.Point(352, 215);
             this.PB_Card24.Name = "PB_Card24";
             this.PB_Card24.Size = new System.Drawing.Size(42, 32);
             this.PB_Card24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -566,7 +567,7 @@
             this.PB_Card23.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card23.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card23.Location = new System.Drawing.Point(320, 236);
+            this.PB_Card23.Location = new System.Drawing.Point(311, 215);
             this.PB_Card23.Name = "PB_Card23";
             this.PB_Card23.Size = new System.Drawing.Size(42, 32);
             this.PB_Card23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -580,7 +581,7 @@
             this.PB_Card22.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card22.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card22.Location = new System.Drawing.Point(272, 236);
+            this.PB_Card22.Location = new System.Drawing.Point(270, 215);
             this.PB_Card22.Name = "PB_Card22";
             this.PB_Card22.Size = new System.Drawing.Size(42, 32);
             this.PB_Card22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -594,7 +595,7 @@
             this.PB_Card21.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card21.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card21.Location = new System.Drawing.Point(224, 236);
+            this.PB_Card21.Location = new System.Drawing.Point(229, 215);
             this.PB_Card21.Name = "PB_Card21";
             this.PB_Card21.Size = new System.Drawing.Size(42, 32);
             this.PB_Card21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -608,7 +609,7 @@
             this.PB_Card20.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card20.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card20.Location = new System.Drawing.Point(176, 236);
+            this.PB_Card20.Location = new System.Drawing.Point(188, 215);
             this.PB_Card20.Name = "PB_Card20";
             this.PB_Card20.Size = new System.Drawing.Size(42, 32);
             this.PB_Card20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -622,7 +623,7 @@
             this.PB_Card19.BackColor = System.Drawing.Color.Transparent;
             this.PB_Card19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_Card19.ContextMenuStrip = this.mnuVSD;
-            this.PB_Card19.Location = new System.Drawing.Point(128, 236);
+            this.PB_Card19.Location = new System.Drawing.Point(147, 215);
             this.PB_Card19.Name = "PB_Card19";
             this.PB_Card19.Size = new System.Drawing.Size(42, 32);
             this.PB_Card19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -635,7 +636,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 312);
+            this.ClientSize = new System.Drawing.Size(434, 287);
             this.Controls.Add(this.PB_Card24);
             this.Controls.Add(this.PB_Card23);
             this.Controls.Add(this.PB_Card22);
@@ -680,7 +681,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(700, 500);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(450, 350);
+            this.MinimumSize = new System.Drawing.Size(450, 325);
             this.Name = "SAV_Wondercard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wonder Card I/O";
