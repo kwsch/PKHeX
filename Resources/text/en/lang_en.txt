@@ -727,13 +727,8 @@ cb8 = 8 - Iceberg
 ! SAV_Wondercard = Wonder Card I/O
 - Change stuff below this line, not above.
 -------------------------------------------------------
-B_DeleteFlag = X
-B_DeleteWC = X
 L_Details = Details:
-B_DisplaytoWCSlot = <
-B_WCSlottoDisplay = >
 L_Received = Received List:
-L_WCs = Wonder Cards:
 B_Import = Import .wc6
 B_Output = Output .wc6
 B_Cancel = Cancel
