@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using PKHeX.Properties;
 
 namespace PKHeX
 {
@@ -107,6 +107,7 @@ namespace PKHeX
         private List<PK6> Results;
         private List<PK6> RawDB;
         private int slotSelected = -1; // = null;
+        private Image slotColor;
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private string Counter;
@@ -127,6 +128,7 @@ namespace PKHeX
             {
                 m_parent.populateFields(dataArr[index].Data, false);
                 slotSelected = index + SCR_Box.Value * RES_MIN;
+                slotColor = Properties.Resources.slotView;
                 FillPKXBoxes(SCR_Box.Value);
                 L_Viewed.Text = String.Format(Viewed, dataArr[index].Identifier);
             }
@@ -177,6 +179,7 @@ namespace PKHeX
                 Results.Remove(pk);
                 // Refresh database view.
                 L_Count.Text = String.Format(Counter, Results.Count);
+                slotSelected = -1;
                 FillPKXBoxes(SCR_Box.Value);
                 System.Media.SystemSounds.Asterisk.Play();
             }
@@ -202,14 +205,23 @@ namespace PKHeX
             File.WriteAllBytes(path, pk.Data.Take(PK6.SIZE_STORED).ToArray());
             pk.Identifier = path;
 
+            int pre = RawDB.Count;
             RawDB.Add(pk);
             RawDB = new List<PK6>(RawDB.Distinct()); // just in case
+            int post = RawDB.Count;
+            if (pre == post)
+            { Util.Alert("Pokémon already exists in database."); return; }
             Results.Add(pk);
-            Results = new List<PK6>(Results.Distinct()); // just in case
+
             // Refresh database view.
             L_Count.Text = String.Format(Counter, Results.Count);
+            slotSelected = Results.Count - 1;
+            slotColor = Properties.Resources.slotSet;
+            if ((SCR_Box.Maximum+1)*6 < Results.Count)
+                SCR_Box.Maximum += 1;
+            SCR_Box.Value = Math.Max(1, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
             FillPKXBoxes(SCR_Box.Value);
-            Util.Alert("Added Pokémon from tabs to database.", "Please refresh the search to ensure it shows up; it may be at the bottom of the results.");
+            Util.Alert("Added Pokémon from tabs to database.");
         }
         private void populateComboBoxes()
         {
@@ -556,9 +568,9 @@ namespace PKHeX
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)
-                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = Resources.slotView;
+                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = slotColor ?? Properties.Resources.slotView;
         }
 
         // Misc Update Methods
