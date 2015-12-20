@@ -219,7 +219,7 @@ namespace PKHeX
             slotColor = Properties.Resources.slotSet;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
                 SCR_Box.Maximum += 1;
-            SCR_Box.Value = Math.Max(1, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
+            SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
             FillPKXBoxes(SCR_Box.Value);
             Util.Alert("Added Pokémon from tabs to database.");
         }
