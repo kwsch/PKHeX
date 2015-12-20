@@ -1354,7 +1354,7 @@ namespace PKHeX
                     return "";
 
                 // First Line: Name, Nickname, Gender, Item
-                string result = String.Format(((species[Species] != Nickname) ? "{0} " : "") + "{1}", Nickname, 
+                string result = String.Format(((species[Species] != Nickname) ? "{0} ({1})" : "{1}"), Nickname,
                     species[Species] + ((Form ?? "") != "" ? "-" + Form : "")) // Species (& Form if necessary)
                                 + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
