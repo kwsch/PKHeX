@@ -36,7 +36,7 @@ namespace PKHeX
             DragEnter += tabMain_DragEnter;
             DragDrop += tabMain_DragDrop;
 
-            if (wcdata == null || wcdata.Length != 0x108)
+            if (wcdata == null || wcdata.Length != WC6.Size)
             { 
                 // No data to load, load first wc
                 clickView(pba[0], null);
@@ -47,7 +47,7 @@ namespace PKHeX
             loadwcdata();
         }
         public byte[] sav;
-        public byte[] wondercard_data = new byte[0x108];
+        public byte[] wondercard_data = new byte[WC6.Size];
         private const uint EonTicketConst = 0x225D73C2;
         private PictureBox[] pba;
 
@@ -76,7 +76,7 @@ namespace PKHeX
             removeEmptyWC6s();
             for (int i = 0; i < 24; i++)
             {
-                int offset = Main.SAV.WondercardData + i * 0x108;
+                int offset = Main.SAV.WondercardData + i * WC6.Size;
                 int cardID = BitConverter.ToUInt16(sav, offset);
                 pba[i].Image = cardID == 0 ? null : getWCPreviewImage(sav.Skip(Main.SAV.WondercardData + WC6.Size * i).Take(WC6.Size).ToArray());
             }
@@ -101,7 +101,7 @@ namespace PKHeX
             catch (Exception e)
             {
                 Util.Error("Loading of data failed... is this really a Wonder Card?", e.ToString());
-                Array.Copy(new byte[0x108], wondercard_data, 0x108);
+                Array.Copy(new byte[WC6.Size], wondercard_data, WC6.Size);
                 RTB.Clear();
             }
         }
@@ -131,7 +131,7 @@ namespace PKHeX
             if (importwc6.ShowDialog() != DialogResult.OK) return;
 
             string path = importwc6.FileName;
-            if (new FileInfo(path).Length != 0x108)
+            if (new FileInfo(path).Length != WC6.Size)
             {
                 Util.Error("File is not a Wonder Card:", path);
                 return;
@@ -167,10 +167,12 @@ namespace PKHeX
             string name = (sender is ToolStripItem)
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
+
             int index = Array.FindIndex(pba, p => p.Name == name);
+
             setBackground(index, Properties.Resources.slotView);
-            int offset = Main.SAV.WondercardData + index * 0x108;
-            Array.Copy(sav, offset, wondercard_data, 0, 0x108);
+            int offset = Main.SAV.WondercardData + index * WC6.Size;
+            Array.Copy(sav, offset, wondercard_data, 0, WC6.Size);
             loadwcdata();
         }
         private void clickSet(object sender, EventArgs e)
@@ -178,14 +180,20 @@ namespace PKHeX
             string name = (sender is ToolStripItem)
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
+
             int index = Array.FindIndex(pba, p => p.Name == name);
+            // Hijack to the latest unfilled slot if index creates interstitial empty slots.
+            int lastUnfilled = Array.FindIndex(pba, p => p.Image == null);
+            if (lastUnfilled < index)
+                index = lastUnfilled;
+
             setBackground(index, Properties.Resources.slotSet);
-            int offset = Main.SAV.WondercardData + index * 0x108;
+            int offset = Main.SAV.WondercardData + index * WC6.Size;
             if (Main.SAV.ORAS) // ORAS Only
                 if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
                     if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
                         BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket);
-            Array.Copy(wondercard_data, 0, sav, offset, 0x108);
+            Array.Copy(wondercard_data, 0, sav, offset, WC6.Size);
             populateWClist();
             setCardID(BitConverter.ToUInt16(wondercard_data, 0));
 
@@ -195,11 +203,12 @@ namespace PKHeX
             string name = (sender is ToolStripItem)
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
-            int index = Array.FindIndex(pba, p => p.Name == name);
-            setBackground(index, Properties.Resources.slotDel);
-            int offset = Main.SAV.WondercardData + index * 0x108;
 
-            new byte[0x108].CopyTo(sav, offset);
+            int index = Array.FindIndex(pba, p => p.Name == name);
+
+            setBackground(index, Properties.Resources.slotDel);
+            int offset = Main.SAV.WondercardData + index * WC6.Size;
+            new byte[WC6.Size].CopyTo(sav, offset);
             populateWClist();
         }
 
@@ -225,9 +234,9 @@ namespace PKHeX
             // Make sure there's no space between wondercards
             {
                 for (int i = 0; i < 24; i++)
-                    if (BitConverter.ToUInt16(sav, offset + i * 0x108) == 0)
+                    if (BitConverter.ToUInt16(sav, offset + i * WC6.Size) == 0)
                         for (int j = i + 1; j < 24 - i; j++) // Shift everything down
-                            Array.Copy(sav, offset + j * 0x108, sav, offset + (j - 1) * 0x108, 0x108);
+                            Array.Copy(sav, offset + j * WC6.Size, sav, offset + (j - 1) * WC6.Size, WC6.Size);
             }
 
             Array.Copy(sav, Main.SAV.Data, sav.Length);
@@ -261,7 +270,7 @@ namespace PKHeX
             if (files.Length == 1)
             {
                 string path = files[0]; // open first D&D
-                if (new FileInfo(path).Length != 0x108)
+                if (new FileInfo(path).Length != WC6.Size)
                 {
                     Util.Error("File is not a Wonder Card:", path);
                     return;
@@ -274,7 +283,7 @@ namespace PKHeX
             {
                 foreach (string file in files)
                 {
-                    if (new FileInfo(file).Length != 0x108)
+                    if (new FileInfo(file).Length != WC6.Size)
                     { Util.Error("File is not a Wonder Card:", file); continue; }
 
                     // Load in WC
@@ -353,7 +362,7 @@ namespace PKHeX
             {
                 byte[] wc = Util.getQRData();
 
-                if (wc.Length != 0x108) { Util.Alert("Decoded data not 0x108 bytes.", String.Format("QR Data Size: 0x{0}", wc.Length.ToString("X"))); }
+                if (wc.Length != WC6.Size) { Util.Alert("Decoded data not 0x108 bytes.", String.Format("QR Data Size: 0x{0}", wc.Length.ToString("X"))); }
                 else try
                     {
                         Array.Copy(wc, wondercard_data, wc.Length);
@@ -370,7 +379,7 @@ namespace PKHeX
                 // Prep data
                 byte[] wcdata = wondercard_data;
                 // Ensure size
-                Array.Resize(ref wcdata, 0x108);
+                Array.Resize(ref wcdata, WC6.Size);
                 // Setup QR
                 const string server = "http://lunarcookies.github.io/wc.html#";
                 Image qr = Util.getQRImage(wcdata, server);
