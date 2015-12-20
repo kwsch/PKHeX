@@ -1361,10 +1361,11 @@ namespace PKHeX
                 // IVs
                 string[] ivstr = new string[6];
                 int ivctr = 0;
+                int[] sIVs = { IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3] }; // Reorganize speed
                 for (int i = 0; i < 6; i++)
                 {
-                    if (IVs[i] == 31) continue;
-                    ivstr[ivctr++] += String.Format("{0} {1}", IVs[i], StatNames[i]);
+                    if (sIVs[i] == 31) continue;
+                    ivstr[ivctr++] += String.Format("{0} {1}", sIVs[i], StatNames[i]);
                 }
                 if (ivctr > 0)
                 result += "IVs: " + string.Join(" / ", ivstr.Take(ivctr)) + Environment.NewLine;
