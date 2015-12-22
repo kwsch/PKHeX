@@ -70,11 +70,11 @@ namespace PKHeX
             dataGridView1.Columns.Add(dgvItemVal);
             dataGridView1.Columns.Add(dgvIndex);
 
-            dataGridView1.Rows.Add(itemcount > 0 ? itemcount : itemarr.Length - 1);
+            dataGridView1.Rows.Add(itemcount > 0 ? itemcount : itemarr.Length);
             dataGridView1.CancelEdit();
 
             string itemname = "";
-            for (int i = 0; i < itemcount; i++)
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 int itemvalue = BitConverter.ToUInt16(sav, offset + i*4);
                 try { itemname = Main.itemlist[itemvalue]; }

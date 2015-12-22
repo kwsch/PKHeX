@@ -564,7 +564,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Main Menu Open and Export Save will now navigate to the root of the 3DS's SD card (if it is inserted) and no SDF files are found. Thanks Odaxis!
  - Fixed: Importing Trade Packets (from Nov'13-Dec'13) will now actually load the data.
 
-12/20/15 - New Update:
+12/20/15 - New Update: (1000)
  - Added: Wonder Cards can now be converted into pk6 files. Drop/Open the wc6 and the Wonder Card will be loaded to tabs.
  - Added: Wonder Card I/O will now preview all contents as if it was a box of Pokémon to show all Wonder Cards at once.
  - Added: Database Viewer to search for Pokémon within your save file or database folder. Access via the Tools tab.
@@ -590,3 +590,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Removing party members will now behave properly.
  - Fixed: Setting to party with empty slots above will now behave properly.
  - Fixed: Various refactoring bugs. Thanks Odaxis, RustInPeace, MilesPikachu, Wanderer1391, suloku, and SciresM!
+ - Hotfixed: Showdown Export bugs (IVs/Nickname). Thanks sora10pls and Favna!
+
+12/22/15 - New Update:
+ - Fixed: Inventory Editor errors. Thanks TheRicardoToddy!
