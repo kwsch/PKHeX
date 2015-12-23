@@ -592,5 +592,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Various refactoring bugs. Thanks Odaxis, RustInPeace, MilesPikachu, Wanderer1391, suloku, and SciresM!
  - Hotfixed: Showdown Export bugs (IVs/Nickname). Thanks sora10pls and Favna!
 
-12/22/15 - New Update:
+12/22/15 - New Update: (1170)
  - Fixed: Inventory Editor errors. Thanks TheRicardoToddy!
+ - Fixed: Trainer Editor errors. Thanks eonrocket!
+ - Fixed: FlagDiff errors. Thanks lomejor18!
