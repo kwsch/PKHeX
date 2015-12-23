@@ -73,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Misc\Legal.cs" />
+    <Compile Include="Misc\PGF.cs" />
+    <Compile Include="Misc\PK5.cs" />
     <Compile Include="Misc\PK6.cs" />
     <Compile Include="Misc\QR.cs">
       <SubType>Form</SubType>

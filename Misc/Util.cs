@@ -179,6 +179,11 @@ namespace PKHeX
             int index = input.IndexOf('\0');
             return index < 0 ? input : input.Substring(0, index);
         }
+        internal static string TrimFromFFFF(string input)
+        {
+            int index = input.IndexOf((char)0xFFFF);
+            return index < 0 ? input : input.Substring(0, index);
+        }
         internal static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
