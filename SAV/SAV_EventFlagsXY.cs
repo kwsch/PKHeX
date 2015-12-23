@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -171,21 +172,15 @@ namespace PKHeX
         private void loadSAV(object sender, string path)
         {
             FileInfo fi = new FileInfo(path);
-            byte[] eventflags = new byte[0x180];
-            switch (fi.Length)
+            byte[] eventflags;
+            if (fi.Length == SAV6.SIZE_XY)
+                eventflags = File.ReadAllBytes(path).Skip(Main.SAV.EventFlag).Take(0x180).ToArray();
+            else if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x70000)
+                eventflags = ram2sav.getMAIN(File.ReadAllBytes(path)).Skip(Main.SAV.EventFlag).Take(0x180).ToArray();
+            else
             {
-                case 0x100000: // ramsav
-                    Array.Copy(File.ReadAllBytes(path), Main.SAV.EventFlag, eventflags, 0, 0x180);
-                    break;
-                case 0x76000: // oras main
-                    Array.Copy(File.ReadAllBytes(path), Main.SAV.EventFlag, eventflags, 0, 0x180);
-                    break;
-                default: // figure it out
-                    if (fi.Name.ToLower().Contains("ram") && fi.Length == 0x80000)
-                        Array.Copy(ram2sav.getMAIN(File.ReadAllBytes(path)), Main.SAV.EventFlag, eventflags, 0, 0x180);
-                    else
-                    { Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length, fi.Length.ToString("X5")), "File Loaded: " + path); return; }
-                    break;
+                Util.Error("Invalid SAV Size", String.Format("File Size: 0x{1} ({0} bytes)", fi.Length, fi.Length.ToString("X5")), "File Loaded: " + path);
+                return;
             }
 
             Button bs = (Button)sender;
