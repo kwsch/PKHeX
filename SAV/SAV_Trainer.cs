@@ -579,7 +579,7 @@ namespace PKHeX
         private void changeStat(object sender, EventArgs e)
         {
             editing = true;
-            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2));
+            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
             MT_Stat.Text = SAV.getPSSStat(offset/4).ToString();
             L_Offset.Text = "0x" + offset.ToString("X3");
             editing = false;
