@@ -423,6 +423,7 @@ namespace PKHeX
         public bool IsShiny { get { return TSV == PSV; } }
         public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
         public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
+        public bool IsUntradedEvent6 { get { return Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6; } }
         public bool Gen6 { get { return Version >= 24 && Version <= 29; } }
         public bool Gen5 { get { return Version >= 20 && Version <= 23; } }
         public bool Gen4 { get { return (Version >= 10 && Version < 12) || (Version >= 7 && Version <= 8); } }
@@ -602,9 +603,9 @@ namespace PKHeX
                 Geo1_Region = Geo2_Region;
                 Geo2_Country = Geo2_Region = 0;
             }
-            if (Geo1_Country == 0 /* && IsEgg (which is always true) */)
+            if (Geo1_Country == 0 && !IsUntradedEvent6)
             {
-                // Non-Eggs need to have a current location.
+                // Non-Eggs/Events need to have a current location.
                 Geo1_Country = Country;
                 Geo1_Region = Region;
             }
@@ -634,7 +635,7 @@ namespace PKHeX
         }
         private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
-            if (SAV_Trainer != HT_Name || SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region || SAV_GENDER != HT_Gender)
+            if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
                 TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             CurrentHandler = 1;

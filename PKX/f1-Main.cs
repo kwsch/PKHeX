@@ -48,7 +48,7 @@ namespace PKHeX
 
             // Initialize Boxes
             for (int i = 0; i < 30*31; i++)
-                SAV.setEK6Stored(blankEK6, SAV.Box + i*PK6.SIZE_STORED);
+                SAV.setData(blankEK6, SAV.Box + i*PK6.SIZE_STORED);
 
             // Set up Language Selection
             foreach (var cbItem in main_langlist)
@@ -2325,7 +2325,8 @@ namespace PKHeX
                 Util.Alert("Pokémon has no moves!");
 
             // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer (none for eggs)
-            pk6.FixMemories();
+            if (Menu_ModifyPK6.Checked)
+                pk6.FixMemories();
 
             // PKX is now filled
             return pk6.Write();
@@ -2908,7 +2909,7 @@ namespace PKHeX
             if (dr == DialogResult.Yes)
             {
                 for (int i = ctr; i < 30 * 31; i++)
-                    SAV.setEK6Stored(blankEK6, offset + i * PK6.SIZE_STORED);
+                    SAV.setData(blankEK6, offset + i * PK6.SIZE_STORED);
             }
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
 
