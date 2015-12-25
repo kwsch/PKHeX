@@ -16,8 +16,10 @@ namespace PKHeX
         public ushort TID { get { return BitConverter.ToUInt16(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
         public ushort SID { get { return BitConverter.ToUInt16(Data, 0x02); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x02); } }
         public int OriginGame { get { return Data[0x04]; } set { Data[0x04] = (byte)value; } }
+        // Unused 0x05 0x06, 0x07
+        public uint PID { get { return BitConverter.ToUInt32(Data, 0x08); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x08); } }
 
-        private byte RIB0 { get { return Data[0x74]; } set { Data[0x74] = value; } }
+        private byte RIB0 { get { return Data[0x0C]; } set { Data[0x0C] = value; } }
         public bool RIB0_0 { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Country Ribbon
         public bool RIB0_1 { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } } // National Ribbon
         public bool RIB0_2 { get { return (RIB0 & (1 << 2)) == 1 << 2; } set { RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Earth Ribbon
@@ -26,7 +28,7 @@ namespace PKHeX
         public bool RIB0_5 { get { return (RIB0 & (1 << 5)) == 1 << 5; } set { RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // Premier Ribbon
         public bool RIB0_6 { get { return (RIB0 & (1 << 6)) == 1 << 6; } set { RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Event Ribbon
         public bool RIB0_7 { get { return (RIB0 & (1 << 7)) == 1 << 7; } set { RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Birthday Ribbon
-        private byte RIB1 { get { return Data[0x75]; } set { Data[0x75] = value; } }
+        private byte RIB1 { get { return Data[0x0D]; } set { Data[0x0D] = value; } }
         public bool RIB1_0 { get { return (RIB1 & (1 << 0)) == 1 << 0; } set { RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Special Ribbon
         public bool RIB1_1 { get { return (RIB1 & (1 << 1)) == 1 << 1; } set { RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } } // Souvenir Ribbon
         public bool RIB1_2 { get { return (RIB1 & (1 << 2)) == 1 << 2; } set { RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Wishing Ribbon
@@ -36,9 +38,6 @@ namespace PKHeX
         public bool RIB1_6 { get { return (RIB1 & (1 << 6)) == 1 << 6; } set { RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // World Champ Ribbon
         public bool RIB1_7 { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Empty
 
-        public uint PID { get { return BitConverter.ToUInt32(Data, 0x08); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x08); } }
-        // Ribbons1
-        // Ribbons2
         public int Pokéball { get { return Data[0x0E]; } set { Data[0x0E] = (byte)value; } }
         public int HeldItem { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
         public int Move1 { get { return BitConverter.ToUInt16(Data, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x12); } }
@@ -120,13 +119,18 @@ namespace PKHeX
             if (!IsPokémon)
                 return null;
 
+            DateTime dt = DateTime.Now;
+            if (Day == 0)
+            {
+                Day = (byte)dt.Day;
+                Month = (byte)dt.Month;
+                Year = (byte)dt.Year;
+            }
             int currentLevel = Level > 0 ? Level : (int)(Util.rnd32() % 100 + 1);
             PK5 pk = new PK5
             {
                 Species = Species,
                 HeldItem = HeldItem,
-                TID = TID,
-                SID = SID,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
                 Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PKX.Personal[Species].RandomGender),
@@ -154,21 +158,42 @@ namespace PKHeX
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                OT_Name = OT.Length > 0 ? OT : "PKHeX",
-                OT_Gender = OTGender != 3 ? OTGender % 2 : 1,
-
                 EXP = PKX.getEXP(Level, Species),
 
                 // Ribbons
-                // TBD
+                RIB7_4 = RIB0_0, // Country Ribbon
+                RIB7_5 = RIB0_1, // National Ribbon
+                RIB7_6 = RIB0_2, // Earth Ribbon
+                RIB7_7 = RIB0_3, // World Ribbon
+                RIB3_2 = RIB0_4, // Classic Ribbon
+                RIB3_3 = RIB0_5, // Premier Ribbon
+                RIB2_3 = RIB0_6, // Event Ribbon
+                RIB2_6 = RIB0_7, // Birthday Ribbon
+
+                RIB2_7 = RIB1_0, // Special Ribbon
+                RIB3_0 = RIB1_1, // Souvenir Ribbon
+                RIB3_1 = RIB1_2, // Wishing Ribbon
+                RIB7_1 = RIB1_3, // Battle Champ Ribbon
+                RIB7_2 = RIB1_4, // Regional Champ Ribbon
+                RIB7_3 = RIB1_5, // National Champ Ribbon
+                RIB2_5 = RIB1_6, // World Champ Ribbon
 
                 Friendship = PKX.getBaseFriendship(Species),
                 FatefulEncounter = true,
             };
             if (OTGender == 3) // User's
             {
-                TID = 12345;
-                SID = 54321;
+                pk.TID = 12345;
+                pk.SID = 54321;
+                pk.OT_Name = "PKHeX";
+                pk.OT_Gender = 1; // Red PKHeX OT
+            }
+            else
+            {
+                pk.TID = TID;
+                pk.SID = SID;
+                pk.OT_Name = OT.Length > 0 ? OT : "PKHeX";
+                pk.OT_Gender = OTGender % 2; // %2 just in case?
             }
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
@@ -176,9 +201,10 @@ namespace PKHeX
             // More 'complex' logic to determine final values
 
             // Dumb way to generate random IVs.
+            int[] finalIVs = new int[6];
             for (int i = 0; i < IVs.Length; i++)
-                if (IVs[i] == 0xFF) IVs[i] = (int)(Util.rnd32() & 0x1F);
-            pk.IVs = IVs;
+                finalIVs[i] = (IVs[i] == 0xFF) ? (int)(Util.rnd32() & 0x1F) : IVs[i];
+            pk.IVs = finalIVs;
 
             int av = 0;
             switch (AbilityType)
@@ -216,10 +242,13 @@ namespace PKHeX
 
             if (IsEgg)
             {
-                pk.IsEgg = true;
+                // pk.IsEgg = true;
                 pk.Egg_Day = Day;
                 pk.Egg_Month = Month;
-                pk.Egg_Year = Year;
+                pk.Egg_Year = Year - 2000;
+                // Force hatch
+                pk.IsEgg = false;
+                pk.Met_Location = 4; // Nuvema Town
             }
 
             pk.RefreshChecksum();
