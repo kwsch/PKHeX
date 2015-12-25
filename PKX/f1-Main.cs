@@ -594,7 +594,7 @@ namespace PKHeX
             }
             #endregion
             #region Wondercard
-            else if (input.Length == 0x108 && ext == ".wc6")
+            else if (input.Length == WC6.Size && ext == ".wc6")
                 if (ModifierKeys == Keys.Control)
                     new SAV_Wondercard(input).Show();
                 else
@@ -608,6 +608,17 @@ namespace PKHeX
                     }
                     populateFields(pk.Data);
                 }
+            else if (input.Length == PGF.Size && ext == ".pgf")
+            {
+                PK5 pk = new PGF(input).convertToPK5(SAV);
+                if (pk == null || pk.Species == 0 || pk.Species > 721)
+                {
+                    Util.Error("Failed to convert PGF.",
+                        (pk == null ? "Not a Pokémon PGF." : "Invalid species."));
+                    return;
+                }
+                populateFields(Converter.ConvertPKM(pk.Data));
+            }
             #endregion
             else
                 Util.Error("Attempted to load an unsupported file type/size.", 
