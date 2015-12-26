@@ -1534,7 +1534,7 @@ namespace PKHeX
                         case 0: // Male
                             return 0;
                         default:
-                            return (int)Util.rnd32()%2;
+                            return (int)(Util.rnd32()%2);
                     }
                 }
             }
