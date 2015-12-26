@@ -223,20 +223,31 @@ namespace PKHeX
                 pk.HiddenAbility = true;
             pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
 
-            switch (PIDType)
+            if (PID != 0) pk.PID = PID;
+            else switch (PIDType)
             {
-                case 00: // Specified
-                    if (PID == 0)
-                        do { pk.PID = Util.rnd32(); } while ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 8) + (pk.PID & 0xFFFF)) < 8);
-                    else
-                        pk.PID = PID;
+                case 00: // Not Shiny
+                    do { pk.PID = Util.rnd32();
+                        // Ensure Ability
+                        if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
+                    } while ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 8) + (pk.PID & 0xFFFF)) < 8 || !pk.getGenderIsValid());
                     break;
-                case 01: // Random
-                    pk.PID = PID == 0 ? Util.rnd32() : PID;
+                case 01: // Can Be Shiny
+                    pk.PID = Util.rnd32();
+                    // Ensure Ability
+                    if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
+                    // Ensure Gender
+                    do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
                     break;
                 case 02: // Random Shiny
+                    // This is not the actual Shiny PID generation routine.
                     pk.PID = Util.rnd32();
-                    pk.PID = (uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 8) + (pk.PID & 0xFFFF));
+                    // Ensure Ability
+                    if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
+                    // Ensure Gender
+                    do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
+                    // Ensure Shiny
+                    pk.PID = (uint)(pk.PID & 0x0001FFFF | ((TID ^ SID ^ (pk.PID & 0xFFFF)) & 0xFFFE) << 8);
                     break;
             }
 

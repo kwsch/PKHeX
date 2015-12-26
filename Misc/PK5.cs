@@ -279,8 +279,8 @@ namespace PKHeX
         }
         public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
         public int[] Moves { get { return new[] { Move1, Move2, Move3, Move4 }; } }
-        public int PSV { get { return (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4); } }
-        public int TSV { get { return (TID ^ SID) >> 4; } }
+        public int PSV { get { return (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3); } }
+        public int TSV { get { return (TID ^ SID) >> 3; } }
         public bool IsShiny { get { return TSV == PSV; } }
         public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
         public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
@@ -338,6 +338,21 @@ namespace PKHeX
         {
             RefreshChecksum();
             return Data;
+        }
+        public bool getGenderIsValid()
+        {
+            int gv = PKX.Personal[Species].Gender;
+            if (gv == 255 && Gender == 2)
+                return true;
+            if (gv == 0 && Gender == 1)
+                return true;
+            if (gv == 254 && Gender == 0)
+                return true;
+            if (gv <= (PID & 0xFF) && Gender == 0)
+                return true;
+            if (gv > (PID & 0xFF) && Gender == 1)
+                return true;
+            return false;
         }
     }
 }
