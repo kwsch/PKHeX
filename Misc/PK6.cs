@@ -423,6 +423,7 @@ namespace PKHeX
         public bool IsShiny { get { return TSV == PSV; } }
         public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
         public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
+        public bool IsUntraded { get { return string.IsNullOrEmpty(HT_Name); } }
         public bool IsUntradedEvent6 { get { return Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6; } }
         public bool Gen6 { get { return Version >= 24 && Version <= 29; } }
         public bool Gen5 { get { return Version >= 20 && Version <= 23; } }
@@ -570,7 +571,7 @@ namespace PKHeX
                 return;
             }
             
-            if (BitConverter.ToUInt16(Data, 0x78) == 0) // first character of handler name is \0
+            if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
 
             Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
@@ -603,9 +604,9 @@ namespace PKHeX
                 Geo1_Region = Geo2_Region;
                 Geo2_Country = Geo2_Region = 0;
             }
-            if (Geo1_Country == 0 && !IsUntradedEvent6)
+            if (Geo1_Country == 0 && !IsUntraded && !IsUntradedEvent6)
             {
-                // Non-Eggs/Events need to have a current location.
+                // Traded Non-Eggs/Events need to have a current location.
                 Geo1_Country = Country;
                 Geo1_Region = Region;
             }
