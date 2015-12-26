@@ -629,7 +629,7 @@ namespace PKHeX
                 return false;
 
             CurrentHandler = 0;
-            if (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region)
+            if (!IsUntraded && (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region))
                 TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             return true;
