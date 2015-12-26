@@ -495,6 +495,7 @@ namespace PKHeX
                 ekx = shuffleArray(ekx, sv);
 
             uint seed = pv;
+
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
                 BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekx, i);
@@ -570,6 +571,77 @@ namespace PKHeX
                 pid = Util.rnd32();
             }
             return pid;
+        }
+
+        // Past Gen Manipulation
+        internal static byte[] shuffleG4Array(byte[] data, uint sv)
+        {
+            byte[] sdata = new byte[PK4.SIZE_PARTY];
+            Array.Copy(data, sdata, 8); // Copy unshuffled bytes
+
+            // Shuffle Away!
+            for (int block = 0; block < 4; block++)
+                Array.Copy(data, 8 + 32 * blockPosition[block][sv], sdata, 8 + 32 * block, 32);
+
+            // Fill the Battle Stats back
+            if (data.Length > 136)
+                Array.Copy(data, 136, sdata, 136, 100);
+
+            return sdata;
+        }
+        internal static byte[] decryptG4Array(byte[] ekm, uint seed = 0x10000)
+        {
+            byte[] pkm = (byte[])ekm.Clone();
+
+            uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint sv = (((pv & 0x3E000) >> 0xD) % 24);
+
+            seed = seed > 0xFFFF ? pv : seed;
+
+            // Decrypt Blocks with RNG Seed
+            for (int i = 8; i < 136; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkm, i);
+
+            // Deshuffle
+            pkm = shuffleG4Array(pkm, sv);
+
+            // Decrypt the Party Stats
+            seed = pv;
+            if (pkm.Length <= 136) return pkm;
+            for (int i = 136; i < 236; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkm, i);
+
+            return pkm;
+        }
+        internal static byte[] encryptG4Array(byte[] pkm, uint seed = 0x10000)
+        {
+            // Shuffle
+            uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint sv = (((pv & 0x3E000) >> 0xD) % 24);
+
+            byte[] ekm = (byte[])pkm.Clone();
+
+            // If I unshuffle 11 times, the 12th (decryption) will always decrypt to ABCD.
+            // 2 x 3 x 4 = 12 (possible unshuffle loops -> total iterations)
+            for (int i = 0; i < 11; i++)
+                ekm = shuffleArray(ekm, sv);
+
+            seed = seed > 0xFFFF ? pv : seed;
+
+            // Encrypt Blocks with RNG Seed
+            for (int i = 8; i < 136; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekm, i);
+
+            // If no party stats, return.
+            if (ekm.Length <= 136) return ekm;
+
+            // Encrypt the Party Stats
+            seed = pv;
+            for (int i = 136; i < 236; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekm, i);
+
+            // Done
+            return ekm;
         }
 
         // SAV Manipulation
