@@ -62,16 +62,14 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\PGT.cs" />
+    <Compile Include="Misc\PK4.cs" />
     <Compile Include="Misc\Legal.cs" />
     <Compile Include="Misc\PGF.cs" />
     <Compile Include="Misc\PK5.cs" />
