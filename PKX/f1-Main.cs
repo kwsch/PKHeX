@@ -723,14 +723,16 @@ namespace PKHeX
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
-            byte[] data = pk6.Data;
-            if (fieldsInitialized) data = preparepkx(); // get data currently in form
+            byte[] data = fieldsInitialized ? preparepkx() : pk6.Data;
+            bool alreadyInit = fieldsInitialized;
             fieldsInitialized = false;
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
             Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex], menuStrip1); // Translate the UI to language.
             populateFields(data); // put data back in form
+            if (alreadyInit)
+                fieldsInitialized = true;
         }
         private void InitializeStrings()
         {
@@ -3281,6 +3283,7 @@ namespace PKHeX
         // Drag & Drop within Box
         private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
             if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt || ModifierKeys == Keys.Shift || ModifierKeys == (Keys.Control | Keys.Alt))
             { clickSlot(sender, e); return; }
             PictureBox pb = (PictureBox)(sender);
@@ -3289,7 +3292,6 @@ namespace PKHeX
 
             pkm_from_slot = getSlot(sender);
             int offset = getPKXOffset(pkm_from_slot);
-            if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
             // Create Temp File to Drag
             Cursor.Current = Cursors.Hand;
 
