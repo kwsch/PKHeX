@@ -133,7 +133,7 @@ namespace PKHeX
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PKX.Personal[Species].RandomGender),
+                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PKX.Personal[Species].RandomGender),
                 AltForm = Form,
                 Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
@@ -223,32 +223,26 @@ namespace PKHeX
                 pk.HiddenAbility = true;
             pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
 
-            if (PID != 0) pk.PID = PID;
-            else switch (PIDType)
+            if (PID != 0) 
+                pk.PID = PID;
+            else
             {
-                case 00: // Not Shiny
-                    do { pk.PID = Util.rnd32();
-                        // Ensure Ability
-                        if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
-                    } while ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 8) + (pk.PID & 0xFFFF)) < 8 || !pk.getGenderIsValid());
-                    break;
-                case 01: // Can Be Shiny
-                    pk.PID = Util.rnd32();
-                    // Ensure Ability
-                    if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
-                    // Ensure Gender
-                    do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
-                    break;
-                case 02: // Random Shiny
-                    // This is not the actual Shiny PID generation routine.
-                    pk.PID = Util.rnd32();
-                    // Ensure Ability
-                    if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
-                    // Ensure Gender
-                    do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
-                    // Ensure Shiny
-                    pk.PID = (uint)(pk.PID & 0x0001FFFF | ((TID ^ SID ^ (pk.PID & 0xFFFF)) & 0xFFFE) << 8);
-                    break;
+                pk.PID = Util.rnd32();
+                // Force Ability
+                if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
+                // Force Gender
+                do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
+                if (PIDType == 2) // Force Shiny
+                {
+                    uint gb = pk.PID & 0xFF;
+                    pk.PID = (uint)(((gb ^ pk.TID ^ pk.SID) & 0xFFFE) << 16) | gb;
+                    if (av == 0) pk.PID &= 0xFFFEFFFE; else pk.PID |= 0x10001;
+                }
+                else if (PIDType != 1) // Force Not Shiny
+                {
+                    if (((pk.PID >> 16) ^ (pk.PID & 0xffff) ^ pk.SID ^ pk.TID) < 8)
+                        pk.PID ^= 0x80000000;
+                }
             }
 
             if (IsEgg)
