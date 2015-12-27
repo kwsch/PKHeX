@@ -486,7 +486,7 @@ namespace PKHeX
             }
             #endregion
             #region PK6/EK6
-            else if ((input.Length == PK6.SIZE_PARTY) || (input.Length == PK6.SIZE_STORED))
+            else if ((input.Length == PK6.SIZE_PARTY || input.Length == PK6.SIZE_STORED) && ext != ".pgt")
             {
                 // Check if Input is PKX
                 if ((ext == ".pk6") || (ext == ".ek6") || (ext == ".pkx") || (ext == ".ekx") || (ext == ".bin") || (ext == ""))
@@ -615,6 +615,31 @@ namespace PKHeX
                 {
                     Util.Error("Failed to convert PGF.",
                         (pk == null ? "Not a Pokémon PGF." : "Invalid species."));
+                    return;
+                }
+                populateFields(Converter.ConvertPKM(pk.Data));
+            }
+            else if ((input.Length == PGT.Size && ext == ".pgt"))
+            {
+                PGT pgt = new PGT(input);
+                PK4 pk = pgt.convertToPK4(SAV);
+                if (pk == null || pk.Species == 0 || pk.Species > 721)
+                {
+                    Util.Error("Failed to convert PGT.",
+                        (pk == null ? "Not a Pokémon PGT." : "Invalid species."));
+                    return;
+                }
+                populateFields(Converter.ConvertPKM(pk.Data));
+            }
+            else if (input.Length == PCD.Size && ext == ".pcd")
+            {
+                PCD pcd = new PCD(input);
+                PGT pgt = pcd.Gift;
+                PK4 pk = pgt.convertToPK4(SAV);
+                if (pk == null || pk.Species == 0 || pk.Species > 721)
+                {
+                    Util.Error("Failed to convert PCD.",
+                        (pk == null ? "Not a Pokémon PCD." : "Invalid species."));
                     return;
                 }
                 populateFields(Converter.ConvertPKM(pk.Data));
