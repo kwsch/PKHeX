@@ -137,13 +137,13 @@ namespace PKHeX
 
         #region Global Variables: Always Visible!
         public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
-        public static PK6 pk6 = new PK6(new byte[PK6.SIZE_PARTY]); // Tab Pokemon Data Storage
-        public static SAV6 SAV = new SAV6(new byte[SAV6.SIZE_ORAS]);
+        public static PK6 pk6 = new PK6(); // Tab Pokemon Data Storage
+        public static SAV6 SAV = new SAV6();
         public static byte[] originalSAV; // original save for CyberGadget Codes
         public static byte[] ramsav; // original ramsav for ramsav exporting
-        public string pathSDF;
-        public string path3DS;
-        public pk2pk Converter = new pk2pk();
+        public static pk2pk Converter = new pk2pk();
+        public static string pathSDF;
+        public static string path3DS;
 
         public static volatile bool formInitialized, fieldsInitialized;
         public static bool HaX;
@@ -756,8 +756,7 @@ namespace PKHeX
             InitializeLanguage();
             Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex], menuStrip1); // Translate the UI to language.
             populateFields(data); // put data back in form
-            if (alreadyInit)
-                fieldsInitialized = true;
+            fieldsInitialized |= alreadyInit;
         }
         private void InitializeStrings()
         {

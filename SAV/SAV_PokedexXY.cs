@@ -123,10 +123,10 @@ namespace PKHeX
             CHK_P8.Checked = (sender as CheckBox == CHK_P8);
             CHK_P9.Checked = (sender as CheckBox == CHK_P9);
 
-            if (CHK_P6.Checked) CHK_P2.Checked = true;
-            if (CHK_P7.Checked) CHK_P3.Checked = true;
-            if (CHK_P8.Checked) CHK_P4.Checked = true;
-            if (CHK_P9.Checked) CHK_P5.Checked = true;
+            CHK_P2.Checked |= CHK_P6.Checked;
+            CHK_P3.Checked |= CHK_P7.Checked;
+            CHK_P4.Checked |= CHK_P8.Checked;
+            CHK_P5.Checked |= CHK_P9.Checked;
         }
         private void changeEncountered(object sender, EventArgs e)
         {

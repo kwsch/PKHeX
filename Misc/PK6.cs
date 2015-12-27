@@ -288,7 +288,7 @@ namespace PKHeX
         public int IV_SPA { get { return (int)(IV32 >> 20) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); } }
         public int IV_SPD { get { return (int)(IV32 >> 25) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); } }
         public bool IsEgg { get { return ((IV32 >> 30) & 1) == 1; } set { IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); } }
-        public bool IsNicknamed { get { return ((IV32 >> 31) & 1) == 1; } set { IV32 = ((IV32 & ~0x80000000) | (value ? 0x80000000 : 0)); } }
+        public bool IsNicknamed { get { return ((IV32 >> 31) & 1) == 1; } set { IV32 = ((IV32 & 0x7FFFFFFF) | (value ? 0x80000000 : 0)); } }
         #endregion
         #region Block C
         public string HT_Name

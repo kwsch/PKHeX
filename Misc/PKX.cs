@@ -415,7 +415,7 @@ namespace PKHeX
 
             // Calculate Stats
             ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
-            stats[0] = (HP_B == 1) ? (ushort)1 : (ushort)((((HP_IV + (2 * HP_B) + (HP_EV / 4) + 100) * level) / 100) + 10);
+            stats[0] = (ushort)(HP_B == 1 ? 1 : ((((HP_IV + (2 * HP_B) + (HP_EV / 4) + 100) * level) / 100) + 10));
             stats[1] = (ushort)((((ATK_IV + (2 * ATK_B) + (ATK_EV / 4)) * level) / 100) + 5);
             stats[2] = (ushort)((((DEF_IV + (2 * DEF_B) + (DEF_EV / 4)) * level) / 100) + 5);
             stats[4] = (ushort)((((SPA_IV + (2 * SPA_B) + (SPA_EV / 4)) * level) / 100) + 5);

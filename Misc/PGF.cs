@@ -219,8 +219,7 @@ namespace PKHeX
                     av = (int)(Util.rnd32() % (AbilityType - 1));
                     break;
             }
-            if (av == 2)
-                pk.HiddenAbility = true;
+            pk.HiddenAbility = av == 2;
             pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
 
             if (PID != 0) 

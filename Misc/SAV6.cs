@@ -31,11 +31,11 @@ namespace PKHeX
         public byte[] Data, BAK;
         public bool Exportable;
         public bool Edited;
-        public SAV6(byte[] data)
+        public SAV6(byte[] data = null)
         {
-            Exportable = !data.SequenceEqual(new byte[data.Length]);
-            Data = (byte[])data.Clone();
-            BAK = (byte[])data.Clone();
+            Data = (byte[])(data ?? new byte[SIZE_ORAS]).Clone();
+            BAK = (byte[])Data.Clone();
+            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
             // Load Info
             getBlockInfo();
@@ -611,8 +611,7 @@ namespace PKHeX
                 if (i >= battlemem)
                     Array.Copy(encryptArray(new byte[PK6.SIZE_PARTY]), 0, Data, BattleBox + (i * PK6.SIZE_STORED), PK6.SIZE_STORED);
 
-            if (battlemem == 0)
-                BattleBoxLocked = false;
+            BattleBoxLocked &= battlemem != 0;
         }
         public void sortBoxes()
         {

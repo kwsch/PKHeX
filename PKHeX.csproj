@@ -310,10 +310,6 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="Properties\DataSources\Editor.Properties.Resources.datasource" />
-    <None Include="Properties\DataSources\Editor.Properties.Settings.datasource" />
-    <None Include="Properties\DataSources\WindowsFormsApplication1.Form1.datasource" />
-    <None Include="Properties\DataSources\WindowsFormsApplication1.Program.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

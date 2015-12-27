@@ -114,10 +114,10 @@ namespace PKHeX
             CHK_P8.Checked = (sender as CheckBox == CHK_P8);
             CHK_P9.Checked = (sender as CheckBox == CHK_P9);
 
-            if (CHK_P6.Checked) CHK_P2.Checked = true;
-            if (CHK_P7.Checked) CHK_P3.Checked = true;
-            if (CHK_P8.Checked) CHK_P4.Checked = true;
-            if (CHK_P9.Checked) CHK_P5.Checked = true;
+            CHK_P2.Checked |= CHK_P6.Checked;
+            CHK_P3.Checked |= CHK_P7.Checked;
+            CHK_P4.Checked |= CHK_P8.Checked;
+            CHK_P5.Checked |= CHK_P9.Checked;
         }
         private void changeEncountered(object sender, EventArgs e)
         {
@@ -306,7 +306,7 @@ namespace PKHeX
         private void changeEncounteredCount(object sender, EventArgs e)
         {
             if (!editing)
-                Array.Copy(BitConverter.GetBytes(Math.Min(0xFFFF, Util.ToUInt32(MT_Count))), 0, sav, Main.SAV.EncounterCount + (Util.getIndex(CB_Species) - 1) * 2, 2);
+                BitConverter.GetBytes((ushort)Math.Min(0xFFFF, Util.ToUInt32(MT_Count))).CopyTo(sav, Main.SAV.EncounterCount + (Util.getIndex(CB_Species) - 1) * 2);
         }
     }
 }
