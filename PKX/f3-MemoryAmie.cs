@@ -5,11 +5,7 @@ namespace PKHeX
 {
     public partial class MemoryAmie : Form
     {
-        private string disabled;
-        private string notleft;
-        private string ot;
-        private string past;
-        private string withOT; // these get replaced when the form is translated.
+        private string[] args = new string[5];
         private string[] vartypes = new string[5];
         public MemoryAmie() // Keeping the form reference as a lot of control elements are required to operate.
         {
@@ -26,22 +22,11 @@ namespace PKHeX
                 if (arguments[i] == null) continue;
                 vartypes[i - 5] = arguments[i] + ":";
             }
-            try
-            {
-                disabled = arguments[0];
-                notleft = arguments[1];
-                ot = arguments[2];
-                past = arguments[3];
-                withOT = arguments[4];
-            }
-            catch
-            {
-                disabled = "Disabled";
-                notleft = "Never left";
-                ot = "OT";
-                past = "Past Gen";
-                withOT = "Memories with";
-            }
+            args[0] = arguments.Length > 0 ? arguments[0] : "Disabled";
+            args[1] = arguments.Length > 1 ? arguments[1] : "Never left";
+            args[2] = arguments.Length > 2 ? arguments[2] : "OT";
+            args[3] = arguments.Length > 3 ? arguments[3] : "Past Gen";
+            args[4] = arguments.Length > 4 ? arguments[4] : "Memories with";
             ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
             foreach (ComboBox comboBox in cba)
             {
@@ -92,7 +77,7 @@ namespace PKHeX
             CB_OTFeel.SelectedIndex = Main.pk6.OT_Feeling;
             
             CB_Handler.Items.Clear();
-            CB_Handler.Items.AddRange(new object[] { Main.pk6.OT_Name + " (" + ot + ")" });
+            CB_Handler.Items.AddRange(new object[] {String.Format("{0} ({1})", Main.pk6.OT_Name, args[2])}); // OTNAME : OT
 
             if (Util.TrimFromZero(Main.pk6.HT_Name) != "")
                 CB_Handler.Items.AddRange(new object[] { Main.pk6.HT_Name });
@@ -104,38 +89,38 @@ namespace PKHeX
             GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled = 
             BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = 
             L_Fullness.Enabled = L_Enjoyment.Enabled = (!Main.pk6.IsEgg);
-
-            GB_M_OT.Text = (Main.pk6.IsEgg) ? "N/A: " + Main.eggname : String.Format(withOT + " (" + ot + ")", Main.pk6.OT_Name);
-            GB_M_CT.Text = (Main.pk6.IsEgg) ? "N/A: " + Main.eggname : GB_M_CT.Text = String.Format(withOT, Main.pk6.HT_Name);
             
-            if ((!Main.pk6.IsEgg))
+            if (!Main.pk6.IsEgg)
             {
                 bool enable;
                 int game = Main.pk6.Version;
-                if ((game < 24) && (game != 0))
+                if (game < 24 && game != 0)
                 {
                     // Banked Mon
-                    GB_M_CT.Text = withOT + " " + Main.pk6.HT_Name;
-                    GB_M_OT.Text = past + " " + ot + ": " + Main.pk6.OT_Name;
+                    GB_M_OT.Text = String.Format("{0} {2}: {1}", args[3], args[2], Main.pk6.OT_Name); // Past Gen : OT : OTNAME
+                    GB_M_CT.Text = String.Format("{0} {1}", args[4], Main.pk6.HT_Name); // Memories with : HTNAME
                     enable = false;
                 }
                 else
                 {
                     enable = true;
-                    GB_M_OT.Text = withOT + " " + Main.pk6.OT_Name + " (" + ot + ")";
-                    GB_M_CT.Text = withOT + Main.pk6.HT_Name;
+                    GB_M_OT.Text = String.Format("{0} {1} ({2})", args[4], Main.pk6.OT_Name, args[2]); // Memories with : OTNAME
+                    GB_M_CT.Text = String.Format("{0} {1}", args[4], Main.pk6.HT_Name); // Memories with : HTNAME
                     if ((Main.pk6.HT_Name == ""))
                     {
                         CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled = 
                         CB_Region1.Enabled = CB_Region2.Enabled = CB_Region3.Enabled = CB_Region4.Enabled = 
                         GB_M_CT.Enabled = false;
-                        GB_M_CT.Text = notleft + " " + ot + " - " + disabled;
+                        GB_M_CT.Text = String.Format("{0} {1} - {2}", args[1], args[2], args[0]); // Never Left : OT : Disabled
                     }
                     else
-                        GB_M_CT.Text = withOT + " " + Main.pk6.HT_Name;
+                        GB_M_CT.Text = args[4] + " " + Main.pk6.HT_Name;
                 }
                 RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
             }
+            else
+                GB_M_OT.Text = GB_M_CT.Text = String.Format("N/A: {0}", Main.eggname);
+
             init = true;
 
             // Manually load the Memory Parse
