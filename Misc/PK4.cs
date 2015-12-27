@@ -107,7 +107,7 @@ namespace PKHeX
         public int Move2_PPUps { get { return Data[0x35]; } set { Data[0x35] = (byte)value; } }
         public int Move3_PPUps { get { return Data[0x36]; } set { Data[0x36] = (byte)value; } }
         public int Move4_PPUps { get { return Data[0x37]; } set { Data[0x37] = (byte)value; } }
-        private uint IV32 { get { return BitConverter.ToUInt32(Data, 0x38); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x38); } }
+        public uint IV32 { get { return BitConverter.ToUInt32(Data, 0x38); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x38); } }
         public int IV_HP { get { return (int)(IV32 >> 00) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); } }
         public int IV_ATK { get { return (int)(IV32 >> 05) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); } }
         public int IV_DEF { get { return (int)(IV32 >> 10) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); } }
