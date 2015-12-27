@@ -21,31 +21,10 @@ namespace PKHeX
         public PGT Gift;
 
         public byte[] Information;
-        /* Big thanks to Grovyle91's Pokémon Mystery Gift Editor, from which the structure was documented.
+        /* Big thanks to Grovyle91's Pokémon Mystery Gift Editor, from which the structure was referenced.
          * http://projectpokemon.org/forums/member.php?829-Grovyle91
          * http://projectpokemon.org/forums/showthread.php?6524
-         * Offsets are relative to the entire PCD
-         * [Flags]
-         * public enum RedistributionGame
-         * {
-         *     None = 0,
-         *     Diamond = 4,
-         *     Pearl = 8,
-         *     Platinum = 16,
-         *     HeartGold = 32768, // highest bit
-         *     SoulSilver = 1, // lowest bit
-         * }
-         * private const int CardTitle = 260;
-         * private const int CardTitle_Length = 72;
-         * private const int CardComment = 340;
-         * private const int CardComment_Length = 492;
-         * private const int WonderCardNumber = 336;
-         * private const int RedistributionGame = 332;
-         * private const int RedistributionAmount = 840;
-         * private const int Icon1 = 842;
-         * private const int Icon2 = 844;
-         * private const int Icon3 = 846;
-         * private const int ReceivedDate = 852;
+         * See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
          */
     }
     public class PGT
@@ -75,19 +54,34 @@ namespace PKHeX
         public bool IsPokémon { get { return CardType == 1; } set { if (value) CardType = 1; } }
         public bool IsEgg { get { return CardType == 2; } set { if (value) CardType = 2; } }
         public bool IsManaphyEgg { get { return CardType == 7; } set { if (value) CardType = 7; } }
-        public bool Pokémon { get { return IsPokémon || IsEgg || IsManaphyEgg; } }
+        public bool PokémonGift { get { return IsPokémon || IsEgg || IsManaphyEgg; } }
 
         public PK4 convertToPK4(SAV6 SAV)
         {
-            if (!Pokémon)
+            if (!PokémonGift)
                 return null;
 
-            if (CardType > 1 && Detail == 0)
+            if (!IsPokémon && Detail == 0)
             {
-                PKM.OT_Name = "\x013A\x0135\x0132\x0149\x0142"; // PKHeX
+                PKM.OT_Name = "\x013A\x0135\x0132\x0149\x0142\xFFFF"; // PKHeX
                 PKM.TID = 12345;
                 PKM.SID = 54321;
                 PKM.OT_Gender = (int)(Util.rnd32()%2);
+            }
+            if (IsManaphyEgg)
+            {
+                // Since none of this data is populated, fill in default info.
+                PKM.Species = 490;
+                // Level 1 Moves
+                PKM.Move1 = 294;
+                PKM.Move2 = 145;
+                PKM.Move3 = 346;
+                PKM.FatefulEncounter = true;
+                PKM.Ball = 4;
+                PKM.Version = 10; // Diamond
+                PKM.Language = 2; // English
+                PKM.Nickname = "\x0137\x012B\x0138\x012B\x013A\x0132\x0143\xFFFF"; // Manaphy
+                PKM.Egg_Location = 1; // Ranger (will be +3000 later)
             }
 
             // Generate IV
