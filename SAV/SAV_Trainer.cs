@@ -587,7 +587,7 @@ namespace PKHeX
         private void changeStatVal(object sender, EventArgs e)
         {
             if (editing) return;
-            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2));
+            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
             SAV.setPSSStat(offset/4, UInt32.Parse(MT_Stat.Text));
         }
         private void giveAllAccessories(object sender, EventArgs e)
