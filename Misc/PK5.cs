@@ -4,11 +4,11 @@ using System.Text;
 
 namespace PKHeX
 {
-    // 5th Generation PKM File
-    public class PK5
+    public class PK5 // 5th Generation PKM File
     {
         internal static readonly int SIZE_PARTY = 220;
         internal static readonly int SIZE_STORED = 136;
+        internal static readonly int SIZE_BLOCK = 32;
 
         public PK5(byte[] decryptedData = null, string ident = null)
         {
@@ -168,7 +168,7 @@ namespace PKHeX
         {
             get
             {
-                return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x48, 22))
+                return PKM.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x48, 22))
                     .Replace("\uE08F", "\u2640") // nidoran
                     .Replace("\uE08E", "\u2642") // nidoran
                     .Replace("\u2019", "\u0027"); // farfetch'd
@@ -231,7 +231,7 @@ namespace PKHeX
         {
             get
             {
-                return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x68, 16))
+                return PKM.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x68, 16))
                     .Replace("\uE08F", "\u2640") // Nidoran ♂
                     .Replace("\uE08E", "\u2642") // Nidoran ♀
                     .Replace("\u2019", "\u0027"); // farfetch'd
@@ -353,6 +353,217 @@ namespace PKHeX
             if (gv > (PID & 0xFF) && Gender == 1)
                 return true;
             return false;
+        }
+
+        public PK6 convertToPK6()
+        {
+            PK6 pk6 = new PK6 // Convert away!
+            {
+                EncryptionConstant = PID,
+                Species = Species,
+                TID = TID,
+                SID = SID,
+                EXP = EXP,
+                PID = PID,
+                Ability = Ability
+            };
+
+            int abilnum = PKX.getAbilityNumber(Species, Ability, AltForm);
+            if (abilnum > 0) pk6.AbilityNumber = abilnum;
+            else // Fallback (shouldn't happen)
+            {
+                if (HiddenAbility) pk6.AbilityNumber = 4; // Hidden, else G5 or G3/4 correlation.
+                else pk6.AbilityNumber = Gen5 ? 1 << (int)(PID >> 16 & 1) : 1 << (int)(PID & 1);
+            }
+            pk6.Circle = Circle;
+            pk6.Square = Square;
+            pk6.Triangle = Triangle;
+            pk6.Heart = Heart;
+            pk6.Star = Star;
+            pk6.Diamond = Diamond;
+            pk6.Language = Language;
+
+            pk6.CNT_Cool = CNT_Cool;
+            pk6.CNT_Beauty = CNT_Beauty;
+            pk6.CNT_Cute = CNT_Cute;
+            pk6.CNT_Smart = CNT_Smart;
+            pk6.CNT_Tough = CNT_Tough;
+
+            // Cap EVs
+            pk6.EV_HP = EV_HP > 252 ? 252 : EV_HP;
+            pk6.EV_ATK = EV_ATK > 252 ? 252 : EV_ATK;
+            pk6.EV_DEF = EV_DEF > 252 ? 252 : EV_DEF;
+            pk6.EV_SPA = EV_SPA > 252 ? 252 : EV_SPA;
+            pk6.EV_SPD = EV_SPD > 252 ? 252 : EV_SPD;
+            pk6.EV_SPE = EV_SPE > 252 ? 252 : EV_SPE;
+
+            pk6.Move1 = Move1;
+            pk6.Move2 = Move2;
+            pk6.Move3 = Move3;
+            pk6.Move4 = Move4;
+
+            pk6.Move1_PP = PKX.getMovePP(Move1, Move1_PPUps);
+            pk6.Move2_PP = PKX.getMovePP(Move2, Move2_PPUps);
+            pk6.Move3_PP = PKX.getMovePP(Move3, Move3_PPUps);
+            pk6.Move4_PP = PKX.getMovePP(Move4, Move4_PPUps);
+
+            pk6.Move1_PPUps = Move1_PPUps;
+            pk6.Move2_PPUps = Move2_PPUps;
+            pk6.Move3_PPUps = Move3_PPUps;
+            pk6.Move4_PPUps = Move4_PPUps;
+
+            pk6.IV_HP = IV_HP;
+            pk6.IV_ATK = IV_ATK;
+            pk6.IV_DEF = IV_DEF;
+            pk6.IV_SPA = IV_SPA;
+            pk6.IV_SPD = IV_SPD;
+            pk6.IV_SPE = IV_SPE;
+            pk6.IsEgg = IsEgg;
+            pk6.IsNicknamed = IsNicknamed;
+
+            pk6.FatefulEncounter = FatefulEncounter;
+            pk6.Nature = Nature;
+
+            pk6.Nickname = Nickname.Length > 1 && !IsNicknamed
+                ? Nickname[0] + Nickname.Substring(1).ToLower() // Decapitalize
+                : Nickname;
+
+            pk6.Version = Version;
+
+            pk6.OT_Name = OT_Name;
+
+            // Dates are kept upon transfer
+            pk6.Met_Year = Met_Year;
+            pk6.Met_Month = Met_Month;
+            pk6.Met_Day = Met_Day;
+            pk6.Egg_Year = Egg_Year;
+            pk6.Egg_Month = Egg_Month;
+            pk6.Egg_Day = Egg_Day;
+
+            // Locations are kept upon transfer
+            pk6.Met_Location = Met_Location;
+            pk6.Egg_Location = Egg_Location;
+
+            pk6.PKRS_Strain = PKRS_Strain;
+            pk6.PKRS_Days = PKRS_Days;
+            pk6.Ball = Ball;
+
+            // OT Gender & Encounter Level
+            pk6.Met_Level = Met_Level;
+            pk6.OT_Gender = OT_Gender;
+            pk6.EncounterType = EncounterType;
+            
+            // Ribbon Decomposer (Contest & Battle)
+            byte contestribbons = 0;
+            byte battleribbons = 0;
+
+            // Contest Ribbon Counter
+            for (int i = 0; i < 8; i++) // Sinnoh 3, Hoenn 1
+            {
+                if (((Data[0x60] >> i) & 1) == 1) contestribbons++;
+                if (((Data[0x61] >> i) & 1) == 1) contestribbons++;
+                if (((Data[0x3C] >> i) & 1) == 1) contestribbons++;
+                if (((Data[0x3D] >> i) & 1) == 1) contestribbons++;
+            }
+            for (int i = 0; i < 4; i++) // Sinnoh 4, Hoenn 2
+            {
+                if (((Data[0x62] >> i) & 1) == 1) contestribbons++;
+                if (((Data[0x3E] >> i) & 1) == 1) contestribbons++;
+            }
+
+            // Battle Ribbon Counter
+            // Winning Ribbon
+            if ((Data[0x3E] & 0x20) >> 5 == 1) battleribbons++;
+            // Victory Ribbon
+            if ((Data[0x3E] & 0x40) >> 6 == 1) battleribbons++;
+            for (int i = 1; i < 7; i++)     // Sinnoh Battle Ribbons
+                if (((Data[0x24] >> i) & 1) == 1) battleribbons++;
+
+            // Fill the Ribbon Counter Bytes
+            pk6.Memory_ContestCount = contestribbons;
+            pk6.Memory_BattleCount = battleribbons;
+
+            // Copy Ribbons to their new locations.
+            int bx30 = 0;
+            // bx30 |= 0;                             // Kalos Champ - New Kalos Ribbon
+            bx30 |= (((Data[0x3E] & 0x10) >> 4) << 1); // Hoenn Champion
+            bx30 |= (((Data[0x24] & 0x01) >> 0) << 2); // Sinnoh Champ
+            // bx30 |= 0;                             // Best Friend - New Kalos Ribbon
+            // bx30 |= 0;                             // Training    - New Kalos Ribbon
+            // bx30 |= 0;                             // Skillful    - New Kalos Ribbon
+            // bx30 |= 0;                             // Expert      - New Kalos Ribbon
+            bx30 |= (((Data[0x3F] & 0x01) >> 0) << 7); // Effort Ribbon
+            pk6.Data[0x30] = (byte)bx30;
+
+            int bx31 = 0;
+            bx31 |= (((Data[0x24] & 0x80) >> 7) << 0);  // Alert
+            bx31 |= (((Data[0x25] & 0x01) >> 0) << 1);  // Shock
+            bx31 |= (((Data[0x25] & 0x02) >> 1) << 2);  // Downcast
+            bx31 |= (((Data[0x25] & 0x04) >> 2) << 3);  // Careless
+            bx31 |= (((Data[0x25] & 0x08) >> 3) << 4);  // Relax
+            bx31 |= (((Data[0x25] & 0x10) >> 4) << 5);  // Snooze
+            bx31 |= (((Data[0x25] & 0x20) >> 5) << 6);  // Smile
+            bx31 |= (((Data[0x25] & 0x40) >> 6) << 7);  // Gorgeous
+            pk6.Data[0x31] = (byte)bx31;
+
+            int bx32 = 0;
+            bx32 |= (((Data[0x25] & 0x80) >> 7) << 0);  // Royal
+            bx32 |= (((Data[0x26] & 0x01) >> 0) << 1);  // Gorgeous Royal
+            bx32 |= (((Data[0x3E] & 0x80) >> 7) << 2);  // Artist
+            bx32 |= (((Data[0x26] & 0x02) >> 1) << 3);  // Footprint
+            bx32 |= (((Data[0x26] & 0x04) >> 2) << 4);  // Record
+            bx32 |= (((Data[0x26] & 0x10) >> 4) << 5);  // Legend
+            bx32 |= (((Data[0x3F] & 0x10) >> 4) << 6);  // Country
+            bx32 |= (((Data[0x3F] & 0x20) >> 5) << 7);  // National
+            pk6.Data[0x32] = (byte)bx32;
+
+            int bx33 = 0;
+            bx33 |= (((Data[0x3F] & 0x40) >> 6) << 0);  // Earth
+            bx33 |= (((Data[0x3F] & 0x80) >> 7) << 1);  // World
+            bx33 |= (((Data[0x27] & 0x04) >> 2) << 2);  // Classic
+            bx33 |= (((Data[0x27] & 0x08) >> 3) << 3);  // Premier
+            bx33 |= (((Data[0x26] & 0x08) >> 3) << 4);  // Event
+            bx33 |= (((Data[0x26] & 0x40) >> 6) << 5);  // Birthday
+            bx33 |= (((Data[0x26] & 0x80) >> 7) << 6);  // Special
+            bx33 |= (((Data[0x27] & 0x01) >> 0) << 7);  // Souvenir
+            pk6.Data[0x33] = (byte)bx33;
+
+            int bx34 = 0;
+            bx34 |= (((Data[0x27] & 0x02) >> 1) << 0);  // Wishing Ribbon
+            bx34 |= (((Data[0x3F] & 0x02) >> 1) << 1);  // Battle Champion
+            bx34 |= (((Data[0x3F] & 0x04) >> 2) << 2);  // Regional Champion
+            bx34 |= (((Data[0x3F] & 0x08) >> 3) << 3);  // National Champion
+            bx34 |= (((Data[0x26] & 0x20) >> 5) << 4);  // World Champion
+            pk6.Data[0x34] = (byte)bx34;
+            
+            // Write Transfer Location - location is dependent on 3DS system that transfers.
+            pk6.Country = Converter.Country;
+            pk6.Region = Converter.Region;
+            pk6.ConsoleRegion = Converter.ConsoleRegion;
+
+            // Write the Memories, Friendship, and Origin!
+            pk6.CurrentHandler = 1;
+            pk6.HT_Name = Converter.OT_Name;
+            pk6.Geo1_Region = Converter.Region;
+            pk6.Geo1_Country = Converter.Country;
+            pk6.HT_Intensity = 1;
+            pk6.HT_Memory = 4;
+            pk6.HT_Feeling = (int)(Util.rnd32() % 10);
+            // When transferred, friendship gets reset.
+            pk6.OT_Friendship = pk6.HT_Friendship = PKX.getBaseFriendship(Species);
+
+            // Antishiny Mechanism
+            ushort LID = (ushort)(PID & 0xFFFF);
+            ushort HID = (ushort)(PID >> 0x10);
+
+            int XOR = TID ^ SID ^ LID ^ HID;
+            if (XOR >= 8 && XOR < 16) // If we get an illegal collision...
+                pk6.PID ^= 0x80000000;
+
+            // Fix Checksum
+            pk6.RefreshChecksum();
+
+            return pk6; // Done!
         }
     }
 }

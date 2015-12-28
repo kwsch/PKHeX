@@ -49,7 +49,7 @@ namespace PKHeX
         public int Language { get { return Data[0x1D]; } set { Data[0x1D] = (byte)value; } }
         public string Nickname
         {
-            get { return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16)); }
+            get { return PKM.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(0xB, (char)0xFFFF)).CopyTo(Data, 0x1E); }
         }
         public int Nature { get { return Data[0x34]; } set { Data[0x34] = (byte)value; } }
@@ -73,7 +73,7 @@ namespace PKHeX
         public int IV_SPD { get { return Data[0x48]; } set { Data[0x48] = (byte)value; } }
         // Unused 0x49
         public string OT {
-            get { return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10)); }
+            get { return PKM.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); } }
         public int OTGender { get { return Data[0x5A]; } set { Data[0x5A] = (byte)value; } }
         public int Level { get { return Data[0x5B]; } set { Data[0x5C] = (byte)value; } }

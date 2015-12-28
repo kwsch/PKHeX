@@ -63,7 +63,7 @@ namespace PKHeX
 
             if (!IsPokémon && Detail == 0)
             {
-                PKM.OT_Name = "\x013A\x0135\x0132\x0149\x0142\xFFFF"; // PKHeX
+                PKM.OT_Name = "PKHeX";
                 PKM.TID = 12345;
                 PKM.SID = 54321;
                 PKM.OT_Gender = (int)(Util.rnd32()%2);
@@ -80,7 +80,7 @@ namespace PKHeX
                 PKM.Ball = 4;
                 PKM.Version = 10; // Diamond
                 PKM.Language = 2; // English
-                PKM.Nickname = "\x0137\x012B\x0138\x012B\x013A\x0132\x0143\xFFFF"; // Manaphy
+                PKM.Nickname = "MANAPHY";
                 PKM.Egg_Location = 1; // Ranger (will be +3000 later)
             }
 

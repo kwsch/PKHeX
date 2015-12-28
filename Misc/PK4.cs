@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX
 {
-    // 5th Generation PKM File
-    public class PK4
+    public class PK4 // 4th Generation PKM File
     {
         internal static readonly int SIZE_PARTY = 236;
         internal static readonly int SIZE_STORED = 136;
+        internal static readonly int SIZE_BLOCK = 32;
 
         public PK4(byte[] decryptedData = null, string ident = null)
         {
@@ -168,7 +167,7 @@ namespace PKHeX
         {
             get
             {
-                return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x48, 22))
+                return PKM.array2strG4(Data.Skip(0x48).Take(22).ToArray())
                     .Replace("\uE08F", "\u2640") // nidoran
                     .Replace("\uE08E", "\u2642") // nidoran
                     .Replace("\u2019", "\u0027"); // farfetch'd
@@ -180,9 +179,8 @@ namespace PKHeX
                 string TempNick = value // Replace Special Characters and add Terminator
                     .Replace("\u2640", "\uE08F") // nidoran
                     .Replace("\u2642", "\uE08E") // nidoran
-                    .Replace("\u0027", "\u2019") // farfetch'd
-                    .PadRight(value.Length + 1, (char)0xFFFF); // Null Terminator
-                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x48);
+                    .Replace("\u0027", "\u2019"); // farfetch'd
+                PKM.str2arrayG4(TempNick).CopyTo(Data, 0x48);
             }
         }
         // 0x5E unused
@@ -231,10 +229,10 @@ namespace PKHeX
         {
             get
             {
-                return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x68, 16))
+                return PKM.array2strG4(Data.Skip(0x68).Take(16).ToArray())
                     .Replace("\uE08F", "\u2640") // Nidoran ♂
                     .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // farfetch'd
+                    .Replace("\u2019", "\u0027"); // Farfetch'd
             }
             set
             {
@@ -243,9 +241,8 @@ namespace PKHeX
                 string TempNick = value // Replace Special Characters and add Terminator
                 .Replace("\u2640", "\uE08F") // Nidoran ♂
                 .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019") // Farfetch'd
-                .PadRight(value.Length + 1, (char)0xFFFF); // Null Terminator
-                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x68);
+                .Replace("\u0027", "\u2019"); // Farfetch'd
+                PKM.str2arrayG4(TempNick).CopyTo(Data, 0x68);
             }
         }
         public int Egg_Year { get { return Data[0x78]; } set { Data[0x78] = (byte)value; } }
@@ -263,7 +260,8 @@ namespace PKHeX
         public int Met_Level { get { return Data[0x84] & ~0x80; } set { Data[0x84] = (byte)((Data[0x84] & 0x80) | value); } }
         public int OT_Gender { get { return Data[0x84] >> 7; } set { Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); } }
         public int EncounterType { get { return Data[0x85]; } set { Data[0x85] = (byte)value; } }
-        // 0x86-0x87 Unused
+        public int HGSSBall { get { return Data[0x86]; } set { Data[0x86] = (byte)value; } }
+        // Unused 0x87
         #endregion
 
         // Simple Generated Attributes
@@ -354,6 +352,57 @@ namespace PKHeX
                 return Gender == 1;
 
             return false;
+        }
+
+        public PK5 convertToPK5()
+        {
+            // Double Check Location Data to see if we're already a PK5
+            if (Data[0x5F] < 0x10 && BitConverter.ToUInt16(Data, 0x80) > 0x4000)
+                return new PK5(Data);
+
+            DateTime moment = DateTime.Now;
+
+            PK5 pk5 = new PK5(Data) // Convert away!
+            {
+                HeldItem = 0,
+                Friendship = 70,
+                // Apply new met date
+                Met_Year = moment.Year - 2000,
+                Met_Month = moment.Month,
+                Met_Day = moment.Day
+            };
+
+            // Fix PP
+            pk5.Move1_PP = PKX.getMovePP(pk5.Move1_PP, pk5.Move1_PPUps);
+            pk5.Move2_PP = PKX.getMovePP(pk5.Move2_PP, pk5.Move2_PPUps);
+            pk5.Move3_PP = PKX.getMovePP(pk5.Move3_PP, pk5.Move3_PPUps);
+            pk5.Move4_PP = PKX.getMovePP(pk5.Move4_PP, pk5.Move4_PPUps);
+
+            // Disassociate Nature and PID
+            pk5.Nature = (int)(pk5.PID % 0x19);
+
+            // Delete Platinum/HGSS Met Location Data
+            BitConverter.GetBytes((uint)0).CopyTo(pk5.Data, 0x44);
+
+            // Met / Crown Data Detection
+            pk5.Met_Location = pk5.FatefulEncounter && Array.IndexOf(new[] {251, 243, 244, 245}, pk5.Species) >= 0
+                ? ((pk5.Species == 251) ? 30010 : 30012) // Celebi : Beast
+                : 30001; // Pokétransfer (not Crown)
+            
+            // Delete HGSS Data
+            BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
+            if (HGSSBall > 0 && HGSSBall != 4)
+                pk5.Ball = HGSSBall;
+
+            // Transfer Nickname and OT Name
+            pk5.Nickname = Nickname;
+            pk5.OT_Name = OT_Name;
+
+            // Fix Level
+            pk5.Met_Level = PKX.getLevel(pk5.Species, pk5.EXP);
+
+            pk5.RefreshChecksum();
+            return pk5;
         }
     }
 }

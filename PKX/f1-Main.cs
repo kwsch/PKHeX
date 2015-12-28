@@ -141,7 +141,6 @@ namespace PKHeX
         public static SAV6 SAV = new SAV6();
         public static byte[] originalSAV; // original save for CyberGadget Codes
         public static byte[] ramsav; // original ramsav for ramsav exporting
-        public static pk2pk Converter = new pk2pk();
         public static string pathSDF;
         public static string path3DS;
 
@@ -504,7 +503,7 @@ namespace PKHeX
                 if (!PKX.verifychk(input)) Util.Error("Invalid File (Checksum Error)");
                 try // to convert g5pkm
                 {
-                    byte[] data = Converter.ConvertPKM(input);
+                    byte[] data = Converter.ConvertPKMtoPK6(input);
                     Array.Resize(ref data, PK6.SIZE_STORED);
                     populateFields(data);
                 }
@@ -542,7 +541,7 @@ namespace PKHeX
                 }
                 setPKXBoxes();
                 Width = largeWidth;
-                Util.Alert("Box Binary loaded."); 
+                Util.Alert("Box Binary loaded.");
             }
             #endregion
             #region injectiondebug
@@ -617,7 +616,7 @@ namespace PKHeX
                         (pk == null ? "Not a Pokémon PGF." : "Invalid species."));
                     return;
                 }
-                populateFields(Converter.ConvertPKM(pk.Data));
+                populateFields(Converter.ConvertPKMtoPK6(pk.Data));
             }
             else if ((input.Length == PGT.Size && ext == ".pgt"))
             {
@@ -629,7 +628,7 @@ namespace PKHeX
                         (pk == null ? "Not a Pokémon PGT." : "Invalid species."));
                     return;
                 }
-                populateFields(Converter.ConvertPKM(pk.Data));
+                populateFields(Converter.ConvertPKMtoPK6(pk.Data));
             }
             else if (input.Length == PCD.Size && ext == ".pcd")
             {
@@ -642,7 +641,7 @@ namespace PKHeX
                         (pk == null ? "Not a Pokémon PCD." : "Invalid species."));
                     return;
                 }
-                populateFields(Converter.ConvertPKM(pk.Data));
+                populateFields(Converter.ConvertPKMtoPK6(pk.Data));
             }
             #endregion
             else
@@ -2715,7 +2714,7 @@ namespace PKHeX
         }
         private void refreshTrainerInfo()
         {
-            Converter.setG6TrainerInfo(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
+            Converter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
         }
         private void clickExportParty(object sender, EventArgs e)
         {
@@ -2975,7 +2974,7 @@ namespace PKHeX
                         if (!PKX.verifychk(input)) continue;
                         {
                             try // to convert g5pkm
-                            { data = PKX.encryptArray(Converter.ConvertPKM(input)); pastctr++; }
+                            { data = PKX.encryptArray(Converter.ConvertPKMtoPK6(input)); pastctr++; }
                             catch { continue; }
                         }
                     }
@@ -3362,7 +3361,7 @@ namespace PKHeX
                         if (!PKX.verifychk(input)) Util.Alert("Invalid File Loaded.", "Checksum is not valid.");
                         try // to convert past gen pkm
                         {
-                            byte[] data = Converter.ConvertPKM(input);
+                            byte[] data = Converter.ConvertPKMtoPK6(input);
                             SAV.setPK6Stored(new PK6(data), offset);
                         }
                         catch

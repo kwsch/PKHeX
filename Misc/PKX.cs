@@ -264,6 +264,14 @@ namespace PKHeX
         {
             return Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
         }
+        internal static int getAbilityNumber(int species, int ability, int formnum)
+        {
+            byte[] spec_abilities = Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
+            int abilval = Array.IndexOf(spec_abilities, ability);
+            if (abilval >= 0)
+                return 1 << abilval;
+            return -1;
+        }
         internal static int getGender(string s)
         {
             if (s == null) 
