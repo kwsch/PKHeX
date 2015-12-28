@@ -562,7 +562,7 @@ namespace PKHeX
 
             // Set the Language
             if (lang < 0) lang = 1;
-            Data[PokeDex + PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << (((bit * 7) + lang) % 8));
+            Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << (((bit * 7) + lang) % 8));
         }
         public int getBoxWallpaper(int box)
         {
