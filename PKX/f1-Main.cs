@@ -733,6 +733,8 @@ namespace PKHeX
 
             TB_GameSync.Enabled = SAV.GameSyncID != 0;
             TB_GameSync.Text = SAV.GameSyncID.ToString("X16");
+            TB_Secure1.Text = SAV.Secure1.ToString("X16");
+            TB_Secure2.Text = SAV.Secure2.ToString("X16");
             PB_Locked.Visible = SAV.BattleBoxLocked;
 
             Width = largeWidth;
@@ -2709,6 +2711,60 @@ namespace PKHeX
             if (value != SAV.GameSyncID)
             {
                 SAV.GameSyncID = value;
+                SAV.Edited = true;
+            }
+        }
+        private void updateSecure1(object sender, EventArgs e)
+        {
+            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
+            string filterText = TB_Secure1.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (filterText.Length != TB_Secure1.Text.Length)
+            {
+                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_Secure1.Text);
+                // Reset to Stored Value
+                TB_Secure1.Text = SAV.Secure1.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            if (TB_Secure1.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_Secure1.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            // Write final value back to the save
+            ulong value = Convert.ToUInt64(TB_Secure1.Text, 16);
+            if (value != SAV.Secure1)
+            {
+                SAV.Secure1 = value;
+                SAV.Edited = true;
+            }
+        }
+        private void updateSecure2(object sender, EventArgs e)
+        {
+            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
+            string filterText = TB_Secure2.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (filterText.Length != TB_Secure2.Text.Length)
+            {
+                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_Secure2.Text);
+                // Reset to Stored Value
+                TB_Secure2.Text = SAV.Secure2.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            if (TB_Secure2.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_Secure2.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            // Write final value back to the save
+            ulong value = Convert.ToUInt64(TB_Secure2.Text, 16);
+            if (value != SAV.Secure2)
+            {
+                SAV.Secure2 = value;
                 SAV.Edited = true;
             }
         }

@@ -234,6 +234,16 @@ namespace PKHeX
             setChecksums();
             return Data;
         }
+        public ulong Secure1
+        {
+            get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14); }
+        }
+        public ulong Secure2
+        {
+            get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC); }
+        }
         public int CurrentBox { get { return Data[LastViewedBox]; } set { Data[LastViewedBox] = (byte)value; } }
 
         // Player Information

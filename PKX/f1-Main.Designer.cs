@@ -269,6 +269,7 @@
             this.CB_BoxSelect = new System.Windows.Forms.ComboBox();
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
             this.PAN_BattleBox = new System.Windows.Forms.Panel();
+            this.PB_Locked = new System.Windows.Forms.PictureBox();
             this.bbpkx1 = new System.Windows.Forms.PictureBox();
             this.mnuV = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnu2View = new System.Windows.Forms.ToolStripMenuItem();
@@ -334,7 +335,10 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
-            this.PB_Locked = new System.Windows.Forms.PictureBox();
+            this.L_Secure1 = new System.Windows.Forms.Label();
+            this.TB_Secure1 = new System.Windows.Forms.TextBox();
+            this.L_Secure2 = new System.Windows.Forms.Label();
+            this.TB_Secure2 = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -395,6 +399,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bpkx1)).BeginInit();
             this.Tab_PartyBattle.SuspendLayout();
             this.PAN_BattleBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Locked)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx1)).BeginInit();
             this.mnuV.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx2)).BeginInit();
@@ -424,7 +429,6 @@
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Locked)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -3360,6 +3364,16 @@
             this.PAN_BattleBox.Size = new System.Drawing.Size(111, 160);
             this.PAN_BattleBox.TabIndex = 17;
             // 
+            // PB_Locked
+            // 
+            this.PB_Locked.Image = global::PKHeX.Properties.Resources.locked;
+            this.PB_Locked.Location = new System.Drawing.Point(76, 2);
+            this.PB_Locked.Name = "PB_Locked";
+            this.PB_Locked.Size = new System.Drawing.Size(32, 32);
+            this.PB_Locked.TabIndex = 14;
+            this.PB_Locked.TabStop = false;
+            this.PB_Locked.Visible = false;
+            // 
             // bbpkx1
             // 
             this.bbpkx1.ContextMenuStrip = this.mnuV;
@@ -3806,6 +3820,10 @@
             // 
             // Tab_SAV
             // 
+            this.Tab_SAV.Controls.Add(this.L_Secure2);
+            this.Tab_SAV.Controls.Add(this.TB_Secure2);
+            this.Tab_SAV.Controls.Add(this.L_Secure1);
+            this.Tab_SAV.Controls.Add(this.TB_Secure1);
             this.Tab_SAV.Controls.Add(this.B_OpenDB);
             this.Tab_SAV.Controls.Add(this.B_3DSSETemp);
             this.Tab_SAV.Controls.Add(this.B_JPEG);
@@ -4073,15 +4091,47 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
-            // PB_Locked
+            // L_Secure1
             // 
-            this.PB_Locked.Image = global::PKHeX.Properties.Resources.locked;
-            this.PB_Locked.Location = new System.Drawing.Point(76, 2);
-            this.PB_Locked.Name = "PB_Locked";
-            this.PB_Locked.Size = new System.Drawing.Size(32, 32);
-            this.PB_Locked.TabIndex = 14;
-            this.PB_Locked.TabStop = false;
-            this.PB_Locked.Visible = false;
+            this.L_Secure1.Location = new System.Drawing.Point(33, 91);
+            this.L_Secure1.Name = "L_Secure1";
+            this.L_Secure1.Size = new System.Drawing.Size(115, 20);
+            this.L_Secure1.TabIndex = 16;
+            this.L_Secure1.Text = "Secure Value 1:";
+            this.L_Secure1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_Secure1
+            // 
+            this.TB_Secure1.Enabled = false;
+            this.TB_Secure1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_Secure1.Location = new System.Drawing.Point(151, 91);
+            this.TB_Secure1.MaxLength = 16;
+            this.TB_Secure1.Name = "TB_Secure1";
+            this.TB_Secure1.Size = new System.Drawing.Size(120, 20);
+            this.TB_Secure1.TabIndex = 15;
+            this.TB_Secure1.Text = "0000000000000000";
+            this.TB_Secure1.TextChanged += new System.EventHandler(this.updateSecure1);
+            // 
+            // L_Secure2
+            // 
+            this.L_Secure2.Location = new System.Drawing.Point(33, 113);
+            this.L_Secure2.Name = "L_Secure2";
+            this.L_Secure2.Size = new System.Drawing.Size(115, 20);
+            this.L_Secure2.TabIndex = 18;
+            this.L_Secure2.Text = "Secure Value 2:";
+            this.L_Secure2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_Secure2
+            // 
+            this.TB_Secure2.Enabled = false;
+            this.TB_Secure2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_Secure2.Location = new System.Drawing.Point(151, 113);
+            this.TB_Secure2.MaxLength = 16;
+            this.TB_Secure2.Name = "TB_Secure2";
+            this.TB_Secure2.Size = new System.Drawing.Size(120, 20);
+            this.TB_Secure2.TabIndex = 17;
+            this.TB_Secure2.Text = "0000000000000000";
+            this.TB_Secure2.TextChanged += new System.EventHandler(this.updateSecure2);
             // 
             // Main
             // 
@@ -4175,6 +4225,7 @@
             this.Tab_PartyBattle.PerformLayout();
             this.PAN_BattleBox.ResumeLayout(false);
             this.PAN_BattleBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Locked)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx1)).EndInit();
             this.mnuV.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bbpkx2)).EndInit();
@@ -4210,7 +4261,6 @@
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Locked)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4522,6 +4572,10 @@
         private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Button B_JPEG;
         private System.Windows.Forms.PictureBox PB_Locked;
+        private System.Windows.Forms.Label L_Secure2;
+        private System.Windows.Forms.TextBox TB_Secure2;
+        private System.Windows.Forms.Label L_Secure1;
+        private System.Windows.Forms.TextBox TB_Secure1;
     }
 }
 
