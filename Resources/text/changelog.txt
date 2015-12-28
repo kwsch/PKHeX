@@ -592,7 +592,16 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Various refactoring bugs. Thanks Odaxis, RustInPeace, MilesPikachu, Wanderer1391, suloku, and SciresM!
  - Hotfixed: Showdown Export bugs (IVs/Nickname). Thanks sora10pls and Favna!
 
-12/22/15 - New Update: (1170)
+12/22/15 - New Update: (5400)
  - Fixed: Inventory Editor errors. Thanks TheRicardoToddy!
  - Fixed: Trainer Editor errors. Thanks eonrocket!
  - Fixed: FlagDiff errors. Thanks lomejor18!
+
+12/29/15 - New Update:
+ - Added: PGF/PGT/PCD (Past Gen) Event Files can now be directly converted into pk6 files. Drop/Open the file and the information will be loaded to tabs.
+ - Fixed: Transferring 4th Gen Korean Pokémon will no longer skip converting OT/Nicknames.
+ - Changed: Rewrote pk2pk into individual classes (reduced program filesize & increased readability).
+ - Fixed: Changing the language of the program will no longer uninitialize the form permanently. Thanks Eskuero!
+ - Fixed: Set to SAV -> Modify PK6 interaction (auto memories) now handles untraded Pokémon properly (no need to turn it off). Thanks hehephorap & Eskuero!
+ - Fixed: Set to SAV -> Modify PK6 interaction (auto memories) can now be properly turned off.
+ - Fixed: Pokédex setting of language flags will write to the correct area. Thanks DeadSkullzJr!
