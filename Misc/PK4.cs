@@ -276,7 +276,6 @@ namespace PKHeX
             }
         }
         public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
-        public int[] Moves { get { return new[] { Move1, Move2, Move3, Move4 }; } }
         public int PSV { get { return (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3); } }
         public int TSV { get { return (TID ^ SID) >> 3; } }
         public bool IsShiny { get { return TSV == PSV; } }
@@ -285,6 +284,17 @@ namespace PKHeX
         public bool Gen4 { get { return (Version >= 10 && Version < 12) || (Version >= 7 && Version <= 8); } }
         public bool Gen3 { get { return ((Version >= 1 && Version <= 5) || Version == 15); } }
         public bool GenU { get { return !(Gen4 || Gen3); } }
+        public int[] Moves
+        {
+            get { return new[] { Move1, Move2, Move3, Move4 }; }
+            set
+            {
+                if (value.Length > 0) Move1 = value[0];
+                if (value.Length > 1) Move2 = value[1];
+                if (value.Length > 2) Move3 = value[2];
+                if (value.Length > 3) Move4 = value[3];
+            }
+        }
 
         // Complex Generated Attributes
         public int Characteristic
@@ -353,6 +363,30 @@ namespace PKHeX
 
             return false;
         }
+        public void FixMoves()
+        {
+            if (Move4 != 0 && Move3 == 0)
+            {
+                Move3 = Move4;
+                Move3_PP = Move4_PP;
+                Move3_PPUps = Move4_PPUps;
+                Move4 = Move4_PP = Move4_PPUps = 0;
+            }
+            if (Move3 != 0 && Move2 == 0)
+            {
+                Move2 = Move3;
+                Move2_PP = Move3_PP;
+                Move2_PPUps = Move3_PPUps;
+                Move3 = Move3_PP = Move3_PPUps = 0;
+            }
+            if (Move2 != 0 && Move1 == 0)
+            {
+                Move1 = Move2;
+                Move1_PP = Move2_PP;
+                Move1_PPUps = Move2_PPUps;
+                Move2 = Move2_PP = Move2_PPUps = 0;
+            }
+        }
 
         public PK5 convertToPK5()
         {
@@ -400,6 +434,18 @@ namespace PKHeX
 
             // Fix Level
             pk5.Met_Level = PKX.getLevel(pk5.Species, pk5.EXP);
+
+            // Remove HM moves; Defog should be kept if both are learned.
+            int[] banned = Moves.Contains(250) /*Whirlpool*/ && !Moves.Contains(432) /*Defog*/
+                ? new[] {15, 19, 57, 70, 432, 249, 127, 431} // No Defog
+                : new[] {15, 19, 57, 70, 250, 249, 127, 431};// No Whirlpool
+
+            int[] newMoves = pk5.Moves;
+            for (int i = 0; i < 4; i++)
+                if (banned.Contains(newMoves[i]))
+                    newMoves[i] = 0;
+            pk5.Moves = newMoves;
+            pk5.FixMoves();
 
             pk5.RefreshChecksum();
             return pk5;

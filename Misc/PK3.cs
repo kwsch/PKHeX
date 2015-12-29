@@ -135,6 +135,43 @@ namespace PKHeX
         // Simple Generated Attributes
         public bool Japanese { get { return Language == 1; } }
         public bool Gen3 { get { return ((Version >= 1 && Version <= 5) || Version == 15); } }
+        public int[] Moves
+        {
+            get { return new[] { Move1, Move2, Move3, Move4 }; }
+            set
+            {
+                if (value.Length > 0) Move1 = value[0];
+                if (value.Length > 1) Move2 = value[1];
+                if (value.Length > 2) Move3 = value[2];
+                if (value.Length > 3) Move4 = value[3];
+            }
+        }
+
+        // Methods
+        public void FixMoves()
+        {
+            if (Move4 != 0 && Move3 == 0)
+            {
+                Move3 = Move4;
+                Move3_PP = Move4_PP;
+                Move3_PPUps = Move4_PPUps;
+                Move4 = Move4_PP = Move4_PPUps = 0;
+            }
+            if (Move3 != 0 && Move2 == 0)
+            {
+                Move2 = Move3;
+                Move2_PP = Move3_PP;
+                Move2_PPUps = Move3_PPUps;
+                Move3 = Move3_PP = Move3_PPUps = 0;
+            }
+            if (Move2 != 0 && Move1 == 0)
+            {
+                Move1 = Move2;
+                Move1_PP = Move2_PP;
+                Move1_PPUps = Move2_PPUps;
+                Move2 = Move2_PP = Move2_PPUps = 0;
+            }
+        }
 
         public PK4 convertToPK4()
         {
@@ -242,6 +279,15 @@ namespace PKHeX
             pk4.Met_Level = PKX.getLevel(pk4.Species, pk4.EXP);
             pk4.Gender = PKM.getGender(pk4.Species, pk4.PID);
             pk4.IsNicknamed |= (pk4.Nickname != PKM.getSpeciesName(pk4.Species, pk4.Language));
+
+            // Remove HM moves
+            int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };
+            int[] newMoves = pk4.Moves;
+            for (int i = 0; i < 4; i++)
+                if (banned.Contains(newMoves[i]))
+                    newMoves[i] = 0;
+            pk4.Moves = newMoves;
+            pk4.FixMoves();
 
             pk4.RefreshChecksum();
             return pk4;
