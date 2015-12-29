@@ -38,7 +38,7 @@ namespace PKHeX
             byte[] ekdata = new byte[PK4.SIZE_PARTY];
             Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
             // Decrypt PK4
-            PKM = new PK4(PKX.decryptG4Array(ekdata, BitConverter.ToUInt16(ekdata, 6)));
+            PK = new PK4(PKM.decryptArray(ekdata, BitConverter.ToUInt16(ekdata, 6)));
             
             Unknown = new byte[0x10];
             Array.Copy(Data, 0xF4, Unknown, 0, 0x10);
@@ -48,7 +48,7 @@ namespace PKHeX
         // Unused 0x01
         public byte Slot { get { return Data[2]; } set { Data[2] = value; } }
         public byte Detail { get { return Data[3]; } set { Data[3] = value; } }
-        public PK4 PKM;
+        public PK4 PK;
         public byte[] Unknown;
 
         public bool IsPokémon { get { return CardType == 1; } set { if (value) CardType = 1; } }
@@ -61,37 +61,38 @@ namespace PKHeX
             if (!PokémonGift)
                 return null;
 
+            PK4 pk4 = new PK4(PK.Data);
             if (!IsPokémon && Detail == 0)
             {
-                PKM.OT_Name = "PKHeX";
-                PKM.TID = 12345;
-                PKM.SID = 54321;
-                PKM.OT_Gender = (int)(Util.rnd32()%2);
+                pk4.OT_Name = "pk4HeX";
+                pk4.TID = 12345;
+                pk4.SID = 54321;
+                pk4.OT_Gender = (int)(Util.rnd32()%2);
             }
             if (IsManaphyEgg)
             {
                 // Since none of this data is populated, fill in default info.
-                PKM.Species = 490;
+                pk4.Species = 490;
                 // Level 1 Moves
-                PKM.Move1 = 294;
-                PKM.Move2 = 145;
-                PKM.Move3 = 346;
-                PKM.FatefulEncounter = true;
-                PKM.Ball = 4;
-                PKM.Version = 10; // Diamond
-                PKM.Language = 2; // English
-                PKM.Nickname = "MANAPHY";
-                PKM.Egg_Location = 1; // Ranger (will be +3000 later)
+                pk4.Move1 = 294;
+                pk4.Move2 = 145;
+                pk4.Move3 = 346;
+                pk4.FatefulEncounter = true;
+                pk4.Ball = 4;
+                pk4.Version = 10; // Diamond
+                pk4.Language = 2; // English
+                pk4.Nickname = "MANAPHY";
+                pk4.Egg_Location = 1; // Ranger (will be +3000 later)
             }
 
             // Generate IV
             uint seed = Util.rnd32();
-            if (PKM.PID == 1) // Create Nonshiny
+            if (pk4.PID == 1) // Create Nonshiny
             {
-                uint pid1 = PKX.LCRNG(ref seed) >> 16;
-                uint pid2 = PKX.LCRNG(ref seed) >> 16;
+                uint pid1 = PKM.LCRNG(ref seed) >> 16;
+                uint pid2 = PKM.LCRNG(ref seed) >> 16;
 
-                while ((pid1 ^ pid2 ^ PKM.TID ^ PKM.SID) < 8)
+                while ((pid1 ^ pid2 ^ pk4.TID ^ pk4.SID) < 8)
                 {
                     uint testPID = pid1 | (pid2 << 16);
 
@@ -101,39 +102,41 @@ namespace PKHeX
                     pid1 = testPID & 0xFFFF;
                     pid2 = testPID >> 16;
                 }
-                PKM.PID = pid1 | (pid2 << 16);
+                pk4.PID = pid1 | (pid2 << 16);
             }
 
             // Generate IVs
-            if (PKM.IV32 == 0)
+            if (pk4.IV32 == 0)
             {
-                uint iv1 = PKX.LCRNG(ref seed) >> 16;
-                uint iv2 = PKX.LCRNG(ref seed) >> 16;
-                PKM.IV32 = (iv1 | (iv2 << 16)) & 0x3FFFFFFF;
+                uint iv1 = PKM.LCRNG(ref seed) >> 16;
+                uint iv2 = PKM.LCRNG(ref seed) >> 16;
+                pk4.IV32 = (iv1 | (iv2 << 16)) & 0x3FFFFFFF;
             }
 
             // Generate Met Info
             DateTime dt = DateTime.Now;
             if (IsPokémon)
             {
-                PKM.Met_Location = PKM.Egg_Location + 3000;
-                PKM.Egg_Location = 0;
-                PKM.Met_Day = dt.Day;
-                PKM.Met_Month = dt.Month;
-                PKM.Met_Year = dt.Year - 2000;
-                PKM.IsEgg = false;
+                pk4.Met_Location = pk4.Egg_Location + 3000;
+                pk4.Egg_Location = 0;
+                pk4.Met_Day = dt.Day;
+                pk4.Met_Month = dt.Month;
+                pk4.Met_Year = dt.Year - 2000;
+                pk4.IsEgg = false;
             }
             else
             {
-                PKM.Egg_Location = PKM.Egg_Location + 3000;
-                PKM.Egg_Day = dt.Day;
-                PKM.Egg_Month = dt.Month;
-                PKM.Egg_Year = dt.Year - 2000;
-                PKM.IsEgg = false;
-                // Met Location is modified when transferred to PK5; don't worry about it.
+                pk4.Egg_Location = pk4.Egg_Location + 3000;
+                pk4.Egg_Day = dt.Day;
+                pk4.Egg_Month = dt.Month;
+                pk4.Egg_Year = dt.Year - 2000;
+                pk4.IsEgg = false;
+                // Met Location is modified when transferred to pk5; don't worry about it.
             }
+            if (pk4.Species == 201) // Never will be true; Unown was never distributed.
+                pk4.AltForm = PKM.getUnownForm(pk4.PID);
 
-            return PKM;
+            return pk4;
         }
     }
 }

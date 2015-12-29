@@ -5,6 +5,23 @@ namespace PKHeX
 {
     public class PKM // Past Gen
     {
+        internal static uint LCRNG(uint seed)
+        {
+            const uint a = 0x41C64E6D;
+            const uint c = 0x00006073;
+
+            seed = (seed * a + c) & 0xFFFFFFFF;
+            return seed;
+        }
+        internal static uint LCRNG(ref uint seed)
+        {
+            const uint a = 0x41C64E6D;
+            const uint c = 0x00006073;
+
+            seed = (seed * a + c) & 0xFFFFFFFF;
+            return seed;
+        }
+
         internal static Converter Config = new Converter();
         internal static string[] speclang_ja = Util.getStringList("Species", "ja");
         internal static string[] speclang_en = Util.getStringList("Species", "en");
@@ -17,6 +34,85 @@ namespace PKHeX
         {
             int index = input.IndexOf((char)0xFFFF);
             return index < 0 ? input : input.Substring(0, index);
+        }
+
+        // Past Gen Manipulation
+        internal static readonly byte[][] blockPosition =
+        {
+            new byte[] {0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3},
+            new byte[] {1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2},
+            new byte[] {2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1},
+            new byte[] {3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0},
+        };
+        internal static readonly byte[] blockPositionInvert =
+        {
+            0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23
+        };
+        internal static byte[] shuffleArray(byte[] data, uint sv)
+        {
+            byte[] sdata = new byte[PK4.SIZE_PARTY];
+            Array.Copy(data, sdata, 8); // Copy unshuffled bytes
+
+            // Shuffle Away!
+            for (int block = 0; block < 4; block++)
+                Array.Copy(data, 8 + 32 * blockPosition[block][sv], sdata, 8 + 32 * block, 32);
+
+            // Fill the Battle Stats back
+            if (data.Length > 136)
+                Array.Copy(data, 136, sdata, 136, 100);
+
+            return sdata;
+        }
+        internal static byte[] decryptArray(byte[] ekm, uint seed = 0x10000)
+        {
+            byte[] pkm = (byte[])ekm.Clone();
+
+            uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint sv = (((pv & 0x3E000) >> 0xD) % 24);
+
+            seed = seed > 0xFFFF ? pv : seed;
+
+            // Decrypt Blocks with RNG Seed
+            for (int i = 8; i < 136; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkm, i);
+
+            // Deshuffle
+            pkm = shuffleArray(pkm, sv);
+
+            // Decrypt the Party Stats
+            seed = pv;
+            if (pkm.Length <= 136) return pkm;
+            for (int i = 136; i < 236; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkm, i);
+
+            return pkm;
+        }
+        internal static byte[] encryptArray(byte[] pkm, uint seed = 0x10000)
+        {
+            // Shuffle
+            uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint sv = (((pv & 0x3E000) >> 0xD) % 24);
+
+            byte[] ekm = (byte[])pkm.Clone();
+
+            ekm = shuffleArray(ekm, blockPositionInvert[sv]);
+
+            seed = seed > 0xFFFF ? pv : seed;
+
+            // Encrypt Blocks with RNG Seed
+            for (int i = 8; i < 136; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekm, i);
+
+            // If no party stats, return.
+            if (ekm.Length <= 136) return ekm;
+
+            // Encrypt the Party Stats
+            seed = pv;
+            for (int i = 136; i < 236; i += 2)
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekm, i);
+
+            // Done
+            return ekm;
         }
 
         internal static int getUnownForm(uint PID)
