@@ -413,6 +413,8 @@ namespace PKHeX
         public void setPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }
         public ushort getMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + 2 * index); }
         public void setMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + 2*index); }
+        public uint getEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + 2*index); }
+        public void setEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + 2*index); }
 
         // Misc Properties
         public int PartyCount
@@ -573,6 +575,10 @@ namespace PKHeX
             // Set the Language
             if (lang < 0) lang = 1;
             Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << (((bit * 7) + lang) % 8));
+
+            // Set DexNav count (only if not encountered previously)
+            if (ORAS && getEncounterCount(pk6.Species - 1) == 0)
+                setEncounterCount(pk6.Species - 1, 1);
         }
         public int getBoxWallpaper(int box)
         {
