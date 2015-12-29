@@ -287,7 +287,7 @@ namespace PKHeX
 
             // Encounter Count Writing (999*all species)
             for (int i = 0; i < 0x2D1; i++)
-                Array.Copy(BitConverter.GetBytes(999), 0, sav, Main.SAV.EncounterCount + i * 2, 2);
+                BitConverter.GetBytes((ushort)999).CopyTo(sav, Main.SAV.EncounterCount + i * 2);
             
             // Forms Bool Writing
             for (int i = 0; i < 0x98; i++)
