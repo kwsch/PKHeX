@@ -145,7 +145,7 @@ namespace PKHeX
             SaveFileDialog outputwc6 = new SaveFileDialog();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
             string cardname = Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48);
-            outputwc6.FileName = cardID + " - " + cardname + ".wc6";
+            outputwc6.FileName = Util.CleanFileName(cardID + " - " + cardname + ".wc6");
             outputwc6.Filter = "Wonder Card|*.wc6";
             if (outputwc6.ShowDialog() != DialogResult.OK) return;
 
