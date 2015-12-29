@@ -597,7 +597,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Trainer Editor errors. Thanks eonrocket!
  - Fixed: FlagDiff error. Thanks lomejor18!
 
-12/29/15 - New Update: (420)
+12/29/15 - New Update: (2000)
  - Added: PGF/PGT/PCD (Past Gen) Event Files can now be directly converted into pk6 files. Drop/Open the file and the information will be loaded to tabs.
  - Fixed: Transferring 4th Gen Korean Pokémon will no longer skip converting OT/Nicknames.
  - Changed: Rewrote pk2pk into individual classes (reduced program filesize & increased readability).
@@ -606,3 +606,11 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Set to SAV -> Modify PK6 interaction (auto memories) can now be properly turned off.
  - Fixed: Pokédex setting of language flags will write to the correct area. Thanks DeadSkullzJr!
  - Fixed: Trainer Editor error (pt 2). Thanks eonrocket!
+
+12/30/15 - New Update:
+ - Added: Secure Value VIEWING in the SAV Tab (informational purposes).
+ - Added: Setting a Pokemon with DexNav count = 0 will increment by 1. Thanks Eskuero!
+ - Changed: Encrypting pk6 files is now marginally faster.
+ - Fixed: Transferring will remove HMs that are unable to transfer. Thanks Ahito95!
+ - Fixed: Transferring will now carry over Gender/AltForm 5->6. Thanks Ahito95!
+ - Fixed: Wonder Card filename suggestions will no longer contain illegal characters.
