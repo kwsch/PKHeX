@@ -25,7 +25,7 @@ namespace PKHeX
                 TB_MCRN,TB_MCRS,TB_MBRN,TB_MBRS,
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
-            if (Main.SAV.ORAS)
+            if (Main.SAV.ORAS || Main.SAV.ORASDEMO)
             {
                 Width = (int)((float)Width * 428 / 590);
                 CB_Multi.Enabled = true;
@@ -329,7 +329,7 @@ namespace PKHeX
         private void getBadges()
         {
             // Fetch Badges
-            Bitmap[] bma = (Main.SAV.ORAS) ? 
+            Bitmap[] bma = (Main.SAV.ORAS || Main.SAV.ORASDEMO) ? 
                 new[] {
                                    Properties.Resources.badge_01, // ORAS Badges
                                    Properties.Resources.badge_02,  
@@ -618,7 +618,7 @@ namespace PKHeX
 
         private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject((Main.SAV.ORAS) ? "tr_" + Util.getIndex(CB_Multi).ToString("00") : "tr_00");
+            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject((Main.SAV.ORAS || Main.SAV.ORASDEMO) ? "tr_" + Util.getIndex(CB_Multi).ToString("00") : "tr_00");
         }
     }
 }

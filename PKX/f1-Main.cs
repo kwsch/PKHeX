@@ -461,6 +461,8 @@ namespace PKHeX
                 openMAIN(input, path);
             else if ((input.Length == SAV6.SIZE_XY) && BitConverter.ToUInt32(input, SAV6.SIZE_XY - 0x1F0) == SAV6.BEEF) // XY
                 openMAIN(input, path);
+            else if ((input.Length == SAV6.SIZE_ORASDEMO) && BitConverter.ToUInt32(input, SAV6.SIZE_ORASDEMO - 0x1F0) == SAV6.BEEF) // ORAS Demo
+                openMAIN(input, path);
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
             {
@@ -659,7 +661,7 @@ namespace PKHeX
             // Load CyberGadget
             B_ExportSAV.Enabled = true;
 
-            openSave(SAV.ORAS);
+            openSave();
         }
         private bool openXOR(byte[] input, string path)
         {
@@ -708,7 +710,7 @@ namespace PKHeX
             if (xorpath != exepath || loop++ > 0) return false; // no xorpad compatible
             xorpath = Path.GetDirectoryName(path); goto check;
         }
-        private void openSave(bool oras)
+        private void openSave()
         {
             // Enable Secondary Tools
             GB_SAVtools.Enabled =
@@ -724,18 +726,40 @@ namespace PKHeX
             setPKXBoxes();   // Reload all of the PKX Windows
 
             // Version Exclusive Editors
-            GB_SUBE.Visible = !oras;
-            B_OpenSecretBase.Visible = oras;
+            GB_SUBE.Visible = !SAV.ORAS;
+            B_OpenSecretBase.Visible = SAV.ORAS;
 
-            int startBox = SAV.CurrentBox; // FF if BattleBox
-            if (startBox > 30) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
-            else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
+            if (SAV.Box > -1)
+            {
+                int startBox = SAV.CurrentBox; // FF if BattleBox
+                if (startBox > 30) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
+                else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
+            }
 
             TB_GameSync.Enabled = SAV.GameSyncID != 0;
             TB_GameSync.Text = SAV.GameSyncID.ToString("X16");
             TB_Secure1.Text = SAV.Secure1.ToString("X16");
             TB_Secure2.Text = SAV.Secure2.ToString("X16");
             PB_Locked.Visible = SAV.BattleBoxLocked;
+
+            // Hide content if not present in game.
+            PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.Box > -1;
+            Menu_BoxIO.Enabled = reportToolStripMenuItem.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.Box > -1;
+            PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.BattleBox > -1;
+            GB_Daycare.Visible = SAV.Daycare > -1;
+            GB_Fused.Visible = SAV.Fused > -1;
+            GB_GTS.Visible = SAV.GTS > -1;
+            B_OpenSecretBase.Enabled = SAV.SecretBase > -1;
+            B_OpenPokepuffs.Enabled = SAV.Puff > -1;
+            B_OUTPasserby.Enabled = SAV.PSS > -1;
+            B_OpenBoxLayout.Enabled = SAV.BoxWallpapers > -1;
+            B_OpenWondercards.Enabled = SAV.WondercardFlags > -1;
+            B_OpenSuperTraining.Enabled = SAV.SuperTrain > -1;
+            B_OpenHallofFame.Enabled = SAV.HoF > -1;
+            B_OpenOPowers.Enabled = SAV.OPower > -1;
+            B_OpenPokedex.Enabled = SAV.PokeDex > -1;
+            B_OpenBerryField.Enabled = SAV.BerryField > -1;
+            B_JPEG.Enabled = SAV.JPEG > -1;
 
             Width = largeWidth;
 
@@ -2463,7 +2487,8 @@ namespace PKHeX
             if (err.Length > 0 && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
                 return;
 
-            SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
+            if (SAV.Box > -1)
+                SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
             byte[] sav = SAV.Write();
 
             SaveFileDialog cySAV = new SaveFileDialog();
@@ -2597,7 +2622,7 @@ namespace PKHeX
             int offset = getPKXOffset(slot);
 
             byte[] pkxdata = preparepkx();
-            if (!SAV.ORAS)
+            if (!(SAV.ORAS || SAV.ORASDEMO))
             {
                 PK6 pk = new PK6(pkxdata);
                 // User Protection
@@ -2836,50 +2861,61 @@ namespace PKHeX
         }
         public void setPKXBoxes()
         {
-            int boxoffset = SAV.Box + CB_BoxSelect.SelectedIndex * (PK6.SIZE_STORED * 30);
-            int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
-            string imagename = "box_wp" + boxbgval.ToString("00"); if (SAV.ORAS && boxbgval > 16) imagename += "o";
-            PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
+            if (SAV.Box > -1)
+            {
+                int boxoffset = SAV.Box + CB_BoxSelect.SelectedIndex * (PK6.SIZE_STORED * 30);
+                int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
+                string imagename = "box_wp" + boxbgval.ToString("00"); if (SAV.ORAS && boxbgval > 16) imagename += "o";
+                PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
 
-            for (int i = 0; i < 30; i++)
-                getSlotFiller(boxoffset + PK6.SIZE_STORED * i, SlotPictureBoxes[i]);
+                for (int i = 0; i < 30; i++)
+                    getSlotFiller(boxoffset + PK6.SIZE_STORED * i, SlotPictureBoxes[i]);
+            }
 
             // Reload Party
+            if (SAV.Party > -1)
             for (int i = 0; i < 6; i++)
                 getSlotFiller(SAV.Party + PK6.SIZE_PARTY * i, SlotPictureBoxes[i + 30]);
 
             // Reload Battle Box
+            if (SAV.BattleBox > -1)
             for (int i = 0; i < 6; i++)
                 getSlotFiller(SAV.BattleBox + PK6.SIZE_STORED * i, SlotPictureBoxes[i + 36]);
 
             // Reload Daycare
-            Label[] dclabela = { L_DC1, L_DC2, };
-            TextBox[] dctexta = { TB_Daycare1XP, TB_Daycare2XP };
-            var exp = new[] {SAV.DaycareEXP1, SAV.DaycareEXP2};
-            var occ = new[] {SAV.DaycareOccupied1, SAV.DaycareOccupied2};
-
-            for (int i = 0; i < 2; i++)
+            if (SAV.Daycare > -1)
             {
-                getSlotFiller(SAV.DaycareSlot[DaycareSlot] + PK6.SIZE_STORED * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
-                dctexta[i].Text = exp[i].ToString();
-                if (occ[i])   // If Occupied
-                    dclabela[i].Text = (i + 1) + ": ✓";
-                else
+                Label[] dclabela = { L_DC1, L_DC2, };
+                TextBox[] dctexta = { TB_Daycare1XP, TB_Daycare2XP };
+                var exp = new[] {SAV.DaycareEXP1, SAV.DaycareEXP2};
+                var occ = new[] {SAV.DaycareOccupied1, SAV.DaycareOccupied2};
+
+                for (int i = 0; i < 2; i++)
                 {
-                    dclabela[i].Text = (i + 1) + ": ✘";
-                    SlotPictureBoxes[i + 42].Image = Util.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
+                    getSlotFiller(SAV.DaycareSlot[DaycareSlot] + PK6.SIZE_STORED * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
+                    dctexta[i].Text = exp[i].ToString();
+                    if (occ[i])   // If Occupied
+                        dclabela[i].Text = (i + 1) + ": ✓";
+                    else
+                    {
+                        dclabela[i].Text = (i + 1) + ": ✘";
+                        SlotPictureBoxes[i + 42].Image = Util.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
+                    }
                 }
+                DayCare_HasEgg.Checked = SAV.DaycareHasEgg;
+                TB_RNGSeed.Text = SAV.DaycareRNGSeed.ToString("X16");
             }
-            DayCare_HasEgg.Checked = SAV.DaycareHasEgg;
-            TB_RNGSeed.Text = SAV.DaycareRNGSeed.ToString("X16");
 
             // GTS
+            if (SAV.GTS > -1)
             getSlotFiller(SAV.GTS, SlotPictureBoxes[44]);
 
             // Fused
+            if (SAV.Fused > -1)
             getSlotFiller(SAV.Fused, SlotPictureBoxes[45]);
 
             // SUBE
+            if (SAV.SUBE > -1)
             for (int i = 0; i < 3; i++)
             {
                 int offset = SAV.SUBE + i * (PK6.SIZE_STORED + 4);
@@ -2894,6 +2930,8 @@ namespace PKHeX
         }
         private void setBoxNames()
         {
+            if (SAV.Box < 0)
+                return;
             int selectedbox = CB_BoxSelect.SelectedIndex; // precache selected box
             // Build ComboBox Dropdown Items
             try

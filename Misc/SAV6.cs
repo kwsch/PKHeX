@@ -22,6 +22,7 @@ namespace PKHeX
     {
         internal static readonly int SIZE_XY = 0x65600;
         internal static readonly int SIZE_ORAS = 0x76000;
+        internal static readonly int SIZE_ORASDEMO = 0x5A00;
         internal static readonly int BEEF = 0x42454546;
 
         // Global Settings
@@ -44,7 +45,33 @@ namespace PKHeX
         
         public void getSAVOffsets()
         {
-            if (XY)
+            if (ORASDEMO)
+            {
+                /* 00: */   Item = 0x00000; Items = new Inventory(Item, 1);
+                /* 01: */   // = 0x00C00; // Select Bound Items
+                /* 02: */   // = 0x00E00; [00038] // ???
+                /* 03: */   Trainer1 = 0x01000;
+                /* 04: */   // = 0x01200; [00004] // ???
+                /* 05: */   PlayTime = 0x01400;
+                /* 06: */   // = 0x01600; [00024] // FFFFFFFF
+                /* 07: */   // = 0x01800; [02100] // Overworld Data
+                /* 08: */   Trainer2 = 0x03A00;
+                /* 09: */   TrainerCard = 0x03C00;
+                /* 10: */   Party = 0x03E00;
+                /* 11: */   EventConst = 0x04600; EventAsh = EventConst + 0x78; EventFlag = EventConst + 0x2FC;
+                /* 12: */   // = 0x04C00; [00004] // 87B1A23F const
+                /* 13: */   // = 0x04E00; [00048] // Repel Info, (Swarm?) and other overworld info
+                /* 14: */   SUBE = 0x05000;
+                /* 15: */   PSSStats = 0x05400;
+
+                Box = BattleBox = GTS = Daycare = EonTicket = Fused = Puff = 
+                    SuperTrain = SecretBase = BoxWallpapers = 
+                    LastViewedBox = PCLayout = PCBackgrounds = PCFlags = WondercardFlags = WondercardData = 
+                    BerryField = OPower = Accessories = 
+                    PokeDex = PokeDexLanguageFlags = Spinda = EncounterCount = HoF = PSS = JPEG = -1;
+                MaisonStats = 0; // Make things work?
+            }
+            else if (XY)
             {
                 Box = 0x22600;
                 TrainerCard = 0x14000;
@@ -178,8 +205,9 @@ namespace PKHeX
                 return GameVersion.Unknown;
             }
         }
-        public bool ORAS { get { return ((Version == GameVersion.OR) || (Version == GameVersion.AS)); } }
-        public bool XY { get { return ((Version == GameVersion.X) || (Version == GameVersion.Y)); } }
+        public bool ORASDEMO { get { return Data.Length == SIZE_ORASDEMO; } }
+        public bool ORAS { get { return !ORASDEMO && (Version == GameVersion.OR || Version == GameVersion.AS); } }
+        public bool XY { get { return (Version == GameVersion.X || Version == GameVersion.Y); } }
 
         // Save Information
         private int BlockInfoOffset;
@@ -541,6 +569,8 @@ namespace PKHeX
         }
         public void setDex(PK6 pk6)
         {
+            if (PokeDex < 0) 
+                return;
             if (pk6.Species == 0)
                 return;
 
@@ -609,6 +639,8 @@ namespace PKHeX
                 if (i >= partymembers)
                     Array.Copy(encryptArray(new byte[PK6.SIZE_PARTY]), 0, Data, Party + (i * PK6.SIZE_PARTY), PK6.SIZE_PARTY);
 
+            if (BattleBox < 0)
+                return;
             // Repeat for Battle Box.
             byte battlemem = 0;
             for (int i = 0; i < 6; i++)
@@ -743,6 +775,15 @@ namespace PKHeX
                 break;
             }
             return r;
+        }
+
+        // Debug
+        public string getBlockInfoString()
+        {
+            return Blocks.Aggregate("", (current, b) => current +
+                    String.Format("{0}: {1}-{2}, {3}{4}",
+                    b.ID.ToString("00"), b.Offset.ToString("X5"), (b.Offset + b.Length).ToString("X5"), b.Length.ToString("X5"),
+                        Environment.NewLine));
         }
     }
 }
