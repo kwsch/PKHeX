@@ -571,7 +571,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Showdown Text Export. Alt-Click Species to export current or double click box / battle box for a full team!
  - Added: Battle Box Locked indication.
  - Added: Game Sync ID editing / resetting.
- - Added: Exporting unedited save file to another location for backup purposes.
+ - Added: Exporting unedited save file to another location for backup purposes. Hold ALT when exporting to instead export the original save.
  - Removed: 1MB save (Powersave) exporting; all files are now treated as 'main' files for simplicity.
 
  - Added: Multiple usability improvements:

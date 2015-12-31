@@ -20,10 +20,27 @@ Alt + Click on...
 
 Click on the OT label to set relevant details to that of the save file.
 
+Drop WC6/PGF/PCD/PGT to convert to PK6 in the main tabs.
+- Hold CTRL to open the Wonder Card interface when opening a WC6.
+
+// Party / Battle Box
+- Double click to export team to Showdown set format.
 
 // Save File
 
+Hold ALT when exporting to instead export the original save.
+
 Click on the Save File path (above Boxes): Auto-detect/Reload save.
+ - Shift skips SaveDataFiler
+
+Open Temp Folder:
+ - Shift opens SaveDataBackup folder
+ - Alt opens SaveDataFiler folder
+ - Control opens CyberGadget Cache folder
+ - [Default] opens CyberGadget root folder
+
+
+// Boxes
 
 Control-Drag a Box Slot to Copy-Overwrite
 Alt-Drag a Box Slot to Delete-Overwrite
