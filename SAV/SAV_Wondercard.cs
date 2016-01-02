@@ -361,7 +361,7 @@ namespace PKHeX
             if (ModifierKeys == Keys.Alt)
             {
                 byte[] wc = Util.getQRData();
-
+                if (wc == null) return;
                 if (wc.Length != WC6.Size) { Util.Alert("Decoded data not 0x108 bytes.", String.Format("QR Data Size: 0x{0}", wc.Length.ToString("X"))); }
                 else try
                     {
