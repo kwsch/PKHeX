@@ -663,7 +663,7 @@ namespace PKHeX
             Egg_Location = 30002;
             Egg_Day = Day;
             Egg_Month = Month;
-            Egg_Year = Year;
+            Egg_Year = Year - 2000;
         }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {

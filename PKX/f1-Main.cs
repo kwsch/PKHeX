@@ -2341,7 +2341,7 @@ namespace PKHeX
             pk6.Met_Location = Util.getIndex(CB_MetLocation);
 
             if (pk6.IsEgg && pk6.Met_Location == 0)    // If still an egg, it has no hatch location/date. Zero it!
-                pk6.Egg_Year = pk6.Egg_Month = pk6.Egg_Day = 0;
+                pk6.Met_Year = pk6.Met_Month = pk6.Met_Day = 0;
 
             // 0xD7 Unknown
 
