@@ -1382,11 +1382,12 @@ namespace PKHeX
 
                 // EVs
                 string[] evstr = new string[6];
+                int[] sEVs = { EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3] }; // Reorganize speed
                 int evctr = 0;
                 for (int i = 0; i < 6; i++)
                 {
-                    if (EVs[i] == 0) continue;
-                    evstr[evctr++] += String.Format("{0} {1}", EVs[i], StatNames[i]);
+                    if (sEVs[i] == 0) continue;
+                    evstr[evctr++] += String.Format("{0} {1}", sEVs[i], StatNames[i]);
                 }
                 if (evctr > 0)
                     result += "EVs: " + string.Join(" / ", evstr.Take(evctr)) + Environment.NewLine;
