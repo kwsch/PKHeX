@@ -10,16 +10,44 @@
 ! lang_zh.txt = Chinese
 ! lang_pt.txt = Portuguese
 ! Make sure that each edit has a ' = ' between Control name and new Text!
-! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
 ! Main = PKHeX
 - Change stuff below this line, not above.
-----------------Overall PKX Interface------------------
-Menu_File = ファイル ; 読み込み... ; 保存... ; やめる
-Menu_Tools = ツール ; トグルボックスインタフェース ;  ロード/ダンプボックス ; ボックスデータレポート ; コード生成
-Menu_Options = 設定 ; 言語 ; PKHeXについて
+---------------------Menu Strip------------------------
+Menu_File = ファイル
+Menu_Open = 読み込み...
+Menu_Save = 保存 PK6...
+Menu_ExportSAV = 保存 SAV...
+Menu_Exit = やめる
+--
+Menu_Tools = ツール
+Menu_Showdown = Showdown
+Menu_ShowdownImportPK6 = Import Set from Clipboard
+Menu_ShowdownExportPK6 = Export Set from Clipboard
+Menu_ShowdownExportParty = Export Party to Clipboard
+Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_CyberGadget = CyberGadget
+Menu_CodeGenerator = コード生成
+Menu_OpenTemp = オープンTempフォルダ
+Menu_OpenCache = オープンCacheフォルダ
+Menu_Data = データ
+Menu_LoadBoxes = ロードボックス
+Menu_DumpBoxes = ダンプボックス
+Menu_Report = ボックスデータレポート
+Menu_Database = PK6データベース
+Menu_Other = その他
+Menu_OpenSDF = オープンSaveDataFilerフォルダ
+Menu_OpenSDB = オープンSaveDataBackupフォルダ
+--
+Menu_Options = 設定
+Menu_Language = 言語
+Menu_Modify = SAVに設定
+Menu_ModifyDex = ポケモン図鑑を変更
+Menu_ModifyPK6 = PK6情報の変更
+Menu_Unicode = トグルフォント
+Menu_About = PKHeXについて
 --------------------Main Tab Data----------------------
 Tab_Main = メイン
 Label_PID = PID:
@@ -124,16 +152,10 @@ GB_SUBE = オールド·マン
 DayCare_HasEgg = 利用可能な卵
 L_DaycareSeed = Seed
 L_ReadOnlyOther = このタブは読み取り専用です。
-B_BoxIO = 開く/保存パッケージ内容
 B_JPEG = 保存PGL。JPEG
 B_OpenHallofFame = 殿堂入り
 B_OUTPasserby = 通行人
-L_IntegrityCheck = 整合性チェック
 B_VerifyCHK = チェックサム
-B_VerifySHA = ハッシュ
-L_SAVManipulation = ファイル操作を保存
-B_SwitchSAV = 変わるSAV
-B_ExportSAV = 輸出SAV
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below

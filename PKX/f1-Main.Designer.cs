@@ -98,6 +98,12 @@
             this.CAL_MetDate = new System.Windows.Forms.DateTimePicker();
             this.CB_EncounterType = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
+            this.Stat_SPE = new System.Windows.Forms.MaskedTextBox();
+            this.Stat_SPD = new System.Windows.Forms.MaskedTextBox();
+            this.Stat_SPA = new System.Windows.Forms.MaskedTextBox();
+            this.Stat_DEF = new System.Windows.Forms.MaskedTextBox();
+            this.Stat_ATK = new System.Windows.Forms.MaskedTextBox();
+            this.Stat_HP = new System.Windows.Forms.MaskedTextBox();
             this.CB_HPType = new System.Windows.Forms.ComboBox();
             this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
             this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
@@ -143,12 +149,6 @@
             this.Label_ATK = new System.Windows.Forms.Label();
             this.Label_HP = new System.Windows.Forms.Label();
             this.TB_EVTotal = new System.Windows.Forms.TextBox();
-            this.Stat_SPE = new System.Windows.Forms.TextBox();
-            this.Stat_SPD = new System.Windows.Forms.TextBox();
-            this.Stat_SPA = new System.Windows.Forms.TextBox();
-            this.Stat_DEF = new System.Windows.Forms.TextBox();
-            this.Stat_ATK = new System.Windows.Forms.TextBox();
-            this.Stat_HP = new System.Windows.Forms.TextBox();
             this.Tab_Attacks = new System.Windows.Forms.TabPage();
             this.GB_RelearnMoves = new System.Windows.Forms.GroupBox();
             this.CB_RelearnMove4 = new System.Windows.Forms.ComboBox();
@@ -212,12 +212,26 @@
             this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ExportSAV = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ToggleBoxUI = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_BoxIO = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.codeGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Showdown = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShowdownImportPK6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShowdownExportPK6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShowdownExportParty = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShowdownExportBattleBox = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_CyberGadget = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_CodeGenerator = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_OpenTemp = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_OpenCache = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Data = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_LoadBoxes = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_DumpBoxes = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Database = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Other = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_OpenSDF = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_OpenSDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
@@ -312,14 +326,15 @@
             this.subepkx2 = new System.Windows.Forms.PictureBox();
             this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
-            this.B_OpenDB = new System.Windows.Forms.Button();
-            this.B_3DSSETemp = new System.Windows.Forms.Button();
+            this.L_Secure2 = new System.Windows.Forms.Label();
+            this.TB_Secure2 = new System.Windows.Forms.TextBox();
+            this.L_Secure1 = new System.Windows.Forms.Label();
+            this.TB_Secure1 = new System.Windows.Forms.TextBox();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.L_GameSync = new System.Windows.Forms.Label();
             this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
-            this.B_ExportSAV = new System.Windows.Forms.Button();
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
@@ -335,10 +350,6 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
-            this.L_Secure1 = new System.Windows.Forms.Label();
-            this.TB_Secure1 = new System.Windows.Forms.TextBox();
-            this.L_Secure2 = new System.Windows.Forms.Label();
-            this.TB_Secure2 = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -639,6 +650,7 @@
             this.TB_Friendship.Name = "TB_Friendship";
             this.TB_Friendship.Size = new System.Drawing.Size(22, 20);
             this.TB_Friendship.TabIndex = 11;
+            this.TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_Friendship.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // TB_Level
@@ -1231,6 +1243,12 @@
             // Tab_Stats
             // 
             this.Tab_Stats.AllowDrop = true;
+            this.Tab_Stats.Controls.Add(this.Stat_SPE);
+            this.Tab_Stats.Controls.Add(this.Stat_SPD);
+            this.Tab_Stats.Controls.Add(this.Stat_SPA);
+            this.Tab_Stats.Controls.Add(this.Stat_DEF);
+            this.Tab_Stats.Controls.Add(this.Stat_ATK);
+            this.Tab_Stats.Controls.Add(this.Stat_HP);
             this.Tab_Stats.Controls.Add(this.CB_HPType);
             this.Tab_Stats.Controls.Add(this.CHK_HackedStats);
             this.Tab_Stats.Controls.Add(this.Label_CharacteristicPrefix);
@@ -1276,12 +1294,6 @@
             this.Tab_Stats.Controls.Add(this.Label_ATK);
             this.Tab_Stats.Controls.Add(this.Label_HP);
             this.Tab_Stats.Controls.Add(this.TB_EVTotal);
-            this.Tab_Stats.Controls.Add(this.Stat_SPE);
-            this.Tab_Stats.Controls.Add(this.Stat_SPD);
-            this.Tab_Stats.Controls.Add(this.Stat_SPA);
-            this.Tab_Stats.Controls.Add(this.Stat_DEF);
-            this.Tab_Stats.Controls.Add(this.Stat_ATK);
-            this.Tab_Stats.Controls.Add(this.Stat_HP);
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
@@ -1289,6 +1301,79 @@
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
+            // 
+            // Stat_SPE
+            // 
+            this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Stat_SPE.Enabled = false;
+            this.Stat_SPE.Location = new System.Drawing.Point(167, 129);
+            this.Stat_SPE.Mask = "00000";
+            this.Stat_SPE.Name = "Stat_SPE";
+            this.Stat_SPE.PromptChar = ' ';
+            this.Stat_SPE.Size = new System.Drawing.Size(31, 20);
+            this.Stat_SPE.TabIndex = 50;
+            this.Stat_SPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Stat_SPD
+            // 
+            this.Stat_SPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Stat_SPD.Enabled = false;
+            this.Stat_SPD.Location = new System.Drawing.Point(167, 107);
+            this.Stat_SPD.Mask = "00000";
+            this.Stat_SPD.Name = "Stat_SPD";
+            this.Stat_SPD.PromptChar = ' ';
+            this.Stat_SPD.Size = new System.Drawing.Size(31, 20);
+            this.Stat_SPD.TabIndex = 49;
+            this.Stat_SPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Stat_SPA
+            // 
+            this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Stat_SPA.Enabled = false;
+            this.Stat_SPA.Location = new System.Drawing.Point(167, 85);
+            this.Stat_SPA.Mask = "00000";
+            this.Stat_SPA.Name = "Stat_SPA";
+            this.Stat_SPA.PromptChar = ' ';
+            this.Stat_SPA.Size = new System.Drawing.Size(31, 20);
+            this.Stat_SPA.TabIndex = 48;
+            this.Stat_SPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Stat_DEF
+            // 
+            this.Stat_DEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Stat_DEF.Enabled = false;
+            this.Stat_DEF.Location = new System.Drawing.Point(167, 63);
+            this.Stat_DEF.Mask = "00000";
+            this.Stat_DEF.Name = "Stat_DEF";
+            this.Stat_DEF.PromptChar = ' ';
+            this.Stat_DEF.Size = new System.Drawing.Size(31, 20);
+            this.Stat_DEF.TabIndex = 47;
+            this.Stat_DEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Stat_ATK
+            // 
+            this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Stat_ATK.Enabled = false;
+            this.Stat_ATK.Location = new System.Drawing.Point(167, 41);
+            this.Stat_ATK.Mask = "00000";
+            this.Stat_ATK.Name = "Stat_ATK";
+            this.Stat_ATK.PromptChar = ' ';
+            this.Stat_ATK.Size = new System.Drawing.Size(31, 20);
+            this.Stat_ATK.TabIndex = 46;
+            this.Stat_ATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Stat_HP
+            // 
+            this.Stat_HP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Stat_HP.Enabled = false;
+            this.Stat_HP.Location = new System.Drawing.Point(167, 19);
+            this.Stat_HP.Mask = "00000";
+            this.Stat_HP.Name = "Stat_HP";
+            this.Stat_HP.PromptChar = ' ';
+            this.Stat_HP.Size = new System.Drawing.Size(31, 20);
+            this.Stat_HP.TabIndex = 45;
+            this.Stat_HP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Stat_HP.TextChanged += new System.EventHandler(this.updateHackedStatText);
             // 
             // CB_HPType
             // 
@@ -1762,72 +1847,6 @@
             this.TB_EVTotal.Size = new System.Drawing.Size(31, 20);
             this.TB_EVTotal.TabIndex = 18;
             this.TB_EVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Stat_SPE
-            // 
-            this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_SPE.Enabled = false;
-            this.Stat_SPE.Location = new System.Drawing.Point(167, 129);
-            this.Stat_SPE.MaxLength = 5;
-            this.Stat_SPE.Name = "Stat_SPE";
-            this.Stat_SPE.Size = new System.Drawing.Size(31, 20);
-            this.Stat_SPE.TabIndex = 17;
-            this.Stat_SPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Stat_SPD
-            // 
-            this.Stat_SPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_SPD.Enabled = false;
-            this.Stat_SPD.Location = new System.Drawing.Point(167, 107);
-            this.Stat_SPD.MaxLength = 5;
-            this.Stat_SPD.Name = "Stat_SPD";
-            this.Stat_SPD.Size = new System.Drawing.Size(31, 20);
-            this.Stat_SPD.TabIndex = 16;
-            this.Stat_SPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Stat_SPA
-            // 
-            this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_SPA.Enabled = false;
-            this.Stat_SPA.Location = new System.Drawing.Point(167, 85);
-            this.Stat_SPA.MaxLength = 5;
-            this.Stat_SPA.Name = "Stat_SPA";
-            this.Stat_SPA.Size = new System.Drawing.Size(31, 20);
-            this.Stat_SPA.TabIndex = 15;
-            this.Stat_SPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Stat_DEF
-            // 
-            this.Stat_DEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_DEF.Enabled = false;
-            this.Stat_DEF.Location = new System.Drawing.Point(167, 63);
-            this.Stat_DEF.MaxLength = 5;
-            this.Stat_DEF.Name = "Stat_DEF";
-            this.Stat_DEF.Size = new System.Drawing.Size(31, 20);
-            this.Stat_DEF.TabIndex = 14;
-            this.Stat_DEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Stat_ATK
-            // 
-            this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_ATK.Enabled = false;
-            this.Stat_ATK.Location = new System.Drawing.Point(167, 41);
-            this.Stat_ATK.MaxLength = 5;
-            this.Stat_ATK.Name = "Stat_ATK";
-            this.Stat_ATK.Size = new System.Drawing.Size(31, 20);
-            this.Stat_ATK.TabIndex = 13;
-            this.Stat_ATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Stat_HP
-            // 
-            this.Stat_HP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_HP.Enabled = false;
-            this.Stat_HP.Location = new System.Drawing.Point(167, 19);
-            this.Stat_HP.MaxLength = 5;
-            this.Stat_HP.Name = "Stat_HP";
-            this.Stat_HP.Size = new System.Drawing.Size(31, 20);
-            this.Stat_HP.TabIndex = 12;
-            this.Stat_HP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Tab_Attacks
             // 
@@ -2603,6 +2622,7 @@
             this.Menu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_Open,
             this.Menu_Save,
+            this.Menu_ExportSAV,
             this.Menu_Exit});
             this.Menu_File.Name = "Menu_File";
             this.Menu_File.Size = new System.Drawing.Size(37, 20);
@@ -2613,7 +2633,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(114, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(133, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
@@ -2622,57 +2642,174 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(114, 22);
-            this.Menu_Save.Text = "&Save as...";
+            this.Menu_Save.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Save.Text = "&Save PK6...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
+            // 
+            // Menu_ExportSAV
+            // 
+            this.Menu_ExportSAV.Name = "Menu_ExportSAV";
+            this.Menu_ExportSAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.Menu_ExportSAV.ShowShortcutKeys = false;
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(133, 22);
+            this.Menu_ExportSAV.Text = "&Export SAV...";
+            this.Menu_ExportSAV.Click += new System.EventHandler(this.clickExportSAV);
             // 
             // Menu_Exit
             // 
             this.Menu_Exit.Name = "Menu_Exit";
-            this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(114, 22);
-            this.Menu_Exit.Text = "&Exit";
+            this.Menu_Exit.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
             // Menu_Tools
             // 
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_ToggleBoxUI,
-            this.Menu_BoxIO,
-            this.reportToolStripMenuItem,
-            this.codeGeneratorToolStripMenuItem});
+            this.Menu_Showdown,
+            this.Menu_CyberGadget,
+            this.Menu_Data,
+            this.Menu_Other});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
             this.Menu_Tools.Text = "Tools";
             // 
-            // Menu_ToggleBoxUI
+            // Menu_Showdown
             // 
-            this.Menu_ToggleBoxUI.Name = "Menu_ToggleBoxUI";
-            this.Menu_ToggleBoxUI.Size = new System.Drawing.Size(182, 22);
-            this.Menu_ToggleBoxUI.Text = "Toggle Box Interface";
-            this.Menu_ToggleBoxUI.Click += new System.EventHandler(this.mainMenuWiden);
+            this.Menu_Showdown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_ShowdownImportPK6,
+            this.Menu_ShowdownExportPK6,
+            this.Menu_ShowdownExportParty,
+            this.Menu_ShowdownExportBattleBox});
+            this.Menu_Showdown.Name = "Menu_Showdown";
+            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Showdown.Text = "Showdown";
             // 
-            // Menu_BoxIO
+            // Menu_ShowdownImportPK6
             // 
-            this.Menu_BoxIO.Name = "Menu_BoxIO";
-            this.Menu_BoxIO.Size = new System.Drawing.Size(182, 22);
-            this.Menu_BoxIO.Text = "Load/Dump Boxes";
-            this.Menu_BoxIO.Click += new System.EventHandler(this.mainMenuBoxDumpLoad);
+            this.Menu_ShowdownImportPK6.Name = "Menu_ShowdownImportPK6";
+            this.Menu_ShowdownImportPK6.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownImportPK6.Text = "Import Set from Clipboard";
+            this.Menu_ShowdownImportPK6.Click += new System.EventHandler(this.clickShowdownImportPK6);
             // 
-            // reportToolStripMenuItem
+            // Menu_ShowdownExportPK6
             // 
-            this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.reportToolStripMenuItem.Text = "Box Data Report";
-            this.reportToolStripMenuItem.Click += new System.EventHandler(this.mainMenuBoxReport);
+            this.Menu_ShowdownExportPK6.Name = "Menu_ShowdownExportPK6";
+            this.Menu_ShowdownExportPK6.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownExportPK6.Text = "Export Set to Clipboard";
+            this.Menu_ShowdownExportPK6.Click += new System.EventHandler(this.clickShowdownExportPK6);
             // 
-            // codeGeneratorToolStripMenuItem
+            // Menu_ShowdownExportParty
             // 
-            this.codeGeneratorToolStripMenuItem.Name = "codeGeneratorToolStripMenuItem";
-            this.codeGeneratorToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.codeGeneratorToolStripMenuItem.Text = "Code Generator";
-            this.codeGeneratorToolStripMenuItem.Click += new System.EventHandler(this.mainMenuCodeGen);
+            this.Menu_ShowdownExportParty.Name = "Menu_ShowdownExportParty";
+            this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownExportParty.Text = "Export Party to Clipboard";
+            this.Menu_ShowdownExportParty.Click += new System.EventHandler(this.clickShowdownExportParty);
+            // 
+            // Menu_ShowdownExportBattleBox
+            // 
+            this.Menu_ShowdownExportBattleBox.Name = "Menu_ShowdownExportBattleBox";
+            this.Menu_ShowdownExportBattleBox.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownExportBattleBox.Text = "Export Battle Box to Clipboard";
+            this.Menu_ShowdownExportBattleBox.Click += new System.EventHandler(this.clickShowdownExportBattleBox);
+            // 
+            // Menu_CyberGadget
+            // 
+            this.Menu_CyberGadget.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_CodeGenerator,
+            this.Menu_OpenTemp,
+            this.Menu_OpenCache});
+            this.Menu_CyberGadget.Name = "Menu_CyberGadget";
+            this.Menu_CyberGadget.Size = new System.Drawing.Size(152, 22);
+            this.Menu_CyberGadget.Text = "CyberGadget";
+            // 
+            // Menu_CodeGenerator
+            // 
+            this.Menu_CodeGenerator.Name = "Menu_CodeGenerator";
+            this.Menu_CodeGenerator.Size = new System.Drawing.Size(175, 22);
+            this.Menu_CodeGenerator.Text = "Code Generator";
+            this.Menu_CodeGenerator.Click += new System.EventHandler(this.mainMenuCodeGen);
+            // 
+            // Menu_OpenTemp
+            // 
+            this.Menu_OpenTemp.Name = "Menu_OpenTemp";
+            this.Menu_OpenTemp.Size = new System.Drawing.Size(175, 22);
+            this.Menu_OpenTemp.Text = "Open Temp Folder";
+            this.Menu_OpenTemp.Click += new System.EventHandler(this.clickOpenTempFolder);
+            // 
+            // Menu_OpenCache
+            // 
+            this.Menu_OpenCache.Name = "Menu_OpenCache";
+            this.Menu_OpenCache.Size = new System.Drawing.Size(175, 22);
+            this.Menu_OpenCache.Text = "Open Cache Folder";
+            this.Menu_OpenCache.Click += new System.EventHandler(this.clickOpenCacheFolder);
+            // 
+            // Menu_Data
+            // 
+            this.Menu_Data.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_LoadBoxes,
+            this.Menu_DumpBoxes,
+            this.Menu_Report,
+            this.Menu_Database});
+            this.Menu_Data.Name = "Menu_Data";
+            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Data.Text = "Data";
+            // 
+            // Menu_LoadBoxes
+            // 
+            this.Menu_LoadBoxes.Name = "Menu_LoadBoxes";
+            this.Menu_LoadBoxes.Size = new System.Drawing.Size(152, 22);
+            this.Menu_LoadBoxes.Text = "Load Boxes";
+            this.Menu_LoadBoxes.Click += new System.EventHandler(this.mainMenuBoxLoad);
+            // 
+            // Menu_DumpBoxes
+            // 
+            this.Menu_DumpBoxes.Name = "Menu_DumpBoxes";
+            this.Menu_DumpBoxes.Size = new System.Drawing.Size(152, 22);
+            this.Menu_DumpBoxes.Text = "Dump Boxes";
+            this.Menu_DumpBoxes.Click += new System.EventHandler(this.mainMenuBoxDump);
+            // 
+            // Menu_Report
+            // 
+            this.Menu_Report.Name = "Menu_Report";
+            this.Menu_Report.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.Menu_Report.ShowShortcutKeys = false;
+            this.Menu_Report.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Report.Text = "Box Data &Report";
+            this.Menu_Report.Click += new System.EventHandler(this.mainMenuBoxReport);
+            // 
+            // Menu_Database
+            // 
+            this.Menu_Database.Name = "Menu_Database";
+            this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.Menu_Database.ShowShortcutKeys = false;
+            this.Menu_Database.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Database.Text = "PK6 &Database";
+            this.Menu_Database.Click += new System.EventHandler(this.B_OpenDB_Click);
+            // 
+            // Menu_Other
+            // 
+            this.Menu_Other.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_OpenSDF,
+            this.Menu_OpenSDB});
+            this.Menu_Other.Name = "Menu_Other";
+            this.Menu_Other.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Other.Text = "Other";
+            // 
+            // Menu_OpenSDF
+            // 
+            this.Menu_OpenSDF.Name = "Menu_OpenSDF";
+            this.Menu_OpenSDF.Size = new System.Drawing.Size(229, 22);
+            this.Menu_OpenSDF.Text = "Open SaveDataFiler Folder";
+            this.Menu_OpenSDF.Click += new System.EventHandler(this.clickOpenSDFFolder);
+            // 
+            // Menu_OpenSDB
+            // 
+            this.Menu_OpenSDB.Name = "Menu_OpenSDB";
+            this.Menu_OpenSDB.Size = new System.Drawing.Size(229, 22);
+            this.Menu_OpenSDB.Text = "Open SaveDataBackup Folder";
+            this.Menu_OpenSDB.Click += new System.EventHandler(this.clickOpenSDBFolder);
             // 
             // Menu_Options
             // 
@@ -3472,7 +3609,7 @@
             this.L_BattleBox.Size = new System.Drawing.Size(58, 13);
             this.L_BattleBox.TabIndex = 1;
             this.L_BattleBox.Text = "Battle Box:";
-            this.L_BattleBox.DoubleClick += new System.EventHandler(this.clickExportBattleBox);
+            this.L_BattleBox.DoubleClick += new System.EventHandler(this.clickShowdownExportBattleBox);
             // 
             // L_Party
             // 
@@ -3482,7 +3619,7 @@
             this.L_Party.Size = new System.Drawing.Size(34, 13);
             this.L_Party.TabIndex = 0;
             this.L_Party.Text = "Party:";
-            this.L_Party.DoubleClick += new System.EventHandler(this.clickExportParty);
+            this.L_Party.DoubleClick += new System.EventHandler(this.clickShowdownExportParty);
             // 
             // PAN_Party
             // 
@@ -3824,14 +3961,11 @@
             this.Tab_SAV.Controls.Add(this.TB_Secure2);
             this.Tab_SAV.Controls.Add(this.L_Secure1);
             this.Tab_SAV.Controls.Add(this.TB_Secure1);
-            this.Tab_SAV.Controls.Add(this.B_OpenDB);
-            this.Tab_SAV.Controls.Add(this.B_3DSSETemp);
             this.Tab_SAV.Controls.Add(this.B_JPEG);
             this.Tab_SAV.Controls.Add(this.L_GameSync);
             this.Tab_SAV.Controls.Add(this.TB_GameSync);
             this.Tab_SAV.Controls.Add(this.B_SaveBoxBin);
             this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
-            this.Tab_SAV.Controls.Add(this.B_ExportSAV);
             this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
             this.Tab_SAV.Name = "Tab_SAV";
             this.Tab_SAV.Size = new System.Drawing.Size(302, 199);
@@ -3839,30 +3973,52 @@
             this.Tab_SAV.Text = "SAV";
             this.Tab_SAV.UseVisualStyleBackColor = true;
             // 
-            // B_OpenDB
+            // L_Secure2
             // 
-            this.B_OpenDB.Location = new System.Drawing.Point(116, 135);
-            this.B_OpenDB.Name = "B_OpenDB";
-            this.B_OpenDB.Size = new System.Drawing.Size(75, 45);
-            this.B_OpenDB.TabIndex = 14;
-            this.B_OpenDB.Text = "Open PK6 Database";
-            this.B_OpenDB.UseVisualStyleBackColor = true;
-            this.B_OpenDB.Click += new System.EventHandler(this.B_OpenDB_Click);
+            this.L_Secure2.Location = new System.Drawing.Point(33, 113);
+            this.L_Secure2.Name = "L_Secure2";
+            this.L_Secure2.Size = new System.Drawing.Size(115, 20);
+            this.L_Secure2.TabIndex = 18;
+            this.L_Secure2.Text = "Secure Value 2:";
+            this.L_Secure2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // B_3DSSETemp
+            // TB_Secure2
             // 
-            this.B_3DSSETemp.Location = new System.Drawing.Point(32, 135);
-            this.B_3DSSETemp.Name = "B_3DSSETemp";
-            this.B_3DSSETemp.Size = new System.Drawing.Size(75, 45);
-            this.B_3DSSETemp.TabIndex = 13;
-            this.B_3DSSETemp.Text = "Open Temp 3DSSE ";
-            this.B_3DSSETemp.UseVisualStyleBackColor = true;
-            this.B_3DSSETemp.Click += new System.EventHandler(this.clickOpenTempFolder);
+            this.TB_Secure2.Enabled = false;
+            this.TB_Secure2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_Secure2.Location = new System.Drawing.Point(151, 113);
+            this.TB_Secure2.MaxLength = 16;
+            this.TB_Secure2.Name = "TB_Secure2";
+            this.TB_Secure2.Size = new System.Drawing.Size(120, 20);
+            this.TB_Secure2.TabIndex = 17;
+            this.TB_Secure2.Text = "0000000000000000";
+            this.TB_Secure2.TextChanged += new System.EventHandler(this.updateSecure2);
+            // 
+            // L_Secure1
+            // 
+            this.L_Secure1.Location = new System.Drawing.Point(33, 91);
+            this.L_Secure1.Name = "L_Secure1";
+            this.L_Secure1.Size = new System.Drawing.Size(115, 20);
+            this.L_Secure1.TabIndex = 16;
+            this.L_Secure1.Text = "Secure Value 1:";
+            this.L_Secure1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_Secure1
+            // 
+            this.TB_Secure1.Enabled = false;
+            this.TB_Secure1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_Secure1.Location = new System.Drawing.Point(151, 91);
+            this.TB_Secure1.MaxLength = 16;
+            this.TB_Secure1.Name = "TB_Secure1";
+            this.TB_Secure1.Size = new System.Drawing.Size(120, 20);
+            this.TB_Secure1.TabIndex = 15;
+            this.TB_Secure1.Text = "0000000000000000";
+            this.TB_Secure1.TextChanged += new System.EventHandler(this.updateSecure1);
             // 
             // B_JPEG
             // 
             this.B_JPEG.Enabled = false;
-            this.B_JPEG.Location = new System.Drawing.Point(198, 135);
+            this.B_JPEG.Location = new System.Drawing.Point(198, 20);
             this.B_JPEG.Name = "B_JPEG";
             this.B_JPEG.Size = new System.Drawing.Size(75, 45);
             this.B_JPEG.TabIndex = 12;
@@ -3911,17 +4067,6 @@
             this.B_VerifyCHK.Text = "Verify Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.clickVerifyCHK);
-            // 
-            // B_ExportSAV
-            // 
-            this.B_ExportSAV.Enabled = false;
-            this.B_ExportSAV.Location = new System.Drawing.Point(198, 20);
-            this.B_ExportSAV.Name = "B_ExportSAV";
-            this.B_ExportSAV.Size = new System.Drawing.Size(75, 45);
-            this.B_ExportSAV.TabIndex = 4;
-            this.B_ExportSAV.Text = "Export SAV";
-            this.B_ExportSAV.UseVisualStyleBackColor = true;
-            this.B_ExportSAV.Click += new System.EventHandler(this.clickExportSAV);
             // 
             // B_OpenHallofFame
             // 
@@ -4090,48 +4235,6 @@
             this.L_QR.Text = "QR!";
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
-            // 
-            // L_Secure1
-            // 
-            this.L_Secure1.Location = new System.Drawing.Point(33, 91);
-            this.L_Secure1.Name = "L_Secure1";
-            this.L_Secure1.Size = new System.Drawing.Size(115, 20);
-            this.L_Secure1.TabIndex = 16;
-            this.L_Secure1.Text = "Secure Value 1:";
-            this.L_Secure1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TB_Secure1
-            // 
-            this.TB_Secure1.Enabled = false;
-            this.TB_Secure1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Secure1.Location = new System.Drawing.Point(151, 91);
-            this.TB_Secure1.MaxLength = 16;
-            this.TB_Secure1.Name = "TB_Secure1";
-            this.TB_Secure1.Size = new System.Drawing.Size(120, 20);
-            this.TB_Secure1.TabIndex = 15;
-            this.TB_Secure1.Text = "0000000000000000";
-            this.TB_Secure1.TextChanged += new System.EventHandler(this.updateSecure1);
-            // 
-            // L_Secure2
-            // 
-            this.L_Secure2.Location = new System.Drawing.Point(33, 113);
-            this.L_Secure2.Name = "L_Secure2";
-            this.L_Secure2.Size = new System.Drawing.Size(115, 20);
-            this.L_Secure2.TabIndex = 18;
-            this.L_Secure2.Text = "Secure Value 2:";
-            this.L_Secure2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TB_Secure2
-            // 
-            this.TB_Secure2.Enabled = false;
-            this.TB_Secure2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Secure2.Location = new System.Drawing.Point(151, 113);
-            this.TB_Secure2.MaxLength = 16;
-            this.TB_Secure2.Name = "TB_Secure2";
-            this.TB_Secure2.Size = new System.Drawing.Size(120, 20);
-            this.TB_Secure2.TabIndex = 17;
-            this.TB_Secure2.Text = "0000000000000000";
-            this.TB_Secure2.TextChanged += new System.EventHandler(this.updateSecure2);
             // 
             // Main
             // 
@@ -4349,12 +4452,6 @@
         private System.Windows.Forms.Label Label_ATK;
         private System.Windows.Forms.Label Label_HP;
         private System.Windows.Forms.TextBox TB_EVTotal;
-        private System.Windows.Forms.TextBox Stat_SPE;
-        private System.Windows.Forms.TextBox Stat_SPD;
-        private System.Windows.Forms.TextBox Stat_SPA;
-        private System.Windows.Forms.TextBox Stat_DEF;
-        private System.Windows.Forms.TextBox Stat_ATK;
-        private System.Windows.Forms.TextBox Stat_HP;
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.ComboBox CB_EncounterType;
         private System.Windows.Forms.GroupBox GB_EggConditions;
@@ -4488,7 +4585,6 @@
         private System.Windows.Forms.Label L_ReadOnlyOther;
         private System.Windows.Forms.GroupBox GB_Daycare;
         private System.Windows.Forms.TabPage Tab_SAV;
-        private System.Windows.Forms.Button B_ExportSAV;
         private System.Windows.Forms.Button B_VerifyCHK;
         private System.Windows.Forms.Button B_BoxRight;
         private System.Windows.Forms.Button B_BoxLeft;
@@ -4505,12 +4601,10 @@
         private System.Windows.Forms.ComboBox CB_EggLocation;
         private System.Windows.Forms.Label Label_CharacteristicPrefix;
         private System.Windows.Forms.ToolStripMenuItem Menu_Tools;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ToggleBoxUI;
         private System.Windows.Forms.ToolStripMenuItem Menu_Options;
         private System.Windows.Forms.ToolStripMenuItem Menu_Language;
         private System.Windows.Forms.ToolStripComboBox CB_MainLanguage;
         private System.Windows.Forms.ToolStripMenuItem Menu_About;
-        private System.Windows.Forms.ToolStripMenuItem Menu_BoxIO;
         public System.Windows.Forms.ComboBox CB_MetLocation;
         private System.Windows.Forms.Label Label_CTGender;
         private System.Windows.Forms.Label Label_OTGender;
@@ -4528,8 +4622,6 @@
         private System.Windows.Forms.TextBox TB_PP3;
         private System.Windows.Forms.TextBox TB_PP2;
         private System.Windows.Forms.TextBox TB_PP1;
-        private System.Windows.Forms.ToolStripMenuItem codeGeneratorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.Panel PAN_Party;
         private System.Windows.Forms.Panel PAN_BattleBox;
         private System.Windows.Forms.Button B_OpenSuperTraining;
@@ -4568,14 +4660,36 @@
         private System.Windows.Forms.ToolStripMenuItem mnu2View;
         private System.Windows.Forms.Label L_GameSync;
         private System.Windows.Forms.TextBox TB_GameSync;
-        private System.Windows.Forms.Button B_OpenDB;
-        private System.Windows.Forms.Button B_3DSSETemp;
         private System.Windows.Forms.Button B_JPEG;
         private System.Windows.Forms.PictureBox PB_Locked;
         private System.Windows.Forms.Label L_Secure2;
         private System.Windows.Forms.TextBox TB_Secure2;
         private System.Windows.Forms.Label L_Secure1;
         private System.Windows.Forms.TextBox TB_Secure1;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ExportSAV;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Showdown;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportPK6;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownImportPK6;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportParty;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportBattleBox;
+        private System.Windows.Forms.ToolStripMenuItem Menu_CyberGadget;
+        private System.Windows.Forms.ToolStripMenuItem Menu_CodeGenerator;
+        private System.Windows.Forms.ToolStripMenuItem Menu_OpenTemp;
+        private System.Windows.Forms.ToolStripMenuItem Menu_OpenCache;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Data;
+        private System.Windows.Forms.ToolStripMenuItem Menu_LoadBoxes;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Report;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Database;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Other;
+        private System.Windows.Forms.ToolStripMenuItem Menu_OpenSDF;
+        private System.Windows.Forms.ToolStripMenuItem Menu_OpenSDB;
+        private System.Windows.Forms.MaskedTextBox Stat_SPE;
+        private System.Windows.Forms.MaskedTextBox Stat_SPD;
+        private System.Windows.Forms.MaskedTextBox Stat_SPA;
+        private System.Windows.Forms.MaskedTextBox Stat_DEF;
+        private System.Windows.Forms.MaskedTextBox Stat_ATK;
+        private System.Windows.Forms.MaskedTextBox Stat_HP;
+        private System.Windows.Forms.ToolStripMenuItem Menu_DumpBoxes;
     }
 }
 

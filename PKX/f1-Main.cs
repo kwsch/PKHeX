@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -15,13 +15,12 @@ namespace PKHeX
         public Main()
         {
             #region Pop open a splash screen while we load up.
-            Thread SplashSCR = new Thread(() => new SplashScreen().ShowDialog());
-            SplashSCR.Start();
+            new Thread(() => new SplashScreen().ShowDialog()).Start();
             #endregion
             #region Initialize Form
             pk6.RefreshChecksum();
             InitializeComponent();
-            string filename = Path.GetFileNameWithoutExtension(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            string filename = Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName);
             // Initialize SAV-Set Parameters in case compilation settings were changed.
             SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
             SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
@@ -40,11 +39,6 @@ namespace PKHeX
             defaultControlWhite = CB_Species.BackColor;
             defaultControlText = Label_Species.ForeColor;
             CB_ExtraBytes.SelectedIndex = 0;
-
-            // Resize Main Window to PKX Editing Mode
-            largeWidth = Width;
-            shortWidth = (Width*306)/620; // 306 = small, 620 = large
-            Width = shortWidth;
 
             // Initialize Boxes
             for (int i = 0; i < 30*31; i++)
@@ -153,7 +147,6 @@ namespace PKHeX
         public static Image mixedHighlight = Util.LayerImage(Properties.Resources.slotSet, Properties.Resources.slotView, 0, 0, 0.5);
         public static Image colorizedcolor;
         public static int colorizedslot;
-        public static int largeWidth, shortWidth;
         public static string eggname = "";
         public static string DatabasePath = "db";
         public static string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
@@ -285,19 +278,7 @@ namespace PKHeX
             // Open a new form with the About details.
             new About().ShowDialog();
         }
-        private void mainMenuWiden(object sender, EventArgs e)
-        {
-            int newwidth;
-            if (Width < Height)
-            {
-                newwidth = largeWidth;
-                tabBoxMulti.SelectedIndex = 0;
-            }
-            else
-                newwidth = shortWidth;
-
-            Width = newwidth;
-        }
+        // Sub Menu Options
         private void mainMenuCodeGen(object sender, EventArgs e)
         {
             // Open Code Generator
@@ -354,64 +335,196 @@ namespace PKHeX
         {
             SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
         }
-        private void mainMenuBoxDumpLoad(object sender, EventArgs e)
+        private void mainMenuBoxLoad(object sender, EventArgs e)
         {
-            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to Import All from Folder." + Environment.NewLine + "Press No to Dump All to Folder.", "Press Cancel to Abort.");
-            if (dr == DialogResult.Cancel) return;
             string path = "";
-            bool dumptoboxes = false;
+            if (Directory.Exists(DatabasePath))
             {
-                if (dr == DialogResult.Yes) // Import
+                DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Load from PKHeX's database?");
+                if (ld == DialogResult.Yes)
+                    path = DatabasePath;
+                else if (ld == DialogResult.No)
                 {
-                    if (Directory.Exists(DatabasePath))
-                    {
-                        DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Load from PKHeX's database?");
-                        if (ld == DialogResult.Yes)
-                            path = DatabasePath;
-                        else if (ld == DialogResult.No)
-                        {
-                            // open folder dialog
-                            FolderBrowserDialog fbd = new FolderBrowserDialog();
-                            if (fbd.ShowDialog() == DialogResult.OK)
-                                path = fbd.SelectedPath;
-                        }
-                        else return;
-                    }
-                    else
-                    {
-                        // open folder dialog
-                        FolderBrowserDialog fbd = new FolderBrowserDialog();
-                        if (fbd.ShowDialog() == DialogResult.OK)
-                            path = fbd.SelectedPath;
-                    }
-                    loadBoxesFromDB(path);
-                }
-                else if (dr == DialogResult.No)
-                {
-                    // Dump all of box content to files.
-                    DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
-                    if (ld == DialogResult.Yes)
-                    {
-                        path = DatabasePath;
-                        if (!Directory.Exists(path))
-                            Directory.CreateDirectory(path);
-                    }
-                    else if (ld == DialogResult.No)
-                    {
-                        dumptoboxes = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
-
-                        // open folder dialog
-                        FolderBrowserDialog fbd = new FolderBrowserDialog();
-                        if (fbd.ShowDialog() != DialogResult.OK)
-                            return;
-
+                    // open folder dialog
+                    FolderBrowserDialog fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
                         path = fbd.SelectedPath;
-                    }
-                    else return;
-
-                    dumpBoxesToDB(path, dumptoboxes);
                 }
+                else return;
             }
+            else
+            {
+                // open folder dialog
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                if (fbd.ShowDialog() == DialogResult.OK)
+                    path = fbd.SelectedPath;
+            }
+            loadBoxesFromDB(path);
+        }
+        private void mainMenuBoxDump(object sender, EventArgs e)
+        {
+            string path;
+            bool dumptoboxes = false;
+            // Dump all of box content to files.
+            DialogResult ld = Util.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
+            if (ld == DialogResult.Yes)
+            {
+                path = DatabasePath;
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+            }
+            else if (ld == DialogResult.No)
+            {
+                dumptoboxes = DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
+
+                // open folder dialog
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
+
+                path = fbd.SelectedPath;
+            }
+            else return;
+
+            dumpBoxesToDB(path, dumptoboxes);
+        }
+        // Misc Options
+        private void clickShowdownImportPK6(object sender, EventArgs e)
+        {
+            if (!Clipboard.ContainsText())
+            { Util.Alert("Clipboard does not contain text."); return; }
+
+            // Get Simulator Data
+            PKX.ShowdownSet Set = new PKX.ShowdownSet(Clipboard.GetText());
+
+            if (Set.Species < 0)
+            { Util.Alert("Set data not found in clipboard."); return; }
+
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Clipboard.GetText())) 
+            { return; }
+
+            // Set Species & Nickname
+            CB_Species.SelectedValue = Set.Species;
+            CHK_Nicknamed.Checked = (Set.Nickname != null);
+            if (Set.Nickname != null)
+                TB_Nickname.Text = Set.Nickname;
+            if (Set.Gender != null && PKX.getGender(Set.Gender) != 2 && PKX.getGender(Set.Gender) != 2)
+            {
+                int Gender = PKX.getGender(Set.Gender);
+                Label_Gender.Text = gendersymbols[Gender];
+                Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
+            }
+
+            // Set Form
+            string[] formStrings = PKX.getFormList(Set.Species,
+                Util.getStringList("Types", "en"),
+                Util.getStringList("Forms", "en"), gendersymbols);
+            int form = 0;
+            for (int i = 0; i < formStrings.Length; i++)
+                if (formStrings[i].Contains(Set.Form ?? ""))
+                { form = i; break; }
+            CB_Form.SelectedIndex = form;
+
+            // Set Ability
+            byte[] abilities = PKX.getAbilities(Set.Species, form);
+            int ability = Array.IndexOf(abilities, (byte)Set.Ability);
+            if (ability < 0) ability = 0;
+            CB_Ability.SelectedIndex = ability;
+            ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4, };
+            for (int i = 0; i < 4; i++) m[i].SelectedValue = Set.Moves[i];
+
+            // Set Item and Nature
+            CB_HeldItem.SelectedValue = (Set.Item < 0) ? 0 : Set.Item;
+            CB_Nature.SelectedValue = (Set.Nature < 0) ? 0 : Set.Nature;
+
+            // Set IVs
+            TB_HPIV.Text = Set.IVs[0].ToString();
+            TB_ATKIV.Text = Set.IVs[1].ToString();
+            TB_DEFIV.Text = Set.IVs[2].ToString();
+            TB_SPAIV.Text = Set.IVs[3].ToString();
+            TB_SPDIV.Text = Set.IVs[4].ToString();
+            TB_SPEIV.Text = Set.IVs[5].ToString();
+
+            // Set EVs
+            TB_HPEV.Text = Set.EVs[0].ToString();
+            TB_ATKEV.Text = Set.EVs[1].ToString();
+            TB_DEFEV.Text = Set.EVs[2].ToString();
+            TB_SPAEV.Text = Set.EVs[3].ToString();
+            TB_SPDEV.Text = Set.EVs[4].ToString();
+            TB_SPEEV.Text = Set.EVs[5].ToString();
+
+            // Set Level and Friendship
+            TB_Level.Text = Set.Level.ToString();
+            TB_Friendship.Text = Set.Friendship.ToString();
+
+            // Reset IV/EVs
+            BTN_RerollPID.PerformClick();
+            BTN_RerollEC.PerformClick();
+            if (Set.Shiny) BTN_Shinytize.PerformClick();
+        }
+        private void clickShowdownExportPK6(object sender, EventArgs e)
+        {
+            if (!verifiedPKX())
+            { Util.Alert("Fix data before exporting."); return; }
+
+            Clipboard.SetText(new PK6(preparepkx()).ShowdownText);
+            Util.Alert("Exported Showdown Set to Clipboard:", Clipboard.GetText());
+        }
+        private void clickShowdownExportParty(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(
+                    SAV.PartyData.Aggregate("", (current, pk) => current + pk.ShowdownText
+                            + Environment.NewLine + Environment.NewLine).Trim());
+                Util.Alert("Showdown Team (Party) set to Clipboard.");
+            }
+            catch { }
+        }
+        private void clickShowdownExportBattleBox(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(
+                    SAV.BattleBoxData.Aggregate("", (current, pk) => current + pk.ShowdownText
+                            + Environment.NewLine + Environment.NewLine).Trim());
+                Util.Alert("Showdown Team (Battle Box) set to Clipboard.");
+            }
+            catch { }
+        }
+        private void clickOpenTempFolder(object sender, EventArgs e)
+        {
+            string path = Util.GetTempFolder();
+            if (Directory.Exists(Path.Combine(path, "root")))
+                Process.Start("explorer.exe", @Path.Combine(path, "root"));
+            else if (Directory.Exists(path))
+                Process.Start("explorer.exe", @path);
+            else
+                Util.Alert("Can't find the temporary file.", "Make sure the Cyber Gadget software is paused.");
+        }
+        private void clickOpenCacheFolder(object sender, EventArgs e)
+        {
+            string path = Util.GetCacheFolder();
+            if (Directory.Exists(path))
+                Process.Start("explorer.exe", @path);
+            else
+                Util.Alert("Can't find the cache folder.");
+        }
+        private void clickOpenSDFFolder(object sender, EventArgs e)
+        {
+            string path;
+            if (path3DS != null && Directory.Exists(path = Util.GetSDFLocation()))
+                Process.Start("explorer.exe", @path);
+            else
+                Util.Alert("Can't find the SaveDataFiler folder.");
+        }
+        private void clickOpenSDBFolder(object sender, EventArgs e)
+        {
+            string path;
+            if (path3DS != null && Directory.Exists(path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup")))
+                Process.Start("explorer.exe", @path);
+            else
+                Util.Alert("Can't find the SaveDataBackup folder.");
         }
 
         // Main Menu Subfunctions
@@ -542,7 +655,6 @@ namespace PKHeX
                     SAV.setEK6Stored(data, baseOffset + i * PK6.SIZE_STORED);
                 }
                 setPKXBoxes();
-                Width = largeWidth;
                 Util.Alert("Box Binary loaded.");
             }
             #endregion
@@ -564,7 +676,6 @@ namespace PKHeX
                     SAV.setEK6Stored(data, SAV.Box + i * PK6.SIZE_STORED);
                 }
                 setPKXBoxes();
-                Width = largeWidth;
                 Util.Alert("Injection Binary loaded."); 
             }
             #endregion
@@ -591,7 +702,6 @@ namespace PKHeX
                     SAV.setEK6Stored(data, SAV.Box + i*PK6.SIZE_STORED + CB_BoxSelect.SelectedIndex*30*PK6.SIZE_STORED);
                 }
                 setPKXBoxes();
-                Width = largeWidth;
             }
             #endregion
             #region Wondercard
@@ -659,7 +769,7 @@ namespace PKHeX
             SAV = new SAV6(input);
 
             // Load CyberGadget
-            B_ExportSAV.Enabled = true;
+            Menu_ExportSAV.Enabled = true;
 
             openSave();
         }
@@ -717,7 +827,6 @@ namespace PKHeX
                 B_JPEG.Enabled = true;
 
             SAV.Edited = false;
-            Menu_ToggleBoxUI.Visible = false;
 
             B_VerifyCHK.Enabled = ramsav == null;
             DaycareSlot = 0;
@@ -744,7 +853,7 @@ namespace PKHeX
 
             // Hide content if not present in game.
             PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.Box > -1;
-            Menu_BoxIO.Enabled = reportToolStripMenuItem.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.Box > -1;
+            Menu_LoadBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.Box > -1;
             PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.BattleBox > -1;
             GB_Daycare.Visible = SAV.Daycare > -1;
             GB_Fused.Visible = SAV.Fused > -1;
@@ -761,10 +870,8 @@ namespace PKHeX
             B_OpenBerryField.Enabled = SAV.BerryField > -1;
             B_JPEG.Enabled = SAV.JPEG > -1;
 
-            Width = largeWidth;
-
-            // Refresh instance of pk2pk
-            refreshTrainerInfo();
+            // Refresh PK#->PK6 conversion info
+            Converter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
 
             // Indicate audibly the save is loaded
             System.Media.SystemSounds.Beep.Play();
@@ -1418,7 +1525,7 @@ namespace PKHeX
                 // Change the XP
                 int Level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
                 if (Level > 100) TB_Level.Text = "100";
-                if (Level > 255) MT_Level.Text = "255";
+                if (Level > byte.MaxValue) MT_Level.Text = "255";
 
                 TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
@@ -1574,12 +1681,24 @@ namespace PKHeX
                 Stat_SPD.Enabled =
                 Stat_SPE.Enabled = CHK_HackedStats.Checked;
         }
+        private void updateHackedStatText(object sender, EventArgs e)
+        {
+            if (!CHK_HackedStats.Checked || sender as TextBox == null)
+                return;
+
+            string text = (sender as TextBox).Text;
+            if (string.IsNullOrEmpty(text))
+                (sender as TextBox).Text = "0";
+
+            if (Convert.ToUInt32(text) > ushort.MaxValue)
+                (sender as TextBox).Text = "65535";
+        }
         private void update255_MTB(object sender, EventArgs e)
         {
             MaskedTextBox mtb = sender as MaskedTextBox;
             try
             {
-                if (Util.ToInt32((sender as MaskedTextBox).Text) > 255)
+                if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
                     (sender as MaskedTextBox).Text = "255";
             }
             catch { mtb.Text = "0"; }
@@ -1589,7 +1708,7 @@ namespace PKHeX
             TextBox tb = sender as TextBox;
             try
             {
-                if (Util.ToInt32((sender as TextBox).Text) > 255)
+                if (Util.ToInt32((sender as TextBox).Text) > byte.MaxValue)
                     (sender as TextBox).Text = "255";
             }
             catch { tb.Text = "0"; }
@@ -1816,7 +1935,7 @@ namespace PKHeX
         private void updateExtraByteValue(object sender, EventArgs e)
         {
             // Changed Extra Byte's Value
-            if (Util.ToInt32((sender as MaskedTextBox).Text) > 255)
+            if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
                 (sender as MaskedTextBox).Text = "255";
 
             int value = Util.ToInt32(TB_ExtraByte.Text);
@@ -1850,18 +1969,12 @@ namespace PKHeX
         {
             if (fieldsInitialized && ModifierKeys == Keys.Control) // Import Showdown
             {
-                getShowdownSet();
+                clickShowdownImportPK6(sender, e);
                 return;
             }
             if (fieldsInitialized && ModifierKeys == Keys.Alt) // Export Showdown
             {
-                if (!verifiedPKX())
-                {
-                    Util.Alert("Fix data before exporting.");
-                    return;
-                }
-                Clipboard.SetText(new PK6(preparepkx()).ShowdownText);
-                Util.Alert("Exported Showdown Set to Clipboard:", Clipboard.GetText());
+                clickShowdownExportPK6(sender, e);
                 return; 
             }
             if (!fieldsInitialized || (CHK_Nicknamed.Checked)) return;
@@ -1981,15 +2094,15 @@ namespace PKHeX
             TB_EC.Text = Util.getHEXval(TB_EC).ToString("X8");
 
             // Max TID/SID is 65535
-            if (Util.ToUInt32(TB_TID.Text) > 65535) TB_TID.Text = "65535";
-            if (Util.ToUInt32(TB_SID.Text) > 65535) TB_SID.Text = "65535";
+            if (Util.ToUInt32(TB_TID.Text) > ushort.MaxValue) TB_TID.Text = "65535";
+            if (Util.ToUInt32(TB_SID.Text) > ushort.MaxValue) TB_SID.Text = "65535";
 
             setIsShiny();
             getQuickFiller(dragout);
             updateIVs(null, null);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
         }
-        private void validateComboBox(object sender, CancelEventArgs e)
+        private void validateComboBox(object sender, EventArgs e)
         {
             if (!(sender is ComboBox)) { return; }
 
@@ -2004,7 +2117,7 @@ namespace PKHeX
         private void validateComboBox2(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            validateComboBox(sender, e as CancelEventArgs);
+            validateComboBox(sender, e);
             if (cb == CB_Ability)
                 TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
             else if ((cb == CB_Move1) || (cb == CB_Move2) || (cb == CB_Move3) || (cb == CB_Move4))
@@ -2066,75 +2179,6 @@ namespace PKHeX
                 labarray[incr].ForeColor = Color.Red;
                 labarray[decr].ForeColor = Color.Blue;
             }
-        }
-        private void getShowdownSet()
-        {
-            if (!Clipboard.ContainsText()) return;
-
-            // Get Simulator Data
-            PKX.ShowdownSet Set = new PKX.ShowdownSet(Clipboard.GetText());
-
-            if (Set.Species < 0) return;
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Clipboard.GetText())) return;
-
-            // Set Species & Nickname
-            CB_Species.SelectedValue = Set.Species;
-            CHK_Nicknamed.Checked = (Set.Nickname != null);
-            if (Set.Nickname != null) 
-                TB_Nickname.Text = Set.Nickname;
-            if (Set.Gender != null && PKX.getGender(Set.Gender) != 2 && PKX.getGender(Set.Gender) != 2)
-            {
-                int Gender = PKX.getGender(Set.Gender);
-                Label_Gender.Text = gendersymbols[Gender];
-                Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
-            }
-
-            // Set Form
-            string[] formStrings = PKX.getFormList(Set.Species,
-                Util.getStringList("Types", "en"),
-                Util.getStringList("Forms", "en"), gendersymbols);
-            int form = 0;
-            for (int i = 0; i < formStrings.Length; i++)
-                if (formStrings[i].Contains(Set.Form ?? ""))
-                { form = i; break; }
-            CB_Form.SelectedIndex = form;
-
-            // Set Ability
-            byte[] abilities = PKX.getAbilities(Set.Species, form);
-            int ability = Array.IndexOf(abilities, (byte)Set.Ability);
-            if (ability < 0) ability = 0;
-            CB_Ability.SelectedIndex = ability;
-            ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4, };
-            for (int i = 0; i < 4; i++) m[i].SelectedValue = Set.Moves[i];
-
-            // Set Item and Nature
-            CB_HeldItem.SelectedValue = (Set.Item < 0) ? 0 : Set.Item;
-            CB_Nature.SelectedValue = (Set.Nature < 0) ? 0 : Set.Nature;
-
-            // Set IVs
-            TB_HPIV.Text = Set.IVs[0].ToString();
-            TB_ATKIV.Text = Set.IVs[1].ToString();
-            TB_DEFIV.Text = Set.IVs[2].ToString();
-            TB_SPAIV.Text = Set.IVs[3].ToString();
-            TB_SPDIV.Text = Set.IVs[4].ToString();
-            TB_SPEIV.Text = Set.IVs[5].ToString();
-
-            // Set EVs
-            TB_HPEV.Text = Set.EVs[0].ToString();
-            TB_ATKEV.Text = Set.EVs[1].ToString();
-            TB_DEFEV.Text = Set.EVs[2].ToString();
-            TB_SPAEV.Text = Set.EVs[3].ToString();
-            TB_SPDEV.Text = Set.EVs[4].ToString();
-            TB_SPEEV.Text = Set.EVs[5].ToString();
-
-            // Set Level and Friendship
-            TB_Level.Text = Set.Level.ToString();
-            TB_Friendship.Text = Set.Friendship.ToString();
-
-            // Reset IV/EVs
-            BTN_RerollPID.PerformClick();
-            BTN_RerollEC.PerformClick();
-            if (Set.Shiny) BTN_Shinytize.PerformClick();
         }
         // Secondary Windows for Ribbons/Amie/Memories
         private void openRibbons(object sender, EventArgs e)
@@ -2233,14 +2277,14 @@ namespace PKHeX
             pk6.TID = Util.ToInt32(TB_TID.Text);
             pk6.SID = Util.ToInt32(TB_SID.Text);
             pk6.EXP = Util.ToUInt32(TB_EXP.Text);
-            pk6.Ability = (byte)Array.IndexOf(abilitylist, (CB_Ability.Text).Remove((CB_Ability.Text).Length - 4));
+            pk6.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
             pk6.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);   // Number
             // pkx[0x16], pkx[0x17] are handled by the Medals UI (Hits & Training Bag)
             pk6.PID = Util.getHEXval(TB_PID);
             pk6.Nature = (byte)(Util.getIndex(CB_Nature));
             pk6.FatefulEncounter = CHK_Fateful.Checked;
             pk6.Gender = PKX.getGender(Label_Gender.Text);
-            pk6.AltForm = Math.Min((MT_Form.Enabled) ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex, 32); // Form
+            pk6.AltForm = Math.Min(MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex, 32); // Form
             pk6.EV_HP = Util.ToInt32(TB_HPEV.Text);       // EVs
             pk6.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             pk6.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
@@ -2359,13 +2403,13 @@ namespace PKHeX
             // Toss in Party Stats
             Array.Resize(ref pk6.Data, PK6.SIZE_PARTY);
             pk6.Stat_Level = Util.ToInt32(TB_Level.Text);
-            pk6.Stat_HPCurrent = Math.Min(Util.ToInt32(Stat_HP.Text), 65535);
-            pk6.Stat_HPMax = Math.Min(Util.ToInt32(Stat_HP.Text), 65535);
-            pk6.Stat_ATK = Math.Min(Util.ToInt32(Stat_ATK.Text), 65535);
-            pk6.Stat_DEF = Math.Min(Util.ToInt32(Stat_DEF.Text), 65535);
-            pk6.Stat_SPE = Math.Min(Util.ToInt32(Stat_SPE.Text), 65535);
-            pk6.Stat_SPA = Math.Min(Util.ToInt32(Stat_SPA.Text), 65535);
-            pk6.Stat_SPD = Math.Min(Util.ToInt32(Stat_SPD.Text), 65535);
+            pk6.Stat_HPCurrent = Util.ToInt32(Stat_HP.Text);
+            pk6.Stat_HPMax = Util.ToInt32(Stat_HP.Text);
+            pk6.Stat_ATK = Util.ToInt32(Stat_ATK.Text);
+            pk6.Stat_DEF = Util.ToInt32(Stat_DEF.Text);
+            pk6.Stat_SPE = Util.ToInt32(Stat_SPE.Text);
+            pk6.Stat_SPA = Util.ToInt32(Stat_SPA.Text);
+            pk6.Stat_SPD = Util.ToInt32(Stat_SPD.Text);
 
             // Unneeded Party Stats (Status, Flags, Unused)
             pk6.Data[0xE8] = pk6.Data[0xE9] = pk6.Data[0xEA] = pk6.Data[0xEB] = 
@@ -2377,7 +2421,7 @@ namespace PKHeX
             if (HaX)
             {
                 pk6.Ability = (byte)Util.getIndex(DEV_Ability);
-                pk6.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), 255);
+                pk6.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
 
             // Fix Moves if a slot is empty 
@@ -2793,32 +2837,6 @@ namespace PKHeX
                 SAV.Edited = true;
             }
         }
-        private void refreshTrainerInfo()
-        {
-            Converter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
-        }
-        private void clickExportParty(object sender, EventArgs e)
-        {
-            try
-            {
-                Clipboard.SetText(
-                    SAV.PartyData.Aggregate("", (current, pk) => current + pk.ShowdownText 
-                            + Environment.NewLine + Environment.NewLine).Trim());
-                Util.Alert("Showdown Team (Party) set to Clipboard.");
-            }
-            catch { }
-        }
-        private void clickExportBattleBox(object sender, EventArgs e)
-        {
-            try
-            {
-                Clipboard.SetText(
-                    SAV.BattleBoxData.Aggregate("", (current, pk) => current + pk.ShowdownText
-                            + Environment.NewLine + Environment.NewLine).Trim());
-                Util.Alert("Showdown Team (Battle Box) set to Clipboard.");
-            }
-            catch { }
-        }
         // Generic Subfunctions //
         private void setParty()
         {
@@ -3111,12 +3129,7 @@ namespace PKHeX
                 if (ctr == 30 * 31) break; // break out if we have written all 31 boxes
             }
             if (ctr <= 0) return; 
-            // if we've written at least one pk6 in, go ahead and make sure the window is stretched.
-            if (Width < Height) // expand if boxes aren't visible
-            {
-                Width = largeWidth;
-                tabBoxMulti.SelectedIndex = 0;
-            }
+
             setPKXBoxes();
             string result = String.Format("Loaded {0} files to boxes.", ctr);
             if (pastctr > 0)
@@ -3158,7 +3171,8 @@ namespace PKHeX
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
             new SAV_Trainer().ShowDialog();
-            refreshTrainerInfo();
+            // Refresh PK#->PK6 conversion info
+            Converter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
         }
         private void B_OpenPokepuffs_Click(object sender, EventArgs e)
         {
@@ -3369,32 +3383,6 @@ namespace PKHeX
             if (path == null || !File.Exists(path)) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
                 openQuick(path); // load save
-        }
-        private void clickOpenTempFolder(object sender, EventArgs e)
-        {
-            string path;
-            switch (ModifierKeys)
-            {
-                case Keys.Control: // Cache
-                    path = Util.GetCacheFolder();
-                    if (Directory.Exists(path)) System.Diagnostics.Process.Start("explorer.exe", @path); else Util.Alert("Can't find the cache folder."); 
-                    break;
-                case Keys.Shift: // SaveDataBackup
-                    Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
-                    if (path3DS != null && File.Exists(path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
-                        System.Diagnostics.Process.Start("explorer.exe", @Path.GetDirectoryName(path)); else Util.Alert("Can't find the SaveDataBackup folder.");
-                    break;
-                case Keys.Alt: // SaveDataFiler
-                    path = Util.GetSDFLocation();
-                    if (Directory.Exists(path)) System.Diagnostics.Process.Start("explorer.exe", @path); else Util.Alert("Can't find the SDF folder."); 
-                    break;
-                default: // Root
-                    path = Util.GetTempFolder();
-                    if (Directory.Exists(Path.Combine(path, "root"))) System.Diagnostics.Process.Start("explorer.exe", @Path.Combine(path, "root")); 
-                    else if (Directory.Exists(path)) System.Diagnostics.Process.Start("explorer.exe", @path); 
-                    else { Util.Error("Can't find the temporary file.", "Make sure the Cyber Gadget software is paused."); }
-                    break;
-            }
         }
 
         // Drag & Drop within Box

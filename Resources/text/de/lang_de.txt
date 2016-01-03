@@ -10,16 +10,44 @@
 ! lang_zh.txt = Chinese
 ! lang_pt.txt = Portuguese
 ! Make sure that each edit has a ' = ' between Control name and new Text!
-! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
 ! Main = PKHeX
 - Change stuff below this line, not above.
-----------------Overall PKX Interface------------------
-Menu_File = File ; Open... ; Save as... ; Exit
-Menu_Tools = Tools ; Toggle Box Interface ;  Load/Dump Boxes ; Box Data Report ; Code Generator
-Menu_Options = Options ; Language ; About PKHeX
+---------------------Menu Strip------------------------
+Menu_File = File
+Menu_Open = Open...
+Menu_Save = Save PK6...
+Menu_ExportSAV = Export SAV...
+Menu_Exit = Quit
+--
+Menu_Tools = Tools
+Menu_Showdown = Showdown
+Menu_ShowdownImportPK6 = Import Set from Clipboard
+Menu_ShowdownExportPK6 = Export Set from Clipboard
+Menu_ShowdownExportParty = Export Party to Clipboard
+Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_CyberGadget = CyberGadget
+Menu_CodeGenerator = Code Generator
+Menu_OpenTemp = Open Temp Folder
+Menu_OpenCache = Open Cache Folder
+Menu_Data = Data
+Menu_LoadBoxes = Load Boxes
+Menu_DumpBoxes = Dump Boxes
+Menu_Report = Box Data Report
+Menu_Database = PK6 Datenbank
+Menu_Other = Andere
+Menu_OpenSDF = Open SaveDataFiler Folder
+Menu_OpenSDB = Open SaveDataBackup Folder
+--
+Menu_Options = Optionen
+Menu_Language = Sprache
+Menu_Modify = Bei Einstellung auf SAV
+Menu_ModifyDex = Ändern Pokédex
+Menu_ModifyPK6 = Ändern PK6 Info
+Menu_Unicode = Toggle Font
+Menu_About = Über PKHeX
 --------------------Main Tab Data----------------------
 Tab_Main = Haupt
 Label_PID = PID:
@@ -91,12 +119,8 @@ GB_OT = Trainer Informationen
 Label_TID = TID:
 Label_SID = SID:
 Label_OT = OT:
-RB_OTM = M
-RB_OTF = F
 GB_nOT = Letzter (nicht OT) Handler
 Label_PrevOT = OT:
-RB_nOTM = M
-RB_nOTF = F
 GB_ExtraBytes = Extra Bytes
 GB_Markings = Markierungen
 BTN_Ribbons = Bänder/Medaillen
@@ -127,16 +151,10 @@ GB_SUBE = Alter Mann
 DayCare_HasEgg = Ei verfügbar
 L_DaycareSeed = Seed
 L_ReadOnlyOther = Dieser Tab ist nur lesbar.
-B_BoxIO = Box Öffnen / Speichern
 B_JPEG = Speichere PGL .JPEG
 B_OpenHallofFame = Ruhmeshalle
 B_OUTPasserby = Passanten
-L_IntegrityCheck = Integritäscheck:
 B_VerifyCHK = Checksums
-B_VerifySHA = Hashes
-L_SAVManipulation = Spielstandmanipulation:
-B_SwitchSAV = SAV wechseln
-B_ExportSAV = SAV exportieren
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below

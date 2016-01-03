@@ -10,16 +10,44 @@
 ! lang_zh.txt = Chinese
 ! lang_pt.txt = Portuguese
 ! Make sure that each edit has a ' = ' between Control name and new Text!
-! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
 ! Main = PKHeX
 - Change stuff below this line, not above.
-----------------Overall PKX Interface------------------
-Menu_File = 파일 ; 열기... ; 다른 이름으로 저장... ; 종료
-Menu_Tools = 도구 ; Toggle Box Interface ; Load/Dump Boxes ; 박스 데이터 리포트 ; 코드 생성기
-Menu_Options = 옵션 ; 언어 ; PKHeX에 대하여 ; 폰트 변경
+---------------------Menu Strip------------------------
+Menu_File = 파일
+Menu_Open = 열기...
+Menu_Save = 저장 PK6...
+Menu_ExportSAV = 저장 SAV...
+Menu_Exit = 종료
+--
+Menu_Tools = 도구
+Menu_Showdown = Showdown
+Menu_ShowdownImportPK6 = Import Set from Clipboard
+Menu_ShowdownExportPK6 = Export Set from Clipboard
+Menu_ShowdownExportParty = Export Party to Clipboard
+Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_CyberGadget = CyberGadget
+Menu_CodeGenerator = 코드 생성기
+Menu_OpenTemp = 열기 Temp 폴더
+Menu_OpenCache = 열기 Cache 폴더
+Menu_Data = 데이터
+Menu_LoadBoxes = 로드 박스
+Menu_DumpBoxes = 덤프 박스
+Menu_Report = 박스 데이터 리포트
+Menu_Database = PK6 데이터베이스
+Menu_Other = 다른
+Menu_OpenSDF = 열기 SaveDataFiler 폴더
+Menu_OpenSDB = 열기 SaveDataBackup 폴더
+--
+Menu_Options = 옵션
+Menu_Language = 언어
+Menu_Modify = SAV로 설정
+Menu_ModifyDex = 포켓몬 도감 수정
+Menu_ModifyPK6 = PK6 정보 수정
+Menu_Unicode = 폰트 변경
+Menu_About = PKHeX에 대하여
 --------------------Main Tab Data----------------------
 Tab_Main = 기본
 Label_PID = PID:
@@ -91,12 +119,8 @@ GB_OT = 트레이너 정보
 Label_TID = TID:
 Label_SID = SID:
 Label_OT = OT:
-RB_OTM = ♂
-RB_OTF = ♀
 GB_nOT = 최근 (주인이 아닌) 트레이너
 Label_PrevOT = 주인:
-RB_nOTM = ♂
-RB_nOTF = ♀
 GB_ExtraBytes = Extra Bytes
 GB_Markings = 마킹
 BTN_Ribbons = 리본/메달
@@ -133,14 +157,8 @@ GB_SUBE = 노인
 DayCare_HasEgg = 알 발견 가능여부
 L_DaycareSeed = 시드
 L_ReadOnlyOther = 이 탭은 읽기 전용입니다.
-B_3DSSETemp = Open Temp 3DSSE
 B_JPEG = Save PGL .JPEG
-L_IntegrityCheck = 완전성 체크:
 B_VerifyCHK = 체크섬
-B_VerifySHA = 해시
-L_SAVManipulation = 세이브파일 조작:
-B_SwitchSAV = SAV 교체
-B_ExportSAV = SAV 내보내기
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 

@@ -10,16 +10,44 @@
 ! lang_zh.txt = Chinese
 ! lang_pt.txt = Portuguese
 ! Make sure that each edit has a ' = ' between Control name and new Text!
-! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
 ! Main = PKHeX
 - Change stuff below this line, not above.
-----------------Overall PKX Interface------------------
-Menu_File = Ficheiro ; Abrir... ; Guardar como... ; Sair
-Menu_Tools = Ferramentas ; Alternar Interface da Box ; Carregar/Despejar Boxes ; Relatório de Dados das Boxes ; Gerador de Código
-Menu_Options = Opções ; Idioma ; Sobre o PKHeX ; Mudar Fonte
+---------------------Menu Strip------------------------
+Menu_File = Ficheiro
+Menu_Open = Abrir...
+Menu_Save = Guardar PK6...
+Menu_ExportSAV = Guardar SAV...
+Menu_Exit = Sair
+--
+Menu_Tools = Ferramentas
+Menu_Showdown = Showdown
+Menu_ShowdownImportPK6 = Import Set from Clipboard
+Menu_ShowdownExportPK6 = Export Set from Clipboard
+Menu_ShowdownExportParty = Export Party to Clipboard
+Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_CyberGadget = CyberGadget
+Menu_CodeGenerator = Gerador de Código
+Menu_OpenTemp = Abrir pasta Temp
+Menu_OpenCache = Abrir pasta Cache
+Menu_Data = Dados
+Menu_LoadBoxes = Carregar Boxes
+Menu_DumpBoxes = Despejar Boxes
+Menu_Report = Relatório de Dados das Boxes
+Menu_Database = PK6 Database
+Menu_Other = Outro
+Menu_OpenSDF = Abrir pasta SaveDataFiler
+Menu_OpenSDB = Abrir pasta SaveDataBackup
+--
+Menu_Options = Opções
+Menu_Language = Idioma
+Menu_Modify = Defina para SAV
+Menu_ModifyDex = Modificar Pokédex
+Menu_ModifyPK6 = Modificar PK6 Info
+Menu_Unicode = Mudar Fonte
+Menu_About = Sobre o PKHeX
 --------------------Main Tab Data----------------------
 Tab_Main = Principal
 Label_PID = PID:
@@ -91,12 +119,8 @@ GB_OT = Informação do Treinador
 Label_TID = TID:
 Label_SID = SID:
 Label_OT = OT:
-RB_OTM = ?
-RB_OTF = ?
 GB_nOT = Último (não OT) Treinador
 Label_PrevOT = OT:
-RB_nOTM = ?
-RB_nOTF = ?
 GB_ExtraBytes = Bytes Extra
 GB_Markings = Marcas
 BTN_Ribbons = Fitas/Medalhas
@@ -133,14 +157,8 @@ GB_SUBE = Velhote
 DayCare_HasEgg = Ovo Disponível
 L_DaycareSeed = Semente
 L_ReadOnlyOther = Este separador é só de leitura.
-B_3DSSETemp = Abrir Temp 3DSSE
 B_JPEG = Gravar PGL .JPEG
-L_IntegrityCheck = Verificação de Integridade:
 B_VerifyCHK = Checksums
-B_VerifySHA = Hashes
-L_SAVManipulation = Manipulação do Ficheiro Guardado:
-B_SwitchSAV = Mudar SAV
-B_ExportSAV = Exportar SAV
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 

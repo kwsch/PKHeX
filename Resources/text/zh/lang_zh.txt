@@ -10,16 +10,44 @@
 ! lang_zh.txt = Chinese
 ! lang_pt.txt = Portuguese
 ! Make sure that each edit has a ' = ' between Control name and new Text!
-! For the Menu Bar, separate the DropDown Item names with ' ; '
 !
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Main Form (PKHeX window) below.
 ! Main = PKHeX
 - Change stuff below this line, not above.
-----------------Overall PKX Interface------------------
-Menu_File = 文件 ; 读取... ; 保存... ; 退出
-Menu_Tools = 工具 ; 切换到箱子界面 ; 加载/转储箱 ; 箱子数据报告 ; 生成代码
-Menu_Options = 设置 ; 语言 ; 关于PKHeX ; Unicode
+---------------------Menu Strip------------------------
+Menu_File = 文件
+Menu_Open = 读取...
+Menu_Save = 保存 PK6...
+Menu_ExportSAV = 保存 SAV...
+Menu_Exit = 退出
+--
+Menu_Tools = 工具
+Menu_Showdown = Showdown
+Menu_ShowdownImportPK6 = 导入设置从剪贴板
+Menu_ShowdownExportPK6 = 出口设定从剪贴板
+Menu_ShowdownExportParty = 出口党到剪贴板
+Menu_ShowdownExportBattleBox = 出口碉堡到剪贴板
+Menu_CyberGadget = CyberGadget
+Menu_CodeGenerator = 生成代码
+Menu_OpenTemp = 打开文件夹Temp
+Menu_OpenCache = 打开文件夹Cache
+Menu_Data = 数据
+Menu_LoadBoxes = 负载箱
+Menu_DumpBoxes = 出口箱
+Menu_Report = 箱子数据报告
+Menu_Database = PK6数据库
+Menu_Other = 其他
+Menu_OpenSDF = 打开文件夹SaveDataFiler
+Menu_OpenSDB = 打开文件夹SaveDataBackup
+--
+Menu_Options = 设置
+Menu_Language = 语言
+Menu_Modify = 设置为SAV
+Menu_ModifyDex = 修改图鉴
+Menu_ModifyPK6 = 修改PK6信息
+Menu_Unicode = 切换的Unicode
+Menu_About = 关于PKHeX
 --------------------Main Tab Data----------------------
 Tab_Main = 主界面
 Label_PID = PID:
@@ -124,16 +152,10 @@ GB_SUBE = SUBE
 DayCare_HasEgg = 拥有蛋
 L_DaycareSeed = 种子
 L_ReadOnlyOther = 此选项卡是只读
-B_BoxIO = 读取/保存精灵箱子内容
 B_JPEG = 保存PGL.JPEG
 B_OpenHallofFame = 名人堂
 B_OUTPasserby = 路人
-L_IntegrityCheck = 检测完整性
 B_VerifyCHK = 校验
-B_VerifySHA = 哈希值
-L_SAVManipulation = 保存编辑过的文件
-B_SwitchSAV = 更变SAV
-B_ExportSAV = 输出SAV
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below
