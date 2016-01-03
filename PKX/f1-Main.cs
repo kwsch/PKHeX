@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -20,7 +21,6 @@ namespace PKHeX
             #region Initialize Form
             pk6.RefreshChecksum();
             InitializeComponent();
-            string filename = Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName);
             // Initialize SAV-Set Parameters in case compilation settings were changed.
             SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
             SAV6.SetUpdatePK6 = Menu_ModifyPK6.Checked;
@@ -72,6 +72,8 @@ namespace PKHeX
             // Box to Tabs D&D
             dragout.AllowDrop = true;
 
+            string[] args = Environment.GetCommandLineArgs();
+            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]) : "";
             HaX = (filename.IndexOf("HaX", StringComparison.Ordinal) >= 0);
             // Show Hacked Stuff if HaX
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = DEV_Ability.Enabled = DEV_Ability.Visible =
@@ -80,12 +82,11 @@ namespace PKHeX
             TB_Level.Visible = CB_Ability.Visible = !HaX;
             #endregion
             #region Localize & Populate Fields
-
             // Try and detect the language
             int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
             main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i).ToArray()).ToArray();
-            string lastTwoChars = filename.Substring(filename.Length - 2);
-            int lang = Array.IndexOf(lang_val, lastTwoChars);
+            string lastTwoChars = (filename.Length > 2) ? filename.Substring(filename.Length - 2) : "";
+            int lang = (filename.Length > 2) ? Array.IndexOf(lang_val, lastTwoChars) : - 1;
             CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : ((lastTwoChars == "jp") ? 1 : 0);
 
             InitializeFields();
@@ -93,7 +94,6 @@ namespace PKHeX
             #endregion
             #region Load Initial File(s)
             // Load the arguments
-            string[] args = Environment.GetCommandLineArgs();
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
             if (args.Length > 1)
@@ -869,7 +869,7 @@ namespace PKHeX
             Converter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
 
             // Indicate audibly the save is loaded
-            System.Media.SystemSounds.Beep.Play();
+            SystemSounds.Beep.Play();
         }
 
         // Language Translation
@@ -2231,7 +2231,7 @@ namespace PKHeX
 
             // else...
         invalid:
-            { System.Media.SystemSounds.Exclamation.Play(); return false; }
+            { SystemSounds.Exclamation.Play(); return false; }
         }
         public byte[] preparepkx(bool click = true)
         {
@@ -2627,7 +2627,7 @@ namespace PKHeX
             int offset = getPKXOffset(slot);
 
             if (SlotPictureBoxes[slot].Image == null)
-            { System.Media.SystemSounds.Exclamation.Play(); return; }
+            { SystemSounds.Exclamation.Play(); return; }
 
             // Load the PKX file
             PK6 pk = SAV.getPK6Stored(offset);
@@ -2655,7 +2655,7 @@ namespace PKHeX
                 getSlotColor(slot, Properties.Resources.slotView);
             }
             else
-                System.Media.SystemSounds.Exclamation.Play();
+                SystemSounds.Exclamation.Play();
         }
         private void clickSet(object sender, EventArgs e)
         {
