@@ -317,10 +317,6 @@ namespace PKHeX
         // Form Translation
         internal static void TranslateInterface(Control form, string lang, MenuStrip menu = null)
         {
-            string FORM_NAME = form.Name;
-            Control.ControlCollection Controls = form.Controls;
-            // debug(Controls);
-            // Fetch a File
             // Check to see if a the translation file exists in the same folder as the executable
             string externalLangPath = Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + lang + ".txt";
             string[] rawlist;
@@ -339,7 +335,7 @@ namespace PKHeX
             for (int i = 0; i < rawlist.Length; i++)
             {
                 // Find our starting point
-                if (!rawlist[i].Contains("! " + FORM_NAME)) continue;
+                if (!rawlist[i].Contains("! " + form.Name)) continue;
 
                 // Allow renaming of the Window Title
                 string[] WindowName = rawlist[i].Split(new[] {" = "}, StringSplitOptions.None);
@@ -366,24 +362,14 @@ namespace PKHeX
                     continue; // Error in Input, errhandled
                 string ctrl = SplitString[0]; // Control to change the text of...
                 string text = SplitString[1]; // Text to set Control.Text to...
-                Control[] controllist = Controls.Find(ctrl, true);
-                if (controllist.Length == 0) // If Control isn't found...
-                    try
-                    {
-                        // Menu Items can't be found with Controls.Find as they aren't Controls
-                        ToolStripDropDownItem TSI = (ToolStripDropDownItem)menu.Items[ctrl];
-                        if (TSI == null) continue;
-
-                        // We'll rename the main and child in a row.
-                        string[] ToolItems = SplitString[1].Split(new[] {" ; "}, StringSplitOptions.None);
-                        TSI.Text = ToolItems[0]; // Set parent's text first
-                        if (TSI.DropDownItems.Count != ToolItems.Length - 1)
-                            continue; // Error in Input, errhandled
-                        for (int ti = 1; ti <= TSI.DropDownItems.Count; ti++)
-                            TSI.DropDownItems[ti - 1].Text = ToolItems[ti]; // Set child text
-                        // If not found, it is not something to rename and is thus skipped.
-                    }
-                    catch { }
+                Control[] controllist = form.Controls.Find(ctrl, true);
+                if (controllist.Length == 0 && menu != null) // If Control isn't found... check menustrip
+                {
+                    // Menu Items aren't in the Form's Control array. Find within the menu's Control array.
+                    ToolStripItem[] TSI = menu.Items.Find(ctrl, true);
+                    if (TSI.Length > 0) // Found
+                        TSI[0].Text = text;
+                }
                 else // Set the input control's text.
                     controllist[0].Text = text;
             }
