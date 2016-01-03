@@ -761,18 +761,6 @@ namespace PKHeX
                     String.Format("File Loaded:{0}{1}", Environment.NewLine, path), 
                     String.Format("File Size:{0}{1} bytes (0x{2})", Environment.NewLine, input.Length, input.Length.ToString("X4")));
         }
-        private void openMAIN(byte[] input, string path, bool ram = false)
-        {
-            if (!ram)
-                ramsav = null;
-            L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SAV = new SAV6(input);
-
-            // Load CyberGadget
-            Menu_ExportSAV.Enabled = true;
-
-            openSave();
-        }
         private bool openXOR(byte[] input, string path)
         {
             // Detection of stored Decryption XORpads:
@@ -783,7 +771,7 @@ namespace PKHeX
             string[] XORpads = Directory.GetFiles(xorpath);
 
             int loop = 0;
-            check:
+        check:
             foreach (byte[] data in from file in XORpads let fi = new FileInfo(file) where (fi.Name.ToLower().Contains("xorpad") || fi.Name.ToLower().Contains("key")) && (fi.Length == 0x10009C || fi.Length == 0x100000) select File.ReadAllBytes(file))
             {
                 // Fix xorpad alignment
@@ -820,14 +808,21 @@ namespace PKHeX
             if (xorpath != exepath || loop++ > 0) return false; // no xorpad compatible
             xorpath = Path.GetDirectoryName(path); goto check;
         }
-        private void openSave()
+        private void openMAIN(byte[] input, string path, bool ram = false)
         {
+            if (!ram)
+                ramsav = null;
+            L_Save.Text = "SAV: " + Path.GetFileName(path);
+            SAV = new SAV6(input);
+
             // Enable Secondary Tools
             GB_SAVtools.Enabled =
                 B_JPEG.Enabled = true;
 
             SAV.Edited = false;
 
+            Menu_ExportSAV.Enabled = SAV.Exportable;
+            Menu_ExportTransfer.Enabled = Menu_ExportRAMSAV.Enabled = ramsav != null;
             B_VerifyCHK.Enabled = ramsav == null;
             DaycareSlot = 0;
             
@@ -2495,7 +2490,6 @@ namespace PKHeX
         #endregion
 
         #region //// SAVE FILE FUNCTIONS ////
-        // Integrity Checks // 
         private void clickVerifyCHK(object sender, EventArgs e)
         {
             if (SAV.Edited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
@@ -2510,21 +2504,26 @@ namespace PKHeX
 
             Clipboard.SetText(PKX.verifyG6CHK(SAV.Data));
         }
+        private void clickExportSAVBAK(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                FileName =
+                    Util.CleanFileName(ramsav == null
+                        ? String.Format("main ({0} - {1}).bak", SAV.OT, SAV.TID)
+                        : String.Format("ramsav ({0} - {1}).bak", SAV.OT, SAV.TID))
+            };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            string path = sfd.FileName;
+            File.WriteAllBytes(sfd.FileName, ramsav ?? SAV.BAK);
+            Util.Alert("Saved Backup of current SAV to:", path);
+        }
         private void clickExportSAV(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Alt && SAV.Exportable)
-            {
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Export Backup of current SAV?") != DialogResult.Yes)
-                    return;
-
-                SaveFileDialog sfd = new SaveFileDialog { FileName = Util.CleanFileName(String.Format("main ({0} - {1}).bak", SAV.OT, SAV.TID)) };
-                if (sfd.ShowDialog() != DialogResult.OK) 
-                    return;
-
-                string path = sfd.FileName;
-                File.WriteAllBytes(sfd.FileName, SAV.BAK);
-                Util.Alert("Saved Backup of current SAV to:", path);
-            }
+            if (!Menu_ExportSAV.Enabled)
+                return;
 
             // Chunk Error Checking
             string err = SAV.checkChunkFF();
@@ -2565,7 +2564,7 @@ namespace PKHeX
             }
 
             // Export
-            if (ramsav != null && ModifierKeys == Keys.Shift) // Export RAM SAV to another.
+            if (sender == Menu_ExportTransfer) // Export RAM SAV to another.
             {
                 Util.Alert("Please specify the target cart/console-RAM save.");
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -2582,7 +2581,7 @@ namespace PKHeX
                 File.WriteAllBytes(path, newRAM);
                 Util.Alert("Saved RAM SAV to:" + Environment.NewLine + path, "Target RAM:" + Environment.NewLine + target);
             }
-            else if (ramsav != null && ModifierKeys != Keys.Control) // Export RAM SAV if it is the currently loaded one.
+            else if (sender == Menu_ExportRAMSAV) // Export RAM SAV if it is the currently loaded one.
             {
                 cySAV.Filter = "ramsav|*.bin";
                 cySAV.FileName = "ramsav.bin";
@@ -2592,7 +2591,7 @@ namespace PKHeX
                 File.WriteAllBytes(path, ram2sav.getRAM(ramsav, sav));
                 Util.Alert("Saved RAM SAV to:", path);
             }
-            else
+            else if (sender == Menu_ExportMAIN)
             {
                 cySAV.Filter = "Cyber SAV|*.*";
                 cySAV.FileName = L_Save.Text.Split(new[] { ": " }, StringSplitOptions.None)[1];
