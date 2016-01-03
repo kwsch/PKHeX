@@ -3,6 +3,15 @@
 
 // Main Window
 
+CTRL-O: Open
+CTRL-S: Export PK6
+CTRL-E: Export SAV
+CTRL-Q: Quit
+
+CTRL-D: Open Database
+CTRL-R: Open Box Report
+CTRL-B: Open About PKHeX
+
 Hold Control when dragging out the Tab PKM to save as ekx.
 
 Control + Click on...
