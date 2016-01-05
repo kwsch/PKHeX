@@ -74,7 +74,7 @@ namespace PKHeX
 
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]) : "";
-            HaX = (filename.IndexOf("HaX", StringComparison.Ordinal) >= 0);
+            HaX = filename.IndexOf("HaX", StringComparison.Ordinal) >= 0;
             // Show Hacked Stuff if HaX
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = DEV_Ability.Enabled = DEV_Ability.Visible =
             MT_Level.Enabled = MT_Level.Visible = TB_AbilityNumber.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
@@ -85,12 +85,12 @@ namespace PKHeX
             // Try and detect the language
             int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
             main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i).ToArray()).ToArray();
-            string lastTwoChars = (filename.Length > 2) ? filename.Substring(filename.Length - 2) : "";
-            int lang = (filename.Length > 2) ? Array.IndexOf(lang_val, lastTwoChars) : - 1;
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : ((lastTwoChars == "jp") ? 1 : 0);
+            string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
+            int lang = filename.Length > 2 ? Array.IndexOf(lang_val, lastTwoChars) : - 1;
+            CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : (lastTwoChars == "jp" ? 1 : 0);
 
             InitializeFields();
-            CB_Language.SelectedIndex = (lang >= 0 && lang < 7) ? main_langnum[lang] : 1;
+            CB_Language.SelectedIndex = lang >= 0 && lang < 7 ? main_langnum[lang] : 1;
             #endregion
             #region Load Initial File(s)
             // Load the arguments
@@ -306,7 +306,7 @@ namespace PKHeX
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
-            unicode = (gendersymbols[0] == "♂");
+            unicode = gendersymbols[0] == "♂";
             if (unicode)
             {
                 gendersymbols = new[] { "M", "F", "-" };
@@ -405,7 +405,7 @@ namespace PKHeX
 
             // Set Species & Nickname
             CB_Species.SelectedValue = Set.Species;
-            CHK_Nicknamed.Checked = (Set.Nickname != null);
+            CHK_Nicknamed.Checked = Set.Nickname != null;
             if (Set.Nickname != null)
                 TB_Nickname.Text = Set.Nickname;
             if (Set.Gender != null && PKX.getGender(Set.Gender) != 2 && PKX.getGender(Set.Gender) != 2)
@@ -434,8 +434,8 @@ namespace PKHeX
             for (int i = 0; i < 4; i++) m[i].SelectedValue = Set.Moves[i];
 
             // Set Item and Nature
-            CB_HeldItem.SelectedValue = (Set.Item < 0) ? 0 : Set.Item;
-            CB_Nature.SelectedValue = (Set.Nature < 0) ? 0 : Set.Nature;
+            CB_HeldItem.SelectedValue = Set.Item < 0 ? 0 : Set.Item;
+            CB_Nature.SelectedValue = Set.Nature < 0 ? 0 : Set.Nature;
 
             // Set IVs
             TB_HPIV.Text = Set.IVs[0].ToString();
@@ -1110,7 +1110,7 @@ namespace PKHeX
             CHK_IsEgg.Checked = pk6.IsEgg;
             CHK_Nicknamed.Checked = pk6.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk6.OT_Gender];
-            Label_OTGender.ForeColor = ((pk6.OT_Gender == 1) ? Color.Red : Color.Blue);
+            Label_OTGender.ForeColor = pk6.OT_Gender == 1 ? Color.Red : Color.Blue;
             CHK_Circle.Checked = pk6.Circle;
             CHK_Triangle.Checked = pk6.Triangle;
             CHK_Square.Checked = pk6.Square;
@@ -1121,7 +1121,7 @@ namespace PKHeX
             CB_HeldItem.SelectedValue = pk6.HeldItem;
             setAbilityList(TB_AbilityNumber, pk6.Species, CB_Ability, CB_Form);
             TB_AbilityNumber.Text = pk6.AbilityNumber.ToString();
-            CB_Ability.SelectedIndex = (pk6.AbilityNumber < 6) ? pk6.AbilityNumber >> 1 : 0; // with some simple error handling
+            CB_Ability.SelectedIndex = pk6.AbilityNumber < 6 ? pk6.AbilityNumber >> 1 : 0; // with some simple error handling
             CB_Nature.SelectedValue = pk6.Nature;
             TB_TID.Text = pk6.TID.ToString("00000");
             TB_SID.Text = pk6.SID.ToString("00000");
@@ -1144,7 +1144,7 @@ namespace PKHeX
             CB_SubRegion.SelectedValue = pk6.Region;
             CB_3DSReg.SelectedValue = pk6.ConsoleRegion;
             CB_GameOrigin.SelectedValue = pk6.Version;
-            CB_EncounterType.SelectedValue = (pk6.Gen4) ? pk6.EncounterType : 0;
+            CB_EncounterType.SelectedValue = pk6.Gen4 ? pk6.EncounterType : 0;
             CB_Ball.SelectedValue = pk6.Ball;
 
             if (pk6.Met_Month == 0) { pk6.Met_Month = 1; }
@@ -1178,7 +1178,7 @@ namespace PKHeX
 
             // Set SelectedIndexes for PKRS
             CB_PKRSStrain.SelectedIndex = pk6.PKRS_Strain;
-            CHK_Cured.Checked = (pk6.PKRS_Strain > 0 && pk6.PKRS_Days == 0);
+            CHK_Cured.Checked = pk6.PKRS_Strain > 0 && pk6.PKRS_Days == 0;
             CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk6.PKRS_Days); // to strip out bad hacked 'rus
 
             TB_Cool.Text = pk6.CNT_Cool.ToString();
@@ -1221,7 +1221,7 @@ namespace PKHeX
             TB_PP4.Text = pk6.Move4_PP.ToString();
             
             // Set Form if count is enough, else if count is more than 1 set equal to max else zero.
-            CB_Form.SelectedIndex = (CB_Form.Items.Count > pk6.AltForm) ? pk6.AltForm : (CB_Form.Items.Count > 1 ? CB_Form.Items.Count - 1 : 0);
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk6.AltForm ? pk6.AltForm : (CB_Form.Items.Count > 1 ? CB_Form.Items.Count - 1 : 0);
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk6.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
@@ -1258,7 +1258,7 @@ namespace PKHeX
             int index = CB.SelectedIndex;
             // fix for Korean / Chinese being swapped
             string cl = curlanguage + "";
-            cl = (cl == "zh") ? "ko" : (cl == "ko") ? "zh" : cl;
+            cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
 
             CB.DataSource = Util.getCBList(type, cl);
 
@@ -1376,7 +1376,7 @@ namespace PKHeX
 
             pk6.Gender = PKX.getGender(Label_Gender.Text) ^ 1;
             Label_Gender.Text = gendersymbols[pk6.Gender];
-            Label_Gender.ForeColor = (pk6.Gender == 2) ? Label_Species.ForeColor : ((pk6.Gender == 1) ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = pk6.Gender == 2 ? Label_Species.ForeColor : ((pk6.Gender == 1) ? Color.Red : Color.Blue);
 
             if (PKX.getGender(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
@@ -1385,10 +1385,10 @@ namespace PKHeX
         }
         private void clickPPUps(object sender, EventArgs e)
         {
-            CB_PPu1.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move1) > 0) ? 3 : 0;
-            CB_PPu2.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move2) > 0) ? 3 : 0;
-            CB_PPu3.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move3) > 0) ? 3 : 0;
-            CB_PPu4.SelectedIndex = (ModifierKeys != Keys.Control && Util.getIndex(CB_Move4) > 0) ? 3 : 0;
+            CB_PPu1.SelectedIndex = ModifierKeys != Keys.Control && Util.getIndex(CB_Move1) > 0 ? 3 : 0;
+            CB_PPu2.SelectedIndex = ModifierKeys != Keys.Control && Util.getIndex(CB_Move2) > 0 ? 3 : 0;
+            CB_PPu3.SelectedIndex = ModifierKeys != Keys.Control && Util.getIndex(CB_Move3) > 0 ? 3 : 0;
+            CB_PPu4.SelectedIndex = ModifierKeys != Keys.Control && Util.getIndex(CB_Move4) > 0 ? 3 : 0;
         }
         private void clickMarking(object sender, EventArgs e)
         {
@@ -1409,7 +1409,7 @@ namespace PKHeX
             if (ModifierKeys == Keys.Alt) // EV
             {
                 var arrayEV = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV};
-                arrayEV[index].Text = ((e.Button == MouseButtons.Left)
+                arrayEV[index].Text = (e.Button == MouseButtons.Left
                     ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal) + Util.ToInt32(arrayEV[index]), 0), 252) 
                     : 0).ToString();
             }
@@ -1479,7 +1479,7 @@ namespace PKHeX
             {
                 int gender = PKX.getGender(lbl.Text) ^ 1;
                 lbl.Text = gendersymbols[gender];
-                lbl.ForeColor = ((gender == 1) ? Color.Red : Color.Blue);
+                lbl.ForeColor = gender == 1 ? Color.Red : Color.Blue;
             }
         }
         private void clickMoves(object sender, EventArgs e)
@@ -1504,7 +1504,7 @@ namespace PKHeX
                 // Change the Level
                 uint EXP = Util.ToUInt32(TB_EXP);
                 int Species = Util.getIndex(CB_Species);
-                int Level = (EXP == 0) ? 1 : PKX.getLevel(Species, EXP);
+                int Level = EXP == 0 ? 1 : PKX.getLevel(Species, EXP);
                 if (Level == 100)
                     EXP = PKX.getEXP(Level, Species);
 
@@ -1572,7 +1572,7 @@ namespace PKHeX
             changingFields = false;
 
             // Potential Reading
-            L_Potential.Text = ((!unicode)
+            L_Potential.Text = (!unicode
                 ? new[] {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"}
                 : new[] {"+", "++", "+++", "++++"}
                 )[pk6.PotentialRating];
@@ -1733,7 +1733,7 @@ namespace PKHeX
             foreach (int day in Enumerable.Range(0, CB_PKRSStrain.SelectedIndex % 4 + 2)) CB_PKRSDays.Items.Add(day);
 
             // Set the days back if they're legal, else set it to 1. (0 always passes).
-            CB_PKRSDays.SelectedIndex = (currentDuration < CB_PKRSDays.Items.Count) ? currentDuration : 1;
+            CB_PKRSDays.SelectedIndex = currentDuration < CB_PKRSDays.Items.Count ? currentDuration : 1;
 
             if (CB_PKRSStrain.SelectedIndex != 0) return;
             
@@ -1833,7 +1833,7 @@ namespace PKHeX
             else if (gt == 0) // Male Only
                 genderflag = 0;
             else // get gender from old PID correlation
-                genderflag = ((Util.getHEXval(TB_PID) & 0xFF) <= gt) ? 1 : 0;
+                genderflag = (Util.getHEXval(TB_PID) & 0xFF) <= gt ? 1 : 0;
 
             int Gender = genderflag;
             Label_Gender.Text = gendersymbols[Gender];
@@ -1988,10 +1988,10 @@ namespace PKHeX
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
         {
-            TextBox tb = (!(sender is TextBox)) ? TB_Nickname : (sender as TextBox);
+            TextBox tb = !(sender is TextBox) ? TB_Nickname : sender as TextBox;
             // Special Character Form
             if (ModifierKeys == Keys.Control && !specialChars)
-                (new f2_Text(tb)).Show();
+                new f2_Text(tb).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
         {
@@ -2053,8 +2053,8 @@ namespace PKHeX
         private void updateShinyPID(object sender, EventArgs e)
         {
             uint PID = Util.getHEXval(TB_PID);
-            uint UID = (PID >> 16);
-            uint LID = (PID & 0xFFFF);
+            uint UID = PID >> 16;
+            uint LID = PID & 0xFFFF;
             uint PSV = UID ^ LID;
             uint TID = Util.ToUInt32(TB_TID);
             uint SID = Util.ToUInt32(TB_SID);
@@ -2115,7 +2115,7 @@ namespace PKHeX
             validateComboBox(sender, e);
             if (cb == CB_Ability)
                 TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
-            else if ((cb == CB_Move1) || (cb == CB_Move2) || (cb == CB_Move3) || (cb == CB_Move4))
+            else if (cb == CB_Move1 || cb == CB_Move2 || cb == CB_Move3 || cb == CB_Move4)
                 updatePP(sender, e);
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
@@ -2247,7 +2247,7 @@ namespace PKHeX
                 uint TID = Util.ToUInt32(TB_TID.Text);
                 uint LID = PID & 0xFFFF;
                 uint HID = PID >> 16;
-                uint XOR = (TID ^ LID ^ SID ^ HID);
+                uint XOR = TID ^ LID ^ SID ^ HID;
 
                 // Ensure we don't have a shiny.
                 if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
@@ -2276,7 +2276,7 @@ namespace PKHeX
             pk6.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);   // Number
             // pkx[0x16], pkx[0x17] are handled by the Medals UI (Hits & Training Bag)
             pk6.PID = Util.getHEXval(TB_PID);
-            pk6.Nature = (byte)(Util.getIndex(CB_Nature));
+            pk6.Nature = (byte)Util.getIndex(CB_Nature);
             pk6.FatefulEncounter = CHK_Fateful.Checked;
             pk6.Gender = PKX.getGender(Label_Gender.Text);
             pk6.AltForm = Math.Min(MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex, 32); // Form
@@ -2320,14 +2320,14 @@ namespace PKHeX
             pk6.Move2 = Util.getIndex(CB_Move2);
             pk6.Move3 = Util.getIndex(CB_Move3);
             pk6.Move4 = Util.getIndex(CB_Move4);
-            pk6.Move1_PP = (Util.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0);
-            pk6.Move2_PP = (Util.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0);
-            pk6.Move3_PP = (Util.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0);
-            pk6.Move4_PP = (Util.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0);
-            pk6.Move1_PPUps = (Util.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0);
-            pk6.Move2_PPUps = (Util.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0);
-            pk6.Move3_PPUps = (Util.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0);
-            pk6.Move4_PPUps = (Util.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0);
+            pk6.Move1_PP = Util.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            pk6.Move2_PP = Util.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            pk6.Move3_PP = Util.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            pk6.Move4_PP = Util.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            pk6.Move1_PPUps = Util.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            pk6.Move2_PPUps = Util.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            pk6.Move3_PPUps = Util.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            pk6.Move4_PPUps = Util.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
             pk6.RelearnMove1 = Util.getIndex(CB_RelearnMove1);
             pk6.RelearnMove2 = Util.getIndex(CB_RelearnMove2);
             pk6.RelearnMove3 = Util.getIndex(CB_RelearnMove3);
@@ -2455,7 +2455,7 @@ namespace PKHeX
                 byte[] dragdata = preparepkx();
                 var pkx = new PK6(dragdata, "Tabs");
                 string filename = Path.GetFileNameWithoutExtension(pkx.FileName) + ((e.Button == MouseButtons.Right) ? ".ek6" : ".pk6");
-                dragdata = (e.Button == MouseButtons.Right) ? PKX.encryptArray(preparepkx()) : preparepkx();
+                dragdata = e.Button == MouseButtons.Right ? PKX.encryptArray(preparepkx()) : preparepkx();
                 // Strip out party stats (if they are there)
                 Array.Resize(ref dragdata, PK6.SIZE_STORED);
                 // Make file
@@ -2477,7 +2477,7 @@ namespace PKHeX
         // Dragout Display
         private void dragoutHover(object sender, EventArgs e)
         {
-            dragout.BackgroundImage = (Util.getIndex(CB_Species) > 0) ? Properties.Resources.slotSet : Properties.Resources.slotDel;
+            dragout.BackgroundImage = Util.getIndex(CB_Species) > 0 ? Properties.Resources.slotSet : Properties.Resources.slotDel;
         }
         private void dragoutLeave(object sender, EventArgs e)
         {
@@ -2904,18 +2904,18 @@ namespace PKHeX
             {
                 Label[] dclabela = { L_DC1, L_DC2, };
                 TextBox[] dctexta = { TB_Daycare1XP, TB_Daycare2XP };
-                var exp = new[] {SAV.DaycareEXP1, SAV.DaycareEXP2};
-                var occ = new[] {SAV.DaycareOccupied1, SAV.DaycareOccupied2};
+                uint[] exp = { SAV.DaycareEXP1, SAV.DaycareEXP2 };
+                bool[] occ = { SAV.DaycareOccupied1, SAV.DaycareOccupied2 };
 
                 for (int i = 0; i < 2; i++)
                 {
                     getSlotFiller(SAV.DaycareSlot[DaycareSlot] + PK6.SIZE_STORED * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
                     dctexta[i].Text = exp[i].ToString();
                     if (occ[i])   // If Occupied
-                        dclabela[i].Text = (i + 1) + ": ✓";
+                        dclabela[i].Text = String.Format("{0}: ✓", (i + 1));
                     else
                     {
-                        dclabela[i].Text = (i + 1) + ": ✘";
+                        dclabela[i].Text = String.Format("{0}: ✘", (i + 1));
                         SlotPictureBoxes[i + 42].Image = Util.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
                     }
                 }
@@ -2943,7 +2943,7 @@ namespace PKHeX
 
             // Recoloring of a storage box slot (to not show for other storage boxes)
             if (colorizedslot < 32)
-                SlotPictureBoxes[colorizedslot].BackgroundImage = (colorizedbox == CB_BoxSelect.SelectedIndex) ? colorizedcolor : null;
+                SlotPictureBoxes[colorizedslot].BackgroundImage = colorizedbox == CB_BoxSelect.SelectedIndex ? colorizedcolor : null;
         }
         private void setBoxNames()
         {
@@ -2970,7 +2970,7 @@ namespace PKHeX
             if (!fieldsInitialized) return;
             dslotdata = dslotdata ?? preparepkx(false); // don't perform control loss click
 
-            if (pb == dragout) L_QR.Visible = (BitConverter.ToInt16(dslotdata, 0x08) != 0); // Species
+            if (pb == dragout) L_QR.Visible = BitConverter.ToInt16(dslotdata, 0x08) != 0; // Species
             pb.Image = PKX.getSprite(dslotdata);
         }
         private void getSlotFiller(int offset, PictureBox pb)
