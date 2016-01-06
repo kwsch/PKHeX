@@ -203,7 +203,7 @@ namespace PKHeX
             // Dumb way to generate random IVs.
             int[] finalIVs = new int[6];
             for (int i = 0; i < IVs.Length; i++)
-                finalIVs[i] = (IVs[i] == 0xFF) ? (int)(Util.rnd32() & 0x1F) : IVs[i];
+                finalIVs[i] = IVs[i] == 0xFF ? (int)(Util.rnd32() & 0x1F) : IVs[i];
             pk.IVs = finalIVs;
 
             int av = 0;

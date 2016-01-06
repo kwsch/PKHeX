@@ -478,7 +478,7 @@ namespace PKHeX
         public bool DaycareOccupied1
         {
             get { return Data[DaycareSlot[DaycareIndex] + (PK6.SIZE_STORED + 8)*0] != 0; }
-            set { Data[DaycareSlot[DaycareIndex] + (PK6.SIZE_STORED + 8)*0] = (byte) (value ? 1 : 0); }
+            set { Data[DaycareSlot[DaycareIndex] + (PK6.SIZE_STORED + 8)*0] = (byte)(value ? 1 : 0); }
         }
         public bool DaycareOccupied2
         {
@@ -579,7 +579,7 @@ namespace PKHeX
             int origin = pk6.Version;
             int gender = pk6.Gender % 2; // genderless -> male
             int shiny = pk6.IsShiny ? 1 : 0;
-            int shiftoff = (shiny * 0x60 * 2) + (gender * 0x60) + 0x60;
+            int shiftoff = shiny * 0x60 * 2 + gender * 0x60 + 0x60;
 
             // Set the [Species/Gender/Shiny] Owned Flag
             Data[PokeDex + shiftoff + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));

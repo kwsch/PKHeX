@@ -86,7 +86,7 @@ namespace PKHeX
             }
             byte[] newpuffs = new byte[100];
             for (int i = 0; i < 100; i++)
-                newpuffs[i] = (byte) (Util.rnd32()%basemod + basepuff);
+                newpuffs[i] = (byte)(Util.rnd32()%basemod + basepuff);
 
             Array.Copy(newpuffs, 0, sav, Main.SAV.Puff, 100);
             Setup();
@@ -110,7 +110,7 @@ namespace PKHeX
                 for (int i = 0; i < 100; i++)
                 {
                     string puff = dgv.Rows[i].Cells[1].Value.ToString();
-                    puffarray[i] = (byte) Array.IndexOf(pfa, puff);
+                    puffarray[i] = (byte)Array.IndexOf(pfa, puff);
                 }
                 Array.Sort(puffarray);
                 Array.Reverse(puffarray);
@@ -121,7 +121,7 @@ namespace PKHeX
                 for (int i = 0; i < 100; i++)
                 {
                     string puff = dgv.Rows[i].Cells[1].Value.ToString();
-                    byte puffval = (byte) Array.IndexOf(pfa, puff);
+                    byte puffval = (byte)Array.IndexOf(pfa, puff);
                     if (puffval == 0) continue;
                     puffarray[count] = puffval;
                     count++;

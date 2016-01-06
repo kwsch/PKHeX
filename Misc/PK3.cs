@@ -89,7 +89,7 @@ namespace PKHeX
         #region Block D
         private byte PKRS { get { return Data[0x44]; } set { Data[0x44] = value; } }
         public int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
-        public int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | (value << 4)); } }
+        public int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
         public int Met_Location { get { return Data[0x45]; } set { Data[0x45] = (byte)value; } }
         // Origins
         private ushort Origins { get { return BitConverter.ToUInt16(Data, 0x46); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x46); } }
@@ -134,7 +134,7 @@ namespace PKHeX
 
         // Simple Generated Attributes
         public bool Japanese { get { return Language == 1; } }
-        public bool Gen3 { get { return ((Version >= 1 && Version <= 5) || Version == 15); } }
+        public bool Gen3 { get { return Version >= 1 && Version <= 5 || Version == 15; } }
         public int[] Moves
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }
@@ -227,7 +227,7 @@ namespace PKHeX
                 PKRS_Strain = PKRS_Strain,
                 PKRS_Days = PKRS_Days,
                 OT_Gender = OT_Gender,
-                Met_Year = (moment.Year - 2000),
+                Met_Year = moment.Year - 2000,
                 Met_Month = moment.Month,
                 Met_Day = moment.Day,
                 Met_Location = 0x37, // Pal Park
@@ -278,7 +278,7 @@ namespace PKHeX
             // Set Final Data
             pk4.Met_Level = PKX.getLevel(pk4.Species, pk4.EXP);
             pk4.Gender = PKM.getGender(pk4.Species, pk4.PID);
-            pk4.IsNicknamed |= (pk4.Nickname != PKM.getSpeciesName(pk4.Species, pk4.Language));
+            pk4.IsNicknamed |= pk4.Nickname != PKM.getSpeciesName(pk4.Species, pk4.Language);
 
             // Remove HM moves
             int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };

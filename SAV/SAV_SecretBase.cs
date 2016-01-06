@@ -115,7 +115,7 @@ namespace PKHeX
             NUD_FObject.Value = 1; // Trigger Update
             changeObjectIndex(null, null);
 
-            GB_PKM.Enabled = (index > 0);
+            GB_PKM.Enabled = index > 0;
 
             // Trainer Pokemon
             pkmdata = new byte[3, 0x34];
@@ -250,12 +250,12 @@ namespace PKHeX
         {
             if (editing) return;
 
-            int objindex = (int)(NUD_FObject.Value) - 1;
+            int objindex = (int)NUD_FObject.Value - 1;
 
-            byte val = (byte)(NUD_FObjType.Value);
-            byte x = (byte)(NUD_FX.Value);
-            byte y = (byte)(NUD_FY.Value);
-            byte rot = (byte)(NUD_FRot.Value);
+            byte val = (byte)NUD_FObjType.Value;
+            byte x = (byte)NUD_FX.Value;
+            byte y = (byte)NUD_FY.Value;
+            byte rot = (byte)NUD_FRot.Value;
 
             objdata[objindex, 0] = val;
             objdata[objindex, 2] = x;
@@ -266,7 +266,7 @@ namespace PKHeX
         private int currentpkm;
         private void changeFavPKM(object sender, EventArgs e)
         {
-            int index = (int)(NUD_FPKM.Value);
+            int index = (int)NUD_FPKM.Value;
             saveFavPKM(); // Save existing PKM
             currentpkm = index;
             loadFavPKM();
@@ -340,7 +340,7 @@ namespace PKHeX
 
             int nature = fpkm[0x14];
             byte genform = fpkm[0x15];
-            genderflag = (genform >> 1) & 0x3;
+            genderflag = genform >> 1 & 0x3;
             setGenderLabel();
 
             byte HP_EV = fpkm[0x16];
@@ -367,7 +367,7 @@ namespace PKHeX
             byte SD_IV = fpkm[0x2C];
             byte SP_IV = fpkm[0x2D];
 
-            bool isshiny = ((SP_IV & 0x40) > 0);
+            bool isshiny = (SP_IV & 0x40) > 0;
             SP_IV &= 0x1F;
 
             byte friendship = fpkm[0x2E];

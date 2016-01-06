@@ -164,7 +164,7 @@ namespace PKHeX
         // Wonder Card RW (window<->sav)
         private void clickView(object sender, EventArgs e)
         {
-            string name = (sender is ToolStripItem)
+            string name = sender is ToolStripItem
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
 
@@ -177,7 +177,7 @@ namespace PKHeX
         }
         private void clickSet(object sender, EventArgs e)
         {
-            string name = (sender is ToolStripItem)
+            string name = sender is ToolStripItem
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
 
@@ -200,7 +200,7 @@ namespace PKHeX
         }
         private void clickDelete(object sender, EventArgs e)
         {
-            string name = (sender is ToolStripItem)
+            string name = sender is ToolStripItem
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
 
@@ -404,7 +404,7 @@ namespace PKHeX
                 }
                 return;
             }
-            PictureBox pb = (PictureBox)(sender);
+            PictureBox pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
 

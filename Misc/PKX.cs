@@ -19,16 +19,14 @@ namespace PKHeX
             const uint a = 0x41C64E6D;
             const uint c = 0x00006073;
 
-            seed = (seed * a + c) & 0xFFFFFFFF;
-            return seed;
+            return seed * a + c;
         }
         internal static uint LCRNG(ref uint seed)
         {
             const uint a = 0x41C64E6D;
             const uint c = 0x00006073;
 
-            seed = (seed * a + c) & 0xFFFFFFFF;
-            return seed;
+            return seed = seed * a + c;
         }
         #region ExpTable
         internal static readonly uint[,] ExpTable =
@@ -218,10 +216,10 @@ namespace PKHeX
             {
                 evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
                 evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
-                evs[2] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1])), 252);
-                evs[3] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2])), 252);
-                evs[4] = (byte)Math.Min(((Util.rnd32()) % (510 - evs[0] - evs[1] - evs[2] - evs[3])), 252);
-                evs[5] = (byte)Math.Min((510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4]), 252);
+                evs[2] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1]), 252);
+                evs[3] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2]), 252);
+                evs[4] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
+                evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
             }
             Util.Shuffle(evs);
             return evs;
@@ -423,12 +421,12 @@ namespace PKHeX
 
             // Calculate Stats
             ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
-            stats[0] = (ushort)(HP_B == 1 ? 1 : ((((HP_IV + (2 * HP_B) + (HP_EV / 4) + 100) * level) / 100) + 10));
-            stats[1] = (ushort)((((ATK_IV + (2 * ATK_B) + (ATK_EV / 4)) * level) / 100) + 5);
-            stats[2] = (ushort)((((DEF_IV + (2 * DEF_B) + (DEF_EV / 4)) * level) / 100) + 5);
-            stats[4] = (ushort)((((SPA_IV + (2 * SPA_B) + (SPA_EV / 4)) * level) / 100) + 5);
-            stats[5] = (ushort)((((SPD_IV + (2 * SPD_B) + (SPD_EV / 4)) * level) / 100) + 5);
-            stats[3] = (ushort)((((SPE_IV + (2 * SPE_B) + (SPE_EV / 4)) * level) / 100) + 5);
+            stats[0] = (ushort)(HP_B == 1 ? 1 : (HP_IV + 2 * HP_B + HP_EV / 4 + 100) * level / 100 + 10);
+            stats[1] = (ushort)((ATK_IV + 2 * ATK_B + ATK_EV / 4) * level / 100 + 5);
+            stats[2] = (ushort)((DEF_IV + 2 * DEF_B + DEF_EV / 4) * level / 100 + 5);
+            stats[4] = (ushort)((SPA_IV + 2 * SPA_B + SPA_EV / 4) * level / 100 + 5);
+            stats[5] = (ushort)((SPD_IV + 2 * SPD_B + SPD_EV / 4) * level / 100 + 5);
+            stats[3] = (ushort)((SPE_IV + 2 * SPE_B + SPE_EV / 4) * level / 100 + 5);
 
             // Account for nature
             int incr = nature / 5 + 1;
@@ -474,13 +472,13 @@ namespace PKHeX
             byte[] pkx = (byte[])ekx.Clone();
 
             uint pv = BitConverter.ToUInt32(pkx, 0);
-            uint sv = (((pv & 0x3E000) >> 0xD) % 24);
+            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
 
             uint seed = pv;
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkx, i);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkx, i);
 
             // Deshuffle
             pkx = shuffleArray(pkx, sv);
@@ -489,7 +487,7 @@ namespace PKHeX
             seed = pv;
             if (pkx.Length <= 232) return pkx;
             for (int i = 232; i < 260; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(pkx, i);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkx, i);
 
             return pkx;
         }
@@ -497,7 +495,7 @@ namespace PKHeX
         {
             // Shuffle
             uint pv = BitConverter.ToUInt32(pkx, 0);
-            uint sv = (((pv & 0x3E000) >> 0xD) % 24);
+            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
 
             byte[] ekx = (byte[])pkx.Clone();
 
@@ -507,7 +505,7 @@ namespace PKHeX
 
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekx, i);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekx, i);
 
             // If no party stats, return.
             if (ekx.Length <= 232) return ekx;
@@ -515,7 +513,7 @@ namespace PKHeX
             // Encrypt the Party Stats
             seed = pv;
             for (int i = 232; i < 260; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ (LCRNG(ref seed) >> 16))).CopyTo(ekx, i);
+                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekx, i);
 
             // Done
             return ekx;
@@ -554,11 +552,11 @@ namespace PKHeX
         }
         internal static uint getPSV(uint PID)
         {
-            return Convert.ToUInt16(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
+            return Convert.ToUInt16((PID >> 16 ^ PID & 0xFFFF) >> 4);
         }
         internal static uint getTSV(uint TID, uint SID)
         {
-            return ((TID ^ SID) >> 4);
+            return (TID ^ SID) >> 4;
         }
         internal static uint getRandomPID(int species, int cg)
         {
@@ -570,12 +568,12 @@ namespace PKHeX
                 gt++;
             while (true) // Loop until we find a suitable PID
             {
-                uint gv = (pid & 0xFF);
+                uint gv = pid & 0xFF;
                 if (cg == 2) // Genderless
                     break;  // PID Passes
-                if ((cg == 1) && (gv <= gt)) // Female
+                if (cg == 1 && gv <= gt) // Female
                     break;  // PID Passes
-                if ((cg == 0) && (gv > gt))
+                if (cg == 0 && gv > gt)
                     break;  // PID Passes
                 pid = Util.rnd32();
             }
@@ -595,7 +593,7 @@ namespace PKHeX
                 for (int j = 0; j < 8; j++)
                 {
                     if ((crc & 0x8000) > 0)
-                        crc = (ushort)((crc << 1) ^ 0x1021);
+                        crc = (ushort)(crc << 1 ^ 0x1021);
                     else
                         crc <<= 1;
                 }
@@ -671,9 +669,9 @@ namespace PKHeX
                 BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
                 Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
 
-                CurrentPosition += (Lengths[i] % 0x200 == 0) ? Lengths[i] : (0x200 - Lengths[i] % 0x200 + Lengths[i]);
+                CurrentPosition += Lengths[i] % 0x200 == 0 ? Lengths[i] : 0x200 - Lengths[i] % 0x200 + Lengths[i];
 
-                if ((BlockIDs[i] != 0) || i == 0) continue;
+                if (BlockIDs[i] != 0 || i == 0) continue;
                 count = i;
                 break;
             }
@@ -717,9 +715,9 @@ namespace PKHeX
                 BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
                 Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
 
-                CurrentPosition += (Lengths[i]%0x200 == 0) ? Lengths[i] : (0x200 - Lengths[i]%0x200 + Lengths[i]);
+                CurrentPosition += Lengths[i]%0x200 == 0 ? Lengths[i] : 0x200 - Lengths[i]%0x200 + Lengths[i];
 
-                if ((BlockIDs[i] != 0) || i == 0) continue;
+                if (BlockIDs[i] != 0 || i == 0) continue;
                 count = i;
                 break;
             }
@@ -1295,7 +1293,7 @@ namespace PKHeX
                         case "Trait":
                         case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1]); break; }
                         case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
-                        case "Shiny": { Shiny = (brokenline[1] == "Yes"); break; }
+                        case "Shiny": { Shiny = brokenline[1] == "Yes"; break; }
                         case "Happiness": { Friendship = Util.ToInt32(brokenline[1]); break; }
                         case "EVs":
                             {
@@ -1343,7 +1341,7 @@ namespace PKHeX
                                         (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
                                         &&
                                         (Species = Array.IndexOf(species, spec.Replace(" ", ""))) < 0 // Has Form
-                                        ) 
+                                        )
                                     {
                                         string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
                                         Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
@@ -1431,7 +1429,7 @@ namespace PKHeX
                 Friendship = pk6.CurrentFriendship,
                 Level = getLevel(pk6.Species, pk6.EXP),
                 Shiny = pk6.IsShiny,
-                Form = (pk6.AltForm > 0) ? getFormList(pk6.Species,
+                Form = pk6.AltForm > 0 ? getFormList(pk6.Species,
                 Util.getStringList("Types", "en"),
                 Util.getStringList("Forms", "en"), new [] {"", "F", ""})[pk6.AltForm] : "",
             };
@@ -1472,12 +1470,12 @@ namespace PKHeX
                     EvoStage = br.ReadByte();
 
                     ushort EVs = br.ReadUInt16();
-                    EV_HP = ((EVs >> 0) & 0x3);
-                    EV_ATK = ((EVs >> 2) & 0x3);
-                    EV_DEF = ((EVs >> 4) & 0x3);
-                    EV_SPE = ((EVs >> 6) & 0x3);
-                    EV_SPA = ((EVs >> 8) & 0x3);
-                    EV_SPD = ((EVs >> 10) & 0x3);
+                    EV_HP = EVs >> 0 & 0x3;
+                    EV_ATK = EVs >> 2 & 0x3;
+                    EV_DEF = EVs >> 4 & 0x3;
+                    EV_SPE = EVs >> 6 & 0x3;
+                    EV_SPA = EVs >> 8 & 0x3;
+                    EV_SPD = EVs >> 10 & 0x3;
 
                     Items = new[] { br.ReadUInt16(), br.ReadUInt16(), br.ReadUInt16() };
                     Gender = br.ReadByte();
@@ -1501,12 +1499,12 @@ namespace PKHeX
                     byte[] TMHMData = br.ReadBytes(0x10);
                     TMHM = new bool[8 * TMHMData.Length];
                     for (int j = 0; j < TMHM.Length; j++)
-                        TMHM[j] = ((TMHMData[j / 8] >> (j % 8)) & 0x1) == 1; //Bitflags for TMHM
+                        TMHM[j] = (TMHMData[j / 8] >> (j % 8) & 0x1) == 1; //Bitflags for TMHM
 
                     byte[] TutorData = br.ReadBytes(8);
                     Tutors = new bool[8 * TutorData.Length];
                     for (int j = 0; j < Tutors.Length; j++)
-                        Tutors[j] = ((TutorData[j / 8] >> (j % 8)) & 0x1) == 1; //Bitflags for Tutors
+                        Tutors[j] = (TutorData[j / 8] >> (j % 8) & 0x1) == 1; //Bitflags for Tutors
 
                     if (br.BaseStream.Length - br.BaseStream.Position == 0x10) // ORAS
                     {
@@ -1521,7 +1519,7 @@ namespace PKHeX
                         {
                             ORASTutors[i] = new bool[8 * ORASTutorData[i].Length];
                             for (int b = 0; b < 8 * ORASTutorData[i].Length; b++)
-                                ORASTutors[i][b] = ((ORASTutorData[i][b / 8] >> (b % 8)) & 0x1) == 1;
+                                ORASTutors[i][b] = (ORASTutorData[i][b / 8] >> (b % 8) & 0x1) == 1;
                         }
                     }
                 }
@@ -1530,7 +1528,7 @@ namespace PKHeX
             // Data Manipulation
             public int FormeIndex(int species, int forme)
             {
-                return forme == 0 || FormStats == 0 ? species : (FormStats + forme - 1);
+                return forme == 0 || FormStats == 0 ? species : FormStats + forme - 1;
             }
             public int RandomGender
             {

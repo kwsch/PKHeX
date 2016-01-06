@@ -116,7 +116,7 @@ namespace PKHeX
         // Important Events
         private void clickView(object sender, EventArgs e)
         {
-            string name = (sender is ToolStripItem)
+            string name = sender is ToolStripItem
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
 
@@ -135,7 +135,7 @@ namespace PKHeX
         }
         private void clickDelete(object sender, EventArgs e)
         {
-            string name = (sender is ToolStripItem)
+            string name = sender is ToolStripItem
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
 

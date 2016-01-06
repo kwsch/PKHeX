@@ -329,7 +329,7 @@ namespace PKHeX
         private void getBadges()
         {
             // Fetch Badges
-            Bitmap[] bma = (Main.SAV.ORAS || Main.SAV.ORASDEMO) ? 
+            Bitmap[] bma = Main.SAV.ORAS || Main.SAV.ORASDEMO ? 
                 new[] {
                                    Properties.Resources.badge_01, // ORAS Badges
                                    Properties.Resources.badge_02,  
@@ -361,7 +361,7 @@ namespace PKHeX
             int badgeval = SAV.Badges;
             CheckBox[] cba = { cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, };
             for (int i = 0; i < 8; i++)
-                cba[i].Checked = (badgeval & (1 << i)) != 0;
+                cba[i].Checked = (badgeval & 1 << i) != 0;
 
             // Get Data
             string OT_NAME = SAV.OT;
@@ -521,10 +521,10 @@ namespace PKHeX
 
         private void clickOT(object sender, MouseEventArgs e)
         {
-            TextBox tb = (!(sender is TextBox)) ? TB_OTName : (sender as TextBox);
+            TextBox tb = !(sender is TextBox) ? TB_OTName : sender as TextBox;
             // Special Character Form
             if (ModifierKeys == Keys.Control && !Main.specialChars)
-                (new f2_Text(tb)).Show();
+                new f2_Text(tb).Show();
         }
         private void showTSV(object sender, EventArgs e)
         {
@@ -618,7 +618,7 @@ namespace PKHeX
 
         private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject((Main.SAV.ORAS || Main.SAV.ORASDEMO) ? "tr_" + Util.getIndex(CB_Multi).ToString("00") : "tr_00");
+            PB_Sprite.Image = (Image)Properties.Resources.ResourceManager.GetObject(Main.SAV.ORAS || Main.SAV.ORASDEMO ? "tr_" + Util.getIndex(CB_Multi).ToString("00") : "tr_00");
         }
     }
 }

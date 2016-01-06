@@ -258,7 +258,7 @@ namespace PKHeX
         public int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | (value << 4)); } }
         public int Ball { get { return Data[0x83]; } set { Data[0x83] = (byte)value; } }
         public int Met_Level { get { return Data[0x84] & ~0x80; } set { Data[0x84] = (byte)((Data[0x84] & 0x80) | value); } }
-        public int OT_Gender { get { return Data[0x84] >> 7; } set { Data[0x84] = (byte)((Data[0x84] & ~0x80) | (value << 7)); } }
+        public int OT_Gender { get { return Data[0x84] >> 7; } set { Data[0x84] = (byte)((Data[0x84] & ~0x80) | value << 7); } }
         public int EncounterType { get { return Data[0x85]; } set { Data[0x85] = (byte)value; } }
         public int HGSSBall { get { return Data[0x86]; } set { Data[0x86] = (byte)value; } }
         // Unused 0x87
@@ -276,13 +276,13 @@ namespace PKHeX
             }
         }
         public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
-        public int PSV { get { return (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3); } }
+        public int PSV { get { return (int)((PID >> 16 ^ PID & 0xFFFF) >> 3); } }
         public int TSV { get { return (TID ^ SID) >> 3; } }
         public bool IsShiny { get { return TSV == PSV; } }
         public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
         public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
-        public bool Gen4 { get { return (Version >= 10 && Version < 12) || (Version >= 7 && Version <= 8); } }
-        public bool Gen3 { get { return ((Version >= 1 && Version <= 5) || Version == 15); } }
+        public bool Gen4 { get { return Version >= 10 && Version < 12 || Version >= 7 && Version <= 8; } }
+        public bool Gen3 { get { return Version >= 1 && Version <= 5 || Version == 15; } }
         public bool GenU { get { return !(Gen4 || Gen3); } }
         public int[] Moves
         {

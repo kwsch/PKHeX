@@ -102,8 +102,8 @@ namespace PKHeX
                 int index = LB_Species.SelectedIndex + 1;
                 int gt = PKX.Personal[index].Gender;
 
-                CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = (gt != 254); // Not Female-Only
-                CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = (gt != 0) && (gt != 255); // Not Male-Only and Not Genderless
+                CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
+                CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(gt == 0 || (gt == 255)); // Not Male-Only and Not Genderless
  
                 for (int i = 0; i < 7; i++)
                     CL[i].Enabled = true;
@@ -118,10 +118,10 @@ namespace PKHeX
             if (!(sender as CheckBox).Checked)
                 return;
 
-            CHK_P6.Checked = (sender as CheckBox == CHK_P6);
-            CHK_P7.Checked = (sender as CheckBox == CHK_P7);
-            CHK_P8.Checked = (sender as CheckBox == CHK_P8);
-            CHK_P9.Checked = (sender as CheckBox == CHK_P9);
+            CHK_P6.Checked = sender as CheckBox == CHK_P6;
+            CHK_P7.Checked = sender as CheckBox == CHK_P7;
+            CHK_P8.Checked = sender as CheckBox == CHK_P8;
+            CHK_P9.Checked = sender as CheckBox == CHK_P9;
 
             CHK_P2.Checked |= CHK_P6.Checked;
             CHK_P3.Checked |= CHK_P7.Checked;
@@ -240,7 +240,7 @@ namespace PKHeX
                 byte[] data = new byte[0x60];
                 Array.Copy(sav, Main.SAV.PokeDex + 8 + 0x60 * i, data, 0, 0x60);
                 BitArray BitRegion = new BitArray(data);
-                for (int b = 0; b < (0x60 * 8); b++)
+                for (int b = 0; b < 0x60 * 8; b++)
                     specbools[i, b] = BitRegion[b];
             }
 
@@ -248,7 +248,7 @@ namespace PKHeX
             byte[] langdata = new byte[0x280];
             Array.Copy(sav, Main.SAV.PokeDexLanguageFlags, langdata, 0, 0x280);
             BitArray LangRegion = new BitArray(langdata);
-            for (int b = 0; b < (721); b++) // 721 Species
+            for (int b = 0; b < 721; b++) // 721 Species
                 for (int i = 0; i < 7; i++) // 7 Languages
                     langbools[i, b] = LangRegion[7 * b + i];
 
@@ -257,7 +257,7 @@ namespace PKHeX
                 byte[] foreigndata = new byte[0x52];
                 Array.Copy(sav, Main.SAV.PokeDex + 0x64C, foreigndata, 0, 0x52);
                 BitArray ForeignRegion = new BitArray(foreigndata);
-                for (int b = 0; b < (0x52 * 8); b++)
+                for (int b = 0; b < 0x52 * 8; b++)
                     foreignbools[b] = ForeignRegion[b];
             }
         }
@@ -285,8 +285,8 @@ namespace PKHeX
             int index = LB_Species.SelectedIndex+1;
             int gt = PKX.Personal[index].Gender;
 
-            CHK_P2.Checked = CHK_P4.Checked = (gt != 254) && ModifierKeys != Keys.Control;
-            CHK_P3.Checked = CHK_P5.Checked = (gt != 0) && (gt != 255) && ModifierKeys != Keys.Control;
+            CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
+            CHK_P3.Checked = CHK_P5.Checked = gt != 0 && gt != 255 && ModifierKeys != Keys.Control;
 
             if (ModifierKeys == Keys.Control)
                 foreach (var chk in new[] { CHK_P6, CHK_P7, CHK_P8, CHK_P9 })

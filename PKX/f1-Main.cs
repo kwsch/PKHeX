@@ -2870,7 +2870,7 @@ namespace PKHeX
         }
         private int getSlot(object sender)
         {
-            string name = (sender is ToolStripItem)
+            string name = sender is ToolStripItem
                 ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
                 : (sender as PictureBox).Name;
 

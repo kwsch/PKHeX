@@ -98,7 +98,7 @@ namespace PKHeX
         public bool Diamond { get { return (Markings & (1 << 5)) == 1 << 5; } set { Markings = (byte)(Markings & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
         private byte PKRS { get { return Data[0x2B]; } set { Data[0x2B] = value; } }
         public int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
-        public int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | (value << 4)); } }
+        public int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
         private byte ST1 { get { return Data[0x2C]; } set { Data[0x2C] = value; } }
         public bool Unused0 { get { return (ST1 & (1 << 0)) == 1 << 0; } set { ST1 = (byte)(ST1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool Unused1 { get { return (ST1 & (1 << 1)) == 1 << 1; } set { ST1 = (byte)(ST1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
@@ -417,7 +417,7 @@ namespace PKHeX
                   IV_HP = value[0];  IV_ATK = value[1]; IV_DEF = value[2];
                   IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5]; } }
         public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
-        public int PSV { get { return (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4); } }
+        public int PSV { get { return (int)((PID >> 16 ^ PID & 0xFFFF) >> 4); } }
         public int TSV { get { return (TID ^ SID) >> 4; } }
         public bool IsShiny { get { return TSV == PSV; } }
         public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
@@ -426,8 +426,8 @@ namespace PKHeX
         public bool IsUntradedEvent6 { get { return Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6; } }
         public bool Gen6 { get { return Version >= 24 && Version <= 29; } }
         public bool Gen5 { get { return Version >= 20 && Version <= 23; } }
-        public bool Gen4 { get { return (Version >= 10 && Version < 12) || (Version >= 7 && Version <= 8); } }
-        public bool Gen3 { get { return ((Version >= 1 && Version <= 5) || Version == 15); } }
+        public bool Gen4 { get { return Version >= 10 && Version < 12 || Version >= 7 && Version <= 8; } }
+        public bool Gen3 { get { return Version >= 1 && Version <= 5 || Version == 15; } }
         public bool GenU { get { return !(Gen6 || Gen5 || Gen4 || Gen3); } }
         public int[] Moves
         {

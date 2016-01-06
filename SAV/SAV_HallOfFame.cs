@@ -113,10 +113,10 @@ namespace PKHeX
             uint vn = vnd & 0xFF;
             TB_VN.Text = vn.ToString("000");
             string s = "Entry #" + vn + Environment.NewLine;
-            uint date = (vnd >> 14) & 0x1FFFF;
+            uint date = vnd >> 14 & 0x1FFFF;
             uint year = (date & 0xFF) + 2000;
-            uint month = (date >> 8) & 0xF;
-            uint day = (date >> 12);
+            uint month = date >> 8 & 0xF;
+            uint day = date >> 12;
             if (day == 0)
             {
                 s += "No records in this slot.";
@@ -147,9 +147,9 @@ namespace PKHeX
 
                 uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
                 // uint form = slgf & 0x1F;
-                uint gender = (slgf >> 5) & 3; // 0 M; 1 F; 2 G
-                uint level = (slgf >> 7) & 0x7F;
-                uint shiny = (slgf >> 14) & 0x1;
+                uint gender = slgf >> 5 & 3; // 0 M; 1 F; 2 G
+                uint level = slgf >> 7 & 0x7F;
+                uint shiny = slgf >> 14 & 0x1;
                 // uint unkn = slgf >> 15;
 
                 string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 22));
@@ -160,7 +160,7 @@ namespace PKHeX
 
                 moncount++;
                 string genderstr=gendersymbols[gender];
-                string shinystr = (shiny == 1) ? "Yes" : "No";
+                string shinystr = shiny == 1 ? "Yes" : "No";
 
                 s += "Name: " + nickname;
                 s += " (" + Main.specieslist[species] + " - " + genderstr + ")" + Environment.NewLine;
@@ -179,7 +179,7 @@ namespace PKHeX
 
             if (sender != null)
             {
-                NUP_PartyIndex.Maximum = (moncount == 0) ? 1 : moncount;
+                NUP_PartyIndex.Maximum = moncount == 0 ? 1 : moncount;
                 NUP_PartyIndex.Value = 1;
                 NUP_PartyIndex_ValueChanged(sender, e);
             }
@@ -220,9 +220,9 @@ namespace PKHeX
 
             uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
             uint form = slgf & 0x1F;
-            uint gender = (slgf >> 5) & 3; // 0 M; 1 F; 2 G
-            uint level = (slgf >> 7) & 0x7F;
-            uint shiny = (slgf >> 14) & 0x1;
+            uint gender = slgf >> 5 & 3; // 0 M; 1 F; 2 G
+            uint level = slgf >> 7 & 0x7F;
+            uint shiny = slgf >> 14 & 0x1;
             uint nick = BitConverter.ToUInt16(data,offset+0x16);
 
             CHK_Shiny.Checked = shiny == 1;
@@ -260,7 +260,7 @@ namespace PKHeX
                 offset += 0x48;
             }
 
-            int partymember = (Convert.ToInt32(NUP_PartyIndex.Value) - 1);
+            int partymember = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
 
             text_writes[partymember * 2] = TB_Nickname.Text;
             text_writes[partymember * 2 + 1] = TB_OT.Text;
@@ -437,10 +437,10 @@ namespace PKHeX
 
         private void changeNickname(object sender, MouseEventArgs e)
         {
-            TextBox tb = (!(sender is TextBox)) ? TB_Nickname : (sender as TextBox);
+            TextBox tb = !(sender is TextBox) ? TB_Nickname : sender as TextBox;
             // Special Character Form
             if (ModifierKeys == Keys.Control && !Main.specialChars)
-                (new f2_Text(tb)).Show();
+                new f2_Text(tb).Show();
         }
     }
 }

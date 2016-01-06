@@ -94,7 +94,7 @@ namespace PKHeX
 
                 while ((pid1 ^ pid2 ^ pk4.TID ^ pk4.SID) < 8)
                 {
-                    uint testPID = pid1 | (pid2 << 16);
+                    uint testPID = pid1 | pid2 << 16;
 
                     // Call the ARNG to change the PID
                     testPID = testPID * 0x6c078965 + 1;
@@ -110,7 +110,7 @@ namespace PKHeX
             {
                 uint iv1 = PKM.LCRNG(ref seed) >> 16;
                 uint iv2 = PKM.LCRNG(ref seed) >> 16;
-                pk4.IV32 = (iv1 | (iv2 << 16)) & 0x3FFFFFFF;
+                pk4.IV32 = (iv1 | iv2 << 16) & 0x3FFFFFFF;
             }
 
             // Generate Met Info
