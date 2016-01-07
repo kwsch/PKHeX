@@ -20,6 +20,10 @@ Menu_File = File
 Menu_Open = Open...
 Menu_Save = Save PK6...
 Menu_ExportSAV = Export SAV...
+Menu_ExportMAIN = Export main
+Menu_ExportBAK = Export BAK
+Menu_ExportRAMSAV = Export ramsav
+Menu_ExportTransfer = Transfer ramsav
 Menu_Exit = Quit
 --
 Menu_Tools = Tools
@@ -159,6 +163,10 @@ L_DaycareSeed = Seed
 L_ReadOnlyOther = This tab is read only.
 B_JPEG = Save PGL .JPEG
 B_VerifyCHK = Verify Checksums
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 

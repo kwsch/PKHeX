@@ -20,6 +20,10 @@ Menu_File = Archivo
 Menu_Open = Abrir...
 Menu_Save = Guardar PK6...
 Menu_ExportSAV = Guardar SAV...
+Menu_ExportMAIN = Guardar main
+Menu_ExportBAK = Guardar BAK
+Menu_ExportRAMSAV = Guardar ramsav
+Menu_ExportTransfer = Transferir ramsav
 Menu_Exit = Salir
 --
 Menu_Tools = Útiles
@@ -142,9 +146,12 @@ B_OpenOPowers = Poder O
 B_OpenEventFlags = Event Flags
 B_OpenPokedex = Pokédex
 B_OpenSuperTraining = Super Train
+--
+B_OpenSecretBase = Secret Base
 --------------------Tab Internals-----------------------
 L_Party = Equipo:
 L_BattleBox = Caja de Combate:
+L_ReadOnlyPBB = Sólo leer.
 GB_Daycare = Guardería
 GB_GTS = GTS
 GB_Fused = Fusionado
@@ -156,6 +163,10 @@ B_JPEG = Guardar PGL .JPEG
 B_OpenHallofFame = Hall de la fama
 B_OUTPasserby = Transeúntes
 B_VerifyCHK = Checksums
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below

@@ -20,6 +20,10 @@ Menu_File = 파일
 Menu_Open = 열기...
 Menu_Save = 저장 PK6...
 Menu_ExportSAV = 저장 SAV...
+Menu_ExportMAIN = 저장 main
+Menu_ExportBAK = 저장 BAK
+Menu_ExportRAMSAV = 저장 ramsav
+Menu_ExportTransfer = 전송 ramsav
 Menu_Exit = 종료
 --
 Menu_Tools = 도구
@@ -159,6 +163,10 @@ L_DaycareSeed = 시드
 L_ReadOnlyOther = 이 탭은 읽기 전용입니다.
 B_JPEG = Save PGL .JPEG
 B_VerifyCHK = 체크섬
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 

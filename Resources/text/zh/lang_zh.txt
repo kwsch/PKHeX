@@ -20,6 +20,10 @@ Menu_File = 文件
 Menu_Open = 读取...
 Menu_Save = 保存 PK6...
 Menu_ExportSAV = 保存 SAV...
+Menu_ExportMAIN = 保存 main
+Menu_ExportBAK = 保存 BAK
+Menu_ExportRAMSAV = 保存 ramsav
+Menu_ExportTransfer = 转移 SAV
 Menu_Exit = 退出
 --
 Menu_Tools = 工具
@@ -142,6 +146,8 @@ B_OpenOPowers =  OPowers
 B_OpenEventFlags = 事件
 B_OpenPokedex = 图鉴
 B_OpenSuperTraining = 超级训练
+--
+B_OpenSecretBase = Secret Base
 --------------------Tab Internals-----------------------
 L_Party = 手持
 L_BattleBox = 战斗箱
@@ -156,6 +162,10 @@ B_JPEG = 保存PGL.JPEG
 B_OpenHallofFame = 名人堂
 B_OUTPasserby = 路人
 B_VerifyCHK = 校验
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below

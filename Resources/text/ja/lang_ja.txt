@@ -20,6 +20,10 @@ Menu_File = ファイル
 Menu_Open = 読み込み...
 Menu_Save = 保存 PK6...
 Menu_ExportSAV = 保存 SAV...
+Menu_ExportMAIN = 保存 main
+Menu_ExportBAK = 保存 BAK
+Menu_ExportRAMSAV = 保存 ramsav
+Menu_ExportTransfer = 転送 ramsav
 Menu_Exit = やめる
 --
 Menu_Tools = ツール
@@ -142,6 +146,8 @@ B_OpenOPowers =  Oパワー
 B_OpenEventFlags = イベントフラグ
 B_OpenPokedex = ポケモン図鑑
 B_OpenSuperTraining = スーパートレ
+--
+B_OpenSecretBase = Secret Base
 --------------------Tab Internals-----------------------
 L_Party = 手持ちポケモン
 L_BattleBox = バトルボックス
@@ -156,6 +162,10 @@ B_JPEG = 保存PGL。JPEG
 B_OpenHallofFame = 殿堂入り
 B_OUTPasserby = 通行人
 B_VerifyCHK = チェックサム
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below

@@ -20,6 +20,10 @@ Menu_File = File
 Menu_Open = Ouvrir...
 Menu_Save = Enregistrer PK6...
 Menu_ExportSAV = Enregistrer SAV...
+Menu_ExportMAIN = Enregistrer main
+Menu_ExportBAK = Enregistrer BAK
+Menu_ExportRAMSAV = Enregistrer ramsav
+Menu_ExportTransfer = Transfert ramsav
 Menu_Exit = Quitter
 --
 Menu_Tools = Outils
@@ -141,6 +145,8 @@ B_OpenBerryField = Baies
 B_OpenOPowers = O-Auras
 B_OpenEventFlags = Evènements
 B_OpenPokedex = Pokédex
+--
+B_OpenSecretBase = Secret Base
 --------------------Tab Internals-----------------------
 L_Party = Equipe :
 L_ReadOnlyPBB = Cet onglet est en lecture seule.
@@ -156,6 +162,10 @@ B_JPEG = Sauver image PGL
 B_OpenHallofFame = Panthéon
 B_OUTPasserby = PSS
 B_VerifyCHK = Checksums
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below

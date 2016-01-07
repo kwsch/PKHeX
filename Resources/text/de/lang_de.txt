@@ -20,6 +20,10 @@ Menu_File = File
 Menu_Open = Open...
 Menu_Save = Save PK6...
 Menu_ExportSAV = Export SAV...
+Menu_ExportMAIN = Export main
+Menu_ExportBAK = Export BAK
+Menu_ExportRAMSAV = Export ramsav
+Menu_ExportTransfer = Transfer ramsav
 Menu_Exit = Quit
 --
 Menu_Tools = Tools
@@ -135,15 +139,19 @@ Tab_SAV = SAV
 B_OpenPokePuffs = ‎Poké Puffs
 B_OpenItemPouch = Items
 B_OpenTrainerInfo = Trainerinfo
+B_OUTPasserby = Passanten
 B_OpenBoxLayout = Boxlayout
 B_OpenWondercards = Wunderkarte
 B_OpenBerryField = Beerenfeld
 B_OpenOPowers = O-Kräfte
 B_OpenEventFlags = Event Flags
 B_OpenPokedex = Pokédex
+--
+B_OpenSecretBase = Secret Base
 --------------------Tab Internals-----------------------
 L_Party = Team:
 L_BattleBox = Kampfbox:
+L_ReadOnlyPBB = Dieser ist nur lesbar.
 GB_Daycare = Pension
 GB_GTS = GTS
 GB_Fused = Fused
@@ -152,9 +160,11 @@ DayCare_HasEgg = Ei verfügbar
 L_DaycareSeed = Seed
 L_ReadOnlyOther = Dieser Tab ist nur lesbar.
 B_JPEG = Speichere PGL .JPEG
-B_OpenHallofFame = Ruhmeshalle
-B_OUTPasserby = Passanten
 B_VerifyCHK = Checksums
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Ribbons / Medals UI Below

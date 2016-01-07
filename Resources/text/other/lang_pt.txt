@@ -20,6 +20,10 @@ Menu_File = Ficheiro
 Menu_Open = Abrir...
 Menu_Save = Guardar PK6...
 Menu_ExportSAV = Guardar SAV...
+Menu_ExportMAIN = Guardar main
+Menu_ExportBAK = Guardar BAK
+Menu_ExportRAMSAV = Guardar ramsav
+Menu_ExportTransfer = Transferir ramsav
 Menu_Exit = Sair
 --
 Menu_Tools = Ferramentas
@@ -159,6 +163,10 @@ L_DaycareSeed = Semente
 L_ReadOnlyOther = Este separador é só de leitura.
 B_JPEG = Gravar PGL .JPEG
 B_VerifyCHK = Checksums
+B_SaveBoxBin = Save Box Data++
+L_GameSync = Game Sync ID:
+L_Secure1 = Secure Value 1:
+L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
