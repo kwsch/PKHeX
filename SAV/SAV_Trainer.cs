@@ -469,7 +469,7 @@ namespace PKHeX
             // Copy Position
             SAV.M = (int)NUD_M.Value;
             SAV.X = (float)NUD_X.Value;
-            SAV.Z = (float)NUD_M.Value;
+            SAV.Z = (float)NUD_Z.Value;
             SAV.Y = (float)NUD_Y.Value;
 
             SAV.BP = UInt16.Parse(TB_BP.Text);
