@@ -134,9 +134,9 @@ namespace PKHeX
                     if (BitConverter.ToUInt16(dslotdata, 0x8) == 0) continue;
                     string Identifier = String.Format("B{0}:{1}", (BoxNum + 1).ToString("00"), (SlotNum + 1).ToString("00"));
                     PK6 pkm = new PK6(dslotdata, Identifier);
-                    if ((pkm.EncryptionConstant == 0) && (pkm.Species == 0)) continue;
-                    if (pkm.Checksum != pkm.CalculateChecksum()) 
-                        continue;
+                    if (pkm.EncryptionConstant == 0 && pkm.Species == 0) continue;
+                    if (pkm.Checksum != pkm.CalculateChecksum()) continue;
+                    pkm.Stat_Level = PKX.getLevel(pkm.Species, pkm.EXP); // recalc Level
                     PL.Add(new Preview(pkm));
                 }
             }
