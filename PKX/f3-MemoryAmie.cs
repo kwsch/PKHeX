@@ -153,12 +153,12 @@ namespace PKHeX
             Main.pk6.HT_Memory = Util.getIndex(CB_CTMemory);
             Main.pk6.HT_TextVar = (CB_CTVar.Enabled) ? Util.getIndex(CB_CTVar) : 0;
             Main.pk6.HT_Intensity = (CB_CTFeel.Enabled) ? CB_CTQual.SelectedIndex + 1 : 0;
-            Main.pk6.HT_Feeling = (CB_CTFeel.Enabled) ? Util.getIndex(CB_CTFeel) : 0;
+            Main.pk6.HT_Feeling = (CB_CTFeel.Enabled) ? CB_CTFeel.SelectedIndex : 0;
 
             Main.pk6.OT_Memory = Util.getIndex(CB_OTMemory);
             Main.pk6.OT_TextVar = (CB_OTVar.Enabled) ? Util.getIndex(CB_OTVar) : 0;
             Main.pk6.OT_Intensity = (CB_OTFeel.Enabled) ? CB_OTQual.SelectedIndex + 1 : 0;
-            Main.pk6.OT_Feeling = (CB_OTFeel.Enabled) ? Util.getIndex(CB_OTFeel) : 0;
+            Main.pk6.OT_Feeling = (CB_OTFeel.Enabled) ? CB_OTFeel.SelectedIndex : 0;
         }
 
         // Event Actions
