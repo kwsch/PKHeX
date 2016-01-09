@@ -144,7 +144,7 @@ namespace PKHeX
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static int colorizedbox = 32;
-        public static Image mixedHighlight = Util.LayerImage(Properties.Resources.slotSet, Properties.Resources.slotView, 0, 0, 0.5);
+        public static Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
         public static Image colorizedcolor;
         public static int colorizedslot;
         public static string eggname = "";
@@ -1299,7 +1299,7 @@ namespace PKHeX
         // PKX Data Calculation Functions //
         private void setIsShiny()
         {
-            bool isShiny = PKX.getIsShiny(Util.getHEXval(TB_PID), Util.ToUInt32(TB_TID.Text), Util.ToUInt32(TB_SID.Text));
+            bool isShiny = PKX.getIsShiny(Util.getHEXval(TB_PID.Text), Util.ToUInt32(TB_TID.Text), Util.ToUInt32(TB_SID.Text));
 
             // Set the Controls
             BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
@@ -1410,7 +1410,7 @@ namespace PKHeX
             {
                 var arrayEV = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV};
                 arrayEV[index].Text = (e.Button == MouseButtons.Left
-                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal) + Util.ToInt32(arrayEV[index]), 0), 252) 
+                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(arrayEV[index].Text), 0), 252) 
                     : 0).ToString();
             }
             else
@@ -1427,7 +1427,7 @@ namespace PKHeX
         private void clickEV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // EV
-                (sender as MaskedTextBox).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal) + Util.ToInt32((sender as MaskedTextBox)), 0), 252).ToString();
+                (sender as MaskedTextBox).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32((sender as MaskedTextBox).Text), 0), 252).ToString();
             else if (ModifierKeys == Keys.Alt)
                 (sender as MaskedTextBox).Text = 0.ToString();
         }
@@ -1502,7 +1502,7 @@ namespace PKHeX
             {
                 changingFields = true;
                 // Change the Level
-                uint EXP = Util.ToUInt32(TB_EXP);
+                uint EXP = Util.ToUInt32(TB_EXP.Text);
                 int Species = Util.getIndex(CB_Species);
                 int Level = EXP == 0 ? 1 : PKX.getLevel(Species, EXP);
                 if (Level == 100)
@@ -1561,12 +1561,12 @@ namespace PKHeX
             changingFields = true;
 
             // Update IVs
-            pk6.IV_HP = Util.ToInt32(TB_HPIV);
-            pk6.IV_ATK = Util.ToInt32(TB_ATKIV);
-            pk6.IV_DEF = Util.ToInt32(TB_DEFIV);
-            pk6.IV_SPE = Util.ToInt32(TB_SPEIV);
-            pk6.IV_SPA = Util.ToInt32(TB_SPAIV);
-            pk6.IV_SPD = Util.ToInt32(TB_SPDIV);
+            pk6.IV_HP = Util.ToInt32(TB_HPIV.Text);
+            pk6.IV_ATK = Util.ToInt32(TB_ATKIV.Text);
+            pk6.IV_DEF = Util.ToInt32(TB_DEFIV.Text);
+            pk6.IV_SPE = Util.ToInt32(TB_SPEIV.Text);
+            pk6.IV_SPA = Util.ToInt32(TB_SPAIV.Text);
+            pk6.IV_SPD = Util.ToInt32(TB_SPDIV.Text);
                     
             CB_HPType.SelectedValue = pk6.HPType;
             changingFields = false;
@@ -1833,7 +1833,7 @@ namespace PKHeX
             else if (gt == 0) // Male Only
                 genderflag = 0;
             else // get gender from old PID correlation
-                genderflag = (Util.getHEXval(TB_PID) & 0xFF) <= gt ? 1 : 0;
+                genderflag = (Util.getHEXval(TB_PID.Text) & 0xFF) <= gt ? 1 : 0;
 
             int Gender = genderflag;
             Label_Gender.Text = gendersymbols[Gender];
@@ -2052,12 +2052,12 @@ namespace PKHeX
         }
         private void updateShinyPID(object sender, EventArgs e)
         {
-            uint PID = Util.getHEXval(TB_PID);
+            uint PID = Util.getHEXval(TB_PID.Text);
             uint UID = PID >> 16;
             uint LID = PID & 0xFFFF;
             uint PSV = UID ^ LID;
-            uint TID = Util.ToUInt32(TB_TID);
-            uint SID = Util.ToUInt32(TB_SID);
+            uint TID = Util.ToUInt32(TB_TID.Text);
+            uint SID = Util.ToUInt32(TB_SID.Text);
             uint TSV = TID ^ SID;
             uint XOR = TSV ^ PSV;
 
@@ -2079,14 +2079,14 @@ namespace PKHeX
             Tip1.SetToolTip(TB_TID, "TSV: " + TSV.ToString("0000"));
             Tip2.SetToolTip(TB_SID, "TSV: " + TSV.ToString("0000"));
 
-            var PSV = PKX.getPSV(Util.getHEXval(TB_PID));
+            var PSV = PKX.getPSV(Util.getHEXval(TB_PID.Text));
             Tip3.SetToolTip(TB_PID, "PSV: " + PSV.ToString("0000"));
         }
         private void update_ID(object sender, EventArgs e)
         {
             // Trim out nonhex characters
-            TB_PID.Text = Util.getHEXval(TB_PID).ToString("X8");
-            TB_EC.Text = Util.getHEXval(TB_EC).ToString("X8");
+            TB_PID.Text = Util.getHEXval(TB_PID.Text).ToString("X8");
+            TB_EC.Text = Util.getHEXval(TB_EC.Text).ToString("X8");
 
             // Max TID/SID is 65535
             if (Util.ToUInt32(TB_TID.Text) > ushort.MaxValue) TB_TID.Text = "65535";
@@ -2241,8 +2241,8 @@ namespace PKHeX
             // Repopulate PK6 with Edited Stuff
             if (Util.getIndex(CB_GameOrigin) < 24)
             {
-                uint EC = Util.getHEXval(TB_EC);
-                uint PID = Util.getHEXval(TB_PID);
+                uint EC = Util.getHEXval(TB_EC.Text);
+                uint PID = Util.getHEXval(TB_PID.Text);
                 uint SID = Util.ToUInt32(TB_TID.Text);
                 uint TID = Util.ToUInt32(TB_TID.Text);
                 uint LID = PID & 0xFFFF;
@@ -2263,7 +2263,7 @@ namespace PKHeX
                     TB_EC.Text = PID.ToString("X8");
             }
 
-            pk6.EncryptionConstant = Util.getHEXval(TB_EC);
+            pk6.EncryptionConstant = Util.getHEXval(TB_EC.Text);
             pk6.Checksum = 0; // 0 CHK for now
 
             // Block A
@@ -2275,7 +2275,7 @@ namespace PKHeX
             pk6.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
             pk6.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);   // Number
             // pkx[0x16], pkx[0x17] are handled by the Medals UI (Hits & Training Bag)
-            pk6.PID = Util.getHEXval(TB_PID);
+            pk6.PID = Util.getHEXval(TB_PID.Text);
             pk6.Nature = (byte)Util.getIndex(CB_Nature);
             pk6.FatefulEncounter = CHK_Fateful.Checked;
             pk6.Gender = PKX.getGender(Label_Gender.Text);

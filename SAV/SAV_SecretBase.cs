@@ -202,7 +202,7 @@ namespace PKHeX
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            uint flags = Util.ToUInt32(MT_Flags);
+            uint flags = Util.ToUInt32(MT_Flags.Text);
             Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.PSSStats + 0x140, 4); // write pss
             Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.SecretBase + 0x62C, 4); // write counter
             Array.Copy(sav, Main.SAV.Data, sav.Length);
@@ -277,7 +277,7 @@ namespace PKHeX
             int index = currentpkm;
             byte[] pkm = new byte[0x34];
 
-            Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_EC)), 0, pkm, 0, 4);  // EC
+            Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_EC.Text)), 0, pkm, 0, 4);  // EC
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Species)), 0, pkm, 8, 2);
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_HeldItem)), 0, pkm, 0xA, 2);
             pkm[0xC] = (byte)Array.IndexOf(abilitylist, (CB_Ability.Text).Remove((CB_Ability.Text).Length - 4)); // Ability

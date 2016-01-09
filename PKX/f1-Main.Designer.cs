@@ -2159,7 +2159,6 @@
             // CHK_Diamond
             // 
             this.CHK_Diamond.AutoSize = true;
-            this.CHK_Diamond.Font = new System.Drawing.Font("Cambria", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CHK_Diamond.Location = new System.Drawing.Point(205, 228);
             this.CHK_Diamond.Name = "CHK_Diamond";
             this.CHK_Diamond.Size = new System.Drawing.Size(15, 14);
@@ -2170,7 +2169,6 @@
             // 
             // CHK_Star
             // 
-            this.CHK_Star.AutoSize = true;
             this.CHK_Star.Location = new System.Drawing.Point(205, 213);
             this.CHK_Star.Name = "CHK_Star";
             this.CHK_Star.Size = new System.Drawing.Size(38, 17);
@@ -2181,7 +2179,6 @@
             // 
             // CHK_Heart
             // 
-            this.CHK_Heart.AutoSize = true;
             this.CHK_Heart.Location = new System.Drawing.Point(205, 199);
             this.CHK_Heart.Name = "CHK_Heart";
             this.CHK_Heart.Size = new System.Drawing.Size(37, 17);
@@ -2192,7 +2189,6 @@
             // 
             // CHK_Square
             // 
-            this.CHK_Square.AutoSize = true;
             this.CHK_Square.Location = new System.Drawing.Point(29, 227);
             this.CHK_Square.Name = "CHK_Square";
             this.CHK_Square.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -2262,7 +2258,6 @@
             // 
             // CHK_Triangle
             // 
-            this.CHK_Triangle.AutoSize = true;
             this.CHK_Triangle.Location = new System.Drawing.Point(29, 213);
             this.CHK_Triangle.Name = "CHK_Triangle";
             this.CHK_Triangle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -2274,8 +2269,6 @@
             // 
             // CHK_Circle
             // 
-            this.CHK_Circle.AutoSize = true;
-            this.CHK_Circle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CHK_Circle.Location = new System.Drawing.Point(27, 193);
             this.CHK_Circle.Name = "CHK_Circle";
             this.CHK_Circle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -2599,8 +2592,6 @@
             // 
             // Label_Diamond
             // 
-            this.Label_Diamond.AutoSize = true;
-            this.Label_Diamond.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label_Diamond.Location = new System.Drawing.Point(215, 224);
             this.Label_Diamond.Name = "Label_Diamond";
             this.Label_Diamond.Size = new System.Drawing.Size(26, 20);
@@ -2637,7 +2628,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(140, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
@@ -2646,7 +2637,7 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(140, 22);
             this.Menu_Save.Text = "&Save PK6...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
@@ -2659,7 +2650,7 @@
             this.Menu_ExportTransfer});
             this.Menu_ExportSAV.Enabled = false;
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
-            this.Menu_ExportSAV.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(140, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             // 
             // Menu_ExportMAIN
@@ -2699,7 +2690,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(140, 22);
             this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
@@ -2866,7 +2857,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2882,7 +2873,7 @@
             this.Menu_ModifyDex,
             this.Menu_ModifyPK6});
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -2908,7 +2899,7 @@
             // Menu_Unicode
             // 
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
             this.Menu_Unicode.Text = "Toggle Font";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -2917,7 +2908,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(139, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 

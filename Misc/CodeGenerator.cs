@@ -76,7 +76,7 @@ namespace PKHeX
         {
             // Add the new code to the textbox.
             if (!loaddata()) return;
-            uint writeoffset = Util.getHEXval(TB_Write);
+            uint writeoffset = Util.getHEXval(TB_Write.Text);
 
             for (int i = 0; i < newdata.Length / 4; i++)
             {

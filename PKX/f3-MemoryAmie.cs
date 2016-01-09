@@ -22,11 +22,11 @@ namespace PKHeX
                 if (arguments[i] == null) continue;
                 vartypes[i - 5] = arguments[i] + ":";
             }
-            args[0] = arguments.Length > 0 ? arguments[0] : "Disabled";
-            args[1] = arguments.Length > 1 ? arguments[1] : "Never left";
-            args[2] = arguments.Length > 2 ? arguments[2] : "OT";
-            args[3] = arguments.Length > 3 ? arguments[3] : "Past Gen";
-            args[4] = arguments.Length > 4 ? arguments[4] : "Memories with";
+            args[0] = arguments.Length > 0 ? arguments[0] ?? "Disabled" : "Disabled";
+            args[1] = arguments.Length > 1 ? arguments[1] ?? "Never left" : "Never left";
+            args[2] = arguments.Length > 2 ? arguments[2] ?? "OT" : "OT";
+            args[3] = arguments.Length > 3 ? arguments[3] ?? "Past Gen": "Past Gen";
+            args[4] = arguments.Length > 4 ? arguments[4] ?? "Memories with" : "Memories with";
             ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
             foreach (ComboBox comboBox in cba)
             {
@@ -142,12 +142,12 @@ namespace PKHeX
             Main.pk6.Geo5_Country = Util.getIndex(CB_Country4);
 
             // Save 0-255 stats
-            Main.pk6.HT_Friendship = Util.ToInt32(M_CT_Friendship);
-            Main.pk6.HT_Affection = Util.ToInt32(M_CT_Affection);
-            Main.pk6.OT_Friendship = Util.ToInt32(M_OT_Friendship);
-            Main.pk6.OT_Affection = Util.ToInt32(M_OT_Affection);
-            Main.pk6.Fullness = (byte)Util.ToInt32(M_Fullness);
-            Main.pk6.Enjoyment = (byte)Util.ToInt32(M_Enjoyment);
+            Main.pk6.HT_Friendship = Util.ToInt32(M_CT_Friendship.Text);
+            Main.pk6.HT_Affection = Util.ToInt32(M_CT_Affection.Text);
+            Main.pk6.OT_Friendship = Util.ToInt32(M_OT_Friendship.Text);
+            Main.pk6.OT_Affection = Util.ToInt32(M_OT_Affection.Text);
+            Main.pk6.Fullness = (byte)Util.ToInt32(M_Fullness.Text);
+            Main.pk6.Enjoyment = (byte)Util.ToInt32(M_Enjoyment.Text);
 
             // Save Memories
             Main.pk6.HT_Memory = Util.getIndex(CB_CTMemory);

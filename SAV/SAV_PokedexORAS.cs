@@ -208,7 +208,7 @@ namespace PKHeX
             }
             
             // Store Spinda Spot
-            uint PID = Util.getHEXval(TB_Spinda);
+            uint PID = Util.getHEXval(TB_Spinda.Text);
             Array.Copy(BitConverter.GetBytes(PID), 0, sav, Main.SAV.Spinda, 4);
         }
 
@@ -268,7 +268,7 @@ namespace PKHeX
                     CHK_P7.Checked = true;
             }
 
-            int dexNav = Util.ToInt32(MT_Count);
+            int dexNav = Util.ToInt32(MT_Count.Text);
             if (dexNav == 0)
                 MT_Count.Text = 1.ToString();
         }
@@ -306,7 +306,7 @@ namespace PKHeX
         private void changeEncounteredCount(object sender, EventArgs e)
         {
             if (!editing)
-                BitConverter.GetBytes((ushort)Math.Min(0xFFFF, Util.ToUInt32(MT_Count))).CopyTo(sav, Main.SAV.EncounterCount + (Util.getIndex(CB_Species) - 1) * 2);
+                BitConverter.GetBytes((ushort)Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text))).CopyTo(sav, Main.SAV.EncounterCount + (Util.getIndex(CB_Species) - 1) * 2);
         }
     }
 }

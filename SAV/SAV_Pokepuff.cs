@@ -148,7 +148,7 @@ namespace PKHeX
                 puffarray[i - emptyslots] = (byte)Array.IndexOf(pfa, puff);
             }
             Main.SAV.Puffs = puffarray;
-            Main.SAV.PuffCount = Util.ToInt32(MT_CNT);
+            Main.SAV.PuffCount = Util.ToInt32(MT_CNT.Text);
             Main.SAV.Edited = true;
             Close();
         }

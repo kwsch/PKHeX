@@ -228,7 +228,7 @@ namespace PKHeX
             }
 
             // Store Spinda Spot
-            uint PID = Util.getHEXval(TB_Spinda);
+            uint PID = Util.getHEXval(TB_Spinda.Text);
             Array.Copy(BitConverter.GetBytes(PID), 0, sav, Main.SAV.Spinda, 4);
         }
 

@@ -50,7 +50,7 @@ namespace PKHeX
                 Array.Copy(BitConverter.GetBytes(Constants[i]), 0, Main.SAV.Data, Main.SAV.EventConst + 2 * i, 2);
 
             // Copy back Volcanic Ash counter
-            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(MT_Ash)), 0, Main.SAV.Data, Main.SAV.EventAsh, 2);
+            Array.Copy(BitConverter.GetBytes(Util.ToUInt32(MT_Ash.Text)), 0, Main.SAV.Data, Main.SAV.EventAsh, 2);
 
             Close();
         }
@@ -225,7 +225,7 @@ namespace PKHeX
         private void changeConstantIndex(object sender, EventArgs e)
         {
             if (entry > -1) // Set Entry
-                Constants[entry] = (ushort)(Math.Min(Util.ToUInt32(MT_Stat), 0xFFFF));
+                Constants[entry] = (ushort)(Math.Min(Util.ToUInt32(MT_Stat.Text), 0xFFFF));
 
             entry = CB_Stats.SelectedIndex; // Get Entry
             MT_Stat.Text = Constants[entry].ToString();

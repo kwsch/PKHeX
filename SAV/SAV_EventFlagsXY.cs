@@ -193,7 +193,7 @@ namespace PKHeX
         private void changeConstantIndex(object sender, EventArgs e)
         {
             if (entry > -1) // Set Entry
-                Constants[entry] = (ushort)(Math.Min(Util.ToUInt32(MT_Stat), 0xFFFF));
+                Constants[entry] = (ushort)(Math.Min(Util.ToUInt32(MT_Stat.Text), 0xFFFF));
 
             entry = CB_Stats.SelectedIndex; // Get Entry
             MT_Stat.Text = Constants[entry].ToString();
