@@ -6,13 +6,14 @@
 CTRL-O: Open
 CTRL-S: Export PK6
 CTRL-E: Export SAV
+CTRL-B: Export BAK
 CTRL-Q: Quit
 
 CTRL-D: Open Database
 CTRL-R: Open Box Report
-CTRL-B: Open About PKHeX
+CTRL-P: Open About PKHeX
 
-Hold Control when dragging out the Tab PKM to save as ekx.
+Hold Control when dragging out the PK6 Preview to save as ekx.
 
 Control + Click on...
 - Species: Import Showdown/Smogon set from Clipboard.
