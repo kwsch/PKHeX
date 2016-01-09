@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Globalization;
 using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Linq;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace PKHeX
 {
@@ -14,62 +14,38 @@ namespace PKHeX
         // Image Layering/Blending Utility
         internal static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
         {
-            Bitmap overlayImage = (Bitmap)overLayer;
-            Bitmap newImage = (Bitmap)baseLayer;
-            if (baseLayer == null) return overlayImage;
-            for (int i = 0; i < (overlayImage.Width * overlayImage.Height); i++)
+            Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
+            using (Graphics gr = Graphics.FromImage(img))
             {
-                Color newColor = overlayImage.GetPixel(i % (overlayImage.Width), i / (overlayImage.Width));
-                Color oldColor = newImage.GetPixel(i % (overlayImage.Width) + x, i / (overlayImage.Width) + y);
-                newColor = Color.FromArgb((int)(newColor.A * trans), newColor.R, newColor.G, newColor.B); // Apply transparency change
-                // if (newColor.A != 0) // If Pixel isn't transparent, we'll overwrite the color.
-                {
-                    // if (newColor.A < 100) 
-                    newColor = AlphaBlend(newColor, oldColor);
-                    newImage.SetPixel(
-                        i % (overlayImage.Width) + x,
-                        i / (overlayImage.Width) + y,
-                        newColor);
-                }
+                gr.DrawImage(baseLayer, new Point(0, 0));
+                Bitmap o = ChangeOpacity(overLayer, trans);
+                gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
             }
-            return newImage;
+            return img;
         }
         internal static Bitmap ChangeOpacity(Image img, double trans)
         {
-            if (img == null) return null;
-            Bitmap bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
-            Graphics graphics = Graphics.FromImage(bmp);
-            ColorMatrix colormatrix = new ColorMatrix {Matrix33 = (float) trans};
-            ImageAttributes imgAttribute = new ImageAttributes();
-            imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            graphics.DrawImage(img, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttribute);
-            graphics.Dispose();   // Releasing all resource used by graphics
+            if (img == null)
+                return null;
+            if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
+                return (Bitmap)img;
+
+            Bitmap bmp = (Bitmap)img.Clone();
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            IntPtr ptr = bmpData.Scan0;
+
+            int len = bmp.Width*bmp.Height*4;
+            byte[] data = new byte[len];
+
+            Marshal.Copy(ptr, data, 0, len);
+
+            for (int i = 0; i < data.Length; i += 4)
+                data[i + 3] = (byte)(data[i + 3] * trans);
+
+            Marshal.Copy(data, 0, ptr, len);
+            bmp.UnlockBits(bmpData);
+
             return bmp;
-        }
-        internal static Color AlphaBlend(Color ForeGround, Color BackGround)
-        {
-            if (ForeGround.A == 0)
-                return BackGround;
-            if (BackGround.A == 0)
-                return ForeGround;
-            if (ForeGround.A == 255)
-                return ForeGround;
-            int Alpha = Convert.ToInt32(ForeGround.A);
-            int B = Alpha * ForeGround.B + (255 - Alpha) * BackGround.B >> 8;
-            int G = Alpha * ForeGround.G + (255 - Alpha) * BackGround.G >> 8;
-            int R = Alpha * ForeGround.R + (255 - Alpha) * BackGround.R >> 8;
-            int A = ForeGround.A;
-            if (BackGround.A == 255)
-                A = 255;
-            if (A > 255)
-                A = 255;
-            if (R > 255)
-                R = 255;
-            if (G > 255)
-                G = 255;
-            if (B > 255)
-                B = 255;
-            return Color.FromArgb(Math.Abs(A), Math.Abs(R), Math.Abs(G), Math.Abs(B));
         }
 
         // Strings and Paths
@@ -221,27 +197,7 @@ namespace PKHeX
         }
 
         // Data Retrieval
-        internal static int ToInt32(TextBox tb)
-        {
-            string value = tb.Text;
-            return ToInt32(value);
-        }
-        internal static uint ToUInt32(TextBox tb)
-        {
-            string value = tb.Text;
-            return ToUInt32(value);
-        }
-        internal static int ToInt32(MaskedTextBox tb)
-        {
-            string value = tb.Text;
-            return ToInt32(value);
-        }
-        internal static uint ToUInt32(MaskedTextBox tb)
-        {
-            string value = tb.Text;
-            return ToUInt32(value);
-        }
-        internal static int ToInt32(String value)
+        internal static int ToInt32(string value)
         {
             value = value.Replace(" ", "");
             if (String.IsNullOrEmpty(value))
@@ -253,7 +209,7 @@ namespace PKHeX
             }
             catch { return 0; }
         }
-        internal static uint ToUInt32(String value)
+        internal static uint ToUInt32(string value)
         {
             value = value.Replace(" ", "");
             if (String.IsNullOrEmpty(value))
@@ -265,12 +221,10 @@ namespace PKHeX
             }
             catch { return 0; }
         }
-        internal static uint getHEXval(TextBox tb)
+        internal static uint getHEXval(string s)
         {
-            if (tb.Text == null)
-                return 0;
-            string str = getOnlyHex(tb.Text);
-            return UInt32.Parse(str, NumberStyles.HexNumber);
+            string str = getOnlyHex(s);
+            return string.IsNullOrEmpty(str) ? 0 : Convert.ToUInt32(str, 16);
         }
         internal static int getIndex(ComboBox cb)
         {
@@ -282,23 +236,9 @@ namespace PKHeX
 
             return val;
         }
-        internal static string getOnlyHex(string str)
+        internal static string getOnlyHex(string s)
         {
-            if (str == null) return "0";
-
-            string s = "";
-
-            foreach (char c in str)
-            {
-                // filter for hex
-                if ((c < 0x0047 && c > 0x002F) || (c < 0x0067 && c > 0x0060))
-                    s += c;
-                else
-                    System.Media.SystemSounds.Beep.Play();
-            }
-            if (s.Length == 0)
-                s = "0";
-            return s;
+            return string.IsNullOrEmpty(s) ? "0" : s.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
         }
 
         // Data Manipulation
