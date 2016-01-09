@@ -614,3 +614,21 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Transferring will remove HMs that are unable to transfer. Thanks Ahito95!
  - Fixed: Transferring will now carry over Gender/AltForm 5->6. Thanks Ahito95!
  - Fixed: Wonder Card filename suggestions will no longer contain illegal characters.
+
+01/10/16 - New Update:
+ - Fixed: Memory Feelings now save properly. Thanks chenzw95!
+ - Fixed: Map Z-Coordinate now saves properly. Thanks rocket0634!
+ - Fixed: Box Data Report levels now display properly. Thanks Blassie098!
+ - Fixed: Showdown EV Stat labels are now ordered correctly. Thanks Wanderer1391!
+ - Fixed: Setting of Eggs no longer destroys data and should modify correctly. Thanks StarFisherX!
+
+ - Fixed: Executable name less than two characters will no longer prevent startup of the program.
+ - Fixed: Glitchy QR code importing returning no data is now handled correctly.
+ - Changed: Multiple 'macros' are now accessible via the Main Menu ribbon.
+ - - SAV Exporting button moved to File->; old modifierkeys are now separate clickable options.
+ - - Database and Folder opening moved to Tools->
+ - - Box Dump/Load split into two options (no longer a prompt)
+
+ - Added: Full (and more intuitive) translation of the main window's MenuStrip via the translation files.
+ - Changed: Sprite generation (layering) is now faster.
+ - Shortcuts have been updated.
