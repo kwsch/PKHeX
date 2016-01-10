@@ -43,12 +43,6 @@ Hold ALT when exporting to instead export the original save.
 Click on the Save File path (above Boxes): Auto-detect/Reload save.
  - Shift skips SaveDataFiler
 
-Open Temp Folder:
- - Shift opens SaveDataBackup folder
- - Alt opens SaveDataFiler folder
- - Control opens CyberGadget Cache folder
- - [Default] opens CyberGadget root folder
-
 
 // Boxes
 
@@ -59,12 +53,6 @@ Control-Alt-Click a slot to (Clone/Delete) set a Pokemon to every slot in the bo
 Control-Click a slot to load slot to tabs.
 Shift-Click a slot to set tabs to slot.
 Alt-Click a slot to delete the data in slot.
-
-Control-Click the OpenTemp button to open the CyberGadget Cache folder.
-Alt-Click the OpenTemp button to open the SaveDataFiler folder.
-
-Hold Shift while exporting a ramsav.bin to transplant it to another cart/system.
-Hold Control while exporting a ramsav.bin to export the "main" instead.
 
 Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team) to Clipboard.
 
