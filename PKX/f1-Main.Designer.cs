@@ -537,6 +537,7 @@
             this.MT_Form.TabIndex = 18;
             this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_Form.Visible = false;
+            this.MT_Form.TextChanged += new System.EventHandler(this.updateHaXForm);
             // 
             // CB_Ability
             // 

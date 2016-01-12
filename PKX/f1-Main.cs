@@ -1717,6 +1717,21 @@ namespace PKHeX
             // Gender Forms
             if (PKX.getGender(CB_Form.Text) < 2 && Util.getIndex(CB_Species) != 201) // don't do this for Unown
                 Label_Gender.Text = CB_Form.Text;
+
+            if (changingFields) 
+                return;
+            changingFields = true;
+            MT_Form.Text = Util.getIndex(CB_Form).ToString();
+            changingFields = false;
+        }
+        private void updateHaXForm(object sender, EventArgs e)
+        {
+            if (changingFields)
+                return;
+            changingFields = true;
+            int form = Util.ToInt32(MT_Form.Text);
+            CB_Form.SelectedIndex = CB_Form.Items.Count > form ? form : -1;
+            changingFields = false;
         }
         private void updatePP(object sender, EventArgs e)
         {
