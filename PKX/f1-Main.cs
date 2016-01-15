@@ -1977,12 +1977,12 @@ namespace PKHeX
         }
         private void updateNickname(object sender, EventArgs e)
         {
-            if (fieldsInitialized && ModifierKeys == Keys.Control) // Import Showdown
+            if (fieldsInitialized && ModifierKeys == Keys.Control && sender != null) // Import Showdown
             {
                 clickShowdownImportPK6(sender, e);
                 return;
             }
-            if (fieldsInitialized && ModifierKeys == Keys.Alt) // Export Showdown
+            if (fieldsInitialized && ModifierKeys == Keys.Alt && sender != null) // Export Showdown
             {
                 clickShowdownExportPK6(sender, e);
                 return; 
