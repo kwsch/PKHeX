@@ -633,3 +633,6 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Full (and more intuitive) translation of the main window's MenuStrip via the translation files.
  - Changed: Sprite generation (layering) is now faster.
  - Shortcuts have been updated.
+
+X/X/XX - New Update:
+ - Fixed: Holding CTRL or ALT will no longer import showdown on non-species clicks. Thanks Joedor!
