@@ -255,7 +255,7 @@ namespace PKHeX
         }
 
         // Form Translation
-        internal static void TranslateInterface(Control form, string lang, MenuStrip menu = null)
+        internal static void TranslateInterface(Control form, string lang)
         {
             // Check to see if a the translation file exists in the same folder as the executable
             string externalLangPath = Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + lang + ".txt";
@@ -303,16 +303,42 @@ namespace PKHeX
                 string ctrl = SplitString[0]; // Control to change the text of...
                 string text = SplitString[1]; // Text to set Control.Text to...
                 Control[] controllist = form.Controls.Find(ctrl, true);
-                if (controllist.Length == 0 && menu != null) // If Control isn't found... check menustrip
+                if (controllist.Length != 0) // If Control is found
+                { controllist[0].Text = text; goto next; }
+                
+                // Check MenuStrips
+                foreach (MenuStrip menu in form.Controls.OfType<MenuStrip>())
                 {
                     // Menu Items aren't in the Form's Control array. Find within the menu's Control array.
                     ToolStripItem[] TSI = menu.Items.Find(ctrl, true);
-                    if (TSI.Length > 0) // Found
-                        TSI[0].Text = text;
+                    if (TSI.Length <= 0) continue;
+                    
+                    TSI[0].Text = text; goto next;
                 }
-                else // Set the input control's text.
-                    controllist[0].Text = text;
+                // Check ContextMenuStrips
+                foreach (ContextMenuStrip cs in FindContextMenuStrips(form.Controls.OfType<Control>()).Distinct())
+                {
+                    ToolStripItem[] TSI = cs.Items.Find(ctrl, true);
+                    if (TSI.Length <= 0) continue;
+
+                    TSI[0].Text = text; goto next;
+                }
+
+                next:;
             }
+        }
+        internal static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
+        {
+            List<ContextMenuStrip> cs = new List<ContextMenuStrip>();
+            foreach (Control control in c)
+            {
+                if (control.ContextMenuStrip != null)
+                    cs.Add(control.ContextMenuStrip);
+
+                else if (control.Controls.Count > 0)
+                    cs.AddRange(FindContextMenuStrips(control.Controls.OfType<Control>()));
+            }
+            return cs;
         }
 
         // Message Displays

@@ -882,7 +882,7 @@ namespace PKHeX
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
-            Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex], menuStrip1); // Translate the UI to language.
+            Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex]); // Translate the UI to language.
             populateFields(data); // put data back in form
             fieldsInitialized |= alreadyInit;
         }
