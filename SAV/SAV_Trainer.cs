@@ -7,7 +7,7 @@ namespace PKHeX
 {
     public partial class SAV_Trainer : Form
     {
-        private SAV6 SAV = new SAV6(Main.SAV.Data);
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         public SAV_Trainer()
         {
             InitializeComponent();
@@ -200,11 +200,11 @@ namespace PKHeX
                 CB_Stats.Items.Add(statdata[2 * i + 1]);
             CB_Stats.SelectedIndex = 0;
         }
-        private string[] statdata = { };
+        private readonly string[] statdata = { };
         public bool editing;
         public ToolTip Tip1 = new ToolTip();
         public ToolTip Tip2 = new ToolTip();
-        private MaskedTextBox[] MaisonRecords;
+        private readonly MaskedTextBox[] MaisonRecords;
 
         private void getComboBoxes()
         {

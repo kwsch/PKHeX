@@ -23,9 +23,10 @@ namespace PKHeX
 
             setup();
         }
-        Main m_parent;
+
+        readonly Main m_parent;
         public byte[] sav;
-        private string[] trba = {
+        private readonly string[] trba = {
                                 "Empty",
                                 "HP Bag S","HP Bag M","HP Bag L",
                                 "ATK Bag S","ATK Bag M","ATK Bag L",
@@ -37,9 +38,9 @@ namespace PKHeX
                                 "Big-Shot Bag","Double-Up Bag","Team Flare Bag",
                                 "Reset Bag","Soothing Bag",                              
                                };
-        private int offsetVal;
-        private int offsetTime;
-        private int offsetSpec;
+        private readonly int offsetVal;
+        private readonly int offsetTime;
+        private readonly int offsetSpec;
         private void setup()
         {
             dataGridView1.Rows.Clear();

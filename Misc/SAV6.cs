@@ -159,7 +159,7 @@ namespace PKHeX
         }
         public class Inventory
         {
-            public int HeldItem, KeyItem, Medicine, TMHM, Berry = 0;
+            public int HeldItem, KeyItem, Medicine, TMHM, Berry;
             public Inventory(int Offset, int Game)
             {
                 switch (Game)
@@ -185,7 +185,7 @@ namespace PKHeX
         public int BattleBox, GTS, Daycare, EonTicket,
             Fused, SUBE, Puff, Item, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, SecretBase, BoxWallpapers, LastViewedBox,
             PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh, PlayTime, Accessories,
-            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG = 0;
+            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG;
         public int TrainerCard = 0x14000;
         public int Box = 0x33000, Party = 0x14200;
         public int[] DaycareSlot;
@@ -205,9 +205,9 @@ namespace PKHeX
                 return GameVersion.Unknown;
             }
         }
-        public bool ORASDEMO { get { return Data.Length == SIZE_ORASDEMO; } }
-        public bool ORAS { get { return !ORASDEMO && (Version == GameVersion.OR || Version == GameVersion.AS); } }
-        public bool XY { get { return (Version == GameVersion.X || Version == GameVersion.Y); } }
+        public bool ORASDEMO => Data.Length == SIZE_ORASDEMO;
+        public bool ORAS => !ORASDEMO && (Version == GameVersion.OR || Version == GameVersion.AS);
+        public bool XY => (Version == GameVersion.X || Version == GameVersion.Y);
 
         // Save Information
         private int BlockInfoOffset;
@@ -695,7 +695,7 @@ namespace PKHeX
                 for (int i = 0; i < data.Length; i++)
                 {
                     data[i] = getPK6Stored(Box + PK6.SIZE_STORED * i);
-                    data[i].Identifier = String.Format("B{0}:{1}", (i / 30 + 1).ToString("00"), (i % 30 + 1).ToString("00"));
+                    data[i].Identifier = $"B{(i/30 + 1).ToString("00")}:{(i%30 + 1).ToString("00")}";
                 }
                 return data;
             }
@@ -762,8 +762,8 @@ namespace PKHeX
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
-                r = String.Format("0x200 chunk @ 0x{0} is FF'd.", (i * 0x200).ToString("X5"))
-                                    + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
+                r = $"0x200 chunk @ 0x{(i*0x200).ToString("X5")} is FF'd."
+                    + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
 
                 // Check to see if it is in the Pokedex
                 if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
@@ -781,9 +781,7 @@ namespace PKHeX
         public string getBlockInfoString()
         {
             return Blocks.Aggregate("", (current, b) => current +
-                    String.Format("{0}: {1}-{2}, {3}{4}",
-                    b.ID.ToString("00"), b.Offset.ToString("X5"), (b.Offset + b.Length).ToString("X5"), b.Length.ToString("X5"),
-                        Environment.NewLine));
+                                                        $"{b.ID.ToString("00")}: {b.Offset.ToString("X5")}-{(b.Offset + b.Length).ToString("X5")}, {b.Length.ToString("X5")}{Environment.NewLine}");
         }
     }
 }

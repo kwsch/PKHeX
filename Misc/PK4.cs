@@ -275,15 +275,16 @@ namespace PKHeX
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
         }
-        public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
-        public int PSV { get { return (int)((PID >> 16 ^ PID & 0xFFFF) >> 3); } }
-        public int TSV { get { return (TID ^ SID) >> 3; } }
-        public bool IsShiny { get { return TSV == PSV; } }
-        public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
-        public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
-        public bool Gen4 { get { return Version >= 10 && Version < 12 || Version >= 7 && Version <= 8; } }
-        public bool Gen3 { get { return Version >= 1 && Version <= 5 || Version == 15; } }
-        public bool GenU { get { return !(Gen4 || Gen3); } }
+        public int[] EVs => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        public int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
+        public int TSV => (TID ^ SID) >> 3;
+        public bool IsShiny => TSV == PSV;
+        public bool PKRS_Infected => PKRS_Strain > 0;
+        public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
+        public bool Gen4 => Version >= 10 && Version < 12 || Version >= 7 && Version <= 8;
+        public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
+        public bool GenU => !(Gen4 || Gen3);
+
         public int[] Moves
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }

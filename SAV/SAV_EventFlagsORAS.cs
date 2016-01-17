@@ -22,7 +22,7 @@ namespace PKHeX
             nud.Text = "0"; // Prompts an update for flag 0.
             MT_Ash.Text = BitConverter.ToUInt16(Main.SAV.Data, Main.SAV.EventAsh).ToString();
         }
-        bool setup = true;
+        private bool setup = true;
         public CheckBox[] chka;
         public bool[] flags = new bool[3072];
         public ushort[] Constants = new ushort[(Main.SAV.EventFlag - Main.SAV.EventConst) / 2];
@@ -111,7 +111,7 @@ namespace PKHeX
             CB_Stats.Items.Clear();
             for (int i = 0; i < Constants.Length; i += 2)
             {
-                CB_Stats.Items.Add(String.Format("0x{0}", i.ToString("X3")));
+                CB_Stats.Items.Add($"0x{i.ToString("X3")}");
                 Constants[i / 2] = BitConverter.ToUInt16(Main.SAV.Data, Main.SAV.EventConst + i);
             }
             CB_Stats.SelectedIndex = 0;
@@ -193,8 +193,8 @@ namespace PKHeX
             TB_IsSet.Text = tbIsSet;
             TB_UnSet.Text = tbUnSet;
         }
-        private byte[] olddata = new byte[0x180];
-        private byte[] newdata = new byte[0x180];
+        private readonly byte[] olddata = new byte[0x180];
+        private readonly byte[] newdata = new byte[0x180];
         private void openSAV(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();

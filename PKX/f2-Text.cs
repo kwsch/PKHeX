@@ -37,7 +37,8 @@ namespace PKHeX
             CenterToParent();
             Show();
         }
-        TextBox TB_Nickname;
+
+        readonly TextBox TB_Nickname;
         private void onClick(object sender, EventArgs e)
         {
             string nickname = TB_Nickname.Text;

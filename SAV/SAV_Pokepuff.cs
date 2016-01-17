@@ -20,15 +20,7 @@ namespace PKHeX
         }
 
         public byte[] sav;
-        private string[] pfa =
-        {
-            "Empty",
-            "Basic Sweet", "Basic Mint", "Basic Citrus", "Basic Mocha", "Basic Spice",
-            "Frosted Sweet", "Frosted Mint", "Frosted Citrus", "Frosted Mocha", "Frosted Spice",
-            "Fancy Sweet", "Fancy Mint", "Fancy Citrus", "Fancy Mocha", "Fancy Spice",
-            "Deluxe Sweet", "Deluxe Mint", "Deluxe Citrus", "Deluxe Mocha", "Deluxe Spice",
-            "Supreme Wish", "Supreme Honor", "Supreme Spring", "Supreme Summer", "Supreme Fall", "Supreme Winter",
-        };
+        private readonly string[] pfa;
         private void Setup()
         {
             dgv.Rows.Clear();

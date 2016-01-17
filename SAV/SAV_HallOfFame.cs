@@ -49,10 +49,10 @@ namespace PKHeX
         }
         private bool editing;
 
-        private string[] gendersymbols = Main.gendersymbols;
-        private byte[] data = new byte[0x1B40];
+        private readonly string[] gendersymbols = Main.gendersymbols;
+        private readonly byte[] data = new byte[0x1B40];
 
-        private object[] editor_spec;
+        private readonly object[] editor_spec;
 
         private void Setup()
         {
@@ -425,7 +425,7 @@ namespace PKHeX
         {
             if (LB_DataEntry.SelectedIndex < 1) { Util.Alert("Cannot delete your first Hall of Fame Clear entry."); return; }
             int index = LB_DataEntry.SelectedIndex;
-            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Entry {0} from your records?", index)) 
+            if (Util.Prompt(MessageBoxButtons.YesNo, $"Delete Entry {index} from your records?") 
                 != DialogResult.Yes) return;
 
             int offset = index * 0x1B4;

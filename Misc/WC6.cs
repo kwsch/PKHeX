@@ -167,8 +167,9 @@ namespace PKHeX
         public bool RIB1_7 { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Empty
 
         // Meta Accessible Properties
-        public int[] IVs { get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; } }
-        public bool IsNicknamed { get { return Nickname.Length > 0; } }
+        public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        public bool IsNicknamed => Nickname.Length > 0;
+
         public int[] Moves
         {
             get { return new[] {Move1, Move2, Move3, Move4}; }

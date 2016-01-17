@@ -133,8 +133,9 @@ namespace PKHeX
         #endregion
 
         // Simple Generated Attributes
-        public bool Japanese { get { return Language == 1; } }
-        public bool Gen3 { get { return Version >= 1 && Version <= 5 || Version == 15; } }
+        public bool Japanese => Language == 1;
+        public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
+
         public int[] Moves
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }

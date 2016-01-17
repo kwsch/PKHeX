@@ -184,7 +184,8 @@ namespace PKHeX
             // Store Current Items back to the save file
             saveBag(sender);
             populateList(keyitem_val, Main.SAV.Items.KeyItem);
-            if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo, String.Format("Warning: Adding all {0} is dangerous.", B_DisplayKeyItems.Text), "Continue?") == DialogResult.Yes)
+            if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo,
+                $"Warning: Adding all {B_DisplayKeyItems.Text} is dangerous.", "Continue?") == DialogResult.Yes)
                 giveAll(keyitem_val, 1);
         }
         private void B_DisplayTMHM_Click(object sender, EventArgs e)
@@ -192,7 +193,8 @@ namespace PKHeX
             // Store Current Items back to the save file
             saveBag(sender);
             populateList(tmhm_val, Main.SAV.Items.TMHM);
-            if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo, String.Format("Warning: Adding all {0} is dangerous.", B_DisplayTMHM.Text), "Continue?") == DialogResult.Yes)
+            if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo,
+                $"Warning: Adding all {B_DisplayTMHM.Text} is dangerous.", "Continue?") == DialogResult.Yes)
                 giveAll(tmhm_val, 1);
         }
         private void B_DisplayMedicine_Click(object sender, EventArgs e)

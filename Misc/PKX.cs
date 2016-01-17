@@ -369,7 +369,8 @@ namespace PKHeX
             if (pk6.Nickname != Main.specieslist[pk6.Species] && Main.specieslist[pk6.Species] != null)
                 filename += " (" + Main.specieslist[pk6.Species] + ")";
             response[0] = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, Main.itemlist[pk6.HeldItem], Main.natures[pk6.Nature], pk6.Stat_Level, Main.abilitylist[pk6.Ability]);
-            response[1] = String.Format("{0} / {1} / {2} / {3}", Main.movelist[pk6.Move1], Main.movelist[pk6.Move2], Main.movelist[pk6.Move3], Main.movelist[pk6.Move4]);
+            response[1] =
+                $"{Main.movelist[pk6.Move1]} / {Main.movelist[pk6.Move2]} / {Main.movelist[pk6.Move3]} / {Main.movelist[pk6.Move4]}";
             response[2] = String.Format(
                 "IVs:{0}{1}{2}{3}{4}{5}"
                 + Environment.NewLine + Environment.NewLine +
@@ -684,10 +685,10 @@ namespace PKHeX
                 if (chk == old) continue;
 
                 invalid++;
-                rv += String.Format("Invalid: {0} @ Region {1}", i.ToString("X2"), Start[i].ToString("X5") + Environment.NewLine);
+                rv += $"Invalid: {i.ToString("X2")} @ Region {Start[i].ToString("X5") + Environment.NewLine}";
             }
             // Return Outputs
-            rv += String.Format("SAV: {0}/{1}", (count - invalid), count + Environment.NewLine);
+            rv += $"SAV: {(count - invalid)}/{count + Environment.NewLine}";
             return rv;
         }
         /// <summary>Fix checksums in the input save file.</summary>
@@ -1284,6 +1285,8 @@ namespace PKHeX
                             moveString = "Hidden Power";
                         }
                         Moves[movectr++] = Array.IndexOf(moves, moveString);
+                        if (movectr == 4)
+                            break; // End of moves
                         continue;
                     }
 
@@ -1373,7 +1376,7 @@ namespace PKHeX
                 for (int i = 0; i < 6; i++)
                 {
                     if (sIVs[i] == 31) continue;
-                    ivstr[ivctr++] += String.Format("{0} {1}", sIVs[i], StatNames[i]);
+                    ivstr[ivctr++] += $"{sIVs[i]} {StatNames[i]}";
                 }
                 if (ivctr > 0)
                 result += "IVs: " + string.Join(" / ", ivstr.Take(ivctr)) + Environment.NewLine;
@@ -1385,7 +1388,7 @@ namespace PKHeX
                 for (int i = 0; i < 6; i++)
                 {
                     if (sEVs[i] == 0) continue;
-                    evstr[evctr++] += String.Format("{0} {1}", sEVs[i], StatNames[i]);
+                    evstr[evctr++] += $"{sEVs[i]} {StatNames[i]}";
                 }
                 if (evctr > 0)
                     result += "EVs: " + string.Join(" / ", evstr.Take(evctr)) + Environment.NewLine;
@@ -1547,7 +1550,7 @@ namespace PKHeX
                     }
                 }
             }
-            public bool HasFormes { get { return FormeCount > 1; } }
+            public bool HasFormes => FormeCount > 1;
         }
     }
 }

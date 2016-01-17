@@ -11,7 +11,7 @@ namespace PKHeX
         byte[] codedata = new byte[232];
         byte[] newdata = new byte[232];
 
-        byte[] tabdata;
+        readonly byte[] tabdata;
         public CodeGenerator(byte[] formdata)
         {
             tabdata = formdata;
@@ -279,9 +279,8 @@ namespace PKHeX
 
             if ((lines / 128 > 0) && CHK_Break.Checked)
             {
-                Util.Alert(String.Format("{0} Code Segments.",
-                           (1 + (lines / 128))),
-                           String.Format("{0} Lines.", lines));
+                Util.Alert($"{(1 + (lines/128))} Code Segments.",
+                    $"{lines} Lines.");
             }
             RTB_Code.Text = result;
             return;

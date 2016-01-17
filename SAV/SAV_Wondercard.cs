@@ -49,7 +49,7 @@ namespace PKHeX
         public byte[] sav;
         public byte[] wondercard_data = new byte[WC6.Size];
         private const uint EonTicketConst = 0x225D73C2;
-        private PictureBox[] pba;
+        private readonly PictureBox[] pba;
 
         // Repopulation Functions
         private int currentSlot;
@@ -279,7 +279,8 @@ namespace PKHeX
                 Array.Copy(newwc6, wondercard_data, newwc6.Length);
                 loadwcdata();
             }
-            else if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, String.Format("Try to load {0} Wonder Cards starting at Card {1}?", files.Length, ctr + 1)))
+            else if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo,
+                $"Try to load {files.Length} Wonder Cards starting at Card {ctr + 1}?"))
             {
                 foreach (string file in files)
                 {
@@ -362,7 +363,8 @@ namespace PKHeX
             {
                 byte[] wc = Util.getQRData();
                 if (wc == null) return;
-                if (wc.Length != WC6.Size) { Util.Alert("Decoded data not 0x108 bytes.", String.Format("QR Data Size: 0x{0}", wc.Length.ToString("X"))); }
+                if (wc.Length != WC6.Size) { Util.Alert("Decoded data not 0x108 bytes.",
+                    $"QR Data Size: 0x{wc.Length.ToString("X")}"); }
                 else try
                     {
                         Array.Copy(wc, wondercard_data, wc.Length);

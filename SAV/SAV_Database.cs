@@ -33,7 +33,7 @@ namespace PKHeX
 
             // Enable Scrolling when hovered over
             var me = this;
-            PAN_Box.MouseEnter += (sender, args) =>
+            PAN_Box.MouseHover += (sender, args) =>
             {
                 if (ActiveForm == me)
                     SCR_Box.Focus();
@@ -100,18 +100,18 @@ namespace PKHeX
             // Prepare Database
             prepareDBForSearch();
         }
-        private Main m_parent;
-        private PictureBox[] PKXBOXES;
-        private string DatabasePath = Main.DatabasePath;
-        private List<DatabaseList> Database = new List<DatabaseList>();
+        private readonly Main m_parent;
+        private readonly PictureBox[] PKXBOXES;
+        private readonly string DatabasePath = Main.DatabasePath;
+        private readonly List<DatabaseList> Database = new List<DatabaseList>();
         private List<PK6> Results;
         private List<PK6> RawDB;
         private int slotSelected = -1; // = null;
         private Image slotColor;
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
-        private string Counter;
-        private string Viewed;
+        private readonly string Counter;
+        private readonly string Viewed;
 
         // Important Events
         private void clickView(object sender, EventArgs e)
@@ -313,10 +313,10 @@ namespace PKHeX
         // IO Usage
         private class DatabaseList
         {
-            public List<PK6> Slot = new List<PK6>();
+            public readonly List<PK6> Slot = new List<PK6>();
             public int Version;
-            private bool Unicode;
-            public byte[] Unused;
+            private readonly bool Unicode;
+            private readonly byte[] Unused;
             public string Title;
             public string Description;
 

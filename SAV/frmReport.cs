@@ -17,96 +17,97 @@ namespace PKHeX
 
         public class Preview
         {
-            private PK6 pk6;
-            public string Position { get { return pk6.Identifier; } }
-            public Image Sprite { get { return pk6.Sprite; } }
-            public string Nickname { get { return pk6.Nickname; } }
-            public string Species { get { return Main.specieslist[pk6.Species]; } }
-            public string Nature { get { return Main.natures[pk6.Nature]; } }
-            public string Gender { get { return Main.gendersymbols[pk6.Gender]; } }
-            public string ESV { get { return pk6.PSV.ToString("0000"); } }
-            public string HP_Type { get { return Main.types[pk6.HPType]; } }
-            public string Ability { get { return Main.abilitylist[pk6.Ability]; } }
-            public string Move1 { get { return Main.movelist[pk6.Move1]; } }
-            public string Move2 { get { return Main.movelist[pk6.Move2]; } }
-            public string Move3 { get { return Main.movelist[pk6.Move3]; } }
-            public string Move4 { get { return Main.movelist[pk6.Move4]; } }
-            public string HeldItem { get { return Main.itemlist[pk6.HeldItem]; } }
-            public string MetLoc { get { return PKX.getLocation(false, pk6.Version, pk6.Met_Location); } }
-            public string EggLoc { get { return PKX.getLocation(true, pk6.Version, pk6.Egg_Location); } }
-            public string Ball { get { return Main.balllist[pk6.Ball]; } }
-            public string OT { get { return pk6.OT_Name; } }
-            public string Version { get { return Main.gamelist[pk6.Version]; } }
-            public string OTLang { get { return Main.gamelanguages[pk6.Language] ?? String.Format("UNK {0}", pk6.Language); } }
-            public string CountryID { get { return pk6.Country.ToString(); } }
-            public string RegionID { get { return pk6.Region.ToString(); } }
-            public string DSRegionID { get { return pk6.ConsoleRegion.ToString(); } }
+            private readonly PK6 pk6;
+            public string Position => pk6.Identifier;
+            public Image Sprite => pk6.Sprite;
+            public string Nickname => pk6.Nickname;
+            public string Species => Main.specieslist[pk6.Species];
+            public string Nature => Main.natures[pk6.Nature];
+            public string Gender => Main.gendersymbols[pk6.Gender];
+            public string ESV => pk6.PSV.ToString("0000");
+            public string HP_Type => Main.types[pk6.HPType];
+            public string Ability => Main.abilitylist[pk6.Ability];
+            public string Move1 => Main.movelist[pk6.Move1];
+            public string Move2 => Main.movelist[pk6.Move2];
+            public string Move3 => Main.movelist[pk6.Move3];
+            public string Move4 => Main.movelist[pk6.Move4];
+            public string HeldItem => Main.itemlist[pk6.HeldItem];
+            public string MetLoc => PKX.getLocation(false, pk6.Version, pk6.Met_Location);
+            public string EggLoc => PKX.getLocation(true, pk6.Version, pk6.Egg_Location);
+            public string Ball => Main.balllist[pk6.Ball];
+            public string OT => pk6.OT_Name;
+            public string Version => Main.gamelist[pk6.Version];
+            public string OTLang => Main.gamelanguages[pk6.Language] ?? $"UNK {pk6.Language}";
+            public string CountryID => pk6.Country.ToString();
+            public string RegionID => pk6.Region.ToString();
+            public string DSRegionID => pk6.ConsoleRegion.ToString();
 
             #region Extraneous
-            public string EC { get { return pk6.EncryptionConstant.ToString("X8"); } }
-            public string PID { get { return pk6.PID.ToString("X8"); } }
-            public int HP_IV { get { return pk6.IV_HP; } }
-            public int ATK_IV { get { return pk6.IV_ATK; } }
-            public int DEF_IV { get { return pk6.IV_DEF; } }
-            public int SPA_IV { get { return pk6.IV_SPA; } }
-            public int SPD_IV { get { return pk6.IV_SPD; } }
-            public int SPE_IV { get { return pk6.IV_SPE; } }
-            public uint EXP { get { return pk6.EXP; } }
-            public int Level { get { return pk6.Stat_Level; } }
-            public int HP_EV { get { return pk6.EV_HP; } }
-            public int ATK_EV { get { return pk6.EV_ATK; } }
-            public int DEF_EV { get { return pk6.EV_DEF; } }
-            public int SPA_EV { get { return pk6.EV_SPA; } }
-            public int SPD_EV { get { return pk6.EV_SPD; } }
-            public int SPE_EV { get { return pk6.EV_SPE; } }
-            public int Cool { get { return pk6.CNT_Cool; } }
-            public int Beauty { get { return pk6.CNT_Beauty; } }
-            public int Cute { get { return pk6.CNT_Cute; } }
-            public int Smart { get { return pk6.CNT_Smart; } }
-            public int Tough { get { return pk6.CNT_Tough; } }
-            public int Sheen { get { return pk6.CNT_Sheen; } }
-            public int Markings { get { return pk6.Markings; } }
+            public string EC => pk6.EncryptionConstant.ToString("X8");
+            public string PID => pk6.PID.ToString("X8");
+            public int HP_IV => pk6.IV_HP;
+            public int ATK_IV => pk6.IV_ATK;
+            public int DEF_IV => pk6.IV_DEF;
+            public int SPA_IV => pk6.IV_SPA;
+            public int SPD_IV => pk6.IV_SPD;
+            public int SPE_IV => pk6.IV_SPE;
+            public uint EXP => pk6.EXP;
+            public int Level => pk6.Stat_Level;
+            public int HP_EV => pk6.EV_HP;
+            public int ATK_EV => pk6.EV_ATK;
+            public int DEF_EV => pk6.EV_DEF;
+            public int SPA_EV => pk6.EV_SPA;
+            public int SPD_EV => pk6.EV_SPD;
+            public int SPE_EV => pk6.EV_SPE;
+            public int Cool => pk6.CNT_Cool;
+            public int Beauty => pk6.CNT_Beauty;
+            public int Cute => pk6.CNT_Cute;
+            public int Smart => pk6.CNT_Smart;
+            public int Tough => pk6.CNT_Tough;
+            public int Sheen => pk6.CNT_Sheen;
+            public int Markings => pk6.Markings;
 
-            public string NotOT { get { return pk6.HT_Name; } }
+            public string NotOT => pk6.HT_Name;
 
-            public int AbilityNum { get { return pk6.AbilityNumber; } }
-            public int GenderFlag { get { return pk6.Gender; } }
-            public int AltForms { get { return pk6.AltForm; } }
-            public int PKRS_Strain { get { return pk6.PKRS_Strain; } }
-            public int PKRS_Days { get { return pk6.PKRS_Days; } }
-            public int MetLevel { get { return pk6.Met_Level; } }
-            public int OT_Gender { get { return pk6.OT_Gender; } }
+            public int AbilityNum => pk6.AbilityNumber;
+            public int GenderFlag => pk6.Gender;
+            public int AltForms => pk6.AltForm;
+            public int PKRS_Strain => pk6.PKRS_Strain;
+            public int PKRS_Days => pk6.PKRS_Days;
+            public int MetLevel => pk6.Met_Level;
+            public int OT_Gender => pk6.OT_Gender;
 
-            public bool FatefulFlag { get { return pk6.FatefulEncounter; } }
-            public bool IsEgg { get { return pk6.IsEgg; } }
-            public bool IsNicknamed { get { return pk6.IsNicknamed; } }
-            public bool IsShiny { get { return pk6.IsShiny; } }
+            public bool FatefulFlag => pk6.FatefulEncounter;
+            public bool IsEgg => pk6.IsEgg;
+            public bool IsNicknamed => pk6.IsNicknamed;
+            public bool IsShiny => pk6.IsShiny;
 
-            public int TID { get { return pk6.TID; } }
-            public int SID { get { return pk6.SID; } }
-            public int TSV { get { return pk6.TSV; } }
-            public int Move1_PP { get { return pk6.Move1_PP; } }
-            public int Move2_PP { get { return pk6.Move2_PP; } }
-            public int Move3_PP { get { return pk6.Move3_PP; } }
-            public int Move4_PP { get { return pk6.Move4_PP; } }
-            public int Move1_PPUp { get { return pk6.Move1_PPUps; } }
-            public int Move2_PPUp { get { return pk6.Move2_PPUps; } }
-            public int Move3_PPUp { get { return pk6.Move3_PPUps; } }
-            public int Move4_PPUp { get { return pk6.Move4_PPUps; } }
-            public string Relearn1 { get { return Main.movelist[pk6.RelearnMove1]; } }
-            public string Relearn2 { get { return Main.movelist[pk6.RelearnMove2]; } }
-            public string Relearn3 { get { return Main.movelist[pk6.RelearnMove3]; } }
-            public string Relearn4 { get { return Main.movelist[pk6.RelearnMove4]; } }
-            public ushort Checksum { get { return pk6.Checksum; } }
-            public int mFriendship { get { return pk6.OT_Friendship; } }
-            public int OT_Affection { get { return pk6.OT_Affection; } }
-            public int Egg_Year { get { return pk6.Egg_Year; } }
-            public int Egg_Month { get { return pk6.Egg_Month; } }
-            public int Egg_Day { get { return pk6.Egg_Day; } }
-            public int Met_Year { get { return pk6.Met_Year; } }
-            public int Met_Month { get { return pk6.Met_Month; } }
-            public int Met_Day { get { return pk6.Met_Day; } }
-            public int Encounter { get { return pk6.EncounterType; } }
+            public int TID => pk6.TID;
+            public int SID => pk6.SID;
+            public int TSV => pk6.TSV;
+            public int Move1_PP => pk6.Move1_PP;
+            public int Move2_PP => pk6.Move2_PP;
+            public int Move3_PP => pk6.Move3_PP;
+            public int Move4_PP => pk6.Move4_PP;
+            public int Move1_PPUp => pk6.Move1_PPUps;
+            public int Move2_PPUp => pk6.Move2_PPUps;
+            public int Move3_PPUp => pk6.Move3_PPUps;
+            public int Move4_PPUp => pk6.Move4_PPUps;
+            public string Relearn1 => Main.movelist[pk6.RelearnMove1];
+            public string Relearn2 => Main.movelist[pk6.RelearnMove2];
+            public string Relearn3 => Main.movelist[pk6.RelearnMove3];
+            public string Relearn4 => Main.movelist[pk6.RelearnMove4];
+            public ushort Checksum => pk6.Checksum;
+            public int mFriendship => pk6.OT_Friendship;
+            public int OT_Affection => pk6.OT_Affection;
+            public int Egg_Year => pk6.Egg_Year;
+            public int Egg_Month => pk6.Egg_Month;
+            public int Egg_Day => pk6.Egg_Day;
+            public int Met_Year => pk6.Met_Year;
+            public int Met_Month => pk6.Met_Month;
+            public int Met_Day => pk6.Met_Day;
+            public int Encounter => pk6.EncounterType;
+
             #endregion
             public Preview(PK6 p) { pk6 = p; }
         }
@@ -132,7 +133,7 @@ namespace PKHeX
                     Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
                     byte[] dslotdata = PKX.decryptArray(slotdata);
                     if (BitConverter.ToUInt16(dslotdata, 0x8) == 0) continue;
-                    string Identifier = String.Format("B{0}:{1}", (BoxNum + 1).ToString("00"), (SlotNum + 1).ToString("00"));
+                    string Identifier = $"B{(BoxNum + 1).ToString("00")}:{(SlotNum + 1).ToString("00")}";
                     PK6 pkm = new PK6(dslotdata, Identifier);
                     if (pkm.EncryptionConstant == 0 && pkm.Species == 0) continue;
                     if (pkm.Checksum != pkm.CalculateChecksum()) continue;
@@ -227,30 +228,15 @@ namespace PKHeX
             comparers = new Dictionary<Type, PropertyComparer<T>>();
         }
 
-        protected override bool SupportsSortingCore
-        {
-            get { return true; }
-        }
+        protected override bool SupportsSortingCore => true;
 
-        protected override bool IsSortedCore
-        {
-            get { return isSorted; }
-        }
+        protected override bool IsSortedCore => isSorted;
 
-        protected override PropertyDescriptor SortPropertyCore
-        {
-            get { return propertyDescriptor; }
-        }
+        protected override PropertyDescriptor SortPropertyCore => propertyDescriptor;
 
-        protected override ListSortDirection SortDirectionCore
-        {
-            get { return listSortDirection; }
-        }
+        protected override ListSortDirection SortDirectionCore => listSortDirection;
 
-        protected override bool SupportsSearchingCore
-        {
-            get { return true; }
-        }
+        protected override bool SupportsSearchingCore => true;
 
         protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection direction)
         {

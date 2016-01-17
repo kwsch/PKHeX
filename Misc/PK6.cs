@@ -416,19 +416,20 @@ namespace PKHeX
             set { if (value == null || value.Length != 6) return;
                   IV_HP = value[0];  IV_ATK = value[1]; IV_DEF = value[2];
                   IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5]; } }
-        public int[] EVs { get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; } }
-        public int PSV { get { return (int)((PID >> 16 ^ PID & 0xFFFF) >> 4); } }
-        public int TSV { get { return (TID ^ SID) >> 4; } }
-        public bool IsShiny { get { return TSV == PSV; } }
-        public bool PKRS_Infected { get { return PKRS_Strain > 0; } }
-        public bool PKRS_Cured { get { return PKRS_Days == 0 && PKRS_Strain > 0; } }
-        public bool IsUntraded { get { return string.IsNullOrEmpty(HT_Name); } }
-        public bool IsUntradedEvent6 { get { return Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6; } }
-        public bool Gen6 { get { return Version >= 24 && Version <= 29; } }
-        public bool Gen5 { get { return Version >= 20 && Version <= 23; } }
-        public bool Gen4 { get { return Version >= 10 && Version < 12 || Version >= 7 && Version <= 8; } }
-        public bool Gen3 { get { return Version >= 1 && Version <= 5 || Version == 15; } }
-        public bool GenU { get { return !(Gen6 || Gen5 || Gen4 || Gen3); } }
+        public int[] EVs => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        public int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
+        public int TSV => (TID ^ SID) >> 4;
+        public bool IsShiny => TSV == PSV;
+        public bool PKRS_Infected => PKRS_Strain > 0;
+        public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
+        public bool IsUntraded => string.IsNullOrEmpty(HT_Name);
+        public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
+        public bool Gen6 => Version >= 24 && Version <= 29;
+        public bool Gen5 => Version >= 20 && Version <= 23;
+        public bool Gen4 => Version >= 10 && Version < 12 || Version >= 7 && Version <= 8;
+        public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
+        public bool GenU => !(Gen6 || Gen5 || Gen4 || Gen3);
+
         public int[] Moves
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }
@@ -442,9 +443,10 @@ namespace PKHeX
         }
 
         // Complex Generated Attributes
-        public Image Sprite { get { return getSprite(this); } }
-        public string ShowdownText { get { return getShowdownText(this); } }
-        public string[] QRText { get { return getQRText(this); } }
+        public Image Sprite => getSprite(this);
+        public string ShowdownText => getShowdownText(this);
+        public string[] QRText => getQRText(this);
+
         public int HPType
         {
             get { return (15 * ((IV_HP & 1) + 2 * (IV_ATK & 1) + 4 * (IV_DEF & 1) + 8 * (IV_SPE & 1) + 16 * (IV_SPA & 1) + 32 * (IV_SPD & 1))) / 63; }
@@ -488,7 +490,7 @@ namespace PKHeX
                 return ivTotal <= 150 ? 2 : 3;
             }
         }
-        public string FileName { get { return getFileName(this); } }
+        public string FileName => getFileName(this);
 
         // Methods
         public void RefreshChecksum()

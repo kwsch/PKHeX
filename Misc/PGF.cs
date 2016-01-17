@@ -97,8 +97,9 @@ namespace PKHeX
         public bool MultiObtain { get { return Data[0xB4] == 1; } set { Data[0xB4] = (byte)(value ? 1 : 0); } }
         
         // Meta Accessible Properties
-        public int[] IVs { get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; } }
-        public bool IsNicknamed { get { return Nickname.Length > 0; } }
+        public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        public bool IsNicknamed => Nickname.Length > 0;
+
         public int[] Moves
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }

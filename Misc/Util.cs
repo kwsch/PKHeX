@@ -53,7 +53,7 @@ namespace PKHeX
         {
             return directory.GetFiles()
                 .Union(directory.GetDirectories().Select(GetNewestFile))
-                .OrderByDescending(f => (f == null ? DateTime.MinValue : f.LastWriteTime))
+                .OrderByDescending(f => f?.LastWriteTime ?? DateTime.MinValue)
                 .FirstOrDefault();
         }
         internal static string NormalizePath(string path)
@@ -158,7 +158,7 @@ namespace PKHeX
         internal static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split(new[] { '\n' }).ToList();
+            List<string> rawlist = ((string)txt).Split('\n').ToList();
 
             string[] stringdata = new string[rawlist.Count];
             for (int i = 0; i < rawlist.Count; i++)
@@ -169,7 +169,7 @@ namespace PKHeX
         internal static string[] getSimpleStringList(string f)
         {
             object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split(new[] { '\n' }).ToList();
+            List<string> rawlist = ((string)txt).Split('\n').ToList();
 
             string[] stringdata = new string[rawlist.Count];
             for (int i = 0; i < rawlist.Count; i++)
@@ -204,7 +204,7 @@ namespace PKHeX
                 return 0;
             try
             {
-                value = value.TrimEnd(new[] { '_' });
+                value = value.TrimEnd('_');
                 return Int32.Parse(value);
             }
             catch { return 0; }
@@ -216,7 +216,7 @@ namespace PKHeX
                 return 0;
             try
             {
-                value = value.TrimEnd(new[] { '_' });
+                value = value.TrimEnd('_');
                 return UInt32.Parse(value);
             }
             catch { return 0; }
@@ -376,7 +376,7 @@ namespace PKHeX
         internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
         {
             List<cbItem> cbList = new List<cbItem>();
-            if (allowed == null || allowed.First() == null)
+            if (allowed?.First() == null)
                 allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
             foreach (int[] list in allowed)

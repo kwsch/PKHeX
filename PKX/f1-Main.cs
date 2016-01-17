@@ -175,7 +175,7 @@ namespace PKHeX
         public static bool unicode;
         public ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        private PictureBox[] SlotPictureBoxes;
+        public readonly PictureBox[] SlotPictureBoxes;
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
@@ -262,7 +262,7 @@ namespace PKHeX
             }
             else
             {
-                Util.Error(String.Format("Foreign File Extension: {0}", ext), "Exporting as encrypted.");
+                Util.Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
                 pkx = PKX.encryptArray(pkx);
                 File.WriteAllBytes(path, pkx);
             }
@@ -609,7 +609,8 @@ namespace PKHeX
                     populateFields((BitConverter.ToUInt16(input, 0xC8) == 0 && BitConverter.ToUInt16(input, 0x58) == 0) ? input : PKX.decryptArray(input));
                 }
                 else
-                    Util.Error("Unable to recognize file." + Environment.NewLine + "Only valid .pk* .ek* .bin supported.", String.Format("File Loaded:{0}{1}", Environment.NewLine, path));
+                    Util.Error("Unable to recognize file." + Environment.NewLine + "Only valid .pk* .ek* .bin supported.",
+                        $"File Loaded:{Environment.NewLine}{path}");
             }
             #endregion
             #region PK3/PK4/PK5
@@ -757,9 +758,9 @@ namespace PKHeX
             }
             #endregion
             else
-                Util.Error("Attempted to load an unsupported file type/size.", 
-                    String.Format("File Loaded:{0}{1}", Environment.NewLine, path), 
-                    String.Format("File Size:{0}{1} bytes (0x{2})", Environment.NewLine, input.Length, input.Length.ToString("X4")));
+                Util.Error("Attempted to load an unsupported file type/size.",
+                    $"File Loaded:{Environment.NewLine}{path}",
+                    $"File Size:{Environment.NewLine}{input.Length} bytes (0x{input.Length.ToString("X4")})");
         }
         private bool openXOR(byte[] input, string path)
         {
@@ -1331,7 +1332,7 @@ namespace PKHeX
 
                 if (ekx == null) return;
 
-                if (ekx.Length != PK6.SIZE_STORED) { Util.Alert(String.Format("Decoded data not {0} bytes.", PK6.SIZE_STORED), String.Format("QR Data Size: {0}", ekx.Length)); }
+                if (ekx.Length != PK6.SIZE_STORED) { Util.Alert($"Decoded data not {PK6.SIZE_STORED} bytes.", $"QR Data Size: {ekx.Length}"); }
                 else try
                     {
                         byte[] pkx = PKX.decryptArray(ekx);
@@ -1678,15 +1679,15 @@ namespace PKHeX
         }
         private void updateHackedStatText(object sender, EventArgs e)
         {
-            if (!CHK_HackedStats.Checked || sender as TextBox == null)
+            if (!CHK_HackedStats.Checked || !(sender is TextBox))
                 return;
 
-            string text = (sender as TextBox).Text;
+            string text = ((TextBox)sender).Text;
             if (string.IsNullOrEmpty(text))
-                (sender as TextBox).Text = "0";
+                ((TextBox)sender).Text = "0";
 
             if (Convert.ToUInt32(text) > ushort.MaxValue)
-                (sender as TextBox).Text = "65535";
+                ((TextBox)sender).Text = "65535";
         }
         private void update255_MTB(object sender, EventArgs e)
         {
@@ -1972,7 +1973,7 @@ namespace PKHeX
             // Set Colored StatLabels only if Nature isn't Neutral
             NatureTip.SetToolTip(CB_Nature,
                 incr != decr
-                    ? String.Format("+{0} / -{1}", labarray[incr].Text, labarray[decr].Text).Replace(":", "")
+                    ? $"+{labarray[incr].Text} / -{labarray[decr].Text}".Replace(":", "")
                     : "-/-");
         }
         private void updateNickname(object sender, EventArgs e)
@@ -2525,8 +2526,8 @@ namespace PKHeX
             {
                 FileName =
                     Util.CleanFileName(ramsav == null
-                        ? String.Format("main ({0} - {1}).bak", SAV.OT, SAV.TID)
-                        : String.Format("ramsav ({0} - {1}).bak", SAV.OT, SAV.TID))
+                        ? $"main ({SAV.OT} - {SAV.TID}).bak"
+                        : $"ramsav ({SAV.OT} - {SAV.TID}).bak")
             };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
@@ -2730,10 +2731,10 @@ namespace PKHeX
             byte[] pkxdata;
             int box = CB_BoxSelect.SelectedIndex + 1; // get box we're cloning to
 
-            if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Clone Pokemon from Editing Tabs to all slots in Box {0}?", box)) == DialogResult.Yes)
+            if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in Box {box}?") == DialogResult.Yes)
                 pkxdata = preparepkx();
-            else if (Util.Prompt(MessageBoxButtons.YesNo, String.Format("Delete Pokemon from all slots in Box {0}?", box)) == DialogResult.Yes)
-                pkxdata = new Byte[PK6.SIZE_STORED];
+            else if (Util.Prompt(MessageBoxButtons.YesNo, $"Delete Pokemon from all slots in Box {box}?") == DialogResult.Yes)
+                pkxdata = new byte[PK6.SIZE_STORED];
             else
                 return; // abort clone/delete
 
@@ -2927,10 +2928,10 @@ namespace PKHeX
                     getSlotFiller(SAV.DaycareSlot[DaycareSlot] + PK6.SIZE_STORED * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
                     dctexta[i].Text = exp[i].ToString();
                     if (occ[i])   // If Occupied
-                        dclabela[i].Text = String.Format("{0}: ✓", (i + 1));
+                        dclabela[i].Text = $"{(i + 1)}: ✓";
                     else
                     {
-                        dclabela[i].Text = String.Format("{0}: ✘", (i + 1));
+                        dclabela[i].Text = $"{(i + 1)}: ✘";
                         SlotPictureBoxes[i + 42].Image = Util.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
                     }
                 }
@@ -3030,7 +3031,8 @@ namespace PKHeX
         private void switchDaycare(object sender, EventArgs e)
         {
             if (!SAV.ORAS) return;
-            if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Would you like to switch the view to the other Daycare?", String.Format("Currently viewing daycare {0}.", DaycareSlot + 1)))
+            if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Would you like to switch the view to the other Daycare?",
+                $"Currently viewing daycare {DaycareSlot + 1}."))
                 // If ORAS, alter the daycare offset via toggle.
                 DaycareSlot ^= 1;
 
@@ -3145,9 +3147,9 @@ namespace PKHeX
             if (ctr <= 0) return; 
 
             setPKXBoxes();
-            string result = String.Format("Loaded {0} files to boxes.", ctr);
+            string result = $"Loaded {ctr} files to boxes.";
             if (pastctr > 0)
-                Util.Alert(result, String.Format("Conversion successful for {0} past generation files.", pastctr));
+                Util.Alert(result, $"Conversion successful for {pastctr} past generation files.");
             else
                 Util.Alert(result);
         }

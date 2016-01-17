@@ -7,9 +7,9 @@ namespace PKHeX
 {
     public partial class RibbMedal : Form
     {
-        private Bitmap[] bma;
-        private PictureBox[] pba;
-        private CheckBox[] cba;
+        private readonly Bitmap[] bma;
+        private readonly PictureBox[] pba;
+        private readonly CheckBox[] cba;
         public RibbMedal()
         {
             InitializeComponent();

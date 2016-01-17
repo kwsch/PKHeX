@@ -54,7 +54,7 @@ namespace PKHeX
         public bool IsPokémon { get { return CardType == 1; } set { if (value) CardType = 1; } }
         public bool IsEgg { get { return CardType == 2; } set { if (value) CardType = 2; } }
         public bool IsManaphyEgg { get { return CardType == 7; } set { if (value) CardType = 7; } }
-        public bool PokémonGift { get { return IsPokémon || IsEgg || IsManaphyEgg; } }
+        public bool PokémonGift => IsPokémon || IsEgg || IsManaphyEgg;
 
         public PK4 convertToPK4(SAV6 SAV)
         {

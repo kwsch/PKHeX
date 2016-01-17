@@ -15,19 +15,20 @@ namespace PKHeX
             sav = (byte[])Main.SAV.Data.Clone();
 
             Setup();
-            editing = false;
             LB_Species.SelectedIndex = 0;
             TB_Spinda.Text = BitConverter.ToUInt32(sav, Main.SAV.Spinda).ToString("X8");
         }
 
-        private CheckBox[] CP, CL;
+        private readonly CheckBox[] CP;
+        private readonly CheckBox[] CL;
         public byte[] sav;
         public bool[,] specbools = new bool[9, 0x60 * 8];
         public bool[,] langbools = new bool[7, 0x60 * 8];
         public bool[] foreignbools = new bool[0x52 * 8];
-        bool editing = true;
+        bool editing;
         private void Setup()
         {
+            editing = true;
             // Clear Listbox and ComboBox
             LB_Species.Items.Clear();
             CB_Species.Items.Clear();
@@ -47,6 +48,7 @@ namespace PKHeX
                 LB_Species.Items.Add(i.ToString("000") + " - " + Main.specieslist[i]);
 
             getBools();
+            editing = false;
         }
         private void changeCBSpecies(object sender, EventArgs e)
         {
