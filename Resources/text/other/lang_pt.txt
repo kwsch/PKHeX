@@ -52,6 +52,11 @@ Menu_ModifyDex = Modificar Pokédex
 Menu_ModifyPK6 = Modificar PK6 Info
 Menu_Unicode = Mudar Fonte
 Menu_About = Sobre o PKHeX
+--------------------Context Menus----------------------
+mnuView = Ver
+mnuSet = Colocar
+mnuDelete = Excluir
+mnu2View = Ver
 --------------------Main Tab Data----------------------
 Tab_Main = Principal
 Label_PID = PID:

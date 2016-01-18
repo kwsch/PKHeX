@@ -53,10 +53,10 @@ Menu_ModifyPK6 = Modify PK6 Info
 Menu_Unicode = Toggle Font
 Menu_About = About PKHeX
 --------------------Context Menus----------------------
-mnuView = View
-mnuSet = Set
-mnuDelete = Delete
-mnu2View = View
+mnuView = Vedi
+mnuSet = Applica
+mnuDelete = Elimina
+mnu2View = Vedi
 --------------------Main Tab Data----------------------
 Tab_Main = Main
 Label_PID = PID:

@@ -52,6 +52,11 @@ Menu_ModifyDex = ポケモン図鑑を変更
 Menu_ModifyPK6 = PK6情報の変更
 Menu_Unicode = トグルフォント
 Menu_About = PKHeXについて
+--------------------Context Menus----------------------
+mnuView = 見る
+mnuSet = セット
+mnuDelete = 消去
+mnu2View = 見る
 --------------------Main Tab Data----------------------
 Tab_Main = メイン
 Label_PID = PID:

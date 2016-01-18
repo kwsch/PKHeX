@@ -52,6 +52,11 @@ Menu_ModifyDex = 포켓몬 도감 수정
 Menu_ModifyPK6 = PK6 정보 수정
 Menu_Unicode = 폰트 변경
 Menu_About = PKHeX에 대하여
+--------------------Context Menus----------------------
+mnuView = 보이다
+mnuSet = 놓다
+mnuDelete = 지우다
+mnu2View = 보이다
 --------------------Main Tab Data----------------------
 Tab_Main = 기본
 Label_PID = PID:

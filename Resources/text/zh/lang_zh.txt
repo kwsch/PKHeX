@@ -52,6 +52,11 @@ Menu_ModifyDex = 修改图鉴
 Menu_ModifyPK6 = 修改PK6信息
 Menu_Unicode = 切换的Unicode
 Menu_About = 关于PKHeX
+--------------------Context Menus----------------------
+mnuView = 看
+mnuSet = 放置
+mnuDelete = 删除
+mnu2View = 看
 --------------------Main Tab Data----------------------
 Tab_Main = 主界面
 Label_PID = PID:
