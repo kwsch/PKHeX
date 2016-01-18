@@ -348,6 +348,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\text\it\lang_it.txt" />
     <None Include="Resources\img\Pokemon Sprites\414-2.png" />
     <None Include="Resources\img\Pokemon Sprites\414-1.png" />
     <None Include="Resources\img\Trainer Sprites\tr_129.png" />
