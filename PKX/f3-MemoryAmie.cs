@@ -88,7 +88,7 @@ namespace PKHeX
 
             GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled = 
             BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = 
-            L_Fullness.Enabled = L_Enjoyment.Enabled = (!Main.pk6.IsEgg);
+            L_Fullness.Enabled = L_Enjoyment.Enabled = !Main.pk6.IsEgg;
             
             if (!Main.pk6.IsEgg)
             {
@@ -106,7 +106,7 @@ namespace PKHeX
                     enable = true;
                     GB_M_OT.Text = $"{args[4]} {Main.pk6.OT_Name} ({args[2]})"; // Memories with : OTNAME
                     GB_M_CT.Text = $"{args[4]} {Main.pk6.HT_Name}"; // Memories with : HTNAME
-                    if ((Main.pk6.HT_Name == ""))
+                    if (Main.pk6.HT_Name == "")
                     {
                         CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled = 
                         CB_Region1.Enabled = CB_Region2.Enabled = CB_Region3.Enabled = CB_Region4.Enabled = 
@@ -151,14 +151,14 @@ namespace PKHeX
 
             // Save Memories
             Main.pk6.HT_Memory = Util.getIndex(CB_CTMemory);
-            Main.pk6.HT_TextVar = (CB_CTVar.Enabled) ? Util.getIndex(CB_CTVar) : 0;
-            Main.pk6.HT_Intensity = (CB_CTFeel.Enabled) ? CB_CTQual.SelectedIndex + 1 : 0;
-            Main.pk6.HT_Feeling = (CB_CTFeel.Enabled) ? CB_CTFeel.SelectedIndex : 0;
+            Main.pk6.HT_TextVar = CB_CTVar.Enabled ? Util.getIndex(CB_CTVar) : 0;
+            Main.pk6.HT_Intensity = CB_CTFeel.Enabled ? CB_CTQual.SelectedIndex + 1 : 0;
+            Main.pk6.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
 
             Main.pk6.OT_Memory = Util.getIndex(CB_OTMemory);
-            Main.pk6.OT_TextVar = (CB_OTVar.Enabled) ? Util.getIndex(CB_OTVar) : 0;
-            Main.pk6.OT_Intensity = (CB_OTFeel.Enabled) ? CB_OTQual.SelectedIndex + 1 : 0;
-            Main.pk6.OT_Feeling = (CB_OTFeel.Enabled) ? CB_OTFeel.SelectedIndex : 0;
+            Main.pk6.OT_TextVar = CB_OTVar.Enabled ? Util.getIndex(CB_OTVar) : 0;
+            Main.pk6.OT_Intensity = CB_OTFeel.Enabled ? CB_OTQual.SelectedIndex + 1 : 0;
+            Main.pk6.OT_Feeling = CB_OTFeel.Enabled ? CB_OTFeel.SelectedIndex : 0;
         }
 
         // Event Actions
@@ -294,7 +294,7 @@ namespace PKHeX
         {
             string result;
             string nn = Main.pk6.Nickname;
-            string a = ((Util.cbItem)(arg.SelectedItem) == null) ? arg.Text ?? "ERROR" : ((Util.cbItem)(arg.SelectedItem)).Text;
+            string a = (Util.cbItem)arg.SelectedItem == null ? arg.Text ?? "ERROR" : ((Util.cbItem)arg.SelectedItem).Text;
             int mem = Util.getIndex(m);
 
             bool enabled = false;

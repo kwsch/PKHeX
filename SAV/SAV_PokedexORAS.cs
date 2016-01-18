@@ -144,23 +144,23 @@ namespace PKHeX
             if (species < 0)
                 return;
 
-            specbools[0, (species - 1)] = CHK_P1.Checked;
-            specbools[1, (species - 1)] = CHK_P2.Checked;
-            specbools[2, (species - 1)] = CHK_P3.Checked;
-            specbools[3, (species - 1)] = CHK_P4.Checked;
-            specbools[4, (species - 1)] = CHK_P5.Checked;
-            specbools[5, (species - 1)] = CHK_P6.Checked;
-            specbools[6, (species - 1)] = CHK_P7.Checked;
-            specbools[7, (species - 1)] = CHK_P8.Checked;
-            specbools[8, (species - 1)] = CHK_P9.Checked;
+            specbools[0, species - 1] = CHK_P1.Checked;
+            specbools[1, species - 1] = CHK_P2.Checked;
+            specbools[2, species - 1] = CHK_P3.Checked;
+            specbools[3, species - 1] = CHK_P4.Checked;
+            specbools[4, species - 1] = CHK_P5.Checked;
+            specbools[5, species - 1] = CHK_P6.Checked;
+            specbools[6, species - 1] = CHK_P7.Checked;
+            specbools[7, species - 1] = CHK_P8.Checked;
+            specbools[8, species - 1] = CHK_P9.Checked;
 
-            langbools[0, (species - 1)] = CHK_L1.Checked;
-            langbools[1, (species - 1)] = CHK_L2.Checked;
-            langbools[2, (species - 1)] = CHK_L3.Checked;
-            langbools[3, (species - 1)] = CHK_L4.Checked;
-            langbools[4, (species - 1)] = CHK_L5.Checked;
-            langbools[5, (species - 1)] = CHK_L6.Checked;
-            langbools[6, (species - 1)] = CHK_L7.Checked;
+            langbools[0, species - 1] = CHK_L1.Checked;
+            langbools[1, species - 1] = CHK_L2.Checked;
+            langbools[2, species - 1] = CHK_L3.Checked;
+            langbools[3, species - 1] = CHK_L4.Checked;
+            langbools[4, species - 1] = CHK_L5.Checked;
+            langbools[5, species - 1] = CHK_L6.Checked;
+            langbools[6, species - 1] = CHK_L7.Checked;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)

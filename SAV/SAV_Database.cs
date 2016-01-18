@@ -88,7 +88,7 @@ namespace PKHeX
             // Load databases
             foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
             {
-                if ((new FileInfo(file)).Extension == ".pk6")
+                if (new FileInfo(file).Extension == ".pk6")
                     Database[0].Slot.Add(new PK6(File.ReadAllBytes(file), file));
                 else
                     loadDatabase(File.ReadAllBytes(file));
@@ -561,7 +561,7 @@ namespace PKHeX
             if (Results == null)
                 for (int i = 0; i < RES_MAX; i++)
                     PKXBOXES[i].Image = null;
-            PK6[] data = (Results).Skip(start * RES_MIN).Take(RES_MAX).ToArray();
+            PK6[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
             for (int i = 0; i < data.Length; i++)
                 PKXBOXES[i].Image = data[i].Sprite;
             for (int i = data.Length; i < RES_MAX; i++)
@@ -610,7 +610,7 @@ namespace PKHeX
         private void testUnique()
         {
             var query = from db in Database
-                        select db.Slot.GroupBy(p => (p.Checksum + p.EncryptionConstant + p.Species)) // Unique criteria
+                        select db.Slot.GroupBy(p => p.Checksum + p.EncryptionConstant + p.Species) // Unique criteria
                         .Select(grp => grp.First()).ToArray();
 
             var result = query.ToArray();

@@ -64,7 +64,7 @@ namespace PKHeX
             if (!editing)
                 sav[Main.SAV.PCBackgrounds + LB_BoxSelect.SelectedIndex] = (byte)CB_BG.SelectedIndex;
 
-            string imagename = "box_wp" + (CB_BG.SelectedIndex + 1).ToString("00"); if (Main.SAV.ORAS && (CB_BG.SelectedIndex + 1) > 16) imagename += "o";
+            string imagename = "box_wp" + (CB_BG.SelectedIndex + 1).ToString("00"); if (Main.SAV.ORAS && CB_BG.SelectedIndex + 1 > 16) imagename += "o";
             PAN_BG.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
         }
     }

@@ -135,7 +135,7 @@ namespace PKHeX
             CheckBox[] echk = { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8 };
             
             foreach (ComboBox t in cba)
-                t.SelectedIndex = (t.Items.Count-1);
+                t.SelectedIndex = t.Items.Count-1;
 
             if (!s)
                 foreach (CheckBox t in echk)

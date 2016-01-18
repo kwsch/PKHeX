@@ -369,7 +369,7 @@ namespace PKHeX
         private void updateMemoryRibbon(object sender, EventArgs e)
         {
             if ((sender as MaskedTextBox).Text.Length == 0) { (sender as MaskedTextBox).Text = 0.ToString(); return; }
-            if ((sender as MaskedTextBox) == TB_PastContest)
+            if (sender as MaskedTextBox == TB_PastContest)
             {
                 var val = Util.ToInt32(TB_PastContest.Text);
                 if (val > 40) { TB_PastContest.Text = 40.ToString(); return; }

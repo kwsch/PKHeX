@@ -93,7 +93,7 @@ namespace PKHeX
                 Directory.CreateDirectory(registryValue);
                 return registryValue;
             }
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + Path.DirectorySeparatorChar + "3DSSaveBank";
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "3DSSaveBank");
             Directory.CreateDirectory(path);
             return path;
         }
@@ -101,18 +101,16 @@ namespace PKHeX
         {
             try
             {
-                string path_3DS = null;
                 string[] DriveList = Environment.GetLogicalDrives();
                 for (int i = 1; i < DriveList.Length; i++) // Skip first drive (some users still have floppy drives and would chew up time!)
                 {
                     string potentialPath = Path.Combine(DriveList[i], "Nintendo 3DS");
-                    if (!Directory.Exists(potentialPath)) continue;
-
-                    path_3DS = potentialPath; break;
+                    if (Directory.Exists(potentialPath))
+                        return potentialPath;
                 }
-                return path_3DS;
             }
-            catch { return null; }
+            catch {  }
+            return null;
         }
         internal static string GetSDFLocation()
         {
@@ -123,7 +121,7 @@ namespace PKHeX
                 string[] DriveList = Environment.GetLogicalDrives();
                 for (int i = 1; i < DriveList.Length; i++) // Skip first drive (some users still have floppy drives and would chew up time!)
                 {
-                    string potentialPath_SDF = NormalizePath(Path.Combine(DriveList[i], "filer" + Path.DirectorySeparatorChar + "UserSaveData"));
+                    string potentialPath_SDF = NormalizePath(Path.Combine(DriveList[i], "filer", "UserSaveData"));
                     if (!Directory.Exists(potentialPath_SDF)) continue;
 
                     path_SDF = potentialPath_SDF; break;
@@ -137,10 +135,10 @@ namespace PKHeX
                 // Loop through all the folders in the Nintendo 3DS folder to see if any of them contain 'title'.
                 for (int i = folders.Length - 1; i >= 0; i--)
                 {
-                    if (File.Exists(Path.Combine(folders[i], "000011c4" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c4"); // OR
-                    if (File.Exists(Path.Combine(folders[i], "000011c5" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "000011c5"); // AS
-                    if (File.Exists(Path.Combine(folders[i], "0000055d" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "0000055d"); // X
-                    if (File.Exists(Path.Combine(folders[i], "0000055e" + Path.DirectorySeparatorChar + "main"))) return Path.Combine(folders[i], "0000055e"); // Y
+                    if (File.Exists(Path.Combine(folders[i], "000011c4", "main"))) return Path.Combine(folders[i], "000011c4"); // OR
+                    if (File.Exists(Path.Combine(folders[i], "000011c5", "main"))) return Path.Combine(folders[i], "000011c5"); // AS
+                    if (File.Exists(Path.Combine(folders[i], "0000055d", "main"))) return Path.Combine(folders[i], "0000055d"); // X
+                    if (File.Exists(Path.Combine(folders[i], "0000055e", "main"))) return Path.Combine(folders[i], "0000055e"); // Y
                 }
                 return null; // Fallthrough
             }
@@ -193,31 +191,31 @@ namespace PKHeX
         internal static Random rand = new Random();
         internal static uint rnd32()
         {
-            return (uint)(rand.Next(1 << 30)) << 2 | (uint)(rand.Next(1 << 2));
+            return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
 
         // Data Retrieval
         internal static int ToInt32(string value)
         {
             value = value.Replace(" ", "");
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return 0;
             try
             {
                 value = value.TrimEnd('_');
-                return Int32.Parse(value);
+                return int.Parse(value);
             }
             catch { return 0; }
         }
         internal static uint ToUInt32(string value)
         {
             value = value.Replace(" ", "");
-            if (String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return 0;
             try
             {
                 value = value.TrimEnd('_');
-                return UInt32.Parse(value);
+                return uint.Parse(value);
             }
             catch { return 0; }
         }
@@ -258,7 +256,7 @@ namespace PKHeX
         internal static void TranslateInterface(Control form, string lang)
         {
             // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = Application.StartupPath + Path.DirectorySeparatorChar + "lang_" + lang + ".txt";
+            string externalLangPath = "lang_" + lang + ".txt";
             string[] rawlist;
             if (File.Exists(externalLangPath))
                 rawlist = File.ReadAllLines(externalLangPath);
@@ -345,19 +343,19 @@ namespace PKHeX
         internal static DialogResult Error(params string[] lines)
         {
             System.Media.SystemSounds.Exclamation.Play();
-            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
+            string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         internal static DialogResult Alert(params string[] lines)
         {
             System.Media.SystemSounds.Asterisk.Play();
-            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
+            string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
         internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
-            string msg = String.Join(Environment.NewLine + Environment.NewLine, lines);
+            string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
 

@@ -109,7 +109,7 @@ namespace PKHeX
         {
             LB_Received.Items.Clear();
             for (int i = 1; i < 2048; i++)
-                if ((((sav[Main.SAV.WondercardFlags + i / 8]) >> (i % 8)) & 0x1) == 1)
+                if (((sav[Main.SAV.WondercardFlags + i / 8] >> (i % 8)) & 0x1) == 1)
                     LB_Received.Items.Add(i.ToString("0000"));
             if (LB_Received.Items.Count > 0)
                 LB_Received.SelectedIndex = 0;
@@ -226,7 +226,7 @@ namespace PKHeX
             foreach (uint cardnum in from object card in LB_Received.Items 
                                      select card.ToString() into cardID 
                                      select Util.ToUInt32(cardID))
-                wcflags[(cardnum / 8) & 0xFF] |= (byte)(1 << ((byte)(cardnum & 0x7)));
+                wcflags[(cardnum / 8) & 0xFF] |= (byte)(1 << (byte)(cardnum & 0x7));
 
             Array.Copy(wcflags, 0, sav, offset, 0x100);
 
@@ -374,7 +374,7 @@ namespace PKHeX
             }
             else
             {
-                if (wondercard_data.SequenceEqual((new byte[wondercard_data.Length])))
+                if (wondercard_data.SequenceEqual(new byte[wondercard_data.Length]))
                 { Util.Alert("No wondercard data found in loaded slot!"); return; }
                 if (BitConverter.ToUInt16(wondercard_data, 0x68) == 726 && wondercard_data[0x51] == 1)
                 { Util.Alert("Eon Ticket Wonder Cards will not function properly", "Inject to the save file instead."); return; }

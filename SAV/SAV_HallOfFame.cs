@@ -308,7 +308,7 @@ namespace PKHeX
             if (CHK_Shiny.Checked)
                 slgf |= 1 << 14;
 
-            slgf |= (rawslgf & 0x8000);
+            slgf |= rawslgf & 0x8000;
             Array.Copy(BitConverter.GetBytes(slgf), 0, data, offset + 0x014, 2);
 
             uint nick = 0;
@@ -320,17 +320,17 @@ namespace PKHeX
 
             uint vnd = 0;
             uint date = 0;
-            vnd |= (Convert.ToUInt32(TB_VN.Text) & 0xFF);
+            vnd |= Convert.ToUInt32(TB_VN.Text) & 0xFF;
             date |= (uint)((CAL_MetDate.Value.Year - 2000) & 0xFF);
             date |= (uint)((CAL_MetDate.Value.Month & 0xF) << 8);
             date |= (uint)((CAL_MetDate.Value.Day & 0x1F) << 12);
-            vnd |= ((date & 0x1FFFF) << 14);
+            vnd |= (date & 0x1FFFF) << 14;
             //Fix for top bit
             uint rawvnd = BitConverter.ToUInt32(data, offset + 0x1B0);
-            vnd |= (rawvnd & 0x80000000);
+            vnd |= rawvnd & 0x80000000;
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            bpkx.Image = PKX.getSprite(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), PKX.getGender(Label_Gender.Text), Util.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = PKX.getSprite(Util.getIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.getGender(Label_Gender.Text), Util.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
             displayEntry(null, null); // refresh text view
         }
         private void Validate_TextBoxes()
@@ -369,7 +369,7 @@ namespace PKHeX
         {
             if (!editing)
                 return; //Don't do writing until loaded
-            bpkx.Image = PKX.getSprite(Util.getIndex(CB_Species), (CB_Form.SelectedIndex & 0x1F), PKX.getGender(Label_Gender.Text), Util.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = PKX.getSprite(Util.getIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.getGender(Label_Gender.Text), Util.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
 
             Write_Entry(null, null);
         }

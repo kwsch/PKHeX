@@ -115,7 +115,7 @@ namespace PKHeX
         public int IV_SPA { get { return (int)(IV32 >> 20) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); } }
         public int IV_SPD { get { return (int)(IV32 >> 25) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); } }
         public bool IsEgg { get { return ((IV32 >> 30) & 1) == 1; } set { IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); } }
-        public bool IsNicknamed { get { return ((IV32 >> 31) & 1) == 1; } set { IV32 = ((IV32 & 0x7FFFFFFF) | (value ? 0x80000000 : 0)); } }
+        public bool IsNicknamed { get { return ((IV32 >> 31) & 1) == 1; } set { IV32 = (IV32 & 0x7FFFFFFF) | (value ? 0x80000000 : 0); } }
 
         private byte RIB4 { get { return Data[0x3C]; } set { Data[0x3C] = value; } } // Hoenn 1a
         public bool RIB4_0 { get { return (RIB4 & (1 << 0)) == 1 << 0; } set { RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } //	Cool Ribbon
@@ -519,54 +519,54 @@ namespace PKHeX
             // Copy Ribbons to their new locations.
             int bx30 = 0;
             // bx30 |= 0;                             // Kalos Champ - New Kalos Ribbon
-            bx30 |= (((Data[0x3E] & 0x10) >> 4) << 1); // Hoenn Champion
-            bx30 |= (((Data[0x24] & 0x01) >> 0) << 2); // Sinnoh Champ
+            bx30 |= ((Data[0x3E] & 0x10) >> 4) << 1; // Hoenn Champion
+            bx30 |= ((Data[0x24] & 0x01) >> 0) << 2; // Sinnoh Champ
             // bx30 |= 0;                             // Best Friend - New Kalos Ribbon
             // bx30 |= 0;                             // Training    - New Kalos Ribbon
             // bx30 |= 0;                             // Skillful    - New Kalos Ribbon
             // bx30 |= 0;                             // Expert      - New Kalos Ribbon
-            bx30 |= (((Data[0x3F] & 0x01) >> 0) << 7); // Effort Ribbon
+            bx30 |= ((Data[0x3F] & 0x01) >> 0) << 7; // Effort Ribbon
             pk6.Data[0x30] = (byte)bx30;
 
             int bx31 = 0;
-            bx31 |= (((Data[0x24] & 0x80) >> 7) << 0);  // Alert
-            bx31 |= (((Data[0x25] & 0x01) >> 0) << 1);  // Shock
-            bx31 |= (((Data[0x25] & 0x02) >> 1) << 2);  // Downcast
-            bx31 |= (((Data[0x25] & 0x04) >> 2) << 3);  // Careless
-            bx31 |= (((Data[0x25] & 0x08) >> 3) << 4);  // Relax
-            bx31 |= (((Data[0x25] & 0x10) >> 4) << 5);  // Snooze
-            bx31 |= (((Data[0x25] & 0x20) >> 5) << 6);  // Smile
-            bx31 |= (((Data[0x25] & 0x40) >> 6) << 7);  // Gorgeous
+            bx31 |= ((Data[0x24] & 0x80) >> 7) << 0;  // Alert
+            bx31 |= ((Data[0x25] & 0x01) >> 0) << 1;  // Shock
+            bx31 |= ((Data[0x25] & 0x02) >> 1) << 2;  // Downcast
+            bx31 |= ((Data[0x25] & 0x04) >> 2) << 3;  // Careless
+            bx31 |= ((Data[0x25] & 0x08) >> 3) << 4;  // Relax
+            bx31 |= ((Data[0x25] & 0x10) >> 4) << 5;  // Snooze
+            bx31 |= ((Data[0x25] & 0x20) >> 5) << 6;  // Smile
+            bx31 |= ((Data[0x25] & 0x40) >> 6) << 7;  // Gorgeous
             pk6.Data[0x31] = (byte)bx31;
 
             int bx32 = 0;
-            bx32 |= (((Data[0x25] & 0x80) >> 7) << 0);  // Royal
-            bx32 |= (((Data[0x26] & 0x01) >> 0) << 1);  // Gorgeous Royal
-            bx32 |= (((Data[0x3E] & 0x80) >> 7) << 2);  // Artist
-            bx32 |= (((Data[0x26] & 0x02) >> 1) << 3);  // Footprint
-            bx32 |= (((Data[0x26] & 0x04) >> 2) << 4);  // Record
-            bx32 |= (((Data[0x26] & 0x10) >> 4) << 5);  // Legend
-            bx32 |= (((Data[0x3F] & 0x10) >> 4) << 6);  // Country
-            bx32 |= (((Data[0x3F] & 0x20) >> 5) << 7);  // National
+            bx32 |= ((Data[0x25] & 0x80) >> 7) << 0;  // Royal
+            bx32 |= ((Data[0x26] & 0x01) >> 0) << 1;  // Gorgeous Royal
+            bx32 |= ((Data[0x3E] & 0x80) >> 7) << 2;  // Artist
+            bx32 |= ((Data[0x26] & 0x02) >> 1) << 3;  // Footprint
+            bx32 |= ((Data[0x26] & 0x04) >> 2) << 4;  // Record
+            bx32 |= ((Data[0x26] & 0x10) >> 4) << 5;  // Legend
+            bx32 |= ((Data[0x3F] & 0x10) >> 4) << 6;  // Country
+            bx32 |= ((Data[0x3F] & 0x20) >> 5) << 7;  // National
             pk6.Data[0x32] = (byte)bx32;
 
             int bx33 = 0;
-            bx33 |= (((Data[0x3F] & 0x40) >> 6) << 0);  // Earth
-            bx33 |= (((Data[0x3F] & 0x80) >> 7) << 1);  // World
-            bx33 |= (((Data[0x27] & 0x04) >> 2) << 2);  // Classic
-            bx33 |= (((Data[0x27] & 0x08) >> 3) << 3);  // Premier
-            bx33 |= (((Data[0x26] & 0x08) >> 3) << 4);  // Event
-            bx33 |= (((Data[0x26] & 0x40) >> 6) << 5);  // Birthday
-            bx33 |= (((Data[0x26] & 0x80) >> 7) << 6);  // Special
-            bx33 |= (((Data[0x27] & 0x01) >> 0) << 7);  // Souvenir
+            bx33 |= ((Data[0x3F] & 0x40) >> 6) << 0;  // Earth
+            bx33 |= ((Data[0x3F] & 0x80) >> 7) << 1;  // World
+            bx33 |= ((Data[0x27] & 0x04) >> 2) << 2;  // Classic
+            bx33 |= ((Data[0x27] & 0x08) >> 3) << 3;  // Premier
+            bx33 |= ((Data[0x26] & 0x08) >> 3) << 4;  // Event
+            bx33 |= ((Data[0x26] & 0x40) >> 6) << 5;  // Birthday
+            bx33 |= ((Data[0x26] & 0x80) >> 7) << 6;  // Special
+            bx33 |= ((Data[0x27] & 0x01) >> 0) << 7;  // Souvenir
             pk6.Data[0x33] = (byte)bx33;
 
             int bx34 = 0;
-            bx34 |= (((Data[0x27] & 0x02) >> 1) << 0);  // Wishing Ribbon
-            bx34 |= (((Data[0x3F] & 0x02) >> 1) << 1);  // Battle Champion
-            bx34 |= (((Data[0x3F] & 0x04) >> 2) << 2);  // Regional Champion
-            bx34 |= (((Data[0x3F] & 0x08) >> 3) << 3);  // National Champion
-            bx34 |= (((Data[0x26] & 0x20) >> 5) << 4);  // World Champion
+            bx34 |= ((Data[0x27] & 0x02) >> 1) << 0;  // Wishing Ribbon
+            bx34 |= ((Data[0x3F] & 0x02) >> 1) << 1;  // Battle Champion
+            bx34 |= ((Data[0x3F] & 0x04) >> 2) << 2;  // Regional Champion
+            bx34 |= ((Data[0x3F] & 0x08) >> 3) << 3;  // National Champion
+            bx34 |= ((Data[0x26] & 0x20) >> 5) << 4;  // World Champion
             pk6.Data[0x34] = (byte)bx34;
             
             // Write Transfer Location - location is dependent on 3DS system that transfers.

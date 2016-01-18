@@ -46,7 +46,7 @@ namespace PKHeX
                 newdata = new byte[0xE8];
                 Array.Copy(Main.SAV.Data,
                     Main.SAV.Box                   // Box Offset
-                        + CB_Box.SelectedIndex * (232 * 30) // Box Shift
+                        + CB_Box.SelectedIndex*232*30 // Box Shift
                         + CB_Slot.SelectedIndex * 232,      // Slot Shift
                     newdata, 0, 0xE8);
 
@@ -132,7 +132,7 @@ namespace PKHeX
             // Gotta read in the textbox.
             if (RTB_Code.Text.Length < 1) return;
 
-            byte[] ncf = new byte[4 + (RTB_Code.Lines.Count()-1) * (3 * 4)];
+            byte[] ncf = new byte[4 + (RTB_Code.Lines.Count()-1)*3*4];
             Array.Copy(BitConverter.GetBytes(ncf.Length - 4), ncf, 4);
 
             for (int i = 0; i < RTB_Code.Lines.Count()-1; i++)
@@ -194,20 +194,20 @@ namespace PKHeX
             for (int i = 0; i < newcyber.Length - 0x200; i += 4)
             {
                 // Skip Party and Boxes
-                if (i == 0x14200) i += (260 * 6 + 4); // +4 to skip over party count
-                if (i == boxoffset) i += (232 * 30 * 31);
+                if (i == 0x14200) i += 260 * 6 + 4; // +4 to skip over party count
+                if (i == boxoffset) i += 232 * 30 * 31;
                 if (BitConverter.ToUInt32(cybersav, i) == BitConverter.ToUInt32(newcyber, i)) continue;
 
-                result += ((0x20000000 + i).ToString("X8") + " ");
-                result += (BitConverter.ToUInt32(newcyber, i).ToString("X8") + Environment.NewLine);
+                result += (0x20000000 + i).ToString("X8") + " ";
+                result += BitConverter.ToUInt32(newcyber, i).ToString("X8") + Environment.NewLine;
 
                 lines++;
                 if ((lines % 128 == 0) && CHK_Break.Checked)
                 {
                     result +=
-                        (Environment.NewLine +
-                         "--- Segment " + (lines / 128 + 1) + " ---" +
-                         Environment.NewLine + Environment.NewLine);
+                        Environment.NewLine +
+                        "--- Segment " + (lines / 128 + 1) + " ---" +
+                        Environment.NewLine + Environment.NewLine;
                 }
                 if (lines > 10000) goto toomany;
             }
@@ -221,16 +221,16 @@ namespace PKHeX
 
                 for (int z = 0; z < newdata.Length; z += 4)
                 {
-                    result += ((0x20000000 + i + z).ToString("X8") + " ");
-                    result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine);
+                    result += (0x20000000 + i + z).ToString("X8") + " ";
+                    result += BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine;
 
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
                     {
                         result +=
-                            (Environment.NewLine +
-                             "--- Segment " + (lines / 128 + 1) + " ---" +
-                             Environment.NewLine + Environment.NewLine);
+                            Environment.NewLine +
+                            "--- Segment " + (lines / 128 + 1) + " ---" +
+                            Environment.NewLine + Environment.NewLine;
                     }
                     if (lines > 10000) goto toomany;
                 }
@@ -239,22 +239,22 @@ namespace PKHeX
             // Fix Party Count if Necessary
             if (cybersav[0x14818] != newcyber[0x14818])
             {
-                result += ((0x00000000 + 0x14818).ToString("X8") + " ");
-                result += (newcyber[0x14818].ToString("X8") + Environment.NewLine);
+                result += (0x00000000 + 0x14818).ToString("X8") + " ";
+                result += newcyber[0x14818].ToString("X8") + Environment.NewLine;
 
                 lines++;
                 if ((lines % 128 == 0) && CHK_Break.Checked)
                 {
                     result +=
-                        (Environment.NewLine +
-                         "--- Segment " + (lines / 128 + 1) + " ---" +
-                         Environment.NewLine + Environment.NewLine);
+                        Environment.NewLine +
+                        "--- Segment " + (lines / 128 + 1) + " ---" +
+                        Environment.NewLine + Environment.NewLine;
                 }
                 if (lines > 10000) goto toomany;
             }
 
             // Loop Through Boxes
-            for (int i = boxoffset; i < boxoffset + (232 * 30 * 31); i += 232)
+            for (int i = boxoffset; i < boxoffset + 232 * 30 * 31; i += 232)
             {
                 byte[] newdata = new byte[232]; Array.Copy(newcyber, i, newdata, 0, 232);
                 byte[] olddata = new byte[232]; Array.Copy(cybersav, i, olddata, 0, 232);
@@ -262,16 +262,16 @@ namespace PKHeX
 
                 for (int z = 0; z < newdata.Length; z += 4)
                 {
-                    result += ((0x20000000 + i + z).ToString("X8") + " ");
-                    result += (BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine);
+                    result += (0x20000000 + i + z).ToString("X8") + " ";
+                    result += BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine;
 
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
                     {
                         result +=
-                            (Environment.NewLine +
-                             "--- Segment " + (lines / 128 + 1) + " ---" +
-                             Environment.NewLine + Environment.NewLine);
+                            Environment.NewLine +
+                            "--- Segment " + (lines / 128 + 1) + " ---" +
+                            Environment.NewLine + Environment.NewLine;
                     }
                     if (lines > 10000) goto toomany;
                 }
@@ -279,7 +279,7 @@ namespace PKHeX
 
             if ((lines / 128 > 0) && CHK_Break.Checked)
             {
-                Util.Alert($"{(1 + (lines/128))} Code Segments.",
+                Util.Alert($"{1 + lines/128} Code Segments.",
                     $"{lines} Lines.");
             }
             RTB_Code.Text = result;

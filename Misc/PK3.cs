@@ -48,7 +48,7 @@ namespace PKHeX
         public ushort Sanity { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1E); } }
 
         #region Block A
-        public int Species { get { return PKM.getG4Species(BitConverter.ToUInt16(Data, 0x20)); } set { BitConverter.GetBytes((ushort)(PKM.getG3Species(value))).CopyTo(Data, 0x20); } }
+        public int Species { get { return PKM.getG4Species(BitConverter.ToUInt16(Data, 0x20)); } set { BitConverter.GetBytes((ushort)PKM.getG3Species(value)).CopyTo(Data, 0x20); } }
         public ushort HeldItem { get { return BitConverter.ToUInt16(Data, 0x22); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x22); } }
         public uint EXP { get { return BitConverter.ToUInt32(Data, 0x24); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x24); } }
         private byte PPUps { get { return Data[0x28]; } set { Data[0x28] = value; } }
@@ -105,7 +105,7 @@ namespace PKHeX
         public int IV_SPA { get { return (int)(IV32 >> 20) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); } }
         public int IV_SPD { get { return (int)(IV32 >> 25) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); } }
         public bool IsEgg { get { return ((IV32 >> 30) & 1) == 1; } set { IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); } }
-        public int Ability { get { return (int)((IV32 >> 31) & 1); } set { IV32 = ((IV32 & 0x7FFFFFFF) | (value == 1 ? 0x80000000 : 0)); } }
+        public int Ability { get { return (int)((IV32 >> 31) & 1); } set { IV32 = (IV32 & 0x7FFFFFFF) | (value == 1 ? 0x80000000 : 0); } }
 
         private uint RIB0 { get { return BitConverter.ToUInt32(Data, 0x4C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4C); } }
         public int Cool_Ribbons  { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7)); } }
@@ -129,7 +129,7 @@ namespace PKHeX
         public bool Unused2 { get { return (RIB0 & (1 << 28)) == 1 << 28; } set { RIB0 = (uint)(RIB0 & ~(1 << 28) | (uint)(value ? 1 << 0 : 0)); } }
         public bool Unused3 { get { return (RIB0 & (1 << 29)) == 1 << 29; } set { RIB0 = (uint)(RIB0 & ~(1 << 29) | (uint)(value ? 1 << 0 : 0)); } }
         public bool Unused4 { get { return (RIB0 & (1 << 30)) == 1 << 30; } set { RIB0 = (uint)(RIB0 & ~(1 << 30) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Obedience { get { return (RIB0 & (1 << 31)) == 1 << 31; } set { RIB0 = ((RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool Obedience { get { return (RIB0 & (1 << 31)) == 1 << 31; } set { RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 0 : 0); } }
         #endregion
 
         // Simple Generated Attributes

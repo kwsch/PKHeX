@@ -69,7 +69,7 @@ namespace PKHeX
         }
         internal static byte[] getRAM(byte[] ramsav, byte[] main)
         {
-            bool oras = (main.Length > 0x65600);
+            bool oras = main.Length > 0x65600;
             byte[] newram = new byte[ramsav.Length];
             Array.Copy(ramsav, newram, ramsav.Length);
             uint[] offsets;
@@ -125,13 +125,13 @@ namespace PKHeX
 
             int ofs = (int)start;
             int times = 0;
-            uint v = (BitConverter.ToUInt32(data, ofs));
+            uint v = BitConverter.ToUInt32(data, ofs);
             while ((v != val || times != instances) && ofs + 4 < data.Length)
             {
                 ofs++;
                 if (v == val)
                     times++;
-                v = (BitConverter.ToUInt32(data, ofs));
+                v = BitConverter.ToUInt32(data, ofs);
             }
             if (ofs + 4 != data.Length) return ofs + 4;
             Console.WriteLine("Failed to find " + val.ToString("X8"));

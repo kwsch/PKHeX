@@ -124,7 +124,7 @@ namespace PKHeX
             BoxBar.Step = 1;
             for (int BoxNum = 0; BoxNum < 31; BoxNum++)
             {
-                int boxoffset = BoxDataOffset + BoxNum * (0xE8 * 30);
+                int boxoffset = BoxDataOffset + BoxNum*0xE8*30;
                 for (int SlotNum = 0; SlotNum < 30; SlotNum++)
                 {
                     BoxBar.PerformStep();

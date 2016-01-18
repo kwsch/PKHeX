@@ -207,7 +207,7 @@ namespace PKHeX
         }
         public bool ORASDEMO => Data.Length == SIZE_ORASDEMO;
         public bool ORAS => !ORASDEMO && (Version == GameVersion.OR || Version == GameVersion.AS);
-        public bool XY => (Version == GameVersion.X || Version == GameVersion.Y);
+        public bool XY => Version == GameVersion.X || Version == GameVersion.Y;
 
         // Save Information
         private int BlockInfoOffset;
@@ -233,7 +233,7 @@ namespace PKHeX
                 };
 
                 // Expand out to nearest 0x200
-                CurrentPosition += (Blocks[i].Length % 0x200 == 0) ? Blocks[i].Length : (0x200 - Blocks[i].Length % 0x200 + Blocks[i].Length);
+                CurrentPosition += Blocks[i].Length % 0x200 == 0 ? Blocks[i].Length : 0x200 - Blocks[i].Length % 0x200 + Blocks[i].Length;
 
                 if ((Blocks[i].ID != 0) || i == 0) continue;
                 count = i;
@@ -594,17 +594,17 @@ namespace PKHeX
             bool[] chk =
             {
                 // Flag Regions (base index 1 to reference Wiki and editor)
-                (Data[PokeDex + 0x60*(5) + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
-                (Data[PokeDex + 0x60*(6) + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
-                (Data[PokeDex + 0x60*(7) + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
-                (Data[PokeDex + 0x60*(8) + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
+                (Data[PokeDex + 0x60*5 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
+                (Data[PokeDex + 0x60*6 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
+                (Data[PokeDex + 0x60*7 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
+                (Data[PokeDex + 0x60*8 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
             };
             if (!chk.Contains(true)) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
-                Data[PokeDex + shiftoff + 0x60 * (4) + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+                Data[PokeDex + shiftoff + 0x60 * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
 
             // Set the Language
             if (lang < 0) lang = 1;
-            Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << (((bit * 7) + lang) % 8));
+            Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
 
             // Set DexNav count (only if not encountered previously)
             if (ORAS && getEncounterCount(pk6.Species - 1) == 0)
@@ -629,7 +629,7 @@ namespace PKHeX
                 byte[] decdata = decryptArray(data);
                 int species = BitConverter.ToInt16(decdata, 8);
                 if ((species != 0) && (species < 722))
-                    Array.Copy(data, 0, Data, Party + (partymembers++) * PK6.SIZE_PARTY, PK6.SIZE_PARTY);
+                    Array.Copy(data, 0, Data, Party + partymembers++ * PK6.SIZE_PARTY, PK6.SIZE_PARTY);
             }
 
             // Write in the current party count
@@ -637,7 +637,7 @@ namespace PKHeX
             // Zero out the party slots that are empty.
             for (int i = 0; i < 6; i++)
                 if (i >= partymembers)
-                    Array.Copy(encryptArray(new byte[PK6.SIZE_PARTY]), 0, Data, Party + (i * PK6.SIZE_PARTY), PK6.SIZE_PARTY);
+                    Array.Copy(encryptArray(new byte[PK6.SIZE_PARTY]), 0, Data, Party + i * PK6.SIZE_PARTY, PK6.SIZE_PARTY);
 
             if (BattleBox < 0)
                 return;
@@ -651,13 +651,13 @@ namespace PKHeX
                 byte[] decdata = decryptArray(data);
                 int species = BitConverter.ToInt16(decdata, 8);
                 if ((species != 0) && (species < 722))
-                    Array.Copy(data, 0, Data, BattleBox + (battlemem++) * PK6.SIZE_STORED, PK6.SIZE_STORED);
+                    Array.Copy(data, 0, Data, BattleBox + battlemem++ * PK6.SIZE_STORED, PK6.SIZE_STORED);
             }
 
             // Zero out the party slots that are empty.
             for (int i = 0; i < 6; i++)
                 if (i >= battlemem)
-                    Array.Copy(encryptArray(new byte[PK6.SIZE_PARTY]), 0, Data, BattleBox + (i * PK6.SIZE_STORED), PK6.SIZE_STORED);
+                    Array.Copy(encryptArray(new byte[PK6.SIZE_PARTY]), 0, Data, BattleBox + i * PK6.SIZE_STORED, PK6.SIZE_STORED);
 
             BattleBoxLocked &= battlemem != 0;
         }
@@ -728,7 +728,7 @@ namespace PKHeX
                 if (value[0].Species == 0)
                     throw new ArgumentException("Can't have an empty first slot." + value.Length);
 
-                PK6[] newParty = value.Where(pk => (pk.Species != 0)).ToArray();
+                PK6[] newParty = value.Where(pk => pk.Species != 0).ToArray();
                 
                 PartyCount = newParty.Length;
                 Array.Resize(ref newParty, 6);

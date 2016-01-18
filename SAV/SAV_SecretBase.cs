@@ -223,7 +223,7 @@ namespace PKHeX
 
         private void changeObjectIndex(object sender, EventArgs e)
         {
-            int objindex = (int)(NUD_FObject.Value) - 1;
+            int objindex = (int)NUD_FObject.Value - 1;
             byte[] objinfo = new byte[12];
             for (int i = 0; i < 12; i++)
                 objinfo[i] = objdata[objindex, i];
@@ -280,21 +280,21 @@ namespace PKHeX
             Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_EC.Text)), 0, pkm, 0, 4);  // EC
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Species)), 0, pkm, 8, 2);
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_HeldItem)), 0, pkm, 0xA, 2);
-            pkm[0xC] = (byte)Array.IndexOf(abilitylist, (CB_Ability.Text).Remove((CB_Ability.Text).Length - 4)); // Ability
+            pkm[0xC] = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4)); // Ability
             pkm[0xD] = (byte)(CB_Ability.SelectedIndex << 1);   // Number
             pkm[0x14] = (byte)Util.getIndex(CB_Nature);
 
             int fegform = 0;
             fegform += PKX.getGender(Label_Gender.Text) << 1;                         // Gender
-            fegform += ((Util.getIndex(CB_Form)) * 8);
+            fegform += Util.getIndex(CB_Form) << 3;
             pkm[0x15] = (byte)fegform;
 
-            pkm[0x16] = (byte)(Math.Min(Convert.ToInt32( TB_HPEV.Text), 252));
-            pkm[0x17] = (byte)(Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252));
-            pkm[0x18] = (byte)(Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252));
-            pkm[0x19] = (byte)(Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252));
-            pkm[0x1A] = (byte)(Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252));
-            pkm[0x1B] = (byte)(Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252));
+            pkm[0x16] = (byte)Math.Min(Convert.ToInt32( TB_HPEV.Text), 252);
+            pkm[0x17] = (byte)Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
+            pkm[0x18] = (byte)Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252);
+            pkm[0x19] = (byte)Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252);
+            pkm[0x1A] = (byte)Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252);
+            pkm[0x1B] = (byte)Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252);
 
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move1)), 0, pkm, 0x1C, 2);
             Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move2)), 0, pkm, 0x1E, 2);

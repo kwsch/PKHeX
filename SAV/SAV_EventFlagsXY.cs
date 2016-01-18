@@ -132,7 +132,7 @@ namespace PKHeX
 
         private void toggleFlag(object sender, EventArgs e)
         {
-            flags[getFlagNum((CheckBox)(sender))] = ((CheckBox)(sender)).Checked;
+            flags[getFlagNum((CheckBox)sender)] = ((CheckBox)sender).Checked;
             changeCustomFlag(sender, e);
         }
 
@@ -154,9 +154,9 @@ namespace PKHeX
             {
                 if (oldBits[i] == newBits[i]) continue;
                 if (newBits[i])
-                    tbIsSet += (i.ToString("0000") + ",");
+                    tbIsSet += i.ToString("0000") + ",";
                 else
-                    tbUnSet += (i.ToString("0000") + ",");
+                    tbUnSet += i.ToString("0000") + ",";
             }
             TB_IsSet.Text = tbIsSet;
             TB_UnSet.Text = tbUnSet;
@@ -193,7 +193,7 @@ namespace PKHeX
         private void changeConstantIndex(object sender, EventArgs e)
         {
             if (entry > -1) // Set Entry
-                Constants[entry] = (ushort)(Math.Min(Util.ToUInt32(MT_Stat.Text), 0xFFFF));
+                Constants[entry] = (ushort)Math.Min(Util.ToUInt32(MT_Stat.Text), 0xFFFF);
 
             entry = CB_Stats.SelectedIndex; // Get Entry
             MT_Stat.Text = Constants[entry].ToString();
@@ -206,7 +206,7 @@ namespace PKHeX
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            loadSAV((Util.Prompt(MessageBoxButtons.YesNo, "FlagDiff Researcher:", "Yes: Old Save" + Environment.NewLine + "No: New Save") == DialogResult.Yes) ? B_LoadOld : B_LoadNew, files[0]);
+            loadSAV(Util.Prompt(MessageBoxButtons.YesNo, "FlagDiff Researcher:", "Yes: Old Save" + Environment.NewLine + "No: New Save") == DialogResult.Yes ? B_LoadOld : B_LoadNew, files[0]);
         }
     }
 }

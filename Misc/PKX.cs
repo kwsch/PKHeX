@@ -165,7 +165,7 @@ namespace PKHeX
         // Stat Fetching
         internal static int getMovePP(int move, int ppup)
         {
-            return (getBasePP(move) * (5 + ppup) / 5);
+            return getBasePP(move) * (5 + ppup) / 5;
         }
         internal static int getBasePP(int move)
         {
@@ -248,7 +248,7 @@ namespace PKHeX
         {
             uint PSV = getPSV(PID);
             uint TSV = getTSV(TID, SID);
-            return (TSV == PSV);
+            return TSV == PSV;
         }
         internal static uint getEXP(int level, int species)
         {
@@ -535,7 +535,7 @@ namespace PKHeX
                 for (int i = 32; i < 80; i += 2)
                     checksum += BitConverter.ToUInt16(input, i);
 
-                return (checksum == BitConverter.ToUInt16(input, 28));
+                return checksum == BitConverter.ToUInt16(input, 28);
             }
             {
                 if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
@@ -548,7 +548,7 @@ namespace PKHeX
                 for (int i = 8; i < input.Length; i += 2)
                     chk += BitConverter.ToUInt16(input, i);
 
-                return (chk == BitConverter.ToUInt16(input, 0x6));
+                return chk == BitConverter.ToUInt16(input, 0x6);
             }
         }
         internal static uint getPSV(uint PID)
@@ -626,7 +626,7 @@ namespace PKHeX
                 BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
                 Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
 
-                CurrentPosition += (Lengths[i] % 0x200 == 0) ? Lengths[i] : (0x200 - Lengths[i] % 0x200 + Lengths[i]);
+                CurrentPosition += Lengths[i] % 0x200 == 0 ? Lengths[i] : 0x200 - Lengths[i] % 0x200 + Lengths[i];
 
                 if ((BlockIDs[i] != 0) || i == 0) continue;
                 count = i;
@@ -688,7 +688,7 @@ namespace PKHeX
                 rv += $"Invalid: {i.ToString("X2")} @ Region {Start[i].ToString("X5") + Environment.NewLine}";
             }
             // Return Outputs
-            rv += $"SAV: {(count - invalid)}/{count + Environment.NewLine}";
+            rv += $"SAV: {count - invalid}/{count + Environment.NewLine}";
             return rv;
         }
         /// <summary>Fix checksums in the input save file.</summary>
@@ -1137,7 +1137,7 @@ namespace PKHeX
         /// <returns>Hidden Power Type</returns>
         internal static int getHPType(int[] ivs)
         {
-            return (15 * ((ivs[0] & 1) + 2 * (ivs[1] & 1) + 4 * (ivs[2] & 1) + 8 * (ivs[3] & 1) + 16 * (ivs[4] & 1) + 32 * (ivs[5] & 1))) / 63;
+            return 15 * ((ivs[0] & 1) + 2 * (ivs[1] & 1) + 4 * (ivs[2] & 1) + 8 * (ivs[3] & 1) + 16 * (ivs[4] & 1) + 32 * (ivs[5] & 1)) / 63;
         }
         internal static int[] setHPIVs(int type, int[] ivs)
         {
@@ -1365,7 +1365,7 @@ namespace PKHeX
                     return "";
 
                 // First Line: Name, Nickname, Gender, Item
-                string result = String.Format(((species[Species] != Nickname) ? "{0} ({1})" : "{1}"), Nickname,
+                string result = String.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
                     species[Species] + ((Form ?? "") != "" ? "-" + Form : "")) // Species (& Form if necessary)
                                 + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
