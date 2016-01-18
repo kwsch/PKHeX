@@ -298,6 +298,9 @@ namespace PKHeX
             CB_Generation.SelectedIndex = 0;
 
             MT_ESV.Visible = L_ESV.Visible = false;
+
+            if (sender != null)
+                System.Media.SystemSounds.Asterisk.Play();
         }
         private void generateDBReport(object sender, EventArgs e)
         {
