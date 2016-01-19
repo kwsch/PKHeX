@@ -422,6 +422,10 @@ namespace PKHeX
             }
         }
 
+        public uint AdventureStart { get { return BitConverter.ToUInt32(Data, PlayTime + 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); } }
+        public uint AdventureStartYear { get { return AdventureStart & 0xFFF; } set { AdventureStart = AdventureStart & 0xFFFFF000 | value; } }
+        public uint AdventureStartMonth { get { return AdventureStart >> 12 & 0xF; } set { AdventureStart = AdventureStart & 0xFFFF0FFF | (value & 0xF) << 12; } }
+        public uint AdventureStartDay { get { return AdventureStart >> 16 & 0xF; } set { AdventureStart = AdventureStart & 0xFFF0FFFF | (value & 0xF) << 16; } }
         public int PlayedHours{ 
             get { return BitConverter.ToUInt16(Data, PlayTime); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime); } 
