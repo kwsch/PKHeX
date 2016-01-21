@@ -36,10 +36,10 @@ namespace PKHeX
                 GB_Appear.Visible = false;
             }
             editing = true;
+            GB_Map.Enabled = Main.ramsav == null;
             getComboBoxes();
             getTextBoxes();
             getBadges();
-            GB_Map.Enabled = Main.ramsav == null;
 
             statdata = new[] {
                 "0x000",	"0x000", // Steps taken?
@@ -392,9 +392,16 @@ namespace PKHeX
                 MaisonRecords[i].Text = SAV.getMaisonStat(i).ToString();
 
             NUD_M.Value = SAV.M;
-            NUD_X.Value = (decimal)SAV.X;
-            NUD_Z.Value = (decimal)SAV.Z;
-            NUD_Y.Value = (decimal)SAV.Y;
+            // Sanity Check Map Coordinates
+            if (!GB_Map.Enabled || SAV.X%0.5 != 0 || SAV.Z%0.5 != 0 || SAV.Y%0.5 != 0)
+                GB_Map.Enabled = false;
+            else try
+            {
+                NUD_X.Value = (decimal)SAV.X;
+                NUD_Z.Value = (decimal)SAV.Z;
+                NUD_Y.Value = (decimal)SAV.Y;
+            }
+            catch { GB_Map.Enabled = false; }
 
             // Load BP and PokeMiles
             TB_BP.Text = SAV.BP.ToString();
@@ -468,10 +475,13 @@ namespace PKHeX
                 SAV.setMaisonStat(i, UInt16.Parse(MaisonRecords[i].Text));
 
             // Copy Position
-            SAV.M = (int)NUD_M.Value;
-            SAV.X = (float)NUD_X.Value;
-            SAV.Z = (float)NUD_Z.Value;
-            SAV.Y = (float)NUD_Y.Value;
+            if (GB_Map.Enabled)
+            {
+                SAV.M = (int)NUD_M.Value;
+                SAV.X = (float)NUD_X.Value;
+                SAV.Z = (float)NUD_Z.Value;
+                SAV.Y = (float)NUD_Y.Value;
+            }
 
             SAV.BP = UInt16.Parse(TB_BP.Text);
             // Set Current PokéMiles
