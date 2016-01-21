@@ -679,16 +679,17 @@ L_PPUps = PPUps
 ! SAV_Trainer = Trainer Data Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
-GB_Misc = Misc
+Tab_Multiplayer = Multiplayer
 L_MultiplayerSprite = Multiplayer Sprite:
 L_Style = Style:
+Tab_BadgeMap = Badges/Map
 GB_Map = Map Position
-L_Y = Y Coordinate:
 L_CurrentMap = Current Map:
-L_Z = Z Coordinate:
 L_X = X Coordinate:
+L_Z = Z Coordinate:
+L_Y = Y Coordinate:
 L_Offset = (offset)
-GB_Appear = Current Appearance (X/Y)
+Tab_Appearance = Current Appearance (X/Y)
 L_Outfit = Outfit Vals
 B_GiveAccessories = Give All Accessories
 L_Dress = Dress:
@@ -711,7 +712,7 @@ L_TriplesC = Triples:
 L_DoublesC = Doubles:
 L_SinglesC = Singles:
 GB_MaisonBest = Maison Streaks (Best)
-GB_SuperB = Super
+L_SuperB = Super
 L_NormalB = Normal
 L_MultiB = Multi:
 L_RotationB = Rotation:
@@ -721,7 +722,7 @@ L_SinglesB = Singles:
 B_Save = Save
 L_Stats = Stats
 B_Cancel = Cancel
-GB_Overview = Overview
+Tab_Overview = Overview
 L_Seconds = Sec:
 L_Minutes = Min:
 L_Hours = Hrs:
@@ -743,15 +744,6 @@ L_Saying2 = 2:
 L_Saying3 = 3:
 L_Saying4 = 4:
 L_Saying5 = 5:
-GB_Badges = Badges
-cb1 = 1 - Bug
-cb2 = 2 - Cliff
-cb3 = 3 - Rumble
-cb4 = 4 - Plant
-cb5 = 5 - Voltage
-cb6 = 6 - Fairy
-cb7 = 7 - Psychic
-cb8 = 8 - Iceberg
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.

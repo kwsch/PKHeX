@@ -679,16 +679,17 @@ L_PPUps = PPUps
 ! SAV_Trainer = Trainer Data Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
-GB_Misc = Misc
+GB_Multiplayer = Multiplayer
 L_MultiplayerSprite = Sprite em Multiplayer:
 L_Style = Estilo:
+Tab_BadgeMap = Crachás/Mapa
 GB_Map = Posição no Mapa
-L_Y = Cordenada Y:
 L_CurrentMap = Mapa Actual:
-L_Z = Cordenada Z:
 L_X = Cordenada X:
+L_Z = Cordenada Z:
+L_Y = Cordenada Y:
 L_Offset = (compensação)
-GB_Appear = Aparência Actual (X/Y)
+Tab_Appearance = Aparência Actual (X/Y)
 L_Outfit = Valores da Roupa
 B_GiveAccessories = Dar Todos os Acessórios
 L_Dress = Vestido:
@@ -711,7 +712,7 @@ L_TriplesC = Triples:
 L_DoublesC = Doubles:
 L_SinglesC = Singles:
 GB_MaisonBest = Batalhas Seguidas na Maison (Melhor)
-GB_SuperB = Super
+L_SuperB = Super
 L_NormalB = Normal
 L_MultiB = Multi:
 L_RotationB = Rotation:
@@ -721,7 +722,7 @@ L_SinglesB = Singles:
 B_Save = Guardar
 L_Stats = Estatísticas
 B_Cancel = Cancelar
-GB_Overview = Visão Global
+Tab_Overview = Visão Global
 L_Seconds = Seg:
 L_Minutes = Min:
 L_Hours = Hrs:
@@ -743,15 +744,6 @@ L_Saying2 = 2:
 L_Saying3 = 3:
 L_Saying4 = 4:
 L_Saying5 = 5:
-GB_Badges = Crachás
-cb1 = 1 - Insecto
-cb2 = 2 - Penhasco
-cb3 = 3 - Estrondo
-cb4 = 4 - Planta
-cb5 = 5 - Voltagem
-cb6 = 6 - Fada
-cb7 = 7 - Psíquico
-cb8 = 8 - Iceberg
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.

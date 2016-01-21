@@ -679,16 +679,17 @@ L_PPUps = PP 업
 ! SAV_Trainer = 트레이너 정보 에디터
 - Change stuff below this line, not above.
 -------------------------------------------------------
-GB_Misc = Misc
+GB_Misc = 멀티 플레이어
 L_MultiplayerSprite = PSS 아이콘:
 L_Style = 스타일:
+Tab_BadgeMap = 배지 / 맵
 GB_Map = 맵 위치
-L_Y = Y 좌표:
 L_CurrentMap = Current Map:
-L_Z = Z 좌표:
 L_X = X 좌표:
+L_Z = Z 좌표:
+L_Y = Y 좌표:
 L_Offset = (offset)
-GB_Appear = 기본 모습 (X/Y)
+Tab_Appearance = 기본 모습 (X/Y)
 L_Outfit = Outfit Vals
 B_GiveAccessories = 모든 액세서리 주기
 L_Dress = 옷:
@@ -711,7 +712,7 @@ L_TriplesC = 트리플:
 L_DoublesC = 더블:
 L_SinglesC = 싱글:
 GB_MaisonBest = 연승 (최대)
-GB_SuperB = 슈퍼
+L_SuperB = 슈퍼
 L_NormalB = 노말
 L_MultiB = 멀티:
 L_RotationB = 로테이션:
@@ -721,7 +722,7 @@ L_SinglesB = 싱글:
 B_Save = 저장
 L_Stats = 상태
 B_Cancel = 취소
-GB_Overview = Overview
+Tab_Overview = Overview
 L_Seconds = 초:
 L_Minutes = 분:
 L_Hours = 시간:
@@ -743,15 +744,6 @@ L_Saying2 = 2:
 L_Saying3 = 3:
 L_Saying4 = 4:
 L_Saying5 = 5:
-GB_Badges = 배지
-cb1 = 1 - 벌레
-cb2 = 2 - Cliff
-cb3 = 3 - Rumble
-cb4 = 4 - 풀
-cb5 = 5 - Voltage
-cb6 = 6 - 페어리
-cb7 = 7 - Psychic
-cb8 = 8 - Iceberg
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
