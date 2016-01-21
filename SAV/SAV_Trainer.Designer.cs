@@ -175,6 +175,10 @@ namespace PKHeX
             this.L_HairColor = new System.Windows.Forms.Label();
             this.L_SkinColor = new System.Windows.Forms.Label();
             this.GB_Map = new System.Windows.Forms.GroupBox();
+            this.NUD_Z = new System.Windows.Forms.NumericUpDown();
+            this.NUD_M = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Y = new System.Windows.Forms.NumericUpDown();
+            this.NUD_X = new System.Windows.Forms.NumericUpDown();
             this.GB_Misc = new System.Windows.Forms.GroupBox();
             this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.L_Vivillon = new System.Windows.Forms.Label();
@@ -186,10 +190,8 @@ namespace PKHeX
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.L_Value = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
-            this.NUD_X = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Y = new System.Windows.Forms.NumericUpDown();
-            this.NUD_M = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Z = new System.Windows.Forms.NumericUpDown();
+            this.CAL_AdventureStart = new System.Windows.Forms.DateTimePicker();
+            this.L_AdventureStart = new System.Windows.Forms.Label();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -205,18 +207,18 @@ namespace PKHeX
             this.GB_MaisonCurrent.SuspendLayout();
             this.GB_Appear.SuspendLayout();
             this.GB_Map.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
             this.GB_Misc.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Sprite)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(416, 601);
+            this.B_Cancel.Location = new System.Drawing.Point(416, 624);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
@@ -227,7 +229,7 @@ namespace PKHeX
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(497, 601);
+            this.B_Save.Location = new System.Drawing.Point(497, 624);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -433,7 +435,7 @@ namespace PKHeX
             this.GB_Badges.Controls.Add(this.pb3);
             this.GB_Badges.Controls.Add(this.cb1);
             this.GB_Badges.Controls.Add(this.pb1);
-            this.GB_Badges.Location = new System.Drawing.Point(11, 489);
+            this.GB_Badges.Location = new System.Drawing.Point(11, 512);
             this.GB_Badges.Name = "GB_Badges";
             this.GB_Badges.Size = new System.Drawing.Size(398, 135);
             this.GB_Badges.TabIndex = 26;
@@ -540,7 +542,7 @@ namespace PKHeX
             this.GB_Sayings.Controls.Add(this.TB_Saying3);
             this.GB_Sayings.Controls.Add(this.TB_Saying2);
             this.GB_Sayings.Controls.Add(this.TB_Saying1);
-            this.GB_Sayings.Location = new System.Drawing.Point(12, 248);
+            this.GB_Sayings.Location = new System.Drawing.Point(12, 271);
             this.GB_Sayings.Name = "GB_Sayings";
             this.GB_Sayings.Size = new System.Drawing.Size(210, 120);
             this.GB_Sayings.TabIndex = 27;
@@ -649,6 +651,8 @@ namespace PKHeX
             // 
             // GB_Overview
             // 
+            this.GB_Overview.Controls.Add(this.L_AdventureStart);
+            this.GB_Overview.Controls.Add(this.CAL_AdventureStart);
             this.GB_Overview.Controls.Add(this.L_Seconds);
             this.GB_Overview.Controls.Add(this.L_Minutes);
             this.GB_Overview.Controls.Add(this.MT_Seconds);
@@ -680,7 +684,7 @@ namespace PKHeX
             this.GB_Overview.Controls.Add(this.CB_Gender);
             this.GB_Overview.Location = new System.Drawing.Point(12, 12);
             this.GB_Overview.Name = "GB_Overview";
-            this.GB_Overview.Size = new System.Drawing.Size(210, 230);
+            this.GB_Overview.Size = new System.Drawing.Size(210, 253);
             this.GB_Overview.TabIndex = 28;
             this.GB_Overview.TabStop = false;
             this.GB_Overview.Text = "Overview";
@@ -1820,12 +1824,67 @@ namespace PKHeX
             this.GB_Map.Controls.Add(this.L_CurrentMap);
             this.GB_Map.Controls.Add(this.L_Z);
             this.GB_Map.Controls.Add(this.L_X);
-            this.GB_Map.Location = new System.Drawing.Point(230, 288);
+            this.GB_Map.Location = new System.Drawing.Point(230, 287);
             this.GB_Map.Name = "GB_Map";
-            this.GB_Map.Size = new System.Drawing.Size(179, 195);
+            this.GB_Map.Size = new System.Drawing.Size(179, 219);
             this.GB_Map.TabIndex = 51;
             this.GB_Map.TabStop = false;
             this.GB_Map.Text = "Map Position";
+            // 
+            // NUD_Z
+            // 
+            this.NUD_Z.Location = new System.Drawing.Point(109, 109);
+            this.NUD_Z.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Z.Minimum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            -2147483648});
+            this.NUD_Z.Name = "NUD_Z";
+            this.NUD_Z.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Z.TabIndex = 53;
+            // 
+            // NUD_M
+            // 
+            this.NUD_M.Location = new System.Drawing.Point(109, 33);
+            this.NUD_M.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.NUD_M.Name = "NUD_M";
+            this.NUD_M.Size = new System.Drawing.Size(50, 20);
+            this.NUD_M.TabIndex = 52;
+            // 
+            // NUD_Y
+            // 
+            this.NUD_Y.DecimalPlaces = 1;
+            this.NUD_Y.Location = new System.Drawing.Point(109, 149);
+            this.NUD_Y.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Y.Name = "NUD_Y";
+            this.NUD_Y.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Y.TabIndex = 51;
+            // 
+            // NUD_X
+            // 
+            this.NUD_X.DecimalPlaces = 1;
+            this.NUD_X.Location = new System.Drawing.Point(109, 71);
+            this.NUD_X.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_X.Name = "NUD_X";
+            this.NUD_X.Size = new System.Drawing.Size(50, 20);
+            this.NUD_X.TabIndex = 50;
             // 
             // GB_Misc
             // 
@@ -1836,7 +1895,7 @@ namespace PKHeX
             this.GB_Misc.Controls.Add(this.PB_Sprite);
             this.GB_Misc.Controls.Add(this.CB_Multi);
             this.GB_Misc.Controls.Add(this.L_Style);
-            this.GB_Misc.Location = new System.Drawing.Point(13, 374);
+            this.GB_Misc.Location = new System.Drawing.Point(13, 397);
             this.GB_Misc.Name = "GB_Misc";
             this.GB_Misc.Size = new System.Drawing.Size(209, 109);
             this.GB_Misc.TabIndex = 53;
@@ -1898,7 +1957,7 @@ namespace PKHeX
             // 
             this.L_Offset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Offset.AutoSize = true;
-            this.L_Offset.Location = new System.Drawing.Point(424, 580);
+            this.L_Offset.Location = new System.Drawing.Point(424, 603);
             this.L_Offset.Name = "L_Offset";
             this.L_Offset.Size = new System.Drawing.Size(39, 13);
             this.L_Offset.TabIndex = 28;
@@ -1908,7 +1967,7 @@ namespace PKHeX
             // 
             this.L_Stats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Stats.AutoSize = true;
-            this.L_Stats.Location = new System.Drawing.Point(424, 524);
+            this.L_Stats.Location = new System.Drawing.Point(424, 547);
             this.L_Stats.Name = "L_Stats";
             this.L_Stats.Size = new System.Drawing.Size(31, 13);
             this.L_Stats.TabIndex = 24;
@@ -1922,7 +1981,7 @@ namespace PKHeX
             this.CB_Stats.DropDownWidth = 180;
             this.CB_Stats.FormattingEnabled = true;
             this.CB_Stats.IntegralHeight = false;
-            this.CB_Stats.Location = new System.Drawing.Point(427, 540);
+            this.CB_Stats.Location = new System.Drawing.Point(427, 563);
             this.CB_Stats.Name = "CB_Stats";
             this.CB_Stats.Size = new System.Drawing.Size(121, 21);
             this.CB_Stats.TabIndex = 23;
@@ -1932,7 +1991,7 @@ namespace PKHeX
             // 
             this.L_Value.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Value.AutoSize = true;
-            this.L_Value.Location = new System.Drawing.Point(424, 564);
+            this.L_Value.Location = new System.Drawing.Point(424, 587);
             this.L_Value.Name = "L_Value";
             this.L_Value.Size = new System.Drawing.Size(34, 13);
             this.L_Value.TabIndex = 22;
@@ -1942,7 +2001,7 @@ namespace PKHeX
             // 
             this.MT_Stat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MT_Stat.Location = new System.Drawing.Point(471, 561);
+            this.MT_Stat.Location = new System.Drawing.Point(471, 584);
             this.MT_Stat.Mask = "0000000000";
             this.MT_Stat.Name = "MT_Stat";
             this.MT_Stat.Size = new System.Drawing.Size(77, 20);
@@ -1951,66 +2010,30 @@ namespace PKHeX
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
             // 
-            // NUD_X
+            // CAL_AdventureStart
             // 
-            this.NUD_X.DecimalPlaces = 1;
-            this.NUD_X.Location = new System.Drawing.Point(109, 71);
-            this.NUD_X.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_X.Name = "NUD_X";
-            this.NUD_X.Size = new System.Drawing.Size(50, 20);
-            this.NUD_X.TabIndex = 50;
+            this.CAL_AdventureStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.CAL_AdventureStart.Location = new System.Drawing.Point(93, 225);
+            this.CAL_AdventureStart.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
+            this.CAL_AdventureStart.Name = "CAL_AdventureStart";
+            this.CAL_AdventureStart.Size = new System.Drawing.Size(99, 20);
+            this.CAL_AdventureStart.TabIndex = 31;
+            this.CAL_AdventureStart.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
             // 
-            // NUD_Y
+            // L_AdventureStart
             // 
-            this.NUD_Y.DecimalPlaces = 1;
-            this.NUD_Y.Location = new System.Drawing.Point(109, 149);
-            this.NUD_Y.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Y.Name = "NUD_Y";
-            this.NUD_Y.Size = new System.Drawing.Size(50, 20);
-            this.NUD_Y.TabIndex = 51;
-            // 
-            // NUD_M
-            // 
-            this.NUD_M.Location = new System.Drawing.Point(109, 33);
-            this.NUD_M.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.NUD_M.Name = "NUD_M";
-            this.NUD_M.Size = new System.Drawing.Size(50, 20);
-            this.NUD_M.TabIndex = 52;
-            // 
-            // NUD_Z
-            // 
-            this.NUD_Z.Location = new System.Drawing.Point(109, 109);
-            this.NUD_Z.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Z.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
-            this.NUD_Z.Name = "NUD_Z";
-            this.NUD_Z.Size = new System.Drawing.Size(50, 20);
-            this.NUD_Z.TabIndex = 53;
+            this.L_AdventureStart.Location = new System.Drawing.Point(12, 227);
+            this.L_AdventureStart.Name = "L_AdventureStart";
+            this.L_AdventureStart.Size = new System.Drawing.Size(80, 13);
+            this.L_AdventureStart.TabIndex = 32;
+            this.L_AdventureStart.Text = "Started:";
+            this.L_AdventureStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 636);
+            this.ClientSize = new System.Drawing.Size(584, 659);
             this.Controls.Add(this.GB_Misc);
             this.Controls.Add(this.GB_Map);
             this.Controls.Add(this.L_Offset);
@@ -2055,13 +2078,13 @@ namespace PKHeX
             this.GB_Appear.PerformLayout();
             this.GB_Map.ResumeLayout(false);
             this.GB_Map.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
             this.GB_Misc.ResumeLayout(false);
             this.GB_Misc.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Sprite)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2230,5 +2253,7 @@ namespace PKHeX
         private System.Windows.Forms.NumericUpDown NUD_X;
         private System.Windows.Forms.NumericUpDown NUD_Z;
         private System.Windows.Forms.NumericUpDown NUD_M;
+        private System.Windows.Forms.Label L_AdventureStart;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureStart;
     }
 }
