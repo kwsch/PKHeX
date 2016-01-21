@@ -447,7 +447,7 @@ namespace PKHeX
             }
 
             CB_Vivillon.SelectedIndex = SAV.Vivillon;
-            CAL_AdventureStart.Value = new DateTime(SAV.AdventureStartYear, SAV.AdventureStartMonth, SAV.AdventureStartDay);
+            CAL_LastSaved.Value = new DateTime(SAV.LastSavedYear, SAV.LastSavedMonth, SAV.LastSavedDay);
         }
         private void save()
         {
@@ -528,9 +528,9 @@ namespace PKHeX
 
             // Vivillon
             SAV.Vivillon = CB_Vivillon.SelectedIndex;
-            SAV.AdventureStartYear = CAL_AdventureStart.Value.Year;
-            SAV.AdventureStartMonth = CAL_AdventureStart.Value.Month;
-            SAV.AdventureStartDay = CAL_AdventureStart.Value.Day;
+            SAV.LastSavedYear = CAL_LastSaved.Value.Year;
+            SAV.LastSavedMonth = CAL_LastSaved.Value.Month;
+            SAV.LastSavedDay = CAL_LastSaved.Value.Day;
         }
 
         private void clickOT(object sender, MouseEventArgs e)

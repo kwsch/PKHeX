@@ -422,10 +422,6 @@ namespace PKHeX
             }
         }
 
-        public uint AdventureStart { get { return BitConverter.ToUInt32(Data, PlayTime + 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); } }
-        public int AdventureStartYear { get { return (int)(AdventureStart & 0xFFF); } set { AdventureStart = AdventureStart & 0xFFFFF000 | (uint)value; } }
-        public int AdventureStartMonth { get { return (int)(AdventureStart >> 12 & 0xF); } set { AdventureStart = AdventureStart & 0xFFFF0FFF | ((uint)value & 0xF) << 12; } }
-        public int AdventureStartDay { get { return (int)(AdventureStart >> 16 & 0xF); } set { AdventureStart = AdventureStart & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; } }
         public int PlayedHours{ 
             get { return BitConverter.ToUInt16(Data, PlayTime); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime); } 
@@ -440,6 +436,10 @@ namespace PKHeX
             get { return Data[PlayTime + 3]; }
             set { Data[PlayTime + 3] = (byte)value; }
         }
+        public uint LastSaved { get { return BitConverter.ToUInt32(Data, PlayTime + 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); } }
+        public int LastSavedYear { get { return (int)(LastSaved & 0xFFF); } set { LastSaved = LastSaved & 0xFFFFF000 | (uint)value; } }
+        public int LastSavedMonth { get { return (int)(LastSaved >> 12 & 0xF); } set { LastSaved = LastSaved & 0xFFFF0FFF | ((uint)value & 0xF) << 12; } }
+        public int LastSavedDay { get { return (int)(LastSaved >> 16 & 0xF); } set { LastSaved = LastSaved & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; } }
 
         public uint getPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
         public void setPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }

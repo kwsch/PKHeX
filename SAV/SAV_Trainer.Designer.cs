@@ -68,6 +68,8 @@ namespace PKHeX
             this.TB_Saying2 = new System.Windows.Forms.TextBox();
             this.TB_Saying1 = new System.Windows.Forms.TextBox();
             this.GB_Overview = new System.Windows.Forms.GroupBox();
+            this.L_LastSaved = new System.Windows.Forms.Label();
+            this.CAL_LastSaved = new System.Windows.Forms.DateTimePicker();
             this.L_Seconds = new System.Windows.Forms.Label();
             this.L_Minutes = new System.Windows.Forms.Label();
             this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
@@ -190,8 +192,6 @@ namespace PKHeX
             this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.L_Value = new System.Windows.Forms.Label();
             this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
-            this.CAL_AdventureStart = new System.Windows.Forms.DateTimePicker();
-            this.L_AdventureStart = new System.Windows.Forms.Label();
             this.GB_Badges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb6)).BeginInit();
@@ -651,8 +651,8 @@ namespace PKHeX
             // 
             // GB_Overview
             // 
-            this.GB_Overview.Controls.Add(this.L_AdventureStart);
-            this.GB_Overview.Controls.Add(this.CAL_AdventureStart);
+            this.GB_Overview.Controls.Add(this.L_LastSaved);
+            this.GB_Overview.Controls.Add(this.CAL_LastSaved);
             this.GB_Overview.Controls.Add(this.L_Seconds);
             this.GB_Overview.Controls.Add(this.L_Minutes);
             this.GB_Overview.Controls.Add(this.MT_Seconds);
@@ -688,6 +688,25 @@ namespace PKHeX
             this.GB_Overview.TabIndex = 28;
             this.GB_Overview.TabStop = false;
             this.GB_Overview.Text = "Overview";
+            // 
+            // L_LastSaved
+            // 
+            this.L_LastSaved.Location = new System.Drawing.Point(12, 227);
+            this.L_LastSaved.Name = "L_LastSaved";
+            this.L_LastSaved.Size = new System.Drawing.Size(80, 13);
+            this.L_LastSaved.TabIndex = 32;
+            this.L_LastSaved.Text = "Last Saved:";
+            this.L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CAL_LastSaved
+            // 
+            this.CAL_LastSaved.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.CAL_LastSaved.Location = new System.Drawing.Point(93, 225);
+            this.CAL_LastSaved.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
+            this.CAL_LastSaved.Name = "CAL_LastSaved";
+            this.CAL_LastSaved.Size = new System.Drawing.Size(99, 20);
+            this.CAL_LastSaved.TabIndex = 31;
+            this.CAL_LastSaved.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
             // 
             // L_Seconds
             // 
@@ -2010,25 +2029,6 @@ namespace PKHeX
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
             // 
-            // CAL_AdventureStart
-            // 
-            this.CAL_AdventureStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.CAL_AdventureStart.Location = new System.Drawing.Point(93, 225);
-            this.CAL_AdventureStart.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
-            this.CAL_AdventureStart.Name = "CAL_AdventureStart";
-            this.CAL_AdventureStart.Size = new System.Drawing.Size(99, 20);
-            this.CAL_AdventureStart.TabIndex = 31;
-            this.CAL_AdventureStart.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
-            // 
-            // L_AdventureStart
-            // 
-            this.L_AdventureStart.Location = new System.Drawing.Point(12, 227);
-            this.L_AdventureStart.Name = "L_AdventureStart";
-            this.L_AdventureStart.Size = new System.Drawing.Size(80, 13);
-            this.L_AdventureStart.TabIndex = 32;
-            this.L_AdventureStart.Text = "Started:";
-            this.L_AdventureStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2253,7 +2253,7 @@ namespace PKHeX
         private System.Windows.Forms.NumericUpDown NUD_X;
         private System.Windows.Forms.NumericUpDown NUD_Z;
         private System.Windows.Forms.NumericUpDown NUD_M;
-        private System.Windows.Forms.Label L_AdventureStart;
-        private System.Windows.Forms.DateTimePicker CAL_AdventureStart;
+        private System.Windows.Forms.Label L_LastSaved;
+        private System.Windows.Forms.DateTimePicker CAL_LastSaved;
     }
 }
