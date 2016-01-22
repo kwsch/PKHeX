@@ -2403,7 +2403,7 @@ namespace PKHeX
             pk6.Ball = Util.getIndex(CB_Ball);
             pk6.Met_Level = Util.ToInt32(TB_MetLevel.Text);
             pk6.OT_Gender = PKX.getGender(Label_OTGender.Text);
-            pk6.EncounterType = Util.ToInt32(CB_EncounterType.SelectedValue.ToString());
+            pk6.EncounterType = Util.getIndex(CB_EncounterType);
             pk6.Version = Util.getIndex(CB_GameOrigin);
             pk6.Country = Util.getIndex(CB_Country);
             pk6.Region = Util.getIndex(CB_SubRegion);

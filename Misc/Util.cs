@@ -226,13 +226,8 @@ namespace PKHeX
         }
         internal static int getIndex(ComboBox cb)
         {
-            int val;
-            if (cb.SelectedValue == null) return 0;
-
-            try { val = int.Parse(cb.SelectedValue.ToString()); }
-            catch { val = cb.SelectedIndex; if (val < 0) val = 0; }
-
-            return val;
+            try { return (int)(cb?.SelectedValue ?? 0); }
+            catch { return Math.Max(cb.SelectedIndex, 0); }
         }
         internal static string getOnlyHex(string s)
         {
@@ -363,7 +358,7 @@ namespace PKHeX
         public class cbItem
         {
             public string Text { get; set; }
-            public object Value { get; set; }
+            public int Value { get; set; }
         }
         internal static List<cbItem> getCBList(string textfile, string lang)
         {
