@@ -1722,7 +1722,7 @@ namespace PKHeX
             if (changingFields) 
                 return;
             changingFields = true;
-            MT_Form.Text = Util.getIndex(CB_Form).ToString();
+            MT_Form.Text = CB_Form.SelectedIndex.ToString();
             changingFields = false;
         }
         private void updateHaXForm(object sender, EventArgs e)
@@ -2295,7 +2295,7 @@ namespace PKHeX
             pk6.Nature = (byte)Util.getIndex(CB_Nature);
             pk6.FatefulEncounter = CHK_Fateful.Checked;
             pk6.Gender = PKX.getGender(Label_Gender.Text);
-            pk6.AltForm = Math.Min(MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex, 32); // Form
+            pk6.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex) & 0x1F; // Form
             pk6.EV_HP = Util.ToInt32(TB_HPEV.Text);       // EVs
             pk6.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             pk6.EV_DEF = Util.ToInt32(TB_DEFEV.Text);

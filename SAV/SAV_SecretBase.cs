@@ -286,7 +286,7 @@ namespace PKHeX
 
             int fegform = 0;
             fegform += PKX.getGender(Label_Gender.Text) << 1;                         // Gender
-            fegform += Util.getIndex(CB_Form) << 3;
+            fegform += CB_Form.SelectedIndex << 3;
             pkm[0x15] = (byte)fegform;
 
             pkm[0x16] = (byte)Math.Min(Convert.ToInt32( TB_HPEV.Text), 252);

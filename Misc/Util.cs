@@ -226,8 +226,7 @@ namespace PKHeX
         }
         internal static int getIndex(ComboBox cb)
         {
-            try { return (int)(cb?.SelectedValue ?? 0); }
-            catch { return Math.Max(cb.SelectedIndex, 0); }
+            return (int)(cb?.SelectedValue ?? 0);
         }
         internal static string getOnlyHex(string s)
         {
