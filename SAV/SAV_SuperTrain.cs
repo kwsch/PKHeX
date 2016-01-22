@@ -108,7 +108,7 @@ namespace PKHeX
         private void changeListRecordSelection(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
-
+            if (index < 0) return;
             TB_Time.Text = BitConverter.ToSingle(sav, offsetTime + 4 * index).ToString();
             TB_Unk.Text = BitConverter.ToUInt16(sav, offsetVal + 4 * index).ToString();
             CB_Species.SelectedValue = (int)BitConverter.ToUInt16(sav, offsetSpec + 4 * index);
@@ -128,28 +128,10 @@ namespace PKHeX
                 }
                 bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
             }
-            int offsetTime = Main.SAV.SuperTrain + 0x10;
-            try
-            {
-                byte[] data = BitConverter.GetBytes(Single.Parse(TB_Time1.Text));
-                Array.Resize(ref data, 4);
-                Array.Copy(data, 0, sav, offsetTime + 4 * 30, 4);
-            }
-            catch { }
-            try 
-            {
-                byte[] data = BitConverter.GetBytes(Single.Parse(TB_Time2.Text));
-                Array.Resize(ref data, 4);
-                Array.Copy(data, 0, sav, offsetTime + 4 * 31, 4);
-            }
-            catch { }
-            {
-                int offsetSpec = Main.SAV.SuperTrain + 0x188;
-                byte[] data = BitConverter.GetBytes(Convert.ToUInt16(CB_S2.SelectedValue.ToString()));
-                Array.Resize(ref data, 2);
-                Array.Copy(data, 0, sav, offsetSpec + 4 * 30, 2);
-            }
-            Array.Copy(bagarray, 0, sav, Main.SAV.SuperTrain + 0x308, 12);
+            try { BitConverter.GetBytes(float.Parse(TB_Time1.Text)).CopyTo(sav, offsetTime + 4 * 30); } catch { }
+            try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(sav, offsetTime + 4 * 31); } catch { }
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_S2)).CopyTo(sav, offsetSpec + 4 * 30);
+            bagarray.CopyTo(sav, Main.SAV.SuperTrain + 0x308);
             Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
             Main.SAV.Edited = true;
             Close();
@@ -162,37 +144,19 @@ namespace PKHeX
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            try
-            {
-                byte[] data = BitConverter.GetBytes(Convert.ToUInt16(CB_Species.SelectedValue.ToString())); 
-                Array.Resize(ref data, 2);
-                Array.Copy(data, 0, sav, offsetSpec + 4 * index, 2);
-            }
-            catch { }
+            BitConverter.GetBytes(Util.getIndex(CB_Species)).CopyTo(sav, offsetSpec + 4 * index);
         }
         private void changeRecordVal(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            try
-            {
-                byte[] data = BitConverter.GetBytes(UInt16.Parse(TB_Unk.Text)); 
-                Array.Resize(ref data, 2);
-                Array.Copy(data, 0, sav, offsetVal + 4 * index, 2);
-            }
-            catch { }
+            try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(sav, offsetVal + 4 * index); } catch { }
         }
         private void changeRecordTime(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            try
-            {
-                byte[] data = BitConverter.GetBytes(Single.Parse(TB_Time.Text)); 
-                Array.Resize(ref data, 4);
-                Array.Copy(data, 0, sav, offsetTime + 4 * index, 4);
-            }
-            catch { }
+            try { BitConverter.GetBytes(float.Parse(TB_Time.Text)).CopyTo(sav, offsetTime + 4 * index); } catch { }
         }
     }
 }
