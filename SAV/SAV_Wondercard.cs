@@ -37,11 +37,7 @@ namespace PKHeX
             DragDrop += tabMain_DragDrop;
 
             if (wcdata == null || wcdata.Length != WC6.Size)
-            { 
-                // No data to load, load first wc
-                clickView(pba[0], null);
                 return;
-            }
             
             Array.Copy(wcdata, wondercard_data, wcdata.Length);
             loadwcdata();
@@ -337,24 +333,16 @@ namespace PKHeX
         private Image getWCPreviewImage(byte[] data)
         {
             Image img;
-            switch (data[0x51]) // Gift Type
-            {
-                case 0:
-                    ushort species = BitConverter.ToUInt16(data, 0x82);
-                    byte form = data[0x84];
-                    byte gender = data[0xA1];
-                    ushort item = BitConverter.ToUInt16(data, 0x78);
-                    bool isEgg = data[0xD1] == 1;
-                    bool isShiny = data[0xA3] == 2;
-                    img = PKX.getSprite(species, form, gender, item, isEgg, isShiny);
-                    break;
-                case 1:
-                    img = (Image)(Properties.Resources.ResourceManager.GetObject("item_" + BitConverter.ToUInt16(data, 0x68)) ?? Properties.Resources.unknown);
-                    break;
-                default:
-                    img = Properties.Resources.unknown;
-                    break;
-            }
+            WC6 wc = new WC6(data);
+            if (wc.IsPokémon)
+                img = PKX.getSprite(wc.Species, wc.Form, wc.Gender, wc.HeldItem, wc.IsEgg, wc.PIDType == 2);
+            else if (wc.IsItem)
+                img = (Image)(Properties.Resources.ResourceManager.GetObject("item_" + BitConverter.ToUInt16(data, 0x68)) ?? Properties.Resources.unknown);
+            else
+                img = Properties.Resources.unknown;
+                    
+            if (wc.GiftUsed)
+                img = Util.LayerImage(new Bitmap(img.Width, img.Height), img, 0, 0, 0.3);
             return img;
         }
         private void L_QR_Click(object sender, EventArgs e)
