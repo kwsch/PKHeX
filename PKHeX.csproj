@@ -127,6 +127,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SAV\SAV_BerryFieldORAS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SAV\SAV_BerryFieldORAS.Designer.cs">
+      <DependentUpon>SAV_BerryFieldORAS.cs</DependentUpon>
+    </Compile>
     <Compile Include="SAV\SAV_Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,11 +165,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SAV\SAV_BerryField.cs">
+    <Compile Include="SAV\SAV_BerryFieldXY.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV\SAV_BerryField.Designer.cs">
-      <DependentUpon>SAV_BerryField.cs</DependentUpon>
+    <Compile Include="SAV\SAV_BerryFieldXY.Designer.cs">
+      <DependentUpon>SAV_BerryFieldXY.cs</DependentUpon>
     </Compile>
     <Compile Include="SAV\SAV_BoxLayout.cs">
       <SubType>Form</SubType>
@@ -254,6 +260,9 @@
     <EmbeddedResource Include="PKX\f3-MemoryAmie.resx">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SAV\SAV_BerryFieldORAS.resx">
+      <DependentUpon>SAV_BerryFieldORAS.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
     </EmbeddedResource>
@@ -274,8 +283,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV\SAV_BerryField.resx">
-      <DependentUpon>SAV_BerryField.cs</DependentUpon>
+    <EmbeddedResource Include="SAV\SAV_BerryFieldXY.resx">
+      <DependentUpon>SAV_BerryFieldXY.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_BoxLayout.resx">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
@@ -349,6 +358,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\text\de\text_Pokeblock_de.txt" />
+    <Content Include="Resources\text\en\text_Pokeblock_en.txt" />
+    <Content Include="Resources\text\es\text_Pokeblock_es.txt" />
+    <Content Include="Resources\text\fr\text_Pokeblock_fr.txt" />
+    <Content Include="Resources\text\it\text_Pokeblock_it.txt" />
+    <Content Include="Resources\text\ja\text_Pokeblock_ja.txt" />
+    <Content Include="Resources\text\ko\text_Pokeblock_ko.txt" />
+    <Content Include="Resources\text\zh\text_Pokeblock_zh.txt" />
     <None Include="Resources\text\it\lang_it.txt" />
     <None Include="Resources\img\Pokemon Sprites\414-2.png" />
     <None Include="Resources\img\Pokemon Sprites\414-1.png" />

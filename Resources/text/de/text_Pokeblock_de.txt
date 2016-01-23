@@ -1,0 +1,106 @@
+﻿Pokériegelbox
+Beerenmixer
+Pokériegel geben
+Geben
+Pokériegel herstellen
+Herstellen
+[~ 6]
+Farbe
+[VAR NUM3(0000)]
+[VAR PKNICK(0000)]
+[VAR MOVE(0000)]
+Welchem Pokémon willst du ihn geben?
+[VAR PKNICK(0000)] isst den Pokériegel auf!
+Nach welcher Farbe soll gefiltert werden?
+Bitte wähle einen Pokériegel.
+Was willst du mit diesem Pokériegel tun?
+Gib mindestens zwei Beeren in den Mixer.
+[~ 17]
+Du hast [VAR NUM1(0001)] [VAR 01A3(0000)] hergestellt![VAR BE05(0000)][VAR BE05(0001)]
+Willst du [VAR PKNICK(0000)] ein Exemplar geben?
+Eier können keine Pokériegel essen!
+Welchem Pokémon willst du ihn geben?
+Im Mixer ist nur Platz für vier Beeren!
+Das Filterkriterium „Rot“ wurde aktiviert.
+Das Filterkriterium „Blau“ wurde aktiviert.
+Das Filterkriterium „Rosa“ wurde aktiviert.
+Das Filterkriterium „Grün“ wurde aktiviert.
+Das Filterkriterium „Gelb“ wurde aktiviert.
+Mixen
+Beere entfernen
+Geben
+Abbrechen
+Ja
+Nein
+Alle
+Rot
+Blau
+Rosa
+Grün
+Gelb
+[~ 40]
+[~ 41]
+[~ 42]
+[~ 43]
+[~ 44]
+[~ 45]
+[~ 46]
+[~ 47]
+[~ 48]
+[~ 49]
+[~ 50]
+[VAR 01A3(0000)]
+[~ 52]
+[~ 53]
+[~ 54]
+[~ 55]
+[~ 56]
+[~ 57]
+[~ 58]
+[~ 59]
+[~ 60]
+[~ 61]
+[~ 62]
+[~ 63]
+[~ 64]
+[~ 65]
+[~ 66]
+[~ 67]
+[~ 68]
+[~ 69]
+[~ 70]
+[~ 71]
+[~ 72]
+[~ 73]
+[~ 74]
+Ausdruckskraft
+Störfaktor
+[~ 77]
+[~ 78]
+[~ 79]
+[~ 80]
+[~ 81]
+Pokériegel Rot
+Pokériegel Blau
+Pokériegel Rosa
+Pokériegel Grün
+Pokériegel Gelb
+Pokériegel Bunt
+Pokériegel Rot DX
+Pokériegel Blau DX
+Pokériegel Rosa DX
+Pokériegel Grün DX
+Pokériegel Gelb DX
+Pokériegel Bunt DX
+Pokériegel Rot
+Pokériegel Blau
+Pokériegel Rosa
+Pokériegel Grün
+Pokériegel Gelb
+Pokériegel Bunt
+Pokériegel Rot DX
+Pokériegel Blau DX
+Pokériegel Rosa DX
+Pokériegel Grün DX
+Pokériegel Gelb DX
+Pokériegel Bunt DX

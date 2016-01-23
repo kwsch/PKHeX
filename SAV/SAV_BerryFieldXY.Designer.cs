@@ -1,6 +1,6 @@
 ﻿namespace PKHeX
 {
-    partial class SAV_BerryField
+    partial class SAV_BerryFieldXY
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BerryField));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BerryFieldXY));
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.L_Unfinished = new System.Windows.Forms.Label();
             this.L_Field = new System.Windows.Forms.Label();

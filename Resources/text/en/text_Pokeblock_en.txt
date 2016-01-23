@@ -1,0 +1,106 @@
+﻿Pokéblock Case
+Berry Blender
+Give a Pokéblock
+Give
+Make Pokéblocks
+Make
+[~ 6]
+Color
+[VAR NUM3(0000)]
+[VAR PKNICK(0000)]
+[VAR MOVE(0000)]
+Which Pokémon would you like to give it to?
+You gave the Pokéblock to [VAR PKNICK(0000)]!
+Choose the color to filter by.
+Choose a Pokéblock.
+What would you like to do with the Pokéblock?
+Choose Berries to blend.
+[~ 17]
+You created [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
+Give the Pokéblock to [VAR PKNICK(0000)]?
+An Egg can’t eat a Pokéblock!
+Which Pokémon would you like to give it to?
+You can’t blend more than four Berries!
+Filtered by red.
+Filtered by blue.
+Filtered by pink.
+Filtered by green.
+Filtered by yellow.
+Start blending!
+Return Berry
+Give
+Quit
+Yes
+No
+All
+Red
+Blue
+Pink
+Green
+Yellow
+[~ 40]
+[~ 41]
+[~ 42]
+[~ 43]
+[~ 44]
+[~ 45]
+[~ 46]
+[~ 47]
+[~ 48]
+[~ 49]
+[~ 50]
+[VAR 01A3(0000)]
+[~ 52]
+[~ 53]
+[~ 54]
+[~ 55]
+[~ 56]
+[~ 57]
+[~ 58]
+[~ 59]
+[~ 60]
+[~ 61]
+[~ 62]
+[~ 63]
+[~ 64]
+[~ 65]
+[~ 66]
+[~ 67]
+[~ 68]
+[~ 69]
+[~ 70]
+[~ 71]
+[~ 72]
+[~ 73]
+[~ 74]
+Appeal
+Jamming
+[~ 77]
+[~ 78]
+[~ 79]
+[~ 80]
+[~ 81]
+Red Pokéblock
+Blue Pokéblock
+Pink Pokéblock
+Green Pokéblock
+Yellow Pokéblock
+Rainbow Pokéblock
+Red Pokéblock +
+Blue Pokéblock +
+Pink Pokéblock +
+Green Pokéblock +
+Yellow Pokéblock +
+Rainbow Pokéblock +
+Red Pokéblocks
+Blue Pokéblocks
+Pink Pokéblocks
+Green Pokéblocks
+Yellow Pokéblocks
+Rainbow Pokéblocks
+Red Pokéblocks +
+Blue Pokéblocks +
+Pink Pokéblocks +
+Green Pokéblocks +
+Yellow Pokéblocks +
+Rainbow Pokéblocks +

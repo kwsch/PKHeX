@@ -24178,6 +24178,298 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pokériegelbox
+        ///Beerenmixer
+        ///Pokériegel geben
+        ///Geben
+        ///Pokériegel herstellen
+        ///Herstellen
+        ///[~ 6]
+        ///Farbe
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///Welchem Pokémon willst du ihn geben?
+        ///[VAR PKNICK(0000)] isst den Pokériegel auf!
+        ///Nach welcher Farbe soll gefiltert werden?
+        ///Bitte wähle einen Pokériegel.
+        ///Was willst du mit diesem Pokériegel tun?
+        ///Gib mindestens zwei Beeren in den Mixer.
+        ///[~ 17]
+        ///Du hast [VAR NUM1(0001)] [VAR 01A3(0000)] hergestellt![VAR BE05(0000)][VAR BE05(0001)]
+        ///Willst du [VAR PKNICK(0000)] ein Exe [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_de {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pokéblock Case
+        ///Berry Blender
+        ///Give a Pokéblock
+        ///Give
+        ///Make Pokéblocks
+        ///Make
+        ///[~ 6]
+        ///Color
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///Which Pokémon would you like to give it to?
+        ///You gave the Pokéblock to [VAR PKNICK(0000)]!
+        ///Choose the color to filter by.
+        ///Choose a Pokéblock.
+        ///What would you like to do with the Pokéblock?
+        ///Choose Berries to blend.
+        ///[~ 17]
+        ///You created [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
+        ///Give the Pokéblock to [VAR PKNICK(0000)]?
+        ///An Egg can’t eat a Pokéblock!
+        ///Which [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_en {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tubo Pokécubos
+        ///Licuabayas
+        ///Dar un Pokécubo
+        ///Dar
+        ///Hacer Pokécubos
+        ///Hacer
+        ///[~ 6]
+        ///Color
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///¿A qué Pokémon quieres dárselo?
+        ///¡Le has dado el Pokécubo a [VAR PKNICK(0000)]!
+        ///Elige qué color de baya quieres filtrar.
+        ///Elige un Pokécubo.
+        ///¿Qué quieres hacer con el Pokécubo?
+        ///Elige las bayas que quieres licuar.
+        ///[~ 17]
+        ///¡Has conseguido [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
+        ///¿Quieres darle el Pokécubo a [VAR PKNICK(0000)]?
+        ///¡Los Huevos no pueden comérse [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_es {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boîte Pokéblocs
+        ///Mixeur à Baies
+        ///Donner un Pokébloc
+        ///Donner
+        ///Créer des Pokéblocs
+        ///Créer
+        ///[~ 6]
+        ///Couleur
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///À quel Pokémon voulez-vous le donner ?
+        ///Vous donnez le Pokébloc à [VAR PKNICK(0000)] !
+        ///Filtrer par couleur.
+        ///Choisissez un Pokébloc.
+        ///Que voulez-vous faire de ce Pokébloc ?
+        ///Choisissez une Baie à mixer.
+        ///[~ 17]
+        ///Vous avez concocté [VAR NUM1(0001)] [VAR 01A3(0000)] ![VAR BE05(0000)][VAR BE05(0001)]
+        ///Donner un Pokébloc à [VAR PKNICK(0000)] ?
+        ///Un Œuf ne peut pas manger ! [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_fr {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portapokémelle
+        ///Mixer bacche
+        ///Dai una Pokémella
+        ///Dai
+        ///Prepara delle Pokémelle
+        ///Prepara
+        ///[~ 6]
+        ///Colore
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///A quale Pokémon vuoi darla?
+        ///Hai dato la Pokémella a [VAR PKNICK(0000)]!
+        ///Filtra per colore.
+        ///Scegli una Pokémella.
+        ///Cosa vuoi fare con la Pokémella?
+        ///Scegli le bacche da mescolare.
+        ///[~ 17]
+        ///Hai preparato [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
+        ///Vuoi dare la Pokémella a [VAR PKNICK(0000)]?
+        ///Un Uovo non può mangiare Pokémelle!
+        ///A quale Pokémon vu [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_it {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ポロックケース
+        ///きのみブレンダー
+        ///ポロックを　あげる
+        ///あげる
+        ///ポロックを　つくる
+        ///つくる
+        ///[~ 6]
+        ///いろ
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///どのポケモンに　あげますか？
+        ///[VAR PKNICK(0000)]に　ポロックを　あげた！
+        ///しぼりこむ　いろを　えらんでください
+        ///ポロックを　えらんでください
+        ///ポロックを　どうしますか？
+        ///まぜる　きのみを　えらんでください
+        ///[~ 17]
+        ///[VAR 01A3(0000)]が [VAR NUM1(0001)]コ　できた！[VAR BE05(0000)][VAR BE05(0001)]
+        ///[VAR PKNICK(0000)]に　ポロックをあげますか？
+        ///タマゴは　たべられません！
+        ///どのポケモンに　あげますか？
+        ///４つ　までしか　いれられません！
+        ///あか　で　しぼりこみました
+        ///あお　で　しぼりこみました
+        ///ももいろ　で　しぼりこみました
+        ///みどり　で　しぼりこみました
+        ///きいろ　で　しぼりこみました
+        ///ブレンドスタート
+        ///きのみを　もどす
+        ///ポケモンにあげる
+        ///やめる
+        ///はい
+        ///いいえ
+        ///ぜんぶ
+        ///あか
+        ///あお
+        ///ももいろ
+        ///みどり
+        ///きいろ
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_ja {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 포켓몬스넥케이스
+        ///나무열매블렌더
+        ///포켓몬스넥을 준다
+        ///준다
+        ///포켓몬스넥을 만든다
+        ///만든다
+        ///[~ 6]
+        ///색
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///어느 포켓몬에게 주겠습니까?
+        ///[VAR PKNICK(0000)]에게 포켓몬스넥을 주었다!
+        ///추려낼 색을 선택해 주십시오
+        ///포켓몬스넥을 선택해 주십시오
+        ///포켓몬스넥을 어떻게 하겠습니까?
+        ///섞을 나무열매를 선택해 주십시오
+        ///[~ 17]
+        ///[VAR 01A3(0000)][VAR 1900(0003)] [VAR NUM1(0001)]개 만들어졌다![VAR BE05(0000)][VAR BE05(0001)]
+        ///[VAR PKNICK(0000)]에게 포켓몬스넥을 줄까요?
+        ///알은 먹을 수 없습니다!
+        ///어느 포켓몬에게 주겠습니까?
+        ///4개까지만 넣을 수 있습니다!
+        ///빨강으로 추려냈습니다
+        ///파랑으로 추려냈습니다
+        ///담홍으로 추려냈습니다
+        ///초록으로 추려냈습니다
+        ///노랑으로 추려냈습니다
+        ///블렌드 스타트
+        ///되돌려 둔다
+        ///포켓몬에게 준다
+        ///그만둔다
+        ///예
+        ///아니요
+        ///전부
+        ///빨강
+        ///파랑
+        ///담홍
+        ///초록
+        ///노랑 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_ko {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ポロックケース
+        ///きのみブレンダー
+        ///ポロックを　あげる
+        ///あげる
+        ///ポロックを　つくる
+        ///つくる
+        ///[~ 6]
+        ///いろ
+        ///[VAR NUM3(0000)]
+        ///[VAR PKNICK(0000)]
+        ///[VAR MOVE(0000)]
+        ///どのポケモンに　あげますか？
+        ///[VAR PKNICK(0000)]に　ポロックを　あげた！
+        ///しぼりこむ　いろを　えらんでください
+        ///ポロックを　えらんでください
+        ///ポロックを　どうしますか？
+        ///まぜる　きのみを　えらんでください
+        ///[~ 17]
+        ///[VAR 01A3(0000)]が [VAR NUM1(0001)]コ　できた！[VAR BE05(0000)][VAR BE05(0001)]
+        ///[VAR PKNICK(0000)]に　ポロックをあげますか？
+        ///タマゴは　たべられません！
+        ///どのポケモンに　あげますか？
+        ///４つ　までしか　いれられません！
+        ///あか　で　しぼりこみました
+        ///あお　で　しぼりこみました
+        ///ももいろ　で　しぼりこみました
+        ///みどり　で　しぼりこみました
+        ///きいろ　で　しぼりこみました
+        ///ブレンドスタート
+        ///きのみを　もどす
+        ///ポケモンにあげる
+        ///やめる
+        ///はい
+        ///いいえ
+        ///ぜんぶ
+        ///あか
+        ///あお
+        ///ももいろ
+        ///みどり
+        ///きいろ
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Pokeblock_zh {
+            get {
+                return ResourceManager.GetString("text_Pokeblock_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zucker-Pofflé
         ///Minz-Pofflé
         ///Zitrus-Pofflé

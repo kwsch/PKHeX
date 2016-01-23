@@ -1,0 +1,106 @@
+﻿Boîte Pokéblocs
+Mixeur à Baies
+Donner un Pokébloc
+Donner
+Créer des Pokéblocs
+Créer
+[~ 6]
+Couleur
+[VAR NUM3(0000)]
+[VAR PKNICK(0000)]
+[VAR MOVE(0000)]
+À quel Pokémon voulez-vous le donner ?
+Vous donnez le Pokébloc à [VAR PKNICK(0000)] !
+Filtrer par couleur.
+Choisissez un Pokébloc.
+Que voulez-vous faire de ce Pokébloc ?
+Choisissez une Baie à mixer.
+[~ 17]
+Vous avez concocté [VAR NUM1(0001)] [VAR 01A3(0000)] ![VAR BE05(0000)][VAR BE05(0001)]
+Donner un Pokébloc à [VAR PKNICK(0000)] ?
+Un Œuf ne peut pas manger !
+À quel Pokémon voulez-vous le donner ?
+Vous ne pouvez en mettre que quatre !
+N’afficher que les rouges.
+N’afficher que les bleues.
+N’afficher que les roses.
+N’afficher que les vertes.
+N’afficher que les jaunes.
+Mixer
+Reprendre une Baie
+Donner à un Pokémon
+Arrêter
+Oui
+Non
+Toutes
+Rouge
+Bleue
+Rose
+Verte
+Jaune
+[~ 40]
+[~ 41]
+[~ 42]
+[~ 43]
+[~ 44]
+[~ 45]
+[~ 46]
+[~ 47]
+[~ 48]
+[~ 49]
+[~ 50]
+[VAR 01A3(0000)]
+[~ 52]
+[~ 53]
+[~ 54]
+[~ 55]
+[~ 56]
+[~ 57]
+[~ 58]
+[~ 59]
+[~ 60]
+[~ 61]
+[~ 62]
+[~ 63]
+[~ 64]
+[~ 65]
+[~ 66]
+[~ 67]
+[~ 68]
+[~ 69]
+[~ 70]
+[~ 71]
+[~ 72]
+[~ 73]
+[~ 74]
+Démonstration
+Blocage
+[~ 77]
+[~ 78]
+[~ 79]
+[~ 80]
+[~ 81]
+Pokébloc Rouge
+Pokébloc Bleu
+Pokébloc Rose
+Pokébloc Vert
+Pokébloc Jaune
+Pokébloc Irisé
+Super Pokébloc Rouge
+Super Pokébloc Bleu
+Super Pokébloc Rose
+Super Pokébloc Vert
+Super Pokébloc Jaune
+Super Pokébloc Irisé
+Pokéblocs Rouges
+Pokéblocs Bleus
+Pokéblocs Roses
+Pokéblocs Verts
+Pokéblocs Jaunes
+Pokéblocs Irisés
+Super Pokéblocs Rouges
+Super Pokéblocs Bleus
+Super Pokéblocs Roses
+Super Pokéblocs Verts
+Super Pokéblocs Jaunes
+Super Pokéblocs Irisés

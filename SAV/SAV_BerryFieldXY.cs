@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace PKHeX
 {
-    public partial class SAV_BerryField : Form
+    public partial class SAV_BerryFieldXY : Form
     {
-        public SAV_BerryField()
+        public SAV_BerryFieldXY()
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);

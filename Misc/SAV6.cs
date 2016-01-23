@@ -68,7 +68,7 @@ namespace PKHeX
                     SuperTrain = SecretBase = BoxWallpapers = 
                     LastViewedBox = PCLayout = PCBackgrounds = PCFlags = WondercardFlags = WondercardData = 
                     BerryField = OPower = Accessories = 
-                    PokeDex = PokeDexLanguageFlags = Spinda = EncounterCount = HoF = PSS = JPEG = -1;
+                    PokeDex = PokeDexLanguageFlags = Spinda = EncounterCount = HoF = PSS = JPEG = Contest -1;
                 MaisonStats = 0; // Make things work?
             }
             else if (XY)
@@ -110,6 +110,7 @@ namespace PKHeX
                 BoxWallpapers = 0x481E;
                 SecretBase = -1;
                 EonTicket = -1;
+                Contest = -1;
                 PlayTime = 0x1800;
                 Accessories = 0x1A00;
                 LastViewedBox = PCLayout + 0x43F;
@@ -146,6 +147,7 @@ namespace PKHeX
                 PokeDexLanguageFlags = PokeDex + 0x400;
                 HoF = 0x19E00; // Confirmed
                 SuperTrain = 0x20200;
+                Contest = 0x23600; // Confirmed
                 JPEG = 0x67C00; // Confirmed
                 MaisonStats = 0x1BBC0;
                 PSS = 0x05000; // Confirmed (thanks Rei)
@@ -187,7 +189,7 @@ namespace PKHeX
         public int BattleBox, GTS, Daycare, EonTicket,
             Fused, SUBE, Puff, Item, AdventureInfo, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, SecretBase, BoxWallpapers, LastViewedBox,
             PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh, PlayTime, Accessories,
-            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG;
+            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG, Contest;
         public int TrainerCard = 0x14000;
         public int Box = 0x33000, Party = 0x14200;
         public int[] DaycareSlot;
