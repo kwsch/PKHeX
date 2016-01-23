@@ -330,7 +330,7 @@ namespace PKHeX
         private void getBadges()
         {
             // Fetch Badges
-            Bitmap[] bma = Main.SAV.ORAS || Main.SAV.ORASDEMO ? 
+            Bitmap[] bma = Main.SAV.ORAS ? 
                 new[] {
                                    Properties.Resources.badge_01, // ORAS Badges
                                    Properties.Resources.badge_02,  
