@@ -49,7 +49,7 @@ namespace PKHeX
             {
                 /* 00: */   Item = 0x00000; Items = new Inventory(Item, 1);
                 /* 01: */   // = 0x00C00; // Select Bound Items
-                /* 02: */   // = 0x00E00; [00038] // ???
+                /* 02: */   AdventureInfo = 0x00E00;
                 /* 03: */   Trainer1 = 0x01000;
                 /* 04: */   // = 0x01200; [00004] // ???
                 /* 05: */   PlayTime = 0x01400;
@@ -208,7 +208,7 @@ namespace PKHeX
             }
         }
         public bool ORASDEMO => Data.Length == SIZE_ORASDEMO;
-        public bool ORAS => !ORASDEMO && (Version == GameVersion.OR || Version == GameVersion.AS);
+        public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;
         public bool XY => Version == GameVersion.X || Version == GameVersion.Y;
 
         // Save Information

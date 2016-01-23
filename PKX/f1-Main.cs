@@ -2681,7 +2681,7 @@ namespace PKHeX
             int offset = getPKXOffset(slot);
 
             byte[] pkxdata = preparepkx();
-            if (!(SAV.ORAS || SAV.ORASDEMO))
+            if (!(SAV.ORAS))
             {
                 PK6 pk = new PK6(pkxdata);
                 // User Protection

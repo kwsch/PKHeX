@@ -26,8 +26,15 @@ namespace PKHeX
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
 
-            L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = Main.SAV.ORAS || Main.SAV.ORASDEMO;
-            L_Style.Visible = TB_Style.Visible = Tab_Appearance.Visible = SAV.XY;
+            L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = Main.SAV.ORAS;
+            L_Style.Visible = TB_Style.Visible = SAV.XY;
+            if (!SAV.XY)
+                TC_Editor.TabPages.Remove(Tab_Appearance);
+            if (SAV.ORASDEMO)
+            {
+                TC_Editor.TabPages.Remove(Tab_Maison);
+                TC_Editor.TabPages.Remove(Tab_Multiplayer);
+            }
 
             editing = true;
             GB_Map.Enabled = Main.ramsav == null;
