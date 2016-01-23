@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BerryFieldORAS));
-            this.L_Unfinished = new System.Windows.Forms.Label();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.NUP_Red = new System.Windows.Forms.NumericUpDown();
@@ -71,20 +70,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUP_RedPlus)).BeginInit();
             this.SuspendLayout();
             // 
-            // L_Unfinished
-            // 
-            this.L_Unfinished.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Unfinished.AutoSize = true;
-            this.L_Unfinished.Location = new System.Drawing.Point(92, 175);
-            this.L_Unfinished.Name = "L_Unfinished";
-            this.L_Unfinished.Size = new System.Drawing.Size(173, 13);
-            this.L_Unfinished.TabIndex = 1;
-            this.L_Unfinished.Text = "Unfinished - Needs More Research";
-            // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_Cancel.Location = new System.Drawing.Point(96, 191);
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Cancel.Location = new System.Drawing.Point(225, 150);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 3;
@@ -94,8 +83,8 @@
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_Save.Location = new System.Drawing.Point(183, 191);
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Save.Location = new System.Drawing.Point(312, 150);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 4;
@@ -105,7 +94,7 @@
             // 
             // NUP_Red
             // 
-            this.NUP_Red.Location = new System.Drawing.Point(128, 7);
+            this.NUP_Red.Location = new System.Drawing.Point(141, 7);
             this.NUP_Red.Maximum = new decimal(new int[] {
             999,
             0,
@@ -119,11 +108,10 @@
             0,
             0,
             0});
-            this.NUP_Red.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_Blue
             // 
-            this.NUP_Blue.Location = new System.Drawing.Point(128, 30);
+            this.NUP_Blue.Location = new System.Drawing.Point(141, 30);
             this.NUP_Blue.Maximum = new decimal(new int[] {
             999,
             0,
@@ -137,11 +125,10 @@
             0,
             0,
             0});
-            this.NUP_Blue.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_Green
             // 
-            this.NUP_Green.Location = new System.Drawing.Point(128, 76);
+            this.NUP_Green.Location = new System.Drawing.Point(141, 76);
             this.NUP_Green.Maximum = new decimal(new int[] {
             999,
             0,
@@ -155,11 +142,10 @@
             0,
             0,
             0});
-            this.NUP_Green.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_Pink
             // 
-            this.NUP_Pink.Location = new System.Drawing.Point(128, 53);
+            this.NUP_Pink.Location = new System.Drawing.Point(141, 53);
             this.NUP_Pink.Maximum = new decimal(new int[] {
             999,
             0,
@@ -173,11 +159,10 @@
             0,
             0,
             0});
-            this.NUP_Pink.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_Rainbow
             // 
-            this.NUP_Rainbow.Location = new System.Drawing.Point(128, 122);
+            this.NUP_Rainbow.Location = new System.Drawing.Point(141, 122);
             this.NUP_Rainbow.Maximum = new decimal(new int[] {
             999,
             0,
@@ -191,11 +176,10 @@
             0,
             0,
             0});
-            this.NUP_Rainbow.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_Yellow
             // 
-            this.NUP_Yellow.Location = new System.Drawing.Point(128, 99);
+            this.NUP_Yellow.Location = new System.Drawing.Point(141, 99);
             this.NUP_Yellow.Maximum = new decimal(new int[] {
             999,
             0,
@@ -209,119 +193,118 @@
             0,
             0,
             0});
-            this.NUP_Yellow.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // L_Red
             // 
-            this.L_Red.AutoSize = true;
-            this.L_Red.Location = new System.Drawing.Point(8, 10);
+            this.L_Red.Location = new System.Drawing.Point(-1, 7);
             this.L_Red.Name = "L_Red";
-            this.L_Red.Size = new System.Drawing.Size(89, 13);
+            this.L_Red.Size = new System.Drawing.Size(140, 20);
             this.L_Red.TabIndex = 33;
             this.L_Red.Text = "Red Pokeblocks:";
+            this.L_Red.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Blue
             // 
-            this.L_Blue.AutoSize = true;
-            this.L_Blue.Location = new System.Drawing.Point(8, 32);
+            this.L_Blue.Location = new System.Drawing.Point(-1, 29);
             this.L_Blue.Name = "L_Blue";
-            this.L_Blue.Size = new System.Drawing.Size(90, 13);
+            this.L_Blue.Size = new System.Drawing.Size(140, 20);
             this.L_Blue.TabIndex = 34;
             this.L_Blue.Text = "Blue Pokeblocks:";
+            this.L_Blue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Pink
             // 
-            this.L_Pink.AutoSize = true;
-            this.L_Pink.Location = new System.Drawing.Point(8, 55);
+            this.L_Pink.Location = new System.Drawing.Point(-1, 52);
             this.L_Pink.Name = "L_Pink";
-            this.L_Pink.Size = new System.Drawing.Size(90, 13);
+            this.L_Pink.Size = new System.Drawing.Size(140, 20);
             this.L_Pink.TabIndex = 35;
             this.L_Pink.Text = "Pink Pokeblocks:";
+            this.L_Pink.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Green
             // 
-            this.L_Green.AutoSize = true;
-            this.L_Green.Location = new System.Drawing.Point(8, 78);
+            this.L_Green.Location = new System.Drawing.Point(-1, 75);
             this.L_Green.Name = "L_Green";
-            this.L_Green.Size = new System.Drawing.Size(98, 13);
+            this.L_Green.Size = new System.Drawing.Size(140, 20);
             this.L_Green.TabIndex = 36;
             this.L_Green.Text = "Green Pokeblocks:";
+            this.L_Green.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Yellow
             // 
-            this.L_Yellow.AutoSize = true;
-            this.L_Yellow.Location = new System.Drawing.Point(8, 101);
+            this.L_Yellow.Location = new System.Drawing.Point(-1, 98);
             this.L_Yellow.Name = "L_Yellow";
-            this.L_Yellow.Size = new System.Drawing.Size(100, 13);
+            this.L_Yellow.Size = new System.Drawing.Size(140, 20);
             this.L_Yellow.TabIndex = 37;
             this.L_Yellow.Text = "Yellow Pokeblocks:";
+            this.L_Yellow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Rainbow
             // 
-            this.L_Rainbow.AutoSize = true;
-            this.L_Rainbow.Location = new System.Drawing.Point(8, 124);
+            this.L_Rainbow.Location = new System.Drawing.Point(-1, 121);
             this.L_Rainbow.Name = "L_Rainbow";
-            this.L_Rainbow.Size = new System.Drawing.Size(111, 13);
+            this.L_Rainbow.Size = new System.Drawing.Size(140, 20);
             this.L_Rainbow.TabIndex = 38;
             this.L_Rainbow.Text = "Rainbow Pokeblocks:";
+            this.L_Rainbow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_RainbowPlus
             // 
-            this.L_RainbowPlus.AutoSize = true;
-            this.L_RainbowPlus.Location = new System.Drawing.Point(184, 124);
+            this.L_RainbowPlus.Location = new System.Drawing.Point(196, 121);
             this.L_RainbowPlus.Name = "L_RainbowPlus";
-            this.L_RainbowPlus.Size = new System.Drawing.Size(120, 13);
+            this.L_RainbowPlus.Size = new System.Drawing.Size(140, 20);
             this.L_RainbowPlus.TabIndex = 50;
             this.L_RainbowPlus.Text = "Rainbow Pokeblocks +:";
+            this.L_RainbowPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_YellowPlus
             // 
-            this.L_YellowPlus.AutoSize = true;
-            this.L_YellowPlus.Location = new System.Drawing.Point(184, 101);
+            this.L_YellowPlus.Location = new System.Drawing.Point(196, 98);
             this.L_YellowPlus.Name = "L_YellowPlus";
-            this.L_YellowPlus.Size = new System.Drawing.Size(109, 13);
+            this.L_YellowPlus.Size = new System.Drawing.Size(140, 20);
             this.L_YellowPlus.TabIndex = 49;
             this.L_YellowPlus.Text = "Yellow Pokeblocks +:";
+            this.L_YellowPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_GreenPlus
             // 
-            this.L_GreenPlus.AutoSize = true;
-            this.L_GreenPlus.Location = new System.Drawing.Point(184, 78);
+            this.L_GreenPlus.Location = new System.Drawing.Point(196, 75);
             this.L_GreenPlus.Name = "L_GreenPlus";
-            this.L_GreenPlus.Size = new System.Drawing.Size(107, 13);
+            this.L_GreenPlus.Size = new System.Drawing.Size(140, 20);
             this.L_GreenPlus.TabIndex = 48;
             this.L_GreenPlus.Text = "Green Pokeblocks +:";
+            this.L_GreenPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_PinkPlus
             // 
-            this.L_PinkPlus.AutoSize = true;
-            this.L_PinkPlus.Location = new System.Drawing.Point(184, 55);
+            this.L_PinkPlus.Location = new System.Drawing.Point(196, 52);
             this.L_PinkPlus.Name = "L_PinkPlus";
-            this.L_PinkPlus.Size = new System.Drawing.Size(99, 13);
+            this.L_PinkPlus.Size = new System.Drawing.Size(140, 20);
             this.L_PinkPlus.TabIndex = 47;
             this.L_PinkPlus.Text = "Pink Pokeblocks +:";
+            this.L_PinkPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_BluePlus
             // 
-            this.L_BluePlus.AutoSize = true;
-            this.L_BluePlus.Location = new System.Drawing.Point(184, 32);
+            this.L_BluePlus.Location = new System.Drawing.Point(196, 29);
             this.L_BluePlus.Name = "L_BluePlus";
-            this.L_BluePlus.Size = new System.Drawing.Size(99, 13);
+            this.L_BluePlus.Size = new System.Drawing.Size(140, 20);
             this.L_BluePlus.TabIndex = 46;
             this.L_BluePlus.Text = "Blue Pokeblocks +:";
+            this.L_BluePlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_RedPlus
             // 
-            this.L_RedPlus.AutoSize = true;
-            this.L_RedPlus.Location = new System.Drawing.Point(184, 10);
+            this.L_RedPlus.Location = new System.Drawing.Point(196, 7);
             this.L_RedPlus.Name = "L_RedPlus";
-            this.L_RedPlus.Size = new System.Drawing.Size(98, 13);
+            this.L_RedPlus.Size = new System.Drawing.Size(140, 20);
             this.L_RedPlus.TabIndex = 45;
             this.L_RedPlus.Text = "Red Pokeblocks +:";
+            this.L_RedPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUP_RainbowPlus
             // 
-            this.NUP_RainbowPlus.Location = new System.Drawing.Point(304, 122);
+            this.NUP_RainbowPlus.Location = new System.Drawing.Point(338, 122);
             this.NUP_RainbowPlus.Maximum = new decimal(new int[] {
             999,
             0,
@@ -335,11 +318,10 @@
             0,
             0,
             0});
-            this.NUP_RainbowPlus.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_YellowPlus
             // 
-            this.NUP_YellowPlus.Location = new System.Drawing.Point(304, 99);
+            this.NUP_YellowPlus.Location = new System.Drawing.Point(338, 99);
             this.NUP_YellowPlus.Maximum = new decimal(new int[] {
             999,
             0,
@@ -353,11 +335,10 @@
             0,
             0,
             0});
-            this.NUP_YellowPlus.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_GreenPlus
             // 
-            this.NUP_GreenPlus.Location = new System.Drawing.Point(304, 76);
+            this.NUP_GreenPlus.Location = new System.Drawing.Point(338, 76);
             this.NUP_GreenPlus.Maximum = new decimal(new int[] {
             999,
             0,
@@ -371,11 +352,10 @@
             0,
             0,
             0});
-            this.NUP_GreenPlus.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_PinkPlus
             // 
-            this.NUP_PinkPlus.Location = new System.Drawing.Point(304, 53);
+            this.NUP_PinkPlus.Location = new System.Drawing.Point(338, 53);
             this.NUP_PinkPlus.Maximum = new decimal(new int[] {
             999,
             0,
@@ -389,11 +369,10 @@
             0,
             0,
             0});
-            this.NUP_PinkPlus.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_BluePlus
             // 
-            this.NUP_BluePlus.Location = new System.Drawing.Point(304, 30);
+            this.NUP_BluePlus.Location = new System.Drawing.Point(338, 30);
             this.NUP_BluePlus.Maximum = new decimal(new int[] {
             999,
             0,
@@ -407,11 +386,10 @@
             0,
             0,
             0});
-            this.NUP_BluePlus.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // NUP_RedPlus
             // 
-            this.NUP_RedPlus.Location = new System.Drawing.Point(304, 7);
+            this.NUP_RedPlus.Location = new System.Drawing.Point(338, 7);
             this.NUP_RedPlus.Maximum = new decimal(new int[] {
             999,
             0,
@@ -425,12 +403,11 @@
             0,
             0,
             0});
-            this.NUP_RedPlus.ValueChanged += new System.EventHandler(this.NUP_Pokeblock_ValueChanged);
             // 
             // B_RandomizeBerries
             // 
             this.B_RandomizeBerries.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_RandomizeBerries.Location = new System.Drawing.Point(111, 149);
+            this.B_RandomizeBerries.Location = new System.Drawing.Point(11, 150);
             this.B_RandomizeBerries.Name = "B_RandomizeBerries";
             this.B_RandomizeBerries.Size = new System.Drawing.Size(132, 23);
             this.B_RandomizeBerries.TabIndex = 51;
@@ -442,7 +419,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 221);
+            this.ClientSize = new System.Drawing.Size(404, 181);
             this.Controls.Add(this.B_RandomizeBerries);
             this.Controls.Add(this.L_RainbowPlus);
             this.Controls.Add(this.L_YellowPlus);
@@ -470,13 +447,12 @@
             this.Controls.Add(this.NUP_Red);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.L_Unfinished);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(375, 260);
+            this.MaximumSize = new System.Drawing.Size(420, 220);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(375, 260);
+            this.MinimumSize = new System.Drawing.Size(420, 220);
             this.Name = "SAV_BerryFieldORAS";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Berry Field Editor";
@@ -493,12 +469,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUP_BluePlus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_RedPlus)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label L_Unfinished;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.NumericUpDown NUP_Red;
