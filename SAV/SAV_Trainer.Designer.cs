@@ -66,7 +66,7 @@ namespace PKHeX
             this.TB_Saying2 = new System.Windows.Forms.TextBox();
             this.TB_Saying1 = new System.Windows.Forms.TextBox();
             this.L_LastSaved = new System.Windows.Forms.Label();
-            this.CAL_LastSaved = new System.Windows.Forms.DateTimePicker();
+            this.CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
             this.L_Seconds = new System.Windows.Forms.Label();
             this.L_Minutes = new System.Windows.Forms.Label();
             this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
@@ -195,6 +195,10 @@ namespace PKHeX
             this.Tab_Multiplayer = new System.Windows.Forms.TabPage();
             this.Tab_Maison = new System.Windows.Forms.TabPage();
             this.Tab_Appearance = new System.Windows.Forms.TabPage();
+            this.CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
+            this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
+            this.L_Started = new System.Windows.Forms.Label();
+            this.CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).BeginInit();
@@ -616,22 +620,22 @@ namespace PKHeX
             // 
             // L_LastSaved
             // 
-            this.L_LastSaved.Location = new System.Drawing.Point(9, 127);
+            this.L_LastSaved.Location = new System.Drawing.Point(4, 107);
             this.L_LastSaved.Name = "L_LastSaved";
-            this.L_LastSaved.Size = new System.Drawing.Size(80, 13);
+            this.L_LastSaved.Size = new System.Drawing.Size(80, 20);
             this.L_LastSaved.TabIndex = 32;
             this.L_LastSaved.Text = "Last Saved:";
             this.L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CAL_LastSaved
+            // CAL_LastSavedDate
             // 
-            this.CAL_LastSaved.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.CAL_LastSaved.Location = new System.Drawing.Point(90, 125);
-            this.CAL_LastSaved.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
-            this.CAL_LastSaved.Name = "CAL_LastSaved";
-            this.CAL_LastSaved.Size = new System.Drawing.Size(99, 20);
-            this.CAL_LastSaved.TabIndex = 31;
-            this.CAL_LastSaved.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
+            this.CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.CAL_LastSavedDate.Location = new System.Drawing.Point(90, 107);
+            this.CAL_LastSavedDate.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
+            this.CAL_LastSavedDate.Name = "CAL_LastSavedDate";
+            this.CAL_LastSavedDate.Size = new System.Drawing.Size(99, 20);
+            this.CAL_LastSavedDate.TabIndex = 31;
+            this.CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // L_Seconds
             // 
@@ -1824,7 +1828,9 @@ namespace PKHeX
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.CAL_LastSaved);
+            this.groupBox2.Controls.Add(this.L_Started);
+            this.groupBox2.Controls.Add(this.CAL_AdventureStartDate);
+            this.groupBox2.Controls.Add(this.CAL_LastSavedDate);
             this.groupBox2.Controls.Add(this.L_LastSaved);
             this.groupBox2.Controls.Add(this.MT_Seconds);
             this.groupBox2.Controls.Add(this.MT_Hours);
@@ -1832,6 +1838,8 @@ namespace PKHeX
             this.groupBox2.Controls.Add(this.L_Hours);
             this.groupBox2.Controls.Add(this.MT_Minutes);
             this.groupBox2.Controls.Add(this.L_Minutes);
+            this.groupBox2.Controls.Add(this.CAL_AdventureStartTime);
+            this.groupBox2.Controls.Add(this.CAL_LastSavedTime);
             this.groupBox2.Location = new System.Drawing.Point(3, 99);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 151);
@@ -2061,6 +2069,52 @@ namespace PKHeX
             this.Tab_Appearance.Text = "Appearance";
             this.Tab_Appearance.UseVisualStyleBackColor = true;
             // 
+            // CAL_AdventureStartTime
+            // 
+            this.CAL_AdventureStartTime.CustomFormat = "hh:mm tt";
+            this.CAL_AdventureStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.CAL_AdventureStartTime.Location = new System.Drawing.Point(116, 70);
+            this.CAL_AdventureStartTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.CAL_AdventureStartTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_AdventureStartTime.Name = "CAL_AdventureStartTime";
+            this.CAL_AdventureStartTime.ShowUpDown = true;
+            this.CAL_AdventureStartTime.Size = new System.Drawing.Size(73, 20);
+            this.CAL_AdventureStartTime.TabIndex = 34;
+            this.CAL_AdventureStartTime.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
+            // 
+            // CAL_AdventureStartDate
+            // 
+            this.CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.CAL_AdventureStartDate.Location = new System.Drawing.Point(90, 51);
+            this.CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
+            this.CAL_AdventureStartDate.Size = new System.Drawing.Size(99, 20);
+            this.CAL_AdventureStartDate.TabIndex = 35;
+            this.CAL_AdventureStartDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // L_Started
+            // 
+            this.L_Started.Location = new System.Drawing.Point(4, 51);
+            this.L_Started.Name = "L_Started";
+            this.L_Started.Size = new System.Drawing.Size(80, 20);
+            this.L_Started.TabIndex = 36;
+            this.L_Started.Text = "Game Started:";
+            this.L_Started.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CAL_LastSavedTime
+            // 
+            this.CAL_LastSavedTime.CustomFormat = "hh:mm tt";
+            this.CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.CAL_LastSavedTime.Location = new System.Drawing.Point(116, 126);
+            this.CAL_LastSavedTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_LastSavedTime.Name = "CAL_LastSavedTime";
+            this.CAL_LastSavedTime.ShowUpDown = true;
+            this.CAL_LastSavedTime.Size = new System.Drawing.Size(73, 20);
+            this.CAL_LastSavedTime.TabIndex = 37;
+            this.CAL_LastSavedTime.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
+            // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2263,7 +2317,7 @@ namespace PKHeX
         private System.Windows.Forms.ComboBox CB_Vivillon;
         private System.Windows.Forms.Label L_Vivillon;
         private System.Windows.Forms.Label L_LastSaved;
-        private System.Windows.Forms.DateTimePicker CAL_LastSaved;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedDate;
         private System.Windows.Forms.TabControl TC_Editor;
         private System.Windows.Forms.TabPage Tab_Overview;
         private System.Windows.Forms.TabPage Tab_BadgeMap;
@@ -2282,5 +2336,9 @@ namespace PKHeX
         private System.Windows.Forms.GroupBox GB_Map;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureStartDate;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureStartTime;
+        private System.Windows.Forms.Label L_Started;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedTime;
     }
 }

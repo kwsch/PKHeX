@@ -438,7 +438,10 @@ namespace PKHeX
             }
 
             CB_Vivillon.SelectedIndex = SAV.Vivillon;
-            CAL_LastSaved.Value = new DateTime(SAV.LastSavedYear, SAV.LastSavedMonth, SAV.LastSavedDay);
+            CAL_LastSavedDate.Value = new DateTime(SAV.LastSavedYear, SAV.LastSavedMonth, SAV.LastSavedDay);
+            CAL_LastSavedTime.Value = new DateTime(2000, 1, 1, SAV.LastSavedHour, SAV.LastSavedMinute, 0);
+            CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
+            CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart% 86400);
         }
         private void save()
         {
@@ -519,9 +522,14 @@ namespace PKHeX
 
             // Vivillon
             SAV.Vivillon = CB_Vivillon.SelectedIndex;
-            SAV.LastSavedYear = CAL_LastSaved.Value.Year;
-            SAV.LastSavedMonth = CAL_LastSaved.Value.Month;
-            SAV.LastSavedDay = CAL_LastSaved.Value.Day;
+
+            SAV.SecondsToStart = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+
+            SAV.LastSavedYear = CAL_LastSavedDate.Value.Year;
+            SAV.LastSavedMonth = CAL_LastSavedDate.Value.Month;
+            SAV.LastSavedDay = CAL_LastSavedDate.Value.Day;
+            SAV.LastSavedHour = CAL_LastSavedTime.Value.Hour;
+            SAV.LastSavedMinute = CAL_LastSavedTime.Value.Minute;
         }
 
         private void clickOT(object sender, MouseEventArgs e)

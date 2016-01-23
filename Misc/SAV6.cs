@@ -84,6 +84,7 @@ namespace PKHeX
                 Puff = 0x00000;
                 Item = 0x00400;
                 Items = new Inventory(Item, 0);
+                AdventureInfo = 0x01200;
                 Trainer1 = 0x1400;
                 Trainer2 = 0x4200;
                 PCLayout = 0x4400;
@@ -126,6 +127,7 @@ namespace PKHeX
                 Puff = 0x00000; // Confirmed
                 Item = 0x00400; // Confirmed
                 Items = new Inventory(Item, 1);
+                AdventureInfo = 0x01200;
                 Trainer1 = 0x01400; // Confirmed
                 Trainer2 = 0x04200; // Confirmed
                 PCLayout = 0x04400; // Confirmed
@@ -183,7 +185,7 @@ namespace PKHeX
         }
         public Inventory Items = new Inventory(0, -1);
         public int BattleBox, GTS, Daycare, EonTicket,
-            Fused, SUBE, Puff, Item, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, SecretBase, BoxWallpapers, LastViewedBox,
+            Fused, SUBE, Puff, Item, AdventureInfo, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, SecretBase, BoxWallpapers, LastViewedBox,
             PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh, PlayTime, Accessories,
             PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG;
         public int TrainerCard = 0x14000;
@@ -439,7 +441,11 @@ namespace PKHeX
         public uint LastSaved { get { return BitConverter.ToUInt32(Data, PlayTime + 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); } }
         public int LastSavedYear { get { return (int)(LastSaved & 0xFFF); } set { LastSaved = LastSaved & 0xFFFFF000 | (uint)value; } }
         public int LastSavedMonth { get { return (int)(LastSaved >> 12 & 0xF); } set { LastSaved = LastSaved & 0xFFFF0FFF | ((uint)value & 0xF) << 12; } }
-        public int LastSavedDay { get { return (int)(LastSaved >> 16 & 0xF); } set { LastSaved = LastSaved & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; } }
+        public int LastSavedDay { get { return (int)(LastSaved >> 16 & 0x1F); } set { LastSaved = LastSaved & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; } }
+        public int LastSavedHour { get { return (int)(LastSaved >> 21 & 0x1F); } set { LastSaved = LastSaved & 0xFC1FFFFF | ((uint)value & 0x1F) << 21; } }
+        public int LastSavedMinute { get { return (int)(LastSaved >> 26 & 0x3F); } set { LastSaved = LastSaved & 0x03FFFFFF | ((uint)value & 0x3F) << 26; } }
+        public int SecondsToStart {  get { return BitConverter.ToInt32(Data, AdventureInfo + 0x18); } set {  BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); } }
+        public int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x20); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); } }
 
         public uint getPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
         public void setPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }
