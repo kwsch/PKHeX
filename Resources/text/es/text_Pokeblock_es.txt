@@ -1,0 +1,106 @@
+﻿Tubo Pokécubos
+Licuabayas
+Dar un Pokécubo
+Dar
+Hacer Pokécubos
+Hacer
+[~ 6]
+Color
+[VAR NUM3(0000)]
+[VAR PKNICK(0000)]
+[VAR MOVE(0000)]
+¿A qué Pokémon quieres dárselo?
+¡Le has dado el Pokécubo a [VAR PKNICK(0000)]!
+Elige qué color de baya quieres filtrar.
+Elige un Pokécubo.
+¿Qué quieres hacer con el Pokécubo?
+Elige las bayas que quieres licuar.
+[~ 17]
+¡Has conseguido [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
+¿Quieres darle el Pokécubo a [VAR PKNICK(0000)]?
+¡Los Huevos no pueden comérselos!
+¿A qué Pokémon quieres dárselo?
+¡No puedes meter más de cuatro!
+Bayas filtradas por color rojo.
+Bayas filtradas por color azul.
+Bayas filtradas por color rosa.
+Bayas filtradas por color verde.
+Bayas filtradas por color amarillo.
+¡A licuar!
+Recuperar baya
+Dar a un Pokémon
+Salir
+Sí
+No
+Todas
+Roja
+Azul
+Rosa
+Verde
+Amarilla
+[~ 40]
+[~ 41]
+[~ 42]
+[~ 43]
+[~ 44]
+[~ 45]
+[~ 46]
+[~ 47]
+[~ 48]
+[~ 49]
+[~ 50]
+[VAR 01A3(0000)]
+[~ 52]
+[~ 53]
+[~ 54]
+[~ 55]
+[~ 56]
+[~ 57]
+[~ 58]
+[~ 59]
+[~ 60]
+[~ 61]
+[~ 62]
+[~ 63]
+[~ 64]
+[~ 65]
+[~ 66]
+[~ 67]
+[~ 68]
+[~ 69]
+[~ 70]
+[~ 71]
+[~ 72]
+[~ 73]
+[~ 74]
+Exhibición
+Interferencia
+[~ 77]
+[~ 78]
+[~ 79]
+[~ 80]
+[~ 81]
+Pokécubo Rojo
+Pokécubo Azul
+Pokécubo Rosa
+Pokécubo Verde
+Pokécubo Amarillo
+Pokécubo Arcoíris
+Pokécubo Rojo Plus
+Pokécubo Azul Plus
+Pokécubo Rosa Plus
+Pokécubo Verde Plus
+Pokécubo Amarillo Plus
+Pokécubo Arcoíris Plus
+Pokécubos Rojos
+Pokécubos Azules
+Pokécubos Rosas
+Pokécubos Verdes
+Pokécubos Amarillos
+Pokécubos Arcoíris
+Pokécubos Rojos Plus
+Pokécubos Azules Plus
+Pokécubos Rosas Plus
+Pokécubos Verdes Plus
+Pokécubos Amarillos Plus
+Pokécubos Arcoíris Plus

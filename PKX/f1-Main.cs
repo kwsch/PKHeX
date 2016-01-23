@@ -165,7 +165,7 @@ namespace PKHeX
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms, 
             memories, genloc, trainingbags, trainingstage, characteristics, 
-            encountertypelist, gamelanguages, consoleregions, balllist, gamelist = { };
+            encountertypelist, gamelanguages, consoleregions, balllist, gamelist, pokeblocks = { };
         public static string origintrack;
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
@@ -912,6 +912,7 @@ namespace PKHeX
 
             if ((l != "zh") || (l == "zh" && !fieldsInitialized)) // load initial binaries
             {
+                pokeblocks = Util.getStringList("Pokeblock", l);
                 forms = Util.getStringList("Forms", l);
                 memories = Util.getStringList("Memories", l);
                 genloc = Util.getStringList("GenLoc", l);
@@ -3201,30 +3202,9 @@ namespace PKHeX
         private void B_OpenBerryField_Click(object sender, EventArgs e)
         {
             if (SAV.ORAS)
-            {
-                DialogResult dr = Util.Prompt(MessageBoxButtons.YesNo, "No editing support for ORAS :(", "Repopulate all with random berries?");
-                if (dr != DialogResult.Yes) return; // abort
-                // Randomize the trees.
-                
-                byte[] ready = { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00, };
-                int[] berrylist =
-                {
-                    0,149,150,151,152,153,154,155,156,157,158,159,160,161,162,
-                    163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,
-                    178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,
-                    193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,
-                    208,209,210,211,212,686,687,688,
-                };
-                for (int i = 0; i < 90; i++)
-                {
-                    Array.Copy(ready, 0, SAV.Data, SAV.BerryField + 0x10 * i, 0x10); // prep the berry template tree (which we replace offset 0x6 for the Tree Item)
-                    int randberry = (int)(Util.rnd32() % berrylist.Length); // generate a random berry that will go into the tree
-                    int index = berrylist[randberry]; // get berry item ID from list
-                    Array.Copy(BitConverter.GetBytes(index), 0, SAV.Data, SAV.BerryField + 0x10 * i + 6, 2); // put berry into tree.
-                }
-            }
+                new SAV_BerryFieldORAS().ShowDialog();
             else
-                new SAV_BerryField().ShowDialog();
+                new SAV_BerryFieldXY().ShowDialog();
         }
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {

@@ -1,0 +1,106 @@
+﻿Portapokémelle
+Mixer bacche
+Dai una Pokémella
+Dai
+Prepara delle Pokémelle
+Prepara
+[~ 6]
+Colore
+[VAR NUM3(0000)]
+[VAR PKNICK(0000)]
+[VAR MOVE(0000)]
+A quale Pokémon vuoi darla?
+Hai dato la Pokémella a [VAR PKNICK(0000)]!
+Filtra per colore.
+Scegli una Pokémella.
+Cosa vuoi fare con la Pokémella?
+Scegli le bacche da mescolare.
+[~ 17]
+Hai preparato [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
+Vuoi dare la Pokémella a [VAR PKNICK(0000)]?
+Un Uovo non può mangiare Pokémelle!
+A quale Pokémon vuoi darla?
+Non puoi usare più di quattro bacche!
+Filtro selezionato: rosso
+Filtro selezionato: blu
+Filtro selezionato: rosa
+Filtro selezionato: verde
+Filtro selezionato: giallo
+Aziona il mixer
+Annulla
+Dai a un Pokémon
+Esci
+Sì
+No
+Tutti
+Rosso
+Blu
+Rosa
+Verde
+Giallo
+[~ 40]
+[~ 41]
+[~ 42]
+[~ 43]
+[~ 44]
+[~ 45]
+[~ 46]
+[~ 47]
+[~ 48]
+[~ 49]
+[~ 50]
+[VAR 01A3(0000)]
+[~ 52]
+[~ 53]
+[~ 54]
+[~ 55]
+[~ 56]
+[~ 57]
+[~ 58]
+[~ 59]
+[~ 60]
+[~ 61]
+[~ 62]
+[~ 63]
+[~ 64]
+[~ 65]
+[~ 66]
+[~ 67]
+[~ 68]
+[~ 69]
+[~ 70]
+[~ 71]
+[~ 72]
+[~ 73]
+[~ 74]
+Fascino
+Intralcio
+[~ 77]
+[~ 78]
+[~ 79]
+[~ 80]
+[~ 81]
+Pokémella rossa
+Pokémella blu
+Pokémella rosa
+Pokémella verde
+Pokémella gialla
+Pokémella iride
+Super Pokémella rossa
+Super Pokémella blu
+Super Pokémella rosa
+Super Pokémella verde
+Super Pokémella gialla
+Super Pokémella iride
+Pokémelle rosse
+Pokémelle blu
+Pokémelle rosa
+Pokémelle verdi
+Pokémelle gialle
+Pokémelle iride
+Super Pokémelle rosse
+Super Pokémelle blu
+Super Pokémelle rosa
+Super Pokémelle verdi
+Super Pokémelle gialle
+Super Pokémelle iride
