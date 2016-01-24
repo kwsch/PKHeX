@@ -56,6 +56,7 @@
             this.NUP_BluePlus = new System.Windows.Forms.NumericUpDown();
             this.NUP_RedPlus = new System.Windows.Forms.NumericUpDown();
             this.B_RandomizeBerries = new System.Windows.Forms.Button();
+            this.B_GiveAllBlocks = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Red)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Blue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_Green)).BeginInit();
@@ -73,7 +74,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(225, 150);
+            this.B_Cancel.Location = new System.Drawing.Point(231, 150);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 3;
@@ -409,17 +410,29 @@
             this.B_RandomizeBerries.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.B_RandomizeBerries.Location = new System.Drawing.Point(11, 150);
             this.B_RandomizeBerries.Name = "B_RandomizeBerries";
-            this.B_RandomizeBerries.Size = new System.Drawing.Size(132, 23);
+            this.B_RandomizeBerries.Size = new System.Drawing.Size(114, 23);
             this.B_RandomizeBerries.TabIndex = 51;
             this.B_RandomizeBerries.Text = "Randomize Berries";
             this.B_RandomizeBerries.UseVisualStyleBackColor = true;
             this.B_RandomizeBerries.Click += new System.EventHandler(this.B_RandomizeBerries_Click);
+            // 
+            // B_GiveAllBlocks
+            // 
+            this.B_GiveAllBlocks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_GiveAllBlocks.Location = new System.Drawing.Point(131, 150);
+            this.B_GiveAllBlocks.Name = "B_GiveAllBlocks";
+            this.B_GiveAllBlocks.Size = new System.Drawing.Size(88, 23);
+            this.B_GiveAllBlocks.TabIndex = 52;
+            this.B_GiveAllBlocks.Text = "Give All Blocks";
+            this.B_GiveAllBlocks.UseVisualStyleBackColor = true;
+            this.B_GiveAllBlocks.Click += new System.EventHandler(this.B_GiveAllBlocks_Click);
             // 
             // SAV_BerryFieldORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 181);
+            this.Controls.Add(this.B_GiveAllBlocks);
             this.Controls.Add(this.B_RandomizeBerries);
             this.Controls.Add(this.L_RainbowPlus);
             this.Controls.Add(this.L_YellowPlus);
@@ -500,5 +513,6 @@
         private System.Windows.Forms.NumericUpDown NUP_BluePlus;
         private System.Windows.Forms.NumericUpDown NUP_RedPlus;
         private System.Windows.Forms.Button B_RandomizeBerries;
+        private System.Windows.Forms.Button B_GiveAllBlocks;
     }
 }

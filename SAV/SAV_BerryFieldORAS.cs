@@ -49,5 +49,10 @@ namespace PKHeX
                 tree.CopyTo(sav, Main.SAV.BerryField + 0x10 * i); // put tree into plot
             }
         }
+        private void B_GiveAllBlocks_Click(object sender, EventArgs e)
+        {
+            foreach (NumericUpDown n in nup_spec)
+                n.Value = ModifierKeys == Keys.Control ? 0 : 999;
+        }
     }
 }
