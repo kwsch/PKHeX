@@ -446,6 +446,10 @@ namespace PKHeX
         public Image Sprite => getSprite(this);
         public string ShowdownText => getShowdownText(this);
         public string[] QRText => getQRText(this);
+        public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
+        public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
+        public byte[] DecryptedPartyData => Data.Take(SIZE_PARTY).ToArray();
+        public byte[] DecryptedBoxData => Data.Take(SIZE_STORED).ToArray();
 
         public int HPType
         {
@@ -491,6 +495,7 @@ namespace PKHeX
             }
         }
         public string FileName => getFileName(this);
+        public bool ChecksumValid => Checksum == CalculateChecksum();
 
         // Methods
         public void RefreshChecksum()

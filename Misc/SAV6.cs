@@ -519,6 +519,7 @@ namespace PKHeX
         public void setData(byte[] input, int Offset)
         {
             input.CopyTo(Data, Offset);
+            Edited = true;
         }
 
         // Pokémon Requests
@@ -532,30 +533,29 @@ namespace PKHeX
         }
         public void setPK6Party(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
+            if (pk6 == null) return;
             if (trade ?? SetUpdatePK6)
                 setPK6(pk6);
             if (dex ?? SetUpdateDex)
                 setDex(pk6);
-
-            byte[] ek6 = encryptArray(pk6.Data);
-            Array.Resize(ref ek6, PK6.SIZE_PARTY);
-            setData(ek6, offset);
+            
+            setData(pk6.EncryptedPartyData, offset);
             Edited = true;
         }
         public void setPK6Stored(PK6 pk6, int offset, bool? trade = null, bool? dex = null)
         {
+            if (pk6 == null) return;
             if (trade ?? SetUpdatePK6)
                 setPK6(pk6);
             if (dex ?? SetUpdateDex)
                 setDex(pk6);
 
-            byte[] ek6 = encryptArray(pk6.Data);
-            Array.Resize(ref ek6, PK6.SIZE_STORED);
-            setData(ek6, offset);
+            setData(pk6.EncryptedBoxData, offset);
             Edited = true;
         }
         public void setEK6Stored(byte[] ek6, int offset, bool? trade = null, bool? dex = null)
         {
+            if (ek6 == null) return;
             PK6 pk6 = new PK6(decryptArray(ek6));
             if (trade ?? SetUpdatePK6)
                 setPK6(pk6);
@@ -563,6 +563,19 @@ namespace PKHeX
                 setDex(pk6);
 
             Array.Resize(ref ek6, PK6.SIZE_STORED);
+            setData(ek6, offset);
+            Edited = true;
+        }
+        public void setEK6Party(byte[] ek6, int offset, bool? trade = null, bool? dex = null)
+        {
+            if (ek6 == null) return;
+            PK6 pk6 = new PK6(decryptArray(ek6));
+            if (trade ?? SetUpdatePK6)
+                setPK6(pk6);
+            if (dex ?? SetUpdateDex)
+                setDex(pk6);
+
+            Array.Resize(ref ek6, PK6.SIZE_PARTY);
             setData(ek6, offset);
             Edited = true;
         }

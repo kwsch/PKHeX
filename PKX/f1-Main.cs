@@ -15,11 +15,8 @@ namespace PKHeX
     {
         public Main()
         {
-            #region Pop open a splash screen while we load up.
-            new Thread(() => new SplashScreen().ShowDialog()).Start();
-            #endregion
             #region Initialize Form
-            pk6.RefreshChecksum();
+            new Thread(() => new SplashScreen().ShowDialog()).Start();
             InitializeComponent();
             // Initialize SAV-Set Parameters in case compilation settings were changed.
             SAV6.SetUpdateDex = Menu_ModifyDex.Checked;
@@ -84,7 +81,7 @@ namespace PKHeX
             #region Localize & Populate Fields
             // Try and detect the language
             int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
-            main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i).ToArray()).ToArray();
+            main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i)).ToArray();
             string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
             int lang = filename.Length > 2 ? Array.IndexOf(lang_val, lastTwoChars) : - 1;
             CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : (lastTwoChars == "jp" ? 1 : 0);
@@ -230,7 +227,7 @@ namespace PKHeX
         }
         private void mainMenuSave(object sender, EventArgs e)
         {
-            if (!verifiedPKX()) { return; }
+            if (!verifiedPKX()) return;
             SaveFileDialog sfd = new SaveFileDialog
             {
                 Filter = "PKX File|*.pk6;*.pkx" +
@@ -252,19 +249,16 @@ namespace PKHeX
                 byte[] backupfile = File.ReadAllBytes(path);
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
-            byte[] pkx = preparepkx();
 
-            if ((ext == ".ekx") || (ext == ".bin") || (ext == ".pkx") || (ext == ".ek6") || (ext == ".pk6"))
-            {
-                if ((ext == ".ekx") || (ext == ".bin") || (ext == ".ek6")) // User Requested Encrypted File
-                    pkx = PKX.encryptArray(pkx);
-                File.WriteAllBytes(path, pkx.ToArray());
-            }
+            PK6 pk = preparepkx();
+            if (new[] {".ekx", ".ek6", ".bin"}.Contains(ext))
+                File.WriteAllBytes(path, pk.EncryptedPartyData);
+            else if (new[] { ".pkx", ".pk6" }.Contains(ext))
+                File.WriteAllBytes(path, pk.Data);
             else
             {
                 Util.Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
-                pkx = PKX.encryptArray(pkx);
-                File.WriteAllBytes(path, pkx);
+                File.WriteAllBytes(path, pk6.EncryptedPartyData);
             }
         }
         private void mainMenuExit(object sender, EventArgs e)
@@ -282,19 +276,20 @@ namespace PKHeX
         private void mainMenuCodeGen(object sender, EventArgs e)
         {
             // Open Code Generator
-            byte[] formdata = null;
+            PK6 formdata = null;
             if (verifiedPKX()) formdata = preparepkx();
-            CodeGenerator CodeGen = new CodeGenerator(formdata);
+            CodeGenerator CodeGen = new CodeGenerator(formdata.Data);
             CodeGen.ShowDialog();
+
             byte[] data = CodeGen.returnArray;
             if (data == null) return;
             byte[] decdata = PKX.decryptArray(data);
             Array.Copy(decdata, pk6.Data, PK6.SIZE_STORED);
-            try { populateFields(pk6.Data); }
+            try { populateFields(pk6); }
             catch
             {
                 Array.Copy(new byte[PK6.SIZE_STORED], pk6.Data, PK6.SIZE_STORED);
-                populateFields(pk6.Data);
+                populateFields(pk6);
                 Util.Error("Imported code did not decrypt properly", "Please verify that what you imported was correct.");
             }
         }
@@ -467,7 +462,7 @@ namespace PKHeX
             if (!verifiedPKX())
             { Util.Alert("Fix data before exporting."); return; }
 
-            Clipboard.SetText(new PK6(preparepkx()).ShowdownText);
+            Clipboard.SetText(preparepkx().ShowdownText);
             Util.Alert("Exported Showdown Set to Clipboard:", Clipboard.GetText());
         }
         private void clickShowdownExportParty(object sender, EventArgs e)
@@ -606,26 +601,24 @@ namespace PKHeX
                 if ((ext == ".pk6") || (ext == ".ek6") || (ext == ".pkx") || (ext == ".ekx") || (ext == ".bin") || (ext == ""))
                 {
                     // Check if Encrypted before Loading
-                    populateFields(BitConverter.ToUInt16(input, 0xC8) == 0 && BitConverter.ToUInt16(input, 0x58) == 0 ? input : PKX.decryptArray(input));
+                    populateFields(new PK6(BitConverter.ToUInt16(input, 0xC8) == 0 && BitConverter.ToUInt16(input, 0x58) == 0 ? input : PKX.decryptArray(input)));
                 }
                 else
                     Util.Error("Unable to recognize file." + Environment.NewLine + "Only valid .pk* .ek* .bin supported.",
                         $"File Loaded:{Environment.NewLine}{path}");
             }
             #endregion
-            #region PK3/PK4/PK5
-            else if ((input.Length == 136) || (input.Length == 220) || (input.Length == 236) || (input.Length == 100) || (input.Length == 80)) // to convert g5pkm
+            #region PK3/PK4/PK5 Conversion
+            else if (new[] { PK3.SIZE_PARTY, PK3.SIZE_STORED, PK4.SIZE_PARTY, PK4.SIZE_STORED, PK5.SIZE_PARTY }.Contains(input.Length))
             {
                 if (!PKX.verifychk(input)) Util.Error("Invalid File (Checksum Error)");
                 try // to convert g5pkm
                 {
-                    byte[] data = Converter.ConvertPKMtoPK6(input);
-                    Array.Resize(ref data, PK6.SIZE_STORED);
-                    populateFields(data);
+                    populateFields(Converter.ConvertPKMtoPK6(input));
                 }
                 catch
                 {
-                    populateFields(new byte[PK6.SIZE_STORED]);
+                    populateFields(new PK6());
                     Util.Error("Attempted to load previous generation PKM.", "Conversion failed.");
                 }
             }
@@ -634,16 +627,12 @@ namespace PKHeX
             else if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
             {
                 // EAD Packet of 363 length
-                Array.Copy(input, 0x67, pk6.Data, 0, PK6.SIZE_STORED);
-                Array.Resize(ref pk6.Data, PK6.SIZE_STORED);
-                populateFields(pk6.Data);
+                populateFields(new PK6(input.Skip(0x67).Take(PK6.SIZE_STORED).ToArray()));
             }
             else if (input.Length == 407 && BitConverter.ToUInt16(input, 0x98) == 0)
             {
                 // EAD Packet of 407 length
-                Array.Copy(input, 0x93, pk6.Data, 0, PK6.SIZE_STORED);
-                Array.Resize(ref pk6.Data, PK6.SIZE_STORED);
-                populateFields(pk6.Data);
+                populateFields(new PK6(input.Skip(0x93).Take(PK6.SIZE_STORED).ToArray()));
             }
             #endregion
             #region Box Data
@@ -671,7 +660,7 @@ namespace PKHeX
                 }
                 if (offset < 0) { Util.Alert(path, "Unable to read the input file; not an expected injectiondebug.bin."); return; }
                 CB_BoxSelect.SelectedIndex = 0;
-                for (int i = 0; i < input.Length / (9*30); i++)
+                for (int i = 0; i < input.Length / 270; i++)
                 {
                     byte[] data = input.Skip(offset + PK6.SIZE_STORED * i).Take(PK6.SIZE_STORED).ToArray();
                     SAV.setEK6Stored(data, SAV.Box + i * PK6.SIZE_STORED);
@@ -718,7 +707,7 @@ namespace PKHeX
                             pk == null ? "Not a Pokémon Wondercard." : "Invalid species.");
                         return;
                     }
-                    populateFields(pk.Data);
+                    populateFields(pk);
                 }
             else if (input.Length == PGF.Size && ext == ".pgf")
             {
@@ -876,14 +865,14 @@ namespace PKHeX
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
-            byte[] data = fieldsInitialized ? preparepkx() : pk6.Data;
+            PK6 pk = fieldsInitialized ? preparepkx() : pk6;
             bool alreadyInit = fieldsInitialized;
             fieldsInitialized = false;
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
             Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex]); // Translate the UI to language.
-            populateFields(data); // put data back in form
+            populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
         }
         private void InitializeStrings()
@@ -1006,7 +995,7 @@ namespace PKHeX
             pk6.RefreshChecksum();
 
             // Load Data
-            populateFields(pk6.Data);
+            populateFields(pk6);
             {
                 TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
@@ -1084,9 +1073,9 @@ namespace PKHeX
                 }
             }
         }
-        public void populateFields(byte[] data, bool focus = true)
+        public void populateFields(PK6 pk, bool focus = true)
         {
-            pk6 = new PK6(data);
+            pk6 = pk ?? new PK6();
             if (fieldsInitialized & !PKX.verifychk(pk6.Data))
                 Util.Alert("PKX File has an invalid checksum.");
 
@@ -1336,8 +1325,8 @@ namespace PKHeX
                 if (ekx.Length != PK6.SIZE_STORED) { Util.Alert($"Decoded data not {PK6.SIZE_STORED} bytes.", $"QR Data Size: {ekx.Length}"); }
                 else try
                     {
-                        byte[] pkx = PKX.decryptArray(ekx);
-                        if (PKX.verifychk(pkx)) { populateFields(pkx); }
+                        PK6 pk = new PK6(PKX.decryptArray(ekx));
+                        if (pk.ChecksumValid) { populateFields(pk); }
                         else Util.Alert("Invalid checksum in QR data.");
                     }
                     catch { Util.Alert("Error loading decrypted data."); }
@@ -1345,16 +1334,14 @@ namespace PKHeX
             else
             {
                 if (!verifiedPKX()) return;
-                byte[] pkx = preparepkx();
-                byte[] ekx = PKX.encryptArray(pkx);
-
-                Array.Resize(ref ekx, PK6.SIZE_STORED);
+                PK6 pkx = preparepkx();
+                byte[] ekx = pkx.EncryptedBoxData;
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
                 Image qr = Util.getQRImage(ekx, server);
 
                 if (qr == null) return;
 
-                string[] r = new PK6(pkx, "Tabs").QRText;
+                string[] r = pkx.QRText;
                 new QR(qr, dragout.Image, r[0], r[1], r[2], "PKHeX @ ProjectPokemon.org").ShowDialog();
             }
         }
@@ -1459,7 +1446,7 @@ namespace PKHeX
         }
         private void clickGT(object sender, EventArgs e)
         {
-            if (sender as GroupBox == GB_OT)
+            if (sender == GB_OT)
             {
                 pk6.CurrentHandler = 0;
                 TB_Friendship.Text = pk6.OT_Friendship.ToString();
@@ -1489,10 +1476,10 @@ namespace PKHeX
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Copy current moves to Relearn Moves?"))
                 return;
 
-            CB_RelearnMove1.SelectedIndex = CB_Move1.SelectedIndex > 0 ? CB_Move1.SelectedIndex : 0;
-            CB_RelearnMove2.SelectedIndex = CB_Move2.SelectedIndex > 0 ? CB_Move2.SelectedIndex : 0;
-            CB_RelearnMove3.SelectedIndex = CB_Move3.SelectedIndex > 0 ? CB_Move3.SelectedIndex : 0;
-            CB_RelearnMove4.SelectedIndex = CB_Move4.SelectedIndex > 0 ? CB_Move4.SelectedIndex : 0;
+            CB_RelearnMove1.SelectedIndex = CB_Move1.SelectedIndex > -1 ? CB_Move1.SelectedIndex : 0;
+            CB_RelearnMove2.SelectedIndex = CB_Move2.SelectedIndex > -1 ? CB_Move2.SelectedIndex : 0;
+            CB_RelearnMove3.SelectedIndex = CB_Move3.SelectedIndex > -1 ? CB_Move3.SelectedIndex : 0;
+            CB_RelearnMove4.SelectedIndex = CB_Move4.SelectedIndex > -1 ? CB_Move4.SelectedIndex : 0;
         }
         // Prompted Updates of PKX Functions // 
         private bool changingFields;
@@ -2250,7 +2237,7 @@ namespace PKHeX
         invalid:
             { SystemSounds.Exclamation.Play(); return false; }
         }
-        public byte[] preparepkx(bool click = true)
+        public PK6 preparepkx(bool click = true)
         {
             if (click)
                 tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
@@ -2447,7 +2434,8 @@ namespace PKHeX
                 pk6.FixMemories();
 
             // PKX is now filled
-            return pk6.Write();
+            pk6.RefreshChecksum();
+            return pk6;
         }
         // Drag & Drop Events
         private void tabMain_DragEnter(object sender, DragEventArgs e)
@@ -2469,12 +2457,9 @@ namespace PKHeX
                 Cursor.Current = Cursors.Hand;
 
                 // Make a new file name
-                byte[] dragdata = preparepkx();
-                var pkx = new PK6(dragdata, "Tabs");
+                PK6 pkx = preparepkx();
                 string filename = Path.GetFileNameWithoutExtension(pkx.FileName) + (e.Button == MouseButtons.Right ? ".ek6" : ".pk6");
-                dragdata = e.Button == MouseButtons.Right ? PKX.encryptArray(preparepkx()) : preparepkx();
-                // Strip out party stats (if they are there)
-                Array.Resize(ref dragdata, PK6.SIZE_STORED);
+                byte[] dragdata = e.Button == MouseButtons.Right ? pk6.EncryptedBoxData : pk6.DecryptedBoxData;
                 // Make file
                 string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
                 try
@@ -2652,7 +2637,7 @@ namespace PKHeX
             {
                 try
                 { 
-                    populateFields(pk.Data);
+                    populateFields(pk);
                 }
                 catch // If it fails, try XORing encrypted zeroes
                 {
@@ -2663,10 +2648,10 @@ namespace PKHeX
                         for (int i = 0; i < PK6.SIZE_STORED; i++)
                             blank[i] = (byte)(pk6.Data[i] ^ blank[i]);
 
-                        populateFields(blank);
+                        populateFields(new PK6(blank));
                     }
                     catch   // Still fails, just let the original errors occur.
-                    { populateFields(pk6.Data); }
+                    { populateFields(pk6); }
                 }
                 // Visual to display what slot is currently loaded.
                 getSlotColor(slot, Properties.Resources.slotView);
@@ -2681,10 +2666,9 @@ namespace PKHeX
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { Util.Alert("Can't have empty/egg first slot."); return; }
             int offset = getPKXOffset(slot);
 
-            byte[] pkxdata = preparepkx();
-            if (!(SAV.ORAS))
+            PK6 pk = preparepkx();
+            if (!SAV.ORAS)
             {
-                PK6 pk = new PK6(pkxdata);
                 // User Protection
                 string err = "";
                 if (pk.Moves.Any(m => m > 617))
@@ -2694,19 +2678,19 @@ namespace PKHeX
                 else if (pk.HeldItem > 717)
                     err = "Item does not exist in X/Y.";
 
-                if ((err != "") && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
+                if (err != "" && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
                     return;
             }
             if (slot >= 30 && slot < 36) // Party
-                SAV.setPK6Party(new PK6(pkxdata), offset);
+                SAV.setPK6Party(pk, offset);
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
-                SAV.setPK6Stored(new PK6(pkxdata), offset);
+                SAV.setPK6Stored(pk, offset);
             else return;
             
             if (slot >= 30 && slot < 36) 
                 setParty();
             else 
-                getQuickFiller(SlotPictureBoxes[slot], pkxdata);
+                getQuickFiller(SlotPictureBoxes[slot], pk);
 
             getSlotColor(slot, Properties.Resources.slotSet);
         }
@@ -2716,9 +2700,9 @@ namespace PKHeX
             if (slot == 30 && SAV.PartyCount == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
             
             if (slot >= 30 && slot < 36) // Party
-            { SAV.setPK6Party(new PK6(new byte[PK6.SIZE_PARTY]), getPKXOffset(slot)); setParty(); return; }
+            { SAV.setData(blankEK6, getPKXOffset(slot)); setParty(); return; }
             if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
-            { SAV.setPK6Stored(new PK6(new byte[PK6.SIZE_STORED]), getPKXOffset(slot)); }
+            { SAV.setEK6Stored(blankEK6, getPKXOffset(slot)); }
             else return;
 
             SlotPictureBoxes[slot].Image = null;
@@ -2729,20 +2713,20 @@ namespace PKHeX
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
             if (!verifiedPKX()) { return; } // don't copy garbage to the box
 
-            byte[] pkxdata;
+            PK6 pk;
             int box = CB_BoxSelect.SelectedIndex + 1; // get box we're cloning to
 
             if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in Box {box}?") == DialogResult.Yes)
-                pkxdata = preparepkx();
+                pk = preparepkx();
             else if (Util.Prompt(MessageBoxButtons.YesNo, $"Delete Pokemon from all slots in Box {box}?") == DialogResult.Yes)
-                pkxdata = new byte[PK6.SIZE_STORED];
+                pk = new PK6();
             else
                 return; // abort clone/delete
 
             for (int i = 0; i < 30; i++) // write encrypted array to all box slots
             {
-                SAV.setPK6Stored(new PK6(pkxdata), getPKXOffset(i));
-                getQuickFiller(SlotPictureBoxes[i], pkxdata);
+                SAV.setPK6Stored(pk, getPKXOffset(i));
+                getQuickFiller(SlotPictureBoxes[i], pk);
             }
         }
         private void updateEggRNGSeed(object sender, EventArgs e)
@@ -2860,8 +2844,8 @@ namespace PKHeX
             // Refresh slots
             for (int i = 0; i < 6; i++)
             {
-                getQuickFiller(SlotPictureBoxes[i + 30], SAV.getPK6Stored(SAV.Party + PK6.SIZE_PARTY*i).Data);
-                getQuickFiller(SlotPictureBoxes[i + 36], SAV.getPK6Stored(SAV.BattleBox + PK6.SIZE_STORED*i).Data);
+                getQuickFiller(SlotPictureBoxes[i + 30], SAV.getPK6Stored(SAV.Party + PK6.SIZE_PARTY*i));
+                getQuickFiller(SlotPictureBoxes[i + 36], SAV.getPK6Stored(SAV.BattleBox + PK6.SIZE_STORED*i));
             }
         }
         private int getPKXOffset(int slot)
@@ -2982,13 +2966,13 @@ namespace PKHeX
             }
             CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
         }
-        private void getQuickFiller(PictureBox pb, byte[] dslotdata = null)
+        private void getQuickFiller(PictureBox pb, PK6 pk = null)
         {
             if (!fieldsInitialized) return;
-            dslotdata = dslotdata ?? preparepkx(false); // don't perform control loss click
+            pk = pk ?? preparepkx(false); // don't perform control loss click
 
-            if (pb == dragout) L_QR.Visible = BitConverter.ToInt16(dslotdata, 0x08) != 0; // Species
-            pb.Image = PKX.getSprite(dslotdata);
+            if (pb == dragout) L_QR.Visible = pk.Species != 0; // Species
+            pb.Image = pk.Sprite;
         }
         private void getSlotFiller(int offset, PictureBox pb)
         {
@@ -3000,7 +2984,7 @@ namespace PKHeX
                 return;
             }
             PK6 p = SAV.getPK6Stored(offset);
-            if (p.Sanity != 0 || p.Checksum != p.CalculateChecksum()) // Invalid
+            if (p.Sanity != 0 || !p.ChecksumValid) // Invalid
             {
                 // Bad Egg present in slot.
                 pb.Image = null;
@@ -3103,7 +3087,7 @@ namespace PKHeX
                         if (!PKX.verifychk(input)) continue;
                         {
                             try // to convert g5pkm
-                            { data = PKX.encryptArray(Converter.ConvertPKMtoPK6(input)); pastctr++; }
+                            { data = PKX.encryptArray(Converter.ConvertPKMtoPK6(input).Data); pastctr++; }
                             catch { continue; }
                         }
                     }
@@ -3217,7 +3201,7 @@ namespace PKHeX
         private void B_OpenSuperTraining_Click(object sender, EventArgs e)
         {
             // Open ST Menu
-            new SAV_SuperTrain(this).ShowDialog();
+            new SAV_SuperTrain().ShowDialog();
         }
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
@@ -3439,8 +3423,7 @@ namespace PKHeX
                         if (!PKX.verifychk(input)) Util.Alert("Invalid File Loaded.", "Checksum is not valid.");
                         try // to convert past gen pkm
                         {
-                            byte[] data = Converter.ConvertPKMtoPK6(input);
-                            SAV.setPK6Stored(new PK6(data), offset);
+                            SAV.setPK6Stored(Converter.ConvertPKMtoPK6(input), offset);
                         }
                         catch
                         { Util.Error("Attempted to load previous generation PKM.", "Conversion failed."); }
@@ -3459,7 +3442,7 @@ namespace PKHeX
                         else
                         {
                             SAV.setEK6Stored(data, offset);
-                            getQuickFiller(SlotPictureBoxes[slot], decdata);
+                            getQuickFiller(SlotPictureBoxes[slot], new PK6(decdata));
                             getSlotColor(slot, Properties.Resources.slotSet);
                         }
                     }
@@ -3471,13 +3454,11 @@ namespace PKHeX
             {
                 if (ModifierKeys == Keys.Alt && slot > -1) // overwrite delete old slot
                 {
-                    byte[] cleardata = new Byte[PK6.SIZE_STORED];
-
                     // Clear from slot picture
-                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], cleardata);
+                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], new PK6());
 
                     // Clear from slot data
-                    SAV.setPK6Stored(new PK6(cleardata), pkm_from_offset);
+                    SAV.setEK6Stored(blankEK6, pkm_from_offset);
                 }
                 else if (ModifierKeys != Keys.Control && slot > -1)
                 {
@@ -3485,14 +3466,14 @@ namespace PKHeX
                     PK6 pk = SAV.getPK6Stored(offset);
 
                     // Swap slot picture
-                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], pk.Data);
+                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], pk);
 
                     // Swap slot data to source
                     SAV.setPK6Stored(pk, pkm_from_offset);
                 }
                 // Copy from temp slot to new.
                 SAV.setEK6Stored(pkm_from, offset);
-                getQuickFiller(SlotPictureBoxes[slot], PKX.decryptArray(pkm_from));
+                getQuickFiller(SlotPictureBoxes[slot], new PK6(PKX.decryptArray(pkm_from)));
 
                 pkm_from_offset = 0; // Clear offset value
             }

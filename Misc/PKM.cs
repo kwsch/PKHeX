@@ -1076,16 +1076,16 @@ namespace PKHeX
         internal static string OT_Name = "PKHeX";
         internal static int OT_Gender;
 
-        internal static byte[] ConvertPKMtoPK6(byte[] input)
+        internal static PK6 ConvertPKMtoPK6(byte[] input)
         {
             // Detect Input Generation
             if (input.Length == 100 || input.Length == 80) // PK3
-                return new PK3(input).convertToPK4().convertToPK5().convertToPK6().Data;
+                return new PK3(input).convertToPK4().convertToPK5().convertToPK6();
             if (input.Length != 136 && input.Length != 236 && input.Length != 220)  // Invalid
-                return input;
+                return null;
             if ((BitConverter.ToUInt16(input, 0x80) >= 0x3333 || input[0x5F] >= 0x10) && BitConverter.ToUInt16(input, 0x46) == 0) // PK5
-                return new PK5(input).convertToPK6().Data;
-            return new PK4(input).convertToPK5().convertToPK6().Data; // PK4
+                return new PK5(input).convertToPK6();
+            return new PK4(input).convertToPK5().convertToPK6(); // PK4
         }
 
         internal static void updateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER)

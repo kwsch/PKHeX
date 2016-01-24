@@ -126,7 +126,7 @@ namespace PKHeX
                 System.Media.SystemSounds.Exclamation.Play();
             else
             {
-                m_parent.populateFields(dataArr[index].Data, false);
+                m_parent.populateFields(dataArr[index], false);
                 slotSelected = index + SCR_Box.Value * RES_MIN;
                 slotColor = Properties.Resources.slotView;
                 FillPKXBoxes(SCR_Box.Value);
@@ -190,7 +190,7 @@ namespace PKHeX
             if (!m_parent.verifiedPKX())
                 return;
 
-            PK6 pk = new PK6(m_parent.preparepkx());
+            PK6 pk = m_parent.preparepkx();
             if (!Directory.Exists(DatabasePath))
                 Directory.CreateDirectory(DatabasePath);
 
@@ -384,7 +384,7 @@ namespace PKHeX
             foreach (var db in Database)
                 RawDB.AddRange(db.Slot);
 
-            RawDB = new List<PK6>(RawDB.Where(pk => pk.Checksum == pk.CalculateChecksum() && pk.Species != 0 && pk.Sanity == 0));
+            RawDB = new List<PK6>(RawDB.Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0));
             RawDB = new List<PK6>(RawDB.Distinct());
             setResults(RawDB);
         }
@@ -607,7 +607,7 @@ namespace PKHeX
             if (!result[0].Any())
                 return;
 
-            var any = result[0][0].Data;
+            var any = result[0][0];
             m_parent.populateFields(any);
         }
         private void testUnique()
@@ -620,7 +620,7 @@ namespace PKHeX
             if (!result[0].Any())
                 return;
 
-            var any = result[0][0].Data;
+            var any = result[0][0];
             m_parent.populateFields(any);
         }
 

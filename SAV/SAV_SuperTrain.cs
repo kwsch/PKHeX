@@ -5,9 +5,8 @@ namespace PKHeX
 {
     public partial class SAV_SuperTrain : Form
     {
-        public SAV_SuperTrain(Main frm1)
+        public SAV_SuperTrain()
         {
-            m_parent = frm1;
             sav = (byte[])Main.SAV.Data.Clone();
             trba = Main.trainingbags;
             trba[0] = "---";
@@ -23,8 +22,7 @@ namespace PKHeX
 
             setup();
         }
-
-        readonly Main m_parent;
+        
         public byte[] sav;
         private readonly string[] trba = {
                                 "Empty",
@@ -48,11 +46,11 @@ namespace PKHeX
             {
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = new BindingSource(m_parent.CB_Species.DataSource, null);
+                CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource, null);
 
                 CB_S2.DisplayMember = "Text";
                 CB_S2.ValueMember = "Value";
-                CB_S2.DataSource = new BindingSource(m_parent.CB_Species.DataSource, null);
+                CB_S2.DataSource = new BindingSource(Main.SpeciesDataSource, null);
             }
             listBox1.SelectedIndex = 0;
             fillTrainingBags();

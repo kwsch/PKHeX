@@ -81,23 +81,19 @@ namespace PKHeX
         {
             try
             {
-                if ((wondercard_data[0x52] & 2) != 0) // is used
-                {
-                    if (DialogResult.Yes !=
+                if ((wondercard_data[0x52] & 2) != 0 && DialogResult.Yes ==
                         Util.Prompt(MessageBoxButtons.YesNo,
                             "Wonder Card is marked as USED and will not be able to be picked up in-game.",
                             "Do you want to remove the USED flag so that it is UNUSED?"))
-                        return;
-
                     wondercard_data[0x52] &= 0xFD; // keep all bits but bit1 (11111101)
-                }
+
                 RTB.Text = getWCDescriptionString(wondercard_data);
                 PB_Preview.Image = getWCPreviewImage(wondercard_data);
             }
             catch (Exception e)
             {
                 Util.Error("Loading of data failed... is this really a Wonder Card?", e.ToString());
-                Array.Copy(new byte[WC6.Size], wondercard_data, WC6.Size);
+                wondercard_data = new byte[WC6.Size];
                 RTB.Clear();
             }
         }
@@ -105,7 +101,7 @@ namespace PKHeX
         {
             LB_Received.Items.Clear();
             for (int i = 1; i < 2048; i++)
-                if (((sav[Main.SAV.WondercardFlags + i / 8] >> (i % 8)) & 0x1) == 1)
+                if ((sav[Main.SAV.WondercardFlags + i / 8]>>i%8 & 0x1) == 1)
                     LB_Received.Items.Add(i.ToString("0000"));
             if (LB_Received.Items.Count > 0)
                 LB_Received.SelectedIndex = 0;
