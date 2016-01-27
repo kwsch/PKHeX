@@ -467,6 +467,7 @@ namespace PKHeX
         }
         private void clickShowdownExportParty(object sender, EventArgs e)
         {
+            if (SAV.PartyData.Length <= 0) return;
             try
             {
                 Clipboard.SetText(
@@ -478,6 +479,7 @@ namespace PKHeX
         }
         private void clickShowdownExportBattleBox(object sender, EventArgs e)
         {
+            if (SAV.BattleBoxData.Length <= 0) return;
             try
             {
                 Clipboard.SetText(
