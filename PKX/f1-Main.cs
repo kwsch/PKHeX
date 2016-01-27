@@ -1545,9 +1545,8 @@ namespace PKHeX
         private void updateIVs(object sender, EventArgs e)
         {
             if (changingFields || !fieldsInitialized) return;
-            if (sender != null)
-                if (Util.ToInt32((sender as MaskedTextBox).Text) > 31)
-                    (sender as MaskedTextBox).Text = "31";
+            if (sender != null && Util.ToInt32((sender as MaskedTextBox).Text) > 31)
+                (sender as MaskedTextBox).Text = "31";
 
             changingFields = true;
 
@@ -1624,7 +1623,7 @@ namespace PKHeX
                 TB_SPEIV.Text = (Util.rnd32() & 0x1F).ToString();
             }
             changingFields = false;
-            updateStats();
+            updateIVs(null, null);
         }
         private void updateRandomEVs(object sender, EventArgs e)
         {
