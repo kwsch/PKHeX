@@ -1673,7 +1673,7 @@ namespace PKHeX
                 return;
 
             string text = ((TextBox)sender).Text;
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text))
                 ((TextBox)sender).Text = "0";
 
             if (Convert.ToUInt32(text) > ushort.MaxValue)

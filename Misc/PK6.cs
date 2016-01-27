@@ -422,7 +422,7 @@ namespace PKHeX
         public bool IsShiny => TSV == PSV;
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
-        public bool IsUntraded => string.IsNullOrEmpty(HT_Name);
+        public bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name);
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;

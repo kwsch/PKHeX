@@ -205,22 +205,20 @@ namespace PKHeX
 	            10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 
 	            05 
             };
-            if (move < 0) { move = 0; }
+            if (move < 0) move = 0;
             return movepptable[move];
         }
         internal static byte[] getRandomEVs()
         {
-            byte[] evs = { 0xDE, 0xAD, 0xBE, 0xEF, 0xBA, 0xBE }; // ha ha, just to start off above 510!
-
-            while (evs.Sum(b => (ushort)b) > 510) // recalculate random EVs...
-            {
+            byte[] evs = new byte[6];
+            do {
                 evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
                 evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
                 evs[2] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1]), 252);
                 evs[3] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2]), 252);
                 evs[4] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
                 evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
-            }
+            } while (evs.Sum(b => b) > 510); // recalculate random EVs...
             Util.Shuffle(evs);
             return evs;
         }
@@ -230,7 +228,7 @@ namespace PKHeX
         }
         internal static int getLevel(int species, uint exp)
         {
-            if (exp == 0) { return 1; }
+            if (exp == 0) return 1;
 
             int growth = Personal[species].EXPGrowth;
 
@@ -253,8 +251,7 @@ namespace PKHeX
         internal static uint getEXP(int level, int species)
         {
             // Fetch Growth
-            if ((level == 0) || (level == 1))
-                return 0;
+            if (level <= 1) return 0;
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
         }
@@ -291,48 +288,44 @@ namespace PKHeX
             // Get Country Text
             try
             {
+                string[] inputCSV = Util.getSimpleStringList("countries");
+                // Set up our Temporary Storage
+                string[] unsortedList = new string[inputCSV.Length - 1];
+                int[] indexes = new int[inputCSV.Length - 1];
+
+                // Gather our data from the input file
+                for (int i = 1; i < inputCSV.Length; i++)
                 {
-                    string[] inputCSV = Util.getSimpleStringList("countries");
-                    // Set up our Temporary Storage
-                    string[] unsortedList = new string[inputCSV.Length - 1];
-                    int[] indexes = new int[inputCSV.Length - 1];
-
-                    // Gather our data from the input file
-                    for (int i = 1; i < inputCSV.Length; i++)
-                    {
-                        string[] countryData = inputCSV[i].Split(',');
-                        if (countryData.Length <= 1) continue;
-                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                        unsortedList[i - 1] = countryData[index + 1];
-                    }
-
-                    int countrynum = Array.IndexOf(indexes, country);
-                    data[0] = unsortedList[countrynum];
+                    string[] countryData = inputCSV[i].Split(',');
+                    if (countryData.Length <= 1) continue;
+                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                    unsortedList[i - 1] = countryData[index + 1];
                 }
+
+                int countrynum = Array.IndexOf(indexes, country);
+                data[0] = unsortedList[countrynum];
             }
             catch { data[0] = "Illegal"; }
 
             // Get Region Text
             try
             {
+                string[] inputCSV = Util.getSimpleStringList("sr_" + country.ToString("000"));
+                // Set up our Temporary Storage
+                string[] unsortedList = new string[inputCSV.Length - 1];
+                int[] indexes = new int[inputCSV.Length - 1];
+
+                // Gather our data from the input file
+                for (int i = 1; i < inputCSV.Length; i++)
                 {
-                    string[] inputCSV = Util.getSimpleStringList("sr_" + country.ToString("000"));
-                    // Set up our Temporary Storage
-                    string[] unsortedList = new string[inputCSV.Length - 1];
-                    int[] indexes = new int[inputCSV.Length - 1];
-
-                    // Gather our data from the input file
-                    for (int i = 1; i < inputCSV.Length; i++)
-                    {
-                        string[] countryData = inputCSV[i].Split(',');
-                        if (countryData.Length <= 1) continue;
-                        indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                        unsortedList[i - 1] = countryData[index + 1];
-                    }
-
-                    int regionnum = Array.IndexOf(indexes, region);
-                    data[1] = unsortedList[regionnum];
+                    string[] countryData = inputCSV[i].Split(',');
+                    if (countryData.Length <= 1) continue;
+                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                    unsortedList[i - 1] = countryData[index + 1];
                 }
+
+                int regionnum = Array.IndexOf(indexes, region);
+                data[1] = unsortedList[regionnum];
             }
             catch { data[1] = "Illegal"; }
             return data;
@@ -368,10 +361,10 @@ namespace PKHeX
             string filename = pk6.Nickname;
             if (pk6.Nickname != Main.specieslist[pk6.Species] && Main.specieslist[pk6.Species] != null)
                 filename += " (" + Main.specieslist[pk6.Species] + ")";
-            response[0] = String.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, Main.itemlist[pk6.HeldItem], Main.natures[pk6.Nature], pk6.Stat_Level, Main.abilitylist[pk6.Ability]);
+            response[0] = string.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, Main.itemlist[pk6.HeldItem], Main.natures[pk6.Nature], pk6.Stat_Level, Main.abilitylist[pk6.Ability]);
             response[1] =
                 $"{Main.movelist[pk6.Move1]} / {Main.movelist[pk6.Move2]} / {Main.movelist[pk6.Move3]} / {Main.movelist[pk6.Move4]}";
-            response[2] = String.Format(
+            response[2] = string.Format(
                 "IVs:{0}{1}{2}{3}{4}{5}"
                 + Environment.NewLine + Environment.NewLine +
                 "EVs:{6}{7}{8}{9}{10}{11}",
@@ -393,14 +386,7 @@ namespace PKHeX
         internal static string getFileName(PK6 pk6)
         {
             return
-                pk6.Species.ToString("000")
-                + (pk6.IsShiny ? " ★" : "")
-                + " - "
-                + pk6.Nickname // Rather not have language-specific.
-                + " - "
-                + pk6.Checksum.ToString("X4") 
-                + pk6.EncryptionConstant.ToString("X8")
-                + ".pk6";
+                $"{pk6.Species.ToString("000")}{(pk6.IsShiny ? " ★" : "")} - {pk6.Nickname} - {pk6.Checksum.ToString("X4")}{pk6.EncryptionConstant.ToString("X8")}.pk6";
         }
         internal static ushort[] getStats(PK6 pk6)
         {
@@ -473,7 +459,7 @@ namespace PKHeX
             byte[] pkx = (byte[])ekx.Clone();
 
             uint pv = BitConverter.ToUInt32(pkx, 0);
-            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
+            uint sv = (pv >> 0xD & 0x1F) % 24;
 
             uint seed = pv;
 
@@ -496,7 +482,7 @@ namespace PKHeX
         {
             // Shuffle
             uint pv = BitConverter.ToUInt32(pkx, 0);
-            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
+            uint sv = (pv >> 0xD & 0x1F) % 24;
 
             byte[] ekx = (byte[])pkx.Clone();
 
@@ -1365,7 +1351,7 @@ namespace PKHeX
                     return "";
 
                 // First Line: Name, Nickname, Gender, Item
-                string result = String.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
+                string result = string.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
                     species[Species] + ((Form ?? "") != "" ? "-" + Form : "")) // Species (& Form if necessary)
                                 + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
@@ -1522,7 +1508,7 @@ namespace PKHeX
                         {
                             ORASTutors[i] = new bool[8 * ORASTutorData[i].Length];
                             for (int b = 0; b < 8 * ORASTutorData[i].Length; b++)
-                                ORASTutors[i][b] = (ORASTutorData[i][b / 8] >> (b % 8) & 0x1) == 1;
+                                ORASTutors[i][b] = (ORASTutorData[i][b / 8] >> b % 8 & 0x1) == 1;
                         }
                     }
                 }

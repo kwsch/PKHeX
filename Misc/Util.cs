@@ -197,32 +197,16 @@ namespace PKHeX
         // Data Retrieval
         internal static int ToInt32(string value)
         {
-            value = value.Replace(" ", "");
-            if (string.IsNullOrEmpty(value))
-                return 0;
-            try
-            {
-                value = value.TrimEnd('_');
-                return int.Parse(value);
-            }
-            catch { return 0; }
+            return string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value.Trim());
         }
         internal static uint ToUInt32(string value)
         {
-            value = value.Replace(" ", "");
-            if (string.IsNullOrEmpty(value))
-                return 0;
-            try
-            {
-                value = value.TrimEnd('_');
-                return uint.Parse(value);
-            }
-            catch { return 0; }
+            return string.IsNullOrWhiteSpace(value) ? 0 : uint.Parse(value.Trim());
         }
         internal static uint getHEXval(string s)
         {
             string str = getOnlyHex(s);
-            return string.IsNullOrEmpty(str) ? 0 : Convert.ToUInt32(str, 16);
+            return string.IsNullOrWhiteSpace(str) ? 0 : Convert.ToUInt32(str, 16);
         }
         internal static int getIndex(ComboBox cb)
         {
@@ -230,7 +214,7 @@ namespace PKHeX
         }
         internal static string getOnlyHex(string s)
         {
-            return string.IsNullOrEmpty(s) ? "0" : s.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            return string.IsNullOrWhiteSpace(s) ? "0" : s.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
         }
 
         // Data Manipulation
