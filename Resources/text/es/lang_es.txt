@@ -22,8 +22,6 @@ Menu_Save = Guardar PK6...
 Menu_ExportSAV = Guardar SAV...
 Menu_ExportMAIN = Guardar main
 Menu_ExportBAK = Guardar BAK
-Menu_ExportRAMSAV = Guardar ramsav
-Menu_ExportTransfer = Transferir ramsav
 Menu_Exit = Salir
 --
 Menu_Tools = Útiles

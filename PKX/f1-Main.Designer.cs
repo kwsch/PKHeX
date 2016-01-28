@@ -215,8 +215,6 @@
             this.Menu_ExportSAV = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ExportMAIN = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ExportBAK = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ExportRAMSAV = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ExportTransfer = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Showdown = new System.Windows.Forms.ToolStripMenuItem();
@@ -2629,7 +2627,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
@@ -2638,7 +2636,7 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(152, 22);
             this.Menu_Save.Text = "&Save PK6...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
@@ -2646,12 +2644,10 @@
             // 
             this.Menu_ExportSAV.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_ExportMAIN,
-            this.Menu_ExportBAK,
-            this.Menu_ExportRAMSAV,
-            this.Menu_ExportTransfer});
+            this.Menu_ExportBAK});
             this.Menu_ExportSAV.Enabled = false;
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
-            this.Menu_ExportSAV.Size = new System.Drawing.Size(139, 22);
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             // 
             // Menu_ExportMAIN
@@ -2659,7 +2655,7 @@
             this.Menu_ExportMAIN.Name = "Menu_ExportMAIN";
             this.Menu_ExportMAIN.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportMAIN.ShowShortcutKeys = false;
-            this.Menu_ExportMAIN.Size = new System.Drawing.Size(157, 22);
+            this.Menu_ExportMAIN.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExportMAIN.Text = "&Export main";
             this.Menu_ExportMAIN.Click += new System.EventHandler(this.clickExportSAV);
             // 
@@ -2668,30 +2664,16 @@
             this.Menu_ExportBAK.Name = "Menu_ExportBAK";
             this.Menu_ExportBAK.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_ExportBAK.ShowShortcutKeys = false;
-            this.Menu_ExportBAK.Size = new System.Drawing.Size(157, 22);
+            this.Menu_ExportBAK.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExportBAK.Text = "Export &BAK";
             this.Menu_ExportBAK.Click += new System.EventHandler(this.clickExportSAVBAK);
-            // 
-            // Menu_ExportRAMSAV
-            // 
-            this.Menu_ExportRAMSAV.Name = "Menu_ExportRAMSAV";
-            this.Menu_ExportRAMSAV.Size = new System.Drawing.Size(157, 22);
-            this.Menu_ExportRAMSAV.Text = "Export &ramsav";
-            this.Menu_ExportRAMSAV.Click += new System.EventHandler(this.clickExportSAV);
-            // 
-            // Menu_ExportTransfer
-            // 
-            this.Menu_ExportTransfer.Name = "Menu_ExportTransfer";
-            this.Menu_ExportTransfer.Size = new System.Drawing.Size(157, 22);
-            this.Menu_ExportTransfer.Text = "&Transfer ramsav";
-            this.Menu_ExportTransfer.Click += new System.EventHandler(this.clickExportSAV);
             // 
             // Menu_Exit
             // 
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
             this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
@@ -2714,7 +2696,7 @@
             this.Menu_ShowdownExportParty,
             this.Menu_ShowdownExportBattleBox});
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPK6
@@ -2752,7 +2734,7 @@
             this.Menu_OpenTemp,
             this.Menu_OpenCache});
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
-            this.Menu_CyberGadget.Size = new System.Drawing.Size(152, 22);
+            this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
             // 
             // Menu_CodeGenerator
@@ -2784,7 +2766,7 @@
             this.Menu_Report,
             this.Menu_Database});
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(143, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
@@ -2825,7 +2807,7 @@
             this.Menu_OpenSDF,
             this.Menu_OpenSDB});
             this.Menu_Other.Name = "Menu_Other";
-            this.Menu_Other.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Other.Size = new System.Drawing.Size(143, 22);
             this.Menu_Other.Text = "Other";
             // 
             // Menu_OpenSDF
@@ -4723,9 +4705,7 @@
         private System.Windows.Forms.MaskedTextBox Stat_HP;
         private System.Windows.Forms.ToolStripMenuItem Menu_DumpBoxes;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportBAK;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ExportTransfer;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportMAIN;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ExportRAMSAV;
     }
 }
 

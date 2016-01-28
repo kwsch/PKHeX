@@ -22,8 +22,6 @@ Menu_Save = 저장 PK6...
 Menu_ExportSAV = 저장 SAV...
 Menu_ExportMAIN = 저장 main
 Menu_ExportBAK = 저장 BAK
-Menu_ExportRAMSAV = 저장 ramsav
-Menu_ExportTransfer = 전송 ramsav
 Menu_Exit = 종료
 --
 Menu_Tools = 도구

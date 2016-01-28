@@ -22,8 +22,6 @@ Menu_Save = 保存 PK6...
 Menu_ExportSAV = 保存 SAV...
 Menu_ExportMAIN = 保存 main
 Menu_ExportBAK = 保存 BAK
-Menu_ExportRAMSAV = 保存 ramsav
-Menu_ExportTransfer = 转移 SAV
 Menu_Exit = 退出
 --
 Menu_Tools = 工具

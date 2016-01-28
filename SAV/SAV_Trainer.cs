@@ -37,7 +37,6 @@ namespace PKHeX
             }
 
             editing = true;
-            GB_Map.Enabled = Main.ramsav == null;
             getComboBoxes();
             getTextBoxes();
             getBadges();

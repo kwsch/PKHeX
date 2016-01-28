@@ -121,7 +121,6 @@
     <Compile Include="PKX\f3-MemoryAmie.Designer.cs">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\ram2sav.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

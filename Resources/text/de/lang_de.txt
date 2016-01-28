@@ -22,8 +22,6 @@ Menu_Save = Save PK6...
 Menu_ExportSAV = Export SAV...
 Menu_ExportMAIN = Export main
 Menu_ExportBAK = Export BAK
-Menu_ExportRAMSAV = Export ramsav
-Menu_ExportTransfer = Transfer ramsav
 Menu_Exit = Quit
 --
 Menu_Tools = Tools

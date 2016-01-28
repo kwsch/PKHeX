@@ -131,7 +131,6 @@ namespace PKHeX
         public static PK6 pk6 = new PK6(); // Tab Pokemon Data Storage
         public static SAV6 SAV = new SAV6();
         public static byte[] originalSAV; // original save for CyberGadget Codes
-        public static byte[] ramsav; // original ramsav for ramsav exporting
         public static string pathSDF;
         public static string path3DS;
 
@@ -625,18 +624,6 @@ namespace PKHeX
                 }
             }
             #endregion
-            #region Trade Packets
-            else if (input.Length == 363 && BitConverter.ToUInt16(input, 0x6B) == 0)
-            {
-                // EAD Packet of 363 length
-                populateFields(new PK6(input.Skip(0x67).Take(PK6.SIZE_STORED).ToArray()));
-            }
-            else if (input.Length == 407 && BitConverter.ToUInt16(input, 0x98) == 0)
-            {
-                // EAD Packet of 407 length
-                populateFields(new PK6(input.Skip(0x93).Take(PK6.SIZE_STORED).ToArray()));
-            }
-            #endregion
             #region Box Data
             else if ((input.Length == PK6.SIZE_STORED * 30 || input.Length == PK6.SIZE_STORED * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input, 8) > 0)
             {
@@ -648,40 +635,6 @@ namespace PKHeX
                 }
                 setPKXBoxes();
                 Util.Alert("Box Binary loaded.");
-            }
-            #endregion
-            #region injectiondebug
-            else if (input.Length == 0x10000)
-            { 
-                int offset = -1; // Seek to find data start
-                for (int i = 0; i < 0x800; i++)
-                {
-                    byte[] data = PKX.decryptArray(input.Skip(i).Take(PK6.SIZE_STORED).ToArray());
-                    if (PKX.getCHK(data) != BitConverter.ToUInt16(data, 6)) continue;
-                    offset = i; break;
-                }
-                if (offset < 0) { Util.Alert(path, "Unable to read the input file; not an expected injectiondebug.bin."); return; }
-                CB_BoxSelect.SelectedIndex = 0;
-                for (int i = 0; i < input.Length / 270; i++)
-                {
-                    byte[] data = input.Skip(offset + PK6.SIZE_STORED * i).Take(PK6.SIZE_STORED).ToArray();
-                    SAV.setEK6Stored(data, SAV.Box + i * PK6.SIZE_STORED);
-                }
-                setPKXBoxes();
-                Util.Alert("Injection Binary loaded."); 
-            }
-            #endregion
-            #region RAMSAV
-            else if (( /*XY*/ input.Length == 0x70000 || /*ORAS*/ input.Length == 0x80000) && Path.GetFileName(path).Contains("ram"))
-            {
-                if (input.Length == 0x80000)
-                    // Scan for FEEB in XY location, 3DS only overwrites data if file already exists.
-                    for (int i = 0x60000; i < 0x64000; i+=4)
-                        if (BitConverter.ToUInt32(input, i) == SAV6.BEEF) { Array.Resize(ref input, 0x70000); break; }
-
-                ramsav = (byte[])input.Clone();
-                try { openMAIN(ram2sav.getMAIN(input), path, true); }
-                catch { ramsav = null; }
             }
             #endregion
             #region Battle Video
@@ -800,22 +753,15 @@ namespace PKHeX
             if (xorpath != exepath || loop++ > 0) return false; // no xorpad compatible
             xorpath = Path.GetDirectoryName(path); goto check;
         }
-        private void openMAIN(byte[] input, string path, bool ram = false)
+        private void openMAIN(byte[] input, string path)
         {
-            if (!ram)
-                ramsav = null;
             L_Save.Text = "SAV: " + Path.GetFileName(path);
             SAV = new SAV6(input);
 
             // Enable Secondary Tools
-            GB_SAVtools.Enabled =
-                B_JPEG.Enabled = true;
+            GB_SAVtools.Enabled = B_JPEG.Enabled = true;
+            Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
 
-            SAV.Edited = false;
-
-            Menu_ExportSAV.Enabled = SAV.Exportable;
-            Menu_ExportTransfer.Enabled = Menu_ExportRAMSAV.Enabled = ramsav != null;
-            B_VerifyCHK.Enabled = ramsav == null;
             DaycareSlot = 0;
             
             setBoxNames();   // Display the Box Names
@@ -2498,10 +2444,7 @@ namespace PKHeX
             if (SAV.Edited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
 
             if (PKX.verifyG6SAV(SAV.Data))
-            { 
-                Util.Alert("Checksums are correct.");
-                return;
-            }
+            { Util.Alert("Checksums are correct."); return; }
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Export Checksum Info to Clipboard?"))
                 return;
 
@@ -2510,17 +2453,12 @@ namespace PKHeX
         private void clickExportSAVBAK(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
-            {
-                FileName =
-                    Util.CleanFileName(ramsav == null
-                        ? $"main ({SAV.OT} - {SAV.TID}).bak"
-                        : $"ramsav ({SAV.OT} - {SAV.TID}).bak")
-            };
+            { FileName = Util.CleanFileName($"main ({SAV.OT} - {SAV.LastSavedTime}).bak") };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
             string path = sfd.FileName;
-            File.WriteAllBytes(sfd.FileName, ramsav ?? SAV.BAK);
+            File.WriteAllBytes(path, SAV.BAK);
             Util.Alert("Saved Backup of current SAV to:", path);
         }
         private void clickExportSAV(object sender, EventArgs e)
@@ -2537,74 +2475,45 @@ namespace PKHeX
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
             byte[] sav = SAV.Write();
 
-            SaveFileDialog cySAV = new SaveFileDialog();
+            SaveFileDialog main = new SaveFileDialog();
             // Try for file path
             string cyberpath = Util.GetTempFolder();
-            if (ramsav != null && Directory.Exists(path3DS))
+            if (Directory.Exists(path3DS))
             {
-                cySAV.InitialDirectory = Path.GetPathRoot(path3DS);
-                cySAV.RestoreDirectory = true;
+                main.InitialDirectory = Path.GetPathRoot(path3DS);
+                main.RestoreDirectory = true;
             }
             else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
             {
-                cySAV.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
-                cySAV.RestoreDirectory = true;
+                main.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
+                main.RestoreDirectory = true;
             }
             else if (pathSDF != null && Directory.Exists(pathSDF))
             {
-                cySAV.InitialDirectory = pathSDF;
-                cySAV.RestoreDirectory = true;
+                main.InitialDirectory = pathSDF;
+                main.RestoreDirectory = true;
             }
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
             {
-                cySAV.InitialDirectory = Path.Combine(cyberpath, "root");
-                cySAV.RestoreDirectory = true;
+                main.InitialDirectory = Path.Combine(cyberpath, "root");
+                main.RestoreDirectory = true;
             }
             else if (Directory.Exists(cyberpath))
             {
-                cySAV.InitialDirectory = cyberpath;
-                cySAV.RestoreDirectory = true;
+                main.InitialDirectory = cyberpath;
+                main.RestoreDirectory = true;
             }
 
             // Export
-            if (sender == Menu_ExportTransfer) // Export RAM SAV to another.
-            {
-                Util.Alert("Please specify the target cart/console-RAM save.");
-                OpenFileDialog ofd = new OpenFileDialog();
-                if (ofd.ShowDialog() != DialogResult.OK) return;
-                string target = ofd.FileName;
-                byte[] targetRAM = File.ReadAllBytes(target);
-                byte[] newRAM = ram2sav.getRAM(targetRAM, sav);
-
-                cySAV.Filter = "ramsav|*.bin";
-                cySAV.FileName = "ramsav.bin";
-                DialogResult sdr = cySAV.ShowDialog();
-                if (sdr != DialogResult.OK) return;
-                string path = cySAV.FileName;
-                File.WriteAllBytes(path, newRAM);
-                Util.Alert("Saved RAM SAV to:" + Environment.NewLine + path, "Target RAM:" + Environment.NewLine + target);
-            }
-            else if (sender == Menu_ExportRAMSAV) // Export RAM SAV if it is the currently loaded one.
-            {
-                cySAV.Filter = "ramsav|*.bin";
-                cySAV.FileName = "ramsav.bin";
-                DialogResult sdr = cySAV.ShowDialog();
-                if (sdr != DialogResult.OK) return;
-                string path = cySAV.FileName;
-                File.WriteAllBytes(path, ram2sav.getRAM(ramsav, sav));
-                Util.Alert("Saved RAM SAV to:", path);
-            }
-            else if (sender == Menu_ExportMAIN)
-            {
-                cySAV.Filter = "Cyber SAV|*.*";
-                cySAV.FileName = L_Save.Text.Split(new[] { ": " }, StringSplitOptions.None)[1];
-                DialogResult sdr = cySAV.ShowDialog();
-                if (sdr != DialogResult.OK) return;
-                string path = cySAV.FileName;
-                File.WriteAllBytes(path, sav);
-                Util.Alert("Saved Cyber SAV to:", path);
-            }
+            main.Filter = "Main SAV|*.*";
+            main.FileName = L_Save.Text.Split(new[] {": "}, StringSplitOptions.None)[1];
+            DialogResult sdr = main.ShowDialog();
+            if (sdr != DialogResult.OK) return;
+            string path = main.FileName;
+            File.WriteAllBytes(path, sav);
+            Util.Alert("Exported SAV to:", path);
         }
+
         // Box/SAV Functions //
         private void clickBoxRight(object sender, EventArgs e)
         {
@@ -2636,10 +2545,7 @@ namespace PKHeX
             PK6 pk = SAV.getPK6Stored(offset);
             if (pk.Sanity == 0 && pk.Species != 0)
             {
-                try
-                { 
-                    populateFields(pk);
-                }
+                try { populateFields(pk); }
                 catch // If it fails, try XORing encrypted zeroes
                 {
                     try
@@ -2664,9 +2570,10 @@ namespace PKHeX
         {
             if (!verifiedPKX()) { return; }
             int slot = getSlot(sender);
-            if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked)) { Util.Alert("Can't have empty/egg first slot."); return; }
-            int offset = getPKXOffset(slot);
+            if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked))
+            { Util.Alert("Can't have empty/egg first slot."); return; }
 
+            int offset = getPKXOffset(slot);
             PK6 pk = preparepkx();
             if (!SAV.ORAS)
             {
