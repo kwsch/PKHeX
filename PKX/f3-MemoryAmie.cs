@@ -93,13 +93,16 @@ namespace PKHeX
             if (!Main.pk6.IsEgg)
             {
                 bool enable;
-                int game = Main.pk6.Version;
-                if (game < 24 && game != 0)
+                if (!Main.pk6.Gen6)
                 {
-                    // Banked Mon
-                    GB_M_OT.Text = String.Format("{0} {2}: {1}", args[3], args[2], Main.pk6.OT_Name); // Past Gen : OT : OTNAME
+                    // Previous Generation Mon
+                    GB_M_OT.Text = $"{args[3]} {Main.pk6.OT_Name}: {args[2]}"; // Past Gen OT : OTNAME
                     GB_M_CT.Text = $"{args[4]} {Main.pk6.HT_Name}"; // Memories with : HTNAME
                     enable = false;
+                    // Reset to no memory
+                    M_OT_Affection.Text = "0";
+                    CB_OTQual.SelectedIndex = CB_OTFeel.SelectedIndex = 0;
+                    CB_OTVar.SelectedValue = CB_OTMemory.SelectedValue = 0;
                 }
                 else
                 {
@@ -302,7 +305,7 @@ namespace PKHeX
                 result = Main.memories[38];
             else
             {
-                result = String.Format(Main.memories[mem + 38], nn, tr, a, f.Text, q.Text);
+                result = string.Format(Main.memories[mem + 38], nn, tr, a, f.Text, q.Text);
                 enabled = true;
             }
 
