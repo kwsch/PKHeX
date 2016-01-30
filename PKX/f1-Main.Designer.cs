@@ -2799,7 +2799,7 @@
             this.Menu_Database.ShowShortcutKeys = false;
             this.Menu_Database.Size = new System.Drawing.Size(151, 22);
             this.Menu_Database.Text = "PK6 &Database";
-            this.Menu_Database.Click += new System.EventHandler(this.B_OpenDB_Click);
+            this.Menu_Database.Click += new System.EventHandler(this.mainMenuDatabase);
             // 
             // Menu_Other
             // 

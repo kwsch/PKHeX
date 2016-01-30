@@ -294,9 +294,23 @@ namespace PKHeX
         }
         private void mainMenuBoxReport(object sender, EventArgs e)
         {
+            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(frmReport).Name))
+            { Util.Alert("Window is already open."); return; }
+
             frmReport ReportForm = new frmReport();
             ReportForm.Show();
             ReportForm.PopulateData(SAV.Data, SAV.Box);
+        }
+        private void mainMenuDatabase(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(SAV_Database).Name))
+            { Util.Alert("Window is already open."); return; }
+
+            if (Directory.Exists("db"))
+                new SAV_Database(this).Show();
+            else
+                Util.Alert("PKHeX's database was not found",
+                    "Please dump all boxes from a save file, then ensure the 'db' folder exists.");
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
@@ -3246,14 +3260,6 @@ namespace PKHeX
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
             File.WriteAllBytes(path, jpeg);
-        }
-        private void B_OpenDB_Click(object sender, EventArgs e)
-        {
-            if (Directory.Exists("db"))
-                new SAV_Database(this).Show();
-            else
-                Util.Alert("PKHeX's database was not found",
-                    "Please dump all boxes from a save file, then ensure the 'db' folder exists.");
         }
         // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
