@@ -48,7 +48,7 @@ Menu_Language = Langue
 Menu_Modify = Réglez SAV
 Menu_ModifyDex = Modifier Pokédex Infos
 Menu_ModifyPK6 = Modifier PK6 Infos
-Menu_Unicode = Basculer la police
+Menu_Unicode = Unicode
 Menu_About = A propos de PKHeX
 --------------------Context Menus----------------------
 mnuView = Voir

@@ -48,7 +48,7 @@ Menu_Language = 语言
 Menu_Modify = 设置为SAV
 Menu_ModifyDex = 修改图鉴
 Menu_ModifyPK6 = 修改PK6信息
-Menu_Unicode = 切换的Unicode
+Menu_Unicode = Unicode
 Menu_About = 关于PKHeX
 --------------------Context Menus----------------------
 mnuView = 看

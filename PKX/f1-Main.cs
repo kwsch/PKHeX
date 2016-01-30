@@ -300,26 +300,8 @@ namespace PKHeX
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
-            unicode = gendersymbols[0] == "♂";
-            if (unicode)
-            {
-                gendersymbols = new[] { "M", "F", "-" };
-                BTN_Shinytize.Text = "*";
-                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = Label_TID.Font;
-            }
-            else
-            {
-                gendersymbols = new[] { "♂", "♀", "-" };
-                BTN_Shinytize.Text = "☆";
-                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = PKX.getPKXFont(11);
-            }
-            // Switch active gender labels to new if they are active.
-            if (PKX.getGender(Label_Gender.Text) < 2)
-                Label_Gender.Text = gendersymbols[PKX.getGender(Label_Gender.Text)];
-            if (PKX.getGender(Label_OTGender.Text) < 2)
-                Label_OTGender.Text = gendersymbols[PKX.getGender(Label_OTGender.Text)];
-            if (PKX.getGender(Label_CTGender.Text) < 2)
-                Label_CTGender.Text = gendersymbols[PKX.getGender(Label_CTGender.Text)];
+            unicode = Menu_Unicode.Checked;
+            updateUnicode();
         }
         private void mainMenuModifyDex(object sender, EventArgs e)
         {
@@ -2125,6 +2107,28 @@ namespace PKHeX
                 labarray[incr].ForeColor = Color.Red;
                 labarray[decr].ForeColor = Color.Blue;
             }
+        }
+        private void updateUnicode()
+        {
+            if (!unicode)
+            {
+                gendersymbols = new[] { "M", "F", "-" };
+                BTN_Shinytize.Text = "*";
+                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = Label_TID.Font;
+            }
+            else
+            {
+                gendersymbols = new[] { "♂", "♀", "-" };
+                BTN_Shinytize.Text = "☆";
+                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = PKX.getPKXFont(11);
+            }
+            // Switch active gender labels to new if they are active.
+            if (PKX.getGender(Label_Gender.Text) < 2)
+                Label_Gender.Text = gendersymbols[PKX.getGender(Label_Gender.Text)];
+            if (PKX.getGender(Label_OTGender.Text) < 2)
+                Label_OTGender.Text = gendersymbols[PKX.getGender(Label_OTGender.Text)];
+            if (PKX.getGender(Label_CTGender.Text) < 2)
+                Label_CTGender.Text = gendersymbols[PKX.getGender(Label_CTGender.Text)];
         }
         // Secondary Windows for Ribbons/Amie/Memories
         private void openRibbons(object sender, EventArgs e)

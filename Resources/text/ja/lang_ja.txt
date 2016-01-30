@@ -48,7 +48,7 @@ Menu_Language = 言語
 Menu_Modify = SAVに設定
 Menu_ModifyDex = ポケモン図鑑を変更
 Menu_ModifyPK6 = PK6情報の変更
-Menu_Unicode = トグルフォント
+Menu_Unicode = Unicode
 Menu_About = PKHeXについて
 --------------------Context Menus----------------------
 mnuView = 見る
