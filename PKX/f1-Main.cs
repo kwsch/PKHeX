@@ -193,30 +193,40 @@ namespace PKHeX
                 ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
                 ofd.RestoreDirectory = true;
                 ofd.FilterIndex = 4;
+                ofd.FileName = "main";
             }
             else if (pathSDF != null)
             {
                 ofd.InitialDirectory = pathSDF;
                 ofd.RestoreDirectory = true;
                 ofd.FilterIndex = 4;
+                ofd.FileName = "main";
             }
             else if (path3DS != null)
             {
                 ofd.InitialDirectory = Path.GetPathRoot(path3DS);
                 ofd.RestoreDirectory = true;
                 ofd.FilterIndex = 4;
+                ofd.FileName = "main";
             }
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
             {
                 ofd.InitialDirectory = Path.Combine(cyberpath, "root");
                 ofd.RestoreDirectory = true;
                 ofd.FilterIndex = 4;
+                ofd.FileName = "main";
             }
             else if (Directory.Exists(cyberpath))
             {
                 ofd.InitialDirectory = cyberpath;
                 ofd.RestoreDirectory = true;
                 ofd.FilterIndex = 4;
+                ofd.FileName = "main";
+            }
+            else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main")))
+            {
+                ofd.FilterIndex = 4;
+                ofd.FileName = "main";
             }
 
             if (ofd.ShowDialog() != DialogResult.OK) 
