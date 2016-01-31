@@ -8,7 +8,6 @@ namespace PKHeX
     {
         public f2_Text(TextBox TB_NN)
         {
-            Main.specialChars = true;
             Hide();
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
@@ -44,10 +43,6 @@ namespace PKHeX
             string nickname = TB_Nickname.Text;
             if (nickname.Length < TB_Nickname.MaxLength)
                 TB_Nickname.Text += (sender as Label).Text;
-        }
-        private void onClosed(object sender, FormClosedEventArgs e)
-        {
-            Main.specialChars = false;
         }
     }
 }

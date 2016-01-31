@@ -129,14 +129,13 @@ namespace PKHeX
         #region Global Variables: Always Visible!
         public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
         public static PK6 pk6 = new PK6(); // Tab Pokemon Data Storage
-        public static SAV6 SAV = new SAV6();
+        public static SAV6 SAV = new SAV6(); // Save File
         public static byte[] originalSAV; // original save for CyberGadget Codes
         public static string pathSDF;
         public static string path3DS;
 
         public static volatile bool formInitialized, fieldsInitialized;
         public static bool HaX;
-        public static bool specialChars; // Open Form Tracking
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static int colorizedbox = 32;
@@ -145,6 +144,7 @@ namespace PKHeX
         public static int colorizedslot;
         public static string eggname = "";
         public static string DatabasePath = "db";
+        public static string BackupPath = "bak";
         public static string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
         public static string[] main_langlist = 
             {
@@ -605,7 +605,7 @@ namespace PKHeX
             else if ((input.Length == PK6.SIZE_PARTY || input.Length == PK6.SIZE_STORED) && ext != ".pgt")
             {
                 // Check if Input is PKX
-                if ((ext == ".pk6") || (ext == ".ek6") || (ext == ".pkx") || (ext == ".ekx") || (ext == ".bin") || (ext == ""))
+                if (new[] {".pk6", ".ek6", ".pkx", ".ekx", ""}.Contains(ext))
                 {
                     // Check if Encrypted before Loading
                     populateFields(new PK6(BitConverter.ToUInt16(input, 0xC8) == 0 && BitConverter.ToUInt16(input, 0x58) == 0 ? input : PKX.decryptArray(input)));
@@ -1376,14 +1376,12 @@ namespace PKHeX
         }
         private void clickOT(object sender, EventArgs e)
         {
-            string OT = SAV.OT;
-            if (OT.Length <= 0) return;
-
-            TB_OT.Text = OT;
-            // Set Gender Label
-            Label_OTGender.Text = SAV.Gender == 1 ? gendersymbols[1] : gendersymbols[0];
+            if (!SAV.Exportable)
+                return;
 
             // Get Save Information
+            TB_OT.Text = SAV.OT;
+            Label_OTGender.Text = gendersymbols[SAV.Gender % 2];
             TB_TID.Text = SAV.TID.ToString();
             TB_SID.Text = SAV.SID.ToString();
             CB_GameOrigin.SelectedValue = SAV.Game;
@@ -1396,7 +1394,7 @@ namespace PKHeX
         private void clickCT(object sender, EventArgs e)
         {
             if (TB_OTt2.Text.Length > 0)
-                Label_CTGender.Text = gendersymbols[SAV.Gender];
+                Label_CTGender.Text = gendersymbols[SAV.Gender % 2];
         }
         private void clickGT(object sender, EventArgs e)
         {
@@ -1441,7 +1439,7 @@ namespace PKHeX
         {
             if (changingFields) return;
 
-            if (sender as MaskedTextBox == TB_EXP)
+            if (sender == TB_EXP)
             {
                 changingFields = true;
                 // Change the Level
@@ -1901,7 +1899,7 @@ namespace PKHeX
         }
         private void updateNatureModification(object sender, EventArgs e)
         {
-            if (sender is ComboBox && (sender as ComboBox).Name != CB_Nature.Name) return;
+            if (sender != CB_Nature) return;
             int nature = Util.getIndex(CB_Nature);
             int incr = nature / 5;
             int decr = nature % 5;
@@ -1947,8 +1945,12 @@ namespace PKHeX
         {
             TextBox tb = !(sender is TextBox) ? TB_Nickname : sender as TextBox;
             // Special Character Form
-            if (ModifierKeys == Keys.Control && !specialChars)
-                new f2_Text(tb).Show();
+            if (ModifierKeys != Keys.Control)
+                return;
+
+            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(f2_Text).Name))
+            { Util.Alert("Window is already open."); return; }
+            new f2_Text(tb).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
         {
@@ -2786,32 +2788,29 @@ namespace PKHeX
         }
         private int getPKXOffset(int slot)
         {
-            int offset = SAV.Box + (30 * CB_BoxSelect.SelectedIndex + slot) * PK6.SIZE_STORED;
-
-            if (slot > 29)          // Not a party
-            {
-                if (slot < 36)      // Party Slot
-                    offset = SAV.Party + (slot - 30) * PK6.SIZE_PARTY;
-                else if (slot < 42) // Battle Box Slot
-                    offset = SAV.BattleBox + (slot - 36) * PK6.SIZE_STORED;
-                else if (slot < 44) // Daycare
-                    offset = SAV.DaycareSlot[DaycareSlot] + 8 + (slot - 42) * (PK6.SIZE_STORED + 8);
-                else if (slot < 45) // GTS
-                    offset = SAV.GTS;
-                else if (slot < 46) // Fused
-                    offset = SAV.Fused;
-                else                // SUBE
-                    offset = SAV.SUBE + (slot - 46) * (PK6.SIZE_STORED + 4);
-            }
-            return offset;
+            if (slot < 30)      // Box Slot
+                return SAV.Box + (30 * CB_BoxSelect.SelectedIndex + slot) * PK6.SIZE_STORED;
+            if (slot < 36) // Party Slot
+                return SAV.Party + (slot - 30) * PK6.SIZE_PARTY;
+            if (slot < 42) // Battle Box Slot
+                return SAV.BattleBox + (slot - 36) * PK6.SIZE_STORED;
+            if (slot < 44) // Daycare
+                return SAV.DaycareSlot[DaycareSlot] + 8 + (slot - 42) * (PK6.SIZE_STORED + 8);
+            if (slot < 45) // GTS
+                return SAV.GTS;
+            if (slot < 46) // Fused
+                return SAV.Fused;
+            if (slot < 50) // SUBE
+                return SAV.SUBE + (slot - 46) * (PK6.SIZE_STORED + 4);
+            return -1;
         }
         private int getSlot(object sender)
         {
-            string name = sender is ToolStripItem
-                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
-                : (sender as PictureBox).Name;
+            sender = sender is ToolStripItem
+                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl
+                : sender as PictureBox;
 
-            return Array.FindIndex(SlotPictureBoxes, p => p.Name == name);
+            return Array.IndexOf(SlotPictureBoxes, sender);
         }
         public void setPKXBoxes()
         {
@@ -2936,7 +2935,7 @@ namespace PKHeX
             foreach (PictureBox t in SlotPictureBoxes)
                 t.BackgroundImage = null;
 
-            if (slot < 32)
+            if (slot < 30)
                 colorizedbox = CB_BoxSelect.SelectedIndex;
 
             SlotPictureBoxes[slot].BackgroundImage = color;
@@ -3004,10 +3003,7 @@ namespace PKHeX
                 if (len > PK6.SIZE_PARTY)
                     continue;
 
-                if (
-                    len != PK6.SIZE_STORED && len != PK6.SIZE_PARTY // 6th Gen
-                    && len != 136 && len != 220 && len != 236 // 5th Gen
-                    && len != 100 && len != 80) // 4th Gen
+                if (!new[] {PK6.SIZE_STORED, PK6.SIZE_PARTY, PK5.SIZE_STORED, PK5.SIZE_PARTY, PK4.SIZE_PARTY, PK3.SIZE_STORED, PK3.SIZE_PARTY}.Contains((int)len))
                     continue;
                 byte[] data = new byte[PK6.SIZE_STORED];
                 switch (Path.GetExtension(t)) // Filter all files by extension
@@ -3076,7 +3072,7 @@ namespace PKHeX
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
-            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Yes: Export All Boxes" + Environment.NewLine + String.Format("No: Export {1} (Box {0})", CB_BoxSelect.SelectedIndex + 1, CB_BoxSelect.Text) + Environment.NewLine + "Cancel: Abort");
+            DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Yes: Export All Boxes" + Environment.NewLine + string.Format("No: Export {1} (Box {0})", CB_BoxSelect.SelectedIndex + 1, CB_BoxSelect.Text) + Environment.NewLine + "Cancel: Abort");
 
             if (dr == DialogResult.Yes)
             {
@@ -3345,7 +3341,7 @@ namespace PKHeX
                     FileInfo fi = new FileInfo(files[0]);
 
                     // Detect if PKM/PKX
-                    if ((fi.Length == 136) || (fi.Length == 220) || (fi.Length == 236) || (fi.Length == 100) || (fi.Length == 80))
+                    if (new[] { PK3.SIZE_PARTY, PK3.SIZE_STORED, PK4.SIZE_PARTY, PK4.SIZE_STORED, PK5.SIZE_PARTY }.Contains((int)fi.Length))
                     {
                         byte[] input = File.ReadAllBytes(files[0]);
                         if (!PKX.verifychk(input)) Util.Alert("Invalid File Loaded.", "Checksum is not valid.");

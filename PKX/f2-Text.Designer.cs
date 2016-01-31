@@ -395,7 +395,6 @@
             this.Name = "f2_Text";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Special Characters";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.onClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -439,8 +440,12 @@ namespace PKHeX
         {
             TextBox tb = !(sender is TextBox) ? TB_Nickname : sender as TextBox;
             // Special Character Form
-            if (ModifierKeys == Keys.Control && !Main.specialChars)
-                new f2_Text(tb).Show();
+            if (ModifierKeys != Keys.Control)
+                return;
+
+            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(f2_Text).Name))
+            { Util.Alert("Window is already open."); return; }
+            new f2_Text(tb).Show();
         }
     }
 }
