@@ -178,61 +178,36 @@ namespace PKHeX
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
         {
-            string cyberpath = Util.GetTempFolder();
-            pathSDF = Util.GetSDFLocation();
-            path3DS = Util.get3DSLocation();
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "PKX File|*.pk6;*.pkx" +
                          "|EKX File|*.ek6;*.ekx" +
                          "|BIN File|*.bin" +
                          "|All Files|*.*",
+                RestoreDirectory = true,
+                FilterIndex = 4,
+                FileName = "main",
             };
+
+            // Detect main
+            string cyberpath = Util.GetTempFolder();
+            pathSDF = Util.GetSDFLocation();
+            path3DS = Util.get3DSLocation();
             if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
-            {
                 ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
-                ofd.RestoreDirectory = true;
-                ofd.FilterIndex = 4;
-                ofd.FileName = "main";
-            }
             else if (pathSDF != null)
-            {
                 ofd.InitialDirectory = pathSDF;
-                ofd.RestoreDirectory = true;
-                ofd.FilterIndex = 4;
-                ofd.FileName = "main";
-            }
             else if (path3DS != null)
-            {
                 ofd.InitialDirectory = Path.GetPathRoot(path3DS);
-                ofd.RestoreDirectory = true;
-                ofd.FilterIndex = 4;
-                ofd.FileName = "main";
-            }
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
-            {
                 ofd.InitialDirectory = Path.Combine(cyberpath, "root");
-                ofd.RestoreDirectory = true;
-                ofd.FilterIndex = 4;
-                ofd.FileName = "main";
-            }
             else if (Directory.Exists(cyberpath))
-            {
                 ofd.InitialDirectory = cyberpath;
-                ofd.RestoreDirectory = true;
-                ofd.FilterIndex = 4;
-                ofd.FileName = "main";
-            }
-            else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main")))
-            {
-                ofd.FilterIndex = 4;
-                ofd.FileName = "main";
-            }
+            else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main"))) { }
+            else { ofd.RestoreDirectory = false; ofd.FilterIndex = 1; ofd.FileName = ""; }
 
-            if (ofd.ShowDialog() != DialogResult.OK) 
-                return;
-
-            openQuick(ofd.FileName);
+            if (ofd.ShowDialog() == DialogResult.OK) 
+                openQuick(ofd.FileName);
         }
         private void mainMenuSave(object sender, EventArgs e)
         {
@@ -2018,11 +1993,11 @@ namespace PKHeX
         {
             ushort TID = (ushort)Util.ToUInt32(TB_TID.Text);
             ushort SID = (ushort)Util.ToUInt32(TB_SID.Text);
-            var TSV = PKX.getTSV(TID, SID);
+            uint TSV = PKX.getTSV(TID, SID);
             Tip1.SetToolTip(TB_TID, "TSV: " + TSV.ToString("0000"));
             Tip2.SetToolTip(TB_SID, "TSV: " + TSV.ToString("0000"));
 
-            var PSV = PKX.getPSV(Util.getHEXval(TB_PID.Text));
+            uint PSV = PKX.getPSV(Util.getHEXval(TB_PID.Text));
             Tip3.SetToolTip(TB_PID, "PSV: " + PSV.ToString("0000"));
         }
         private void update_ID(object sender, EventArgs e)
@@ -2042,15 +2017,15 @@ namespace PKHeX
         }
         private void validateComboBox(object sender, EventArgs e)
         {
-            if (!(sender is ComboBox)) { return; }
+            if (!(sender is ComboBox))
+                return;
 
-            ComboBox cb = sender as ComboBox;
+            ComboBox cb = (ComboBox)sender;
             cb.SelectionLength = 0;
-
             cb.BackColor = cb.SelectedValue == null ? Color.DarkSalmon : defaultControlWhite;
 
             if (fieldsInitialized)
-            { getQuickFiller(dragout); }
+                getQuickFiller(dragout);
         }
         private void validateComboBox2(object sender, EventArgs e)
         {
@@ -2072,7 +2047,7 @@ namespace PKHeX
             // Gather the needed information.
             int species = Util.getIndex(CB_Species);
             int level = Util.ToInt32(MT_Level.Enabled ? MT_Level.Text : TB_Level.Text);
-            if (level == 0) { level = 1; }
+            if (level == 0) level = 1;
             int form = CB_Form.SelectedIndex;
             int HP_IV = Util.ToInt32(TB_HPIV.Text);
             int ATK_IV = Util.ToInt32(TB_ATKIV.Text);
@@ -2406,13 +2381,12 @@ namespace PKHeX
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            string path = files[0]; // open first D&D
-            openQuick(path);
+            openQuick(files[0]);
         }
         // Decrypted Export
         private void dragout_MouseDown(object sender, MouseEventArgs e)
         {
-            if (!verifiedPKX()) { return; }
+            if (!verifiedPKX()) return;
             {
                 // Create Temp File to Drag
                 Cursor.Current = Cursors.Hand;
@@ -2420,7 +2394,7 @@ namespace PKHeX
                 // Make a new file name
                 PK6 pkx = preparepkx();
                 string filename = Path.GetFileNameWithoutExtension(pkx.FileName) + (e.Button == MouseButtons.Right ? ".ek6" : ".pk6");
-                byte[] dragdata = e.Button == MouseButtons.Right ? pk6.EncryptedBoxData : pk6.DecryptedBoxData;
+                byte[] dragdata = e.Button == MouseButtons.Right ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
                 // Make file
                 string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
                 try
@@ -2489,43 +2463,32 @@ namespace PKHeX
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
             byte[] sav = SAV.Write();
 
-            SaveFileDialog main = new SaveFileDialog();
+            SaveFileDialog main = new SaveFileDialog
+            {
+                Filter = "Main SAV|*.*", 
+                FileName = L_Save.Text.Split(new[] {": "}, StringSplitOptions.None)[1],
+                RestoreDirectory = true
+            };
+
             // Try for file path
             string cyberpath = Util.GetTempFolder();
             if (Directory.Exists(path3DS))
-            {
                 main.InitialDirectory = Path.GetPathRoot(path3DS);
-                main.RestoreDirectory = true;
-            }
             else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
-            {
                 main.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
-                main.RestoreDirectory = true;
-            }
             else if (pathSDF != null && Directory.Exists(pathSDF))
-            {
                 main.InitialDirectory = pathSDF;
-                main.RestoreDirectory = true;
-            }
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
-            {
                 main.InitialDirectory = Path.Combine(cyberpath, "root");
-                main.RestoreDirectory = true;
-            }
             else if (Directory.Exists(cyberpath))
-            {
                 main.InitialDirectory = cyberpath;
-                main.RestoreDirectory = true;
-            }
+            else
+                main.RestoreDirectory = false;
 
             // Export
-            main.Filter = "Main SAV|*.*";
-            main.FileName = L_Save.Text.Split(new[] {": "}, StringSplitOptions.None)[1];
-            DialogResult sdr = main.ShowDialog();
-            if (sdr != DialogResult.OK) return;
-            string path = main.FileName;
-            File.WriteAllBytes(path, sav);
-            Util.Alert("Exported SAV to:", path);
+            if (main.ShowDialog() != DialogResult.OK) return;
+            File.WriteAllBytes(main.FileName, sav);
+            Util.Alert("Exported SAV to:", main.FileName);
         }
 
         // Box/SAV Functions //
@@ -2582,7 +2545,7 @@ namespace PKHeX
         }
         private void clickSet(object sender, EventArgs e)
         {
-            if (!verifiedPKX()) { return; }
+            if (!verifiedPKX()) return;
             int slot = getSlot(sender);
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked))
             { Util.Alert("Can't have empty/egg first slot."); return; }
@@ -2633,7 +2596,7 @@ namespace PKHeX
         private void clickClone(object sender, EventArgs e)
         {
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
-            if (!verifiedPKX()) { return; } // don't copy garbage to the box
+            if (!verifiedPKX()) return; // don't copy garbage to the box
 
             PK6 pk;
             int box = CB_BoxSelect.SelectedIndex + 1; // get box we're cloning to
@@ -2790,10 +2753,7 @@ namespace PKHeX
         }
         private int getSlot(object sender)
         {
-            sender = sender is ToolStripItem
-                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl
-                : sender as PictureBox;
-
+            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             return Array.IndexOf(SlotPictureBoxes, sender);
         }
         public void setPKXBoxes()

@@ -137,18 +137,14 @@ namespace PKHeX
             SaveFileDialog outputwc6 = new SaveFileDialog();
             int cardID = BitConverter.ToUInt16(wondercard_data, 0);
             string cardname = Encoding.Unicode.GetString(wondercard_data, 0x2, 0x48);
-            outputwc6.FileName = Util.CleanFileName(cardID + " - " + cardname + ".wc6");
+            outputwc6.FileName = Util.CleanFileName($"{cardID} - {cardname}.wc6");
             outputwc6.Filter = "Wonder Card|*.wc6";
             if (outputwc6.ShowDialog() != DialogResult.OK) return;
 
             string path = outputwc6.FileName;
 
-            if (File.Exists(path))
-            {
-                // File already exists, save a .bak
-                byte[] backupfile = File.ReadAllBytes(path);
-                File.WriteAllBytes(path + ".bak", backupfile);
-            }
+            if (File.Exists(path)) // File already exists, save a .bak
+                File.WriteAllBytes(path + ".bak", File.ReadAllBytes(path));
 
             File.WriteAllBytes(path, wondercard_data);
         }
@@ -156,11 +152,8 @@ namespace PKHeX
         // Wonder Card RW (window<->sav)
         private void clickView(object sender, EventArgs e)
         {
-            string name = sender is ToolStripItem
-                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
-                : (sender as PictureBox).Name;
-
-            int index = Array.FindIndex(pba, p => p.Name == name);
+            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            int index = Array.IndexOf(pba, sender);
 
             setBackground(index, Properties.Resources.slotView);
             int offset = Main.SAV.WondercardData + index * WC6.Size;
@@ -169,11 +162,9 @@ namespace PKHeX
         }
         private void clickSet(object sender, EventArgs e)
         {
-            string name = sender is ToolStripItem
-                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
-                : (sender as PictureBox).Name;
+            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            int index = Array.IndexOf(pba, sender);
 
-            int index = Array.FindIndex(pba, p => p.Name == name);
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = Array.FindIndex(pba, p => p.Image == null);
             if (lastUnfilled < index)
@@ -185,18 +176,15 @@ namespace PKHeX
                 if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
                     if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
                         BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket);
+
             Array.Copy(wondercard_data, 0, sav, offset, WC6.Size);
             populateWClist();
             setCardID(BitConverter.ToUInt16(wondercard_data, 0));
-
         }
         private void clickDelete(object sender, EventArgs e)
         {
-            string name = sender is ToolStripItem
-                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
-                : (sender as PictureBox).Name;
-
-            int index = Array.FindIndex(pba, p => p.Name == name);
+            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            int index = Array.IndexOf(pba, sender);
 
             setBackground(index, Properties.Resources.slotDel);
             int offset = Main.SAV.WondercardData + index * WC6.Size;
@@ -239,7 +227,7 @@ namespace PKHeX
         // Delete WC Flag
         private void clearRecievedFlag(object sender, EventArgs e)
         {
-            if (LB_Received.SelectedIndex <= -1) return;
+            if (LB_Received.SelectedIndex < 0) return;
 
             if (LB_Received.Items.Count > 0)
                 LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
@@ -271,59 +259,42 @@ namespace PKHeX
                 Array.Copy(newwc6, wondercard_data, newwc6.Length);
                 loadwcdata();
             }
-            else if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo,
-                $"Try to load {files.Length} Wonder Cards starting at Card {ctr + 1}?"))
-            {
+            else if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, $"Try to load {files.Length} Wonder Cards starting at Card {ctr + 1}?"))
                 foreach (string file in files)
                 {
                     if (new FileInfo(file).Length != WC6.Size)
                     { Util.Error("File is not a Wonder Card:", file); continue; }
 
                     // Load in WC
-                    File.ReadAllBytes(file).CopyTo(sav, Main.SAV.WondercardData + WC6.Size * ctr++);
-                    if (ctr >= 24) break;
+                    File.ReadAllBytes(file).CopyTo(sav, Main.SAV.WondercardData + WC6.Size*ctr++);
+                    if (ctr >= 24)
+                        break;
                 }
-            }
         }
 
         // String Creation
         private string getWCDescriptionString(byte[] data)
         {
-            // Load up the data according to the wiki!
-            int cardID = BitConverter.ToUInt16(data, 0);
-            if (cardID == 0) return "Empty Slot. No data!";
+            WC6 wc = new WC6(data);
+            if (wc.CardID == 0)
+                return "Empty Slot. No data!";
 
-            string cardname = Util.TrimFromZero(Encoding.Unicode.GetString(data, 0x2, 0x48));
-            int cardtype = data[0x51];
-            string s = "";
-            s += "Card #: " + cardID.ToString("0000") + " - " + cardname + Environment.NewLine;
+            string s = $"Card #: {wc.CardID.ToString("0000")} - {wc.CardTitle.Trim()}" + Environment.NewLine;
 
-            if (cardtype == 1) // Item
+            switch (wc.CardType)
             {
-                int item = BitConverter.ToUInt16(data, 0x68);
-                int qty = BitConverter.ToUInt16(data, 0x70);
-
-                s += "Item: " + Main.itemlist[item] + Environment.NewLine + "Quantity: " + qty;
+                case 1:
+                    s += "Item: " + Main.itemlist[wc.Item] + Environment.NewLine + "Quantity: " + wc.Quantity;
+                    return s;
+                case 0:
+                    s +=
+                        $"{Main.specieslist[wc.Species]} @ {Main.itemlist[wc.HeldItem]} --- {wc.OT} - {wc.TID.ToString("00000")}/{wc.SID.ToString("00000")}" + Environment.NewLine +
+                        $"{Main.movelist[wc.Move1]} / {Main.movelist[wc.Move2]} / {Main.movelist[wc.Move3]} / {Main.movelist[wc.Move4]}" + Environment.NewLine;
+                    return s;
+                default:
+                    s += "Unknown Wonder Card Type!";
+                    return s;
             }
-            else if (cardtype == 0) // PKM
-            {
-                WC6 card = new WC6(data);
-                s += String.Format(
-                    "{1} @ {2} --- {7} - {8}/{9}{0}" +
-                    "{3} / {4} / {5} / {6}{0}",
-                    Environment.NewLine,
-                    Main.specieslist[card.Species],
-                    Main.itemlist[card.HeldItem],
-                    Main.movelist[card.Move1],
-                    Main.movelist[card.Move2],
-                    Main.movelist[card.Move3],
-                    Main.movelist[card.Move4],
-                    card.OT, card.TID.ToString("00000"), card.SID.ToString("00000"));
-            }
-            else
-                s += "Unknown Wonder Card Type!";
-
-            return s;
         }
 
         private Image getWCPreviewImage(byte[] data)
@@ -351,7 +322,7 @@ namespace PKHeX
                     $"QR Data Size: 0x{wc.Length.ToString("X")}"); }
                 else try
                     {
-                        Array.Copy(wc, wondercard_data, wc.Length);
+                        wc.CopyTo(wondercard_data, 0);
                         loadwcdata();
                     }
                     catch { Util.Alert("Error loading wondercard data."); }
@@ -396,7 +367,7 @@ namespace PKHeX
 
             if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
 
-            int index = Array.FindIndex(pba, p => p.Name == (sender as PictureBox).Name);
+            int index = Array.IndexOf(pba, sender);
             wc_slot = index;
             // Create Temp File to Drag
             Cursor.Current = Cursors.Hand;
@@ -404,7 +375,7 @@ namespace PKHeX
             // Prepare Data
             byte[] dragdata = sav.Skip(Main.SAV.WondercardData + WC6.Size * index).Take(WC6.Size).ToArray();
             WC6 card = new WC6(dragdata);
-            string filename = Util.CleanFileName(card.CardID.ToString("0000") + " - " + card.CardTitle + ".wc6");
+            string filename = Util.CleanFileName($"{card.CardID.ToString("0000")} - {card.CardTitle}.wc6");
 
             // Make File
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
@@ -420,7 +391,7 @@ namespace PKHeX
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
-            int index = Array.FindIndex(pba, p => p.Name == (sender as PictureBox).Name);
+            int index = Array.IndexOf(pba, sender);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = Array.FindIndex(pba, p => p.Image == null);

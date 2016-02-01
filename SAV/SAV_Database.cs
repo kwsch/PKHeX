@@ -32,17 +32,16 @@ namespace PKHeX
             };
 
             // Enable Scrolling when hovered over
-            var me = this;
             PAN_Box.MouseHover += (sender, args) =>
             {
-                if (ActiveForm == me)
+                if (ActiveForm == this)
                     SCR_Box.Focus();
             };
             foreach (var slot in PKXBOXES)
             {
                 slot.MouseEnter += (sender, args) =>
                 {
-                    if (ActiveForm == me)
+                    if (ActiveForm == this)
                         SCR_Box.Focus();
                 };
                 // Enable Click
@@ -116,11 +115,9 @@ namespace PKHeX
         // Important Events
         private void clickView(object sender, EventArgs e)
         {
-            string name = sender is ToolStripItem
-                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
-                : (sender as PictureBox).Name;
+            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            int index = Array.IndexOf(PKXBOXES, sender);
 
-            int index = Array.FindIndex(PKXBOXES, p => p.Name == name);
             var dataArr = Results.Skip(SCR_Box.Value * RES_MIN).Take(RES_MAX).ToArray();
             if (index >= dataArr.Length)
                 System.Media.SystemSounds.Exclamation.Play();
@@ -130,16 +127,14 @@ namespace PKHeX
                 slotSelected = index + SCR_Box.Value * RES_MIN;
                 slotColor = Properties.Resources.slotView;
                 FillPKXBoxes(SCR_Box.Value);
-                L_Viewed.Text = String.Format(Viewed, dataArr[index].Identifier);
+                L_Viewed.Text = string.Format(Viewed, dataArr[index].Identifier);
             }
         }
         private void clickDelete(object sender, EventArgs e)
         {
-            string name = sender is ToolStripItem
-                ? ((sender as ToolStripItem).Owner as ContextMenuStrip).SourceControl.Name
-                : (sender as PictureBox).Name;
+            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            int index = Array.IndexOf(PKXBOXES, sender);
 
-            int index = Array.FindIndex(PKXBOXES, p => p.Name == name);
             var dataArr = Results.Skip(SCR_Box.Value * RES_MIN).Take(RES_MAX).ToArray();
             if (index >= dataArr.Length)
                 System.Media.SystemSounds.Exclamation.Play();
@@ -178,7 +173,7 @@ namespace PKHeX
                 RawDB.Remove(pk);
                 Results.Remove(pk);
                 // Refresh database view.
-                L_Count.Text = String.Format(Counter, Results.Count);
+                L_Count.Text = string.Format(Counter, Results.Count);
                 slotSelected = -1;
                 FillPKXBoxes(SCR_Box.Value);
                 System.Media.SystemSounds.Asterisk.Play();
@@ -214,7 +209,7 @@ namespace PKHeX
             Results.Add(pk);
 
             // Refresh database view.
-            L_Count.Text = String.Format(Counter, Results.Count);
+            L_Count.Text = string.Format(Counter, Results.Count);
             slotSelected = Results.Count - 1;
             slotColor = Properties.Resources.slotSet;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
@@ -557,7 +552,7 @@ namespace PKHeX
             SCR_Box.Value = 0;
             FillPKXBoxes(0);
 
-            L_Count.Text = String.Format(Counter, Results.Count);
+            L_Count.Text = string.Format(Counter, Results.Count);
         }
         private void FillPKXBoxes(int start)
         {

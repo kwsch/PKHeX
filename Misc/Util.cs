@@ -260,8 +260,8 @@ namespace PKHeX
                 for (int j = i + 1; j < rawlist.Length; j++)
                 {
                     if (rawlist[j].Length == 0) continue; // Skip Over Empty Lines, errhandled
-                    if (rawlist[j][0].ToString() == "-") continue; // Keep translating if line is a comment line
-                    if (rawlist[j][0].ToString() == "!") // Stop if we have reached the end of translation
+                    if (rawlist[j][0] == '-') continue; // Keep translating if line is a comment line
+                    if (rawlist[j][0] == '!') // Stop if we have reached the end of translation
                         goto rename;
                     stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
                     itemsToRename++;
@@ -393,10 +393,10 @@ namespace PKHeX
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                cbList.AddRange(sortedChoices.Select(t => new cbItem
+                cbList.AddRange(sortedChoices.Select(s => new cbItem
                 {
-                    Text = t, 
-                    Value = list[Array.IndexOf(unsortedChoices, t)]
+                    Text = s, 
+                    Value = list[Array.IndexOf(unsortedChoices, s)]
                 }));
             }
             return cbList;
@@ -454,10 +454,10 @@ namespace PKHeX
             Array.Sort(sortedballs);
 
             // Add the rest of the balls
-            newlist.AddRange(sortedballs.Select(t => new cbItem
+            newlist.AddRange(sortedballs.Select(s => new cbItem
             {
-                Text = t, 
-                Value = stringVal[Array.IndexOf(ballnames, t)]
+                Text = s, 
+                Value = stringVal[Array.IndexOf(ballnames, s)]
             }));
             return newlist;
         }
@@ -525,10 +525,8 @@ namespace PKHeX
             }
             catch
             {
-                if (Prompt(MessageBoxButtons.YesNo, 
-                        "Unable to connect to the internet to receive QR code.",
-                        "Copy QR URL to Clipboard?")
-                        != DialogResult.Yes) return null;
+                if (DialogResult.Yes != Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
+                    return null;
                 try { Clipboard.SetText(webURL); }
                 catch { Alert("Failed to set text to Clipboard"); }
             }

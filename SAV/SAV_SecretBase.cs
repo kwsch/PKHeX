@@ -277,15 +277,15 @@ namespace PKHeX
             int index = currentpkm;
             byte[] pkm = new byte[0x34];
 
-            Array.Copy(BitConverter.GetBytes(Util.getHEXval(TB_EC.Text)), 0, pkm, 0, 4);  // EC
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Species)), 0, pkm, 8, 2);
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_HeldItem)), 0, pkm, 0xA, 2);
-            pkm[0xC] = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4)); // Ability
-            pkm[0xD] = (byte)(CB_Ability.SelectedIndex << 1);   // Number
+            BitConverter.GetBytes(Util.getHEXval(TB_EC.Text)).CopyTo(pkm, 0);
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_Species)).CopyTo(pkm, 8);
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_HeldItem)).CopyTo(pkm, 0xA);
+            pkm[0xC] = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            pkm[0xD] = (byte)(CB_Ability.SelectedIndex << 1);
             pkm[0x14] = (byte)Util.getIndex(CB_Nature);
 
             int fegform = 0;
-            fegform += PKX.getGender(Label_Gender.Text) << 1;                         // Gender
+            fegform += PKX.getGender(Label_Gender.Text) << 1;
             fegform += CB_Form.SelectedIndex << 3;
             pkm[0x15] = (byte)fegform;
 
@@ -296,10 +296,10 @@ namespace PKHeX
             pkm[0x1A] = (byte)Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252);
             pkm[0x1B] = (byte)Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252);
 
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move1)), 0, pkm, 0x1C, 2);
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move2)), 0, pkm, 0x1E, 2);
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move3)), 0, pkm, 0x20, 2);
-            Array.Copy(BitConverter.GetBytes(Util.getIndex(CB_Move4)), 0, pkm, 0x22, 2);
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_Move1)).CopyTo(pkm, 0x1C);
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_Move2)).CopyTo(pkm, 0x1E);
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_Move3)).CopyTo(pkm, 0x20);
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_Move4)).CopyTo(pkm, 0x22);
             
             pkm[0x24] = (byte)CB_PPu1.SelectedIndex;
             pkm[0x25] = (byte)CB_PPu2.SelectedIndex;
@@ -474,10 +474,9 @@ namespace PKHeX
             if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                 BaseTrainer = "Empty";
 
-            if (
-                Util.Prompt(MessageBoxButtons.YesNo,
-                    String.Format("Delete {1}'s base (Entry {0}) from your records?", index, BaseTrainer)) != DialogResult.Yes) 
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, $"Delete {BaseTrainer}'s base (Entry {index}) from your records?")) 
                 return;
+
             const int max = 29; 
             const int size = 0x3E0;
             int offset = favoff + index * size;

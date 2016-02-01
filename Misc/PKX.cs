@@ -361,9 +361,8 @@ namespace PKHeX
             string filename = pk6.Nickname;
             if (pk6.Nickname != Main.specieslist[pk6.Species] && Main.specieslist[pk6.Species] != null)
                 filename += " (" + Main.specieslist[pk6.Species] + ")";
-            response[0] = string.Format("{0} [{4}] lv{3} @ {1} -- {2}", filename, Main.itemlist[pk6.HeldItem], Main.natures[pk6.Nature], pk6.Stat_Level, Main.abilitylist[pk6.Ability]);
-            response[1] =
-                $"{Main.movelist[pk6.Move1]} / {Main.movelist[pk6.Move2]} / {Main.movelist[pk6.Move3]} / {Main.movelist[pk6.Move4]}";
+            response[0] = $"{filename} [{Main.abilitylist[pk6.Ability]}] lv{pk6.Stat_Level} @ {Main.itemlist[pk6.HeldItem]} -- {Main.natures[pk6.Nature]}";
+            response[1] = $"{Main.movelist[pk6.Move1]} / {Main.movelist[pk6.Move2]} / {Main.movelist[pk6.Move3]} / {Main.movelist[pk6.Move4]}";
             response[2] = string.Format(
                 "IVs:{0}{1}{2}{3}{4}{5}"
                 + Environment.NewLine + Environment.NewLine +
@@ -374,12 +373,12 @@ namespace PKHeX
                 Environment.NewLine + pk6.IV_SPA.ToString("00"),
                 Environment.NewLine + pk6.IV_SPD.ToString("00"),
                 Environment.NewLine + pk6.IV_SPE.ToString("00"),
-                Environment.NewLine + pk6.EV_HP.ToString("00"),
-                Environment.NewLine + pk6.EV_ATK.ToString("00"),
-                Environment.NewLine + pk6.EV_DEF.ToString("00"),
-                Environment.NewLine + pk6.EV_SPA.ToString("00"),
-                Environment.NewLine + pk6.EV_SPD.ToString("00"),
-                Environment.NewLine + pk6.EV_SPE.ToString("00"));
+                Environment.NewLine + pk6.EV_HP,
+                Environment.NewLine + pk6.EV_ATK,
+                Environment.NewLine + pk6.EV_DEF,
+                Environment.NewLine + pk6.EV_SPA,
+                Environment.NewLine + pk6.EV_SPD,
+                Environment.NewLine + pk6.EV_SPE);
 
             return response;
         }
