@@ -19,7 +19,7 @@ namespace PKHeX
             get { return BitConverter.ToUInt16(Data, 0); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0); } }
         public string CardTitle {
-            get { return Encoding.Unicode.GetString(Data, 2, 64).Trim(); }
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 2, 64)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(32, '\0')).CopyTo(Data, 2); } }
         private uint Date { 
             get { return BitConverter.ToUInt32(Data, 0x4C); } 
