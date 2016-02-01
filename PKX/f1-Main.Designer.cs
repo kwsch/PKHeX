@@ -156,12 +156,12 @@
             this.CB_RelearnMove2 = new System.Windows.Forms.ComboBox();
             this.CB_RelearnMove1 = new System.Windows.Forms.ComboBox();
             this.GB_CurrentMoves = new System.Windows.Forms.GroupBox();
+            this.TB_PP4 = new System.Windows.Forms.MaskedTextBox();
+            this.TB_PP3 = new System.Windows.Forms.MaskedTextBox();
+            this.TB_PP2 = new System.Windows.Forms.MaskedTextBox();
+            this.TB_PP1 = new System.Windows.Forms.MaskedTextBox();
             this.Label_CurPP = new System.Windows.Forms.Label();
             this.Label_PPups = new System.Windows.Forms.Label();
-            this.TB_PP4 = new System.Windows.Forms.TextBox();
-            this.TB_PP3 = new System.Windows.Forms.TextBox();
-            this.TB_PP2 = new System.Windows.Forms.TextBox();
-            this.TB_PP1 = new System.Windows.Forms.TextBox();
             this.CB_PPu4 = new System.Windows.Forms.ComboBox();
             this.CB_PPu3 = new System.Windows.Forms.ComboBox();
             this.CB_PPu2 = new System.Windows.Forms.ComboBox();
@@ -1935,12 +1935,12 @@
             // 
             // GB_CurrentMoves
             // 
-            this.GB_CurrentMoves.Controls.Add(this.Label_CurPP);
-            this.GB_CurrentMoves.Controls.Add(this.Label_PPups);
             this.GB_CurrentMoves.Controls.Add(this.TB_PP4);
             this.GB_CurrentMoves.Controls.Add(this.TB_PP3);
             this.GB_CurrentMoves.Controls.Add(this.TB_PP2);
             this.GB_CurrentMoves.Controls.Add(this.TB_PP1);
+            this.GB_CurrentMoves.Controls.Add(this.Label_CurPP);
+            this.GB_CurrentMoves.Controls.Add(this.Label_PPups);
             this.GB_CurrentMoves.Controls.Add(this.CB_PPu4);
             this.GB_CurrentMoves.Controls.Add(this.CB_PPu3);
             this.GB_CurrentMoves.Controls.Add(this.CB_PPu2);
@@ -1955,6 +1955,46 @@
             this.GB_CurrentMoves.TabIndex = 0;
             this.GB_CurrentMoves.TabStop = false;
             this.GB_CurrentMoves.Text = "Current Moves";
+            // 
+            // TB_PP4
+            // 
+            this.TB_PP4.Location = new System.Drawing.Point(135, 93);
+            this.TB_PP4.Mask = "000";
+            this.TB_PP4.Name = "TB_PP4";
+            this.TB_PP4.PromptChar = ' ';
+            this.TB_PP4.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP4.TabIndex = 16;
+            this.TB_PP4.TextChanged += new System.EventHandler(this.update255_MTB);
+            // 
+            // TB_PP3
+            // 
+            this.TB_PP3.Location = new System.Drawing.Point(135, 71);
+            this.TB_PP3.Mask = "000";
+            this.TB_PP3.Name = "TB_PP3";
+            this.TB_PP3.PromptChar = ' ';
+            this.TB_PP3.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP3.TabIndex = 15;
+            this.TB_PP3.TextChanged += new System.EventHandler(this.update255_MTB);
+            // 
+            // TB_PP2
+            // 
+            this.TB_PP2.Location = new System.Drawing.Point(135, 49);
+            this.TB_PP2.Mask = "000";
+            this.TB_PP2.Name = "TB_PP2";
+            this.TB_PP2.PromptChar = ' ';
+            this.TB_PP2.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP2.TabIndex = 14;
+            this.TB_PP2.TextChanged += new System.EventHandler(this.update255_MTB);
+            // 
+            // TB_PP1
+            // 
+            this.TB_PP1.Location = new System.Drawing.Point(135, 27);
+            this.TB_PP1.Mask = "000";
+            this.TB_PP1.Name = "TB_PP1";
+            this.TB_PP1.PromptChar = ' ';
+            this.TB_PP1.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP1.TabIndex = 13;
+            this.TB_PP1.TextChanged += new System.EventHandler(this.update255_MTB);
             // 
             // Label_CurPP
             // 
@@ -1974,43 +2014,6 @@
             this.Label_PPups.Text = "PP Ups";
             this.Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Label_PPups.Click += new System.EventHandler(this.clickPPUps);
-            // 
-            // TB_PP4
-            // 
-            this.TB_PP4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP4.Location = new System.Drawing.Point(135, 93);
-            this.TB_PP4.MaxLength = 2;
-            this.TB_PP4.Name = "TB_PP4";
-            this.TB_PP4.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP4.TabIndex = 11;
-            // 
-            // TB_PP3
-            // 
-            this.TB_PP3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP3.Location = new System.Drawing.Point(135, 71);
-            this.TB_PP3.MaxLength = 2;
-            this.TB_PP3.Name = "TB_PP3";
-            this.TB_PP3.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP3.TabIndex = 8;
-            // 
-            // TB_PP2
-            // 
-            this.TB_PP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP2.Location = new System.Drawing.Point(135, 49);
-            this.TB_PP2.MaxLength = 2;
-            this.TB_PP2.Name = "TB_PP2";
-            this.TB_PP2.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP2.TabIndex = 5;
-            // 
-            // TB_PP1
-            // 
-            this.TB_PP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PP1.Location = new System.Drawing.Point(135, 27);
-            this.TB_PP1.MaxLength = 2;
-            this.TB_PP1.Name = "TB_PP1";
-            this.TB_PP1.Size = new System.Drawing.Size(31, 20);
-            this.TB_PP1.TabIndex = 2;
-            this.TB_PP1.TextChanged += new System.EventHandler(this.update255_TB);
             // 
             // CB_PPu4
             // 
@@ -2840,7 +2843,7 @@
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2856,7 +2859,7 @@
             this.Menu_ModifyDex,
             this.Menu_ModifyPK6});
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -2885,7 +2888,7 @@
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -2894,7 +2897,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(139, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
@@ -4635,10 +4638,6 @@
         private System.Windows.Forms.PictureBox PB_Mark2;
         private System.Windows.Forms.PictureBox PB_Mark1;
         private System.Windows.Forms.PictureBox Label_IsShiny;
-        private System.Windows.Forms.TextBox TB_PP4;
-        private System.Windows.Forms.TextBox TB_PP3;
-        private System.Windows.Forms.TextBox TB_PP2;
-        private System.Windows.Forms.TextBox TB_PP1;
         private System.Windows.Forms.Panel PAN_Party;
         private System.Windows.Forms.Panel PAN_BattleBox;
         private System.Windows.Forms.Button B_OpenSuperTraining;
@@ -4709,6 +4708,10 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_DumpBoxes;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportBAK;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportMAIN;
+        private System.Windows.Forms.MaskedTextBox TB_PP1;
+        private System.Windows.Forms.MaskedTextBox TB_PP2;
+        private System.Windows.Forms.MaskedTextBox TB_PP3;
+        private System.Windows.Forms.MaskedTextBox TB_PP4;
     }
 }
 

@@ -1439,15 +1439,15 @@ namespace PKHeX
         {
             if (changingFields) return;
 
+            changingFields = true;
             if (sender == TB_EXP)
             {
-                changingFields = true;
                 // Change the Level
                 uint EXP = Util.ToUInt32(TB_EXP.Text);
                 int Species = Util.getIndex(CB_Species);
-                int Level = EXP == 0 ? 1 : PKX.getLevel(Species, EXP);
+                int Level = PKX.getLevel(Species, EXP);
                 if (Level == 100)
-                    EXP = PKX.getEXP(Level, Species);
+                    EXP = PKX.getEXP(100, Species);
 
                 TB_Level.Text = Level.ToString();
                 if (!MT_Level.Visible)
@@ -1457,7 +1457,6 @@ namespace PKHeX
             }
             else
             {
-                changingFields = true;
                 // Change the XP
                 int Level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
                 if (Level > 100) TB_Level.Text = "100";
@@ -1630,23 +1629,8 @@ namespace PKHeX
         }
         private void update255_MTB(object sender, EventArgs e)
         {
-            MaskedTextBox mtb = sender as MaskedTextBox;
-            try
-            {
-                if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
+            if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
                     (sender as MaskedTextBox).Text = "255";
-            }
-            catch { mtb.Text = "0"; }
-        }
-        private void update255_TB(object sender, EventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            try
-            {
-                if (Util.ToInt32((sender as TextBox).Text) > byte.MaxValue)
-                    (sender as TextBox).Text = "255";
-            }
-            catch { tb.Text = "0"; }
         }
         private void updateForm(object sender, EventArgs e)
         {
