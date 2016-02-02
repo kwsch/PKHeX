@@ -649,7 +649,12 @@ namespace PKHeX
         }
         public string getBoxName(int box)
         {
-            return Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22).Trim();
+            return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22));
+        }
+        public void setBoxName(int box, string val)
+        {
+            Encoding.Unicode.GetBytes(val.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
+            Edited = true;
         }
         public void setParty()
         {
