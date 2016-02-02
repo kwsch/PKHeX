@@ -8,7 +8,6 @@ Supports binary file loading of the following files originating from the Nintend
 * Individual entity files (232/260 bytes), saved as .pk6 and .ek6
 * Conversion of Event Gift files (.wc6) to .pk6
 * Decrypted Battle Videos
-* Obsoleted: Unencrypted Network Packets containing entity files.
  
 The following files from previous generations of games are supported:
 * Transferring of previous generation entities (.pkm) to .pk6
@@ -29,7 +28,7 @@ PKHeX is licensed under GPLv3. Refer to LICENSE.md for more information.
 
 ## Building
 
-PKHeX can be compiled with any C# compiler.
+PKHeX can be compiled with any compiler that supports C# 6.0.
 
 ### IDE
 
