@@ -1198,7 +1198,7 @@ namespace PKHeX
         }
         internal static void setAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
         {
-            if (!fieldsInitialized && tb_abil.Text == "")
+            if (!fieldsInitialized && string.IsNullOrWhiteSpace(tb_abil.Text))
                 return;
             int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
 
@@ -1391,7 +1391,7 @@ namespace PKHeX
         private void clickTRGender(object sender, EventArgs e)
         {
             Label lbl = sender as Label;
-            if (lbl.Text != "") // set gender label (toggle M/F)
+            if (!string.IsNullOrWhiteSpace(lbl?.Text)) // set gender label (toggle M/F)
             {
                 int gender = PKX.getGender(lbl.Text) ^ 1;
                 lbl.Text = gendersymbols[gender];
@@ -1913,13 +1913,13 @@ namespace PKHeX
         }
         private void updateNotOT(object sender, EventArgs e)
         {
-            if (TB_OTt2.Text == "")
+            if (string.IsNullOrWhiteSpace(TB_OTt2.Text))
             {
                 clickGT(GB_OT, null); // Switch CT over to OT.
                 Label_CTGender.Text = "";
                 TB_Friendship.Text = pk6.OT_Friendship.ToString();
             }
-            else if (Label_CTGender.Text == "")
+            else if (string.IsNullOrWhiteSpace(Label_CTGender.Text))
                 Label_CTGender.Text = gendersymbols[0];
         }
         private void updateIsEgg(object sender, EventArgs e)
@@ -2843,7 +2843,7 @@ namespace PKHeX
                 for (int i = 0; i < 31; i++)
                     CB_BoxSelect.Items.Add("BOX " + (i+1));
             }
-            CB_BoxSelect.SelectedIndex = selectedbox;    // restore selected box
+            CB_BoxSelect.SelectedIndex = selectedbox; // restore selected box
         }
         private void getQuickFiller(PictureBox pb, PK6 pk = null)
         {
@@ -2925,7 +2925,7 @@ namespace PKHeX
         }
         private void loadBoxesFromDB(string path)
         {
-            if (path == "") return;
+            if (string.IsNullOrWhiteSpace(path)) return;
             int offset = SAV.Box;
             int ctr = CB_BoxSelect.SelectedIndex * 30;
             int pastctr = 0;
@@ -3086,27 +3086,14 @@ namespace PKHeX
             {
                 DialogResult dr = Util.Prompt(MessageBoxButtons.YesNo, "No editing support for ORAS :(", "Max O-Powers with a working code?");
                 if (dr != DialogResult.Yes) return;
-                byte[] maxoras =
+                new byte[] 
                 { 
-                    0x00, 0x01, 0x01, 0x01,
-                    0x01, 0x00, 0x01, 0x01,
-                    0x01, 0x01, 0x00, 0x01,
-                    0x01, 0x01, 0x01, 0x00,
-                    0x01, 0x01, 0x01, 0x01,
-                    0x00, 0x01, 0x01, 0x01,
-                    0x01, 0x00, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x00, 0x01,
-                    0x01, 0x01, 0x01, 0x00,
-                    0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01,
+                    0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00,
+                    0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01,
+                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
                     0x01, 0x00, 0x00, 0x00, 
-                };
-                Array.Copy(maxoras, 0, SAV.Data, SAV.OPower, 0x44);
+                }.CopyTo(SAV.Data, SAV.OPower);
             }
             else
                 new SAV_OPower().ShowDialog();
