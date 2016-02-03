@@ -25,7 +25,7 @@ namespace PKHeX
             public string Nature => Main.natures[pk6.Nature];
             public string Gender => Main.gendersymbols[pk6.Gender];
             public string ESV => pk6.PSV.ToString("0000");
-            public string HP_Type => Main.types[pk6.HPType];
+            public string HP_Type => Main.types[pk6.HPType+1];
             public string Ability => Main.abilitylist[pk6.Ability];
             public string Move1 => Main.movelist[pk6.Move1];
             public string Move2 => Main.movelist[pk6.Move2];
