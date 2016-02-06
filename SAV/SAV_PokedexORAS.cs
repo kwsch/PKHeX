@@ -280,6 +280,7 @@ namespace PKHeX
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 CB_Species.SelectedIndex = i;
+                if (ModifierKeys == Keys.Control && CHK_P1.Checked) continue;
                 B_GiveAll.PerformClick();
             }
 
