@@ -409,23 +409,21 @@ namespace PKHeX
             int[] list = (int[])allowed.Clone();
             for (int i = 0; i < list.Length; i++)
                 list[i] -= offset;
+            
+            // Sort the Rest based on String Name
+            string[] unsortedChoices = new string[allowed.Length];
+            for (int i = 0; i < allowed.Length; i++)
+                unsortedChoices[i] = inStrings[list[i]];
 
+            string[] sortedChoices = new string[unsortedChoices.Length];
+            Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
+            Array.Sort(sortedChoices);
+
+            // Add the rest of the items
+            cbList.AddRange(sortedChoices.Select(s => new cbItem
             {
-                // Sort the Rest based on String Name
-                string[] unsortedChoices = new string[allowed.Length];
-                for (int i = 0; i < allowed.Length; i++)
-                    unsortedChoices[i] = inStrings[list[i]];
-
-                string[] sortedChoices = new string[unsortedChoices.Length];
-                Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
-                Array.Sort(sortedChoices);
-
-                // Add the rest of the items
-                cbList.AddRange(sortedChoices.Select(s => new cbItem
-                {
-                    Text = s, Value = allowed[Array.IndexOf(unsortedChoices, s)]
-                }));
-            }
+                Text = s, Value = allowed[Array.IndexOf(unsortedChoices, s)]
+            }));
             return cbList;
         }
         internal static List<cbItem> getVariedCBList(List<cbItem> cbList, string[] inStrings, int[] stringNum, int[] stringVal)
