@@ -21,11 +21,12 @@ namespace PKHeX
 
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
-        public byte[] sav;
-        public bool[,] specbools = new bool[9, 0x60 * 8];
-        public bool[,] langbools = new bool[7, 0x60 * 8];
-        public bool[] foreignbools = new bool[0x52 * 8];
-        bool editing;
+        private readonly byte[] sav;
+        private readonly bool[,] specbools = new bool[9, 0x60 * 8];
+        private readonly bool[,] langbools = new bool[7, 0x60 * 8];
+        private readonly bool[] foreignbools = new bool[0x52 * 8];
+        private bool editing;
+        private int species = -1;
         private void Setup()
         {
             editing = true;
@@ -34,15 +35,11 @@ namespace PKHeX
             CB_Species.Items.Clear();
 
             // Fill List
-            #region Species
-            {
-                var species_list = Util.getCBList(Main.specieslist, null);
-                species_list.RemoveAt(0); // Remove 0th Entry
-                CB_Species.DisplayMember = "Text";
-                CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = species_list;
-            }
-            #endregion
+            var species_list = Util.getCBList(Main.specieslist, null);
+            species_list.RemoveAt(0); // Remove 0th Entry
+            CB_Species.DisplayMember = "Text";
+            CB_Species.ValueMember = "Value";
+            CB_Species.DataSource = species_list;
 
             for (int i = 1; i < Main.specieslist.Length; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - " + Main.specieslist[i]);
@@ -50,6 +47,7 @@ namespace PKHeX
             getBools();
             editing = false;
         }
+
         private void changeCBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
@@ -120,10 +118,10 @@ namespace PKHeX
             if (!(sender as CheckBox).Checked)
                 return;
 
-            CHK_P6.Checked = sender as CheckBox == CHK_P6;
-            CHK_P7.Checked = sender as CheckBox == CHK_P7;
-            CHK_P8.Checked = sender as CheckBox == CHK_P8;
-            CHK_P9.Checked = sender as CheckBox == CHK_P9;
+            CHK_P6.Checked = sender == CHK_P6;
+            CHK_P7.Checked = sender == CHK_P7;
+            CHK_P8.Checked = sender == CHK_P8;
+            CHK_P9.Checked = sender == CHK_P9;
 
             CHK_P2.Checked |= CHK_P6.Checked;
             CHK_P3.Checked |= CHK_P7.Checked;
@@ -136,18 +134,17 @@ namespace PKHeX
                 CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
             else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
             {
-                if (sender as CheckBox == CHK_P2 && CHK_P2.Checked)
+                if (sender == CHK_P2 && CHK_P2.Checked)
                     CHK_P6.Checked = true;
-                else if (sender as CheckBox == CHK_P3 && CHK_P3.Checked)
+                else if (sender == CHK_P3 && CHK_P3.Checked)
                     CHK_P7.Checked = true;
-                else if (sender as CheckBox == CHK_P4 && CHK_P4.Checked)
+                else if (sender == CHK_P4 && CHK_P4.Checked)
                     CHK_P8.Checked = true;
-                else if (sender as CheckBox == CHK_P5 && CHK_P5.Checked)
+                else if (sender == CHK_P5 && CHK_P5.Checked)
                     CHK_P9.Checked = true;
             }
         }
 
-        private int species = -1;
         private void setBools()
         {
             if (species < 0) 
@@ -200,7 +197,7 @@ namespace PKHeX
                     if (specbools[p, i])
                         sdata[i / 8] |= (byte)(1 << i % 8);
 
-                Array.Copy(sdata, 0, sav, Main.SAV.PokeDex + 8 + 0x60 * p, 0x60);
+                sdata.CopyTo(sav, Main.SAV.PokeDex + 8 + 0x60 * p);
             }
 
             // Build new bool array for the Languages
@@ -217,7 +214,7 @@ namespace PKHeX
                     if (languagedata[i])
                         ldata[i / 8] |= (byte)(1 << i % 8);
 
-                Array.Copy(ldata, 0, sav, Main.SAV.PokeDexLanguageFlags, 0x280);
+                ldata.CopyTo(sav, Main.SAV.PokeDexLanguageFlags);
             }
 
             // Return Foreign Array
@@ -226,12 +223,12 @@ namespace PKHeX
                 for (int i = 0; i < 0x52 * 8; i++)
                     if (foreignbools[i])
                         foreigndata[i / 8] |= (byte)(1 << i % 8);
-                Array.Copy(foreigndata, 0, sav, Main.SAV.PokeDex + 0x64C, 0x52);
+                foreigndata.CopyTo(sav, Main.SAV.PokeDex + 0x64C);
             }
 
             // Store Spinda Spot
             uint PID = Util.getHEXval(TB_Spinda.Text);
-            Array.Copy(BitConverter.GetBytes(PID), 0, sav, Main.SAV.Spinda, 4);
+            BitConverter.GetBytes(PID).CopyTo(sav, Main.SAV.Spinda);
         }
 
         private void getBools()
@@ -294,12 +291,7 @@ namespace PKHeX
                 foreach (var chk in new[] { CHK_P6, CHK_P7, CHK_P8, CHK_P9 })
                     chk.Checked = false;
             else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-            {
-                if (gt != 254)
-                    CHK_P6.Checked = true;
-                else
-                    CHK_P7.Checked = true;
-            }
+                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
         }
         private void B_FillDex_Click(object sender, EventArgs e)
         {
