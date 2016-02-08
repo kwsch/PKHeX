@@ -635,4 +635,6 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Shortcuts have been updated.
 
 X/X/XX - New Update:
+ - Added: CTRL fill dex will only fill for species you do not yet own.
  - Fixed: Holding CTRL or ALT will no longer import showdown on non-species clicks. Thanks Joedor!
+ - Fixed: Box Name editing. Thanks sora10pls!
