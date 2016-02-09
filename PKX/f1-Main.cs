@@ -821,8 +821,8 @@ namespace PKHeX
             itempouch = Util.getStringList("ItemPouch", l);
             encountertypelist = Util.getStringList("EncounterType", l);
             gamelist = Util.getStringList("Games", l);
-            gamelanguages = Util.getNulledStringArray(Util.getSimpleStringList("languages"));
-            consoleregions = Util.getNulledStringArray(Util.getSimpleStringList("regions3ds"));
+            gamelanguages = Util.getNulledStringArray(Util.getStringList("languages"));
+            consoleregions = Util.getNulledStringArray(Util.getStringList("regions3ds"));
 
             balllist = new string[Legal.Items_Ball.Length];
             for (int i = 0; i < balllist.Length; i++)

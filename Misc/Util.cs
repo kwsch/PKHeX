@@ -153,27 +153,21 @@ namespace PKHeX
             int index = input.IndexOf('\0');
             return index < 0 ? input : input.Substring(0, index);
         }
+        internal static string[] getStringList(string f)
+        {
+            object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
+            string[] rawlist = ((string)txt).Split('\n');
+            for (int i = 0; i < rawlist.Length; i++)
+                rawlist[i] = rawlist[i].Trim();
+            return rawlist;
+        }
         internal static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split('\n').ToList();
-
-            string[] stringdata = new string[rawlist.Count];
-            for (int i = 0; i < rawlist.Count; i++)
-                stringdata[i] = rawlist[i].Trim();
-
-            return stringdata;
-        }
-        internal static string[] getSimpleStringList(string f)
-        {
-            object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
-            List<string> rawlist = ((string)txt).Split('\n').ToList();
-
-            string[] stringdata = new string[rawlist.Count];
-            for (int i = 0; i < rawlist.Count; i++)
-                stringdata[i] = rawlist[i].Trim();
-
-            return stringdata;
+            string[] rawlist = ((string)txt).Split('\n');
+            for (int i = 0; i < rawlist.Length; i++)
+                rawlist[i] = rawlist[i].Trim();
+            return rawlist;
         }
         internal static string[] getNulledStringArray(string[] SimpleStringList)
         {
@@ -346,7 +340,7 @@ namespace PKHeX
         internal static List<cbItem> getCBList(string textfile, string lang)
         {
             // Set up
-            string[] inputCSV = getSimpleStringList(textfile);
+            string[] inputCSV = getStringList(textfile);
 
             // Get Language we're fetching for
             int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
@@ -463,7 +457,7 @@ namespace PKHeX
         {
             // Set up
             List<cbItem> cbList = new List<cbItem>();
-            string[] inputCSV = getSimpleStringList(textfile);
+            string[] inputCSV = getStringList(textfile);
 
             // Gather our data from the input file
             for (int i = 1; i < inputCSV.Length; i++)

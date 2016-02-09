@@ -288,7 +288,7 @@ namespace PKHeX
             // Get Country Text
             try
             {
-                string[] inputCSV = Util.getSimpleStringList("countries");
+                string[] inputCSV = Util.getStringList("countries");
                 // Set up our Temporary Storage
                 string[] unsortedList = new string[inputCSV.Length - 1];
                 int[] indexes = new int[inputCSV.Length - 1];
@@ -310,7 +310,7 @@ namespace PKHeX
             // Get Region Text
             try
             {
-                string[] inputCSV = Util.getSimpleStringList("sr_" + country.ToString("000"));
+                string[] inputCSV = Util.getStringList("sr_" + country.ToString("000"));
                 // Set up our Temporary Storage
                 string[] unsortedList = new string[inputCSV.Length - 1];
                 int[] indexes = new int[inputCSV.Length - 1];
