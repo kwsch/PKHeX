@@ -562,11 +562,9 @@ namespace PKHeX
                 { Util.Error("PKHeX only edits decrypted save files.", "This save file is not decrypted."); return; }
                 
                 DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
-                int savshift = 0;
-                if (sdr == DialogResult.Yes)
-                    savshift += 0x7F000;
                 if (sdr == DialogResult.Cancel)
                     return;
+                int savshift = sdr == DialogResult.Yes ? 0 : 0x7F000;
                 byte[] psdata = input.Skip(0x5400 + savshift).Take(SAV6.SIZE_ORAS).ToArray();
                 if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SAV6.BEEF)
                     Array.Resize(ref psdata, SAV6.SIZE_XY);
