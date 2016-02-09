@@ -559,7 +559,7 @@ namespace PKHeX
                 if (openXOR(input, path)) // Check if we can load the save via xorpad
                     return; // only if a save is loaded we abort
                 if (BitConverter.ToUInt64(input, 0x10) != 0) // encrypted save
-                { Util.Error("PKHeX only edits decrypted save files.", "This save file is not decrypted."); return; }
+                { Util.Error("PKHeX only edits decrypted save files." + Environment.NewLine + "This save file is not decrypted.", path); return; }
                 
                 DialogResult sdr = Util.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
                 if (sdr == DialogResult.Cancel)
@@ -569,7 +569,7 @@ namespace PKHeX
                 if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SAV6.BEEF)
                     Array.Resize(ref psdata, SAV6.SIZE_XY);
                 if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SAV6.BEEF)
-                    return;
+                { Util.Error("The data file is not a valid save file", path); return; }
 
                 openMAIN(psdata, path);
             }
