@@ -2431,12 +2431,9 @@ namespace PKHeX
         {
             if (SAV.Edited) { Util.Alert("Save has been edited. Cannot integrity check."); return; }
 
-            if (PKX.verifyG6SAV(SAV.Data))
-            { Util.Alert("Checksums are correct."); return; }
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Export Checksum Info to Clipboard?"))
-                return;
-
-            Clipboard.SetText(PKX.verifyG6CHK(SAV.Data));
+            if (SAV.ChecksumsValid) { Util.Alert("Checksums are valid."); return; }
+            if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Export Checksum Info to Clipboard?"))
+                Clipboard.SetText(SAV.ChecksumInfo);
         }
         private void clickExportSAVBAK(object sender, EventArgs e)
         {

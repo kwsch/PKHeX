@@ -261,6 +261,8 @@ namespace PKHeX
                 BitConverter.GetBytes(ccitt16(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
             }
         }
+        public bool ChecksumsValid => verifyG6SAV(Data);
+        public string ChecksumInfo => verifyG6CHK(Data);
         public byte[] Write()
         {
             setChecksums();
