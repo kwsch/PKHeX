@@ -3118,7 +3118,7 @@ namespace PKHeX
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNoCancel, "Export Passerby Info to Clipboard?"))
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Export Passerby Info to Clipboard?"))
                 return;
 
             string result = "PSS List" + Environment.NewLine;

@@ -299,7 +299,7 @@ namespace PKHeX
         }
         private void generateDBReport(object sender, EventArgs e)
         {
-            if (Util.Prompt(MessageBoxButtons.YesNoCancel, "Generate a Report on all data?", "This may take a while...")
+            if (Util.Prompt(MessageBoxButtons.YesNo, "Generate a Report on all data?", "This may take a while...")
                 != DialogResult.Yes)
                 return;
 
