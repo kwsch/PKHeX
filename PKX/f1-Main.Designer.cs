@@ -2922,6 +2922,7 @@
             this.tabBoxMulti.SelectedIndex = 0;
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 50;
+            this.tabBoxMulti.Click += new System.EventHandler(this.clickBoxSort);
             // 
             // Tab_Box
             // 

@@ -22,7 +22,8 @@ Control + Click on...
 - Randomize EVs: Set all EVs to 0.
 - PP Ups Label: Set all PP Ups to 3.
 - Friendship Label: Reset Friendship
-- QR! to wrap text around QR code.
+- Box Tab: Sort Boxes.
+- QR!: Wrap text around QR code.
 
 Alt + Click on...
 - QR! to load ekx data from a QR url loaded to your clipboard.

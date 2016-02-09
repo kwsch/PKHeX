@@ -2500,6 +2500,19 @@ namespace PKHeX
         {
             CB_BoxSelect.SelectedIndex = (CB_BoxSelect.SelectedIndex + 30) % 31;
         }
+        private void clickBoxSort(object sender, EventArgs e)
+        {
+            if (ModifierKeys != Keys.Control || tabBoxMulti.SelectedIndex != 0)
+                return;
+
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Sort Boxes?"))
+                return;
+
+            SAV.sortBoxes();
+            setPKXBoxes();
+            CB_BoxSelect.SelectedIndex = 0;
+            Util.Alert("Boxes sorted!");
+        }
         private void clickSlot(object sender, EventArgs e)
         {
             switch (ModifierKeys)
