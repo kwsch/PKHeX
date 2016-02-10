@@ -12,8 +12,7 @@ namespace PKHeX
             sav = (byte[])Main.SAV.Data.Clone();
             listBox1.SelectedIndex = 0;
         }
-        public byte[] sav;
-        public bool editing = false;
+        public readonly byte[] sav;
 
         private void changefield(object sender, EventArgs e)
         {

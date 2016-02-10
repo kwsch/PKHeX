@@ -4,7 +4,7 @@ namespace PKHeX
 {
     public class PCD
     {
-        internal static int Size = 0x358; // 856
+        internal const int Size = 0x358; // 856
 
         public byte[] Data;
         public PCD(byte[] data = null)

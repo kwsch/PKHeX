@@ -19,7 +19,7 @@ namespace PKHeX
             new ToolTip().SetToolTip(B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
 
-        public byte[] sav;
+        private readonly byte[] sav;
         private readonly string[] pfa;
         private void Setup()
         {

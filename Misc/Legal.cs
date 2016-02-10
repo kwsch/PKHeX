@@ -1,6 +1,6 @@
 ﻿namespace PKHeX
 {
-    class Legal
+    internal static class Legal
     {
         // PKHeX Valid Array Storage
         #region Items

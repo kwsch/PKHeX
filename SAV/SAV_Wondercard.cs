@@ -42,8 +42,8 @@ namespace PKHeX
             Array.Copy(wcdata, wondercard_data, wcdata.Length);
             loadwcdata();
         }
-        public byte[] sav;
-        public byte[] wondercard_data = new byte[WC6.Size];
+        private readonly byte[] sav;
+        private byte[] wondercard_data = new byte[WC6.Size];
         private const uint EonTicketConst = 0x225D73C2;
         private readonly PictureBox[] pba;
 

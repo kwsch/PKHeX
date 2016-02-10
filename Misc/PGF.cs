@@ -5,7 +5,7 @@ namespace PKHeX
 {
     public class PGF
     {
-        internal static int Size = 0xCC;
+        internal const int Size = 0xCC;
 
         public byte[] Data;
         public PGF(byte[] data = null)

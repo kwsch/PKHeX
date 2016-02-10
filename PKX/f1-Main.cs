@@ -130,7 +130,6 @@ namespace PKHeX
         public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
         public static PK6 pk6 = new PK6(); // Tab Pokemon Data Storage
         public static SAV6 SAV = new SAV6(); // Save File
-        public static byte[] originalSAV; // original save for CyberGadget Codes
         public static string pathSDF;
         public static string path3DS;
 
@@ -139,14 +138,14 @@ namespace PKHeX
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static int colorizedbox = 32;
-        public static Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
+        public static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
         public static Image colorizedcolor;
         public static int colorizedslot;
         public static string eggname = "";
         public static string DatabasePath = "db";
         public static string BackupPath = "bak";
-        public static string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
-        public static string[] main_langlist = 
+        public static readonly string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
+        public static readonly string[] main_langlist = 
             {
                 "English", // ENG
                 "日本語", // JPN
@@ -161,7 +160,7 @@ namespace PKHeX
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms, 
             memories, genloc, trainingbags, trainingstage, characteristics, 
-            encountertypelist, gamelanguages, consoleregions, balllist, gamelist, pokeblocks = { };
+            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks = { };
         public static string origintrack;
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
@@ -169,7 +168,7 @@ namespace PKHeX
         public static string[] wallpapernames, puffs, itempouch = { };
         public static string curlanguage = "en";
         public static bool unicode;
-        public ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
+        public readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
         public readonly PictureBox[] SlotPictureBoxes;
         #endregion
@@ -820,7 +819,6 @@ namespace PKHeX
             encountertypelist = Util.getStringList("EncounterType", l);
             gamelist = Util.getStringList("Games", l);
             gamelanguages = Util.getNulledStringArray(Util.getStringList("languages"));
-            consoleregions = Util.getNulledStringArray(Util.getStringList("regions3ds"));
 
             balllist = new string[Legal.Items_Ball.Length];
             for (int i = 0; i < balllist.Length; i++)
@@ -973,7 +971,7 @@ namespace PKHeX
             CB_Language.DataSource = Util.getUnsortedCBList("languages");
             int[] ball_nums = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
             int[] ball_vals = { 7, 25, 13, 17, 22, 14, 20, 18, 21, 19, 11, 23, 8, 6, 12, 15, 9, 5, 24, 10, 1, 16 };
-            BallDataSource = Util.getVariedCBList(Util.getCBList(itemlist, new[] { 4 }, new[] { 3 }, new[] { 2 }, new[] { 1 }), itemlist, ball_nums, ball_vals);
+            BallDataSource = Util.getVariedCBList(itemlist, ball_nums, ball_vals);
             ItemDataSource = Util.getCBList(itemlist, DEV_Ability.Enabled ? null : Legal.Items_Held);
             SpeciesDataSource = Util.getCBList(specieslist, null);
             NatureDataSource = Util.getCBList(natures, null);

@@ -24,8 +24,8 @@ namespace PKHeX
         }
         private bool setup = true;
         public CheckBox[] chka;
-        public bool[] flags = new bool[3072];
-        public ushort[] Constants = new ushort[(Main.SAV.EventFlag - Main.SAV.EventConst) / 2];
+        public readonly bool[] flags = new bool[3072];
+        public readonly ushort[] Constants = new ushort[(Main.SAV.EventFlag - Main.SAV.EventConst) / 2];
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();

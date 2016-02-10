@@ -5,9 +5,9 @@ namespace PKHeX
 {
     public class PK3 // 3rd Generation PKM File
     {
-        internal static readonly int SIZE_PARTY = 100;
-        internal static readonly int SIZE_STORED = 80;
-        internal static readonly int SIZE_BLOCK = 12;
+        internal const int SIZE_PARTY = 100;
+        internal const int SIZE_STORED = 80;
+        internal const int SIZE_BLOCK = 12;
 
         public PK3(byte[] decryptedData = null, string ident = null)
         {

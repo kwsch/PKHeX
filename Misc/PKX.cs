@@ -135,7 +135,7 @@ namespace PKHeX
         };
         #endregion
 
-        internal static string[][] SpeciesLang = 
+        internal static readonly string[][] SpeciesLang = 
         {
             Util.getStringList("Species", "ja"), // none
             Util.getStringList("Species", "ja"), // 1
@@ -775,7 +775,7 @@ namespace PKHeX
         // Font Related
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
         internal static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
-        internal static PrivateFontCollection s_FontCollection = new PrivateFontCollection();
+        internal static readonly PrivateFontCollection s_FontCollection = new PrivateFontCollection();
         internal static FontFamily[] FontFamilies
         {
             get
@@ -1130,7 +1130,7 @@ namespace PKHeX
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
         }
-        internal static string[] hptypes = { 
+        internal static readonly string[] hptypes = { 
             "Fighting", "Flying", "Poison", "Ground",
             "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
             "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"
@@ -1154,17 +1154,16 @@ namespace PKHeX
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
 
-        internal static string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+        internal static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         public class ShowdownSet
         {
-            internal static string[] species = Util.getStringList("Species", "en");
-            internal static string[] items = Util.getStringList("Items", "en");
-            internal static string[] natures = Util.getStringList("Natures", "en");
-            internal static string[] moves = Util.getStringList("Moves", "en");
-            internal static string[] abilities = Util.getStringList("Abilities", "en");
+            internal static readonly string[] species = Util.getStringList("Species", "en");
+            internal static readonly string[] items = Util.getStringList("Items", "en");
+            internal static readonly string[] natures = Util.getStringList("Natures", "en");
+            internal static readonly string[] moves = Util.getStringList("Moves", "en");
+            internal static readonly string[] abilities = Util.getStringList("Abilities", "en");
 
             // Default Set Data
-            public string Text;
             public string Nickname;
             public int Species;
             public string Form;
@@ -1185,7 +1184,6 @@ namespace PKHeX
                 if (input == null)
                     return;
 
-                Text = input;
                 Nickname = null;
                 Species = -1;
                 Form = null;

@@ -6,9 +6,9 @@ namespace PKHeX
 {
     public class PK5 // 5th Generation PKM File
     {
-        internal static readonly int SIZE_PARTY = 220;
-        internal static readonly int SIZE_STORED = 136;
-        internal static readonly int SIZE_BLOCK = 32;
+        internal const int SIZE_PARTY = 220;
+        internal const int SIZE_STORED = 136;
+        internal const int SIZE_BLOCK = 32;
 
         public PK5(byte[] decryptedData = null, string ident = null)
         {

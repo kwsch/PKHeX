@@ -22,11 +22,12 @@ namespace PKHeX
             MT_Flags.Text = BitConverter.ToUInt32(sav, Main.SAV.SecretBase + 0x62C).ToString(); // read counter
             B_SAV2FAV(null, null);
         }
-        public byte[] sav;
-        public bool editing;
+
+        private readonly byte[] sav;
+        private bool editing;
         private bool loading = true;
 
-        public static string[] abilitylist = { };
+        private static string[] abilitylist = { };
 
         private void setupComboBoxes()
         {

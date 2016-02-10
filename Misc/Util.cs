@@ -49,13 +49,6 @@ namespace PKHeX
         }
 
         // Strings and Paths
-        internal static FileInfo GetNewestFile(DirectoryInfo directory)
-        {
-            return directory.GetFiles()
-                .Union(directory.GetDirectories().Select(GetNewestFile))
-                .OrderByDescending(f => f?.LastWriteTime ?? DateTime.MinValue)
-                .FirstOrDefault();
-        }
         internal static string NormalizePath(string path)
         {
             return Path.GetFullPath(new Uri(path).LocalPath)
@@ -182,7 +175,7 @@ namespace PKHeX
         }
 
         // Randomization
-        internal static Random rand = new Random();
+        internal static readonly Random rand = new Random();
         internal static uint rnd32()
         {
             return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
@@ -420,7 +413,7 @@ namespace PKHeX
             }));
             return cbList;
         }
-        internal static List<cbItem> getVariedCBList(List<cbItem> cbList, string[] inStrings, int[] stringNum, int[] stringVal)
+        internal static List<cbItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // Set up
             List<cbItem> newlist = new List<cbItem>();

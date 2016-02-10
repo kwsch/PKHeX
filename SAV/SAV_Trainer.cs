@@ -201,9 +201,8 @@ namespace PKHeX
             CB_Stats.SelectedIndex = 0;
         }
         private readonly string[] statdata = { };
-        public bool editing;
-        public ToolTip Tip1 = new ToolTip();
-        public ToolTip Tip2 = new ToolTip();
+        private bool editing;
+        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
 
         private void getComboBoxes()

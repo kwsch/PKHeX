@@ -5,9 +5,9 @@ namespace PKHeX
 {
     public class PK4 // 4th Generation PKM File
     {
-        internal static readonly int SIZE_PARTY = 236;
-        internal static readonly int SIZE_STORED = 136;
-        internal static readonly int SIZE_BLOCK = 32;
+        internal const int SIZE_PARTY = 236;
+        internal const int SIZE_STORED = 136;
+        internal const int SIZE_BLOCK = 32;
 
         public PK4(byte[] decryptedData = null, string ident = null)
         {

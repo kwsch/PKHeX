@@ -8,7 +8,6 @@ namespace PKHeX
 {
     public partial class CodeGenerator : Form
     {
-        byte[] codedata = new byte[232];
         byte[] newdata = new byte[232];
 
         readonly byte[] tabdata;
@@ -132,18 +131,18 @@ namespace PKHeX
             // Gotta read in the textbox.
             if (RTB_Code.Text.Length < 1) return;
 
-            byte[] ncf = new byte[4 + (RTB_Code.Lines.Count()-1)*3*4];
+            byte[] ncf = new byte[4 + (RTB_Code.Lines.Length-1)*3*4];
             Array.Copy(BitConverter.GetBytes(ncf.Length - 4), ncf, 4);
 
-            for (int i = 0; i < RTB_Code.Lines.Count()-1; i++)
+            for (int i = 0; i < RTB_Code.Lines.Length-1; i++)
             {
                 string line = RTB_Code.Lines[i];
                 string[] rip = line.Split(new[] {" "}, StringSplitOptions.None);
 
                 // Write the 3 u32's to an array.
-                Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[0], NumberStyles.HexNumber)),0,ncf,4+i*12+0,4);
-                Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[1], NumberStyles.HexNumber)),0,ncf,4+i*12+4,4);
-                Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[2], NumberStyles.HexNumber)),0,ncf,4+i*12+8,4);
+                Array.Copy(BitConverter.GetBytes(uint.Parse(rip[0], NumberStyles.HexNumber)),0,ncf,4+i*12+0,4);
+                Array.Copy(BitConverter.GetBytes(uint.Parse(rip[1], NumberStyles.HexNumber)),0,ncf,4+i*12+4,4);
+                Array.Copy(BitConverter.GetBytes(uint.Parse(rip[2], NumberStyles.HexNumber)),0,ncf,4+i*12+8,4);
             }
 
             SaveFileDialog sfd = new SaveFileDialog {FileName = "code.bin", Filter = "Code File|*.bin"};
@@ -185,7 +184,7 @@ namespace PKHeX
         {
             string result = ""; 
             RTB_Code.Clear();
-            byte[] cybersav = Main.originalSAV;
+            byte[] cybersav = Main.SAV.BAK;
             byte[] newcyber = Main.SAV.Data;
 
             int boxoffset = Main.SAV.Box;
@@ -215,17 +214,17 @@ namespace PKHeX
             // Loop Through Party
             for (int i = 0x14200; i < 0x14200 + 260 * 6; i+= 260)
             {
-                byte[] newdata = new byte[260]; Array.Copy(newcyber, i, newdata, 0, 260);
+                byte[] bytes = new byte[260]; Array.Copy(newcyber, i, bytes, 0, 260);
                 byte[] olddata = new byte[260]; Array.Copy(cybersav, i, olddata, 0, 260);
-                if (newdata.SequenceEqual(olddata)) continue;
+                if (bytes.SequenceEqual(olddata)) continue;
 
-                for (int z = 0; z < newdata.Length; z += 4)
+                for (int z = 0; z < bytes.Length; z += 4)
                 {
                     result += (0x20000000 + i + z).ToString("X8") + " ";
-                    result += BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine;
+                    result += BitConverter.ToUInt32(bytes, z).ToString("X8") + Environment.NewLine;
 
                     lines++;
-                    if ((lines % 128 == 0) && CHK_Break.Checked)
+                    if (lines % 128 == 0 && CHK_Break.Checked)
                     {
                         result +=
                             Environment.NewLine +
@@ -256,14 +255,14 @@ namespace PKHeX
             // Loop Through Boxes
             for (int i = boxoffset; i < boxoffset + 232 * 30 * 31; i += 232)
             {
-                byte[] newdata = new byte[232]; Array.Copy(newcyber, i, newdata, 0, 232);
+                byte[] bytes = new byte[232]; Array.Copy(newcyber, i, bytes, 0, 232);
                 byte[] olddata = new byte[232]; Array.Copy(cybersav, i, olddata, 0, 232);
-                if (newdata.SequenceEqual(olddata)) continue;
+                if (bytes.SequenceEqual(olddata)) continue;
 
-                for (int z = 0; z < newdata.Length; z += 4)
+                for (int z = 0; z < bytes.Length; z += 4)
                 {
                     result += (0x20000000 + i + z).ToString("X8") + " ";
-                    result += BitConverter.ToUInt32(newdata, z).ToString("X8") + Environment.NewLine;
+                    result += BitConverter.ToUInt32(bytes, z).ToString("X8") + Environment.NewLine;
 
                     lines++;
                     if ((lines % 128 == 0) && CHK_Break.Checked)
@@ -304,20 +303,19 @@ namespace PKHeX
             if (RTB_Code.Text.Length < 1) return;
             byte[] data = new byte[0];
             // Get Actual Lines
-            for (int i = 0; i < RTB_Code.Lines.Count(); i++)
+            foreach (string line in RTB_Code.Lines)
             {
-                if (RTB_Code.Lines[i].Length <= 0) continue;
+                if (line.Length <= 0) continue;
 
-                if (RTB_Code.Lines[i].Length <= 2 * 8 && RTB_Code.Lines[i].Length > 2 * 8 + 2)
+                if (line.Length <= 2 * 8 && line.Length > 2 * 8 + 2)
                 { Util.Error("Invalid code pasted (Type)"); return; }
 
                 try
                 {
                     // Grab Line Data
-                    string line = RTB_Code.Lines[i];
                     string[] rip = line.Split(new[] { " " }, StringSplitOptions.None);
                     Array.Resize(ref data, data.Length + 4);
-                    Array.Copy(BitConverter.GetBytes(UInt32.Parse(rip[1], NumberStyles.HexNumber)), 0, data, data.Length - 4, 4);
+                    BitConverter.GetBytes(uint.Parse(rip[1], NumberStyles.HexNumber)).CopyTo(data, data.Length - 4);
                 }
                 catch (Exception x)
                 { Util.Error("Invalid code pasted (Content):", x.ToString()); return; }

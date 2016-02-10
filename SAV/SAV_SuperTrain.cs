@@ -22,8 +22,8 @@ namespace PKHeX
 
             setup();
         }
-        
-        public byte[] sav;
+
+        private readonly byte[] sav;
         private readonly string[] trba = {
                                 "Empty",
                                 "HP Bag S","HP Bag M","HP Bag L",

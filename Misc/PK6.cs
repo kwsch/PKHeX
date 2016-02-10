@@ -7,8 +7,8 @@ namespace PKHeX
 {
     public class PK6 : PKX
     {
-        internal static readonly int SIZE_PARTY = 0x104;
-        internal static readonly int SIZE_STORED = 0xE8;
+        internal const int SIZE_PARTY = 0x104;
+        internal const int SIZE_STORED = 0xE8;
 
         public PK6(byte[] decryptedData = null, string ident = null)
         {

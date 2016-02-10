@@ -20,10 +20,10 @@ namespace PKHeX
     }
     public class SAV6 : PKX
     {
-        internal static readonly int SIZE_XY = 0x65600;
-        internal static readonly int SIZE_ORAS = 0x76000;
-        internal static readonly int SIZE_ORASDEMO = 0x5A00;
-        internal static readonly int BEEF = 0x42454546;
+        internal const int SIZE_XY = 0x65600;
+        internal const int SIZE_ORAS = 0x76000;
+        internal const int SIZE_ORASDEMO = 0x5A00;
+        internal const int BEEF = 0x42454546;
 
         // Global Settings
         internal static bool SetUpdateDex = true;

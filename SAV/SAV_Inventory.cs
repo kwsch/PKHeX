@@ -29,8 +29,9 @@ namespace PKHeX
             B_DisplayBerries.Text = Main.itempouch[3];
             B_DisplayKeyItems.Text = Main.itempouch[4];
         }
-        public byte[] sav;
-        public string[] item_val, keyitem_val, tmhm_val, medicine_val, berries_val;
+
+        private readonly byte[] sav;
+        private readonly string[] item_val, keyitem_val, tmhm_val, medicine_val, berries_val;
 
 
         // Initialize String Tables

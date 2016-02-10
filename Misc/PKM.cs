@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX
 {
-    public class PKM // Past Gen
+    public static class PKM // Past Gen
     {
         internal static uint LCRNG(uint seed)
         {
@@ -231,7 +231,7 @@ namespace PKHeX
         }
 
         #region Gen 3 Species Table
-        internal static int[] newindex =
+        internal static readonly int[] newindex =
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -252,7 +252,7 @@ namespace PKHeX
             345,346,347,348,280,281,282,371,372,373,374,375,376,377,378,379,382,383,384,380,381,
             385,386,358,
         };
-        internal static int[] oldindex =
+        internal static readonly int[] oldindex =
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -275,7 +275,7 @@ namespace PKHeX
         };
         #endregion
         #region Gen 3 Ability Table
-        internal static byte[][] Gen3Abilities = 
+        internal static readonly byte[][] Gen3Abilities = 
         {
             new byte[] {0x00, 0x00}, // 000
             new byte[] {0x41, 0x41}, // 001
@@ -1057,7 +1057,7 @@ namespace PKHeX
         };
         #endregion
 
-        internal static byte[][] G4TransferTrashBytes = {
+        internal static readonly byte[][] G4TransferTrashBytes = {
                 new byte[] { }, // Unused
                 new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
                 new byte[] { 0x18, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x48, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
