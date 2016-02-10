@@ -636,5 +636,15 @@ http://projectpokemon.org/forums/showthread.php?36986
 
 X/X/XX - New Update:
  - Added: CTRL fill dex will only fill for species you do not yet own.
+ - Added: CTRL click on the Box tab in the main window to sort boxes by National Dex #.
+ - Added: Game Started and Last Saved editing fields to the Trainer Editor.
+ - Added: Pokeblock Editing (accessible via Berry Field button). Thanks SciresM!
+ - Changed: Trainer Editor fields are now split into separate tabs.
+ - Changed: Toggle Font changed to "Unicode" checkbox in main menu; displays current status.
+ - Changed: Minor tweaks to the Wondercard editing interface to make it less annoying.
+ - Fixed: Randomizing IVs not updating IV total box.
+ - Fixed: Past Gen Pokemon will now be prevented from having OT Memories with Modify PK6 checked. Thanks chenzw95!
  - Fixed: Holding CTRL or ALT will no longer import showdown on non-species clicks. Thanks Joedor!
  - Fixed: Box Name editing. Thanks sora10pls!
+ - Fixed: Box Data Report Hidden Power display. Thanks krelbit!
+ - Removed: ram2sav support. If you wish to still use ram2sav, use a compiled version from 9/20/15 or earlier.
