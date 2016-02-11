@@ -10,7 +10,6 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
 
             item_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY);
             keyitem_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY);
@@ -30,7 +29,7 @@ namespace PKHeX
             B_DisplayKeyItems.Text = Main.itempouch[4];
         }
 
-        private readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
         private readonly string[] item_val, keyitem_val, tmhm_val, medicine_val, berries_val;
 
 

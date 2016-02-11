@@ -9,10 +9,9 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
             listBox1.SelectedIndex = 0;
         }
-        public readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
 
         private void changefield(object sender, EventArgs e)
         {

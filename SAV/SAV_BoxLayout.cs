@@ -10,7 +10,6 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = new SAV6((byte[])Main.SAV.Data.Clone());
             editing = true;
             
             // Repopulate Wallpaper names
@@ -24,8 +23,8 @@ namespace PKHeX
             MT_BG2.Text = sav.Data[sav.PCFlags + 2].ToString();
             LB_BoxSelect.SelectedIndex = box;
         }
-        public SAV6 sav;
-        public bool editing;
+        private readonly SAV6 sav = new SAV6((byte[])Main.SAV.Data.Clone());
+        private bool editing;
 
         private void changeBox(object sender, EventArgs e)
         {

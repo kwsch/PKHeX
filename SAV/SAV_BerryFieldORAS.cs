@@ -9,7 +9,6 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
             nup_spec = new[] { NUP_Red, NUP_Blue, NUP_Pink, NUP_Green, NUP_Yellow, NUP_Rainbow, NUP_RedPlus, NUP_BluePlus, NUP_PinkPlus, NUP_GreenPlus, NUP_YellowPlus, NUP_RainbowPlus };
             Label[] lbl_spec = { L_Red, L_Blue, L_Pink, L_Green, L_Yellow, L_Rainbow, L_RedPlus, L_BluePlus, L_PinkPlus, L_GreenPlus, L_YellowPlus, L_RainbowPlus };
 
@@ -20,7 +19,7 @@ namespace PKHeX
             }
         }
         private readonly NumericUpDown[] nup_spec;
-        private readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {

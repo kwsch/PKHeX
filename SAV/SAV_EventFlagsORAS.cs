@@ -23,9 +23,9 @@ namespace PKHeX
             MT_Ash.Text = BitConverter.ToUInt16(Main.SAV.Data, Main.SAV.EventAsh).ToString();
         }
         private bool setup = true;
-        public CheckBox[] chka;
-        public readonly bool[] flags = new bool[3072];
-        public readonly ushort[] Constants = new ushort[(Main.SAV.EventFlag - Main.SAV.EventConst) / 2];
+        private CheckBox[] chka;
+        private readonly bool[] flags = new bool[3072];
+        private readonly ushort[] Constants = new ushort[(Main.SAV.EventFlag - Main.SAV.EventConst) / 2];
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();

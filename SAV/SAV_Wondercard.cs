@@ -13,7 +13,6 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
             pba = new[]
             {
                 PB_Card01, PB_Card02, PB_Card03, PB_Card04, PB_Card05, PB_Card06,
@@ -42,7 +41,7 @@ namespace PKHeX
             Array.Copy(wcdata, wondercard_data, wcdata.Length);
             loadwcdata();
         }
-        private readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
         private byte[] wondercard_data = new byte[WC6.Size];
         private const uint EonTicketConst = 0x225D73C2;
         private readonly PictureBox[] pba;
@@ -175,7 +174,9 @@ namespace PKHeX
             if (Main.SAV.ORAS) // ORAS Only
                 if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
                     if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
-                        BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket);
+                    { BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket); }
+                    else
+                    { Util.Alert("Cannot set Eon Ticket to non OR/AS games."); return; }
 
             Array.Copy(wondercard_data, 0, sav, offset, WC6.Size);
             populateWClist();

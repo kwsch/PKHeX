@@ -10,7 +10,6 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
             abilitylist = Main.abilitylist;
 
             setupComboBoxes();
@@ -23,7 +22,7 @@ namespace PKHeX
             B_SAV2FAV(null, null);
         }
 
-        private readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
         private bool editing;
         private bool loading = true;
 

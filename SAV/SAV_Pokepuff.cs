@@ -9,7 +9,6 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
 
             pfa = Main.puffs;
             pfa[0] = "---";
@@ -19,7 +18,7 @@ namespace PKHeX
             new ToolTip().SetToolTip(B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
 
-        private readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
         private readonly string[] pfa;
         private void Setup()
         {

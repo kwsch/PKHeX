@@ -7,7 +7,6 @@ namespace PKHeX
     {
         public SAV_SuperTrain()
         {
-            sav = (byte[])Main.SAV.Data.Clone();
             trba = Main.trainingbags;
             trba[0] = "---";
             offsetTime = Main.SAV.SuperTrain + 0x08;
@@ -23,7 +22,7 @@ namespace PKHeX
             setup();
         }
 
-        private readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
         private readonly string[] trba = {
                                 "Empty",
                                 "HP Bag S","HP Bag M","HP Bag L",

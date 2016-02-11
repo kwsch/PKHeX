@@ -200,7 +200,7 @@ namespace PKHeX
                 CB_Stats.Items.Add(statdata[2 * i + 1]);
             CB_Stats.SelectedIndex = 0;
         }
-        private readonly string[] statdata = { };
+        private readonly string[] statdata;
         private bool editing;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;

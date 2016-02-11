@@ -12,7 +12,6 @@ namespace PKHeX
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
             Util.TranslateInterface(this, Main.curlanguage);
-            sav = (byte[])Main.SAV.Data.Clone();
 
             Setup();
             LB_Species.SelectedIndex = 0;
@@ -21,7 +20,7 @@ namespace PKHeX
 
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
-        private readonly byte[] sav;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
         private readonly bool[,] specbools = new bool[9, 0x60 * 8];
         private readonly bool[,] langbools = new bool[7, 0x60 * 8];
         private bool editing;
