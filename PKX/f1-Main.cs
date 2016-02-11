@@ -734,7 +734,7 @@ namespace PKHeX
         private void openMAIN(byte[] input, string path)
         {
             L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SAV = new SAV6(input);
+            SAV = new SAV6(input) {FileName = Path.GetFileName(path), FilePath = Path.GetDirectoryName(path)};
 
             // Enable Secondary Tools
             GB_SAVtools.Enabled = B_JPEG.Enabled = true;
@@ -2452,36 +2452,22 @@ namespace PKHeX
             if (err.Length > 0 && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
                 return;
 
-            if (SAV.Box > -1)
-                SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
-            byte[] sav = SAV.Write();
-
             SaveFileDialog main = new SaveFileDialog
             {
                 Filter = "Main SAV|*.*", 
-                FileName = L_Save.Text.Split(new[] {": "}, StringSplitOptions.None)[1],
+                FileName = SAV.FileName,
                 RestoreDirectory = true
             };
-
-            // Try for file path
-            string cyberpath = Util.GetTempFolder();
-            if (Directory.Exists(path3DS))
-                main.InitialDirectory = Path.GetPathRoot(path3DS);
-            else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
-                main.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
-            else if (pathSDF != null && Directory.Exists(pathSDF))
-                main.InitialDirectory = pathSDF;
-            else if (Directory.Exists(Path.Combine(cyberpath, "root")))
-                main.InitialDirectory = Path.Combine(cyberpath, "root");
-            else if (Directory.Exists(cyberpath))
-                main.InitialDirectory = cyberpath;
-            else
-                main.RestoreDirectory = false;
+            if (Directory.Exists(SAV.FilePath))
+                main.InitialDirectory = SAV.FilePath;
 
             // Export
             if (main.ShowDialog() != DialogResult.OK) return;
-            File.WriteAllBytes(main.FileName, sav);
-            Util.Alert("Exported SAV to:", main.FileName);
+
+            if (SAV.Box > -1)
+                SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
+            File.WriteAllBytes(main.FileName, SAV.Write());
+            Util.Alert("SAV exported to:", main.FileName);
         }
 
         // Box/SAV Functions //

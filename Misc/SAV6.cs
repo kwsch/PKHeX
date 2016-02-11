@@ -30,6 +30,7 @@ namespace PKHeX
         internal static bool SetUpdatePK6 = true;
         // Save Data Attributes
         public byte[] Data, BAK;
+        public string FileName, FilePath;
         public bool Exportable;
         public bool Edited;
         public SAV6(byte[] data = null)
