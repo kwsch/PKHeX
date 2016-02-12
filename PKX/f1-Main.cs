@@ -2434,7 +2434,7 @@ namespace PKHeX
         private void clickExportSAVBAK(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
-            { FileName = Util.CleanFileName($"main ({SAV.OT} - {SAV.LastSavedTime}).bak") };
+            { FileName = Util.CleanFileName($"main [{SAV.OT} ({SAV.Version.ToString()}) - {SAV.LastSavedTime}].bak") };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
