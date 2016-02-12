@@ -577,6 +577,7 @@ namespace PKHeX
             // Write the Memories, Friendship, and Origin!
             pk6.CurrentHandler = 1;
             pk6.HT_Name = Converter.OT_Name;
+            pk6.HT_Gender = Converter.OT_Gender;
             pk6.Geo1_Region = Converter.Region;
             pk6.Geo1_Country = Converter.Country;
             pk6.HT_Intensity = 1;
