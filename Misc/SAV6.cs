@@ -29,11 +29,12 @@ namespace PKHeX
         internal static bool SetUpdateDex = true;
         internal static bool SetUpdatePK6 = true;
         // Save Data Attributes
-        public byte[] Data, BAK;
-        public string FileName, FilePath;
-        public string BAKName => $"{FileName} [{OT} ({Version.ToString()}) - {LastSavedTime}].bak";
-        public bool Exportable;
+        public byte[] Data;
         public bool Edited;
+        public readonly bool Exportable;
+        public readonly byte[] BAK;
+        public string FileName, FilePath;
+        public string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
         public SAV6(byte[] data = null)
         {
             Data = (byte[])(data ?? new byte[SIZE_ORAS]).Clone();
@@ -165,7 +166,7 @@ namespace PKHeX
         }
         public class Inventory
         {
-            public int HeldItem, KeyItem, Medicine, TMHM, Berry;
+            public readonly int HeldItem, KeyItem, Medicine, TMHM, Berry;
             public Inventory(int Offset, int Game)
             {
                 switch (Game)

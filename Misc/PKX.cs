@@ -153,7 +153,7 @@ namespace PKHeX
             try { return SpeciesLang[lang][species]; }
             catch { return ""; }
         }
-        internal static PersonalInfo[] Personal = getPersonalArray(Properties.Resources.personal);
+        internal static readonly PersonalInfo[] Personal = getPersonalArray(Properties.Resources.personal);
         internal static PersonalInfo[] getPersonalArray(byte[] data)
         {
             PersonalInfo[] d = new PersonalInfo[data.Length / PersonalInfo.Size];

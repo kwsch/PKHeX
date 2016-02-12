@@ -18,9 +18,9 @@ namespace PKHeX
             Information = new byte[Data.Length - PGT.Size];
             Array.Copy(Data, PGT.Size, Information, 0, Information.Length);
         }
-        public PGT Gift;
+        public readonly PGT Gift;
 
-        public byte[] Information;
+        public readonly byte[] Information;
         /* Big thanks to Grovyle91's Pokémon Mystery Gift Editor, from which the structure was referenced.
          * http://projectpokemon.org/forums/member.php?829-Grovyle91
          * http://projectpokemon.org/forums/showthread.php?6524
@@ -64,7 +64,7 @@ namespace PKHeX
             PK4 pk4 = new PK4(PK.Data);
             if (!IsPokémon && Detail == 0)
             {
-                pk4.OT_Name = "pk4HeX";
+                pk4.OT_Name = "PKHeX";
                 pk4.TID = 12345;
                 pk4.SID = 54321;
                 pk4.OT_Gender = (int)(Util.rnd32()%2);

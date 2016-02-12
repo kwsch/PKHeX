@@ -2456,7 +2456,7 @@ namespace PKHeX
             if (!Directory.Exists(BackupPath))
                 if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, 
                     $"PKHeX can perform automatic backups if you create a folder with the name \"{BackupPath}\" in the same folder as PKHeX's executable.", 
-                    $"Would you like to create the backup folder now and save backup of current save?"))
+                    "Would you like to create the backup folder now and save backup of current save?"))
                     try { Directory.CreateDirectory(BackupPath); Util.Alert("Backup folder created!", 
                         "If you wish to no longer automatically back up save files, delete the \"{BackupPath}\" folder."); }
                     catch { Util.Error($"Unable to create backup folder @ {BackupPath}"); }

@@ -21,12 +21,12 @@ namespace PKHeX
         }
 
         internal static Converter Config = new Converter();
-        internal static string[] speclang_ja = Util.getStringList("Species", "ja");
-        internal static string[] speclang_en = Util.getStringList("Species", "en");
-        internal static string[] speclang_fr = Util.getStringList("Species", "fr");
-        internal static string[] speclang_it = Util.getStringList("Species", "it");
-        internal static string[] speclang_de = Util.getStringList("Species", "de");
-        internal static string[] speclang_es = Util.getStringList("Species", "es");
+        internal static readonly string[] speclang_ja = Util.getStringList("Species", "ja");
+        internal static readonly string[] speclang_en = Util.getStringList("Species", "en");
+        internal static readonly string[] speclang_fr = Util.getStringList("Species", "fr");
+        internal static readonly string[] speclang_it = Util.getStringList("Species", "it");
+        internal static readonly string[] speclang_de = Util.getStringList("Species", "de");
+        internal static readonly string[] speclang_es = Util.getStringList("Species", "es");
 
         internal static string TrimFromFFFF(string input)
         {

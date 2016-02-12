@@ -26,41 +26,26 @@ namespace PKHeX
         private bool editing;
         private bool loading = true;
 
-        private static string[] abilitylist = { };
+        private static string[] abilitylist;
 
         private void setupComboBoxes()
         {
-            {
-                CB_Ball.DisplayMember = "Text";
-                CB_Ball.ValueMember = "Value";
-                CB_Ball.DataSource = new BindingSource(Main.BallDataSource, null);
-            }
-            {
-                CB_HeldItem.DisplayMember = "Text";
-                CB_HeldItem.ValueMember = "Value";
-                CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
-            }
-            {
-                CB_Species.DisplayMember = "Text";
-                CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource, null);
-            }
-            {
-                CB_Nature.DisplayMember = "Text";
-                CB_Nature.ValueMember = "Value";
-                CB_Nature.DataSource = new BindingSource(Main.NatureDataSource, null);
-            }
-            #region Moves
-            {
-                CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
-                CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
+            CB_Ball.DisplayMember = CB_HeldItem.DisplayMember = CB_Species.DisplayMember = CB_Nature.DisplayMember = "Text";
+            CB_Ball.ValueMember = CB_HeldItem.ValueMember = CB_Species.ValueMember = CB_Nature.ValueMember = "Value";
 
-                CB_Move1.DataSource = new BindingSource(Main.MoveDataSource, null);
-                CB_Move2.DataSource = new BindingSource(Main.MoveDataSource, null);
-                CB_Move3.DataSource = new BindingSource(Main.MoveDataSource, null);
-                CB_Move4.DataSource = new BindingSource(Main.MoveDataSource, null);
-            }
-            #endregion
+            CB_Ball.DataSource = new BindingSource(Main.BallDataSource, null);
+            CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
+            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource, null);
+            CB_Nature.DataSource = new BindingSource(Main.NatureDataSource, null);
+            
+
+            CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
+            CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
+
+            CB_Move1.DataSource = new BindingSource(Main.MoveDataSource, null);
+            CB_Move2.DataSource = new BindingSource(Main.MoveDataSource, null);
+            CB_Move3.DataSource = new BindingSource(Main.MoveDataSource, null);
+            CB_Move4.DataSource = new BindingSource(Main.MoveDataSource, null);
         }
 
         // Repopulation Functions
@@ -471,7 +456,7 @@ namespace PKHeX
 
             int favoff = Main.SAV.SecretBase + 0x63A;
             string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(sav, favoff + index * 0x3E0 + 0x218, 0x1A));
-            if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
+            if (string.IsNullOrEmpty(BaseTrainer))
                 BaseTrainer = "Empty";
 
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, $"Delete {BaseTrainer}'s base (Entry {index}) from your records?")) 
