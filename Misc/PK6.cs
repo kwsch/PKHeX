@@ -474,11 +474,8 @@ namespace PKHeX
                 int pm6stat = 0;
 
                 for (int i = 0; i < 6; i++)
-                {
-                    pm6stat = (pm6 + i) % 6;
-                    if (IVs[pm6stat] == maxIV)
-                        break; // P%6 is this stat
-                }
+                    if (IVs[pm6stat = pm6++ % 6] == maxIV)
+                        break;
                 return pm6stat*5 + maxIV%5;
             }
         }
