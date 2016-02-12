@@ -3016,6 +3016,7 @@ namespace PKHeX
                 SAV.setEK6Stored(data, offset + ctr++ * PK6.SIZE_STORED);
                 if (ctr == 30 * 31) break; // break out if we have written all 31 boxes
             }
+            ctr -= 30*CB_BoxSelect.SelectedIndex; // actual imported count
             if (ctr <= 0) return; 
 
             setPKXBoxes();
