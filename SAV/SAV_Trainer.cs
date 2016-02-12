@@ -446,7 +446,7 @@ namespace PKHeX
             CAL_LastSavedDate.Value = new DateTime(SAV.LastSavedYear, SAV.LastSavedMonth, SAV.LastSavedDay);
             CAL_LastSavedTime.Value = new DateTime(2000, 1, 1, SAV.LastSavedHour, SAV.LastSavedMinute, 0);
             CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart% 86400);
+            CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
         }
         private void save()
         {
@@ -528,7 +528,10 @@ namespace PKHeX
             // Vivillon
             SAV.Vivillon = CB_Vivillon.SelectedIndex;
 
-            SAV.SecondsToStart = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            seconds -= seconds%86400;
+            seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            SAV.SecondsToStart = seconds;
 
             SAV.LastSavedYear = CAL_LastSavedDate.Value.Year;
             SAV.LastSavedMonth = CAL_LastSavedDate.Value.Month;
