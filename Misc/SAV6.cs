@@ -31,6 +31,7 @@ namespace PKHeX
         // Save Data Attributes
         public byte[] Data, BAK;
         public string FileName, FilePath;
+        public string BAKName => $"{FileName} [{OT} ({Version.ToString()}) - {LastSavedTime}].bak";
         public bool Exportable;
         public bool Edited;
         public SAV6(byte[] data = null)

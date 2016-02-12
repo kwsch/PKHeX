@@ -733,8 +733,14 @@ namespace PKHeX
         }
         private void openMAIN(byte[] input, string path)
         {
-            L_Save.Text = "SAV: " + Path.GetFileName(path);
-            SAV = new SAV6(input) {FileName = Path.GetFileName(path), FilePath = Path.GetDirectoryName(path)};
+            SAV = new SAV6(input)
+            {
+                FilePath = Path.GetDirectoryName(path),
+                FileName = Path.GetExtension(path) == ".bak" 
+                    ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0] 
+                    : Path.GetFileName(path)
+            };
+            L_Save.Text = "SAV: " + Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName)); // more descriptive
 
             // Enable Secondary Tools
             GB_SAVtools.Enabled = B_JPEG.Enabled = true;
@@ -786,6 +792,11 @@ namespace PKHeX
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
+
+            // If backup folder exists, save a backup.
+            string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
+            if (SAV.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
+                File.WriteAllBytes(backupName, SAV.BAK);
         }
 
         // Language Translation
@@ -2434,13 +2445,21 @@ namespace PKHeX
         private void clickExportSAVBAK(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
-            { FileName = Util.CleanFileName($"main [{SAV.OT} ({SAV.Version.ToString()}) - {SAV.LastSavedTime}].bak") };
+            { FileName = Util.CleanFileName(SAV.BAKName) };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
             string path = sfd.FileName;
             File.WriteAllBytes(path, SAV.BAK);
             Util.Alert("Saved Backup of current SAV to:", path);
+
+            if (!Directory.Exists(BackupPath))
+                if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, 
+                    $"PKHeX can perform automatic backups if you create a folder with the name \"{BackupPath}\" in the same folder as PKHeX's executable.", 
+                    $"Would you like to create the backup folder now and save backup of current save?"))
+                    try { Directory.CreateDirectory(BackupPath); Util.Alert("Backup folder created!", 
+                        "If you wish to no longer automatically back up save files, delete the \"{BackupPath}\" folder."); }
+                    catch { Util.Error($"Unable to create backup folder @ {BackupPath}"); }
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
