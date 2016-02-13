@@ -94,6 +94,9 @@
             this.Menu_Close = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchBoxes = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
@@ -142,9 +145,6 @@
             this.L_Generation = new System.Windows.Forms.Label();
             this.CB_Generation = new System.Windows.Forms.ComboBox();
             this.L_Viewed = new System.Windows.Forms.Label();
-            this.searchSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_SearchBoxes = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -912,7 +912,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(96, 22);
             this.Menu_Exit.Text = "&Close";
             this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
             // 
@@ -924,8 +924,35 @@
             this.Menu_Report,
             this.Menu_Export});
             this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(48, 20);
+            this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
             this.Menu_Tools.Text = "Tools";
+            // 
+            // searchSettingsToolStripMenuItem
+            // 
+            this.searchSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu_SearchBoxes,
+            this.Menu_SearchDatabase});
+            this.searchSettingsToolStripMenuItem.Name = "searchSettingsToolStripMenuItem";
+            this.searchSettingsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.searchSettingsToolStripMenuItem.Text = "Search Settings";
+            // 
+            // Menu_SearchBoxes
+            // 
+            this.Menu_SearchBoxes.Checked = true;
+            this.Menu_SearchBoxes.CheckOnClick = true;
+            this.Menu_SearchBoxes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchBoxes.Name = "Menu_SearchBoxes";
+            this.Menu_SearchBoxes.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchBoxes.Text = "Search Within Boxes";
+            // 
+            // Menu_SearchDatabase
+            // 
+            this.Menu_SearchDatabase.Checked = true;
+            this.Menu_SearchDatabase.CheckOnClick = true;
+            this.Menu_SearchDatabase.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchDatabase.Name = "Menu_SearchDatabase";
+            this.Menu_SearchDatabase.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchDatabase.Text = "Search Within Database";
             // 
             // Menu_OpenDB
             // 
@@ -1528,38 +1555,11 @@
             this.L_Viewed.Text = "Last Viewed: {0}";
             this.L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // searchSettingsToolStripMenuItem
-            // 
-            this.searchSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_SearchBoxes,
-            this.Menu_SearchDatabase});
-            this.searchSettingsToolStripMenuItem.Name = "searchSettingsToolStripMenuItem";
-            this.searchSettingsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.searchSettingsToolStripMenuItem.Text = "Search Settings";
-            // 
-            // Menu_SearchBoxes
-            // 
-            this.Menu_SearchBoxes.Checked = true;
-            this.Menu_SearchBoxes.CheckOnClick = true;
-            this.Menu_SearchBoxes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_SearchBoxes.Name = "Menu_SearchBoxes";
-            this.Menu_SearchBoxes.Size = new System.Drawing.Size(198, 22);
-            this.Menu_SearchBoxes.Text = "Search Within Boxes";
-            // 
-            // Menu_SearchDatabase
-            // 
-            this.Menu_SearchDatabase.Checked = true;
-            this.Menu_SearchDatabase.CheckOnClick = true;
-            this.Menu_SearchDatabase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_SearchDatabase.Name = "Menu_SearchDatabase";
-            this.Menu_SearchDatabase.Size = new System.Drawing.Size(198, 22);
-            this.Menu_SearchDatabase.Text = "Search Within Database";
-            // 
             // SAV_Database
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 397);
+            this.ClientSize = new System.Drawing.Size(544, 396);
             this.Controls.Add(this.L_Viewed);
             this.Controls.Add(this.L_Generation);
             this.Controls.Add(this.CB_Generation);

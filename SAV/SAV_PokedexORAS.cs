@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -13,20 +15,6 @@ namespace PKHeX
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
             Util.TranslateInterface(this, Main.curlanguage);
 
-            Setup();
-            LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(sav, Main.SAV.Spinda).ToString("X8");
-        }
-
-        private readonly CheckBox[] CP;
-        private readonly CheckBox[] CL;
-        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
-        private readonly bool[,] specbools = new bool[9, 0x60 * 8];
-        private readonly bool[,] langbools = new bool[7, 0x60 * 8];
-        private bool editing;
-        private int species = -1;
-        private void Setup()
-        {
             editing = true;
             // Clear Listbox and ComboBox
             LB_Species.Items.Clear();
@@ -44,7 +32,17 @@ namespace PKHeX
 
             getBools();
             editing = false;
+            LB_Species.SelectedIndex = 0;
+            TB_Spinda.Text = BitConverter.ToUInt32(sav, Main.SAV.Spinda).ToString("X8");
         }
+
+        private readonly CheckBox[] CP;
+        private readonly CheckBox[] CL;
+        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
+        private readonly bool[,] specbools = new bool[9, 0x60 * 8];
+        private readonly bool[,] langbools = new bool[7, 0x60 * 8];
+        private bool editing;
+        private int species = -1;
 
         private void changeCBSpecies(object sender, EventArgs e)
         {
@@ -264,35 +262,98 @@ namespace PKHeX
             if (dexNav == 0)
                 MT_Count.Text = 1.ToString();
         }
-        private void B_FillDex_Click(object sender, EventArgs e)
+        private void B_Modify_Click(object sender, EventArgs e)
         {
-            // Write Checkboxes manually (Gender stuff done automatically by form)
-            for (int i = 0; i < CB_Species.Items.Count; i++)
-            {
-                CB_Species.SelectedIndex = i;
-                if (ModifierKeys == Keys.Control && CHK_P1.Checked) continue;
-                B_GiveAll.PerformClick();
-            }
+            Button btn = (Button)sender;
+            modifyMenu.Show(btn.PointToScreen(new Point(0, btn.Height)));
+        }
+        private void modifyAll(object sender, EventArgs e)
+        {
+            int lang = Main.SAV.Language;
+            if (lang > 5) lang -= 1;
+            lang -= 1;
 
-            // Switch to byte editing
+            if (new[] { mnuSeenNone, mnuSeenAll, mnuComplete }.Contains(sender))
+                    for (int i = 0; i < CB_Species.Items.Count; i++)
+                {
+                    int gt = PKX.Personal[i].Gender;
+                    CB_Species.SelectedIndex = i;
+                    foreach (CheckBox t in new[] {CHK_P2, CHK_P3, CHK_P4, CHK_P5})
+                        t.Checked = mnuSeenNone != sender && t.Enabled;
+
+                    if (mnuSeenNone != sender)
+                    {
+                        // if seen ensure at least one Displayed
+                        if (!new[] {CHK_P6.Checked, CHK_P7.Checked, CHK_P8.Checked, CHK_P8.Checked}.Any(b => b))
+                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                    }
+                    else
+                    {
+                        for (int f = 0; f < 0x98; f++)
+                            sav[Main.SAV.PokeDex + 0x368 + f] = 0;
+                        foreach (CheckBox t in CP)
+                            t.Checked = false;
+                    }
+
+                    if (!new[] { CHK_P6.Checked, CHK_P7.Checked, CHK_P8.Checked, CHK_P8.Checked }.Any(b=> b))
+                        foreach (CheckBox t in CL)
+                            t.Checked = false;
+                }
+
+            if (new[] {mnuCaughtNone, mnuCaughtAll, mnuComplete}.Contains(sender))
+                for (int i = 0; i < CB_Species.Items.Count; i++)
+                {
+                    int gt = PKX.Personal[i].Gender;
+                    CB_Species.SelectedIndex = i;
+                    foreach (CheckBox t in new[] {CHK_P1})
+                        t.Checked = mnuCaughtNone != sender;
+                    for (int j = 0; j < CL.Length; j++)
+                        CL[j].Checked = sender == mnuComplete || (mnuCaughtNone != sender && j == lang);
+
+                    if (mnuCaughtNone == sender)
+                    {
+                        if (new[] { CHK_P1.Checked }.Any(b=> b)) // if seen, ensure at least one displayed
+                            if (!new[] { CHK_P6.Checked, CHK_P7.Checked, CHK_P8.Checked, CHK_P8.Checked }.Any(b=> b))
+                                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                    }
+                    if (mnuCaughtNone != sender)
+                    {
+                        // ensure at least one SEEN
+                        if (!new[] { CHK_P2.Checked, CHK_P3.Checked, CHK_P4.Checked, CHK_P5.Checked }.Any(b=> b))
+                            (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
+                        // ensure at least one Displayed
+                        if (!new[] { CHK_P6.Checked, CHK_P7.Checked, CHK_P8.Checked, CHK_P8.Checked }.Any(b=> b))
+                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                    }
+                    else
+                        foreach (CheckBox t in CL)
+                            t.Checked = false;
+                }
+
+
             setBools();
             saveChanges();
+            if (mnuComplete == sender)
+            {
+                // Forms Bool Writing
+                for (int i = 0; i < 0x98; i++)
+                    sav[Main.SAV.PokeDex + 0x368 + i] = 0xFF;
 
-            // Encounter Count Writing (999*all species)
-            for (int i = 0; i < 0x2D1; i++)
-                BitConverter.GetBytes((ushort)999).CopyTo(sav, Main.SAV.EncounterCount + i * 2);
+                // Turn off Italian Petlil
+                sav[Main.SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
+            }
+            if (mnuDexNav == sender)
+            {
+                for (int i = 0; i < 0x2D1; i++)
+                    BitConverter.GetBytes((ushort)999).CopyTo(sav, Main.SAV.EncounterCount + i * 2);
+            }
+            if (mnuResetNav == sender)
+            {
+                for (int i = 0; i < 0x2D1; i++)
+                    BitConverter.GetBytes((ushort)0).CopyTo(sav, Main.SAV.EncounterCount + i * 2);
+            }
             
-            // Forms Bool Writing
-            for (int i = 0; i < 0x98; i++)
-                sav[Main.SAV.PokeDex + 0x368 + i] = 0xFF;
-
-            // Turn off Italian Petlil
-            sav[Main.SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
-            
-            // Fetch the dex bools
             getBools();
-
-            // Reload the current entry
             loadchks();
         }
 

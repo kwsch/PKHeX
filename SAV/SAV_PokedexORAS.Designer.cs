@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_PokedexORAS));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Species = new System.Windows.Forms.ListBox();
@@ -47,7 +48,7 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_GiveAll = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
-            this.B_FillDex = new System.Windows.Forms.Button();
+            this.B_Modify = new System.Windows.Forms.Button();
             this.GB_Language = new System.Windows.Forms.GroupBox();
             this.GB_Displayed = new System.Windows.Forms.GroupBox();
             this.L_DexNav = new System.Windows.Forms.Label();
@@ -60,10 +61,19 @@
             this.CHK_P4 = new System.Windows.Forms.CheckBox();
             this.CHK_P3 = new System.Windows.Forms.CheckBox();
             this.CHK_P2 = new System.Windows.Forms.CheckBox();
+            this.modifyMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuSeenNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSeenAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCaughtNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCaughtAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuComplete = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDexNav = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuResetNav = new System.Windows.Forms.ToolStripMenuItem();
             this.GB_Language.SuspendLayout();
             this.GB_Displayed.SuspendLayout();
             this.GB_Owned.SuspendLayout();
             this.GB_Encountered.SuspendLayout();
+            this.modifyMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -254,15 +264,15 @@
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // B_FillDex
+            // B_Modify
             // 
-            this.B_FillDex.Location = new System.Drawing.Point(317, 11);
-            this.B_FillDex.Name = "B_FillDex";
-            this.B_FillDex.Size = new System.Drawing.Size(60, 23);
-            this.B_FillDex.TabIndex = 25;
-            this.B_FillDex.Text = "Fill Dex";
-            this.B_FillDex.UseVisualStyleBackColor = true;
-            this.B_FillDex.Click += new System.EventHandler(this.B_FillDex_Click);
+            this.B_Modify.Location = new System.Drawing.Point(317, 11);
+            this.B_Modify.Name = "B_Modify";
+            this.B_Modify.Size = new System.Drawing.Size(60, 23);
+            this.B_Modify.TabIndex = 25;
+            this.B_Modify.Text = "Modify...";
+            this.B_Modify.UseVisualStyleBackColor = true;
+            this.B_Modify.Click += new System.EventHandler(this.B_Modify_Click);
             // 
             // GB_Language
             // 
@@ -351,7 +361,7 @@
             this.GB_Encountered.Size = new System.Drawing.Size(115, 78);
             this.GB_Encountered.TabIndex = 31;
             this.GB_Encountered.TabStop = false;
-            this.GB_Encountered.Text = "Encountered";
+            this.GB_Encountered.Text = "Seen";
             // 
             // CHK_P5
             // 
@@ -397,6 +407,68 @@
             this.CHK_P2.UseVisualStyleBackColor = true;
             this.CHK_P2.Click += new System.EventHandler(this.changeEncountered);
             // 
+            // modifyMenu
+            // 
+            this.modifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSeenNone,
+            this.mnuSeenAll,
+            this.mnuCaughtNone,
+            this.mnuCaughtAll,
+            this.mnuComplete,
+            this.mnuResetNav,
+            this.mnuDexNav});
+            this.modifyMenu.Name = "modifyMenu";
+            this.modifyMenu.Size = new System.Drawing.Size(153, 180);
+            // 
+            // mnuSeenNone
+            // 
+            this.mnuSeenNone.Name = "mnuSeenNone";
+            this.mnuSeenNone.Size = new System.Drawing.Size(152, 22);
+            this.mnuSeenNone.Text = "Seen none";
+            this.mnuSeenNone.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuSeenAll
+            // 
+            this.mnuSeenAll.Name = "mnuSeenAll";
+            this.mnuSeenAll.Size = new System.Drawing.Size(152, 22);
+            this.mnuSeenAll.Text = "Seen all";
+            this.mnuSeenAll.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuCaughtNone
+            // 
+            this.mnuCaughtNone.Name = "mnuCaughtNone";
+            this.mnuCaughtNone.Size = new System.Drawing.Size(152, 22);
+            this.mnuCaughtNone.Text = "Caught none";
+            this.mnuCaughtNone.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuCaughtAll
+            // 
+            this.mnuCaughtAll.Name = "mnuCaughtAll";
+            this.mnuCaughtAll.Size = new System.Drawing.Size(152, 22);
+            this.mnuCaughtAll.Text = "Caught all";
+            this.mnuCaughtAll.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuComplete
+            // 
+            this.mnuComplete.Name = "mnuComplete";
+            this.mnuComplete.Size = new System.Drawing.Size(152, 22);
+            this.mnuComplete.Text = "Complete Dex";
+            this.mnuComplete.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuDexNav
+            // 
+            this.mnuDexNav.Name = "mnuDexNav";
+            this.mnuDexNav.Size = new System.Drawing.Size(152, 22);
+            this.mnuDexNav.Text = "999 DexNav";
+            this.mnuDexNav.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuResetNav
+            // 
+            this.mnuResetNav.Name = "mnuResetNav";
+            this.mnuResetNav.Size = new System.Drawing.Size(152, 22);
+            this.mnuResetNav.Text = "Reset DexNav";
+            this.mnuResetNav.Click += new System.EventHandler(this.modifyAll);
+            // 
             // SAV_PokedexORAS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -410,7 +482,7 @@
             this.Controls.Add(this.GB_Owned);
             this.Controls.Add(this.GB_Displayed);
             this.Controls.Add(this.GB_Language);
-            this.Controls.Add(this.B_FillDex);
+            this.Controls.Add(this.B_Modify);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_GiveAll);
             this.Controls.Add(this.CB_Species);
@@ -432,6 +504,7 @@
             this.GB_Owned.PerformLayout();
             this.GB_Encountered.ResumeLayout(false);
             this.GB_Encountered.PerformLayout();
+            this.modifyMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -457,7 +530,7 @@
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Button B_GiveAll;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.Button B_FillDex;
+        private System.Windows.Forms.Button B_Modify;
         private System.Windows.Forms.GroupBox GB_Language;
         private System.Windows.Forms.GroupBox GB_Displayed;
         private System.Windows.Forms.GroupBox GB_Owned;
@@ -470,5 +543,13 @@
         private System.Windows.Forms.CheckBox CHK_P4;
         private System.Windows.Forms.CheckBox CHK_P3;
         private System.Windows.Forms.CheckBox CHK_P2;
+        private System.Windows.Forms.ContextMenuStrip modifyMenu;
+        private System.Windows.Forms.ToolStripMenuItem mnuSeenNone;
+        private System.Windows.Forms.ToolStripMenuItem mnuSeenAll;
+        private System.Windows.Forms.ToolStripMenuItem mnuCaughtNone;
+        private System.Windows.Forms.ToolStripMenuItem mnuCaughtAll;
+        private System.Windows.Forms.ToolStripMenuItem mnuComplete;
+        private System.Windows.Forms.ToolStripMenuItem mnuDexNav;
+        private System.Windows.Forms.ToolStripMenuItem mnuResetNav;
     }
 }
