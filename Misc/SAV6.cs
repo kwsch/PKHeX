@@ -611,6 +611,8 @@ namespace PKHeX
                 return;
             if (pk6.Species == 0)
                 return;
+            if (Version == GameVersion.Unknown)
+                return;
 
             int bit = pk6.Species - 1;
             int lang = pk6.Language - 1; if (lang > 5) lang--; // 0-6 language vals
@@ -629,20 +631,43 @@ namespace PKHeX
                 Data[PokeDex + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
 
             // Set the Display flag if none are set
-            bool[] chk =
-            {
-                // Flag Regions (base index 1 to reference Wiki and editor)
-                (Data[PokeDex + 0x60*5 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
-                (Data[PokeDex + 0x60*6 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
-                (Data[PokeDex + 0x60*7 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
-                (Data[PokeDex + 0x60*8 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0,
-            };
-            if (!chk.Contains(true)) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
+            bool Displayed = false;
+            Displayed |= (Data[PokeDex + 0x60*5 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0;
+            Displayed |= (Data[PokeDex + 0x60*6 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0;
+            Displayed |= (Data[PokeDex + 0x60*7 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0;
+            Displayed |= (Data[PokeDex + 0x60*8 + bit/8 + 0x8] & (byte) (1 << (bit%8))) != 0;
+            if (!Displayed) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
                 Data[PokeDex + shiftoff + 0x60 * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
 
             // Set the Language
             if (lang < 0) lang = 1;
             Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
+
+            // Set Form flags
+            int fc = Personal[pk6.Species].FormeCount;
+            int f = ORAS ? getDexFormIndexORAS(pk6.Species, fc) : getDexFormIndexXY(pk6.Species, fc);
+            if (f >= 0)
+            {
+                int FormLen = ORAS ? 0x26 : 0x18;
+                int FormDex = PokeDex + 0x368;
+                bit = f + pk6.AltForm;
+                // Set Seen Flag
+                Data[FormDex + FormLen*shiny + bit/8] |= (byte)(1 << (bit%8));
+
+                // Set Displayed Flag if necessary, check all flags
+                bool FormDisplayed = false;
+                for (int i = 0; i < fc; i++)
+                {
+                    bit = f + i;
+                    FormDisplayed |= (Data[FormDex + FormLen*2 + bit/8] & (byte)(1 << (bit%8))) != 0; // Nonshiny
+                    FormDisplayed |= (Data[FormDex + FormLen*3 + bit/8] & (byte)(1 << (bit%8))) != 0; // Shiny
+                }
+                if (!FormDisplayed)
+                {
+                    bit = f + pk6.AltForm;
+                    Data[FormDex + FormLen*(2+shiny) + bit/8] |= (byte)(1 << (bit%8));
+                }
+            }
 
             // Set DexNav count (only if not encountered previously)
             if (ORAS && getEncounterCount(pk6.Species - 1) == 0)
