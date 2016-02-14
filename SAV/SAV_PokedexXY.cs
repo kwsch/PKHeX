@@ -346,7 +346,7 @@ namespace PKHeX
                             t.Checked = false;
                     }
 
-                    if (!CHK_P1.Checked)
+                    if (!CHK_P1.Checked && !CHK_F1.Checked)
                         foreach (CheckBox t in CL)
                             t.Checked = false;
                 }
@@ -356,7 +356,7 @@ namespace PKHeX
                 {
                     int gt = PKX.Personal[i + 1].Gender;
                     LB_Species.SelectedIndex = i;
-                    foreach (CheckBox t in new[] { CHK_P1 })
+                    foreach (CheckBox t in new[] { CHK_P1, CHK_F1 })
                         t.Checked = mnuCaughtNone != sender;
                     for (int j = 0; j < CL.Length; j++)
                         CL[j].Checked = sender == mnuComplete || (mnuCaughtNone != sender && j == lang);
