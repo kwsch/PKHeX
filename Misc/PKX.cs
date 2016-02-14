@@ -1116,6 +1116,105 @@ namespace PKHeX
             }
             return new[] {""};
         }
+        internal static int getDexFormIndexXY(int species, int formct)
+        {
+            if (formct < 1 || species < 0)
+                return -1; // invalid
+            switch (species)
+            {
+                case 201: return 000; // 28 Unown
+                case 386: return 028; // 4 Deoxys
+                case 492: return 032; // 2 Shaymin
+                case 487: return 034; // 2 Giratina
+                case 479: return 036; // 6 Rotom
+                case 422: return 042; // 2 Shellos
+                case 423: return 044; // 2 Gastrodon
+                case 412: return 046; // 3 Burmy
+                case 413: return 049; // 3 Wormadam
+                case 351: return 052; // 4 Castform
+                case 421: return 056; // 2 Cherrim
+                case 585: return 058; // 4 Deerling
+                case 586: return 062; // 4 Sawsbuck
+                case 648: return 066; // 2 Meloetta
+                case 555: return 068; // 2 Darmanitan
+                case 550: return 070; // 2 Basculin
+                case 646: return 072; // 3 Kyurem
+                case 647: return 075; // 2 Keldeo
+                case 642: return 077; // 2 Thundurus
+                case 641: return 079; // 2 Tornadus
+                case 645: return 081; // 2 Landorus
+                case 666: return 083; // 20 Vivillion
+                case 669: return 103; // 5 Flabébé
+                case 670: return 108; // 6 Floette
+                case 671: return 114; // 5 Florges
+                case 710: return 119; // 4 Pumpkaboo
+                case 711: return 123; // 4 Gourgeist
+                case 681: return 127; // 2 Aegislash
+                case 716: return 129; // 2 Xerneas
+                case 003: return 131; // 2 Venusaur
+                case 006: return 133; // 3 Charizard
+                case 009: return 136; // 2 Blastoise
+                case 065: return 138; // 2 Alakazam
+                case 094: return 140; // 2 Gengar
+                case 115: return 142; // 2 Kangaskhan
+                case 127: return 144; // 2 Pinsir
+                case 130: return 146; // 2 Gyarados
+                case 142: return 148; // 2 Aerodactyl
+                case 150: return 150; // 3 Mewtwo
+                case 181: return 153; // 2 Ampharos
+                case 212: return 155; // 2 Scizor
+                case 214: return 157; // 2 Heracros
+                case 229: return 159; // 2 Houndoom
+                case 248: return 161; // 2 Tyranitar
+                case 257: return 163; // 2 Blaziken
+                case 303: return 165; // 2 Mawile
+                case 306: return 167; // 2 Aggron
+                case 308: return 169; // 2 Medicham
+                case 310: return 171; // 2 Manetric
+                case 354: return 173; // 2 Banette
+                case 359: return 175; // 2 Absol
+                case 380: return 177; // 2 Latias
+                case 381: return 179; // 2 Latios
+                case 445: return 181; // 2 Garchomp
+                case 448: return 183; // 2 Lucario
+                case 460: return 185; // 2 Abomasnow
+                default: return -1;
+            }
+        }
+        internal static int getDexFormIndexORAS(int species, int formct)
+        {
+            if (formct < 1 || species < 0)
+                return -1; // invalid
+            switch (species)
+            {
+                case 025: return 187; // 7 Pikachu
+                case 720: return 194; // 2 Hoopa
+                case 015: return 196; // 2 Beedrill
+                case 018: return 198; // 2 Pidgeot
+                case 080: return 200; // 2 Slowbro
+                case 208: return 202; // 2 Steelix
+                case 254: return 204; // 2 Sceptile
+                case 360: return 206; // 2 Swampert
+                case 302: return 208; // 2 Sableye
+                case 319: return 210; // 2 Sharpedo
+                case 323: return 212; // 2 Camerupt
+                case 334: return 214; // 2 Altaria
+                case 362: return 216; // 2 Glalie
+                case 373: return 218; // 2 Salamence
+                case 376: return 220; // 2 Metagross
+                case 384: return 222; // 2 Rayquaza
+                case 428: return 224; // 2 Lopunny
+                case 475: return 226; // 2 Gallade
+                case 531: return 228; // 2 Audino
+                case 719: return 230; // 2 Diancie
+                case 382: return 232; // 2 Kyogre
+                case 383: return 234; // 2 Groudon
+                case 493: return 236; // 18 Arceus
+                case 649: return 254; // 5 Genesect
+                case 676: return 259; // 10 Furfrou
+                default: return getDexFormIndexXY(species, formct);
+            }
+        }
 
         /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
         /// <param name="ivs">Order: HP,ATK,DEF,SPEED,SPA,SPD</param>
@@ -1157,11 +1256,11 @@ namespace PKHeX
         internal static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         public class ShowdownSet
         {
-            internal static readonly string[] species = Util.getStringList("Species", "en");
-            internal static readonly string[] items = Util.getStringList("Items", "en");
-            internal static readonly string[] natures = Util.getStringList("Natures", "en");
-            internal static readonly string[] moves = Util.getStringList("Moves", "en");
-            internal static readonly string[] abilities = Util.getStringList("Abilities", "en");
+            private static readonly string[] species = Util.getStringList("Species", "en");
+            private static readonly string[] items = Util.getStringList("Items", "en");
+            private static readonly string[] natures = Util.getStringList("Natures", "en");
+            private static readonly string[] moves = Util.getStringList("Moves", "en");
+            private static readonly string[] abilities = Util.getStringList("Abilities", "en");
 
             // Default Set Data
             public string Nickname;

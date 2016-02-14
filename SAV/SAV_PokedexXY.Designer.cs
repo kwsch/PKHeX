@@ -66,16 +66,26 @@
             this.mnuCaughtNone = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCaughtAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuComplete = new System.Windows.Forms.ToolStripMenuItem();
+            this.B_ModifyForms = new System.Windows.Forms.Button();
+            this.L_FormDisplayed = new System.Windows.Forms.Label();
+            this.CLB_FormDisplayed = new System.Windows.Forms.CheckedListBox();
+            this.L_FormsSeen = new System.Windows.Forms.Label();
+            this.CLB_FormsSeen = new System.Windows.Forms.CheckedListBox();
+            this.modifyMenuForms = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuFormNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuForm1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFormAll = new System.Windows.Forms.ToolStripMenuItem();
             this.GB_Language.SuspendLayout();
             this.GB_Encountered.SuspendLayout();
             this.GB_Owned.SuspendLayout();
             this.GB_Displayed.SuspendLayout();
             this.modifyMenu.SuspendLayout();
+            this.modifyMenuForms.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(297, 242);
+            this.B_Cancel.Location = new System.Drawing.Point(461, 242);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(80, 23);
             this.B_Cancel.TabIndex = 0;
@@ -297,7 +307,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(297, 218);
+            this.B_Save.Location = new System.Drawing.Point(547, 242);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(80, 23);
             this.B_Save.TabIndex = 24;
@@ -369,7 +379,7 @@
             // 
             this.TB_Spinda.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_Spinda.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_Spinda.Location = new System.Drawing.Point(317, 196);
+            this.TB_Spinda.Location = new System.Drawing.Point(317, 195);
             this.TB_Spinda.Name = "TB_Spinda";
             this.TB_Spinda.Size = new System.Drawing.Size(60, 20);
             this.TB_Spinda.TabIndex = 29;
@@ -406,48 +416,132 @@
             this.mnuCaughtAll,
             this.mnuComplete});
             this.modifyMenu.Name = "modifyMenu";
-            this.modifyMenu.Size = new System.Drawing.Size(153, 136);
+            this.modifyMenu.Size = new System.Drawing.Size(149, 114);
             // 
             // mnuSeenNone
             // 
             this.mnuSeenNone.Name = "mnuSeenNone";
-            this.mnuSeenNone.Size = new System.Drawing.Size(152, 22);
+            this.mnuSeenNone.Size = new System.Drawing.Size(148, 22);
             this.mnuSeenNone.Text = "Seen none";
             this.mnuSeenNone.Click += new System.EventHandler(this.modifyAll);
             // 
             // mnuSeenAll
             // 
             this.mnuSeenAll.Name = "mnuSeenAll";
-            this.mnuSeenAll.Size = new System.Drawing.Size(152, 22);
+            this.mnuSeenAll.Size = new System.Drawing.Size(148, 22);
             this.mnuSeenAll.Text = "Seen all";
             this.mnuSeenAll.Click += new System.EventHandler(this.modifyAll);
             // 
             // mnuCaughtNone
             // 
             this.mnuCaughtNone.Name = "mnuCaughtNone";
-            this.mnuCaughtNone.Size = new System.Drawing.Size(152, 22);
+            this.mnuCaughtNone.Size = new System.Drawing.Size(148, 22);
             this.mnuCaughtNone.Text = "Caught none";
             this.mnuCaughtNone.Click += new System.EventHandler(this.modifyAll);
             // 
             // mnuCaughtAll
             // 
             this.mnuCaughtAll.Name = "mnuCaughtAll";
-            this.mnuCaughtAll.Size = new System.Drawing.Size(152, 22);
+            this.mnuCaughtAll.Size = new System.Drawing.Size(148, 22);
             this.mnuCaughtAll.Text = "Caught all";
             this.mnuCaughtAll.Click += new System.EventHandler(this.modifyAll);
             // 
             // mnuComplete
             // 
             this.mnuComplete.Name = "mnuComplete";
-            this.mnuComplete.Size = new System.Drawing.Size(152, 22);
+            this.mnuComplete.Size = new System.Drawing.Size(148, 22);
             this.mnuComplete.Text = "Complete Dex";
             this.mnuComplete.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // B_ModifyForms
+            // 
+            this.B_ModifyForms.Location = new System.Drawing.Point(567, 11);
+            this.B_ModifyForms.Name = "B_ModifyForms";
+            this.B_ModifyForms.Size = new System.Drawing.Size(60, 23);
+            this.B_ModifyForms.TabIndex = 43;
+            this.B_ModifyForms.Text = "Modify...";
+            this.B_ModifyForms.UseVisualStyleBackColor = true;
+            this.B_ModifyForms.Click += new System.EventHandler(this.B_ModifyForms_Click);
+            // 
+            // L_FormDisplayed
+            // 
+            this.L_FormDisplayed.Location = new System.Drawing.Point(505, 40);
+            this.L_FormDisplayed.Name = "L_FormDisplayed";
+            this.L_FormDisplayed.Size = new System.Drawing.Size(104, 20);
+            this.L_FormDisplayed.TabIndex = 42;
+            this.L_FormDisplayed.Text = "Displayed Form:";
+            this.L_FormDisplayed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CLB_FormDisplayed
+            // 
+            this.CLB_FormDisplayed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_FormDisplayed.FormattingEnabled = true;
+            this.CLB_FormDisplayed.Location = new System.Drawing.Point(508, 61);
+            this.CLB_FormDisplayed.Name = "CLB_FormDisplayed";
+            this.CLB_FormDisplayed.Size = new System.Drawing.Size(119, 154);
+            this.CLB_FormDisplayed.TabIndex = 41;
+            this.CLB_FormDisplayed.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.updateDisplayedForm);
+            // 
+            // L_FormsSeen
+            // 
+            this.L_FormsSeen.Location = new System.Drawing.Point(380, 40);
+            this.L_FormsSeen.Name = "L_FormsSeen";
+            this.L_FormsSeen.Size = new System.Drawing.Size(104, 20);
+            this.L_FormsSeen.TabIndex = 40;
+            this.L_FormsSeen.Text = "Seen Forms:";
+            this.L_FormsSeen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CLB_FormsSeen
+            // 
+            this.CLB_FormsSeen.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.CLB_FormsSeen.FormattingEnabled = true;
+            this.CLB_FormsSeen.Location = new System.Drawing.Point(383, 61);
+            this.CLB_FormsSeen.Name = "CLB_FormsSeen";
+            this.CLB_FormsSeen.Size = new System.Drawing.Size(119, 154);
+            this.CLB_FormsSeen.TabIndex = 39;
+            // 
+            // modifyMenuForms
+            // 
+            this.modifyMenuForms.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuFormNone,
+            this.mnuForm1,
+            this.mnuFormAll});
+            this.modifyMenuForms.Name = "modifyMenu";
+            this.modifyMenuForms.Size = new System.Drawing.Size(153, 92);
+            // 
+            // mnuFormNone
+            // 
+            this.mnuFormNone.Name = "mnuFormNone";
+            this.mnuFormNone.Size = new System.Drawing.Size(152, 22);
+            this.mnuFormNone.Text = "Seen none";
+            this.mnuFormNone.Click += new System.EventHandler(this.modifyAllForms);
+            // 
+            // mnuForm1
+            // 
+            this.mnuForm1.Name = "mnuForm1";
+            this.mnuForm1.Size = new System.Drawing.Size(152, 22);
+            this.mnuForm1.Text = "Seen one";
+            this.mnuForm1.Click += new System.EventHandler(this.modifyAllForms);
+            // 
+            // mnuFormAll
+            // 
+            this.mnuFormAll.Name = "mnuFormAll";
+            this.mnuFormAll.Size = new System.Drawing.Size(152, 22);
+            this.mnuFormAll.Text = "Seen all";
+            this.mnuFormAll.Click += new System.EventHandler(this.modifyAllForms);
             // 
             // SAV_PokedexXY
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 272);
+            this.ClientSize = new System.Drawing.Size(634, 272);
+            this.Controls.Add(this.B_ModifyForms);
+            this.Controls.Add(this.L_FormDisplayed);
+            this.Controls.Add(this.CLB_FormDisplayed);
+            this.Controls.Add(this.L_FormsSeen);
+            this.Controls.Add(this.CLB_FormsSeen);
             this.Controls.Add(this.GB_Displayed);
             this.Controls.Add(this.L_Spinda);
             this.Controls.Add(this.TB_Spinda);
@@ -477,6 +571,7 @@
             this.GB_Displayed.ResumeLayout(false);
             this.GB_Displayed.PerformLayout();
             this.modifyMenu.ResumeLayout(false);
+            this.modifyMenuForms.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -520,5 +615,14 @@
         private System.Windows.Forms.ToolStripMenuItem mnuCaughtNone;
         private System.Windows.Forms.ToolStripMenuItem mnuCaughtAll;
         private System.Windows.Forms.ToolStripMenuItem mnuComplete;
+        private System.Windows.Forms.CheckedListBox CLB_FormsSeen;
+        private System.Windows.Forms.Label L_FormsSeen;
+        private System.Windows.Forms.CheckedListBox CLB_FormDisplayed;
+        private System.Windows.Forms.Label L_FormDisplayed;
+        private System.Windows.Forms.Button B_ModifyForms;
+        private System.Windows.Forms.ContextMenuStrip modifyMenuForms;
+        private System.Windows.Forms.ToolStripMenuItem mnuFormNone;
+        private System.Windows.Forms.ToolStripMenuItem mnuForm1;
+        private System.Windows.Forms.ToolStripMenuItem mnuFormAll;
     }
 }
