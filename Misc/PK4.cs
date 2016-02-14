@@ -156,9 +156,6 @@ namespace PKHeX
         public bool FatefulEncounter { get { return (Data[0x40] & 1) == 1; } set { Data[0x40] = (byte)(Data[0x40] & ~0x01 | (value ? 1 : 0)); } }
         public int Gender { get { return (Data[0x40] >> 1) & 0x3; } set { Data[0x40] = (byte)(Data[0x40] & ~0x06 | (value << 1)); } }
         public int AltForm { get { return Data[0x40] >> 3; } set { Data[0x40] = (byte)(Data[0x40] & 0x07 | (value << 3)); } }
-        public int Nature { get { return Data[0x41]; } set { Data[0x41] = (byte)value; } }
-        public bool HiddenAbility { get { return (Data[0x41] & 1) == 1; } set { Data[0x41] = (byte)(Data[0x41] & ~0x01 | (value ? 1 : 0)); } }
-        public bool NPokémon { get { return (Data[0x41] & 2) == 2; } set { Data[0x41] = (byte)(Data[0x41] & ~0x02 | (value ? 2 : 0)); } }
         // 0x43-0x47 Unused
         #endregion
 
@@ -425,6 +422,7 @@ namespace PKHeX
                 : 30001; // Pokétransfer (not Crown)
             
             // Delete HGSS Data
+            pk5.Data[0x41] = 0; // Shiny Leaves/Crown
             BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
             if (HGSSBall > 0 && HGSSBall != 4)
                 pk5.Ball = HGSSBall;

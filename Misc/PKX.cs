@@ -262,7 +262,7 @@ namespace PKHeX
         internal static int getAbilityNumber(int species, int ability, int formnum)
         {
             byte[] spec_abilities = Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
-            int abilval = Array.IndexOf(spec_abilities, ability);
+            int abilval = Array.IndexOf(spec_abilities, (byte)ability);
             if (abilval >= 0)
                 return 1 << abilval;
             return -1;
