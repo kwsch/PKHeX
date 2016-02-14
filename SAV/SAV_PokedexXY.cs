@@ -130,7 +130,7 @@ namespace PKHeX
             CLB_FormDisplayed.Items.Clear();
 
             int fc = PKX.Personal[species].FormeCount;
-            int f = PKX.getDexFormIndexORAS(species, fc);
+            int f = PKX.getDexFormIndexXY(species, fc);
             if (f < 0)
                 return;
             string[] forms = PKX.getFormList(species, Main.types, Main.forms, Main.gendersymbols);
