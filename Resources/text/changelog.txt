@@ -639,12 +639,15 @@ X/X/XX - New Update:
  - Added: CTRL click on the Box tab in the main window to sort boxes by National Dex #.
  - Added: Game Started and Last Saved editing fields to the Trainer Editor.
  - Added: Pokeblock Editing (accessible via Berry Field button). Thanks SciresM!
- - Changed: Trainer Editor fields are now split into separate tabs.
+ - Added: Form editing to the Pokédex Editors. Set Dex updated to set forms as well.
+ - Changed: Trainer Editor fields are now split into separate tabs. Added Adventure Start and Last Saved fields.
  - Changed: Toggle Font changed to "Unicode" checkbox in main menu; displays current status.
  - Changed: Minor tweaks to the Wondercard editing interface to make it less annoying.
- - Fixed: Randomizing IVs not updating IV total box.
+ - Fixed: Randomizing IVs now updates IV total box.
+ - Fixed: Program dialog text fixed. Thanks Favna & fallenlucario!
  - Fixed: Past Gen Pokemon will now be prevented from having OT Memories with Modify PK6 checked. Thanks chenzw95!
  - Fixed: Holding CTRL or ALT will no longer import showdown on non-species clicks. Thanks Joedor!
  - Fixed: Box Name editing. Thanks sora10pls!
  - Fixed: Box Data Report Hidden Power display. Thanks krelbit!
+ - Fixed: 4->6 Import ability transferring. Thanks zero2exe!
  - Removed: ram2sav support. If you wish to still use ram2sav, use a compiled version from 9/20/15 or earlier.
