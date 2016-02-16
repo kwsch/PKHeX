@@ -615,7 +615,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Transferring will now carry over Gender/AltForm 5->6. Thanks Ahito95!
  - Fixed: Wonder Card filename suggestions will no longer contain illegal characters.
 
-01/10/16 - New Update:
+01/10/16 - New Update: (124600)
  - Fixed: Memory Feelings now save properly. Thanks chenzw95!
  - Fixed: Map Z-Coordinate now saves properly. Thanks rocket0634!
  - Fixed: Box Data Report levels now display properly. Thanks Blassie098!
@@ -634,7 +634,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: Sprite generation (layering) is now faster.
  - Shortcuts have been updated.
 
-X/X/XX - New Update:
+02/16/16 - New Update: 
  - Added: CTRL fill dex will only fill for species you do not yet own.
  - Added: CTRL click on the Box tab in the main window to sort boxes by National Dex #.
  - Added: Game Started and Last Saved editing fields to the Trainer Editor.
