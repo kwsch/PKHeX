@@ -3357,6 +3357,113 @@ namespace PKHeX
         private byte[] pkm_from = (byte[])blankEK6.Clone();
         private int pkm_from_offset;
         private int pkm_from_slot = -1;
+        void Menu_PK2PK4Click(object sender, EventArgs e)
+        {
+            string path = "";
+            // open folder dialog
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+                path = fbd.SelectedPath;
+            else return;
+
+            int pastctr = 0;
+            int ctr = 0;
+            string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
+
+            foreach (string t in filepaths)
+            {
+                long len = new FileInfo(t).Length;
+                if (len > PK3.SIZE_PARTY)
+                    continue;
+
+                //if (!new[] {PK5.SIZE_STORED, PK5.SIZE_PARTY, PK4.SIZE_PARTY, PK3.SIZE_STORED, PK3.SIZE_PARTY}.Contains((int)len))
+                if (!new[] {PK3.SIZE_STORED, PK3.SIZE_PARTY}.Contains((int)len))
+                    continue;
+                byte[] data = new byte[PK4.SIZE_STORED];
+                switch (Path.GetExtension(t)) // Filter all files by extension
+                {
+                    //case ".pk5":
+                    //case ".pk4":
+                    case ".pk3":
+                    case ".3gpkm":
+                    case ".pkm":
+                    {
+                        // Verify PKM (decrypted)
+                        byte[] input = File.ReadAllBytes(t);
+                        if (!PKX.verifychk(input)) continue;
+                        {
+                            try // to convert g4pkm
+                            { data = Converter.ConvertPKMtoPK4(input).Data; pastctr++; }
+                            catch { continue; }
+                        }
+                    }
+                        break;
+                    default:
+                        continue;
+                }
+                //Save pk4 file
+                if (!File.Exists(Path.Combine(path, Path.ChangeExtension(t, ".pk4"))))
+                {
+                    File.WriteAllBytes(Path.Combine(path, Path.ChangeExtension(t, ".pk4")), data.ToArray());
+                    ctr++;
+                }
+                else Util.Alert("File " + Path.Combine(path, Path.ChangeExtension(t, ".pk4")) + " already exists!");
+            }
+            Util.Alert("Conversion successful for " + pastctr + " past generation files. Wrote " + ctr + " files.");
+        }
+        void Menu_PK2PK5Click(object sender, EventArgs e)
+        {
+            string path = "";
+            // open folder dialog
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+                path = fbd.SelectedPath;
+            else return;
+
+            int pastctr = 0;
+            int ctr = 0;
+            string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
+
+            foreach (string t in filepaths)
+            {
+                long len = new FileInfo(t).Length;
+                if (len > PK4.SIZE_PARTY)
+                    continue;
+
+                if (!new[] {PK4.SIZE_STORED, PK4.SIZE_PARTY, PK3.SIZE_STORED, PK3.SIZE_PARTY}.Contains((int)len))
+                    continue;
+                byte[] data = new byte[PK5.SIZE_STORED];
+                switch (Path.GetExtension(t)) // Filter all files by extension
+                {
+                    //case ".pk5":
+                    case ".pk4":
+                    case ".pk3":
+                    case ".3gpkm":
+                    case ".pkm":
+                    {
+                        // Verify PKM (decrypted)
+                        byte[] input = File.ReadAllBytes(t);
+                        if (!PKX.verifychk(input)) continue;
+                        {
+                            try // to convert g5pkm
+                            { data = Converter.ConvertPKMtoPK5(input).Data; pastctr++; }
+                            catch { continue; }
+                        }
+                    }
+                        break;
+                    default:
+                        continue;
+                }
+                //Save pk5 file
+                if (!File.Exists(Path.Combine(path, Path.ChangeExtension(t, ".pk5"))))
+                {
+                    File.WriteAllBytes(Path.Combine(path, Path.ChangeExtension(t, ".pk5")), data.ToArray());
+                    ctr++;
+                }
+                else Util.Alert("File " + Path.Combine(path, Path.ChangeExtension(t, ".pk5")) + " already exists!");
+            }
+            Util.Alert("Conversion successful for " + pastctr + " past generation files. Wrote " + ctr + " files.");
+        }
         #endregion
     }
 }

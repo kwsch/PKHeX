@@ -1076,6 +1076,26 @@ namespace PKHeX
         internal static string OT_Name = "PKHeX";
         internal static int OT_Gender;
 
+        internal static PK4 ConvertPKMtoPK4(byte[] input)
+        {
+            // Detect Input Generation
+            if (input.Length == 100 || input.Length == 80) // PK3
+                return new PK3(input).convertToPK4();
+            return null;  // Invalid
+        }
+
+        internal static PK5 ConvertPKMtoPK5(byte[] input)
+        {
+            // Detect Input Generation
+            if (input.Length == 100 || input.Length == 80) // PK3
+                return new PK3(input).convertToPK4().convertToPK5();
+            if (input.Length != 136 && input.Length != 236 && input.Length != 220)  // Invalid
+                return null;
+            if ((BitConverter.ToUInt16(input, 0x80) >= 0x3333 || input[0x5F] >= 0x10) && BitConverter.ToUInt16(input, 0x46) == 0) // PK5
+                return null;
+            return new PK4(input).convertToPK5(); // PK4
+        }
+
         internal static PK6 ConvertPKMtoPK6(byte[] input)
         {
             // Detect Input Generation
