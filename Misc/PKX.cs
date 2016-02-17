@@ -153,12 +153,12 @@ namespace PKHeX
             try { return SpeciesLang[lang][species]; }
             catch { return ""; }
         }
-        internal static readonly PersonalInfo[] Personal = getPersonalArray(Properties.Resources.personal);
-        internal static PersonalInfo[] getPersonalArray(byte[] data)
+        internal static readonly PersonalInfo[] Personal = getPersonalArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
+        internal static PersonalInfo[] getPersonalArray(byte[] data, int size)
         {
-            PersonalInfo[] d = new PersonalInfo[data.Length / PersonalInfo.Size];
+            PersonalInfo[] d = new PersonalInfo[data.Length / size];
             for (int i = 0; i < d.Length; i++)
-                d[i] = new PersonalInfo(data.Skip(i*PersonalInfo.Size).Take(PersonalInfo.Size).ToArray());
+                d[i] = new PersonalInfo(data.Skip(i*size).Take(size).ToArray());
             return d;
         }
 
@@ -1524,7 +1524,8 @@ namespace PKHeX
 
         public class PersonalInfo
         {
-            internal static int Size = 0x50;
+            internal static int SizeAO = 0x50;
+            internal static int SizeXY = 0x40;
             public byte HP, ATK, DEF, SPE, SPA, SPD;
             public int BST;
             public int EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD;
@@ -1595,10 +1596,10 @@ namespace PKHeX
                     {
                         byte[][] ORASTutorData =
                         {
-                            br.ReadBytes(2), // 15
-                            br.ReadBytes(3), // 17
-                            br.ReadBytes(2), // 16
-                            br.ReadBytes(2), // 15
+                            br.ReadBytes(4), // 15
+                            br.ReadBytes(4), // 17
+                            br.ReadBytes(4), // 16
+                            br.ReadBytes(4), // 15
                         };
                         for (int i = 0; i < 4; i++)
                         {

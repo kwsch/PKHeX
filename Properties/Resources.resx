@@ -5275,8 +5275,8 @@
   <data name="PGLDings_NormalRegular" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\PGLDings-NormalRegular.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="personal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\byte\personal;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="personal_ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_ao;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="countries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\locale\countries.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
@@ -5739,5 +5739,26 @@
   </data>
   <data name="text_Pokeblock_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\text\zh\text_pokeblock_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="eggmove_ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_ao.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eggmove_xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_xy.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="evos_ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\evos_ao.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_ao.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_xy.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_xy;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\warn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

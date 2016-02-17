@@ -9827,12 +9827,42 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eggmove_ao {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eggmove_xy {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_xy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap else_icon {
             get {
                 object obj = ResourceManager.GetObject("else_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] evos_ao {
+            get {
+                object obj = ResourceManager.GetObject("evos_ao", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -14290,6 +14320,26 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_ao {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_xy {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_xy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap national {
@@ -14322,9 +14372,19 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] personal {
+        internal static byte[] personal_ao {
             get {
-                object obj = ResourceManager.GetObject("personal", resourceCulture);
+                object obj = ResourceManager.GetObject("personal_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_xy {
+            get {
+                object obj = ResourceManager.GetObject("personal_xy", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -24197,7 +24257,7 @@ namespace PKHeX.Properties {
         ///Gib mindestens zwei Beeren in den Mixer.
         ///[~ 17]
         ///Du hast [VAR NUM1(0001)] [VAR 01A3(0000)] hergestellt![VAR BE05(0000)][VAR BE05(0001)]
-        ///Willst du [VAR PKNICK(0000)] ein Exe [rest of string was truncated]&quot;;.
+        ///Willst du [VAR PK [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_de {
             get {
@@ -24226,8 +24286,7 @@ namespace PKHeX.Properties {
         ///[~ 17]
         ///You created [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
         ///Give the Pokéblock to [VAR PKNICK(0000)]?
-        ///An Egg can’t eat a Pokéblock!
-        ///Which [rest of string was truncated]&quot;;.
+        ///An Egg can’t ea [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_en {
             get {
@@ -24256,7 +24315,7 @@ namespace PKHeX.Properties {
         ///[~ 17]
         ///¡Has conseguido [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
         ///¿Quieres darle el Pokécubo a [VAR PKNICK(0000)]?
-        ///¡Los Huevos no pueden comérse [rest of string was truncated]&quot;;.
+        ///¡Los Huev [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_es {
             get {
@@ -24285,7 +24344,7 @@ namespace PKHeX.Properties {
         ///[~ 17]
         ///Vous avez concocté [VAR NUM1(0001)] [VAR 01A3(0000)] ![VAR BE05(0000)][VAR BE05(0001)]
         ///Donner un Pokébloc à [VAR PKNICK(0000)] ?
-        ///Un Œuf ne peut pas manger ! [rest of string was truncated]&quot;;.
+        ///Un Œuf  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_fr {
             get {
@@ -24314,8 +24373,7 @@ namespace PKHeX.Properties {
         ///[~ 17]
         ///Hai preparato [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
         ///Vuoi dare la Pokémella a [VAR PKNICK(0000)]?
-        ///Un Uovo non può mangiare Pokémelle!
-        ///A quale Pokémon vu [rest of string was truncated]&quot;;.
+        ///Un Uovo non può mangiare Pokémelle [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_it {
             get {
@@ -24355,16 +24413,7 @@ namespace PKHeX.Properties {
         ///ブレンドスタート
         ///きのみを　もどす
         ///ポケモンにあげる
-        ///やめる
-        ///はい
-        ///いいえ
-        ///ぜんぶ
-        ///あか
-        ///あお
-        ///ももいろ
-        ///みどり
-        ///きいろ
-        /// [rest of string was truncated]&quot;;.
+        ///やめる [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_ja {
             get {
@@ -24403,16 +24452,7 @@ namespace PKHeX.Properties {
         ///노랑으로 추려냈습니다
         ///블렌드 스타트
         ///되돌려 둔다
-        ///포켓몬에게 준다
-        ///그만둔다
-        ///예
-        ///아니요
-        ///전부
-        ///빨강
-        ///파랑
-        ///담홍
-        ///초록
-        ///노랑 [rest of string was truncated]&quot;;.
+        ///포켓몬에게 준 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_ko {
             get {
@@ -24452,16 +24492,7 @@ namespace PKHeX.Properties {
         ///ブレンドスタート
         ///きのみを　もどす
         ///ポケモンにあげる
-        ///やめる
-        ///はい
-        ///いいえ
-        ///ぜんぶ
-        ///あか
-        ///あお
-        ///ももいろ
-        ///みどり
-        ///きいろ
-        /// [rest of string was truncated]&quot;;.
+        ///やめる [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Pokeblock_zh {
             get {
@@ -28350,6 +28381,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap unknown {
             get {
                 object obj = ResourceManager.GetObject("unknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap warn {
+            get {
+                object obj = ResourceManager.GetObject("warn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

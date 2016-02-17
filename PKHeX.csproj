@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\Legality.cs" />
     <Compile Include="Misc\PGT.cs" />
     <Compile Include="Misc\PK3.cs" />
     <Compile Include="Misc\PK4.cs" />
@@ -357,6 +358,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\byte\eggmove_ao.pkl" />
+    <None Include="Resources\byte\eggmove_xy.pkl" />
+    <None Include="Resources\byte\evos_ao.pkl" />
+    <None Include="Resources\byte\lvlmove_ao.pkl" />
+    <None Include="Resources\byte\lvlmove_xy.pkl" />
+    <None Include="Resources\byte\personal_xy" />
+    <None Include="Resources\img\warn.png" />
     <Content Include="Resources\text\de\text_Pokeblock_de.txt" />
     <Content Include="Resources\text\en\text_Pokeblock_en.txt" />
     <Content Include="Resources\text\es\text_Pokeblock_es.txt" />

@@ -126,26 +126,39 @@ namespace PKHeX
             #endregion
         }
 
-        #region Global Variables: Always Visible!
+        #region Important Variables
         public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
         public static PK6 pk6 = new PK6(); // Tab Pokemon Data Storage
         public static SAV6 SAV = new SAV6(); // Save File
-        public static string pathSDF;
-        public static string path3DS;
-
-        public static volatile bool formInitialized, fieldsInitialized;
-        public static bool HaX;
         public static Color defaultControlWhite;
         public static Color defaultControlText;
-        public static int colorizedbox = 32;
-        public static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
-        public static Image colorizedcolor;
-        public static int colorizedslot;
         public static string eggname = "";
         public static string DatabasePath = "db";
-        public static string BackupPath = "bak";
-        public static readonly string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
-        public static readonly string[] main_langlist = 
+        public static string[] gendersymbols = { "♂", "♀", "-" };
+        public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
+            memories, genloc, trainingbags, trainingstage, characteristics,
+            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks = { };
+        public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
+        public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
+        public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
+        public static string[] wallpapernames, puffs, itempouch = { };
+        public static string curlanguage = "en";
+        public static bool unicode;
+        public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
+
+        public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
+        private static int colorizedbox = 32;
+        private static Image colorizedcolor;
+        private static int colorizedslot;
+        private static string pathSDF;
+        private static string path3DS;
+        private static bool HaX;
+        private int[] validMoves = new int[0];
+        private readonly LegalityChecker LC = new LegalityChecker();
+        private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
+        private static readonly string BackupPath = "bak";
+        private static readonly string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
+        private static readonly string[] main_langlist = 
             {
                 "English", // ENG
                 "日本語", // JPN
@@ -157,20 +170,9 @@ namespace PKHeX
                 "中文", // CHN
                 "Português", // Portuguese
             };
-        public static string[] gendersymbols = { "♂", "♀", "-" };
-        public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms, 
-            memories, genloc, trainingbags, trainingstage, characteristics, 
-            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks = { };
-        public static string origintrack;
-        public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
-        public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
-        public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
-        public static string[] wallpapernames, puffs, itempouch = { };
-        public static string curlanguage = "en";
-        public static bool unicode;
-        public readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
-        public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        public readonly PictureBox[] SlotPictureBoxes;
+        private static string origintrack;
+        private readonly PictureBox[] SlotPictureBoxes;
+        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
@@ -1017,7 +1019,7 @@ namespace PKHeX
 
             // Reset a little.
             bool oldInit = fieldsInitialized;
-            fieldsInitialized = false;
+            fieldsInitialized = fieldsLoaded = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
             if (focus)
                 Tab_Main.Focus();
@@ -1146,7 +1148,7 @@ namespace PKHeX
             TB_PP2.Text = pk6.Move2_PP.ToString();
             TB_PP3.Text = pk6.Move3_PP.ToString();
             TB_PP4.Text = pk6.Move4_PP.ToString();
-            
+
             // Set Form if count is enough, else if count is more than 1 set equal to max else zero.
             CB_Form.SelectedIndex = CB_Form.Items.Count > pk6.AltForm ? pk6.AltForm : (CB_Form.Items.Count > 1 ? CB_Form.Items.Count - 1 : 0);
 
@@ -1166,18 +1168,22 @@ namespace PKHeX
             TB_EXP.Text = pk6.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk6.Gender];
             Label_Gender.ForeColor = pk6.Gender == 2 ? Label_Species.ForeColor : (pk6.Gender == 1 ? Color.Red : Color.Blue);
+
             if (HaX) // DEV Illegality
             {
                 DEV_Ability.SelectedValue = pk6.Ability;
                 MT_Level.Text = pk6.Stat_Level.ToString();
                 MT_Form.Text = pk6.AltForm.ToString();
             }
-            
+
             // Set the Preview Box
             dragout.Image = pk6.Sprite;
 
             // Highlight the Current Handler
             clickGT(pk6.CurrentHandler == 1 ? GB_nOT : GB_OT, null);
+
+            fieldsLoaded = true;
+            updateValidMoves();
         }
         // General Use Functions shared by other Forms // 
         internal static void setCountrySubRegion(ComboBox CB, string type)
@@ -1448,6 +1454,7 @@ namespace PKHeX
             }
             changingFields = false;
             updateStats();
+            updateValidMoves();
         }
         private void updateHPType(object sender, EventArgs e)
         {
@@ -1765,6 +1772,8 @@ namespace PKHeX
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
                 updateNickname(sender, e);
+
+            updateValidMoves();
         }
         private void updateOriginGame(object sender, EventArgs e)
         {
@@ -1847,6 +1856,7 @@ namespace PKHeX
                 CB_EncounterType.SelectedValue = 0;
 
             setMarkings(); // Set/Remove KB marking
+            updateValidMoves();
         }
         private void updateExtraByteValue(object sender, EventArgs e)
         {
@@ -1974,6 +1984,8 @@ namespace PKHeX
             CHK_IsEgg.Checked = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
             CB_EggLocation.SelectedValue = 0;
+
+            updateValidMoves();
         }
         private void updateShinyPID(object sender, EventArgs e)
         {
@@ -2036,18 +2048,69 @@ namespace PKHeX
         }
         private void validateComboBox2(object sender, EventArgs e)
         {
-            ComboBox cb = sender as ComboBox;
             validateComboBox(sender, e);
-            if (cb == CB_Ability)
+            if (sender == CB_Ability)
                 TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
-            else if (cb == CB_Move1 || cb == CB_Move2 || cb == CB_Move3 || cb == CB_Move4)
-                updatePP(sender, e);
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
+        }
+        private void validateMove(object sender, EventArgs e)
+        {
+            validateComboBox(sender, e);
+
+            int Version = Util.getIndex(CB_GameOrigin); // 24,25 = XY, 26,27 = ORAS, 28,29 = ???
+            bool gen6 = Version >= 24 && Version <= 29;
+            int index = Array.IndexOf(new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }, sender);
+            if (index > -1) // Move
+            {
+                updatePP(sender, e);
+                int[] moves = validMoves.Concat(new[] {
+                        Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4)
+                    }).ToArray();
+
+                new[] {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4}[index].Visible = gen6 && !moves.Contains(Util.getIndex(sender as ComboBox));
+            }
+            else
+            {
+                bool egg = CHK_AsEgg.Checked && Util.getIndex(CB_EggLocation) > 1000;
+                index = Array.IndexOf(new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4}, sender);
+                ComboBox cb = new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4}[index];
+                PictureBox pb = new[] {PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4}[index];
+                int[] RelearnMoves =
+                {
+                    Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2),
+                    Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4),
+                };
+                if (!egg & gen6)
+                {
+                    pb.Visible = Util.getIndex(cb) > 0;
+                }
+                else if (egg && gen6)
+                {
+                    int[] moves = LC.getValidRelearn(Util.getIndex(CB_Species));
+                    pb.Visible = !moves.Contains(Util.getIndex(cb));
+                }
+                else
+                {
+                    pb.Visible = false;
+                }
+                foreach (ComboBox c in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
+                    validateMove(c, e);
+            }
         }
         private void removedropCB(object sender, KeyEventArgs e)
         {
             ((ComboBox)sender).DroppedDown = false;
+        }
+        private void updateValidMoves()
+        {
+            if (!fieldsLoaded)
+                return;
+            validMoves = LC.getValidMoves(Util.getIndex(CB_Species), Util.ToInt32(MT_Level.Enabled ? MT_Level.Text : TB_Level.Text));
+
+            // refresh
+            foreach (ComboBox cb in new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4})
+                validateMove(cb, null);
         }
         private void updateStats()
         {
@@ -2369,8 +2432,6 @@ namespace PKHeX
             // Fix Moves if a slot is empty 
             pk6.FixMoves();
             pk6.FixRelearn();
-            if (fieldsInitialized && pk6.Moves.All(m => m == 0))
-                Util.Alert("Pokémon has no moves!");
 
             // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer (none for eggs)
             if (Menu_ModifyPK6.Checked)
