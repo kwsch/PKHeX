@@ -651,3 +651,6 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Box Data Report Hidden Power display. Thanks krelbit!
  - Fixed: 4->6 Import ability transferring. Thanks zero2exe!
  - Removed: ram2sav support. If you wish to still use ram2sav, use a compiled version from 9/20/15 or earlier.
+
+XX/XX/XX - New Update:
+ - Added: Basic legality checking of moves.
