@@ -422,7 +422,6 @@ namespace PKHeX
                 : 30001; // Pokétransfer (not Crown)
             
             // Delete HGSS Data
-            pk5.Data[0x41] = 0; // Shiny Leaves/Crown
             BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
             if (HGSSBall > 0 && HGSSBall != 4)
                 pk5.Ball = HGSSBall;
