@@ -2060,6 +2060,7 @@ namespace PKHeX
 
             int Version = Util.getIndex(CB_GameOrigin); // 24,25 = XY, 26,27 = ORAS, 28,29 = ???
             bool gen6 = Version >= 24 && Version <= 29;
+            int species = Util.getIndex(CB_Species);
             int index = Array.IndexOf(new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }, sender);
             if (index > -1) // Move
             {
@@ -2068,19 +2069,15 @@ namespace PKHeX
                         Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4)
                     }).ToArray();
 
-                new[] {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4}[index].Visible = gen6 && !moves.Contains(Util.getIndex(sender as ComboBox));
+                new[] {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4}[index].Visible = gen6 && !moves.Contains(Util.getIndex(sender as ComboBox)) && species != 235; // smeargle
             }
             else
             {
-                bool egg = CHK_AsEgg.Checked && Util.getIndex(CB_EggLocation) > 1000;
+                int eggloc = Util.getIndex(CB_EggLocation);
+                bool egg = CHK_AsEgg.Checked && (eggloc > 1000 || eggloc == 318);
                 index = Array.IndexOf(new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4}, sender);
                 ComboBox cb = new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4}[index];
                 PictureBox pb = new[] {PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4}[index];
-                int[] RelearnMoves =
-                {
-                    Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2),
-                    Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4),
-                };
                 if (!egg & gen6)
                 {
                     pb.Visible = Util.getIndex(cb) > 0;
