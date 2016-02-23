@@ -68,11 +68,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Misc\Legality.cs" />
+    <Compile Include="Legality\Analysis.cs" />
+    <Compile Include="Legality\Core.cs" />
+    <Compile Include="Legality\Data.cs" />
     <Compile Include="Misc\PGT.cs" />
     <Compile Include="Misc\PK3.cs" />
     <Compile Include="Misc\PK4.cs" />
-    <Compile Include="Misc\Legal.cs" />
+    <Compile Include="Legality\Tables.cs" />
     <Compile Include="Misc\PGF.cs" />
     <Compile Include="Misc\PK5.cs" />
     <Compile Include="Misc\PK6.cs" />

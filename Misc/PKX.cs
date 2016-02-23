@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Text;
-using System.IO;
 using System.Linq;
 
 namespace PKHeX
@@ -153,14 +152,7 @@ namespace PKHeX
             try { return SpeciesLang[lang][species]; }
             catch { return ""; }
         }
-        internal static readonly PersonalInfo[] Personal = getPersonalArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
-        internal static PersonalInfo[] getPersonalArray(byte[] data, int size)
-        {
-            PersonalInfo[] d = new PersonalInfo[data.Length / size];
-            for (int i = 0; i < d.Length; i++)
-                d[i] = new PersonalInfo(data.Skip(i*size).Take(size).ToArray());
-            return d;
-        }
+        internal static readonly PersonalInfo[] Personal = Legal.PersonalAO;
 
         // Stat Fetching
         internal static int getMovePP(int move, int ppup)
@@ -1520,120 +1512,6 @@ namespace PKHeX
             };
             if (Set.Form == "F") Set.Gender = "";
             return Set.getText();
-        }
-
-        public class PersonalInfo
-        {
-            internal static int SizeAO = 0x50;
-            internal static int SizeXY = 0x40;
-            public byte HP, ATK, DEF, SPE, SPA, SPD;
-            public int BST;
-            public int EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD;
-            public byte[] Types = new byte[2];
-            public byte CatchRate, EvoStage;
-            public ushort[] Items = new ushort[3];
-            public byte Gender, HatchCycles, BaseFriendship, EXPGrowth;
-            public byte[] EggGroups = new byte[2];
-            public byte[] Abilities = new byte[3];
-            public ushort FormStats, FormeSprite, BaseEXP;
-            public byte FormeCount, Color;
-            public float Height, Weight;
-            public bool[] TMHM;
-            public bool[] Tutors;
-            public bool[][] ORASTutors = new bool[4][];
-            public byte EscapeRate;
-            
-            public PersonalInfo(byte[] data)
-            {
-                using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-                {
-                    HP = br.ReadByte(); ATK = br.ReadByte(); DEF = br.ReadByte();
-                    SPE = br.ReadByte(); SPA = br.ReadByte(); SPD = br.ReadByte();
-                    BST = HP + ATK + DEF + SPE + SPA + SPD;
-
-                    Types = new[] { br.ReadByte(), br.ReadByte() };
-                    CatchRate = br.ReadByte();
-                    EvoStage = br.ReadByte();
-
-                    ushort EVs = br.ReadUInt16();
-                    EV_HP = EVs >> 0 & 0x3;
-                    EV_ATK = EVs >> 2 & 0x3;
-                    EV_DEF = EVs >> 4 & 0x3;
-                    EV_SPE = EVs >> 6 & 0x3;
-                    EV_SPA = EVs >> 8 & 0x3;
-                    EV_SPD = EVs >> 10 & 0x3;
-
-                    Items = new[] { br.ReadUInt16(), br.ReadUInt16(), br.ReadUInt16() };
-                    Gender = br.ReadByte();
-                    HatchCycles = br.ReadByte();
-                    BaseFriendship = br.ReadByte();
-
-                    EXPGrowth = br.ReadByte();
-                    EggGroups = new[] { br.ReadByte(), br.ReadByte() };
-                    Abilities = new[] { br.ReadByte(), br.ReadByte(), br.ReadByte() };
-                    EscapeRate = br.ReadByte();
-                    FormStats = br.ReadUInt16();
-
-                    FormeSprite = br.ReadUInt16();
-                    FormeCount = br.ReadByte();
-                    Color = br.ReadByte();
-                    BaseEXP = br.ReadUInt16();
-
-                    Height = br.ReadUInt16();
-                    Weight = br.ReadUInt16();
-
-                    byte[] TMHMData = br.ReadBytes(0x10);
-                    TMHM = new bool[8 * TMHMData.Length];
-                    for (int j = 0; j < TMHM.Length; j++)
-                        TMHM[j] = (TMHMData[j / 8] >> (j % 8) & 0x1) == 1; //Bitflags for TMHM
-
-                    byte[] TutorData = br.ReadBytes(8);
-                    Tutors = new bool[8 * TutorData.Length];
-                    for (int j = 0; j < Tutors.Length; j++)
-                        Tutors[j] = (TutorData[j / 8] >> (j % 8) & 0x1) == 1; //Bitflags for Tutors
-
-                    if (br.BaseStream.Length - br.BaseStream.Position == 0x10) // ORAS
-                    {
-                        byte[][] ORASTutorData =
-                        {
-                            br.ReadBytes(4), // 15
-                            br.ReadBytes(4), // 17
-                            br.ReadBytes(4), // 16
-                            br.ReadBytes(4), // 15
-                        };
-                        for (int i = 0; i < 4; i++)
-                        {
-                            ORASTutors[i] = new bool[8 * ORASTutorData[i].Length];
-                            for (int b = 0; b < 8 * ORASTutorData[i].Length; b++)
-                                ORASTutors[i][b] = (ORASTutorData[i][b / 8] >> b % 8 & 0x1) == 1;
-                        }
-                    }
-                }
-            }
-
-            // Data Manipulation
-            public int FormeIndex(int species, int forme)
-            {
-                return forme == 0 || FormStats == 0 ? species : FormStats + forme - 1;
-            }
-            public int RandomGender
-            {
-                get
-                {
-                    switch (Gender)
-                    {
-                        case 255: // Genderless
-                            return 2;
-                        case 254: // Female
-                            return 1;
-                        case 0: // Male
-                            return 0;
-                        default:
-                            return (int)(Util.rnd32()%2);
-                    }
-                }
-            }
-            public bool HasFormes => FormeCount > 1;
         }
     }
 }

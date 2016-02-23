@@ -441,6 +441,7 @@ namespace PKHeX
                 if (value.Length > 3) Move4 = value[3];
             }
         }
+        public int CurrentLevel => getLevel(Species, EXP);
 
         // Complex Generated Attributes
         public Image Sprite => getSprite(this);

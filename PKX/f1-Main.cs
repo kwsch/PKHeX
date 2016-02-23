@@ -153,8 +153,7 @@ namespace PKHeX
         private static string pathSDF;
         private static string path3DS;
         private static bool HaX;
-        private int[] validMoves = new int[0];
-        private readonly LegalityChecker LC = new LegalityChecker();
+        private LegalityAnalysis Legality = new LegalityAnalysis(new PK6());
         private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
         private static readonly string BackupPath = "bak";
         private static readonly string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
@@ -2062,14 +2061,23 @@ namespace PKHeX
             bool gen6 = Version >= 24 && Version <= 29;
             int species = Util.getIndex(CB_Species);
             int index = Array.IndexOf(new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }, sender);
+            int[] moves =
+            {
+                Util.getIndex(CB_Move1), Util.getIndex(CB_Move2),
+                Util.getIndex(CB_Move3), Util.getIndex(CB_Move4)
+            };
+            int[] relearnMoves = 
+            {
+                Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2),
+                Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4)
+            };
             if (index > -1) // Move
             {
                 updatePP(sender, e);
-                int[] moves = validMoves.Concat(new[] {
-                        Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4)
-                    }).ToArray();
-
-                new[] {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4}[index].Visible = gen6 && !moves.Contains(Util.getIndex(sender as ComboBox)) && species != 235; // smeargle
+                PictureBox[] moveCB = {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4};
+                bool[] x = Legality.getMoveValidity(moves, relearnMoves);
+                for (int i = 0; i < 4; i++)
+                    moveCB[i].Visible = !x[i];
             }
             else
             {
@@ -2084,8 +2092,7 @@ namespace PKHeX
                 }
                 else if (egg && gen6)
                 {
-                    int[] moves = LC.getValidRelearn(Util.getIndex(CB_Species));
-                    pb.Visible = !moves.Contains(Util.getIndex(cb));
+                    pb.Visible = !Legality.ValidRelearnMoves.Contains(relearnMoves[index]);
                 }
                 else
                 {
@@ -2103,7 +2110,8 @@ namespace PKHeX
         {
             if (!fieldsLoaded)
                 return;
-            validMoves = LC.getValidMoves(Util.getIndex(CB_Species), Util.ToInt32(MT_Level.Enabled ? MT_Level.Text : TB_Level.Text));
+
+            Legality = new LegalityAnalysis(pk6);
 
             // refresh
             foreach (ComboBox cb in new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4})

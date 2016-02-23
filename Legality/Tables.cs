@@ -1,6 +1,6 @@
 ﻿namespace PKHeX
 {
-    internal static class Legal
+    public static partial class Legal
     {
         // PKHeX Valid Array Storage
         #region Items
@@ -166,7 +166,7 @@
         };
         #endregion
         #region TMHM
-        internal static readonly int[] AO_TMHM =
+        internal static readonly int[] TMHM_AO =
         {
             468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
             241, 269, 058, 059, 063, 113, 182, 240, 355, 219,
@@ -181,7 +181,7 @@
 
             15, 19, 57, 70, 127, 249, 291,
         };
-        internal static readonly int[] XY_TMHM =
+        internal static readonly int[] TMHM_XY =
         {
             468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
             241, 269, 058, 059, 063, 113, 182, 240, 355, 219,
@@ -196,8 +196,8 @@
 
             15, 19, 57, 70, 127,
         };
-        internal static readonly int[] AO_TypeTutor = { 338, 307, 308, 520, 519, 518, 434, 620 };
-        internal static readonly int[][] AO_Tutors =
+        internal static readonly int[] TypeTutor = { 338, 307, 308, 520, 519, 518, 434, 620 };
+        internal static readonly int[][] Tutors_AO =
         {
             new[] {450, 343, 162, 530, 324, 442, 402, 529, 340, 67, 441, 253, 9, 7, 8},
             new[] {277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231},
@@ -205,5 +205,9 @@
             new[] {380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285},
         };
         #endregion
+
+        internal static readonly int Struggle = 165;
+        internal static readonly int Chatter = 448;
+        internal static readonly int[] InvalidSketch = {Struggle, Chatter};
     }
 }
