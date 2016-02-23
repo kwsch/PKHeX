@@ -52,7 +52,7 @@ namespace PKHeX
             public int SPD_IV => pk6.IV_SPD;
             public int SPE_IV => pk6.IV_SPE;
             public uint EXP => pk6.EXP;
-            public int Level => pk6.Stat_Level;
+            public int Level => pk6.CurrentLevel;
             public int HP_EV => pk6.EV_HP;
             public int ATK_EV => pk6.EV_ATK;
             public int DEF_EV => pk6.EV_DEF;
