@@ -10,9 +10,11 @@ namespace PKHeX
         private readonly PictureBox[] pba;
         private readonly CheckBox[] cba;
         private readonly Image[] bma;
+        private readonly PK6 pk6;
         public RibbMedal()
         {
             InitializeComponent();
+            pk6 = Main.pk6; // cache copy
             pba = new[] { 
                                    PB_10, PB_11, PB_12, PB_13, 
                                    PB_14, PB_15, PB_16, PB_17,
@@ -54,213 +56,218 @@ namespace PKHeX
             CB_Bag.Items.Add("---");
             for (int i = 1; i < Main.trainingbags.Length - 1; i++)
                 CB_Bag.Items.Add(Main.trainingbags[i]);
-            CB_Bag.SelectedIndex = Main.pk6.TrainingBag;
-            NUD_BagHits.Value = Main.pk6.TrainingBagHits;
-            getRibbons();
+
+            getData();
         }
-        private void getRibbons()
+        private void getData()
         {
-            CHK_Secret.Checked = Main.pk6.SecretSuperTraining;
+            CHK_Secret.Checked = pk6.SecretSuperTraining;
 
-            TMedal1_0.Checked = Main.pk6.Unused0;
-            TMedal1_1.Checked = Main.pk6.Unused1;
-            TMedal1_2.Checked = Main.pk6.ST1_SPA;
-            TMedal1_3.Checked = Main.pk6.ST1_HP;
-            TMedal1_4.Checked = Main.pk6.ST1_ATK;
-            TMedal1_5.Checked = Main.pk6.ST1_SPD;
-            TMedal1_6.Checked = Main.pk6.ST1_SPE;
-            TMedal1_7.Checked = Main.pk6.ST1_DEF;
+            TMedal1_0.Checked = pk6.Unused0;
+            TMedal1_1.Checked = pk6.Unused1;
+            TMedal1_2.Checked = pk6.ST1_SPA;
+            TMedal1_3.Checked = pk6.ST1_HP;
+            TMedal1_4.Checked = pk6.ST1_ATK;
+            TMedal1_5.Checked = pk6.ST1_SPD;
+            TMedal1_6.Checked = pk6.ST1_SPE;
+            TMedal1_7.Checked = pk6.ST1_DEF;
 
-            TMedal2_0.Checked = Main.pk6.ST2_SPA;
-            TMedal2_1.Checked = Main.pk6.ST2_HP;
-            TMedal2_2.Checked = Main.pk6.ST2_ATK;
-            TMedal2_3.Checked = Main.pk6.ST2_SPD;
-            TMedal2_4.Checked = Main.pk6.ST2_SPE;
-            TMedal2_5.Checked = Main.pk6.ST2_DEF;
-            TMedal2_6.Checked = Main.pk6.ST3_SPA;
-            TMedal2_7.Checked = Main.pk6.ST3_HP;
+            TMedal2_0.Checked = pk6.ST2_SPA;
+            TMedal2_1.Checked = pk6.ST2_HP;
+            TMedal2_2.Checked = pk6.ST2_ATK;
+            TMedal2_3.Checked = pk6.ST2_SPD;
+            TMedal2_4.Checked = pk6.ST2_SPE;
+            TMedal2_5.Checked = pk6.ST2_DEF;
+            TMedal2_6.Checked = pk6.ST3_SPA;
+            TMedal2_7.Checked = pk6.ST3_HP;
 
-            TMedal3_0.Checked = Main.pk6.ST3_ATK;
-            TMedal3_1.Checked = Main.pk6.ST3_SPD;
-            TMedal3_2.Checked = Main.pk6.ST3_SPE;
-            TMedal3_3.Checked = Main.pk6.ST3_DEF;
-            TMedal3_4.Checked = Main.pk6.ST4_1;
-            TMedal3_5.Checked = Main.pk6.ST5_1;
-            TMedal3_6.Checked = Main.pk6.ST5_2;
-            TMedal3_7.Checked = Main.pk6.ST5_3;
+            TMedal3_0.Checked = pk6.ST3_ATK;
+            TMedal3_1.Checked = pk6.ST3_SPD;
+            TMedal3_2.Checked = pk6.ST3_SPE;
+            TMedal3_3.Checked = pk6.ST3_DEF;
+            TMedal3_4.Checked = pk6.ST4_1;
+            TMedal3_5.Checked = pk6.ST5_1;
+            TMedal3_6.Checked = pk6.ST5_2;
+            TMedal3_7.Checked = pk6.ST5_3;
 
-            TMedal4_0.Checked = Main.pk6.ST5_4;
-            TMedal4_1.Checked = Main.pk6.ST6_1;
-            TMedal4_2.Checked = Main.pk6.ST6_2;
-            TMedal4_3.Checked = Main.pk6.ST6_3;
-            TMedal4_4.Checked = Main.pk6.ST7_1;
-            TMedal4_5.Checked = Main.pk6.ST7_2;
-            TMedal4_6.Checked = Main.pk6.ST7_3;
-            TMedal4_7.Checked = Main.pk6.ST8_1;
+            TMedal4_0.Checked = pk6.ST5_4;
+            TMedal4_1.Checked = pk6.ST6_1;
+            TMedal4_2.Checked = pk6.ST6_2;
+            TMedal4_3.Checked = pk6.ST6_3;
+            TMedal4_4.Checked = pk6.ST7_1;
+            TMedal4_5.Checked = pk6.ST7_2;
+            TMedal4_6.Checked = pk6.ST7_3;
+            TMedal4_7.Checked = pk6.ST8_1;
 
-            CHK_D0.Checked = Main.pk6.Dist1;
-            CHK_D1.Checked = Main.pk6.Dist2;
-            CHK_D2.Checked = Main.pk6.Dist3;
-            CHK_D3.Checked = Main.pk6.Dist4;
-            CHK_D4.Checked = Main.pk6.Dist5;
-            CHK_D5.Checked = Main.pk6.Dist6;
+            CHK_D0.Checked = pk6.Dist1;
+            CHK_D1.Checked = pk6.Dist2;
+            CHK_D2.Checked = pk6.Dist3;
+            CHK_D3.Checked = pk6.Dist4;
+            CHK_D4.Checked = pk6.Dist5;
+            CHK_D5.Checked = pk6.Dist6;
 
-            Kalos1a_0.Checked = Main.pk6.RIB0_0;
-            Kalos1a_1.Checked = Main.pk6.RIB0_1;
-            Kalos1a_2.Checked = Main.pk6.RIB0_2;
-            Kalos1a_3.Checked = Main.pk6.RIB0_3;
-            Kalos1a_4.Checked = Main.pk6.RIB0_4;
-            Kalos1a_5.Checked = Main.pk6.RIB0_5;
-            Kalos1a_6.Checked = Main.pk6.RIB0_6;
-            Kalos1a_7.Checked = Main.pk6.RIB0_7;
+            Kalos1a_0.Checked = pk6.RIB0_0;
+            Kalos1a_1.Checked = pk6.RIB0_1;
+            Kalos1a_2.Checked = pk6.RIB0_2;
+            Kalos1a_3.Checked = pk6.RIB0_3;
+            Kalos1a_4.Checked = pk6.RIB0_4;
+            Kalos1a_5.Checked = pk6.RIB0_5;
+            Kalos1a_6.Checked = pk6.RIB0_6;
+            Kalos1a_7.Checked = pk6.RIB0_7;
 
-            Kalos1b_0.Checked = Main.pk6.RIB1_0;
-            Kalos1b_1.Checked = Main.pk6.RIB1_1;
-            Kalos1b_2.Checked = Main.pk6.RIB1_2;
-            Kalos1b_3.Checked = Main.pk6.RIB1_3;
-            Kalos1b_4.Checked = Main.pk6.RIB1_4;
-            Kalos1b_5.Checked = Main.pk6.RIB1_5;
-            Kalos1b_6.Checked = Main.pk6.RIB1_6;
-            Kalos1b_7.Checked = Main.pk6.RIB1_7;
+            Kalos1b_0.Checked = pk6.RIB1_0;
+            Kalos1b_1.Checked = pk6.RIB1_1;
+            Kalos1b_2.Checked = pk6.RIB1_2;
+            Kalos1b_3.Checked = pk6.RIB1_3;
+            Kalos1b_4.Checked = pk6.RIB1_4;
+            Kalos1b_5.Checked = pk6.RIB1_5;
+            Kalos1b_6.Checked = pk6.RIB1_6;
+            Kalos1b_7.Checked = pk6.RIB1_7;
 
-            Kalos2a_0.Checked = Main.pk6.RIB2_0;
-            Kalos2a_1.Checked = Main.pk6.RIB2_1;
-            Kalos2a_2.Checked = Main.pk6.RIB2_2;
-            Kalos2a_3.Checked = Main.pk6.RIB2_3;
-            Kalos2a_4.Checked = Main.pk6.RIB2_4;
-            Kalos2a_5.Checked = Main.pk6.RIB2_5;
-            Kalos2a_6.Checked = Main.pk6.RIB2_6;
-            Kalos2a_7.Checked = Main.pk6.RIB2_7;
+            Kalos2a_0.Checked = pk6.RIB2_0;
+            Kalos2a_1.Checked = pk6.RIB2_1;
+            Kalos2a_2.Checked = pk6.RIB2_2;
+            Kalos2a_3.Checked = pk6.RIB2_3;
+            Kalos2a_4.Checked = pk6.RIB2_4;
+            Kalos2a_5.Checked = pk6.RIB2_5;
+            Kalos2a_6.Checked = pk6.RIB2_6;
+            Kalos2a_7.Checked = pk6.RIB2_7;
 
-            Kalos2b_0.Checked = Main.pk6.RIB3_0;
-            Kalos2b_1.Checked = Main.pk6.RIB3_1;
-            Kalos2b_2.Checked = Main.pk6.RIB3_2;
-            Kalos2b_3.Checked = Main.pk6.RIB3_3;
-            Kalos2b_4.Checked = Main.pk6.RIB3_4;
-            Kalos2b_5.Checked = Main.pk6.RIB3_5;
-            Kalos2b_6.Checked = Main.pk6.RIB3_6;
-            Kalos2b_7.Checked = Main.pk6.RIB3_7;
+            Kalos2b_0.Checked = pk6.RIB3_0;
+            Kalos2b_1.Checked = pk6.RIB3_1;
+            Kalos2b_2.Checked = pk6.RIB3_2;
+            Kalos2b_3.Checked = pk6.RIB3_3;
+            Kalos2b_4.Checked = pk6.RIB3_4;
+            Kalos2b_5.Checked = pk6.RIB3_5;
+            Kalos2b_6.Checked = pk6.RIB3_6;
+            Kalos2b_7.Checked = pk6.RIB3_7;
 
-            Extra1_0.Checked = Main.pk6.RIB4_0;
-            Extra1_1.Checked = Main.pk6.RIB4_1;
-            Extra1_2.Checked = Main.pk6.RIB4_2;
-            Extra1_3.Checked = Main.pk6.RIB4_3;
-            Extra1_4.Checked = Main.pk6.RIB4_4;
+            Extra1_0.Checked = pk6.RIB4_0;
+            Extra1_1.Checked = pk6.RIB4_1;
+            Extra1_2.Checked = pk6.RIB4_2;
+            Extra1_3.Checked = pk6.RIB4_3;
+            Extra1_4.Checked = pk6.RIB4_4;
 
             // Introduced in ORAS
-            Extra1_7.Checked = Main.pk6.RIB4_7;
+            Extra1_7.Checked = pk6.RIB4_7;
 
-            ORAS_0.Checked = Main.pk6.RIB5_0;
-            ORAS_1.Checked = Main.pk6.RIB5_1;
-            ORAS_2.Checked = Main.pk6.RIB5_2;
-            ORAS_3.Checked = Main.pk6.RIB5_3;
-            ORAS_4.Checked = Main.pk6.RIB5_4;
-            ORAS_5.Checked = Main.pk6.RIB5_5;
+            ORAS_0.Checked = pk6.RIB5_0;
+            ORAS_1.Checked = pk6.RIB5_1;
+            ORAS_2.Checked = pk6.RIB5_2;
+            ORAS_3.Checked = pk6.RIB5_3;
+            ORAS_4.Checked = pk6.RIB5_4;
+            ORAS_5.Checked = pk6.RIB5_5;
 
-            TB_PastContest.Text = Main.pk6.Memory_ContestCount.ToString();
-            TB_PastBattle.Text = Main.pk6.Memory_BattleCount.ToString();
+            TB_PastContest.Text = pk6.Memory_ContestCount.ToString();
+            TB_PastBattle.Text = pk6.Memory_BattleCount.ToString();
+
+            CB_Bag.SelectedIndex = pk6.TrainingBag;
+            NUD_BagHits.Value = pk6.TrainingBagHits;
         }
-        private void setRibbons()
+        private void setData()
         {
-            Main.pk6.SecretSuperTraining = CHK_Secret.Checked;
+            pk6.SecretSuperTraining = CHK_Secret.Checked;
 
-            Main.pk6.Unused0 = TMedal1_0.Checked;
-            Main.pk6.Unused1 = TMedal1_1.Checked;
-            Main.pk6.ST1_SPA = TMedal1_2.Checked;
-            Main.pk6.ST1_HP  = TMedal1_3.Checked;
-            Main.pk6.ST1_ATK = TMedal1_4.Checked;
-            Main.pk6.ST1_SPD = TMedal1_5.Checked;
-            Main.pk6.ST1_SPE = TMedal1_6.Checked;
-            Main.pk6.ST1_DEF = TMedal1_7.Checked;
+            pk6.Unused0 = TMedal1_0.Checked;
+            pk6.Unused1 = TMedal1_1.Checked;
+            pk6.ST1_SPA = TMedal1_2.Checked;
+            pk6.ST1_HP  = TMedal1_3.Checked;
+            pk6.ST1_ATK = TMedal1_4.Checked;
+            pk6.ST1_SPD = TMedal1_5.Checked;
+            pk6.ST1_SPE = TMedal1_6.Checked;
+            pk6.ST1_DEF = TMedal1_7.Checked;
 
-            Main.pk6.ST2_SPA = TMedal2_0.Checked;
-            Main.pk6.ST2_HP  = TMedal2_1.Checked;
-            Main.pk6.ST2_ATK = TMedal2_2.Checked;
-            Main.pk6.ST2_SPD = TMedal2_3.Checked;
-            Main.pk6.ST2_SPE = TMedal2_4.Checked;
-            Main.pk6.ST2_DEF = TMedal2_5.Checked;
-            Main.pk6.ST3_SPA = TMedal2_6.Checked;
-            Main.pk6.ST3_HP  = TMedal2_7.Checked;
+            pk6.ST2_SPA = TMedal2_0.Checked;
+            pk6.ST2_HP  = TMedal2_1.Checked;
+            pk6.ST2_ATK = TMedal2_2.Checked;
+            pk6.ST2_SPD = TMedal2_3.Checked;
+            pk6.ST2_SPE = TMedal2_4.Checked;
+            pk6.ST2_DEF = TMedal2_5.Checked;
+            pk6.ST3_SPA = TMedal2_6.Checked;
+            pk6.ST3_HP  = TMedal2_7.Checked;
 
-            Main.pk6.ST3_ATK = TMedal3_0.Checked;
-            Main.pk6.ST3_SPD = TMedal3_1.Checked;
-            Main.pk6.ST3_SPE = TMedal3_2.Checked;
-            Main.pk6.ST3_DEF = TMedal3_3.Checked;
-            Main.pk6.ST4_1 = TMedal3_4.Checked;
-            Main.pk6.ST5_1 = TMedal3_5.Checked;
-            Main.pk6.ST5_2 = TMedal3_6.Checked;
-            Main.pk6.ST5_3 = TMedal3_7.Checked;
+            pk6.ST3_ATK = TMedal3_0.Checked;
+            pk6.ST3_SPD = TMedal3_1.Checked;
+            pk6.ST3_SPE = TMedal3_2.Checked;
+            pk6.ST3_DEF = TMedal3_3.Checked;
+            pk6.ST4_1 = TMedal3_4.Checked;
+            pk6.ST5_1 = TMedal3_5.Checked;
+            pk6.ST5_2 = TMedal3_6.Checked;
+            pk6.ST5_3 = TMedal3_7.Checked;
 
-            Main.pk6.ST5_4 = TMedal4_0.Checked;
-            Main.pk6.ST6_1 = TMedal4_1.Checked;
-            Main.pk6.ST6_2 = TMedal4_2.Checked;
-            Main.pk6.ST6_3 = TMedal4_3.Checked;
-            Main.pk6.ST7_1 = TMedal4_4.Checked;
-            Main.pk6.ST7_2 = TMedal4_5.Checked;
-            Main.pk6.ST7_3 = TMedal4_6.Checked;
-            Main.pk6.ST8_1 = TMedal4_7.Checked;
+            pk6.ST5_4 = TMedal4_0.Checked;
+            pk6.ST6_1 = TMedal4_1.Checked;
+            pk6.ST6_2 = TMedal4_2.Checked;
+            pk6.ST6_3 = TMedal4_3.Checked;
+            pk6.ST7_1 = TMedal4_4.Checked;
+            pk6.ST7_2 = TMedal4_5.Checked;
+            pk6.ST7_3 = TMedal4_6.Checked;
+            pk6.ST8_1 = TMedal4_7.Checked;
 
-            Main.pk6.Dist1 = CHK_D0.Checked;
-            Main.pk6.Dist2 = CHK_D1.Checked;
-            Main.pk6.Dist3 = CHK_D2.Checked;
-            Main.pk6.Dist4 = CHK_D3.Checked;
-            Main.pk6.Dist5 = CHK_D4.Checked;
-            Main.pk6.Dist6 = CHK_D5.Checked;
+            pk6.Dist1 = CHK_D0.Checked;
+            pk6.Dist2 = CHK_D1.Checked;
+            pk6.Dist3 = CHK_D2.Checked;
+            pk6.Dist4 = CHK_D3.Checked;
+            pk6.Dist5 = CHK_D4.Checked;
+            pk6.Dist6 = CHK_D5.Checked;
 
-            Main.pk6.RIB0_0 = Kalos1a_0.Checked;
-            Main.pk6.RIB0_1 = Kalos1a_1.Checked;
-            Main.pk6.RIB0_2 = Kalos1a_2.Checked;
-            Main.pk6.RIB0_3 = Kalos1a_3.Checked;
-            Main.pk6.RIB0_4 = Kalos1a_4.Checked;
-            Main.pk6.RIB0_5 = Kalos1a_5.Checked;
-            Main.pk6.RIB0_6 = Kalos1a_6.Checked;
-            Main.pk6.RIB0_7 = Kalos1a_7.Checked;
+            pk6.RIB0_0 = Kalos1a_0.Checked;
+            pk6.RIB0_1 = Kalos1a_1.Checked;
+            pk6.RIB0_2 = Kalos1a_2.Checked;
+            pk6.RIB0_3 = Kalos1a_3.Checked;
+            pk6.RIB0_4 = Kalos1a_4.Checked;
+            pk6.RIB0_5 = Kalos1a_5.Checked;
+            pk6.RIB0_6 = Kalos1a_6.Checked;
+            pk6.RIB0_7 = Kalos1a_7.Checked;
 
-            Main.pk6.RIB1_0 = Kalos1b_0.Checked;
-            Main.pk6.RIB1_1 = Kalos1b_1.Checked;
-            Main.pk6.RIB1_2 = Kalos1b_2.Checked;
-            Main.pk6.RIB1_3 = Kalos1b_3.Checked;
-            Main.pk6.RIB1_4 = Kalos1b_4.Checked;
-            Main.pk6.RIB1_5 = Kalos1b_5.Checked;
-            Main.pk6.RIB1_6 = Kalos1b_6.Checked;
-            Main.pk6.RIB1_7 = Kalos1b_7.Checked;
+            pk6.RIB1_0 = Kalos1b_0.Checked;
+            pk6.RIB1_1 = Kalos1b_1.Checked;
+            pk6.RIB1_2 = Kalos1b_2.Checked;
+            pk6.RIB1_3 = Kalos1b_3.Checked;
+            pk6.RIB1_4 = Kalos1b_4.Checked;
+            pk6.RIB1_5 = Kalos1b_5.Checked;
+            pk6.RIB1_6 = Kalos1b_6.Checked;
+            pk6.RIB1_7 = Kalos1b_7.Checked;
 
-            Main.pk6.RIB2_0 = Kalos2a_0.Checked;
-            Main.pk6.RIB2_1 = Kalos2a_1.Checked;
-            Main.pk6.RIB2_2 = Kalos2a_2.Checked;
-            Main.pk6.RIB2_3 = Kalos2a_3.Checked;
-            Main.pk6.RIB2_4 = Kalos2a_4.Checked;
-            Main.pk6.RIB2_5 = Kalos2a_5.Checked;
-            Main.pk6.RIB2_6 = Kalos2a_6.Checked;
-            Main.pk6.RIB2_7 = Kalos2a_7.Checked;
+            pk6.RIB2_0 = Kalos2a_0.Checked;
+            pk6.RIB2_1 = Kalos2a_1.Checked;
+            pk6.RIB2_2 = Kalos2a_2.Checked;
+            pk6.RIB2_3 = Kalos2a_3.Checked;
+            pk6.RIB2_4 = Kalos2a_4.Checked;
+            pk6.RIB2_5 = Kalos2a_5.Checked;
+            pk6.RIB2_6 = Kalos2a_6.Checked;
+            pk6.RIB2_7 = Kalos2a_7.Checked;
 
-            Main.pk6.RIB3_0 = Kalos2b_0.Checked;
-            Main.pk6.RIB3_1 = Kalos2b_1.Checked;
-            Main.pk6.RIB3_2 = Kalos2b_2.Checked;
-            Main.pk6.RIB3_3 = Kalos2b_3.Checked;
-            Main.pk6.RIB3_4 = Kalos2b_4.Checked;
-            Main.pk6.RIB3_5 = Kalos2b_5.Checked;
-            Main.pk6.RIB3_6 = Kalos2b_6.Checked;
-            Main.pk6.RIB3_7 = Kalos2b_7.Checked;
+            pk6.RIB3_0 = Kalos2b_0.Checked;
+            pk6.RIB3_1 = Kalos2b_1.Checked;
+            pk6.RIB3_2 = Kalos2b_2.Checked;
+            pk6.RIB3_3 = Kalos2b_3.Checked;
+            pk6.RIB3_4 = Kalos2b_4.Checked;
+            pk6.RIB3_5 = Kalos2b_5.Checked;
+            pk6.RIB3_6 = Kalos2b_6.Checked;
+            pk6.RIB3_7 = Kalos2b_7.Checked;
 
-            Main.pk6.RIB4_0 = Extra1_0.Checked;
-            Main.pk6.RIB4_1 = Extra1_1.Checked;
-            Main.pk6.RIB4_2 = Extra1_2.Checked;
-            Main.pk6.RIB4_3 = Extra1_3.Checked;
-            Main.pk6.RIB4_4 = Extra1_4.Checked;
+            pk6.RIB4_0 = Extra1_0.Checked;
+            pk6.RIB4_1 = Extra1_1.Checked;
+            pk6.RIB4_2 = Extra1_2.Checked;
+            pk6.RIB4_3 = Extra1_3.Checked;
+            pk6.RIB4_4 = Extra1_4.Checked;
 
             // Introduced in ORAS
-            Main.pk6.RIB4_7 = Extra1_7.Checked;
+            pk6.RIB4_7 = Extra1_7.Checked;
 
-            Main.pk6.RIB5_0 = ORAS_0.Checked;
-            Main.pk6.RIB5_1 = ORAS_1.Checked;
-            Main.pk6.RIB5_2 = ORAS_2.Checked;
-            Main.pk6.RIB5_3 = ORAS_3.Checked;
-            Main.pk6.RIB5_4 = ORAS_4.Checked;
-            Main.pk6.RIB5_5 = ORAS_5.Checked;
+            pk6.RIB5_0 = ORAS_0.Checked;
+            pk6.RIB5_1 = ORAS_1.Checked;
+            pk6.RIB5_2 = ORAS_2.Checked;
+            pk6.RIB5_3 = ORAS_3.Checked;
+            pk6.RIB5_4 = ORAS_4.Checked;
+            pk6.RIB5_5 = ORAS_5.Checked;
 
-            Main.pk6.Memory_ContestCount = Util.ToInt32(TB_PastContest.Text);
-            Main.pk6.Memory_BattleCount = Util.ToInt32(TB_PastBattle.Text);
+            pk6.Memory_ContestCount = Util.ToInt32(TB_PastContest.Text);
+            pk6.Memory_BattleCount = Util.ToInt32(TB_PastBattle.Text);
+
+            pk6.TrainingBag = CB_Bag.SelectedIndex;
+            pk6.TrainingBagHits = (int)NUD_BagHits.Value;
         }
         private void buttonFlag(bool b)
         {
@@ -308,9 +315,8 @@ namespace PKHeX
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            Main.pk6.TrainingBag = CB_Bag.SelectedIndex;
-            Main.pk6.TrainingBagHits = (int)NUD_BagHits.Value;
-            setRibbons();
+            setData();
+            Main.pk6 = pk6; // set back
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -345,7 +351,6 @@ namespace PKHeX
             TMedal1_0.Visible = TMedal1_0.Checked;
             TMedal1_1.Visible = TMedal1_1.Checked;
         }
-
         private void updateRibbon(object sender, EventArgs e)
         {
             int index = Array.IndexOf(cba, sender);
