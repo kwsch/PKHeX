@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace PKHeX
 {
@@ -39,12 +41,12 @@ namespace PKHeX
         public bool[] getMoveValidity(int[] Moves, int[] RelearnMoves)
         {
             if (Moves.Length != 4)
-                return null;
+                return new bool[4];
 
+            bool[] res = { true, true, true, true };
             if (!pk6.Gen6)
-                return new[] {true, true, true, true};
+                return res;
 
-            bool[] res = new bool[4];
             if (pk6.Species == 235)
             {
                 for (int i = 0; i < 4; i++)
@@ -63,28 +65,38 @@ namespace PKHeX
 
         public bool[] getRelearnValidity(int[] Moves)
         {
-            bool[] res = new bool[4];
             if (Moves.Length != 4)
+                return new bool[4];
+
+            bool[] res = {true, true, true, true};
+            if (!pk6.Gen6)
+                goto noRelearn;
+
+            bool egg = pk6.Egg_Location > 1000 || pk6.Egg_Location == 318;
+            bool evnt = pk6.Met_Location > 40000 || pk6.Egg_Location > 40000;
+            int[] relearnMoves = ValidRelearnMoves;
+            if (evnt)
+            {
+                // Check Event Info
+                // Not Implemented
+            }
+            if (egg)
+            {
+                for (int i = 0; i < 4; i++)
+                    res[i] &= relearnMoves.Contains(Moves[i]);
                 return res;
-
-            if (pk6.Egg_Location == 0) // Never Egg
-            {
-                if (pk6.Met_Location > 40000) // Event
-                {
-                    // Not Implemented
-                }
-                else
-                {
-                    // Check for DexNav
-                    // Not Implemented
-                }
             }
-            else
+            bool dexnav = false;
+            if (dexnav) // not implemented
             {
-                // Check Bred Moves
+                return res;
             }
 
-            return new[] { true, true, true, true };
+            // Should have no relearn moves.
+          noRelearn:
+            for (int i = 0; i < 4; i++)
+                res[i] &= Moves[i] == 0;
+            return res;
         }
 
         public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs;

@@ -2055,49 +2055,37 @@ namespace PKHeX
         }
         private void validateMove(object sender, EventArgs e)
         {
-            validateComboBox(sender, e);
+            if (!fieldsLoaded)
+                return;
 
-            int Version = Util.getIndex(CB_GameOrigin); // 24,25 = XY, 26,27 = ORAS, 28,29 = ???
-            bool gen6 = Version >= 24 && Version <= 29;
-            int species = Util.getIndex(CB_Species);
-            int index = Array.IndexOf(new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }, sender);
-            int[] moves =
-            {
-                Util.getIndex(CB_Move1), Util.getIndex(CB_Move2),
-                Util.getIndex(CB_Move3), Util.getIndex(CB_Move4)
-            };
+            validateComboBox(sender, e);
+            
             int[] relearnMoves = 
             {
                 Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2),
                 Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4)
             };
-            if (index > -1) // Move
+            if (new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Contains(sender)) // Move
             {
                 updatePP(sender, e);
+                int[] moves =
+                {
+                    Util.getIndex(CB_Move1), Util.getIndex(CB_Move2),
+                    Util.getIndex(CB_Move3), Util.getIndex(CB_Move4)
+                };
                 PictureBox[] moveCB = {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4};
-                bool[] x = Legality.getMoveValidity(moves, relearnMoves);
+                bool[] legal = Legality.getMoveValidity(moves, relearnMoves);
                 for (int i = 0; i < 4; i++)
-                    moveCB[i].Visible = !x[i];
+                    moveCB[i].Visible = !legal[i];
             }
             else
             {
-                int eggloc = Util.getIndex(CB_EggLocation);
-                bool egg = CHK_AsEgg.Checked && (eggloc > 1000 || eggloc == 318);
-                index = Array.IndexOf(new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4}, sender);
-                ComboBox cb = new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4}[index];
-                PictureBox pb = new[] {PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4}[index];
-                if (!egg & gen6)
-                {
-                    pb.Visible = Util.getIndex(cb) > 0;
-                }
-                else if (egg && gen6)
-                {
-                    pb.Visible = !Legality.ValidRelearnMoves.Contains(relearnMoves[index]);
-                }
-                else
-                {
-                    pb.Visible = false;
-                }
+                PictureBox[] moveCB = { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
+                bool[] legal = Legality.getRelearnValidity(relearnMoves);
+                for (int i = 0; i < 4; i++)
+                    moveCB[i].Visible = !legal[i];
+
+                // Refresh move states
                 foreach (ComboBox c in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
                     validateMove(c, e);
             }
