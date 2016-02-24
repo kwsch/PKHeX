@@ -7,31 +7,12 @@ namespace PKHeX
 {
     public partial class RibbMedal : Form
     {
-        private readonly Bitmap[] bma;
         private readonly PictureBox[] pba;
         private readonly CheckBox[] cba;
+        private readonly Image[] bma;
         public RibbMedal()
         {
             InitializeComponent();
-            bma = new[] {
-                                   Properties.Resources.kaloschamp, Properties.Resources.hoennchamp,        Properties.Resources.sinnohchamp,   Properties.Resources.bestfriends,
-                                   Properties.Resources.training,   Properties.Resources.skillfullbattler,  Properties.Resources.expertbattler, Properties.Resources.effort,
-
-                                   Properties.Resources.alert,      Properties.Resources.shock,             Properties.Resources.downcast,      Properties.Resources.careless,
-                                   Properties.Resources.relax,      Properties.Resources.snooze,            Properties.Resources.smile,         Properties.Resources.gorgeous,
-
-                                   Properties.Resources.royal,      Properties.Resources.gorgeousroyal,     Properties.Resources.artist,        Properties.Resources.footprint,
-                                   Properties.Resources.record,     Properties.Resources.legend,            Properties.Resources.country,       Properties.Resources.national,
-
-                                   Properties.Resources.earth,      Properties.Resources.world,             Properties.Resources.classic,       Properties.Resources.premier,
-                                   Properties.Resources._event,     Properties.Resources.birthday,          Properties.Resources.special,       Properties.Resources.souvenir,
-
-                                   Properties.Resources.wishing,    Properties.Resources.battlechamp,       Properties.Resources.regionalchamp, Properties.Resources.nationalchamp,
-                                   Properties.Resources.worldchamp,
-                                   
-                                   Properties.Resources.ribbon_40,Properties.Resources.ribbon_41,Properties.Resources.ribbon_42,Properties.Resources.ribbon_43,
-                                   Properties.Resources.ribbon_44,Properties.Resources.ribbon_45,Properties.Resources.ribbon_46,
-                           };
             pba = new[] { 
                                    PB_10, PB_11, PB_12, PB_13, 
                                    PB_14, PB_15, PB_16, PB_17,
@@ -60,8 +41,12 @@ namespace PKHeX
 
                                    Extra1_7, ORAS_0, ORAS_1, ORAS_2, ORAS_3, ORAS_4, ORAS_5, 
                              };
+            bma = new Image[pba.Length];
             for (int i = 0; i < bma.Length; i++)
+            {
+                bma[i] = pba[i].Image;
                 pba[i].Image = Util.ChangeOpacity(bma[i], 0.1);
+            }
             Util.TranslateInterface(this, Main.curlanguage);
 
             // Set up Training Bag Data
@@ -363,12 +348,12 @@ namespace PKHeX
 
         private void updateRibbon(object sender, EventArgs e)
         {
-            int index = Array.IndexOf(cba, sender as CheckBox);
+            int index = Array.IndexOf(cba, sender);
             pba[index].Image = Util.ChangeOpacity(bma[index], (cba[index].Checked ? 1 : 0) * 0.9 + 0.1);
         }
         private void updateMemoryRibbon(object sender, EventArgs e)
         {
-            if ((sender as MaskedTextBox).Text.Length == 0) { (sender as MaskedTextBox).Text = 0.ToString(); return; }
+            if ((sender as MaskedTextBox).Text.Length == 0) { (sender as MaskedTextBox).Text = "0"; return; }
             if (sender as MaskedTextBox == TB_PastContest)
             {
                 var val = Util.ToInt32(TB_PastContest.Text);
@@ -386,8 +371,7 @@ namespace PKHeX
         }
         private void clickRibbon(object sender, EventArgs e)
         {
-            CheckBox cb = cba[Array.IndexOf(pba, sender as PictureBox)];
-            cb.Checked = !cb.Checked;
+            cba[Array.IndexOf(pba, sender)].Checked ^= true;
         }
     }
 }

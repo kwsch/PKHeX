@@ -25,6 +25,8 @@ namespace PKHeX
                 TB_MCRN,TB_MCRS,TB_MBRN,TB_MBRS,
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
+            cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
+            pba = new [] { PB_Badge1, PB_Badge2, PB_Badge3, PB_Badge4, PB_Badge5, PB_Badge6, PB_Badge7, PB_Badge8, };
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = Main.SAV.ORAS;
             L_Style.Visible = TB_Style.Visible = SAV.XY;
@@ -204,6 +206,8 @@ namespace PKHeX
         private bool editing;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
+        private readonly CheckBox[] cba;
+        private readonly PictureBox[] pba;
 
         private void getComboBoxes()
         {
@@ -349,16 +353,13 @@ namespace PKHeX
                                    Properties.Resources.badge_7, 
                                    Properties.Resources.badge_8,
                 };
-            CheckBox[] cba = { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
-            PictureBox[] pba = { PB_Badge1, PB_Badge2, PB_Badge3, PB_Badge4, PB_Badge5, PB_Badge6, PB_Badge7, PB_Badge8, };
 
             for (int i = 0; i < 8; i++)
-                pba[i].Image = Util.ChangeOpacity(bma[i], !cba[i].Checked ? 0.1 : 1);
+                pba[i].Image = Util.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
         }
         private void getTextBoxes()
         {
             int badgeval = SAV.Badges;
-            CheckBox[] cba = { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
             for (int i = 0; i < 8; i++)
                 cba[i].Checked = (badgeval & 1 << i) != 0;
 
@@ -491,7 +492,6 @@ namespace PKHeX
 
             // Copy Badges
             int badgeval = 0;
-            CheckBox[] cba = { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
             for (int i = 0; i < 8; i++)
                 badgeval |= (cba[i].Checked ? 1 : 0) << i;
             SAV.Badges = badgeval;
@@ -542,7 +542,7 @@ namespace PKHeX
 
         private void clickOT(object sender, MouseEventArgs e)
         {
-            TextBox tb = !(sender is TextBox) ? TB_OTName : sender as TextBox;
+            TextBox tb = sender as TextBox ?? TB_OTName;
             // Special Character Form
             if (ModifierKeys != Keys.Control)
                 return;
@@ -636,9 +636,7 @@ namespace PKHeX
         }
         private void toggleBadge(object sender, EventArgs e)
         {
-            int val = Convert.ToInt16(((PictureBox)sender).Name.Last().ToString()) - 1;
-            CheckBox[] chka = { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8 };
-            chka[val].Checked = !chka[val].Checked;
+            cba[Array.IndexOf(pba, sender)].Checked ^= true;
         }
 
         private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)

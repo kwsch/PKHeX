@@ -1325,8 +1325,7 @@ namespace PKHeX
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             CheckBox[] cba = { CHK_Circle, CHK_Triangle, CHK_Square, CHK_Heart, CHK_Star, CHK_Diamond };
 
-            CheckBox cb = cba[Array.IndexOf(pba, sender as PictureBox)];
-            cb.Checked = !cb.Checked;
+            cba[Array.IndexOf(pba, sender)].Checked ^= true;
             setMarkings();
         }
         private void clickStatLabel(object sender, MouseEventArgs e)
@@ -1334,7 +1333,7 @@ namespace PKHeX
             if (!(ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt))
                 return;
 
-            int index = Array.IndexOf(new[] { Label_HP, Label_ATK, Label_DEF, Label_SPA, Label_SPD, Label_SPE }, sender as Label);
+            int index = Array.IndexOf(new[] { Label_HP, Label_ATK, Label_DEF, Label_SPA, Label_SPD, Label_SPE }, sender);
 
             if (ModifierKeys == Keys.Alt) // EV
             {

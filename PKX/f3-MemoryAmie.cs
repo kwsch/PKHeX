@@ -407,7 +407,7 @@ namespace PKHeX
             ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
             ComboBox[] mta = { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
 
-            int index = Array.IndexOf(cba, sender as ComboBox);
+            int index = Array.IndexOf(cba, sender);
             if (Util.getIndex(sender as ComboBox) > 0)
             {
                 Main.setCountrySubRegion(mta[index], "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
@@ -445,7 +445,7 @@ namespace PKHeX
             Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4, };
             ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
             ComboBox[] mta = { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
-            int index = Array.IndexOf(senderarr, sender as Label);
+            int index = Array.IndexOf(senderarr, sender);
             cba[index].SelectedValue = 0;
 
             mta[index].DisplayMember = "Text";
