@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Linq;
 
 namespace PKHeX
 {
@@ -28,6 +26,7 @@ namespace PKHeX
     public class LegalityAnalysis
     {
         public bool Valid = false;
+        public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs;
         public int[] ValidMoves => Legal.getValidMoves(pk6.Species, pk6.CurrentLevel);
         public int[] ValidRelearnMoves => Legal.getValidRelearn(pk6.Species);
         public string Report => getLegalityReport();
@@ -62,7 +61,6 @@ namespace PKHeX
 
             return res;
         }
-
         public bool[] getRelearnValidity(int[] Moves)
         {
             if (Moves.Length != 4)
@@ -98,8 +96,6 @@ namespace PKHeX
                 res[i] &= Moves[i] == 0;
             return res;
         }
-
-        public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs;
         private string getLegalityReport()
         {
             return null;
