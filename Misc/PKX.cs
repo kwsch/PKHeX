@@ -390,21 +390,14 @@ namespace PKHeX
                                         int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
         {
             PersonalInfo p = Personal[Personal[species].FormeIndex(species, form)];
-            int HP_B = p.HP;
-            int ATK_B = p.ATK;
-            int DEF_B = p.DEF;
-            int SPE_B = p.SPE;
-            int SPA_B = p.SPA;
-            int SPD_B = p.SPD;
-
             // Calculate Stats
             ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
-            stats[0] = (ushort)(HP_B == 1 ? 1 : (HP_IV + 2 * HP_B + HP_EV / 4 + 100) * level / 100 + 10);
-            stats[1] = (ushort)((ATK_IV + 2 * ATK_B + ATK_EV / 4) * level / 100 + 5);
-            stats[2] = (ushort)((DEF_IV + 2 * DEF_B + DEF_EV / 4) * level / 100 + 5);
-            stats[4] = (ushort)((SPA_IV + 2 * SPA_B + SPA_EV / 4) * level / 100 + 5);
-            stats[5] = (ushort)((SPD_IV + 2 * SPD_B + SPD_EV / 4) * level / 100 + 5);
-            stats[3] = (ushort)((SPE_IV + 2 * SPE_B + SPE_EV / 4) * level / 100 + 5);
+            stats[0] = (ushort)(p.HP == 1 ? 1 : (HP_IV + 2 * p.HP + HP_EV / 4 + 100) * level / 100 + 10);
+            stats[1] = (ushort)((ATK_IV + 2 * p.ATK + ATK_EV / 4) * level / 100 + 5);
+            stats[2] = (ushort)((DEF_IV + 2 * p.DEF + DEF_EV / 4) * level / 100 + 5);
+            stats[4] = (ushort)((SPA_IV + 2 * p.SPA + SPA_EV / 4) * level / 100 + 5);
+            stats[5] = (ushort)((SPD_IV + 2 * p.SPD + SPD_EV / 4) * level / 100 + 5);
+            stats[3] = (ushort)((SPE_IV + 2 * p.SPE + SPE_EV / 4) * level / 100 + 5);
 
             // Account for nature
             int incr = nature / 5 + 1;
@@ -507,27 +500,27 @@ namespace PKHeX
         internal static bool verifychk(byte[] input)
         {
             ushort checksum = 0;
-            if (input.Length == 100 || input.Length == 80)  // Gen 3 Files
+            if (input.Length == 100 || input.Length == 80) // Gen 3 Files
             {
                 for (int i = 32; i < 80; i += 2)
                     checksum += BitConverter.ToUInt16(input, i);
 
                 return checksum == BitConverter.ToUInt16(input, 28);
             }
-            {
-                if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
-                    Array.Resize(ref input, 136);
-                else if (input.Length == 232 || input.Length == 260) // Gen 6
-                    Array.Resize(ref input, 232);
-                else throw new Exception("Wrong sized input array to verifychecksum");
 
-                ushort chk = 0;
-                for (int i = 8; i < input.Length; i += 2)
-                    chk += BitConverter.ToUInt16(input, i);
+            if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
+                Array.Resize(ref input, 136);
+            else if (input.Length == 232 || input.Length == 260) // Gen 6
+                Array.Resize(ref input, 232);
+            else throw new ArgumentException("Wrong sized input array to verifychecksum");
 
-                return chk == BitConverter.ToUInt16(input, 0x6);
-            }
+            ushort chk = 0;
+            for (int i = 8; i < input.Length; i += 2)
+                chk += BitConverter.ToUInt16(input, i);
+
+            return chk == BitConverter.ToUInt16(input, 0x6);
         }
+
         internal static uint getPSV(uint PID)
         {
             return Convert.ToUInt16((PID >> 16 ^ PID & 0xFFFF) >> 4);
@@ -539,23 +532,18 @@ namespace PKHeX
         internal static uint getRandomPID(int species, int cg)
         {
             int gt = Personal[species].Gender;
-            uint pid = Util.rnd32();
-            if (gt == 255) //Genderless
-                return pid;
-            if (gt == 254) //Female Only
-                gt++;
-            while (true) // Loop until we find a suitable PID
+            if (gt == 255 || gt == 254 || gt == 0) // Set Gender(less)
+                return Util.rnd32(); // PID can be anything
+
+            do
             {
+                uint pid = Util.rnd32();
                 uint gv = pid & 0xFF;
-                if (cg == 2) // Genderless
-                    break;  // PID Passes
                 if (cg == 1 && gv <= gt) // Female
-                    break;  // PID Passes
-                if (cg == 0 && gv > gt)
-                    break;  // PID Passes
-                pid = Util.rnd32();
-            }
-            return pid;
+                    return pid;  // PID Passes
+                if (cg == 0 && gv > gt) // Male
+                    return pid;  // PID Passes
+            } while (true); // Loop until we find a suitable PID
         }
 
         // SAV Manipulation
@@ -1221,11 +1209,6 @@ namespace PKHeX
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
         }
-        internal static readonly string[] hptypes = { 
-            "Fighting", "Flying", "Poison", "Ground",
-            "Rock", "Bug", "Ghost", "Steel", "Fire", "Water",
-            "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"
-        };
         internal static readonly int[,] hpivs = {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
             { 0, 0, 0, 0, 0, 1 }, // Flying
@@ -1253,6 +1236,7 @@ namespace PKHeX
             private static readonly string[] natures = Util.getStringList("Natures", "en");
             private static readonly string[] moves = Util.getStringList("Moves", "en");
             private static readonly string[] abilities = Util.getStringList("Abilities", "en");
+            private static readonly string[] hptypes = Util.getStringList("Types", "en").Skip(1).ToArray();
 
             // Default Set Data
             public string Nickname;
@@ -1481,7 +1465,7 @@ namespace PKHeX
                 {
                     MoveLines[movectr] += "- " + moves[move];
                     if (move == 237)
-                        MoveLines[movectr] += " [" + hptypes[getHPType(IVs)] + "]";
+                        MoveLines[movectr] += $" [{hptypes[getHPType(IVs)]}]";
                     movectr++;
                 }
                 result += string.Join(Environment.NewLine, MoveLines.Take(movectr));
