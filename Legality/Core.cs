@@ -14,7 +14,14 @@ namespace PKHeX
         private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Util.unpackMini(Properties.Resources.eggmove_ao, "ao"));
         private static readonly Learnset[] LevelUpAO = Learnset.getArray(Util.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
         private static readonly Evolutions[] Evolves = Evolutions.getArray(Util.unpackMini(Properties.Resources.evos_ao, "ao"));
-        
+        private static readonly DexNavLocations[] DexNavAO = DexNavLocations.getArray(Util.unpackMini(Properties.Resources.dexnav_ao, "ao"));
+
+        internal static bool getDexNavValid(int species, int location, int level)
+        {
+            DexNavLocations[] locs = DexNavAO.Where(l => l.Location == location).ToArray();
+            return locs.Any(loc => loc.Slots.Any(slot => slot.Species == species && slot.LevelMin <= level));
+        }
+
         internal static int[] getValidMoves(int species, int level)
         {
             int[] r = new int[1];

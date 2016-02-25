@@ -360,6 +360,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\byte\dexnav_ao.pkl" />
     <None Include="Resources\byte\eggmove_ao.pkl" />
     <None Include="Resources\byte\eggmove_xy.pkl" />
     <None Include="Resources\byte\evos_ao.pkl" />

@@ -5761,4 +5761,7 @@
   <data name="warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\warn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="dexnav_ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\dexnav_ao.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

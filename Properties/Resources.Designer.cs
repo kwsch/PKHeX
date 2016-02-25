@@ -9787,6 +9787,16 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] dexnav_ao {
+            get {
+                object obj = ResourceManager.GetObject("dexnav_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap downcast {

@@ -90,6 +90,39 @@ namespace PKHeX
             return data;
         }
     }
+
+    public class DexNavLocations
+    {
+        public readonly int Location;
+        public readonly EncounterSlot[] Slots = new EncounterSlot[3];
+        public DexNavLocations(byte[] data)
+        {
+            Location = BitConverter.ToUInt16(data, 0);
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                Slots[i] = new EncounterSlot
+                {
+                    Species = BitConverter.ToUInt16(data, 2 + i*4),
+                    LevelMin = BitConverter.ToUInt16(data, 4 + i*4)
+                };
+            }
+        }
+        public static DexNavLocations[] getArray(byte[][] entries)
+        {
+            DexNavLocations[] data = new DexNavLocations[entries.Length];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = new DexNavLocations(entries[i]);
+            return data;
+        }
+    }
+
+    public class EncounterSlot
+    {
+        public int Species;
+        public int Form;
+        public int LevelMin;
+        public int LevelMax;
+    }
     public class PersonalInfo
     {
         internal static int SizeAO = 0x50;
