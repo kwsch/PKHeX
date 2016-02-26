@@ -28,8 +28,7 @@ namespace PKHeX
         public bool Valid = false;
         public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs;
         public int[] ValidMoves => Legal.getValidMoves(pk6.Species, pk6.CurrentLevel);
-        public int[] ValidRelearnMoves => Legal.getValidRelearn(pk6.Species);
-        public bool DexNav => Legal.getDexNavValid(pk6.Species, pk6.Met_Location, pk6.Met_Level, pk6.Version);
+        public bool DexNav => Legal.getDexNavValid(pk6);
         public string Report => getLegalityReport();
 
         private readonly PK6 pk6;
@@ -74,7 +73,7 @@ namespace PKHeX
             bool egg = Legal.EggLocations.Contains(pk6.Egg_Location) && pk6.Met_Level == 1;
             bool evnt = pk6.FatefulEncounter && pk6.Met_Location > 40000;
             bool eventEgg = pk6.FatefulEncounter && (pk6.Egg_Location > 40000 || pk6.Egg_Location == 30002) && pk6.Met_Level == 1;
-            int[] relearnMoves = ValidRelearnMoves;
+            int[] relearnMoves = Legal.getValidRelearn(pk6, 0);
             if (evnt || eventEgg)
             {
                 // Check Event Info
@@ -82,10 +81,23 @@ namespace PKHeX
             }
             else if (egg)
             {
-                if (new[] {25, 26, 172}.Contains(pk6.Species)) // 
+                if (Legal.SplitBreed.Contains(pk6.Species))
                 {
-                    relearnMoves = relearnMoves.Concat(new[] {344}).ToArray();
+                    res = new bool[4];
+                    for (int i = 0; i < 4; i++)
+                        res[i] = relearnMoves.Contains(Moves[i]);
+                    if (!res.Any(move => !move))
+                        return res;
+
+                    // Try Next Species up
+                    Legal.getValidRelearn(pk6, 1);
+                    for (int i = 0; i < 4; i++)
+                        res[i] = relearnMoves.Contains(Moves[i]);
+                    return res;
                 }
+
+                if (Legal.LightBall.Contains(pk6.Species))
+                    relearnMoves = relearnMoves.Concat(new[] {344}).ToArray();
                 for (int i = 0; i < 4; i++)
                     res[i] &= relearnMoves.Contains(Moves[i]);
                 return res;

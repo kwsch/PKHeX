@@ -67,18 +67,20 @@ namespace PKHeX
     }
     public class Evolutions
     {
-        public readonly int[] Species, Level;
+        public readonly DexLevel[] Evos = new DexLevel[0];
 
         public Evolutions(byte[] data)
         {
             int Count = data.Length / 4;
-            Level = new int[Count];
-            Species = new int[Count];
             if (data.Length < 4 || data.Length % 4 != 0) return;
+            Evos = new DexLevel[Count];
             for (int i = 0; i < data.Length; i += 4)
             {
-                Species[i / 4] = BitConverter.ToUInt16(data, i);
-                Level[i / 4] = BitConverter.ToUInt16(data, i + 2);
+                Evos[i/4] = new DexLevel
+                {
+                    Species = BitConverter.ToUInt16(data, i),
+                    Level = BitConverter.ToUInt16(data, i + 2)
+                };
             }
         }
 
@@ -89,6 +91,11 @@ namespace PKHeX
                 data[i] = new Evolutions(entries[i]);
             return data;
         }
+    }
+    public class DexLevel
+    {
+        public int Species;
+        public int Level;
     }
 
     public class EncounterArea

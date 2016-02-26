@@ -210,5 +210,25 @@
         internal static readonly int Chatter = 448;
         internal static readonly int[] InvalidSketch = {Struggle, Chatter};
         internal static readonly int[] EggLocations = {318, 60002, 30002};
+        internal static readonly int[] LightBall = { 25, 26, 172 };
+        internal static readonly int[] WildForms =
+        {
+            422, 423,   // Shellos
+            550,        // Basculin
+            669, 670, 671 // Flabébé
+        };
+        internal static readonly int[] SplitBreed =
+        {
+            // Incense
+            113, 242,   // Chansey
+            122,        // Mr. Mime
+            143,        // Snorlax
+            183, 184,   // Marill
+            185,        // Sudowoodo
+            202,        // Wobbuffet
+            226,        // Mantine
+            315, 407,   // Roselia
+            358,        // Chimecho
+        };
     }
 }
