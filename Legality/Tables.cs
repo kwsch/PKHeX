@@ -209,5 +209,6 @@
         internal static readonly int Struggle = 165;
         internal static readonly int Chatter = 448;
         internal static readonly int[] InvalidSketch = {Struggle, Chatter};
+        internal static readonly int[] EggLocations = {318, 60002, 30002};
     }
 }

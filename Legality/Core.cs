@@ -14,11 +14,29 @@ namespace PKHeX
         private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Util.unpackMini(Properties.Resources.eggmove_ao, "ao"));
         private static readonly Learnset[] LevelUpAO = Learnset.getArray(Util.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
         private static readonly Evolutions[] Evolves = Evolutions.getArray(Util.unpackMini(Properties.Resources.evos_ao, "ao"));
-        private static readonly DexNavLocations[] DexNavAO = DexNavLocations.getArray(Util.unpackMini(Properties.Resources.dexnav_ao, "ao"));
-
-        internal static bool getDexNavValid(int species, int location, int level)
+        private static readonly EncounterArea[] SlotsA = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_a, "ao"));
+        private static readonly EncounterArea[] SlotsO = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_o, "ao"));
+        private static readonly EncounterArea[] SlotsX = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_x, "xy"));
+        private static readonly EncounterArea[] SlotsY = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_y, "xy"));
+        private static readonly EncounterArea[] DexNavA = getDexNavSlots(SlotsA);
+        private static readonly EncounterArea[] DexNavO = getDexNavSlots(SlotsO);
+        private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots)
         {
-            DexNavLocations[] locs = DexNavAO.Where(l => l.Location == location).ToArray();
+            EncounterArea[] eA = new EncounterArea[GameSlots.Length];
+            for (int i = 0; i < eA.Length; i++)
+            {
+                eA[i] = GameSlots[i];
+                eA[i].Slots = eA[i].Slots.Take(20).Concat(eA[i].Slots.Skip(25)).ToArray(); // Skip 5 Rock Smash slots.
+            }
+            return eA;
+        }
+
+        internal static bool getDexNavValid(int species, int location, int level, int Version)
+        {
+            bool alpha = Version == 26;
+            if (!alpha && Version != 27)
+                return false;
+            EncounterArea[] locs = (alpha ? DexNavA : DexNavO).Where(l => l.Location == location).ToArray();
             return locs.Any(loc => loc.Slots.Any(slot => slot.Species == species && slot.LevelMin <= level));
         }
 
@@ -55,7 +73,6 @@ namespace PKHeX
             moves = moves.Concat(getEggMoves(species)).ToArray();
             moves = moves.Concat(getLVLMoves(species, 100)).ToArray();
             return moves.Concat(new int[1]).Distinct().ToArray();
-            // Not implemented: DexNav exclusive moves, Wonder Cards
         }
 
         private static int[] getEggMoves(int species)

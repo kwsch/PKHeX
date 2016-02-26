@@ -9787,16 +9787,6 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] dexnav_ao {
-            get {
-                object obj = ResourceManager.GetObject("dexnav_ao", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap downcast {
@@ -9863,6 +9853,46 @@ namespace PKHeX.Properties {
             get {
                 object obj = ResourceManager.GetObject("else_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] encounter_a {
+            get {
+                object obj = ResourceManager.GetObject("encounter_a", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] encounter_o {
+            get {
+                object obj = ResourceManager.GetObject("encounter_o", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] encounter_x {
+            get {
+                object obj = ResourceManager.GetObject("encounter_x", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] encounter_y {
+            get {
+                object obj = ResourceManager.GetObject("encounter_y", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

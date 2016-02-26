@@ -91,27 +91,31 @@ namespace PKHeX
         }
     }
 
-    public class DexNavLocations
+    public class EncounterArea
     {
         public readonly int Location;
-        public readonly EncounterSlot[] Slots = new EncounterSlot[3];
-        public DexNavLocations(byte[] data)
+        public EncounterSlot[] Slots;
+        public EncounterArea(byte[] data)
         {
             Location = BitConverter.ToUInt16(data, 0);
+            Slots = new EncounterSlot[(data.Length-2)/4];
             for (int i = 0; i < Slots.Length; i++)
             {
+                ushort SpecForm = BitConverter.ToUInt16(data, 2 + i*4);
                 Slots[i] = new EncounterSlot
                 {
-                    Species = BitConverter.ToUInt16(data, 2 + i*4),
-                    LevelMin = BitConverter.ToUInt16(data, 4 + i*4)
+                    Species = SpecForm & 0x7FF,
+                    Form = SpecForm >> 11,
+                    LevelMin = data[4 + i*4],
+                    LevelMax = data[5 + i*4],
                 };
             }
         }
-        public static DexNavLocations[] getArray(byte[][] entries)
+        public static EncounterArea[] getArray(byte[][] entries)
         {
-            DexNavLocations[] data = new DexNavLocations[entries.Length];
+            EncounterArea[] data = new EncounterArea[entries.Length];
             for (int i = 0; i < data.Length; i++)
-                data[i] = new DexNavLocations(entries[i]);
+                data[i] = new EncounterArea(entries[i]);
             return data;
         }
     }

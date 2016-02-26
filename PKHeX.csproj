@@ -363,6 +363,12 @@
     <None Include="Resources\byte\dexnav_ao.pkl" />
     <None Include="Resources\byte\eggmove_ao.pkl" />
     <None Include="Resources\byte\eggmove_xy.pkl" />
+    <None Include="Resources\byte\encounter_a.pkl" />
+    <None Include="Resources\byte\encounter_ao.pkl" />
+    <None Include="Resources\byte\encounter_o.pkl" />
+    <None Include="Resources\byte\encounter_x.pkl" />
+    <None Include="Resources\byte\encounter_xy.pkl" />
+    <None Include="Resources\byte\encounter_y.pkl" />
     <None Include="Resources\byte\evos_ao.pkl" />
     <None Include="Resources\byte\lvlmove_ao.pkl" />
     <None Include="Resources\byte\lvlmove_xy.pkl" />
