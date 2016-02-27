@@ -699,7 +699,7 @@ namespace PKHeX
             HT_Memory = 4; // Link trade to [VAR: General Location]
             HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
             HT_Intensity = 1;
-            HT_Feeling = Util.rand.Next(0, 9);
+            HT_Feeling = Util.rand.Next(0, Bank ? 9 : 19); // 0-9 Bank, 0-19 Trade
         }
         public void TradeFriendshipAffection(string SAV_TRAINER)
         {
