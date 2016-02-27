@@ -1854,6 +1854,9 @@ namespace PKHeX
                 CB_EncounterType.SelectedValue = 0;
 
             setMarkings(); // Set/Remove KB marking
+            if (!fieldsLoaded)
+                return;
+            pk6.Version = Version;
             pk6.Met_Location = Util.getIndex(CB_MetLocation);
             pk6.Egg_Location = Util.getIndex(CB_EggLocation);
             updateValidMoves();
