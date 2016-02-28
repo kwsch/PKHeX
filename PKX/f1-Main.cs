@@ -545,7 +545,6 @@ namespace PKHeX
                 Array.Resize(ref input, 0x100000);
             }
             #endregion
-
             #region Saves
             if ((input.Length == SAV6.SIZE_ORAS) && BitConverter.ToUInt32(input, SAV6.SIZE_ORAS - 0x1F0) == SAV6.BEEF) // ORAS
                 openMAIN(input, path);
