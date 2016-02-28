@@ -31,16 +31,19 @@ namespace PKHeX
             ushort actual1 = ccitt16(Data.Skip(SIZE1 - 0x100).Take(0x94).ToArray());
             bool BW = chk1 == actual1;
 
-            if (!BW && !B2W2)
+            if (!BW && !B2W2 && data != null)
                 Data = null; // Invalid/Not G5 Save File
 
             // Different Offsets for different games.
             BattleBox = B2W2 ? 0x20A00 : 0x20900;
         }
 
-        private readonly int Box = 0x400;
-        private readonly int Party = 0x18E00;
+        private const int Box = 0x400;
+        private const int Party = 0x18E00;
         private readonly int BattleBox;
+        private const int Trainer = 0x19400;
+        private const int Wondercard = 0x1C800;
+        private const int wcSeed = 0x1D290;
 
         public int PartyCount
         {
@@ -112,6 +115,51 @@ namespace PKHeX
                         return data.Take(i).ToArray();
                 }
                 return data;
+            }
+        }
+
+        public class MysteryGift
+        {
+            public readonly PGF[] Cards = new PGF[12];
+            public readonly bool[] UsedFlags = new bool[0x800];
+            public uint Seed;
+        }
+        public MysteryGift WondercardInfo
+        {
+            get
+            {
+                uint seed = BitConverter.ToUInt32(Data, wcSeed);
+                MysteryGift Info = new MysteryGift { Seed = seed };
+                byte[] wcData = Data.Skip(Wondercard).Take(0xA90).ToArray(); // Encrypted, Decrypt
+                for (int i = 0; i < wcData.Length; i += 2)
+                    BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(wcData, i) ^ LCRNG(ref seed) >> 16)).CopyTo(wcData, i);
+
+                // 0x100 Bytes for Used Flags
+                for (int i = 0; i < Info.UsedFlags.Length; i++)
+                    Info.UsedFlags[i] = (wcData[i/8] >> i%8 & 0x1) == 1;
+                // 12 PGFs
+                for (int i = 0; i < Info.Cards.Length; i++)
+                    Info.Cards[i] = new PGF(Data.Skip(0x100 + i*PGF.Size).Take(PGF.Size).ToArray());
+
+                return Info;
+            }
+            set
+            {
+                MysteryGift Info = value;
+                byte[] wcData = new byte[0xA90];
+
+                // Toss back into byte[]
+                for (int i = 0; i < Info.UsedFlags.Length; i++)
+                    if (Info.UsedFlags[i])
+                        wcData[i/8] |= (byte)(1 << (i & 7));
+                for (int i = 0; i < Info.Cards.Length; i++)
+                    Info.Cards[i].Data.CopyTo(wcData, 0x100 + i*PGF.Size);
+
+                // Decrypted, Encrypt
+                uint seed = Info.Seed;
+                for (int i = 0; i < wcData.Length; i += 2)
+                    BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(wcData, i) ^ LCRNG(ref seed) >> 16)).CopyTo(wcData, i);
+                BitConverter.GetBytes(Info.Seed).CopyTo(Data, wcSeed);
             }
         }
 
