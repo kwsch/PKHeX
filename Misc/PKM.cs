@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX
 {
-    public static class PKM // Past Gen
+    public class PKM // Past Gen
     {
         internal static uint LCRNG(uint seed)
         {
@@ -111,6 +111,26 @@ namespace PKHeX
 
             // Done
             return ekm;
+        }
+
+        /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
+        /// <param name="chunk">Input byte array</param>
+        /// <returns>Checksum</returns>
+        internal static ushort ccitt16(byte[] chunk)
+        {
+            ushort crc = 0xFFFF;
+            foreach (byte t in chunk)
+            {
+                crc ^= (ushort)(t << 8);
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((crc & 0x8000) > 0)
+                        crc = (ushort)(crc << 1 ^ 0x1021);
+                    else
+                        crc <<= 1;
+                }
+            }
+            return crc;
         }
 
         internal static int getUnownForm(uint PID)

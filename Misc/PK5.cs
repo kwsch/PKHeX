@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class PK5 // 5th Generation PKM File
+    public class PK5 : PKM // 5th Generation PKM File
     {
         internal const int SIZE_PARTY = 220;
         internal const int SIZE_STORED = 136;
@@ -168,7 +168,7 @@ namespace PKHeX
         {
             get
             {
-                return PKM.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x48, 22))
+                return TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x48, 22))
                     .Replace("\uE08F", "\u2640") // nidoran
                     .Replace("\uE08E", "\u2642") // nidoran
                     .Replace("\u2019", "\u0027"); // farfetch'd
@@ -231,7 +231,7 @@ namespace PKHeX
         {
             get
             {
-                return PKM.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x68, 16))
+                return TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x68, 16))
                     .Replace("\uE08F", "\u2640") // Nidoran ♂
                     .Replace("\uE08E", "\u2642") // Nidoran ♀
                     .Replace("\u2019", "\u0027"); // farfetch'd
@@ -297,6 +297,10 @@ namespace PKHeX
                 if (value.Length > 3) Move4 = value[3]; } }
 
         // Complex Generated Attributes
+        public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
+        public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
+        public byte[] DecryptedPartyData => Data.Take(SIZE_PARTY).ToArray();
+        public byte[] DecryptedBoxData => Data.Take(SIZE_STORED).ToArray();
         public int Characteristic
         {
             get
@@ -336,7 +340,7 @@ namespace PKHeX
         public ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < SIZE_STORED; i += 2) // Loop through the entire PK6
+            for (int i = 8; i < SIZE_STORED; i += 2) // Loop through the entire PK5
                 chk += BitConverter.ToUInt16(Data, i);
 
             return chk;
@@ -384,6 +388,11 @@ namespace PKHeX
                 Move1_PPUps = Move2_PPUps;
                 Move2 = Move2_PP = Move2_PPUps = 0;
             }
+        }
+        public byte[] Encrypt()
+        {
+            Checksum = CalculateChecksum();
+            return encryptArray(Data);
         }
 
         public PK6 convertToPK6()
