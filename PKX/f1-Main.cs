@@ -1182,7 +1182,7 @@ namespace PKHeX
             clickGT(pk6.CurrentHandler == 1 ? GB_nOT : GB_OT, null);
 
             fieldsLoaded = true;
-            updateValidMoves();
+            updateLegality();
         }
         // General Use Functions shared by other Forms // 
         internal static void setCountrySubRegion(ComboBox CB, string type)
@@ -1452,7 +1452,7 @@ namespace PKHeX
             }
             changingFields = false;
             updateStats();
-            updateValidMoves();
+            updateLegality();
         }
         private void updateHPType(object sender, EventArgs e)
         {
@@ -1771,7 +1771,7 @@ namespace PKHeX
             if (!CHK_Nicknamed.Checked)
                 updateNickname(sender, e);
 
-            updateValidMoves();
+            updateLegality();
         }
         private void updateOriginGame(object sender, EventArgs e)
         {
@@ -1857,9 +1857,7 @@ namespace PKHeX
             if (!fieldsLoaded)
                 return;
             pk6.Version = Version;
-            pk6.Met_Location = Util.getIndex(CB_MetLocation);
-            pk6.Egg_Location = Util.getIndex(CB_EggLocation);
-            updateValidMoves();
+            updateLegality();
         }
         private void updateExtraByteValue(object sender, EventArgs e)
         {
@@ -1988,7 +1986,7 @@ namespace PKHeX
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
             CB_EggLocation.SelectedValue = 0;
 
-            updateValidMoves();
+            updateLegality();
         }
         private void updateShinyPID(object sender, EventArgs e)
         {
@@ -2037,7 +2035,8 @@ namespace PKHeX
             updateIVs(null, null);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
         }
-        private void validateComboBox(object sender, EventArgs e)
+
+        private void validateComboBox(object sender)
         {
             if (!(sender is ComboBox))
                 return;
@@ -2045,8 +2044,15 @@ namespace PKHeX
             ComboBox cb = (ComboBox)sender;
             cb.SelectionLength = 0;
             cb.BackColor = cb.SelectedValue == null ? Color.DarkSalmon : defaultControlWhite;
+        }
+        private void validateComboBox(object sender, EventArgs e)
+        {
+            if (!(sender is ComboBox))
+                return;
 
-            if (fieldsInitialized)
+            validateComboBox(sender);
+
+            if (fieldsLoaded)
                 getQuickFiller(dragout);
         }
         private void validateComboBox2(object sender, EventArgs e)
@@ -2062,8 +2068,8 @@ namespace PKHeX
             if (!fieldsLoaded)
                 return;
 
-            validateComboBox(sender, e);
-            
+            validateComboBox(sender);
+
             int[] relearnMoves = 
             {
                 Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2),
@@ -2094,11 +2100,21 @@ namespace PKHeX
                     validateMove(c, e);
             }
         }
+        private void validateLocation(object sender, EventArgs e)
+        {
+            validateComboBox(sender);
+            if (!fieldsLoaded)
+                return;
+
+            pk6.Met_Location = Util.getIndex(CB_MetLocation);
+            pk6.Egg_Location = Util.getIndex(CB_EggLocation);
+            updateLegality();
+        }
         private void removedropCB(object sender, KeyEventArgs e)
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void updateValidMoves()
+        private void updateLegality()
         {
             if (!fieldsLoaded)
                 return;

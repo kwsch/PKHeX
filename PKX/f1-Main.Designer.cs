@@ -155,6 +155,9 @@
             this.PB_WarnMove2 = new System.Windows.Forms.PictureBox();
             this.PB_WarnMove1 = new System.Windows.Forms.PictureBox();
             this.GB_RelearnMoves = new System.Windows.Forms.GroupBox();
+            this.PB_WarnRelearn4 = new System.Windows.Forms.PictureBox();
+            this.PB_WarnRelearn3 = new System.Windows.Forms.PictureBox();
+            this.PB_WarnRelearn2 = new System.Windows.Forms.PictureBox();
             this.PB_WarnRelearn1 = new System.Windows.Forms.PictureBox();
             this.CB_RelearnMove4 = new System.Windows.Forms.ComboBox();
             this.CB_RelearnMove3 = new System.Windows.Forms.ComboBox();
@@ -357,9 +360,6 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.L_QR = new System.Windows.Forms.Label();
-            this.PB_WarnRelearn2 = new System.Windows.Forms.PictureBox();
-            this.PB_WarnRelearn3 = new System.Windows.Forms.PictureBox();
-            this.PB_WarnRelearn4 = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -372,6 +372,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove1)).BeginInit();
             this.GB_RelearnMoves.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn1)).BeginInit();
             this.GB_CurrentMoves.SuspendLayout();
             this.Tab_OTMisc.SuspendLayout();
@@ -455,9 +458,6 @@
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn4)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -1102,7 +1102,7 @@
             this.CB_EggLocation.Name = "CB_EggLocation";
             this.CB_EggLocation.Size = new System.Drawing.Size(122, 21);
             this.CB_EggLocation.TabIndex = 10;
-            this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
+            this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.validateLocation);
             this.CB_EggLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
             // 
@@ -1210,7 +1210,7 @@
             this.CB_MetLocation.Name = "CB_MetLocation";
             this.CB_MetLocation.Size = new System.Drawing.Size(122, 21);
             this.CB_MetLocation.TabIndex = 2;
-            this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
+            this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.validateLocation);
             this.CB_MetLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
             // 
@@ -1943,6 +1943,36 @@
             this.GB_RelearnMoves.TabIndex = 1;
             this.GB_RelearnMoves.TabStop = false;
             this.GB_RelearnMoves.Text = "Relearn Moves";
+            // 
+            // PB_WarnRelearn4
+            // 
+            this.PB_WarnRelearn4.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnRelearn4.Location = new System.Drawing.Point(22, 93);
+            this.PB_WarnRelearn4.Name = "PB_WarnRelearn4";
+            this.PB_WarnRelearn4.Size = new System.Drawing.Size(16, 16);
+            this.PB_WarnRelearn4.TabIndex = 19;
+            this.PB_WarnRelearn4.TabStop = false;
+            this.PB_WarnRelearn4.Visible = false;
+            // 
+            // PB_WarnRelearn3
+            // 
+            this.PB_WarnRelearn3.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnRelearn3.Location = new System.Drawing.Point(22, 71);
+            this.PB_WarnRelearn3.Name = "PB_WarnRelearn3";
+            this.PB_WarnRelearn3.Size = new System.Drawing.Size(16, 16);
+            this.PB_WarnRelearn3.TabIndex = 18;
+            this.PB_WarnRelearn3.TabStop = false;
+            this.PB_WarnRelearn3.Visible = false;
+            // 
+            // PB_WarnRelearn2
+            // 
+            this.PB_WarnRelearn2.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnRelearn2.Location = new System.Drawing.Point(22, 49);
+            this.PB_WarnRelearn2.Name = "PB_WarnRelearn2";
+            this.PB_WarnRelearn2.Size = new System.Drawing.Size(16, 16);
+            this.PB_WarnRelearn2.TabIndex = 17;
+            this.PB_WarnRelearn2.TabStop = false;
+            this.PB_WarnRelearn2.Visible = false;
             // 
             // PB_WarnRelearn1
             // 
@@ -4333,36 +4363,6 @@
             this.L_QR.Visible = false;
             this.L_QR.Click += new System.EventHandler(this.clickQR);
             // 
-            // PB_WarnRelearn2
-            // 
-            this.PB_WarnRelearn2.Image = global::PKHeX.Properties.Resources.warn;
-            this.PB_WarnRelearn2.Location = new System.Drawing.Point(22, 49);
-            this.PB_WarnRelearn2.Name = "PB_WarnRelearn2";
-            this.PB_WarnRelearn2.Size = new System.Drawing.Size(16, 16);
-            this.PB_WarnRelearn2.TabIndex = 17;
-            this.PB_WarnRelearn2.TabStop = false;
-            this.PB_WarnRelearn2.Visible = false;
-            // 
-            // PB_WarnRelearn3
-            // 
-            this.PB_WarnRelearn3.Image = global::PKHeX.Properties.Resources.warn;
-            this.PB_WarnRelearn3.Location = new System.Drawing.Point(22, 71);
-            this.PB_WarnRelearn3.Name = "PB_WarnRelearn3";
-            this.PB_WarnRelearn3.Size = new System.Drawing.Size(16, 16);
-            this.PB_WarnRelearn3.TabIndex = 18;
-            this.PB_WarnRelearn3.TabStop = false;
-            this.PB_WarnRelearn3.Visible = false;
-            // 
-            // PB_WarnRelearn4
-            // 
-            this.PB_WarnRelearn4.Image = global::PKHeX.Properties.Resources.warn;
-            this.PB_WarnRelearn4.Location = new System.Drawing.Point(22, 93);
-            this.PB_WarnRelearn4.Name = "PB_WarnRelearn4";
-            this.PB_WarnRelearn4.Size = new System.Drawing.Size(16, 16);
-            this.PB_WarnRelearn4.TabIndex = 19;
-            this.PB_WarnRelearn4.TabStop = false;
-            this.PB_WarnRelearn4.Visible = false;
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -4400,6 +4400,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove1)).EndInit();
             this.GB_RelearnMoves.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn1)).EndInit();
             this.GB_CurrentMoves.ResumeLayout(false);
             this.GB_CurrentMoves.PerformLayout();
@@ -4497,9 +4500,6 @@
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
