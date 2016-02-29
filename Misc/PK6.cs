@@ -441,6 +441,17 @@ namespace PKHeX
                 if (value.Length > 3) Move4 = value[3];
             }
         }
+        public int[] RelearnMoves
+        {
+            get { return new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 }; }
+            set
+            {
+                if (value.Length > 0) RelearnMove1 = value[0];
+                if (value.Length > 1) RelearnMove2 = value[1];
+                if (value.Length > 2) RelearnMove3 = value[2];
+                if (value.Length > 3) RelearnMove4 = value[3];
+            }
+        }
         public int CurrentLevel => getLevel(Species, EXP);
 
         // Complex Generated Attributes
@@ -532,45 +543,17 @@ namespace PKHeX
         // General User-error Fixes
         public void FixMoves()
         {
-            if (Move4 != 0 && Move3 == 0)
-            {
-                Move3 = Move4;
-                Move3_PP = Move4_PP;
-                Move3_PPUps = Move4_PPUps;
-                Move4 = Move4_PP = Move4_PPUps = 0;
-            }
-            if (Move3 != 0 && Move2 == 0)
-            {
-                Move2 = Move3;
-                Move2_PP = Move3_PP;
-                Move2_PPUps = Move3_PPUps;
-                Move3 = Move3_PP = Move3_PPUps = 0;
-            }
-            if (Move2 != 0 && Move1 == 0)
-            {
-                Move1 = Move2;
-                Move1_PP = Move2_PP;
-                Move1_PPUps = Move2_PPUps;
-                Move2 = Move2_PP = Move2_PPUps = 0;
-            }
+            int[] moves = new int[4]; int ctr = 0;
+            for (int i = 0; i < moves.Length; i++)
+                if (Moves[i] != 0) moves[ctr++] = Moves[i];
+            Moves = moves;
         }
         public void FixRelearn()
         {
-            if (RelearnMove4 != 0 && RelearnMove3 == 0)
-            {
-                RelearnMove3 = RelearnMove4;
-                RelearnMove4 = 0;
-            }
-            if (RelearnMove3 != 0 && RelearnMove2 == 0)
-            {
-                RelearnMove2 = RelearnMove3;
-                RelearnMove3 = 0;
-            }
-            if (RelearnMove2 != 0 && RelearnMove1 == 0)
-            {
-                RelearnMove1 = RelearnMove2;
-                RelearnMove2 = 0;
-            }
+            int[] moves = new int[4]; int ctr = 0;
+            for (int i = 0; i < moves.Length; i++)
+                if (RelearnMoves[i] != 0) moves[ctr++] = RelearnMoves[i];
+            RelearnMoves = moves;
         }
         public void FixMemories()
         {
