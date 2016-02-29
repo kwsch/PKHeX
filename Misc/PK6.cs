@@ -532,44 +532,57 @@ namespace PKHeX
         // General User-error Fixes
         public void FixMoves()
         {
-            if (Move4 != 0 && Move3 == 0)
+            while (true)
             {
-                Move3 = Move4;
-                Move3_PP = Move4_PP;
-                Move3_PPUps = Move4_PPUps;
-                Move4 = Move4_PP = Move4_PPUps = 0;
-            }
-            if (Move3 != 0 && Move2 == 0)
-            {
-                Move2 = Move3;
-                Move2_PP = Move3_PP;
-                Move2_PPUps = Move3_PPUps;
-                Move3 = Move3_PP = Move3_PPUps = 0;
-            }
-            if (Move2 != 0 && Move1 == 0)
-            {
-                Move1 = Move2;
-                Move1_PP = Move2_PP;
-                Move1_PPUps = Move2_PPUps;
-                Move2 = Move2_PP = Move2_PPUps = 0;
+                if (Move4 != 0 && Move3 == 0)
+                {
+                    Move3 = Move4;
+                    Move3_PP = Move4_PP;
+                    Move3_PPUps = Move4_PPUps;
+                    Move4 = Move4_PP = Move4_PPUps = 0;
+                }
+                if (Move3 != 0 && Move2 == 0)
+                {
+                    Move2 = Move3;
+                    Move2_PP = Move3_PP;
+                    Move2_PPUps = Move3_PPUps;
+                    Move3 = Move3_PP = Move3_PPUps = 0;
+                    continue;
+                }
+                if (Move2 != 0 && Move1 == 0)
+                {
+                    Move1 = Move2;
+                    Move1_PP = Move2_PP;
+                    Move1_PPUps = Move2_PPUps;
+                    Move2 = Move2_PP = Move2_PPUps = 0;
+                    continue;
+                }
+                break;
             }
         }
+
         public void FixRelearn()
         {
-            if (RelearnMove4 != 0 && RelearnMove3 == 0)
+            while (true)
             {
-                RelearnMove3 = RelearnMove4;
-                RelearnMove4 = 0;
-            }
-            if (RelearnMove3 != 0 && RelearnMove2 == 0)
-            {
-                RelearnMove2 = RelearnMove3;
-                RelearnMove3 = 0;
-            }
-            if (RelearnMove2 != 0 && RelearnMove1 == 0)
-            {
-                RelearnMove1 = RelearnMove2;
-                RelearnMove2 = 0;
+                if (RelearnMove4 != 0 && RelearnMove3 == 0)
+                {
+                    RelearnMove3 = RelearnMove4;
+                    RelearnMove4 = 0;
+                }
+                if (RelearnMove3 != 0 && RelearnMove2 == 0)
+                {
+                    RelearnMove2 = RelearnMove3;
+                    RelearnMove3 = 0;
+                    continue;
+                }
+                if (RelearnMove2 != 0 && RelearnMove1 == 0)
+                {
+                    RelearnMove1 = RelearnMove2;
+                    RelearnMove2 = 0;
+                    continue;
+                }
+                break;
             }
         }
         public void FixMemories()
