@@ -374,6 +374,7 @@
     <None Include="Resources\byte\lvlmove_ao.pkl" />
     <None Include="Resources\byte\lvlmove_xy.pkl" />
     <None Include="Resources\byte\personal_xy" />
+    <None Include="Resources\byte\wc6.pkl" />
     <None Include="Resources\img\warn.png" />
     <Content Include="Resources\text\de\text_Pokeblock_de.txt" />
     <Content Include="Resources\text\en\text_Pokeblock_en.txt" />

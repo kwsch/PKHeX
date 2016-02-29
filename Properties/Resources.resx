@@ -5773,4 +5773,7 @@
   <data name="encounter_y" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\encounter_y.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="wc6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\wc6.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

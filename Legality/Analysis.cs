@@ -76,8 +76,23 @@ namespace PKHeX
             int[] relearnMoves = Legal.getValidRelearn(pk6, 0);
             if (evnt || eventEgg)
             {
-                // Check Event Info
-                // Not Implemented
+                if (evnt)
+                {
+                    // Get WC6's that match
+                    WC6[] vwc6 = Legal.WC6DB.Where(
+                            wc6 => wc6.CardID == pk6.SID && 
+                            wc6.Species == pk6.Species && 
+                            wc6.OT == pk6.OT_Name).ToArray();
+
+                    // Iterate over all
+                    foreach (WC6 wc6 in vwc6)
+                    {
+                        for (int i = 0; i < 4; i++)
+                            res[i] = wc6.RelearnMoves[i] == Moves[i];
+                        if (res.All(b=>b)) // At least one card matches the relearn moves.
+                            return res;
+                    }
+                }
             }
             else if (egg)
             {

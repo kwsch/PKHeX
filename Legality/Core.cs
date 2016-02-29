@@ -5,6 +5,7 @@ namespace PKHeX
 {
     public static partial class Legal
     {
+        internal static WC6[] WC6DB;
         // PKHeX master personal.dat
         internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getPersonalArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
 

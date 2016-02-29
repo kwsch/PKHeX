@@ -77,6 +77,8 @@ namespace PKHeX
             MT_Level.Enabled = MT_Level.Visible = TB_AbilityNumber.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
             // Hide Regular Stuff if !HaX
             TB_Level.Visible = CB_Ability.Visible = !HaX;
+            // Load WC6 folder to legality
+            refreshWC6DB();
             #endregion
             #region Localize & Populate Fields
             // Try and detect the language
@@ -133,7 +135,8 @@ namespace PKHeX
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static string eggname = "";
-        public static string DatabasePath = "db";
+        public const string DatabasePath = "db";
+        public const string WC6DatabasePath = "wc6";
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
@@ -797,6 +800,21 @@ namespace PKHeX
             string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
             if (SAV.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
                 File.WriteAllBytes(backupName, SAV.BAK);
+        }
+        private void refreshWC6DB()
+        {
+            List<WC6> wc6db = new List<WC6>();
+            byte[] wc6bin = Properties.Resources.wc6;
+            for (int i = 0; i < wc6bin.Length; i += WC6.Size)
+                wc6db.Add(new WC6(wc6bin.Skip(i).Take(WC6.Size).ToArray()));
+            
+            if (Directory.Exists(WC6DatabasePath))
+                wc6db.AddRange(from file in Directory.GetFiles(WC6DatabasePath, "*", SearchOption.AllDirectories)
+                    let fi = new FileInfo(file)
+                    where fi.Extension == ".wc6" && fi.Length == WC6.Size
+                    select new WC6(File.ReadAllBytes(file)));
+
+            Legal.WC6DB = wc6db.Distinct().ToArray();
         }
 
         // Language Translation
