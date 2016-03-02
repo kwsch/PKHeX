@@ -610,35 +610,43 @@ namespace PKHeX
             Geo4_Region = Geo4_Country > 0 ? Geo4_Region : 0;
             Geo5_Region = Geo5_Country > 0 ? Geo5_Region : 0;
 
-            if (Geo5_Country != 0 && Geo4_Country == 0)
+            while (true)
             {
-                Geo4_Country = Geo5_Country;
-                Geo4_Region = Geo5_Region;
-                Geo5_Country = Geo5_Region = 0;
-            }
-            if (Geo4_Country != 0 && Geo3_Country == 0)
-            {
-                Geo3_Country = Geo4_Country;
-                Geo3_Region = Geo4_Region;
-                Geo4_Country = Geo4_Region = 0;
-            }
-            if (Geo3_Country != 0 && Geo2_Country == 0)
-            {
-                Geo2_Country = Geo3_Country;
-                Geo2_Region = Geo3_Region;
-                Geo3_Country = Geo3_Region = 0;
-            }
-            if (Geo2_Country != 0 && Geo1_Country == 0)
-            {
-                Geo1_Country = Geo2_Country;
-                Geo1_Region = Geo2_Region;
-                Geo2_Country = Geo2_Region = 0;
-            }
-            if (Geo1_Country == 0 && !IsUntraded && !IsUntradedEvent6)
-            {
-                // Traded Non-Eggs/Events need to have a current location.
-                Geo1_Country = Country;
-                Geo1_Region = Region;
+                if (Geo5_Country != 0 && Geo4_Country == 0)
+                {
+                    Geo4_Country = Geo5_Country;
+                    Geo4_Region = Geo5_Region;
+                    Geo5_Country = Geo5_Region = 0;
+                }
+                if (Geo4_Country != 0 && Geo3_Country == 0)
+                {
+                    Geo3_Country = Geo4_Country;
+                    Geo3_Region = Geo4_Region;
+                    Geo4_Country = Geo4_Region = 0;
+                    continue;
+                }
+                if (Geo3_Country != 0 && Geo2_Country == 0)
+                {
+                    Geo2_Country = Geo3_Country;
+                    Geo2_Region = Geo3_Region;
+                    Geo3_Country = Geo3_Region = 0;
+                    continue;
+                }
+                if (Geo2_Country != 0 && Geo1_Country == 0)
+                {
+                    Geo1_Country = Geo2_Country;
+                    Geo1_Region = Geo2_Region;
+                    Geo2_Country = Geo2_Region = 0;
+                    continue;
+                }
+                if (Geo1_Country == 0 && !IsUntraded && !IsUntradedEvent6)
+                {
+                    // Traded Non-Eggs/Events need to have a current location.
+                    Geo1_Country = Country;
+                    Geo1_Region = Region;
+                    continue;
+                }
+                break;
             }
         }
 
