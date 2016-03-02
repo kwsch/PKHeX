@@ -79,8 +79,9 @@ namespace PKHeX
                 if (evnt)
                 {
                     // Get WC6's that match
-                    WC6[] vwc6 = Legal.WC6DB.Where(
-                            wc6 => wc6.CardID == pk6.SID && 
+                    WC6[] vwc6 = Legal.WC6DB.Where(wc6 => 
+                            wc6.CardID == pk6.SID && 
+                            wc6.TID == pk6.TID && 
                             wc6.Species == pk6.Species && 
                             wc6.OT == pk6.OT_Name).ToArray();
 
@@ -131,7 +132,7 @@ namespace PKHeX
             // Should have no relearn moves.
           noRelearn:
             for (int i = 0; i < 4; i++)
-                res[i] &= Moves[i] == 0;
+                res[i] = Moves[i] == 0;
             return res;
         }
         private string getLegalityReport()
