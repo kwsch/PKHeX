@@ -37,60 +37,36 @@ namespace PKHeX
             bool alpha = pk6.Version == 26;
             if (!alpha && pk6.Version != 27)
                 return false;
-            EncounterArea[] locs = (alpha ? DexNavA : DexNavO).Where(l => l.Location == pk6.Met_Location).ToArray();
-            return locs.Select(loc => getValidEncounterSlots(pk6, loc)).Any(slots => slots.Length > 0);
+            IEnumerable<EncounterArea> locs = (alpha ? DexNavA : DexNavO).Where(l => l.Location == pk6.Met_Location);
+            return locs.Select(loc => getValidEncounterSlots(pk6, loc)).Any(slots => slots.Any());
         }
-
-        internal static EncounterSlot[] getValidEncounterSlots(PK6 pk6, EncounterArea loc)
+        internal static int[] getValidMoves(PK6 pk6)
         {
-            // Get Valid levels
-            DexLevel[] vs = getValidPreEvolutions(pk6);
-            // Get slots where pokemon can exist
-            EncounterSlot[] slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin)).ToArray();
-
-            // Filter for Form Specific
-            if (WildForms.Contains(pk6.Species))
-                slots = slots.Where(slot => slot.Form == pk6.AltForm).ToArray();
-            return slots;
-        }
-        internal static DexLevel[] getValidPreEvolutions(PK6 pk6)
-        {
-            var evos = Evolves[pk6.Species].Evos;
-            int dec = 0;
-            List<DexLevel> dl = new List<DexLevel> {new DexLevel {Species = pk6.Species, Level = pk6.CurrentLevel}};
-            foreach (DexLevel evo in evos)
+            List<int> r = new List<int> {0};
+            
+            r.AddRange(getLVLMoves(pk6.Species, pk6.CurrentLevel));
+            r.AddRange(getTutorMoves(pk6.Species));
+            r.AddRange(getMachineMoves(pk6.Species));
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
+            foreach (DexLevel evo in vs)
             {
-                if (evo.Level == 1) // Level Up (from previous level)
-                    dec++;
-                int lvl = pk6.CurrentLevel - dec;
-                if (lvl >= pk6.Met_Level && lvl > evo.Level)
-                    dl.Add(new DexLevel {Species = evo.Species, Level = lvl});
-            }
-            return dl.ToArray();
-        }
-
-        internal static int[] getValidMoves(int species, int level)
-        {
-            int[] r = new int[1];
-
-            // r = r.Concat(getEggMoves(species)).ToArray();
-            r = r.Concat(getLVLMoves(species, level)).ToArray();
-            r = r.Concat(getTutorMoves(species)).ToArray();
-            r = r.Concat(getMachineMoves(species)).ToArray();
-            var e = Evolves[species].Evos;
-            int dec = 0;
-            foreach (DexLevel evo in e)
-            {
-                if (evo.Level == 1) // In order to level up evolve, the list of available moves is for one level previous.
-                    dec++;
-                r = r.Concat(getLVLMoves(evo.Species, level - dec)).ToArray();
-                r = r.Concat(getTutorMoves(evo.Species)).ToArray();
-                r = r.Concat(getMachineMoves(evo.Species)).ToArray();
+                r.AddRange(getLVLMoves(evo.Species, evo.Level));
+                r.AddRange(getTutorMoves(evo.Species));
+                r.AddRange(getMachineMoves(evo.Species));
             }
             return r.Distinct().ToArray();
         }
+        internal static int[] getValidRelearn(PK6 pk6, int skipOption)
+        {
+            List<int> r = new List<int> { 0 };
+            int species = getBaseSpecies(pk6, skipOption);
+            r.AddRange(getLVLMoves(species, 1));
+            r.AddRange(getEggMoves(species));
+            r.AddRange(getLVLMoves(species, 100));
+            return r.Distinct().ToArray();
+        }
 
-        internal static int getBaseSpecies(PK6 pk6, int skipOption)
+        private static int getBaseSpecies(PK6 pk6, int skipOption)
         {
             DexLevel[] evos = Evolves[pk6.Species].Evos;
             switch (skipOption)
@@ -100,34 +76,42 @@ namespace PKHeX
                 default: return evos.Length <= 0 ? pk6.Species : evos.Last().Species;
             }
         }
+        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc)
+        {
+            // Get Valid levels
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
+            // Get slots where pokemon can exist
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
 
-        internal static int[] getDexNavRelearn(PK6 pk6, int skipOption)
-        {
-            int species = getBaseSpecies(pk6, skipOption);
-
-            var moves = new int[1];
-            moves = moves.Concat(getEggMoves(species)).ToArray();
-            return moves.Distinct().ToArray();
+            // Filter for Form Specific
+            if (WildForms.Contains(pk6.Species))
+                slots = slots.Where(slot => slot.Form == pk6.AltForm);
+            return slots;
         }
-        internal static int[] getValidRelearn(PK6 pk6, int skipOption)
+        private static IEnumerable<DexLevel> getValidPreEvolutions(PK6 pk6)
         {
-            int[] moves = new int[1];
-            int species = getBaseSpecies(pk6, skipOption);
-            moves = moves.Concat(getLVLMoves(species, 1)).ToArray();
-            moves = moves.Concat(getEggMoves(species)).ToArray();
-            moves = moves.Concat(getLVLMoves(species, 100)).ToArray();
-            return moves.Distinct().ToArray();
+            var evos = Evolves[pk6.Species].Evos;
+            int dec = 0;
+            List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pk6.Species, Level = pk6.CurrentLevel } };
+            foreach (DexLevel evo in evos)
+            {
+                if (evo.Level > 0) // Level Up (from previous level)
+                    dec++;
+                int lvl = pk6.CurrentLevel - dec;
+                if (lvl >= pk6.Met_Level && lvl > evo.Level)
+                    dl.Add(new DexLevel { Species = evo.Species, Level = lvl });
+            }
+            return dl;
         }
-
-        private static int[] getEggMoves(int species)
+        private static IEnumerable<int> getEggMoves(int species)
         {
-            return EggMoveAO[species].Moves.Concat(EggMoveXY[species].Moves).ToArray();
+            return EggMoveAO[species].Moves.Concat(EggMoveXY[species].Moves);
         }
-        private static int[] getLVLMoves(int species, int lvl)
+        private static IEnumerable<int> getLVLMoves(int species, int lvl)
         {
-            return LevelUpXY[species].getMoves(lvl).Concat(LevelUpAO[species].getMoves(lvl)).ToArray();
+            return LevelUpXY[species].getMoves(lvl).Concat(LevelUpAO[species].getMoves(lvl));
         }
-        private static int[] getTutorMoves(int species)
+        private static IEnumerable<int> getTutorMoves(int species)
         {
             PersonalInfo pkAO = PersonalAO[species];
 
@@ -140,16 +124,16 @@ namespace PKHeX
                     if (pkAO.ORASTutors[i][b])
                         moves.Add(Tutors_AO[i][b]);
 
-            return moves.ToArray();
+            return moves;
         }
-        private static int[] getMachineMoves(int species)
+        private static IEnumerable<int> getMachineMoves(int species)
         {
             PersonalInfo pkXY = PersonalXY[species];
             PersonalInfo pkAO = PersonalAO[species];
             List<int> moves = new List<int>();
             moves.AddRange(TMHM_XY.Where((t, i) => pkXY.TMHM[i]));
             moves.AddRange(TMHM_AO.Where((t, i) => pkAO.TMHM[i]));
-            return moves.ToArray();
+            return moves;
         }
     }
 }

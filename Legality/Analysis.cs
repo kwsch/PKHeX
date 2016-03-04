@@ -27,8 +27,6 @@ namespace PKHeX
     {
         public bool Valid = false;
         public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs;
-        public int[] ValidMoves => Legal.getValidMoves(pk6.Species, pk6.CurrentLevel);
-        public bool DexNav => Legal.getDexNavValid(pk6);
         public string Report => getLegalityReport();
 
         private readonly PK6 pk6;
@@ -46,6 +44,7 @@ namespace PKHeX
             if (!pk6.Gen6)
                 return res;
 
+            int[] validMoves = Legal.getValidMoves(pk6);
             if (pk6.Species == 235)
             {
                 for (int i = 0; i < 4; i++)
@@ -54,7 +53,7 @@ namespace PKHeX
             else
             {
                 for (int i = 0; i < 4; i++)
-                    res[i] = Moves[i] != Legal.Struggle && ValidMoves.Concat(RelearnMoves).Contains(Moves[i]);
+                    res[i] = Moves[i] != Legal.Struggle && validMoves.Concat(RelearnMoves).Contains(Moves[i]);
             }
             if (Moves[0] == 0)
                 res[0] = false;
@@ -123,7 +122,7 @@ namespace PKHeX
                 // Check DexNav
                 for (int i = 0; i < 4; i++)
                     res[i] &= Moves[i] == 0;
-                if (DexNav)
+                if (Legal.getDexNavValid(pk6))
                     res[0] = relearnMoves.Contains(Moves[0]);
 
                 return res;
