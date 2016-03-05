@@ -725,7 +725,7 @@
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(700, 500);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(420, 365);
+            this.MinimumSize = new System.Drawing.Size(420, 366);
             this.Name = "SAV_Wondercard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wonder Card I/O";
