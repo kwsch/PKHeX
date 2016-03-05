@@ -220,18 +220,10 @@ namespace PKHeX
         }
         internal static int getLevel(int species, uint exp)
         {
-            if (exp == 0) return 1;
-
             int growth = Personal[species].EXPGrowth;
-
-            // Iterate upwards to find the level above our current level
-            int tl = 0; // Initial Level, immediately incremented before loop.
+            int tl = 1; // Initial Level. Iterate upwards to find the level
             while (ExpTable[++tl, growth] <= exp)
-            {
-                if (tl != 100) continue;
-                return 100;
-                // After we find the level above ours, we're done.
-            }
+                if (tl == 100) return 100;
             return --tl;
         }
         internal static bool getIsShiny(uint PID, uint TID, uint SID)
@@ -242,7 +234,6 @@ namespace PKHeX
         }
         internal static uint getEXP(int level, int species)
         {
-            // Fetch Growth
             if (level <= 1) return 0;
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
