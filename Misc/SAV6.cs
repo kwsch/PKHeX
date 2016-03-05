@@ -516,6 +516,8 @@ namespace PKHeX
 
         public byte[] getWondercard(int i) { return Data.Skip(WondercardData + i*WC6.Size).Take(WC6.Size).ToArray(); }
         public void setWondercard(int i, byte[] data) { data.CopyTo(data, WondercardData + i * WC6.Size); }
+        public string JPEGTitle => JPEG > -1 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
+        public byte[] JPEGData => JPEG > -1 || Data[JPEG + 0x54] != 0xFF ? null : Data.Skip(JPEG + 0x54).Take(0xE004).ToArray();
 
         // Data Accessing
         public byte[] getData(int Offset, int Length)

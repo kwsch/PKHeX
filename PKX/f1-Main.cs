@@ -3278,29 +3278,13 @@ namespace PKHeX
         }
         private void B_JPEG_Click(object sender, EventArgs e)
         {
-            int offset = SAV.JPEG;
-            string filename = Encoding.Unicode.GetString(SAV.Data, offset, 0x1A).Trim();
-            filename += "'s picture";
-            offset += 0x54;
-            if (SAV.Data[offset] != 0xFF)
-            {
-                Util.Alert("No PGL picture data found in the save file!");
-                return;
-            }
-            const int length = 0xE004;
-
-            byte[] jpeg = new byte[length];
-            Array.Copy(SAV.Data, offset, jpeg, 0, length);
-            SaveFileDialog savejpeg = new SaveFileDialog {FileName = filename, Filter = "JPEG|*.jpeg"};
-            if (savejpeg.ShowDialog() != DialogResult.OK) return;
-            string path = savejpeg.FileName;
-            if (File.Exists(path))
-            {
-                // File already exists, save a .bak
-                byte[] backupfile = File.ReadAllBytes(path);
-                File.WriteAllBytes(path + ".bak", backupfile);
-            }
-            File.WriteAllBytes(path, jpeg);
+            byte[] jpeg = SAV.JPEGData;
+            if (SAV.JPEGData == null)
+            { Util.Alert("No PGL picture data found in the save file!"); return; }
+            string filename = SAV.JPEGTitle + "'s picture";
+            SaveFileDialog sfd = new SaveFileDialog {FileName = filename, Filter = "JPEG|*.jpeg"};
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+            File.WriteAllBytes(sfd.FileName, jpeg);
         }
         // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
