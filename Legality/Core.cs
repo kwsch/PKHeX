@@ -65,6 +65,19 @@ namespace PKHeX
             r.AddRange(getLVLMoves(species, 100));
             return r.Distinct().ToArray();
         }
+        internal static IEnumerable<WC6> getValidWC6s(PK6 pk6)
+        {
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
+            if (pk6.Egg_Location > 0) // Was Egg, can't search TID/SID/OT
+                return WC6DB.Where(wc6 => vs.Any(dl => dl.Species == wc6.Species));
+
+            // Not Egg
+            return WC6DB.Where(wc6 =>
+                wc6.CardID == pk6.SID &&
+                wc6.TID == pk6.TID &&
+                vs.Any(dl => dl.Species == wc6.Species) &&
+                wc6.OT == pk6.OT_Name);
+        }
 
         private static int getBaseSpecies(PK6 pk6, int skipOption)
         {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX
 {
@@ -62,12 +63,12 @@ namespace PKHeX
         }
         public bool[] getRelearnValidity(int[] Moves)
         {
-            if (Moves.Length != 4)
-                return new bool[4];
-
             bool[] res = {true, true, true, true};
             if (!pk6.Gen6)
                 goto noRelearn;
+
+            if (Moves.Length != 4)
+                return new bool[4];
 
             bool egg = Legal.EggLocations.Contains(pk6.Egg_Location) && pk6.Met_Level == 1;
             bool evnt = pk6.FatefulEncounter && pk6.Met_Location > 40000;
@@ -75,24 +76,10 @@ namespace PKHeX
             int[] relearnMoves = Legal.getValidRelearn(pk6, 0);
             if (evnt || eventEgg)
             {
-                if (evnt)
-                {
-                    // Get WC6's that match
-                    WC6[] vwc6 = Legal.WC6DB.Where(wc6 => 
-                            wc6.CardID == pk6.SID && 
-                            wc6.TID == pk6.TID && 
-                            wc6.Species == pk6.Species && 
-                            wc6.OT == pk6.OT_Name).ToArray();
-
-                    // Iterate over all
-                    foreach (WC6 wc6 in vwc6)
-                    {
-                        for (int i = 0; i < 4; i++)
-                            res[i] = wc6.RelearnMoves[i] == Moves[i];
-                        if (res.All(b=>b)) // At least one card matches the relearn moves.
-                            return res;
-                    }
-                }
+                // Get WC6's that match
+                IEnumerable<WC6> vwc6 = Legal.getValidWC6s(pk6);
+                if (vwc6.Any(wc6 => wc6.RelearnMoves.SequenceEqual(Moves)))
+                    return res; // all true
             }
             else if (egg)
             {
