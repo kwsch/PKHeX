@@ -2060,6 +2060,8 @@ namespace PKHeX
 
             ComboBox cb = (ComboBox)sender;
             cb.SelectionLength = 0;
+            if (cb.Text == "")
+            { cb.SelectedIndex = 0; return; }
             cb.BackColor = cb.SelectedValue == null ? Color.DarkSalmon : defaultControlWhite;
         }
         private void validateComboBox(object sender, EventArgs e)
