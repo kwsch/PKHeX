@@ -45,6 +45,14 @@ namespace PKHeX
             if (Moves.Length != 4)
                 return new bool[4];
 
+            bool link = pk6.Met_Location == 30011;
+            if (link)
+            {
+                if (pk6.FatefulEncounter) // Should NOT be Fateful
+                    return new bool[4]; // False
+                int[] moves = Legal.getLinkMoves(pk6);
+                return moves.SequenceEqual(Moves) ? res : new bool[4];
+            }
             bool egg = Legal.EggLocations.Contains(pk6.Egg_Location) && pk6.Met_Level == 1;
             bool evnt = pk6.FatefulEncounter && pk6.Met_Location > 40000;
             bool eventEgg = pk6.FatefulEncounter && (pk6.Egg_Location > 40000 || pk6.Egg_Location == 30002) && pk6.Met_Level == 1;

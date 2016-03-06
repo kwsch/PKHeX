@@ -65,6 +65,24 @@ namespace PKHeX
             r.AddRange(getLVLMoves(species, 100));
             return r.Distinct().ToArray();
         }
+        internal static int[] getLinkMoves(PK6 pk6)
+        {
+            if (pk6.Species == 251 && pk6.Met_Level == 10) // Celebi
+                return new[] {610, 0, 0, 0};
+            if (pk6.Species == 154 && pk6.Met_Level == 50 && pk6.AbilityNumber == 4) // Meganium Hidden
+                return new[] {0, 0, 0, 0};
+            if (pk6.Species == 157 && pk6.Met_Level == 50 && pk6.AbilityNumber == 4) // Typhlosion Hidden
+                return new[] {0, 0, 0, 0};
+            if (pk6.Species == 160 && pk6.Met_Level == 50 && pk6.AbilityNumber == 4) // Feraligatr Hidden
+                return new[] {0, 0, 0, 0};
+            if (pk6.Species == 377 && pk6.Met_Level == 50 && pk6.AbilityNumber == 4) // Regirock Hidden
+                return new[] {153, 8, 444, 359};
+            if (pk6.Species == 378 && pk6.Met_Level == 50 && pk6.AbilityNumber == 4) // Regice Hidden
+                return new[] {85, 133, 58, 258};
+            if (pk6.Species == 379 && pk6.Met_Level == 50 && pk6.AbilityNumber == 4) // Registeel Hidden
+                return new[] {442, 157, 356, 334};
+            return new int[0];
+        }
         internal static IEnumerable<WC6> getValidWC6s(PK6 pk6)
         {
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
