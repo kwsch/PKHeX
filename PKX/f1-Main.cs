@@ -1603,8 +1603,22 @@ namespace PKHeX
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
-            TB_PID.Text = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text), Util.getIndex(CB_GameOrigin), Util.getIndex(CB_Nature)).ToString("X8");
+            int origin = Util.getIndex(CB_GameOrigin);
+            uint PID = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text), origin, Util.getIndex(CB_Nature));
+            TB_PID.Text = PID.ToString("X8");
             getQuickFiller(dragout);
+            if (origin >= 24)
+                return;
+
+            // Before Gen6, EC and PID are related
+            // Ensure we don't have an illegal newshiny PID.
+            uint SID = Util.ToUInt32(TB_TID.Text);
+            uint TID = Util.ToUInt32(TB_TID.Text);
+            uint XOR = TID ^ SID ^ PID >> 16 ^ PID & 0xFFFF;
+            if (XOR >> 3 == 1) // Illegal
+                updateRandomPID(sender, e); // Get a new PID
+
+            TB_EC.Text = PID.ToString("X8");
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
@@ -2020,8 +2034,9 @@ namespace PKHeX
             XOR &= 0xFFFE; XOR |= UID & 1;
 
             // New XOR should be 0 or 1.
-            if (XOR > 16)
-                TB_PID.Text = (((UID ^ XOR) << 16) + LID).ToString("X8");
+            TB_PID.Text = (((UID ^ XOR) << 16) + LID).ToString("X8");
+            if (Util.getIndex(CB_GameOrigin) < 24) // Pre Gen6
+                TB_EC.Text = TB_PID.Text;
 
             setIsShiny();
             getQuickFiller(dragout);
@@ -2049,7 +2064,7 @@ namespace PKHeX
 
             setIsShiny();
             getQuickFiller(dragout);
-            updateIVs(null, null);   // If the PID is changed, PID%6 (Characteristic) might be changed. 
+            updateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
         }
 
