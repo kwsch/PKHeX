@@ -1603,7 +1603,7 @@ namespace PKHeX
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
-            TB_PID.Text = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text)).ToString("X8");
+            TB_PID.Text = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text), Util.getIndex(CB_GameOrigin), Util.getIndex(CB_Nature)).ToString("X8");
             getQuickFiller(dragout);
         }
         private void updateRandomEC(object sender, EventArgs e)
