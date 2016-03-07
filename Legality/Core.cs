@@ -112,7 +112,9 @@ namespace PKHeX
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
             // Get slots where pokemon can exist
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => 
+                vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin)
+                && pk6.Met_Level == slot.LevelMin);
 
             // Filter for Form Specific
             if (WildForms.Contains(pk6.Species))
