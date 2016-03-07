@@ -523,38 +523,26 @@ namespace PKHeX
         internal static uint getRandomPID(int species, int cg, int origin, int nature)
         {
             int gt = Personal[species].Gender;
-            if (origin <= 15) // Gen III/IV
+            while (true) // Loop until we find a suitable PID
             {
-                do
-                {
-                    uint pid = Util.rnd32();
-                    uint gv = pid & 0xFF;
-                    if (pid % 25 == nature)
-                    {
-                        if (gt == 255 || gt == 254 || gt == 0) // Set Gender(less)
-                            return pid; // PID can be anything
-                        else
-                            if (cg == 1 && gv <= gt) // Female
-                            return pid;  // PID Passes
-                        if (cg == 0 && gv > gt) // Male
-                            return pid;  // PID Passes
-                    }
-                } while (true); // Loop until we find a suitable PID
-            }
-            else
-            {
-                if (gt == 255 || gt == 254 || gt == 0) // Set Gender(less)
-                    return Util.rnd32(); // PID can be anything
+                uint pid = Util.rnd32();
 
-                do
-                {
-                    uint pid = Util.rnd32();
-                    uint gv = pid & 0xFF;
-                    if (cg == 1 && gv <= gt) // Female
-                        return pid;  // PID Passes
-                    if (cg == 0 && gv > gt) // Male
-                        return pid;  // PID Passes
-                } while (true); // Loop until we find a suitable PID
+                // Gen6: Can be anything
+                if (origin >= 24)
+                    return pid;
+
+                // Gen 3/4: Nature derived from PID
+                if (origin <= 15 && pid%25 != nature)
+                    continue;
+
+                // Gen 3/4/5: Gender derived from PID
+                uint gv = pid & 0xFF;
+                if (gt == 255 || gt == 254 || gt == 0) // Set Gender(less)
+                    return pid; // PID can be anything
+                if (cg == 1 && gv <= gt) // Female
+                    return pid; // PID Passes
+                if (cg == 0 && gv > gt) // Male
+                    return pid; // PID Passes
             }
         }
 
