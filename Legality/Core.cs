@@ -38,7 +38,7 @@ namespace PKHeX
             if (!alpha && pk6.Version != 27)
                 return false;
             IEnumerable<EncounterArea> locs = (alpha ? DexNavA : DexNavO).Where(l => l.Location == pk6.Met_Location);
-            return locs.Select(loc => getValidEncounterSlots(pk6, loc)).Any(slots => slots.Any());
+            return locs.Select(loc => getValidEncounterSlots(pk6, loc, DexNav: true)).Any(slots => slots.Any());
         }
         internal static int[] getValidMoves(PK6 pk6)
         {
@@ -107,14 +107,17 @@ namespace PKHeX
                 default: return evos.Length <= 0 ? pk6.Species : evos.Last().Species;
             }
         }
-        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc)
+        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc, bool DexNav)
         {
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
             // Get slots where pokemon can exist
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => 
-                vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin)
-                && pk6.Met_Level == slot.LevelMin);
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+
+            // Filter for Met Level
+            slots = DexNav
+                ? slots.Where(slot => slot.LevelMin <= pk6.Met_Level && pk6.Met_Level <= slot.LevelMin + 10) // DexNav Boost Range
+                : slots.Where(slot => slot.LevelMin == pk6.Met_Level); // Non-boosted Level
 
             // Filter for Form Specific
             if (WildForms.Contains(pk6.Species))
