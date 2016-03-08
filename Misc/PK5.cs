@@ -606,6 +606,51 @@ namespace PKHeX
             // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
             pk6.FixMoves();
 
+            // Fix Name Strings
+            pk6.Nickname = pk6.Nickname
+                .Replace('\u247d', '\u2602') // ☂
+                .Replace('\u247b', '\u2601') // ☁
+                .Replace('\u247a', '\u2600') // ☀
+                .Replace('\u2479', '\u266a') // ♪
+                .Replace('\u2478', '\u25c7') // ◇
+                .Replace('\u2477', '\u25b3') // △
+                .Replace('\u2476', '\u25a1') // □
+                .Replace('\u2475', '\u25cb') // ○
+                .Replace('\u2474', '\u25ce') // ◎
+                .Replace('\u2473', '\u2605') // ★
+                .Replace('\u2472', '\u2666') // ♦
+                .Replace('\u2471', '\u2665') // ♥
+                .Replace('\u2470', '\u2663') // ♣
+                .Replace('\u246f', '\u2660') // ♠
+                .Replace('\u246e', '\u2640') // ♀
+                .Replace('\u246d', '\u2642') // ♂
+                .Replace('\u246c', '\u2026') // …
+                .Replace('\u2468', '\u00f7') // ÷
+                .Replace('\u2467', '\u00d7') // ×
+                ;
+
+            pk6.OT_Name = pk6.OT_Name
+                .Replace('\u247d', '\u2602') // ☂
+                .Replace('\u247b', '\u2601') // ☁
+                .Replace('\u247a', '\u2600') // ☀
+                .Replace('\u2479', '\u266a') // ♪
+                .Replace('\u2478', '\u25c7') // ◇
+                .Replace('\u2477', '\u25b3') // △
+                .Replace('\u2476', '\u25a1') // □
+                .Replace('\u2475', '\u25cb') // ○
+                .Replace('\u2474', '\u25ce') // ◎
+                .Replace('\u2473', '\u2605') // ★
+                .Replace('\u2472', '\u2666') // ♦
+                .Replace('\u2471', '\u2665') // ♥
+                .Replace('\u2470', '\u2663') // ♣
+                .Replace('\u246f', '\u2660') // ♠
+                .Replace('\u246e', '\u2640') // ♀
+                .Replace('\u246d', '\u2642') // ♂
+                .Replace('\u246c', '\u2026') // …
+                .Replace('\u2468', '\u00f7') // ÷
+                .Replace('\u2467', '\u00d7') // ×
+                ;
+
             // Fix Checksum
             pk6.RefreshChecksum();
 
