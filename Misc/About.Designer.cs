@@ -77,9 +77,9 @@
             this.L_Codr.AutoSize = true;
             this.L_Codr.Location = new System.Drawing.Point(163, 345);
             this.L_Codr.Name = "L_Codr";
-            this.L_Codr.Size = new System.Drawing.Size(157, 13);
+            this.L_Codr.Size = new System.Drawing.Size(155, 13);
             this.L_Codr.TabIndex = 3;
-            this.L_Codr.Text = "UI Inspiried by Codr\'s PokeGen.";
+            this.L_Codr.Text = "UI Inspired by Codr\'s PokeGen.";
             // 
             // B_Shortcuts
             // 
