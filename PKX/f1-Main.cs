@@ -1604,7 +1604,7 @@ namespace PKHeX
         private void updateRandomPID(object sender, EventArgs e)
         {
             int origin = Util.getIndex(CB_GameOrigin);
-            uint PID = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text), origin, Util.getIndex(CB_Nature));
+            uint PID = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text), origin, Util.getIndex(CB_Nature), CB_Form.SelectedIndex);
             TB_PID.Text = PID.ToString("X8");
             getQuickFiller(dragout);
             if (origin >= 24)

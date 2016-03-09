@@ -520,7 +520,7 @@ namespace PKHeX
         {
             return (TID ^ SID) >> 4;
         }
-        internal static uint getRandomPID(int species, int cg, int origin, int nature)
+        internal static uint getRandomPID(int species, int cg, int origin, int nature, int form)
         {
             int gt = Personal[species].Gender;
             while (true) // Loop until we find a suitable PID
@@ -534,6 +534,14 @@ namespace PKHeX
                 // Gen 3/4: Nature derived from PID
                 if (origin <= 15 && pid%25 != nature)
                     continue;
+
+                // Gen 3 Unown: Letter/form derived from PID
+                if (origin <= 5 && species == 201)
+                {
+                    uint pidLetter = ( (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3) ) % 28;
+                    if (pidLetter != form)
+                        continue;
+                }
 
                 // Gen 3/4/5: Gender derived from PID
                 uint gv = pid & 0xFF;
