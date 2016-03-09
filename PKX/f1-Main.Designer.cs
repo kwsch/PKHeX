@@ -359,6 +359,9 @@
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
+            this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
             this.L_QR = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
@@ -458,6 +461,7 @@
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
+            this.mnuL.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -4340,6 +4344,7 @@
             // dragout
             // 
             this.dragout.BackColor = System.Drawing.Color.Transparent;
+            this.dragout.ContextMenuStrip = this.mnuL;
             this.dragout.Location = new System.Drawing.Point(248, 0);
             this.dragout.Name = "dragout";
             this.dragout.Size = new System.Drawing.Size(40, 30);
@@ -4351,6 +4356,28 @@
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
             this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
             this.dragout.MouseHover += new System.EventHandler(this.dragoutHover);
+            // 
+            // mnuL
+            // 
+            this.mnuL.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuLLegality,
+            this.mnuLSave});
+            this.mnuL.Name = "mnuL";
+            this.mnuL.Size = new System.Drawing.Size(122, 48);
+            // 
+            // mnuLSave
+            // 
+            this.mnuLSave.Name = "mnuLSave";
+            this.mnuLSave.Size = new System.Drawing.Size(121, 22);
+            this.mnuLSave.Text = "Save as...";
+            this.mnuLSave.Click += new System.EventHandler(this.mainMenuSave);
+            // 
+            // mnuLLegality
+            // 
+            this.mnuLLegality.Name = "mnuLLegality";
+            this.mnuLLegality.Size = new System.Drawing.Size(121, 22);
+            this.mnuLLegality.Text = "Legality";
+            this.mnuLLegality.Click += new System.EventHandler(this.clickLegality);
             // 
             // L_QR
             // 
@@ -4500,6 +4527,7 @@
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
+            this.mnuL.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4836,6 +4864,9 @@
         private System.Windows.Forms.PictureBox PB_WarnRelearn4;
         private System.Windows.Forms.PictureBox PB_WarnRelearn3;
         private System.Windows.Forms.PictureBox PB_WarnRelearn2;
+        private System.Windows.Forms.ContextMenuStrip mnuL;
+        private System.Windows.Forms.ToolStripMenuItem mnuLSave;
+        private System.Windows.Forms.ToolStripMenuItem mnuLLegality;
     }
 }
 
