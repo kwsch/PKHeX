@@ -96,6 +96,21 @@ namespace PKHeX
                 vs.Any(dl => dl.Species == wc6.Species) &&
                 wc6.OT == pk6.OT_Name);
         }
+        internal static IEnumerable<EncounterArea> getEncounterSlots(PK6 pk6)
+        {
+            switch (pk6.Version)
+            {
+                case 24: // X
+                    return getSlots(pk6, SlotsX);
+                case 25: // Y
+                    return getSlots(pk6, SlotsY);
+                case 26: // AS
+                    return getSlots(pk6, SlotsA);
+                case 27: // OR
+                    return getSlots(pk6, SlotsO);
+                default: return new List<EncounterArea>();
+            }
+        }
 
         private static int getBaseSpecies(PK6 pk6, int skipOption)
         {
@@ -123,6 +138,23 @@ namespace PKHeX
             if (WildForms.Contains(pk6.Species))
                 slots = slots.Where(slot => slot.Form == pk6.AltForm);
             return slots;
+        }
+        private static IEnumerable<EncounterArea> getSlots(PK6 pk6, IEnumerable<EncounterArea> tables)
+        {
+            int species = pk6.Species;
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
+            List<EncounterArea> slotLocations = new List<EncounterArea>();
+            foreach (var loc in tables)
+            {
+                IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+                if (WildForms.Contains(species))
+                    slots = slots.Where(slot => slot.Form == pk6.AltForm);
+
+                EncounterSlot[] es = slots.ToArray();
+                if (es.Length > 0)
+                    slotLocations.Add(new EncounterArea { Location = loc.Location, Slots = es });
+            }
+            return slotLocations;
         }
         private static IEnumerable<DexLevel> getValidPreEvolutions(PK6 pk6)
         {

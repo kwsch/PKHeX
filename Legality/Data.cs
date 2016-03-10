@@ -100,8 +100,9 @@ namespace PKHeX
 
     public class EncounterArea
     {
-        public readonly int Location;
+        public int Location;
         public EncounterSlot[] Slots;
+        public EncounterArea() { }
         public EncounterArea(byte[] data)
         {
             Location = BitConverter.ToUInt16(data, 0);
