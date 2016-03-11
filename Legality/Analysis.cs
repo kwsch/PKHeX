@@ -3,27 +3,6 @@ using System.Linq;
 
 namespace PKHeX
 {
-    public enum Severity
-    {
-        Indeterminate = -2,
-        Invalid = -1,
-        Fishy = 0,
-        Valid = 1,
-        NotImplemented = 2,
-    }
-    public class LegalityCheck
-    {
-        public Severity Judgement = Severity.Invalid;
-        public string Comment;
-        public bool Valid => Judgement >= Severity.Fishy;
-
-        public LegalityCheck() { }
-        public LegalityCheck(Severity s, string c)
-        {
-            Judgement = s;
-            Comment = c;
-        }
-    }
     public class LegalityAnalysis
     {
         private readonly PK6 pk6;
@@ -131,6 +110,11 @@ namespace PKHeX
         public string Report => getLegalityReport();
         private string getLegalityReport()
         {
+            EC = LegalityCheck.verifyECPID(pk6);
+            Nickname = LegalityCheck.verifyNickname(pk6);
+            PID = LegalityCheck.verifyECPID(pk6);
+            IVs = LegalityCheck.verifyIVs(pk6);
+            EVs = LegalityCheck.verifyEVs(pk6);
             return null;
         }
     }

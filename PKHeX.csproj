@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Legality\Analysis.cs" />
+    <Compile Include="Legality\Checks.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
     <Compile Include="Misc\PGT.cs" />
