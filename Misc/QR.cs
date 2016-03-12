@@ -23,15 +23,16 @@ namespace PKHeX
             const int stretch = 50;
             Height += stretch;
             Image newpic = new Bitmap(PB_QR.Width, PB_QR.Height);
-            Graphics g = Graphics.FromImage(newpic);
-            g.FillRectangle(new SolidBrush(Color.White), 0, 0, newpic.Width, newpic.Height);
-            g.DrawImage(pic, 0, 0);
+            using (Graphics g = Graphics.FromImage(newpic))
+            {
+                g.FillRectangle(new SolidBrush(Color.White), 0, 0, newpic.Width, newpic.Height);
+                g.DrawImage(pic, 0, 0);
 
-            g.DrawString(top, font, Brushes.Black, new PointF(18, qr.Height - 5));
-            g.DrawString(bottom, font, Brushes.Black, new PointF(18, qr.Height + 8));
-            g.DrawString(left.Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(18, qr.Height + 20));
-            g.DrawString(right, font, Brushes.Black, new PointF(18, qr.Height + 32));
-
+                g.DrawString(top, font, Brushes.Black, new PointF(18, qr.Height - 5));
+                g.DrawString(bottom, font, Brushes.Black, new PointF(18, qr.Height + 8));
+                g.DrawString(left.Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(18, qr.Height + 20));
+                g.DrawString(right, font, Brushes.Black, new PointF(18, qr.Height + 32));
+            }
             PB_QR.BackgroundImage = newpic;
         }
         private void PB_QR_Click(object sender, EventArgs e)

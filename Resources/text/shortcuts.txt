@@ -13,8 +13,6 @@ CTRL-D: Open Database
 CTRL-R: Open Box Report
 CTRL-P: Open About PKHeX
 
-Hold Control when dragging out the PK6 Preview to save as ekx.
-
 Control + Click on...
 - Species: Import Showdown/Smogon set from Clipboard.
 - Nickname/OT box: Bring up the ingame-special characters.
@@ -22,11 +20,15 @@ Control + Click on...
 - Randomize EVs: Set all EVs to 0.
 - PP Ups Label: Set all PP Ups to 3.
 - Friendship Label: Reset Friendship
-- QR!: Wrap text around QR code.
 
 Alt + Click on...
-- QR! to load ekx data from a QR url loaded to your clipboard.
+- Preview Sprite to load from a QR url on your clipboard.
 - Species: Export Showdown/Smogon set to Clipboard.
+
+Shift + Click on...
+- Preview Sprite to bring up a QR for the viewed Pokémon.
+
+Hold Control when dragging out the Preview Sprite to save encrypted (ekx).
 
 Click on the OT label to set relevant details to that of the save file.
 
@@ -38,11 +40,8 @@ Drop WC6/PGF/PCD/PGT to convert to PK6 in the main tabs.
 
 // Save File
 
-Hold ALT when exporting to instead export the original save.
-
 Click on the Save File path (above Boxes): Auto-detect/Reload save.
  - Shift skips SaveDataFiler
-
 
 // Boxes
 
@@ -62,11 +61,11 @@ Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team
 // Misc Editors
 
 INVENTORY:
- - Alt-Click loading a pouch will give all items with quantity x995. *1 for TMHM/Key.
+- Alt-Click loading a pouch will give all items with quantity x995. *1 for TMHM/Key.
 
 POKEPUFF:
- - Control Click the All Button to give un-exceptional Pokepuffs.
- - Control Click the Sort Button to sort in reverse.
+- Control Click the All Button to give un-exceptional Pokepuffs.
+- Control Click the Sort Button to sort in reverse.
 
 WONDERCARD:
- - Alt-Click QR to import from QR image.
+- Alt-Click QR to import from QR image.

@@ -2497,6 +2497,8 @@ namespace PKHeX
         // Decrypted Export
         private void dragout_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left && (ModifierKeys == Keys.Alt || ModifierKeys == Keys.Shift))
+                clickQR(sender, e);
             if (e.Button == MouseButtons.Right)
                 return;
             if (!verifiedPKX())
@@ -2982,7 +2984,7 @@ namespace PKHeX
             if (!fieldsInitialized) return;
             pk = pk ?? preparepkx(false); // don't perform control loss click
 
-            if (pb == dragout) L_QR.Visible = pk.Species != 0; // Species
+            if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
             pb.Image = pk.Sprite;
         }
         private void getSlotFiller(int offset, PictureBox pb)

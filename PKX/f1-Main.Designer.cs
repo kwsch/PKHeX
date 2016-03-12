@@ -360,9 +360,9 @@
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
-            this.L_QR = new System.Windows.Forms.Label();
+            this.mnuLQR = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -969,8 +969,8 @@
             // 
             // Label_IsShiny
             // 
-            this.Label_IsShiny.Image = global::PKHeX.Properties.Resources.rare_icon;
-            this.Label_IsShiny.InitialImage = global::PKHeX.Properties.Resources.rare_icon;
+            this.Label_IsShiny.Image = ((System.Drawing.Image)(resources.GetObject("Label_IsShiny.Image")));
+            this.Label_IsShiny.InitialImage = ((System.Drawing.Image)(resources.GetObject("Label_IsShiny.InitialImage")));
             this.Label_IsShiny.Location = new System.Drawing.Point(53, 7);
             this.Label_IsShiny.Name = "Label_IsShiny";
             this.Label_IsShiny.Size = new System.Drawing.Size(20, 20);
@@ -1890,7 +1890,7 @@
             // 
             // PB_WarnMove4
             // 
-            this.PB_WarnMove4.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnMove4.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove4.Image")));
             this.PB_WarnMove4.Location = new System.Drawing.Point(8, 113);
             this.PB_WarnMove4.Name = "PB_WarnMove4";
             this.PB_WarnMove4.Size = new System.Drawing.Size(16, 16);
@@ -1950,7 +1950,7 @@
             // 
             // PB_WarnRelearn4
             // 
-            this.PB_WarnRelearn4.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnRelearn4.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn4.Image")));
             this.PB_WarnRelearn4.Location = new System.Drawing.Point(22, 93);
             this.PB_WarnRelearn4.Name = "PB_WarnRelearn4";
             this.PB_WarnRelearn4.Size = new System.Drawing.Size(16, 16);
@@ -1960,7 +1960,7 @@
             // 
             // PB_WarnRelearn3
             // 
-            this.PB_WarnRelearn3.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnRelearn3.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn3.Image")));
             this.PB_WarnRelearn3.Location = new System.Drawing.Point(22, 71);
             this.PB_WarnRelearn3.Name = "PB_WarnRelearn3";
             this.PB_WarnRelearn3.Size = new System.Drawing.Size(16, 16);
@@ -1970,7 +1970,7 @@
             // 
             // PB_WarnRelearn2
             // 
-            this.PB_WarnRelearn2.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnRelearn2.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn2.Image")));
             this.PB_WarnRelearn2.Location = new System.Drawing.Point(22, 49);
             this.PB_WarnRelearn2.Name = "PB_WarnRelearn2";
             this.PB_WarnRelearn2.Size = new System.Drawing.Size(16, 16);
@@ -1980,7 +1980,7 @@
             // 
             // PB_WarnRelearn1
             // 
-            this.PB_WarnRelearn1.Image = global::PKHeX.Properties.Resources.warn;
+            this.PB_WarnRelearn1.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn1.Image")));
             this.PB_WarnRelearn1.Location = new System.Drawing.Point(22, 27);
             this.PB_WarnRelearn1.Name = "PB_WarnRelearn1";
             this.PB_WarnRelearn1.Size = new System.Drawing.Size(16, 16);
@@ -2442,8 +2442,8 @@
             // 
             // PB_MarkPentagon
             // 
-            this.PB_MarkPentagon.Image = global::PKHeX.Properties.Resources.else_icon;
-            this.PB_MarkPentagon.InitialImage = global::PKHeX.Properties.Resources.else_icon;
+            this.PB_MarkPentagon.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.Image")));
+            this.PB_MarkPentagon.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.InitialImage")));
             this.PB_MarkPentagon.Location = new System.Drawing.Point(83, 15);
             this.PB_MarkPentagon.Name = "PB_MarkPentagon";
             this.PB_MarkPentagon.Size = new System.Drawing.Size(20, 20);
@@ -2453,8 +2453,8 @@
             // 
             // PB_MarkCured
             // 
-            this.PB_MarkCured.Image = global::PKHeX.Properties.Resources.anti_pokerus_icon;
-            this.PB_MarkCured.InitialImage = global::PKHeX.Properties.Resources.anti_pokerus_icon;
+            this.PB_MarkCured.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.Image")));
+            this.PB_MarkCured.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.InitialImage")));
             this.PB_MarkCured.Location = new System.Drawing.Point(57, 15);
             this.PB_MarkCured.Name = "PB_MarkCured";
             this.PB_MarkCured.Size = new System.Drawing.Size(20, 20);
@@ -2464,8 +2464,8 @@
             // 
             // PB_MarkShiny
             // 
-            this.PB_MarkShiny.Image = global::PKHeX.Properties.Resources.rare_icon;
-            this.PB_MarkShiny.InitialImage = global::PKHeX.Properties.Resources.rare_icon;
+            this.PB_MarkShiny.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.Image")));
+            this.PB_MarkShiny.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.InitialImage")));
             this.PB_MarkShiny.Location = new System.Drawing.Point(31, 15);
             this.PB_MarkShiny.Name = "PB_MarkShiny";
             this.PB_MarkShiny.Size = new System.Drawing.Size(20, 20);
@@ -2475,8 +2475,8 @@
             // 
             // PB_Mark6
             // 
-            this.PB_Mark6.Image = global::PKHeX.Properties.Resources.box_mark_06;
-            this.PB_Mark6.InitialImage = global::PKHeX.Properties.Resources.box_mark_06;
+            this.PB_Mark6.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.Image")));
+            this.PB_Mark6.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.InitialImage")));
             this.PB_Mark6.Location = new System.Drawing.Point(107, 35);
             this.PB_Mark6.Name = "PB_Mark6";
             this.PB_Mark6.Size = new System.Drawing.Size(20, 20);
@@ -2487,8 +2487,8 @@
             // 
             // PB_Mark5
             // 
-            this.PB_Mark5.Image = global::PKHeX.Properties.Resources.box_mark_05;
-            this.PB_Mark5.InitialImage = global::PKHeX.Properties.Resources.box_mark_05;
+            this.PB_Mark5.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.Image")));
+            this.PB_Mark5.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.InitialImage")));
             this.PB_Mark5.Location = new System.Drawing.Point(87, 35);
             this.PB_Mark5.Name = "PB_Mark5";
             this.PB_Mark5.Size = new System.Drawing.Size(20, 20);
@@ -2499,8 +2499,8 @@
             // 
             // PB_Mark4
             // 
-            this.PB_Mark4.Image = global::PKHeX.Properties.Resources.box_mark_04;
-            this.PB_Mark4.InitialImage = global::PKHeX.Properties.Resources.box_mark_04;
+            this.PB_Mark4.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.Image")));
+            this.PB_Mark4.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.InitialImage")));
             this.PB_Mark4.Location = new System.Drawing.Point(67, 35);
             this.PB_Mark4.Name = "PB_Mark4";
             this.PB_Mark4.Size = new System.Drawing.Size(20, 20);
@@ -2511,8 +2511,8 @@
             // 
             // PB_Mark3
             // 
-            this.PB_Mark3.Image = global::PKHeX.Properties.Resources.box_mark_03;
-            this.PB_Mark3.InitialImage = global::PKHeX.Properties.Resources.box_mark_03;
+            this.PB_Mark3.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.Image")));
+            this.PB_Mark3.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.InitialImage")));
             this.PB_Mark3.Location = new System.Drawing.Point(47, 35);
             this.PB_Mark3.Name = "PB_Mark3";
             this.PB_Mark3.Size = new System.Drawing.Size(20, 20);
@@ -2523,8 +2523,8 @@
             // 
             // PB_Mark2
             // 
-            this.PB_Mark2.Image = global::PKHeX.Properties.Resources.box_mark_02;
-            this.PB_Mark2.InitialImage = global::PKHeX.Properties.Resources.box_mark_02;
+            this.PB_Mark2.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.Image")));
+            this.PB_Mark2.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.InitialImage")));
             this.PB_Mark2.Location = new System.Drawing.Point(27, 35);
             this.PB_Mark2.Name = "PB_Mark2";
             this.PB_Mark2.Size = new System.Drawing.Size(20, 20);
@@ -2535,8 +2535,8 @@
             // 
             // PB_Mark1
             // 
-            this.PB_Mark1.Image = global::PKHeX.Properties.Resources.box_mark_01;
-            this.PB_Mark1.InitialImage = global::PKHeX.Properties.Resources.box_mark_01;
+            this.PB_Mark1.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark1.Image")));
+            this.PB_Mark1.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark1.InitialImage")));
             this.PB_Mark1.Location = new System.Drawing.Point(7, 35);
             this.PB_Mark1.Name = "PB_Mark1";
             this.PB_Mark1.Size = new System.Drawing.Size(20, 20);
@@ -3618,7 +3618,7 @@
             // 
             // PAN_BattleBox
             // 
-            this.PAN_BattleBox.BackgroundImage = global::PKHeX.Properties.Resources.party;
+            this.PAN_BattleBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PAN_BattleBox.BackgroundImage")));
             this.PAN_BattleBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_BattleBox.Controls.Add(this.PB_Locked);
             this.PAN_BattleBox.Controls.Add(this.bbpkx1);
@@ -3634,7 +3634,7 @@
             // 
             // PB_Locked
             // 
-            this.PB_Locked.Image = global::PKHeX.Properties.Resources.locked;
+            this.PB_Locked.Image = ((System.Drawing.Image)(resources.GetObject("PB_Locked.Image")));
             this.PB_Locked.Location = new System.Drawing.Point(76, 2);
             this.PB_Locked.Name = "PB_Locked";
             this.PB_Locked.Size = new System.Drawing.Size(32, 32);
@@ -3754,7 +3754,7 @@
             // 
             // PAN_Party
             // 
-            this.PAN_Party.BackgroundImage = global::PKHeX.Properties.Resources.party;
+            this.PAN_Party.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PAN_Party.BackgroundImage")));
             this.PAN_Party.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Party.Controls.Add(this.ppkx1);
             this.PAN_Party.Controls.Add(this.ppkx2);
@@ -4361,16 +4361,10 @@
             // 
             this.mnuL.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuLLegality,
+            this.mnuLQR,
             this.mnuLSave});
             this.mnuL.Name = "mnuL";
-            this.mnuL.Size = new System.Drawing.Size(122, 48);
-            // 
-            // mnuLSave
-            // 
-            this.mnuLSave.Name = "mnuLSave";
-            this.mnuLSave.Size = new System.Drawing.Size(121, 22);
-            this.mnuLSave.Text = "Save as...";
-            this.mnuLSave.Click += new System.EventHandler(this.mainMenuSave);
+            this.mnuL.Size = new System.Drawing.Size(122, 70);
             // 
             // mnuLLegality
             // 
@@ -4379,16 +4373,19 @@
             this.mnuLLegality.Text = "Legality";
             this.mnuLLegality.Click += new System.EventHandler(this.clickLegality);
             // 
-            // L_QR
+            // mnuLQR
             // 
-            this.L_QR.AutoSize = true;
-            this.L_QR.Location = new System.Drawing.Point(217, 5);
-            this.L_QR.Name = "L_QR";
-            this.L_QR.Size = new System.Drawing.Size(26, 13);
-            this.L_QR.TabIndex = 61;
-            this.L_QR.Text = "QR!";
-            this.L_QR.Visible = false;
-            this.L_QR.Click += new System.EventHandler(this.clickQR);
+            this.mnuLQR.Name = "mnuLQR";
+            this.mnuLQR.Size = new System.Drawing.Size(121, 22);
+            this.mnuLQR.Text = "QR!";
+            this.mnuLQR.Click += new System.EventHandler(this.clickQR);
+            // 
+            // mnuLSave
+            // 
+            this.mnuLSave.Name = "mnuLSave";
+            this.mnuLSave.Size = new System.Drawing.Size(121, 22);
+            this.mnuLSave.Text = "Save as...";
+            this.mnuLSave.Click += new System.EventHandler(this.mainMenuSave);
             // 
             // Main
             // 
@@ -4397,7 +4394,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 361);
             this.Controls.Add(this.dragout);
-            this.Controls.Add(this.L_QR);
             this.Controls.Add(this.GB_SAVtools);
             this.Controls.Add(this.tabBoxMulti);
             this.Controls.Add(this.L_Save);
@@ -4797,7 +4793,6 @@
         public System.Windows.Forms.ComboBox CB_Species;
         public System.Windows.Forms.CheckBox CHK_IsEgg;
         private System.Windows.Forms.Button B_SaveBoxBin;
-        private System.Windows.Forms.Label L_QR;
         private System.Windows.Forms.ComboBox CB_HPType;
         private System.Windows.Forms.ComboBox CB_HeldItem;
         private System.Windows.Forms.ComboBox CB_Nature;
@@ -4867,6 +4862,7 @@
         private System.Windows.Forms.ContextMenuStrip mnuL;
         private System.Windows.Forms.ToolStripMenuItem mnuLSave;
         private System.Windows.Forms.ToolStripMenuItem mnuLLegality;
+        private System.Windows.Forms.ToolStripMenuItem mnuLQR;
     }
 }
 
