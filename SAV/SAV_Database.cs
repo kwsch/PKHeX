@@ -123,7 +123,7 @@ namespace PKHeX
                 System.Media.SystemSounds.Exclamation.Play();
             else
             {
-                m_parent.populateFields(dataArr[index], false);
+                m_parent.populateFields(new PK6(dataArr[index].Data), false);
                 slotSelected = index + SCR_Box.Value * RES_MIN;
                 slotColor = Properties.Resources.slotView;
                 FillPKXBoxes(SCR_Box.Value);
