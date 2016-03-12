@@ -441,6 +441,17 @@ namespace PKHeX
                 if (value.Length > 3) Move4 = value[3];
             }
         }
+        public int[] RelearnMoves
+        {
+            get { return new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 }; }
+            set
+            {
+                if (value.Length > 0) RelearnMove1 = value[0];
+                if (value.Length > 1) RelearnMove2 = value[1];
+                if (value.Length > 2) RelearnMove3 = value[2];
+                if (value.Length > 3) RelearnMove4 = value[3];
+            }
+        }
         public int CurrentLevel => getLevel(Species, EXP);
 
         // Complex Generated Attributes
@@ -560,7 +571,6 @@ namespace PKHeX
                 break;
             }
         }
-
         public void FixRelearn()
         {
             while (true)
@@ -732,5 +742,11 @@ namespace PKHeX
             HT_Friendship = getBaseFriendship(Species);
             HT_Affection = 0;
         }
+
+        // Legality Properties
+        public bool WasLink => Met_Location == 30011;
+        public bool WasEgg => Legal.EggLocations.Contains(Egg_Location) && Met_Level == 1;
+        public bool WasEvent => FatefulEncounter && Met_Location > 40000;
+        public bool WasEventEgg => FatefulEncounter && (Egg_Location > 40000 || Egg_Location == 30002) && Met_Level == 1;
     }
 }

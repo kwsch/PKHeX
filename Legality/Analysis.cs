@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -44,27 +45,25 @@ namespace PKHeX
 
             if (Moves.Length != 4)
                 return new bool[4];
-
-            bool link = pk6.Met_Location == 30011;
-            if (link)
+            if (pk6.WasLink)
             {
                 if (pk6.FatefulEncounter) // Should NOT be Fateful
                     return new bool[4]; // False
                 int[] moves = Legal.getLinkMoves(pk6);
                 return moves.SequenceEqual(Moves) ? res : new bool[4];
             }
-            bool egg = Legal.EggLocations.Contains(pk6.Egg_Location) && pk6.Met_Level == 1;
-            bool evnt = pk6.FatefulEncounter && pk6.Met_Location > 40000;
-            bool eventEgg = pk6.FatefulEncounter && (pk6.Egg_Location > 40000 || pk6.Egg_Location == 30002) && pk6.Met_Level == 1;
-            int[] relearnMoves = Legal.getValidRelearn(pk6, 0);
-            if (evnt || eventEgg)
+            if (pk6.WasEvent || pk6.WasEventEgg)
             {
                 // Get WC6's that match
                 IEnumerable<WC6> vwc6 = Legal.getValidWC6s(pk6);
                 if (vwc6.Any(wc6 => wc6.RelearnMoves.SequenceEqual(Moves)))
                     return res; // all true
+
+                goto noRelearn; // No WC match
             }
-            else if (egg)
+
+            int[] relearnMoves = Legal.getValidRelearn(pk6, 0);
+            if (pk6.WasEgg)
             {
                 if (Legal.SplitBreed.Contains(pk6.Species))
                 {
@@ -87,7 +86,7 @@ namespace PKHeX
                     res[i] &= relearnMoves.Contains(Moves[i]);
                 return res;
             }
-            else if (Moves[0] != 0) // DexNav only?
+            if (Moves[0] != 0) // DexNav only?
             {
                 // Check DexNav
                 for (int i = 0; i < 4; i++)
@@ -106,7 +105,7 @@ namespace PKHeX
         }
 
         public bool Valid = false;
-        public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs;
+        public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs, Encounter;
         public string Report => getLegalityReport();
         private string getLegalityReport()
         {
@@ -115,7 +114,16 @@ namespace PKHeX
             PID = LegalityCheck.verifyECPID(pk6);
             IVs = LegalityCheck.verifyIVs(pk6);
             EVs = LegalityCheck.verifyEVs(pk6);
-            return null;
+            IDs = LegalityCheck.verifyID(pk6);
+            Encounter = LegalityCheck.verifyEncounter(pk6);
+
+            var chks = new[] {EC, Nickname, PID, IVs, EVs, IDs, Encounter};
+
+            if (chks.All(chk => chk.Valid))
+                return "Legal!";
+
+            // Build result string...
+            return chks.Where(chk => !chk.Valid).Aggregate("", (current, inv) => current + $"{inv.Judgement}: {inv.Comment}{Environment.NewLine}");
         }
     }
 }

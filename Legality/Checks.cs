@@ -12,8 +12,8 @@ namespace PKHeX
     }
     public class LegalityCheck
     {
-        public Severity Judgement = Severity.Invalid;
-        public string Comment;
+        public Severity Judgement = Severity.Valid;
+        public string Comment = "Valid";
         public bool Valid => Judgement >= Severity.Fishy;
 
         public LegalityCheck() { }
@@ -96,6 +96,51 @@ namespace PKHeX
             if (pk.SID == 0)
                 return new LegalityCheck(Severity.Fishy, "SID is zero.");
             return new LegalityCheck();
+        }
+
+        public static LegalityCheck verifyEncounter(PK6 pk)
+        {
+            if (!pk.Gen6)
+                return new LegalityCheck {Judgement = Severity.NotImplemented};
+
+            if (pk.WasLink)
+            {
+                if (pk.FatefulEncounter || Legal.getLinkMoves(pk).Length == 0) // Should NOT be Fateful, and should be in Database
+                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift.");
+            }
+            if (pk.WasEvent || pk.WasEventEgg)
+            {
+                var vwc6 = Legal.getValidWC6s(pk);
+                try
+                {
+                    WC6 card = vwc6.First(wc6 => wc6.RelearnMoves.SequenceEqual(pk.RelearnMoves));
+                    return new LegalityCheck(Severity.Valid, $"Matches #{card.CardID.ToString("0000")} ({card.CardTitle})");
+                }
+                catch { /* No card. */ }
+                return new LegalityCheck(Severity.Invalid, "Not a valid Wonder Card gift.");
+            }
+            if (pk.WasEgg)
+            {
+                // Check Hatch Locations
+                if (pk.Version < 26) // XY
+                {
+                    if (Legal.ValidMet_XY.Contains(pk.Met_Location))
+                        return new LegalityCheck(Severity.Valid, "Valid XY hatched egg.");
+                }
+                else if (pk.Version < 28)
+                {
+                    if (Legal.ValidMet_AO.Contains(pk.Met_Location))
+                        return new LegalityCheck(Severity.Valid, "Valid ORAS hatched egg.");
+                }
+                return new LegalityCheck(Severity.Invalid, "Invalid location for hatched egg.");
+            }
+
+            // Not Implemented: Stationary/Gifts
+
+            if (Legal.getWildEncounterValid(pk))
+                return new LegalityCheck(Severity.Valid, "Valid encounter at location.");
+
+            return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
         }
     }
 }

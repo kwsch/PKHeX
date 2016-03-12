@@ -111,7 +111,7 @@ namespace PKHeX
                 default: return new List<EncounterArea>();
             }
         }
-
+        
         private static int getBaseSpecies(PK6 pk6, int skipOption)
         {
             DexLevel[] evos = Evolves[pk6.Species].Evos;
@@ -122,7 +122,18 @@ namespace PKHeX
                 default: return evos.Length <= 0 ? pk6.Species : evos.Last().Species;
             }
         }
-        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc, bool DexNav)
+
+        internal static bool getWildEncounterValid(PK6 pk6)
+        {
+            var areas = getEncounterAreas(pk6);
+            bool dexNav = pk6.RelearnMove1 != 0;
+            return areas.Any(a => getValidEncounterSlots(pk6, a, dexNav).Any());
+        }
+        internal static IEnumerable<EncounterArea> getEncounterAreas(PK6 pk6)
+        {
+            return getEncounterSlots(pk6).Where(l => l.Location == pk6.Met_Location);
+        }
+        internal static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc, bool DexNav)
         {
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
