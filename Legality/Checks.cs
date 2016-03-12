@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX
 {
@@ -97,7 +99,6 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Fishy, "SID is zero.");
             return new LegalityCheck();
         }
-
         public static LegalityCheck verifyEncounter(PK6 pk)
         {
             if (!pk.Gen6)
@@ -122,15 +123,28 @@ namespace PKHeX
             if (pk.WasEgg)
             {
                 // Check Hatch Locations
+                if (pk.Met_Level != 1)
+                    return new LegalityCheck(Severity.Invalid, "Invalid met level, expected 1.");
+                if (pk.IsEgg)
+                {
+                    var lc = pk.Met_Location == 0
+                        ? new LegalityCheck(Severity.Valid, "Valid un-hatched egg.")
+                        : new LegalityCheck(Severity.Invalid, "Invalid location for un-hatched egg (expected ID:0)");
+                    return lc;
+                }
                 if (pk.Version < 26) // XY
                 {
-                    if (Legal.ValidMet_XY.Contains(pk.Met_Location))
-                        return new LegalityCheck(Severity.Valid, "Valid XY hatched egg.");
+                    var lc = Legal.ValidMet_XY.Contains(pk.Met_Location)
+                        ? new LegalityCheck(Severity.Valid, "Valid X/Y hatched egg.")
+                        : new LegalityCheck(Severity.Invalid, "Invalid X/Y location for hatched egg.");
+                    return lc;
                 }
-                else if (pk.Version < 28)
+                if (pk.Version < 28)
                 {
-                    if (Legal.ValidMet_AO.Contains(pk.Met_Location))
-                        return new LegalityCheck(Severity.Valid, "Valid ORAS hatched egg.");
+                    var lc = Legal.ValidMet_AO.Contains(pk.Met_Location)
+                        ? new LegalityCheck(Severity.Valid, "Valid OR/AS hatched egg.")
+                        : new LegalityCheck(Severity.Invalid, "Invalid OR/AS location for hatched egg.");
+                    return lc;
                 }
                 return new LegalityCheck(Severity.Invalid, "Invalid location for hatched egg.");
             }
@@ -141,6 +155,152 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Valid, "Valid encounter at location.");
 
             return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
+        }
+        public static LegalityCheck[] verifyMoves(PK6 pk6)
+        {
+            int[] Moves = pk6.Moves;
+            LegalityCheck[] res = new LegalityCheck[4];
+            for (int i = 0; i < 4; i++)
+                res[i] = new LegalityCheck();
+            if (!pk6.Gen6)
+                return res;
+
+            var validMoves = Legal.getValidMoves(pk6).ToArray();
+            if (pk6.Species == 235)
+            {
+                for (int i = 0; i < 4; i++)
+                    res[i] = Legal.InvalidSketch.Contains(Moves[i])
+                        ? new LegalityCheck(Severity.Invalid, "Invalid Sketch move.")
+                        : new LegalityCheck();
+            }
+            else
+            {
+                int[] RelearnMoves = pk6.RelearnMoves;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Moves[i] == Legal.Struggle)
+                        res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move: Struggle.");
+                    else if (validMoves.Contains(Moves[i]))
+                        res[i] = new LegalityCheck(Severity.Valid, "Level-up.");
+                    else if (RelearnMoves.Contains(Moves[i]))
+                        res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.");
+                    else
+                        res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
+                }
+            }
+            if (Moves[0] == 0)
+                res[0] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
+
+            return res;
+        }
+        public static LegalityCheck[] verifyRelearn(PK6 pk6)
+        {
+            LegalityCheck[] res = new LegalityCheck[4];
+            int[] Moves = pk6.RelearnMoves;
+            if (!pk6.Gen6)
+                goto noRelearn;
+            if (pk6.WasLink)
+            {
+                int[] moves = Legal.getLinkMoves(pk6);
+                for (int i = 0; i < 4; i++)
+                    res[i] = moves[i] != Moves[i]
+                        ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
+                        : new LegalityCheck();
+                return res;
+            }
+            if (pk6.WasEvent || pk6.WasEventEgg)
+            {
+                // Get WC6's that match
+                IEnumerable<WC6> vwc6 = Legal.getValidWC6s(pk6);
+                foreach (var wc in vwc6)
+                {
+                    int[] moves = wc.RelearnMoves;
+                    for (int i = 0; i < 4; i++)
+                        res[i] = moves[i] != Moves[i]
+                            ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
+                            : new LegalityCheck(Severity.Valid, $"Matched WC #{wc.CardID.ToString("0000")}");
+                    if (res.All(r => r.Valid))
+                        return res;
+                }
+                goto noRelearn; // No WC match
+            }
+
+            if (pk6.WasEgg)
+            {
+                const int games = 2;
+                bool checkAllGames = pk6.WasTradedEgg;
+                bool splitBreed = Legal.SplitBreed.Contains(pk6.Species);
+
+                int iterate = (checkAllGames ? games : 1) * (splitBreed ? 2 : 1);
+                for (int i = 0; i < iterate; i++)
+                {
+                    int gameSource = !checkAllGames ? -1 : i % iterate / (splitBreed ? 2 : 1);
+                    int skipOption = splitBreed && iterate / 2 <= i ? 1 : 0;
+
+                    // Fetch moves - Sliding Window
+                    List<int> eggMoves = new List<int>(Legal.getBaseEggMoves(pk6, skipOption, gameSource));
+                    int eggCt = eggMoves.Count;
+                    // Obtain Nonstandard moves
+                    var relearn = pk6.RelearnMoves.Where(move => move != 0 && !eggMoves.Contains(move)).ToArray();
+                    int relearnCt = relearn.Length;
+
+                    eggMoves.AddRange(relearn);
+                    int[] moves = eggMoves.Skip(eggCt + relearnCt - 4).Take(4).ToArray();
+                    Array.Resize(ref moves, 4);
+
+                    int req = relearnCt == 4 
+                        ? 4 
+                        : (eggCt + relearnCt > 4 
+                            ? 4 - eggCt 
+                            : eggCt);
+
+                    // Movepool finalized! Check validity.
+                    var relearnMoves = Legal.getValidRelearn(pk6, skipOption).ToArray();
+                    if (Legal.LightBall.Contains(pk6.Species))
+                        relearnMoves = relearnMoves.Concat(new[] { 344 }).ToArray();
+                    
+                    int[] rl = pk6.RelearnMoves;
+                    // Base Egg Move
+                    for (int j = 0; j < req; j++)
+                        res[j] = rl[j] != moves[j]
+                            ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[j]}.")
+                            : new LegalityCheck(Severity.Valid, "Base egg move.");
+
+                    // Non-Base
+                    for (int j = req; j < 4; j++)
+                        res[j] = !relearnMoves.Contains(rl[j])
+                            ? new LegalityCheck(Severity.Invalid, "Not an expected relearn move.")
+                            : new LegalityCheck(Severity.Valid, "Relearn move.");
+
+                    if (res.All(r => r.Valid))
+                        break;
+                }
+                return res;
+            }
+            if (Moves[0] != 0) // DexNav only?
+            {
+                // Check DexNav
+                if (!Legal.getDexNavValid(pk6))
+                    goto noRelearn;
+
+                res[0] = !Legal.getValidRelearn(pk6, 0).Contains(Moves[0])
+                        ? new LegalityCheck(Severity.Invalid, "Not an expected DexNav move.")
+                        : new LegalityCheck();
+                for (int i = 1; i < 4; i++)
+                    res[i] = Moves[i] != 0
+                        ? new LegalityCheck(Severity.Invalid, "Expected no Relearn Move in slot.")
+                        : new LegalityCheck();
+
+                return res;
+            }
+
+            // Should have no relearn moves.
+            noRelearn:
+            for (int i = 0; i < 4; i++)
+                res[i] = Moves[i] != 0
+                    ? new LegalityCheck(Severity.Invalid, "Expected no Relearn Moves.")
+                    : new LegalityCheck();
+            return res;
         }
     }
 }

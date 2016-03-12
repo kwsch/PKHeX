@@ -1030,7 +1030,7 @@ namespace PKHeX
         public void populateFields(PK6 pk, bool focus = true)
         {
             pk6 = pk ?? new PK6();
-            if (fieldsInitialized & !PKX.verifychk(pk6.Data))
+            if (fieldsInitialized & !pk6.ChecksumValid)
                 Util.Alert("PKX File has an invalid checksum.");
 
             // Reset a little.
@@ -2115,7 +2115,7 @@ namespace PKHeX
                 Legality.updateRelearnLegality();
                 PictureBox[] movePB = { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
                 for (int i = 0; i < 4; i++)
-                    movePB[i].Visible = !Legality.vRelearn[i];
+                    movePB[i].Visible = !Legality.vRelearn[i].Valid;
             }
             // else, Refresh Moves
             {
@@ -2123,7 +2123,7 @@ namespace PKHeX
                 Legality.updateMoveLegality();
                 PictureBox[] movePB = { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
                 for (int i = 0; i < 4; i++)
-                    movePB[i].Visible = !Legality.vMoves[i];
+                    movePB[i].Visible = !Legality.vMoves[i].Valid;
             }
         }
         private void validateLocation(object sender, EventArgs e)
@@ -2155,10 +2155,10 @@ namespace PKHeX
             // Refresh Move Legality
             PictureBox[] movePB = {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4};
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.vMoves[i];
+                movePB[i].Visible = !Legality.vMoves[i].Valid;
             PictureBox[] relPB = {PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4};
             for (int i = 0; i < 4; i++)
-                relPB[i].Visible = !Legality.vRelearn[i];
+                relPB[i].Visible = !Legality.vRelearn[i].Valid;
         }
         private void updateStats()
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -40,7 +41,7 @@ namespace PKHeX
             IEnumerable<EncounterArea> locs = (alpha ? DexNavA : DexNavO).Where(l => l.Location == pk6.Met_Location);
             return locs.Select(loc => getValidEncounterSlots(pk6, loc, DexNav: true)).Any(slots => slots.Any());
         }
-        internal static int[] getValidMoves(PK6 pk6)
+        internal static IEnumerable<int> getValidMoves(PK6 pk6)
         {
             List<int> r = new List<int> {0};
             
@@ -56,14 +57,14 @@ namespace PKHeX
             }
             return r.Distinct().ToArray();
         }
-        internal static int[] getValidRelearn(PK6 pk6, int skipOption)
+        internal static IEnumerable<int> getValidRelearn(PK6 pk6, int skipOption)
         {
             List<int> r = new List<int> { 0 };
             int species = getBaseSpecies(pk6, skipOption);
             r.AddRange(getLVLMoves(species, 1));
             r.AddRange(getEggMoves(species));
             r.AddRange(getLVLMoves(species, 100));
-            return r.Distinct().ToArray();
+            return r.Distinct();
         }
         internal static int[] getLinkMoves(PK6 pk6)
         {
@@ -96,7 +97,42 @@ namespace PKHeX
                 vs.Any(dl => dl.Species == wc6.Species) &&
                 wc6.OT == pk6.OT_Name);
         }
-        internal static IEnumerable<EncounterArea> getEncounterSlots(PK6 pk6)
+        internal static bool getWildEncounterValid(PK6 pk6)
+        {
+            var areas = getEncounterAreas(pk6);
+            bool dexNav = pk6.RelearnMove1 != 0;
+            return areas.Any(a => getValidEncounterSlots(pk6, a, dexNav).Any());
+        }
+        internal static IEnumerable<int> getBaseEggMoves(PK6 pk6, int skipOption, int gameSource)
+        {
+            int species = getBaseSpecies(pk6, skipOption);
+            if (gameSource == -1)
+            {
+                if (pk6.Version == 24 || pk6.Version == 25)
+                    return LevelUpXY[species].getMoves(1);
+                // if (pk6.Version == 26 || pk6.Version == 27)
+                    return LevelUpAO[species].getMoves(1);
+            }
+            if (gameSource == 0) // XY
+                return LevelUpXY[species].getMoves(1);
+            // if (gameSource == 1) // ORAS
+                return LevelUpAO[species].getMoves(1);
+        }
+        internal static int getBaseSpecies(PK6 pk6, int skipOption)
+        {
+            DexLevel[] evos = Evolves[pk6.Species].Evos;
+            switch (skipOption)
+            {
+                case -1: return pk6.Species;
+                case 1: return evos.Length <= 1 ? pk6.Species : evos[evos.Length - 1].Species;
+                default: return evos.Length <= 0 ? pk6.Species : evos.Last().Species;
+            }
+        }
+        private static IEnumerable<int> getLVLMoves(int species, int lvl)
+        {
+            return LevelUpXY[species].getMoves(lvl).Concat(LevelUpAO[species].getMoves(lvl));
+        }
+        private static IEnumerable<EncounterArea> getEncounterSlots(PK6 pk6)
         {
             switch (pk6.Version)
             {
@@ -111,29 +147,11 @@ namespace PKHeX
                 default: return new List<EncounterArea>();
             }
         }
-        
-        private static int getBaseSpecies(PK6 pk6, int skipOption)
-        {
-            DexLevel[] evos = Evolves[pk6.Species].Evos;
-            switch (skipOption)
-            {
-                case -1: return pk6.Species;
-                case 1: return evos.Length <= 1 ? pk6.Species : evos[evos.Length - 1].Species;
-                default: return evos.Length <= 0 ? pk6.Species : evos.Last().Species;
-            }
-        }
-
-        internal static bool getWildEncounterValid(PK6 pk6)
-        {
-            var areas = getEncounterAreas(pk6);
-            bool dexNav = pk6.RelearnMove1 != 0;
-            return areas.Any(a => getValidEncounterSlots(pk6, a, dexNav).Any());
-        }
-        internal static IEnumerable<EncounterArea> getEncounterAreas(PK6 pk6)
+        private static IEnumerable<EncounterArea> getEncounterAreas(PK6 pk6)
         {
             return getEncounterSlots(pk6).Where(l => l.Location == pk6.Met_Location);
         }
-        internal static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc, bool DexNav)
+        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc, bool DexNav)
         {
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
@@ -185,10 +203,6 @@ namespace PKHeX
         private static IEnumerable<int> getEggMoves(int species)
         {
             return EggMoveAO[species].Moves.Concat(EggMoveXY[species].Moves);
-        }
-        private static IEnumerable<int> getLVLMoves(int species, int lvl)
-        {
-            return LevelUpXY[species].getMoves(lvl).Concat(LevelUpAO[species].getMoves(lvl));
         }
         private static IEnumerable<int> getTutorMoves(int species)
         {
