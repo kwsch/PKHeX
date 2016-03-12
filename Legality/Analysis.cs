@@ -109,6 +109,9 @@ namespace PKHeX
         public string Report => getLegalityReport();
         private string getLegalityReport()
         {
+            if (!pk6.Gen6)
+                return "Analysis only implemented for X/Y & OR/AS.";
+
             EC = LegalityCheck.verifyECPID(pk6);
             Nickname = LegalityCheck.verifyNickname(pk6);
             PID = LegalityCheck.verifyECPID(pk6);
