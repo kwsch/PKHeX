@@ -2069,6 +2069,8 @@ namespace PKHeX
         }
         private void validateComboBox(object sender)
         {
+            if (!formInitialized)
+                return;
             ComboBox cb = sender as ComboBox;
             if (cb == null) 
                 return;
