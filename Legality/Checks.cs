@@ -238,21 +238,25 @@ namespace PKHeX
                     int skipOption = splitBreed && iterate / 2 <= i ? 1 : 0;
 
                     // Fetch moves - Sliding Window
-                    List<int> eggMoves = new List<int>(Legal.getBaseEggMoves(pk6, skipOption, gameSource));
-                    int eggCt = eggMoves.Count;
+                    List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pk6, skipOption, gameSource));
+                    int baseCt = baseMoves.Count;
+                    if (baseCt > 4) baseCt = 4;
                     // Obtain Nonstandard moves
-                    var relearn = pk6.RelearnMoves.Where(move => move != 0 && !eggMoves.Contains(move)).ToArray();
+                    var relearn = pk6.RelearnMoves.Where(move => move != 0 && !baseMoves.Contains(move)).ToArray();
                     int relearnCt = relearn.Length;
-
-                    eggMoves.AddRange(relearn);
-                    int[] moves = eggMoves.Skip(eggCt + relearnCt - 4).Take(4).ToArray();
+                    // Get Move Window
+                    List<int> window = new List<int>(baseMoves);
+                    window.AddRange(relearn);
+                    int[] moves = window.Skip(baseCt + relearnCt - 4).Take(4).ToArray();
                     Array.Resize(ref moves, 4);
 
-                    int req = relearnCt == 4 
-                        ? 4 
-                        : (eggCt + relearnCt > 4 
-                            ? 4 - eggCt 
-                            : eggCt);
+                    int req;
+                    if (relearnCt == 4)
+                        req = 0;
+                    else if (baseCt + relearnCt > 4)
+                        req = 4 - relearnCt;
+                    else
+                        req = baseCt;
 
                     // Movepool finalized! Check validity.
                     var relearnMoves = Legal.getValidRelearn(pk6, skipOption).ToArray();
@@ -260,10 +264,11 @@ namespace PKHeX
                         relearnMoves = relearnMoves.Concat(new[] { 344 }).ToArray();
                     
                     int[] rl = pk6.RelearnMoves;
+                    string em = string.Join(", ", baseMoves);
                     // Base Egg Move
                     for (int j = 0; j < req; j++)
-                        res[j] = rl[j] != moves[j]
-                            ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[j]}.")
+                        res[j] = !baseMoves.Contains(rl[j])
+                            ? new LegalityCheck(Severity.Invalid, $"Base egg move missing; expected one of: {em}.")
                             : new LegalityCheck(Severity.Valid, "Base egg move.");
 
                     // Non-Base
