@@ -237,13 +237,18 @@ namespace PKHeX
                     int gameSource = !checkAllGames ? -1 : i % iterate / (splitBreed ? 2 : 1);
                     int skipOption = splitBreed && iterate / 2 <= i ? 1 : 0;
 
-                    // Fetch moves - Sliding Window
+                    // Obtain level1 moves
                     List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pk6, skipOption, gameSource));
                     int baseCt = baseMoves.Count;
                     if (baseCt > 4) baseCt = 4;
+
                     // Obtain Nonstandard moves
-                    var relearn = pk6.RelearnMoves.Where(move => move != 0 && !baseMoves.Contains(move)).ToArray();
+                    var relearnMoves = Legal.getValidRelearn(pk6, skipOption).ToArray();
+                    var relearn = pk6.RelearnMoves.Where(move => move != 0 
+                        && (!baseMoves.Contains(move) || relearnMoves.Contains(move))
+                        ).ToArray();
                     int relearnCt = relearn.Length;
+
                     // Get Move Window
                     List<int> window = new List<int>(baseMoves);
                     window.AddRange(relearn);
@@ -259,9 +264,6 @@ namespace PKHeX
                         req = baseCt;
 
                     // Movepool finalized! Check validity.
-                    var relearnMoves = Legal.getValidRelearn(pk6, skipOption).ToArray();
-                    if (Legal.LightBall.Contains(pk6.Species))
-                        relearnMoves = relearnMoves.Concat(new[] { 344 }).ToArray();
                     
                     int[] rl = pk6.RelearnMoves;
                     string em = string.Join(", ", baseMoves);
@@ -272,6 +274,8 @@ namespace PKHeX
                             : new LegalityCheck(Severity.Valid, "Base egg move.");
 
                     // Non-Base
+                    if (Legal.LightBall.Contains(pk6.Species))
+                        relearnMoves = relearnMoves.Concat(new[] { 344 }).ToArray();
                     for (int j = req; j < 4; j++)
                         res[j] = !relearnMoves.Contains(rl[j])
                             ? new LegalityCheck(Severity.Invalid, "Not an expected relearn move.")
