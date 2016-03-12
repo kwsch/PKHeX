@@ -7,9 +7,21 @@ namespace PKHeX
     public class LegalityAnalysis
     {
         private readonly PK6 pk6;
+        public bool[] vMoves = new bool[4];
+        public bool[] vRelearn = new bool[4];
         public LegalityAnalysis(PK6 pk)
         {
             pk6 = pk;
+            updateRelearnLegality();
+            updateMoveLegality();
+        }
+        public void updateRelearnLegality()
+        {
+            vRelearn = getRelearnValidity(pk6.RelearnMoves);
+        }
+        public void updateMoveLegality()
+        {
+            vMoves = getMoveValidity(pk6.Moves, pk6.RelearnMoves);
         }
 
         public bool[] getMoveValidity(int[] Moves, int[] RelearnMoves)
@@ -103,14 +115,13 @@ namespace PKHeX
                 res[i] = Moves[i] == 0;
             return res;
         }
-
-        public bool Valid = false;
+        
         public LegalityCheck EC, Nickname, PID, IDs, IVs, EVs, Encounter;
         public string Report => getLegalityReport();
         private string getLegalityReport()
         {
             if (!pk6.Gen6)
-                return "Analysis only implemented for X/Y & OR/AS.";
+                return "Analysis only available for Pokémon that originate from X/Y & OR/AS.";
 
             EC = LegalityCheck.verifyECPID(pk6);
             Nickname = LegalityCheck.verifyNickname(pk6);
@@ -122,11 +133,21 @@ namespace PKHeX
 
             var chks = new[] {EC, Nickname, PID, IVs, EVs, IDs, Encounter};
 
-            if (chks.All(chk => chk.Valid))
+            string r = "";
+            for (int i = 0; i < 4; i++)
+                if (!vMoves[i])
+                    r += $"Invalid: Move {i + 1}{Environment.NewLine}";
+            for (int i = 0; i < 4; i++)
+                if (!vRelearn[i])
+                    r += $"Invalid: Relearn Move {i + 1}{Environment.NewLine}";
+
+            if (r.Length == 0 && chks.All(chk => chk.Valid))
                 return "Legal!";
 
             // Build result string...
-            return chks.Where(chk => !chk.Valid).Aggregate("", (current, inv) => current + $"{inv.Judgement}: {inv.Comment}{Environment.NewLine}");
+            r += chks.Where(chk => !chk.Valid).Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+
+            return r;
         }
     }
 }

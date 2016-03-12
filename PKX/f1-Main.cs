@@ -2067,7 +2067,6 @@ namespace PKHeX
             updateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
         }
-
         private void validateComboBox(object sender)
         {
             ComboBox cb = sender as ComboBox;
@@ -2106,24 +2105,23 @@ namespace PKHeX
             if (new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Contains(sender)) // Move
                 updatePP(sender, e);
 
-            int[] relearnMoves = { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
-            int[] moves = { Util.getIndex(CB_Move1), Util.getIndex(CB_Move2), Util.getIndex(CB_Move3), Util.getIndex(CB_Move4) };
-
+            
             // Refresh Relearn if...
             if (new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 }.Contains(sender))
             {
-                PictureBox[] moveCB = { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
-                bool[] legal = Legality.getRelearnValidity(relearnMoves);
+                pk6.RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
+                Legality.updateRelearnLegality();
+                PictureBox[] movePB = { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
                 for (int i = 0; i < 4; i++)
-                    moveCB[i].Visible = !legal[i];
+                    movePB[i].Visible = !Legality.vRelearn[i];
             }
-
-            // Refresh Moves
+            // else, Refresh Moves
             {
-                PictureBox[] moveCB = { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
-                bool[] legal = Legality.getMoveValidity(moves, relearnMoves);
+                pk6.Moves = new[] { Util.getIndex(CB_Move1), Util.getIndex(CB_Move2), Util.getIndex(CB_Move3), Util.getIndex(CB_Move4) };
+                Legality.updateMoveLegality();
+                PictureBox[] movePB = { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
                 for (int i = 0; i < 4; i++)
-                    moveCB[i].Visible = !legal[i];
+                    movePB[i].Visible = !Legality.vMoves[i];
             }
         }
         private void validateLocation(object sender, EventArgs e)
@@ -2153,7 +2151,12 @@ namespace PKHeX
             Legality = new LegalityAnalysis(pk6);
 
             // Refresh Move Legality
-            validateMove(CB_RelearnMove1, null);
+            PictureBox[] movePB = {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4};
+            for (int i = 0; i < 4; i++)
+                movePB[i].Visible = !Legality.vMoves[i];
+            PictureBox[] relPB = {PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4};
+            for (int i = 0; i < 4; i++)
+                relPB[i].Visible = !Legality.vRelearn[i];
         }
         private void updateStats()
         {
