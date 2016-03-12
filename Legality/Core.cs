@@ -124,7 +124,7 @@ namespace PKHeX
             switch (skipOption)
             {
                 case -1: return pk6.Species;
-                case 1: return evos.Length <= 1 ? pk6.Species : evos[evos.Length - 1].Species;
+                case 1: return evos.Length <= 1 ? pk6.Species : evos[evos.Length - 2].Species;
                 default: return evos.Length <= 0 ? pk6.Species : evos.Last().Species;
             }
         }
