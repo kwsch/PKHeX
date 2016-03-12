@@ -34,7 +34,7 @@ namespace PKHeX
 
         public int[] getMoves(int level)
         {
-            for (int i = 0; i > Levels.Length; i++)
+            for (int i = 0; i < Levels.Length; i++)
                 if (Levels[i] > level)
                     return Moves.Take(i).ToArray();
             return Moves;
