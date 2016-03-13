@@ -135,6 +135,32 @@ namespace PKHeX
         public int LevelMin;
         public int LevelMax;
     }
+    public class EncounterStatic
+    {
+        public int Species;
+        public int Level;
+
+        public int Location = 0;
+        public int Ability = 0;
+        public int Form = 0;
+        public bool? Shiny = null; // false = never, true = always, null = possible
+        public int[] Relearn = new int[4];
+        public int Gender = -1;
+        public int EggLocation = 0;
+        public Nature Nature = Nature.Random;
+        public GameVersion Version = GameVersion.Any;
+
+        public EncounterStatic() { }
+    }
+    public enum Nature
+    {
+        Random = -1,
+        Hardy, Lonely, Brave, Adamant, Naughty, Bold,
+        Docile, Relaxed, Impish, Lax, Timid, Hasty,
+        Serious, Jolly, Naive, Modest, Mild, Quiet,
+        Bashful, Rash, Calm, Gentle, Sassy, Careful,
+        Quirky,
+    }
     public class PersonalInfo
     {
         internal static int SizeAO = 0x50;

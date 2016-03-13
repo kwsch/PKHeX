@@ -16,7 +16,8 @@ namespace PKHeX
         X = 24, Y = 25,
         AS = 26, OR = 27,
         SN = 28, MN = 29,
-        Unknown = -1,
+        Unknown = 0,
+        Any = -1,
     }
     public class SAV6 : PKX
     {

@@ -149,10 +149,18 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Invalid, "Invalid location for hatched egg.");
             }
 
-            // Not Implemented: Stationary/Gifts
-
             if (Legal.getWildEncounterValid(pk))
                 return new LegalityCheck(Severity.Valid, "Valid encounter at location.");
+
+            EncounterStatic z = Legal.getStaticEncounter(pk);
+            if (z != null)
+                return new LegalityCheck(Severity.Valid, "Valid gift/static encounter.");
+
+            int FriendSafari = Legal.getFriendSafariValid(pk);
+            if (FriendSafari > 0)
+                return new LegalityCheck(Severity.Valid, "Valid friend safari encounter.");
+
+            // Not Implemented: In-Game Trades
 
             return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
         }
