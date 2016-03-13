@@ -122,12 +122,15 @@ namespace PKHeX
             if (importwc6.ShowDialog() != DialogResult.OK) return;
 
             string path = importwc6.FileName;
-            if (new FileInfo(path).Length != WC6.Size)
+            long len = new FileInfo(path).Length;
+            if (len != WC6.Size || len != WC6.SizeFull)
             {
                 Util.Error("File is not a Wonder Card:", path);
                 return;
             }
             byte[] newwc6 = File.ReadAllBytes(path);
+            if (newwc6.Length == WC6.SizeFull)
+                newwc6 = newwc6.Skip(WC6.SizeFull - WC6.Size).ToArray();
             Array.Copy(newwc6, wondercard_data, newwc6.Length);
             loadwcdata();
         }

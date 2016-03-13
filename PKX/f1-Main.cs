@@ -631,7 +631,10 @@ namespace PKHeX
             }
             #endregion
             #region Wondercard
-            else if (input.Length == WC6.Size && ext == ".wc6")
+            else if ((input.Length == WC6.Size && ext == ".wc6") || (input.Length == WC6.SizeFull && ext == ".wcfull6"))
+            {
+                if (input.Length == WC6.SizeFull) // Take bytes at end = WC6 size.
+                    input = input.Skip(WC6.SizeFull - WC6.Size).ToArray();
                 if (ModifierKeys == Keys.Control)
                     new SAV_Wondercard(input).Show();
                 else
@@ -645,6 +648,7 @@ namespace PKHeX
                     }
                     populateFields(pk);
                 }
+            }
             else if (input.Length == PGF.Size && ext == ".pgf")
             {
                 PK5 pk = new PGF(input).convertToPK5(SAV);

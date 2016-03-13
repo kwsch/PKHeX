@@ -7,6 +7,7 @@ namespace PKHeX
     public class WC6
     {
         internal const int Size = 0x108;
+        internal const int SizeFull = 0x310;
 
         public byte[] Data;
         public WC6(byte[] data = null)
