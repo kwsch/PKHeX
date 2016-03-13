@@ -149,8 +149,6 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Invalid, "Invalid location for hatched egg.");
             }
 
-            if (Legal.getWildEncounterValid(pk))
-                return new LegalityCheck(Severity.Valid, "Valid encounter at location.");
 
             EncounterStatic z = Legal.getStaticEncounter(pk);
             if (z != null)
@@ -162,6 +160,13 @@ namespace PKHeX
 
             // Not Implemented: In-Game Trades
 
+            if (Legal.getWildEncounterValid(pk))
+            {
+                var lc = Legal.ValidMet_AO.Contains(pk.Met_Location)
+                    ? new LegalityCheck(Severity.Valid, "Valid encounter at location.")
+                    : new LegalityCheck(Severity.Invalid, "Hidden ability on valid encounter.");
+                return lc;
+            }
             return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
         }
         public static LegalityCheck[] verifyMoves(PK6 pk6)
