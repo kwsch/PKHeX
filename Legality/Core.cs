@@ -380,6 +380,11 @@ namespace PKHeX
             new EncounterStatic { Species = 638, Level = 50, Location = 336 }, // Cobalion
             new EncounterStatic { Species = 639, Level = 50, Location = 336 }, // Terrakion
             new EncounterStatic { Species = 640, Level = 50, Location = 336 }, // Virizion
+            
+            new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119
+            new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120
+            new EncounterStatic { Species = 352, Level = 40, Location = 176 }, // Kecleon @ Lavaridge
+            new EncounterStatic { Species = 352, Level = 45, Location = 196 }, // Kecleon @ Mossdeep City
         };
         #endregion
         private static readonly EncounterStatic[] StaticX = getSpecial(GameVersion.X);
