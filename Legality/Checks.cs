@@ -158,7 +158,7 @@ namespace PKHeX
 
             // Not Implemented: In-Game Trades
 
-            if (Legal.getWildEncounterValid(pk6))
+            if (Legal.getDexNavValid(pk6) || Legal.getWildEncounterValid(pk6))
             {
                 var lc = pk6.AbilityNumber != 4
                     ? new LegalityCheck(Severity.Valid, "Valid encounter at location.")
