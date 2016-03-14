@@ -318,13 +318,13 @@ namespace PKHeX
         };
         private static readonly EncounterStatic[] Encounter_AO =
         {
-            new EncounterStatic { Species = 152, Level = 5, Location = 170, Gift = true }, // Chespin
-            new EncounterStatic { Species = 155, Level = 5, Location = 170, Gift = true }, // Fennekin
-            new EncounterStatic { Species = 158, Level = 5, Location = 170, Gift = true }, // Froakie
+            new EncounterStatic { Species = 252, Level = 5, Location = 204, Gift = true }, // Treeko
+            new EncounterStatic { Species = 255, Level = 5, Location = 204, Gift = true }, // Torchic
+            new EncounterStatic { Species = 258, Level = 5, Location = 204, Gift = true }, // Mudkip
             
-            new EncounterStatic { Species = 252, Level = 5, Location = 204, Gift = true }, // Chikorita
-            new EncounterStatic { Species = 255, Level = 5, Location = 204, Gift = true }, // Cyndaquil
-            new EncounterStatic { Species = 258, Level = 5, Location = 204, Gift = true }, // Totodile
+            new EncounterStatic { Species = 152, Level = 5, Location = 170, Gift = true }, // Chikorita
+            new EncounterStatic { Species = 155, Level = 5, Location = 170, Gift = true }, // Cyndaquil
+            new EncounterStatic { Species = 158, Level = 5, Location = 170, Gift = true }, // Totodile
 
             new EncounterStatic { Species = 387, Level = 5, Location = 204, Gift = true }, // Turtwig
             new EncounterStatic { Species = 390, Level = 5, Location = 204, Gift = true }, // Chimchar
