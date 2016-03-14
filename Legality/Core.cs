@@ -245,15 +245,14 @@ namespace PKHeX
         private static IEnumerable<DexLevel> getValidPreEvolutions(PK6 pk6)
         {
             var evos = Evolves[pk6.Species].Evos;
-            int dec = 0;
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pk6.Species, Level = pk6.CurrentLevel } };
+            int lvl = pk6.CurrentLevel;
             foreach (DexLevel evo in evos)
             {
-                if (evo.Level > 0) // Level Up (from previous level)
-                    dec++;
-                int lvl = pk6.CurrentLevel - dec;
-                if (lvl >= pk6.Met_Level && lvl > evo.Level)
+                if (lvl >= pk6.Met_Level && lvl <= evo.Level)
                     dl.Add(new DexLevel { Species = evo.Species, Level = lvl });
+                if (evo.Level > 0) // Level Up (from previous level)
+                    lvl--;
             }
             return dl;
         }
