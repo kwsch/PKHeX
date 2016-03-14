@@ -963,6 +963,7 @@ namespace PKHeX
                 CB_BoxSelect.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
                 CB_Country.SelectedIndex = 0;
+                CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
             }
         }
         private void InitializeLanguage()
