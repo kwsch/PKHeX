@@ -1114,7 +1114,7 @@ namespace PKHeX
             CB_MetLocation.SelectedValue = pk6.Met_Location;
 
             // Set CT Gender to None if no CT, else set to gender symbol.
-            Label_CTGender.Text = pk6.HT_Name == "" ? "" : gendersymbols[pk6.HT_Gender];
+            Label_CTGender.Text = pk6.HT_Name == "" ? "" : gendersymbols[pk6.HT_Gender % 2];
             Label_CTGender.ForeColor = pk6.HT_Gender == 1 ? Color.Red : Color.Blue;
 
             TB_MetLevel.Text = pk6.Met_Level.ToString();
