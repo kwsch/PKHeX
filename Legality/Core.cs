@@ -392,6 +392,9 @@ namespace PKHeX
 
             new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.AS }, // Latios
             new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.OR }, // Latias
+            
+            new EncounterStatic { Species = 101, Level = 40, Location = 292, Version = GameVersion.AS }, // Electrode
+            new EncounterStatic { Species = 101, Level = 40, Location = 314, Version = GameVersion.OR }, // Electrode
         };
         #endregion
         private static readonly EncounterStatic[] StaticX = getSpecial(GameVersion.X);
