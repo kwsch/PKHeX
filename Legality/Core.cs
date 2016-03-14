@@ -355,8 +355,8 @@ namespace PKHeX
             new EncounterStatic { Species = 249, Level = 50, Location = 304, Version = GameVersion.AS }, // Lugia
             new EncounterStatic { Species = 250, Level = 50, Location = 306, Version = GameVersion.OR }, // Ho-oh
 
-            new EncounterStatic { Species = 383, Level = 50, Location = 348, Version = GameVersion.AS }, // Dialga
-            new EncounterStatic { Species = 384, Level = 50, Location = 348, Version = GameVersion.OR }, // Palia
+            new EncounterStatic { Species = 483, Level = 50, Location = 348, Version = GameVersion.AS }, // Dialga
+            new EncounterStatic { Species = 484, Level = 50, Location = 348, Version = GameVersion.OR }, // Palia
 
             new EncounterStatic { Species = 644, Level = 50, Location = 340, Version = GameVersion.AS }, // Zekrom
             new EncounterStatic { Species = 643, Level = 50, Location = 340, Version = GameVersion.OR }, // Reshiram
