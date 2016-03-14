@@ -148,6 +148,7 @@ namespace PKHeX
         public int Gender = -1;
         public int EggLocation = 0;
         public Nature Nature = Nature.Random;
+        public bool Gift = false;
         public GameVersion Version = GameVersion.Any;
 
         public EncounterStatic() { }

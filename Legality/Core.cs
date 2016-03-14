@@ -151,6 +151,8 @@ namespace PKHeX
                     continue;
                 if (e.Shiny != null && e.Shiny != pk6.IsShiny)
                     continue;
+                if (e.Gift && pk6.Ball != 4) // PokéBall
+                    continue;
 
                 // Passes all checks, valid encounter
                 return e;
@@ -292,16 +294,16 @@ namespace PKHeX
         #region Static Encounter/Gift Tables
         private static readonly EncounterStatic[] Encounter_XY =
         {
-            new EncounterStatic { Species = 650, Level = 5, Location = 10 }, // Chespin
-            new EncounterStatic { Species = 653, Level = 5, Location = 10 }, // Fennekin
-            new EncounterStatic { Species = 656, Level = 5, Location = 10 }, // Froakie
+            new EncounterStatic { Species = 650, Level = 5, Location = 10, Gift = true }, // Chespin
+            new EncounterStatic { Species = 653, Level = 5, Location = 10, Gift = true }, // Fennekin
+            new EncounterStatic { Species = 656, Level = 5, Location = 10, Gift = true }, // Froakie
 
-            new EncounterStatic { Species = 1, Level = 10, Location = 10 }, // Bulbasaur
-            new EncounterStatic { Species = 4, Level = 10, Location = 10 }, // Charmander
-            new EncounterStatic { Species = 7, Level = 10, Location = 10 }, // Squirtle
+            new EncounterStatic { Species = 1, Level = 10, Location = 10, Gift = true }, // Bulbasaur
+            new EncounterStatic { Species = 4, Level = 10, Location = 10, Gift = true }, // Charmander
+            new EncounterStatic { Species = 7, Level = 10, Location = 10, Gift = true }, // Squirtle
 
-            new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Hasty }, // Lucario
-            new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Docile }, // Lapras
+            new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Hasty, Gift = true }, // Lucario
+            new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Docile, Gift = true }, // Lapras
             
             new EncounterStatic { Species = 143, Level = 15, Location = 38 }, // Snorlax
             
@@ -317,29 +319,29 @@ namespace PKHeX
         };
         private static readonly EncounterStatic[] Encounter_AO =
         {
-            new EncounterStatic { Species = 152, Level = 5, Location = 170 }, // Chespin
-            new EncounterStatic { Species = 155, Level = 5, Location = 170 }, // Fennekin
-            new EncounterStatic { Species = 158, Level = 5, Location = 170 }, // Froakie
+            new EncounterStatic { Species = 152, Level = 5, Location = 170, Gift = true }, // Chespin
+            new EncounterStatic { Species = 155, Level = 5, Location = 170, Gift = true }, // Fennekin
+            new EncounterStatic { Species = 158, Level = 5, Location = 170, Gift = true }, // Froakie
             
-            new EncounterStatic { Species = 252, Level = 5, Location = 204 }, // Chikorita
-            new EncounterStatic { Species = 255, Level = 5, Location = 204 }, // Cyndaquil
-            new EncounterStatic { Species = 258, Level = 5, Location = 204 }, // Totodile
+            new EncounterStatic { Species = 252, Level = 5, Location = 204, Gift = true }, // Chikorita
+            new EncounterStatic { Species = 255, Level = 5, Location = 204, Gift = true }, // Cyndaquil
+            new EncounterStatic { Species = 258, Level = 5, Location = 204, Gift = true }, // Totodile
 
-            new EncounterStatic { Species = 387, Level = 5, Location = 204 }, // Turtwig
-            new EncounterStatic { Species = 390, Level = 5, Location = 204 }, // Chimchar
-            new EncounterStatic { Species = 393, Level = 5, Location = 204 }, // Piplup
+            new EncounterStatic { Species = 387, Level = 5, Location = 204, Gift = true }, // Turtwig
+            new EncounterStatic { Species = 390, Level = 5, Location = 204, Gift = true }, // Chimchar
+            new EncounterStatic { Species = 393, Level = 5, Location = 204, Gift = true }, // Piplup
 
-            new EncounterStatic { Species = 495, Level = 5, Location = 204 }, // Snivy
-            new EncounterStatic { Species = 498, Level = 5, Location = 204 }, // Tepig
-            new EncounterStatic { Species = 501, Level = 5, Location = 204 }, // Oshawott
+            new EncounterStatic { Species = 495, Level = 5, Location = 204, Gift = true }, // Snivy
+            new EncounterStatic { Species = 498, Level = 5, Location = 204, Gift = true }, // Tepig
+            new EncounterStatic { Species = 501, Level = 5, Location = 204, Gift = true }, // Oshawott
 
-            new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4 }, // Pikachu
-            new EncounterStatic { Species = 360, Level = 1, EggLocation = 176 }, // Wynaut
-            new EncounterStatic { Species = 175, Level = 1, EggLocation = 176, Ability = 1 }, // Togepi
-            new EncounterStatic { Species = 360, Level = 1, Location = 196 }, // Beldum
+            new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, Gift = true }, // Pikachu
+            new EncounterStatic { Species = 360, Level = 1, EggLocation = 176, Gift = true }, // Wynaut
+            new EncounterStatic { Species = 175, Level = 1, EggLocation = 176, Ability = 1, Gift = true }, // Togepi
+            new EncounterStatic { Species = 360, Level = 1, Location = 196, Gift = true }, // Beldum
 
-            new EncounterStatic { Species = 319, Level = 40, Location = 318 }, // Sharpedo
-            new EncounterStatic { Species = 323, Level = 40, Location = 318 }, // Camerupt
+            new EncounterStatic { Species = 319, Level = 40, Location = 318, Gift = true }, // Sharpedo
+            new EncounterStatic { Species = 323, Level = 40, Location = 318, Gift = true }, // Camerupt
 
             new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = false }, // Kyogre
             new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = false }, // Groudon
@@ -385,6 +387,12 @@ namespace PKHeX
             new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120
             new EncounterStatic { Species = 352, Level = 40, Location = 176 }, // Kecleon @ Lavaridge
             new EncounterStatic { Species = 352, Level = 45, Location = 196 }, // Kecleon @ Mossdeep City
+            
+            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Gift = true }, // Latias
+            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Gift = true }, // Latios
+
+            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.AS }, // Latios
+            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.OR }, // Latias
         };
         #endregion
         private static readonly EncounterStatic[] StaticX = getSpecial(GameVersion.X);
