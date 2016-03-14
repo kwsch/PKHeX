@@ -395,6 +395,9 @@ namespace PKHeX
             
             new EncounterStatic { Species = 101, Level = 40, Location = 292, Version = GameVersion.AS }, // Electrode
             new EncounterStatic { Species = 101, Level = 40, Location = 314, Version = GameVersion.OR }, // Electrode
+            
+            new EncounterStatic { Species = 100, Level = 20, Location = 302 }, // Voltorb @ Route 119
+            new EncounterStatic { Species = 442, Level = 50, Location = 304 }, // Spiritomb @ Route 120
         };
         #endregion
         private static readonly EncounterStatic[] StaticX = getSpecial(GameVersion.X);
