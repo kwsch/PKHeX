@@ -162,7 +162,7 @@ namespace PKHeX
 
             if (Legal.getWildEncounterValid(pk))
             {
-                var lc = Legal.ValidMet_AO.Contains(pk.Met_Location)
+                var lc = pk.AbilityNumber != 4
                     ? new LegalityCheck(Severity.Valid, "Valid encounter at location.")
                     : new LegalityCheck(Severity.Invalid, "Hidden ability on valid encounter.");
                 return lc;
