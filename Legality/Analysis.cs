@@ -6,11 +6,13 @@ namespace PKHeX
     public class LegalityAnalysis
     {
         private readonly PK6 pk6;
+        public bool Valid = true;
         public LegalityAnalysis(PK6 pk)
         {
             pk6 = pk;
             updateRelearnLegality();
             updateMoveLegality();
+            getLegalityReport();
         }
         public void updateRelearnLegality()
         {
@@ -54,6 +56,7 @@ namespace PKHeX
             if (r.Length == 0 && chks.All(chk => chk.Valid))
                 return "Legal!";
 
+            Valid = false;
             // Build result string...
             r += chks.Where(chk => !chk.Valid).Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
 

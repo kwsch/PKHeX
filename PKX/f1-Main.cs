@@ -961,11 +961,8 @@ namespace PKHeX
                 CB_GameOrigin.SelectedIndex = 0;
                 CB_Language.SelectedIndex = 0;
                 CB_BoxSelect.SelectedIndex = 0;
-                CB_GameOrigin.SelectedIndex = 0;
-                CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
                 CB_Country.SelectedIndex = 0;
-                setAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
             }
         }
         private void InitializeLanguage()
@@ -2144,10 +2141,13 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void showLegality(PK6 pk)
+        private void showLegality(PK6 pk, bool tabs)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
             Util.Alert(la.Report); // temp
+            PB_Legal.Visible = pk.Gen6;
+            if (tabs)
+                PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
         }
         private void updateLegality()
         {
@@ -2155,6 +2155,8 @@ namespace PKHeX
                 return;
 
             Legality = new LegalityAnalysis(pk6);
+            PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
+            PB_Legal.Visible = pk6.Gen6;
 
             // Refresh Move Legality
             PictureBox[] movePB = {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4};
@@ -2755,7 +2757,7 @@ namespace PKHeX
             if (pk.Species == 0 || !pk.ChecksumValid)
             { SystemSounds.Asterisk.Play(); return; }
 
-            showLegality(pk);
+            showLegality(pk, slot < 0);
         }
         private void updateEggRNGSeed(object sender, EventArgs e)
         {

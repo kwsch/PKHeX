@@ -363,6 +363,7 @@
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLQR = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -462,6 +463,7 @@
             this.GB_SAVtools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             this.mnuL.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -1901,7 +1903,6 @@
             // PB_WarnMove3
             // 
             this.PB_WarnMove3.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove3.Image")));
-            this.PB_WarnMove3.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove3.InitialImage")));
             this.PB_WarnMove3.Location = new System.Drawing.Point(8, 91);
             this.PB_WarnMove3.Name = "PB_WarnMove3";
             this.PB_WarnMove3.Size = new System.Drawing.Size(16, 16);
@@ -1912,7 +1913,6 @@
             // PB_WarnMove2
             // 
             this.PB_WarnMove2.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove2.Image")));
-            this.PB_WarnMove2.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove2.InitialImage")));
             this.PB_WarnMove2.Location = new System.Drawing.Point(8, 69);
             this.PB_WarnMove2.Name = "PB_WarnMove2";
             this.PB_WarnMove2.Size = new System.Drawing.Size(16, 16);
@@ -1923,7 +1923,6 @@
             // PB_WarnMove1
             // 
             this.PB_WarnMove1.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove1.Image")));
-            this.PB_WarnMove1.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove1.InitialImage")));
             this.PB_WarnMove1.Location = new System.Drawing.Point(8, 47);
             this.PB_WarnMove1.Name = "PB_WarnMove1";
             this.PB_WarnMove1.Size = new System.Drawing.Size(16, 16);
@@ -4387,12 +4386,23 @@
             this.mnuLSave.Text = "Save as...";
             this.mnuLSave.Click += new System.EventHandler(this.mainMenuSave);
             // 
+            // PB_Legal
+            // 
+            this.PB_Legal.Image = ((System.Drawing.Image)(resources.GetObject("PB_Legal.Image")));
+            this.PB_Legal.Location = new System.Drawing.Point(226, 5);
+            this.PB_Legal.Name = "PB_Legal";
+            this.PB_Legal.Size = new System.Drawing.Size(16, 16);
+            this.PB_Legal.TabIndex = 101;
+            this.PB_Legal.TabStop = false;
+            this.PB_Legal.Click += new System.EventHandler(this.clickLegality);
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 361);
+            this.Controls.Add(this.PB_Legal);
             this.Controls.Add(this.dragout);
             this.Controls.Add(this.GB_SAVtools);
             this.Controls.Add(this.tabBoxMulti);
@@ -4524,6 +4534,7 @@
             this.GB_SAVtools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             this.mnuL.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4863,6 +4874,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLSave;
         private System.Windows.Forms.ToolStripMenuItem mnuLLegality;
         private System.Windows.Forms.ToolStripMenuItem mnuLQR;
+        private System.Windows.Forms.PictureBox PB_Legal;
     }
 }
 
