@@ -227,6 +227,11 @@ namespace PKHeX
             if (Moves[0] == 0)
                 res[0] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
 
+
+            if (pk6.Species == 647) // Keldeo
+                if (pk6.AltForm == 1 ^ pk6.Moves.Contains(533))
+                    res[0] = new LegalityCheck(Severity.Invalid, "Sacred Sword / Resolute Keldeo Mismatch.");
+
             // Duplicate Moves Check
             for (int i = 0; i < 4; i++)
                 if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
