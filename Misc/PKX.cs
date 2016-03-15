@@ -136,15 +136,15 @@ namespace PKHeX
 
         internal static readonly string[][] SpeciesLang = 
         {
-            Util.getStringList("Species", "ja"), // none
-            Util.getStringList("Species", "ja"), // 1
-            Util.getStringList("Species", "en"), // 2
-            Util.getStringList("Species", "fr"), // 3
-            Util.getStringList("Species", "it"), // 4
-            Util.getStringList("Species", "de"), // 5
-            Util.getStringList("Species", "es"), // none
-            Util.getStringList("Species", "es"), // 7
-            Util.getStringList("Species", "ko"), // 8
+            Util.getStringList("species", "ja"), // none
+            Util.getStringList("species", "ja"), // 1
+            Util.getStringList("species", "en"), // 2
+            Util.getStringList("species", "fr"), // 3
+            Util.getStringList("species", "it"), // 4
+            Util.getStringList("species", "de"), // 5
+            Util.getStringList("species", "es"), // none
+            Util.getStringList("species", "es"), // 7
+            Util.getStringList("species", "ko"), // 8
         };
 
         internal static string getSpeciesName(int species, int lang)
@@ -780,11 +780,11 @@ namespace PKHeX
         {
             try
             {
-                byte[] fontData = Properties.Resources.PGLDings_NormalRegular;
+                byte[] fontData = Properties.Resources.pgldings_normalregular;
                 IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
                 System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-                s_FontCollection.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length); uint dummy = 0;
-                AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
+                s_FontCollection.AddMemoryFont(fontPtr, Properties.Resources.pgldings_normalregular.Length); uint dummy = 0;
+                AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.pgldings_normalregular.Length, IntPtr.Zero, ref dummy);
                 System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
             }
             catch { Util.Error("Unable to add ingame font."); }
@@ -1240,12 +1240,12 @@ namespace PKHeX
         internal static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         public class ShowdownSet
         {
-            private static readonly string[] species = Util.getStringList("Species", "en");
-            private static readonly string[] items = Util.getStringList("Items", "en");
-            private static readonly string[] natures = Util.getStringList("Natures", "en");
-            private static readonly string[] moves = Util.getStringList("Moves", "en");
-            private static readonly string[] abilities = Util.getStringList("Abilities", "en");
-            private static readonly string[] hptypes = Util.getStringList("Types", "en").Skip(1).ToArray();
+            private static readonly string[] species = Util.getStringList("species", "en");
+            private static readonly string[] items = Util.getStringList("items", "en");
+            private static readonly string[] natures = Util.getStringList("natures", "en");
+            private static readonly string[] moves = Util.getStringList("moves", "en");
+            private static readonly string[] abilities = Util.getStringList("abilities", "en");
+            private static readonly string[] hptypes = Util.getStringList("types", "en").Skip(1).ToArray();
 
             // Default Set Data
             public string Nickname;
@@ -1500,8 +1500,8 @@ namespace PKHeX
                 Level = getLevel(pk6.Species, pk6.EXP),
                 Shiny = pk6.IsShiny,
                 Form = pk6.AltForm > 0 ? getFormList(pk6.Species,
-                Util.getStringList("Types", "en"),
-                Util.getStringList("Forms", "en"), new [] {"", "F", ""})[pk6.AltForm] : "",
+                Util.getStringList("types", "en"),
+                Util.getStringList("forms", "en"), new [] {"", "F", ""})[pk6.AltForm] : "",
             };
             if (Set.Form == "F") Set.Gender = "";
             return Set.getText();

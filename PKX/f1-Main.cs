@@ -395,8 +395,8 @@ namespace PKHeX
 
             // Set Form
             string[] formStrings = PKX.getFormList(Set.Species,
-                Util.getStringList("Types", "en"),
-                Util.getStringList("Forms", "en"), gendersymbols);
+                Util.getStringList("types", "en"),
+                Util.getStringList("forms", "en"), gendersymbols);
             int form = 0;
             for (int i = 0; i < formStrings.Length; i++)
                 if (formStrings[i].Contains(Set.Form ?? ""))
@@ -840,17 +840,17 @@ namespace PKHeX
                 curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
 
             string l = curlanguage;
-            natures = Util.getStringList("Natures", l);
-            types = Util.getStringList("Types", l);
-            abilitylist = Util.getStringList("Abilities", l);
-            movelist = Util.getStringList("Moves", l);
-            itemlist = Util.getStringList("Items", l);
-            characteristics = Util.getStringList("Character", l);
-            specieslist = Util.getStringList("Species", l);
-            wallpapernames = Util.getStringList("Wallpaper", l);
-            itempouch = Util.getStringList("ItemPouch", l);
-            encountertypelist = Util.getStringList("EncounterType", l);
-            gamelist = Util.getStringList("Games", l);
+            natures = Util.getStringList("natures", l);
+            types = Util.getStringList("types", l);
+            abilitylist = Util.getStringList("abilities", l);
+            movelist = Util.getStringList("moves", l);
+            itemlist = Util.getStringList("items", l);
+            characteristics = Util.getStringList("character", l);
+            specieslist = Util.getStringList("species", l);
+            wallpapernames = Util.getStringList("wallpaper", l);
+            itempouch = Util.getStringList("itempouch", l);
+            encountertypelist = Util.getStringList("encountertype", l);
+            gamelist = Util.getStringList("games", l);
             gamelanguages = Util.getNulledStringArray(Util.getStringList("languages"));
 
             balllist = new string[Legal.Items_Ball.Length];
@@ -859,13 +859,13 @@ namespace PKHeX
 
             if ((l != "zh") || (l == "zh" && !fieldsInitialized)) // load initial binaries
             {
-                pokeblocks = Util.getStringList("Pokeblock", l);
-                forms = Util.getStringList("Forms", l);
-                memories = Util.getStringList("Memories", l);
-                genloc = Util.getStringList("GenLoc", l);
-                trainingbags = Util.getStringList("TrainingBag", l);
-                trainingstage = Util.getStringList("SuperTraining", l);
-                puffs = Util.getStringList("Puff", l);
+                pokeblocks = Util.getStringList("pokeblock", l);
+                forms = Util.getStringList("forms", l);
+                memories = Util.getStringList("memories", l);
+                genloc = Util.getStringList("genloc", l);
+                trainingbags = Util.getStringList("trainingbag", l);
+                trainingstage = Util.getStringList("supertraining", l);
+                puffs = Util.getStringList("puff", l);
             }
 
             // Fix Item Names (Duplicate entries)

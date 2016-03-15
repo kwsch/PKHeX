@@ -14432,9 +14432,9 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] PGLDings_NormalRegular {
+        internal static byte[] pgldings_normalregular {
             get {
-                object obj = ResourceManager.GetObject("PGLDings_NormalRegular", resourceCulture);
+                object obj = ResourceManager.GetObject("pgldings_normalregular", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -16468,9 +16468,9 @@ namespace PKHeX.Properties {
         ///Magnetfalle
         ///Lärmschutz [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_de {
+        internal static string text_abilities_de {
             get {
-                return ResourceManager.GetString("text_Abilities_de", resourceCulture);
+                return ResourceManager.GetString("text_abilities_de", resourceCulture);
             }
         }
         
@@ -16521,9 +16521,9 @@ namespace PKHeX.Properties {
         ///Soundproof
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_en {
+        internal static string text_abilities_en {
             get {
-                return ResourceManager.GetString("text_Abilities_en", resourceCulture);
+                return ResourceManager.GetString("text_abilities_en", resourceCulture);
             }
         }
         
@@ -16572,9 +16572,9 @@ namespace PKHeX.Properties {
         ///Velo Agua
         ///Imá [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_es {
+        internal static string text_abilities_es {
             get {
-                return ResourceManager.GetString("text_Abilities_es", resourceCulture);
+                return ResourceManager.GetString("text_abilities_es", resourceCulture);
             }
         }
         
@@ -16626,9 +16626,9 @@ namespace PKHeX.Properties {
         ///Cuvette
         ///Sable Vol [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_fr {
+        internal static string text_abilities_fr {
             get {
-                return ResourceManager.GetString("text_Abilities_fr", resourceCulture);
+                return ResourceManager.GetString("text_abilities_fr", resourceCulture);
             }
         }
         
@@ -16679,9 +16679,9 @@ namespace PKHeX.Properties {
         ///Antisuono
         ///Copri [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_it {
+        internal static string text_abilities_it {
             get {
-                return ResourceManager.GetString("text_Abilities_it", resourceCulture);
+                return ResourceManager.GetString("text_abilities_it", resourceCulture);
             }
         }
         
@@ -16763,9 +16763,9 @@ namespace PKHeX.Properties {
         ///ヨガパワー
         ///シェルアーマー [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_ja {
+        internal static string text_abilities_ja {
             get {
-                return ResourceManager.GetString("text_Abilities_ja", resourceCulture);
+                return ResourceManager.GetString("text_abilities_ja", resourceCulture);
             }
         }
         
@@ -16869,9 +16869,9 @@ namespace PKHeX.Properties {
         ///노말스킨
         ///스나이퍼 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_ko {
+        internal static string text_abilities_ko {
             get {
-                return ResourceManager.GetString("text_Abilities_ko", resourceCulture);
+                return ResourceManager.GetString("text_abilities_ko", resourceCulture);
             }
         }
         
@@ -16989,9 +16989,9 @@ namespace PKHeX.Properties {
         ///有色眼镜
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Abilities_zh {
+        internal static string text_abilities_zh {
             get {
-                return ResourceManager.GetString("text_Abilities_zh", resourceCulture);
+                return ResourceManager.GetString("text_abilities_zh", resourceCulture);
             }
         }
         
@@ -18182,9 +18182,9 @@ namespace PKHeX.Properties {
         ///Ist oft in Gedanken.
         ///Sehr pedantis [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Character_de {
+        internal static string text_character_de {
             get {
-                return ResourceManager.GetString("text_Character_de", resourceCulture);
+                return ResourceManager.GetString("text_character_de", resourceCulture);
             }
         }
         
@@ -18217,9 +18217,9 @@ namespace PKHeX.Properties {
         ///Strong willed.
         ///Somewhat vai [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Character_en {
+        internal static string text_character_en {
             get {
-                return ResourceManager.GetString("text_Character_en", resourceCulture);
+                return ResourceManager.GetString("text_character_en", resourceCulture);
             }
         }
         
@@ -18247,9 +18247,9 @@ namespace PKHeX.Properties {
         ///Es extremadamente curioso.
         ///Le gusta hacer [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Character_es {
+        internal static string text_character_es {
             get {
-                return ResourceManager.GetString("text_Character_es", resourceCulture);
+                return ResourceManager.GetString("text_character_es", resourceCulture);
             }
         }
         
@@ -18283,9 +18283,9 @@ namespace PKHeX.Properties {
         ///Un peu vaniteux.
         ///Esprit [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Character_fr {
+        internal static string text_character_fr {
             get {
-                return ResourceManager.GetString("text_Character_fr", resourceCulture);
+                return ResourceManager.GetString("text_character_fr", resourceCulture);
             }
         }
         
@@ -18315,9 +18315,9 @@ namespace PKHeX.Properties {
         ///È estremamente sagace.
         ///Si perde nel suo mo [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Character_it {
+        internal static string text_character_it {
             get {
-                return ResourceManager.GetString("text_Character_it", resourceCulture);
+                return ResourceManager.GetString("text_character_it", resourceCulture);
             }
         }
         
@@ -18353,9 +18353,9 @@ namespace PKHeX.Properties {
         ///まけずぎらい.
         ///ちょっぴり ごうじょう..
         /// </summary>
-        internal static string text_Character_ja {
+        internal static string text_character_ja {
             get {
-                return ResourceManager.GetString("text_Character_ja", resourceCulture);
+                return ResourceManager.GetString("text_character_ja", resourceCulture);
             }
         }
         
@@ -18391,9 +18391,9 @@ namespace PKHeX.Properties {
         ///지기 싫어함.
         ///조금 고집통이임..
         /// </summary>
-        internal static string text_Character_ko {
+        internal static string text_character_ko {
             get {
-                return ResourceManager.GetString("text_Character_ko", resourceCulture);
+                return ResourceManager.GetString("text_character_ko", resourceCulture);
             }
         }
         
@@ -18429,9 +18429,9 @@ namespace PKHeX.Properties {
         ///讨厌失败.
         ///有点固执..
         /// </summary>
-        internal static string text_Character_zh {
+        internal static string text_character_zh {
             get {
-                return ResourceManager.GetString("text_Character_zh", resourceCulture);
+                return ResourceManager.GetString("text_character_zh", resourceCulture);
             }
         }
         
@@ -18462,9 +18462,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_de {
+        internal static string text_encountertype_de {
             get {
-                return ResourceManager.GetString("text_EncounterType_de", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_de", resourceCulture);
             }
         }
         
@@ -18495,9 +18495,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_en {
+        internal static string text_encountertype_en {
             get {
-                return ResourceManager.GetString("text_EncounterType_en", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_en", resourceCulture);
             }
         }
         
@@ -18528,9 +18528,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_es {
+        internal static string text_encountertype_es {
             get {
-                return ResourceManager.GetString("text_EncounterType_es", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_es", resourceCulture);
             }
         }
         
@@ -18561,9 +18561,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_fr {
+        internal static string text_encountertype_fr {
             get {
-                return ResourceManager.GetString("text_EncounterType_fr", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_fr", resourceCulture);
             }
         }
         
@@ -18594,9 +18594,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_it {
+        internal static string text_encountertype_it {
             get {
-                return ResourceManager.GetString("text_EncounterType_it", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_it", resourceCulture);
             }
         }
         
@@ -18627,9 +18627,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_ja {
+        internal static string text_encountertype_ja {
             get {
-                return ResourceManager.GetString("text_EncounterType_ja", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_ja", resourceCulture);
             }
         }
         
@@ -18660,9 +18660,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_ko {
+        internal static string text_encountertype_ko {
             get {
-                return ResourceManager.GetString("text_EncounterType_ko", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_ko", resourceCulture);
             }
         }
         
@@ -18693,9 +18693,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_EncounterType_zh {
+        internal static string text_encounterType_zh {
             get {
-                return ResourceManager.GetString("text_EncounterType_zh", resourceCulture);
+                return ResourceManager.GetString("text_encounterType_zh", resourceCulture);
             }
         }
         
@@ -18956,9 +18956,9 @@ namespace PKHeX.Properties {
         ///
         ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_de {
+        internal static string text_forms_de {
             get {
-                return ResourceManager.GetString("text_Forms_de", resourceCulture);
+                return ResourceManager.GetString("text_forms_de", resourceCulture);
             }
         }
         
@@ -19219,9 +19219,9 @@ namespace PKHeX.Properties {
         ///
         ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_en {
+        internal static string text_forms_en {
             get {
-                return ResourceManager.GetString("text_Forms_en", resourceCulture);
+                return ResourceManager.GetString("text_forms_en", resourceCulture);
             }
         }
         
@@ -19482,9 +19482,9 @@ namespace PKHeX.Properties {
         ///
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_es {
+        internal static string text_forms_es {
             get {
-                return ResourceManager.GetString("text_Forms_es", resourceCulture);
+                return ResourceManager.GetString("text_forms_es", resourceCulture);
             }
         }
         
@@ -19744,9 +19744,9 @@ namespace PKHeX.Properties {
         ///
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_fr {
+        internal static string text_forms_fr {
             get {
-                return ResourceManager.GetString("text_Forms_fr", resourceCulture);
+                return ResourceManager.GetString("text_forms_fr", resourceCulture);
             }
         }
         
@@ -20007,9 +20007,9 @@ namespace PKHeX.Properties {
         ///
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_it {
+        internal static string text_forms_it {
             get {
-                return ResourceManager.GetString("text_Forms_it", resourceCulture);
+                return ResourceManager.GetString("text_forms_it", resourceCulture);
             }
         }
         
@@ -20269,9 +20269,9 @@ namespace PKHeX.Properties {
         ///
         ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_ja {
+        internal static string text_forms_ja {
             get {
-                return ResourceManager.GetString("text_Forms_ja", resourceCulture);
+                return ResourceManager.GetString("text_forms_ja", resourceCulture);
             }
         }
         
@@ -20532,9 +20532,9 @@ namespace PKHeX.Properties {
         ///
         ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_ko {
+        internal static string text_forms_ko {
             get {
-                return ResourceManager.GetString("text_Forms_ko", resourceCulture);
+                return ResourceManager.GetString("text_forms_ko", resourceCulture);
             }
         }
         
@@ -20794,9 +20794,9 @@ namespace PKHeX.Properties {
         ///
         ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Forms_zh {
+        internal static string text_forms_zh {
             get {
-                return ResourceManager.GetString("text_Forms_zh", resourceCulture);
+                return ResourceManager.GetString("text_forms_zh", resourceCulture);
             }
         }
         
@@ -20830,9 +20830,9 @@ namespace PKHeX.Properties {
         ///AS
         ///OR.
         /// </summary>
-        internal static string text_Games_de {
+        internal static string text_games_de {
             get {
-                return ResourceManager.GetString("text_Games_de", resourceCulture);
+                return ResourceManager.GetString("text_games_de", resourceCulture);
             }
         }
         
@@ -20866,9 +20866,9 @@ namespace PKHeX.Properties {
         ///AS
         ///OR.
         /// </summary>
-        internal static string text_Games_en {
+        internal static string text_games_en {
             get {
-                return ResourceManager.GetString("text_Games_en", resourceCulture);
+                return ResourceManager.GetString("text_games_en", resourceCulture);
             }
         }
         
@@ -20902,9 +20902,9 @@ namespace PKHeX.Properties {
         ///AS
         ///OR.
         /// </summary>
-        internal static string text_Games_es {
+        internal static string text_games_es {
             get {
-                return ResourceManager.GetString("text_Games_es", resourceCulture);
+                return ResourceManager.GetString("text_games_es", resourceCulture);
             }
         }
         
@@ -20938,9 +20938,9 @@ namespace PKHeX.Properties {
         ///AS
         ///OR.
         /// </summary>
-        internal static string text_Games_fr {
+        internal static string text_games_fr {
             get {
-                return ResourceManager.GetString("text_Games_fr", resourceCulture);
+                return ResourceManager.GetString("text_games_fr", resourceCulture);
             }
         }
         
@@ -20974,9 +20974,9 @@ namespace PKHeX.Properties {
         ///AS
         ///OR.
         /// </summary>
-        internal static string text_Games_it {
+        internal static string text_games_it {
             get {
-                return ResourceManager.GetString("text_Games_it", resourceCulture);
+                return ResourceManager.GetString("text_games_it", resourceCulture);
             }
         }
         
@@ -21010,9 +21010,9 @@ namespace PKHeX.Properties {
         ///AS
         ///OR.
         /// </summary>
-        internal static string text_Games_ja {
+        internal static string text_games_ja {
             get {
-                return ResourceManager.GetString("text_Games_ja", resourceCulture);
+                return ResourceManager.GetString("text_games_ja", resourceCulture);
             }
         }
         
@@ -21046,9 +21046,9 @@ namespace PKHeX.Properties {
         ///AS
         ///OR.
         /// </summary>
-        internal static string text_Games_ko {
+        internal static string text_games_ko {
             get {
-                return ResourceManager.GetString("text_Games_ko", resourceCulture);
+                return ResourceManager.GetString("text_games_ko", resourceCulture);
             }
         }
         
@@ -21083,9 +21083,9 @@ namespace PKHeX.Properties {
         ///OR
         ///.
         /// </summary>
-        internal static string text_Games_zh {
+        internal static string text_games_zh {
             get {
-                return ResourceManager.GetString("text_Games_zh", resourceCulture);
+                return ResourceManager.GetString("text_games_zh", resourceCulture);
             }
         }
         
@@ -21113,9 +21113,9 @@ namespace PKHeX.Properties {
         ///in einer Pokémon-Arena
         ///in [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_GenLoc_de {
+        internal static string text_genloc_de {
             get {
-                return ResourceManager.GetString("text_GenLoc_de", resourceCulture);
+                return ResourceManager.GetString("text_genloc_de", resourceCulture);
             }
         }
         
@@ -21156,9 +21156,9 @@ namespace PKHeX.Properties {
         ///a seaside city
         ///the inside of a tall bu [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_GenLoc_en {
+        internal static string text_genloc_en {
             get {
-                return ResourceManager.GetString("text_GenLoc_en", resourceCulture);
+                return ResourceManager.GetString("text_genloc_en", resourceCulture);
             }
         }
         
@@ -21194,9 +21194,9 @@ namespace PKHeX.Properties {
         ///una estación
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_GenLoc_es {
+        internal static string text_genloc_es {
             get {
-                return ResourceManager.GetString("text_GenLoc_es", resourceCulture);
+                return ResourceManager.GetString("text_genloc_es", resourceCulture);
             }
         }
         
@@ -21226,9 +21226,9 @@ namespace PKHeX.Properties {
         ///dans une ville immense
         ///dans un imm [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_GenLoc_fr {
+        internal static string text_genloc_fr {
             get {
-                return ResourceManager.GetString("text_GenLoc_fr", resourceCulture);
+                return ResourceManager.GetString("text_genloc_fr", resourceCulture);
             }
         }
         
@@ -21260,9 +21260,9 @@ namespace PKHeX.Properties {
         ///in un caffè elegante
         ///in un c [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_GenLoc_it {
+        internal static string text_genloc_it {
             get {
-                return ResourceManager.GetString("text_GenLoc_it", resourceCulture);
+                return ResourceManager.GetString("text_genloc_it", resourceCulture);
             }
         }
         
@@ -21332,9 +21332,9 @@ namespace PKHeX.Properties {
         ///ひみつきち
         ///コンテストライブかい [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_GenLoc_ja {
+        internal static string text_genloc_ja {
             get {
-                return ResourceManager.GetString("text_GenLoc_ja", resourceCulture);
+                return ResourceManager.GetString("text_genloc_ja", resourceCulture);
             }
         }
         
@@ -21411,9 +21411,9 @@ namespace PKHeX.Properties {
         ///신비스러운 장소
         ///창공.
         /// </summary>
-        internal static string text_GenLoc_ko {
+        internal static string text_genloc_ko {
             get {
-                return ResourceManager.GetString("text_GenLoc_ko", resourceCulture);
+                return ResourceManager.GetString("text_genloc_ko", resourceCulture);
             }
         }
         
@@ -21483,9 +21483,9 @@ namespace PKHeX.Properties {
         ///ひみつきち
         ///コンテストライブかい [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_GenLoc_zh {
+        internal static string text_genloc_zh {
             get {
-                return ResourceManager.GetString("text_GenLoc_zh", resourceCulture);
+                return ResourceManager.GetString("text_genloc_zh", resourceCulture);
             }
         }
         
@@ -22557,9 +22557,9 @@ namespace PKHeX.Properties {
         ///Beeren
         ///Basis-Items.
         /// </summary>
-        internal static string text_ItemPouch_de {
+        internal static string text_itempouch_de {
             get {
-                return ResourceManager.GetString("text_ItemPouch_de", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_de", resourceCulture);
             }
         }
         
@@ -22570,9 +22570,9 @@ namespace PKHeX.Properties {
         ///BERRIES
         ///KEY ITEMS.
         /// </summary>
-        internal static string text_ItemPouch_en {
+        internal static string text_itempouch_en {
             get {
-                return ResourceManager.GetString("text_ItemPouch_en", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_en", resourceCulture);
             }
         }
         
@@ -22583,9 +22583,9 @@ namespace PKHeX.Properties {
         ///Bayas
         ///Objetos Clave.
         /// </summary>
-        internal static string text_ItemPouch_es {
+        internal static string text_itempouch_es {
             get {
-                return ResourceManager.GetString("text_ItemPouch_es", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_es", resourceCulture);
             }
         }
         
@@ -22596,9 +22596,9 @@ namespace PKHeX.Properties {
         ///BAIES
         ///OBJETS RARES.
         /// </summary>
-        internal static string text_ItemPouch_fr {
+        internal static string text_itempouch_fr {
             get {
-                return ResourceManager.GetString("text_ItemPouch_fr", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_fr", resourceCulture);
             }
         }
         
@@ -22609,9 +22609,9 @@ namespace PKHeX.Properties {
         ///Bacche
         ///Strumenti Base.
         /// </summary>
-        internal static string text_ItemPouch_it {
+        internal static string text_itempouch_it {
             get {
-                return ResourceManager.GetString("text_ItemPouch_it", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_it", resourceCulture);
             }
         }
         
@@ -22622,9 +22622,9 @@ namespace PKHeX.Properties {
         ///きのみ
         ///たいせつなもの.
         /// </summary>
-        internal static string text_ItemPouch_ja {
+        internal static string text_itempouch_ja {
             get {
-                return ResourceManager.GetString("text_ItemPouch_ja", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_ja", resourceCulture);
             }
         }
         
@@ -22635,9 +22635,9 @@ namespace PKHeX.Properties {
         ///나무열매
         ///중요한 물건.
         /// </summary>
-        internal static string text_ItemPouch_ko {
+        internal static string text_itempouch_ko {
             get {
-                return ResourceManager.GetString("text_ItemPouch_ko", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_ko", resourceCulture);
             }
         }
         
@@ -22648,9 +22648,9 @@ namespace PKHeX.Properties {
         ///树果
         ///重要物品.
         /// </summary>
-        internal static string text_ItemPouch_zh {
+        internal static string text_itempouch_zh {
             get {
-                return ResourceManager.GetString("text_ItemPouch_zh", resourceCulture);
+                return ResourceManager.GetString("text_itempouch_zh", resourceCulture);
             }
         }
         
@@ -22702,9 +22702,9 @@ namespace PKHeX.Properties {
         ///Zauberasche
         ///KP-Pl [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_de {
+        internal static string text_items_de {
             get {
-                return ResourceManager.GetString("text_Items_de", resourceCulture);
+                return ResourceManager.GetString("text_items_de", resourceCulture);
             }
         }
         
@@ -22754,9 +22754,9 @@ namespace PKHeX.Properties {
         ///Lava Cookie
         ///Berry Juice [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_en {
+        internal static string text_items_en {
             get {
-                return ResourceManager.GetString("text_Items_en", resourceCulture);
+                return ResourceManager.GetString("text_items_en", resourceCulture);
             }
         }
         
@@ -22805,9 +22805,9 @@ namespace PKHeX.Properties {
         ///Elixir Máximo
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_es {
+        internal static string text_items_es {
             get {
-                return ResourceManager.GetString("text_Items_es", resourceCulture);
+                return ResourceManager.GetString("text_items_es", resourceCulture);
             }
         }
         
@@ -22858,9 +22858,9 @@ namespace PKHeX.Properties {
         ///Jus de Baie
         ///Cend [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_fr {
+        internal static string text_items_fr {
             get {
-                return ResourceManager.GetString("text_Items_fr", resourceCulture);
+                return ResourceManager.GetString("text_items_fr", resourceCulture);
             }
         }
         
@@ -22910,9 +22910,9 @@ namespace PKHeX.Properties {
         ///Lavottino
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_it {
+        internal static string text_items_it {
             get {
-                return ResourceManager.GetString("text_Items_it", resourceCulture);
+                return ResourceManager.GetString("text_items_it", resourceCulture);
             }
         }
         
@@ -22978,9 +22978,9 @@ namespace PKHeX.Properties {
         ///ディフェンダー
         ///スピーダー        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_ja {
+        internal static string text_items_ja {
             get {
-                return ResourceManager.GetString("text_Items_ja", resourceCulture);
+                return ResourceManager.GetString("text_items_ja", resourceCulture);
             }
         }
         
@@ -23066,9 +23066,9 @@ namespace PKHeX.Properties {
         ///동굴탈출로프
         ///벌레회피스프레이        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_ko {
+        internal static string text_items_ko {
             get {
-                return ResourceManager.GetString("text_Items_ko", resourceCulture);
+                return ResourceManager.GetString("text_items_ko", resourceCulture);
             }
         }
         
@@ -23162,9 +23162,9 @@ namespace PKHeX.Properties {
         ///小蘑菇
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Items_zh {
+        internal static string text_items_zh {
             get {
-                return ResourceManager.GetString("text_Items_zh", resourceCulture);
+                return ResourceManager.GetString("text_items_zh", resourceCulture);
             }
         }
         
@@ -23191,9 +23191,9 @@ namespace PKHeX.Properties {
         ///wie nervös es war
         ///wie wohl es si [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_de {
+        internal static string text_memories_de {
             get {
-                return ResourceManager.GetString("text_Memories_de", resourceCulture);
+                return ResourceManager.GetString("text_memories_de", resourceCulture);
             }
         }
         
@@ -23226,9 +23226,9 @@ namespace PKHeX.Properties {
         ///it felt nostalgic
         ///it had some diffi [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_en {
+        internal static string text_memories_en {
             get {
-                return ResourceManager.GetString("text_Memories_en", resourceCulture);
+                return ResourceManager.GetString("text_memories_en", resourceCulture);
             }
         }
         
@@ -23254,9 +23254,9 @@ namespace PKHeX.Properties {
         ///la ilusión que le hizo
         ///lo nervioso que se pu [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_es {
+        internal static string text_memories_es {
             get {
-                return ResourceManager.GetString("text_Memories_es", resourceCulture);
+                return ResourceManager.GetString("text_memories_es", resourceCulture);
             }
         }
         
@@ -23286,9 +23286,9 @@ namespace PKHeX.Properties {
         ///ça ne lui a laissé aucun regret
         ///ça lui a laissé un [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_fr {
+        internal static string text_memories_fr {
             get {
-                return ResourceManager.GetString("text_Memories_fr", resourceCulture);
+                return ResourceManager.GetString("text_memories_fr", resourceCulture);
             }
         }
         
@@ -23318,9 +23318,9 @@ namespace PKHeX.Properties {
         ///il suo entusiasmo
         ///il suo dispiacere [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_it {
+        internal static string text_memories_it {
             get {
-                return ResourceManager.GetString("text_Memories_it", resourceCulture);
+                return ResourceManager.GetString("text_memories_it", resourceCulture);
             }
         }
         
@@ -23367,9 +23367,9 @@ namespace PKHeX.Properties {
         ///{0}は　{1}に {2}で　であい　 モンスターボールを　なげられて いっしょに　たびする　ことになり　 {3}ことが {4}
         ///{0}は {2}で　 タマゴの　からをやぶって [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_ja {
+        internal static string text_memories_ja {
             get {
-                return ResourceManager.GetString("text_Memories_ja", resourceCulture);
+                return ResourceManager.GetString("text_memories_ja", resourceCulture);
             }
         }
         
@@ -23417,9 +23417,9 @@ namespace PKHeX.Properties {
         ///{0} {2}에서 알의 껍데기를 깨고 나왔을 때 처음 {1} 만나서 {3} 게 {4}
         ///{0} {1} {2}에 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_ko {
+        internal static string text_memories_ko {
             get {
-                return ResourceManager.GetString("text_Memories_ko", resourceCulture);
+                return ResourceManager.GetString("text_memories_ko", resourceCulture);
             }
         }
         
@@ -23466,9 +23466,9 @@ namespace PKHeX.Properties {
         ///{0}は　{1}に {2}で　であい　 モンスターボールを　なげられて いっしょに　たびする　ことになり　 {3}ことが {4}
         ///{0}は {2}で　 タマゴの　からをやぶって [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Memories_zh {
+        internal static string text_memories_zh {
             get {
-                return ResourceManager.GetString("text_Memories_zh", resourceCulture);
+                return ResourceManager.GetString("text_memories_zh", resourceCulture);
             }
         }
         
@@ -23521,9 +23521,9 @@ namespace PKHeX.Properties {
         ///Heuler
         ///Brül [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_de {
+        internal static string text_moves_de {
             get {
-                return ResourceManager.GetString("text_Moves_de", resourceCulture);
+                return ResourceManager.GetString("text_moves_de", resourceCulture);
             }
         }
         
@@ -23580,9 +23580,9 @@ namespace PKHeX.Properties {
         ///Sonic Boom
         ///Dis [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_en {
+        internal static string text_moves_en {
             get {
-                return ResourceManager.GetString("text_Moves_en", resourceCulture);
+                return ResourceManager.GetString("text_moves_en", resourceCulture);
             }
         }
         
@@ -23634,9 +23634,9 @@ namespace PKHeX.Properties {
         ///Mordisco
         ///Gr [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_es {
+        internal static string text_moves_es {
             get {
-                return ResourceManager.GetString("text_Moves_es", resourceCulture);
+                return ResourceManager.GetString("text_moves_es", resourceCulture);
             }
         }
         
@@ -23688,9 +23688,9 @@ namespace PKHeX.Properties {
         ///Morsure
         ///Rugissement        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_fr {
+        internal static string text_moves_fr {
             get {
-                return ResourceManager.GetString("text_Moves_fr", resourceCulture);
+                return ResourceManager.GetString("text_moves_fr", resourceCulture);
             }
         }
         
@@ -23743,9 +23743,9 @@ namespace PKHeX.Properties {
         ///Ruggito
         ///B [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_it {
+        internal static string text_moves_it {
             get {
-                return ResourceManager.GetString("text_Moves_it", resourceCulture);
+                return ResourceManager.GetString("text_moves_it", resourceCulture);
             }
         }
         
@@ -23821,9 +23821,9 @@ namespace PKHeX.Properties {
         ///カウンター
         ///ちきゅうなげ        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_ja {
+        internal static string text_moves_ja {
             get {
-                return ResourceManager.GetString("text_Moves_ja", resourceCulture);
+                return ResourceManager.GetString("text_moves_ja", resourceCulture);
             }
         }
         
@@ -23917,9 +23917,9 @@ namespace PKHeX.Properties {
         ///전기자석파
         ///번개        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_ko {
+        internal static string text_moves_ko {
             get {
-                return ResourceManager.GetString("text_Moves_ko", resourceCulture);
+                return ResourceManager.GetString("text_moves_ko", resourceCulture);
             }
         }
         
@@ -24031,9 +24031,9 @@ namespace PKHeX.Properties {
         ///影子分身
         ///自 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Moves_zh {
+        internal static string text_moves_zh {
             get {
-                return ResourceManager.GetString("text_Moves_zh", resourceCulture);
+                return ResourceManager.GetString("text_moves_zh", resourceCulture);
             }
         }
         
@@ -24064,9 +24064,9 @@ namespace PKHeX.Properties {
         ///Sacht
         ///Kauzig.
         /// </summary>
-        internal static string text_Natures_de {
+        internal static string text_natures_de {
             get {
-                return ResourceManager.GetString("text_Natures_de", resourceCulture);
+                return ResourceManager.GetString("text_natures_de", resourceCulture);
             }
         }
         
@@ -24097,9 +24097,9 @@ namespace PKHeX.Properties {
         ///Careful
         ///Quirky.
         /// </summary>
-        internal static string text_Natures_en {
+        internal static string text_natures_en {
             get {
-                return ResourceManager.GetString("text_Natures_en", resourceCulture);
+                return ResourceManager.GetString("text_natures_en", resourceCulture);
             }
         }
         
@@ -24130,9 +24130,9 @@ namespace PKHeX.Properties {
         ///Cauto
         ///Raro.
         /// </summary>
-        internal static string text_Natures_es {
+        internal static string text_natures_es {
             get {
-                return ResourceManager.GetString("text_Natures_es", resourceCulture);
+                return ResourceManager.GetString("text_natures_es", resourceCulture);
             }
         }
         
@@ -24163,9 +24163,9 @@ namespace PKHeX.Properties {
         ///Prudent
         ///Bizarre.
         /// </summary>
-        internal static string text_Natures_fr {
+        internal static string text_natures_fr {
             get {
-                return ResourceManager.GetString("text_Natures_fr", resourceCulture);
+                return ResourceManager.GetString("text_natures_fr", resourceCulture);
             }
         }
         
@@ -24196,9 +24196,9 @@ namespace PKHeX.Properties {
         ///Cauta
         ///Furba.
         /// </summary>
-        internal static string text_Natures_it {
+        internal static string text_natures_it {
             get {
-                return ResourceManager.GetString("text_Natures_it", resourceCulture);
+                return ResourceManager.GetString("text_natures_it", resourceCulture);
             }
         }
         
@@ -24229,9 +24229,9 @@ namespace PKHeX.Properties {
         ///しんちょう
         ///きまぐれ.
         /// </summary>
-        internal static string text_Natures_ja {
+        internal static string text_natures_ja {
             get {
-                return ResourceManager.GetString("text_Natures_ja", resourceCulture);
+                return ResourceManager.GetString("text_natures_ja", resourceCulture);
             }
         }
         
@@ -24262,9 +24262,9 @@ namespace PKHeX.Properties {
         ///신중
         ///변덕.
         /// </summary>
-        internal static string text_Natures_ko {
+        internal static string text_natures_ko {
             get {
-                return ResourceManager.GetString("text_Natures_ko", resourceCulture);
+                return ResourceManager.GetString("text_natures_ko", resourceCulture);
             }
         }
         
@@ -24295,9 +24295,9 @@ namespace PKHeX.Properties {
         ///慎重
         ///浮躁.
         /// </summary>
-        internal static string text_Natures_zh {
+        internal static string text_natures_zh {
             get {
-                return ResourceManager.GetString("text_Natures_zh", resourceCulture);
+                return ResourceManager.GetString("text_natures_zh", resourceCulture);
             }
         }
         
@@ -24323,9 +24323,9 @@ namespace PKHeX.Properties {
         ///Du hast [VAR NUM1(0001)] [VAR 01A3(0000)] hergestellt![VAR BE05(0000)][VAR BE05(0001)]
         ///Willst du [VAR PK [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_de {
+        internal static string text_pokeblock_de {
             get {
-                return ResourceManager.GetString("text_Pokeblock_de", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_de", resourceCulture);
             }
         }
         
@@ -24352,9 +24352,9 @@ namespace PKHeX.Properties {
         ///Give the Pokéblock to [VAR PKNICK(0000)]?
         ///An Egg can’t ea [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_en {
+        internal static string text_pokeblock_en {
             get {
-                return ResourceManager.GetString("text_Pokeblock_en", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_en", resourceCulture);
             }
         }
         
@@ -24381,9 +24381,9 @@ namespace PKHeX.Properties {
         ///¿Quieres darle el Pokécubo a [VAR PKNICK(0000)]?
         ///¡Los Huev [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_es {
+        internal static string text_pokeblock_es {
             get {
-                return ResourceManager.GetString("text_Pokeblock_es", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_es", resourceCulture);
             }
         }
         
@@ -24410,9 +24410,9 @@ namespace PKHeX.Properties {
         ///Donner un Pokébloc à [VAR PKNICK(0000)] ?
         ///Un Œuf  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_fr {
+        internal static string text_pokeblock_fr {
             get {
-                return ResourceManager.GetString("text_Pokeblock_fr", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_fr", resourceCulture);
             }
         }
         
@@ -24439,9 +24439,9 @@ namespace PKHeX.Properties {
         ///Vuoi dare la Pokémella a [VAR PKNICK(0000)]?
         ///Un Uovo non può mangiare Pokémelle [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_it {
+        internal static string text_pokeblock_it {
             get {
-                return ResourceManager.GetString("text_Pokeblock_it", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_it", resourceCulture);
             }
         }
         
@@ -24479,9 +24479,9 @@ namespace PKHeX.Properties {
         ///ポケモンにあげる
         ///やめる [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_ja {
+        internal static string text_pokeblock_ja {
             get {
-                return ResourceManager.GetString("text_Pokeblock_ja", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_ja", resourceCulture);
             }
         }
         
@@ -24518,9 +24518,9 @@ namespace PKHeX.Properties {
         ///되돌려 둔다
         ///포켓몬에게 준 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_ko {
+        internal static string text_pokeblock_ko {
             get {
-                return ResourceManager.GetString("text_Pokeblock_ko", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_ko", resourceCulture);
             }
         }
         
@@ -24559,9 +24559,9 @@ namespace PKHeX.Properties {
         ///やめる
         ///はい        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Pokeblock_zh {
+        internal static string text_pokeblock_zh {
             get {
-                return ResourceManager.GetString("text_Pokeblock_zh", resourceCulture);
+                return ResourceManager.GetString("text_pokeblock_zh", resourceCulture);
             }
         }
         
@@ -24593,9 +24593,9 @@ namespace PKHeX.Properties {
         ///Herbstdeko-Pofflé
         ///Winterdeko [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Puff_de {
+        internal static string text_puff_de {
             get {
-                return ResourceManager.GetString("text_Puff_de", resourceCulture);
+                return ResourceManager.GetString("text_puff_de", resourceCulture);
             }
         }
         
@@ -24624,9 +24624,9 @@ namespace PKHeX.Properties {
         ///Supreme Honor Poké Puff
         ///Supreme Spring Pok [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Puff_en {
+        internal static string text_puff_en {
             get {
-                return ResourceManager.GetString("text_Puff_en", resourceCulture);
+                return ResourceManager.GetString("text_puff_en", resourceCulture);
             }
         }
         
@@ -24656,9 +24656,9 @@ namespace PKHeX.Properties {
         ///Pokélito Primaveral
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Puff_es {
+        internal static string text_puff_es {
             get {
-                return ResourceManager.GetString("text_Puff_es", resourceCulture);
+                return ResourceManager.GetString("text_puff_es", resourceCulture);
             }
         }
         
@@ -24685,9 +24685,9 @@ namespace PKHeX.Properties {
         ///Pofiterole Deluxe Épicée
         ///Pofiterole Anniversaire [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Puff_fr {
+        internal static string text_puff_fr {
             get {
-                return ResourceManager.GetString("text_Puff_fr", resourceCulture);
+                return ResourceManager.GetString("text_puff_fr", resourceCulture);
             }
         }
         
@@ -24716,9 +24716,9 @@ namespace PKHeX.Properties {
         ///Pokébignè celebrativo
         ///Pokébignè p [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Puff_it {
+        internal static string text_puff_it {
             get {
-                return ResourceManager.GetString("text_Puff_it", resourceCulture);
+                return ResourceManager.GetString("text_puff_it", resourceCulture);
             }
         }
         
@@ -24750,9 +24750,9 @@ namespace PKHeX.Properties {
         ///フルデコあきポフレ
         ///フルデコふゆポフレ.
         /// </summary>
-        internal static string text_Puff_ja {
+        internal static string text_puff_ja {
             get {
-                return ResourceManager.GetString("text_Puff_ja", resourceCulture);
+                return ResourceManager.GetString("text_puff_ja", resourceCulture);
             }
         }
         
@@ -24784,9 +24784,9 @@ namespace PKHeX.Properties {
         ///풀데코가을포플레
         ///풀데코겨울포플레.
         /// </summary>
-        internal static string text_Puff_ko {
+        internal static string text_puff_ko {
             get {
-                return ResourceManager.GetString("text_Puff_ko", resourceCulture);
+                return ResourceManager.GetString("text_puff_ko", resourceCulture);
             }
         }
         
@@ -24818,9 +24818,9 @@ namespace PKHeX.Properties {
         ///豪华秋天泡芙
         ///豪华冬天泡芙.
         /// </summary>
-        internal static string text_Puff_zh {
+        internal static string text_puff_zh {
             get {
-                return ResourceManager.GetString("text_Puff_zh", resourceCulture);
+                return ResourceManager.GetString("text_puff_zh", resourceCulture);
             }
         }
         
@@ -24886,9 +24886,9 @@ namespace PKHeX.Properties {
         ///Fukano
         ///Arka [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_de {
+        internal static string text_species_de {
             get {
-                return ResourceManager.GetString("text_Species_de", resourceCulture);
+                return ResourceManager.GetString("text_species_de", resourceCulture);
             }
         }
         
@@ -24949,9 +24949,9 @@ namespace PKHeX.Properties {
         ///Persian
         /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_en {
+        internal static string text_species_en {
             get {
-                return ResourceManager.GetString("text_Species_en", resourceCulture);
+                return ResourceManager.GetString("text_species_en", resourceCulture);
             }
         }
         
@@ -25011,9 +25011,9 @@ namespace PKHeX.Properties {
         ///Meowth
         ///Persian [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_es {
+        internal static string text_species_es {
             get {
-                return ResourceManager.GetString("text_Species_es", resourceCulture);
+                return ResourceManager.GetString("text_species_es", resourceCulture);
             }
         }
         
@@ -25070,9 +25070,9 @@ namespace PKHeX.Properties {
         ///Aéromite
         ///Taupiqu [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_fr {
+        internal static string text_species_fr {
             get {
-                return ResourceManager.GetString("text_Species_fr", resourceCulture);
+                return ResourceManager.GetString("text_species_fr", resourceCulture);
             }
         }
         
@@ -25132,9 +25132,9 @@ namespace PKHeX.Properties {
         ///Meowth
         ///Persian        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_it {
+        internal static string text_species_it {
             get {
-                return ResourceManager.GetString("text_Species_it", resourceCulture);
+                return ResourceManager.GetString("text_species_it", resourceCulture);
             }
         }
         
@@ -25220,9 +25220,9 @@ namespace PKHeX.Properties {
         ///ギャロップ
         ///ヤ [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_ja {
+        internal static string text_species_ja {
             get {
-                return ResourceManager.GetString("text_Species_ja", resourceCulture);
+                return ResourceManager.GetString("text_species_ja", resourceCulture);
             }
         }
         
@@ -25331,9 +25331,9 @@ namespace PKHeX.Properties {
         ///붐볼
         ///아라리        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_ko {
+        internal static string text_species_ko {
             get {
-                return ResourceManager.GetString("text_Species_ko", resourceCulture);
+                return ResourceManager.GetString("text_species_ko", resourceCulture);
             }
         }
         
@@ -25445,9 +25445,9 @@ namespace PKHeX.Properties {
         ///可拉可拉
         ///嘎 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Species_zh {
+        internal static string text_species_zh {
             get {
-                return ResourceManager.GetString("text_Species_zh", resourceCulture);
+                return ResourceManager.GetString("text_species_zh", resourceCulture);
             }
         }
         
@@ -25468,9 +25468,9 @@ namespace PKHeX.Properties {
         ///Zerstöre Georoks Schutzschild!
         ///Wehr [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_SuperTraining_de {
+        internal static string text_supertraining_de {
             get {
-                return ResourceManager.GetString("text_SuperTraining_de", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_de", resourceCulture);
             }
         }
         
@@ -25493,9 +25493,9 @@ namespace PKHeX.Properties {
         ///Shoot Back! Get the Giant Wailord!
         ///C [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_SuperTraining_en {
+        internal static string text_supertraining_en {
             get {
-                return ResourceManager.GetString("text_SuperTraining_en", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_en", resourceCulture);
             }
         }
         
@@ -25515,9 +25515,9 @@ namespace PKHeX.Properties {
         ///¡Dale a Aerodactyl con tiros rápidos!
         ///¡Destruye la barrera de Graveler!        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_SuperTraining_es {
+        internal static string text_supertraining_es {
             get {
-                return ResourceManager.GetString("text_SuperTraining_es", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_es", resourceCulture);
             }
         }
         
@@ -25541,9 +25541,9 @@ namespace PKHeX.Properties {
         ///Évitez les tirs de Tranchodon!
         ///T [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_SuperTraining_fr {
+        internal static string text_supertraining_fr {
             get {
-                return ResourceManager.GetString("text_SuperTraining_fr", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_fr", resourceCulture);
             }
         }
         
@@ -25564,9 +25564,9 @@ namespace PKHeX.Properties {
         ///Abbatti la barriera di Graveler!
         ///Sbarazzati di  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_SuperTraining_it {
+        internal static string text_supertraining_it {
             get {
-                return ResourceManager.GetString("text_SuperTraining_it", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_it", resourceCulture);
             }
         }
         
@@ -25601,9 +25601,9 @@ namespace PKHeX.Properties {
         ///じゅうおう むじん ロングシュート！
         ///ぎゃくしゅう [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_SuperTraining_ja {
+        internal static string text_supertraining_ja {
             get {
-                return ResourceManager.GetString("text_SuperTraining_ja", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_ja", resourceCulture);
             }
         }
         
@@ -25647,9 +25647,9 @@ namespace PKHeX.Properties {
         ///인생역전! 출세 잉어킹
         ///경 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_SuperTraining_ko {
+        internal static string text_supertraining_ko {
             get {
-                return ResourceManager.GetString("text_SuperTraining_ko", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_ko", resourceCulture);
             }
         }
         
@@ -25693,9 +25693,9 @@ namespace PKHeX.Properties {
         ///暴富！出世 鲤鱼王
         ///惊异！连续百万进化！.
         /// </summary>
-        internal static string text_SuperTraining_zh {
+        internal static string text_supertraining_zh {
             get {
-                return ResourceManager.GetString("text_SuperTraining_zh", resourceCulture);
+                return ResourceManager.GetString("text_supertraining_zh", resourceCulture);
             }
         }
         
@@ -25728,9 +25728,9 @@ namespace PKHeX.Properties {
         ///Tabula Ra-Sack
         ///Relax-Sack.
         /// </summary>
-        internal static string text_TrainingBag_de {
+        internal static string text_trainingbag_de {
             get {
-                return ResourceManager.GetString("text_TrainingBag_de", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_de", resourceCulture);
             }
         }
         
@@ -25763,9 +25763,9 @@ namespace PKHeX.Properties {
         ///Reset Bag
         ///Soothing Bag.
         /// </summary>
-        internal static string text_TrainingBag_en {
+        internal static string text_trainingbag_en {
             get {
-                return ResourceManager.GetString("text_TrainingBag_en", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_en", resourceCulture);
             }
         }
         
@@ -25798,9 +25798,9 @@ namespace PKHeX.Properties {
         ///Saco Reinicio
         ///Saco Relax.
         /// </summary>
-        internal static string text_TrainingBag_es {
+        internal static string text_trainingbag_es {
             get {
-                return ResourceManager.GetString("text_TrainingBag_es", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_es", resourceCulture);
             }
         }
         
@@ -25833,9 +25833,9 @@ namespace PKHeX.Properties {
         ///Sac Renouveau
         ///Sac Relax.
         /// </summary>
-        internal static string text_TrainingBag_fr {
+        internal static string text_trainingbag_fr {
             get {
-                return ResourceManager.GetString("text_TrainingBag_fr", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_fr", resourceCulture);
             }
         }
         
@@ -25868,9 +25868,9 @@ namespace PKHeX.Properties {
         ///Sacco Ripristino
         ///Sacco Relax.
         /// </summary>
-        internal static string text_TrainingBag_it {
+        internal static string text_trainingbag_it {
             get {
-                return ResourceManager.GetString("text_TrainingBag_it", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_it", resourceCulture);
             }
         }
         
@@ -25903,9 +25903,9 @@ namespace PKHeX.Properties {
         ///まっさらバッグ
         ///リラックスバッグ.
         /// </summary>
-        internal static string text_TrainingBag_ja {
+        internal static string text_trainingbag_ja {
             get {
-                return ResourceManager.GetString("text_TrainingBag_ja", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_ja", resourceCulture);
             }
         }
         
@@ -25938,9 +25938,9 @@ namespace PKHeX.Properties {
         ///신품백
         ///릴랙스백.
         /// </summary>
-        internal static string text_TrainingBag_ko {
+        internal static string text_trainingbag_ko {
             get {
-                return ResourceManager.GetString("text_TrainingBag_ko", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_ko", resourceCulture);
             }
         }
         
@@ -25973,9 +25973,9 @@ namespace PKHeX.Properties {
         ///全新沙袋
         ///放松沙袋.
         /// </summary>
-        internal static string text_TrainingBag_zh {
+        internal static string text_trainingbag_zh {
             get {
-                return ResourceManager.GetString("text_TrainingBag_zh", resourceCulture);
+                return ResourceManager.GetString("text_trainingbag_zh", resourceCulture);
             }
         }
         
@@ -25999,9 +25999,9 @@ namespace PKHeX.Properties {
         ///Unlicht
         ///Fee.
         /// </summary>
-        internal static string text_Types_de {
+        internal static string text_types_de {
             get {
-                return ResourceManager.GetString("text_Types_de", resourceCulture);
+                return ResourceManager.GetString("text_types_de", resourceCulture);
             }
         }
         
@@ -26025,9 +26025,9 @@ namespace PKHeX.Properties {
         ///Dark
         ///Fairy.
         /// </summary>
-        internal static string text_Types_en {
+        internal static string text_types_en {
             get {
-                return ResourceManager.GetString("text_Types_en", resourceCulture);
+                return ResourceManager.GetString("text_types_en", resourceCulture);
             }
         }
         
@@ -26051,9 +26051,9 @@ namespace PKHeX.Properties {
         ///Siniestro
         ///Hada.
         /// </summary>
-        internal static string text_Types_es {
+        internal static string text_types_es {
             get {
-                return ResourceManager.GetString("text_Types_es", resourceCulture);
+                return ResourceManager.GetString("text_types_es", resourceCulture);
             }
         }
         
@@ -26077,9 +26077,9 @@ namespace PKHeX.Properties {
         ///Ténèbres
         ///Fée.
         /// </summary>
-        internal static string text_Types_fr {
+        internal static string text_types_fr {
             get {
-                return ResourceManager.GetString("text_Types_fr", resourceCulture);
+                return ResourceManager.GetString("text_types_fr", resourceCulture);
             }
         }
         
@@ -26103,9 +26103,9 @@ namespace PKHeX.Properties {
         ///Buio
         ///Folletto.
         /// </summary>
-        internal static string text_Types_it {
+        internal static string text_types_it {
             get {
-                return ResourceManager.GetString("text_Types_it", resourceCulture);
+                return ResourceManager.GetString("text_types_it", resourceCulture);
             }
         }
         
@@ -26129,9 +26129,9 @@ namespace PKHeX.Properties {
         ///あく
         ///フェアリー.
         /// </summary>
-        internal static string text_Types_ja {
+        internal static string text_types_ja {
             get {
-                return ResourceManager.GetString("text_Types_ja", resourceCulture);
+                return ResourceManager.GetString("text_types_ja", resourceCulture);
             }
         }
         
@@ -26155,9 +26155,9 @@ namespace PKHeX.Properties {
         ///악
         ///페어리.
         /// </summary>
-        internal static string text_Types_ko {
+        internal static string text_types_ko {
             get {
-                return ResourceManager.GetString("text_Types_ko", resourceCulture);
+                return ResourceManager.GetString("text_types_ko", resourceCulture);
             }
         }
         
@@ -26181,9 +26181,9 @@ namespace PKHeX.Properties {
         ///恶
         ///妖精.
         /// </summary>
-        internal static string text_Types_zh {
+        internal static string text_types_zh {
             get {
-                return ResourceManager.GetString("text_Types_zh", resourceCulture);
+                return ResourceManager.GetString("text_types_zh", resourceCulture);
             }
         }
         
@@ -26213,9 +26213,9 @@ namespace PKHeX.Properties {
         ///Spezialmotiv 7
         ///Spezialmotiv 8.
         /// </summary>
-        internal static string text_Wallpaper_de {
+        internal static string text_wallpaper_de {
             get {
-                return ResourceManager.GetString("text_Wallpaper_de", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_de", resourceCulture);
             }
         }
         
@@ -26245,9 +26245,9 @@ namespace PKHeX.Properties {
         ///SPECIAL 7
         ///SPECIAL 8.
         /// </summary>
-        internal static string text_Wallpaper_en {
+        internal static string text_wallpaper_en {
             get {
-                return ResourceManager.GetString("text_Wallpaper_en", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_en", resourceCulture);
             }
         }
         
@@ -26277,9 +26277,9 @@ namespace PKHeX.Properties {
         ///Especial 7
         ///Especial 8.
         /// </summary>
-        internal static string text_Wallpaper_es {
+        internal static string text_wallpaper_es {
             get {
-                return ResourceManager.GetString("text_Wallpaper_es", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_es", resourceCulture);
             }
         }
         
@@ -26309,9 +26309,9 @@ namespace PKHeX.Properties {
         ///Spécial 7
         ///Spécial 8.
         /// </summary>
-        internal static string text_Wallpaper_fr {
+        internal static string text_wallpaper_fr {
             get {
-                return ResourceManager.GetString("text_Wallpaper_fr", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_fr", resourceCulture);
             }
         }
         
@@ -26341,9 +26341,9 @@ namespace PKHeX.Properties {
         ///Speciale 7
         ///Speciale 8.
         /// </summary>
-        internal static string text_Wallpaper_it {
+        internal static string text_wallpaper_it {
             get {
-                return ResourceManager.GetString("text_Wallpaper_it", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_it", resourceCulture);
             }
         }
         
@@ -26373,9 +26373,9 @@ namespace PKHeX.Properties {
         ///スペシャル７
         ///スペシャル８.
         /// </summary>
-        internal static string text_Wallpaper_ja {
+        internal static string text_wallpaper_ja {
             get {
-                return ResourceManager.GetString("text_Wallpaper_ja", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_ja", resourceCulture);
             }
         }
         
@@ -26405,9 +26405,9 @@ namespace PKHeX.Properties {
         ///스페셜7
         ///스페셜8.
         /// </summary>
-        internal static string text_Wallpaper_ko {
+        internal static string text_wallpaper_ko {
             get {
-                return ResourceManager.GetString("text_Wallpaper_ko", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_ko", resourceCulture);
             }
         }
         
@@ -26437,9 +26437,9 @@ namespace PKHeX.Properties {
         ///特典７
         ///特典８.
         /// </summary>
-        internal static string text_Wallpaper_zh {
+        internal static string text_wallpaper_zh {
             get {
-                return ResourceManager.GetString("text_Wallpaper_zh", resourceCulture);
+                return ResourceManager.GetString("text_wallpaper_zh", resourceCulture);
             }
         }
         
