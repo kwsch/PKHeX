@@ -150,8 +150,6 @@ namespace PKHeX
         public Nature Nature = Nature.Random;
         public bool Gift = false;
         public GameVersion Version = GameVersion.Any;
-
-        public EncounterStatic() { }
     }
     public enum Nature
     {

@@ -227,6 +227,11 @@ namespace PKHeX
             if (Moves[0] == 0)
                 res[0] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
 
+            // Duplicate Moves Check
+            for (int i = 0; i < 4; i++)
+                if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
+                    res[i] = new LegalityCheck(Severity.Invalid, "Duplicate Move.");
+
             return res;
         }
         private LegalityCheck[] verifyRelearn()
