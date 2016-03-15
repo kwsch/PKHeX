@@ -33,6 +33,8 @@ namespace PKHeX
 
                                     dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
                                 };
+            relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
+            movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
             defaultControlWhite = CB_Species.BackColor;
             defaultControlText = Label_Species.ForeColor;
             CB_ExtraBytes.SelectedIndex = 0;
@@ -173,7 +175,7 @@ namespace PKHeX
                 "Português", // Portuguese
             };
         private static string origintrack;
-        private readonly PictureBox[] SlotPictureBoxes;
+        private readonly PictureBox[] SlotPictureBoxes, movePB, relearnPB;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         #endregion
 
@@ -2115,7 +2117,6 @@ namespace PKHeX
             {
                 pk6.RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
                 Legality.updateRelearnLegality();
-                PictureBox[] movePB = { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
                 for (int i = 0; i < 4; i++)
                     movePB[i].Visible = !Legality.vRelearn[i].Valid;
             }
@@ -2123,9 +2124,13 @@ namespace PKHeX
             {
                 pk6.Moves = new[] { Util.getIndex(CB_Move1), Util.getIndex(CB_Move2), Util.getIndex(CB_Move3), Util.getIndex(CB_Move4) };
                 Legality.updateMoveLegality();
-                PictureBox[] movePB = { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
                 for (int i = 0; i < 4; i++)
                     movePB[i].Visible = !Legality.vMoves[i].Valid;
+            }
+            if (relearnPB.Any(p => p.Visible) || movePB.Any(p => p.Visible))
+            {
+                Legality.Valid = false;
+                PB_Legal.Image = Properties.Resources.warn;
             }
         }
         private void validateLocation(object sender, EventArgs e)
@@ -2160,12 +2165,10 @@ namespace PKHeX
             PB_Legal.Visible = pk6.Gen6;
 
             // Refresh Move Legality
-            PictureBox[] movePB = {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4};
             for (int i = 0; i < 4; i++)
                 movePB[i].Visible = !Legality.vMoves[i].Valid;
-            PictureBox[] relPB = {PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4};
             for (int i = 0; i < 4; i++)
-                relPB[i].Visible = !Legality.vRelearn[i].Valid;
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid;
         }
         private void updateStats()
         {
