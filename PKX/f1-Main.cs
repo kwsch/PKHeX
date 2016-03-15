@@ -71,7 +71,7 @@ namespace PKHeX
 
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]) : "";
-            HaX = filename.IndexOf("HaX", StringComparison.Ordinal) >= 0;
+            HaX = filename.ToLower().IndexOf("hax", StringComparison.Ordinal) >= 0;
             // Show Hacked Stuff if HaX
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = DEV_Ability.Enabled = DEV_Ability.Visible =
             MT_Level.Enabled = MT_Level.Visible = TB_AbilityNumber.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
