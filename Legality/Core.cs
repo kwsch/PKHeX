@@ -43,26 +43,43 @@ namespace PKHeX
         internal static IEnumerable<int> getValidMoves(PK6 pk6)
         {
             List<int> r = new List<int> {0};
-            
-            r.AddRange(getLVLMoves(pk6.Species, pk6.CurrentLevel));
-            r.AddRange(getTutorMoves(pk6.Species));
-            r.AddRange(getMachineMoves(pk6.Species));
+            int species = pk6.Species;
+            if (species == 386 || species == 492) // Deoxys & Shaymin
+            {
+                int formcount = PersonalAO[species].FormeCount;
+                for (int i = 0; i < formcount; i++)
+                {
+                    // Check all Forms
+                    r.AddRange(getLVLMoves(species, pk6.CurrentLevel, i));
+                    r.AddRange(getTutorMoves(species, i));
+                    r.AddRange(getMachineMoves(species, i));
+                }
+                return r.Distinct().ToArray();
+            }
+            r.AddRange(getLVLMoves(species, pk6.CurrentLevel, pk6.AltForm));
+            r.AddRange(getTutorMoves(species, pk6.AltForm));
+            r.AddRange(getMachineMoves(species, pk6.AltForm));
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
             foreach (DexLevel evo in vs)
             {
-                r.AddRange(getLVLMoves(evo.Species, evo.Level));
-                r.AddRange(getTutorMoves(evo.Species));
-                r.AddRange(getMachineMoves(evo.Species));
+                r.AddRange(getLVLMoves(evo.Species, evo.Level, pk6.AltForm));
+                r.AddRange(getTutorMoves(evo.Species, pk6.AltForm));
+                r.AddRange(getMachineMoves(evo.Species, pk6.AltForm));
             }
+            if (species == 479) // Rotom
+                r.Add(RotomMoves[pk6.AltForm]);
+            if (species == 25) // Pikachu
+                r.Add(PikachuMoves[pk6.AltForm]);
+
             return r.Distinct().ToArray();
         }
         internal static IEnumerable<int> getValidRelearn(PK6 pk6, int skipOption)
         {
             List<int> r = new List<int> { 0 };
             int species = getBaseSpecies(pk6, skipOption);
-            r.AddRange(getLVLMoves(species, 1));
-            r.AddRange(getEggMoves(species));
-            r.AddRange(getLVLMoves(species, 100));
+            r.AddRange(getLVLMoves(species, 1, pk6.AltForm));
+            r.AddRange(getEggMoves(species, pk6.Species == 678 ? pk6.AltForm : 0));
+            r.AddRange(getLVLMoves(species, 100, pk6.AltForm));
             return r.Distinct();
         }
         internal static int[] getLinkMoves(PK6 pk6)
@@ -170,9 +187,11 @@ namespace PKHeX
                 default: return evos.Length <= 0 ? pk6.Species : evos.Last().Species;
             }
         }
-        private static IEnumerable<int> getLVLMoves(int species, int lvl)
+        private static IEnumerable<int> getLVLMoves(int species, int lvl, int formnum)
         {
-            return LevelUpXY[species].getMoves(lvl).Concat(LevelUpAO[species].getMoves(lvl));
+            int ind_XY = PersonalXY[species].FormeIndex(species, formnum);
+            int ind_AO = PersonalAO[species].FormeIndex(species, formnum);
+            return LevelUpXY[ind_XY].getMoves(lvl).Concat(LevelUpAO[ind_AO].getMoves(lvl));
         }
         private static IEnumerable<EncounterArea> getEncounterSlots(PK6 pk6)
         {
@@ -261,13 +280,15 @@ namespace PKHeX
             IEnumerable<DexLevel> dl = getValidPreEvolutions(pk6);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
-        private static IEnumerable<int> getEggMoves(int species)
+        private static IEnumerable<int> getEggMoves(int species, int formnum)
         {
-            return EggMoveAO[species].Moves.Concat(EggMoveXY[species].Moves);
+            int ind_XY = PersonalXY[species].FormeIndex(species, formnum);
+            int ind_AO = PersonalAO[species].FormeIndex(species, formnum);
+            return EggMoveAO[ind_AO].Moves.Concat(EggMoveXY[ind_XY].Moves);
         }
-        private static IEnumerable<int> getTutorMoves(int species)
+        private static IEnumerable<int> getTutorMoves(int species, int formnum)
         {
-            PersonalInfo pkAO = PersonalAO[species];
+            PersonalInfo pkAO = PersonalAO[PersonalAO[species].FormeIndex(species, formnum)];
 
             // Type Tutor
             List<int> moves = TypeTutor.Where((t, i) => pkAO.Tutors[i]).ToList();
@@ -280,10 +301,10 @@ namespace PKHeX
 
             return moves;
         }
-        private static IEnumerable<int> getMachineMoves(int species)
+        private static IEnumerable<int> getMachineMoves(int species, int formnum)
         {
-            PersonalInfo pkXY = PersonalXY[species];
-            PersonalInfo pkAO = PersonalAO[species];
+            PersonalInfo pkXY = PersonalXY[PersonalXY[species].FormeIndex(species, formnum)];
+            PersonalInfo pkAO = PersonalAO[PersonalAO[species].FormeIndex(species, formnum)];
             List<int> moves = new List<int>();
             moves.AddRange(TMHM_XY.Where((t, i) => pkXY.TMHM[i]));
             moves.AddRange(TMHM_AO.Where((t, i) => pkAO.TMHM[i]));

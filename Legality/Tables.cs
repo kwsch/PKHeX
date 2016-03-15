@@ -407,5 +407,7 @@
             082, 303, 597, 205, 227, 375, 600, 437, 530, 707,
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
+        internal static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
+        internal static readonly int[] PikachuMoves = { 0, 309, 556, 577, 604, 560 };
     }
 }
