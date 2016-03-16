@@ -1328,6 +1328,8 @@ namespace PKHeX
                         if (tmp.Length < 2) return;
                         Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
                         Form = tmp[1].Replace(" ", "");
+                        if (tmp.Length > 2)
+                            Form += " " + tmp[2];
                     }
                     if (Species < -1)
                         return;
@@ -1416,6 +1418,8 @@ namespace PKHeX
                                         string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
                                         Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
                                         Form = tmp[1].Replace(" ", "");
+                                        if (tmp.Length > 2)
+                                            Form += " " + tmp[2];
                                     }
                                 }
                                 else if (brokenline[0].Contains("Nature"))
@@ -1433,7 +1437,7 @@ namespace PKHeX
 
                 // First Line: Name, Nickname, Gender, Item
                 string result = string.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
-                    species[Species] + ((Form ?? "") != "" ? "-" + Form : "")) // Species (& Form if necessary)
+                    species[Species] + ((Form ?? "") != "" ? "-" + Form.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
                                 + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
                 // IVs
