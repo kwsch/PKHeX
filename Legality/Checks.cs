@@ -72,17 +72,18 @@ namespace PKHeX
                     ? new LegalityCheck(Severity.Valid, "Egg matches language Egg name.")
                     : new LegalityCheck(Severity.Invalid, "Egg name does not match language Egg name.");
             }
+            string nickname = pk6.Nickname.Replace("'", "’");
             if (pk6.IsNicknamed)
             {
-                return PKX.SpeciesLang.Any(lang => lang.Contains(pk6.Nickname))
+                return PKX.SpeciesLang.Any(lang => lang.Contains(nickname))
                     ? new LegalityCheck(Severity.Invalid, "Nickname matches another species name (+language).")
                     : new LegalityCheck(Severity.Valid, "Nickname does not match another species name.");
             }
             // else
             {
                 // Can't have another language name if it hasn't evolved.
-                return Legal.getHasEvolved(pk6) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == pk6.Nickname)
-                       || PKX.SpeciesLang[pk6.Language][pk6.Species] == pk6.Nickname
+                return Legal.getHasEvolved(pk6) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == nickname)
+                       || PKX.SpeciesLang[pk6.Language][pk6.Species] == nickname
                     ? new LegalityCheck(Severity.Valid, "Nickname matches species name.")
                     : new LegalityCheck(Severity.Invalid, "Nickname does not match species name.");
             }
