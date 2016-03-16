@@ -130,8 +130,10 @@ namespace PKHeX
 
             if (pk6.WasLink)
             {
-                if (pk6.FatefulEncounter || Legal.getLinkMoves(pk6).Length == 0) // Should NOT be Fateful, and should be in Database
-                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift.");
+                // Should NOT be Fateful, and should be in Database
+                return pk6.FatefulEncounter || Legal.getLinkMoves(pk6).Length == 0 
+                    ? new LegalityCheck(Severity.Invalid, "Not a valid Link gift.")
+                    : new LegalityCheck(Severity.Valid, "Valid Link gift.");
             }
             if (pk6.WasEvent || pk6.WasEventEgg)
             {
