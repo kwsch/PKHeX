@@ -176,7 +176,19 @@ namespace PKHeX
 
             int FriendSafari = Legal.getFriendSafariValid(pk6);
             if (FriendSafari > 0)
+            {
+                if (pk6.Species == 670 || pk6.Species == 671) // Floette
+                    if (pk6.AltForm % 2 != 0) // 0/2/4
+                        return new LegalityCheck(Severity.Invalid, "Friend Safari: Not valid color.");
+                else if (pk6.Species == 710 || pk6.Species == 711) // Pumpkaboo
+                    if (pk6.AltForm != 1) // Average
+                        return new LegalityCheck(Severity.Invalid, "Friend Safari: Not average sized.");
+                else if (pk6.Species == 586) // Sawsbuck
+                    if (pk6.AltForm != 0)
+                        return new LegalityCheck(Severity.Invalid, "Friend Safari: Not Spring form.");
+
                 return new LegalityCheck(Severity.Valid, "Valid friend safari encounter.");
+            }
 
             // Not Implemented: In-Game Trades
 
