@@ -75,8 +75,8 @@ namespace PKHeX
                 // Can't have another language name if it hasn't evolved.
                 return Legal.getHasEvolved(pk6) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == pk6.Nickname)
                        || PKX.SpeciesLang[pk6.Language][pk6.Species] == pk6.Nickname
-                               ? new LegalityCheck(Severity.Valid, "Nickname matches species name.")
-                               : new LegalityCheck(Severity.Invalid, "Nickname does not match species name.");
+                    ? new LegalityCheck(Severity.Valid, "Nickname matches species name.")
+                    : new LegalityCheck(Severity.Invalid, "Nickname does not match species name.");
             }
         }
         private LegalityCheck verifyEVs()
@@ -136,13 +136,13 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Invalid Shedinja ball.");
                 if (pk6.Egg_Location != 0)
                     return new LegalityCheck(Severity.Invalid, "Shedinja should not have an Egg Met date/location.");
-                if (pk6.Version < 26) // XY
+                if (pk6.XY) // XY
                 {
                     return Legal.ValidMet_XY.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid X/Y Shedinja.")
                         : new LegalityCheck(Severity.Invalid, "Invalid X/Y location for Shedinja.");
                 }
-                if (pk6.Version < 28)
+                if (pk6.AO)
                 {
                     return Legal.ValidMet_AO.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid OR/AS Shedinja.")
@@ -161,13 +161,13 @@ namespace PKHeX
                         ? new LegalityCheck(Severity.Valid, "Valid un-hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid location for un-hatched egg (expected ID:0)");
                 }
-                if (pk6.Version < 26) // XY
+                if (pk6.XY)
                 {
                     return Legal.ValidMet_XY.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid X/Y hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid X/Y location for hatched egg.");
                 }
-                if (pk6.Version < 28)
+                if (pk6.AO)
                 {
                     return Legal.ValidMet_AO.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid OR/AS hatched egg.")
