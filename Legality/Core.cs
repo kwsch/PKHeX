@@ -19,15 +19,15 @@ namespace PKHeX
         private static readonly EncounterArea[] SlotsO = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_o, "ao"));
         private static readonly EncounterArea[] SlotsX = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_x, "xy"));
         private static readonly EncounterArea[] SlotsY = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_y, "xy"));
-        private static readonly EncounterArea[] DexNavA = getDexNavSlots(SlotsA);
-        private static readonly EncounterArea[] DexNavO = getDexNavSlots(SlotsO);
-        private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots)
+        private static readonly EncounterArea[] DexNavA = getDexNavSlots(SlotsA, 65);
+        private static readonly EncounterArea[] DexNavO = getDexNavSlots(SlotsO, 32);
+        private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots, int smashSlot)
         {
             EncounterArea[] eA = new EncounterArea[GameSlots.Length];
             for (int i = 0; i < eA.Length; i++)
             {
                 eA[i] = GameSlots[i];
-                eA[i].Slots = eA[i].Slots.Take(20).Concat(eA[i].Slots.Skip(25)).ToArray(); // Skip 5 Rock Smash slots.
+                eA[i].Slots = eA[i].Slots.Take(smashSlot).Concat(eA[i].Slots.Skip(smashSlot+5)).ToArray(); // Skip 5 Rock Smash slots.
             }
             return eA;
         }
@@ -240,7 +240,7 @@ namespace PKHeX
 
             // Filter for Met Level
             slots = DexNav
-                ? slots.Where(slot => slot.LevelMin <= pk6.Met_Level && pk6.Met_Level <= slot.LevelMin + 10) // DexNav Boost Range
+                ? slots.Where(slot => slot.LevelMin <= pk6.Met_Level && pk6.Met_Level <= slot.LevelMin + 13) // DexNav Boost Range ??
                 : slots.Where(slot => slot.LevelMin == pk6.Met_Level); // Non-boosted Level
 
             // Filter for Form Specific
@@ -322,9 +322,9 @@ namespace PKHeX
             new EncounterStatic { Species = 653, Level = 5, Location = 10, Gift = true }, // Fennekin
             new EncounterStatic { Species = 656, Level = 5, Location = 10, Gift = true }, // Froakie
 
-            new EncounterStatic { Species = 1, Level = 10, Location = 10, Gift = true }, // Bulbasaur
-            new EncounterStatic { Species = 4, Level = 10, Location = 10, Gift = true }, // Charmander
-            new EncounterStatic { Species = 7, Level = 10, Location = 10, Gift = true }, // Squirtle
+            new EncounterStatic { Species = 1, Level = 10, Location = 22, Gift = true }, // Bulbasaur
+            new EncounterStatic { Species = 4, Level = 10, Location = 22, Gift = true }, // Charmander
+            new EncounterStatic { Species = 7, Level = 10, Location = 22, Gift = true }, // Squirtle
 
             new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Hasty, Gift = true }, // Lucario
             new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Docile, Gift = true }, // Lapras
@@ -378,7 +378,7 @@ namespace PKHeX
             new EncounterStatic { Species = 486, Level = 50, Location = 306 }, // Regigigas
             
             new EncounterStatic { Species = 249, Level = 50, Location = 304, Version = GameVersion.AS }, // Lugia
-            new EncounterStatic { Species = 250, Level = 50, Location = 306, Version = GameVersion.OR }, // Ho-oh
+            new EncounterStatic { Species = 250, Level = 50, Location = 304, Version = GameVersion.OR }, // Ho-oh
 
             new EncounterStatic { Species = 483, Level = 50, Location = 348, Version = GameVersion.AS }, // Dialga
             new EncounterStatic { Species = 484, Level = 50, Location = 348, Version = GameVersion.OR }, // Palia
