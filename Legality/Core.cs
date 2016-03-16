@@ -274,7 +274,7 @@ namespace PKHeX
             {
                 if (lvl >= pk6.Met_Level && lvl >= evo.Level)
                     dl.Add(new DexLevel { Species = evo.Species, Level = lvl });
-                if (evo.Level > 0) // Level Up (from previous level)
+                if (evo.Level > 1) // Level Up (from previous level)
                     lvl--;
             }
             return dl;
