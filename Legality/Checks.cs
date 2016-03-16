@@ -59,14 +59,25 @@ namespace PKHeX
         }
         private LegalityCheck verifyNickname()
         {
-            LegalityCheck r = new LegalityCheck { Judgement = Severity.NotImplemented };
             // If the Pokémon is not nicknamed, it should match one of the language strings.
             if (pk6.Nickname.Length == 0)
+                return new LegalityCheck(Severity.Indeterminate, "Nickname is empty.");
+            if (pk6.Species > PKX.SpeciesLang[0].Length)
+                return new LegalityCheck(Severity.Indeterminate, "Species index invalid for Nickname comparison.");
+            if (pk6.IsNicknamed)
             {
-                r.Judgement = Severity.Indeterminate;
-                r.Comment = "Pokémon nickname is empty.";
+                return PKX.SpeciesLang.Any(lang => lang.Contains(pk6.Nickname))
+                    ? new LegalityCheck(Severity.Invalid, "Nickname matches another species name (+language).")
+                    : new LegalityCheck(Severity.Valid, "Nickname does not match another species name.");
             }
-            return r;
+            // else
+            {
+                // Can't have another language name if it hasn't evolved.
+                return Legal.getHasEvolved(pk6) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == pk6.Nickname)
+                       || PKX.SpeciesLang[pk6.Language][pk6.Species] == pk6.Nickname
+                               ? new LegalityCheck(Severity.Valid, "Nickname matches species name.")
+                               : new LegalityCheck(Severity.Invalid, "Nickname does not match species name.");
+            }
         }
         private LegalityCheck verifyEVs()
         {
@@ -127,17 +138,15 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Shedinja should not have an Egg Met date/location.");
                 if (pk6.Version < 26) // XY
                 {
-                    var lc = Legal.ValidMet_XY.Contains(pk6.Met_Location)
+                    return Legal.ValidMet_XY.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid X/Y Shedinja.")
                         : new LegalityCheck(Severity.Invalid, "Invalid X/Y location for Shedinja.");
-                    return lc;
                 }
                 if (pk6.Version < 28)
                 {
-                    var lc = Legal.ValidMet_AO.Contains(pk6.Met_Location)
+                    return Legal.ValidMet_AO.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid OR/AS Shedinja.")
                         : new LegalityCheck(Severity.Invalid, "Invalid OR/AS location for Shedinja.");
-                    return lc;
                 }
                 return new LegalityCheck(Severity.Invalid, "Invalid Shedinja encounter.");
             }
@@ -148,24 +157,21 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Invalid met level, expected 1.");
                 if (pk6.IsEgg)
                 {
-                    var lc = pk6.Met_Location == 0
+                    return pk6.Met_Location == 0
                         ? new LegalityCheck(Severity.Valid, "Valid un-hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid location for un-hatched egg (expected ID:0)");
-                    return lc;
                 }
                 if (pk6.Version < 26) // XY
                 {
-                    var lc = Legal.ValidMet_XY.Contains(pk6.Met_Location)
+                    return Legal.ValidMet_XY.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid X/Y hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid X/Y location for hatched egg.");
-                    return lc;
                 }
                 if (pk6.Version < 28)
                 {
-                    var lc = Legal.ValidMet_AO.Contains(pk6.Met_Location)
+                    return Legal.ValidMet_AO.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid OR/AS hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid OR/AS location for hatched egg.");
-                    return lc;
                 }
                 return new LegalityCheck(Severity.Invalid, "Invalid location for hatched egg.");
             }
@@ -194,10 +200,9 @@ namespace PKHeX
 
             if (Legal.getDexNavValid(pk6) || Legal.getWildEncounterValid(pk6))
             {
-                var lc = pk6.AbilityNumber != 4
+                return pk6.AbilityNumber != 4
                     ? new LegalityCheck(Severity.Valid, "Valid encounter at location.")
                     : new LegalityCheck(Severity.Invalid, "Hidden ability on valid encounter.");
-                return lc;
             }
             return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
         }

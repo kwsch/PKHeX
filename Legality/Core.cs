@@ -119,6 +119,10 @@ namespace PKHeX
             bool dexNav = pk6.RelearnMove1 != 0;
             return areas.Any(a => getValidEncounterSlots(pk6, a, dexNav).Any());
         }
+        internal static bool getHasEvolved(PK6 pk6)
+        {
+            return getValidPreEvolutions(pk6).Count() > 1;
+        }
         internal static int getFriendSafariValid(PK6 pk6)
         {
             int vers = pk6.Version;
