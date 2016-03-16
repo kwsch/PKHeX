@@ -362,7 +362,7 @@ namespace PKHeX
             new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, Gift = true }, // Pikachu
             new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Gift = true }, // Wynaut
             new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true }, // Togepi
-            new EncounterStatic { Species = 360, Level = 1, Location = 196, Gift = true }, // Beldum
+            new EncounterStatic { Species = 374, Level = 1, Location = 196, Gift = true }, // Beldum
 
             new EncounterStatic { Species = 319, Level = 40, Location = 318, Gift = true }, // Sharpedo
             new EncounterStatic { Species = 323, Level = 40, Location = 318, Gift = true }, // Camerupt
