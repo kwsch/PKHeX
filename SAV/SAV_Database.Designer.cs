@@ -145,6 +145,8 @@
             this.L_Generation = new System.Windows.Forms.Label();
             this.CB_Generation = new System.Windows.Forms.ComboBox();
             this.L_Viewed = new System.Windows.Forms.Label();
+            this.Menu_SearchLegal = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchIllegal = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -931,7 +933,9 @@
             // 
             this.searchSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SearchBoxes,
-            this.Menu_SearchDatabase});
+            this.Menu_SearchDatabase,
+            this.Menu_SearchLegal,
+            this.Menu_SearchIllegal});
             this.searchSettingsToolStripMenuItem.Name = "searchSettingsToolStripMenuItem";
             this.searchSettingsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.searchSettingsToolStripMenuItem.Text = "Search Settings";
@@ -1555,6 +1559,24 @@
             this.L_Viewed.Text = "Last Viewed: {0}";
             this.L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // Menu_SearchLegal
+            // 
+            this.Menu_SearchLegal.Checked = true;
+            this.Menu_SearchLegal.CheckOnClick = true;
+            this.Menu_SearchLegal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchLegal.Name = "Menu_SearchLegal";
+            this.Menu_SearchLegal.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchLegal.Text = "Show Legal";
+            // 
+            // Menu_SearchIllegal
+            // 
+            this.Menu_SearchIllegal.Checked = true;
+            this.Menu_SearchIllegal.CheckOnClick = true;
+            this.Menu_SearchIllegal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchIllegal.Name = "Menu_SearchIllegal";
+            this.Menu_SearchIllegal.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchIllegal.Text = "Show Illegal";
+            // 
             // SAV_Database
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1800,6 +1822,7 @@
         private System.Windows.Forms.ToolStripMenuItem searchSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchBoxes;
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchDatabase;
-
+        private System.Windows.Forms.ToolStripMenuItem Menu_SearchLegal;
+        private System.Windows.Forms.ToolStripMenuItem Menu_SearchIllegal;
     }
 }
