@@ -64,6 +64,14 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Indeterminate, "Nickname is empty.");
             if (pk6.Species > PKX.SpeciesLang[0].Length)
                 return new LegalityCheck(Severity.Indeterminate, "Species index invalid for Nickname comparison.");
+            if (pk6.IsEgg)
+            {
+                if (!pk6.IsNicknamed)
+                    return new LegalityCheck(Severity.Invalid, "Eggs must be nicknamed.");
+                return PKX.SpeciesLang[pk6.Language][0] == pk6.Nickname
+                    ? new LegalityCheck(Severity.Valid, "Egg matches language Egg name.")
+                    : new LegalityCheck(Severity.Invalid, "Egg name does not match language Egg name.");
+            }
             if (pk6.IsNicknamed)
             {
                 return PKX.SpeciesLang.Any(lang => lang.Contains(pk6.Nickname))
