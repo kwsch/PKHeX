@@ -377,8 +377,12 @@ namespace PKHeX
             new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true }, // Togepi
             new EncounterStatic { Species = 374, Level = 1, Location = 196, Gift = true }, // Beldum
 
-            new EncounterStatic { Species = 319, Level = 40, Location = 318, Gift = true }, // Sharpedo
-            new EncounterStatic { Species = 323, Level = 40, Location = 318, Gift = true }, // Camerupt
+            new EncounterStatic { Species = 351, Level = 30, Location = 240, Nature = Nature.Lax, Gift = true }, // Castform
+            new EncounterStatic { Species = 319, Level = 40, Location = 318, Ability = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
+            new EncounterStatic { Species = 323, Level = 40, Location = 318, Ability = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
+            
+            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Gift = true }, // Latias
+            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Gift = true }, // Latios
 
             new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = false }, // Kyogre
             new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = false }, // Groudon
@@ -424,9 +428,6 @@ namespace PKHeX
             new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120
             new EncounterStatic { Species = 352, Level = 40, Location = 176 }, // Kecleon @ Lavaridge
             new EncounterStatic { Species = 352, Level = 45, Location = 196 }, // Kecleon @ Mossdeep City
-            
-            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Gift = true }, // Latias
-            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Gift = true }, // Latios
 
             new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.AS }, // Latios
             new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.OR }, // Latias
