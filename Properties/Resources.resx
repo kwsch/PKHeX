@@ -5779,4 +5779,46 @@
   <data name="text_xy_60000_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_xy_60000_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="text_tradeao_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_tradeao_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradeao_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_tradeao_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradeao_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_tradeao_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradeao_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_tradeao_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradeao_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_tradeao_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradeao_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_tradeao_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradeao_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_tradeao_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradexy_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_tradexy_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradexy_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_tradexy_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradexy_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_tradexy_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradexy_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_tradexy_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradexy_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_tradexy_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradexy_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_tradexy_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradexy_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_tradexy_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

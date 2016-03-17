@@ -193,6 +193,21 @@ namespace PKHeX
             }
             return null;
         }
+        internal static EncounterTrade getIngameTrade(PK6 pk6)
+        {
+            int lang = pk6.Language;
+            if (lang == 0)
+                return null;
+
+            // Get valid pre-evolutions
+            IEnumerable<DexLevel> p = getValidPreEvolutions(pk6);
+            if (pk6.XY)
+                return lang == 6 ? null : TradeGift_XY.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+            if (pk6.AO)
+                return lang == 6 ? null : TradeGift_AO.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+
+            return null;
+        }
 
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
         {
@@ -339,8 +354,8 @@ namespace PKHeX
             new EncounterStatic { Species = 4, Level = 10, Location = 22, Gift = true }, // Charmander
             new EncounterStatic { Species = 7, Level = 10, Location = 22, Gift = true }, // Squirtle
 
-            new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Hasty, Gift = true }, // Lucario
-            new EncounterStatic { Species = 448, Level = 32, Location = 22, Ability = 1, Nature = Nature.Docile, Gift = true }, // Lapras
+            new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = false }, // Lucario
+            new EncounterStatic { Species = 131, Level = 32, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
             
             new EncounterStatic { Species = 143, Level = 15, Location = 38 }, // Snorlax
             
@@ -372,17 +387,18 @@ namespace PKHeX
             new EncounterStatic { Species = 498, Level = 5, Location = 204, Gift = true }, // Tepig
             new EncounterStatic { Species = 501, Level = 5, Location = 204, Gift = true }, // Oshawott
 
-            new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, Gift = true }, // Pikachu
-            new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Gift = true }, // Wynaut
+            new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, Form = 1, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false }, // Pikachu
+            new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, Form = 3, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false }, // Pikachu
+            new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Ability = 1, Gift = true }, // Wynaut
             new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true }, // Togepi
-            new EncounterStatic { Species = 374, Level = 1, Location = 196, Gift = true }, // Beldum
+            new EncounterStatic { Species = 374, Level = 1, Location = 196, Ability = 1, IVs = new[] {-1, -1, 31, -1, -1, 31}, Gift = true }, // Beldum
 
-            new EncounterStatic { Species = 351, Level = 30, Location = 240, Nature = Nature.Lax, Gift = true }, // Castform
-            new EncounterStatic { Species = 319, Level = 40, Location = 318, Ability = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
-            new EncounterStatic { Species = 323, Level = 40, Location = 318, Ability = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
+            new EncounterStatic { Species = 351, Level = 30, Location = 240, Nature = Nature.Lax, Ability = 1, IVs = new[] {-1, -1, -1, -1, 31, -1}, Contest = new[] {0,100,0,0,0,0}, Gift = true }, // Castform
+            new EncounterStatic { Species = 319, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
+            new EncounterStatic { Species = 323, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
             
-            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Gift = true }, // Latias
-            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Gift = true }, // Latios
+            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Ability = 1, Gift = true }, // Latias
+            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Ability = 1, Gift = true }, // Latios
 
             new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = false }, // Kyogre
             new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = false }, // Groudon
@@ -450,5 +466,40 @@ namespace PKHeX
             // else if (Game == GameVersion.AS || Game == GameVersion.OR)
             return Encounter_AO.Where(s => s.Version == GameVersion.Any || s.Version == Game).ToArray();
         }
+        private static readonly string[][] TradeXY =
+        {
+            new string[0],                       // 0 - None
+            Util.getStringList("tradexy", "ja"), // 1
+            Util.getStringList("tradexy", "en"), // 2
+            Util.getStringList("tradexy", "fr"), // 3
+            Util.getStringList("tradexy", "it"), // 4
+            Util.getStringList("tradexy", "de"), // 5
+            new string[0],                       // 6 - None
+            Util.getStringList("tradexy", "es"), // 7
+            Util.getStringList("tradexy", "ko"), // 8
+        };
+        private static readonly string[][] TradeAO =
+        {
+            new string[0],                       // 0 - None
+            Util.getStringList("tradeao", "ja"), // 1
+            Util.getStringList("tradeao", "en"), // 2
+            Util.getStringList("tradeao", "fr"), // 3
+            Util.getStringList("tradeao", "it"), // 4
+            Util.getStringList("tradeao", "de"), // 5
+            new string[0],                       // 6 - None
+            Util.getStringList("tradeao", "es"), // 7
+            Util.getStringList("tradeao", "ko"), // 8
+        };
+
+        #region Static Encounter/Gift Tables
+        private static readonly EncounterTrade[] TradeGift_XY =
+        {
+            new EncounterTrade { Species = 296, Ability = 2, Gender = 0, TID = 30724, Nature = Nature.Brave, },
+        };
+        private static readonly EncounterTrade[] TradeGift_AO =
+        {
+            new EncounterTrade { Species = 296, Ability = 2, Gender = 0, TID = 30724, Nature = Nature.Brave, },
+        };
+        #endregion
     }
 }
