@@ -18693,9 +18693,9 @@ namespace PKHeX.Properties {
         ///Distortion World (Pt)
         ///Starter/Fossil/Gift (Pt).
         /// </summary>
-        internal static string text_encounterType_zh {
+        internal static string text_encountertype_zh {
             get {
-                return ResourceManager.GetString("text_encounterType_zh", resourceCulture);
+                return ResourceManager.GetString("text_encountertype_zh", resourceCulture);
             }
         }
         

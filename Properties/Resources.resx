@@ -5248,7 +5248,7 @@
   <data name="text_encountertype_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ko\text_EncounterType_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="text_encounterType_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_encountertype_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_EncounterType_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="text_forms_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
