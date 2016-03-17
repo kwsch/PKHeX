@@ -123,6 +123,19 @@ namespace PKHeX
         {
             return getValidPreEvolutions(pk6).Count() > 1;
         }
+        internal static bool getIsFossil(PK6 pk6)
+        {
+            if (pk6.Met_Level != 20)
+                return false;
+            if (pk6.Egg_Location != 0)
+                return false;
+            if (pk6.XY && pk6.Met_Location == 44)
+                return Fossils.Contains(getBaseSpecies(pk6));
+            if (pk6.AO && pk6.Met_Location == 190)
+                return Fossils.Contains(getBaseSpecies(pk6));
+
+            return false;
+        }
         internal static int getFriendSafariValid(PK6 pk6)
         {
             int vers = pk6.Version;
@@ -181,7 +194,7 @@ namespace PKHeX
             return null;
         }
 
-        private static int getBaseSpecies(PK6 pk6, int skipOption)
+        private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
         {
             DexLevel[] evos = Evolves[pk6.Species].Evos;
             switch (skipOption)

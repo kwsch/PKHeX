@@ -351,6 +351,7 @@
         internal static readonly int[] InvalidSketch = {Struggle, Chatter};
         internal static readonly int[] EggLocations = {318, 60002, 30002};
         internal static readonly int[] LightBall = {25, 26, 172};
+        internal static readonly int[] Fossils = {138, 140, 142, 345, 347, 408, 410, 564, 566, 696, 698};
         internal static readonly int[] WildForms =
         {
             422, 423, // Shellos

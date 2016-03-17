@@ -191,6 +191,12 @@ namespace PKHeX
             if (z != null)
                 return new LegalityCheck(Severity.Valid, "Valid gift/static encounter.");
 
+            if (Legal.getIsFossil(pk6))
+            {
+                return pk6.AbilityNumber != 4
+                    ? new LegalityCheck(Severity.Valid, "Valid revived fossil.")
+                    : new LegalityCheck(Severity.Invalid, "Hidden ability on revived fossil.");
+            }
             int FriendSafari = Legal.getFriendSafariValid(pk6);
             if (FriendSafari > 0)
             {
