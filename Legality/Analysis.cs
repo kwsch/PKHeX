@@ -7,6 +7,7 @@ namespace PKHeX
     {
         private readonly PK6 pk6;
         private WC6 MatchedWC6;
+        private object EncounterMatch;
         private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter;
 
         public bool Valid = true;
@@ -39,12 +40,12 @@ namespace PKHeX
 
         private void updateChecks()
         {
+            Encounter = verifyEncounter();
             ECPID = verifyECPID();
             Nickname = verifyNickname();
             IDs = verifyID();
             IVs = verifyIVs();
             EVs = verifyEVs();
-            Encounter = verifyEncounter();
             SecondaryChecked = true;
         }
         private string getLegalityReport()

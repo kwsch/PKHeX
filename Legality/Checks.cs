@@ -212,8 +212,7 @@ namespace PKHeX
 
                 return new LegalityCheck(Severity.Valid, "Valid friend safari encounter.");
             }
-
-            // Not Implemented: In-Game Trades
+            
             if (Legal.getDexNavValid(pk6))
                 return new LegalityCheck(Severity.Valid, "Valid (DexNav) encounter at location.");
             if (Legal.getWildEncounterValid(pk6))
@@ -221,6 +220,12 @@ namespace PKHeX
                 return pk6.AbilityNumber != 4
                     ? new LegalityCheck(Severity.Valid, "Valid encounter at location.")
                     : new LegalityCheck(Severity.Invalid, "Hidden ability on valid encounter.");
+            }
+            EncounterTrade t = Legal.getIngameTrade(pk6);
+            if (t != null)
+            {
+                EncounterMatch = t; // Check in individual methods
+                return new LegalityCheck(Severity.Valid, "Valid ingame trade.");
             }
             return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
         }
