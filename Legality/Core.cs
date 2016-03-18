@@ -82,13 +82,12 @@ namespace PKHeX
             }
             return GameSlots;
         }
-
         private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots, int smashSlot)
         {
             EncounterArea[] eA = new EncounterArea[GameSlots.Length];
             for (int i = 0; i < eA.Length; i++)
             {
-                eA[i] = GameSlots[i];
+                eA[i] = new EncounterArea {Location = GameSlots[i].Location, Slots = GameSlots[i].Slots};
                 eA[i].Slots = eA[i].Slots.Take(smashSlot).Concat(eA[i].Slots.Skip(smashSlot+5)).ToArray(); // Skip 5 Rock Smash slots.
             }
             return eA;
