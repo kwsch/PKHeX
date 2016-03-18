@@ -441,6 +441,8 @@ namespace PKHeX
             BTN_RerollPID.PerformClick();
             BTN_RerollEC.PerformClick();
             if (Set.Shiny) BTN_Shinytize.PerformClick();
+            pk6 = preparepkx();
+            updateLegality();
         }
         private void clickShowdownExportPK6(object sender, EventArgs e)
         {
@@ -2151,16 +2153,15 @@ namespace PKHeX
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
             Util.Alert(la.Report); // temp
-            PB_Legal.Visible = pk.Gen6;
             if (tabs)
-                PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
+                updateLegality(la);
         }
-        private void updateLegality()
+        private void updateLegality(LegalityAnalysis la = null)
         {
             if (!fieldsLoaded)
                 return;
 
-            Legality = new LegalityAnalysis(pk6);
+            Legality = la ?? new LegalityAnalysis(pk6);
             PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
             PB_Legal.Visible = pk6.Gen6;
 
