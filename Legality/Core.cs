@@ -17,10 +17,72 @@ namespace PKHeX
         private static readonly Evolutions[] Evolves = Evolutions.getArray(Util.unpackMini(Properties.Resources.evos_ao, "ao"));
         private static readonly EncounterArea[] SlotsA = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_a, "ao"));
         private static readonly EncounterArea[] SlotsO = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_o, "ao"));
-        private static readonly EncounterArea[] SlotsX = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_x, "xy"));
-        private static readonly EncounterArea[] SlotsY = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_y, "xy"));
+        #region XY Alt Slots
+        private static readonly EncounterArea[] SlotsXYAlt = 
+        {
+            new EncounterArea {
+                Location = 104, // Victory Road
+                Slots = new[]
+                {
+	                // Drops
+	                new EncounterSlot { Species = 075, LevelMin = 57, LevelMax = 57, Form = 0 }, // Graveler
+	                new EncounterSlot { Species = 168, LevelMin = 58, LevelMax = 59, Form = 0 }, // Ariados
+	                new EncounterSlot { Species = 714, LevelMin = 57, LevelMax = 59, Form = 0 }, // Noibat
+	
+	                // Swoops
+	                new EncounterSlot { Species = 022, LevelMin = 57, LevelMax = 59, Form = 0 }, // Fearow
+	                new EncounterSlot { Species = 227, LevelMin = 57, LevelMax = 59, Form = 0 }, // Skarmory
+	                new EncounterSlot { Species = 635, LevelMin = 59, LevelMax = 59, Form = 0 }, // Hydreigon
+                },},
+            new EncounterArea {
+                    Location = 34, // Route 6
+                Slots = new[]
+                {
+	                // Rustling Bush
+	                new EncounterSlot { Species = 543, LevelMin = 10, LevelMax = 12, Form = 0 }, // Venipede
+                    new EncounterSlot { Species = 531, LevelMin = 10, LevelMax = 12, Form = 0 }, // Audino
+                },},
+
+            new EncounterArea { Location = 88, // Route 18
+                Slots = new[]
+                {
+	                // Rustling Bush
+	                new EncounterSlot { Species = 632, LevelMin = 44, LevelMax = 46, Form = 0 }, // Durant
+                    new EncounterSlot { Species = 631, LevelMin = 45, LevelMax = 45, Form = 0 }, // Heatmor
+                },},
+
+            new EncounterArea { Location = 132, // Glittering Cave
+                Slots = new[]
+                {
+	                // Drops
+	                new EncounterSlot { Species = 527, LevelMin = 15, LevelMax = 17, Form = 0 }, // Woobat
+                    new EncounterSlot { Species = 597, LevelMin = 15, LevelMax = 17, Form = 0 }, // Ferroseed
+                },},
+
+            new EncounterArea { Location = 56, // Reflection Cave
+                Slots = new[]
+                {
+	                // Drops
+	                new EncounterSlot { Species = 527, LevelMin = 21, LevelMax = 23, Form = 0 }, // Woobat
+                    new EncounterSlot { Species = 597, LevelMin = 21, LevelMax = 23, Form = 0 }, // Ferroseed
+                },},
+        };
+        #endregion
+        private static readonly EncounterArea[] SlotsX = addXYAltTiles(EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_x, "xy")), SlotsXYAlt);
+        private static readonly EncounterArea[] SlotsY = addXYAltTiles(EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_y, "xy")), SlotsXYAlt);
         private static readonly EncounterArea[] DexNavA = getDexNavSlots(SlotsA, 32);
         private static readonly EncounterArea[] DexNavO = getDexNavSlots(SlotsO, 32);
+        private static EncounterArea[] addXYAltTiles(EncounterArea[] GameSlots, EncounterArea[] SpecialSlots)
+        {
+            foreach (EncounterArea g in GameSlots)
+            {
+                EncounterArea slots = SpecialSlots.FirstOrDefault(l => l.Location == g.Location);
+                if (slots != null)
+                    g.Slots = g.Slots.Concat(slots.Slots).ToArray();
+            }
+            return GameSlots;
+        }
+
         private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots, int smashSlot)
         {
             EncounterArea[] eA = new EncounterArea[GameSlots.Length];
