@@ -211,6 +211,8 @@ namespace PKHeX
 
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
         {
+            if (pk6.Species == 292)
+                return 290;
             DexLevel[] evos = Evolves[pk6.Species].Evos;
             switch (skipOption)
             {
@@ -295,9 +297,15 @@ namespace PKHeX
         }
         private static IEnumerable<DexLevel> getValidPreEvolutions(PK6 pk6)
         {
-            var evos = Evolves[pk6.Species].Evos;
-            List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pk6.Species, Level = pk6.CurrentLevel } };
             int lvl = pk6.CurrentLevel;
+            if (pk6.Species == 292 && pk6.Met_Level + 1 <= lvl && lvl >= 20)
+                return new List<DexLevel>
+                {
+                    new DexLevel { Species = 292, Level = lvl },
+                    new DexLevel { Species = 290, Level = lvl-1 }
+                };
+            var evos = Evolves[pk6.Species].Evos;
+            List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pk6.Species, Level = lvl } };
             foreach (DexLevel evo in evos)
             {
                 if (lvl >= pk6.Met_Level && lvl >= evo.Level)
