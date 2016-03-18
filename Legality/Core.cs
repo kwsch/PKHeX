@@ -19,7 +19,7 @@ namespace PKHeX
         private static readonly EncounterArea[] SlotsO = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_o, "ao"));
         private static readonly EncounterArea[] SlotsX = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_x, "xy"));
         private static readonly EncounterArea[] SlotsY = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_y, "xy"));
-        private static readonly EncounterArea[] DexNavA = getDexNavSlots(SlotsA, 65);
+        private static readonly EncounterArea[] DexNavA = getDexNavSlots(SlotsA, 32);
         private static readonly EncounterArea[] DexNavO = getDexNavSlots(SlotsO, 32);
         private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots, int smashSlot)
         {
@@ -268,7 +268,7 @@ namespace PKHeX
 
             // Filter for Met Level
             slots = DexNav
-                ? slots.Where(slot => slot.LevelMin <= pk6.Met_Level && pk6.Met_Level <= slot.LevelMin + 13) // DexNav Boost Range ??
+                ? slots.Where(slot => slot.LevelMin <= pk6.Met_Level && pk6.Met_Level <= slot.LevelMax + 13) // DexNav Boost Range ??
                 : slots.Where(slot => slot.LevelMin == pk6.Met_Level); // Non-boosted Level
 
             // Filter for Form Specific

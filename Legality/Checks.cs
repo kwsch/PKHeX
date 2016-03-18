@@ -15,7 +15,7 @@ namespace PKHeX
     public class LegalityCheck
     {
         public Severity Judgement = Severity.Valid;
-        public string Comment = "Valid";
+        public readonly string Comment = "Valid";
         public bool Valid => Judgement >= Severity.Fishy;
 
         public LegalityCheck() { }
