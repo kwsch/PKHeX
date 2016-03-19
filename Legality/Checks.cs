@@ -209,6 +209,12 @@ namespace PKHeX
             }
             return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
         }
+        private LegalityCheck verifyLevel()
+        {
+            return pk6.CurrentLevel < pk6.Met_Level
+                ? new LegalityCheck(Severity.Invalid, "Current level is below met level.")
+                : new LegalityCheck(Severity.Valid, "Current level is not below met level.");
+        }
         private LegalityCheck[] verifyMoves()
         {
             int[] Moves = pk6.Moves;
