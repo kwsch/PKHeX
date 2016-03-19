@@ -437,6 +437,11 @@ namespace PKHeX
             new EncounterStatic { Species = 131, Level = 32, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
             
             new EncounterStatic { Species = 143, Level = 15, Location = 38 }, // Snorlax
+            new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
+            new EncounterStatic { Species = 569, Level = 36, Location = 142 }, // Garbodor
+            new EncounterStatic { Species = 569, Level = 37, Location = 142 }, // Garbodor
+            new EncounterStatic { Species = 569, Level = 38, Location = 142 }, // Garbodor
+            new EncounterStatic { Species = 479, Level = 38, Location = 142 }, // Rotom
             
             new EncounterStatic { Species = 716, Level = 50, Location = 138, Version = GameVersion.X, Shiny = false }, // Xerneas
             new EncounterStatic { Species = 717, Level = 50, Location = 138, Version = GameVersion.Y, Shiny = false }, // Yveltal
@@ -532,6 +537,15 @@ namespace PKHeX
             
             new EncounterStatic { Species = 100, Level = 20, Location = 302 }, // Voltorb @ Route 119
             new EncounterStatic { Species = 442, Level = 50, Location = 304 }, // Spiritomb @ Route 120
+
+            // Soaring in the Sky
+            new EncounterStatic { Species = 198, Level = 45, Location = 348 }, // Murkrow
+            new EncounterStatic { Species = 276, Level = 40, Location = 348 }, // Taillow
+            new EncounterStatic { Species = 278, Level = 40, Location = 348 }, // Wingull
+            new EncounterStatic { Species = 279, Level = 40, Location = 348 }, // Pelipper
+            new EncounterStatic { Species = 333, Level = 40, Location = 348 }, // Swablu
+            new EncounterStatic { Species = 425, Level = 45, Location = 348 }, // Drifloon
+            new EncounterStatic { Species = 628, Level = 45, Location = 348 }, // Braviary
         };
         #endregion
         private static readonly EncounterStatic[] StaticX = getSpecial(GameVersion.X);
@@ -570,7 +584,7 @@ namespace PKHeX
             Util.getStringList("tradeao", "ko"), // 8
         };
 
-        #region Static Encounter/Gift Tables
+        #region Trade Tables
         private static readonly EncounterTrade[] TradeGift_XY =
         {
             new EncounterTrade { Species = 129, Level = 5, Ability = 1, Gender = 0, TID = 44285, Nature = Nature.Adamant, }, // Magikarp

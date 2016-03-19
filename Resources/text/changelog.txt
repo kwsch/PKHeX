@@ -675,3 +675,4 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: PID generator for Gen3/4/Unown legal PIDs. Thanks chenzw95!
  - Changed: Chinese Translation updated. Thanks easyworld!
  - Changed: Startup times of the program may be quicker.
+ - Hotfix: Added missing Lost Hotel & Soaring static encounters. Thanks froslumugu & \!
