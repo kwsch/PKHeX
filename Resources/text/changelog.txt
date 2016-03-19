@@ -677,3 +677,4 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: Startup times of the program may be quicker.
  - Hotfix: Added missing Lost Hotel & Soaring static encounters. Thanks froslumugu & \!
  - Hotfix: Keldeo Secret Sword detection.
+ - Hotfix: DexNav level range increased. Thanks fr3quency!

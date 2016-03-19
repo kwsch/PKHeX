@@ -340,7 +340,7 @@ namespace PKHeX
             // Filter for Met Level
             int lvl = pk6.Met_Level;
             slots = DexNav
-                ? slots.Where(slot => slot.LevelMin <= lvl && lvl <= slot.LevelMax + 13) // DexNav Boost Range ??
+                ? slots.Where(slot => slot.LevelMin <= lvl && lvl <= slot.LevelMax + 25) // DexNav Boost Range ??
                 : slots.Where(slot => slot.LevelMin <= lvl && lvl <= slot.LevelMax); // Non-boosted Level
 
             // Filter for Form Specific
