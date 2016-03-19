@@ -629,5 +629,14 @@ namespace PKHeX
         {
             Close();
         }
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (!PAN_Box.RectangleToScreen(PAN_Box.ClientRectangle).Contains(MousePosition))
+                return;
+            int oldval = SCR_Box.Value;
+            int newval = oldval + (e.Delta < 0 ? 1 : -1);
+            if (newval >= SCR_Box.Minimum && SCR_Box.Maximum >= newval)
+                FillPKXBoxes(SCR_Box.Value = newval);
+        }
     }
 }
