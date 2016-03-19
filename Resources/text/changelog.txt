@@ -652,7 +652,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: 4->6 Import ability transferring. Thanks zero2exe!
  - Removed: ram2sav support. If you wish to still use ram2sav, use a compiled version from 9/20/15 or earlier.
 
-03/19/16 - New Update:
+03/19/16 - New Update: (770)
  - Added: Legality checking for XY/ORAS origin Pokémon.
  - - Legality indication next to moves and Preview to indicate the legality of the loaded pk6.
  - - Legality indication click event to pop up why the pk6 is flagged as illegal.
@@ -676,3 +676,4 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: Chinese Translation updated. Thanks easyworld!
  - Changed: Startup times of the program may be quicker.
  - Hotfix: Added missing Lost Hotel & Soaring static encounters. Thanks froslumugu & \!
+ - Hotfix: Keldeo Secret Sword detection.

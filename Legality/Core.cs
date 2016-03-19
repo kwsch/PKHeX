@@ -201,8 +201,7 @@ namespace PKHeX
         }
         internal static int getFriendSafariValid(PK6 pk6)
         {
-            int vers = pk6.Version;
-            if (vers != 24 && vers != 25)
+            if (!pk6.XY)
                 return -1;
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
             foreach (DexLevel d in vs.Where(d => FriendSafari.Contains(d.Species) && d.Level >= 30))
@@ -215,7 +214,7 @@ namespace PKHeX
             int species = getBaseSpecies(pk6, skipOption);
             if (gameSource == -1)
             {
-                if (pk6.Version == 24 || pk6.Version == 25)
+                if (pk6.XY)
                     return LevelUpXY[species].getMoves(1);
                 // if (pk6.Version == 26 || pk6.Version == 27)
                     return LevelUpAO[species].getMoves(1);
@@ -410,6 +409,9 @@ namespace PKHeX
                     if (pkAO.ORASTutors[i][b])
                         moves.Add(Tutors_AO[i][b]);
 
+            // Keldeo - Secret Sword
+            if (species == 647)
+                moves.Add(548);
             return moves;
         }
         private static IEnumerable<int> getMachineMoves(int species, int formnum)
