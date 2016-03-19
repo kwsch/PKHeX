@@ -95,10 +95,7 @@ namespace PKHeX
 
         internal static bool getDexNavValid(PK6 pk6)
         {
-            bool alpha = pk6.Version == 26;
-            if (!alpha && pk6.Version != 27)
-                return false;
-            IEnumerable<EncounterArea> locs = (alpha ? DexNavA : DexNavO).Where(l => l.Location == pk6.Met_Location);
+            IEnumerable<EncounterArea> locs = getDexNavAreas(pk6);
             return locs.Select(loc => getValidEncounterSlots(pk6, loc, DexNav: true)).Any(slots => slots.Any());
         }
         internal static IEnumerable<int> getValidMoves(PK6 pk6)
@@ -177,8 +174,13 @@ namespace PKHeX
         internal static bool getWildEncounterValid(PK6 pk6)
         {
             var areas = getEncounterAreas(pk6);
-            bool dexNav = pk6.RelearnMove1 != 0;
-            return areas.Any(a => getValidEncounterSlots(pk6, a, dexNav).Any());
+            bool slots = areas.Any(a => getValidEncounterSlots(pk6, a, DexNav: false).Any());
+            if (slots) return true;
+
+            // Try DexNav -- quickly returns if not AO
+            areas = getDexNavAreas(pk6);
+            slots = areas.Any(a => getValidEncounterSlots(pk6, a, DexNav: true).Any());
+            return slots;
         }
         internal static bool getHasEvolved(PK6 pk6)
         {
@@ -270,6 +272,13 @@ namespace PKHeX
             return null;
         }
 
+        private static IEnumerable<EncounterArea> getDexNavAreas(PK6 pk6)
+        {
+            bool alpha = pk6.Version == 26;
+            if (!alpha && pk6.Version != 27)
+                return new EncounterArea[0];
+            return (alpha ? DexNavA : DexNavO).Where(l => l.Location == pk6.Met_Location);
+        }
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
         {
             if (pk6.Species == 292)
@@ -330,9 +339,10 @@ namespace PKHeX
             IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
 
             // Filter for Met Level
+            int lvl = pk6.Met_Level;
             slots = DexNav
-                ? slots.Where(slot => slot.LevelMin <= pk6.Met_Level && pk6.Met_Level <= slot.LevelMax + 13) // DexNav Boost Range ??
-                : slots.Where(slot => slot.LevelMin == pk6.Met_Level); // Non-boosted Level
+                ? slots.Where(slot => slot.LevelMin <= lvl && lvl <= slot.LevelMax + 13) // DexNav Boost Range ??
+                : slots.Where(slot => slot.LevelMin <= lvl && lvl <= slot.LevelMax); // Non-boosted Level
 
             // Filter for Form Specific
             if (WildForms.Contains(pk6.Species))
