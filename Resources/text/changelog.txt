@@ -634,7 +634,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Changed: Sprite generation (layering) is now faster.
  - Shortcuts have been updated.
 
-02/16/16 - New Update: 
+02/16/16 - New Update: (109758)
  - Added: CTRL fill dex will only fill for species you do not yet own.
  - Added: CTRL click on the Box tab in the main window to sort boxes by National Dex #.
  - Added: Game Started and Last Saved editing fields to the Trainer Editor.
@@ -652,5 +652,25 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: 4->6 Import ability transferring. Thanks zero2exe!
  - Removed: ram2sav support. If you wish to still use ram2sav, use a compiled version from 9/20/15 or earlier.
 
-XX/XX/XX - New Update:
- - Added: Basic legality checking of moves.
+03/19/16 - New Update:
+ - Added: Legality checking for XY/ORAS origin Pokémon.
+ - - Legality indication next to moves and Preview to indicate the legality of the loaded pk6.
+ - - Legality indication click event to pop up why the pk6 is flagged as illegal.
+ - - Event checking has been made possible by community contributions. Thanks everyone!
+ - Added: Right click contextmenu for the Preview for Legality/QR/Save.
+ - Removed: QR! clickable label. 
+ - - SHIFT click the Preview Sprite to export QR.
+ - - ALT click the Preview Sprite to import QR.
+ - Added: Wondercard database loading for updated Legality checking. 
+ - - Create a "wc6" folder in the same folder as PKHeX.exe, and add in wc6 files.
+ - Added: Database Viewer: Scrolling over a PictureBox now scrolls the view.
+ - Added: Database Viewer: Legality filters for Legal Only/Illegal Only. Helpful for finding hacks!
+ - Added: wc6full loading support.
+ - Fixed: Automatic Backup prompt string now appears correctly.
+
+ - Fixed: Showdown import of Mega-X/Y. Thanks Odaxis!
+ - Fixed: Compiling on Unix-based operating system (case sensitivity) fixed. Thanks GovanifY!
+ - Fixed: Pokédex Editor for X/Y now saves form bools. Thanks chenzw95!
+ - Changed: PID generator for Gen3/4/Unown legal PIDs. Thanks chenzw95!
+ - Changed: Chinese Translation updated. Thanks easyworld!
+ - Changed: Startup times of the program may be quicker.
