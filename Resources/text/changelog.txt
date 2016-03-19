@@ -670,6 +670,7 @@ http://projectpokemon.org/forums/showthread.php?36986
 
  - Fixed: Showdown import of Mega-X/Y. Thanks Odaxis!
  - Fixed: Compiling on Unix-based operating system (case sensitivity) fixed. Thanks GovanifY!
+ - Fixed: Past gen special character conversion (and UI typo). Thanks Localhorst!
  - Fixed: Pokédex Editor for X/Y now saves form bools. Thanks chenzw95!
  - Changed: PID generator for Gen3/4/Unown legal PIDs. Thanks chenzw95!
  - Changed: Chinese Translation updated. Thanks easyworld!
