@@ -123,7 +123,7 @@ namespace PKHeX
 
             string path = importwc6.FileName;
             long len = new FileInfo(path).Length;
-            if (len != WC6.Size || len != WC6.SizeFull)
+            if (len != WC6.Size && len != WC6.SizeFull)
             {
                 Util.Error("File is not a Wonder Card:", path);
                 return;
@@ -250,30 +250,45 @@ namespace PKHeX
 
             // Check for multiple wondercards
             int ctr = currentSlot;
-
-            if (files.Length == 1)
+            if (Directory.Exists(files[0]))
+                files = Directory.GetFiles(files[0], "*", SearchOption.AllDirectories);
+            if (files.Length == 1 && !Directory.Exists(files[0]))
             {
                 string path = files[0]; // open first D&D
-                if (new FileInfo(path).Length != WC6.Size)
+                long len = new FileInfo(path).Length;
+                if (len != WC6.Size && len != WC6.SizeFull)
                 {
                     Util.Error("File is not a Wonder Card:", path);
                     return;
                 }
                 byte[] newwc6 = File.ReadAllBytes(path);
+                if (newwc6.Length == WC6.SizeFull)
+                    newwc6 = newwc6.Skip(WC6.SizeFull - WC6.Size).ToArray();
                 Array.Copy(newwc6, wondercard_data, newwc6.Length);
                 loadwcdata();
+                return;
             }
-            else if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, $"Try to load {files.Length} Wonder Cards starting at Card {ctr + 1}?"))
-                foreach (string file in files)
-                {
-                    if (new FileInfo(file).Length != WC6.Size)
-                    { Util.Error("File is not a Wonder Card:", file); continue; }
 
-                    // Load in WC
-                    File.ReadAllBytes(file).CopyTo(sav, Main.SAV.WondercardData + WC6.Size*ctr++);
-                    if (ctr >= 24)
-                        break;
-                }
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, $"Try to load {files.Length} Wonder Cards starting at Card {ctr + 1}?"))
+                return;
+
+            foreach (string file in files)
+            {
+                long len = new FileInfo(file).Length;
+                if (len != WC6.Size && len != WC6.SizeFull)
+                { Util.Error("File is not a Wonder Card:", file); continue; }
+
+                // Load in WC
+                byte[] newwc6 = File.ReadAllBytes(file);
+
+                if (newwc6.Length == WC6.SizeFull)
+                    newwc6 = newwc6.Skip(WC6.SizeFull - WC6.Size).ToArray();
+                newwc6.CopyTo(sav, Main.SAV.WondercardData + WC6.Size*ctr++);
+                setCardID(BitConverter.ToUInt16(newwc6, 0));
+                if (ctr >= 24)
+                    break;
+            }
+            populateWClist();
         }
 
         // String Creation
