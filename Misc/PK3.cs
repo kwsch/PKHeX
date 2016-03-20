@@ -273,13 +273,15 @@ namespace PKHeX
             pk4.Nickname = IsEgg ? PKM.getSpeciesName(pk4.Species, pk4.Language) : Nickname;
             Array.Copy(pk4.Data, 0x48, pk4.Data, 0x68, 0x10);
             pk4.OT_Name = OT_Name;
-
-            // Ribbons
             
             // Set Final Data
             pk4.Met_Level = PKX.getLevel(pk4.Species, pk4.EXP);
             pk4.Gender = PKM.getGender(pk4.Species, pk4.PID);
             pk4.IsNicknamed |= pk4.Nickname != PKM.getSpeciesName(pk4.Species, pk4.Language);
+
+            // Unown Form
+            if (Species == 201)
+                pk4.AltForm = PKM.getUnownForm(PID);
 
             // Remove HM moves
             int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };
