@@ -8,7 +8,7 @@ namespace PKHeX
         private readonly PK6 pk6;
         private WC6 MatchedWC6;
         private object EncounterMatch;
-        private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level;
+        private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons;
 
         public bool Valid = true;
         public bool SecondaryChecked;
@@ -47,6 +47,7 @@ namespace PKHeX
             IVs = verifyIVs();
             EVs = verifyEVs();
             Level = verifyLevel();
+            Ribbons = verifyRibbons();
             SecondaryChecked = true;
         }
         private string getLegalityReport()
@@ -54,7 +55,7 @@ namespace PKHeX
             if (!pk6.Gen6)
                 return "Analysis only available for Pokémon that originate from X/Y & OR/AS.";
             
-            var chks = new[] { ECPID, Nickname, IVs, EVs, IDs, Encounter, Level};
+            var chks = new[] { ECPID, Nickname, IVs, EVs, IDs, Encounter, Level, Ribbons };
 
             string r = "";
             for (int i = 0; i < 4; i++)

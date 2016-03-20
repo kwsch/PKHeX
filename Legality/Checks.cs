@@ -227,6 +227,74 @@ namespace PKHeX
                 ? new LegalityCheck(Severity.Invalid, "Current level is below met level.")
                 : new LegalityCheck(Severity.Valid, "Current level is not below met level.");
         }
+        private LegalityCheck verifyRibbons()
+        {
+            if (!Encounter.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped Ribbon check due to other check being invalid.");
+
+            List<string> missingRibbons = new List<string>();
+            List<string> invalidRibbons = new List<string>();
+
+            // Check Event Ribbons
+            bool[] EventRib =
+            {
+                pk6.RIB2_6, pk6.RIB2_7, pk6.RIB3_0, pk6.RIB3_1, pk6.RIB3_2,
+                pk6.RIB3_3, pk6.RIB3_4, pk6.RIB3_5, pk6.RIB3_6, pk6.RIB3_7,
+                pk6.RIB4_0, pk6.RIB4_1, pk6.RIB4_2, pk6.RIB4_3, pk6.RIB4_4
+            };
+            string[] EventRibName =
+            {
+                "Country", "National", "Earth", "World", "Classic",
+                "Premier", "Event", "Birthday", "Special", "Souvenir",
+                "Wishing", "Battle Champ", "Regional Champ", "National Champ", "World Champ"
+            };
+            if (MatchedWC6 != null) // Wondercard
+            {
+                bool[] wc6rib =
+                {
+                    MatchedWC6.RIB0_3, MatchedWC6.RIB0_4, MatchedWC6.RIB0_5, MatchedWC6.RIB0_6, MatchedWC6.RIB1_5,
+                    MatchedWC6.RIB1_6, MatchedWC6.RIB0_7, MatchedWC6.RIB1_1, MatchedWC6.RIB1_2, MatchedWC6.RIB1_3,
+                    MatchedWC6.RIB1_4, MatchedWC6.RIB0_0, MatchedWC6.RIB0_1, MatchedWC6.RIB0_2, MatchedWC6.RIB1_0
+                };
+                for (int i = 0; i < EventRib.Length; i++)
+                    if (EventRib[i] ^ wc6rib[i]) // Mismatch
+                        (wc6rib[i] ? missingRibbons : invalidRibbons).Add(EventRibName[i]);
+            }
+            else
+            {
+                for (int i = 0; i < EventRib.Length; i++)
+                    if (i == 4 && pk6.WasLink && !EventRib[i]) // Classic
+                        missingRibbons.Add(EventRibName[i]);
+                    else if (EventRib[i])
+                        invalidRibbons.Add(EventRibName[i]);
+            }
+
+            // Unobtainable ribbons for Gen6 Origin
+            if (pk6.RIB0_1)
+                invalidRibbons.Add("GBA Champion"); // RSE HoF
+            if (pk6.RIB0_2)
+                invalidRibbons.Add("Sinnoh Champ"); // DPPt HoF
+            if (pk6.RIB1_2)
+                invalidRibbons.Add("Artist"); // RSE Master Rank Portrait
+            if (pk6.RIB1_4)
+                invalidRibbons.Add("Record"); // Unobtainable
+            if (pk6.RIB1_5)
+                invalidRibbons.Add("Legend"); // HGSS Defeat Red @ Mt.Silver
+            if (pk6.Memory_ContestCount > 0)
+                invalidRibbons.Add("Contest Memory"); // Gen3/4 Contest
+            if (pk6.Memory_BattleCount > 0)
+                invalidRibbons.Add("Battle Memory"); // Gen3/4 Battle
+            
+            if (missingRibbons.Count + invalidRibbons.Count == 0)
+                return new LegalityCheck(Severity.Valid, "All ribbons accounted for.");
+
+            string[] result = new string[2];
+            if (missingRibbons.Count > 0)
+                result[0] = "Missing Ribbons: " + string.Join(", ", missingRibbons);
+            if (invalidRibbons.Count > 0)
+                result[1] = "Invalid Ribbons: " + string.Join(", ", invalidRibbons);
+            return new LegalityCheck(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s=>!string.IsNullOrEmpty(s))));
+        }
         private LegalityCheck[] verifyMoves()
         {
             int[] Moves = pk6.Moves;
