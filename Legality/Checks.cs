@@ -64,6 +64,9 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Indeterminate, "Nickname is empty.");
             if (pk6.Species > PKX.SpeciesLang[0].Length)
                 return new LegalityCheck(Severity.Indeterminate, "Species index invalid for Nickname comparison.");
+            if (!Encounter.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped Nickname check due to other check being invalid.");
+
             if (pk6.IsEgg)
             {
                 if (!pk6.IsNicknamed)
@@ -75,9 +78,18 @@ namespace PKHeX
             string nickname = pk6.Nickname.Replace("'", "’");
             if (pk6.IsNicknamed)
             {
-                return PKX.SpeciesLang.Any(lang => lang.Contains(nickname))
-                    ? new LegalityCheck(Severity.Invalid, "Nickname matches another species name (+language).")
-                    : new LegalityCheck(Severity.Valid, "Nickname does not match another species name.");
+                for (int i = 0; i < PKX.SpeciesLang.Length; i++)
+                {
+                    string[] lang = PKX.SpeciesLang[i];
+                    int index = Array.IndexOf(lang, nickname);
+                    if (index < 0)
+                        continue;
+
+                    return index == pk6.Species && i != pk6.Language
+                        ? new LegalityCheck(Severity.Fishy, "Nickname matches another species name (+language).")
+                        : new LegalityCheck(Severity.Fishy, "Nickname flagged, matches species name.");
+                }
+                return new LegalityCheck(Severity.Valid, "Nickname does not match another species name.");
             }
             // else
             {

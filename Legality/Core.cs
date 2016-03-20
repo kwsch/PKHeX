@@ -379,7 +379,8 @@ namespace PKHeX
             foreach (DexLevel evo in evos)
             {
                 if (lvl >= pk6.Met_Level && lvl >= evo.Level)
-                    dl.Add(new DexLevel { Species = evo.Species, Level = lvl });
+                    dl.Add(new DexLevel {Species = evo.Species, Level = lvl});
+                else break;
                 if (evo.Level > 1) // Level Up (from previous level)
                     lvl--;
             }
