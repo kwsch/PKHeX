@@ -606,6 +606,10 @@ namespace PKHeX
             // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
             pk6.FixMoves();
 
+            // Decapitalize
+            if (!pk6.IsNicknamed && pk6.Nickname.Length > 1)
+                pk6.Nickname = char.ToUpper(pk6.Nickname[0]) + pk6.Nickname.Substring(1).ToLower();
+
             // Fix Name Strings
             pk6.Nickname = pk6.Nickname
                 .Replace('\u2467', '\u00d7') // ×
