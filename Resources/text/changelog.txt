@@ -679,3 +679,9 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: Keldeo Secret Sword detection.
  - Hotfix: DexNav level range increased. Thanks fr3quency!
  - Hotfix: Giratina Pain Split. Thanks \!
+
+03/21/16 - New Update:
+ - Fixed: Nickname legality check severity. Thanks Eskuero!
+ - Fixed: 5->6 transfer decapitalization. Thanks rinnegan!
+ - Fixed: 3->4 Unown form is now retained. Thanks rinnegan!
+ - Fixed: WC6 import button not recognizing the correct size. Thanks \ & Ahito95!
