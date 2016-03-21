@@ -248,7 +248,7 @@ namespace PKHeX
                 "Premier", "Event", "Birthday", "Special", "Souvenir",
                 "Wishing", "Battle Champ", "Regional Champ", "National Champ", "World Champ"
             };
-            if (MatchedWC6 != null) // Wondercard
+            if (MatchedWC6 != null) // Wonder Card
             {
                 bool[] wc6rib =
                 {
@@ -295,6 +295,54 @@ namespace PKHeX
                 result[1] = "Invalid Ribbons: " + string.Join(", ", invalidRibbons);
             return new LegalityCheck(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s=>!string.IsNullOrEmpty(s))));
         }
+        private LegalityCheck verifyAbility()
+        {
+            int index = Legal.PersonalAO[pk6.Species].FormeIndex(pk6.Species, pk6.AltForm);
+            byte[] abilities = Legal.PersonalAO[index].Abilities;
+            int abilval = Array.IndexOf(abilities, (byte)pk6.Ability);
+            if (abilval < 0)
+                return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form");
+
+            return abilities[pk6.AbilityNumber >> 1] != pk6.Ability
+                ? new LegalityCheck(Severity.Invalid, "Ability does not match ability number.")
+                : new LegalityCheck(Severity.Valid, "Ability matches ability number.");
+        }
+
+        private LegalityCheck verifyBall()
+        {
+            if (MatchedWC6 != null)
+                return pk6.Ball != MatchedWC6.Pokéball
+                    ? new LegalityCheck(Severity.Invalid, "Ball does not match specified Wonder Card Ball.")
+                    : new LegalityCheck(Severity.Valid, "Ball matches Wonder Card.");
+
+            if (pk6.WasEgg)
+            {
+                if (pk6.Species > 650)
+                    return !Legal.WildPokeballs.Contains(pk6.Ball)
+                        ? new LegalityCheck(Severity.Invalid, "Unobtainable ball for Kalos origin.")
+                        : new LegalityCheck(Severity.Valid, "Obtainable ball for Kalos origin.");
+
+                if (pk6.Ball == 0x10) // Cherish
+                    return new LegalityCheck(Severity.Invalid, "Cherish Ball on non-event.");
+                if (pk6.Ball == 5 && pk6.Species > 493) // Gen5
+                    return new LegalityCheck(Severity.Invalid, "Safari Ball on GenV species.");
+
+                // Feel free to improve, there's a lot of very minor things to check for some species.
+            }
+            if (EncounterMatch == null)
+            {
+                // Wild Encounter
+                return !Legal.WildPokeballs.Contains(pk6.Ball)
+                    ? new LegalityCheck(Severity.Invalid, "Unobtainable ball on captured encounter.")
+                    : new LegalityCheck(Severity.Valid, "Obtainable ball on captured encounter.");
+            }
+            if (EncounterMatch.GetType() == typeof(EncounterTrade))
+                return pk6.Ball != 4 // Pokeball
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame trade encounter.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on ingame trade encounter.");
+
+            return new LegalityCheck(Severity.Indeterminate, "Unable to verify Ball");
+        }
         private LegalityCheck[] verifyMoves()
         {
             int[] Moves = pk6.Moves;
@@ -325,7 +373,7 @@ namespace PKHeX
                     else if (RelearnMoves.Contains(Moves[i]))
                         res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.");
                     else if (WC6Moves.Contains(Moves[i]))
-                        res[i] = new LegalityCheck(Severity.Valid, "Wondercard Non-Relearn Move.");
+                        res[i] = new LegalityCheck(Severity.Valid, "Wonder Card Non-Relearn Move.");
                     else
                         res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
                 }
@@ -367,6 +415,9 @@ namespace PKHeX
                 IEnumerable<WC6> vwc6 = Legal.getValidWC6s(pk6);
                 foreach (var wc in vwc6)
                 {
+                    if (wc.PIDType == 0 && pk6.PID != wc.PID) continue;
+                    if (wc.PIDType == 2 && !pk6.IsShiny) continue;
+                    if (wc.PIDType == 3 && pk6.IsShiny) continue;
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
