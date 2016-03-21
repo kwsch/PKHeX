@@ -2152,9 +2152,9 @@ namespace PKHeX
         private void showLegality(PK6 pk, bool tabs)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
-            Util.Alert(la.Report); // temp
             if (tabs)
                 updateLegality(la);
+            Util.Alert(la.Report); // temp
         }
         private void updateLegality(LegalityAnalysis la = null)
         {
