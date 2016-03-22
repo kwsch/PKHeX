@@ -166,7 +166,7 @@ namespace PKHeX
         public int[] IVs = { -1, -1, -1, -1, -1, -1 };
         public int[] Moves;
         public int Form = 0;
-        public bool? Shiny = false;
+        public bool Shiny = false;
         public int Gender = -1;
     }
     public enum Nature

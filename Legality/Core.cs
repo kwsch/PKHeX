@@ -301,12 +301,37 @@ namespace PKHeX
 
             // Get valid pre-evolutions
             IEnumerable<DexLevel> p = getValidPreEvolutions(pk6);
+            EncounterTrade z = null;
             if (pk6.XY)
-                return lang == 6 ? null : TradeGift_XY.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+                z = lang == 6 ? null : TradeGift_XY.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
             if (pk6.AO)
-                return lang == 6 ? null : TradeGift_AO.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+                z = lang == 6 ? null : TradeGift_AO.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
 
-            return null;
+            if (z == null)
+                return null;
+
+            for (int i = 0; i < 6; i++)
+                if (z.IVs[i] != -1 && z.IVs[i] != pk6.IVs[i])
+                    return null;
+
+            if (z.Shiny ^ pk6.IsShiny) // Are PIDs static?
+                return null;
+            if (z.TID != pk6.TID)
+                return null;
+            if (z.SID != pk6.SID)
+                return null;
+            if (z.Location != pk6.Met_Location)
+                return null;
+            if (z.Level != pk6.Met_Level)
+                return null;
+            if (z.Nature != Nature.Random && ((int)z.Nature != pk6.Nature))
+                return null;
+            if (z.Gender != pk6.Gender)
+                return null;
+            // if (z.Ability == 4 ^ pk6.AbilityNumber == 4) // defer to Ability 
+            //    return null;
+
+            return z;
         }
 
         private static IEnumerable<EncounterArea> getDexNavAreas(PK6 pk6)
