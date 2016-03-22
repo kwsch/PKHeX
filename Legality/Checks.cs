@@ -266,8 +266,11 @@ namespace PKHeX
             else
             {
                 for (int i = 0; i < EventRib.Length; i++)
-                    if (i == 4 && pk6.WasLink && !EventRib[i]) // Classic
-                        missingRibbons.Add(EventRibName[i]);
+                    if (i == 4 && pk6.WasLink)
+                    {
+                        if (!EventRib[i]) // Classic
+                            missingRibbons.Add(EventRibName[i]);
+                    }
                     else if (EventRib[i])
                         invalidRibbons.Add(EventRibName[i]);
             }
