@@ -306,6 +306,10 @@ namespace PKHeX
             if (abilval < 0)
                 return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form");
 
+            if (EncounterMatch != null && EncounterMatch.GetType() == typeof(EncounterTrade))
+                if ((EncounterMatch as EncounterTrade).Ability == 4 ^ pk6.AbilityNumber == 4)
+                    return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for Ingame Trade");
+
             return abilities[pk6.AbilityNumber >> 1] != pk6.Ability
                 ? new LegalityCheck(Severity.Invalid, "Ability does not match ability number.")
                 : new LegalityCheck(Severity.Valid, "Ability matches ability number.");
@@ -330,6 +334,7 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Safari Ball on GenV species.");
 
                 // Feel free to improve, there's a lot of very minor things to check for some species.
+                return new LegalityCheck(Severity.Valid, "Obtainable ball for past gen origin parent.");
             }
             if (pk6.WasLink)
             {
