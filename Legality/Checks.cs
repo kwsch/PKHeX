@@ -137,6 +137,7 @@ namespace PKHeX
         }
         private LegalityCheck verifyEncounter()
         {
+            EncounterMatch = null; // Reset object
             if (!pk6.Gen6)
                 return new LegalityCheck {Judgement = Severity.NotImplemented};
 
@@ -223,6 +224,8 @@ namespace PKHeX
         }
         private LegalityCheck verifyLevel()
         {
+            if (MatchedWC6 != null && MatchedWC6.Level != pk6.Met_Level)
+                return new LegalityCheck(Severity.Invalid, "Met Level does not match Wonder Card level.");
             return pk6.CurrentLevel < pk6.Met_Level
                 ? new LegalityCheck(Severity.Invalid, "Current level is below met level.")
                 : new LegalityCheck(Severity.Valid, "Current level is not below met level.");
@@ -307,7 +310,6 @@ namespace PKHeX
                 ? new LegalityCheck(Severity.Invalid, "Ability does not match ability number.")
                 : new LegalityCheck(Severity.Valid, "Ability matches ability number.");
         }
-
         private LegalityCheck verifyBall()
         {
             if (MatchedWC6 != null)
@@ -329,8 +331,20 @@ namespace PKHeX
 
                 // Feel free to improve, there's a lot of very minor things to check for some species.
             }
+            if (pk6.WasLink)
+            {
+                if (pk6.Species == 251)
+                    return pk6.Ball != 11 // Luxury
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
+
+                return pk6.Ball != 4 // Pokeball
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
+            }
             if (EncounterMatch == null)
             {
+                // Egg and Event already checked, if not a recognized Trade
                 // Wild Encounter
                 return !Legal.WildPokeballs.Contains(pk6.Ball)
                     ? new LegalityCheck(Severity.Invalid, "Unobtainable ball on captured encounter.")
@@ -342,6 +356,51 @@ namespace PKHeX
                     : new LegalityCheck(Severity.Valid, "Correct ball on ingame trade encounter.");
 
             return new LegalityCheck(Severity.Indeterminate, "Unable to verify Ball");
+        }
+        private LegalityCheck verifyHandlerMemories()
+        {
+            if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
+            {
+                if (pk6.OT_Friendship != PKX.getBaseFriendship(pk6.Species))
+                    return new LegalityCheck(Severity.Invalid, "Event OT Friendship does not match base friendship.");
+                if (pk6.OT_Affection != 0)
+                    return new LegalityCheck(Severity.Invalid, "Event OT Affection should be zero.");
+                if (pk6.CurrentHandler != 1)
+                    return new LegalityCheck(Severity.Invalid, "Current handler should not be Event OT.");
+            }
+            if (!pk6.WasEvent && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
+            {
+                if (pk6.HT_Name.Length != 0)
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- HT Name present but has no previous Country.");
+                if (pk6.Geo1_Country != 0)
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- Previous country of residence but no Handling Trainer.");
+                if (pk6.HT_Memory != 0)
+                    return new LegalityCheck(Severity.Invalid, "Memory -- Handling Trainer memory present but no Handling Trainer.");
+                if (pk6.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
+                    return new LegalityCheck(Severity.Invalid, "Untraded -- Current handler should not be the Handling Trainer.");
+                if (pk6.HT_Friendship != 0)
+                    return new LegalityCheck(Severity.Invalid, "Untraded -- Handling Trainer Friendship should be zero.");
+                if (pk6.HT_Affection != 0)
+                    return new LegalityCheck(Severity.Invalid, "Untraded -- Handling Trainer Affection should be zero.");
+
+                // We know it is untraded (HT is empty), if it must be trade evolved flag it.
+                if (Legal.getHasTradeEvolved(pk6))
+                {
+                    if (pk6.Species != 350) // Milotic
+                        return new LegalityCheck(Severity.Invalid, "Untraded -- requires a trade evolution.");
+                    if (pk6.CNT_Beauty < 170) // Beauty Contest Stat Requirement
+                        return new LegalityCheck(Severity.Invalid, "Untraded -- Beauty is not high enough for Levelup Evolution.");
+                }
+            }
+            else // Is Traded
+            {
+                if (pk6.HT_Memory == 0)
+                    return new LegalityCheck(Severity.Invalid, "Memory -- missing Handling Trainer Memory.");
+            }
+            
+            // Unimplemented: Ingame Trade Memories
+
+            return new LegalityCheck(Severity.Valid, "History is valid.");
         }
         private LegalityCheck[] verifyMoves()
         {

@@ -220,6 +220,10 @@ namespace PKHeX
         {
             return getValidPreEvolutions(pk6).Count() > 1;
         }
+        internal static bool getHasTradeEvolved(PK6 pk6)
+        {
+            return Evolves[pk6.Species].Evos.Any(evo => evo.Level == 1); // 1: Trade, 0: Item, >=2: Levelup
+        }
         internal static bool getIsFossil(PK6 pk6)
         {
             if (pk6.Met_Level != 20)
