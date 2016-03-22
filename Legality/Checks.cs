@@ -280,11 +280,11 @@ namespace PKHeX
                 invalidRibbons.Add("GBA Champion"); // RSE HoF
             if (pk6.RIB0_2)
                 invalidRibbons.Add("Sinnoh Champ"); // DPPt HoF
-            if (pk6.RIB1_2)
+            if (pk6.RIB2_2)
                 invalidRibbons.Add("Artist"); // RSE Master Rank Portrait
-            if (pk6.RIB1_4)
+            if (pk6.RIB2_4)
                 invalidRibbons.Add("Record"); // Unobtainable
-            if (pk6.RIB1_5)
+            if (pk6.RIB2_5)
                 invalidRibbons.Add("Legend"); // HGSS Defeat Red @ Mt.Silver
             if (pk6.Memory_ContestCount > 0)
                 invalidRibbons.Add("Contest Memory"); // Gen3/4 Contest

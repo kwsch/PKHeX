@@ -431,5 +431,11 @@
             676, // Furfrou
             720, // Hoopa
         };
+        internal static readonly int[] FormChangeMoves =
+        {
+            386, // Deoxys
+            487, // Giratina
+            492, // Shaymin
+        };
     }
 }

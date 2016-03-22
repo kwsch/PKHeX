@@ -102,7 +102,7 @@ namespace PKHeX
         {
             List<int> r = new List<int> {0};
             int species = pk6.Species;
-            if (FormChange.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
+            if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = PersonalAO[species].FormeCount;
                 for (int i = 0; i < formcount; i++)
