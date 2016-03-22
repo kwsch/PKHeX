@@ -411,5 +411,25 @@
         internal static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
         internal static readonly int[] PikachuMoves = { 0, 309, 556, 577, 604, 560 };
         internal static readonly int[] WildPokeballs = { 0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
+        internal static readonly int[] FormChange = // Pokémon that can change form
+        {
+            25, // Pikachu
+            351, // Castform
+            386, // Deoxys
+            412, // Burmy
+            421, // Cherrim
+            479, // Rotom
+            487, // Giratina
+            492, // Shaymin
+            493, // Arceus
+            641, // Tornadus
+            642, // Thundurus
+            645, // Landorus
+            646, // Kyurem
+            647, // Keldeo
+            649, // Genesect
+            676, // Furfrou
+            720, // Hoopa
+        };
     }
 }

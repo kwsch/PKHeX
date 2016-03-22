@@ -102,7 +102,7 @@ namespace PKHeX
         {
             List<int> r = new List<int> {0};
             int species = pk6.Species;
-            if (species == 386 || species == 492 || species == 487) // Deoxys & Shaymin & Giratina
+            if (FormChange.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = PersonalAO[species].FormeCount;
                 for (int i = 0; i < formcount; i++)
@@ -160,16 +160,50 @@ namespace PKHeX
         }
         internal static IEnumerable<WC6> getValidWC6s(PK6 pk6)
         {
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
-            if (pk6.Egg_Location > 0) // Was Egg, can't search TID/SID/OT
-                return WC6DB.Where(wc6 => vs.Any(dl => dl.Species == wc6.Species));
+            var vs = getValidPreEvolutions(pk6).ToArray();
+            List<WC6> validWC6 = new List<WC6>();
 
-            // Not Egg
-            return WC6DB.Where(wc6 =>
-                wc6.CardID == pk6.SID &&
-                wc6.TID == pk6.TID &&
-                vs.Any(dl => dl.Species == wc6.Species) &&
-                wc6.OT == pk6.OT_Name);
+            foreach (WC6 wc in WC6DB.Where(wc => vs.Any(dl => dl.Species == wc.Species)))
+            {
+                if (pk6.Egg_Location == 0) // Not Egg
+                {
+                    if (wc.CardID != pk6.SID) continue;
+                    if (wc.TID != pk6.TID) continue;
+                    if (wc.OT != pk6.OT_Name) continue;
+                    if (wc.OTGender != pk6.OT_Gender) continue;
+                    if (wc.PIDType == 0 && pk6.PID != wc.PID) continue;
+                    if (wc.PIDType == 2 && !pk6.IsShiny) continue;
+                    if (wc.PIDType == 3 && pk6.IsShiny) continue;
+                    if (wc.OriginGame != 0 && wc.OriginGame != pk6.Version) continue;
+                    if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pk6.EncryptionConstant) continue;
+                    if (wc.Language != 0 && wc.Language != pk6.Language) continue;
+                }
+                if (wc.Form != pk6.AltForm && vs.All(dl => !FormChange.Contains(dl.Species))) continue;
+                if (wc.MetLocation != pk6.Met_Location) continue;
+                if (wc.EggLocation != pk6.Egg_Location) continue;
+                if (wc.Level != pk6.Met_Level) continue;
+                if (wc.Pokéball != pk6.Ball) continue;
+                if (wc.OTGender < 3 && wc.OTGender != pk6.OT_Gender) continue;
+                if (wc.Nature != 0xFF && wc.Nature != pk6.Nature) continue;
+                if (wc.Gender != 3 && wc.Gender != pk6.Gender) continue;
+
+                if (wc.CNT_Cool > pk6.CNT_Cool) continue;
+                if (wc.CNT_Beauty > pk6.CNT_Beauty) continue;
+                if (wc.CNT_Cute > pk6.CNT_Cute) continue;
+                if (wc.CNT_Smart > pk6.CNT_Smart) continue;
+                if (wc.CNT_Tough > pk6.CNT_Tough) continue;
+                if (wc.CNT_Sheen > pk6.CNT_Sheen) continue;
+
+                // Some checks are best performed separately as they are caused by users screwing up valid data.
+                // if (!wc.RelearnMoves.SequenceEqual(pk6.RelearnMoves)) continue; // Defer to relearn legality
+                // if (wc.OT.Length > 0 && pk6.CurrentHandler != 1) continue; // Defer to ownership legality
+                // if (wc.OT.Length > 0 && pk6.OT_Friendship != PKX.getBaseFriendship(pk6.Species)) continue; // Friendship
+                // if (wc.Level > pk6.CurrentLevel) continue; // Defer to level legality
+                // RIBBONS: Defer to ribbon legality
+
+                validWC6.Add(wc);
+            }
+            return validWC6;
         }
         internal static bool getWildEncounterValid(PK6 pk6)
         {

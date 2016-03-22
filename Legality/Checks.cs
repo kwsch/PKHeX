@@ -415,9 +415,6 @@ namespace PKHeX
                 IEnumerable<WC6> vwc6 = Legal.getValidWC6s(pk6);
                 foreach (var wc in vwc6)
                 {
-                    if (wc.PIDType == 0 && pk6.PID != wc.PID) continue;
-                    if (wc.PIDType == 2 && !pk6.IsShiny) continue;
-                    if (wc.PIDType == 3 && pk6.IsShiny) continue;
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
