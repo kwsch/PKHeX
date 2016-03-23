@@ -82,7 +82,7 @@ namespace PKHeX
             // Load WC6 folder to legality
             refreshWC6DB();
 
-            Menu_Modify.DropDown.Closing += delegate (object sender, ToolStripDropDownClosingEventArgs e)
+            Menu_Modify.DropDown.Closing += (sender, e) =>
             {
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;

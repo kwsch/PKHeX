@@ -98,7 +98,7 @@ namespace PKHeX
 
             // Prepare Database
             prepareDBForSearch();
-            Menu_SearchSettings.DropDown.Closing += delegate (object sender, ToolStripDropDownClosingEventArgs e)
+            Menu_SearchSettings.DropDown.Closing += (sender, e) =>
             {
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
