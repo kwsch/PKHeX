@@ -137,14 +137,13 @@ namespace PKHeX
         }
         private LegalityCheck verifyEncounter()
         {
-            EncounterMatch = null; // Reset object
             if (!pk6.Gen6)
                 return new LegalityCheck {Judgement = Severity.NotImplemented};
 
             if (pk6.WasLink)
             {
                 // Should NOT be Fateful, and should be in Database
-                return pk6.FatefulEncounter || Legal.getLinkMoves(pk6).Length == 0 
+                return pk6.FatefulEncounter || EncounterMatch == null
                     ? new LegalityCheck(Severity.Invalid, "Not a valid Link gift.")
                     : new LegalityCheck(Severity.Valid, "Valid Link gift.");
             }
@@ -154,6 +153,8 @@ namespace PKHeX
                     ? new LegalityCheck(Severity.Valid, $"Matches #{MatchedWC6.CardID.ToString("0000")} ({MatchedWC6.CardTitle})") 
                     : new LegalityCheck(Severity.Invalid, "Not a valid Wonder Card gift.");
             }
+
+            EncounterMatch = null; // Reset object
             if (pk6.WasEgg)
             {
                 // Check Hatch Locations
@@ -180,8 +181,8 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Invalid, "Invalid location for hatched egg.");
             }
 
-            EncounterStatic z = Legal.getStaticEncounter(pk6);
-            if (z != null)
+            EncounterMatch = Legal.getValidStaticEncounter(pk6);
+            if (EncounterMatch != null)
                 return new LegalityCheck(Severity.Valid, "Valid gift/static encounter.");
 
             if (Legal.getIsFossil(pk6))
@@ -205,19 +206,17 @@ namespace PKHeX
 
                 return new LegalityCheck(Severity.Valid, "Valid friend safari encounter.");
             }
-            
-            if (Legal.getDexNavValid(pk6))
-                return new LegalityCheck(Severity.Valid, "Valid (DexNav) encounter at location.");
-            if (Legal.getWildEncounterValid(pk6))
+
+            EncounterMatch = Legal.getValidWildEncounters(pk6);
+            if (EncounterMatch != null)
             {
-                return pk6.AbilityNumber != 4
-                    ? new LegalityCheck(Severity.Valid, "Valid encounter at location.")
-                    : new LegalityCheck(Severity.Invalid, "Hidden ability on valid encounter.");
+                return ((EncounterSlot[]) EncounterMatch).Any(slot => !slot.DexNav) 
+                    ? new LegalityCheck(Severity.Valid, "Valid encounter at location.") 
+                    : new LegalityCheck(Severity.Valid, "Valid DexNav encounter at location.");
             }
-            EncounterTrade t = Legal.getIngameTrade(pk6);
-            if (t != null)
+            EncounterMatch = Legal.getValidIngameTrade(pk6);
+            if (EncounterMatch != null)
             {
-                EncounterMatch = t; // Check in individual methods
                 return new LegalityCheck(Severity.Valid, "Valid ingame trade.");
             }
             return new LegalityCheck(Severity.Invalid, "Not a valid encounter.");
@@ -245,12 +244,6 @@ namespace PKHeX
                 pk6.RIB3_3, pk6.RIB3_4, pk6.RIB3_5, pk6.RIB3_6, pk6.RIB3_7,
                 pk6.RIB4_0, pk6.RIB4_1, pk6.RIB4_2, pk6.RIB4_3, pk6.RIB4_4
             };
-            string[] EventRibName =
-            {
-                "Country", "National", "Earth", "World", "Classic",
-                "Premier", "Event", "Birthday", "Special", "Souvenir",
-                "Wishing", "Battle Champ", "Regional Champ", "National Champ", "World Champ"
-            };
             if (MatchedWC6 != null) // Wonder Card
             {
                 bool[] wc6rib =
@@ -263,15 +256,20 @@ namespace PKHeX
                     if (EventRib[i] ^ wc6rib[i]) // Mismatch
                         (wc6rib[i] ? missingRibbons : invalidRibbons).Add(EventRibName[i]);
             }
-            else
+            else if (EncounterMatch?.GetType() == typeof(EncounterLink))
+            {
+                // No Event Ribbons except Classic (unless otherwise specified, ie not for Demo)
+                for (int i = 0; i < EventRib.Length; i++)
+                    if (i != 4 && EventRib[i])
+                        invalidRibbons.Add(EventRibName[i]);
+
+                if (EventRib[4] ^ ((EncounterLink)EncounterMatch).Classic)
+                    (EventRib[4] ? invalidRibbons : missingRibbons).Add(EventRibName[4]);
+            }
+            else // No ribbons
             {
                 for (int i = 0; i < EventRib.Length; i++)
-                    if (i == 4 && pk6.WasLink)
-                    {
-                        if (!EventRib[i]) // Classic
-                            missingRibbons.Add(EventRibName[i]);
-                    }
-                    else if (EventRib[i])
+                    if (EventRib[i])
                         invalidRibbons.Add(EventRibName[i]);
             }
 
@@ -307,11 +305,21 @@ namespace PKHeX
             byte[] abilities = Legal.PersonalAO[index].Abilities;
             int abilval = Array.IndexOf(abilities, (byte)pk6.Ability);
             if (abilval < 0)
-                return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form");
+                return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form.");
 
-            if (EncounterMatch != null && EncounterMatch.GetType() == typeof(EncounterTrade))
-                if ((EncounterMatch as EncounterTrade).Ability == 4 ^ pk6.AbilityNumber == 4)
-                    return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for Ingame Trade");
+            if (EncounterMatch != null)
+            {
+                Type etype = EncounterMatch.GetType();
+                if (etype == typeof(EncounterStatic))
+                    if (pk6.AbilityNumber == 4 ^ ((EncounterStatic)EncounterMatch).Ability == 4)
+                        return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for static encounter.");
+                if (etype == typeof(EncounterTrade))
+                    if (pk6.AbilityNumber == 4 ^ ((EncounterTrade)EncounterMatch).Ability == 4)
+                        return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for ingame trade.");
+                if (etype == typeof(EncounterSlot[]))
+                    if (pk6.AbilityNumber == 4 && ((EncounterSlot[])EncounterMatch).All(slot => slot.Type != SlotType.Horde))
+                        return new LegalityCheck(Severity.Invalid, "Hidden Ability on non-horde wild encounter.");
+            }
 
             return abilities[pk6.AbilityNumber >> 1] != pk6.Ability
                 ? new LegalityCheck(Severity.Invalid, "Ability does not match ability number.")
@@ -319,6 +327,9 @@ namespace PKHeX
         }
         private LegalityCheck verifyBall()
         {
+            if (!Encounter.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped Ball check due to other check being invalid.");
+
             if (MatchedWC6 != null)
                 return pk6.Ball != MatchedWC6.Pokéball
                     ? new LegalityCheck(Severity.Invalid, "Ball does not match specified Wonder Card Ball.")
@@ -326,7 +337,7 @@ namespace PKHeX
 
             if (pk6.WasEgg)
             {
-                if (pk6.Species > 650)
+                if (pk6.Species > 650 && pk6.Species != 700) // Sylveon
                     return !Legal.WildPokeballs.Contains(pk6.Ball)
                         ? new LegalityCheck(Severity.Invalid, "Unobtainable ball for Kalos origin.")
                         : new LegalityCheck(Severity.Valid, "Obtainable ball for Kalos origin.");
@@ -350,23 +361,26 @@ namespace PKHeX
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
             }
-            if (EncounterMatch == null)
-            {
-                // Egg and Event already checked, if not a recognized Trade
-                // Wild Encounter
-                return !Legal.WildPokeballs.Contains(pk6.Ball)
-                    ? new LegalityCheck(Severity.Invalid, "Unobtainable ball on captured encounter.")
-                    : new LegalityCheck(Severity.Valid, "Obtainable ball on captured encounter.");
-            }
-            if (EncounterMatch.GetType() == typeof(EncounterTrade))
+            Type etype = EncounterMatch?.GetType();
+            if (etype == typeof(EncounterLink))
+                return ((EncounterLink)EncounterMatch).Ball != pk6.Ball
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
+
+            if (etype == typeof(EncounterTrade))
                 return pk6.Ball != 4 // Pokeball
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame trade encounter.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on ingame trade encounter.");
 
-            return new LegalityCheck(Severity.Indeterminate, "Unable to verify Ball");
+            return !Legal.WildPokeballs.Contains(pk6.Ball)
+                ? new LegalityCheck(Severity.Invalid, "Unobtainable ball on captured encounter.")
+                : new LegalityCheck(Severity.Valid, "Obtainable ball on captured encounter.");
         }
         private LegalityCheck verifyHandlerMemories()
         {
+            if (!Encounter.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped Memory check due to other check being invalid.");
+
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
                 if (pk6.OT_Friendship != PKX.getBaseFriendship(pk6.Species))
@@ -464,12 +478,22 @@ namespace PKHeX
         {
             LegalityCheck[] res = new LegalityCheck[4];
             MatchedWC6 = null; // Reset
+            EncounterMatch = null;
+            
             int[] Moves = pk6.RelearnMoves;
             if (!pk6.Gen6)
                 goto noRelearn;
             if (pk6.WasLink)
             {
-                int[] moves = Legal.getLinkMoves(pk6);
+                EncounterMatch = Legal.getValidLinkGifts(pk6);
+                if (EncounterMatch == null)
+                {
+                    for (int i = 0; i < 4; i++)
+                        res[i] = new LegalityCheck();
+                    return res;
+                }
+
+                int[] moves = ((EncounterLink)EncounterMatch).RelearnMoves;
                 for (int i = 0; i < 4; i++)
                     res[i] = moves[i] != Moves[i]
                         ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
@@ -579,5 +603,12 @@ namespace PKHeX
                     : new LegalityCheck();
             return res;
         }
+
+        private readonly string[] EventRibName =
+        {
+            "Country", "National", "Earth", "World", "Classic",
+            "Premier", "Event", "Birthday", "Special", "Souvenir",
+            "Wishing", "Battle Champ", "Regional Champ", "National Champ", "World Champ"
+        };
     }
 }

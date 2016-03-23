@@ -134,6 +134,25 @@ namespace PKHeX
         public int Form;
         public int LevelMin;
         public int LevelMax;
+        public SlotType Type = SlotType.Any;
+        public bool DexNav = false;
+    }
+
+    public enum SlotType
+    {
+        Any,
+        Grass,
+        Rough_Terrain,
+        Yellow_Flowers,
+        Purple_Flowers,
+        Red_Flowers,
+        Surf,
+        Old_Rod,
+        Good_Rod,
+        Super_Rod,
+        Rock_Smash,
+        Horde,
+        Special,
     }
     public class EncounterStatic
     {
@@ -168,6 +187,20 @@ namespace PKHeX
         public int Form = 0;
         public bool Shiny = false;
         public int Gender = -1;
+    }
+    public class EncounterLink
+    {
+        public int Species;
+        public int Level;
+        public int Location = 30011;
+        public int Ability = 4;
+        public int Ball = 4; // Pokéball
+        public Nature Nature = Nature.Random;
+        public int[] IVs = { -1, -1, -1, -1, -1, -1 };
+        public int FlawlessIVs = 0;
+        public bool Classic = true;
+        public bool Fateful = false;
+        public int[] RelearnMoves = new int[4];
     }
     public enum Nature
     {
