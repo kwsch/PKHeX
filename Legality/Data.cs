@@ -152,6 +152,7 @@ namespace PKHeX
         Super_Rod,
         Rock_Smash,
         Horde,
+        FriendSafari,
         Special,
     }
     public class EncounterStatic

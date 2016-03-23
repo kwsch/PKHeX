@@ -42,7 +42,7 @@ namespace PKHeX
             }
             return GameSlots;
         }
-        private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots, int smashSlot)
+        private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots)
         {
             EncounterArea[] eA = new EncounterArea[GameSlots.Length];
             for (int i = 0; i < eA.Length; i++)
@@ -102,8 +102,8 @@ namespace PKHeX
                     area.Slots[i].Type = SlotType.Horde;
             }
 
-            DexNavA = getDexNavSlots(SlotsA, 32);
-            DexNavO = getDexNavSlots(SlotsO, 32);
+            DexNavA = getDexNavSlots(SlotsA);
+            DexNavO = getDexNavSlots(SlotsO);
         }
 
         internal static IEnumerable<int> getValidMoves(PK6 pk6)
@@ -307,15 +307,31 @@ namespace PKHeX
 
             return false;
         }
-        internal static int getFriendSafariValid(PK6 pk6)
+        internal static EncounterSlot[] getValidFriendSafari(PK6 pk6)
         {
             if (!pk6.XY)
-                return -1;
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
-            foreach (DexLevel d in vs.Where(d => FriendSafari.Contains(d.Species) && d.Level >= 30))
-                return d.Species;
+                return null;
+            if (pk6.Met_Location != 148) // Friend Safari
+                return null;
+            if (pk6.Met_Level != 30)
+                return null;
 
-            return -1;
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
+            List<EncounterSlot> slots = new List<EncounterSlot>();
+            foreach (DexLevel d in vs.Where(d => FriendSafari.Contains(d.Species) && d.Level >= 30))
+            {
+                var slot = new EncounterSlot
+                {
+                    Species = d.Species,
+                    LevelMin = 30,
+                    LevelMax = 30,
+                    Form = 0,
+                    Type = SlotType.FriendSafari,
+                };
+                slots.Add(slot);
+            }
+
+            return slots.Any() ? slots.ToArray() : null;
         }
         internal static IEnumerable<int> getBaseEggMoves(PK6 pk6, int skipOption, int gameSource)
         {

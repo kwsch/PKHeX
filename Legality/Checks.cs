@@ -191,8 +191,8 @@ namespace PKHeX
                     ? new LegalityCheck(Severity.Valid, "Valid revived fossil.")
                     : new LegalityCheck(Severity.Invalid, "Hidden ability on revived fossil.");
             }
-            int FriendSafari = Legal.getFriendSafariValid(pk6);
-            if (FriendSafari > 0)
+            EncounterMatch = Legal.getValidFriendSafari(pk6);
+            if (EncounterMatch != null)
             {
                 if (pk6.Species == 670 || pk6.Species == 671) // Floette
                     if (pk6.AltForm % 2 != 0) // 0/2/4
@@ -316,9 +316,10 @@ namespace PKHeX
                 if (etype == typeof(EncounterTrade))
                     if (pk6.AbilityNumber == 4 ^ ((EncounterTrade)EncounterMatch).Ability == 4)
                         return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for ingame trade.");
-                if (etype == typeof(EncounterSlot[]))
-                    if (pk6.AbilityNumber == 4 && ((EncounterSlot[])EncounterMatch).All(slot => slot.Type != SlotType.Horde))
-                        return new LegalityCheck(Severity.Invalid, "Hidden Ability on non-horde wild encounter.");
+                if (etype == typeof (EncounterSlot[]) && pk6.AbilityNumber == 4)
+                    if (((EncounterSlot[]) EncounterMatch).All(slot => slot.Type != SlotType.FriendSafari) &&
+                        ((EncounterSlot[]) EncounterMatch).All(slot => slot.Type != SlotType.Horde))
+                        return new LegalityCheck(Severity.Invalid, "Hidden Ability on non-horde/friend safari wild encounter.");
             }
 
             return abilities[pk6.AbilityNumber >> 1] != pk6.Ability
