@@ -148,10 +148,22 @@ namespace PKHeX
             r.AddRange(getLVLMoves(species, 100, pk6.AltForm));
             return r.Distinct();
         }
-        internal static EncounterLink getValidLinkGifts(PK6 pk6)
+        internal static IEnumerable<int> getBaseEggMoves(PK6 pk6, int skipOption, int gameSource)
         {
-            return LinkGifts.FirstOrDefault(g => g.Species == pk6.Species && g.Level == pk6.Met_Level);
+            int species = getBaseSpecies(pk6, skipOption);
+            if (gameSource == -1)
+            {
+                if (pk6.XY)
+                    return LevelUpXY[species].getMoves(1);
+                // if (pk6.Version == 26 || pk6.Version == 27)
+                return LevelUpAO[species].getMoves(1);
+            }
+            if (gameSource == 0) // XY
+                return LevelUpXY[species].getMoves(1);
+            // if (gameSource == 1) // ORAS
+            return LevelUpAO[species].getMoves(1);
         }
+
         internal static IEnumerable<WC6> getValidWC6s(PK6 pk6)
         {
             var vs = getValidPreEvolutions(pk6).ToArray();
@@ -198,6 +210,10 @@ namespace PKHeX
                 validWC6.Add(wc);
             }
             return validWC6;
+        }
+        internal static EncounterLink getValidLinkGifts(PK6 pk6)
+        {
+            return LinkGifts.FirstOrDefault(g => g.Species == pk6.Species && g.Level == pk6.Met_Level);
         }
         internal static EncounterSlot[] getValidWildEncounters(PK6 pk6)
         {
@@ -280,33 +296,6 @@ namespace PKHeX
 
             return z;
         }
-
-        internal static bool getDexNavValid(PK6 pk6)
-        {
-            IEnumerable<EncounterArea> locs = getDexNavAreas(pk6);
-            return locs.Select(loc => getValidEncounterSlots(pk6, loc, DexNav: true)).Any(slots => slots.Any());
-        }
-        internal static bool getHasEvolved(PK6 pk6)
-        {
-            return getValidPreEvolutions(pk6).Count() > 1;
-        }
-        internal static bool getHasTradeEvolved(PK6 pk6)
-        {
-            return Evolves[pk6.Species].Evos.Any(evo => evo.Level == 1); // 1: Trade, 0: Item, >=2: Levelup
-        }
-        internal static bool getIsFossil(PK6 pk6)
-        {
-            if (pk6.Met_Level != 20)
-                return false;
-            if (pk6.Egg_Location != 0)
-                return false;
-            if (pk6.XY && pk6.Met_Location == 44)
-                return Fossils.Contains(getBaseSpecies(pk6));
-            if (pk6.AO && pk6.Met_Location == 190)
-                return Fossils.Contains(getBaseSpecies(pk6));
-
-            return false;
-        }
         internal static EncounterSlot[] getValidFriendSafari(PK6 pk6)
         {
             if (!pk6.XY)
@@ -333,20 +322,32 @@ namespace PKHeX
 
             return slots.Any() ? slots.ToArray() : null;
         }
-        internal static IEnumerable<int> getBaseEggMoves(PK6 pk6, int skipOption, int gameSource)
+
+        internal static bool getDexNavValid(PK6 pk6)
         {
-            int species = getBaseSpecies(pk6, skipOption);
-            if (gameSource == -1)
-            {
-                if (pk6.XY)
-                    return LevelUpXY[species].getMoves(1);
-                // if (pk6.Version == 26 || pk6.Version == 27)
-                    return LevelUpAO[species].getMoves(1);
-            }
-            if (gameSource == 0) // XY
-                return LevelUpXY[species].getMoves(1);
-            // if (gameSource == 1) // ORAS
-                return LevelUpAO[species].getMoves(1);
+            IEnumerable<EncounterArea> locs = getDexNavAreas(pk6);
+            return locs.Select(loc => getValidEncounterSlots(pk6, loc, DexNav: true)).Any(slots => slots.Any());
+        }
+        internal static bool getHasEvolved(PK6 pk6)
+        {
+            return getValidPreEvolutions(pk6).Count() > 1;
+        }
+        internal static bool getHasTradeEvolved(PK6 pk6)
+        {
+            return Evolves[pk6.Species].Evos.Any(evo => evo.Level == 1); // 1: Trade, 0: Item, >=2: Levelup
+        }
+        internal static bool getIsFossil(PK6 pk6)
+        {
+            if (pk6.Met_Level != 20)
+                return false;
+            if (pk6.Egg_Location != 0)
+                return false;
+            if (pk6.XY && pk6.Met_Location == 44)
+                return Fossils.Contains(getBaseSpecies(pk6));
+            if (pk6.AO && pk6.Met_Location == 190)
+                return Fossils.Contains(getBaseSpecies(pk6));
+
+            return false;
         }
 
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
