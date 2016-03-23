@@ -81,6 +81,12 @@ namespace PKHeX
             TB_Level.Visible = CB_Ability.Visible = !HaX;
             // Load WC6 folder to legality
             refreshWC6DB();
+
+            Menu_Modify.DropDown.Closing += delegate (object sender, ToolStripDropDownClosingEventArgs e)
+            {
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
             #endregion
             #region Localize & Populate Fields
             // Try and detect the language

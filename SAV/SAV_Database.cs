@@ -98,6 +98,11 @@ namespace PKHeX
 
             // Prepare Database
             prepareDBForSearch();
+            Menu_SearchSettings.DropDown.Closing += delegate (object sender, ToolStripDropDownClosingEventArgs e)
+            {
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
         }
         private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;
