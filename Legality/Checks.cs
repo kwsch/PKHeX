@@ -149,6 +149,7 @@ namespace PKHeX
             }
             if (pk6.WasEvent || pk6.WasEventEgg)
             {
+                WC6 MatchedWC6 = EncounterMatch as WC6;
                 return MatchedWC6 != null // Matched in RelearnMoves check.
                     ? new LegalityCheck(Severity.Valid, $"Matches #{MatchedWC6.CardID.ToString("0000")} ({MatchedWC6.CardTitle})") 
                     : new LegalityCheck(Severity.Invalid, "Not a valid Wonder Card gift.");
@@ -223,6 +224,7 @@ namespace PKHeX
         }
         private LegalityCheck verifyLevel()
         {
+            WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6 != null && MatchedWC6.Level != pk6.Met_Level)
                 return new LegalityCheck(Severity.Invalid, "Met Level does not match Wonder Card level.");
             return pk6.CurrentLevel < pk6.Met_Level
@@ -244,6 +246,7 @@ namespace PKHeX
                 pk6.RIB3_3, pk6.RIB3_4, pk6.RIB3_5, pk6.RIB3_6, pk6.RIB3_7,
                 pk6.RIB4_0, pk6.RIB4_1, pk6.RIB4_2, pk6.RIB4_3, pk6.RIB4_4
             };
+            WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6 != null) // Wonder Card
             {
                 bool[] wc6rib =
@@ -331,6 +334,7 @@ namespace PKHeX
             if (!Encounter.Valid)
                 return new LegalityCheck(Severity.Valid, "Skipped Ball check due to other check being invalid.");
 
+            WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6 != null)
                 return pk6.Ball != MatchedWC6.Pokéball
                     ? new LegalityCheck(Severity.Invalid, "Ball does not match specified Wonder Card Ball.")
@@ -382,6 +386,7 @@ namespace PKHeX
             if (!Encounter.Valid)
                 return new LegalityCheck(Severity.Valid, "Skipped Memory check due to other check being invalid.");
 
+            WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
                 if (pk6.OT_Friendship != PKX.getBaseFriendship(pk6.Species))
@@ -445,6 +450,7 @@ namespace PKHeX
             else
             {
                 int[] RelearnMoves = pk6.RelearnMoves;
+                WC6 MatchedWC6 = EncounterMatch as WC6;
                 int[] WC6Moves = MatchedWC6?.Moves ?? new int[0];
                 for (int i = 0; i < 4; i++)
                 {
@@ -478,21 +484,20 @@ namespace PKHeX
         private LegalityCheck[] verifyRelearn()
         {
             LegalityCheck[] res = new LegalityCheck[4];
-            MatchedWC6 = null; // Reset
-            EncounterMatch = null;
             
             int[] Moves = pk6.RelearnMoves;
             if (!pk6.Gen6)
                 goto noRelearn;
             if (pk6.WasLink)
             {
-                EncounterMatch = Legal.getValidLinkGifts(pk6);
-                if (EncounterMatch == null)
+                var Link = Legal.getValidLinkGifts(pk6);
+                if (Link == null)
                 {
                     for (int i = 0; i < 4; i++)
                         res[i] = new LegalityCheck();
                     return res;
                 }
+                EncounterMatch = Link;
 
                 int[] moves = ((EncounterLink)EncounterMatch).RelearnMoves;
                 for (int i = 0; i < 4; i++)
@@ -513,8 +518,9 @@ namespace PKHeX
                             ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
                             : new LegalityCheck(Severity.Valid, $"Matched WC #{wc.CardID.ToString("0000")}");
                     if (res.All(r => r.Valid))
-                    { MatchedWC6 = wc; return res; }
+                    { EncounterMatch = wc; return res; }
                 }
+                EncounterMatch = null;
                 goto noRelearn; // No WC match
             }
 

@@ -6,7 +6,6 @@ namespace PKHeX
     public partial class LegalityAnalysis
     {
         private readonly PK6 pk6;
-        private WC6 MatchedWC6;
         private object EncounterMatch;
         private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories;
 
