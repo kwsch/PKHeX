@@ -670,14 +670,14 @@
             new EncounterLink { Species = 157, Level = 50, Ability = 4 }, // Typhlosion
             new EncounterLink { Species = 160, Level = 50, Ability = 4 }, // Feraligatr
 
-            new EncounterLink {Species = 251, Level = 10, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11 }, // Celebi
+            new EncounterLink {Species = 251, Level = 10, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11, ORAS = false }, // Celebi
 
             new EncounterLink { Species = 377, Level = 50, RelearnMoves = new[] {153, 8, 444, 359 }, Ability = 4 }, // Regirock
             new EncounterLink { Species = 378, Level = 50, RelearnMoves = new[] {85, 133, 58, 258 }, Ability = 4 }, // Regice
             new EncounterLink { Species = 379, Level = 50, RelearnMoves = new[] {442, 157, 356, 334 }, Ability = 4 }, // Registeel
 
-            new EncounterLink { Species = 208, Level = 40, Classic = false, Ability = 1 }, // Steelix
-            new EncounterLink { Species = 362, Level = 40, Classic = false, Ability = 1 }, // Glalie
+            new EncounterLink { Species = 208, Level = 40, Classic = false, Ability = 1, XY = false }, // Steelix
+            new EncounterLink { Species = 362, Level = 40, Classic = false, Ability = 1, XY = false }, // Glalie
         };
 
         #endregion

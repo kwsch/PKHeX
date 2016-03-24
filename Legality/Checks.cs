@@ -143,8 +143,17 @@ namespace PKHeX
             if (pk6.WasLink)
             {
                 // Should NOT be Fateful, and should be in Database
-                return pk6.FatefulEncounter || EncounterMatch == null
-                    ? new LegalityCheck(Severity.Invalid, "Not a valid Link gift.")
+                EncounterLink enc = EncounterMatch as EncounterLink;
+                if (enc == null)
+                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- unable to find matching gift.");
+                
+                if (pk6.XY && !enc.XY)
+                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in XY.");
+                if (pk6.AO && !enc.ORAS)
+                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in ORAS.");
+
+                return pk6.FatefulEncounter 
+                    ? new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- should not be Fateful Encounter.") 
                     : new LegalityCheck(Severity.Valid, "Valid Link gift.");
             }
             if (pk6.WasEvent || pk6.WasEventEgg)

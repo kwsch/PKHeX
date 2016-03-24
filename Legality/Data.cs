@@ -202,6 +202,8 @@ namespace PKHeX
         public bool Classic = true;
         public bool Fateful = false;
         public int[] RelearnMoves = new int[4];
+        public bool XY = true;
+        public bool ORAS = true;
     }
     public enum Nature
     {
