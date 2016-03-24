@@ -3421,7 +3421,10 @@ namespace PKHeX
                         if (!PKX.verifychk(input)) Util.Alert("Invalid File Loaded.", "Checksum is not valid.");
                         try // to convert past gen pkm
                         {
-                            SAV.setPK6Stored(Converter.ConvertPKMtoPK6(input), offset);
+                            PK6 pk = Converter.ConvertPKMtoPK6(input);
+                            SAV.setPK6Stored(pk, offset);
+                            getQuickFiller(SlotPictureBoxes[slot], pk);
+                            getSlotColor(slot, Properties.Resources.slotSet);
                         }
                         catch
                         { Util.Error("Attempted to load previous generation PKM.", "Conversion failed."); }
