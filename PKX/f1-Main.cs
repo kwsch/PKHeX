@@ -3008,6 +3008,8 @@ namespace PKHeX
 
             if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
             pb.Image = pk.Sprite;
+            if (pb.BackColor == Color.Red)
+                pb.BackColor = Color.Transparent;
         }
         private void getSlotFiller(int offset, PictureBox pb)
         {
