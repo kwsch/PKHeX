@@ -17,6 +17,7 @@ namespace PKHeX
         public Severity Judgement = Severity.Valid;
         public readonly string Comment = "Valid";
         public bool Valid => Judgement >= Severity.Fishy;
+        public bool Flag;
 
         public LegalityCheck() { }
         public LegalityCheck(Severity s, string c)
@@ -468,7 +469,7 @@ namespace PKHeX
                     else if (validMoves.Contains(Moves[i]))
                         res[i] = new LegalityCheck(Severity.Valid, "Level-up.");
                     else if (RelearnMoves.Contains(Moves[i]))
-                        res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.");
+                        res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.") {Flag = true};
                     else if (WC6Moves.Contains(Moves[i]))
                         res[i] = new LegalityCheck(Severity.Valid, "Wonder Card Non-Relearn Move.");
                     else
@@ -509,6 +510,7 @@ namespace PKHeX
                 EncounterMatch = Link;
 
                 int[] moves = ((EncounterLink)EncounterMatch).RelearnMoves;
+                RelearnBase = moves;
                 for (int i = 0; i < 4; i++)
                     res[i] = moves[i] != Moves[i]
                         ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
@@ -527,7 +529,7 @@ namespace PKHeX
                             ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
                             : new LegalityCheck(Severity.Valid, $"Matched WC #{wc.CardID.ToString("0000")}");
                     if (res.All(r => r.Valid))
-                    { EncounterMatch = wc; return res; }
+                    { EncounterMatch = wc; RelearnBase = moves; return res; }
                 }
                 EncounterMatch = null;
                 goto noRelearn; // No WC match
@@ -575,6 +577,7 @@ namespace PKHeX
                     
                     int[] rl = pk6.RelearnMoves;
                     string em = string.Join(", ", baseMoves);
+                    RelearnBase = baseMoves.ToArray();
                     // Base Egg Move
                     for (int j = 0; j < req; j++)
                         res[j] = !baseMoves.Contains(rl[j])
@@ -608,6 +611,8 @@ namespace PKHeX
                         ? new LegalityCheck(Severity.Invalid, "Expected no Relearn Move in slot.")
                         : new LegalityCheck();
 
+                if (res[0].Valid)
+                    RelearnBase = new[] { Moves[0], 0, 0, 0 };
                 return res;
             }
 
