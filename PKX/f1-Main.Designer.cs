@@ -1258,7 +1258,7 @@
             // CB_EncounterType
             // 
             this.CB_EncounterType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_EncounterType.DropDownWidth = 140;
+            this.CB_EncounterType.DropDownWidth = 160;
             this.CB_EncounterType.FormattingEnabled = true;
             this.CB_EncounterType.Location = new System.Drawing.Point(105, 135);
             this.CB_EncounterType.Name = "CB_EncounterType";
