@@ -19,9 +19,9 @@ namespace PKHeX
         public int CardID {
             get { return BitConverter.ToUInt16(Data, 0); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0); } }
-        public string CardTitle {
-            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 2, 64)); }
-            set { Encoding.Unicode.GetBytes(value.PadRight(32, '\0')).CopyTo(Data, 2); } }
+        public string CardTitle { // Max len 36 char, followed by null terminator
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 2, 72)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(36, '\0')).CopyTo(Data, 2); } }
         private uint Date { 
             get { return BitConverter.ToUInt32(Data, 0x4C); } 
             set { BitConverter.GetBytes(value).CopyTo(Data, 0x4C); } }
