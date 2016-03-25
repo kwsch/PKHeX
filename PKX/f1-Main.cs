@@ -108,8 +108,6 @@ namespace PKHeX
                 foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
                     openQuick(arg);
             }
-            else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin")))
-                openQuick(Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin"));
             else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
@@ -3356,9 +3354,7 @@ namespace PKHeX
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
             string path = null;
-
-            if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin")))
-                path = Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin");
+            
             if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "SaveDataBackup")) && ModifierKeys != Keys.Control)
                 path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
