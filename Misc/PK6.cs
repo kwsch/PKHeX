@@ -752,5 +752,6 @@ namespace PKHeX
         public bool WasEvent => FatefulEncounter && Met_Location > 40000;
         public bool WasEventEgg => FatefulEncounter && (Egg_Location > 40000 || Egg_Location == 30002) && Met_Level == 1;
         public bool WasTradedEgg => Egg_Location == 30002;
+        public bool WasIngameTrade => Met_Location == 30001;
     }
 }

@@ -258,6 +258,8 @@ namespace PKHeX
         }
         internal static EncounterTrade getValidIngameTrade(PK6 pk6)
         {
+            if (!pk6.WasIngameTrade)
+                return null;
             int lang = pk6.Language;
             if (lang == 0)
                 return null;
@@ -287,7 +289,7 @@ namespace PKHeX
                 return null;
             if (z.Level != pk6.Met_Level)
                 return null;
-            if (z.Nature != Nature.Random && ((int)z.Nature != pk6.Nature))
+            if (z.Nature != Nature.Random && (int)z.Nature != pk6.Nature)
                 return null;
             if (z.Gender != pk6.Gender)
                 return null;
