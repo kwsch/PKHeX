@@ -513,7 +513,7 @@ namespace PKHeX
                 RelearnBase = moves;
                 for (int i = 0; i < 4; i++)
                     res[i] = moves[i] != Moves[i]
-                        ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
+                        ? new LegalityCheck(Severity.Invalid, $"Expected ID: {moves[i]}.")
                         : new LegalityCheck();
                 return res;
             }
@@ -526,7 +526,7 @@ namespace PKHeX
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
-                            ? new LegalityCheck(Severity.Invalid, $"Expected ID:{moves[i]}.")
+                            ? new LegalityCheck(Severity.Invalid, $"Expected ID: {moves[i]}.")
                             : new LegalityCheck(Severity.Valid, $"Matched WC #{wc.CardID.ToString("0000")}");
                     if (res.All(r => r.Valid))
                     { EncounterMatch = wc; RelearnBase = moves; return res; }
@@ -625,7 +625,7 @@ namespace PKHeX
             return res;
         }
 
-        private readonly string[] EventRibName =
+        private static readonly string[] EventRibName =
         {
             "Country", "National", "Earth", "World", "Classic",
             "Premier", "Event", "Birthday", "Special", "Souvenir",

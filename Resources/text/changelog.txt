@@ -652,7 +652,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: 4->6 Import ability transferring. Thanks zero2exe!
  - Removed: ram2sav support. If you wish to still use ram2sav, use a compiled version from 9/20/15 or earlier.
 
-03/19/16 - New Update: (1000)
+03/19/16 - New Update: (15300)
  - Added: Legality checking for XY/ORAS origin Pokémon.
  - - Legality indication next to moves and Preview to indicate the legality of the loaded pk6.
  - - Legality indication click event to pop up why the pk6 is flagged as illegal.
@@ -680,7 +680,13 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: DexNav level range increased. Thanks fr3quency!
  - Hotfix: Giratina Pain Split. Thanks \!
 
-03/21/16 - New Update:
+03/26/16 - New Update:
+ - Added: Ribbon, History, Ball, Ability legality checks.
+ - Changed: Encounter tracking more stringent.
+ - Changed: Clicking a menu checkbox (Set to Dex or Database Legality Filter) will stay open for more option toggling.
+ - Changed: Clicking the relearn move groupbox will now suggest moves instead of copying current moves (illegal).
+ - Fixed: Bad Egg background now clears when the slot is overwritten.
+ - Fixed: Dropping a past gen pkm file to a box slot will now have the sprite appear. Thanks poutros!
  - Fixed: Nickname legality check severity. Thanks Eskuero!
  - Fixed: 5->6 transfer decapitalization. Thanks rinnegan!
  - Fixed: 3->4 Unown form is now retained. Thanks rinnegan!
