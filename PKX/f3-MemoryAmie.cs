@@ -10,6 +10,8 @@ namespace PKHeX
         public MemoryAmie() // Keeping the form reference as a lot of control elements are required to operate.
         {
             InitializeComponent();
+            cba = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
+            mta = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             CB_Country0.DisplayMember = CB_Country1.DisplayMember = CB_Country2.DisplayMember = CB_Country3.DisplayMember = CB_Country4.DisplayMember = "Text";
             CB_Country0.ValueMember = CB_Country1.ValueMember = CB_Country2.ValueMember = CB_Country3.ValueMember = CB_Country4.ValueMember = "Value";
             CB_Region0.DisplayMember = CB_Region1.DisplayMember = CB_Region2.DisplayMember = CB_Region3.DisplayMember = CB_Region4.DisplayMember = "Text";
@@ -27,7 +29,6 @@ namespace PKHeX
             args[2] = arguments.Length > 2 ? arguments[2] ?? "OT" : "OT";
             args[3] = arguments.Length > 3 ? arguments[3] ?? "Past Gen": "Past Gen";
             args[4] = arguments.Length > 4 ? arguments[4] ?? "Memories with" : "Memories with";
-            ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
             foreach (ComboBox comboBox in cba)
             {
                 comboBox.DisplayMember = "Text";
@@ -40,6 +41,9 @@ namespace PKHeX
         public string[] feeling;
         public string[] quality;
         bool init;
+
+        private readonly ComboBox[] cba;
+        private readonly ComboBox[] mta;
 
         // Load/Save Actions
         private void loadFields()
@@ -404,9 +408,6 @@ namespace PKHeX
         }
         private void changeCountryIndex(object sender, EventArgs e)
         {
-            ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
-            ComboBox[] mta = { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
-
             int index = Array.IndexOf(cba, sender);
             if (Util.getIndex(sender as ComboBox) > 0)
             {
@@ -443,8 +444,6 @@ namespace PKHeX
         private void clickResetLocation(object sender, EventArgs e)
         {
             Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4, };
-            ComboBox[] cba = { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4, };
-            ComboBox[] mta = { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             int index = Array.IndexOf(senderarr, sender);
             cba[index].SelectedValue = 0;
 
@@ -454,5 +453,10 @@ namespace PKHeX
             mta[index].SelectedValue = 0;
         }
 
+        private void B_ClearAll_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 5; i++)
+                cba[i].SelectedValue = 0;
+        }
     }
 }
