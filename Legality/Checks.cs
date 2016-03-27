@@ -403,6 +403,9 @@ namespace PKHeX
                         ? new LegalityCheck(Severity.Invalid, "Non-Pokéball on Male-Only egg.")
                         : new LegalityCheck(Severity.Valid, "Pokéball on Male-Only egg.");
 
+                if (pk6.AbilityNumber == 4 && 0x10 < pk6.Ball && pk6.Ball < 0x18) // Apricorn Ball
+                    return new LegalityCheck(Severity.Invalid, "Apricorn Ball with Hidden Ability.");
+
                 if (pk6.Species > 650 && pk6.Species != 700) // Sylveon
                     return !Legal.WildPokeballs.Contains(pk6.Ball)
                         ? new LegalityCheck(Severity.Invalid, "Unobtainable ball for Kalos origin.")
