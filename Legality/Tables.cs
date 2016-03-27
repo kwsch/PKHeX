@@ -436,6 +436,13 @@
             487, // Giratina
             492, // Shaymin
         };
+        internal static readonly int[] BreedMaleOnly =
+        {
+            128, // Tauros
+            627, 628, // Rufflet
+            236, 106, 107, 237, // Tyrogue
+            538, 539, // Sawk & Throh
+        };
 
         private static readonly string[][] TradeXY =
         {

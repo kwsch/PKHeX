@@ -352,15 +352,27 @@ namespace PKHeX
 
             if (pk6.WasEgg)
             {
+                if (pk6.Ball == 0x01) // Master Ball
+                    return new LegalityCheck(Severity.Invalid, "Master Ball on egg origin.");
+                if (pk6.Ball == 0x10) // Cherish
+                    return new LegalityCheck(Severity.Invalid, "Cherish Ball on non-event.");
+                if (pk6.Ball == 0x05 && pk6.Species > 493) // Safari
+                    return new LegalityCheck(Severity.Invalid, "Safari Ball on Gen5+ species.");
+
+                if (pk6.Gender == 2) // Genderless
+                    return pk6.Ball != 0x04 // Must be Pokéball as ball can only pass via mother (not Ditto!)
+                        ? new LegalityCheck(Severity.Invalid, "Non-Pokéball on genderless egg.")
+                        : new LegalityCheck(Severity.Valid, "Pokéball on genderless egg.");
+
+                if (Legal.BreedMaleOnly.Contains(pk6.Species))
+                    return pk6.Ball != 0x04 // Must be Pokéball as ball can only pass via mother (not Ditto!)
+                        ? new LegalityCheck(Severity.Invalid, "Non-Pokéball on Male-Only egg.")
+                        : new LegalityCheck(Severity.Valid, "Pokéball on Male-Only egg.");
+
                 if (pk6.Species > 650 && pk6.Species != 700) // Sylveon
                     return !Legal.WildPokeballs.Contains(pk6.Ball)
                         ? new LegalityCheck(Severity.Invalid, "Unobtainable ball for Kalos origin.")
                         : new LegalityCheck(Severity.Valid, "Obtainable ball for Kalos origin.");
-
-                if (pk6.Ball == 0x10) // Cherish
-                    return new LegalityCheck(Severity.Invalid, "Cherish Ball on non-event.");
-                if (pk6.Ball == 5 && pk6.Species > 493) // Gen5
-                    return new LegalityCheck(Severity.Invalid, "Safari Ball on GenV species.");
 
                 // Feel free to improve, there's a lot of very minor things to check for some species.
                 return new LegalityCheck(Severity.Valid, "Obtainable ball for past gen origin parent.");
