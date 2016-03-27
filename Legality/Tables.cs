@@ -444,7 +444,7 @@
             538, 539, // Sawk & Throh
         };
 
-        private static readonly string[][] TradeXY =
+        internal static readonly string[][] TradeXY =
         {
             new string[0],                       // 0 - None
             Util.getStringList("tradexy", "ja"), // 1
@@ -456,7 +456,7 @@
             Util.getStringList("tradexy", "es"), // 7
             Util.getStringList("tradexy", "ko"), // 8
         };
-        private static readonly string[][] TradeAO =
+        internal static readonly string[][] TradeAO =
         {
             new string[0],                       // 0 - None
             Util.getStringList("tradeao", "ja"), // 1
@@ -647,7 +647,7 @@
         };
         #endregion
         #region Trade Tables
-        private static readonly EncounterTrade[] TradeGift_XY =
+        internal static readonly EncounterTrade[] TradeGift_XY =
         {
             new EncounterTrade { Species = 129, Level = 5, Ability = 1, Gender = 0, TID = 44285, Nature = Nature.Adamant, }, // Magikarp
             new EncounterTrade { Species = 133, Level = 5, Ability = 1, Gender = 1, TID = 29294, Nature = Nature.Docile, }, // Eevee
@@ -662,7 +662,7 @@
 
             new EncounterTrade { Species = 280, Level = 5, Ability = 1, Gender = 1, TID = 37110, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 31, 31, 20}, }, // Ralts
         };
-        private static readonly EncounterTrade[] TradeGift_AO =
+        internal static readonly EncounterTrade[] TradeGift_AO =
         {
             new EncounterTrade { Species = 296, Level = 9, Ability = 2, Gender = 0, TID = 30724, Nature = Nature.Brave, IVs = new[] {-1, 31, -1, -1, -1, -1}, }, // Makuhita
             new EncounterTrade { Species = 300, Level = 25, Ability = 1, Gender = 1, TID = 03239, Nature = Nature.Naughty, IVs = new[] {-1, -1, -1, 31, -1, -1}, }, // Skitty

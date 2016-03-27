@@ -67,6 +67,40 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Indeterminate, "Species index invalid for Nickname comparison.");
             if (!Encounter.Valid)
                 return new LegalityCheck(Severity.Valid, "Skipped Nickname check due to other check being invalid.");
+            
+            if (pk6.Language > 8)
+                return new LegalityCheck(Severity.Indeterminate, "Language ID > 8.");
+
+            Type etype = EncounterMatch?.GetType();
+            if (etype == typeof(EncounterTrade))
+            {
+                string[] validOT = new string[0];
+                int index = -1;
+                if (pk6.XY)
+                {
+                    validOT = Legal.TradeXY[pk6.Language];
+                    index = Array.IndexOf(Legal.TradeGift_XY, EncounterMatch);
+                }
+                else if (pk6.AO)
+                {
+                    validOT = Legal.TradeAO[pk6.Language];
+                    index = Array.IndexOf(Legal.TradeGift_AO, EncounterMatch);
+                }
+                if (validOT.Length == 0)
+                    return new LegalityCheck(Severity.Indeterminate, "Ingame Trade invalid version?");
+                if (index == -1 || validOT.Length < index * 2)
+                    return new LegalityCheck(Severity.Indeterminate, "Ingame Trade invalid lookup?");
+
+                string nick = validOT[index];
+                string OT = validOT[validOT.Length/2 + index];
+
+                if (nick != pk6.Nickname)
+                    return new LegalityCheck(Severity.Fishy, "Ingame Trade nickname has been altered.");
+                if (OT != pk6.OT_Name)
+                    return new LegalityCheck(Severity.Invalid, "Ingame Trade OT has been altered.");
+
+                return new LegalityCheck(Severity.Valid, "Ingame Trade OT/Nickname have not been altered.");
+            }
 
             if (pk6.IsEgg)
             {
