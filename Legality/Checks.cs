@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,6 +28,7 @@ namespace PKHeX
     }
     public partial class LegalityAnalysis
     {
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private LegalityCheck verifyECPID()
         {
             // Secondary Checks
@@ -509,6 +510,10 @@ namespace PKHeX
             {
                 if (pk6.HT_Memory == 0)
                     return new LegalityCheck(Severity.Invalid, "Memory -- missing Handling Trainer Memory.");
+                if (!(pk6.Geo1_Country == SAV.Country && pk6.Geo1_Region == SAV.SubRegion))
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- Latest residence doesn't match with current."); // A traded Pokemon should always have the current handler residence as latest
+                if (pk6.Geo2_Country == 0 && pk6.OT_Name == SAV.OT && pk6.TID == SAV.TID && pk6.SID == SAV.SID && pk6.OT_Gender == SAV.Gender && pk6.Country == SAV.Country && pk6.Region == SAV.SubRegion)
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- missing secondary country of residence."); // Was traded back to OT so it should have at least two residence locations
             }
             
             // Unimplemented: Ingame Trade Memories
