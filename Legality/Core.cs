@@ -351,6 +351,13 @@ namespace PKHeX
 
             return false;
         }
+        internal static IEnumerable<int> getLineage(PK6 pk6)
+        {
+            List<int> res = new List<int>();
+            for (int i = -1; i < 2; i++)
+                res.Add(getBaseSpecies(pk6, i));
+            return res.Distinct();
+        }
 
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
         {

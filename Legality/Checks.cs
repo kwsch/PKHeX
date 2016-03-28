@@ -70,9 +70,8 @@ namespace PKHeX
             
             if (pk6.Language > 8)
                 return new LegalityCheck(Severity.Indeterminate, "Language ID > 8.");
-
-            Type etype = EncounterMatch?.GetType();
-            if (etype == typeof(EncounterTrade))
+            
+            if (EncounterType == typeof(EncounterTrade))
             {
                 string[] validOT = new string[0];
                 int index = -1;
@@ -303,7 +302,7 @@ namespace PKHeX
                     if (EventRib[i] ^ wc6rib[i]) // Mismatch
                         (wc6rib[i] ? missingRibbons : invalidRibbons).Add(EventRibName[i]);
             }
-            else if (EncounterMatch?.GetType() == typeof(EncounterLink))
+            else if (EncounterType == typeof(EncounterLink))
             {
                 // No Event Ribbons except Classic (unless otherwise specified, ie not for Demo)
                 for (int i = 0; i < EventRib.Length; i++)
@@ -356,14 +355,13 @@ namespace PKHeX
 
             if (EncounterMatch != null)
             {
-                Type etype = EncounterMatch.GetType();
-                if (etype == typeof(EncounterStatic))
+                if (EncounterType == typeof(EncounterStatic))
                     if (pk6.AbilityNumber == 4 ^ ((EncounterStatic)EncounterMatch).Ability == 4)
                         return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for static encounter.");
-                if (etype == typeof(EncounterTrade))
+                if (EncounterType == typeof(EncounterTrade))
                     if (pk6.AbilityNumber == 4 ^ ((EncounterTrade)EncounterMatch).Ability == 4)
                         return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for ingame trade.");
-                if (etype == typeof (EncounterSlot[]) && pk6.AbilityNumber == 4)
+                if (EncounterType == typeof (EncounterSlot[]) && pk6.AbilityNumber == 4)
                     if (((EncounterSlot[]) EncounterMatch).All(slot => slot.Type != SlotType.FriendSafari) &&
                         ((EncounterSlot[]) EncounterMatch).All(slot => slot.Type != SlotType.Horde))
                         return new LegalityCheck(Severity.Invalid, "Hidden Ability on non-horde/friend safari wild encounter.");
@@ -388,29 +386,58 @@ namespace PKHeX
             {
                 if (pk6.Ball == 0x01) // Master Ball
                     return new LegalityCheck(Severity.Invalid, "Master Ball on egg origin.");
-                if (pk6.Ball == 0x10) // Cherish
+                if (pk6.Ball == 0x10) // Cherish Ball
                     return new LegalityCheck(Severity.Invalid, "Cherish Ball on non-event.");
-                if (pk6.Ball == 0x05 && pk6.Species > 493) // Safari
-                    return new LegalityCheck(Severity.Invalid, "Safari Ball on Gen5+ species.");
 
                 if (pk6.Gender == 2) // Genderless
                     return pk6.Ball != 0x04 // Must be Pokéball as ball can only pass via mother (not Ditto!)
                         ? new LegalityCheck(Severity.Invalid, "Non-Pokéball on genderless egg.")
                         : new LegalityCheck(Severity.Valid, "Pokéball on genderless egg.");
-
                 if (Legal.BreedMaleOnly.Contains(pk6.Species))
                     return pk6.Ball != 0x04 // Must be Pokéball as ball can only pass via mother (not Ditto!)
                         ? new LegalityCheck(Severity.Invalid, "Non-Pokéball on Male-Only egg.")
                         : new LegalityCheck(Severity.Valid, "Pokéball on Male-Only egg.");
 
-                if (pk6.AbilityNumber == 4 && 0x10 < pk6.Ball && pk6.Ball < 0x18) // Apricorn Ball
-                    return new LegalityCheck(Severity.Invalid, "Apricorn Ball with Hidden Ability.");
+                if (pk6.Ball == 0x05) // Safari Ball
+                {
+                    if (Legal.getLineage(pk6).All(e => !Legal.Inherit_Safari.Contains(e)))
+                        return new LegalityCheck(Severity.Invalid, "Safari Ball not possible for species.");
+                    if (pk6.AbilityNumber == 4)
+                        return new LegalityCheck(Severity.Invalid, "Safari Ball with Hidden Ability.");
+
+                    return new LegalityCheck(Severity.Valid, "Safari Ball possible for species.");
+                }
+                if (0x10 < pk6.Ball && pk6.Ball < 0x18) // Apricorn Ball
+                {
+                    if (Legal.getLineage(pk6).All(e => !Legal.Inherit_Apricorn.Contains(e)))
+                        return new LegalityCheck(Severity.Invalid, "Apricorn Ball not possible for species.");
+                    if (pk6.AbilityNumber == 4)
+                        return new LegalityCheck(Severity.Invalid, "Apricorn Ball with Hidden Ability.");
+
+                    return new LegalityCheck(Severity.Valid, "Apricorn Ball possible for species.");
+                }
+                if (pk6.Ball == 0x18) // Sport Ball
+                {
+                    if (Legal.getLineage(pk6).All(e => !Legal.Inherit_Sport.Contains(e)))
+                        return new LegalityCheck(Severity.Invalid, "Sport Ball not possible for species.");
+                    if (pk6.AbilityNumber == 4)
+                        return new LegalityCheck(Severity.Invalid, "Sport Ball with Hidden Ability.");
+
+                    return new LegalityCheck(Severity.Valid, "Sport Ball possible for species.");
+                }
+                if (pk6.Ball == 0x19) // Dream Ball
+                {
+                    if (Legal.getLineage(pk6).All(e => !Legal.Inherit_Dream.Contains(e)))
+                        return new LegalityCheck(Severity.Invalid, "Dream Ball not possible for species.");
+
+                    return new LegalityCheck(Severity.Valid, "Dream Ball possible for species.");
+                }
 
                 if (pk6.Species > 650 && pk6.Species != 700) // Sylveon
                     return !Legal.WildPokeballs.Contains(pk6.Ball)
                         ? new LegalityCheck(Severity.Invalid, "Unobtainable ball for Kalos origin.")
                         : new LegalityCheck(Severity.Valid, "Obtainable ball for Kalos origin.");
-
+                
                 // Feel free to improve, there's a lot of very minor things to check for some species.
                 return new LegalityCheck(Severity.Valid, "Obtainable ball for past gen origin parent.");
             }
@@ -425,13 +452,12 @@ namespace PKHeX
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
             }
-            Type etype = EncounterMatch?.GetType();
-            if (etype == typeof(EncounterLink))
+            if (EncounterType == typeof(EncounterLink))
                 return ((EncounterLink)EncounterMatch).Ball != pk6.Ball
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
 
-            if (etype == typeof(EncounterTrade))
+            if (EncounterType == typeof(EncounterTrade))
                 return pk6.Ball != 4 // Pokeball
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame trade encounter.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on ingame trade encounter.");
@@ -580,7 +606,7 @@ namespace PKHeX
                     if (res.All(r => r.Valid))
                     { EncounterMatch = wc; RelearnBase = moves; return res; }
                 }
-                EncounterMatch = null;
+                EncounterMatch = EncounterType = null;
                 goto noRelearn; // No WC match
             }
 

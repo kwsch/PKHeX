@@ -8,6 +8,7 @@ namespace PKHeX
     {
         private readonly PK6 pk6;
         private object EncounterMatch;
+        private Type EncounterType;
         private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories;
 
         public bool Valid = true;
@@ -43,6 +44,7 @@ namespace PKHeX
         private void updateChecks()
         {
             Encounter = verifyEncounter();
+            EncounterType = EncounterMatch?.GetType();
             ECPID = verifyECPID();
             Nickname = verifyNickname();
             IDs = verifyID();
