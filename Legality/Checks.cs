@@ -373,17 +373,36 @@ namespace PKHeX
         }
         private LegalityCheck verifyBall()
         {
+            if (!pk6.Gen6)
+                return new LegalityCheck();
             if (!Encounter.Valid)
                 return new LegalityCheck(Severity.Valid, "Skipped Ball check due to other check being invalid.");
-
-            WC6 MatchedWC6 = EncounterMatch as WC6;
-            if (MatchedWC6 != null)
-                return pk6.Ball != MatchedWC6.Pokéball
+            
+            if (EncounterType == typeof(WC6))
+                return pk6.Ball != ((WC6)EncounterMatch).Pokéball
                     ? new LegalityCheck(Severity.Invalid, "Ball does not match specified Wonder Card Ball.")
                     : new LegalityCheck(Severity.Valid, "Ball matches Wonder Card.");
+            if (EncounterType == typeof(EncounterLink))
+                return ((EncounterLink)EncounterMatch).Ball != pk6.Ball
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
+            if (EncounterType == typeof(EncounterTrade))
+                return pk6.Ball != 4 // Pokeball
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame trade encounter.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on ingame trade encounter.");
+            if (EncounterType == typeof(EncounterStatic))
+                return !Legal.WildPokeballs.Contains(pk6.Ball)
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame static encounter.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on ingame static encounter.");
+            if (EncounterType == typeof(EncounterSlot[]))
+                return !Legal.WildPokeballs.Contains(pk6.Ball)
+                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame encounter.")
+                    : new LegalityCheck(Severity.Valid, "Correct ball on ingame encounter.");
 
             if (pk6.WasEgg)
             {
+                if (pk6.Ball == 0x04) // Poké Ball
+                    return new LegalityCheck(Severity.Valid, "Standard Poké Ball.");
                 if (pk6.Ball == 0x01) // Master Ball
                     return new LegalityCheck(Severity.Invalid, "Master Ball on egg origin.");
                 if (pk6.Ball == 0x10) // Cherish Ball
@@ -438,33 +457,23 @@ namespace PKHeX
                         ? new LegalityCheck(Severity.Invalid, "Unobtainable ball for Kalos origin.")
                         : new LegalityCheck(Severity.Valid, "Obtainable ball for Kalos origin.");
                 
-                // Feel free to improve, there's a lot of very minor things to check for some species.
-                return new LegalityCheck(Severity.Valid, "Obtainable ball for past gen origin parent.");
+                if (0x0D <= pk6.Ball && pk6.Ball <= 0x0F)
+                {
+                    if (Legal.Ban_Gen4Ball.Contains(pk6.Species))
+                        return new LegalityCheck(Severity.Invalid, "Unobtainable capture for Gen4 Ball.");
+
+                    return new LegalityCheck(Severity.Valid, "Obtainable capture for Gen4 Ball.");
+                }
+                if (0x02 <= pk6.Ball && pk6.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
+                {
+                    if (Legal.Ban_Gen3Ball.Contains(pk6.Species))
+                        return new LegalityCheck(Severity.Invalid, "Unobtainable capture for Gen4 Ball.");
+
+                    return new LegalityCheck(Severity.Valid, "Obtainable capture for Gen4 Ball.");
+                }
             }
-            if (pk6.WasLink)
-            {
-                if (pk6.Species == 251)
-                    return pk6.Ball != 11 // Luxury
-                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
-                    : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
 
-                return pk6.Ball != 4 // Pokeball
-                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
-                    : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
-            }
-            if (EncounterType == typeof(EncounterLink))
-                return ((EncounterLink)EncounterMatch).Ball != pk6.Ball
-                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on Link gift.")
-                    : new LegalityCheck(Severity.Valid, "Correct ball on Link gift.");
-
-            if (EncounterType == typeof(EncounterTrade))
-                return pk6.Ball != 4 // Pokeball
-                    ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame trade encounter.")
-                    : new LegalityCheck(Severity.Valid, "Correct ball on ingame trade encounter.");
-
-            return !Legal.WildPokeballs.Contains(pk6.Ball)
-                ? new LegalityCheck(Severity.Invalid, "Unobtainable ball on captured encounter.")
-                : new LegalityCheck(Severity.Valid, "Obtainable ball on captured encounter.");
+            return new LegalityCheck(Severity.Invalid, "No ball check satisfied, assuming illegal.");
         }
         private LegalityCheck verifyHandlerMemories()
         {
@@ -568,6 +577,7 @@ namespace PKHeX
         }
         private LegalityCheck[] verifyRelearn()
         {
+            RelearnBase = null;
             LegalityCheck[] res = new LegalityCheck[4];
             
             int[] Moves = pk6.RelearnMoves;

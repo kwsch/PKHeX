@@ -737,6 +737,24 @@
             032, // Via Nidoran-F
             313, // Via Illumise
         };
+
+        internal static readonly int[] Ban_Gen3Ball =
+        {
+            495, 498, 501, //1 - Snivy, Tepig, Oshawott
+            496, 499, 502, //2
+            497, 500, 503, //3
+        };
+        internal static readonly int[] Ban_Gen4Ball =
+        {
+            152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
+            153, 156, 159, //2
+            154, 157, 160, //3
+
+            495, 498, 501, //1 - Snivy, Tepig, Oshawott
+            496, 499, 502, //2
+            497, 500, 503, //3
+        };
+
         #endregion
     }
 }

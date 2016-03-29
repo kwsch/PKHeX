@@ -29,7 +29,6 @@ namespace PKHeX
 
         public void updateRelearnLegality()
         {
-            RelearnBase = null;
             try { vRelearn = verifyRelearn(); }
             catch { for (int i = 0; i < 4; i++) vRelearn[i] = new LegalityCheck(Severity.Invalid, "Internal error."); }
             SecondaryChecked = false;
