@@ -390,6 +390,10 @@ namespace PKHeX
                 return pk6.Ball != 4 // Pokeball
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame trade encounter.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on ingame trade encounter.");
+
+            if (pk6.Ball == 0x04) // Poké Ball
+                return new LegalityCheck(Severity.Valid, "Standard Poké Ball.");
+
             if (EncounterType == typeof(EncounterStatic))
                 return !Legal.WildPokeballs.Contains(pk6.Ball)
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame static encounter.")
@@ -401,8 +405,6 @@ namespace PKHeX
 
             if (pk6.WasEgg)
             {
-                if (pk6.Ball == 0x04) // Poké Ball
-                    return new LegalityCheck(Severity.Valid, "Standard Poké Ball.");
                 if (pk6.Ball == 0x01) // Master Ball
                     return new LegalityCheck(Severity.Invalid, "Master Ball on egg origin.");
                 if (pk6.Ball == 0x10) // Cherish Ball
