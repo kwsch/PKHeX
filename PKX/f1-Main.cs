@@ -198,6 +198,10 @@ namespace PKHeX
                 FileName = "main",
             };
 
+            // Reset file dialog path if it no longer exists
+            if (!Directory.Exists(ofd.InitialDirectory))
+                ofd.InitialDirectory = Environment.CurrentDirectory;
+
             // Detect main
             string cyberpath = Util.GetTempFolder();
             pathSDF = Util.GetSDFLocation();
