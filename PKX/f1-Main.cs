@@ -193,6 +193,7 @@ namespace PKHeX
                          "|EKX File|*.ek6;*.ekx" +
                          "|BIN File|*.bin" +
                          "|All Files|*.*",
+                InitialDirectory = Environment.CurrentDirectory,
                 RestoreDirectory = true,
                 FilterIndex = 4,
                 FileName = "main",
