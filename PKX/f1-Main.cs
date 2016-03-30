@@ -193,11 +193,14 @@ namespace PKHeX
                          "|EKX File|*.ek6;*.ekx" +
                          "|BIN File|*.bin" +
                          "|All Files|*.*",
-                InitialDirectory = Environment.CurrentDirectory,
                 RestoreDirectory = true,
                 FilterIndex = 4,
                 FileName = "main",
             };
+
+            // Reset file dialog path if it no longer exists
+            if (!Directory.Exists(ofd.InitialDirectory))
+                ofd.InitialDirectory = Environment.CurrentDirectory;
 
             // Detect main
             string cyberpath = Util.GetTempFolder();
