@@ -259,7 +259,7 @@ namespace PKHeX
             EncounterMatch = Legal.getValidWildEncounters(pk6);
             if (EncounterMatch != null)
             {
-                return ((EncounterSlot[]) EncounterMatch).Any(slot => !slot.DexNav) 
+                return ((EncounterSlot[])EncounterMatch).Any(slot => !slot.DexNav) 
                     ? new LegalityCheck(Severity.Valid, "Valid encounter at location.") 
                     : new LegalityCheck(Severity.Valid, "Valid DexNav encounter at location.");
             }
@@ -366,10 +366,16 @@ namespace PKHeX
                 if (EncounterType == typeof(EncounterTrade))
                     if (pk6.AbilityNumber == 4 ^ ((EncounterTrade)EncounterMatch).Ability == 4)
                         return new LegalityCheck(Severity.Invalid, "Hidden Ability mismatch for ingame trade.");
-                if (EncounterType == typeof (EncounterSlot[]) && pk6.AbilityNumber == 4)
-                    if (((EncounterSlot[]) EncounterMatch).All(slot => slot.Type != SlotType.FriendSafari) &&
-                        ((EncounterSlot[]) EncounterMatch).All(slot => slot.Type != SlotType.Horde))
+                if (EncounterType == typeof(EncounterSlot[]) && pk6.AbilityNumber == 4)
+                {
+                    var slots = (EncounterSlot[])EncounterMatch;
+                    bool valid = slots.Any(slot => slot.DexNav || 
+                        slot.Type == SlotType.FriendSafari || 
+                        slot.Type == SlotType.Horde);
+
+                    if (!valid)
                         return new LegalityCheck(Severity.Invalid, "Hidden Ability on non-horde/friend safari wild encounter.");
+                }
             }
 
             return abilities[pk6.AbilityNumber >> 1] != pk6.Ability
