@@ -521,7 +521,22 @@ namespace PKHeX
                 if (pk6.HT_Memory == 0)
                     return new LegalityCheck(Severity.Invalid, "Memory -- missing Handling Trainer Memory.");
             }
-            
+
+            // Memory Checks
+            if (pk6.IsEgg)
+            {
+                if (pk6.HT_Memory != 0)
+                    return new LegalityCheck(Severity.Invalid, "Memory -- has Handling Trainer Memory.");
+                if (pk6.OT_Memory != 0)
+                    return new LegalityCheck(Severity.Invalid, "Memory -- has Original Trainer Memory.");
+            }
+            else if (EncounterType != typeof(WC6))
+            {
+                if (pk6.OT_Memory == 0 ^ !pk6.Gen6)
+                    return new LegalityCheck(Severity.Invalid, "Memory -- missing Original Trainer Memory.");
+                if (!pk6.Gen6 && pk6.OT_Affection != 0)
+                    return new LegalityCheck(Severity.Invalid, "OT Affection should be zero.");
+            }
             // Unimplemented: Ingame Trade Memories
 
             return new LegalityCheck(Severity.Valid, "History is valid.");
