@@ -206,6 +206,11 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Invalid met level, expected 1.");
                 if (pk6.IsEgg)
                 {
+                    if (pk6.Egg_Location == 30002)
+                        return new LegalityCheck(Severity.Invalid, "Egg location shouldn't be 'traded' for an un-hatched egg.");
+
+                    if (pk6.Met_Location == 30002)
+                        return new LegalityCheck(Severity.Valid, "Valid traded un-hatched egg.");
                     return pk6.Met_Location == 0
                         ? new LegalityCheck(Severity.Valid, "Valid un-hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid location for un-hatched egg (expected ID:0)");

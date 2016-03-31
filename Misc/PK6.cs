@@ -701,7 +701,7 @@ namespace PKHeX
         // Misc Updates
         private void UpdateEgg(int Day, int Month, int Year)
         {
-            Egg_Location = 30002;
+            Met_Location = 30002;
             Egg_Day = Day;
             Egg_Month = Month;
             Egg_Year = Year - 2000;
