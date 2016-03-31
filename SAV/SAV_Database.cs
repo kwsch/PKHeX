@@ -533,9 +533,9 @@ namespace PKHeX
             slotSelected = -1; // reset the slot last viewed
             
             if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked) // Legal Only
-                res = res.Where(pk => new LegalityAnalysis(pk).Valid);
+                res = res.Where(pk => pk.Gen6 && new LegalityAnalysis(pk).Valid);
             if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked) // Illegal Only
-                res = res.Where(pk => !new LegalityAnalysis(pk).Valid);
+                res = res.Where(pk => pk.Gen6 && !new LegalityAnalysis(pk).Valid);
 
             var results = res.ToArray();
             if (results.Length == 0)
