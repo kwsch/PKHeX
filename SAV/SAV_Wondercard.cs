@@ -164,23 +164,19 @@ namespace PKHeX
         }
         private void clickSet(object sender, EventArgs e)
         {
+            if (!checkSpecialWonderCard(wondercard_data))
+                return;
+
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(pba, sender);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = Array.FindIndex(pba, p => p.Image == null);
-            if (lastUnfilled < index)
+            if (lastUnfilled > -1 && lastUnfilled < index)
                 index = lastUnfilled;
 
             setBackground(index, Properties.Resources.slotSet);
             int offset = Main.SAV.WondercardData + index * WC6.Size;
-            if (Main.SAV.ORAS) // ORAS Only
-                if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
-                    if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
-                    { BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket); }
-                    else
-                    { Util.Alert("Cannot set Eon Ticket to non OR/AS games."); return; }
-
             Array.Copy(wondercard_data, 0, sav, offset, WC6.Size);
             populateWClist();
             setCardID(BitConverter.ToUInt16(wondercard_data, 0));
@@ -283,12 +279,31 @@ namespace PKHeX
 
                 if (newwc6.Length == WC6.SizeFull)
                     newwc6 = newwc6.Skip(WC6.SizeFull - WC6.Size).ToArray();
-                newwc6.CopyTo(sav, Main.SAV.WondercardData + WC6.Size*ctr++);
-                setCardID(BitConverter.ToUInt16(newwc6, 0));
+                if (checkSpecialWonderCard(newwc6))
+                {
+                    newwc6.CopyTo(sav, Main.SAV.WondercardData + WC6.Size * ctr++);
+                    setCardID(BitConverter.ToUInt16(newwc6, 0));
+                }
                 if (ctr >= 24)
                     break;
             }
             populateWClist();
+        }
+
+        private bool checkSpecialWonderCard(byte[] data)
+        {
+            ushort cardID = BitConverter.ToUInt16(data, 0);
+            ushort item = BitConverter.ToUInt16(data, 0x68);
+            if (cardID == 2048 && item == 726) // Eon Ticket (OR/AS)
+            {
+                if (!Main.SAV.ORAS || Main.SAV.EonTicket < 0)
+                    goto reject;
+                BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket);
+            }
+
+            return true;
+            reject: Util.Alert("Unable to insert the Wonder Card.", "Does this Wonder Card really belong to this game?");
+            return false;
         }
 
         // String Creation
