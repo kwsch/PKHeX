@@ -523,22 +523,22 @@ namespace PKHeX
         internal static uint getRandomPID(int species, int cg, int origin, int nature, int form)
         {
             int gt = Personal[species].Gender;
+            if (origin >= 24)
+                return Util.rnd32();
+
+            bool g3unown = origin <= 5 && species == 201;
             while (true) // Loop until we find a suitable PID
             {
                 uint pid = Util.rnd32();
-
-                // Gen6: Can be anything
-                if (origin >= 24)
-                    return pid;
 
                 // Gen 3/4: Nature derived from PID
                 if (origin <= 15 && pid%25 != nature)
                     continue;
 
                 // Gen 3 Unown: Letter/form derived from PID
-                if (origin <= 5 && species == 201)
+                if (g3unown)
                 {
-                    uint pidLetter = ( (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3) ) % 28;
+                    uint pidLetter = ((pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | pid & 0x3) % 28;
                     if (pidLetter != form)
                         continue;
                 }
