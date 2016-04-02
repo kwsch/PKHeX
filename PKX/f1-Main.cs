@@ -958,13 +958,13 @@ namespace PKHeX
         {
             // Now that the ComboBoxes are ready, load the data.
             fieldsInitialized = true;
-            pk6.Species = 493;
-            pk6.Move1 = 1;
             pk6.RefreshChecksum();
 
             // Load Data
             populateFields(pk6);
             {
+                CB_Species.SelectedValue = 493;
+                CB_Move1.SelectedValue = 1;
                 TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
