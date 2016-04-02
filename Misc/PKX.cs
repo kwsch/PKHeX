@@ -1240,12 +1240,15 @@ namespace PKHeX
         internal static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         public class ShowdownSet
         {
+            // String to Values
+            public static readonly string[] types = Util.getStringList("types", "en");
+            public static readonly string[] forms = Util.getStringList("forms", "en");
             private static readonly string[] species = Util.getStringList("species", "en");
             private static readonly string[] items = Util.getStringList("items", "en");
             private static readonly string[] natures = Util.getStringList("natures", "en");
             private static readonly string[] moves = Util.getStringList("moves", "en");
             private static readonly string[] abilities = Util.getStringList("abilities", "en");
-            private static readonly string[] hptypes = Util.getStringList("types", "en").Skip(1).ToArray();
+            private static readonly string[] hptypes = types.Skip(1).ToArray();
 
             // Default Set Data
             public string Nickname;
@@ -1503,9 +1506,7 @@ namespace PKHeX
                 Friendship = pk6.CurrentFriendship,
                 Level = getLevel(pk6.Species, pk6.EXP),
                 Shiny = pk6.IsShiny,
-                Form = pk6.AltForm > 0 ? getFormList(pk6.Species,
-                Util.getStringList("types", "en"),
-                Util.getStringList("forms", "en"), new [] {"", "F", ""})[pk6.AltForm] : "",
+                Form = pk6.AltForm > 0 ? getFormList(pk6.Species, ShowdownSet.types, ShowdownSet.forms, new [] {"", "F", ""})[pk6.AltForm] : "",
             };
             if (Set.Form == "F") Set.Gender = "";
             return Set.getText();
