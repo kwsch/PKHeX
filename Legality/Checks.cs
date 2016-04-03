@@ -185,6 +185,9 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in XY.");
                 if (pk6.AO && !enc.ORAS)
                     return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in ORAS.");
+                
+                if (enc.Shiny != null && (bool)enc.Shiny ^ pk6.IsShiny)
+                    return new LegalityCheck(Severity.Invalid, "Shiny Link gift mismatch.");
 
                 return pk6.FatefulEncounter 
                     ? new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- should not be Fateful Encounter.") 
