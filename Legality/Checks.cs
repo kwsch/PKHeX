@@ -520,6 +520,8 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Untraded -- Handling Trainer Friendship should be zero.");
                 if (pk6.HT_Affection != 0)
                     return new LegalityCheck(Severity.Invalid, "Untraded -- Handling Trainer Affection should be zero.");
+                if (pk6.XY && pk6.CNTs.Any(stat => stat > 0))
+                    return new LegalityCheck(Severity.Invalid, "Untraded -- Contest stats on XY should be zero.");
 
                 // We know it is untraded (HT is empty), if it must be trade evolved flag it.
                 if (Legal.getHasTradeEvolved(pk6))

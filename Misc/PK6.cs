@@ -417,6 +417,7 @@ namespace PKHeX
                   IV_HP = value[0];  IV_ATK = value[1]; IV_DEF = value[2];
                   IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5]; } }
         public int[] EVs => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        public int[] CNTs => new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen };
         public int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
         public int TSV => (TID ^ SID) >> 4;
         public bool IsShiny => TSV == PSV;
