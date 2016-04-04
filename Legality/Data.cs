@@ -204,6 +204,7 @@ namespace PKHeX
         public int[] RelearnMoves = new int[4];
         public bool XY = true;
         public bool ORAS = true;
+        public bool? Shiny = false;
     }
     public enum Nature
     {

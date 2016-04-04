@@ -17,6 +17,7 @@ namespace PKHeX
         public LegalityCheck[] vMoves = new LegalityCheck[4];
         public LegalityCheck[] vRelearn = new LegalityCheck[4];
         public string Report => getLegalityReport();
+        public string VerboseReport => getVerboseLegalityReport();
 
         public LegalityAnalysis(PK6 pk)
         {
@@ -78,7 +79,16 @@ namespace PKHeX
             // Build result string...
             r += chks.Where(chk => !chk.Valid).Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
 
-            return r;
+            return r.TrimEnd();
+        }
+        private string getVerboseLegalityReport()
+        {
+            string r = getLegalityReport() + Environment.NewLine;
+            r += "===" + Environment.NewLine + Environment.NewLine;
+
+            var chks = new[] { ECPID, Nickname, IVs, EVs, IDs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories };
+            r += chks.Where(chk => chk.Valid && chk.Comment != "Valid").Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+            return r.TrimEnd();
         }
 
         public int[] getSuggestedRelearn()

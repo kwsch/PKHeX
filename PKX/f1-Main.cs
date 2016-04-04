@@ -142,7 +142,8 @@ namespace PKHeX
         public static Color defaultControlText;
         public static string eggname = "";
         public const string DatabasePath = "db";
-        public const string WC6DatabasePath = "wc6";
+        private const string WC6DatabasePath = "wc6";
+        private const string BackupPath = "bak";
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
@@ -164,7 +165,6 @@ namespace PKHeX
         private static bool HaX;
         private LegalityAnalysis Legality = new LegalityAnalysis(new PK6());
         private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
-        private static readonly string BackupPath = "bak";
         private static readonly string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
         private static readonly string[] main_langlist = 
             {
@@ -1048,7 +1048,6 @@ namespace PKHeX
             // Reset a little.
             bool oldInit = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
-            CAL_EggDate.Value = new DateTime(2000, 01, 01);
             if (focus)
                 Tab_Main.Focus();
 
@@ -1119,7 +1118,7 @@ namespace PKHeX
                 try { CAL_EggDate.Value = new DateTime(pk6.Egg_Year + 2000, pk6.Egg_Month, pk6.Egg_Day); }
                 catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
             }
-            else { CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
+            else { CAL_EggDate.Value = new DateTime(2000, 01, 01); CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
 
             CB_MetLocation.SelectedValue = pk6.Met_Location;
 
@@ -2163,12 +2162,12 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void showLegality(PK6 pk, bool tabs)
+        private void showLegality(PK6 pk, bool tabs, bool verbose)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
             if (tabs)
                 updateLegality(la);
-            Util.Alert(la.Report); // temp
+            Util.Alert(verbose ? la.VerboseReport : la.Report);
         }
         private void updateLegality(LegalityAnalysis la = null)
         {
@@ -2776,7 +2775,7 @@ namespace PKHeX
             if (pk.Species == 0 || !pk.ChecksumValid)
             { SystemSounds.Asterisk.Play(); return; }
 
-            showLegality(pk, slot < 0);
+            showLegality(pk, slot < 0, ModifierKeys == Keys.Control);
         }
         private void updateEggRNGSeed(object sender, EventArgs e)
         {
