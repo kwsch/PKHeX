@@ -12,18 +12,24 @@ CTRL-Q: Quit
 CTRL-D: Open Database
 CTRL-R: Open Box Report
 CTRL-P: Open About PKHeX
+CTRL-T: Import Showdown Set
+CTRL-SHIFT-T: Export Showdown Set
 
 Control + Click on...
 - Species: Import Showdown/Smogon set from Clipboard.
 - Nickname/OT box: Bring up the ingame-special characters.
+- Individual IVs: Set IV to max.
+- Individual EVs: Set EV to max.
 - Randomize IVs: Set all IVs to max.
 - Randomize EVs: Set all EVs to 0.
-- PP Ups Label: Set all PP Ups to 3.
-- Friendship Label: Reset Friendship
+- PP Ups Label: Set all PP Ups to 0. (Click = 3)
+- Friendship Label: Set Friendship to 0. (Click = 255 or Base)
 
 Alt + Click on...
 - Preview Sprite to load from a QR url on your clipboard.
 - Species: Export Showdown/Smogon set to Clipboard.
+- Individual IVs: Set IV to 0.
+- Individual EVs: Set EV to 0.
 
 Shift + Click on...
 - Preview Sprite to bring up a QR for the viewed Pokémon.
