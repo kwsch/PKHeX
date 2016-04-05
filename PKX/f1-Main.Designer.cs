@@ -2818,6 +2818,8 @@
             this.Menu_ShowdownImportPK6.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownImportPK6.Text = "Import Set from Clipboard";
             this.Menu_ShowdownImportPK6.Click += new System.EventHandler(this.clickShowdownImportPK6);
+            this.Menu_ShowdownImportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.Menu_ShowdownImportPK6.ShowShortcutKeys = false;
             // 
             // Menu_ShowdownExportPK6
             // 
@@ -2825,6 +2827,9 @@
             this.Menu_ShowdownExportPK6.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportPK6.Text = "Export Set to Clipboard";
             this.Menu_ShowdownExportPK6.Click += new System.EventHandler(this.clickShowdownExportPK6);
+            this.Menu_ShowdownExportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            | System.Windows.Forms.Keys.T)));
+            this.Menu_ShowdownExportPK6.ShowShortcutKeys = false;
             // 
             // Menu_ShowdownExportParty
             // 
