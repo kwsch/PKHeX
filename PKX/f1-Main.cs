@@ -379,6 +379,8 @@ namespace PKHeX
         // Misc Options
         private void clickShowdownImportPK6(object sender, EventArgs e)
         {
+            if (!formInitialized)
+                return;
             if (!Clipboard.ContainsText())
             { Util.Alert("Clipboard does not contain text."); return; }
 
