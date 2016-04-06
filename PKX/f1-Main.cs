@@ -204,6 +204,7 @@ namespace PKHeX
 
             // Detect main
             string cyberpath = Util.GetTempFolder();
+            string cachepath = Util.GetCacheFolder();
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
             if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
@@ -214,6 +215,8 @@ namespace PKHeX
                 ofd.InitialDirectory = Path.GetPathRoot(path3DS);
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
                 ofd.InitialDirectory = Path.Combine(cyberpath, "root");
+            else if (Directory.Exists(cachepath))
+                ofd.InitialDirectory = cachepath;
             else if (Directory.Exists(cyberpath))
                 ofd.InitialDirectory = cyberpath;
             else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main"))) { }
