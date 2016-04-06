@@ -103,6 +103,7 @@ namespace PKHeX
             // Load the arguments
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
+            string pathCache = Util.GetCacheFolder();
             if (args.Length > 1)
             {
                 foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
@@ -112,6 +113,12 @@ namespace PKHeX
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
                 openQuick(Path.Combine(pathSDF, "main"));
+            else if (Directory.Exists(pathCache))
+            {
+                string file = Directory.GetFiles(pathCache).OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+                if (file != null)
+                    openQuick(file);
+            }
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"))))
                 openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")));
 
@@ -204,9 +211,9 @@ namespace PKHeX
 
             // Detect main
             string cyberpath = Util.GetTempFolder();
-            string cachepath = Util.GetCacheFolder();
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
+            string pathCache = Util.GetCacheFolder();
             if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                 ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
             else if (pathSDF != null)
@@ -215,8 +222,8 @@ namespace PKHeX
                 ofd.InitialDirectory = Path.GetPathRoot(path3DS);
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
                 ofd.InitialDirectory = Path.Combine(cyberpath, "root");
-            else if (Directory.Exists(cachepath))
-                ofd.InitialDirectory = cachepath;
+            else if (Directory.Exists(pathCache))
+                ofd.InitialDirectory = pathCache;
             else if (Directory.Exists(cyberpath))
                 ofd.InitialDirectory = cyberpath;
             else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main"))) { }
@@ -3358,13 +3365,17 @@ namespace PKHeX
             // Get latest SaveDataFiler save location
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
+            string pathCache = Util.GetCacheFolder();
             string path = null;
             
             if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "SaveDataBackup")) && ModifierKeys != Keys.Control)
                 path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
                 path = Path.Combine(pathSDF, "main");
-            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // else if cgse exists
+            else if (Directory.Exists(pathCache))
+                path = Directory.GetFiles(pathCache).OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"))))
+                // else if cgse exists
                 path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
 
             if (path == null || !File.Exists(path)) return;
