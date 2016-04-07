@@ -118,7 +118,7 @@ namespace PKHeX
         // Wonder Card IO (.wc6<->window)
         private void B_Import_Click(object sender, EventArgs e)
         {
-            OpenFileDialog importwc6 = new OpenFileDialog {Filter = "Wonder Card|*.wc6"};
+            OpenFileDialog importwc6 = new OpenFileDialog {Filter = "Wonder Card|*.wc6;*.wc6full"};
             if (importwc6.ShowDialog() != DialogResult.OK) return;
 
             string path = importwc6.FileName;
