@@ -2594,6 +2594,8 @@ namespace PKHeX
         }
         private void clickExportSAVBAK(object sender, EventArgs e)
         {
+            if (!SAV.Exportable)
+                return;
             SaveFileDialog sfd = new SaveFileDialog
             { FileName = Util.CleanFileName(SAV.BAKName) };
             if (sfd.ShowDialog() != DialogResult.OK)
