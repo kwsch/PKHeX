@@ -15,7 +15,7 @@ namespace PKHeX
     public class LegalityCheck
     {
         public Severity Judgement = Severity.Valid;
-        public readonly string Comment = "Valid";
+        public string Comment = "Valid";
         public bool Valid => Judgement >= Severity.Fishy;
         public bool Flag;
 
@@ -216,7 +216,7 @@ namespace PKHeX
                         return new LegalityCheck(Severity.Valid, "Valid traded un-hatched egg.");
                     return pk6.Met_Location == 0
                         ? new LegalityCheck(Severity.Valid, "Valid un-hatched egg.")
-                        : new LegalityCheck(Severity.Invalid, "Invalid location for un-hatched egg (expected ID:0)");
+                        : new LegalityCheck(Severity.Invalid, "Invalid location for un-hatched egg (expected no met location).");
                 }
                 if (pk6.XY)
                 {
@@ -631,7 +631,7 @@ namespace PKHeX
                 RelearnBase = moves;
                 for (int i = 0; i < 4; i++)
                     res[i] = moves[i] != Moves[i]
-                        ? new LegalityCheck(Severity.Invalid, $"Expected ID: {moves[i]}.")
+                        ? new LegalityCheck(Severity.Invalid, $"Expected: {movelist[moves[i]]}.")
                         : new LegalityCheck();
                 return res;
             }
@@ -644,7 +644,7 @@ namespace PKHeX
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
-                            ? new LegalityCheck(Severity.Invalid, $"Expected ID: {moves[i]}.")
+                            ? new LegalityCheck(Severity.Invalid, $"Expected ID: {movelist[moves[i]]}.")
                             : new LegalityCheck(Severity.Valid, $"Matched WC #{wc.CardID.ToString("0000")}");
                     if (res.All(r => r.Valid))
                     { EncounterMatch = wc; RelearnBase = moves; return res; }
@@ -694,13 +694,22 @@ namespace PKHeX
                     // Movepool finalized! Check validity.
                     
                     int[] rl = pk6.RelearnMoves;
-                    string em = string.Join(", ", baseMoves);
+                    string em = string.Join(", ", baseMoves.Select(r => r >= movelist.Length ? "ERROR" : movelist[r]));
                     RelearnBase = baseMoves.ToArray();
                     // Base Egg Move
                     for (int j = 0; j < req; j++)
-                        res[j] = !baseMoves.Contains(rl[j])
-                            ? new LegalityCheck(Severity.Invalid, $"Base egg move missing; expected one of: {em}.")
-                            : new LegalityCheck(Severity.Valid, "Base egg move.");
+                    {
+                        if (baseMoves.Contains(rl[j]))
+                            res[j] = new LegalityCheck(Severity.Valid, "Base egg move.");
+                        else
+                        {
+                            res[j] = new LegalityCheck(Severity.Invalid, "Base egg move missing.");
+                            for (int f = j+1; f < req; f++)
+                                res[f] = new LegalityCheck(Severity.Invalid, "Base egg move missing.");
+                            res[req-1].Comment += $"{Environment.NewLine}Expected the following Relearn Moves: {em}.";
+                            break;
+                        }
+                    }
 
                     // Non-Base
                     if (Legal.LightBall.Contains(pk6.Species))
@@ -743,6 +752,7 @@ namespace PKHeX
             return res;
         }
 
+        internal static string[] movelist = Util.getStringList("moves", "en");
         private static readonly string[] EventRibName =
         {
             "Country", "National", "Earth", "World", "Classic",

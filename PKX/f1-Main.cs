@@ -960,6 +960,9 @@ namespace PKHeX
             // Force an update to the met locations
             origintrack = "";
 
+            // Update Legality Analysis strings
+            LegalityAnalysis.movelist = movelist;
+
             if (fieldsInitialized)
                 updateIVs(null, null); // Prompt an update for the characteristics
         }
