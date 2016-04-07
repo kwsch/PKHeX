@@ -570,9 +570,8 @@ namespace PKHeX
                 setPK6(pk6);
             if (dex ?? SetUpdateDex)
                 setDex(pk6);
-
-            Array.Resize(ref ek6, PK6.SIZE_STORED);
-            setData(ek6, offset);
+            
+            setData(pk6.EncryptedBoxData, offset);
             Edited = true;
         }
         public void setEK6Party(byte[] ek6, int offset, bool? trade = null, bool? dex = null)
@@ -583,9 +582,8 @@ namespace PKHeX
                 setPK6(pk6);
             if (dex ?? SetUpdateDex)
                 setDex(pk6);
-
-            Array.Resize(ref ek6, PK6.SIZE_PARTY);
-            setData(ek6, offset);
+            
+            setData(pk6.EncryptedPartyData, offset);
             Edited = true;
         }
 

@@ -726,8 +726,8 @@ namespace PKHeX
             Geo2_Country = Geo1_Country;
             Geo2_Region = Geo1_Region;
 
-            Geo1_Country = Country;
-            Geo1_Region = Region;
+            Geo1_Country = GeoCountry;
+            Geo1_Region = GeoRegion;
         }
         public void TradeMemory(bool Bank)
         {
