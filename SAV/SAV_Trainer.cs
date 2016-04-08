@@ -547,8 +547,9 @@ namespace PKHeX
             if (ModifierKeys != Keys.Control)
                 return;
 
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(f2_Text).Name))
-            { Util.Alert("Window is already open."); return; }
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(f2_Text).Name) as f2_Text;
+            if (z != null)
+            { z.Location = Location; z.BringToFront(); return; }
             new f2_Text(tb).Show();
         }
         private void showTSV(object sender, EventArgs e)

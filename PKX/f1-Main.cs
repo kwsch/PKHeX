@@ -302,8 +302,9 @@ namespace PKHeX
         }
         private void mainMenuBoxReport(object sender, EventArgs e)
         {
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(frmReport).Name))
-            { Util.Alert("Window is already open."); return; }
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(frmReport).Name) as frmReport;
+            if (z != null)
+            { z.Location = Location; z.BringToFront(); return; }
 
             frmReport ReportForm = new frmReport();
             ReportForm.Show();
@@ -311,8 +312,9 @@ namespace PKHeX
         }
         private void mainMenuDatabase(object sender, EventArgs e)
         {
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(SAV_Database).Name))
-            { Util.Alert("Window is already open."); return; }
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(SAV_Database).Name) as SAV_Database;
+            if (z != null)
+            { z.Location = Location; z.BringToFront(); return; }
 
             if (Directory.Exists("db"))
                 new SAV_Database(this).Show();
@@ -1986,8 +1988,9 @@ namespace PKHeX
             if (ModifierKeys != Keys.Control)
                 return;
 
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(f2_Text).Name))
-            { Util.Alert("Window is already open."); return; }
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(f2_Text).Name) as f2_Text;
+            if (z != null)
+            { z.Location = Location; z.BringToFront(); return; }
             new f2_Text(tb).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
