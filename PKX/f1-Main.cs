@@ -1456,11 +1456,7 @@ namespace PKHeX
         {
             updateLegality();
             int[] m = Legality.getSuggestedRelearn();
-            string[] s = new string[4];
-            for (int i = 0; i < 4; i++)
-                s[i] = movelist[m[i]];
-
-            string r = string.Join(Environment.NewLine, s);
+            string r = string.Join(Environment.NewLine, m.Select(v => v >= movelist.Length ? "ERROR" : movelist[v]));
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
                 return;
 
