@@ -38,7 +38,15 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Fishy, "PID is not set.");
 
             if (pk6.Gen6)
-                return new LegalityCheck();
+            {
+                if (pk6.PID == pk6.EncryptionConstant)
+                    return new LegalityCheck(Severity.Fishy, "Encryption Constant matches PID.");
+
+                int xor = pk6.TSV ^ pk6.PSV;
+                return xor < 16 && xor >= 8 && (pk6.PID ^ 0x80000000) == pk6.EncryptionConstant
+                    ? new LegalityCheck(Severity.Fishy, "Encryption Constant matches shinyxored PID.")
+                    : new LegalityCheck();
+            }
 
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.
             // The PID is then checked to see if it becomes shiny with the new Shiny rules (>>4 instead of >>3)
@@ -138,7 +146,7 @@ namespace PKHeX
         {
             var evs = pk6.EVs;
             int sum = evs.Sum();
-            if (sum == 0 && pk6.Met_Level != pk6.Stat_Level && pk6.Stat_Level > 1)
+            if (sum == 0 && pk6.Stat_Level - pk6.Met_Level > 0)
                 return new LegalityCheck(Severity.Fishy, "All EVs are zero, but leveled above Met Level");
             if (sum == 508)
                 return new LegalityCheck(Severity.Fishy, "2 EVs remaining.");
@@ -163,6 +171,8 @@ namespace PKHeX
         {
             if (pk6.TID == 0 && pk6.SID == 0)
                 return new LegalityCheck(Severity.Fishy, "TID and SID are zero.");
+            if (pk6.TID == pk6.SID)
+                return new LegalityCheck(Severity.Fishy, "TID and SID are equal.");
             if (pk6.TID == 0)
                 return new LegalityCheck(Severity.Fishy, "TID is zero.");
             if (pk6.SID == 0)
@@ -278,9 +288,14 @@ namespace PKHeX
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6 != null && MatchedWC6.Level != pk6.Met_Level)
                 return new LegalityCheck(Severity.Invalid, "Met Level does not match Wonder Card level.");
-            return pk6.CurrentLevel < pk6.Met_Level
-                ? new LegalityCheck(Severity.Invalid, "Current level is below met level.")
-                : new LegalityCheck(Severity.Valid, "Current level is not below met level.");
+
+            int lvl = pk6.CurrentLevel;
+            if (lvl < pk6.Met_Level)
+                return new LegalityCheck(Severity.Invalid, "Current level is below met level.");
+            if (lvl > pk6.Met_Level && lvl > 1 && lvl != 100 && pk6.EXP == PKX.getEXP(pk6.Stat_Level, pk6.Species))
+                return new LegalityCheck(Severity.Fishy, "Current experience matches level threshold.");
+
+            return new LegalityCheck(Severity.Valid, "Current level is not below met level.");
         }
         private LegalityCheck verifyRibbons()
         {
