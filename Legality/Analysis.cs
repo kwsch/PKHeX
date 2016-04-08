@@ -62,7 +62,7 @@ namespace PKHeX
             if (!pk6.Gen6)
                 return "Analysis only available for Pokémon that originate from X/Y & OR/AS.";
             
-            var chks = new[] { ECPID, Nickname, IVs, EVs, IDs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories };
+            var chks = new[] { Encounter, Level, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, HandlerMemories };
 
             string r = "";
             for (int i = 0; i < 4; i++)
@@ -86,8 +86,9 @@ namespace PKHeX
             string r = getLegalityReport() + Environment.NewLine;
             r += "===" + Environment.NewLine + Environment.NewLine;
 
-            var chks = new[] { ECPID, Nickname, IVs, EVs, IDs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories };
-            r += chks.Where(chk => chk.Valid && chk.Comment != "Valid").Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+            var chks = new[] { Encounter, Level, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, HandlerMemories };
+            r += chks.Where(chk => chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
+                .Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
             return r.TrimEnd();
         }
 
