@@ -532,7 +532,7 @@
             new EncounterStatic { Species = 7, Level = 10, Location = 22, Gift = true }, // Squirtle
 
             new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = false }, // Lucario
-            new EncounterStatic { Species = 131, Level = 32, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
+            new EncounterStatic { Species = 131, Level = 30, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
             
             new EncounterStatic { Species = 143, Level = 15, Location = 38 }, // Snorlax
             new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
