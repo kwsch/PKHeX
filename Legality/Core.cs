@@ -351,6 +351,15 @@ namespace PKHeX
 
             return false;
         }
+        internal static bool getEvolutionValid(PK6 pk6)
+        {
+            var curr = getValidPreEvolutions(pk6);
+            var poss = getValidPreEvolutions(pk6, 100);
+
+            if (SplitBreed.Contains(getBaseSpecies(pk6, 1)))
+                return curr.Count() >= poss.Count() - 1;
+            return curr.Count() >= poss.Count();
+        }
         internal static IEnumerable<int> getLineage(PK6 pk6)
         {
             List<int> res = new List<int>();
@@ -453,9 +462,10 @@ namespace PKHeX
             }
             return slotLocations;
         }
-        private static IEnumerable<DexLevel> getValidPreEvolutions(PK6 pk6)
+        private static IEnumerable<DexLevel> getValidPreEvolutions(PK6 pk6, int lvl = -1)
         {
-            int lvl = pk6.CurrentLevel;
+            if (lvl < 0)
+                lvl = pk6.CurrentLevel;
             if (pk6.Species == 292 && pk6.Met_Level + 1 <= lvl && lvl >= 20)
                 return new List<DexLevel>
                 {
