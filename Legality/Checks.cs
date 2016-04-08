@@ -169,6 +169,8 @@ namespace PKHeX
         }
         private LegalityCheck verifyID()
         {
+            if (EncounterType == typeof(EncounterTrade))
+                return new LegalityCheck(); // Already matches Encounter Trade information
             if (pk6.TID == 0 && pk6.SID == 0)
                 return new LegalityCheck(Severity.Fishy, "TID and SID are zero.");
             if (pk6.TID == pk6.SID)
