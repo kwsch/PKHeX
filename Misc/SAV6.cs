@@ -25,6 +25,10 @@ namespace PKHeX
         internal const int SIZE_ORAS = 0x76000;
         internal const int SIZE_ORASDEMO = 0x5A00;
         internal const int BEEF = 0x42454546;
+        internal static bool SizeValid(int size)
+        {
+            return new[] {SIZE_XY, SIZE_ORAS, SIZE_ORASDEMO}.Contains(size);
+        }
 
         // Global Settings
         internal static bool SetUpdateDex = true;

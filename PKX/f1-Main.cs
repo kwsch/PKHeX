@@ -113,9 +113,19 @@ namespace PKHeX
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
                 openQuick(Path.Combine(pathSDF, "main"));
+            else if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
+            {
+                string[] files = Directory.GetFiles(Path.Combine(path3DS, "JKSV", "Saves"), "main", SearchOption.AllDirectories);
+                string file = files.Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+
+                if (file != null)
+                    openQuick(file);
+            }
             else if (Directory.Exists(pathCache))
             {
-                string file = Directory.GetFiles(pathCache).OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+                string file = Directory.GetFiles(pathCache).Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
                 if (file != null)
                     openQuick(file);
             }
@@ -218,6 +228,8 @@ namespace PKHeX
                 ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
             else if (pathSDF != null)
                 ofd.InitialDirectory = pathSDF;
+            else if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
+                ofd.InitialDirectory = Path.Combine(path3DS, "JKSV", "Saves");
             else if (path3DS != null)
                 ofd.InitialDirectory = Path.GetPathRoot(path3DS);
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
@@ -575,11 +587,7 @@ namespace PKHeX
             }
             #endregion
             #region Saves
-            if ((input.Length == SAV6.SIZE_ORAS) && BitConverter.ToUInt32(input, SAV6.SIZE_ORAS - 0x1F0) == SAV6.BEEF) // ORAS
-                openMAIN(input, path);
-            else if ((input.Length == SAV6.SIZE_XY) && BitConverter.ToUInt32(input, SAV6.SIZE_XY - 0x1F0) == SAV6.BEEF) // XY
-                openMAIN(input, path);
-            else if ((input.Length == SAV6.SIZE_ORASDEMO) && BitConverter.ToUInt32(input, SAV6.SIZE_ORASDEMO - 0x1F0) == SAV6.BEEF) // ORAS Demo
+            if (SAV6.SizeValid(input.Length) && BitConverter.ToUInt32(input, input.Length - 0x1F0) == SAV6.BEEF)
                 openMAIN(input, path);
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
@@ -3376,8 +3384,13 @@ namespace PKHeX
                 path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
                 path = Path.Combine(pathSDF, "main");
+            else if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
+                path = Directory.GetFiles(Path.Combine(path3DS, "JKSV", "Saves"), "main", SearchOption.AllDirectories)
+                    .Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
             else if (Directory.Exists(pathCache))
-                path = Directory.GetFiles(pathCache).OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+                path = Directory.GetFiles(pathCache).Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"))))
                 // else if cgse exists
                 path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
