@@ -680,7 +680,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: DexNav level range increased. Thanks fr3quency!
  - Hotfix: Giratina Pain Split. Thanks \!
 
-03/26/16 - New Update:
+03/26/16 - New Update: (53150)
  - Added: Ribbon, History, Ball, Ability legality checks.
  - Changed: Encounter tracking more stringent.
  - Changed: Clicking a menu checkbox (Set to Dex or Database Legality Filter) will stay open for more option toggling.
@@ -691,3 +691,20 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: 5->6 transfer decapitalization. Thanks rinnegan!
  - Fixed: 3->4 Unown form is now retained. Thanks rinnegan!
  - Fixed: WC6 import button not recognizing the correct size. Thanks \ & Ahito95!
+
+4/10/16 - New Update:
+ - Added: JKSV auto detection. Thanks Wanderer1391!
+ - Added: Showdown Import/Export hotkeys. Thanks Odaxis!
+ - Added: Verbose Legality Check result export, shows aspects that are fishy. Hold CTRL when bringing the Legality info up.
+ - Added: Legality checks for ball, evolved bred levels, ID, EXP, contest, memories.
+ - Added: Clear all residence button to Memory editor.
+ - Changed: Base egg moves will now use move names instead of indexes. Thanks Favna!
+ - Changed: Trying to open subforms that are already open will bring focus to them instead of alerting it is already open.
+ - Fixed: Various Legality Checker issues. Thanks Eskuero, Wanderer1391, ashrobb
+ - Fixed: Residense/Handler setting. Thanks Dede!
+ - Fixed: Traded egg detection. Thanks Wanderer1391!
+ - Fixed: Language change deleting Met Location info. Thanks Eskuero!
+ - Fixed: Importing wondercards directly to slots not checking flags. Thanks \ & Goodfella!
+ - Fixed: Importing wc6full files. Thanks Odaxis!
+ - Fixed: ORAS 2nd daycare EXP values not being displayed. Thanks chenzw95!
+ - Fixed: Mono-specific underscore issue for converting to numbers. Thanks chenzw95!
