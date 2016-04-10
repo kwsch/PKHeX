@@ -113,9 +113,9 @@ namespace PKHeX
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
                 openQuick(Path.Combine(pathSDF, "main"));
-            else if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
+            else if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
             {
-                string[] files = Directory.GetFiles(Path.Combine(path3DS, "JKSV", "Saves"), "main", SearchOption.AllDirectories);
+                string[] files = Directory.GetFiles(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves"), "main", SearchOption.AllDirectories);
                 string file = files.Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
                     .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
 
@@ -228,8 +228,8 @@ namespace PKHeX
                 ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
             else if (pathSDF != null)
                 ofd.InitialDirectory = pathSDF;
-            else if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
-                ofd.InitialDirectory = Path.Combine(path3DS, "JKSV", "Saves");
+            else if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
+                ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves");
             else if (path3DS != null)
                 ofd.InitialDirectory = Path.GetPathRoot(path3DS);
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
@@ -3384,8 +3384,8 @@ namespace PKHeX
                 path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
                 path = Path.Combine(pathSDF, "main");
-            else if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
-                path = Directory.GetFiles(Path.Combine(path3DS, "JKSV", "Saves"), "main", SearchOption.AllDirectories)
+            else if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
+                path = Directory.GetFiles(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves"), "main", SearchOption.AllDirectories)
                     .Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
                     .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
             else if (Directory.Exists(pathCache))
