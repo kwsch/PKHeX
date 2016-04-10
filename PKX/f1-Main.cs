@@ -856,7 +856,7 @@ namespace PKHeX
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
-            PK6 pk = fieldsInitialized ? preparepkx() : pk6;
+            PK6 pk = new PK6((fieldsInitialized ? preparepkx() : pk6).Data);
             bool alreadyInit = fieldsInitialized;
             fieldsInitialized = false;
             Menu_Options.DropDown.Close();
