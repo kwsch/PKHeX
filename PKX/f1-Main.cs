@@ -72,8 +72,8 @@ namespace PKHeX
             dragout.AllowDrop = true;
 
             string[] args = Environment.GetCommandLineArgs();
-            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]) : "";
-            HaX = filename.ToLower().IndexOf("hax", StringComparison.Ordinal) >= 0;
+            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]).ToLower() : "";
+            HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
             // Show Hacked Stuff if HaX
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = DEV_Ability.Enabled = DEV_Ability.Visible =
             MT_Level.Enabled = MT_Level.Visible = TB_AbilityNumber.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
@@ -90,14 +90,12 @@ namespace PKHeX
             #endregion
             #region Localize & Populate Fields
             // Try and detect the language
-            int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
-            main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i)).ToArray();
             string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
-            int lang = filename.Length > 2 ? Array.IndexOf(lang_val, lastTwoChars) : - 1;
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : (lastTwoChars == "jp" ? 1 : 0);
+            if (lastTwoChars == "jp") lastTwoChars = "ja";
+            int lang = Array.IndexOf(lang_val, lastTwoChars);
+            CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
 
             InitializeFields();
-            CB_Language.SelectedIndex = lang >= 0 && lang < 7 ? main_langnum[lang] : 1;
             #endregion
             #region Load Initial File(s)
             // Load the arguments
@@ -182,11 +180,11 @@ namespace PKHeX
         private static bool HaX;
         private LegalityAnalysis Legality = new LegalityAnalysis(new PK6());
         private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
-        private static readonly string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
-        private static readonly string[] main_langlist = 
+        private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "pt" };
+        private static readonly string[] main_langlist =
             {
-                "English", // ENG
                 "日本語", // JPN
+                "English", // ENG
                 "Français", // FRE
                 "Italiano", // ITA
                 "Deutsch", // GER
@@ -889,7 +887,7 @@ namespace PKHeX
             for (int i = 0; i < balllist.Length; i++)
                 balllist[i] = itemlist[Legal.Items_Ball[i]];
 
-            if ((l != "zh") || (l == "zh" && !fieldsInitialized)) // load initial binaries
+            if ((l != "pt") || (l == "pt" && !fieldsInitialized)) // load initial binaries
             {
                 pokeblocks = Util.getStringList("pokeblock", l);
                 forms = Util.getStringList("forms", l);
@@ -994,7 +992,8 @@ namespace PKHeX
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
                 CB_GameOrigin.SelectedIndex = 0;
-                CB_Language.SelectedIndex = 0;
+                int curlang = Array.IndexOf(lang_val, curlanguage);
+                CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
                 CB_BoxSelect.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
                 CB_Country.SelectedIndex = 0;
@@ -1055,13 +1054,11 @@ namespace PKHeX
             CB_HPType.DataSource = Util.getCBList(types.Skip(1).Take(16).ToArray(), null);
 
             // Set the Move ComboBoxes too..
+            MoveDataSource = Util.getCBList(movelist, null);
+            foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
-                MoveDataSource = Util.getCBList(movelist, null);
-                foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
-                {
-                    cb.DisplayMember = "Text"; cb.ValueMember = "Value";
-                    cb.DataSource = new BindingSource(MoveDataSource, null);
-                }
+                cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                cb.DataSource = new BindingSource(MoveDataSource, null);
             }
         }
         public void populateFields(PK6 pk, bool focus = true)
