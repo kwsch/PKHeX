@@ -518,6 +518,14 @@
 	                new EncounterSlot { Species = 527, LevelMin = 21, LevelMax = 23, Form = 0 }, // Woobat
                     new EncounterSlot { Species = 597, LevelMin = 21, LevelMax = 23, Form = 0 }, // Ferroseed
                 },},
+
+            new EncounterArea { Location = 140, // Terminus Cave
+                Slots = new[]
+                {
+	                // Drops
+	                new EncounterSlot { Species = 168, LevelMin = 44, LevelMax = 46, Form = 0 }, // Ariados
+	                new EncounterSlot { Species = 714, LevelMin = 44, LevelMax = 46, Form = 0 }, // Noibat
+                },},
         };
         #endregion
         #region Static Encounter/Gift Tables
