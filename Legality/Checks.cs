@@ -294,7 +294,7 @@ namespace PKHeX
             int lvl = pk6.CurrentLevel;
             if (lvl < pk6.Met_Level)
                 return new LegalityCheck(Severity.Invalid, "Current level is below met level.");
-            if (pk6.WasEgg && !Legal.getEvolutionValid(pk6))
+            if ((pk6.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pk6))
                 return new LegalityCheck(Severity.Invalid, "Level is below evolution requirements.");
             if (lvl > pk6.Met_Level && lvl > 1 && lvl != 100 && pk6.EXP == PKX.getEXP(pk6.Stat_Level, pk6.Species))
                 return new LegalityCheck(Severity.Fishy, "Current experience matches level threshold.");
