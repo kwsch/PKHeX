@@ -280,7 +280,7 @@ namespace PKHeX
         }
         private void mainMenuExit(object sender, EventArgs e)
         {
-            if (ModifierKeys == (Keys.Control | Keys.E)) // Hotkey Triggered
+            if (ModifierKeys == (Keys.Control | Keys.Q)) // Hotkey Triggered
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?")) return;
             Close();
         }
