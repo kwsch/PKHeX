@@ -7,7 +7,7 @@ Cave/Hall of Origin
 
 Surfing/Fishing
 
-Building
+Building/Enigma Stone
 Marsh/Safari
 
 Starter/Fossil/Gift (DP)
@@ -22,4 +22,4 @@ Starter/Fossil/Gift (DP)
 
 
 Distortion World (Pt)
-Starter/Fossil/Gift (Pt)
+Starter/Fossil/Gift (Pt/DP Trio)

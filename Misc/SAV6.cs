@@ -25,6 +25,10 @@ namespace PKHeX
         internal const int SIZE_ORAS = 0x76000;
         internal const int SIZE_ORASDEMO = 0x5A00;
         internal const int BEEF = 0x42454546;
+        internal static bool SizeValid(int size)
+        {
+            return new[] {SIZE_XY, SIZE_ORAS, SIZE_ORASDEMO}.Contains(size);
+        }
 
         // Global Settings
         internal static bool SetUpdateDex = true;
@@ -570,9 +574,8 @@ namespace PKHeX
                 setPK6(pk6);
             if (dex ?? SetUpdateDex)
                 setDex(pk6);
-
-            Array.Resize(ref ek6, PK6.SIZE_STORED);
-            setData(ek6, offset);
+            
+            setData(pk6.EncryptedBoxData, offset);
             Edited = true;
         }
         public void setEK6Party(byte[] ek6, int offset, bool? trade = null, bool? dex = null)
@@ -583,9 +586,8 @@ namespace PKHeX
                 setPK6(pk6);
             if (dex ?? SetUpdateDex)
                 setDex(pk6);
-
-            Array.Resize(ref ek6, PK6.SIZE_PARTY);
-            setData(ek6, offset);
+            
+            setData(pk6.EncryptedPartyData, offset);
             Edited = true;
         }
 

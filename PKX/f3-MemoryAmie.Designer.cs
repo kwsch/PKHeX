@@ -88,6 +88,7 @@
             this.L_Handler = new System.Windows.Forms.Label();
             this.CB_Handler = new System.Windows.Forms.ComboBox();
             this.L_Arguments = new System.Windows.Forms.Label();
+            this.B_ClearAll = new System.Windows.Forms.Button();
             this.GB_M_OT.SuspendLayout();
             this.GB_Residence.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -147,7 +148,7 @@
             // 
             // L_Geo1
             // 
-            this.L_Geo1.Location = new System.Drawing.Point(0, 64);
+            this.L_Geo1.Location = new System.Drawing.Point(0, 57);
             this.L_Geo1.Name = "L_Geo1";
             this.L_Geo1.Size = new System.Drawing.Size(80, 13);
             this.L_Geo1.TabIndex = 69;
@@ -175,7 +176,7 @@
             // 
             // L_Geo2
             // 
-            this.L_Geo2.Location = new System.Drawing.Point(0, 97);
+            this.L_Geo2.Location = new System.Drawing.Point(0, 83);
             this.L_Geo2.Name = "L_Geo2";
             this.L_Geo2.Size = new System.Drawing.Size(80, 13);
             this.L_Geo2.TabIndex = 76;
@@ -185,7 +186,7 @@
             // 
             // L_Geo3
             // 
-            this.L_Geo3.Location = new System.Drawing.Point(0, 130);
+            this.L_Geo3.Location = new System.Drawing.Point(0, 109);
             this.L_Geo3.Name = "L_Geo3";
             this.L_Geo3.Size = new System.Drawing.Size(80, 13);
             this.L_Geo3.TabIndex = 77;
@@ -195,7 +196,7 @@
             // 
             // L_Geo4
             // 
-            this.L_Geo4.Location = new System.Drawing.Point(-1, 162);
+            this.L_Geo4.Location = new System.Drawing.Point(-1, 134);
             this.L_Geo4.Name = "L_Geo4";
             this.L_Geo4.Size = new System.Drawing.Size(80, 13);
             this.L_Geo4.TabIndex = 78;
@@ -364,6 +365,7 @@
             // 
             // GB_Residence
             // 
+            this.GB_Residence.Controls.Add(this.B_ClearAll);
             this.GB_Residence.Controls.Add(this.CB_Region4);
             this.GB_Residence.Controls.Add(this.CB_Region3);
             this.GB_Residence.Controls.Add(this.CB_Region2);
@@ -394,7 +396,7 @@
             this.CB_Region4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Region4.DropDownWidth = 180;
             this.CB_Region4.FormattingEnabled = true;
-            this.CB_Region4.Location = new System.Drawing.Point(204, 158);
+            this.CB_Region4.Location = new System.Drawing.Point(204, 130);
             this.CB_Region4.Name = "CB_Region4";
             this.CB_Region4.Size = new System.Drawing.Size(102, 21);
             this.CB_Region4.TabIndex = 25;
@@ -405,7 +407,7 @@
             this.CB_Region3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Region3.DropDownWidth = 180;
             this.CB_Region3.FormattingEnabled = true;
-            this.CB_Region3.Location = new System.Drawing.Point(204, 126);
+            this.CB_Region3.Location = new System.Drawing.Point(204, 105);
             this.CB_Region3.Name = "CB_Region3";
             this.CB_Region3.Size = new System.Drawing.Size(102, 21);
             this.CB_Region3.TabIndex = 23;
@@ -416,7 +418,7 @@
             this.CB_Region2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Region2.DropDownWidth = 180;
             this.CB_Region2.FormattingEnabled = true;
-            this.CB_Region2.Location = new System.Drawing.Point(204, 93);
+            this.CB_Region2.Location = new System.Drawing.Point(204, 79);
             this.CB_Region2.Name = "CB_Region2";
             this.CB_Region2.Size = new System.Drawing.Size(102, 21);
             this.CB_Region2.TabIndex = 21;
@@ -427,7 +429,7 @@
             this.CB_Region1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Region1.DropDownWidth = 180;
             this.CB_Region1.FormattingEnabled = true;
-            this.CB_Region1.Location = new System.Drawing.Point(204, 60);
+            this.CB_Region1.Location = new System.Drawing.Point(204, 53);
             this.CB_Region1.Name = "CB_Region1";
             this.CB_Region1.Size = new System.Drawing.Size(102, 21);
             this.CB_Region1.TabIndex = 19;
@@ -449,7 +451,7 @@
             this.CB_Country4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country4.DropDownWidth = 180;
             this.CB_Country4.FormattingEnabled = true;
-            this.CB_Country4.Location = new System.Drawing.Point(82, 158);
+            this.CB_Country4.Location = new System.Drawing.Point(82, 130);
             this.CB_Country4.Name = "CB_Country4";
             this.CB_Country4.Size = new System.Drawing.Size(102, 21);
             this.CB_Country4.TabIndex = 24;
@@ -462,7 +464,7 @@
             this.CB_Country3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country3.DropDownWidth = 180;
             this.CB_Country3.FormattingEnabled = true;
-            this.CB_Country3.Location = new System.Drawing.Point(82, 126);
+            this.CB_Country3.Location = new System.Drawing.Point(82, 105);
             this.CB_Country3.Name = "CB_Country3";
             this.CB_Country3.Size = new System.Drawing.Size(102, 21);
             this.CB_Country3.TabIndex = 22;
@@ -475,7 +477,7 @@
             this.CB_Country2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country2.DropDownWidth = 180;
             this.CB_Country2.FormattingEnabled = true;
-            this.CB_Country2.Location = new System.Drawing.Point(82, 93);
+            this.CB_Country2.Location = new System.Drawing.Point(82, 79);
             this.CB_Country2.Name = "CB_Country2";
             this.CB_Country2.Size = new System.Drawing.Size(102, 21);
             this.CB_Country2.TabIndex = 20;
@@ -488,7 +490,7 @@
             this.CB_Country1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Country1.DropDownWidth = 180;
             this.CB_Country1.FormattingEnabled = true;
-            this.CB_Country1.Location = new System.Drawing.Point(82, 60);
+            this.CB_Country1.Location = new System.Drawing.Point(82, 53);
             this.CB_Country1.Name = "CB_Country1";
             this.CB_Country1.Size = new System.Drawing.Size(102, 21);
             this.CB_Country1.TabIndex = 18;
@@ -796,6 +798,16 @@
             this.L_Arguments.Text = "(args)";
             this.L_Arguments.Visible = false;
             // 
+            // B_ClearAll
+            // 
+            this.B_ClearAll.Location = new System.Drawing.Point(82, 157);
+            this.B_ClearAll.Name = "B_ClearAll";
+            this.B_ClearAll.Size = new System.Drawing.Size(76, 23);
+            this.B_ClearAll.TabIndex = 79;
+            this.B_ClearAll.Text = "Clear All";
+            this.B_ClearAll.UseVisualStyleBackColor = true;
+            this.B_ClearAll.Click += new System.EventHandler(this.B_ClearAll_Click);
+            // 
             // MemoryAmie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -894,5 +906,6 @@
         private System.Windows.Forms.ComboBox CB_Region2;
         private System.Windows.Forms.ComboBox CB_Region1;
         private System.Windows.Forms.ComboBox CB_Region0;
+        private System.Windows.Forms.Button B_ClearAll;
     }
 }

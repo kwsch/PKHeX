@@ -417,6 +417,7 @@ namespace PKHeX
                   IV_HP = value[0];  IV_ATK = value[1]; IV_DEF = value[2];
                   IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5]; } }
         public int[] EVs => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        public int[] CNTs => new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen };
         public int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
         public int TSV => (TID ^ SID) >> 4;
         public bool IsShiny => TSV == PSV;
@@ -425,6 +426,9 @@ namespace PKHeX
         public bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name);
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         public bool Gen6 => Version >= 24 && Version <= 29;
+        public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
+        public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
+        public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         public bool Gen5 => Version >= 20 && Version <= 23;
         public bool Gen4 => Version >= 10 && Version < 12 || Version >= 7 && Version <= 8;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
@@ -698,7 +702,7 @@ namespace PKHeX
         // Misc Updates
         private void UpdateEgg(int Day, int Month, int Year)
         {
-            Egg_Location = 30002;
+            Met_Location = 30002;
             Egg_Day = Day;
             Egg_Month = Month;
             Egg_Year = Year - 2000;
@@ -722,8 +726,8 @@ namespace PKHeX
             Geo2_Country = Geo1_Country;
             Geo2_Region = Geo1_Region;
 
-            Geo1_Country = Country;
-            Geo1_Region = Region;
+            Geo1_Country = GeoCountry;
+            Geo1_Region = GeoRegion;
         }
         public void TradeMemory(bool Bank)
         {
@@ -749,5 +753,6 @@ namespace PKHeX
         public bool WasEvent => FatefulEncounter && Met_Location > 40000;
         public bool WasEventEgg => FatefulEncounter && (Egg_Location > 40000 || Egg_Location == 30002) && Met_Level == 1;
         public bool WasTradedEgg => Egg_Location == 30002;
+        public bool WasIngameTrade => Met_Location == 30001;
     }
 }

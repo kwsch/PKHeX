@@ -134,6 +134,26 @@ namespace PKHeX
         public int Form;
         public int LevelMin;
         public int LevelMax;
+        public SlotType Type = SlotType.Any;
+        public bool DexNav = false;
+    }
+
+    public enum SlotType
+    {
+        Any,
+        Grass,
+        Rough_Terrain,
+        Yellow_Flowers,
+        Purple_Flowers,
+        Red_Flowers,
+        Surf,
+        Old_Rod,
+        Good_Rod,
+        Super_Rod,
+        Rock_Smash,
+        Horde,
+        FriendSafari,
+        Special,
     }
     public class EncounterStatic
     {
@@ -148,9 +168,43 @@ namespace PKHeX
         public int Gender = -1;
         public int EggLocation = 0;
         public Nature Nature = Nature.Random;
+        public bool Gift = false;
         public GameVersion Version = GameVersion.Any;
+        public int[] IVs = {-1, -1, -1, -1, -1, -1};
+        public int[] Contest = {0, 0, 0, 0, 0, 0};
+    }
+    public class EncounterTrade
+    {
+        public int Species;
+        public int Level;
 
-        public EncounterStatic() { }
+        public int Location = 30001;
+        public int Ability = 0;
+        public Nature Nature = Nature.Random;
+        public int TID;
+        public int SID = 0;
+        public int[] IVs = { -1, -1, -1, -1, -1, -1 };
+        public int[] Moves;
+        public int Form = 0;
+        public bool Shiny = false;
+        public int Gender = -1;
+    }
+    public class EncounterLink
+    {
+        public int Species;
+        public int Level;
+        public int Location = 30011;
+        public int Ability = 4;
+        public int Ball = 4; // Pokéball
+        public Nature Nature = Nature.Random;
+        public int[] IVs = { -1, -1, -1, -1, -1, -1 };
+        public int FlawlessIVs = 0;
+        public bool Classic = true;
+        public bool Fateful = false;
+        public int[] RelearnMoves = new int[4];
+        public bool XY = true;
+        public bool ORAS = true;
+        public bool? Shiny = false;
     }
     public enum Nature
     {

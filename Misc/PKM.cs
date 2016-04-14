@@ -21,12 +21,12 @@ namespace PKHeX
         }
 
         internal static Converter Config = new Converter();
-        internal static readonly string[] speclang_ja = Util.getStringList("Species", "ja");
-        internal static readonly string[] speclang_en = Util.getStringList("Species", "en");
-        internal static readonly string[] speclang_fr = Util.getStringList("Species", "fr");
-        internal static readonly string[] speclang_it = Util.getStringList("Species", "it");
-        internal static readonly string[] speclang_de = Util.getStringList("Species", "de");
-        internal static readonly string[] speclang_es = Util.getStringList("Species", "es");
+        internal static readonly string[] speclang_ja = Util.getStringList("species", "ja");
+        internal static readonly string[] speclang_en = Util.getStringList("species", "en");
+        internal static readonly string[] speclang_fr = Util.getStringList("species", "fr");
+        internal static readonly string[] speclang_it = Util.getStringList("species", "it");
+        internal static readonly string[] speclang_de = Util.getStringList("species", "de");
+        internal static readonly string[] speclang_es = Util.getStringList("species", "es");
 
         internal static string TrimFromFFFF(string input)
         {
@@ -1035,7 +1035,7 @@ namespace PKHeX
             4365, 4366, 4367, 4368, 4369, 4370, 4449, 4450, 4451, 4452, 4453, 4454, 4455, 4456, 4457, 4461, 4462, 4466,
             4467, 4469, 47252, 49968, 50108, 50388, 52012, 65535
         };
-        internal static ushort[] G34_4E =
+        internal static readonly ushort[] G34_4E =
         {
             478, 351, 352, 353, 358, 359, 360, 361, 362, 363, 020, 365, 366, 369, 370,
             371, 415, 376, 377, 378, 368, 382, 383, 384, 046, 358, 359, 392, 393, 394,
@@ -1055,7 +1055,7 @@ namespace PKHeX
             337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 289,
             452, 355, 373, 379, 387, 405, 411
         };
-        internal static ushort[] G34_4J =
+        internal static readonly ushort[] G34_4J =
         {
             001, 003, 005, 007, 009, 011, 012, 014, 016, 018, 020, 022, 024, 026, 028,
             030, 032, 034, 037, 039, 041, 043, 044, 045, 046, 047, 048, 051, 054, 057,

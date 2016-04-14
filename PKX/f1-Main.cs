@@ -33,6 +33,8 @@ namespace PKHeX
 
                                     dcpkx1, dcpkx2, gtspkx, fusedpkx,subepkx1,subepkx2,subepkx3,
                                 };
+            relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
+            movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
             defaultControlWhite = CB_Species.BackColor;
             defaultControlText = Label_Species.ForeColor;
             CB_ExtraBytes.SelectedIndex = 0;
@@ -70,8 +72,8 @@ namespace PKHeX
             dragout.AllowDrop = true;
 
             string[] args = Environment.GetCommandLineArgs();
-            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]) : "";
-            HaX = filename.IndexOf("HaX", StringComparison.Ordinal) >= 0;
+            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]).ToLower() : "";
+            HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
             // Show Hacked Stuff if HaX
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = DEV_Ability.Enabled = DEV_Ability.Visible =
             MT_Level.Enabled = MT_Level.Visible = TB_AbilityNumber.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
@@ -79,33 +81,52 @@ namespace PKHeX
             TB_Level.Visible = CB_Ability.Visible = !HaX;
             // Load WC6 folder to legality
             refreshWC6DB();
+
+            Menu_Modify.DropDown.Closing += (sender, e) =>
+            {
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
             #endregion
             #region Localize & Populate Fields
             // Try and detect the language
-            int[] main_langnum = {1, 2, 3, 4, 5, 7, 8, 9};
-            main_langnum = main_langnum.Concat(Enumerable.Range(10, lang_val.Length).Select(i => i)).ToArray();
             string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
-            int lang = filename.Length > 2 ? Array.IndexOf(lang_val, lastTwoChars) : - 1;
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? main_langnum[lang] - 1 : (lastTwoChars == "jp" ? 1 : 0);
+            if (lastTwoChars == "jp") lastTwoChars = "ja";
+            int lang = Array.IndexOf(lang_val, lastTwoChars);
+            CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
 
             InitializeFields();
-            CB_Language.SelectedIndex = lang >= 0 && lang < 7 ? main_langnum[lang] : 1;
             #endregion
             #region Load Initial File(s)
             // Load the arguments
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
+            string pathCache = Util.GetCacheFolder();
             if (args.Length > 1)
             {
                 foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
                     openQuick(arg);
             }
-            else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin")))
-                openQuick(Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin"));
             else if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                 openQuick(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main"));
             else if (pathSDF != null)
                 openQuick(Path.Combine(pathSDF, "main"));
+            else if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
+            {
+                string[] files = Directory.GetFiles(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves"), "main", SearchOption.AllDirectories);
+                string file = files.Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+
+                if (file != null)
+                    openQuick(file);
+            }
+            else if (Directory.Exists(pathCache))
+            {
+                string file = Directory.GetFiles(pathCache).Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+                if (file != null)
+                    openQuick(file);
+            }
             else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"))))
                 openQuick(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")));
 
@@ -136,7 +157,8 @@ namespace PKHeX
         public static Color defaultControlText;
         public static string eggname = "";
         public const string DatabasePath = "db";
-        public const string WC6DatabasePath = "wc6";
+        private const string WC6DatabasePath = "wc6";
+        private const string BackupPath = "bak";
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
@@ -158,12 +180,11 @@ namespace PKHeX
         private static bool HaX;
         private LegalityAnalysis Legality = new LegalityAnalysis(new PK6());
         private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
-        private static readonly string BackupPath = "bak";
-        private static readonly string[] lang_val = { "en", "ja", "fr", "it", "de", "es", "ko", "zh", "pt" };
-        private static readonly string[] main_langlist = 
+        private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "pt" };
+        private static readonly string[] main_langlist =
             {
-                "English", // ENG
                 "日本語", // JPN
+                "English", // ENG
                 "Français", // FRE
                 "Italiano", // ITA
                 "Deutsch", // GER
@@ -173,7 +194,7 @@ namespace PKHeX
                 "Português", // Portuguese
             };
         private static string origintrack;
-        private readonly PictureBox[] SlotPictureBoxes;
+        private readonly PictureBox[] SlotPictureBoxes, movePB, relearnPB;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         #endregion
 
@@ -192,18 +213,27 @@ namespace PKHeX
                 FileName = "main",
             };
 
+            // Reset file dialog path if it no longer exists
+            if (!Directory.Exists(ofd.InitialDirectory))
+                ofd.InitialDirectory = Environment.CurrentDirectory;
+
             // Detect main
             string cyberpath = Util.GetTempFolder();
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
+            string pathCache = Util.GetCacheFolder();
             if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main")))
                 ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup");
             else if (pathSDF != null)
                 ofd.InitialDirectory = pathSDF;
+            else if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
+                ofd.InitialDirectory = Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves");
             else if (path3DS != null)
                 ofd.InitialDirectory = Path.GetPathRoot(path3DS);
             else if (Directory.Exists(Path.Combine(cyberpath, "root")))
                 ofd.InitialDirectory = Path.Combine(cyberpath, "root");
+            else if (Directory.Exists(pathCache))
+                ofd.InitialDirectory = pathCache;
             else if (Directory.Exists(cyberpath))
                 ofd.InitialDirectory = cyberpath;
             else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main"))) { }
@@ -250,7 +280,7 @@ namespace PKHeX
         }
         private void mainMenuExit(object sender, EventArgs e)
         {
-            if (ModifierKeys == (Keys.Control | Keys.E)) // Hotkey Triggered
+            if (ModifierKeys == (Keys.Control | Keys.Q)) // Hotkey Triggered
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?")) return;
             Close();
         }
@@ -282,8 +312,9 @@ namespace PKHeX
         }
         private void mainMenuBoxReport(object sender, EventArgs e)
         {
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(frmReport).Name))
-            { Util.Alert("Window is already open."); return; }
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(frmReport).Name) as frmReport;
+            if (z != null)
+            { z.Location = Location; z.BringToFront(); return; }
 
             frmReport ReportForm = new frmReport();
             ReportForm.Show();
@@ -291,8 +322,9 @@ namespace PKHeX
         }
         private void mainMenuDatabase(object sender, EventArgs e)
         {
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(SAV_Database).Name))
-            { Util.Alert("Window is already open."); return; }
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(SAV_Database).Name) as SAV_Database;
+            if (z != null)
+            { z.Location = Location; z.BringToFront(); return; }
 
             if (Directory.Exists("db"))
                 new SAV_Database(this).Show();
@@ -369,6 +401,8 @@ namespace PKHeX
         // Misc Options
         private void clickShowdownImportPK6(object sender, EventArgs e)
         {
+            if (!formInitialized)
+                return;
             if (!Clipboard.ContainsText())
             { Util.Alert("Clipboard does not contain text."); return; }
 
@@ -395,8 +429,8 @@ namespace PKHeX
 
             // Set Form
             string[] formStrings = PKX.getFormList(Set.Species,
-                Util.getStringList("Types", "en"),
-                Util.getStringList("Forms", "en"), gendersymbols);
+                Util.getStringList("types", "en"),
+                Util.getStringList("forms", "en"), gendersymbols);
             int form = 0;
             for (int i = 0; i < formStrings.Length; i++)
                 if (formStrings[i].Contains(Set.Form ?? ""))
@@ -439,6 +473,8 @@ namespace PKHeX
             BTN_RerollPID.PerformClick();
             BTN_RerollEC.PerformClick();
             if (Set.Shiny) BTN_Shinytize.PerformClick();
+            pk6 = preparepkx();
+            updateLegality();
         }
         private void clickShowdownExportPK6(object sender, EventArgs e)
         {
@@ -549,11 +585,7 @@ namespace PKHeX
             }
             #endregion
             #region Saves
-            if ((input.Length == SAV6.SIZE_ORAS) && BitConverter.ToUInt32(input, SAV6.SIZE_ORAS - 0x1F0) == SAV6.BEEF) // ORAS
-                openMAIN(input, path);
-            else if ((input.Length == SAV6.SIZE_XY) && BitConverter.ToUInt32(input, SAV6.SIZE_XY - 0x1F0) == SAV6.BEEF) // XY
-                openMAIN(input, path);
-            else if ((input.Length == SAV6.SIZE_ORASDEMO) && BitConverter.ToUInt32(input, SAV6.SIZE_ORASDEMO - 0x1F0) == SAV6.BEEF) // ORAS Demo
+            if (SAV6.SizeValid(input.Length) && BitConverter.ToUInt32(input, input.Length - 0x1F0) == SAV6.BEEF)
                 openMAIN(input, path);
             // Verify the Data Input Size is Proper
             else if (input.Length == 0x100000)
@@ -631,7 +663,7 @@ namespace PKHeX
             }
             #endregion
             #region Wondercard
-            else if ((input.Length == WC6.Size && ext == ".wc6") || (input.Length == WC6.SizeFull && ext == ".wcfull6"))
+            else if ((input.Length == WC6.Size && ext == ".wc6") || (input.Length == WC6.SizeFull && ext == ".wc6full"))
             {
                 if (input.Length == WC6.SizeFull) // Take bytes at end = WC6 size.
                     input = input.Skip(WC6.SizeFull - WC6.Size).ToArray();
@@ -752,8 +784,6 @@ namespace PKHeX
             // Enable Secondary Tools
             GB_SAVtools.Enabled = B_JPEG.Enabled = true;
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
-
-            DaycareSlot = 0;
             
             setBoxNames();   // Display the Box Names
             setPKXBoxes();   // Reload all of the PKX Windows
@@ -824,7 +854,7 @@ namespace PKHeX
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
-            PK6 pk = fieldsInitialized ? preparepkx() : pk6;
+            PK6 pk = new PK6((fieldsInitialized ? preparepkx() : pk6).Data);
             bool alreadyInit = fieldsInitialized;
             fieldsInitialized = false;
             Menu_Options.DropDown.Close();
@@ -840,32 +870,32 @@ namespace PKHeX
                 curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
 
             string l = curlanguage;
-            natures = Util.getStringList("Natures", l);
-            types = Util.getStringList("Types", l);
-            abilitylist = Util.getStringList("Abilities", l);
-            movelist = Util.getStringList("Moves", l);
-            itemlist = Util.getStringList("Items", l);
-            characteristics = Util.getStringList("Character", l);
-            specieslist = Util.getStringList("Species", l);
-            wallpapernames = Util.getStringList("Wallpaper", l);
-            itempouch = Util.getStringList("ItemPouch", l);
-            encountertypelist = Util.getStringList("EncounterType", l);
-            gamelist = Util.getStringList("Games", l);
+            natures = Util.getStringList("natures", l);
+            types = Util.getStringList("types", l);
+            abilitylist = Util.getStringList("abilities", l);
+            movelist = Util.getStringList("moves", l);
+            itemlist = Util.getStringList("items", l);
+            characteristics = Util.getStringList("character", l);
+            specieslist = Util.getStringList("species", l);
+            wallpapernames = Util.getStringList("wallpaper", l);
+            itempouch = Util.getStringList("itempouch", l);
+            encountertypelist = Util.getStringList("encountertype", l);
+            gamelist = Util.getStringList("games", l);
             gamelanguages = Util.getNulledStringArray(Util.getStringList("languages"));
 
             balllist = new string[Legal.Items_Ball.Length];
             for (int i = 0; i < balllist.Length; i++)
                 balllist[i] = itemlist[Legal.Items_Ball[i]];
 
-            if ((l != "zh") || (l == "zh" && !fieldsInitialized)) // load initial binaries
+            if ((l != "pt") || (l == "pt" && !fieldsInitialized)) // load initial binaries
             {
-                pokeblocks = Util.getStringList("Pokeblock", l);
-                forms = Util.getStringList("Forms", l);
-                memories = Util.getStringList("Memories", l);
-                genloc = Util.getStringList("GenLoc", l);
-                trainingbags = Util.getStringList("TrainingBag", l);
-                trainingstage = Util.getStringList("SuperTraining", l);
-                puffs = Util.getStringList("Puff", l);
+                pokeblocks = Util.getStringList("pokeblock", l);
+                forms = Util.getStringList("forms", l);
+                memories = Util.getStringList("memories", l);
+                genloc = Util.getStringList("genloc", l);
+                trainingbags = Util.getStringList("trainingbag", l);
+                trainingstage = Util.getStringList("supertraining", l);
+                puffs = Util.getStringList("puff", l);
             }
 
             // Fix Item Names (Duplicate entries)
@@ -938,6 +968,9 @@ namespace PKHeX
             // Force an update to the met locations
             origintrack = "";
 
+            // Update Legality Analysis strings
+            LegalityAnalysis.movelist = movelist;
+
             if (fieldsInitialized)
                 updateIVs(null, null); // Prompt an update for the characteristics
         }
@@ -948,18 +981,19 @@ namespace PKHeX
         {
             // Now that the ComboBoxes are ready, load the data.
             fieldsInitialized = true;
-            pk6.Species = 493;
-            pk6.Move1 = 1;
             pk6.RefreshChecksum();
 
             // Load Data
             populateFields(pk6);
             {
+                CB_Species.SelectedValue = 493;
+                CB_Move1.SelectedValue = 1;
                 TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
                 CB_GameOrigin.SelectedIndex = 0;
-                CB_Language.SelectedIndex = 0;
+                int curlang = Array.IndexOf(lang_val, curlanguage);
+                CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
                 CB_BoxSelect.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
                 CB_Country.SelectedIndex = 0;
@@ -1020,13 +1054,11 @@ namespace PKHeX
             CB_HPType.DataSource = Util.getCBList(types.Skip(1).Take(16).ToArray(), null);
 
             // Set the Move ComboBoxes too..
+            MoveDataSource = Util.getCBList(movelist, null);
+            foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
-                MoveDataSource = Util.getCBList(movelist, null);
-                foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
-                {
-                    cb.DisplayMember = "Text"; cb.ValueMember = "Value";
-                    cb.DataSource = new BindingSource(MoveDataSource, null);
-                }
+                cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                cb.DataSource = new BindingSource(MoveDataSource, null);
             }
         }
         public void populateFields(PK6 pk, bool focus = true)
@@ -1038,7 +1070,6 @@ namespace PKHeX
             // Reset a little.
             bool oldInit = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
-            CAL_EggDate.Value = new DateTime(2000, 01, 01);
             if (focus)
                 Tab_Main.Focus();
 
@@ -1109,12 +1140,12 @@ namespace PKHeX
                 try { CAL_EggDate.Value = new DateTime(pk6.Egg_Year + 2000, pk6.Egg_Month, pk6.Egg_Day); }
                 catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
             }
-            else { CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
+            else { CAL_EggDate.Value = new DateTime(2000, 01, 01); CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
 
             CB_MetLocation.SelectedValue = pk6.Met_Location;
 
             // Set CT Gender to None if no CT, else set to gender symbol.
-            Label_CTGender.Text = pk6.HT_Name == "" ? "" : gendersymbols[pk6.HT_Gender];
+            Label_CTGender.Text = pk6.HT_Name == "" ? "" : gendersymbols[pk6.HT_Gender % 2];
             Label_CTGender.ForeColor = pk6.HT_Gender == 1 ? Color.Red : Color.Blue;
 
             TB_MetLevel.Text = pk6.Met_Level.ToString();
@@ -1430,13 +1461,17 @@ namespace PKHeX
         }
         private void clickMoves(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Copy current moves to Relearn Moves?"))
+            updateLegality();
+            int[] m = Legality.getSuggestedRelearn();
+            string r = string.Join(Environment.NewLine, m.Select(v => v >= movelist.Length ? "ERROR" : movelist[v]));
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
                 return;
 
-            CB_RelearnMove1.SelectedIndex = CB_Move1.SelectedIndex > -1 ? CB_Move1.SelectedIndex : 0;
-            CB_RelearnMove2.SelectedIndex = CB_Move2.SelectedIndex > -1 ? CB_Move2.SelectedIndex : 0;
-            CB_RelearnMove3.SelectedIndex = CB_Move3.SelectedIndex > -1 ? CB_Move3.SelectedIndex : 0;
-            CB_RelearnMove4.SelectedIndex = CB_Move4.SelectedIndex > -1 ? CB_Move4.SelectedIndex : 0;
+            CB_RelearnMove1.SelectedValue = m[0];
+            CB_RelearnMove2.SelectedValue = m[1];
+            CB_RelearnMove3.SelectedValue = m[2];
+            CB_RelearnMove4.SelectedValue = m[3];
+            updateLegality();
         }
         // Prompted Updates of PKX Functions // 
         private bool changingFields;
@@ -1958,8 +1993,9 @@ namespace PKHeX
             if (ModifierKeys != Keys.Control)
                 return;
 
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(f2_Text).Name))
-            { Util.Alert("Window is already open."); return; }
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(f2_Text).Name) as f2_Text;
+            if (z != null)
+            { z.Location = Location; z.BringToFront(); return; }
             new f2_Text(tb).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
@@ -2115,7 +2151,6 @@ namespace PKHeX
             {
                 pk6.RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
                 Legality.updateRelearnLegality();
-                PictureBox[] movePB = { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
                 for (int i = 0; i < 4; i++)
                     movePB[i].Visible = !Legality.vRelearn[i].Valid;
             }
@@ -2123,9 +2158,13 @@ namespace PKHeX
             {
                 pk6.Moves = new[] { Util.getIndex(CB_Move1), Util.getIndex(CB_Move2), Util.getIndex(CB_Move3), Util.getIndex(CB_Move4) };
                 Legality.updateMoveLegality();
-                PictureBox[] movePB = { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
                 for (int i = 0; i < 4; i++)
                     movePB[i].Visible = !Legality.vMoves[i].Valid;
+            }
+            if (relearnPB.Any(p => p.Visible) || movePB.Any(p => p.Visible))
+            {
+                Legality.Valid = false;
+                PB_Legal.Image = Properties.Resources.warn;
             }
         }
         private void validateLocation(object sender, EventArgs e)
@@ -2142,30 +2181,27 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void showLegality(PK6 pk, bool tabs)
+        private void showLegality(PK6 pk, bool tabs, bool verbose)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
-            Util.Alert(la.Report); // temp
-            PB_Legal.Visible = pk.Gen6;
             if (tabs)
-                PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
+                updateLegality(la);
+            Util.Alert(verbose ? la.VerboseReport : la.Report);
         }
-        private void updateLegality()
+        private void updateLegality(LegalityAnalysis la = null)
         {
             if (!fieldsLoaded)
                 return;
 
-            Legality = new LegalityAnalysis(pk6);
+            Legality = la ?? new LegalityAnalysis(pk6);
             PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
             PB_Legal.Visible = pk6.Gen6;
 
             // Refresh Move Legality
-            PictureBox[] movePB = {PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4};
             for (int i = 0; i < 4; i++)
                 movePB[i].Visible = !Legality.vMoves[i].Valid;
-            PictureBox[] relPB = {PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4};
             for (int i = 0; i < 4; i++)
-                relPB[i].Visible = !Legality.vRelearn[i].Valid;
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid;
         }
         private void updateStats()
         {
@@ -2562,6 +2598,8 @@ namespace PKHeX
         }
         private void clickExportSAVBAK(object sender, EventArgs e)
         {
+            if (!SAV.Exportable)
+                return;
             SaveFileDialog sfd = new SaveFileDialog
             { FileName = Util.CleanFileName(SAV.BAKName) };
             if (sfd.ShowDialog() != DialogResult.OK)
@@ -2758,7 +2796,7 @@ namespace PKHeX
             if (pk.Species == 0 || !pk.ChecksumValid)
             { SystemSounds.Asterisk.Play(); return; }
 
-            showLegality(pk, slot < 0);
+            showLegality(pk, slot < 0, ModifierKeys == Keys.Control);
         }
         private void updateEggRNGSeed(object sender, EventArgs e)
         {
@@ -2888,7 +2926,7 @@ namespace PKHeX
             if (slot < 42) // Battle Box Slot
                 return SAV.BattleBox + (slot - 36) * PK6.SIZE_STORED;
             if (slot < 44) // Daycare
-                return SAV.DaycareSlot[DaycareSlot] + 8 + (slot - 42) * (PK6.SIZE_STORED + 8);
+                return SAV.DaycareSlot[SAV.DaycareIndex] + 8 + (slot - 42) * (PK6.SIZE_STORED + 8);
             if (slot < 45) // GTS
                 return SAV.GTS;
             if (slot < 46) // Fused
@@ -2935,7 +2973,7 @@ namespace PKHeX
 
                 for (int i = 0; i < 2; i++)
                 {
-                    getSlotFiller(SAV.DaycareSlot[DaycareSlot] + PK6.SIZE_STORED * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
+                    getSlotFiller(SAV.DaycareSlot[SAV.DaycareIndex] + PK6.SIZE_STORED * i + 8 * (i + 1), SlotPictureBoxes[i + 42]);
                     dctexta[i].Text = exp[i].ToString();
                     if (occ[i])   // If Occupied
                         dclabela[i].Text = $"{i + 1}: ✓";
@@ -2998,6 +3036,8 @@ namespace PKHeX
 
             if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
             pb.Image = pk.Sprite;
+            if (pb.BackColor == Color.Red)
+                pb.BackColor = Color.Transparent;
         }
         private void getSlotFiller(int offset, PictureBox pb)
         {
@@ -3037,14 +3077,13 @@ namespace PKHeX
             setPKXBoxes();
         }
 
-        private int DaycareSlot;
         private void switchDaycare(object sender, EventArgs e)
         {
             if (!SAV.ORAS) return;
             if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Would you like to switch the view to the other Daycare?",
-                $"Currently viewing daycare {DaycareSlot + 1}."))
+                $"Currently viewing daycare {SAV.DaycareIndex + 1}."))
                 // If ORAS, alter the daycare offset via toggle.
-                DaycareSlot ^= 1;
+                SAV.DaycareIndex ^= 1;
 
             // Refresh Boxes
             setPKXBoxes();
@@ -3335,15 +3374,22 @@ namespace PKHeX
             // Get latest SaveDataFiler save location
             pathSDF = Util.GetSDFLocation();
             path3DS = Util.get3DSLocation();
+            string pathCache = Util.GetCacheFolder();
             string path = null;
-
-            if (path3DS != null && File.Exists(Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin")))
-                path = Path.Combine(Path.GetPathRoot(path3DS), "ramsav.bin");
+            
             if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "SaveDataBackup")) && ModifierKeys != Keys.Control)
                 path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
             else if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
                 path = Path.Combine(pathSDF, "main");
-            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // else if cgse exists
+            else if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
+                path = Directory.GetFiles(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves"), "main", SearchOption.AllDirectories)
+                    .Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+            else if (Directory.Exists(pathCache))
+                path = Directory.GetFiles(pathCache).Where(f => SAV6.SizeValid((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+            else if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"))))
+                // else if cgse exists
                 path = Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
 
             if (path == null || !File.Exists(path)) return;
@@ -3409,7 +3455,10 @@ namespace PKHeX
                         if (!PKX.verifychk(input)) Util.Alert("Invalid File Loaded.", "Checksum is not valid.");
                         try // to convert past gen pkm
                         {
-                            SAV.setPK6Stored(Converter.ConvertPKMtoPK6(input), offset);
+                            PK6 pk = Converter.ConvertPKMtoPK6(input);
+                            SAV.setPK6Stored(pk, offset);
+                            getQuickFiller(SlotPictureBoxes[slot], pk);
+                            getSlotColor(slot, Properties.Resources.slotSet);
                         }
                         catch
                         { Util.Error("Attempted to load previous generation PKM.", "Conversion failed."); }

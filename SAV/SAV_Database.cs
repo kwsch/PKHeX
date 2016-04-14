@@ -98,6 +98,11 @@ namespace PKHeX
 
             // Prepare Database
             prepareDBForSearch();
+            Menu_SearchSettings.DropDown.Closing += (sender, e) =>
+            {
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
         }
         private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;
@@ -526,6 +531,12 @@ namespace PKHeX
                 res = res.Where(pk => !pk.Identifier.Contains("db\\"));
 
             slotSelected = -1; // reset the slot last viewed
+            
+            if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked) // Legal Only
+                res = res.Where(pk => pk.Gen6 && new LegalityAnalysis(pk).Valid);
+            if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked) // Illegal Only
+                res = res.Where(pk => pk.Gen6 && !new LegalityAnalysis(pk).Valid);
+
             var results = res.ToArray();
             if (results.Length == 0)
             {
@@ -622,6 +633,15 @@ namespace PKHeX
         private void Menu_Exit_Click(object sender, EventArgs e)
         {
             Close();
+        }
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (!PAN_Box.RectangleToScreen(PAN_Box.ClientRectangle).Contains(MousePosition))
+                return;
+            int oldval = SCR_Box.Value;
+            int newval = oldval + (e.Delta < 0 ? 1 : -1);
+            if (newval >= SCR_Box.Minimum && SCR_Box.Maximum >= newval)
+                FillPKXBoxes(SCR_Box.Value = newval);
         }
     }
 }

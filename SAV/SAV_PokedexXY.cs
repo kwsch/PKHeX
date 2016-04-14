@@ -254,6 +254,8 @@ namespace PKHeX
                 ldata.CopyTo(sav, Main.SAV.PokeDexLanguageFlags);
             }
 
+            formbools.CopyTo(sav, Main.SAV.PokeDex + 0x368);
+
             // Return Foreign Array
             {
                 byte[] foreigndata = new byte[0x52];

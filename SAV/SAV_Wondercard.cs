@@ -118,12 +118,12 @@ namespace PKHeX
         // Wonder Card IO (.wc6<->window)
         private void B_Import_Click(object sender, EventArgs e)
         {
-            OpenFileDialog importwc6 = new OpenFileDialog {Filter = "Wonder Card|*.wc6"};
+            OpenFileDialog importwc6 = new OpenFileDialog {Filter = "Wonder Card|*.wc6;*.wc6full"};
             if (importwc6.ShowDialog() != DialogResult.OK) return;
 
             string path = importwc6.FileName;
             long len = new FileInfo(path).Length;
-            if (len != WC6.Size || len != WC6.SizeFull)
+            if (len != WC6.Size && len != WC6.SizeFull)
             {
                 Util.Error("File is not a Wonder Card:", path);
                 return;
@@ -164,23 +164,19 @@ namespace PKHeX
         }
         private void clickSet(object sender, EventArgs e)
         {
+            if (!checkSpecialWonderCard(wondercard_data))
+                return;
+
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(pba, sender);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = Array.FindIndex(pba, p => p.Image == null);
-            if (lastUnfilled < index)
+            if (lastUnfilled > -1 && lastUnfilled < index)
                 index = lastUnfilled;
 
             setBackground(index, Properties.Resources.slotSet);
             int offset = Main.SAV.WondercardData + index * WC6.Size;
-            if (Main.SAV.ORAS) // ORAS Only
-                if (BitConverter.ToUInt16(wondercard_data, 0) == 0x800) // Eon Ticket #
-                    if (BitConverter.ToUInt16(wondercard_data, 0x68) == 0x2D6) // Eon Ticket
-                    { BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket); }
-                    else
-                    { Util.Alert("Cannot set Eon Ticket to non OR/AS games."); return; }
-
             Array.Copy(wondercard_data, 0, sav, offset, WC6.Size);
             populateWClist();
             setCardID(BitConverter.ToUInt16(wondercard_data, 0));
@@ -250,30 +246,64 @@ namespace PKHeX
 
             // Check for multiple wondercards
             int ctr = currentSlot;
-
-            if (files.Length == 1)
+            if (Directory.Exists(files[0]))
+                files = Directory.GetFiles(files[0], "*", SearchOption.AllDirectories);
+            if (files.Length == 1 && !Directory.Exists(files[0]))
             {
                 string path = files[0]; // open first D&D
-                if (new FileInfo(path).Length != WC6.Size)
+                long len = new FileInfo(path).Length;
+                if (len != WC6.Size && len != WC6.SizeFull)
                 {
                     Util.Error("File is not a Wonder Card:", path);
                     return;
                 }
                 byte[] newwc6 = File.ReadAllBytes(path);
+                if (newwc6.Length == WC6.SizeFull)
+                    newwc6 = newwc6.Skip(WC6.SizeFull - WC6.Size).ToArray();
                 Array.Copy(newwc6, wondercard_data, newwc6.Length);
                 loadwcdata();
+                return;
             }
-            else if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, $"Try to load {files.Length} Wonder Cards starting at Card {ctr + 1}?"))
-                foreach (string file in files)
-                {
-                    if (new FileInfo(file).Length != WC6.Size)
-                    { Util.Error("File is not a Wonder Card:", file); continue; }
 
-                    // Load in WC
-                    File.ReadAllBytes(file).CopyTo(sav, Main.SAV.WondercardData + WC6.Size*ctr++);
-                    if (ctr >= 24)
-                        break;
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, $"Try to load {files.Length} Wonder Cards starting at Card {ctr + 1}?"))
+                return;
+
+            foreach (string file in files)
+            {
+                long len = new FileInfo(file).Length;
+                if (len != WC6.Size && len != WC6.SizeFull)
+                { Util.Error("File is not a Wonder Card:", file); continue; }
+
+                // Load in WC
+                byte[] newwc6 = File.ReadAllBytes(file);
+
+                if (newwc6.Length == WC6.SizeFull)
+                    newwc6 = newwc6.Skip(WC6.SizeFull - WC6.Size).ToArray();
+                if (checkSpecialWonderCard(newwc6))
+                {
+                    newwc6.CopyTo(sav, Main.SAV.WondercardData + WC6.Size * ctr++);
+                    setCardID(BitConverter.ToUInt16(newwc6, 0));
                 }
+                if (ctr >= 24)
+                    break;
+            }
+            populateWClist();
+        }
+
+        private bool checkSpecialWonderCard(byte[] data)
+        {
+            ushort cardID = BitConverter.ToUInt16(data, 0);
+            ushort item = BitConverter.ToUInt16(data, 0x68);
+            if (cardID == 2048 && item == 726) // Eon Ticket (OR/AS)
+            {
+                if (!Main.SAV.ORAS || Main.SAV.EonTicket < 0)
+                    goto reject;
+                BitConverter.GetBytes(EonTicketConst).CopyTo(sav, Main.SAV.EonTicket);
+            }
+
+            return true;
+            reject: Util.Alert("Unable to insert the Wonder Card.", "Does this Wonder Card really belong to this game?");
+            return false;
         }
 
         // String Creation

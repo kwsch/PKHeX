@@ -136,15 +136,15 @@ namespace PKHeX
 
         internal static readonly string[][] SpeciesLang = 
         {
-            Util.getStringList("Species", "ja"), // none
-            Util.getStringList("Species", "ja"), // 1
-            Util.getStringList("Species", "en"), // 2
-            Util.getStringList("Species", "fr"), // 3
-            Util.getStringList("Species", "it"), // 4
-            Util.getStringList("Species", "de"), // 5
-            Util.getStringList("Species", "es"), // none
-            Util.getStringList("Species", "es"), // 7
-            Util.getStringList("Species", "ko"), // 8
+            Util.getStringList("species", "ja"), // none
+            Util.getStringList("species", "ja"), // 1
+            Util.getStringList("species", "en"), // 2
+            Util.getStringList("species", "fr"), // 3
+            Util.getStringList("species", "it"), // 4
+            Util.getStringList("species", "de"), // 5
+            Util.getStringList("species", "es"), // none
+            Util.getStringList("species", "es"), // 7
+            Util.getStringList("species", "ko"), // 8
         };
 
         internal static string getSpeciesName(int species, int lang)
@@ -523,22 +523,22 @@ namespace PKHeX
         internal static uint getRandomPID(int species, int cg, int origin, int nature, int form)
         {
             int gt = Personal[species].Gender;
+            if (origin >= 24)
+                return Util.rnd32();
+
+            bool g3unown = origin <= 5 && species == 201;
             while (true) // Loop until we find a suitable PID
             {
                 uint pid = Util.rnd32();
-
-                // Gen6: Can be anything
-                if (origin >= 24)
-                    return pid;
 
                 // Gen 3/4: Nature derived from PID
                 if (origin <= 15 && pid%25 != nature)
                     continue;
 
                 // Gen 3 Unown: Letter/form derived from PID
-                if (origin <= 5 && species == 201)
+                if (g3unown)
                 {
-                    uint pidLetter = ( (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3) ) % 28;
+                    uint pidLetter = ((pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | pid & 0x3) % 28;
                     if (pidLetter != form)
                         continue;
                 }
@@ -780,11 +780,11 @@ namespace PKHeX
         {
             try
             {
-                byte[] fontData = Properties.Resources.PGLDings_NormalRegular;
+                byte[] fontData = Properties.Resources.pgldings_normalregular;
                 IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
                 System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-                s_FontCollection.AddMemoryFont(fontPtr, Properties.Resources.PGLDings_NormalRegular.Length); uint dummy = 0;
-                AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.PGLDings_NormalRegular.Length, IntPtr.Zero, ref dummy);
+                s_FontCollection.AddMemoryFont(fontPtr, Properties.Resources.pgldings_normalregular.Length); uint dummy = 0;
+                AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.pgldings_normalregular.Length, IntPtr.Zero, ref dummy);
                 System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
             }
             catch { Util.Error("Unable to add ingame font."); }
@@ -1240,12 +1240,15 @@ namespace PKHeX
         internal static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         public class ShowdownSet
         {
-            private static readonly string[] species = Util.getStringList("Species", "en");
-            private static readonly string[] items = Util.getStringList("Items", "en");
-            private static readonly string[] natures = Util.getStringList("Natures", "en");
-            private static readonly string[] moves = Util.getStringList("Moves", "en");
-            private static readonly string[] abilities = Util.getStringList("Abilities", "en");
-            private static readonly string[] hptypes = Util.getStringList("Types", "en").Skip(1).ToArray();
+            // String to Values
+            public static readonly string[] types = Util.getStringList("types", "en");
+            public static readonly string[] forms = Util.getStringList("forms", "en");
+            private static readonly string[] species = Util.getStringList("species", "en");
+            private static readonly string[] items = Util.getStringList("items", "en");
+            private static readonly string[] natures = Util.getStringList("natures", "en");
+            private static readonly string[] moves = Util.getStringList("moves", "en");
+            private static readonly string[] abilities = Util.getStringList("abilities", "en");
+            private static readonly string[] hptypes = types.Skip(1).ToArray();
 
             // Default Set Data
             public string Nickname;
@@ -1328,6 +1331,8 @@ namespace PKHeX
                         if (tmp.Length < 2) return;
                         Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
                         Form = tmp[1].Replace(" ", "");
+                        if (tmp.Length > 2)
+                            Form += " " + tmp[2];
                     }
                     if (Species < -1)
                         return;
@@ -1416,6 +1421,8 @@ namespace PKHeX
                                         string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
                                         Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
                                         Form = tmp[1].Replace(" ", "");
+                                        if (tmp.Length > 2)
+                                            Form += " " + tmp[2];
                                     }
                                 }
                                 else if (brokenline[0].Contains("Nature"))
@@ -1433,7 +1440,7 @@ namespace PKHeX
 
                 // First Line: Name, Nickname, Gender, Item
                 string result = string.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
-                    species[Species] + ((Form ?? "") != "" ? "-" + Form : "")) // Species (& Form if necessary)
+                    species[Species] + ((Form ?? "") != "" ? "-" + Form.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
                                 + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
                 // IVs
@@ -1499,9 +1506,7 @@ namespace PKHeX
                 Friendship = pk6.CurrentFriendship,
                 Level = getLevel(pk6.Species, pk6.EXP),
                 Shiny = pk6.IsShiny,
-                Form = pk6.AltForm > 0 ? getFormList(pk6.Species,
-                Util.getStringList("Types", "en"),
-                Util.getStringList("Forms", "en"), new [] {"", "F", ""})[pk6.AltForm] : "",
+                Form = pk6.AltForm > 0 ? getFormList(pk6.Species, ShowdownSet.types, ShowdownSet.forms, new [] {"", "F", ""})[pk6.AltForm] : "",
             };
             if (Set.Form == "F") Set.Gender = "";
             return Set.getText();
