@@ -576,6 +576,36 @@ namespace PKHeX
 
             return new LegalityCheck(Severity.Valid, "History is valid.");
         }
+        private LegalityCheck verifyForm()
+        {
+            if (!Encounter.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped Form check due to other check being invalid.");
+
+            switch (pk6.Species)
+            {
+                case 664:
+                case 665:
+                    if (pk6.AltForm > 17) // Fancy & Pokéball
+                        return new LegalityCheck(Severity.Invalid, "Event Vivillon pattern on pre-evolution.");
+                    break;
+                case 666:
+                    if (pk6.AltForm > 17) // Fancy & Pokéball
+                        return EncounterType != typeof (WC6)
+                            ? new LegalityCheck(Severity.Invalid, "Invalid Vivillon pattern.")
+                            : new LegalityCheck(Severity.Valid, "Valid Vivillon pattern.");
+                    break;
+                case 670:
+                    if (pk6.AltForm == 5) // Eternal Flower
+                        return EncounterType != typeof (WC6)
+                            ? new LegalityCheck(Severity.Invalid, "Invalid Eternal Flower encounter.")
+                            : new LegalityCheck(Severity.Valid, "Valid Eternal Flower encounter.");
+                    break;
+            }
+
+            return pk6.AltForm > 0 && (Legal.BattleForms.Contains(pk6.Species) || Legal.BattleMegas.Contains(pk6.Species))
+                ? new LegalityCheck(Severity.Invalid, "Form cannot exist outside of a battle.")
+                : new LegalityCheck();
+        }
         private LegalityCheck[] verifyMoves()
         {
             int[] Moves = pk6.Moves;
