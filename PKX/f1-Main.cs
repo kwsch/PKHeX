@@ -943,7 +943,7 @@ namespace PKHeX
                 metBW2_00000[i] = metBW2_00000[i] + "●";
 
             // Localize the Poketransfer to the language (30001)
-            string[] ptransp = { "Poké Transfer", "ポケシフター", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
+            string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
             metBW2_30000[1 - 1] = ptransp[Array.IndexOf(lang_val, curlanguage)];
             metBW2_30000[2 - 1] += " (NPC)";              // Anything from an NPC
             metBW2_30000[3 - 1] += " (" + eggname + ")";  // Egg From Link Trade
