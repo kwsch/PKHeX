@@ -653,11 +653,20 @@ namespace PKHeX
             #region Battle Video
             else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0 && BitConverter.ToUInt16(input, 0xE12) == 0)
             {
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes)
+                    return;
+
+                DialogResult noSet = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading overrides:",
+                    "Yes - Modify .pk6 when set to SAV" + Environment.NewLine +
+                    "No - Don't modify .pk6" + Environment.NewLine +
+                    "Cancel - Use current settings (" + (Menu_ModifyPK6.Checked ? "Yes" : "No") + ")");
+                bool? noSetb = noSet == DialogResult.Yes ? true : (noSet == DialogResult.No ? (bool?)false : null);
+
                 for (int i = 0; i < 24; i++)
                 {
                     byte[] data = input.Skip(0xE18 + PK6.SIZE_PARTY * i + i / 6 * 8).Take(PK6.SIZE_STORED).ToArray();
-                    SAV.setEK6Stored(data, SAV.Box + i*PK6.SIZE_STORED + CB_BoxSelect.SelectedIndex*30*PK6.SIZE_STORED);
+                    int offset = SAV.Box + i*PK6.SIZE_STORED + CB_BoxSelect.SelectedIndex*30*PK6.SIZE_STORED;
+                    SAV.setEK6Stored(data, offset, noSetb);
                 }
                 setPKXBoxes();
             }
