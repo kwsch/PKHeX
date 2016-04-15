@@ -115,6 +115,7 @@ namespace PKHeX
         {
             InitializeComponent();
             dgData.DoubleBuffered(true);
+            CenterToParent();
         }
         public void PopulateData(byte[] InputData, int BoxDataOffset)
         {
