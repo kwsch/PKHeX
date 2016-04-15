@@ -219,6 +219,9 @@ namespace PKHeX
                 // Check Hatch Locations
                 if (pk6.Met_Level != 1)
                     return new LegalityCheck(Severity.Invalid, "Invalid met level, expected 1.");
+                // Check species
+                if (Legal.NoHatchFromEgg.Contains(pk6.Species))
+                    return new LegalityCheck(Severity.Invalid, "Species cannot be hatched from an egg.");
                 if (pk6.IsEgg)
                 {
                     if (pk6.Egg_Location == 30002)
