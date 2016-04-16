@@ -88,6 +88,17 @@ namespace PKHeX
         {
             string r = getLegalityReport() + Environment.NewLine;
             r += "===" + Environment.NewLine + Environment.NewLine;
+            int rl = r.Length;
+
+            for (int i = 0; i < 4; i++)
+                if (vMoves[i].Valid)
+                    r += $"{vMoves[i].Judgement} Move {i + 1}: {vMoves[i].Comment}" + Environment.NewLine;
+            for (int i = 0; i < 4; i++)
+                if (vRelearn[i].Valid)
+                    r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
+
+            if (rl != r.Length) // move info added, break for next section
+                r += Environment.NewLine;
 
             var chks = Checks;
             r += chks.Where(chk => chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
