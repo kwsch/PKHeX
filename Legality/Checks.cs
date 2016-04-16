@@ -636,16 +636,16 @@ namespace PKHeX
                         if (Moves[i] == Legal.Struggle)
                             res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move: Struggle.");
                         else if (validMoves.Contains(Moves[i]))
-                            res[i] = new LegalityCheck(Severity.Valid, "Level-up.");
+                            res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.");
                         else if (RelearnMoves.Contains(Moves[i]))
-                            res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.") { Flag = true };
+                            res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.") { Flag = true };
                         else if (wc.Moves.Contains(Moves[i]))
                             res[i] = new LegalityCheck(Severity.Valid, "Wonder Card Non-Relearn Move.");
                         else
                             res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
                     }
                     if (res.All(r => r.Valid)) // Card matched
-                    { EncounterMatch = wc; RelearnBase = CardMatch[0].RelearnMoves; }
+                    { EncounterMatch = wc; RelearnBase = wc.RelearnMoves; }
                 }
             }
             else
@@ -658,9 +658,9 @@ namespace PKHeX
                     if (Moves[i] == Legal.Struggle)
                         res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move: Struggle.");
                     else if (validMoves.Contains(Moves[i]))
-                        res[i] = new LegalityCheck(Severity.Valid, "Level-up.");
+                        res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.");
                     else if (RelearnMoves.Contains(Moves[i]))
-                        res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.") {Flag = true};
+                        res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.") { Flag = true };
                     else if (WC6Moves.Contains(Moves[i]))
                         res[i] = new LegalityCheck(Severity.Valid, "Wonder Card Non-Relearn Move.");
                     else
@@ -796,7 +796,7 @@ namespace PKHeX
                     for (int j = req; j < 4; j++)
                         res[j] = !relearnMoves.Contains(rl[j])
                             ? new LegalityCheck(Severity.Invalid, "Not an expected relearn move.")
-                            : new LegalityCheck(Severity.Valid, "Relearn move.");
+                            : new LegalityCheck(Severity.Valid, rl[j] == 0 ? "Empty" : "Relearn move.");
 
                     if (res.All(r => r.Valid))
                         break;
