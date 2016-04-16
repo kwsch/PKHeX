@@ -680,6 +680,10 @@ namespace PKHeX
                     new SAV_Wondercard(input).ShowDialog();
                 else
                 {
+                    if (!SAV.Exportable && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
+                        "No save file loaded to obtain player info from", "Continue?"))
+                        return;
+
                     PK6 pk = new WC6(input).convertToPK6(SAV);
                     if (pk == null || pk.Species == 0 || pk.Species > 721)
                     {
