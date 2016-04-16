@@ -8,6 +8,7 @@ namespace PKHeX
     {
         private readonly PK6 pk6;
         private object EncounterMatch;
+        private List<WC6> CardMatch;
         private Type EncounterType;
         private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories, Form;
         private LegalityCheck[] Checks => new[] { Encounter, Level, Form, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, HandlerMemories };

@@ -626,6 +626,28 @@ namespace PKHeX
                         ? new LegalityCheck(Severity.Invalid, "Invalid Sketch move.")
                         : new LegalityCheck();
             }
+            else if (CardMatch?.Count > 1) // Multiple possible WC6 matched
+            {
+                int[] RelearnMoves = pk6.RelearnMoves;
+                foreach (var wc in CardMatch)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (Moves[i] == Legal.Struggle)
+                            res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move: Struggle.");
+                        else if (validMoves.Contains(Moves[i]))
+                            res[i] = new LegalityCheck(Severity.Valid, "Level-up.");
+                        else if (RelearnMoves.Contains(Moves[i]))
+                            res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.") { Flag = true };
+                        else if (wc.Moves.Contains(Moves[i]))
+                            res[i] = new LegalityCheck(Severity.Valid, "Wonder Card Non-Relearn Move.");
+                        else
+                            res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
+                    }
+                    if (res.All(r => r.Valid)) // Card matched
+                    { EncounterMatch = wc; RelearnBase = CardMatch[0].RelearnMoves; }
+                }
+            }
             else
             {
                 int[] RelearnMoves = pk6.RelearnMoves;
@@ -690,17 +712,22 @@ namespace PKHeX
             if (pk6.WasEvent || pk6.WasEventEgg)
             {
                 // Get WC6's that match
-                IEnumerable<WC6> vwc6 = Legal.getValidWC6s(pk6);
-                foreach (var wc in vwc6)
+                CardMatch = new List<WC6>(Legal.getValidWC6s(pk6));
+                foreach (var wc in CardMatch)
                 {
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
                             ? new LegalityCheck(Severity.Invalid, $"Expected ID: {movelist[moves[i]]}.")
                             : new LegalityCheck(Severity.Valid, $"Matched WC #{wc.CardID.ToString("0000")}");
-                    if (res.All(r => r.Valid))
-                    { EncounterMatch = wc; RelearnBase = moves; return res; }
+                    if (res.Any(r => !r.Valid))
+                        CardMatch.Remove(wc);
                 }
+                if (CardMatch.Count > 1)
+                    return res;
+                if (CardMatch.Count == 1)
+                { EncounterMatch = CardMatch[0]; RelearnBase = CardMatch[0].RelearnMoves; }
+
                 EncounterMatch = EncounterType = null;
                 goto noRelearn; // No WC match
             }
