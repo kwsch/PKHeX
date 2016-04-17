@@ -152,7 +152,7 @@ namespace PKHeX
         #region Important Variables
         public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
         public static PK6 pk6 = new PK6(); // Tab Pokemon Data Storage
-        public static SAV6 SAV = new SAV6(); // Save File
+        public static SAV6 SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7}; // Save File
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static string eggname = "";
@@ -680,10 +680,6 @@ namespace PKHeX
                     new SAV_Wondercard(input).ShowDialog();
                 else
                 {
-                    if (!SAV.Exportable && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
-                        "No save file loaded to obtain player info from", "Continue?"))
-                        return;
-
                     PK6 pk = new WC6(input).convertToPK6(SAV);
                     if (pk == null || pk.Species == 0 || pk.Species > 721)
                     {
