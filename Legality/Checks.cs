@@ -726,7 +726,7 @@ namespace PKHeX
                 if (CardMatch.Count > 1)
                     return res;
                 if (CardMatch.Count == 1)
-                { EncounterMatch = CardMatch[0]; RelearnBase = CardMatch[0].RelearnMoves; }
+                { EncounterMatch = CardMatch[0]; RelearnBase = CardMatch[0].RelearnMoves; return res; }
 
                 EncounterMatch = EncounterType = null;
                 goto noRelearn; // No WC match
