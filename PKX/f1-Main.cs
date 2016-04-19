@@ -293,9 +293,7 @@ namespace PKHeX
         private void mainMenuCodeGen(object sender, EventArgs e)
         {
             // Open Code Generator
-            PK6 formdata = null;
-            if (verifiedPKX()) formdata = preparepkx();
-            CodeGenerator CodeGen = new CodeGenerator(formdata.Data);
+            CodeGenerator CodeGen = new CodeGenerator(verifiedPKX() ? preparepkx().Data : null);
             CodeGen.ShowDialog();
 
             byte[] data = CodeGen.returnArray;
@@ -793,13 +791,13 @@ namespace PKHeX
             // Enable Secondary Tools
             GB_SAVtools.Enabled = B_JPEG.Enabled = true;
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
-            
+            Menu_CodeGenerator.Enabled = !SAV.ORASDEMO && SAV.Exportable;
+
             setBoxNames();   // Display the Box Names
             setPKXBoxes();   // Reload all of the PKX Windows
 
             // Version Exclusive Editors
             GB_SUBE.Visible = !SAV.ORAS;
-            B_OpenSecretBase.Visible = SAV.ORAS;
 
             if (SAV.Box > -1)
             {

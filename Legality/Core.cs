@@ -10,11 +10,11 @@ namespace PKHeX
         // PKHeX master personal.dat
         internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getPersonalArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
         private static readonly PersonalInfo[] PersonalXY = PersonalInfo.getPersonalArray(Properties.Resources.personal_xy, PersonalInfo.SizeXY);
-        private static readonly EggMoves[] EggMoveXY = EggMoves.getArray(Util.unpackMini(Properties.Resources.eggmove_xy, "xy"));
-        private static readonly Learnset[] LevelUpXY = Learnset.getArray(Util.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
-        private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Util.unpackMini(Properties.Resources.eggmove_ao, "ao"));
-        private static readonly Learnset[] LevelUpAO = Learnset.getArray(Util.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
-        private static readonly Evolutions[] Evolves = Evolutions.getArray(Util.unpackMini(Properties.Resources.evos_ao, "ao"));
+        private static readonly EggMoves[] EggMoveXY = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
+        private static readonly Learnset[] LevelUpXY = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
+        private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_ao, "ao"));
+        private static readonly Learnset[] LevelUpAO = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
+        private static readonly Evolutions[] Evolves = Evolutions.getArray(Data.unpackMini(Properties.Resources.evos_ao, "ao"));
         private static readonly EncounterArea[] SlotsA;
         private static readonly EncounterArea[] SlotsO;
         private static readonly EncounterArea[] SlotsX;
@@ -62,8 +62,8 @@ namespace PKHeX
             StaticA = getSpecial(GameVersion.AS);
             StaticO = getSpecial(GameVersion.OR);
 
-            var XSlots = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_x, "xy"));
-            var YSlots = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_y, "xy"));
+            var XSlots = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_x, "xy"));
+            var YSlots = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_y, "xy"));
 
             // Mark Horde Encounters
             foreach (var area in XSlots)
@@ -81,8 +81,8 @@ namespace PKHeX
             SlotsX = addXYAltTiles(XSlots, SlotsXYAlt);
             SlotsY = addXYAltTiles(YSlots, SlotsXYAlt);
 
-            SlotsA = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_a, "ao"));
-            SlotsO = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_o, "ao"));
+            SlotsA = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_a, "ao"));
+            SlotsO = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_o, "ao"));
 
             // Mark Rock Smash Encounters
             foreach (var area in SlotsA)
