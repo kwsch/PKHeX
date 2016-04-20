@@ -262,7 +262,7 @@ namespace PKHeX
             if (EncounterMatch != null)
             {
                 if (pk6.Species == 670 || pk6.Species == 671) // Floette
-                    if (pk6.AltForm % 2 != 0) // 0/2/4
+                    if (!new[] {0, 1, 3}.Contains(pk6.AltForm)) // 0/1/3 - RBY
                         return new LegalityCheck(Severity.Invalid, "Friend Safari: Not valid color.");
                 else if (pk6.Species == 710 || pk6.Species == 711) // Pumpkaboo
                     if (pk6.AltForm != 1) // Average
