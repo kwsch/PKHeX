@@ -451,9 +451,17 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Valid, "Standard Poké Ball.");
 
             if (EncounterType == typeof(EncounterStatic))
+            {
+                EncounterStatic enc = EncounterMatch as EncounterStatic;
+                if (enc.Gift)
+                    return enc.Ball != pk6.Ball // Pokéball by default
+                        ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame gift.")
+                        : new LegalityCheck(Severity.Valid, "Correct ball on ingame gift.");
+
                 return !Legal.WildPokeballs.Contains(pk6.Ball)
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame static encounter.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on ingame static encounter.");
+            }
             if (EncounterType == typeof(EncounterSlot[]))
                 return !Legal.WildPokeballs.Contains(pk6.Ball)
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame encounter.")

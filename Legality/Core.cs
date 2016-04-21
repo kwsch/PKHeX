@@ -231,8 +231,10 @@ namespace PKHeX
                     continue;
                 if (e.Shiny != null && e.Shiny != pk6.IsShiny)
                     continue;
-                if (e.Gift && pk6.Ball != 4) // PokéBall
-                    continue;
+
+                // Defer ball check to later
+                // if (e.Gift && pk6.Ball != 4) // PokéBall
+                    // continue;
 
                 // Passes all checks, valid encounter
                 return e;

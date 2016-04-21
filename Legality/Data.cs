@@ -184,6 +184,7 @@ namespace PKHeX
         public int EggLocation = 0;
         public Nature Nature = Nature.Random;
         public bool Gift = false;
+        public int Ball = 4; // Gift Only
         public GameVersion Version = GameVersion.Any;
         public int[] IVs = {-1, -1, -1, -1, -1, -1};
         public int[] Contest = {0, 0, 0, 0, 0, 0};
