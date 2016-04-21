@@ -842,6 +842,11 @@
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
+        internal static readonly int[] WurmpleFamily =
+        {
+            266, 267, // Silcoon Beautifly
+            268, 269, // Cascoon Dustox
+        };
         #endregion
     }
 }

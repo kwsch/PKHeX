@@ -39,6 +39,16 @@ namespace PKHeX
 
             if (pk6.Gen6)
             {
+                // Wurmple -> Silcoon/Cascoon
+                int wIndex = Array.IndexOf(Legal.WurmpleFamily, pk6.Species);
+                if (wIndex > -1)
+                {
+                    // Check if Wurmple was the origin (only Egg and Wild Encounter)
+                    if (pk6.WasEgg || (EncounterType == typeof(EncounterSlot[]) && (EncounterMatch as EncounterSlot[]).All(slot => slot.Species == 265)))
+                        if ((pk6.EncryptionConstant >> 16) % 10 / 5 != wIndex / 2)
+                            return new LegalityCheck(Severity.Invalid, "Wurmple evolution Encryption Constant mismatch.");
+                }
+
                 if (pk6.PID == pk6.EncryptionConstant)
                     return new LegalityCheck(Severity.Fishy, "Encryption Constant matches PID.");
 
