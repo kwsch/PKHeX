@@ -77,7 +77,7 @@ namespace PKHeX
             CB_Stats.Items.Clear();
             for (int i = 0; i < Constants.Length; i += 2)
             {
-                CB_Stats.Items.Add($"0x{i.ToString("X3")}");
+                CB_Stats.Items.Add($"0x{(i/2).ToString("X2")}");
                 Constants[i / 2] = BitConverter.ToUInt16(Main.SAV.Data, Main.SAV.EventConst + i);
             }
             CB_Stats.SelectedIndex = 0;
@@ -145,8 +145,8 @@ namespace PKHeX
         }
         private void diffSaves()
         {
-            BitArray oldBits = new BitArray(olddata);
-            BitArray newBits = new BitArray(newdata);
+            BitArray oldBits = new BitArray(oldFlags);
+            BitArray newBits = new BitArray(newFlags);
 
             string tbIsSet = "";
             string tbUnSet = "";
@@ -160,9 +160,24 @@ namespace PKHeX
             }
             TB_IsSet.Text = tbIsSet;
             TB_UnSet.Text = tbUnSet;
+
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
+                return;
+
+            string r = "";
+            for (int i = 0; i < newConst.Length; i += 2)
+            {
+                ushort oldval = BitConverter.ToUInt16(oldConst, i);
+                ushort newval = BitConverter.ToUInt16(oldConst, i);
+                if (oldval != newval)
+                    r += $"0x{(i/2).ToString("X2")}: {oldval}->{newval}{Environment.NewLine}";
+            }
+            Clipboard.SetText(r);
         }
-        private readonly byte[] olddata = new byte[0x180];
-        private readonly byte[] newdata = new byte[0x180];
+        private byte[] oldFlags = new byte[0x180];
+        private byte[] newFlags = new byte[0x180];
+        private byte[] oldConst = new byte[Main.SAV.EventFlag - Main.SAV.EventConst];
+        private byte[] newConst = new byte[Main.SAV.EventFlag - Main.SAV.EventConst];
         private void openSAV(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -172,22 +187,27 @@ namespace PKHeX
         private void loadSAV(object sender, string path)
         {
             FileInfo fi = new FileInfo(path);
-            byte[] eventflags;
-            if (fi.Length == SAV6.SIZE_XY)
-                eventflags = File.ReadAllBytes(path).Skip(Main.SAV.EventFlag).Take(0x180).ToArray();
-            else
+            if (fi.Length != SAV6.SIZE_XY)
             {
                 Util.Error("Invalid SAV Size", string.Format("File Size: 0x{1} ({0} bytes)", fi.Length, fi.Length.ToString("X5")), "File Loaded: " + path);
                 return;
             }
 
-            Button bs = (Button)sender;
-            if (bs.Name == "B_LoadOld")
-            { Array.Copy(eventflags, olddata, 0x180); TB_OldSAV.Text = path; }
+            byte[] data = File.ReadAllBytes(path);
+            if (sender == B_LoadOld)
+            {
+                oldFlags = data.Skip(Main.SAV.EventFlag).Take(0x180).ToArray();
+                oldConst = data.Skip(Main.SAV.EventConst).Take(Constants.Length * 2).ToArray();
+                TB_OldSAV.Text = path;
+            }
             else
-            { Array.Copy(eventflags, newdata, 0x180); TB_NewSAV.Text = path; }
+            {
+                newFlags = data.Skip(Main.SAV.EventFlag).Take(0x180).ToArray();
+                newConst = data.Skip(Main.SAV.EventConst).Take(Constants.Length * 2).ToArray();
+                TB_NewSAV.Text = path;
+            }
         }
-        int entry = -1;
+        private int entry = -1;
         private void changeConstantIndex(object sender, EventArgs e)
         {
             if (entry > -1) // Set Entry

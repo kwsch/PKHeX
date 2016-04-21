@@ -103,6 +103,7 @@ namespace PKHeX
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            CenterToParent();
         }
         private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;

@@ -219,6 +219,9 @@ namespace PKHeX
                 // Check Hatch Locations
                 if (pk6.Met_Level != 1)
                     return new LegalityCheck(Severity.Invalid, "Invalid met level, expected 1.");
+                // Check species
+                if (Legal.NoHatchFromEgg.Contains(pk6.Species))
+                    return new LegalityCheck(Severity.Invalid, "Species cannot be hatched from an egg.");
                 if (pk6.IsEgg)
                 {
                     if (pk6.Egg_Location == 30002)
@@ -259,7 +262,7 @@ namespace PKHeX
             if (EncounterMatch != null)
             {
                 if (pk6.Species == 670 || pk6.Species == 671) // Floette
-                    if (pk6.AltForm % 2 != 0) // 0/2/4
+                    if (!new[] {0, 1, 3}.Contains(pk6.AltForm)) // 0/1/3 - RBY
                         return new LegalityCheck(Severity.Invalid, "Friend Safari: Not valid color.");
                 else if (pk6.Species == 710 || pk6.Species == 711) // Pumpkaboo
                     if (pk6.AltForm != 1) // Average
@@ -274,9 +277,29 @@ namespace PKHeX
             EncounterMatch = Legal.getValidWildEncounters(pk6);
             if (EncounterMatch != null)
             {
-                return ((EncounterSlot[])EncounterMatch).Any(slot => !slot.DexNav) 
-                    ? new LegalityCheck(Severity.Valid, "Valid encounter at location.") 
-                    : new LegalityCheck(Severity.Valid, "Valid DexNav encounter at location.");
+                EncounterSlot[] enc = (EncounterSlot[])EncounterMatch;
+
+                if (enc.Any(slot => slot.Normal))
+                    return enc.All(slot => slot.Pressure) 
+                        ? new LegalityCheck(Severity.Valid, "Valid encounter at location (Pressure/Hustle/Vital Spirit).") 
+                        : new LegalityCheck(Severity.Valid, "Valid encounter at location.");
+
+                // Decreased Level Encounters
+                if (enc.Any(slot => slot.WhiteFlute))
+                    return enc.All(slot => slot.Pressure)
+                        ? new LegalityCheck(Severity.Valid, "Valid encounter at location (White Flute & Pressure/Hustle/Vital Spirit).")
+                        : new LegalityCheck(Severity.Valid, "Valid encounter at location (White Flute).");
+
+                // Increased Level Encounters
+                if (enc.Any(slot => slot.BlackFlute))
+                    return enc.All(slot => slot.Pressure)
+                        ? new LegalityCheck(Severity.Valid, "Valid encounter at location (Black Flute & Pressure/Hustle/Vital Spirit).")
+                        : new LegalityCheck(Severity.Valid, "Valid encounter at location (Black Flute).");
+
+                if (enc.Any(slot => slot.Pressure))
+                    return new LegalityCheck(Severity.Valid, "Valid encounter at location (Pressure/Hustle/Vital Spirit).");
+
+                return new LegalityCheck(Severity.Valid, "Valid encounter at location (DexNav).");
             }
             EncounterMatch = Legal.getValidIngameTrade(pk6);
             if (EncounterMatch != null)
@@ -576,6 +599,36 @@ namespace PKHeX
 
             return new LegalityCheck(Severity.Valid, "History is valid.");
         }
+        private LegalityCheck verifyForm()
+        {
+            if (!Encounter.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped Form check due to other check being invalid.");
+
+            switch (pk6.Species)
+            {
+                case 664:
+                case 665:
+                    if (pk6.AltForm > 17) // Fancy & Pokéball
+                        return new LegalityCheck(Severity.Invalid, "Event Vivillon pattern on pre-evolution.");
+                    break;
+                case 666:
+                    if (pk6.AltForm > 17) // Fancy & Pokéball
+                        return EncounterType != typeof (WC6)
+                            ? new LegalityCheck(Severity.Invalid, "Invalid Vivillon pattern.")
+                            : new LegalityCheck(Severity.Valid, "Valid Vivillon pattern.");
+                    break;
+                case 670:
+                    if (pk6.AltForm == 5) // Eternal Flower
+                        return EncounterType != typeof (WC6)
+                            ? new LegalityCheck(Severity.Invalid, "Invalid Eternal Flower encounter.")
+                            : new LegalityCheck(Severity.Valid, "Valid Eternal Flower encounter.");
+                    break;
+            }
+
+            return pk6.AltForm > 0 && (Legal.BattleForms.Contains(pk6.Species) || Legal.BattleMegas.Contains(pk6.Species))
+                ? new LegalityCheck(Severity.Invalid, "Form cannot exist outside of a battle.")
+                : new LegalityCheck();
+        }
         private LegalityCheck[] verifyMoves()
         {
             int[] Moves = pk6.Moves;
@@ -593,6 +646,28 @@ namespace PKHeX
                         ? new LegalityCheck(Severity.Invalid, "Invalid Sketch move.")
                         : new LegalityCheck();
             }
+            else if (CardMatch?.Count > 1) // Multiple possible WC6 matched
+            {
+                int[] RelearnMoves = pk6.RelearnMoves;
+                foreach (var wc in CardMatch)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (Moves[i] == Legal.Struggle)
+                            res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move: Struggle.");
+                        else if (validMoves.Contains(Moves[i]))
+                            res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.");
+                        else if (RelearnMoves.Contains(Moves[i]))
+                            res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.") { Flag = true };
+                        else if (wc.Moves.Contains(Moves[i]))
+                            res[i] = new LegalityCheck(Severity.Valid, "Wonder Card Non-Relearn Move.");
+                        else
+                            res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
+                    }
+                    if (res.All(r => r.Valid)) // Card matched
+                    { EncounterMatch = wc; RelearnBase = wc.RelearnMoves; }
+                }
+            }
             else
             {
                 int[] RelearnMoves = pk6.RelearnMoves;
@@ -603,9 +678,9 @@ namespace PKHeX
                     if (Moves[i] == Legal.Struggle)
                         res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move: Struggle.");
                     else if (validMoves.Contains(Moves[i]))
-                        res[i] = new LegalityCheck(Severity.Valid, "Level-up.");
+                        res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.");
                     else if (RelearnMoves.Contains(Moves[i]))
-                        res[i] = new LegalityCheck(Severity.Valid, "Relearn Move.") {Flag = true};
+                        res[i] = new LegalityCheck(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.") { Flag = true };
                     else if (WC6Moves.Contains(Moves[i]))
                         res[i] = new LegalityCheck(Severity.Valid, "Wonder Card Non-Relearn Move.");
                     else
@@ -657,17 +732,22 @@ namespace PKHeX
             if (pk6.WasEvent || pk6.WasEventEgg)
             {
                 // Get WC6's that match
-                IEnumerable<WC6> vwc6 = Legal.getValidWC6s(pk6);
-                foreach (var wc in vwc6)
+                CardMatch = new List<WC6>(Legal.getValidWC6s(pk6));
+                foreach (var wc in CardMatch)
                 {
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
                             ? new LegalityCheck(Severity.Invalid, $"Expected ID: {movelist[moves[i]]}.")
                             : new LegalityCheck(Severity.Valid, $"Matched WC #{wc.CardID.ToString("0000")}");
-                    if (res.All(r => r.Valid))
-                    { EncounterMatch = wc; RelearnBase = moves; return res; }
+                    if (res.Any(r => !r.Valid))
+                        CardMatch.Remove(wc);
                 }
+                if (CardMatch.Count > 1)
+                    return res;
+                if (CardMatch.Count == 1)
+                { EncounterMatch = CardMatch[0]; RelearnBase = CardMatch[0].RelearnMoves; return res; }
+
                 EncounterMatch = EncounterType = null;
                 goto noRelearn; // No WC match
             }
@@ -736,7 +816,7 @@ namespace PKHeX
                     for (int j = req; j < 4; j++)
                         res[j] = !relearnMoves.Contains(rl[j])
                             ? new LegalityCheck(Severity.Invalid, "Not an expected relearn move.")
-                            : new LegalityCheck(Severity.Valid, "Relearn move.");
+                            : new LegalityCheck(Severity.Valid, rl[j] == 0 ? "Empty" : "Relearn move.");
 
                     if (res.All(r => r.Valid))
                         break;

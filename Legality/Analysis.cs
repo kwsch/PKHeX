@@ -8,8 +8,10 @@ namespace PKHeX
     {
         private readonly PK6 pk6;
         private object EncounterMatch;
+        private List<WC6> CardMatch;
         private Type EncounterType;
-        private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories;
+        private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories, Form;
+        private LegalityCheck[] Checks => new[] { Encounter, Level, Form, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, HandlerMemories };
 
         public bool Valid = true;
         public bool SecondaryChecked;
@@ -55,6 +57,7 @@ namespace PKHeX
             Ability = verifyAbility();
             Ball = verifyBall();
             HandlerMemories = verifyHandlerMemories();
+            Form = verifyForm();
             SecondaryChecked = true;
         }
         private string getLegalityReport()
@@ -62,7 +65,7 @@ namespace PKHeX
             if (!pk6.Gen6)
                 return "Analysis only available for Pokémon that originate from X/Y & OR/AS.";
             
-            var chks = new[] { Encounter, Level, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, HandlerMemories };
+            var chks = Checks;
 
             string r = "";
             for (int i = 0; i < 4; i++)
@@ -85,8 +88,19 @@ namespace PKHeX
         {
             string r = getLegalityReport() + Environment.NewLine;
             r += "===" + Environment.NewLine + Environment.NewLine;
+            int rl = r.Length;
 
-            var chks = new[] { Encounter, Level, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, HandlerMemories };
+            for (int i = 0; i < 4; i++)
+                if (vMoves[i].Valid)
+                    r += $"{vMoves[i].Judgement} Move {i + 1}: {vMoves[i].Comment}" + Environment.NewLine;
+            for (int i = 0; i < 4; i++)
+                if (vRelearn[i].Valid)
+                    r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
+
+            if (rl != r.Length) // move info added, break for next section
+                r += Environment.NewLine;
+
+            var chks = Checks;
             r += chks.Where(chk => chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
                 .Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
             return r.TrimEnd();

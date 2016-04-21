@@ -152,7 +152,7 @@ namespace PKHeX
         #region Important Variables
         public static readonly byte[] blankEK6 = PKX.encryptArray(new byte[PK6.SIZE_PARTY]);
         public static PK6 pk6 = new PK6(); // Tab Pokemon Data Storage
-        public static SAV6 SAV = new SAV6(); // Save File
+        public static SAV6 SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7}; // Save File
         public static Color defaultControlWhite;
         public static Color defaultControlText;
         public static string eggname = "";
@@ -293,9 +293,7 @@ namespace PKHeX
         private void mainMenuCodeGen(object sender, EventArgs e)
         {
             // Open Code Generator
-            PK6 formdata = null;
-            if (verifiedPKX()) formdata = preparepkx();
-            CodeGenerator CodeGen = new CodeGenerator(formdata.Data);
+            CodeGenerator CodeGen = new CodeGenerator(verifiedPKX() ? preparepkx().Data : null);
             CodeGen.ShowDialog();
 
             byte[] data = CodeGen.returnArray;
@@ -312,9 +310,9 @@ namespace PKHeX
         }
         private void mainMenuBoxReport(object sender, EventArgs e)
         {
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(frmReport).Name) as frmReport;
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(frmReport)) as frmReport;
             if (z != null)
-            { z.Location = Location; z.BringToFront(); return; }
+            { Util.CenterToForm(z, this); z.BringToFront(); return; }
 
             frmReport ReportForm = new frmReport();
             ReportForm.Show();
@@ -322,9 +320,9 @@ namespace PKHeX
         }
         private void mainMenuDatabase(object sender, EventArgs e)
         {
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(SAV_Database).Name) as SAV_Database;
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_Database)) as SAV_Database;
             if (z != null)
-            { z.Location = Location; z.BringToFront(); return; }
+            { Util.CenterToForm(z, this); z.BringToFront(); return; }
 
             if (Directory.Exists("db"))
                 new SAV_Database(this).Show();
@@ -653,11 +651,20 @@ namespace PKHeX
             #region Battle Video
             else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0 && BitConverter.ToUInt16(input, 0xE12) == 0)
             {
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes) return;
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes)
+                    return;
+
+                DialogResult noSet = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading overrides:",
+                    "Yes - Modify .pk6 when set to SAV" + Environment.NewLine +
+                    "No - Don't modify .pk6" + Environment.NewLine +
+                    "Cancel - Use current settings (" + (Menu_ModifyPK6.Checked ? "Yes" : "No") + ")");
+                bool? noSetb = noSet == DialogResult.Yes ? true : (noSet == DialogResult.No ? (bool?)false : null);
+
                 for (int i = 0; i < 24; i++)
                 {
                     byte[] data = input.Skip(0xE18 + PK6.SIZE_PARTY * i + i / 6 * 8).Take(PK6.SIZE_STORED).ToArray();
-                    SAV.setEK6Stored(data, SAV.Box + i*PK6.SIZE_STORED + CB_BoxSelect.SelectedIndex*30*PK6.SIZE_STORED);
+                    int offset = SAV.Box + i*PK6.SIZE_STORED + CB_BoxSelect.SelectedIndex*30*PK6.SIZE_STORED;
+                    SAV.setEK6Stored(data, offset, noSetb);
                 }
                 setPKXBoxes();
             }
@@ -668,7 +675,7 @@ namespace PKHeX
                 if (input.Length == WC6.SizeFull) // Take bytes at end = WC6 size.
                     input = input.Skip(WC6.SizeFull - WC6.Size).ToArray();
                 if (ModifierKeys == Keys.Control)
-                    new SAV_Wondercard(input).Show();
+                    new SAV_Wondercard(input).ShowDialog();
                 else
                 {
                     PK6 pk = new WC6(input).convertToPK6(SAV);
@@ -784,13 +791,13 @@ namespace PKHeX
             // Enable Secondary Tools
             GB_SAVtools.Enabled = B_JPEG.Enabled = true;
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
-            
+            Menu_CodeGenerator.Enabled = !SAV.ORASDEMO && SAV.Exportable;
+
             setBoxNames();   // Display the Box Names
             setPKXBoxes();   // Reload all of the PKX Windows
 
             // Version Exclusive Editors
             GB_SUBE.Visible = !SAV.ORAS;
-            B_OpenSecretBase.Visible = SAV.ORAS;
 
             if (SAV.Box > -1)
             {
@@ -943,7 +950,7 @@ namespace PKHeX
                 metBW2_00000[i] = metBW2_00000[i] + "●";
 
             // Localize the Poketransfer to the language (30001)
-            string[] ptransp = { "Poké Transfer", "ポケシフター", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
+            string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
             metBW2_30000[1 - 1] = ptransp[Array.IndexOf(lang_val, curlanguage)];
             metBW2_30000[2 - 1] += " (NPC)";              // Anything from an NPC
             metBW2_30000[3 - 1] += " (" + eggname + ")";  // Egg From Link Trade
@@ -1993,9 +2000,9 @@ namespace PKHeX
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(f2_Text).Name) as f2_Text;
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(f2_Text)) as f2_Text;
             if (z != null)
-            { z.Location = Location; z.BringToFront(); return; }
+            { Util.CenterToForm(z, this); z.BringToFront(); return; }
             new f2_Text(tb).Show();
         }
         private void updateNotOT(object sender, EventArgs e)
@@ -2800,8 +2807,14 @@ namespace PKHeX
         }
         private void updateEggRNGSeed(object sender, EventArgs e)
         {
-            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
-            string filterText = TB_RNGSeed.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (TB_RNGSeed.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_RNGSeed.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            string filterText = Util.getOnlyHex(TB_RNGSeed.Text);
             if (filterText.Length != TB_RNGSeed.Text.Length)
             {
                 Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_RNGSeed.Text);
@@ -2810,15 +2823,8 @@ namespace PKHeX
                 return; // recursively triggers this method, no need to continue
             }
 
-            if (TB_RNGSeed.Text.Length == 0)
-            {
-                // Reset to 0
-                TB_RNGSeed.Text = 0.ToString("X16");
-                return; // recursively triggers this method, no need to continue
-            }
-
             // Write final value back to the save
-            ulong value = Convert.ToUInt64(TB_RNGSeed.Text, 16);
+            ulong value = Convert.ToUInt64(filterText, 16);
             if (value != SAV.DaycareRNGSeed)
             {
                 SAV.DaycareRNGSeed = value;
@@ -2827,8 +2833,14 @@ namespace PKHeX
         }
         private void updateGameSync(object sender, EventArgs e)
         {
-            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
-            string filterText = TB_GameSync.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (TB_GameSync.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_GameSync.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            string filterText = Util.getOnlyHex(TB_GameSync.Text);
             if (filterText.Length != TB_GameSync.Text.Length)
             {
                 Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_GameSync.Text);
@@ -2837,15 +2849,8 @@ namespace PKHeX
                 return; // recursively triggers this method, no need to continue
             }
 
-            if (TB_GameSync.Text.Length == 0)
-            {
-                // Reset to 0
-                TB_GameSync.Text = 0.ToString("X16");
-                return; // recursively triggers this method, no need to continue
-            }
-
             // Write final value back to the save
-            ulong value = Convert.ToUInt64(TB_GameSync.Text, 16);
+            ulong value = Convert.ToUInt64(filterText, 16);
             if (value != SAV.GameSyncID)
             {
                 SAV.GameSyncID = value;
@@ -2854,8 +2859,14 @@ namespace PKHeX
         }
         private void updateSecure1(object sender, EventArgs e)
         {
-            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
-            string filterText = TB_Secure1.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (TB_Secure1.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_Secure1.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+
+            string filterText = Util.getOnlyHex(TB_Secure1.Text);
             if (filterText.Length != TB_Secure1.Text.Length)
             {
                 Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_Secure1.Text);
@@ -2864,15 +2875,8 @@ namespace PKHeX
                 return; // recursively triggers this method, no need to continue
             }
 
-            if (TB_Secure1.Text.Length == 0)
-            {
-                // Reset to 0
-                TB_Secure1.Text = 0.ToString("X16");
-                return; // recursively triggers this method, no need to continue
-            }
-
             // Write final value back to the save
-            ulong value = Convert.ToUInt64(TB_Secure1.Text, 16);
+            ulong value = Convert.ToUInt64(filterText, 16);
             if (value != SAV.Secure1)
             {
                 SAV.Secure1 = value;
@@ -2881,8 +2885,13 @@ namespace PKHeX
         }
         private void updateSecure2(object sender, EventArgs e)
         {
-            // Run through a LINQ filter for fun; works fine for GUI purposes, although LINQ may not be the fastest way to do it!
-            string filterText = TB_Secure2.Text.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
+            if (TB_Secure2.Text.Length == 0)
+            {
+                // Reset to 0
+                TB_Secure2.Text = 0.ToString("X16");
+                return; // recursively triggers this method, no need to continue
+            }
+            string filterText = Util.getOnlyHex(TB_Secure2.Text);
             if (filterText.Length != TB_Secure2.Text.Length)
             {
                 Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_Secure2.Text);
@@ -2891,15 +2900,8 @@ namespace PKHeX
                 return; // recursively triggers this method, no need to continue
             }
 
-            if (TB_Secure2.Text.Length == 0)
-            {
-                // Reset to 0
-                TB_Secure2.Text = 0.ToString("X16");
-                return; // recursively triggers this method, no need to continue
-            }
-
             // Write final value back to the save
-            ulong value = Convert.ToUInt64(TB_Secure2.Text, 16);
+            ulong value = Convert.ToUInt64(filterText, 16);
             if (value != SAV.Secure2)
             {
                 SAV.Secure2 = value;

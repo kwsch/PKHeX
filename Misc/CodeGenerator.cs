@@ -82,16 +82,6 @@ namespace PKHeX
                 RTB_Code.AppendText((writeoffset + i * 4 + 0x20000000).ToString("X8") + " ");
                 RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + Environment.NewLine);
             }
-
-            // Mat's Code - Unfinished
-            //for (int i = 0; i < newdata.Length / (4); i++)
-            //{
-            //    // Add Operator
-
-            //    RTB_Code.AppendText("00000001 ");   // 01 00 00 00
-            //    RTB_Code.AppendText((writeoffset + i * 4).ToString("X8") + " ");
-            //    RTB_Code.AppendText(BitConverter.ToUInt32(newdata,i*4).ToString("X8") + Environment.NewLine);
-            //}
         }
         private void B_Clear_Click(object sender, EventArgs e)
         {
@@ -132,7 +122,7 @@ namespace PKHeX
             if (RTB_Code.Text.Length < 1) return;
 
             byte[] ncf = new byte[4 + (RTB_Code.Lines.Length-1)*3*4];
-            Array.Copy(BitConverter.GetBytes(ncf.Length - 4), ncf, 4);
+            BitConverter.GetBytes(ncf.Length - 4).CopyTo(ncf, 4);
 
             for (int i = 0; i < RTB_Code.Lines.Length-1; i++)
             {
@@ -140,9 +130,9 @@ namespace PKHeX
                 string[] rip = line.Split(new[] {" "}, StringSplitOptions.None);
 
                 // Write the 3 u32's to an array.
-                Array.Copy(BitConverter.GetBytes(uint.Parse(rip[0], NumberStyles.HexNumber)),0,ncf,4+i*12+0,4);
-                Array.Copy(BitConverter.GetBytes(uint.Parse(rip[1], NumberStyles.HexNumber)),0,ncf,4+i*12+4,4);
-                Array.Copy(BitConverter.GetBytes(uint.Parse(rip[2], NumberStyles.HexNumber)),0,ncf,4+i*12+8,4);
+                BitConverter.GetBytes(uint.Parse(rip[0], NumberStyles.HexNumber)).CopyTo(ncf,4+i*12+0);
+                BitConverter.GetBytes(uint.Parse(rip[1], NumberStyles.HexNumber)).CopyTo(ncf,4+i*12+4);
+                BitConverter.GetBytes(uint.Parse(rip[2], NumberStyles.HexNumber)).CopyTo(ncf,4+i*12+8);
             }
 
             SaveFileDialog sfd = new SaveFileDialog {FileName = "code.bin", Filter = "Code File|*.bin"};
@@ -193,8 +183,8 @@ namespace PKHeX
             for (int i = 0; i < newcyber.Length - 0x200; i += 4)
             {
                 // Skip Party and Boxes
-                if (i == 0x14200) i += 260 * 6 + 4; // +4 to skip over party count
-                if (i == boxoffset) i += 232 * 30 * 31;
+                if (i == Main.SAV.Party) i += 260 * 6 + 4; // +4 to skip over party count
+                if (i == Main.SAV.Box) i += 232 * 30 * 31;
                 if (BitConverter.ToUInt32(cybersav, i) == BitConverter.ToUInt32(newcyber, i)) continue;
 
                 result += (0x20000000 + i).ToString("X8") + " ";
@@ -228,7 +218,7 @@ namespace PKHeX
                     {
                         result +=
                             Environment.NewLine +
-                            "--- Segment " + (lines / 128 + 1) + " ---" +
+                            $"--- Segment {lines / 128 + 1} ---" +
                             Environment.NewLine + Environment.NewLine;
                     }
                     if (lines > 10000) goto toomany;
@@ -246,7 +236,7 @@ namespace PKHeX
                 {
                     result +=
                         Environment.NewLine +
-                        "--- Segment " + (lines / 128 + 1) + " ---" +
+                        $"--- Segment {lines / 128 + 1} ---" +
                         Environment.NewLine + Environment.NewLine;
                 }
                 if (lines > 10000) goto toomany;
@@ -269,7 +259,7 @@ namespace PKHeX
                     {
                         result +=
                             Environment.NewLine +
-                            "--- Segment " + (lines / 128 + 1) + " ---" +
+                            $"--- Segment {lines / 128 + 1} ---" +
                             Environment.NewLine + Environment.NewLine;
                     }
                     if (lines > 10000) goto toomany;
@@ -277,18 +267,13 @@ namespace PKHeX
             }
 
             if ((lines / 128 > 0) && CHK_Break.Checked)
-            {
-                Util.Alert($"{1 + lines/128} Code Segments.",
-                    $"{lines} Lines.");
-            }
+                Util.Alert($"{1 + lines/128} Code Segments.", $"{lines} Lines.");
+
             RTB_Code.Text = result;
             return;
 
         toomany:
-            {
-                Util.Alert("Too many differences detected.",
-                           "Export your save instead.");
-            }
+            Util.Alert("Too many differences detected.", "Export your save instead.");
         }
 
         // Import 

@@ -343,7 +343,7 @@ namespace PKHeX
             // Summarize
             string filename = pk6.Nickname;
             if (pk6.Nickname != Main.specieslist[pk6.Species] && Main.specieslist[pk6.Species] != null)
-                filename += " (" + Main.specieslist[pk6.Species] + ")";
+                filename += $" ({Main.specieslist[pk6.Species]})";
             response[0] = $"{filename} [{Main.abilitylist[pk6.Ability]}] lv{pk6.Stat_Level} @ {Main.itemlist[pk6.HeldItem]} -- {Main.natures[pk6.Nature]}";
             response[1] = $"{Main.movelist[pk6.Move1]} / {Main.movelist[pk6.Move2]} / {Main.movelist[pk6.Move3]} / {Main.movelist[pk6.Move4]}";
             response[2] = string.Format(
@@ -514,7 +514,7 @@ namespace PKHeX
 
         internal static uint getPSV(uint PID)
         {
-            return Convert.ToUInt16((PID >> 16 ^ PID & 0xFFFF) >> 4);
+            return (PID >> 16 ^ PID & 0xFFFF) >> 4;
         }
         internal static uint getTSV(uint TID, uint SID)
         {

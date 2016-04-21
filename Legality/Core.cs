@@ -10,17 +10,15 @@ namespace PKHeX
         // PKHeX master personal.dat
         internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getPersonalArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
         private static readonly PersonalInfo[] PersonalXY = PersonalInfo.getPersonalArray(Properties.Resources.personal_xy, PersonalInfo.SizeXY);
-        private static readonly EggMoves[] EggMoveXY = EggMoves.getArray(Util.unpackMini(Properties.Resources.eggmove_xy, "xy"));
-        private static readonly Learnset[] LevelUpXY = Learnset.getArray(Util.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
-        private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Util.unpackMini(Properties.Resources.eggmove_ao, "ao"));
-        private static readonly Learnset[] LevelUpAO = Learnset.getArray(Util.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
-        private static readonly Evolutions[] Evolves = Evolutions.getArray(Util.unpackMini(Properties.Resources.evos_ao, "ao"));
+        private static readonly EggMoves[] EggMoveXY = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
+        private static readonly Learnset[] LevelUpXY = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
+        private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_ao, "ao"));
+        private static readonly Learnset[] LevelUpAO = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
+        private static readonly Evolutions[] Evolves = Evolutions.getArray(Data.unpackMini(Properties.Resources.evos_ao, "ao"));
         private static readonly EncounterArea[] SlotsA;
         private static readonly EncounterArea[] SlotsO;
         private static readonly EncounterArea[] SlotsX;
         private static readonly EncounterArea[] SlotsY;
-        private static readonly EncounterArea[] DexNavA;
-        private static readonly EncounterArea[] DexNavO;
         private static readonly EncounterStatic[] StaticX;
         private static readonly EncounterStatic[] StaticY;
         private static readonly EncounterStatic[] StaticA;
@@ -42,18 +40,6 @@ namespace PKHeX
             }
             return GameSlots;
         }
-        private static EncounterArea[] getDexNavSlots(EncounterArea[] GameSlots)
-        {
-            EncounterArea[] eA = new EncounterArea[GameSlots.Length];
-            for (int i = 0; i < eA.Length; i++)
-            {
-                eA[i] = new EncounterArea { Location = GameSlots[i].Location, Slots = GameSlots[i].Slots };
-                eA[i].Slots = eA[i].Slots.Where(s => s.Type != SlotType.Rock_Smash).ToArray(); // Skip Rock Smash slots.
-                foreach (var slot in eA[i].Slots)
-                    slot.DexNav = true;
-            }
-            return eA;
-        }
 
         static Legal() // Setup
         {
@@ -62,8 +48,8 @@ namespace PKHeX
             StaticA = getSpecial(GameVersion.AS);
             StaticO = getSpecial(GameVersion.OR);
 
-            var XSlots = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_x, "xy"));
-            var YSlots = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_y, "xy"));
+            var XSlots = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_x, "xy"));
+            var YSlots = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_y, "xy"));
 
             // Mark Horde Encounters
             foreach (var area in XSlots)
@@ -81,10 +67,10 @@ namespace PKHeX
             SlotsX = addXYAltTiles(XSlots, SlotsXYAlt);
             SlotsY = addXYAltTiles(YSlots, SlotsXYAlt);
 
-            SlotsA = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_a, "ao"));
-            SlotsO = EncounterArea.getArray(Util.unpackMini(Properties.Resources.encounter_o, "ao"));
+            SlotsA = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_a, "ao"));
+            SlotsO = EncounterArea.getArray(Data.unpackMini(Properties.Resources.encounter_o, "ao"));
 
-            // Mark Rock Smash Encounters
+            // Mark Encounters
             foreach (var area in SlotsA)
             {
                 for (int i = 32; i < 37; i++)
@@ -92,6 +78,9 @@ namespace PKHeX
                 int slotct = area.Slots.Length;
                 for (int i = slotct - 15; i < slotct; i++)
                     area.Slots[i].Type = SlotType.Horde;
+
+                for (int i = 0; i < slotct; i++)
+                    area.Slots[i].AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
             }
             foreach (var area in SlotsO)
             {
@@ -100,10 +89,10 @@ namespace PKHeX
                 int slotct = area.Slots.Length;
                 for (int i = slotct - 15; i < slotct; i++)
                     area.Slots[i].Type = SlotType.Horde;
-            }
 
-            DexNavA = getDexNavSlots(SlotsA);
-            DexNavO = getDexNavSlots(SlotsO);
+                for (int i = 0; i < slotct; i++)
+                    area.Slots[i].AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
+            }
         }
 
         internal static IEnumerable<int> getValidMoves(PK6 pk6)
@@ -220,13 +209,7 @@ namespace PKHeX
             List<EncounterSlot> s = new List<EncounterSlot>();
 
             foreach (var area in getEncounterAreas(pk6))
-                s.AddRange(getValidEncounterSlots(pk6, area, DexNav: false));
-            if (s.Any()) return s.ToArray();
-            if (!pk6.AO) return null;
-
-            // By default, no slots are currently stored. Continue!
-            foreach (var area in getDexNavAreas(pk6))
-                s.AddRange(getValidEncounterSlots(pk6, area, DexNav: true));
+                s.AddRange(getValidEncounterSlots(pk6, area, DexNav: pk6.AO));
             return s.Any() ? s.ToArray() : null;
         }
         internal static EncounterStatic getValidStaticEncounter(PK6 pk6)
@@ -328,7 +311,7 @@ namespace PKHeX
         internal static bool getDexNavValid(PK6 pk6)
         {
             IEnumerable<EncounterArea> locs = getDexNavAreas(pk6);
-            return locs.Select(loc => getValidEncounterSlots(pk6, loc, DexNav: true)).Any(slots => slots.Any());
+            return locs.Select(loc => getValidEncounterSlots(pk6, loc, DexNav: true)).Any(slots => slots.Any(slot => slot.AllowDexNav && slot.DexNav));
         }
         internal static bool getHasEvolved(PK6 pk6)
         {
@@ -385,7 +368,7 @@ namespace PKHeX
             bool alpha = pk6.Version == 26;
             if (!alpha && pk6.Version != 27)
                 return new EncounterArea[0];
-            return (alpha ? DexNavA : DexNavO).Where(l => l.Location == pk6.Met_Location);
+            return (alpha ? SlotsA : SlotsO).Where(l => l.Location == pk6.Met_Location);
         }
         private static IEnumerable<int> getLVLMoves(int species, int lvl, int formnum)
         {
@@ -429,32 +412,67 @@ namespace PKHeX
         }
         private static IEnumerable<EncounterSlot> getValidEncounterSlots(PK6 pk6, EncounterArea loc, bool DexNav)
         {
+            const int fluteBoost = 4;
+            const int dexnavBoost = 30;
+            int df = DexNav ? fluteBoost : 0;
+            int dn = DexNav ? fluteBoost + dexnavBoost : 0;
+            List<EncounterSlot> slotdata = new List<EncounterSlot>();
+
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
             // Get slots where pokemon can exist
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin - df));
 
             // Filter for Met Level
             int lvl = pk6.Met_Level;
-            slots = DexNav
-                ? slots.Where(slot => slot.LevelMin <= lvl && lvl <= slot.LevelMax + 30) // DexNav Boost Range ??
-                : slots.Where(slot => slot.LevelMin <= lvl && lvl <= slot.LevelMax); // Non-boosted Level
+            EncounterSlot[] encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToArray();
 
-            // Filter for Form Specific
-            if (WildForms.Contains(pk6.Species))
-                slots = slots.Where(slot => slot.Form == pk6.AltForm);
-            return slots;
+            // Pressure Slot
+            EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
+
+            if (!DexNav)
+            {
+                // Filter for Form Specific
+                slotdata.AddRange(WildForms.Contains(pk6.Species)
+                    ? encounterSlots.Where(slot => slot.Form == pk6.AltForm)
+                    : encounterSlots);
+                if (slotMax != null)
+                    slotdata.Add(new EncounterSlot(slotMax) { Pressure = true, Form = pk6.AltForm });
+                return slotdata;
+            }
+            
+            foreach (EncounterSlot slot in encounterSlots.Where(slot => !WildForms.Contains(pk6.Species) || slot.Form == pk6.AltForm))
+            {
+                if (slot.LevelMin >= lvl)
+                    slotdata.Add(new EncounterSlot(slot) { WhiteFlute = true });
+                else if (slot.LevelMax + 1 <= lvl && lvl <= slot.LevelMax + fluteBoost)
+                    slotdata.Add(new EncounterSlot(slot) { BlackFlute = true });
+                else if (slot.LevelMax != lvl && slot.AllowDexNav)
+                    slotdata.Add(new EncounterSlot(slot) { DexNav = true });
+                else
+                    slotdata.Add(new EncounterSlot(slot));
+            }
+            if (slotMax != null)
+            {
+                EncounterSlot slot = new EncounterSlot(slotMax) {Pressure = true, Form = pk6.AltForm};
+
+                if (slot.LevelMin >= lvl)
+                    slot.WhiteFlute = true;
+                else if (slot.LevelMax + 1 <= lvl && lvl <= slot.LevelMax + fluteBoost)
+                    slot.BlackFlute = true;
+                else if (slot.LevelMax != lvl && slot.AllowDexNav)
+                    slot.DexNav = true;
+                slotdata.Add(slot);
+            }
+            return slotdata;
         }
         private static IEnumerable<EncounterArea> getSlots(PK6 pk6, IEnumerable<EncounterArea> tables)
         {
-            int species = pk6.Species;
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
             List<EncounterArea> slotLocations = new List<EncounterArea>();
             foreach (var loc in tables)
             {
-                IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
-                if (WildForms.Contains(species))
-                    slots = slots.Where(slot => slot.Form == pk6.AltForm);
+                IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species));
 
                 EncounterSlot[] es = slots.ToArray();
                 if (es.Length > 0)

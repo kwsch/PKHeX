@@ -225,9 +225,6 @@ namespace PKHeX
                 RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
                 RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
                 Met_Location = MetLocation,
-                Met_Day = (int)Day,
-                Met_Month = (int)Month,
-                Met_Year = (int)Year - 2000,
                 Egg_Location = EggLocation,
                 CNT_Cool = CNT_Cool,
                 CNT_Beauty = CNT_Beauty,
@@ -266,6 +263,21 @@ namespace PKHeX
                 OT_Friendship = PKX.getBaseFriendship(Species),
                 FatefulEncounter = true,
             };
+
+            if (Day + Month + Year == 0) // No datetime set, typical for wc6full
+            {
+                DateTime dt = DateTime.Now;
+                pk.Met_Day = dt.Day;
+                pk.Met_Month = dt.Month;
+                pk.Met_Year = dt.Year - 2000;
+            }
+            else
+            {
+                pk.Met_Day = (int)Day;
+                pk.Met_Month = (int)Month;
+                pk.Met_Year = (int)(Year - 2000);
+            }
+
             if (pk.CurrentHandler == 0) // OT
             {
                 pk.OT_Memory = 3;

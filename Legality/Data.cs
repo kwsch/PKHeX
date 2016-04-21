@@ -135,7 +135,22 @@ namespace PKHeX
         public int LevelMin;
         public int LevelMax;
         public SlotType Type = SlotType.Any;
+        public bool AllowDexNav = false;
+        public bool Pressure = false;
         public bool DexNav = false;
+        public bool WhiteFlute = false;
+        public bool BlackFlute = false;
+        public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
+        public EncounterSlot() { }
+
+        public EncounterSlot(EncounterSlot template)
+        {
+            Species = template.Species;
+            AllowDexNav = template.AllowDexNav;
+            LevelMax = template.LevelMax;
+            LevelMin = template.LevelMin;
+            Type = template.Type;
+        }
     }
 
     public enum SlotType
@@ -334,6 +349,48 @@ namespace PKHeX
             for (int i = 0; i < d.Length; i++)
                 d[i] = new PersonalInfo(data.Skip(i * size).Take(size).ToArray());
             return d;
+        }
+    }
+
+    internal static class Data
+    {
+        internal static byte[][] unpackMini(byte[] fileData, string identifier)
+        {
+            using (var s = new MemoryStream(fileData))
+            using (var br = new BinaryReader(s))
+            {
+                if (identifier != new string(br.ReadChars(2)))
+                    return null;
+
+                ushort count = br.ReadUInt16();
+                byte[][] returnData = new byte[count][];
+
+                uint[] offsets = new uint[count + 1];
+                for (int i = 0; i < count; i++)
+                    offsets[i] = br.ReadUInt32();
+
+                uint length = br.ReadUInt32();
+                offsets[offsets.Length - 1] = length;
+
+                for (int i = 0; i < count; i++)
+                {
+                    br.BaseStream.Seek(offsets[i], SeekOrigin.Begin);
+                    using (MemoryStream dataout = new MemoryStream())
+                    {
+                        byte[] data = new byte[0];
+                        s.CopyTo(dataout, (int)offsets[i]);
+                        int len = (int)offsets[i + 1] - (int)offsets[i];
+
+                        if (len != 0)
+                        {
+                            data = dataout.ToArray();
+                            Array.Resize(ref data, len);
+                        }
+                        returnData[i] = data;
+                    }
+                }
+                return returnData;
+            }
         }
     }
 }

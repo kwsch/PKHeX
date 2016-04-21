@@ -33,10 +33,9 @@ namespace PKHeX
             if (!SAV.XY)
                 TC_Editor.TabPages.Remove(Tab_Appearance);
             if (SAV.ORASDEMO)
-            {
-                TC_Editor.TabPages.Remove(Tab_Maison);
                 TC_Editor.TabPages.Remove(Tab_Multiplayer);
-            }
+            if (SAV.MaisonStats < 0)
+                TC_Editor.TabPages.Remove(Tab_Maison);
 
             editing = true;
             getComboBoxes();
@@ -388,8 +387,9 @@ namespace PKHeX
             CB_Language.SelectedValue = SAV.Language;
 
             // Maison Data
-            for (int i = 0; i < MaisonRecords.Length; i++)
-                MaisonRecords[i].Text = SAV.getMaisonStat(i).ToString();
+            if (SAV.MaisonStats > -1)
+                for (int i = 0; i < MaisonRecords.Length; i++)
+                    MaisonRecords[i].Text = SAV.getMaisonStat(i).ToString();
 
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
@@ -471,8 +471,9 @@ namespace PKHeX
             SAV.Saying5 = TB_Saying5.Text;
 
             // Copy Maison Data in
-            for (int i = 0; i < MaisonRecords.Length; i++)
-                SAV.setMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
+            if (SAV.MaisonStats > -1)
+                for (int i = 0; i < MaisonRecords.Length; i++)
+                    SAV.setMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
 
             // Copy Position
             if (GB_Map.Enabled)

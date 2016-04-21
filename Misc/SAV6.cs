@@ -77,7 +77,7 @@ namespace PKHeX
                     LastViewedBox = PCLayout = PCBackgrounds = PCFlags = WondercardFlags = WondercardData = 
                     BerryField = OPower = Accessories = 
                     PokeDex = PokeDexLanguageFlags = Spinda = EncounterCount = HoF = PSS = JPEG = Contest -1;
-                MaisonStats = 0; // Make things work?
+                MaisonStats = -1;
             }
             else if (XY)
             {
