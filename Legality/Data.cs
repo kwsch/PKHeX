@@ -135,7 +135,22 @@ namespace PKHeX
         public int LevelMin;
         public int LevelMax;
         public SlotType Type = SlotType.Any;
+        public bool AllowDexNav = false;
+        public bool Pressure = false;
         public bool DexNav = false;
+        public bool WhiteFlute = false;
+        public bool BlackFlute = false;
+        public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
+        public EncounterSlot() { }
+
+        public EncounterSlot(EncounterSlot template)
+        {
+            Species = template.Species;
+            AllowDexNav = template.AllowDexNav;
+            LevelMax = template.LevelMax;
+            LevelMin = template.LevelMin;
+            Type = template.Type;
+        }
     }
 
     public enum SlotType

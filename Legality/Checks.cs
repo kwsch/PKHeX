@@ -277,9 +277,29 @@ namespace PKHeX
             EncounterMatch = Legal.getValidWildEncounters(pk6);
             if (EncounterMatch != null)
             {
-                return ((EncounterSlot[])EncounterMatch).Any(slot => !slot.DexNav) 
-                    ? new LegalityCheck(Severity.Valid, "Valid encounter at location.") 
-                    : new LegalityCheck(Severity.Valid, "Valid DexNav encounter at location.");
+                EncounterSlot[] enc = (EncounterSlot[])EncounterMatch;
+
+                if (enc.Any(slot => slot.Normal))
+                    return enc.All(slot => slot.Pressure) 
+                        ? new LegalityCheck(Severity.Valid, "Valid encounter at location (Pressure/Hustle/Vital Spirit).") 
+                        : new LegalityCheck(Severity.Valid, "Valid encounter at location.");
+
+                // Decreased Level Encounters
+                if (enc.Any(slot => slot.WhiteFlute))
+                    return enc.All(slot => slot.Pressure)
+                        ? new LegalityCheck(Severity.Valid, "Valid encounter at location (White Flute & Pressure/Hustle/Vital Spirit).")
+                        : new LegalityCheck(Severity.Valid, "Valid encounter at location (White Flute).");
+
+                // Increased Level Encounters
+                if (enc.Any(slot => slot.BlackFlute))
+                    return enc.All(slot => slot.Pressure)
+                        ? new LegalityCheck(Severity.Valid, "Valid encounter at location (Black Flute & Pressure/Hustle/Vital Spirit).")
+                        : new LegalityCheck(Severity.Valid, "Valid encounter at location (Black Flute).");
+
+                if (enc.Any(slot => slot.Pressure))
+                    return new LegalityCheck(Severity.Valid, "Valid encounter at location (Pressure/Hustle/Vital Spirit).");
+
+                return new LegalityCheck(Severity.Valid, "Valid encounter at location (DexNav).");
             }
             EncounterMatch = Legal.getValidIngameTrade(pk6);
             if (EncounterMatch != null)
