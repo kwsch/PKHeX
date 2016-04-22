@@ -556,20 +556,23 @@ namespace PKHeX
 
         // SAV Manipulation
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
-        /// <param name="chunk">Input byte array</param>
+        /// <param name="data">Input byte array</param>
         /// <returns>Checksum</returns>
-        internal static ushort ccitt16(byte[] chunk)
+        internal static ushort ccitt16(byte[] data)
         {
-            ushort crc = 0xFFFF;
-            foreach (byte t in chunk)
+            const ushort init = 0xFFFF;
+            const ushort poly = 0x1021;
+
+            ushort crc = init;
+            foreach (byte b in data)
             {
-                crc ^= (ushort)(t << 8);
+                crc ^= (ushort)(b << 8);
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((crc & 0x8000) > 0)
-                        crc = (ushort)(crc << 1 ^ 0x1021);
-                    else
-                        crc <<= 1;
+                    bool flag = (crc & 0x8000) > 0;
+                    crc <<= 1;
+                    if (flag)
+                        crc ^= poly;
                 }
             }
             return crc;

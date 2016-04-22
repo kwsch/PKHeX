@@ -8,8 +8,8 @@ namespace PKHeX
         // PKHeX master Wonder Card Database
         internal static WC6[] WC6DB;
         // PKHeX master personal.dat
-        internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getPersonalArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
-        private static readonly PersonalInfo[] PersonalXY = PersonalInfo.getPersonalArray(Properties.Resources.personal_xy, PersonalInfo.SizeXY);
+        internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
+        private static readonly PersonalInfo[] PersonalXY = PersonalInfo.getArray(Properties.Resources.personal_xy, PersonalInfo.SizeXY);
         private static readonly EggMoves[] EggMoveXY = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
         private static readonly Learnset[] LevelUpXY = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
         private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_ao, "ao"));

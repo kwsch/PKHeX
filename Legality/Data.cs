@@ -344,7 +344,7 @@ namespace PKHeX
         }
         public bool HasFormes => FormeCount > 1;
 
-        internal static PersonalInfo[] getPersonalArray(byte[] data, int size)
+        internal static PersonalInfo[] getArray(byte[] data, int size)
         {
             PersonalInfo[] d = new PersonalInfo[data.Length / size];
             for (int i = 0; i < d.Length; i++)
