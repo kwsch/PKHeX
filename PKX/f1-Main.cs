@@ -1669,7 +1669,24 @@ namespace PKHeX
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
-            TB_EC.Text = Util.rnd32().ToString("X8");
+            int origin = Util.getIndex(CB_GameOrigin);
+            if (origin < 24)
+            {
+                TB_EC.Text = TB_PID.Text;
+                Util.Alert("EC should match PID.");
+            }
+            
+            int wIndex = Array.IndexOf(Legal.WurmpleFamily, Util.getIndex(CB_Species));
+            if (wIndex < 0)
+            {
+                TB_EC.Text = Util.rnd32().ToString("X8");
+            }
+            else
+            {
+                uint EC;
+                do { EC = Util.rnd32(); } while ((EC >> 16)%10/5 != wIndex/2);
+                TB_EC.Text = EC.ToString("X8");
+            }
         }
         private void updateHackedStats(object sender, EventArgs e)
         {
