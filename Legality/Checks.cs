@@ -201,18 +201,18 @@ namespace PKHeX
                 // Should NOT be Fateful, and should be in Database
                 EncounterLink enc = EncounterMatch as EncounterLink;
                 if (enc == null)
-                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- unable to find matching gift.");
+                    return new LegalityCheck(Severity.Invalid, "Invalid Link Gift: unable to find matching gift.");
                 
                 if (pk6.XY && !enc.XY)
-                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in XY.");
+                    return new LegalityCheck(Severity.Invalid, "Invalid Link Gift: can't obtain in XY.");
                 if (pk6.AO && !enc.ORAS)
-                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in ORAS.");
+                    return new LegalityCheck(Severity.Invalid, "Invalid Link Gift: can't obtain in ORAS.");
                 
                 if (enc.Shiny != null && (bool)enc.Shiny ^ pk6.IsShiny)
                     return new LegalityCheck(Severity.Invalid, "Shiny Link gift mismatch.");
 
                 return pk6.FatefulEncounter 
-                    ? new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- should not be Fateful Encounter.") 
+                    ? new LegalityCheck(Severity.Invalid, "Invalid Link Gift: should not be Fateful Encounter.") 
                     : new LegalityCheck(Severity.Valid, "Valid Link gift.");
             }
             if (pk6.WasEvent || pk6.WasEventEgg)
@@ -646,6 +646,17 @@ namespace PKHeX
             return pk6.AltForm > 0 && (Legal.BattleForms.Contains(pk6.Species) || Legal.BattleMegas.Contains(pk6.Species))
                 ? new LegalityCheck(Severity.Invalid, "Form cannot exist outside of a battle.")
                 : new LegalityCheck();
+        }
+        private LegalityCheck verifyMisc()
+        {
+            if (pk6.Gen6 && Encounter.Valid && EncounterType == typeof(WC6) ^ pk6.FatefulEncounter)
+            {
+                if (EncounterType == typeof(EncounterStatic) && pk6.Species == 386) // Deoxys Matched @ Sky Pillar
+                    return new LegalityCheck();
+                return new LegalityCheck(Severity.Invalid, "Fateful Encounter mismatch.");
+            }
+
+            return new LegalityCheck();
         }
         private LegalityCheck[] verifyMoves()
         {
