@@ -518,9 +518,7 @@ namespace PKHeX
 
         public byte[] Puffs { get { return Data.Skip(Puff).Take(100).ToArray(); } set { value.CopyTo(Data, Puff); } }
         public int PuffCount { get { return BitConverter.ToInt32(Data, Puff + 100); } set { BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); } }
-
-        public byte[] getWondercard(int i) { return Data.Skip(WondercardData + i*WC6.Size).Take(WC6.Size).ToArray(); }
-        public void setWondercard(int i, byte[] data) { data.CopyTo(data, WondercardData + i * WC6.Size); }
+        
         public string JPEGTitle => JPEG > -1 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
         public byte[] JPEGData => JPEG > -1 || Data[JPEG + 0x54] != 0xFF ? null : Data.Skip(JPEG + 0x54).Take(0xE004).ToArray();
 
@@ -827,6 +825,60 @@ namespace PKHeX
             }
         }
 
+        public bool[] WC6Flags
+        {
+            get
+            {
+                if (WondercardData < 0 || WondercardFlags < 0)
+                    return null;
+
+                bool[] r = new bool[(WondercardData-WondercardFlags)*8];
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = (Data[WondercardFlags + (i>>3)] >> (i&7) & 0x1) == 1;
+                return r;
+            }
+            set
+            {
+                if (WondercardData < 0 || WondercardFlags < 0)
+                    return;
+                if ((WondercardData - WondercardFlags)*8 != value?.Length)
+                    return;
+
+                byte[] data = new byte[value.Length/8];
+                for (int i = 0; i < value.Length; i++)
+                    if (value[i])
+                        data[i>>3] |= (byte)(1 << (i&7));
+
+                data.CopyTo(Data, WondercardFlags);
+                Edited = true;
+            }
+        }
+        public WC6 getWC6(int index)
+        {
+            if (WondercardData < 0)
+                return null;
+            if (index < 0 || index > 24)
+                return null;
+
+            return new WC6(Data.Skip(WondercardData + index * WC6.Size).Take(WC6.Size).ToArray());
+        }
+        public void setWC6(WC6 wc6, int index)
+        {
+            if (WondercardData < 0)
+                return;
+            if (index < 0 || index > 24)
+                return;
+
+            wc6.Data.CopyTo(Data, WondercardData + index * WC6.Size);
+
+            for (int i = 0; i < 24; i++)
+                if (BitConverter.ToUInt16(Data, WondercardData + i * WC6.Size) == 0)
+                    for (int j = i + 1; j < 24 - i; j++) // Shift everything down
+                        Array.Copy(Data, WondercardData + j * WC6.Size, Data, WondercardData + (j - 1) * WC6.Size, WC6.Size);
+
+            Edited = true;
+        }
+
         // Writeback Validity
         public string checkChunkFF()
         {
@@ -854,7 +906,7 @@ namespace PKHeX
         public string getBlockInfoString()
         {
             return Blocks.Aggregate("", (current, b) => current +
-                                                        $"{b.ID.ToString("00")}: {b.Offset.ToString("X5")}-{(b.Offset + b.Length).ToString("X5")}, {b.Length.ToString("X5")}{Environment.NewLine}");
+                $"{b.ID.ToString("00")}: {b.Offset.ToString("X5")}-{(b.Offset + b.Length).ToString("X5")}, {b.Length.ToString("X5")}{Environment.NewLine}");
         }
     }
 }
