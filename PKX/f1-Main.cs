@@ -245,6 +245,7 @@ namespace PKHeX
         private void mainMenuSave(object sender, EventArgs e)
         {
             if (!verifiedPKX()) return;
+            PK6 pk = preparepkx();
             SaveFileDialog sfd = new SaveFileDialog
             {
                 Filter = "PKX File|*.pk6;*.pkx" +
@@ -252,7 +253,7 @@ namespace PKHeX
                          "|BIN File|*.bin" +
                          "|All Files|*.*",
                 DefaultExt = "pk6",
-                FileName = TB_Nickname.Text + " - " + TB_PID.Text
+                FileName = Util.CleanFileName(pk.FileName)
             };
             if (sfd.ShowDialog() != DialogResult.OK) return;
             string path = sfd.FileName;
@@ -267,7 +268,6 @@ namespace PKHeX
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
 
-            PK6 pk = preparepkx();
             if (new[] {".ekx", ".ek6", ".bin"}.Contains(ext))
                 File.WriteAllBytes(path, pk.EncryptedPartyData);
             else if (new[] { ".pkx", ".pk6" }.Contains(ext))
@@ -560,6 +560,7 @@ namespace PKHeX
                 try { openFile(input, path, ext); }
                 catch
                 {
+                    if (input.Length <= PK6.SIZE_PARTY)
                     try
                     {
                         byte[] blank = (byte[])blankEK6.Clone();
@@ -569,7 +570,9 @@ namespace PKHeX
 
                         openFile(blank, path, ext);
                     }
-                    catch { openFile(input, path, ext); }
+                    catch { try { openFile(input, path, ext); return; } catch {} }
+
+                    Util.Error("Unable to load file.");
                 }
             }
         }
@@ -852,7 +855,7 @@ namespace PKHeX
             if (Directory.Exists(WC6DatabasePath))
                 wc6db.AddRange(from file in Directory.GetFiles(WC6DatabasePath, "*", SearchOption.AllDirectories)
                     let fi = new FileInfo(file)
-                    where fi.Extension == ".wc6" && fi.Length == WC6.Size
+                    where new[] {".wc6full", ".wc6"}.Contains(fi.Extension) && new[] {WC6.Size, WC6.SizeFull}.Contains((int)fi.Length)
                     select new WC6(File.ReadAllBytes(file)));
 
             Legal.WC6DB = wc6db.Distinct().ToArray();
