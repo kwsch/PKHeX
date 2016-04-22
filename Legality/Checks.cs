@@ -37,6 +37,7 @@ namespace PKHeX
             if (pk6.PID == 0)
                 return new LegalityCheck(Severity.Fishy, "PID is not set.");
 
+            string special = "";
             if (pk6.Gen6)
             {
                 // Wurmple -> Silcoon/Cascoon
@@ -48,14 +49,17 @@ namespace PKHeX
                         if ((pk6.EncryptionConstant >> 16) % 10 / 5 != wIndex / 2)
                             return new LegalityCheck(Severity.Invalid, "Wurmple evolution Encryption Constant mismatch.");
                 }
+                else if (pk6.Species == 265)
+                    special = "Wurmple Evolution: " + ((pk6.EncryptionConstant >> 16)%10/5 == 0 ? "Silcoon" : "Cascoon");
 
                 if (pk6.PID == pk6.EncryptionConstant)
                     return new LegalityCheck(Severity.Fishy, "Encryption Constant matches PID.");
 
                 int xor = pk6.TSV ^ pk6.PSV;
-                return xor < 16 && xor >= 8 && (pk6.PID ^ 0x80000000) == pk6.EncryptionConstant
-                    ? new LegalityCheck(Severity.Fishy, "Encryption Constant matches shinyxored PID.")
-                    : new LegalityCheck();
+                if (xor < 16 && xor >= 8 && (pk6.PID ^ 0x80000000) == pk6.EncryptionConstant)
+                    return new LegalityCheck(Severity.Fishy, "Encryption Constant matches shinyxored PID.");
+
+                return special != "" ? new LegalityCheck(Severity.Valid, special) : new LegalityCheck();
             }
 
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.
