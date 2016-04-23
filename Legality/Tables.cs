@@ -794,6 +794,17 @@
             399, 401, 403, 406, 412, 415, 418, 420, 427, 433, 441, 455,
 
             032, // Via Nidoran-F
+
+            440, // Via Chansey
+            238, // Via Jynx
+            239, // Via Electabuzz
+            240, // Via Magmar
+            298, // Via Marill
+            360, // Via Wobbuffet
+            438, // Via Sudowoodo
+            439, // Via Mr. Mime
+            446, // Via Snorlax
+            458, // Via Mantine
         };
 
         internal static readonly int[] Inherit_Safari =
@@ -808,6 +819,15 @@
 
             032, // Via Nidoran-F
             313, // Via Illumise
+
+            440, // Via Chansey
+            239, // Via Electabuzz
+            240, // Via Magmar
+            298, // Via Marill
+            360, // Via Wobbuffet
+            406, // Via Roselia
+            433, // Via Chimecho
+            439, // Via Mr. Mime
         };
         internal static readonly int[] Inherit_Dream =
         {
