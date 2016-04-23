@@ -4,15 +4,24 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class WC6
+    public partial class WC6
     {
         internal const int Size = 0x108;
         internal const int SizeFull = 0x310;
+        internal const uint EonTicketConst = 0x225D73C2;
 
-        public byte[] Data;
+        public readonly byte[] Data;
         public WC6(byte[] data = null)
         {
             Data = data ?? new byte[Size];
+            if (Data.Length == SizeFull)
+            {
+                Data = Data.Skip(SizeFull - Size).ToArray();
+                DateTime now = DateTime.Now;
+                Year = (uint)(now.Year - 2000);
+                Month = (uint)now.Month;
+                Day = (uint)now.Day;
+            }
         }
 
         // General Card Properties

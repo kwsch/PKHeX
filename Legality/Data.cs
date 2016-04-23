@@ -184,6 +184,7 @@ namespace PKHeX
         public int EggLocation = 0;
         public Nature Nature = Nature.Random;
         public bool Gift = false;
+        public int Ball = 4; // Gift Only
         public GameVersion Version = GameVersion.Any;
         public int[] IVs = {-1, -1, -1, -1, -1, -1};
         public int[] Contest = {0, 0, 0, 0, 0, 0};
@@ -343,7 +344,7 @@ namespace PKHeX
         }
         public bool HasFormes => FormeCount > 1;
 
-        internal static PersonalInfo[] getPersonalArray(byte[] data, int size)
+        internal static PersonalInfo[] getArray(byte[] data, int size)
         {
             PersonalInfo[] d = new PersonalInfo[data.Length / size];
             for (int i = 0; i < d.Length; i++)

@@ -37,15 +37,29 @@ namespace PKHeX
             if (pk6.PID == 0)
                 return new LegalityCheck(Severity.Fishy, "PID is not set.");
 
+            string special = "";
             if (pk6.Gen6)
             {
+                // Wurmple -> Silcoon/Cascoon
+                int wIndex = Array.IndexOf(Legal.WurmpleFamily, pk6.Species);
+                if (wIndex > -1)
+                {
+                    // Check if Wurmple was the origin (only Egg and Wild Encounter)
+                    if (pk6.WasEgg || (EncounterType == typeof(EncounterSlot[]) && (EncounterMatch as EncounterSlot[]).All(slot => slot.Species == 265)))
+                        if ((pk6.EncryptionConstant >> 16) % 10 / 5 != wIndex / 2)
+                            return new LegalityCheck(Severity.Invalid, "Wurmple evolution Encryption Constant mismatch.");
+                }
+                else if (pk6.Species == 265)
+                    special = "Wurmple Evolution: " + ((pk6.EncryptionConstant >> 16)%10/5 == 0 ? "Silcoon" : "Cascoon");
+
                 if (pk6.PID == pk6.EncryptionConstant)
                     return new LegalityCheck(Severity.Fishy, "Encryption Constant matches PID.");
 
                 int xor = pk6.TSV ^ pk6.PSV;
-                return xor < 16 && xor >= 8 && (pk6.PID ^ 0x80000000) == pk6.EncryptionConstant
-                    ? new LegalityCheck(Severity.Fishy, "Encryption Constant matches shinyxored PID.")
-                    : new LegalityCheck();
+                if (xor < 16 && xor >= 8 && (pk6.PID ^ 0x80000000) == pk6.EncryptionConstant)
+                    return new LegalityCheck(Severity.Fishy, "Encryption Constant matches shinyxored PID.");
+
+                return special != "" ? new LegalityCheck(Severity.Valid, special) : new LegalityCheck();
             }
 
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.
@@ -191,18 +205,18 @@ namespace PKHeX
                 // Should NOT be Fateful, and should be in Database
                 EncounterLink enc = EncounterMatch as EncounterLink;
                 if (enc == null)
-                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- unable to find matching gift.");
+                    return new LegalityCheck(Severity.Invalid, "Invalid Link Gift: unable to find matching gift.");
                 
                 if (pk6.XY && !enc.XY)
-                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in XY.");
+                    return new LegalityCheck(Severity.Invalid, "Invalid Link Gift: can't obtain in XY.");
                 if (pk6.AO && !enc.ORAS)
-                    return new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- can't obtain in ORAS.");
+                    return new LegalityCheck(Severity.Invalid, "Invalid Link Gift: can't obtain in ORAS.");
                 
                 if (enc.Shiny != null && (bool)enc.Shiny ^ pk6.IsShiny)
                     return new LegalityCheck(Severity.Invalid, "Shiny Link gift mismatch.");
 
                 return pk6.FatefulEncounter 
-                    ? new LegalityCheck(Severity.Invalid, "Not a valid Link gift -- should not be Fateful Encounter.") 
+                    ? new LegalityCheck(Severity.Invalid, "Invalid Link Gift: should not be Fateful Encounter.") 
                     : new LegalityCheck(Severity.Valid, "Valid Link gift.");
             }
             if (pk6.WasEvent || pk6.WasEventEgg)
@@ -451,9 +465,17 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Valid, "Standard Poké Ball.");
 
             if (EncounterType == typeof(EncounterStatic))
+            {
+                EncounterStatic enc = EncounterMatch as EncounterStatic;
+                if (enc.Gift)
+                    return enc.Ball != pk6.Ball // Pokéball by default
+                        ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame gift.")
+                        : new LegalityCheck(Severity.Valid, "Correct ball on ingame gift.");
+
                 return !Legal.WildPokeballs.Contains(pk6.Ball)
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame static encounter.")
                     : new LegalityCheck(Severity.Valid, "Correct ball on ingame static encounter.");
+            }
             if (EncounterType == typeof(EncounterSlot[]))
                 return !Legal.WildPokeballs.Contains(pk6.Ball)
                     ? new LegalityCheck(Severity.Invalid, "Incorrect ball on ingame encounter.")
@@ -628,6 +650,17 @@ namespace PKHeX
             return pk6.AltForm > 0 && (Legal.BattleForms.Contains(pk6.Species) || Legal.BattleMegas.Contains(pk6.Species))
                 ? new LegalityCheck(Severity.Invalid, "Form cannot exist outside of a battle.")
                 : new LegalityCheck();
+        }
+        private LegalityCheck verifyMisc()
+        {
+            if (pk6.Gen6 && Encounter.Valid && EncounterType == typeof(WC6) ^ pk6.FatefulEncounter)
+            {
+                if (EncounterType == typeof(EncounterStatic) && pk6.Species == 386) // Deoxys Matched @ Sky Pillar
+                    return new LegalityCheck();
+                return new LegalityCheck(Severity.Invalid, "Fateful Encounter should " + (pk6.FatefulEncounter ? "not " : "") + "be checked.");
+            }
+
+            return new LegalityCheck();
         }
         private LegalityCheck[] verifyMoves()
         {
