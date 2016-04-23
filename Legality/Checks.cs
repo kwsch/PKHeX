@@ -657,7 +657,7 @@ namespace PKHeX
             {
                 if (EncounterType == typeof(EncounterStatic) && pk6.Species == 386) // Deoxys Matched @ Sky Pillar
                     return new LegalityCheck();
-                return new LegalityCheck(Severity.Invalid, "Fateful Encounter mismatch.");
+                return new LegalityCheck(Severity.Invalid, "Fateful Encounter should " + (pk6.FatefulEncounter ? "not " : "") + "be checked.");
             }
 
             return new LegalityCheck();
