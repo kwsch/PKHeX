@@ -632,6 +632,12 @@ namespace PKHeX
 
             switch (pk6.Species)
             {
+                case 25:
+                    if (pk6.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
+                        return EncounterType == typeof(EncounterStatic)
+                            ? new LegalityCheck(Severity.Invalid, "Cosplay Pikachu cannot have the default form.")
+                            : new LegalityCheck(Severity.Invalid, "Only Cosplay Pikachu can have this form.");
+                    break;
                 case 664:
                 case 665:
                     if (pk6.AltForm > 17) // Fancy & Pokéball
