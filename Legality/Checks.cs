@@ -249,6 +249,8 @@ namespace PKHeX
                 }
                 if (pk6.XY)
                 {
+                    if (pk6.Egg_Location == 318)
+                        return new LegalityCheck(Severity.Invalid, "Invalid X/Y egg location.");
                     return Legal.ValidMet_XY.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid X/Y hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid X/Y location for hatched egg.");
