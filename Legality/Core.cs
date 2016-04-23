@@ -427,10 +427,12 @@ namespace PKHeX
 
             // Filter for Met Level
             int lvl = pk6.Met_Level;
-            EncounterSlot[] encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToArray();
+            var encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
 
             // Pressure Slot
             EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
+            if (slotMax != null)
+                slotMax = new EncounterSlot(slotMax) { Pressure = true, Form = pk6.AltForm };
 
             if (!DexNav)
             {
@@ -439,30 +441,23 @@ namespace PKHeX
                     ? encounterSlots.Where(slot => slot.Form == pk6.AltForm)
                     : encounterSlots);
                 if (slotMax != null)
-                    slotdata.Add(new EncounterSlot(slotMax) { Pressure = true, Form = pk6.AltForm });
+                    slotdata.Add(slotMax);
                 return slotdata;
             }
-            
-            foreach (EncounterSlot slot in encounterSlots.Where(slot => !WildForms.Contains(pk6.Species) || slot.Form == pk6.AltForm))
-            {
-                if (slot.LevelMin >= lvl)
-                    slotdata.Add(new EncounterSlot(slot) { WhiteFlute = true });
-                else if (slot.LevelMax + 1 <= lvl && lvl <= slot.LevelMax + fluteBoost)
-                    slotdata.Add(new EncounterSlot(slot) { BlackFlute = true });
-                else if (slot.LevelMax != lvl && slot.AllowDexNav)
-                    slotdata.Add(new EncounterSlot(slot) { DexNav = true });
-                else
-                    slotdata.Add(new EncounterSlot(slot));
-            }
-            if (slotMax != null)
-            {
-                EncounterSlot slot = new EncounterSlot(slotMax) {Pressure = true, Form = pk6.AltForm};
 
-                if (slot.LevelMin >= lvl)
+            List<EncounterSlot> eslots = encounterSlots.Where(slot => !WildForms.Contains(pk6.Species) || slot.Form == pk6.AltForm).ToList();
+            if (slotMax != null)
+                eslots.Add(slotMax);
+            foreach (EncounterSlot s in eslots)
+            {
+                bool nav = s.AllowDexNav && (pk6.RelearnMove1 != 0 || pk6.AbilityNumber == 4);
+                EncounterSlot slot = new EncounterSlot(s) { DexNav = nav };
+
+                if (slot.LevelMin > lvl)
                     slot.WhiteFlute = true;
-                else if (slot.LevelMax + 1 <= lvl && lvl <= slot.LevelMax + fluteBoost)
+                if (slot.LevelMax + 1 <= lvl && lvl <= slot.LevelMax + fluteBoost)
                     slot.BlackFlute = true;
-                else if (slot.LevelMax != lvl && slot.AllowDexNav)
+                if (slot.LevelMax != lvl && slot.AllowDexNav)
                     slot.DexNav = true;
                 slotdata.Add(slot);
             }
