@@ -2747,20 +2747,31 @@ namespace PKHeX
 
             int offset = getPKXOffset(slot);
             PK6 pk = preparepkx();
-            if (!SAV.ORAS)
+            string err = "";
+            if (SAV.XY)
             {
                 // User Protection
-                string err = "";
                 if (pk.Moves.Any(m => m > 617))
                     err = "Move does not exist in X/Y.";
                 else if (pk.Ability > 188)
                     err = "Ability does not exist in X/Y.";
                 else if (pk.HeldItem > 717)
                     err = "Item does not exist in X/Y.";
-
-                if (err != "" && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
-                    return;
+                else if (pk.Species > 721)
+                    err = "Species does not exist in X/Y.";
+                else if (pk.AltForm > Legal.PersonalXY[pk.Species].FormeCount - 1)
+                    err = "Form does not exist in X/Y.";
             }
+            else if (SAV.ORAS)
+            {
+                if (pk.Species > 721)
+                    err = "Species does not exist in OR/AS.";
+                else if (pk.AltForm > Legal.PersonalAO[pk.Species].FormeCount - 1)
+                    err = "Form does not exist in OR/AS.";
+            }
+            if (!string.IsNullOrEmpty(err) && Util.Prompt(MessageBoxButtons.YesNo, err, "Continue?") != DialogResult.Yes)
+                return;
+
             if (slot >= 30 && slot < 36) // Party
                 SAV.setPK6Party(pk, offset);
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
