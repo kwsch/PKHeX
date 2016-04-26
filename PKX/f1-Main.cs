@@ -817,7 +817,7 @@ namespace PKHeX
 
             // Hide content if not present in game.
             PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.Box > -1;
-            Menu_LoadBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.Box > -1;
+            Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.Box > -1;
             PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.BattleBox > -1;
             GB_Daycare.Visible = SAV.Daycare > -1;
             GB_Fused.Visible = SAV.Fused > -1;
@@ -2171,7 +2171,6 @@ namespace PKHeX
 
             if (new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Contains(sender)) // Move
                 updatePP(sender, e);
-
             
             // Refresh Relearn if...
             if (new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 }.Contains(sender))
@@ -2472,7 +2471,6 @@ namespace PKHeX
             pk6.IsNicknamed = CHK_Nicknamed.Checked;
 
             // Block C
-            // Convert Latest OT field back to bytes
             pk6.HT_Name = TB_OTt2.Text;
 
             // 0x90-0xAF
@@ -2480,9 +2478,7 @@ namespace PKHeX
             // Plus more, set by MemoryAmie (already in buff)
 
             // Block D
-            // Convert OT field back to bytes
             pk6.OT_Name = TB_OT.Text;
-
             pk6.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
 
             int egg_year = 2000;                                   // Default Dates
@@ -2952,7 +2948,7 @@ namespace PKHeX
         }
         private int getPKXOffset(int slot)
         {
-            if (slot < 30)      // Box Slot
+            if (slot < 30) // Box Slot
                 return SAV.Box + (30 * CB_BoxSelect.SelectedIndex + slot) * PK6.SIZE_STORED;
             if (slot < 36) // Party Slot
                 return SAV.Party + (slot - 30) * PK6.SIZE_PARTY;
@@ -3109,7 +3105,6 @@ namespace PKHeX
         {
             setPKXBoxes();
         }
-
         private void switchDaycare(object sender, EventArgs e)
         {
             if (!SAV.ORAS) return;
@@ -3121,7 +3116,6 @@ namespace PKHeX
             // Refresh Boxes
             setPKXBoxes();
         }
-
         private void dumpBoxesToDB(string path, bool individualBoxFolders)
         {
             PK6[] boxdata = SAV.BoxData;
@@ -3134,7 +3128,7 @@ namespace PKHeX
                 string boxfolder = "";
                 if (individualBoxFolders)
                 {
-                    boxfolder = "BOX" + (i / 30 + 1);
+                    boxfolder = SAV.getBoxName(i/30);
                     Directory.CreateDirectory(Path.Combine(path, boxfolder));
                 }
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
@@ -3254,12 +3248,10 @@ namespace PKHeX
         // Subfunction Save Buttons //
         private void B_OpenWondercards_Click(object sender, EventArgs e)
         {
-            // Open Wondercard Menu
             new SAV_Wondercard().ShowDialog();
         }
         private void B_OpenBoxLayout_Click(object sender, EventArgs e)
         {
-            // Open Box Layout Menu
             new SAV_BoxLayout(CB_BoxSelect.SelectedIndex).ShowDialog();
             setBoxNames(); // fix box names
             setPKXBoxes(); // refresh box background
@@ -3282,25 +3274,22 @@ namespace PKHeX
         {
             if (SAV.ORAS)
                 new SAV_BerryFieldORAS().ShowDialog();
-            else
+            else if (SAV.XY)
                 new SAV_BerryFieldXY().ShowDialog();
         }
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
-            // Open Flag Menu
             if (SAV.ORAS)
                 new SAV_EventFlagsORAS().ShowDialog();
-            else
+            else if (SAV.XY)
                 new SAV_EventFlagsXY().ShowDialog();
         }
         private void B_OpenSuperTraining_Click(object sender, EventArgs e)
         {
-            // Open ST Menu
             new SAV_SuperTrain().ShowDialog();
         }
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
-            // Open O-Power Menu
             if (SAV.ORAS)
             {
                 DialogResult dr = Util.Prompt(MessageBoxButtons.YesNo, "No editing support for ORAS :(", "Max O-Powers with a working code?");
@@ -3314,15 +3303,14 @@ namespace PKHeX
                     0x01, 0x00, 0x00, 0x00, 
                 }.CopyTo(SAV.Data, SAV.OPower);
             }
-            else
+            else if (SAV.XY)
                 new SAV_OPower().ShowDialog();
         }
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
-            // Open Pokedex Menu
             if (SAV.ORAS)
                 new SAV_PokedexORAS().ShowDialog();
-            else
+            else if (SAV.XY)
                 new SAV_PokedexXY().ShowDialog();
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
@@ -3383,12 +3371,10 @@ namespace PKHeX
         }
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
         {
-            // Open HoF Menu
             new SAV_HallOfFame().ShowDialog();
         }
         private void B_OpenSecretBase_Click(object sender, EventArgs e)
         {
-            // Open Secret Base Menu
             new SAV_SecretBase().ShowDialog();
         }
         private void B_JPEG_Click(object sender, EventArgs e)
