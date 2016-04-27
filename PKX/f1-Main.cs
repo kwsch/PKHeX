@@ -677,7 +677,7 @@ namespace PKHeX
             {
                 if (input.Length == WC6.SizeFull) // Take bytes at end = WC6 size.
                     input = input.Skip(WC6.SizeFull - WC6.Size).ToArray();
-                if (ModifierKeys == Keys.Control)
+                if (ModifierKeys == Keys.Control && SAV.PokeDex > -1)
                     new SAV_Wondercard(input).ShowDialog();
                 else
                 {
