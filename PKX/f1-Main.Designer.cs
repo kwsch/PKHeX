@@ -231,7 +231,6 @@
             this.Menu_ShowdownExportParty = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportBattleBox = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_CyberGadget = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_CodeGenerator = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenTemp = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenCache = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Data = new System.Windows.Forms.ToolStripMenuItem();
@@ -2848,19 +2847,11 @@
             // Menu_CyberGadget
             // 
             this.Menu_CyberGadget.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_CodeGenerator,
             this.Menu_OpenTemp,
             this.Menu_OpenCache});
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
             this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
-            // 
-            // Menu_CodeGenerator
-            // 
-            this.Menu_CodeGenerator.Name = "Menu_CodeGenerator";
-            this.Menu_CodeGenerator.Size = new System.Drawing.Size(175, 22);
-            this.Menu_CodeGenerator.Text = "Code Generator";
-            this.Menu_CodeGenerator.Click += new System.EventHandler(this.mainMenuCodeGen);
             // 
             // Menu_OpenTemp
             // 
@@ -4844,7 +4835,6 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportParty;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportBattleBox;
         private System.Windows.Forms.ToolStripMenuItem Menu_CyberGadget;
-        private System.Windows.Forms.ToolStripMenuItem Menu_CodeGenerator;
         private System.Windows.Forms.ToolStripMenuItem Menu_OpenTemp;
         private System.Windows.Forms.ToolStripMenuItem Menu_OpenCache;
         private System.Windows.Forms.ToolStripMenuItem Menu_Data;

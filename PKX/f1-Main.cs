@@ -290,24 +290,6 @@ namespace PKHeX
             new About().ShowDialog();
         }
         // Sub Menu Options
-        private void mainMenuCodeGen(object sender, EventArgs e)
-        {
-            // Open Code Generator
-            CodeGenerator CodeGen = new CodeGenerator(verifiedPKX() ? preparepkx().Data : null);
-            CodeGen.ShowDialog();
-
-            byte[] data = CodeGen.returnArray;
-            if (data == null) return;
-            byte[] decdata = PKX.decryptArray(data);
-            Array.Copy(decdata, pk6.Data, PK6.SIZE_STORED);
-            try { populateFields(pk6); }
-            catch
-            {
-                Array.Copy(new byte[PK6.SIZE_STORED], pk6.Data, PK6.SIZE_STORED);
-                populateFields(pk6);
-                Util.Error("Imported code did not decrypt properly", "Please verify that what you imported was correct.");
-            }
-        }
         private void mainMenuBoxReport(object sender, EventArgs e)
         {
             var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(frmReport)) as frmReport;
@@ -794,7 +776,6 @@ namespace PKHeX
             // Enable Secondary Tools
             GB_SAVtools.Enabled = B_JPEG.Enabled = true;
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
-            Menu_CodeGenerator.Enabled = !SAV.ORASDEMO && SAV.Exportable;
 
             setBoxNames();   // Display the Box Names
             setPKXBoxes();   // Reload all of the PKX Windows

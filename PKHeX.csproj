@@ -100,12 +100,6 @@
     <Compile Include="Misc\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\CodeGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Misc\CodeGenerator.Designer.cs">
-      <DependentUpon>CodeGenerator.cs</DependentUpon>
-    </Compile>
     <Compile Include="Misc\PKX.cs" />
     <Compile Include="PKX\f1-Main.cs">
       <SubType>Form</SubType>
@@ -249,9 +243,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Misc\CodeGenerator.resx">
-      <DependentUpon>CodeGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PKX\f1-Main.resx">
       <DependentUpon>f1-Main.cs</DependentUpon>
