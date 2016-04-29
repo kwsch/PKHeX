@@ -19,8 +19,7 @@ namespace PKHeX
 
             return seed = seed * a + c;
         }
-
-        internal static Converter Config = new Converter();
+        
         internal static readonly string[] speclang_ja = Util.getStringList("species", "ja");
         internal static readonly string[] speclang_en = Util.getStringList("species", "en");
         internal static readonly string[] speclang_fr = Util.getStringList("species", "fr");

@@ -878,7 +878,7 @@ namespace PKHeX
             for (int i = 0; i < balllist.Length; i++)
                 balllist[i] = itemlist[Legal.Items_Ball[i]];
 
-            if ((l != "pt") || (l == "pt" && !fieldsInitialized)) // load initial binaries
+            if (l != "pt" || (l == "pt" && !fieldsInitialized)) // load initial binaries
             {
                 pokeblocks = Util.getStringList("pokeblock", l);
                 forms = Util.getStringList("forms", l);
@@ -1514,7 +1514,6 @@ namespace PKHeX
             TB_HPIV.Text = newIVs[0].ToString();
             TB_ATKIV.Text = newIVs[1].ToString();
             TB_DEFIV.Text = newIVs[2].ToString();
-
             TB_SPAIV.Text = newIVs[3].ToString();
             TB_SPDIV.Text = newIVs[4].ToString();
             TB_SPEIV.Text = newIVs[5].ToString();
@@ -1575,7 +1574,7 @@ namespace PKHeX
                 TB_EVTotal.BackColor = Color.Honeydew;
             else if (evtotal == 508) // Fishy EVs
                 TB_EVTotal.BackColor = Color.LightYellow;
-            else TB_EVTotal.BackColor = Color.WhiteSmoke;
+            else TB_EVTotal.BackColor = TB_IVTotal.BackColor;
 
             TB_EVTotal.Text = evtotal.ToString();
             changingFields = false;
@@ -1878,7 +1877,7 @@ namespace PKHeX
                 }
                 #endregion
             }
-            else if (Version > 23 && (origintrack != "XY"))
+            else if (Version > 23 && origintrack != "XY")
             {
                 // Load X/Y/OR/AS locations
                 #region ORAS Met Locations
@@ -1924,9 +1923,9 @@ namespace PKHeX
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
-            CB_EncounterType.Visible = Label_EncounterType.Visible = !(Version > 12 || Version < 7);
-            // If not Gen 4, set Encounter Type to 0 after it set !visible.
-            if (Version > 12 || Version < 7)
+            bool g4 = Version >= 7 && Version <= 12 && Version != 9;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = g4;
+            if (!g4)
                 CB_EncounterType.SelectedValue = 0;
 
             setMarkings(); // Set/Remove KB marking
