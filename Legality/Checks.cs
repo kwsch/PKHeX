@@ -776,7 +776,7 @@ namespace PKHeX
             {
                 // Get WC6's that match
                 CardMatch = new List<WC6>(Legal.getValidWC6s(pk6));
-                foreach (var wc in CardMatch)
+                foreach (var wc in CardMatch.ToArray())
                 {
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
