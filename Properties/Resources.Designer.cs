@@ -14609,13 +14609,14 @@ namespace PKHeX.Properties {
         ///CTRL-D: Open Database
         ///CTRL-R: Open Box Report
         ///CTRL-P: Open About PKHeX
+        ///CTRL-T: Import Showdown Set
+        ///CTRL-SHIFT-T: Export Showdown Set
         ///
         ///Control + Click on...
         ///- Species: Import Showdown/Smogon set from Clipboard.
         ///- Nickname/OT box: Bring up the ingame-special characters.
-        ///- Randomize IVs: Set all IVs to max.
-        ///- Randomize EVs: Set all EVs to 0.
-        ///- PP Ups Label: Set all PP Ups t [rest of string was truncated]&quot;;.
+        ///- Individual IVs: Set IV to max.
+        ///- Indivi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
@@ -18445,7 +18446,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18460,7 +18461,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_de {
             get {
@@ -18478,7 +18479,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18493,7 +18494,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_en {
             get {
@@ -18511,7 +18512,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18526,7 +18527,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_es {
             get {
@@ -18544,7 +18545,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18559,7 +18560,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_fr {
             get {
@@ -18577,7 +18578,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18592,7 +18593,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_it {
             get {
@@ -18610,7 +18611,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18625,7 +18626,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_ja {
             get {
@@ -18643,7 +18644,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18658,7 +18659,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_ko {
             get {
@@ -18676,7 +18677,7 @@ namespace PKHeX.Properties {
         ///
         ///Surfing/Fishing
         ///
-        ///Building
+        ///Building/Enigma Stone
         ///Marsh/Safari
         ///
         ///Starter/Fossil/Gift (DP)
@@ -18691,7 +18692,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt).
+        ///Starter/Fossil/Gift (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_zh {
             get {
@@ -28767,6 +28768,16 @@ namespace PKHeX.Properties {
         internal static byte[] wc6 {
             get {
                 object obj = ResourceManager.GetObject("wc6", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] wc6full {
+            get {
+                object obj = ResourceManager.GetObject("wc6full", resourceCulture);
                 return ((byte[])(obj));
             }
         }

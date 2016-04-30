@@ -832,7 +832,10 @@ namespace PKHeX
             byte[] wc6bin = Properties.Resources.wc6;
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
                 wc6db.Add(new WC6(wc6bin.Skip(i).Take(WC6.Size).ToArray()));
-            
+            byte[] wc6full = Properties.Resources.wc6full;
+            for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
+                wc6db.Add(new WC6(wc6full.Skip(i).Take(WC6.SizeFull).ToArray()));
+
             if (Directory.Exists(WC6DatabasePath))
                 wc6db.AddRange(from file in Directory.GetFiles(WC6DatabasePath, "*", SearchOption.AllDirectories)
                     let fi = new FileInfo(file)
