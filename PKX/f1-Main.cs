@@ -1828,18 +1828,17 @@ namespace PKHeX
             // Check for Gender Changes
             // Get Gender Threshold
             int gt = PKX.Personal[Species].Gender;
-            int genderflag;
 
             if (gt == 255)      // Genderless
-                genderflag = 2;
+                Gender = 2;
             else if (gt == 254) // Female Only
-                genderflag = 1;
-            else if (gt == 0) // Male Only
-                genderflag = 0;
-            else // get gender from old PID correlation
-                genderflag = (Util.getHEXval(TB_PID.Text) & 0xFF) <= gt ? 1 : 0;
-
-            int Gender = genderflag;
+                Gender = 1;
+            else if (gt == 0)  // Male Only
+                Gender = 0;
+                Gender = (Util.getHEXval(TB_PID.Text) & 0xFF) <= gt ? 1 : 0;
+            else
+                Gender = cg;
+            
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
             setAbilityList(TB_AbilityNumber, Species, CB_Ability, CB_Form);
