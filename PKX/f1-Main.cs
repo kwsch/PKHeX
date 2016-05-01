@@ -1828,6 +1828,8 @@ namespace PKHeX
             // Check for Gender Changes
             // Get Gender Threshold
             int gt = PKX.Personal[Species].Gender;
+            int cg = Array.IndexOf(gendersymbols, Label_Gender.Text);
+            int Gender;
 
             if (gt == 255)      // Genderless
                 Gender = 2;
@@ -1835,6 +1837,7 @@ namespace PKHeX
                 Gender = 1;
             else if (gt == 0)  // Male Only
                 Gender = 0;
+            else if (cg == 2 || Util.getIndex(CB_GameOrigin) < 24)
                 Gender = (Util.getHEXval(TB_PID.Text) & 0xFF) <= gt ? 1 : 0;
             else
                 Gender = cg;
