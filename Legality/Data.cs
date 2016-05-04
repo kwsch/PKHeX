@@ -188,6 +188,7 @@ namespace PKHeX
         public int Ball = 4; // Gift Only
         public GameVersion Version = GameVersion.Any;
         public int[] IVs = {-1, -1, -1, -1, -1, -1};
+        public bool IV3;
         public int[] Contest = {0, 0, 0, 0, 0, 0};
     }
     public class EncounterTrade

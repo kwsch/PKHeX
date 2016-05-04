@@ -175,6 +175,9 @@ namespace PKHeX
         }
         private LegalityCheck verifyIVs()
         {
+            if (EncounterType == typeof(EncounterStatic) && (EncounterMatch as EncounterStatic)?.IV3 == true)
+                if (pk6.IVs.Count(iv => iv == 31) < 3)
+                    return new LegalityCheck(Severity.Invalid, "Should have at least 3 IVs = 31.");
             if (pk6.IVs.Sum() == 0)
                 return new LegalityCheck(Severity.Fishy, "All IVs are zero.");
             if (pk6.IVs[0] < 30 && pk6.IVs.All(iv => pk6.IVs[0] == iv))
