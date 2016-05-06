@@ -623,11 +623,13 @@ namespace PKHeX
             #region Box Data
             else if ((input.Length == PK6.SIZE_STORED * 30 || input.Length == PK6.SIZE_STORED * 30 * 31) && BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input, 8) > 0)
             {
+                bool? noSetb = getPK6Override();
+
                 int baseOffset = SAV.Box + PK6.SIZE_STORED * 30 * (input.Length == PK6.SIZE_STORED * 30 ? CB_BoxSelect.SelectedIndex : 0);
                 for (int i = 0; i < input.Length / PK6.SIZE_STORED; i++)
                 {
                     byte[] data = input.Skip(PK6.SIZE_STORED * i).Take(PK6.SIZE_STORED).ToArray();
-                    SAV.setEK6Stored(data, baseOffset + i * PK6.SIZE_STORED);
+                    SAV.setEK6Stored(data, baseOffset + i * PK6.SIZE_STORED, noSetb);
                 }
                 setPKXBoxes();
                 Util.Alert("Box Binary loaded.");
@@ -639,11 +641,7 @@ namespace PKHeX
                 if (Util.Prompt(MessageBoxButtons.YesNo, "Load Batte Video Pokémon data to " + CB_BoxSelect.Text + "?", "The first 24 slots will be overwritten.") != DialogResult.Yes)
                     return;
 
-                DialogResult noSet = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading overrides:",
-                    "Yes - Modify .pk6 when set to SAV" + Environment.NewLine +
-                    "No - Don't modify .pk6" + Environment.NewLine +
-                    "Cancel - Use current settings (" + (Menu_ModifyPK6.Checked ? "Yes" : "No") + ")");
-                bool? noSetb = noSet == DialogResult.Yes ? true : (noSet == DialogResult.No ? (bool?)false : null);
+                bool? noSetb = getPK6Override();
 
                 for (int i = 0; i < 24; i++)
                 {
@@ -3137,6 +3135,9 @@ namespace PKHeX
                 for (int i = ctr; i < 30 * 31; i++)
                     SAV.setData(blankEK6, offset + i * PK6.SIZE_STORED);
             }
+            
+            bool? noSetb = getPK6Override();
+
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
 
             foreach (string t in filepaths)
@@ -3200,7 +3201,7 @@ namespace PKHeX
                     default:
                         continue;
                 }
-                SAV.setEK6Stored(data, offset + ctr++ * PK6.SIZE_STORED);
+                SAV.setEK6Stored(data, offset + ctr++ * PK6.SIZE_STORED, noSetb);
                 if (ctr == 30 * 31) break; // break out if we have written all 31 boxes
             }
             ctr -= 30*CB_BoxSelect.SelectedIndex; // actual imported count
@@ -3229,6 +3230,14 @@ namespace PKHeX
                 if (sfd.ShowDialog() == DialogResult.OK)
                     File.WriteAllBytes(sfd.FileName, SAV.getData(SAV.Box + PK6.SIZE_STORED * 30 * CB_BoxSelect.SelectedIndex, PK6.SIZE_STORED * 30));
             }
+        }
+        private bool? getPK6Override()
+        {
+            DialogResult noSet = Util.Prompt(MessageBoxButtons.YesNoCancel, "Loading overrides:",
+                "Yes - Modify .pk6 when set to SAV" + Environment.NewLine +
+                "No - Don't modify .pk6" + Environment.NewLine +
+                "Cancel - Use current settings (" + (Menu_ModifyPK6.Checked ? "Yes" : "No") + ")");
+            return noSet == DialogResult.Yes ? true : (noSet == DialogResult.No ? (bool?)false : null);
         }
 
         // Subfunction Save Buttons //
