@@ -1412,6 +1412,7 @@ namespace PKHeX
             // Get Save Information
             TB_OT.Text = SAV.OT;
             Label_OTGender.Text = gendersymbols[SAV.Gender % 2];
+            Label_OTGender.ForeColor = SAV.Gender == 1 ? Color.Red : Color.Blue;
             TB_TID.Text = SAV.TID.ToString();
             TB_SID.Text = SAV.SID.ToString();
             CB_GameOrigin.SelectedValue = SAV.Game;
