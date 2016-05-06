@@ -353,6 +353,43 @@ namespace PKHeX
             return res.Distinct();
         }
 
+        internal static bool getCanBeCaptured(int species, int version = -1)
+        {
+            if (version < 0 || version == (int)GameVersion.X)
+            {
+                if (SlotsX.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
+                    return true;
+                if (FriendSafari.Contains(species))
+                    return true;
+                if (StaticX.Any(enc => enc.Species == species && !enc.Gift))
+                    return true;
+            }
+            if (version < 0 || version == (int)GameVersion.Y)
+            {
+                if (SlotsY.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
+                    return true;
+                if (FriendSafari.Contains(species))
+                    return true;
+                if (StaticY.Any(enc => enc.Species == species && !enc.Gift))
+                    return true;
+            }
+            if (version < 0 || version == (int)GameVersion.AS)
+            {
+                if (SlotsA.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
+                    return true;
+                if (StaticA.Any(enc => enc.Species == species && !enc.Gift))
+                    return true;
+            }
+            if (version < 0 || version == (int)GameVersion.OR)
+            {
+                if (SlotsO.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
+                    return true;
+                if (StaticO.Any(enc => enc.Species == species && !enc.Gift))
+                    return true;
+            }
+            return false;
+        }
+
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
         {
             if (pk6.Species == 292)

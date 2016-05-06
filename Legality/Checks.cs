@@ -648,6 +648,10 @@ namespace PKHeX
             {
                 case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
                     return new LegalityCheck(Severity.Invalid, "OT Memory: Link Trade is not a valid first memory.");
+                case 14:
+                    if (!Legal.getCanBeCaptured(pk6.OT_TextVar, pk6.Version))
+                        return new LegalityCheck(Severity.Invalid, "OT Memory: Captured Species can not be captured in game.");
+                    return new LegalityCheck(Severity.Valid, "OT Memory: Captured Species can be captured in game.");
             }
             if (pk6.XY && Legal.Memory_NotXY.Contains(pk6.OT_Memory))
                 return new LegalityCheck(Severity.Invalid, "OT Memory: OR/AS exclusive memory on X/Y origin.");
@@ -667,6 +671,10 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "HT Memory: Handling Trainer did not capture this.");
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
                     return new LegalityCheck(Severity.Invalid, "HT Memory: Handling Trainer did not hatch this.");
+                case 14:
+                    if (!Legal.getCanBeCaptured(pk6.HT_TextVar))
+                        return new LegalityCheck(Severity.Invalid, "HT Memory: Captured Species can not be captured in game.");
+                    return new LegalityCheck(Severity.Valid, "HT Memory: Captured Species can be captured in game.");
             }
             return new LegalityCheck(Severity.Valid, "HT Memory is valid.");
         }
