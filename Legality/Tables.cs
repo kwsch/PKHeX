@@ -870,5 +870,26 @@
             268, 269, // Cascoon Dustox
         };
         #endregion
+        #region Memory Table
+        internal static readonly int[] Memory_NotXY =
+        {
+            61, // {0} looked down at the world from a tall tower where it went with {1}. {4} that {3}.
+            65, // {0} was with {1} when (he/she) built a Secret Base. {4} that {3}.
+            66, // {0} participated in a contest with {1} and impressed many people. {4} that {3}.
+            67, // {0} participated in a contest with {1} and won the title. {4} that {3}.
+            68, // {0} soared through the sky with {1} and went to many different places. {4} that {3}.
+            69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
+        };
+        internal static readonly int[] Memory_NotAO =
+        {
+            5,  // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
+            11, // {0} went clothes shopping with {1}. {4} that {3}.
+            43, // {0} was impressed by the speed of the train it took with {1}. {4} that {3}.
+            44, // {0} encountered {2} with {1} using the Poké Radar. {4} that {3}.
+            56, // {0} was with {1} when (he/she) went to a boutique and tried on clothes, but (he/she) left the boutique without buying anything. {4} that {3}.
+            57, // {0} went to a nice restaurant with {1} and ate until it got totally full. {4} that {3}.
+            62, // {0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
+        };
+        #endregion
     }
 }

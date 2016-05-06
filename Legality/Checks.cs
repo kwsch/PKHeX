@@ -560,7 +560,7 @@ namespace PKHeX
 
             return new LegalityCheck(Severity.Invalid, "No ball check satisfied, assuming illegal.");
         }
-        private LegalityCheck verifyHandlerMemories()
+        private LegalityCheck verifyHistory()
         {
             if (!Encounter.Valid)
                 return new LegalityCheck(Severity.Valid, "Skipped Memory check due to other check being invalid.");
@@ -627,6 +627,48 @@ namespace PKHeX
             // Unimplemented: Ingame Trade Memories
 
             return new LegalityCheck(Severity.Valid, "History is valid.");
+        }
+        private LegalityCheck verifyOTMemory()
+        {
+            if (!History.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped OT Memory check as History is not valid.");
+
+            if (EncounterType == typeof(EncounterTrade))
+            {
+                return new LegalityCheck(Severity.Valid, "OT Memory (Ingame Trade) is valid.");
+            }
+            if (EncounterType == typeof(WC6))
+            {
+                if (pk6.OT_Memory != 0)
+                    return new LegalityCheck(Severity.Invalid, "Event Pokémon should not have an OT memory.");
+
+                return new LegalityCheck(Severity.Valid, "OT Memory (Event) is valid.");
+            }
+            switch (pk6.OT_Memory)
+            {
+                case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
+                    return new LegalityCheck(Severity.Invalid, "OT Memory: Link Trade is not a valid first memory.");
+            }
+            if (pk6.XY && Legal.Memory_NotXY.Contains(pk6.OT_Memory))
+                return new LegalityCheck(Severity.Invalid, "OT Memory: OR/AS exclusive memory on X/Y origin.");
+            if (pk6.AO && Legal.Memory_NotAO.Contains(pk6.OT_Memory))
+                return new LegalityCheck(Severity.Invalid, "OT Memory: X/Y exclusive memory on OR/AS origin.");
+
+            return new LegalityCheck(Severity.Valid, "OT Memory is valid.");
+        }
+        private LegalityCheck verifyHTMemory()
+        {
+            if (!History.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped OT Memory check as History is not valid.");
+
+            switch (pk6.HT_Memory)
+            {
+                case 1: // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
+                    return new LegalityCheck(Severity.Invalid, "HT Memory: Handling Trainer did not capture this.");
+                case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
+                    return new LegalityCheck(Severity.Invalid, "HT Memory: Handling Trainer did not hatch this.");
+            }
+            return new LegalityCheck(Severity.Valid, "HT Memory is valid.");
         }
         private LegalityCheck verifyForm()
         {

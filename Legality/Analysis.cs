@@ -10,8 +10,8 @@ namespace PKHeX
         private object EncounterMatch;
         private List<WC6> CardMatch;
         private Type EncounterType;
-        private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, HandlerMemories, Form, Misc;
-        private LegalityCheck[] Checks => new[] { Encounter, Level, Form, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, HandlerMemories, Misc };
+        private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, History, OTMemory, HTMemory, Form, Misc;
+        private LegalityCheck[] Checks => new[] { Encounter, Level, Form, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, History, OTMemory, HTMemory, Misc };
 
         public bool Valid = true;
         public bool SecondaryChecked;
@@ -56,7 +56,9 @@ namespace PKHeX
             Ribbons = verifyRibbons();
             Ability = verifyAbility();
             Ball = verifyBall();
-            HandlerMemories = verifyHandlerMemories();
+            History = verifyHistory();
+            OTMemory = verifyOTMemory();
+            HTMemory = verifyHTMemory();
             Form = verifyForm();
             Misc = verifyMisc();
             SecondaryChecked = true;
