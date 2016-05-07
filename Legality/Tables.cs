@@ -885,7 +885,6 @@
         #region Memory Table
         internal static readonly int[] Memory_NotXY =
         {
-            61, // {0} looked down at the world from a tall tower where it went with {1}. {4} that {3}.
             65, // {0} was with {1} when (he/she) built a Secret Base. {4} that {3}.
             66, // {0} participated in a contest with {1} and impressed many people. {4} that {3}.
             67, // {0} participated in a contest with {1} and won the title. {4} that {3}.
