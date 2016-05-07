@@ -574,5 +574,26 @@ namespace PKHeX
             moves.AddRange(TMHM_AO.Where((t, i) => pkAO.TMHM[i]));
             return moves;
         }
+        internal static bool isValidMachineMove(PK6 pk6, int move)
+        {
+            List<int> r = new List<int> { 0 };
+            int species = pk6.Species;
+            if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
+            {
+                int formcount = PersonalAO[species].FormeCount;
+                for (int i = 0; i < formcount; i++)
+                {
+                    // Check all Forms
+                    r.AddRange(getMachineMoves(species, i));
+                }
+            }
+            r.AddRange(getMachineMoves(species, pk6.AltForm));
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
+            foreach (DexLevel evo in vs)
+            {
+                r.AddRange(getMachineMoves(evo.Species, pk6.AltForm));
+            }
+            return r.Contains(move);
+        }
     }
 }
