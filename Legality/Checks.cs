@@ -628,6 +628,28 @@ namespace PKHeX
 
             return new LegalityCheck(Severity.Valid, "History is valid.");
         }
+        private LegalityCheck verifyCommonMemory(int handler)
+        {
+            int m = 0;
+            string resultPrefix = "";
+            switch (handler)
+            {
+                case 0:
+                    m = pk6.OT_Memory;
+                    resultPrefix = "OT ";
+                    break;
+                case 1:
+                    m = pk6.HT_Memory;
+                    resultPrefix = "HT ";
+                    break;
+            }
+            int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
+            if (matchingMoveMemory != -1 && !Legal.isValidMachineMove(pk6, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.");
+            }
+            return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
+        }
         private LegalityCheck verifyOTMemory()
         {
             if (!History.Valid)
@@ -658,7 +680,7 @@ namespace PKHeX
             if (pk6.AO && Legal.Memory_NotAO.Contains(pk6.OT_Memory))
                 return new LegalityCheck(Severity.Invalid, "OT Memory: X/Y exclusive memory on OR/AS origin.");
 
-            return new LegalityCheck(Severity.Valid, "OT Memory is valid.");
+            return verifyCommonMemory(0);
         }
         private LegalityCheck verifyHTMemory()
         {
@@ -676,7 +698,7 @@ namespace PKHeX
                         return new LegalityCheck(Severity.Invalid, "HT Memory: Captured Species can not be captured in game.");
                     return new LegalityCheck(Severity.Valid, "HT Memory: Captured Species can be captured in game.");
             }
-            return new LegalityCheck(Severity.Valid, "HT Memory is valid.");
+            return verifyCommonMemory(1);
         }
         private LegalityCheck verifyForm()
         {
