@@ -574,6 +574,18 @@
                     new EncounterSlot { Species = 531, LevelMin = 10, LevelMax = 12, Form = 0 }, // Audino
                 },},
 
+            new EncounterArea { Location = 38, // Route 7
+                Slots = new[]
+                {
+                    // Berry Field
+                    new EncounterSlot { Species = 165, LevelMin = 14, LevelMax = 15, Form = 0 }, // Ledyba
+                    new EncounterSlot { Species = 313, LevelMin = 14, LevelMax = 15, Form = 0 }, // Volbeat
+                    new EncounterSlot { Species = 314, LevelMin = 14, LevelMax = 15, Form = 0 }, // Illumise
+                    new EncounterSlot { Species = 412, LevelMin = 14, LevelMax = 15, Form = 0 }, // Burmy
+                    new EncounterSlot { Species = 415, LevelMin = 14, LevelMax = 15, Form = 0 }, // Combee
+                    new EncounterSlot { Species = 665, LevelMin = 14, LevelMax = 15, Form = 0 }, // Spewpa
+                },},
+
             new EncounterArea { Location = 88, // Route 18
                 Slots = new[]
                 {
