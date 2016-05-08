@@ -652,7 +652,7 @@ namespace PKHeX
                     break;
             }
             int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
-            if (matchingMoveMemory != -1 && !Legal.isValidMachineMove(pk6, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
+            if (matchingMoveMemory != -1 && pk6.Species != 235  && !Legal.isValidMachineMove(pk6, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
             {
                 return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.");
             }
