@@ -583,7 +583,7 @@ namespace PKHeX
                 if (pk6.OT_Feeling != MatchedWC6.OT_Feeling)
                     return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC6.OT_Feeling) + ".");
             }
-            if (!pk6.WasEvent && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
+            if (!pk6.WasEvent && !(pk6.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
             {
                 if (pk6.HT_Name.Length != 0)
                     return new LegalityCheck(Severity.Invalid, "GeoLocation -- HT Name present but has no previous Country.");
