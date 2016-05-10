@@ -914,6 +914,44 @@
             },
             new[] { 57, 19, 70, 15, 249, 127, 291}, // Move IDs
         };
+        internal static readonly int[][] LocationsWithPKCenter =
+        {
+            new[] {
+                // Kalos locations with a PKMN CENTER
+                18,  // Santalune City
+                22,  // Lumiose City
+                30,  // Camphrier Town
+                40,  // Cyllage City
+                44,  // Ambrette Town
+                52,  // Geosenge Towny
+                58,  // Shalour City
+                64,  // Coumarine City
+                70,  // Laverre City
+                76,  // Dendemille Town
+                86,  // Anistar City
+                90,  // Couriway Town
+                94,  // Snowbelle City
+                106, // Pokémon League (X/Y)
+                // Hoenn locations with a PKMN CENTER
+                172, // Oldale Town
+                174, // Dewford Town
+                176, // Lavaridge Town
+                178, // Fallarbor Town
+                180, // Verdanturf Town
+                182, // Pacifidlog Town
+                184, // Petalburg City
+                186, // Slateport City
+                188, // Mauville City
+                190, // Rustboro City
+                192, // Fortree City
+                194, // Lilycove City
+                196, // Mossdeep City
+                198, // Sootopolis City
+                200, // Ever Grande City
+                202, // Pokémon League (OR/AS)
+            },
+            new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // Region matching
+        };
         #endregion
     }
 }

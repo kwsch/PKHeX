@@ -639,15 +639,18 @@ namespace PKHeX
         private LegalityCheck verifyCommonMemory(int handler)
         {
             int m = 0;
+            int t = 0;
             string resultPrefix = "";
             switch (handler)
             {
                 case 0:
                     m = pk6.OT_Memory;
+                    t = pk6.OT_TextVar;
                     resultPrefix = "OT ";
                     break;
                 case 1:
                     m = pk6.HT_Memory;
+                    t = pk6.HT_TextVar;
                     resultPrefix = "HT ";
                     break;
             }
@@ -655,6 +658,10 @@ namespace PKHeX
             if (matchingMoveMemory != -1 && pk6.Species != 235  && !Legal.isValidMachineMove(pk6, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
             {
                 return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.");
+            }
+            if (m == 6 && !Legal.LocationsWithPKCenter[0].Contains(t))
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Location doesn't have a Pokemon Center.");
             }
             return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
         }
@@ -678,6 +685,13 @@ namespace PKHeX
             {
                 case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
                     return new LegalityCheck(Severity.Invalid, "OT Memory: Link Trade is not a valid first memory.");
+                case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
+                    int matchingOriginGame = Array.IndexOf(Legal.LocationsWithPKCenter[0], pk6.OT_TextVar);
+                    if (matchingOriginGame != -1) {
+                        if ((Legal.LocationsWithPKCenter[1][matchingOriginGame] == 1 && pk6.XY) || ((Legal.LocationsWithPKCenter[1][matchingOriginGame] == 0 && pk6.AO)))
+                            return new LegalityCheck(Severity.Invalid, "OT Memory: Location doesn't exist on Origin Game region.");
+                        }
+                    return verifyCommonMemory(0);
                 case 14:
                     if (!Legal.getCanBeCaptured(pk6.OT_TextVar, pk6.Version))
                         return new LegalityCheck(Severity.Invalid, "OT Memory: Captured Species can not be captured in game.");
