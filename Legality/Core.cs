@@ -96,7 +96,7 @@ namespace PKHeX
         }
 
         internal static IEnumerable<int> getValidMoves(PK6 pk6)
-        { return getValidMoves(pk6, Version: -1, LVL: true, Relearn: true, Tutor: true, Machine: true); }
+        { return getValidMoves(pk6, -1, LVL: true, Relearn: false, Tutor: true, Machine: true); }
         internal static IEnumerable<int> getValidRelearn(PK6 pk6, int skipOption)
         {
             List<int> r = new List<int> { 0 };
@@ -358,9 +358,21 @@ namespace PKHeX
             }
             return false;
         }
-        internal static bool getCanLearnMachineMove(int species, int move)
+        internal static bool getCanLearnMachineMove(PK6 pk6, int move, int version = -1)
         {
-            return getMachineMoves(species, 0).Contains(move);
+            return getValidMoves(pk6, version, Machine: true).Contains(move);
+        }
+        internal static bool getCanRelearnMove(PK6 pk6, int move, int version = -1)
+        {
+            return getValidMoves(pk6, version, LVL: true, Relearn: true).Contains(move);
+        }
+        internal static bool getCanLearnMove(PK6 pk6, int move, int version = -1)
+        {
+            return getValidMoves(pk6, version, Tutor: true, Machine: true).Contains(move);
+        }
+        internal static bool getCanKnowMove(PK6 pk6, int move, int version = -1)
+        {
+            return getValidMoves(pk6, Version: version, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
@@ -589,36 +601,6 @@ namespace PKHeX
             if (species == 647)
                 moves.Add(548);
             return moves;
-        }
-        private static IEnumerable<int> getMachineMoves(int species, int formnum)
-        {
-            PersonalInfo pkXY = PersonalXY[PersonalXY[species].FormeIndex(species, formnum)];
-            PersonalInfo pkAO = PersonalAO[PersonalAO[species].FormeIndex(species, formnum)];
-            List<int> moves = new List<int>();
-            moves.AddRange(TMHM_XY.Where((t, i) => pkXY.TMHM[i]));
-            moves.AddRange(TMHM_AO.Where((t, i) => pkAO.TMHM[i]));
-            return moves;
-        }
-        internal static bool isValidMachineMove(PK6 pk6, int move)
-        {
-            List<int> r = new List<int> { 0 };
-            int species = pk6.Species;
-            if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
-            {
-                int formcount = PersonalAO[species].FormeCount;
-                for (int i = 0; i < formcount; i++)
-                {
-                    // Check all Forms
-                    r.AddRange(getMachineMoves(species, i));
-                }
-            }
-            r.AddRange(getMachineMoves(species, pk6.AltForm));
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
-            foreach (DexLevel evo in vs)
-            {
-                r.AddRange(getMachineMoves(evo.Species, pk6.AltForm));
-            }
-            return r.Contains(move);
         }
     }
 }
