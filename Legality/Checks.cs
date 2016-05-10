@@ -663,6 +663,11 @@ namespace PKHeX
             {
                 return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Location doesn't have a Pokemon Center.");
             }
+            if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
+            {
+                if (!Legal.getCanLearnMachineMove(t, 19))
+                    return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.");
+            }
             return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
         }
         private LegalityCheck verifyOTMemory()

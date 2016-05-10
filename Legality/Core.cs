@@ -390,6 +390,10 @@ namespace PKHeX
             }
             return false;
         }
+        internal static bool getCanLearnMachineMove(int species, int move)
+        {
+            return getMachineMoves(species, 0).Contains(move);
+        }
 
         private static int getBaseSpecies(PK6 pk6, int skipOption = 0)
         {
