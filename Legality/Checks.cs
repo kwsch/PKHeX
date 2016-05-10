@@ -655,7 +655,7 @@ namespace PKHeX
                     break;
             }
             int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
-            if (matchingMoveMemory != -1 && pk6.Species != 235  && !Legal.isValidMachineMove(pk6, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
+            if (matchingMoveMemory != -1 && pk6.Species != 235  && !Legal.getCanLearnMachineMove(pk6, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
             {
                 return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.");
             }
@@ -665,7 +665,7 @@ namespace PKHeX
             }
             if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
             {
-                if (!Legal.getCanLearnMachineMove(t, 19))
+                if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19))
                     return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.");
             }
             return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
