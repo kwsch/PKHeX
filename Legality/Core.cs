@@ -96,39 +96,7 @@ namespace PKHeX
         }
 
         internal static IEnumerable<int> getValidMoves(PK6 pk6)
-        {
-            List<int> r = new List<int> {0};
-            int species = pk6.Species;
-            bool ORASTutors = pk6.AO || !pk6.IsUntraded;
-            if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
-            {
-                int formcount = PersonalAO[species].FormeCount;
-                for (int i = 0; i < formcount; i++)
-                {
-                    // Check all Forms
-                    r.AddRange(getLVLMoves(species, pk6.CurrentLevel, i));
-                    r.AddRange(getTutorMoves(species, i, ORASTutors));
-                    r.AddRange(getMachineMoves(species, i));
-                }
-                return r.Distinct().ToArray();
-            }
-            r.AddRange(getLVLMoves(species, pk6.CurrentLevel, pk6.AltForm));
-            r.AddRange(getTutorMoves(species, pk6.AltForm, ORASTutors));
-            r.AddRange(getMachineMoves(species, pk6.AltForm));
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
-            foreach (DexLevel evo in vs)
-            {
-                r.AddRange(getLVLMoves(evo.Species, evo.Level, pk6.AltForm));
-                r.AddRange(getTutorMoves(evo.Species, pk6.AltForm, ORASTutors));
-                r.AddRange(getMachineMoves(evo.Species, pk6.AltForm));
-            }
-            if (species == 479) // Rotom
-                r.Add(RotomMoves[pk6.AltForm]);
-            if (species == 25) // Pikachu
-                r.Add(PikachuMoves[pk6.AltForm]);
-
-            return r.Distinct().ToArray();
-        }
+        { return getValidMoves(pk6, Version: -1, LVL: true, Relearn: true, Tutor: true, Machine: true); }
         internal static IEnumerable<int> getValidRelearn(PK6 pk6, int skipOption)
         {
             List<int> r = new List<int> { 0 };
@@ -545,6 +513,57 @@ namespace PKHeX
         {
             IEnumerable<DexLevel> dl = getValidPreEvolutions(pk6);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
+        }
+        private static IEnumerable<int> getValidMoves(PK6 pk6, int Version, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false)
+        {
+            List<int> r = new List<int> { 0 };
+            int species = pk6.Species;
+            int lvl = pk6.CurrentLevel;
+            bool ORASTutors = Version == -1 || pk6.AO || !pk6.IsUntraded;
+            if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
+            {
+                int formcount = PersonalAO[species].FormeCount;
+                for (int i = 0; i < formcount; i++)
+                    r.AddRange(getMoves(species, lvl, i, ORASTutors, Version, LVL, Tutor, Machine));
+                if (Relearn) r.AddRange(pk6.RelearnMoves);
+                return r.Distinct().ToArray();
+            }
+
+            r.AddRange(getMoves(species, lvl, pk6.AltForm, ORASTutors, Version, LVL, Tutor, Machine));
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
+
+            foreach (DexLevel evo in vs)
+                r.AddRange(getMoves(evo.Species, evo.Level, pk6.AltForm, ORASTutors, Version, LVL, Tutor, Machine));
+            if (species == 479) // Rotom
+                r.Add(RotomMoves[pk6.AltForm]);
+            if (species == 25) // Pikachu
+                r.Add(PikachuMoves[pk6.AltForm]);
+
+            if (Relearn) r.AddRange(pk6.RelearnMoves);
+            return r.Distinct().ToArray();
+        }
+        private static IEnumerable<int> getMoves(int species, int lvl, int form, bool ORASTutors, int Version, bool LVL, bool Tutor, bool Machine)
+        {
+            List<int> r = new List<int> { 0 };
+            if (Version < 0 || Version == 0)
+            {
+                int index = PersonalXY[species].FormeIndex(species, form);
+                PersonalInfo pi = PersonalXY[index];
+
+                if (LVL) r.AddRange(LevelUpXY[index].getMoves(lvl));
+                if (Tutor) r.AddRange(getTutorMoves(species, form, ORASTutors));
+                if (Machine) r.AddRange(TMHM_XY.Where((t, m) => pi.TMHM[m]));
+            }
+            if (Version < 0 || Version == 1)
+            {
+                int index = PersonalAO[species].FormeIndex(species, form);
+                PersonalInfo pi = PersonalAO[index];
+
+                if (LVL) r.AddRange(LevelUpAO[index].getMoves(lvl));
+                if (Tutor) r.AddRange(getTutorMoves(species, form, ORASTutors));
+                if (Machine) r.AddRange(TMHM_AO.Where((t, m) => pi.TMHM[m]));
+            }
+            return r;
         }
         private static IEnumerable<int> getEggMoves(int species, int formnum)
         {
