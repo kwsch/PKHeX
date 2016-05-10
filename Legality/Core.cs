@@ -383,6 +383,8 @@ namespace PKHeX
         {
             if (pk6.Species == 292)
                 return 290;
+            if (pk6.Species == 242 && pk6.CurrentLevel < 3) // Never Cleffa
+                return 113;
             DexLevel[] evos = Evolves[pk6.Species].Evos;
             switch (skipOption)
             {
