@@ -639,6 +639,17 @@
             new EncounterStatic { Species = 569, Level = 37, Location = 142 }, // Garbodor
             new EncounterStatic { Species = 569, Level = 38, Location = 142 }, // Garbodor
             new EncounterStatic { Species = 479, Level = 38, Location = 142 }, // Rotom
+
+            new EncounterStatic { Species = 569, Level = 46, Location = 98 }, // Garbodor
+            new EncounterStatic { Species = 569, Level = 47, Location = 98 }, // Garbodor
+            new EncounterStatic { Species = 569, Level = 48, Location = 98 }, // Garbodor
+            new EncounterStatic { Species = 569, Level = 49, Location = 98 }, // Garbodor
+            new EncounterStatic { Species = 569, Level = 50, Location = 98 }, // Garbodor
+            new EncounterStatic { Species = 354, Level = 46, Location = 98 }, // Banette
+            new EncounterStatic { Species = 354, Level = 47, Location = 98 }, // Banette
+            new EncounterStatic { Species = 354, Level = 48, Location = 98 }, // Banette
+            new EncounterStatic { Species = 354, Level = 49, Location = 98 }, // Banette
+            new EncounterStatic { Species = 354, Level = 50, Location = 98 }, // Banette
             
             new EncounterStatic { Species = 716, Level = 50, Location = 138, Version = GameVersion.X, Shiny = false, IV3 = true }, // Xerneas
             new EncounterStatic { Species = 717, Level = 50, Location = 138, Version = GameVersion.Y, Shiny = false, IV3 = true }, // Yveltal
