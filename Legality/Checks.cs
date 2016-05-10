@@ -687,10 +687,12 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "OT Memory: Link Trade is not a valid first memory.");
                 case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
                     int matchingOriginGame = Array.IndexOf(Legal.LocationsWithPKCenter[0], pk6.OT_TextVar);
-                    if (matchingOriginGame != -1) {
-                        if ((Legal.LocationsWithPKCenter[1][matchingOriginGame] == 1 && pk6.XY) || ((Legal.LocationsWithPKCenter[1][matchingOriginGame] == 0 && pk6.AO)))
+                    if (matchingOriginGame != -1)
+                    {
+                        int gameID = Legal.LocationsWithPKCenter[1][matchingOriginGame];
+                        if (pk6.XY && gameID != 0 || pk6.AO && gameID != 1)
                             return new LegalityCheck(Severity.Invalid, "OT Memory: Location doesn't exist on Origin Game region.");
-                        }
+                    }
                     return verifyCommonMemory(0);
                 case 14:
                     if (!Legal.getCanBeCaptured(pk6.OT_TextVar, pk6.Version))
