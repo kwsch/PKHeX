@@ -316,7 +316,11 @@ namespace PKHeX
         }
         internal static IEnumerable<int> getLineage(PK6 pk6)
         {
-            List<int> res = new List<int>();
+            int species = pk6.Species;
+            List<int> res = new List<int>{species};
+            for (int i = 0; i < Evolves.Length; i++)
+                if (Evolves[i].Evos.Any(pk => pk.Species == species))
+                    res.Add(i);
             for (int i = -1; i < 2; i++)
                 res.Add(getBaseSpecies(pk6, i));
             return res.Distinct();
