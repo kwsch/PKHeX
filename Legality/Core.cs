@@ -99,6 +99,7 @@ namespace PKHeX
         {
             List<int> r = new List<int> {0};
             int species = pk6.Species;
+            bool ORASTutors = pk6.AO || !pk6.IsUntraded;
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = PersonalAO[species].FormeCount;
@@ -106,19 +107,19 @@ namespace PKHeX
                 {
                     // Check all Forms
                     r.AddRange(getLVLMoves(species, pk6.CurrentLevel, i));
-                    r.AddRange(getTutorMoves(species, i));
+                    r.AddRange(getTutorMoves(species, i, ORASTutors));
                     r.AddRange(getMachineMoves(species, i));
                 }
                 return r.Distinct().ToArray();
             }
             r.AddRange(getLVLMoves(species, pk6.CurrentLevel, pk6.AltForm));
-            r.AddRange(getTutorMoves(species, pk6.AltForm));
+            r.AddRange(getTutorMoves(species, pk6.AltForm, ORASTutors));
             r.AddRange(getMachineMoves(species, pk6.AltForm));
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pk6);
             foreach (DexLevel evo in vs)
             {
                 r.AddRange(getLVLMoves(evo.Species, evo.Level, pk6.AltForm));
-                r.AddRange(getTutorMoves(evo.Species, pk6.AltForm));
+                r.AddRange(getTutorMoves(evo.Species, pk6.AltForm, ORASTutors));
                 r.AddRange(getMachineMoves(evo.Species, pk6.AltForm));
             }
             if (species == 479) // Rotom
@@ -547,7 +548,7 @@ namespace PKHeX
             int ind_AO = PersonalAO[species].FormeIndex(species, formnum);
             return EggMoveAO[ind_AO].Moves.Concat(EggMoveXY[ind_XY].Moves);
         }
-        private static IEnumerable<int> getTutorMoves(int species, int formnum)
+        private static IEnumerable<int> getTutorMoves(int species, int formnum, bool ORASTutors)
         {
             PersonalInfo pkAO = PersonalAO[PersonalAO[species].FormeIndex(species, formnum)];
 
@@ -555,6 +556,7 @@ namespace PKHeX
             List<int> moves = TypeTutor.Where((t, i) => pkAO.Tutors[i]).ToList();
 
             // Varied Tutors
+            if (ORASTutors)
             for (int i = 0; i < Tutors_AO.Length; i++)
                 for (int b = 0; b < Tutors_AO[i].Length; b++)
                     if (pkAO.ORASTutors[i][b])
