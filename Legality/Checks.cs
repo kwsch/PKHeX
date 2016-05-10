@@ -601,7 +601,7 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Untraded -- Contest stats on XY should be zero.");
 
                 // We know it is untraded (HT is empty), if it must be trade evolved flag it.
-                if (Legal.getHasTradeEvolved(pk6))
+                if (Legal.getHasTradeEvolved(pk6) && (EncounterMatch as EncounterSlot[])?.Any(slot => slot.Species == pk6.Species) != true)
                 {
                     if (pk6.Species != 350) // Milotic
                         return new LegalityCheck(Severity.Invalid, "Untraded -- requires a trade evolution.");
