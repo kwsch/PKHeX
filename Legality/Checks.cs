@@ -668,6 +668,10 @@ namespace PKHeX
                 if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19))
                     return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.");
             }
+            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pk6, t, 1)))
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.");
+            }
             return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
         }
         private LegalityCheck verifyOTMemory()
