@@ -56,7 +56,7 @@ namespace PKHeX
             if (ORASDEMO)
             {
                 /* 00: */   Item = 0x00000; Items = new Inventory(Item, 1);
-                /* 01: */   // = 0x00C00; // Select Bound Items
+                /* 01: */   ItemInfo = 0x00C00; // Select Bound Items
                 /* 02: */   AdventureInfo = 0x00E00;
                 /* 03: */   Trainer1 = 0x01000;
                 /* 04: */   // = 0x01200; [00004] // ???
@@ -122,6 +122,7 @@ namespace PKHeX
                 PlayTime = 0x1800;
                 Accessories = 0x1A00;
                 LastViewedBox = PCLayout + 0x43F;
+                ItemInfo = 0x1000;
             }
             else if (ORAS)
             {
@@ -166,6 +167,7 @@ namespace PKHeX
                 PlayTime = 0x1800;
                 Accessories = 0x1A00;
                 LastViewedBox = PCLayout + 0x43F;
+                ItemInfo = 0x1000;
             }
             DaycareSlot = new[] { Daycare, Daycare + 0x1F0 };
         }
@@ -197,7 +199,7 @@ namespace PKHeX
         public int BattleBox, GTS, Daycare, EonTicket,
             Fused, SUBE, Puff, Item, AdventureInfo, Trainer1, Trainer2, SuperTrain, PSSStats, MaisonStats, SecretBase, BoxWallpapers, LastViewedBox,
             PCLayout, PCBackgrounds, PCFlags, WondercardFlags, WondercardData, BerryField, OPower, EventConst, EventFlag, EventAsh, PlayTime, Accessories,
-            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG, Contest;
+            PokeDex, PokeDexLanguageFlags, Spinda, EncounterCount, HoF, PSS, JPEG, Contest, ItemInfo;
         public int TrainerCard = 0x14000;
         public int Box = 0x33000, Party = 0x14200;
         public int[] DaycareSlot;
@@ -518,7 +520,44 @@ namespace PKHeX
 
         public byte[] Puffs { get { return Data.Skip(Puff).Take(100).ToArray(); } set { value.CopyTo(Data, Puff); } }
         public int PuffCount { get { return BitConverter.ToInt32(Data, Puff + 100); } set { BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); } }
-        
+
+        public int[] SelectItems
+        {
+            // UP,RIGHT,DOWN,LEFT
+            get
+            {
+                int[] list = new int[4];
+                for (int i = 0; i < list.Length; i++)
+                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 2 * i);
+                return list;
+            }
+            set
+            {
+                if (value == null || value.Length > 4)
+                    return;
+                for (int i = 0; i < value.Length; i++)
+                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 2 * i);
+            }
+        }
+        public int[] RecentItems
+        {
+            // Items recently interacted with (Give, Use)
+            get
+            {
+                int[] list = new int[12];
+                for (int i = 0; i < list.Length; i++)
+                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 10 + 2 * i);
+                return list;
+            }
+            set
+            {
+                if (value == null || value.Length > 12)
+                    return;
+                for (int i = 0; i < value.Length; i++)
+                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 10 + 2 * i);
+            }
+        }
+
         public string JPEGTitle => JPEG > -1 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
         public byte[] JPEGData => JPEG > -1 || Data[JPEG + 0x54] != 0xFF ? null : Data.Skip(JPEG + 0x54).Take(0xE004).ToArray();
 
