@@ -528,7 +528,7 @@ namespace PKHeX
             {
                 int[] list = new int[4];
                 for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 2 * i);
+                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 10 + 2 * i);
                 return list;
             }
             set
@@ -536,7 +536,7 @@ namespace PKHeX
                 if (value == null || value.Length > 4)
                     return;
                 for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 2 * i);
+                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 10 + 2 * i);
             }
         }
         public int[] RecentItems
@@ -546,7 +546,7 @@ namespace PKHeX
             {
                 int[] list = new int[12];
                 for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 10 + 2 * i);
+                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 20 + 2 * i);
                 return list;
             }
             set
@@ -554,7 +554,7 @@ namespace PKHeX
                 if (value == null || value.Length > 12)
                     return;
                 for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 10 + 2 * i);
+                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 20 + 2 * i);
             }
         }
 
