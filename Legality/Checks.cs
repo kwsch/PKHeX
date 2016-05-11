@@ -672,6 +672,10 @@ namespace PKHeX
             {
                 return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.");
             }
+            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pk6, t, 1))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.");
+            }
             return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
         }
         private LegalityCheck verifyOTMemory()
