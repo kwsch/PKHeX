@@ -739,40 +739,31 @@ namespace PKHeX
         }
         private LegalityCheck verifyRegion()
         {
+            bool valid = false;
             switch (pk6.ConsoleRegion)
             {
-                // Japan
-                case 0:
-                    if (!(pk6.Country == 1))
-                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                case 0: // Japan
+                    valid = pk6.Country == 1;
                     break;
-                // America
-                case 1:
-                    if (!((pk6.Country >= 8 && pk6.Country <= 52) || pk6.Country == 153 || pk6.Country == 156 || pk6.Country == 168 || pk6.Country == 174 || pk6.Country == 186))
-                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                case 1: // Americas
+                    valid = 8 <= pk6.Country && pk6.Country <= 52 || new[] {153, 156, 168, 174, 186}.Contains(pk6.Country);
                     break;
-                // Europe
-                case 2:
-                    if (!((pk6.Country >= 64 && pk6.Country <= 127) || pk6.Country == 169 || pk6.Country == 184 || pk6.Country == 185))
-                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                case 2: // Europe
+                    valid = 64 <= pk6.Country && pk6.Country <= 127 || new[] {169, 184, 185}.Contains(pk6.Country);
                     break;
-                // China
-                case 4:
-                    if (!(pk6.Country == 144 || pk6.Country == 160))
-                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                case 4: // China
+                    valid = pk6.Country == 144 || pk6.Country == 160;
                     break;
-                // Korea
-                case 5:
-                    if (!(pk6.Country == 136))
-                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                case 5: // Korea
+                    valid = pk6.Country == 136;
                     break;
-                // Taiwan
-                case 6:
-                    if (!(pk6.Country == 128))
-                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                case 6: // Taiwan
+                    valid = pk6.Country == 128;
                     break;
             }
-            return new LegalityCheck(Severity.Valid, "Geolocation: Country is on 3DS region.");
+            return !valid 
+                ? new LegalityCheck(Severity.Invalid, "Geolocation: Country is not in 3DS region.")
+                : new LegalityCheck(Severity.Valid, "Geolocation: Country is in 3DS region.");
         }
         private LegalityCheck verifyForm()
         {
