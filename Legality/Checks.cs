@@ -672,6 +672,10 @@ namespace PKHeX
             {
                 return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.");
             }
+            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pk6, t, 1))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.");
+            }
             return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
         }
         private LegalityCheck verifyOTMemory()
@@ -732,6 +736,43 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Valid, "HT Memory: Captured Species can be captured in game.");
             }
             return verifyCommonMemory(1);
+        }
+        private LegalityCheck verifyRegion()
+        {
+            switch (pk6.ConsoleRegion)
+            {
+                // Japan
+                case 0:
+                    if (!(pk6.Country == 1))
+                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                    break;
+                // America
+                case 1:
+                    if (!((pk6.Country >= 8 && pk6.Country <= 52) || pk6.Country == 153 || pk6.Country == 156 || pk6.Country == 168 || pk6.Country == 174 || pk6.Country == 186))
+                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                    break;
+                // Europe
+                case 2:
+                    if (!((pk6.Country >= 64 && pk6.Country <= 127) || pk6.Country == 169 || pk6.Country == 184 || pk6.Country == 185))
+                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                    break;
+                // China
+                case 4:
+                    if (!(pk6.Country == 144 || pk6.Country == 160))
+                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                    break;
+                // Korea
+                case 5:
+                    if (!(pk6.Country == 136))
+                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                    break;
+                // Taiwan
+                case 6:
+                    if (!(pk6.Country == 128))
+                        return new LegalityCheck(Severity.Invalid, "Geolocation: Country is not on 3DS region.");
+                    break;
+            }
+            return new LegalityCheck(Severity.Valid, "Geolocation: Country is on 3DS region.");
         }
         private LegalityCheck verifyForm()
         {
