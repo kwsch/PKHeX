@@ -708,3 +708,17 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Importing wc6full files. Thanks Odaxis!
  - Fixed: ORAS 2nd daycare EXP values not being displayed. Thanks chenzw95!
  - Fixed: Mono-specific underscore issue for converting to numbers. Thanks chenzw95!
+
+5/XX/16 - New Update:
+ - Added: SetPK6 override options for importing multiple pk6's (box import, battle video).
+ - Added: Event constant diff when comparing two saves in the Event Flag editor.
+ - Added: Move source indication to verbose legality output.
+ - Added: Form legality checks.
+ - Added: More legality checks for memories and hatched eggs. Thanks Eskuero & chenzw95!
+ - Fixed: Multiple edge cases for legality checks. Thanks Eskuero, chenzw95, Wheth, Gastly, Asia81, rinnegan, Host1126
+ - Fixed: Crash when putting spaces in number text boxes or importing wc6 to ORAS demo saves.
+ - Fixed: wc6full imports will now generate a received date.
+ - Fixed: Starting the program without a save file will load default values (OT: "PKHeX", etc).
+ - Fixed: Pokémon League indication for X/Y and OR/AS, and Poketransporter strings. Thanks chenzw95 & Odaxis!
+ - Fixed: Changing Encounter Type of files from Platinum.
+ - Removed: Code Generator, use save cache instead (CyberGadget users).
