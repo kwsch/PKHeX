@@ -721,6 +721,8 @@ namespace PKHeX
         }
         public string getBoxName(int box)
         {
+            if (PCLayout < 0)
+                return "B" + (box + 1);
             return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22));
         }
         public void setBoxName(int box, string val)
@@ -805,7 +807,7 @@ namespace PKHeX
                 for (int i = 0; i < data.Length; i++)
                 {
                     data[i] = getPK6Stored(Box + PK6.SIZE_STORED * i);
-                    data[i].Identifier = $"B{(i/30 + 1).ToString("00")}:{(i%30 + 1).ToString("00")}";
+                    data[i].Identifier = $"{getBoxName(i/30)}:{(i%30 + 1).ToString("00")}";
                 }
                 return data;
             }
