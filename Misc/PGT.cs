@@ -38,7 +38,7 @@ namespace PKHeX
             byte[] ekdata = new byte[PK4.SIZE_PARTY];
             Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
             // Decrypt PK4
-            PK = new PK4(PKM.decryptArray(ekdata, BitConverter.ToUInt16(ekdata, 6)));
+            PK = new PK4(PKM.decryptArray(ekdata));
             
             Unknown = new byte[0x10];
             Array.Copy(Data, 0xF4, Unknown, 0, 0x10);

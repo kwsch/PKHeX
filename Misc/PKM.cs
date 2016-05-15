@@ -68,7 +68,7 @@ namespace PKHeX
 
             return sdata;
         }
-        internal static byte[] decryptArray(byte[] ekm, uint seed = 0x10000)
+        internal static byte[] decryptArray(byte[] ekm)
         {
             byte[] pkm = (byte[])ekm.Clone();
 
@@ -76,7 +76,7 @@ namespace PKHeX
             uint chk = BitConverter.ToUInt16(pkm, 6);
             uint sv = ((pv & 0x3E000) >> 0xD) % 24;
 
-            seed = seed > 0xFFFF ? chk : seed;
+            uint seed = chk;
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 136; i += 2)
@@ -93,7 +93,7 @@ namespace PKHeX
 
             return pkm;
         }
-        internal static byte[] encryptArray(byte[] pkm, uint seed = 0x10000)
+        internal static byte[] encryptArray(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = ((pv & 0x3E000) >> 0xD) % 24;
@@ -103,7 +103,7 @@ namespace PKHeX
 
             ekm = shuffleArray(ekm, blockPositionInvert[sv]);
 
-            seed = seed > 0xFFFF ? chk : seed;
+            uint seed = chk;
 
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 136; i += 2)
