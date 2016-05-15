@@ -590,6 +590,15 @@ namespace PKHeX
 
                 openMAIN(psdata, path);
             }
+            else if (input.Length == SAV5.SIZERAW) // SAV4 size is same
+            {
+                int generation = PKM.getSAVGeneration(input);
+                if (generation == -1)
+                    Util.Error("Unable to recognize save file." + Environment.NewLine + "Only valid G4/G5 saves supported.",
+                        $"File Loaded:{Environment.NewLine}{path}");
+                else 
+                    dumpPastGenSAV(input, generation);
+            }
             #endregion
             #region PK6/EK6
             else if ((input.Length == PK6.SIZE_PARTY || input.Length == PK6.SIZE_STORED) && ext != ".pgt")
@@ -824,7 +833,7 @@ namespace PKHeX
             if (SAV.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
                 File.WriteAllBytes(backupName, SAV.BAK);
         }
-        private void refreshWC6DB()
+        private static void refreshWC6DB()
         {
             List<WC6> wc6db = new List<WC6>();
             byte[] wc6bin = Properties.Resources.wc6;
@@ -841,6 +850,67 @@ namespace PKHeX
                     select new WC6(File.ReadAllBytes(file)));
 
             Legal.WC6DB = wc6db.Distinct().ToArray();
+        }
+        private static void dumpPastGenSAV(byte[] input, int generation)
+        {
+            if (generation != 4 && generation != 5)
+                return;
+
+            Util.Alert("Please select a folder to dump the files to.");
+
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() != DialogResult.OK)
+                return;
+            string path = fbd.SelectedPath;
+
+            if (generation == 4)
+            {
+                SAV4 sav = new SAV4(input);
+                var pkms = sav.BoxData.Where(pk => pk.Species != 0)
+                    .GroupBy(pk => pk.Data).Select(g => g.First()); // filter by unique data
+
+                DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                    "Gen 4 save file loaded. Dump options:",
+                    "Yes - Transfer to future generation" + Environment.NewLine +
+                    "No - Dump as pkm (gen4)" + Environment.NewLine +
+                    "Cancel - Abort");
+                if (dr == DialogResult.Yes)
+                {
+                    DialogResult dr2 = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                        "Transfer Options:",
+                        "Yes - Transfer to G6" + Environment.NewLine +
+                        "No - Transfer to G5" + Environment.NewLine +
+                        "Cancel - Abort");
+                    if (dr2 == DialogResult.Yes)
+                        foreach (var pk in pkms.Select(pkm => Converter.ConvertPKMtoPK6(pkm.Data)))
+                            File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
+                    else if (dr2 == DialogResult.No)
+                        foreach (var pk in pkms.Select(pkm => Converter.ConvertPKMtoPK5(pkm.Data)))
+                            File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
+                }
+                else if (dr == DialogResult.No)
+                    foreach (var pk in pkms)
+                        File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
+            }
+            else if (generation == 5)
+            {
+                SAV5 sav = new SAV5(input);
+                var pkms = sav.BoxData.Where(pk => pk.Species != 0)
+                    .GroupBy(pk => pk.Data).Select(g => g.First()); // filter by unique data
+
+                DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                    "Gen 5 save file loaded. Dump options:",
+                    "Yes - Transfer to G6" + Environment.NewLine +
+                    "No - Dump as pkm (gen5)" + Environment.NewLine +
+                    "Cancel - Abort");
+                if (dr == DialogResult.Yes)
+                    foreach (var pk in pkms.Select(pkm => Converter.ConvertPKMtoPK6(pkm.Data)))
+                        File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
+                else if (dr == DialogResult.No)
+                    foreach (var pk in pkms)
+                        File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
+            }
+            Util.Alert("Files have been dumped to:" + Environment.NewLine + path);
         }
 
         // Language Translation
