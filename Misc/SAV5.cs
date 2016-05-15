@@ -9,6 +9,19 @@ namespace PKHeX
         internal const int SIZE1 = 0x24000; // B/W
         internal const int SIZE2 = 0x26000; // B2/W2
 
+        internal static int getIsG5SAV(byte[] data)
+        {
+            ushort chk1 = BitConverter.ToUInt16(data, SIZE1 - 0x100 + 0x94 + 0x10);
+            ushort actual1 = ccitt16(data.Skip(SIZE1 - 0x100).Take(0x94).ToArray());
+            if (chk1 == actual1)
+                return 0;
+            ushort chk2 = BitConverter.ToUInt16(data, SIZE2 - 0x100 + 0x94 + 0x10);
+            ushort actual2 = ccitt16(data.Skip(SIZE2 - 0x100).Take(0x94).ToArray());
+            if (chk2 == actual2)
+                return 1;
+            return -1;
+        }
+
         // Global Settings
         // Save Data Attributes
         public readonly byte[] Data;
@@ -23,19 +36,12 @@ namespace PKHeX
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
             // Get Version
-            // Validate Checksum over the Checksum Block to find BW or B2W2
-            ushort chk2 = BitConverter.ToUInt16(Data, SIZE2 - 0x100 + 0x94 + 0x10);
-            ushort actual2 = ccitt16(Data.Skip(SIZE2 - 0x100).Take(0x94).ToArray());
-            bool B2W2 = chk2 == actual2;
-            ushort chk1 = BitConverter.ToUInt16(Data, SIZE1 - 0x100 + 0x94 + 0x10);
-            ushort actual1 = ccitt16(Data.Skip(SIZE1 - 0x100).Take(0x94).ToArray());
-            bool BW = chk1 == actual1;
-
-            if (!BW && !B2W2 && data != null)
-                Data = null; // Invalid/Not G5 Save File
+            int version = getIsG5SAV(Data);
+            if (version < 0) // Invalidate Data
+                Data = null;
 
             // Different Offsets for different games.
-            BattleBox = B2W2 ? 0x20A00 : 0x20900;
+            BattleBox = version == 1 ? 0x20A00 : 0x20900;
         }
 
         private const int Box = 0x400;
@@ -100,7 +106,7 @@ namespace PKHeX
                 for (int i = PartyCount; i < newParty.Length; i++)
                     newParty[i] = new PK5();
                 for (int i = 0; i < newParty.Length; i++)
-                    setPK5Party(newParty[i], Party + 8 + PK6.SIZE_PARTY * i);
+                    setPK5Party(newParty[i], Party + 8 + PK5.SIZE_PARTY * i);
             }
         }
         public PK5[] BattleBoxData
