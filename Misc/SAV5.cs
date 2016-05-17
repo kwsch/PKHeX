@@ -64,7 +64,7 @@ namespace PKHeX
                 PK5[] data = new PK5[24 * 30];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    data[i] = getPK5Stored(Box + PK5.SIZE_STORED * i);
+                    data[i] = getPK5Stored(Box + i/30 * 0x10 + PK5.SIZE_STORED * i);
                     data[i].Identifier = $"B{(i / 30 + 1).ToString("00")}:{(i % 30 + 1).ToString("00")}";
                 }
                 return data;
@@ -77,7 +77,7 @@ namespace PKHeX
                     throw new ArgumentException("Expected 720, got " + value.Length);
 
                 for (int i = 0; i < value.Length; i++)
-                    setPK5Stored(value[i], Box + PK5.SIZE_STORED * i);
+                    setPK5Stored(value[i], Box + i/30 * 0x10 + PK5.SIZE_STORED * i);
             }
         }
         public PK5[] PartyData
