@@ -332,6 +332,7 @@ namespace PKHeX
             }
         }
         public string FileName => $"{Species.ToString("000")}{(IsShiny ? " ★" : "")} - {Nickname} - {Checksum.ToString("X4")}{PID.ToString("X8")}.pkm";
+        public bool ChecksumValid => Checksum == CalculateChecksum();
 
         // Methods
         public void RefreshChecksum()

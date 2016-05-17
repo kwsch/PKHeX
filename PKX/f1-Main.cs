@@ -866,7 +866,7 @@ namespace PKHeX
             if (generation == 4)
             {
                 SAV4 sav = new SAV4(input);
-                var pkms = sav.BoxData.Where(pk => pk.Species != 0)
+                var pkms = sav.BoxData.Where(pk => pk.Species != 0 && pk.ChecksumValid)
                     .GroupBy(pk => pk.Data).Select(g => g.First()); // filter by unique data
 
                 DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel,
@@ -895,7 +895,7 @@ namespace PKHeX
             else if (generation == 5)
             {
                 SAV5 sav = new SAV5(input);
-                var pkms = sav.BoxData.Where(pk => pk.Species != 0)
+                var pkms = sav.BoxData.Where(pk => pk.Species != 0 && pk.ChecksumValid)
                     .GroupBy(pk => pk.Data).Select(g => g.First()); // filter by unique data
 
                 DialogResult dr = Util.Prompt(MessageBoxButtons.YesNoCancel,
