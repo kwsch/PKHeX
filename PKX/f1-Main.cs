@@ -882,10 +882,10 @@ namespace PKHeX
                         "No - Transfer to G5" + Environment.NewLine +
                         "Cancel - Abort");
                     if (dr2 == DialogResult.Yes)
-                        foreach (var pk in pkms.Select(pkm => Converter.ConvertPKMtoPK6(pkm.Data)))
+                        foreach (var pk in pkms.Select(pkm => pkm.convertToPK5().convertToPK6()))
                             File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
                     else if (dr2 == DialogResult.No)
-                        foreach (var pk in pkms.Select(pkm => Converter.ConvertPKMtoPK5(pkm.Data)))
+                        foreach (var pk in pkms.Select(pkm => pkm.convertToPK5()))
                             File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
                 }
                 else if (dr == DialogResult.No)
@@ -904,7 +904,7 @@ namespace PKHeX
                     "No - Dump as pkm (gen5)" + Environment.NewLine +
                     "Cancel - Abort");
                 if (dr == DialogResult.Yes)
-                    foreach (var pk in pkms.Select(pkm => Converter.ConvertPKMtoPK6(pkm.Data)))
+                    foreach (var pk in pkms.Select(pkm => pkm.convertToPK6()))
                         File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk.FileName)), pk.Data);
                 else if (dr == DialogResult.No)
                     foreach (var pk in pkms)
