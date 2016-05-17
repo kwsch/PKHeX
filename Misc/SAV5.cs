@@ -11,11 +11,11 @@ namespace PKHeX
 
         internal static int getIsG5SAV(byte[] data)
         {
-            ushort chk1 = BitConverter.ToUInt16(data, SIZE1 - 0x100 + 0x94 + 0x10);
-            ushort actual1 = ccitt16(data.Skip(SIZE1 - 0x100).Take(0x94).ToArray());
+            ushort chk1 = BitConverter.ToUInt16(data, SIZE1 - 0x100 + 0x8C + 0xE);
+            ushort actual1 = ccitt16(data.Skip(SIZE1 - 0x100).Take(0x8C).ToArray());
             if (chk1 == actual1)
                 return 0;
-            ushort chk2 = BitConverter.ToUInt16(data, SIZE2 - 0x100 + 0x94 + 0x10);
+            ushort chk2 = BitConverter.ToUInt16(data, SIZE2 - 0x100 + 0x94 + 0xE);
             ushort actual2 = ccitt16(data.Skip(SIZE2 - 0x100).Take(0x94).ToArray());
             if (chk2 == actual2)
                 return 1;
