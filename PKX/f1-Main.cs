@@ -810,7 +810,7 @@ namespace PKHeX
             GB_Daycare.Visible = SAV.Daycare > -1;
             GB_Fused.Visible = SAV.Fused > -1;
             GB_GTS.Visible = SAV.GTS > -1;
-            B_OpenSecretBase.Enabled = SAV.SecretBase > -1;
+            B_OpenSecretBase.Visible = SAV.SecretBase > -1;
             B_OpenPokepuffs.Enabled = SAV.Puff > -1;
             B_OUTPasserby.Enabled = SAV.PSS > -1;
             B_OpenBoxLayout.Enabled = SAV.BoxWallpapers > -1;
