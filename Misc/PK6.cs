@@ -750,7 +750,7 @@ namespace PKHeX
         // Legality Properties
         public bool WasLink => Met_Location == 30011;
         public bool WasEgg => Legal.EggLocations.Contains(Egg_Location);
-        public bool WasEvent => Met_Location > 40000 && Met_Location < 50000;
+        public bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter && Species != 386;
         public bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
         public bool WasTradedEgg => Egg_Location == 30002;
         public bool WasIngameTrade => Met_Location == 30001;
