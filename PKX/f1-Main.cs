@@ -617,8 +617,9 @@ namespace PKHeX
             #region PK3/PK4/PK5 Conversion
             else if (new[] { PK3.SIZE_PARTY, PK3.SIZE_STORED, PK4.SIZE_PARTY, PK4.SIZE_STORED, PK5.SIZE_PARTY }.Contains(input.Length))
             {
+                PKM.checkEncrypted(ref input);
                 if (!PKX.verifychk(input)) Util.Error("Invalid File (Checksum Error)");
-                try // to convert g5pkm
+                try // to convert pk6
                 {
                     populateFields(Converter.ConvertPKMtoPK6(input));
                 }

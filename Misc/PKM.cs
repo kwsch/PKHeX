@@ -64,7 +64,7 @@ namespace PKHeX
 
             // Fill the Battle Stats back
             if (data.Length > 136)
-                Array.Copy(data, 136, sdata, 136, 100);
+                Array.Copy(data, 136, sdata, 136, data.Length - 136);
 
             return sdata;
         }
@@ -119,6 +119,21 @@ namespace PKHeX
 
             // Done
             return ekm;
+        }
+        
+        /// <summary>
+        /// Checks to see if the PKM file is encrypted; if so, decrypts.
+        /// </summary>
+        /// <param name="pkm">Input byte array</param>
+        internal static void checkEncrypted(ref byte[] pkm)
+        {
+            if (pkm.Length != PK4.SIZE_STORED && pkm.Length != PK4.SIZE_PARTY && pkm.Length != PK5.SIZE_PARTY)
+                return; // bad
+
+            ushort chk = 0;
+            for (int i = 8; i < PK4.SIZE_STORED; i += 2) // Loop through the entire PKM
+                chk += BitConverter.ToUInt16(pkm, i);
+            pkm = chk != BitConverter.ToUInt16(pkm, 0x06) ? decryptArray(pkm) : pkm;
         }
 
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
