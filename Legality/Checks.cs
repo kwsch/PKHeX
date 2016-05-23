@@ -935,7 +935,7 @@ namespace PKHeX
                 goto noRelearn; // No WC match
             }
 
-            if (pk6.WasEgg)
+            if (pk6.WasEgg && !Legal.NoHatchFromEgg.Contains(pk6.Species))
             {
                 const int games = 2;
                 bool checkAllGames = pk6.WasTradedEgg;
