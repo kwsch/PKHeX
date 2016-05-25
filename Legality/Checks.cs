@@ -726,7 +726,7 @@ namespace PKHeX
         private LegalityCheck verifyHTMemory()
         {
             if (!History.Valid)
-                return new LegalityCheck(Severity.Valid, "Skipped OT Memory check as History is not valid.");
+                return new LegalityCheck(Severity.Valid, "Skipped HT Memory check as History is not valid.");
 
             switch (pk6.HT_Memory)
             {
