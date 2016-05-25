@@ -696,6 +696,10 @@ namespace PKHeX
             }
             switch (pk6.OT_Memory)
             {
+                case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
+                    if (!pk6.WasEgg)
+                        return new LegalityCheck(Severity.Invalid, "OT Memory: OT did not hatch this.");
+                    return new LegalityCheck(Severity.Valid, "OT Memory is valid.");
                 case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
                     return new LegalityCheck(Severity.Invalid, "OT Memory: Link Trade is not a valid first memory.");
                 case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
