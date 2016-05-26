@@ -129,7 +129,7 @@
             // 
             this.MT_BG1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.MT_BG1.Location = new System.Drawing.Point(136, 202);
-            this.MT_BG1.Mask = "00";
+            this.MT_BG1.Mask = "000";
             this.MT_BG1.Name = "MT_BG1";
             this.MT_BG1.Size = new System.Drawing.Size(29, 20);
             this.MT_BG1.TabIndex = 6;

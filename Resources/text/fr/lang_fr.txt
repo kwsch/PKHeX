@@ -31,7 +31,6 @@ Menu_ShowdownExportPK6 = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
 Menu_CyberGadget = CyberGadget
-Menu_CodeGenerator = Générateur Code
 Menu_OpenTemp = Ouvrir le dossier Temp
 Menu_OpenCache = Ouvrir le dossier Cache
 Menu_Data = Données

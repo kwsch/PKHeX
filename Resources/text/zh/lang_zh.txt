@@ -31,7 +31,6 @@ Menu_ShowdownExportPK6 = 导出设置到剪贴板
 Menu_ShowdownExportParty = 导出手持队伍到剪贴板
 Menu_ShowdownExportBattleBox = 导出战斗箱到剪贴板
 Menu_CyberGadget = CyberGadget
-Menu_CodeGenerator = 生成代码
 Menu_OpenTemp = 打开文件夹Temp
 Menu_OpenCache = 打开文件夹Cache
 Menu_Data = 数据

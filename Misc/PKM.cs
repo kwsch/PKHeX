@@ -19,8 +19,7 @@ namespace PKHeX
 
             return seed = seed * a + c;
         }
-
-        internal static Converter Config = new Converter();
+        
         internal static readonly string[] speclang_ja = Util.getStringList("species", "ja");
         internal static readonly string[] speclang_en = Util.getStringList("species", "en");
         internal static readonly string[] speclang_fr = Util.getStringList("species", "fr");
@@ -28,6 +27,14 @@ namespace PKHeX
         internal static readonly string[] speclang_de = Util.getStringList("species", "de");
         internal static readonly string[] speclang_es = Util.getStringList("species", "es");
 
+        internal static int getSAVGeneration(byte[] data)
+        {
+            if (SAV4.getIsG4SAV(data) != -1)
+                return 4;
+            if (SAV5.getIsG5SAV(data) != -1)
+                return 5;
+            return -1;
+        }
         internal static string TrimFromFFFF(string input)
         {
             int index = input.IndexOf((char)0xFFFF);
@@ -57,18 +64,19 @@ namespace PKHeX
 
             // Fill the Battle Stats back
             if (data.Length > 136)
-                Array.Copy(data, 136, sdata, 136, 100);
+                Array.Copy(data, 136, sdata, 136, data.Length - 136);
 
             return sdata;
         }
-        internal static byte[] decryptArray(byte[] ekm, uint seed = 0x10000)
+        internal static byte[] decryptArray(byte[] ekm)
         {
             byte[] pkm = (byte[])ekm.Clone();
 
             uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint chk = BitConverter.ToUInt16(pkm, 6);
             uint sv = ((pv & 0x3E000) >> 0xD) % 24;
 
-            seed = seed > 0xFFFF ? pv : seed;
+            uint seed = chk;
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 136; i += 2)
@@ -85,17 +93,17 @@ namespace PKHeX
 
             return pkm;
         }
-        internal static byte[] encryptArray(byte[] pkm, uint seed = 0x10000)
+        internal static byte[] encryptArray(byte[] pkm)
         {
-            // Shuffle
             uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = ((pv & 0x3E000) >> 0xD) % 24;
 
+            uint chk = BitConverter.ToUInt16(pkm, 6);
             byte[] ekm = (byte[])pkm.Clone();
 
             ekm = shuffleArray(ekm, blockPositionInvert[sv]);
 
-            seed = seed > 0xFFFF ? pv : seed;
+            uint seed = chk;
 
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 136; i += 2)
@@ -111,6 +119,21 @@ namespace PKHeX
 
             // Done
             return ekm;
+        }
+        
+        /// <summary>
+        /// Checks to see if the PKM file is encrypted; if so, decrypts.
+        /// </summary>
+        /// <param name="pkm">Input byte array</param>
+        internal static void checkEncrypted(ref byte[] pkm)
+        {
+            if (pkm.Length != PK4.SIZE_STORED && pkm.Length != PK4.SIZE_PARTY && pkm.Length != PK5.SIZE_PARTY)
+                return; // bad
+
+            ushort chk = 0;
+            for (int i = 8; i < PK4.SIZE_STORED; i += 2) // Loop through the entire PKM
+                chk += BitConverter.ToUInt16(pkm, i);
+            pkm = chk != BitConverter.ToUInt16(pkm, 0x06) ? decryptArray(pkm) : pkm;
         }
 
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
@@ -1106,6 +1129,17 @@ namespace PKHeX
             if ((BitConverter.ToUInt16(input, 0x80) >= 0x3333 || input[0x5F] >= 0x10) && BitConverter.ToUInt16(input, 0x46) == 0) // PK5
                 return new PK5(input).convertToPK6();
             return new PK4(input).convertToPK5().convertToPK6(); // PK4
+        }
+        internal static PK5 ConvertPKMtoPK5(byte[] input)
+        {
+            // Detect Input Generation
+            if (input.Length == 100 || input.Length == 80) // PK3
+                return new PK3(input).convertToPK4().convertToPK5();
+            if (input.Length != 136 && input.Length != 236 && input.Length != 220)  // Invalid
+                return null;
+            if ((BitConverter.ToUInt16(input, 0x80) >= 0x3333 || input[0x5F] >= 0x10) && BitConverter.ToUInt16(input, 0x46) == 0) // PK5
+                return new PK5(input);
+            return new PK4(input).convertToPK5(); // PK4
         }
 
         internal static void updateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER)

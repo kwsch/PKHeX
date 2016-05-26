@@ -175,6 +175,9 @@ namespace PKHeX
         }
         private LegalityCheck verifyIVs()
         {
+            if (EncounterType == typeof(EncounterStatic) && (EncounterMatch as EncounterStatic)?.IV3 == true)
+                if (pk6.IVs.Count(iv => iv == 31) < 3)
+                    return new LegalityCheck(Severity.Invalid, "Should have at least 3 IVs = 31.");
             if (pk6.IVs.Sum() == 0)
                 return new LegalityCheck(Severity.Fishy, "All IVs are zero.");
             if (pk6.IVs[0] < 30 && pk6.IVs.All(iv => pk6.IVs[0] == iv))
@@ -249,6 +252,8 @@ namespace PKHeX
                 }
                 if (pk6.XY)
                 {
+                    if (pk6.Egg_Location == 318)
+                        return new LegalityCheck(Severity.Invalid, "Invalid X/Y egg location.");
                     return Legal.ValidMet_XY.Contains(pk6.Met_Location)
                         ? new LegalityCheck(Severity.Valid, "Valid X/Y hatched egg.")
                         : new LegalityCheck(Severity.Invalid, "Invalid X/Y location for hatched egg.");
@@ -331,7 +336,7 @@ namespace PKHeX
             int lvl = pk6.CurrentLevel;
             if (lvl < pk6.Met_Level)
                 return new LegalityCheck(Severity.Invalid, "Current level is below met level.");
-            if ((pk6.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pk6))
+            if ((pk6.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pk6) && pk6.Species != 350)
                 return new LegalityCheck(Severity.Invalid, "Level is below evolution requirements.");
             if (lvl > pk6.Met_Level && lvl > 1 && lvl != 100 && pk6.EXP == PKX.getEXP(pk6.Stat_Level, pk6.Species))
                 return new LegalityCheck(Severity.Fishy, "Current experience matches level threshold.");
@@ -555,7 +560,7 @@ namespace PKHeX
 
             return new LegalityCheck(Severity.Invalid, "No ball check satisfied, assuming illegal.");
         }
-        private LegalityCheck verifyHandlerMemories()
+        private LegalityCheck verifyHistory()
         {
             if (!Encounter.Valid)
                 return new LegalityCheck(Severity.Valid, "Skipped Memory check due to other check being invalid.");
@@ -569,8 +574,16 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Event OT Affection should be zero.");
                 if (pk6.CurrentHandler != 1)
                     return new LegalityCheck(Severity.Invalid, "Current handler should not be Event OT.");
+                if (pk6.OT_Memory != MatchedWC6.OT_Memory)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC6.OT_Memory) + ".");
+                if (pk6.OT_Intensity != MatchedWC6.OT_Intensity)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Intensity == 0 ? "should not have an OT Memory Intensity value" : "OT Memory Intensity should be index " + MatchedWC6.OT_Intensity) + ".");
+                if (pk6.OT_TextVar != MatchedWC6.OT_TextVar)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_TextVar == 0 ? "should not have an OT Memory TextVar value" : "OT Memory TextVar should be index " + MatchedWC6.OT_TextVar) + ".");
+                if (pk6.OT_Feeling != MatchedWC6.OT_Feeling)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC6.OT_Feeling) + ".");
             }
-            if (!pk6.WasEvent && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
+            if (!pk6.WasEvent && !(pk6.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
             {
                 if (pk6.HT_Name.Length != 0)
                     return new LegalityCheck(Severity.Invalid, "GeoLocation -- HT Name present but has no previous Country.");
@@ -588,12 +601,14 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Untraded -- Contest stats on XY should be zero.");
 
                 // We know it is untraded (HT is empty), if it must be trade evolved flag it.
-                if (Legal.getHasTradeEvolved(pk6))
+                if (Legal.getHasTradeEvolved(pk6) && (EncounterMatch as EncounterSlot[])?.Any(slot => slot.Species == pk6.Species) != true)
                 {
                     if (pk6.Species != 350) // Milotic
                         return new LegalityCheck(Severity.Invalid, "Untraded -- requires a trade evolution.");
                     if (pk6.CNT_Beauty < 170) // Beauty Contest Stat Requirement
                         return new LegalityCheck(Severity.Invalid, "Untraded -- Beauty is not high enough for Levelup Evolution.");
+                    if (pk6.CurrentLevel == 1)
+                        return new LegalityCheck(Severity.Invalid, "Untraded -- Beauty is high enough but still Level 1.");
                 }
             }
             else // Is Traded
@@ -621,6 +636,139 @@ namespace PKHeX
 
             return new LegalityCheck(Severity.Valid, "History is valid.");
         }
+        private LegalityCheck verifyCommonMemory(int handler)
+        {
+            int m = 0;
+            int t = 0;
+            string resultPrefix = "";
+            switch (handler)
+            {
+                case 0:
+                    m = pk6.OT_Memory;
+                    t = pk6.OT_TextVar;
+                    resultPrefix = "OT ";
+                    break;
+                case 1:
+                    m = pk6.HT_Memory;
+                    t = pk6.HT_TextVar;
+                    resultPrefix = "HT ";
+                    break;
+            }
+            int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
+            if (matchingMoveMemory != -1 && pk6.Species != 235  && !Legal.getCanLearnMachineMove(pk6, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.");
+            }
+            if (m == 6 && !Legal.LocationsWithPKCenter[0].Contains(t))
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Location doesn't have a Pokemon Center.");
+            }
+            if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
+            {
+                if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19))
+                    return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.");
+            }
+            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pk6, t, 1)))
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.");
+            }
+            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pk6, t, 1))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
+            {
+                return new LegalityCheck(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.");
+            }
+            return new LegalityCheck(Severity.Valid, resultPrefix + "Memory is valid.");
+        }
+        private LegalityCheck verifyOTMemory()
+        {
+            if (!History.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped OT Memory check as History is not valid.");
+
+            if (EncounterType == typeof(EncounterTrade))
+            {
+                return new LegalityCheck(Severity.Valid, "OT Memory (Ingame Trade) is valid.");
+            }
+            if (EncounterType == typeof(WC6))
+            {
+                if (pk6.OT_Memory != 0)
+                    return new LegalityCheck(Severity.Invalid, "Event Pokémon should not have an OT memory.");
+
+                return new LegalityCheck(Severity.Valid, "OT Memory (Event) is valid.");
+            }
+            switch (pk6.OT_Memory)
+            {
+                case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
+                    if (!pk6.WasEgg)
+                        return new LegalityCheck(Severity.Invalid, "OT Memory: OT did not hatch this.");
+                    return new LegalityCheck(Severity.Valid, "OT Memory is valid.");
+                case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
+                    return new LegalityCheck(Severity.Invalid, "OT Memory: Link Trade is not a valid first memory.");
+                case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
+                    int matchingOriginGame = Array.IndexOf(Legal.LocationsWithPKCenter[0], pk6.OT_TextVar);
+                    if (matchingOriginGame != -1)
+                    {
+                        int gameID = Legal.LocationsWithPKCenter[1][matchingOriginGame];
+                        if (pk6.XY && gameID != 0 || pk6.AO && gameID != 1)
+                            return new LegalityCheck(Severity.Invalid, "OT Memory: Location doesn't exist on Origin Game region.");
+                    }
+                    return verifyCommonMemory(0);
+                case 14:
+                    if (!Legal.getCanBeCaptured(pk6.OT_TextVar, pk6.Version))
+                        return new LegalityCheck(Severity.Invalid, "OT Memory: Captured Species can not be captured in game.");
+                    return new LegalityCheck(Severity.Valid, "OT Memory: Captured Species can be captured in game.");
+            }
+            if (pk6.XY && Legal.Memory_NotXY.Contains(pk6.OT_Memory))
+                return new LegalityCheck(Severity.Invalid, "OT Memory: OR/AS exclusive memory on X/Y origin.");
+            if (pk6.AO && Legal.Memory_NotAO.Contains(pk6.OT_Memory))
+                return new LegalityCheck(Severity.Invalid, "OT Memory: X/Y exclusive memory on OR/AS origin.");
+
+            return verifyCommonMemory(0);
+        }
+        private LegalityCheck verifyHTMemory()
+        {
+            if (!History.Valid)
+                return new LegalityCheck(Severity.Valid, "Skipped HT Memory check as History is not valid.");
+
+            switch (pk6.HT_Memory)
+            {
+                case 1: // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
+                    return new LegalityCheck(Severity.Invalid, "HT Memory: Handling Trainer did not capture this.");
+                case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
+                    return new LegalityCheck(Severity.Invalid, "HT Memory: Handling Trainer did not hatch this.");
+                case 14:
+                    if (!Legal.getCanBeCaptured(pk6.HT_TextVar))
+                        return new LegalityCheck(Severity.Invalid, "HT Memory: Captured Species can not be captured in game.");
+                    return new LegalityCheck(Severity.Valid, "HT Memory: Captured Species can be captured in game.");
+            }
+            return verifyCommonMemory(1);
+        }
+        private LegalityCheck verifyRegion()
+        {
+            bool valid = false;
+            switch (pk6.ConsoleRegion)
+            {
+                case 0: // Japan
+                    valid = pk6.Country == 1;
+                    break;
+                case 1: // Americas
+                    valid = 8 <= pk6.Country && pk6.Country <= 52 || new[] {153, 156, 168, 174, 186}.Contains(pk6.Country);
+                    break;
+                case 2: // Europe
+                    valid = 64 <= pk6.Country && pk6.Country <= 127 || new[] {169, 184, 185}.Contains(pk6.Country);
+                    break;
+                case 4: // China
+                    valid = pk6.Country == 144 || pk6.Country == 160;
+                    break;
+                case 5: // Korea
+                    valid = pk6.Country == 136;
+                    break;
+                case 6: // Taiwan
+                    valid = pk6.Country == 128;
+                    break;
+            }
+            return !valid 
+                ? new LegalityCheck(Severity.Invalid, "Geolocation: Country is not in 3DS region.")
+                : new LegalityCheck(Severity.Valid, "Geolocation: Country is in 3DS region.");
+        }
         private LegalityCheck verifyForm()
         {
             if (!Encounter.Valid)
@@ -628,6 +776,12 @@ namespace PKHeX
 
             switch (pk6.Species)
             {
+                case 25:
+                    if (pk6.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
+                        return EncounterType == typeof(EncounterStatic)
+                            ? new LegalityCheck(Severity.Invalid, "Cosplay Pikachu cannot have the default form.")
+                            : new LegalityCheck(Severity.Invalid, "Only Cosplay Pikachu can have this form.");
+                    break;
                 case 664:
                 case 665:
                     if (pk6.AltForm > 17) // Fancy & Pokéball
@@ -766,7 +920,7 @@ namespace PKHeX
             {
                 // Get WC6's that match
                 CardMatch = new List<WC6>(Legal.getValidWC6s(pk6));
-                foreach (var wc in CardMatch)
+                foreach (var wc in CardMatch.ToArray())
                 {
                     int[] moves = wc.RelearnMoves;
                     for (int i = 0; i < 4; i++)
@@ -785,7 +939,7 @@ namespace PKHeX
                 goto noRelearn; // No WC match
             }
 
-            if (pk6.WasEgg)
+            if (pk6.WasEgg && !Legal.NoHatchFromEgg.Contains(pk6.Species))
             {
                 const int games = 2;
                 bool checkAllGames = pk6.WasTradedEgg;

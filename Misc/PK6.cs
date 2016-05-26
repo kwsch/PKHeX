@@ -430,7 +430,7 @@ namespace PKHeX
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         public bool Gen5 => Version >= 20 && Version <= 23;
-        public bool Gen4 => Version >= 10 && Version < 12 || Version >= 7 && Version <= 8;
+        public bool Gen4 => Version >= 7 && Version <= 12 && Version != 9;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
         public bool GenU => !(Gen6 || Gen5 || Gen4 || Gen3);
 
@@ -750,7 +750,7 @@ namespace PKHeX
         // Legality Properties
         public bool WasLink => Met_Location == 30011;
         public bool WasEgg => Legal.EggLocations.Contains(Egg_Location);
-        public bool WasEvent => Met_Location > 40000 && Met_Location < 50000;
+        public bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter && Species != 386;
         public bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
         public bool WasTradedEgg => Egg_Location == 30002;
         public bool WasIngameTrade => Met_Location == 30001;

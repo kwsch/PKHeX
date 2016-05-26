@@ -31,7 +31,6 @@ Menu_ShowdownExportPK6 = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
 Menu_CyberGadget = CyberGadget
-Menu_CodeGenerator = 코드 생성기
 Menu_OpenTemp = 열기 Temp 폴더
 Menu_OpenCache = 열기 Cache 폴더
 Menu_Data = 데이터

@@ -135,11 +135,11 @@ namespace PKHeX
         public int LevelMin;
         public int LevelMax;
         public SlotType Type = SlotType.Any;
-        public bool AllowDexNav = false;
-        public bool Pressure = false;
-        public bool DexNav = false;
-        public bool WhiteFlute = false;
-        public bool BlackFlute = false;
+        public bool AllowDexNav;
+        public bool Pressure;
+        public bool DexNav;
+        public bool WhiteFlute;
+        public bool BlackFlute;
         public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
         public EncounterSlot() { }
 
@@ -150,6 +150,7 @@ namespace PKHeX
             LevelMax = template.LevelMax;
             LevelMin = template.LevelMin;
             Type = template.Type;
+            Pressure = template.Pressure;
         }
     }
 
@@ -187,6 +188,7 @@ namespace PKHeX
         public int Ball = 4; // Gift Only
         public GameVersion Version = GameVersion.Any;
         public int[] IVs = {-1, -1, -1, -1, -1, -1};
+        public bool IV3;
         public int[] Contest = {0, 0, 0, 0, 0, 0};
     }
     public class EncounterTrade
@@ -221,6 +223,7 @@ namespace PKHeX
         public bool XY = true;
         public bool ORAS = true;
         public bool? Shiny = false;
+        public bool OT = false;
     }
     public enum Nature
     {

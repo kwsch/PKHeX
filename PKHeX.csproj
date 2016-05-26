@@ -85,6 +85,7 @@
     <Compile Include="Misc\QR.Designer.cs">
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\SAV4.cs" />
     <Compile Include="Misc\SAV5.cs" />
     <Compile Include="Misc\SAV6.cs" />
     <Compile Include="Misc\WC6.cs" />
@@ -99,12 +100,6 @@
     </Compile>
     <Compile Include="Misc\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\CodeGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Misc\CodeGenerator.Designer.cs">
-      <DependentUpon>CodeGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\PKX.cs" />
     <Compile Include="PKX\f1-Main.cs">
@@ -250,9 +245,6 @@
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Misc\CodeGenerator.resx">
-      <DependentUpon>CodeGenerator.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="PKX\f1-Main.resx">
       <DependentUpon>f1-Main.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -375,6 +367,7 @@
     <None Include="Resources\byte\lvlmove_xy.pkl" />
     <None Include="Resources\byte\personal_xy" />
     <None Include="Resources\byte\wc6.pkl" />
+    <None Include="Resources\byte\wc6full.pkl" />
     <None Include="Resources\img\warn.png" />
     <None Include="Resources\img\valid.png" />
     <Content Include="Resources\text\de\text_Pokeblock_de.txt" />

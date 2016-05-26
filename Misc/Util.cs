@@ -184,11 +184,13 @@ namespace PKHeX
         // Data Retrieval
         internal static int ToInt32(string value)
         {
-            return string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value.Trim(' ', '_'));
+            string val = value?.Replace(" ", "").Replace("_", "").Trim();
+            return string.IsNullOrWhiteSpace(val) ? 0 : int.Parse(val);
         }
         internal static uint ToUInt32(string value)
         {
-            return string.IsNullOrWhiteSpace(value) ? 0 : uint.Parse(value.Trim(' ', '_'));
+            string val = value?.Replace(" ", "").Replace("_", "").Trim();
+            return string.IsNullOrWhiteSpace(val) ? 0 : uint.Parse(val);
         }
         internal static uint getHEXval(string s)
         {

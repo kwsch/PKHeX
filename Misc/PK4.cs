@@ -295,6 +295,8 @@ namespace PKHeX
         }
 
         // Complex Generated Attributes
+        public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
+        public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
         public int Characteristic
         {
             get
@@ -325,6 +327,8 @@ namespace PKHeX
                 return ivTotal <= 150 ? 2 : 3;
             }
         }
+        public string FileName => $"{Species.ToString("000")}{(IsShiny ? " ★" : "")} - {Nickname} - {Checksum.ToString("X4")}{PID.ToString("X8")}.pkm";
+        public bool ChecksumValid => Checksum == CalculateChecksum();
 
         // Methods
         public void RefreshChecksum()
@@ -384,6 +388,11 @@ namespace PKHeX
                 Move1_PPUps = Move2_PPUps;
                 Move2 = Move2_PP = Move2_PPUps = 0;
             }
+        }
+        public byte[] Encrypt()
+        {
+            Checksum = CalculateChecksum();
+            return PKM.encryptArray(Data);
         }
 
         public PK5 convertToPK5()

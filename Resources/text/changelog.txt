@@ -692,7 +692,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: 3->4 Unown form is now retained. Thanks rinnegan!
  - Fixed: WC6 import button not recognizing the correct size. Thanks \ & Ahito95!
 
-4/10/16 - New Update:
+4/10/16 - New Update: (36600)
  - Added: JKSV auto detection. Thanks Wanderer1391!
  - Added: Showdown Import/Export hotkeys. Thanks Odaxis!
  - Added: Verbose Legality Check result export, shows aspects that are fishy. Hold CTRL when bringing the Legality info up.
@@ -708,3 +708,20 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Importing wc6full files. Thanks Odaxis!
  - Fixed: ORAS 2nd daycare EXP values not being displayed. Thanks chenzw95!
  - Fixed: Mono-specific underscore issue for converting to numbers. Thanks chenzw95!
+
+5/16/16 - New Update: (1200)
+ - Added: Bulk conversion when opening a Gen4 or Gen5 save file. Box contents will be dumped to specified folder, and converted if desired.
+ - Added: SetPK6 override options for importing multiple pk6's (box import, battle video).
+ - Added: Event constant diff when comparing two saves in the Event Flag editor.
+ - Added: Move source indication to verbose legality output.
+ - Added: Form legality checks.
+ - Added: More legality checks for memories and hatched eggs. Thanks Eskuero & chenzw95!
+ - Fixed: Multiple edge cases for legality checks. Thanks Eskuero, chenzw95, Wheth, Gastly, Asia81, rinnegan, Host1126
+ - Fixed: Crash when putting spaces in number text boxes or importing wc6 to ORAS demo saves.
+ - Fixed: wc6full imports will now generate a received date.
+ - Fixed: Starting the program without a save file will load default values (OT: "PKHeX", etc).
+ - Fixed: Pokémon League indication for X/Y and OR/AS, and Poketransporter strings. Thanks chenzw95 & Odaxis!
+ - Fixed: Changing Encounter Type of files from Platinum.
+ - Removed: Code Generator, use save cache instead (CyberGadget users).
+ - Hotfix: Fixed Gen 5 save file detection. Thanks xtreme1!
+ - Hotfix: Fixed Bad Eggs from causing past gen dumping to abort. Thanks xtreme1!

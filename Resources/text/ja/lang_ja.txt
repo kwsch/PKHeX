@@ -31,7 +31,6 @@ Menu_ShowdownExportPK6 = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
 Menu_CyberGadget = CyberGadget
-Menu_CodeGenerator = コード生成
 Menu_OpenTemp = オープンTempフォルダ
 Menu_OpenCache = オープンCacheフォルダ
 Menu_Data = データ

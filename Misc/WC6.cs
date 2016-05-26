@@ -156,6 +156,10 @@ namespace PKHeX
         public int RelearnMove4 {
             get { return BitConverter.ToUInt16(Data, 0xDE); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDE); } }
+        public int OT_Intensity { get { return Data[0xE0]; } set { Data[0xE0] = (byte)value; } }
+        public int OT_Memory { get { return Data[0xE1]; } set { Data[0xE1] = (byte)value; } }
+        public int OT_TextVar { get { return BitConverter.ToUInt16(Data, 0xE2); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xE2); } }
+        public int OT_Feeling { get { return Data[0xE4]; } set { Data[0xE4] = (byte)value; } }
 
         private byte RIB0 { get { return Data[0x74]; } set { Data[0x74] = value; } }
         public bool RIB0_0 { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Battle Champ Ribbon
@@ -270,6 +274,10 @@ namespace PKHeX
                 RIB4_4 = RIB1_0, // World Champ Ribbon
                 
                 OT_Friendship = PKX.getBaseFriendship(Species),
+                OT_Intensity = OT_Intensity,
+                OT_Memory = OT_Memory,
+                OT_TextVar = OT_TextVar,
+                OT_Feeling = OT_Feeling,
                 FatefulEncounter = true,
             };
 
