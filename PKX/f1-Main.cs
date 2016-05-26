@@ -1288,6 +1288,15 @@ namespace PKHeX
                 DEV_Ability.SelectedValue = pk6.Ability;
                 MT_Level.Text = pk6.Stat_Level.ToString();
                 MT_Form.Text = pk6.AltForm.ToString();
+                if (pk6.Stat_HPMax != 0)
+                {
+                    Stat_HP.Text = pk6.Stat_HPCurrent.ToString();
+                    Stat_ATK.Text = pk6.Stat_ATK.ToString();
+                    Stat_DEF.Text = pk6.Stat_DEF.ToString();
+                    Stat_SPA.Text = pk6.Stat_SPA.ToString();
+                    Stat_SPD.Text = pk6.Stat_SPD.ToString();
+                    Stat_SPE.Text = pk6.Stat_SPE.ToString();
+                }
             }
 
             // Set the Preview Box
@@ -2767,7 +2776,7 @@ namespace PKHeX
             { SystemSounds.Exclamation.Play(); return; }
 
             // Load the PKX file
-            PK6 pk = SAV.getPK6Stored(offset);
+            PK6 pk = 30 <= slot && slot < 36 ? SAV.getPK6Party(offset) : SAV.getPK6Stored(offset);
             if (pk.Sanity == 0 && pk.Species != 0)
             {
                 try { populateFields(pk); }
