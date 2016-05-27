@@ -1,18 +1,16 @@
-None
-Rock Smash (HGSS)
-Tall Grass
+无
+碎岩 (HGSS)
+高草丛
 
-Dialga/Palkia
-Cave/Hall of Origin
+帝牙卢卡/帕路奇犽
+洞穴/初始之间
 
-Surfing/Fishing
+冲浪/钓鱼
 
-Building/Enigma Stone
-Marsh/Safari
+博物馆/神秘水晶
+大湿地/狩猎
 
-Starter/Fossil/Gift (DP)
-
-
+御三家/化石/礼物 (DP)
 
 
 
@@ -21,5 +19,7 @@ Starter/Fossil/Gift (DP)
 
 
 
-Distortion World (Pt)
-Starter/Fossil/Gift (Pt/DP Trio)
+
+
+破格的世界(Pt)
+御三家/化石/礼物 (Pt/DP Trio)
