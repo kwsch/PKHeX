@@ -55,7 +55,7 @@ namespace PKHeX
         };
         internal static byte[] shuffleArray(byte[] data, uint sv)
         {
-            byte[] sdata = new byte[PK4.SIZE_PARTY];
+            byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 8); // Copy unshuffled bytes
 
             // Shuffle Away!
