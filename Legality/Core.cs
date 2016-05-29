@@ -376,7 +376,7 @@ namespace PKHeX
         }
         internal static bool getCanKnowMove(PK6 pk6, int move, int version = -1)
         {
-            if (pk6.Species == 235 && !Legal.InvalidSketch.Contains(move))
+            if (pk6.Species == 235 && !InvalidSketch.Contains(move))
                 return true;
             return getValidMoves(pk6, Version: version, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
