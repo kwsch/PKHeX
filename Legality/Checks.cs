@@ -553,6 +553,8 @@ namespace PKHeX
                 {
                     if (Legal.Ban_Gen3Ball.Contains(pk6.Species))
                         return new LegalityCheck(Severity.Invalid, "Unobtainable capture for Gen4 Ball.");
+                    if (pk6.AbilityNumber == 4 && 152 <= pk6.Species && pk6.Species <= 160)
+                        return new LegalityCheck(Severity.Invalid, "Ball not possible for species with hidden ability.");
 
                     return new LegalityCheck(Severity.Valid, "Obtainable capture for Gen4 Ball.");
                 }
