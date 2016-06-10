@@ -565,7 +565,7 @@ namespace PKHeX
         private LegalityCheck verifyHistory()
         {
             if (!Encounter.Valid)
-                return new LegalityCheck(Severity.Valid, "Skipped Memory check due to other check being invalid.");
+                return new LegalityCheck(Severity.Valid, "Skipped History check due to other check being invalid.");
 
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
