@@ -576,14 +576,6 @@ namespace PKHeX
                     return new LegalityCheck(Severity.Invalid, "Event OT Affection should be zero.");
                 if (pk6.CurrentHandler != 1)
                     return new LegalityCheck(Severity.Invalid, "Current handler should not be Event OT.");
-                if (pk6.OT_Memory != MatchedWC6.OT_Memory)
-                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC6.OT_Memory) + ".");
-                if (pk6.OT_Intensity != MatchedWC6.OT_Intensity)
-                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Intensity == 0 ? "should not have an OT Memory Intensity value" : "OT Memory Intensity should be index " + MatchedWC6.OT_Intensity) + ".");
-                if (pk6.OT_TextVar != MatchedWC6.OT_TextVar)
-                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_TextVar == 0 ? "should not have an OT Memory TextVar value" : "OT Memory TextVar should be index " + MatchedWC6.OT_TextVar) + ".");
-                if (pk6.OT_Feeling != MatchedWC6.OT_Feeling)
-                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC6.OT_Feeling) + ".");
             }
             if (!pk6.WasEvent && !(pk6.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
             {
@@ -691,10 +683,15 @@ namespace PKHeX
             }
             if (EncounterType == typeof(WC6))
             {
-                if (pk6.OT_Memory != 0)
-                    return new LegalityCheck(Severity.Invalid, "Event Pokémon should not have an OT memory.");
-
-                return new LegalityCheck(Severity.Valid, "OT Memory (Event) is valid.");
+                WC6 MatchedWC6 = EncounterMatch as WC6;
+                if (pk6.OT_Memory != MatchedWC6.OT_Memory)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC6.OT_Memory) + ".");
+                if (pk6.OT_Intensity != MatchedWC6.OT_Intensity)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Intensity == 0 ? "should not have an OT Memory Intensity value" : "OT Memory Intensity should be index " + MatchedWC6.OT_Intensity) + ".");
+                if (pk6.OT_TextVar != MatchedWC6.OT_TextVar)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_TextVar == 0 ? "should not have an OT Memory TextVar value" : "OT Memory TextVar should be index " + MatchedWC6.OT_TextVar) + ".");
+                if (pk6.OT_Feeling != MatchedWC6.OT_Feeling)
+                    return new LegalityCheck(Severity.Invalid, "Event " + (MatchedWC6.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC6.OT_Feeling) + ".");
             }
             switch (pk6.OT_Memory)
             {
