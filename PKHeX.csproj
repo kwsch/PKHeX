@@ -71,24 +71,32 @@
     <Compile Include="Legality\Checks.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
-    <Compile Include="Misc\PGT.cs" />
-    <Compile Include="Misc\PK3.cs" />
-    <Compile Include="Misc\PK4.cs" />
+    <Compile Include="Legality\Tables5.cs" />
+    <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="MysteryGifts\MysteryGift.cs" />
+    <Compile Include="PKM\PKM.cs" />
+    <Compile Include="PKM\PKMConverter.cs" />
+    <Compile Include="PKM\ShowdownSet.cs" />
+    <Compile Include="MysteryGifts\PGT.cs" />
+    <Compile Include="PKM\PK3.cs" />
+    <Compile Include="PKM\PK4.cs" />
     <Compile Include="Legality\Tables.cs" />
-    <Compile Include="Misc\PGF.cs" />
-    <Compile Include="Misc\PK5.cs" />
-    <Compile Include="Misc\PK6.cs" />
-    <Compile Include="Misc\PKM.cs" />
+    <Compile Include="MysteryGifts\PGF.cs" />
+    <Compile Include="PKM\PK5.cs" />
+    <Compile Include="PKM\PK6.cs" />
     <Compile Include="Misc\QR.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Misc\QR.Designer.cs">
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\SAV4.cs" />
-    <Compile Include="Misc\SAV5.cs" />
-    <Compile Include="Misc\SAV6.cs" />
-    <Compile Include="Misc\WC6.cs" />
+    <Compile Include="Saves\BlockInfo.cs" />
+    <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\SAV4.cs" />
+    <Compile Include="Saves\SAV5.cs" />
+    <Compile Include="Saves\SAV6.cs" />
+    <Compile Include="Saves\SaveFile.cs" />
+    <Compile Include="MysteryGifts\WC6.cs" />
     <Compile Include="PKX\f2-Text.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,7 +109,7 @@
     <Compile Include="Misc\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\PKX.cs" />
+    <Compile Include="PKM\PKX.cs" />
     <Compile Include="PKX\f1-Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,11 +133,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SAV\SAV_BerryFieldORAS.cs">
+    <Compile Include="Saves\SaveObjects.cs" />
+    <Compile Include="Saves\SaveUtil.cs" />
+    <Compile Include="SAV\SAV_PokeBlockORAS.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV\SAV_BerryFieldORAS.Designer.cs">
-      <DependentUpon>SAV_BerryFieldORAS.cs</DependentUpon>
+    <Compile Include="SAV\SAV_PokeBlockORAS.Designer.cs">
+      <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
     </Compile>
     <Compile Include="SAV\SAV_Database.cs">
       <SubType>Form</SubType>
@@ -149,11 +159,11 @@
     <Compile Include="SAV\SAV_SecretBase.Designer.cs">
       <DependentUpon>SAV_SecretBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="SAV\SAV_EventFlagsORAS.cs">
+    <Compile Include="SAV\SAV_EventFlags.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SAV\SAV_EventFlagsORAS.Designer.cs">
-      <DependentUpon>SAV_EventFlagsORAS.cs</DependentUpon>
+    <Compile Include="SAV\SAV_EventFlags.Designer.cs">
+      <DependentUpon>SAV_EventFlags.cs</DependentUpon>
     </Compile>
     <Compile Include="SAV\frmReport.cs">
       <SubType>Form</SubType>
@@ -174,12 +184,6 @@
     </Compile>
     <Compile Include="SAV\SAV_BoxLayout.Designer.cs">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SAV\SAV_EventFlagsXY.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SAV\SAV_EventFlagsXY.Designer.cs">
-      <DependentUpon>SAV_EventFlagsXY.cs</DependentUpon>
     </Compile>
     <Compile Include="SAV\SAV_HallOfFame.cs">
       <SubType>Form</SubType>
@@ -238,12 +242,14 @@
     <Compile Include="Misc\Util.cs" />
     <EmbeddedResource Include="Misc\QR.resx">
       <DependentUpon>QR.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PKX\f2-Text.resx">
       <DependentUpon>f2-Text.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PKX\f1-Main.resx">
       <DependentUpon>f1-Main.cs</DependentUpon>
@@ -255,8 +261,8 @@
     <EmbeddedResource Include="PKX\f3-MemoryAmie.resx">
       <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV\SAV_BerryFieldORAS.resx">
-      <DependentUpon>SAV_BerryFieldORAS.cs</DependentUpon>
+    <EmbeddedResource Include="SAV\SAV_PokeBlockORAS.resx">
+      <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
@@ -267,8 +273,8 @@
     <EmbeddedResource Include="SAV\SAV_SecretBase.resx">
       <DependentUpon>SAV_SecretBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SAV\SAV_EventFlagsORAS.resx">
-      <DependentUpon>SAV_EventFlagsORAS.cs</DependentUpon>
+    <EmbeddedResource Include="SAV\SAV_EventFlags.resx">
+      <DependentUpon>SAV_EventFlags.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\frmReport.resx">
       <DependentUpon>frmReport.cs</DependentUpon>
@@ -283,9 +289,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_BoxLayout.resx">
       <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SAV\SAV_EventFlagsXY.resx">
-      <DependentUpon>SAV_EventFlagsXY.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_HallOfFame.resx">
       <DependentUpon>SAV_HallOfFame.cs</DependentUpon>
@@ -313,6 +316,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
@@ -370,6 +374,27 @@
     <None Include="Resources\byte\wc6full.pkl" />
     <None Include="Resources\img\warn.png" />
     <None Include="Resources\img\valid.png" />
+    <None Include="Resources\img\Program\about.png" />
+    <None Include="Resources\img\Program\bak.png" />
+    <None Include="Resources\img\Program\database.png" />
+    <None Include="Resources\img\Program\exit.png" />
+    <None Include="Resources\img\Program\export.png" />
+    <None Include="Resources\img\Program\import.png" />
+    <None Include="Resources\img\Program\language.png" />
+    <None Include="Resources\img\Program\open.png" />
+    <None Include="Resources\img\Program\other.png" />
+    <None Include="Resources\img\Program\report.png" />
+    <None Include="Resources\img\Program\savePKM.png" />
+    <None Include="Resources\img\Program\saveSAV.png" />
+    <None Include="Resources\img\Program\settings-16.png" />
+    <None Include="Resources\img\Program\settings.png" />
+    <None Include="Resources\img\Program\nocheck.png" />
+    <None Include="Resources\img\Program\load.png" />
+    <None Include="Resources\img\Program\data.png" />
+    <None Include="Resources\img\Program\dump.png" />
+    <None Include="Resources\img\Program\showdown.png" />
+    <None Include="Resources\img\Program\folder.png" />
+    <None Include="Resources\img\Program\main.png" />
     <Content Include="Resources\text\de\text_Pokeblock_de.txt" />
     <None Include="Resources\text\de\text_tradeao_de.txt" />
     <None Include="Resources\text\de\text_tradexy_de.txt" />
@@ -391,6 +416,9 @@
     <Content Include="Resources\text\ko\text_Pokeblock_ko.txt" />
     <None Include="Resources\text\ko\text_tradeao_ko.txt" />
     <None Include="Resources\text\ko\text_tradexy_ko.txt" />
+    <None Include="Resources\text\other\const_oras.txt" />
+    <None Include="Resources\text\other\flags_oras.txt" />
+    <None Include="Resources\text\other\flags_xy.txt" />
     <Content Include="Resources\text\zh\text_Pokeblock_zh.txt" />
     <None Include="Resources\text\it\lang_it.txt" />
     <None Include="Resources\img\Pokemon Sprites\414-2.png" />

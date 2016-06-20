@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -11,52 +11,77 @@ namespace PKHeX
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
 
-            item_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Items_ORAS : Legal.Pouch_Items_XY);
-            keyitem_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Key_ORAS : Legal.Pouch_Key_XY);
-            tmhm_val = getItems(Main.SAV.ORAS ? Legal.Pouch_TMHM_ORAS : Legal.Pouch_TMHM_XY, sort: false);
-            medicine_val = getItems(Main.SAV.ORAS ? Legal.Pouch_Medicine_ORAS : Legal.Pouch_Medicine_XY);
-            berries_val = getItems(Legal.Pouch_Berry_XY);
-
-            B_DisplayItems.ForeColor = Color.Red;
-
-            // Load Items
-            populateList(item_val, Main.SAV.Items.HeldItem);
-
-            B_DisplayItems.Text = Main.itempouch[0];
-            B_DisplayMedicine.Text = Main.itempouch[1];
-            B_DisplayTMHM.Text = Main.itempouch[2];
-            B_DisplayBerries.Text = Main.itempouch[3];
-            B_DisplayKeyItems.Text = Main.itempouch[4];
+            Pouches = SAV.Inventory;
+            getBags();
         }
 
-        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
-        private readonly string[] item_val, keyitem_val, tmhm_val, medicine_val, berries_val;
+        private readonly SaveFile SAV = Main.SAV.Clone();
+        private readonly InventoryPouch[] Pouches;
+        private const string TabPrefix = "TAB_";
+        private const string DGVPrefix = "DGV_";
 
-
-        // Initialize String Tables
-        private string[] getItems(ushort[] items, bool sort = true)
+        private void B_Cancel_Click(object sender, EventArgs e)
         {
-            string[] res = new string[items.Length];
-            for (int i = 0; i < res.Length; i++)
-                res[i] = Main.itemlist[items[i]];
-            if (sort)
-                Array.Sort(res);
-            return res;
+            Close();
+        }
+        private void B_Save_Click(object sender, EventArgs e)
+        {
+            packBags();
+            SAV.Inventory = Pouches;
+            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
+            Main.SAV.Edited = true;
+            Close();
         }
 
-        // Populate DataGrid
-        private void populateList(string[] itemarr, int offset, int itemcount = -1)
+        private void getBags()
         {
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();
-
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            for (int i = 0; i < Pouches.Length; i++)
             {
-                dgvIndex.HeaderText = "CNT";
-                dgvIndex.DisplayIndex = 1;
-                dgvIndex.Width = 45;
-                dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                // Add Tab
+                tabControl1.TabPages.Add(new TabPage
+                {
+                    // Text = Pouches[i].Type.ToString(),
+                    ImageIndex = (int)Pouches[i].Type
+                });
+
+                // Add DataGrid
+                DataGridView dgv = new DataGridView
+                {
+                    Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right, // All
+                    Height = tabControl1.TabPages[i].Height,
+                    Width = tabControl1.TabPages[i].Width,
+                    Text = Pouches[i].Type.ToString(),
+                    Name = DGVPrefix + Pouches[i].Type,
+
+                    AllowUserToAddRows = false,
+                    AllowUserToDeleteRows = false,
+                    AllowUserToResizeRows = false,
+                    AllowUserToResizeColumns = false,
+                    RowHeadersVisible = false,
+                    ColumnHeadersVisible = false,
+                    MultiSelect = false,
+                    ShowEditingIcon = false,
+
+                    EditMode = DataGridViewEditMode.EditOnEnter,
+                    ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
+                    ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+                    SelectionMode = DataGridViewSelectionMode.CellSelect,
+                    CellBorderStyle = DataGridViewCellBorderStyle.None,
+                };
+
+                tabControl1.TabPages[i].Controls.Add(dgv);
+
+                spillBag(dgv, i);
             }
+        }
+        private void spillBag(DataGridView dgv, int bag)
+        {
+            var pouch = Pouches[bag];
+            var itemcount = Pouches[bag].Items.Length;
+            string[] itemarr = getItems(pouch.LegalItems);
+            dgv.Rows.Clear();
+            dgv.Columns.Clear();
+
             DataGridViewComboBoxColumn dgvItemVal = new DataGridViewComboBoxColumn
             {
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
@@ -64,19 +89,27 @@ namespace PKHeX
                 Width = 135,
                 FlatStyle = FlatStyle.Flat
             };
+            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            {
+                dgvIndex.HeaderText = "CNT";
+                dgvIndex.DisplayIndex = 1;
+                dgvIndex.Width = 45;
+                dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
             foreach (string t in itemarr)
                 dgvItemVal.Items.Add(t); // add only the Item Names
 
-            dataGridView1.Columns.Add(dgvItemVal);
-            dataGridView1.Columns.Add(dgvIndex);
+            dgv.Columns.Add(dgvItemVal);
+            dgv.Columns.Add(dgvIndex);
 
-            dataGridView1.Rows.Add(itemcount > 0 ? itemcount : itemarr.Length);
-            dataGridView1.CancelEdit();
+            dgv.Rows.Add(itemcount > 0 ? itemcount : itemarr.Length);
+            dgv.CancelEdit();
 
             string itemname = "";
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            string err = "";
+            for (int i = 0; i < pouch.Items.Length; i++)
             {
-                int itemvalue = BitConverter.ToUInt16(sav, offset + i*4);
+                int itemvalue = pouch.Items[i].Index;
                 try { itemname = Main.itemlist[itemvalue]; }
                 catch
                 {
@@ -86,143 +119,95 @@ namespace PKHeX
                 int itemarrayval = Array.IndexOf(itemarr, itemname);
                 if (itemarrayval == -1)
                 {
-                    dataGridView1.Rows[i].Cells[0].Value = itemarr[0];
-                    dataGridView1.Rows[i].Cells[1].Value = 0;
-                    Util.Alert(itemname + " removed from item pouch.", "If you save changes the item will no longer be in the pouch.");
+                    dgv.Rows[i].Cells[0].Value = itemarr[0];
+                    dgv.Rows[i].Cells[1].Value = 0;
+
+                    err += itemname + ", ";
                 }
                 else
                 {
-                    dataGridView1.Rows[i].Cells[0].Value = itemarr[itemarrayval];
-                    dataGridView1.Rows[i].Cells[1].Value = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
+                    dgv.Rows[i].Cells[0].Value = itemname;
+                    dgv.Rows[i].Cells[1].Value = pouch.Items[i].Count;
                 }
             }
+            if (err.Length > 0)
+                Util.Alert($"The following items have been removed from {Pouches[bag].Type} pouch.", err,
+                    "If you save changes, the item(s) will no longer be in the pouch.");
         }
-        private void dropclick(object sender, DataGridViewCellEventArgs e)
+        private void packBags()
         {
-            if (e.ColumnIndex != 0) return;
-
-            ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
-            comboBox.DroppedDown = true;
-        }
-        private void saveBag(object sender)
-        {
-            int offset = 0;
-            if (B_DisplayItems.ForeColor == Color.Red)
-                offset = Main.SAV.Items.HeldItem;
-            else if (B_DisplayKeyItems.ForeColor == Color.Red)
-                offset = Main.SAV.Items.KeyItem;
-            else if (B_DisplayTMHM.ForeColor == Color.Red)
-                offset = Main.SAV.Items.TMHM;
-            else if (B_DisplayMedicine.ForeColor == Color.Red)
-                offset = Main.SAV.Items.Medicine;
-            else if (B_DisplayBerries.ForeColor == Color.Red)
-                offset = Main.SAV.Items.Berry;
-
-            // Fetch Data
-            int itemcount = dataGridView1.Rows.Count;
-            int emptyslots = 0;
-            for (int i = 0; i < itemcount; i++)
+            for (int p = 0; p < Pouches.Length; p++)
             {
-                string item = dataGridView1.Rows[i].Cells[0].Value.ToString();
-                int itemindex = Array.IndexOf(Main.itemlist, item);
-                int itemcnt;
-                try 
-                { itemcnt = Convert.ToUInt16(dataGridView1.Rows[i].Cells[1].Value.ToString()); }
-                catch { itemcnt = 0; }
+                // Get DataGridView
+                DataGridView dgv = Controls.Find(DGVPrefix + Pouches[p].Type, true).FirstOrDefault() as DataGridView;
 
-                if (itemindex == 0) // Compression of Empty Slots
+                int ctr = 0;
+                for (int i = 0; i < dgv.Rows.Count; i++)
                 {
-                    emptyslots++;
-                    continue;
+                    string item = dgv.Rows[i].Cells[0].Value.ToString();
+                    int itemindex = Array.IndexOf(Main.itemlist, item);
+                    int itemcnt;
+                    try
+                    { itemcnt = Convert.ToUInt16(dgv.Rows[i].Cells[1].Value.ToString()); }
+                    catch { itemcnt = 0; }
+
+                    if (itemcnt == 0)
+                        itemcnt++; // No 0 count of items
+                    else if (itemcnt > 995)
+                        itemcnt = 995; // cap out
+
+                    if (itemindex == 0) // Compression of Empty Slots
+                        continue;
+
+                    Pouches[p].Items[ctr++] = new InventoryItem {Index = itemindex, Count = itemcnt};
                 }
-                if (itemcnt == 0)
-                    itemcnt++; // No 0 count of items
-                else if (itemcnt > 995)
-                    itemcnt = 995; // cap out
-
-                // Write Data into Save File
-                BitConverter.GetBytes((ushort)itemindex).CopyTo(sav, offset + 4 * (i - emptyslots)); // item #
-                BitConverter.GetBytes((ushort)itemcnt).CopyTo(sav, offset + 4 * (i - emptyslots) + 2); // count
+                for (int i = ctr; i < Pouches[p].Items.Length; i++)
+                    Pouches[p].Items[i] = new InventoryItem(); // Empty Slots at the end
             }
+        }
 
-            // Delete Empty Trash
-            for (int i = itemcount - emptyslots; i < itemcount; i++)
+        // Initialize String Tables
+        private string[] getItems(ushort[] items, bool sort = true)
+        {
+            string[] res = new string[items.Length + 1];
+            for (int i = 0; i < res.Length - 1; i++)
+                res[i] = Main.itemlist[items[i]];
+            res[items.Length] = Main.itemlist[0];
+            if (sort)
+                Array.Sort(res);
+            return res;
+        }
+
+        // User Cheats
+        private void B_GiveAll_Click(object sender, EventArgs e)
+        {
+            // Get Current Pouch
+            int pouch = tabControl1.SelectedIndex;
+            if (pouch < 0)
+                return;
+
+            ushort[] legalitems = Pouches[pouch].LegalItems;
+
+            DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+
+            if (ModifierKeys == Keys.Alt)
             {
-                BitConverter.GetBytes((ushort)0).CopyTo(sav, offset + 4 * i + 0); // item #
-                BitConverter.GetBytes((ushort)0).CopyTo(sav, offset + 4 * i + 2); // count
+                for (int i = 0; i < legalitems.Length; i++)
+                {
+                    dgv.Rows[i].Cells[0].Value = Main.itemlist[0];
+                    dgv.Rows[i].Cells[1].Value = 0;
+                }
+                Util.Alert("Items cleared.");
+                return;
             }
-
-            // Load New Button Color, after finished we'll load the new data.
-            B_DisplayItems.ForeColor =
-            B_DisplayKeyItems.ForeColor =
-            B_DisplayTMHM.ForeColor =
-            B_DisplayMedicine.ForeColor =
-            B_DisplayBerries.ForeColor = Main.defaultControlText;
-
-            (sender as Button).ForeColor = Color.Red;
-        }
-        private void giveAll(string[] inarray, int count)
-        {
-            for (int i = 0; i < inarray.Length - 1; i++)
+            int Count = ModifierKeys == Keys.Control ? 1 : Pouches[pouch].MaxCount;
+            for (int i = 0; i < legalitems.Length; i++)
             {
-                string itemname = inarray[i+1];
-                int itemarrayval = Array.IndexOf(inarray, itemname);
-                dataGridView1.Rows[i].Cells[0].Value = inarray[itemarrayval];
-                dataGridView1.Rows[i].Cells[1].Value = count;
+                string itemname = Main.itemlist[legalitems[i]];
+                dgv.Rows[i].Cells[0].Value = itemname;
+                dgv.Rows[i].Cells[1].Value = Count;
             }
-        }
-        private void B_DisplayItems_Click(object sender, EventArgs e)
-        {
-            // Store Current Items back to the save file
-            saveBag(sender);
-            populateList(item_val, Main.SAV.Items.HeldItem);
-            if (ModifierKeys == Keys.Alt)
-                giveAll(item_val, 995);
-        }
-        private void B_DisplayKeyItems_Click(object sender, EventArgs e)
-        {
-            // Store Current Items back to the save file
-            saveBag(sender);
-            populateList(keyitem_val, Main.SAV.Items.KeyItem);
-            if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo,
-                $"Warning: Adding all {B_DisplayKeyItems.Text} is dangerous.", "Continue?") == DialogResult.Yes)
-                giveAll(keyitem_val, 1);
-        }
-        private void B_DisplayTMHM_Click(object sender, EventArgs e)
-        {
-            // Store Current Items back to the save file
-            saveBag(sender);
-            populateList(tmhm_val, Main.SAV.Items.TMHM);
-            if (ModifierKeys == Keys.Alt && Util.Prompt(MessageBoxButtons.YesNo,
-                $"Warning: Adding all {B_DisplayTMHM.Text} is dangerous.", "Continue?") == DialogResult.Yes)
-                giveAll(tmhm_val, 1);
-        }
-        private void B_DisplayMedicine_Click(object sender, EventArgs e)
-        {
-            // Store Current Items back to the save file
-            saveBag(sender);
-            populateList(medicine_val, Main.SAV.Items.Medicine);
-            if (ModifierKeys == Keys.Alt)
-                giveAll(medicine_val, 995);
-        }
-        private void B_DisplayBerries_Click(object sender, EventArgs e)
-        {
-            // Store Current Items back to the save file
-            saveBag(sender);
-            populateList(berries_val, Main.SAV.Items.Berry);
-            if (ModifierKeys == Keys.Alt)
-                giveAll(berries_val, 995);
-        }
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void B_Save_Click(object sender, EventArgs e)
-        {
-            saveBag(sender);
-            Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
-            Main.SAV.Edited = true;
-            Close();
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }

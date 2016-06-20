@@ -32,12 +32,12 @@ namespace PKHeX
             getData();
             editing = false;
             LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(sav, Main.SAV.Spinda).ToString("X8");
+            TB_Spinda.Text = BitConverter.ToUInt32(SAV.Data, SAV.Spinda).ToString("X8");
         }
 
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
-        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
         private readonly bool[,] specbools = new bool[9, 0x60 * 8];
         private readonly bool[,] langbools = new bool[7, 0x60 * 8];
         private readonly bool[] foreignbools = new bool[0x52 * 8];
@@ -130,7 +130,7 @@ namespace PKHeX
             CLB_FormDisplayed.Items.Clear();
 
             int fc = PKX.Personal[species].FormeCount;
-            int f = PKX.getDexFormIndexXY(species, fc);
+            int f = SaveUtil.getDexFormIndexXY(species, fc);
             if (f < 0)
                 return;
             string[] forms = PKX.getFormList(species, Main.types, Main.forms, Main.gendersymbols);
@@ -174,7 +174,7 @@ namespace PKHeX
             langbools[6, species - 1] = CHK_L7.Checked;
 
             int fc = PKX.Personal[species].FormeCount;
-            int f = PKX.getDexFormIndexORAS(species, fc);
+            int f = SaveUtil.getDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
 
@@ -197,7 +197,7 @@ namespace PKHeX
             for (int i = 0; i < 9; i++)
             {
                 byte[] data = new byte[0x60];
-                Array.Copy(sav, Main.SAV.PokeDex + 8 + 0x60 * i, data, 0, 0x60);
+                Array.Copy(SAV.Data, SAV.PokeDex + 8 + 0x60 * i, data, 0, 0x60);
                 BitArray BitRegion = new BitArray(data);
                 for (int b = 0; b < 0x60 * 8; b++)
                     specbools[i, b] = BitRegion[b];
@@ -205,7 +205,7 @@ namespace PKHeX
 
             // Fill Language arrays
             byte[] langdata = new byte[0x280];
-            Array.Copy(sav, Main.SAV.PokeDexLanguageFlags, langdata, 0, 0x280);
+            Array.Copy(SAV.Data, SAV.PokeDexLanguageFlags, langdata, 0, 0x280);
             BitArray LangRegion = new BitArray(langdata);
             for (int b = 0; b < 721; b++) // 721 Species
                 for (int i = 0; i < 7; i++) // 7 Languages
@@ -213,13 +213,13 @@ namespace PKHeX
 
             // Fill Foreign array
             byte[] foreigndata = new byte[0x52];
-            Array.Copy(sav, Main.SAV.PokeDex + 0x64C, foreigndata, 0, 0x52);
+            Array.Copy(SAV.Data, SAV.PokeDex + 0x64C, foreigndata, 0, 0x52);
             BitArray ForeignRegion = new BitArray(foreigndata);
             for (int b = 0; b < 0x52 * 8; b++)
                 foreignbools[b] = ForeignRegion[b];
             
             byte[] formdata = new byte[FormLen*4];
-            Array.Copy(sav, Main.SAV.PokeDex + 0x368, formdata, 0, formdata.Length);
+            Array.Copy(SAV.Data, SAV.PokeDex + 0x368, formdata, 0, formdata.Length);
             formbools = new BitArray(formdata);
         }
         private void setData()
@@ -234,7 +234,7 @@ namespace PKHeX
                     if (specbools[p, i])
                         sdata[i / 8] |= (byte)(1 << i % 8);
 
-                sdata.CopyTo(sav, Main.SAV.PokeDex + 8 + 0x60 * p);
+                sdata.CopyTo(SAV.Data, SAV.PokeDex + 8 + 0x60 * p);
             }
 
             // Build new bool array for the Languages
@@ -251,10 +251,10 @@ namespace PKHeX
                     if (languagedata[i])
                         ldata[i / 8] |= (byte)(1 << i % 8);
 
-                ldata.CopyTo(sav, Main.SAV.PokeDexLanguageFlags);
+                ldata.CopyTo(SAV.Data, SAV.PokeDexLanguageFlags);
             }
 
-            formbools.CopyTo(sav, Main.SAV.PokeDex + 0x368);
+            formbools.CopyTo(SAV.Data, SAV.PokeDex + 0x368);
 
             // Return Foreign Array
             {
@@ -262,12 +262,12 @@ namespace PKHeX
                 for (int i = 0; i < 0x52 * 8; i++)
                     if (foreignbools[i])
                         foreigndata[i / 8] |= (byte)(1 << i % 8);
-                foreigndata.CopyTo(sav, Main.SAV.PokeDex + 0x64C);
+                foreigndata.CopyTo(SAV.Data, SAV.PokeDex + 0x64C);
             }
 
             // Store Spinda Spot
             uint PID = Util.getHEXval(TB_Spinda.Text);
-            BitConverter.GetBytes(PID).CopyTo(sav, Main.SAV.Spinda);
+            BitConverter.GetBytes(PID).CopyTo(SAV.Data, SAV.Spinda);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -280,7 +280,7 @@ namespace PKHeX
             setData();
 
             // Return back to the parent savefile
-            Array.Copy(sav, Main.SAV.Data, sav.Length);
+            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
             Main.SAV.Edited = true;
             Close();
         }
@@ -324,7 +324,7 @@ namespace PKHeX
         }
         private void modifyAll(object sender, EventArgs e)
         {
-            int lang = Main.SAV.Language;
+            int lang = SAV.Language;
             if (lang > 5) lang -= 1;
             lang -= 1;
 
@@ -393,7 +393,7 @@ namespace PKHeX
             setEntry();
             setData();
             if (mnuComplete == sender) // Turn off Italian Petlil
-                sav[Main.SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
+                SAV.Data[SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
 
             getData();
             getEntry();

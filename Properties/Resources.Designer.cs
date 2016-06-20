@@ -9073,6 +9073,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap about {
+            get {
+                object obj = ResourceManager.GetObject("about", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap alert {
             get {
                 object obj = ResourceManager.GetObject("alert", resourceCulture);
@@ -9256,6 +9266,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap badge_8 {
             get {
                 object obj = ResourceManager.GetObject("badge_8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bak {
+            get {
+                object obj = ResourceManager.GetObject("bak", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -9740,6 +9760,18 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 60	Ash
+        ///21	Test1
+        ///22	Test2
+        ///24	Test3.
+        /// </summary>
+        internal static string const_oras {
+            get {
+                return ResourceManager.GetString("const_oras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap contestmemory {
@@ -9789,9 +9821,39 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap data {
+            get {
+                object obj = ResourceManager.GetObject("data", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database {
+            get {
+                object obj = ResourceManager.GetObject("database", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap downcast {
             get {
                 object obj = ResourceManager.GetObject("downcast", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dump {
+            get {
+                object obj = ResourceManager.GetObject("dump", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -9909,9 +9971,94 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap exit {
+            get {
+                object obj = ResourceManager.GetObject("exit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap expertbattler {
             get {
                 object obj = ResourceManager.GetObject("expertbattler", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap export {
+            get {
+                object obj = ResourceManager.GetObject("export", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0648	(OR) Groudon Defeated
+        ///2839	(OR) Groudon Captured
+        ///0647	(AS) Kyogre Defeated
+        ///2840	(AS) Kyogre Captured
+        ///0208	(OR) Ho-Oh Defeated
+        ///2815	(OR) Ho-Oh Captured
+        ///0209	(AS) Lugia Defeated
+        ///2814	(AS) Lugia Captured
+        ///2819	(AS) Dialga Captured
+        ///2820	(OR) Palkia Captured
+        ///2828	(OR) Tornadus Captured
+        ///2829	(AS) Thundurus Captured
+        ///2832	Landorus Captured
+        ///0182	(OR) Reshiram Defeated
+        ///2830	(OR) Reshiram Captured
+        ///0183	(AS) Zekrom Defeated
+        ///2831	(AS) Zekrom Captured
+        ///0419	(OR) Latias Defeated
+        ///2834	(OR) Latias Captured
+        ///0420	(AS) Lati [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string flags_oras {
+            get {
+                return ResourceManager.GetString("flags_oras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2237	2237
+        ///2238	2238
+        ///2239	2239
+        ///0963	Mewtwo Defeated
+        ///0115	Mewtwo Captured
+        ///0114	Zygarde Captured
+        ///0790	Zygarde Defeated
+        ///0285	Singles Statuette
+        ///0286	Doubles Statuette
+        ///0287	Triples Statuette
+        ///0288	Rotation Statuette
+        ///0289	Multi Statuette
+        ///0290	Super Singles Unlocked
+        ///0291	Super Doubles Unlocked
+        ///0292	Super Triples Unlocked
+        ///0293	Super Rotation Unlocked
+        ///0294	Super Multi Unlocked
+        ///0675	50: Beat Chatelaine
+        ///2546	Pokédex Obtained.
+        /// </summary>
+        internal static string flags_xy {
+            get {
+                return ResourceManager.GetString("flags_xy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap folder {
+            get {
+                object obj = ResourceManager.GetObject("folder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -9972,6 +10119,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap import {
+            get {
+                object obj = ResourceManager.GetObject("import", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -14324,6 +14481,16 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap language {
+            get {
+                object obj = ResourceManager.GetObject("language", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID,Language
         ///1,JPN (日本語)
         ///2,ENG (English)
@@ -14345,6 +14512,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap legend {
             get {
                 object obj = ResourceManager.GetObject("legend", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap load {
+            get {
+                object obj = ResourceManager.GetObject("load", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -14382,6 +14559,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap main {
+            get {
+                object obj = ResourceManager.GetObject("main", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap national {
             get {
                 object obj = ResourceManager.GetObject("national", resourceCulture);
@@ -14395,6 +14582,36 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap nationalchamp {
             get {
                 object obj = ResourceManager.GetObject("nationalchamp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nocheck {
+            get {
+                object obj = ResourceManager.GetObject("nocheck", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap open {
+            get {
+                object obj = ResourceManager.GetObject("open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap other {
+            get {
+                object obj = ResourceManager.GetObject("other", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -14507,6 +14724,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap report {
+            get {
+                object obj = ResourceManager.GetObject("report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ribbon_40 {
             get {
                 object obj = ResourceManager.GetObject("ribbon_40", resourceCulture);
@@ -14587,6 +14814,36 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap savePKM {
+            get {
+                object obj = ResourceManager.GetObject("savePKM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap saveSAV {
+            get {
+                object obj = ResourceManager.GetObject("saveSAV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings {
+            get {
+                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap shock {
             get {
                 object obj = ResourceManager.GetObject("shock", resourceCulture);
@@ -14621,6 +14878,16 @@ namespace PKHeX.Properties {
         internal static string shortcuts {
             get {
                 return ResourceManager.GetString("shortcuts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap showdown {
+            get {
+                object obj = ResourceManager.GetObject("showdown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -17379,7 +17646,7 @@ namespace PKHeX.Properties {
         ///   Looks up a localized string similar to ----------
         ///谜的地点
         ///遥远的地点
-        ///\xf000Ā\x0001\x0000の\xf000ą\x0001\x0001
+        ///\xf000Ā\x0001\x0000的\xf000ą\x0001\x0001
         ///鹿子镇
         ///唐草镇
         ///三曜市
@@ -18668,21 +18935,19 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to None
-        ///Rock Smash (HGSS)
-        ///Tall Grass
+        ///   Looks up a localized string similar to æ— 
+        ///ç¢Žå²© (HGSS)
+        ///é«˜è‰ä¸›
         ///
-        ///Dialga/Palkia
-        ///Cave/Hall of Origin
+        ///å¸ç‰™å¢å¡/å¸•è·¯å¥‡çŠ½
+        ///æ´žç©´/åˆå§‹ä¹‹é—´
         ///
-        ///Surfing/Fishing
+        ///å†²æµª/é’“é±¼
         ///
-        ///Building/Enigma Stone
-        ///Marsh/Safari
+        ///åšç‰©é¦†/ç¥žç§˜æ°´æ™¶
+        ///å¤§æ¹¿åœ°/ç‹©çŒŽ
         ///
-        ///Starter/Fossil/Gift (DP)
-        ///
-        ///
+        ///å¾¡ä¸‰å®¶/åŒ–çŸ³/ç¤¼ç‰© (DP)
         ///
         ///
         ///
@@ -18691,8 +18956,10 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt/DP Trio).
+        ///
+        ///
+        ///ç ´æ ¼çš„ä¸–ç•Œ(Pt)
+        ///å¾¡ä¸‰å®¶/åŒ–çŸ³/ç¤¼ç‰© (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_zh {
             get {
@@ -20741,7 +21008,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///あるすがた
+        ///字母形态
         ///
         ///
         ///
@@ -20793,7 +21060,8 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_zh {
             get {
@@ -21080,8 +21348,8 @@ namespace PKHeX.Properties {
         ///黑2
         ///X
         ///Y
-        ///AS
-        ///OR
+        ///始源蓝宝石
+        ///终极红宝石
         ///.
         /// </summary>
         internal static string text_games_zh {
@@ -21419,70 +21687,77 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to どこか
-        ///さいしょのまち
-        ///うち
-        ///ともだちのいえ
-        ///ひとのうち
-        ///にぎやかなまち
-        ///ブティック
-        ///ショップ
-        ///そぼくなまち
-        ///ポケモンセンター
-        ///おしろ
-        ///ホテル
-        ///ふしぎなふんいきのまち
-        ///かぜのふくまち
-        ///ゲート
-        ///かわべりのまち
-        ///けんきゅうじょ
-        ///すいぞくかん
-        ///がけにあるまち
-        ///はなやかなまち
-        ///ポケモンジム
-        ///がっこう
-        ///きょだいなまち
-        ///ビル
-        ///オシャレなカフェ
-        ///アジト
-        ///びじゅつかん
-        ///スタジオ
-        ///えき
-        ///たたかいのば
-        ///びようしつ
-        ///レストラン
-        ///こうきゅうレストラン
-        ///うみべのまち
-        ///たかいたてもののなか
-        ///ふしぎなふんいきのまち
-        ///かわぞいのまち
-        ///ゆきのふりつもるまち
-        ///ポケモンリーグ
-        ///きゅうでん
-        ///どうくつ
-        ///もり
-        ///がいろじゅのつづくみち
-        ///かわぞいのみち
-        ///のどかなみち
-        ///はなさくみち
-        ///そだてや
-        ///けわしいやまみち
-        ///いしのたちならぶばしょ
-        ///うみのみえるみち
-        ///ぬかるんだみち
-        ///すなのふきあれるみち
-        ///おちばみち
-        ///ゆきみち
-        ///こうじょう
-        ///チャンピオンロード
-        ///ゆきやま
-        ///はつでんしょ
-        ///はたけ
-        ///はいきょ
-        ///すいどう
-        ///サファリ
-        ///ひみつきち
-        ///コンテストライブかい [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to 某处
+        ///第一个城镇
+        ///家
+        ///朋友的家
+        ///别人的房子
+        ///热闹的小镇
+        ///精品屋
+        ///商店
+        ///普通小镇
+        ///精灵中心
+        ///城堡
+        ///酒店
+        ///雾气的小镇
+        ///微风吹过的小镇
+        ///门
+        ///河边小镇
+        ///实验室
+        ///水族馆
+        ///悬崖上的小镇
+        ///华丽的城市
+        ///精灵健身房
+        ///学校
+        ///大城市
+        ///建筑
+        ///时尚咖啡厅
+        ///藏身处
+        ///博物馆
+        ///工作室
+        ///车站
+        ///战场
+        ///美容院
+        ///餐厅
+        ///高档餐厅
+        ///海滨城市
+        ///高大建筑物内
+        ///神秘气息的城市
+        ///河畔城市
+        ///白雪皑皑的城市
+        ///精灵联赛
+        ///宫殿
+        ///山洞
+        ///森林
+        ///绿树成荫的道路
+        ///滨江路
+        ///宁静的道路
+        ///盛开的道路
+        ///饲育屋
+        ///崎岖山路
+        ///满是石头的路
+        ///海边道路
+        ///泥泞的路
+        ///沙子路
+        ///落叶路
+        ///雪扫路
+        ///工厂
+        ///冠军之路
+        ///雪山
+        ///发电厂
+        ///田地
+        ///废墟
+        ///水路
+        ///野生动物园
+        ///秘密基地
+        ///华丽大赛会场
+        ///海洋深处
+        ///幻之位置
+        ///大船
+        ///火山小径
+        ///小岛
+        ///神秘的地方
+        ///天空.
         /// </summary>
         internal static string text_genloc_zh {
             get {
@@ -21889,7 +22164,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ----
+        ///   Looks up a localized string similar to 迷之地方
         ///双叶镇
         ///真砂镇
         ///苑之镇
@@ -23427,45 +23702,50 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to 
         ///
-        ///おもいで　らしいわ
-        ///おもいで　らしいわ
-        ///おもいで　らしいわ
-        ///おもいで　らしいわ
-        ///きおくにのこる　おもいで　らしいわ
-        ///かんがいぶかい　おもいで　だって
-        ///さいこうの　おもいで　だって！
+        ///神奇宝贝记得
+        ///神奇宝贝记得
+        ///神奇宝贝记得
+        ///神奇宝贝记得
+        ///神奇宝贝清晰得记得
+        ///神奇宝贝肯定得记得
+        ///神奇宝贝美美得记得
         ///
-        ///うれしかった
-        ///たのしかった
-        ///よろこんだ
-        ///ニヤニヤした
-        ///たまらない　きもちになった
-        ///なんともいえない　きもちだった
-        ///いい　きぶんになった
-        ///うるうるした
-        ///うかれてしまった
-        ///きんちょうした
-        ///きもちよかった
-        ///もぞもぞした
-        ///クセになりそうに　なった
-        ///もうしわけない　きぶんになった
-        ///せつない　きもちになった
-        ///なつかしい　きもちになった
-        ///てこずった
-        ///きつかった
-        ///すなおに　なれなかった
-        ///ほこらしく　おもった
-        ///けんあくな　ムードになった
-        ///おこってしまった
-        ///しっとした
-        ///ねむくなった
+        ///它很高兴
+        ///它玩的开心
+        ///它很开心
+        ///它咧嘴笑
+        ///它变得不知所措
+        ///它的感觉难以形容
+        ///它感觉很好
+        ///它变得饱含泪水
+        ///它感到轻松
+        ///它感到紧张了
+        ///它感觉很舒服
+        ///它感到焦躁不安
+        ///它变得有点得意忘形
+        ///它感到惋惜
+        ///它变得很敏感
+        ///它变得很怀旧
+        ///它遇到了一些困难
+        ///它感到精疲力尽
+        ///它感觉不像是真的
+        ///它感到骄傲
+        ///他们以坏心情收场
+        ///它变得愤怒
+        ///它感到嫉妒
+        ///它想睡觉
         ///
-        ///なにかのどうぐ
-        ///なにかのわざ
-        ///だれか
-        ///いい　おもいでが　あるようだけど ちょっと　おもいおこせないみたい……
-        ///{0}は　{1}に {2}で　であい　 モンスターボールを　なげられて いっしょに　たびする　ことになり　 {3}ことが {4}
-        ///{0}は {2}で　 タマゴの　からをやぶって [rest of string was truncated]&quot;;.
+        ///某一道具
+        ///某一技能
+        ///神奇宝贝
+        ///这只神奇宝贝好像有很美好的回忆，但是它似乎想不起来了……
+        ///{0}和{1}的第一次相遇在……{2}。{1}朝它使用了神奇宝贝球，之后他们就开始一起旅行了。
+        ///{0}从蛋中孵化并且看见{1}第一眼的地方是在……{2}。
+        ///{0}和{1}相遇的地方是……{2}。
+        ///{0}在{2}通过通讯交换遇见了{1}，他们随后成了朋友。
+        ///{0}和{1}一起去了宝可梦中心/友好商店，购买了{2}。
+        ///{0}和{1}一起去了{2}的宝可梦中心并且恢复了它疲惫的身体。
+        ///{0 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_memories_zh {
             get {
@@ -24270,29 +24550,29 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 努力/实干
-        ///寂寞/孤僻
+        ///   Looks up a localized string similar to 努力
+        ///孤独
         ///勇敢
         ///固执
-        ///顽皮/调皮
+        ///调皮
         ///大胆
-        ///坦率
+        ///直率
         ///悠闲
         ///淘气
-        ///无虑
+        ///乐天
         ///胆小
         ///急躁
         ///认真
         ///开朗
         ///天真
-        ///谨慎/保守
-        ///温和/稳重
+        ///保守
+        ///稳重
         ///冷静
-        ///腼腆/害羞
+        ///害羞
         ///马虎
-        ///安静/沉着
+        ///沉着
         ///温顺
-        ///傲慢/狂妄
+        ///狂妄
         ///慎重
         ///浮躁.
         /// </summary>
@@ -24528,37 +24808,57 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to 能量方块盒
         ///树果混合器
-        ///ポロックを　あげる
-        ///あげる
-        ///ポロックを　つくる
-        ///つくる
+        ///给与一个能量方块
+        ///给与
+        ///制作能量方块
+        ///制作
         ///[~ 6]
-        ///いろ
+        ///颜色
         ///[VAR NUM3(0000)]
         ///[VAR PKNICK(0000)]
         ///[VAR MOVE(0000)]
-        ///どのポケモンに　あげますか？
-        ///[VAR PKNICK(0000)]に　ポロックを　あげた！
-        ///しぼりこむ　いろを　えらんでください
-        ///ポロックを　えらんでください
-        ///ポロックを　どうしますか？
-        ///まぜる　きのみを　えらんでください
+        ///给哪个精灵？
+        ///你把能量块给了[VAR PKNICK(0000)]！
+        ///请选择筛选颜色
+        ///选择一个能量方块
+        ///要对能量方块做些什么？
+        ///选择需要混合的树果
         ///[~ 17]
-        ///[VAR 01A3(0000)]が [VAR NUM1(0001)]コ　できた！[VAR BE05(0000)][VAR BE05(0001)]
-        ///[VAR PKNICK(0000)]に　ポロックをあげますか？
-        ///タマゴは　たべられません！
-        ///どのポケモンに　あげますか？
-        ///４つ　までしか　いれられません！
-        ///あか　で　しぼりこみました
-        ///あお　で　しぼりこみました
-        ///ももいろ　で　しぼりこみました
-        ///みどり　で　しぼりこみました
-        ///きいろ　で　しぼりこみました
-        ///ブレンドスタート
-        ///きのみを　もどす
-        ///ポケモンにあげる
-        ///やめる
-        ///はい        /// [rest of string was truncated]&quot;;.
+        ///你做出了[VAR 01A3(0000)]个[VAR NUM1(0001)]！[VAR BE05(0000)][VAR BE05(0001)]
+        ///把能量方块给[VAR PKNICK(0000)]？
+        ///蛋不能吃能量方块！
+        ///给哪个精灵？
+        ///你不能混合超过4个树果！
+        ///按红色筛选
+        ///按蓝色筛选
+        ///按粉色筛选
+        ///按绿色筛选
+        ///按黄色筛选
+        ///开始混合
+        ///返回树果
+        ///给与
+        ///退出
+        ///是
+        ///否
+        ///全部
+        ///红
+        ///蓝
+        ///粉
+        ///绿
+        ///黄
+        ///[~ 40]
+        ///[~ 41]
+        ///[~ 42]
+        ///[~ 43]
+        ///[~ 44]
+        ///[~ 45]
+        ///[~ 46]
+        ///[~ 47]
+        ///[~ 48]
+        ///[~ 49]
+        ///[~ 50]
+        ///[VAR 01A3(0000)]
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_pokeblock_zh {
             get {

@@ -9,9 +9,9 @@ namespace PKHeX
         {
             trba = Main.trainingbags;
             trba[0] = "---";
-            offsetTime = Main.SAV.SuperTrain + 0x08;
-            offsetSpec = Main.SAV.SuperTrain + 0x188;
-            offsetVal = Main.SAV.SuperTrain + 0x18A;
+            offsetTime = SAV.SuperTrain + 0x08;
+            offsetSpec = SAV.SuperTrain + 0x188;
+            offsetVal = SAV.SuperTrain + 0x18A;
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
             string[] stages = Main.trainingstage;
@@ -22,7 +22,7 @@ namespace PKHeX
             setup();
         }
 
-        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private readonly string[] trba = {
                                 "Empty",
                                 "HP Bag S","HP Bag M","HP Bag L",
@@ -54,9 +54,9 @@ namespace PKHeX
             listBox1.SelectedIndex = 0;
             fillTrainingBags();
 
-            CB_S2.SelectedValue = (int)BitConverter.ToUInt16(sav, offsetSpec + 4 * 30);
-            TB_Time1.Text = BitConverter.ToSingle(sav, offsetTime + 4 * 30).ToString();
-            TB_Time2.Text = BitConverter.ToSingle(sav, offsetTime + 4 * 31).ToString();
+            CB_S2.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * 30);
+            TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 30).ToString();
+            TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 31).ToString();
         }
         private void fillTrainingBags()
         {
@@ -85,11 +85,11 @@ namespace PKHeX
             dataGridView1.Columns.Add(dgvBag);
 
             dataGridView1.Rows.Add(12);
-            int offset = Main.SAV.SuperTrain + 0x308;
+            int offset = SAV.SuperTrain + 0x308;
             for (int i = 0; i < 12; i++)
             {
                 dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
-                dataGridView1.Rows[i].Cells[1].Value = trba[sav[offset + i]];
+                dataGridView1.Rows[i].Cells[1].Value = trba[SAV.Data[offset + i]];
             }
         }        
         private void dropclick(object sender, DataGridViewCellEventArgs e)
@@ -106,9 +106,9 @@ namespace PKHeX
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            TB_Time.Text = BitConverter.ToSingle(sav, offsetTime + 4 * index).ToString();
-            TB_Unk.Text = BitConverter.ToUInt16(sav, offsetVal + 4 * index).ToString();
-            CB_Species.SelectedValue = (int)BitConverter.ToUInt16(sav, offsetSpec + 4 * index);
+            TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * index).ToString();
+            TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + 4 * index).ToString();
+            CB_Species.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * index);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -125,11 +125,11 @@ namespace PKHeX
                 }
                 bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
             }
-            try { BitConverter.GetBytes(float.Parse(TB_Time1.Text)).CopyTo(sav, offsetTime + 4 * 30); } catch { }
-            try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(sav, offsetTime + 4 * 31); } catch { }
-            BitConverter.GetBytes((ushort)Util.getIndex(CB_S2)).CopyTo(sav, offsetSpec + 4 * 30);
-            bagarray.CopyTo(sav, Main.SAV.SuperTrain + 0x308);
-            Array.Copy(sav, Main.SAV.Data, Main.SAV.Data.Length);
+            try { BitConverter.GetBytes(float.Parse(TB_Time1.Text)).CopyTo(SAV.Data, offsetTime + 4 * 30); } catch { }
+            try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(SAV.Data, offsetTime + 4 * 31); } catch { }
+            BitConverter.GetBytes((ushort)Util.getIndex(CB_S2)).CopyTo(SAV.Data, offsetSpec + 4 * 30);
+            bagarray.CopyTo(SAV.Data, SAV.SuperTrain + 0x308);
+            Array.Copy(SAV.Data, Main.SAV.Data, Main.SAV.Data.Length);
             Main.SAV.Edited = true;
             Close();
         }
@@ -141,19 +141,19 @@ namespace PKHeX
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            BitConverter.GetBytes(Util.getIndex(CB_Species)).CopyTo(sav, offsetSpec + 4 * index);
+            BitConverter.GetBytes(Util.getIndex(CB_Species)).CopyTo(SAV.Data, offsetSpec + 4 * index);
         }
         private void changeRecordVal(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(sav, offsetVal + 4 * index); } catch { }
+            try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(SAV.Data, offsetVal + 4 * index); } catch { }
         }
         private void changeRecordTime(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            try { BitConverter.GetBytes(float.Parse(TB_Time.Text)).CopyTo(sav, offsetTime + 4 * index); } catch { }
+            try { BitConverter.GetBytes(float.Parse(TB_Time.Text)).CopyTo(SAV.Data, offsetTime + 4 * index); } catch { }
         }
     }
 }

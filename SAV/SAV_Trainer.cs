@@ -410,9 +410,9 @@ namespace PKHeX
             TB_Style.Text = SAV.Style.ToString();
 
             // Load Play Time
-            MT_Hours.Text = Main.SAV.PlayedHours.ToString();
-            MT_Minutes.Text = Main.SAV.PlayedMinutes.ToString();
-            MT_Seconds.Text = Main.SAV.PlayedSeconds.ToString();
+            MT_Hours.Text = SAV.PlayedHours.ToString();
+            MT_Minutes.Text = SAV.PlayedMinutes.ToString();
+            MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
             // Load PSS Sprite
             CB_MultiplayerSprite.SelectedValue = SAV.Sprite;

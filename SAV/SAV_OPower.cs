@@ -13,6 +13,7 @@ namespace PKHeX
             LoadData();
         }
 
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -24,7 +25,7 @@ namespace PKHeX
         }
         private void LoadData()
         {
-            int o = Main.SAV.OPower;
+            int o = SAV.OPower;
 
             // Fill up the 17 o-powers
             // 1 2 3 4 5 10 use 4 bytes, everything else uses 3
@@ -52,15 +53,15 @@ namespace PKHeX
             CB_17.SelectedIndex = getIndex(o, 3);//o += 3; // 3E-40
 
             // Load Maxes
-            o = Main.SAV.OPower;
-            CHK_1.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x00]);
-            CHK_2.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x05]);
-            CHK_3.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x0A]);
-            CHK_4.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x0F]);
-            CHK_5.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x14]);
-            CHK_6.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x19]);
-            CHK_7.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x26]);
-            CHK_8.Checked = Convert.ToBoolean(Main.SAV.Data[o + 0x2B]);
+            o = SAV.OPower;
+            CHK_1.Checked = Convert.ToBoolean(SAV.Data[o + 0x00]);
+            CHK_2.Checked = Convert.ToBoolean(SAV.Data[o + 0x05]);
+            CHK_3.Checked = Convert.ToBoolean(SAV.Data[o + 0x0A]);
+            CHK_4.Checked = Convert.ToBoolean(SAV.Data[o + 0x0F]);
+            CHK_5.Checked = Convert.ToBoolean(SAV.Data[o + 0x14]);
+            CHK_6.Checked = Convert.ToBoolean(SAV.Data[o + 0x19]);
+            CHK_7.Checked = Convert.ToBoolean(SAV.Data[o + 0x26]);
+            CHK_8.Checked = Convert.ToBoolean(SAV.Data[o + 0x2B]);
         }
         private void SaveData()
         {
@@ -76,7 +77,7 @@ namespace PKHeX
                 0x27,
                 0x2C,0x2F,0x32,0x35,0x38,0x3B,0x3E,
             };
-            int o = Main.SAV.OPower; // offset
+            int o = SAV.OPower; // offset
 
             for (int i = 0; i < cba.Length; i++)
             {
@@ -90,14 +91,15 @@ namespace PKHeX
 
             // Save Maxes
 
-            Main.SAV.Data[o + 0x00] = Convert.ToByte(CHK_1.Checked);
-            Main.SAV.Data[o + 0x05] = Convert.ToByte(CHK_2.Checked);
-            Main.SAV.Data[o + 0x0A] = Convert.ToByte(CHK_3.Checked);
-            Main.SAV.Data[o + 0x0F] = Convert.ToByte(CHK_4.Checked);
-            Main.SAV.Data[o + 0x14] = Convert.ToByte(CHK_5.Checked);
-            Main.SAV.Data[o + 0x19] = Convert.ToByte(CHK_6.Checked);
-            Main.SAV.Data[o + 0x26] = Convert.ToByte(CHK_7.Checked);
-            Main.SAV.Data[o + 0x2B] = Convert.ToByte(CHK_8.Checked);
+            SAV.Data[o + 0x00] = Convert.ToByte(CHK_1.Checked);
+            SAV.Data[o + 0x05] = Convert.ToByte(CHK_2.Checked);
+            SAV.Data[o + 0x0A] = Convert.ToByte(CHK_3.Checked);
+            SAV.Data[o + 0x0F] = Convert.ToByte(CHK_4.Checked);
+            SAV.Data[o + 0x14] = Convert.ToByte(CHK_5.Checked);
+            SAV.Data[o + 0x19] = Convert.ToByte(CHK_6.Checked);
+            SAV.Data[o + 0x26] = Convert.ToByte(CHK_7.Checked);
+            SAV.Data[o + 0x2B] = Convert.ToByte(CHK_8.Checked);
+            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
             Main.SAV.Edited = true;
         }
         private int getIndex(int o, int l)

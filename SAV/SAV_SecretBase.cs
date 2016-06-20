@@ -18,11 +18,11 @@ namespace PKHeX
 
             LB_Favorite.SelectedIndex = 0;
             // MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString(); PSS Stat transmitted
-            MT_Flags.Text = BitConverter.ToUInt32(sav, Main.SAV.SecretBase + 0x62C).ToString(); // read counter
+            MT_Flags.Text = BitConverter.ToUInt32(SAV.Data, SAV.SecretBase + 0x62C).ToString(); // read counter
             B_SAV2FAV(null, null);
         }
 
-        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private bool editing;
         private bool loading = true;
 
@@ -53,13 +53,13 @@ namespace PKHeX
         {
             LB_Favorite.Items.Clear();
 
-            int playeroff = Main.SAV.SecretBase + 0x326;
-            int favoff = Main.SAV.SecretBase + 0x63A;
-            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(sav, playeroff + 0x218, 0x1A));
+            int playeroff = SAV.SecretBase + 0x326;
+            int favoff = SAV.SecretBase + 0x63A;
+            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, playeroff + 0x218, 0x1A));
             LB_Favorite.Items.Add("* " + OT);
             for (int i = 0; i < 30; i++)
             {
-                string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(sav, favoff + i * 0x3E0 + 0x218, 0x1A));
+                string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, favoff + i * 0x3E0 + 0x218, 0x1A));
                 if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                     BaseTrainer = "Empty";
                 LB_Favorite.Items.Add(i + " " + BaseTrainer);
@@ -70,24 +70,24 @@ namespace PKHeX
             loading = true;
             int index = LB_Favorite.SelectedIndex;
             if (index < 0) return;
-            int offset = Main.SAV.SecretBase + 0x25A;
+            int offset = SAV.SecretBase + 0x25A;
 
             // Base Offset Changing
-            if (index == 0) offset = Main.SAV.SecretBase + 0x326;
+            if (index == 0) offset = SAV.SecretBase + 0x326;
             else offset += 0x3E0 * index;
 
-            string TrainerName = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x218, 0x1A));
+            string TrainerName = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x218, 0x1A));
             TB_FOT.Text = TrainerName;
 
-            TB_FT1.Text = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x232 + 0x22 * 0, 0x22));
-            TB_FT2.Text = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x232 + 0x22 * 1, 0x22));
+            TB_FT1.Text = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x232 + 0x22 * 0, 0x22));
+            TB_FT2.Text = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x232 + 0x22 * 1, 0x22));
 
-            string saying1 = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x276 + 0x22 * 0, 0x22));
-            string saying2 = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x276 + 0x22 * 1, 0x22));
-            string saying3 = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x276 + 0x22 * 2, 0x22));
-            string saying4 = Util.TrimFromZero(Encoding.Unicode.GetString(sav, offset + 0x276 + 0x22 * 3, 0x22));
+            string saying1 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + 0x22 * 0, 0x22));
+            string saying2 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + 0x22 * 1, 0x22));
+            string saying3 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + 0x22 * 2, 0x22));
+            string saying4 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + 0x22 * 3, 0x22));
 
-            int baseloc = BitConverter.ToInt16(sav, offset);
+            int baseloc = BitConverter.ToInt16(SAV.Data, offset);
             NUD_FBaseLocation.Value = baseloc;
 
             TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;
@@ -96,7 +96,7 @@ namespace PKHeX
             objdata = new byte[25, 12];
             for (int i = 0; i < 25; i++)
                 for (int z = 0; z < 12; z++)
-                    objdata[i, z] = sav[offset + 2 + 12 * i + z];
+                    objdata[i, z] = SAV.Data[offset + 2 + 12 * i + z];
             NUD_FObject.Value = 1; // Trigger Update
             changeObjectIndex(null, null);
 
@@ -107,7 +107,7 @@ namespace PKHeX
             if (index > 0) 
                 for (int i = 0; i < 3; i++)
                     for (int z = 0; z < 0x34; z++)
-                        pkmdata[i, z] = sav[offset + 0x32E + 0x34 * i + z];
+                        pkmdata[i, z] = SAV.Data[offset + 0x32E + 0x34 * i + z];
 
             NUD_FPKM.Value = 1;
             changeFavPKM(null, null); // Trigger Update
@@ -127,54 +127,54 @@ namespace PKHeX
             if (LB_Favorite.Items[index].ToString().Substring(LB_Favorite.Items[index].ToString().Length - 5, 5) == "Empty")
             { Util.Error("Sorry, no overwriting an empty base with someone else's."); return; }
             if (index < 0) return;
-            int offset = Main.SAV.SecretBase + 0x25A;
+            int offset = SAV.SecretBase + 0x25A;
 
             // Base Offset Changing
             if (index == 0)
-                offset = Main.SAV.SecretBase + 0x326;
+                offset = SAV.SecretBase + 0x326;
             else offset += 0x3E0 * index;
 
             string TrainerName = TB_FOT.Text;
             byte[] tr = Encoding.Unicode.GetBytes(TrainerName);
-            Array.Resize(ref tr, 0x22); Array.Copy(tr, 0, sav, offset + 0x218, 0x1A);
+            Array.Resize(ref tr, 0x22); Array.Copy(tr, 0, SAV.Data, offset + 0x218, 0x1A);
 
             string team1 = TB_FT1.Text;
             string team2 = TB_FT2.Text;
             byte[] t1 = Encoding.Unicode.GetBytes(team1);
-            Array.Resize(ref t1, 0x22); Array.Copy(t1, 0, sav, offset + 0x232 + 0x22 * 0, 0x22);
+            Array.Resize(ref t1, 0x22); Array.Copy(t1, 0, SAV.Data, offset + 0x232 + 0x22 * 0, 0x22);
             byte[] t2 = Encoding.Unicode.GetBytes(team2);
-            Array.Resize(ref t2, 0x22); Array.Copy(t2, 0, sav, offset + 0x232 + 0x22 * 1, 0x22);
+            Array.Resize(ref t2, 0x22); Array.Copy(t2, 0, SAV.Data, offset + 0x232 + 0x22 * 1, 0x22);
 
             string saying1 = TB_FSay1.Text;
             string saying2 = TB_FSay2.Text;
             string saying3 = TB_FSay3.Text;
             string saying4 = TB_FSay4.Text;
             byte[] s1 = Encoding.Unicode.GetBytes(saying1);
-            Array.Resize(ref s1, 0x22); Array.Copy(s1, 0, sav, offset + 0x276 + 0x22 * 0, 0x22);
+            Array.Resize(ref s1, 0x22); Array.Copy(s1, 0, SAV.Data, offset + 0x276 + 0x22 * 0, 0x22);
             byte[] s2 = Encoding.Unicode.GetBytes(saying2);
-            Array.Resize(ref s2, 0x22); Array.Copy(s2, 0, sav, offset + 0x276 + 0x22 * 1, 0x22);
+            Array.Resize(ref s2, 0x22); Array.Copy(s2, 0, SAV.Data, offset + 0x276 + 0x22 * 1, 0x22);
             byte[] s3 = Encoding.Unicode.GetBytes(saying3);
-            Array.Resize(ref s3, 0x22); Array.Copy(s3, 0, sav, offset + 0x276 + 0x22 * 2, 0x22);
+            Array.Resize(ref s3, 0x22); Array.Copy(s3, 0, SAV.Data, offset + 0x276 + 0x22 * 2, 0x22);
             byte[] s4 = Encoding.Unicode.GetBytes(saying4);
-            Array.Resize(ref s4, 0x22); Array.Copy(s4, 0, sav, offset + 0x276 + 0x22 * 3, 0x22);
+            Array.Resize(ref s4, 0x22); Array.Copy(s4, 0, SAV.Data, offset + 0x276 + 0x22 * 3, 0x22);
 
             int baseloc = (int)NUD_FBaseLocation.Value;
             if (baseloc < 3) baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
-            Array.Copy(BitConverter.GetBytes(baseloc), 0, sav, offset, 2);
+            Array.Copy(BitConverter.GetBytes(baseloc), 0, SAV.Data, offset, 2);
 
             TB_FOT.Text = TrainerName; TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;
 
             // Copy back Objects
             for (int i = 0; i < 25; i++)
                 for (int z = 0; z < 12; z++)
-                    sav[offset + 2 + 12 * i + z] = objdata[i, z];
+                    SAV.Data[offset + 2 + 12 * i + z] = objdata[i, z];
 
             if (GB_PKM.Enabled) // Copy pkm data back in
             {
                 saveFavPKM();
                 for (int i = 0; i < 3; i++)
                     for (int z = 0; z < 0x34; z++)
-                        sav[offset + 0x32E + 0x34 * i + z] = pkmdata[i, z];
+                        SAV.Data[offset + 0x32E + 0x34 * i + z] = pkmdata[i, z];
             }
             popFavorite();
             LB_Favorite.SelectedIndex = index;
@@ -188,9 +188,9 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             uint flags = Util.ToUInt32(MT_Flags.Text);
-            Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.PSSStats + 0x140, 4); // write pss
-            Array.Copy(BitConverter.GetBytes(flags), 0, sav, Main.SAV.SecretBase + 0x62C, 4); // write counter
-            Array.Copy(sav, Main.SAV.Data, sav.Length);
+            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.PSSStats + 0x140, 4); // write pss
+            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
+            Main.SAV.Data = SAV.Data;
             Main.SAV.Edited = true;
             Close();
         }
@@ -201,8 +201,8 @@ namespace PKHeX
                 // int qty = BitConverter.ToUInt16(sav, offset + i * 4);
                 // int has = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
 
-                sav[Main.SAV.SecretBase + i * 4] = 25;
-                sav[Main.SAV.SecretBase + i * 4 + 2] = 1;
+                SAV.Data[SAV.SecretBase + i * 4] = 25;
+                SAV.Data[SAV.SecretBase + i * 4 + 2] = 1;
             }
         }
 
@@ -454,8 +454,8 @@ namespace PKHeX
             if (LB_Favorite.SelectedIndex < 1) { Util.Alert("Cannot delete your Secret Base."); return; }
             int index = LB_Favorite.SelectedIndex - 1;
 
-            int favoff = Main.SAV.SecretBase + 0x63A;
-            string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(sav, favoff + index * 0x3E0 + 0x218, 0x1A));
+            int favoff = SAV.SecretBase + 0x63A;
+            string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, favoff + index * 0x3E0 + 0x218, 0x1A));
             if (string.IsNullOrEmpty(BaseTrainer))
                 BaseTrainer = "Empty";
 
@@ -465,9 +465,9 @@ namespace PKHeX
             const int max = 29; 
             const int size = 0x3E0;
             int offset = favoff + index * size;
-            if (index != max) Array.Copy(sav, offset + size, sav, offset, size * (max - index));
+            if (index != max) Array.Copy(SAV.Data, offset + size, SAV.Data, offset, size * (max - index));
             // Ensure Last Entry is Cleared
-            Array.Copy(new byte[size], 0, sav, size * max, size);
+            Array.Copy(new byte[size], 0, SAV.Data, size * max, size);
             popFavorite();
         }
     }
