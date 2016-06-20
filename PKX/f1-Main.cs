@@ -516,7 +516,7 @@ namespace PKHeX
             #region DeSmuME .dsv detect
             if (input.Length > SaveUtil.SIZE_G4RAW)
             {
-                bool dsv = SaveUtil.FOOTER_DSV.SequenceEqual(input.Skip(input.Length - SaveUtil.FOOTER_DSV.Length).Take(SaveUtil.FOOTER_DSV.Length));
+                bool dsv = SaveUtil.FOOTER_DSV.SequenceEqual(input.Skip(input.Length - SaveUtil.FOOTER_DSV.Length));
                 if (dsv)
                 {
                     footer = input.Skip(SaveUtil.SIZE_G4RAW).ToArray();
