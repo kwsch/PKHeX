@@ -512,6 +512,18 @@ namespace PKHeX
         private void openFile(byte[] input, string path, string ext)
         {
             MysteryGift tg; PKM temp; string c;
+            byte[] footer = new byte[0];
+            #region DeSmuME .dsv detect
+            if (input.Length > SaveUtil.SIZE_G4RAW)
+            {
+                bool dsv = SaveUtil.FOOTER_DSV.SequenceEqual(input.Skip(input.Length - SaveUtil.FOOTER_DSV.Length).Take(SaveUtil.FOOTER_DSV.Length));
+                if (dsv)
+                {
+                    footer = input.Skip(SaveUtil.SIZE_G4RAW).ToArray();
+                    input = input.Take(SaveUtil.SIZE_G4RAW).ToArray();
+                }
+            }
+            #endregion
             #region Powersaves Read-Only Conversion
             if (input.Length == 0x10009C) // Resize to 1MB
             {
@@ -541,7 +553,7 @@ namespace PKHeX
             #endregion
             #region SAV/PKM
             else if (SaveUtil.getSAVGeneration(input) > -1) // Supports Gen4/5/6
-                openSAV(input, path);
+            { openSAV(input, path); SAV.Footer = footer; }
             else if ((temp = PKMConverter.getPKMfromBytes(input)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
@@ -3141,7 +3153,7 @@ namespace PKHeX
 
             SaveFileDialog main = new SaveFileDialog
             {
-                Filter = "Main SAV|*.*", 
+                Filter = SAV.Filter, 
                 FileName = SAV.FileName,
                 RestoreDirectory = true
             };
@@ -3153,7 +3165,9 @@ namespace PKHeX
 
             if (SAV.HasBox)
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
-            File.WriteAllBytes(main.FileName, SAV.Write());
+
+            bool dsv = Path.GetExtension(main.FileName).ToLower() == ".dsv";
+            File.WriteAllBytes(main.FileName, SAV.Write(dsv));
             Util.Alert("SAV exported to:", main.FileName);
         }
 

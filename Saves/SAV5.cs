@@ -8,6 +8,8 @@ namespace PKHeX
     {
         // Save Data Attributes
         public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
+        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav*";
+        public override string Extension => ".sav";
         public SAV5(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G5RAW] : (byte[])data.Clone();

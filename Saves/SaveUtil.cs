@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace PKHeX
 {
@@ -28,9 +29,7 @@ namespace PKHeX
         internal const int SIZE_G5B2W2 = 0x26000;
         internal const int SIZE_G4RAW = 0x80000;
 
-        internal static readonly byte[] EncryptedBlank4 = PKX.encryptArray45(new byte[PKX.SIZE_4PARTY]);
-        internal static readonly byte[] EncryptedBlank5 = PKX.encryptArray45(new byte[PKX.SIZE_5PARTY]);
-        internal static readonly byte[] EncryptedBlank6 = PKX.encryptArray(new byte[PKX.SIZE_6PARTY]);
+        internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
 
         internal static int getSAVGeneration(byte[] data)
         {

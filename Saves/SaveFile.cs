@@ -17,6 +17,8 @@ namespace PKHeX
         public abstract byte[] BAK { get; }
         public abstract bool Exportable { get; }
         public abstract SaveFile Clone();
+        public abstract string Filter { get; }
+        public byte[] Footer { protected get; set; } // .dsv
 
         // General PKM Properties
         protected abstract Type PKMType { get; }
@@ -29,9 +31,11 @@ namespace PKHeX
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
-        public byte[] Write()
+        public byte[] Write(bool DSV)
         {
             setChecksums();
+            if (Footer.Length > 0 && DSV)
+                return Data.Concat(Footer).ToArray();
             return Data;
         }
         public virtual string MiscSaveChecks() { return ""; }
@@ -274,7 +278,8 @@ namespace PKHeX
         public abstract int BoxCount { get; }
         public abstract int PartyCount { get; protected set; }
         public virtual int CurrentBox { get { return 0; } set { } }
-        
+        public abstract string Extension { get; }
+
         // Varied Methods
         protected abstract void setChecksums();
         public abstract int getBoxOffset(int box);

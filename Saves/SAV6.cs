@@ -8,6 +8,8 @@ namespace PKHeX
     {
         // Save Data Attributes
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
+        public override string Filter => "Main SAV|*.*";
+        public override string Extension => "";
         public SAV6(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G6ORAS] : (byte[])data.Clone();
