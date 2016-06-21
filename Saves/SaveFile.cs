@@ -49,6 +49,13 @@ namespace PKHeX
         public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;
         public bool XY => Version == GameVersion.X || Version == GameVersion.Y;
 
+        public virtual int MaxMoveID => int.MaxValue;
+        public virtual int MaxSpeciesID => int.MaxValue;
+        public virtual int MaxAbilityID => int.MaxValue;
+        public virtual int MaxItemID => int.MaxValue;
+        public virtual int MaxBallID => int.MaxValue;
+        public virtual int MaxGameID => int.MaxValue;
+
         // Flags
         public bool HasWondercards => WondercardData > -1;
         public bool HasSuperTrain => SuperTrain > -1;

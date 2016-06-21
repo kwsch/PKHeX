@@ -762,7 +762,7 @@ namespace PKHeX
                     GB_nOT.Visible = BTN_History.Visible = true;
                     Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = true;
                     PB_MarkPentagon.Visible = true;
-                    PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = !HaX;
+                    PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = true;
 
                     CB_Ability.Visible = !HaX;
                     extraBytes = PK6.ExtraBytes;
@@ -773,9 +773,9 @@ namespace PKHeX
                     break;
             }
 
-            // Clear PKM fields if generation has changed
-            if (pkm.Format != SAV.Generation)
-                populateFields(SAV.BlankPKM);
+            pkm = preparePKM();
+            populateFilteredDataSources();
+            populateFields(pkm.Format != SAV.Generation ? SAV.BlankPKM : pkm);
 
             // SAV Specific Limits
             TB_OT.MaxLength = SAV.OTLength;
@@ -784,6 +784,7 @@ namespace PKHeX
 
             // Common HaX Interface
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
+            PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible &= !HaX;
             TB_Level.Visible = !HaX;
 
             // Load Extra Byte List
@@ -871,10 +872,14 @@ namespace PKHeX
             }
 
             // Fix Item Names (Duplicate entries)
-            itemlist[456] += " (OLD)"; // S.S. Ticket
-            itemlist[463] += " (OLD)"; // Storage Key
-            itemlist[478] += " (OLD)"; // Basement Key
-            itemlist[626] += " (2)"; // Xtransceiver
+            itemlist[456] += " (HG/SS)"; // S.S. Ticket
+            itemlist[736] += " (OR/AS)"; // S.S. Ticket
+            itemlist[463] += " (DPPt)"; // Storage Key
+            itemlist[734] += " (OR/AS)"; // Storage Key
+            itemlist[478] += " (HG/SS)"; // Basement Key
+            itemlist[478] += " (OR/AS)"; // Basement Key
+            itemlist[621] += " (M)"; // Xtransceiver
+            itemlist[626] += " (F)"; // Xtransceiver
             itemlist[629] += " (2)"; // DNA Splicers
             itemlist[637] += " (2)"; // Dropped Item
             itemlist[707] += " (2)"; // Travel Trunk
@@ -990,28 +995,34 @@ namespace PKHeX
             int[] ball_nums = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
             int[] ball_vals = { 7, 25, 13, 17, 22, 14, 20, 18, 21, 19, 11, 23, 8, 6, 12, 15, 9, 5, 24, 10, 1, 16 };
             BallDataSource = Util.getVariedCBList(itemlist, ball_nums, ball_vals);
-            ItemDataSource = Util.getCBList(itemlist, HaX ? null : Legal.HeldItem_AO.Select(i => (int)i).ToArray());
             SpeciesDataSource = Util.getCBList(specieslist, null);
             NatureDataSource = Util.getCBList(natures, null);
             AbilityDataSource = Util.getCBList(abilitylist, null);
             VersionDataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
 
-            CB_Ball.DataSource = new BindingSource(BallDataSource, null);
-            CB_Species.DataSource = new BindingSource(SpeciesDataSource, null);
-            CB_HeldItem.DataSource = new BindingSource(ItemDataSource, null);
+            MoveDataSource = Util.getCBList(movelist, null);
+
+            CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
+            CB_HPType.DataSource = Util.getCBList(types.Skip(1).Take(16).ToArray(), null);
             CB_Nature.DataSource = new BindingSource(NatureDataSource, null);
 
-            DEV_Ability.DataSource = new BindingSource(AbilityDataSource, null);
-            CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
-            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource, null);
-            CB_HPType.DataSource = Util.getCBList(types.Skip(1).Take(16).ToArray(), null);
+            populateFilteredDataSources();
+        }
+        private void populateFilteredDataSources()
+        {
+            ItemDataSource = Util.getCBList(itemlist, (HaX ? Enumerable.Range(0, SAV.MaxItemID) : SAV.HeldItems.Select(i => (int)i)).ToArray());
+            CB_HeldItem.DataSource = new BindingSource(ItemDataSource.Where(i => i.Value <= SAV.MaxItemID), null);
+
+            CB_Ball.DataSource = new BindingSource(BallDataSource.Where(b => b.Value <= SAV.MaxBallID), null);
+            CB_Species.DataSource = new BindingSource(SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID), null);
+            DEV_Ability.DataSource = new BindingSource(AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID), null);
+            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource.Where(g => g.Value <= SAV.MaxGameID), null);
 
             // Set the Move ComboBoxes too..
-            MoveDataSource = Util.getCBList(movelist, null);
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
-                cb.DataSource = new BindingSource(MoveDataSource, null);
+                cb.DataSource = new BindingSource(MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID), null);
             }
         }
         public void populateFields(PKM pk, bool focus = true)

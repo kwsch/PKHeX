@@ -20,6 +20,8 @@ namespace PKHeX
             getBlockInfo();
             getSAVOffsets();
 
+            HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
+
             if (!Exportable)
                 resetBoxes();
         }
@@ -43,6 +45,13 @@ namespace PKHeX
         protected override int EventConstMax => (EventFlag - EventConst) / 2;
         public override int OTLength => 12;
         public override int NickLength => 12;
+
+        public override int MaxMoveID => XY ? 617 : 621;
+        public override int MaxSpeciesID => 721;
+        public override int MaxItemID => XY ? 717 : 775;
+        public override int MaxAbilityID => XY ? 188 : 191;
+        public override int MaxBallID => 0x19;
+        public override int MaxGameID => 27; // OR
 
         // Feature Overrides
         public override bool HasGeolocation => true;

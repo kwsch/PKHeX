@@ -96,6 +96,13 @@ namespace PKHeX
         protected override int EventConstMax => 0x35E/2;
         protected override int GiftCountMax => 12;
 
+        public override int MaxMoveID => 559;
+        public override int MaxSpeciesID => 649;
+        public override int MaxItemID => SaveVersion == 1 ? 632 : 638;
+        public override int MaxAbilityID => 164;
+        public override int MaxBallID => 0x19;
+        public override int MaxGameID => 23; // B2
+
         // Blocks & Offsets
         private BlockInfo[] Blocks;
         private void getBlockInfo()

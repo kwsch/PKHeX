@@ -43,6 +43,13 @@ namespace PKHeX
         public override int OTLength => 8;
         public override int NickLength => 10;
 
+        public override int MaxMoveID => 467;
+        public override int MaxSpeciesID => 493;
+        public override int MaxItemID => Version == GameVersion.HGSS ? 536 : Version == GameVersion.Pt ? 467 : 464;
+        public override int MaxAbilityID => 123;
+        public override int MaxBallID => 0x18;
+        public override int MaxGameID => 15; // Colo/XD
+
         // Checksums
         protected override void setChecksums()
         {
