@@ -723,6 +723,7 @@ namespace PKHeX
             
             // Generational Interface
             byte[] extraBytes = new byte[1];
+            Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV
             switch (SAV.Generation)
             {
                 case 4:
@@ -2363,6 +2364,8 @@ namespace PKHeX
         }
         private void updateTSV(object sender, EventArgs e)
         {
+            if (SAV.Generation < 6)
+                return;
             ushort TID = (ushort)Util.ToUInt32(TB_TID.Text);
             ushort SID = (ushort)Util.ToUInt32(TB_SID.Text);
             uint TSV = PKX.getTSV(TID, SID);
