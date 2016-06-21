@@ -1088,7 +1088,6 @@ namespace PKHeX
             TB_EXP.Text = pk4.EXP.ToString();
 
             // Load rest
-            TB_EC.Text = pk4.EncryptionConstant.ToString("X8");
             CHK_Fateful.Checked = pk4.FatefulEncounter;
             CHK_IsEgg.Checked = pk4.IsEgg;
             CHK_Nicknamed.Checked = pk4.IsNicknamed;
@@ -1200,7 +1199,6 @@ namespace PKHeX
             TB_EXP.Text = pk5.EXP.ToString();
 
             // Load rest
-            TB_EC.Text = pk5.EncryptionConstant.ToString("X8");
             CHK_Fateful.Checked = pk5.FatefulEncounter;
             CHK_IsEgg.Checked = pk5.IsEgg;
             CHK_Nicknamed.Checked = pk5.IsNicknamed;
@@ -2388,7 +2386,7 @@ namespace PKHeX
             getQuickFiller(dragout);
             updateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
-            if (SAV.Generation == 4)
+            if (SAV.Generation == 4 && fieldsInitialized)
             {
                 pkm.PID = Util.getHEXval(TB_PID.Text);
                 CB_Nature.SelectedValue = pkm.Nature;
