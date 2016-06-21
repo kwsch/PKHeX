@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -33,9 +34,9 @@ namespace PKHeX
             CB_Ball.DisplayMember = CB_HeldItem.DisplayMember = CB_Species.DisplayMember = CB_Nature.DisplayMember = "Text";
             CB_Ball.ValueMember = CB_HeldItem.ValueMember = CB_Species.ValueMember = CB_Nature.ValueMember = "Value";
 
-            CB_Ball.DataSource = new BindingSource(Main.BallDataSource, null);
+            CB_Ball.DataSource = new BindingSource(Main.BallDataSource.Where(b => b.Value <= SAV.MaxBallID), null);
             CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
-            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource, null);
+            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID), null);
             CB_Nature.DataSource = new BindingSource(Main.NatureDataSource, null);
             
 

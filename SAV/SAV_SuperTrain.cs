@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -45,11 +46,11 @@ namespace PKHeX
             {
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource, null);
+                CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID), null);
 
                 CB_S2.DisplayMember = "Text";
                 CB_S2.ValueMember = "Value";
-                CB_S2.DataSource = new BindingSource(Main.SpeciesDataSource, null);
+                CB_S2.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID), null);
             }
             listBox1.SelectedIndex = 0;
             fillTrainingBags();

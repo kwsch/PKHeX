@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -20,13 +21,11 @@ namespace PKHeX
             CB_Species.Items.Clear();
 
             // Fill List
-            var species_list = Util.getCBList(Main.specieslist, null);
-            species_list.RemoveAt(0); // Remove 0th Entry
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = species_list;
+            CB_Species.DataSource = Util.getCBList(Main.specieslist.Skip(1).Take(SAV.MaxSpeciesID).ToArray(), null);
 
-            for (int i = 1; i < Main.specieslist.Length; i++)
+            for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - " + Main.specieslist[i]);
 
             getData();

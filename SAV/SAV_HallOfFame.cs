@@ -67,11 +67,9 @@ namespace PKHeX
 
             #region Species
             {
-                var species_list = Util.getCBList(Main.specieslist, null);
-                species_list.RemoveAt(0); // Remove 0th Entry
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = species_list;
+                CB_Species.DataSource = Util.getCBList(Main.specieslist.Skip(1).Take(SAV.MaxSpeciesID).ToArray(), null);
             }
             #endregion
             #region Moves
