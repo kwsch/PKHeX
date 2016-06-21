@@ -202,7 +202,7 @@ namespace PKHeX
         }
         private void mainMenuSave(object sender, EventArgs e)
         {
-            if (!verifiedPKX()) return;
+            if (!verifiedPKM()) return;
             PKM pk = preparePKM();
             SaveFileDialog sfd = new SaveFileDialog
             {
@@ -418,7 +418,7 @@ namespace PKHeX
         {
             if (!formInitialized)
                 return;
-            if (!verifiedPKX())
+            if (!verifiedPKM())
             { Util.Alert("Fix data before exporting."); return; }
 
             Clipboard.SetText(preparePKM().ShowdownText);
@@ -1543,7 +1543,7 @@ namespace PKHeX
             }
             else
             {
-                if (!verifiedPKX()) return;
+                if (!verifiedPKM()) return;
                 PKM pkx = preparePKM();
                 byte[] ekx = pkx.EncryptedBoxData;
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
@@ -2589,7 +2589,7 @@ namespace PKHeX
             TB_Friendship.Text = pk6.CurrentFriendship.ToString();
         }
         // Open/Save Array Manipulation //
-        public bool verifiedPKX()
+        public bool verifiedPKM()
         {
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
@@ -2626,6 +2626,37 @@ namespace PKHeX
             // else...
         invalid:
             { SystemSounds.Exclamation.Play(); return false; }
+        }
+        private static string[] verifyPKMtoSAV(PKM pk)
+        {
+            // Check if PKM properties are outside of the valid range
+            List<string> errata = new List<string>();
+            if (pk.HeldItem > itemlist.Length)
+                errata.Add($"Item Index beyond range: {pk.HeldItem}");
+            else
+            {
+                if (pk.HeldItem > SAV.MaxItemID)
+                    errata.Add($"Game can't obtain item: {itemlist[pk.HeldItem]}");
+                if (!SAV.HeldItems.Contains((ushort)pk.HeldItem))
+                    errata.Add($"Game can't hold item: {itemlist[pk.HeldItem]}");
+            }
+
+            if (pk.Species > specieslist.Length)
+                errata.Add($"Species Index beyond range: {pk.HeldItem}");
+            else if (SAV.MaxSpeciesID < pk.Species)
+                errata.Add($"Game can't obtain species: {specieslist[pk.Species]}");
+
+            if (pk.Moves.Any(m => m > movelist.Length))
+                errata.Add($"Item Index beyond range: {string.Join(", ", pk.Moves.Where(m => m > movelist.Length).Select(m => m.ToString()))}");
+            else if (pk.Moves.Any(m => m > SAV.MaxMoveID))
+                errata.Add($"Game can't have move: {string.Join(", ", pk.Moves.Where(m => m > SAV.MaxMoveID).Select(m => movelist[m]))}");
+
+            if (pk.Ability > abilitylist.Length)
+                errata.Add($"Ability Index beyond range: {pk.Ability}");
+            else if (pk.Ability > SAV.MaxAbilityID)
+                errata.Add($"Game can't have ability: {abilitylist[pk.Ability]}");
+
+            return errata.ToArray();
         }
         public PKM preparePKM(bool click = true)
         {
@@ -3084,7 +3115,7 @@ namespace PKHeX
                 clickQR(sender, e);
             if (e.Button == MouseButtons.Right)
                 return;
-            if (!verifiedPKX())
+            if (!verifiedPKM())
                 return;
 
             // Create Temp File to Drag
@@ -3271,7 +3302,7 @@ namespace PKHeX
         }
         private void clickSet(object sender, EventArgs e)
         {
-            if (!verifiedPKX()) return;
+            if (!verifiedPKM()) return;
             int slot = getSlot(sender);
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked))
             { Util.Alert("Can't have empty/egg first slot."); return; }
@@ -3283,7 +3314,11 @@ namespace PKHeX
                 return;
             }
             PKM pk = preparePKM();
-            
+
+            string[] errata = verifyPKMtoSAV(pk);
+            if (errata.Length > 0 && DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), "Continue?"))
+                return;
+
             if (slot >= 30 && slot < 36) // Party
                 SAV.setPartySlot(pk, offset);
             else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
@@ -3320,7 +3355,7 @@ namespace PKHeX
         private void clickClone(object sender, EventArgs e)
         {
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
-            if (!verifiedPKX()) return; // don't copy garbage to the box
+            if (!verifiedPKM()) return; // don't copy garbage to the box
             
             if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in {CB_BoxSelect.Text}?") != DialogResult.Yes)
                 return;
@@ -3338,7 +3373,7 @@ namespace PKHeX
             PKM pk;
             if (slot >= 0)
                 pk = SAV.getStoredSlot(getPKXOffset(slot));
-            else if (verifiedPKX())
+            else if (verifiedPKM())
                 pk = preparePKM();
             else
                 return;
@@ -3686,6 +3721,8 @@ namespace PKHeX
 
                 if (pk != null) // Write to save
                 {
+                    if (verifyPKMtoSAV(pk).Length > 0)
+                        continue;
                     SAV.setStoredSlot(pk, SAV.getBoxOffset(ctr/30) + ctr%30 * SAV.SIZE_STORED, noSetb);
                     if (pk.Format != temp.Format) // Transferred
                         pastctr++;
@@ -3962,29 +3999,32 @@ namespace PKHeX
             if (Directory.Exists(files[0])) { loadBoxesFromDB(files[0]); return; }
             if (pkm_from_offset == 0)
             {
-                if (files.Length > 0)
+                if (files.Length <= 0)
+                    return;
+                string file = files[0];
+                if (!PKX.getIsPKM(new FileInfo(file).Length))
+                    openQuick(file);
+
+                byte[] data = File.ReadAllBytes(file);
+                PKM temp = PKMConverter.getPKMfromBytes(data);
+                string c;
+
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                if (pk == null)
+                { Util.Error(c); Console.WriteLine(c); return; }
+
+                string[] errata = verifyPKMtoSAV(pk);
+                if (errata.Length > 0)
                 {
-                    FileInfo fi = new FileInfo(files[0]);
-                    if (PKX.getIsPKM(fi.Length))
-                    {
-                        byte[] data = File.ReadAllBytes(files[0]);
-                        PKM temp = PKMConverter.getPKMfromBytes(data); string c;
-
-                        PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
-                        if (pk != null)
-                        {
-                            SAV.setStoredSlot(pk, offset);
-                            getQuickFiller(SlotPictureBoxes[slot], pk);
-                            getSlotColor(slot, Properties.Resources.slotSet);
-                            Console.WriteLine(c);
-                            return;
-                        }
-                        Console.WriteLine(c);
-                    }
-
-                    // Didn't return, so the file wasn't imported. Open as a normal file.
-                    openQuick(files[0]);
+                    string concat = string.Join(Environment.NewLine, errata);
+                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, concat, "Continue?"))
+                    { Console.WriteLine(c); Console.WriteLine(concat); return; }
                 }
+
+                SAV.setStoredSlot(pk, offset);
+                getQuickFiller(SlotPictureBoxes[slot], pk);
+                getSlotColor(slot, Properties.Resources.slotSet);
+                Console.WriteLine(c);
             }
             else
             {
@@ -4012,8 +4052,6 @@ namespace PKHeX
 
                 pkm_from_offset = 0; // Clear offset value
             }
-
-            SAV.Edited = true;
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
         {

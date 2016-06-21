@@ -189,7 +189,7 @@ namespace PKHeX
         private void clickSet(object sender, EventArgs e)
         {
             // Don't care what slot was clicked, just add it to the database
-            if (!m_parent.verifiedPKX())
+            if (!m_parent.verifiedPKM())
                 return;
 
             PKM pk = m_parent.preparePKM();
