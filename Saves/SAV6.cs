@@ -654,19 +654,20 @@ namespace PKHeX
         }
         protected override void setDex(PKM pkm)
         {
-            PK6 pk6 = pkm as PK6;
             if (PokeDex < 0)
                 return;
-            if (pk6.Species == 0)
+            if (pkm.Species == 0)
+                return;
+            if (pkm.Species > MaxSpeciesID)
                 return;
             if (Version == GameVersion.Unknown)
                 return;
 
-            int bit = pk6.Species - 1;
-            int lang = pk6.Language - 1; if (lang > 5) lang--; // 0-6 language vals
-            int origin = pk6.Version;
-            int gender = pk6.Gender % 2; // genderless -> male
-            int shiny = pk6.IsShiny ? 1 : 0;
+            int bit = pkm.Species - 1;
+            int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
+            int origin = pkm.Version;
+            int gender = pkm.Gender % 2; // genderless -> male
+            int shiny = pkm.IsShiny ? 1 : 0;
             int shiftoff = shiny * 0x60 * 2 + gender * 0x60 + 0x60;
 
             // Set the [Species/Gender/Shiny] Owned Flag
@@ -692,13 +693,13 @@ namespace PKHeX
             Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
 
             // Set Form flags
-            int fc = PKX.Personal[pk6.Species].FormeCount;
-            int f = ORAS ? SaveUtil.getDexFormIndexORAS(pk6.Species, fc) : SaveUtil.getDexFormIndexXY(pk6.Species, fc);
+            int fc = PKX.Personal[pkm.Species].FormeCount;
+            int f = ORAS ? SaveUtil.getDexFormIndexORAS(pkm.Species, fc) : SaveUtil.getDexFormIndexXY(pkm.Species, fc);
             if (f >= 0)
             {
                 int FormLen = ORAS ? 0x26 : 0x18;
                 int FormDex = PokeDex + 0x368;
-                bit = f + pk6.AltForm;
+                bit = f + pkm.AltForm;
                 // Set Seen Flag
                 Data[FormDex + FormLen * shiny + bit / 8] |= (byte)(1 << (bit % 8));
 
@@ -712,14 +713,14 @@ namespace PKHeX
                 }
                 if (!FormDisplayed)
                 {
-                    bit = f + pk6.AltForm;
+                    bit = f + pkm.AltForm;
                     Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
                 }
             }
 
             // Set DexNav count (only if not encountered previously)
-            if (ORAS && getEncounterCount(pk6.Species - 1) == 0)
-                setEncounterCount(pk6.Species - 1, 1);
+            if (ORAS && getEncounterCount(pkm.Species - 1) == 0)
+                setEncounterCount(pkm.Species - 1, 1);
         }
         public override byte[] decryptPKM(byte[] data)
         {
