@@ -785,7 +785,6 @@ namespace PKHeX
             this.B_MaxCash.TabIndex = 16;
             this.B_MaxCash.Text = "+";
             this.B_MaxCash.UseVisualStyleBackColor = true;
-            this.B_MaxCash.Click += new System.EventHandler(this.B_MaxCash_Click);
             // 
             // CB_3DSReg
             // 

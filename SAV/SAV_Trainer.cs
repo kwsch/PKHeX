@@ -16,6 +16,7 @@ namespace PKHeX
             catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
 
             Util.TranslateInterface(this, Main.curlanguage);
+            B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
             MaisonRecords = new[]
             {
@@ -572,10 +573,6 @@ namespace PKHeX
             Main.SAV.Data = SAV.Data;
             Main.SAV.Edited = true;
             Close();
-        }
-        private void B_MaxCash_Click(object sender, EventArgs e)
-        {
-            MT_Money.Text = "9,999,999";
         }
         private void changeBadge(object sender, EventArgs e)
         {
