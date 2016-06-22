@@ -35,6 +35,8 @@
             this.B_Output = new System.Windows.Forms.Button();
             this.B_Import = new System.Windows.Forms.Button();
             this.LB_Received = new System.Windows.Forms.ListBox();
+            this.mnuDel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.flagDel = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Received = new System.Windows.Forms.Label();
             this.RTB = new System.Windows.Forms.RichTextBox();
             this.L_Details = new System.Windows.Forms.Label();
@@ -72,8 +74,7 @@
             this.L_r2 = new System.Windows.Forms.Label();
             this.L_r3 = new System.Windows.Forms.Label();
             this.L_r4 = new System.Windows.Forms.Label();
-            this.mnuDel = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.flagDel = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card01)).BeginInit();
             this.mnuVSD.SuspendLayout();
@@ -100,7 +101,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card21)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card20)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card19)).BeginInit();
-            this.mnuDel.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
@@ -132,7 +132,7 @@
             this.B_Output.Name = "B_Output";
             this.B_Output.Size = new System.Drawing.Size(75, 23);
             this.B_Output.TabIndex = 2;
-            this.B_Output.Text = "Output .wc6";
+            this.B_Output.Text = "Output";
             this.B_Output.UseVisualStyleBackColor = true;
             this.B_Output.Click += new System.EventHandler(this.B_Output_Click);
             // 
@@ -143,7 +143,7 @@
             this.B_Import.Name = "B_Import";
             this.B_Import.Size = new System.Drawing.Size(75, 23);
             this.B_Import.TabIndex = 3;
-            this.B_Import.Text = "Import .wc6";
+            this.B_Import.Text = "Import";
             this.B_Import.UseVisualStyleBackColor = true;
             this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
             // 
@@ -158,6 +158,20 @@
             this.LB_Received.Size = new System.Drawing.Size(78, 290);
             this.LB_Received.Sorted = true;
             this.LB_Received.TabIndex = 5;
+            // 
+            // mnuDel
+            // 
+            this.mnuDel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.flagDel});
+            this.mnuDel.Name = "mnuVSD";
+            this.mnuDel.Size = new System.Drawing.Size(108, 26);
+            // 
+            // flagDel
+            // 
+            this.flagDel.Name = "flagDel";
+            this.flagDel.Size = new System.Drawing.Size(107, 22);
+            this.flagDel.Text = "Delete";
+            this.flagDel.Click += new System.EventHandler(this.clearRecievedFlag);
             // 
             // L_Received
             // 
@@ -663,20 +677,6 @@
             this.L_r4.Text = "19-24:";
             this.L_r4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // mnuDel
-            // 
-            this.mnuDel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.flagDel});
-            this.mnuDel.Name = "mnuVSD";
-            this.mnuDel.Size = new System.Drawing.Size(108, 26);
-            // 
-            // flagDel
-            // 
-            this.flagDel.Name = "flagDel";
-            this.flagDel.Size = new System.Drawing.Size(107, 22);
-            this.flagDel.Text = "Delete";
-            this.flagDel.Click += new System.EventHandler(this.clearRecievedFlag);
-            // 
             // SAV_Wondercard
             // 
             this.AllowDrop = true;
@@ -729,6 +729,7 @@
             this.Name = "SAV_Wondercard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wonder Card I/O";
+            this.mnuDel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card01)).EndInit();
             this.mnuVSD.ResumeLayout(false);
@@ -755,7 +756,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card21)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card20)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Card19)).EndInit();
-            this.mnuDel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

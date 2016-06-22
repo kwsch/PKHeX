@@ -37,6 +37,13 @@ namespace PKHeX
             if (pk6.PID == 0)
                 return new LegalityCheck(Severity.Fishy, "PID is not set.");
 
+            if (EncounterType == typeof (EncounterStatic))
+            {
+                var enc = (EncounterStatic) EncounterMatch;
+                if (enc.Shiny != null && (bool)enc.Shiny ^ pk6.IsShiny)
+                    return new LegalityCheck(Severity.Invalid, "Encounter " + (enc.Shiny == true ? "must be" : "cannot be") + " shiny.");
+            }
+
             string special = "";
             if (pk6.Gen6)
             {

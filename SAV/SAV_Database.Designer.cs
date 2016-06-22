@@ -911,10 +911,11 @@
             // 
             // Menu_Exit
             // 
+            this.Menu_Exit.Image = global::PKHeX.Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(96, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
             this.Menu_Exit.Text = "&Close";
             this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
             // 
@@ -936,6 +937,7 @@
             this.Menu_SearchDatabase,
             this.Menu_SearchLegal,
             this.Menu_SearchIllegal});
+            this.Menu_SearchSettings.Image = global::PKHeX.Properties.Resources.settings;
             this.Menu_SearchSettings.Name = "Menu_SearchSettings";
             this.Menu_SearchSettings.Size = new System.Drawing.Size(197, 22);
             this.Menu_SearchSettings.Text = "Search Settings";
@@ -978,6 +980,7 @@
             // 
             // Menu_OpenDB
             // 
+            this.Menu_OpenDB.Image = global::PKHeX.Properties.Resources.folder;
             this.Menu_OpenDB.Name = "Menu_OpenDB";
             this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
             this.Menu_OpenDB.Text = "Open Database Folder";
@@ -985,6 +988,7 @@
             // 
             // Menu_Report
             // 
+            this.Menu_Report.Image = global::PKHeX.Properties.Resources.report;
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.Size = new System.Drawing.Size(197, 22);
             this.Menu_Report.Text = "Create Data Report";
@@ -992,6 +996,7 @@
             // 
             // Menu_Export
             // 
+            this.Menu_Export.Image = global::PKHeX.Properties.Resources.export;
             this.Menu_Export.Name = "Menu_Export";
             this.Menu_Export.Size = new System.Drawing.Size(197, 22);
             this.Menu_Export.Text = "Export Results to Folder";

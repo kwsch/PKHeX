@@ -14,7 +14,7 @@ namespace PKHeX
         public RibbMedal()
         {
             InitializeComponent();
-            pk6 = Main.pk6; // cache copy
+            pk6 = Main.pkm as PK6; // cache copy
             pba = new[] { 
                                    PB_10, PB_11, PB_12, PB_13, 
                                    PB_14, PB_15, PB_16, PB_17,
@@ -283,7 +283,7 @@ namespace PKHeX
                 foreach (var chk in cba.Skip(32))
                     chk.Checked = b;
 
-                if (Main.pk6.Version >= 0x10) return; // No Memory Ribbons for Pokémon from Generation 4+
+                if (Main.pkm.Version >= 0x10) return; // No Memory Ribbons for Pokémon from Generation 4+
                 TB_PastContest.Text = (b ? 40 : 0).ToString();
                 TB_PastBattle.Text = (b ? 8 : 0).ToString();
             }
@@ -316,7 +316,7 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             setData();
-            Main.pk6 = pk6; // set back
+            Main.pkm = pk6; // set back
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

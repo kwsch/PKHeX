@@ -198,8 +198,10 @@ namespace PKHeX
                     continue;
                 if (e.Level != pk6.Met_Level)
                     continue;
-                if (e.Shiny != null && e.Shiny != pk6.IsShiny)
-                    continue;
+
+                // Defer to EC/PID check
+                // if (e.Shiny != null && e.Shiny != pk6.IsShiny)
+                    // continue;
 
                 // Defer ball check to later
                 // if (e.Gift && pk6.Ball != 4) // PokéBall

@@ -179,30 +179,24 @@
             this.CB_Move2 = new System.Windows.Forms.ComboBox();
             this.CB_Move1 = new System.Windows.Forms.ComboBox();
             this.Tab_OTMisc = new System.Windows.Forms.TabPage();
-            this.CHK_Diamond = new System.Windows.Forms.CheckBox();
-            this.CHK_Star = new System.Windows.Forms.CheckBox();
-            this.CHK_Heart = new System.Windows.Forms.CheckBox();
-            this.CHK_Square = new System.Windows.Forms.CheckBox();
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.GB_nOT = new System.Windows.Forms.GroupBox();
             this.Label_CTGender = new System.Windows.Forms.Label();
             this.TB_OTt2 = new System.Windows.Forms.TextBox();
             this.Label_PrevOT = new System.Windows.Forms.Label();
-            this.CHK_Triangle = new System.Windows.Forms.CheckBox();
-            this.CHK_Circle = new System.Windows.Forms.CheckBox();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.BTN_History = new System.Windows.Forms.Button();
             this.BTN_Ribbons = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
-            this.PB_MarkPentagon = new System.Windows.Forms.PictureBox();
-            this.PB_MarkCured = new System.Windows.Forms.PictureBox();
-            this.PB_MarkShiny = new System.Windows.Forms.PictureBox();
             this.PB_Mark6 = new System.Windows.Forms.PictureBox();
-            this.PB_Mark5 = new System.Windows.Forms.PictureBox();
-            this.PB_Mark4 = new System.Windows.Forms.PictureBox();
+            this.PB_MarkPentagon = new System.Windows.Forms.PictureBox();
             this.PB_Mark3 = new System.Windows.Forms.PictureBox();
+            this.PB_Mark5 = new System.Windows.Forms.PictureBox();
+            this.PB_MarkCured = new System.Windows.Forms.PictureBox();
             this.PB_Mark2 = new System.Windows.Forms.PictureBox();
+            this.PB_MarkShiny = new System.Windows.Forms.PictureBox();
             this.PB_Mark1 = new System.Windows.Forms.PictureBox();
+            this.PB_Mark4 = new System.Windows.Forms.PictureBox();
             this.GB_ExtraBytes = new System.Windows.Forms.GroupBox();
             this.TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
             this.CB_ExtraBytes = new System.Windows.Forms.ComboBox();
@@ -215,7 +209,6 @@
             this.Label_SID = new System.Windows.Forms.Label();
             this.Label_TID = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
-            this.Label_Diamond = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Open = new System.Windows.Forms.ToolStripMenuItem();
@@ -312,7 +305,6 @@
             this.ppkx5 = new System.Windows.Forms.PictureBox();
             this.ppkx6 = new System.Windows.Forms.PictureBox();
             this.Tab_Other = new System.Windows.Forms.TabPage();
-            this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.GB_Daycare = new System.Windows.Forms.GroupBox();
             this.L_XP2 = new System.Windows.Forms.Label();
             this.L_XP1 = new System.Windows.Forms.Label();
@@ -344,19 +336,22 @@
             this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
-            this.B_OpenHallofFame = new System.Windows.Forms.Button();
-            this.B_OUTPasserby = new System.Windows.Forms.Button();
-            this.B_OpenPokepuffs = new System.Windows.Forms.Button();
-            this.B_OpenBoxLayout = new System.Windows.Forms.Button();
-            this.B_OpenOPowers = new System.Windows.Forms.Button();
-            this.B_OpenItemPouch = new System.Windows.Forms.Button();
-            this.B_OpenEventFlags = new System.Windows.Forms.Button();
-            this.B_OpenWondercards = new System.Windows.Forms.Button();
-            this.B_OpenTrainerInfo = new System.Windows.Forms.Button();
-            this.B_OpenBerryField = new System.Windows.Forms.Button();
-            this.B_OpenPokedex = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
+            this.FLP_SAVtools = new System.Windows.Forms.FlowLayoutPanel();
+            this.B_OpenPokepuffs = new System.Windows.Forms.Button();
+            this.B_OpenItemPouch = new System.Windows.Forms.Button();
+            this.B_OpenTrainerInfo = new System.Windows.Forms.Button();
+            this.B_OUTPasserby = new System.Windows.Forms.Button();
+            this.B_OpenBoxLayout = new System.Windows.Forms.Button();
+            this.B_OpenWondercards = new System.Windows.Forms.Button();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
+            this.B_OpenHallofFame = new System.Windows.Forms.Button();
+            this.B_OpenOPowers = new System.Windows.Forms.Button();
+            this.B_OpenEventFlags = new System.Windows.Forms.Button();
+            this.B_OpenPokedex = new System.Windows.Forms.Button();
+            this.B_OpenBerryField = new System.Windows.Forms.Button();
+            this.B_OpenSecretBase = new System.Windows.Forms.Button();
+            this.B_Pokeblocks = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
@@ -383,15 +378,15 @@
             this.Tab_OTMisc.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkCured)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkShiny)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkCured)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkShiny)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).BeginInit();
             this.GB_ExtraBytes.SuspendLayout();
             this.GB_OT.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -460,6 +455,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).BeginInit();
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
+            this.FLP_SAVtools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             this.mnuL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
@@ -1002,10 +998,10 @@
             // TB_AbilityNumber
             // 
             this.TB_AbilityNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AbilityNumber.Location = new System.Drawing.Point(206, 153);
+            this.TB_AbilityNumber.Location = new System.Drawing.Point(229, 153);
             this.TB_AbilityNumber.Mask = "0";
             this.TB_AbilityNumber.Name = "TB_AbilityNumber";
-            this.TB_AbilityNumber.Size = new System.Drawing.Size(20, 20);
+            this.TB_AbilityNumber.Size = new System.Drawing.Size(19, 20);
             this.TB_AbilityNumber.TabIndex = 14;
             this.TB_AbilityNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_AbilityNumber.Visible = false;
@@ -1032,7 +1028,7 @@
             "Item"});
             this.DEV_Ability.Location = new System.Drawing.Point(105, 153);
             this.DEV_Ability.Name = "DEV_Ability";
-            this.DEV_Ability.Size = new System.Drawing.Size(100, 21);
+            this.DEV_Ability.Size = new System.Drawing.Size(122, 21);
             this.DEV_Ability.TabIndex = 14;
             this.DEV_Ability.Visible = false;
             // 
@@ -2243,14 +2239,8 @@
             // Tab_OTMisc
             // 
             this.Tab_OTMisc.AllowDrop = true;
-            this.Tab_OTMisc.Controls.Add(this.CHK_Diamond);
-            this.Tab_OTMisc.Controls.Add(this.CHK_Star);
-            this.Tab_OTMisc.Controls.Add(this.CHK_Heart);
-            this.Tab_OTMisc.Controls.Add(this.CHK_Square);
             this.Tab_OTMisc.Controls.Add(this.TB_EC);
             this.Tab_OTMisc.Controls.Add(this.GB_nOT);
-            this.Tab_OTMisc.Controls.Add(this.CHK_Triangle);
-            this.Tab_OTMisc.Controls.Add(this.CHK_Circle);
             this.Tab_OTMisc.Controls.Add(this.BTN_RerollEC);
             this.Tab_OTMisc.Controls.Add(this.BTN_History);
             this.Tab_OTMisc.Controls.Add(this.BTN_Ribbons);
@@ -2258,7 +2248,6 @@
             this.Tab_OTMisc.Controls.Add(this.GB_ExtraBytes);
             this.Tab_OTMisc.Controls.Add(this.GB_OT);
             this.Tab_OTMisc.Controls.Add(this.Label_EncryptionConstant);
-            this.Tab_OTMisc.Controls.Add(this.Label_Diamond);
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
@@ -2266,48 +2255,6 @@
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Diamond
-            // 
-            this.CHK_Diamond.AutoSize = true;
-            this.CHK_Diamond.Location = new System.Drawing.Point(205, 228);
-            this.CHK_Diamond.Name = "CHK_Diamond";
-            this.CHK_Diamond.Size = new System.Drawing.Size(15, 14);
-            this.CHK_Diamond.TabIndex = 13;
-            this.CHK_Diamond.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.CHK_Diamond.UseVisualStyleBackColor = true;
-            this.CHK_Diamond.Visible = false;
-            // 
-            // CHK_Star
-            // 
-            this.CHK_Star.Location = new System.Drawing.Point(205, 213);
-            this.CHK_Star.Name = "CHK_Star";
-            this.CHK_Star.Size = new System.Drawing.Size(38, 17);
-            this.CHK_Star.TabIndex = 13;
-            this.CHK_Star.Text = "★";
-            this.CHK_Star.UseVisualStyleBackColor = true;
-            this.CHK_Star.Visible = false;
-            // 
-            // CHK_Heart
-            // 
-            this.CHK_Heart.Location = new System.Drawing.Point(205, 199);
-            this.CHK_Heart.Name = "CHK_Heart";
-            this.CHK_Heart.Size = new System.Drawing.Size(37, 17);
-            this.CHK_Heart.TabIndex = 12;
-            this.CHK_Heart.Text = " ♥";
-            this.CHK_Heart.UseVisualStyleBackColor = true;
-            this.CHK_Heart.Visible = false;
-            // 
-            // CHK_Square
-            // 
-            this.CHK_Square.Location = new System.Drawing.Point(29, 227);
-            this.CHK_Square.Name = "CHK_Square";
-            this.CHK_Square.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.CHK_Square.Size = new System.Drawing.Size(38, 17);
-            this.CHK_Square.TabIndex = 11;
-            this.CHK_Square.Text = "■";
-            this.CHK_Square.UseVisualStyleBackColor = true;
-            this.CHK_Square.Visible = false;
             // 
             // TB_EC
             // 
@@ -2367,28 +2314,6 @@
             this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Label_PrevOT.Click += new System.EventHandler(this.clickCT);
             // 
-            // CHK_Triangle
-            // 
-            this.CHK_Triangle.Location = new System.Drawing.Point(29, 213);
-            this.CHK_Triangle.Name = "CHK_Triangle";
-            this.CHK_Triangle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.CHK_Triangle.Size = new System.Drawing.Size(38, 17);
-            this.CHK_Triangle.TabIndex = 10;
-            this.CHK_Triangle.Text = "▲";
-            this.CHK_Triangle.UseVisualStyleBackColor = true;
-            this.CHK_Triangle.Visible = false;
-            // 
-            // CHK_Circle
-            // 
-            this.CHK_Circle.Location = new System.Drawing.Point(27, 193);
-            this.CHK_Circle.Name = "CHK_Circle";
-            this.CHK_Circle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.CHK_Circle.Size = new System.Drawing.Size(40, 28);
-            this.CHK_Circle.TabIndex = 9;
-            this.CHK_Circle.Text = "●";
-            this.CHK_Circle.UseVisualStyleBackColor = true;
-            this.CHK_Circle.Visible = false;
-            // 
             // BTN_RerollEC
             // 
             this.BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F);
@@ -2422,21 +2347,34 @@
             // 
             // GB_Markings
             // 
-            this.GB_Markings.Controls.Add(this.PB_MarkPentagon);
-            this.GB_Markings.Controls.Add(this.PB_MarkCured);
-            this.GB_Markings.Controls.Add(this.PB_MarkShiny);
             this.GB_Markings.Controls.Add(this.PB_Mark6);
-            this.GB_Markings.Controls.Add(this.PB_Mark5);
-            this.GB_Markings.Controls.Add(this.PB_Mark4);
+            this.GB_Markings.Controls.Add(this.PB_MarkPentagon);
             this.GB_Markings.Controls.Add(this.PB_Mark3);
+            this.GB_Markings.Controls.Add(this.PB_Mark5);
+            this.GB_Markings.Controls.Add(this.PB_MarkCured);
             this.GB_Markings.Controls.Add(this.PB_Mark2);
+            this.GB_Markings.Controls.Add(this.PB_MarkShiny);
             this.GB_Markings.Controls.Add(this.PB_Mark1);
+            this.GB_Markings.Controls.Add(this.PB_Mark4);
             this.GB_Markings.Location = new System.Drawing.Point(68, 188);
             this.GB_Markings.Name = "GB_Markings";
             this.GB_Markings.Size = new System.Drawing.Size(135, 58);
             this.GB_Markings.TabIndex = 4;
             this.GB_Markings.TabStop = false;
             this.GB_Markings.Text = "Markings";
+            // 
+            // PB_Mark6
+            // 
+            this.PB_Mark6.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.Image")));
+            this.PB_Mark6.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.InitialImage")));
+            this.PB_Mark6.Location = new System.Drawing.Point(110, 36);
+            this.PB_Mark6.Margin = new System.Windows.Forms.Padding(1);
+            this.PB_Mark6.Name = "PB_Mark6";
+            this.PB_Mark6.Size = new System.Drawing.Size(20, 20);
+            this.PB_Mark6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Mark6.TabIndex = 5;
+            this.PB_Mark6.TabStop = false;
+            this.PB_Mark6.Click += new System.EventHandler(this.clickMarking);
             // 
             // PB_MarkPentagon
             // 
@@ -2449,6 +2387,32 @@
             this.PB_MarkPentagon.TabIndex = 8;
             this.PB_MarkPentagon.TabStop = false;
             // 
+            // PB_Mark3
+            // 
+            this.PB_Mark3.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.Image")));
+            this.PB_Mark3.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.InitialImage")));
+            this.PB_Mark3.Location = new System.Drawing.Point(47, 36);
+            this.PB_Mark3.Margin = new System.Windows.Forms.Padding(1);
+            this.PB_Mark3.Name = "PB_Mark3";
+            this.PB_Mark3.Size = new System.Drawing.Size(20, 20);
+            this.PB_Mark3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Mark3.TabIndex = 2;
+            this.PB_Mark3.TabStop = false;
+            this.PB_Mark3.Click += new System.EventHandler(this.clickMarking);
+            // 
+            // PB_Mark5
+            // 
+            this.PB_Mark5.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.Image")));
+            this.PB_Mark5.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.InitialImage")));
+            this.PB_Mark5.Location = new System.Drawing.Point(89, 36);
+            this.PB_Mark5.Margin = new System.Windows.Forms.Padding(1);
+            this.PB_Mark5.Name = "PB_Mark5";
+            this.PB_Mark5.Size = new System.Drawing.Size(20, 20);
+            this.PB_Mark5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Mark5.TabIndex = 4;
+            this.PB_Mark5.TabStop = false;
+            this.PB_Mark5.Click += new System.EventHandler(this.clickMarking);
+            // 
             // PB_MarkCured
             // 
             this.PB_MarkCured.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.Image")));
@@ -2459,6 +2423,19 @@
             this.PB_MarkCured.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_MarkCured.TabIndex = 7;
             this.PB_MarkCured.TabStop = false;
+            // 
+            // PB_Mark2
+            // 
+            this.PB_Mark2.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.Image")));
+            this.PB_Mark2.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.InitialImage")));
+            this.PB_Mark2.Location = new System.Drawing.Point(26, 36);
+            this.PB_Mark2.Margin = new System.Windows.Forms.Padding(1);
+            this.PB_Mark2.Name = "PB_Mark2";
+            this.PB_Mark2.Size = new System.Drawing.Size(20, 20);
+            this.PB_Mark2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Mark2.TabIndex = 1;
+            this.PB_Mark2.TabStop = false;
+            this.PB_Mark2.Click += new System.EventHandler(this.clickMarking);
             // 
             // PB_MarkShiny
             // 
@@ -2471,77 +2448,31 @@
             this.PB_MarkShiny.TabIndex = 6;
             this.PB_MarkShiny.TabStop = false;
             // 
-            // PB_Mark6
-            // 
-            this.PB_Mark6.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.Image")));
-            this.PB_Mark6.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.InitialImage")));
-            this.PB_Mark6.Location = new System.Drawing.Point(107, 35);
-            this.PB_Mark6.Name = "PB_Mark6";
-            this.PB_Mark6.Size = new System.Drawing.Size(20, 20);
-            this.PB_Mark6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_Mark6.TabIndex = 5;
-            this.PB_Mark6.TabStop = false;
-            this.PB_Mark6.Click += new System.EventHandler(this.clickMarking);
-            // 
-            // PB_Mark5
-            // 
-            this.PB_Mark5.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.Image")));
-            this.PB_Mark5.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.InitialImage")));
-            this.PB_Mark5.Location = new System.Drawing.Point(87, 35);
-            this.PB_Mark5.Name = "PB_Mark5";
-            this.PB_Mark5.Size = new System.Drawing.Size(20, 20);
-            this.PB_Mark5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_Mark5.TabIndex = 4;
-            this.PB_Mark5.TabStop = false;
-            this.PB_Mark5.Click += new System.EventHandler(this.clickMarking);
-            // 
-            // PB_Mark4
-            // 
-            this.PB_Mark4.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.Image")));
-            this.PB_Mark4.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.InitialImage")));
-            this.PB_Mark4.Location = new System.Drawing.Point(67, 35);
-            this.PB_Mark4.Name = "PB_Mark4";
-            this.PB_Mark4.Size = new System.Drawing.Size(20, 20);
-            this.PB_Mark4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_Mark4.TabIndex = 3;
-            this.PB_Mark4.TabStop = false;
-            this.PB_Mark4.Click += new System.EventHandler(this.clickMarking);
-            // 
-            // PB_Mark3
-            // 
-            this.PB_Mark3.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.Image")));
-            this.PB_Mark3.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.InitialImage")));
-            this.PB_Mark3.Location = new System.Drawing.Point(47, 35);
-            this.PB_Mark3.Name = "PB_Mark3";
-            this.PB_Mark3.Size = new System.Drawing.Size(20, 20);
-            this.PB_Mark3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_Mark3.TabIndex = 2;
-            this.PB_Mark3.TabStop = false;
-            this.PB_Mark3.Click += new System.EventHandler(this.clickMarking);
-            // 
-            // PB_Mark2
-            // 
-            this.PB_Mark2.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.Image")));
-            this.PB_Mark2.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.InitialImage")));
-            this.PB_Mark2.Location = new System.Drawing.Point(27, 35);
-            this.PB_Mark2.Name = "PB_Mark2";
-            this.PB_Mark2.Size = new System.Drawing.Size(20, 20);
-            this.PB_Mark2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_Mark2.TabIndex = 1;
-            this.PB_Mark2.TabStop = false;
-            this.PB_Mark2.Click += new System.EventHandler(this.clickMarking);
-            // 
             // PB_Mark1
             // 
             this.PB_Mark1.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark1.Image")));
             this.PB_Mark1.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark1.InitialImage")));
-            this.PB_Mark1.Location = new System.Drawing.Point(7, 35);
+            this.PB_Mark1.Location = new System.Drawing.Point(5, 36);
+            this.PB_Mark1.Margin = new System.Windows.Forms.Padding(1);
             this.PB_Mark1.Name = "PB_Mark1";
             this.PB_Mark1.Size = new System.Drawing.Size(20, 20);
             this.PB_Mark1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark1.TabIndex = 0;
             this.PB_Mark1.TabStop = false;
             this.PB_Mark1.Click += new System.EventHandler(this.clickMarking);
+            // 
+            // PB_Mark4
+            // 
+            this.PB_Mark4.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.Image")));
+            this.PB_Mark4.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.InitialImage")));
+            this.PB_Mark4.Location = new System.Drawing.Point(68, 36);
+            this.PB_Mark4.Margin = new System.Windows.Forms.Padding(1);
+            this.PB_Mark4.Name = "PB_Mark4";
+            this.PB_Mark4.Size = new System.Drawing.Size(20, 20);
+            this.PB_Mark4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Mark4.TabIndex = 3;
+            this.PB_Mark4.TabStop = false;
+            this.PB_Mark4.Click += new System.EventHandler(this.clickMarking);
             // 
             // GB_ExtraBytes
             // 
@@ -2569,34 +2500,7 @@
             this.CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_ExtraBytes.FormattingEnabled = true;
             this.CB_ExtraBytes.Items.AddRange(new object[] {
-            "0x36",
-            "0x37",
-            "0x3B",
-            "0x3C",
-            "0x3D",
-            "0x3E",
-            "0x3F",
-            "0x58",
-            "0x59",
-            "0x73",
-            "0x90",
-            "0x91",
-            "0x9E",
-            "0x9F",
-            "0xA0",
-            "0xA1",
-            "0xA7",
-            "0xAA",
-            "0xAB",
-            "0xAC",
-            "0xAD",
-            "0xC8",
-            "0xC9",
-            "0xD7",
-            "0xE4",
-            "0xE5",
-            "0xE6",
-            "0xE7"});
+            "0x00"});
             this.CB_ExtraBytes.Location = new System.Drawing.Point(20, 18);
             this.CB_ExtraBytes.Name = "CB_ExtraBytes";
             this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 21);
@@ -2701,15 +2605,6 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // Label_Diamond
-            // 
-            this.Label_Diamond.Location = new System.Drawing.Point(215, 224);
-            this.Label_Diamond.Name = "Label_Diamond";
-            this.Label_Diamond.Size = new System.Drawing.Size(26, 20);
-            this.Label_Diamond.TabIndex = 11;
-            this.Label_Diamond.Text = " ♦";
-            this.Label_Diamond.Visible = false;
-            // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
@@ -2736,19 +2631,21 @@
             // 
             // Menu_Open
             // 
+            this.Menu_Open.Image = global::PKHeX.Properties.Resources.open;
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
             // Menu_Save
             // 
+            this.Menu_Save.Image = global::PKHeX.Properties.Resources.savePKM;
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(152, 22);
             this.Menu_Save.Text = "&Save PK6...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
@@ -2758,34 +2655,38 @@
             this.Menu_ExportMAIN,
             this.Menu_ExportBAK});
             this.Menu_ExportSAV.Enabled = false;
+            this.Menu_ExportSAV.Image = global::PKHeX.Properties.Resources.saveSAV;
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
-            this.Menu_ExportSAV.Size = new System.Drawing.Size(139, 22);
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             // 
             // Menu_ExportMAIN
             // 
+            this.Menu_ExportMAIN.Image = global::PKHeX.Properties.Resources.main;
             this.Menu_ExportMAIN.Name = "Menu_ExportMAIN";
             this.Menu_ExportMAIN.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportMAIN.ShowShortcutKeys = false;
-            this.Menu_ExportMAIN.Size = new System.Drawing.Size(130, 22);
+            this.Menu_ExportMAIN.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExportMAIN.Text = "&Export main";
             this.Menu_ExportMAIN.Click += new System.EventHandler(this.clickExportSAV);
             // 
             // Menu_ExportBAK
             // 
+            this.Menu_ExportBAK.Image = global::PKHeX.Properties.Resources.bak;
             this.Menu_ExportBAK.Name = "Menu_ExportBAK";
             this.Menu_ExportBAK.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_ExportBAK.ShowShortcutKeys = false;
-            this.Menu_ExportBAK.Size = new System.Drawing.Size(130, 22);
+            this.Menu_ExportBAK.Size = new System.Drawing.Size(152, 22);
             this.Menu_ExportBAK.Text = "Export &BAK";
             this.Menu_ExportBAK.Click += new System.EventHandler(this.clickExportSAVBAK);
             // 
             // Menu_Exit
             // 
+            this.Menu_Exit.Image = global::PKHeX.Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
             this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
@@ -2807,31 +2708,35 @@
             this.Menu_ShowdownExportPK6,
             this.Menu_ShowdownExportParty,
             this.Menu_ShowdownExportBattleBox});
+            this.Menu_Showdown.Image = global::PKHeX.Properties.Resources.showdown;
             this.Menu_Showdown.Name = "Menu_Showdown";
             this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPK6
             // 
+            this.Menu_ShowdownImportPK6.Image = global::PKHeX.Properties.Resources.import;
             this.Menu_ShowdownImportPK6.Name = "Menu_ShowdownImportPK6";
+            this.Menu_ShowdownImportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.Menu_ShowdownImportPK6.ShowShortcutKeys = false;
             this.Menu_ShowdownImportPK6.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownImportPK6.Text = "Import Set from Clipboard";
             this.Menu_ShowdownImportPK6.Click += new System.EventHandler(this.clickShowdownImportPK6);
-            this.Menu_ShowdownImportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.Menu_ShowdownImportPK6.ShowShortcutKeys = false;
             // 
             // Menu_ShowdownExportPK6
             // 
+            this.Menu_ShowdownExportPK6.Image = global::PKHeX.Properties.Resources.export;
             this.Menu_ShowdownExportPK6.Name = "Menu_ShowdownExportPK6";
+            this.Menu_ShowdownExportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.T)));
+            this.Menu_ShowdownExportPK6.ShowShortcutKeys = false;
             this.Menu_ShowdownExportPK6.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportPK6.Text = "Export Set to Clipboard";
             this.Menu_ShowdownExportPK6.Click += new System.EventHandler(this.clickShowdownExportPK6);
-            this.Menu_ShowdownExportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-            | System.Windows.Forms.Keys.T)));
-            this.Menu_ShowdownExportPK6.ShowShortcutKeys = false;
             // 
             // Menu_ShowdownExportParty
             // 
+            this.Menu_ShowdownExportParty.Image = global::PKHeX.Properties.Resources.export;
             this.Menu_ShowdownExportParty.Name = "Menu_ShowdownExportParty";
             this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportParty.Text = "Export Party to Clipboard";
@@ -2839,6 +2744,7 @@
             // 
             // Menu_ShowdownExportBattleBox
             // 
+            this.Menu_ShowdownExportBattleBox.Image = global::PKHeX.Properties.Resources.export;
             this.Menu_ShowdownExportBattleBox.Name = "Menu_ShowdownExportBattleBox";
             this.Menu_ShowdownExportBattleBox.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportBattleBox.Text = "Export Battle Box to Clipboard";
@@ -2849,12 +2755,14 @@
             this.Menu_CyberGadget.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenTemp,
             this.Menu_OpenCache});
+            this.Menu_CyberGadget.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
             this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
             // 
             // Menu_OpenTemp
             // 
+            this.Menu_OpenTemp.Image = global::PKHeX.Properties.Resources.folder;
             this.Menu_OpenTemp.Name = "Menu_OpenTemp";
             this.Menu_OpenTemp.Size = new System.Drawing.Size(175, 22);
             this.Menu_OpenTemp.Text = "Open Temp Folder";
@@ -2862,6 +2770,7 @@
             // 
             // Menu_OpenCache
             // 
+            this.Menu_OpenCache.Image = global::PKHeX.Properties.Resources.folder;
             this.Menu_OpenCache.Name = "Menu_OpenCache";
             this.Menu_OpenCache.Size = new System.Drawing.Size(175, 22);
             this.Menu_OpenCache.Text = "Open Cache Folder";
@@ -2874,12 +2783,14 @@
             this.Menu_DumpBoxes,
             this.Menu_Report,
             this.Menu_Database});
+            this.Menu_Data.Image = global::PKHeX.Properties.Resources.data;
             this.Menu_Data.Name = "Menu_Data";
             this.Menu_Data.Size = new System.Drawing.Size(143, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
             // 
+            this.Menu_LoadBoxes.Image = global::PKHeX.Properties.Resources.load;
             this.Menu_LoadBoxes.Name = "Menu_LoadBoxes";
             this.Menu_LoadBoxes.Size = new System.Drawing.Size(151, 22);
             this.Menu_LoadBoxes.Text = "Load Boxes";
@@ -2887,6 +2798,7 @@
             // 
             // Menu_DumpBoxes
             // 
+            this.Menu_DumpBoxes.Image = global::PKHeX.Properties.Resources.dump;
             this.Menu_DumpBoxes.Name = "Menu_DumpBoxes";
             this.Menu_DumpBoxes.Size = new System.Drawing.Size(151, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
@@ -2894,6 +2806,7 @@
             // 
             // Menu_Report
             // 
+            this.Menu_Report.Image = global::PKHeX.Properties.Resources.report;
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.Menu_Report.ShowShortcutKeys = false;
@@ -2903,6 +2816,7 @@
             // 
             // Menu_Database
             // 
+            this.Menu_Database.Image = global::PKHeX.Properties.Resources.database;
             this.Menu_Database.Name = "Menu_Database";
             this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.Menu_Database.ShowShortcutKeys = false;
@@ -2915,12 +2829,14 @@
             this.Menu_Other.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenSDF,
             this.Menu_OpenSDB});
+            this.Menu_Other.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_Other.Name = "Menu_Other";
             this.Menu_Other.Size = new System.Drawing.Size(143, 22);
             this.Menu_Other.Text = "Other";
             // 
             // Menu_OpenSDF
             // 
+            this.Menu_OpenSDF.Image = global::PKHeX.Properties.Resources.folder;
             this.Menu_OpenSDF.Name = "Menu_OpenSDF";
             this.Menu_OpenSDF.Size = new System.Drawing.Size(229, 22);
             this.Menu_OpenSDF.Text = "Open SaveDataFiler Folder";
@@ -2928,6 +2844,7 @@
             // 
             // Menu_OpenSDB
             // 
+            this.Menu_OpenSDB.Image = global::PKHeX.Properties.Resources.folder;
             this.Menu_OpenSDB.Name = "Menu_OpenSDB";
             this.Menu_OpenSDB.Size = new System.Drawing.Size(229, 22);
             this.Menu_OpenSDB.Text = "Open SaveDataBackup Folder";
@@ -2948,6 +2865,7 @@
             // 
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
+            this.Menu_Language.Image = global::PKHeX.Properties.Resources.language;
             this.Menu_Language.Name = "Menu_Language";
             this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
@@ -2964,6 +2882,7 @@
             this.Menu_Modify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_ModifyDex,
             this.Menu_ModifyPK6});
+            this.Menu_Modify.Image = global::PKHeX.Properties.Resources.settings;
             this.Menu_Modify.Name = "Menu_Modify";
             this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
@@ -2986,7 +2905,7 @@
             this.Menu_ModifyPK6.Name = "Menu_ModifyPK6";
             this.Menu_ModifyPK6.Size = new System.Drawing.Size(159, 22);
             this.Menu_ModifyPK6.Text = "Modify PK6 Info";
-            this.Menu_ModifyPK6.Click += new System.EventHandler(this.mainMenuModifyPK6);
+            this.Menu_ModifyPK6.Click += new System.EventHandler(this.mainMenuModifyPKM);
             // 
             // Menu_Unicode
             // 
@@ -3000,6 +2919,7 @@
             // 
             // Menu_About
             // 
+            this.Menu_About.Image = global::PKHeX.Properties.Resources.about;
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
@@ -3830,7 +3750,6 @@
             // 
             // Tab_Other
             // 
-            this.Tab_Other.Controls.Add(this.B_OpenSecretBase);
             this.Tab_Other.Controls.Add(this.GB_Daycare);
             this.Tab_Other.Controls.Add(this.GB_GTS);
             this.Tab_Other.Controls.Add(this.GB_Fused);
@@ -3842,17 +3761,6 @@
             this.Tab_Other.TabIndex = 2;
             this.Tab_Other.Text = "Other";
             this.Tab_Other.UseVisualStyleBackColor = true;
-            // 
-            // B_OpenSecretBase
-            // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(227, 151);
-            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
-            this.B_OpenSecretBase.Size = new System.Drawing.Size(60, 37);
-            this.B_OpenSecretBase.TabIndex = 21;
-            this.B_OpenSecretBase.Text = "Secret Base";
-            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
-            this.B_OpenSecretBase.Visible = false;
-            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
             // GB_Daycare
             // 
@@ -4118,7 +4026,7 @@
             this.TB_Secure2.Size = new System.Drawing.Size(120, 20);
             this.TB_Secure2.TabIndex = 17;
             this.TB_Secure2.Text = "0000000000000000";
-            this.TB_Secure2.TextChanged += new System.EventHandler(this.updateSecure2);
+            this.TB_Secure2.TextChanged += new System.EventHandler(this.updateU64);
             // 
             // L_Secure1
             // 
@@ -4139,11 +4047,10 @@
             this.TB_Secure1.Size = new System.Drawing.Size(120, 20);
             this.TB_Secure1.TabIndex = 15;
             this.TB_Secure1.Text = "0000000000000000";
-            this.TB_Secure1.TextChanged += new System.EventHandler(this.updateSecure1);
+            this.TB_Secure1.TextChanged += new System.EventHandler(this.updateU64);
             // 
             // B_JPEG
             // 
-            this.B_JPEG.Enabled = false;
             this.B_JPEG.Location = new System.Drawing.Point(198, 20);
             this.B_JPEG.Name = "B_JPEG";
             this.B_JPEG.Size = new System.Drawing.Size(75, 45);
@@ -4171,7 +4078,7 @@
             this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
             this.TB_GameSync.TabIndex = 10;
             this.TB_GameSync.Text = "0000000000000000";
-            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateGameSync);
+            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateU64);
             // 
             // B_SaveBoxBin
             // 
@@ -4194,147 +4101,182 @@
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.clickVerifyCHK);
             // 
-            // B_OpenHallofFame
+            // GB_SAVtools
             // 
-            this.B_OpenHallofFame.Location = new System.Drawing.Point(230, 41);
-            this.B_OpenHallofFame.Name = "B_OpenHallofFame";
-            this.B_OpenHallofFame.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenHallofFame.TabIndex = 8;
-            this.B_OpenHallofFame.Text = "Hall of Fame";
-            this.B_OpenHallofFame.UseVisualStyleBackColor = true;
-            this.B_OpenHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
+            this.GB_SAVtools.Controls.Add(this.FLP_SAVtools);
+            this.GB_SAVtools.Location = new System.Drawing.Point(300, 252);
+            this.GB_SAVtools.Name = "GB_SAVtools";
+            this.GB_SAVtools.Size = new System.Drawing.Size(308, 100);
+            this.GB_SAVtools.TabIndex = 100;
+            this.GB_SAVtools.TabStop = false;
             // 
-            // B_OUTPasserby
+            // FLP_SAVtools
             // 
-            this.B_OUTPasserby.Location = new System.Drawing.Point(230, 12);
-            this.B_OUTPasserby.Name = "B_OUTPasserby";
-            this.B_OUTPasserby.Size = new System.Drawing.Size(75, 23);
-            this.B_OUTPasserby.TabIndex = 4;
-            this.B_OUTPasserby.Text = "Passerby";
-            this.B_OUTPasserby.UseVisualStyleBackColor = true;
-            this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
+            this.FLP_SAVtools.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_SAVtools.AutoScroll = true;
+            this.FLP_SAVtools.Controls.Add(this.B_OpenPokepuffs);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenItemPouch);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenTrainerInfo);
+            this.FLP_SAVtools.Controls.Add(this.B_OUTPasserby);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenBoxLayout);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenWondercards);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenSuperTraining);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenHallofFame);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenOPowers);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenEventFlags);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenPokedex);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenBerryField);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenSecretBase);
+            this.FLP_SAVtools.Controls.Add(this.B_Pokeblocks);
+            this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
+            this.FLP_SAVtools.Name = "FLP_SAVtools";
+            this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
+            this.FLP_SAVtools.TabIndex = 101;
             // 
             // B_OpenPokepuffs
             // 
-            this.B_OpenPokepuffs.Location = new System.Drawing.Point(5, 12);
+            this.B_OpenPokepuffs.Location = new System.Drawing.Point(3, 3);
             this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
-            this.B_OpenPokepuffs.Size = new System.Drawing.Size(75, 23);
+            this.B_OpenPokepuffs.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokepuffs.TabIndex = 1;
             this.B_OpenPokepuffs.Text = "‎Poké Puffs";
             this.B_OpenPokepuffs.UseVisualStyleBackColor = true;
             this.B_OpenPokepuffs.Click += new System.EventHandler(this.B_OpenPokepuffs_Click);
             // 
-            // B_OpenBoxLayout
-            // 
-            this.B_OpenBoxLayout.Location = new System.Drawing.Point(5, 41);
-            this.B_OpenBoxLayout.Name = "B_OpenBoxLayout";
-            this.B_OpenBoxLayout.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenBoxLayout.TabIndex = 5;
-            this.B_OpenBoxLayout.Text = "Box Layout";
-            this.B_OpenBoxLayout.UseVisualStyleBackColor = true;
-            this.B_OpenBoxLayout.Click += new System.EventHandler(this.B_OpenBoxLayout_Click);
-            // 
-            // B_OpenOPowers
-            // 
-            this.B_OpenOPowers.Location = new System.Drawing.Point(5, 70);
-            this.B_OpenOPowers.Name = "B_OpenOPowers";
-            this.B_OpenOPowers.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenOPowers.TabIndex = 9;
-            this.B_OpenOPowers.Text = "O-Powers";
-            this.B_OpenOPowers.UseVisualStyleBackColor = true;
-            this.B_OpenOPowers.Click += new System.EventHandler(this.B_OpenOPowers_Click);
-            // 
             // B_OpenItemPouch
             // 
-            this.B_OpenItemPouch.Location = new System.Drawing.Point(80, 12);
+            this.B_OpenItemPouch.Location = new System.Drawing.Point(96, 3);
             this.B_OpenItemPouch.Name = "B_OpenItemPouch";
-            this.B_OpenItemPouch.Size = new System.Drawing.Size(75, 23);
+            this.B_OpenItemPouch.Size = new System.Drawing.Size(87, 23);
             this.B_OpenItemPouch.TabIndex = 2;
             this.B_OpenItemPouch.Text = "Items";
             this.B_OpenItemPouch.UseVisualStyleBackColor = true;
             this.B_OpenItemPouch.Click += new System.EventHandler(this.B_OpenItemPouch_Click);
             // 
-            // B_OpenEventFlags
-            // 
-            this.B_OpenEventFlags.Location = new System.Drawing.Point(80, 70);
-            this.B_OpenEventFlags.Name = "B_OpenEventFlags";
-            this.B_OpenEventFlags.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenEventFlags.TabIndex = 10;
-            this.B_OpenEventFlags.Text = "Event Flags";
-            this.B_OpenEventFlags.UseVisualStyleBackColor = true;
-            this.B_OpenEventFlags.Click += new System.EventHandler(this.B_OpenEventFlags_Click);
-            // 
-            // B_OpenWondercards
-            // 
-            this.B_OpenWondercards.Location = new System.Drawing.Point(80, 41);
-            this.B_OpenWondercards.Name = "B_OpenWondercards";
-            this.B_OpenWondercards.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenWondercards.TabIndex = 6;
-            this.B_OpenWondercards.Text = "Wondercard";
-            this.B_OpenWondercards.UseVisualStyleBackColor = true;
-            this.B_OpenWondercards.Click += new System.EventHandler(this.B_OpenWondercards_Click);
-            // 
             // B_OpenTrainerInfo
             // 
-            this.B_OpenTrainerInfo.Location = new System.Drawing.Point(155, 12);
+            this.B_OpenTrainerInfo.Location = new System.Drawing.Point(189, 3);
             this.B_OpenTrainerInfo.Name = "B_OpenTrainerInfo";
-            this.B_OpenTrainerInfo.Size = new System.Drawing.Size(75, 23);
+            this.B_OpenTrainerInfo.Size = new System.Drawing.Size(87, 23);
             this.B_OpenTrainerInfo.TabIndex = 3;
             this.B_OpenTrainerInfo.Text = "Trainer Info";
             this.B_OpenTrainerInfo.UseVisualStyleBackColor = true;
             this.B_OpenTrainerInfo.Click += new System.EventHandler(this.B_OpenTrainerInfo_Click);
             // 
-            // B_OpenBerryField
+            // B_OUTPasserby
             // 
-            this.B_OpenBerryField.Location = new System.Drawing.Point(230, 70);
-            this.B_OpenBerryField.Name = "B_OpenBerryField";
-            this.B_OpenBerryField.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenBerryField.TabIndex = 12;
-            this.B_OpenBerryField.Text = "Berry Field";
-            this.B_OpenBerryField.UseVisualStyleBackColor = true;
-            this.B_OpenBerryField.Click += new System.EventHandler(this.B_OpenBerryField_Click);
+            this.B_OUTPasserby.Location = new System.Drawing.Point(3, 32);
+            this.B_OUTPasserby.Name = "B_OUTPasserby";
+            this.B_OUTPasserby.Size = new System.Drawing.Size(87, 23);
+            this.B_OUTPasserby.TabIndex = 4;
+            this.B_OUTPasserby.Text = "Passerby";
+            this.B_OUTPasserby.UseVisualStyleBackColor = true;
+            this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
+            // 
+            // B_OpenBoxLayout
+            // 
+            this.B_OpenBoxLayout.Location = new System.Drawing.Point(96, 32);
+            this.B_OpenBoxLayout.Name = "B_OpenBoxLayout";
+            this.B_OpenBoxLayout.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenBoxLayout.TabIndex = 5;
+            this.B_OpenBoxLayout.Text = "Box Layout";
+            this.B_OpenBoxLayout.UseVisualStyleBackColor = true;
+            this.B_OpenBoxLayout.Click += new System.EventHandler(this.B_OpenBoxLayout_Click);
+            // 
+            // B_OpenWondercards
+            // 
+            this.B_OpenWondercards.Location = new System.Drawing.Point(189, 32);
+            this.B_OpenWondercards.Name = "B_OpenWondercards";
+            this.B_OpenWondercards.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenWondercards.TabIndex = 6;
+            this.B_OpenWondercards.Text = "Wondercard";
+            this.B_OpenWondercards.UseVisualStyleBackColor = true;
+            this.B_OpenWondercards.Click += new System.EventHandler(this.B_OpenWondercards_Click);
+            // 
+            // B_OpenSuperTraining
+            // 
+            this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 61);
+            this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
+            this.B_OpenSuperTraining.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSuperTraining.TabIndex = 7;
+            this.B_OpenSuperTraining.Text = "Super Train";
+            this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
+            this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);
+            // 
+            // B_OpenHallofFame
+            // 
+            this.B_OpenHallofFame.Location = new System.Drawing.Point(96, 61);
+            this.B_OpenHallofFame.Name = "B_OpenHallofFame";
+            this.B_OpenHallofFame.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenHallofFame.TabIndex = 8;
+            this.B_OpenHallofFame.Text = "Hall of Fame";
+            this.B_OpenHallofFame.UseVisualStyleBackColor = true;
+            this.B_OpenHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
+            // 
+            // B_OpenOPowers
+            // 
+            this.B_OpenOPowers.Location = new System.Drawing.Point(189, 61);
+            this.B_OpenOPowers.Name = "B_OpenOPowers";
+            this.B_OpenOPowers.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenOPowers.TabIndex = 9;
+            this.B_OpenOPowers.Text = "O-Powers";
+            this.B_OpenOPowers.UseVisualStyleBackColor = true;
+            this.B_OpenOPowers.Click += new System.EventHandler(this.B_OpenOPowers_Click);
+            // 
+            // B_OpenEventFlags
+            // 
+            this.B_OpenEventFlags.Location = new System.Drawing.Point(3, 90);
+            this.B_OpenEventFlags.Name = "B_OpenEventFlags";
+            this.B_OpenEventFlags.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenEventFlags.TabIndex = 10;
+            this.B_OpenEventFlags.Text = "Event Flags";
+            this.B_OpenEventFlags.UseVisualStyleBackColor = true;
+            this.B_OpenEventFlags.Click += new System.EventHandler(this.B_OpenEventFlags_Click);
             // 
             // B_OpenPokedex
             // 
-            this.B_OpenPokedex.Location = new System.Drawing.Point(155, 70);
+            this.B_OpenPokedex.Location = new System.Drawing.Point(96, 90);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
-            this.B_OpenPokedex.Size = new System.Drawing.Size(75, 23);
+            this.B_OpenPokedex.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokedex.TabIndex = 11;
             this.B_OpenPokedex.Text = "Pokédex";
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
             this.B_OpenPokedex.Click += new System.EventHandler(this.B_OpenPokedex_Click);
             // 
-            // GB_SAVtools
+            // B_OpenBerryField
             // 
-            this.GB_SAVtools.Controls.Add(this.B_OpenSuperTraining);
-            this.GB_SAVtools.Controls.Add(this.B_OpenPokedex);
-            this.GB_SAVtools.Controls.Add(this.B_OpenHallofFame);
-            this.GB_SAVtools.Controls.Add(this.B_OpenBerryField);
-            this.GB_SAVtools.Controls.Add(this.B_OpenBoxLayout);
-            this.GB_SAVtools.Controls.Add(this.B_OpenTrainerInfo);
-            this.GB_SAVtools.Controls.Add(this.B_OUTPasserby);
-            this.GB_SAVtools.Controls.Add(this.B_OpenWondercards);
-            this.GB_SAVtools.Controls.Add(this.B_OpenEventFlags);
-            this.GB_SAVtools.Controls.Add(this.B_OpenItemPouch);
-            this.GB_SAVtools.Controls.Add(this.B_OpenOPowers);
-            this.GB_SAVtools.Controls.Add(this.B_OpenPokepuffs);
-            this.GB_SAVtools.Enabled = false;
-            this.GB_SAVtools.Location = new System.Drawing.Point(300, 254);
-            this.GB_SAVtools.Name = "GB_SAVtools";
-            this.GB_SAVtools.Size = new System.Drawing.Size(310, 100);
-            this.GB_SAVtools.TabIndex = 100;
-            this.GB_SAVtools.TabStop = false;
+            this.B_OpenBerryField.Location = new System.Drawing.Point(189, 90);
+            this.B_OpenBerryField.Name = "B_OpenBerryField";
+            this.B_OpenBerryField.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenBerryField.TabIndex = 12;
+            this.B_OpenBerryField.Text = "Berry Field";
+            this.B_OpenBerryField.UseVisualStyleBackColor = true;
+            this.B_OpenBerryField.Click += new System.EventHandler(this.B_OpenBerryField_Click);
             // 
-            // B_OpenSuperTraining
+            // B_OpenSecretBase
             // 
-            this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.B_OpenSuperTraining.Location = new System.Drawing.Point(155, 41);
-            this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
-            this.B_OpenSuperTraining.Size = new System.Drawing.Size(75, 23);
-            this.B_OpenSuperTraining.TabIndex = 7;
-            this.B_OpenSuperTraining.Text = "Super Train";
-            this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
-            this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(3, 119);
+            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
+            this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSecretBase.TabIndex = 21;
+            this.B_OpenSecretBase.Text = "Secret Base";
+            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
+            this.B_OpenSecretBase.Visible = false;
+            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
+            // 
+            // B_Pokeblocks
+            // 
+            this.B_Pokeblocks.Location = new System.Drawing.Point(96, 119);
+            this.B_Pokeblocks.Name = "B_Pokeblocks";
+            this.B_Pokeblocks.Size = new System.Drawing.Size(87, 23);
+            this.B_Pokeblocks.TabIndex = 22;
+            this.B_Pokeblocks.Text = "Pokéblocks";
+            this.B_Pokeblocks.UseVisualStyleBackColor = true;
+            this.B_Pokeblocks.Visible = false;
+            this.B_Pokeblocks.Click += new System.EventHandler(this.B_OpenPokeblocks_Click);
             // 
             // dragout
             // 
@@ -4400,11 +4342,11 @@
             this.ClientSize = new System.Drawing.Size(614, 361);
             this.Controls.Add(this.PB_Legal);
             this.Controls.Add(this.dragout);
-            this.Controls.Add(this.GB_SAVtools);
             this.Controls.Add(this.tabBoxMulti);
             this.Controls.Add(this.L_Save);
             this.Controls.Add(this.tabMain);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.GB_SAVtools);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -4440,15 +4382,15 @@
             this.GB_nOT.ResumeLayout(false);
             this.GB_nOT.PerformLayout();
             this.GB_Markings.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkCured)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkShiny)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkCured)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkShiny)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).EndInit();
             this.GB_ExtraBytes.ResumeLayout(false);
             this.GB_ExtraBytes.PerformLayout();
             this.GB_OT.ResumeLayout(false);
@@ -4528,6 +4470,7 @@
             this.Tab_SAV.ResumeLayout(false);
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
+            this.FLP_SAVtools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             this.mnuL.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
@@ -4570,12 +4513,6 @@
         private System.Windows.Forms.Button BTN_History;
         private System.Windows.Forms.Button BTN_Ribbons;
         private System.Windows.Forms.GroupBox GB_Markings;
-        private System.Windows.Forms.CheckBox CHK_Diamond;
-        private System.Windows.Forms.CheckBox CHK_Square;
-        private System.Windows.Forms.CheckBox CHK_Star;
-        private System.Windows.Forms.CheckBox CHK_Triangle;
-        private System.Windows.Forms.CheckBox CHK_Heart;
-        private System.Windows.Forms.CheckBox CHK_Circle;
         private System.Windows.Forms.GroupBox GB_ExtraBytes;
         private System.Windows.Forms.ComboBox CB_ExtraBytes;
         public System.Windows.Forms.GroupBox GB_OT;
@@ -4665,7 +4602,6 @@
         private System.Windows.Forms.CheckBox CHK_Nicknamed;
         private System.Windows.Forms.Button BTN_Shinytize;
         private System.Windows.Forms.MaskedTextBox TB_AbilityNumber;
-        private System.Windows.Forms.Label Label_Diamond;
         private System.Windows.Forms.MaskedTextBox TB_MetLevel;
         public System.Windows.Forms.GroupBox GB_nOT;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -4689,7 +4625,6 @@
         private System.Windows.Forms.Button B_OpenTrainerInfo;
         private System.Windows.Forms.Button B_OpenBerryField;
         private System.Windows.Forms.Button B_OpenPokedex;
-        private System.Windows.Forms.GroupBox GB_SAVtools;
         private System.Windows.Forms.TabPage Tab_Other;
         private System.Windows.Forms.Label L_BattleBox;
         private System.Windows.Forms.Label L_Party;
@@ -4783,7 +4718,6 @@
         private System.Windows.Forms.PictureBox PB_Mark4;
         private System.Windows.Forms.PictureBox PB_Mark3;
         private System.Windows.Forms.PictureBox PB_Mark2;
-        private System.Windows.Forms.PictureBox PB_Mark1;
         private System.Windows.Forms.PictureBox Label_IsShiny;
         private System.Windows.Forms.Panel PAN_Party;
         private System.Windows.Forms.Panel PAN_BattleBox;
@@ -4870,6 +4804,10 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLLegality;
         private System.Windows.Forms.ToolStripMenuItem mnuLQR;
         private System.Windows.Forms.PictureBox PB_Legal;
+        private System.Windows.Forms.FlowLayoutPanel FLP_SAVtools;
+        private System.Windows.Forms.GroupBox GB_SAVtools;
+        private System.Windows.Forms.PictureBox PB_Mark1;
+        private System.Windows.Forms.Button B_Pokeblocks;
     }
 }
 

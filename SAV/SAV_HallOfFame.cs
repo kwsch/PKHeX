@@ -13,7 +13,7 @@ namespace PKHeX
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
 
-            Array.Copy(Main.SAV.Data, Main.SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
+            Array.Copy(SAV.Data, SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
             Setup();
             editor_spec = new object[]{
                 GB_OT,
@@ -49,6 +49,7 @@ namespace PKHeX
             editing = true;
         }
         private bool editing;
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
 
         private readonly string[] gendersymbols = Main.gendersymbols;
         private readonly byte[] data = new byte[0x1B40];
@@ -66,11 +67,9 @@ namespace PKHeX
 
             #region Species
             {
-                var species_list = Util.getCBList(Main.specieslist, null);
-                species_list.RemoveAt(0); // Remove 0th Entry
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = species_list;
+                CB_Species.DataSource = Util.getCBList(Main.specieslist.Skip(1).Take(SAV.MaxSpeciesID).ToArray(), null);
             }
             #endregion
             #region Moves
@@ -98,7 +97,7 @@ namespace PKHeX
         }
         private void B_Close_Click(object sender, EventArgs e)
         {
-            Array.Copy(data, 0, Main.SAV.Data, Main.SAV.HoF, data.Length);
+            Array.Copy(data, 0, Main.SAV.Data, SAV.HoF, data.Length);
             Main.SAV.Edited = true;
             Close();
         }
