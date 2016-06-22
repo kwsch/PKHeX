@@ -869,7 +869,6 @@ namespace PKHeX
         };
         internal static readonly int[] Memory_NotAO =
         {
-            5,  // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
             11, // {0} went clothes shopping with {1}. {4} that {3}.
             43, // {0} was impressed by the speed of the train it took with {1}. {4} that {3}.
             44, // {0} encountered {2} with {1} using the Poké Radar. {4} that {3}.
