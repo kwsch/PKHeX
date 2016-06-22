@@ -45,15 +45,24 @@ namespace PKHeX
         {
             if (data.Length != SIZE_G4RAW)
                 return -1;
-
-            int version = -1;
+            
+            // General Block Checksum
             if (BitConverter.ToUInt16(data, 0xC0FE) == ccitt16(data.Take(0xC0EC).ToArray()))
-                version = 0; // DP
-            else if (BitConverter.ToUInt16(data, 0xCF2A) == ccitt16(data.Take(0xCF18).ToArray()))
-                version = 1; // PT
-            else if (BitConverter.ToUInt16(data, 0xF626) == ccitt16(data.Take(0xF618).ToArray()))
-                version = 2; // HGSS
-            return version;
+                return 0; // DP
+            if (BitConverter.ToUInt16(data, 0xCF2A) == ccitt16(data.Take(0xCF18).ToArray()))
+                return 1; // Pt
+            if (BitConverter.ToUInt16(data, 0xF626) == ccitt16(data.Take(0xF618).ToArray()))
+                return 2; // HGSS
+
+            // General Block Checksum is invalid, check for block identifiers
+            if (data.Skip(0xC0F4).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+                return 0; // DP
+            if (data.Skip(0xCF20).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+                return 1; // Pt
+            if (data.Skip(0xF61C).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+                return 2; // HGSS
+
+            return -1;
         }
         internal static int getIsG5SAV(byte[] data)
         {
