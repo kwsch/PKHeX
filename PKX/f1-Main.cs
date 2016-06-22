@@ -774,9 +774,9 @@ namespace PKHeX
                     break;
             }
 
-            pkm = preparePKM();
+            PKM pk = preparePKM();
             populateFilteredDataSources();
-            populateFields(pkm.Format != SAV.Generation ? SAV.BlankPKM : pkm);
+            populateFields(pkm.Format != SAV.Generation ? SAV.BlankPKM : pk);
 
             // SAV Specific Limits
             TB_OT.MaxLength = SAV.OTLength;
@@ -2676,7 +2676,7 @@ namespace PKHeX
                     pk = preparePK6();
                     break;
             }
-            return pk;
+            return pk?.Clone();
         }
         private PK4 preparePK4()
         {
