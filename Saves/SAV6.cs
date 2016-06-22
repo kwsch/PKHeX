@@ -270,7 +270,7 @@ namespace PKHeX
         public int Spinda { get; private set; } = int.MinValue;
         public int EncounterCount { get; private set; } = int.MinValue;
 
-        protected override GameVersion Version
+        public override GameVersion Version
         {
             get
             {
@@ -392,7 +392,7 @@ namespace PKHeX
             get { return Data[Trainer1 + 0x14D]; }
             set { Data[Trainer1 + 0x14D] = (byte)value; }
         }
-        public uint Money
+        public override uint Money
         {
             get { return BitConverter.ToUInt32(Data, Trainer2 + 0x8); }
             set { BitConverter.GetBytes(value).CopyTo(Data, Trainer2 + 0x8); }
@@ -433,16 +433,17 @@ namespace PKHeX
             }
         }
 
-        public int PlayedHours{ 
+        public override int PlayedHours
+        { 
             get { return BitConverter.ToUInt16(Data, PlayTime); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime); } 
         }
-        public int PlayedMinutes
+        public override int PlayedMinutes
         {
             get { return Data[PlayTime + 2]; }
             set { Data[PlayTime + 2] = (byte)value; } 
         }
-        public int PlayedSeconds
+        public override int PlayedSeconds
         {
             get { return Data[PlayTime + 3]; }
             set { Data[PlayTime + 3] = (byte)value; }
@@ -461,8 +462,8 @@ namespace PKHeX
         public int ResumeHour { get { return Data[AdventureInfo + 0xB]; } set { Data[AdventureInfo + 0xB] = (byte)value; } }
         public int ResumeMinute { get { return Data[AdventureInfo + 0xC]; } set { Data[AdventureInfo + 0xC] = (byte)value; } }
         public int ResumeSeconds { get { return Data[AdventureInfo + 0xD]; } set { Data[AdventureInfo + 0xD] = (byte)value; } }
-        public int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x18); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); } }
-        public int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x20); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); } }
+        public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x18); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); } }
+        public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x20); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); } }
 
         public uint getPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
         public void setPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }

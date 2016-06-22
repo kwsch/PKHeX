@@ -215,6 +215,12 @@
     <Compile Include="SAV\SAV_Pokepuff.Designer.cs">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
     </Compile>
+    <Compile Include="SAV\SAV_SimpleTrainer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SAV\SAV_SimpleTrainer.Designer.cs">
+      <DependentUpon>SAV_SimpleTrainer.cs</DependentUpon>
+    </Compile>
     <Compile Include="SAV\SAV_SuperTrain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -304,6 +310,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_Pokepuff.resx">
       <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SAV\SAV_SimpleTrainer.resx">
+      <DependentUpon>SAV_SimpleTrainer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SAV\SAV_SuperTrain.resx">
       <DependentUpon>SAV_SuperTrain.cs</DependentUpon>

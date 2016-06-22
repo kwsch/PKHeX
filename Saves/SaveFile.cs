@@ -40,7 +40,7 @@ namespace PKHeX
         }
         public virtual string MiscSaveChecks() { return ""; }
         public virtual string MiscSaveInfo() { return ""; }
-        protected abstract GameVersion Version { get; }
+        public abstract GameVersion Version { get; }
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
         public abstract int Generation { get; }
@@ -282,6 +282,12 @@ namespace PKHeX
         public abstract ushort TID { get; set; }
         public abstract ushort SID { get; set; }
         public abstract string OT { get; set; }
+        public abstract int PlayedHours { get; set; }
+        public abstract int PlayedMinutes { get; set; }
+        public abstract int PlayedSeconds { get; set; }
+        public abstract int SecondsToStart { get; set; }
+        public abstract int SecondsToFame { get; set; }
+        public abstract uint Money { get; set; }
         public abstract int BoxCount { get; }
         public abstract int PartyCount { get; protected set; }
         public virtual int CurrentBox { get { return 0; } set { } }

@@ -8,14 +8,14 @@ namespace PKHeX
         public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
-        public SAV4(byte[] data = null)
+        public SAV4(byte[] data = null, int versionOverride = -1)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G4RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
             // Get Version
-            SaveVersion = Math.Max(SaveUtil.getIsG4SAV(Data), 0); // Empty file default to DP
+            SaveVersion = versionOverride > -1 ? versionOverride : Math.Max(SaveUtil.getIsG4SAV(Data), 0); // Empty file default to DP
             getActiveBlock();
             getSAVOffsets();
 
@@ -27,7 +27,7 @@ namespace PKHeX
         public readonly int SaveVersion;
         public override byte[] BAK { get; }
         public override bool Exportable { get; }
-        public override SaveFile Clone() { return new SAV4(Data); }
+        public override SaveFile Clone() { return new SAV4(Data, SaveVersion); }
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int SIZE_PARTY => PKX.SIZE_4PARTY;
@@ -313,7 +313,7 @@ namespace PKHeX
         }
 
         // Trainer Info
-        protected override GameVersion Version
+        public override GameVersion Version
         {
             get
             {
@@ -356,7 +356,7 @@ namespace PKHeX
             get { return BitConverter.ToUInt16(Data, Trainer1 + 0x12); }
             set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x12); }
         }
-        public uint Money
+        public override uint Money
         {
             get { return BitConverter.ToUInt32(Data, Trainer1 + 0x14); }
             set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14); }
@@ -398,17 +398,17 @@ namespace PKHeX
                 Data[Trainer1 + 0x1F] = (byte)value;
             }
         }
-        public int PlayedHours
+        public override int PlayedHours
         {
             get { return BitConverter.ToUInt16(Data, Trainer1 + 0x22); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x22); }
         }
-        public int PlayedMinutes
+        public override int PlayedMinutes
         {
             get { return Data[Trainer1 + 0x24]; }
             set { Data[Trainer1 + 0x24] = (byte)value; }
         }
-        public int PlayedSeconds
+        public override int PlayedSeconds
         {
             get { return Data[Trainer1 + 0x25]; }
             set { Data[Trainer1 + 0x25] = (byte)value; }
@@ -527,8 +527,8 @@ namespace PKHeX
                 }
             }
         }
-        public int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x34); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); } }
-        public int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x3C); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); } }
+        public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x34); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); } }
+        public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x3C); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); } }
 
         // Storage
         public int UnlockedBoxes
