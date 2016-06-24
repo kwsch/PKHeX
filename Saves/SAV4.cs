@@ -531,7 +531,7 @@ namespace PKHeX
         public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x3C); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); } }
 
         // Storage
-        public int UnlockedBoxes
+        public override int CurrentBox
         {
             get { return Data[Box - 4]; }
             set { Data[Box - 4] = (byte)value; }
