@@ -17,7 +17,7 @@ namespace PKHeX
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
             // Get Version
-            SaveVersion = versionOverride > -1 ? versionOverride : SaveUtil.getIsG5SAV(Data);
+            SaveVersion = versionOverride > -1 ? versionOverride : (int)SaveUtil.getIsG5SAV(Data);
             if (SaveVersion < 0) // Invalidate Data
                 Data = null;
 

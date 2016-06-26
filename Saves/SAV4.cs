@@ -15,7 +15,7 @@ namespace PKHeX
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
             // Get Version
-            SaveVersion = versionOverride > -1 ? versionOverride : Math.Max(SaveUtil.getIsG4SAV(Data), 0); // Empty file default to DP
+            SaveVersion = versionOverride > -1 ? versionOverride : Math.Max((int)SaveUtil.getIsG4SAV(Data), 0); // Empty file default to DP
             getActiveBlock();
             getSAVOffsets();
 
