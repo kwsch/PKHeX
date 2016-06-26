@@ -15,6 +15,7 @@ namespace PKHeX
             Data = data == null ? new byte[SaveUtil.SIZE_G5RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Footer = new byte[0];
 
             // Get Version
             SaveVersion = versionOverride > -1 ? versionOverride : (int)SaveUtil.getIsG5SAV(Data);

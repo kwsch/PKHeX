@@ -13,6 +13,7 @@ namespace PKHeX
             Data = data == null ? new byte[SaveUtil.SIZE_G4RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Footer = new byte[0];
 
             // Get Version
             SaveVersion = versionOverride > -1 ? versionOverride : Math.Max((int)SaveUtil.getIsG4SAV(Data), 0); // Empty file default to DP
