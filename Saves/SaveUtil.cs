@@ -39,7 +39,7 @@ namespace PKHeX
         XY = 0,
         ORASDEMO = 1,
         ORAS = 2,
-        Default = 3 //Todo: rename this to something else; referenced in getIsG6SAV
+        Other = 3 //Todo: rename this to something else; referenced in getIsG6SAV
     }
 
     public static class SaveUtil
@@ -65,7 +65,7 @@ namespace PKHeX
         {
             if (getIsG4SAV(data) != Gen4Version.Invalid)
                 return 4;
-            if (getIsG5SAV(data) != -1)
+            if (getIsG5SAV(data) != Gen5Version.Invalid)
                 return 5;
             if (getIsG6SAV(data) != Gen6Version.Invalid)
                 return 6;
@@ -134,7 +134,7 @@ namespace PKHeX
                 case SIZE_G6ORAS:
                     return Gen6Version.ORAS;
                 default: // won't hit
-                    return Gen6Version.Default;
+                    return Gen6Version.Other;
             }
         }
 
