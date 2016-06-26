@@ -5,6 +5,10 @@ namespace PKHeX
 {
     public class PK3 : PKM // 3rd Generation PKM File
     {
+        internal static readonly byte[] ExtraBytes =
+        {
+            0x2A, 0x2B
+        };
         public override int SIZE_PARTY => PKX.SIZE_3PARTY;
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int Format => 3;
@@ -22,7 +26,8 @@ namespace PKHeX
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int Nature { get { return (int)(PID % 25); } set { } }
         public override int AltForm { get { return -1; } set { } }
-        public override bool IsNicknamed { get { return Nickname != PKX.getSpeciesName(Species, Language); } set { } }
+
+        public override bool IsNicknamed { get { return PKX.getIsNicknamed(Species, Nickname); } set { } }
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
@@ -41,7 +46,7 @@ namespace PKHeX
                 if (strdata.Length > 10) 
                     Array.Resize(ref strdata, 10);
                 strdata.CopyTo(Data, 0x08); } }
-        public override int Language { get { return BitConverter.ToUInt16(Data, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x12); } }
+        public override int Language { get { return BitConverter.ToUInt16(Data, 0x12) & 0xFF; } set { BitConverter.GetBytes((ushort)(value | 0x200)).CopyTo(Data, 0x12); } }
         public override string OT_Name { 
             get { return PKX.getG3Str(Data.Skip(0x14).Take(7).ToArray(), Japanese); } 
             set { byte[] strdata = PKX.setG3Str(value, Japanese);
@@ -55,7 +60,9 @@ namespace PKHeX
 
         #region Block A
         public override int Species { get { return PKX.getG4Species(BitConverter.ToUInt16(Data, 0x20)); } set { BitConverter.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x20); } }
-        public override int HeldItem { get { return BitConverter.ToUInt16(Data, 0x22); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); } }
+        public override int HeldItem { get { return PKX.getG4Item((ushort)G3Item); } set { } }
+        public int G3Item { get { return PKX.getG4Item(BitConverter.ToUInt16(Data, 0x22)); } set { BitConverter.GetBytes((ushort) value).CopyTo(Data, 0x22); } }
+
         public override uint EXP { get { return BitConverter.ToUInt32(Data, 0x24); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x24); } }
         private byte PPUps { get { return Data[0x28]; } set { Data[0x28] = value; } }
         public override int Move1_PPUps { get { return (PPUps >> 0) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 0)) | value); } }
@@ -154,7 +161,7 @@ namespace PKHeX
 
         public override byte[] Encrypt()
         {
-            throw new NotImplementedException();
+            return PKX.encryptArray3(Data);
         }
         public override bool getGenderIsValid()
         {
@@ -277,7 +284,7 @@ namespace PKHeX
             // Set Final Data
             pk4.Met_Level = PKX.getLevel(pk4.Species, pk4.EXP);
             pk4.Gender = PKX.getGender(pk4.Species, pk4.PID);
-            pk4.IsNicknamed |= pk4.Nickname != PKX.getSpeciesName(pk4.Species, pk4.Language);
+            pk4.IsNicknamed = IsNicknamed;
 
             // Unown Form
             if (Species == 201)

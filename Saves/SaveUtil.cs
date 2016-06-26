@@ -14,6 +14,8 @@ namespace PKHeX
         X = 24, Y = 25, AS = 26, OR = 27,
         SN = 28, MN = 29,
 
+        RS = 200,
+        FRLG = 201,
         DP = 100,
         HGSS = 101,
     }
@@ -28,11 +30,15 @@ namespace PKHeX
         internal const int SIZE_G5BW = 0x24000;
         internal const int SIZE_G5B2W2 = 0x26000;
         internal const int SIZE_G4RAW = 0x80000;
+        internal const int SIZE_G3RAW = 0x20000;
+        internal const int SIZE_G3RAWHALF = 0x10000;
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
 
         internal static int getSAVGeneration(byte[] data)
         {
+            if (getIsG3SAV(data) != -1)
+                return 3;
             if (getIsG4SAV(data) != -1)
                 return 4;
             if (getIsG5SAV(data) != -1)
@@ -40,6 +46,24 @@ namespace PKHeX
             if (getIsG6SAV(data) != -1)
                 return 6;
             return -1;
+        }
+        internal static int getIsG3SAV(byte[] data)
+        {
+            if (data.Length != SIZE_G3RAW && data.Length != SIZE_G3RAWHALF)
+                return -1;
+
+            int[] BlockOrder = new int[14];
+            for (int i = 0; i < 14; i++)
+                BlockOrder[i] = BitConverter.ToInt16(data, i * 0x1000 + 0xFF4);
+
+            if (BlockOrder.Any(i => i > 0xD || i < 0))
+                return -1;
+
+            // Detect RS/E/FRLG
+            // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
+
+            uint GameCode = BitConverter.ToUInt32(data, Array.IndexOf(BlockOrder, 0) * 0x1000);
+            return GameCode < 2 ? (int)GameCode : 2;
         }
         internal static int getIsG4SAV(byte[] data)
         {
@@ -103,6 +127,8 @@ namespace PKHeX
         {
             switch (getSAVGeneration(data))
             {
+                case 3:
+                    return new SAV3(data);
                 case 4:
                     return new SAV4(data);
                 case 5:
@@ -275,6 +301,16 @@ namespace PKHeX
                 byte[] array = savefile.Skip(Start[i]).Take(Lengths[i]).ToArray();
                 BitConverter.GetBytes(ccitt16(array)).CopyTo(savefile, verificationOffset + 6 + i * 8);
             }
+        }
+        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <returns>Checksum</returns>
+        internal static ushort check32(byte[] data)
+        {
+            uint val = 0;
+            for (int i = 0; i < data.Length; i += 4)
+                val += BitConverter.ToUInt32(data, i);
+            return (ushort)(val + val >> 16);
         }
 
         internal static int getDexFormIndexXY(int species, int formct)

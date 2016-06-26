@@ -71,6 +71,7 @@
     <Compile Include="Legality\Checks.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
+    <Compile Include="Legality\Tables3.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
     <Compile Include="MysteryGifts\MysteryGift.cs" />
@@ -92,6 +93,7 @@
     </Compile>
     <Compile Include="Saves\BlockInfo.cs" />
     <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
     <Compile Include="Saves\SAV5.cs" />
     <Compile Include="Saves\SAV6.cs" />

@@ -20,6 +20,20 @@ namespace PKHeX
             MT_TID.Text = SAV.TID.ToString("00000");
             MT_SID.Text = SAV.SID.ToString("00000");
             MT_Money.Text = SAV.Money.ToString();
+            MT_Hours.Text = SAV.PlayedHours.ToString();
+            MT_Minutes.Text = SAV.PlayedMinutes.ToString();
+            MT_Seconds.Text = SAV.PlayedSeconds.ToString();
+
+            if (SAV is SAV3)
+            {
+                GB_Map.Visible = false;
+                GB_Badges.Visible = false; // todo
+
+                L_Started.Visible = L_Fame.Visible = false;
+                CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
+                CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
+                return;
+            }
 
             int badgeval = 0;
             if (SAV is SAV4)
@@ -54,9 +68,6 @@ namespace PKHeX
                 cba[i].Checked = (badgeval & 1 << i) != 0;
             }
 
-            MT_Hours.Text = SAV.PlayedHours.ToString();
-            MT_Minutes.Text = SAV.PlayedMinutes.ToString();
-            MT_Seconds.Text = SAV.PlayedSeconds.ToString();
             CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
             CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
@@ -80,6 +91,10 @@ namespace PKHeX
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
+
+            SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
+            SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
+            SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
             // Copy Badges
             int badgeval = 0;
@@ -108,12 +123,7 @@ namespace PKHeX
                 s.Y = (int)NUD_Y.Value;
                 s.Badges = badgeval & 0xFF;
             }
-
-            // Save PlayTime
-            SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
-            SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
-            SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
-
+            
             SAV.SecondsToStart = getSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
             SAV.SecondsToFame = getSeconds(CAL_HoFDate, CAL_HoFTime);
             

@@ -84,7 +84,7 @@ namespace PKHeX
         protected virtual int GiftFlagMax { get; } = 0x800;
         protected virtual int EventFlagMax { get; } = int.MinValue;
         protected virtual int EventConstMax { get; } = int.MinValue;
-        public abstract int DaycareSeedSize { get; }
+        public virtual int DaycareSeedSize { get; } = 0;
         public abstract int OTLength { get; }
         public abstract int NickLength { get; }
 
@@ -249,8 +249,8 @@ namespace PKHeX
         protected int OFS_MailItems { get; set; } = int.MinValue;
 
         // Mystery Gift
-        protected abstract bool[] MysteryGiftReceivedFlags { get; set; }
-        protected abstract MysteryGift[] MysteryGiftCards { get; set; }
+        protected virtual bool[] MysteryGiftReceivedFlags { get { return null; } set { } }
+        protected virtual MysteryGift[] MysteryGiftCards { get { return null; } set { } }
         public virtual MysteryGiftAlbum GiftAlbum
         {
             get
@@ -285,8 +285,8 @@ namespace PKHeX
         public abstract int PlayedHours { get; set; }
         public abstract int PlayedMinutes { get; set; }
         public abstract int PlayedSeconds { get; set; }
-        public abstract int SecondsToStart { get; set; }
-        public abstract int SecondsToFame { get; set; }
+        public virtual int SecondsToStart { get; set; }
+        public virtual int SecondsToFame { get; set; }
         public abstract uint Money { get; set; }
         public abstract int BoxCount { get; }
         public abstract int PartyCount { get; protected set; }

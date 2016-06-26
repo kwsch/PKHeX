@@ -724,48 +724,38 @@ namespace PKHeX
             // Generational Interface
             byte[] extraBytes = new byte[1];
             Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV
+
+            CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible =
+            Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = SAV.Generation >= 6;
+            CB_Ability.Visible = TB_AbilityNumber.Visible = SAV.Generation >= 6;
+            Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = SAV.Generation >= 6;
+            GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_History.Visible = BTN_Ribbons.Visible = SAV.Generation >= 6;
+            PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
+
+            PB_MarkPentagon.Visible = SAV.Generation == 6;
+            PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation == 6;
+            TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Generation == 6;
+
+            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
+            Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
+
+            DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation < 6 || HaX;
+            TB_AbilityNumber.Visible = SAV.Generation >= 6 && !HaX;
+            CB_Ability.Visible = SAV.Generation >= 6 && !HaX;
+
             switch (SAV.Generation)
             {
+                case 3:
+                    extraBytes = PK3.ExtraBytes;
+                    break;
                 case 4:
-                    TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = false;
-                    L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = false;
-                    CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible = false;
-                    Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = false;
-                    CB_Ability.Visible = TB_AbilityNumber.Visible = false;
-                    GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_History.Visible = BTN_Ribbons.Visible = false;
-                    Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = false;
-                    PB_MarkPentagon.Visible = false;
-                    PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = false;
-
-                    DEV_Ability.Enabled = DEV_Ability.Visible = true;
+                    
                     extraBytes = PK4.ExtraBytes;
                     break;
                 case 5:
-                    TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = false;
-                    L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = false;
-                    CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible = false;
-                    Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = false;
-                    CB_Ability.Visible = TB_AbilityNumber.Visible = false;
-                    GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_History.Visible = BTN_Ribbons.Visible = false;
-                    Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = false;
-                    PB_MarkPentagon.Visible = false;
-                    PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = false;
-
-                    DEV_Ability.Enabled = DEV_Ability.Visible = true;
                     extraBytes = PK5.ExtraBytes;
                     break;
                 case 6:
-                    TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = true;
-                    L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = true;
-                    CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible = true;
-                    Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = true;
-                    DEV_Ability.Enabled = DEV_Ability.Visible = TB_AbilityNumber.Visible = HaX;
-                    GB_nOT.Visible = BTN_History.Visible = true;
-                    Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = true;
-                    PB_MarkPentagon.Visible = true;
-                    PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = true;
-
-                    CB_Ability.Visible = !HaX;
                     extraBytes = PK6.ExtraBytes;
                     TB_GameSync.Enabled = (SAV as SAV6).GameSyncID != 0;
                     TB_GameSync.Text = (SAV as SAV6).GameSyncID.ToString("X16");
@@ -1017,7 +1007,7 @@ namespace PKHeX
             CB_Ball.DataSource = new BindingSource(BallDataSource.Where(b => b.Value <= SAV.MaxBallID), null);
             CB_Species.DataSource = new BindingSource(SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID), null);
             DEV_Ability.DataSource = new BindingSource(AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID), null);
-            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource.Where(g => g.Value <= SAV.MaxGameID), null);
+            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15), null);
 
             // Set the Move ComboBoxes too..
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
@@ -1040,6 +1030,9 @@ namespace PKHeX
                 Util.Alert("PKX File has an invalid checksum.");
             switch (pkm.Format)
             {
+                case 3:
+                    populateFieldsPK3(pkm as PK3);
+                    break;
                 case 4:
                     populateFieldsPK4(pkm as PK4);
                     break;
@@ -1076,6 +1069,97 @@ namespace PKHeX
             // Set the Preview Box
             dragout.Image = pk.Sprite;
             updateLegality();
+        }
+        private void populateFieldsPK3(PK3 pk3)
+        {
+            // Do first
+            pk3.Stat_Level = PKX.getLevel(pk3.Species, pk3.EXP);
+            if (pk3.Stat_Level == 100)
+                pk3.EXP = PKX.getEXP(pk3.Stat_Level, pk3.Species);
+
+            CB_Species.SelectedValue = pk3.Species;
+            TB_Level.Text = pk3.Stat_Level.ToString();
+            TB_EXP.Text = pk3.EXP.ToString();
+
+            // Load rest
+            CHK_Fateful.Checked = pk3.FatefulEncounter;
+            CHK_IsEgg.Checked = pk3.IsEgg;
+            CHK_Nicknamed.Checked = pk3.IsNicknamed;
+            Label_OTGender.Text = gendersymbols[pk3.OT_Gender];
+            Label_OTGender.ForeColor = pk3.OT_Gender == 1 ? Color.Red : Color.Blue;
+            TB_PID.Text = pk3.PID.ToString("X8");
+            CB_HeldItem.SelectedValue = pk3.HeldItem;
+            setAbilityList(TB_AbilityNumber, pk3.Species, CB_Ability, CB_Form);
+            DEV_Ability.SelectedValue = pk3.Ability;
+            CB_Nature.SelectedValue = pk3.Nature;
+            TB_TID.Text = pk3.TID.ToString("00000");
+            TB_SID.Text = pk3.SID.ToString("00000");
+            TB_Nickname.Text = pk3.Nickname;
+            TB_OT.Text = pk3.OT_Name;
+            TB_Friendship.Text = pk3.CurrentFriendship.ToString();
+            GB_OT.BackgroundImage = null;
+            CB_Language.SelectedValue = pk3.Language;
+            CB_GameOrigin.SelectedValue = pk3.Version;
+            CB_EncounterType.SelectedValue = pk3.Gen4 ? pk3.EncounterType : 0;
+            CB_Ball.SelectedValue = pk3.Ball;
+            
+            CB_MetLocation.SelectedValue = pk3.Met_Location;
+
+            TB_MetLevel.Text = pk3.Met_Level.ToString();
+
+            // Reset Label and ComboBox visibility, as well as non-data checked status.
+            Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = pk3.PKRS_Strain != 0;
+            Label_PKRSdays.Visible = CB_PKRSDays.Visible = pk3.PKRS_Days != 0;
+
+            // Set SelectedIndexes for PKRS
+            CB_PKRSStrain.SelectedIndex = pk3.PKRS_Strain;
+            CHK_Cured.Checked = pk3.PKRS_Strain > 0 && pk3.PKRS_Days == 0;
+            CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk3.PKRS_Days); // to strip out bad hacked 'rus
+
+            TB_Cool.Text = pk3.CNT_Cool.ToString();
+            TB_Beauty.Text = pk3.CNT_Beauty.ToString();
+            TB_Cute.Text = pk3.CNT_Cute.ToString();
+            TB_Smart.Text = pk3.CNT_Smart.ToString();
+            TB_Tough.Text = pk3.CNT_Tough.ToString();
+            TB_Sheen.Text = pk3.CNT_Sheen.ToString();
+
+            TB_HPIV.Text = pk3.IV_HP.ToString();
+            TB_ATKIV.Text = pk3.IV_ATK.ToString();
+            TB_DEFIV.Text = pk3.IV_DEF.ToString();
+            TB_SPEIV.Text = pk3.IV_SPE.ToString();
+            TB_SPAIV.Text = pk3.IV_SPA.ToString();
+            TB_SPDIV.Text = pk3.IV_SPD.ToString();
+            CB_HPType.SelectedValue = pk3.HPType;
+
+            TB_HPEV.Text = pk3.EV_HP.ToString();
+            TB_ATKEV.Text = pk3.EV_ATK.ToString();
+            TB_DEFEV.Text = pk3.EV_DEF.ToString();
+            TB_SPEEV.Text = pk3.EV_SPE.ToString();
+            TB_SPAEV.Text = pk3.EV_SPA.ToString();
+            TB_SPDEV.Text = pk3.EV_SPD.ToString();
+
+            CB_Move1.SelectedValue = pk3.Move1;
+            CB_Move2.SelectedValue = pk3.Move2;
+            CB_Move3.SelectedValue = pk3.Move3;
+            CB_Move4.SelectedValue = pk3.Move4;
+            CB_PPu1.SelectedIndex = pk3.Move1_PPUps;
+            CB_PPu2.SelectedIndex = pk3.Move2_PPUps;
+            CB_PPu3.SelectedIndex = pk3.Move3_PPUps;
+            CB_PPu4.SelectedIndex = pk3.Move4_PPUps;
+            TB_PP1.Text = pk3.Move1_PP.ToString();
+            TB_PP2.Text = pk3.Move2_PP.ToString();
+            TB_PP3.Text = pk3.Move3_PP.ToString();
+            TB_PP4.Text = pk3.Move4_PP.ToString();
+            
+            // Load Extrabyte Value
+            TB_ExtraByte.Text = pk3.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
+
+            updateStats();
+            setIsShiny();
+
+            TB_EXP.Text = pk3.EXP.ToString();
+            Label_Gender.Text = gendersymbols[pk3.Gender];
+            Label_Gender.ForeColor = pk3.Gender == 2 ? Label_Species.ForeColor : (pk3.Gender == 1 ? Color.Red : Color.Blue);
         }
         private void populateFieldsPK4(PK4 pk4)
         {
@@ -1493,6 +1577,27 @@ namespace PKHeX
 
             cb_abil.SelectedIndex = newabil < 3 ? newabil : 0;
         }
+        private void setAbilityList3(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
+        {
+            if (!fieldsInitialized && string.IsNullOrWhiteSpace(tb_abil.Text))
+                return;
+            int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
+
+            int form = cb_forme.SelectedIndex;
+            byte[] abils = PKX.Gen3Abilities[Util.getIndex(CB_Species)];
+            if (abils[0] == 76) abils[0] = 77; // Air Lock +1
+            if (abils[1] == 76) abils[1] = 77; // Air Lock +1
+
+            // Build Ability List
+            List<string> ability_list = new List<string>
+            {
+                abilitylist[abils[0]] + " (1)",
+                abilitylist[abils[1]] + " (2)",
+            };
+            cb_abil.DataSource = ability_list;
+
+            cb_abil.SelectedIndex = newabil < 3 ? newabil : 0;
+        }
         // PKX Data Calculation Functions //
         private void setIsShiny()
         {
@@ -1789,7 +1894,10 @@ namespace PKHeX
 
             TB_IVTotal.Text = pkm.IVs.Sum().ToString();
 
-            L_Characteristic.Text = characteristics[pkm.Characteristic];
+            int characteristic = pkm.Characteristic;
+            L_Characteristic.Visible = characteristic > -1;
+            if (characteristic > -1)
+                L_Characteristic.Text = characteristics[pkm.Characteristic];
             updateStats();
         }
         private void updateEVs(object sender, EventArgs e)
@@ -2232,27 +2340,26 @@ namespace PKHeX
         private void updateNickname(object sender, EventArgs e)
         {
             if (fieldsInitialized && ModifierKeys == Keys.Control && sender != null) // Import Showdown
-            {
-                clickShowdownImportPK6(sender, e);
-                return;
-            }
+            { clickShowdownImportPK6(sender, e); return; }
             if (fieldsInitialized && ModifierKeys == Keys.Alt && sender != null) // Export Showdown
-            {
-                clickShowdownExportPK6(sender, e);
-                return; 
-            }
-            if (!fieldsInitialized || CHK_Nicknamed.Checked) return;
+            { clickShowdownExportPK6(sender, e); return; }
+            if (!fieldsInitialized || CHK_Nicknamed.Checked)
+                return;
 
             // Fetch Current Species and set it as Nickname Text
             int species = Util.getIndex(CB_Species);
-            if (species == 0 || species > 721)
+            if (species < 1 || species > SAV.MaxSpeciesID)
                 TB_Nickname.Text = "";
             else
             {
                 // get language
                 int lang = Util.getIndex(CB_Language);
                 if (CHK_IsEgg.Checked) species = 0; // Set species to 0 to get the egg name.
-                TB_Nickname.Text = PKX.getSpeciesName(CHK_IsEgg.Checked ? 0 : species, lang);
+                string nick = PKX.getSpeciesName(CHK_IsEgg.Checked ? 0 : species, lang);
+
+                if (SAV.Generation < 5) // All caps GenIV and previous
+                    nick = nick.ToUpper();
+                TB_Nickname.Text = nick;
             }
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
@@ -2666,6 +2773,9 @@ namespace PKHeX
             PKM pk = null;
             switch (pkm.Format)
             {
+                case 3:
+                    pk = preparePK3();
+                    break;
                 case 4:
                     pk = preparePK4();
                     break;
@@ -2677,6 +2787,95 @@ namespace PKHeX
                     break;
             }
             return pk?.Clone();
+        }
+        private PK3 preparePK3()
+        {
+            PK3 pk3 = pkm as PK3;
+            if (pk3 == null)
+                return null;
+
+            pk3.Species = Util.getIndex(CB_Species);
+            pk3.G3Item = Util.getIndex(CB_HeldItem);
+            pk3.TID = Util.ToInt32(TB_TID.Text);
+            pk3.SID = Util.ToInt32(TB_SID.Text);
+            pk3.EXP = Util.ToUInt32(TB_EXP.Text);
+            pk3.PID = Util.getHEXval(TB_PID.Text);
+            pk3.Ability = (byte)Util.getIndex(DEV_Ability);
+            //pk4.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            
+            pk3.FatefulEncounter = CHK_Fateful.Checked;
+            pk3.Gender = PKX.getGender(Label_Gender.Text);
+            pk3.EV_HP = Util.ToInt32(TB_HPEV.Text);
+            pk3.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
+            pk3.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
+            pk3.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
+            pk3.EV_SPA = Util.ToInt32(TB_SPAEV.Text);
+            pk3.EV_SPD = Util.ToInt32(TB_SPDEV.Text);
+
+            pk3.CNT_Cool = Util.ToInt32(TB_Cool.Text);
+            pk3.CNT_Beauty = Util.ToInt32(TB_Beauty.Text);
+            pk3.CNT_Cute = Util.ToInt32(TB_Cute.Text);
+            pk3.CNT_Smart = Util.ToInt32(TB_Smart.Text);
+            pk3.CNT_Tough = Util.ToInt32(TB_Tough.Text);
+            pk3.CNT_Sheen = Util.ToInt32(TB_Sheen.Text);
+
+            pk3.PKRS_Days = CB_PKRSDays.SelectedIndex;
+            pk3.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
+            pk3.Nickname = TB_Nickname.Text;
+            pk3.Move1 = Util.getIndex(CB_Move1);
+            pk3.Move2 = Util.getIndex(CB_Move2);
+            pk3.Move3 = Util.getIndex(CB_Move3);
+            pk3.Move4 = Util.getIndex(CB_Move4);
+            pk3.Move1_PP = Util.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            pk3.Move2_PP = Util.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            pk3.Move3_PP = Util.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            pk3.Move4_PP = Util.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            pk3.Move1_PPUps = Util.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            pk3.Move2_PPUps = Util.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            pk3.Move3_PPUps = Util.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            pk3.Move4_PPUps = Util.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+
+            pk3.IV_HP = Util.ToInt32(TB_HPIV.Text);
+            pk3.IV_ATK = Util.ToInt32(TB_ATKIV.Text);
+            pk3.IV_DEF = Util.ToInt32(TB_DEFIV.Text);
+            pk3.IV_SPE = Util.ToInt32(TB_SPEIV.Text);
+            pk3.IV_SPA = Util.ToInt32(TB_SPAIV.Text);
+            pk3.IV_SPD = Util.ToInt32(TB_SPDIV.Text);
+            pk3.IsEgg = CHK_IsEgg.Checked;
+            pk3.IsNicknamed = CHK_Nicknamed.Checked;
+
+            pk3.OT_Name = TB_OT.Text;
+            pk3.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
+
+            pk3.Ball = Util.getIndex(CB_Ball);
+            pk3.Met_Level = Util.ToInt32(TB_MetLevel.Text);
+            pk3.OT_Gender = PKX.getGender(Label_OTGender.Text);
+            pk3.Version = Util.getIndex(CB_GameOrigin);
+            pk3.Language = Util.getIndex(CB_Language);
+            
+            pk3.Met_Location = Util.getIndex(CB_MetLocation);
+            
+            // Toss in Party Stats
+            Array.Resize(ref pk3.Data, pk3.SIZE_PARTY);
+            pk3.Stat_Level = Util.ToInt32(TB_Level.Text);
+            pk3.Stat_HPCurrent = Util.ToInt32(Stat_HP.Text);
+            pk3.Stat_HPMax = Util.ToInt32(Stat_HP.Text);
+            pk3.Stat_ATK = Util.ToInt32(Stat_ATK.Text);
+            pk3.Stat_DEF = Util.ToInt32(Stat_DEF.Text);
+            pk3.Stat_SPE = Util.ToInt32(Stat_SPE.Text);
+            pk3.Stat_SPA = Util.ToInt32(Stat_SPA.Text);
+            pk3.Stat_SPD = Util.ToInt32(Stat_SPD.Text);
+
+            if (HaX)
+            {
+                pk3.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
+            }
+
+            // Fix Moves if a slot is empty 
+            pk3.FixMoves();
+
+            pk3.RefreshChecksum();
+            return pk3;
         }
         private PK4 preparePK4()
         {
@@ -2692,8 +2891,7 @@ namespace PKHeX
             pk4.PID = Util.getHEXval(TB_PID.Text);
             pk4.Ability = (byte)Util.getIndex(DEV_Ability);
           //pk4.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
-
-            pk4.Nature = (byte)Util.getIndex(CB_Nature);
+          
             pk4.FatefulEncounter = CHK_Fateful.Checked;
             pk4.Gender = PKX.getGender(Label_Gender.Text);
             pk4.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex) & 0x1F;

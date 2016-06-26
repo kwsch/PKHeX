@@ -568,7 +568,6 @@ namespace PKHeX
         }
 
         // Daycare
-        public override int DaycareSeedSize => 8;
         public override int getDaycareSlotOffset(int loc, int slot)
         {
             return Daycare + slot * SIZE_PARTY;

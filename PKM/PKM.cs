@@ -19,13 +19,20 @@ namespace PKHeX
         public byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
         public byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         
-        public ushort CalculateChecksum()
+        protected ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < SIZE_STORED; i += 2) // Loop through the entire PK5
-                chk += BitConverter.ToUInt16(Data, i);
-
-            return chk;
+            switch (Format)
+            {
+                case 3:
+                    for (int i = 32; i < SIZE_STORED; i += 2)
+                        chk += BitConverter.ToUInt16(Data, i);
+                    return chk;
+                default: // 4+
+                    for (int i = 8; i < SIZE_STORED; i += 2)
+                        chk += BitConverter.ToUInt16(Data, i);
+                    return chk;
+            }
         }
         public abstract byte[] Encrypt();
         public abstract int Format { get; }

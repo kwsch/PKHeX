@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.L_Started = new System.Windows.Forms.Label();
             this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
             this.CAL_HoFDate = new System.Windows.Forms.DateTimePicker();
-            this.L_LastSaved = new System.Windows.Forms.Label();
+            this.L_Fame = new System.Windows.Forms.Label();
             this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
             this.MT_Hours = new System.Windows.Forms.MaskedTextBox();
             this.L_Seconds = new System.Windows.Forms.Label();
@@ -62,8 +62,8 @@
             this.L_X = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.GB_Trainer = new System.Windows.Forms.GroupBox();
+            this.GB_Badges = new System.Windows.Forms.GroupBox();
             this.CHK_H8 = new System.Windows.Forms.CheckBox();
             this.CHK_H7 = new System.Windows.Forms.CheckBox();
             this.CHK_H6 = new System.Windows.Forms.CheckBox();
@@ -80,36 +80,36 @@
             this.CHK_3 = new System.Windows.Forms.CheckBox();
             this.CHK_2 = new System.Windows.Forms.CheckBox();
             this.CHK_1 = new System.Windows.Forms.CheckBox();
-            this.groupBox2.SuspendLayout();
+            this.GB_Adventure.SuspendLayout();
             this.GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.GB_Trainer.SuspendLayout();
+            this.GB_Badges.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox2
+            // GB_Adventure
             // 
-            this.groupBox2.Controls.Add(this.L_Started);
-            this.groupBox2.Controls.Add(this.CAL_AdventureStartDate);
-            this.groupBox2.Controls.Add(this.CAL_HoFDate);
-            this.groupBox2.Controls.Add(this.L_LastSaved);
-            this.groupBox2.Controls.Add(this.MT_Seconds);
-            this.groupBox2.Controls.Add(this.MT_Hours);
-            this.groupBox2.Controls.Add(this.L_Seconds);
-            this.groupBox2.Controls.Add(this.L_Hours);
-            this.groupBox2.Controls.Add(this.MT_Minutes);
-            this.groupBox2.Controls.Add(this.L_Minutes);
-            this.groupBox2.Controls.Add(this.CAL_AdventureStartTime);
-            this.groupBox2.Controls.Add(this.CAL_HoFTime);
-            this.groupBox2.Location = new System.Drawing.Point(12, 98);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 151);
-            this.groupBox2.TabIndex = 70;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Adventure Info";
+            this.GB_Adventure.Controls.Add(this.L_Started);
+            this.GB_Adventure.Controls.Add(this.CAL_AdventureStartDate);
+            this.GB_Adventure.Controls.Add(this.CAL_HoFDate);
+            this.GB_Adventure.Controls.Add(this.L_Fame);
+            this.GB_Adventure.Controls.Add(this.MT_Seconds);
+            this.GB_Adventure.Controls.Add(this.MT_Hours);
+            this.GB_Adventure.Controls.Add(this.L_Seconds);
+            this.GB_Adventure.Controls.Add(this.L_Hours);
+            this.GB_Adventure.Controls.Add(this.MT_Minutes);
+            this.GB_Adventure.Controls.Add(this.L_Minutes);
+            this.GB_Adventure.Controls.Add(this.CAL_AdventureStartTime);
+            this.GB_Adventure.Controls.Add(this.CAL_HoFTime);
+            this.GB_Adventure.Location = new System.Drawing.Point(11, 98);
+            this.GB_Adventure.Name = "GB_Adventure";
+            this.GB_Adventure.Size = new System.Drawing.Size(200, 151);
+            this.GB_Adventure.TabIndex = 70;
+            this.GB_Adventure.TabStop = false;
+            this.GB_Adventure.Text = "Adventure Info";
             // 
             // L_Started
             // 
@@ -141,14 +141,14 @@
             this.CAL_HoFDate.TabIndex = 31;
             this.CAL_HoFDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
-            // L_LastSaved
+            // L_Fame
             // 
-            this.L_LastSaved.Location = new System.Drawing.Point(4, 107);
-            this.L_LastSaved.Name = "L_LastSaved";
-            this.L_LastSaved.Size = new System.Drawing.Size(80, 20);
-            this.L_LastSaved.TabIndex = 32;
-            this.L_LastSaved.Text = "Hall of Fame:";
-            this.L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Fame.Location = new System.Drawing.Point(4, 107);
+            this.L_Fame.Name = "L_Fame";
+            this.L_Fame.Size = new System.Drawing.Size(80, 20);
+            this.L_Fame.TabIndex = 32;
+            this.L_Fame.Text = "Hall of Fame:";
+            this.L_Fame.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Seconds
             // 
@@ -340,7 +340,7 @@
             this.GB_Map.Controls.Add(this.L_CurrentMap);
             this.GB_Map.Controls.Add(this.L_Z);
             this.GB_Map.Controls.Add(this.L_X);
-            this.GB_Map.Location = new System.Drawing.Point(218, 100);
+            this.GB_Map.Location = new System.Drawing.Point(217, 100);
             this.GB_Map.Name = "GB_Map";
             this.GB_Map.Size = new System.Drawing.Size(157, 125);
             this.GB_Map.TabIndex = 71;
@@ -438,7 +438,7 @@
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(300, 226);
+            this.B_Save.Location = new System.Drawing.Point(299, 226);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 73;
@@ -448,7 +448,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(219, 226);
+            this.B_Cancel.Location = new System.Drawing.Point(218, 226);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 72;
@@ -456,49 +456,49 @@
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
-            // groupBox1
+            // GB_Trainer
             // 
-            this.groupBox1.Controls.Add(this.TB_OTName);
-            this.groupBox1.Controls.Add(this.B_MaxCash);
-            this.groupBox1.Controls.Add(this.MT_SID);
-            this.groupBox1.Controls.Add(this.MT_TID);
-            this.groupBox1.Controls.Add(this.L_Money);
-            this.groupBox1.Controls.Add(this.L_SID);
-            this.groupBox1.Controls.Add(this.CB_Gender);
-            this.groupBox1.Controls.Add(this.MT_Money);
-            this.groupBox1.Controls.Add(this.L_TID);
-            this.groupBox1.Controls.Add(this.L_TrainerName);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 82);
-            this.groupBox1.TabIndex = 74;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Trainer";
+            this.GB_Trainer.Controls.Add(this.TB_OTName);
+            this.GB_Trainer.Controls.Add(this.B_MaxCash);
+            this.GB_Trainer.Controls.Add(this.MT_SID);
+            this.GB_Trainer.Controls.Add(this.MT_TID);
+            this.GB_Trainer.Controls.Add(this.L_Money);
+            this.GB_Trainer.Controls.Add(this.L_SID);
+            this.GB_Trainer.Controls.Add(this.CB_Gender);
+            this.GB_Trainer.Controls.Add(this.MT_Money);
+            this.GB_Trainer.Controls.Add(this.L_TID);
+            this.GB_Trainer.Controls.Add(this.L_TrainerName);
+            this.GB_Trainer.Location = new System.Drawing.Point(11, 12);
+            this.GB_Trainer.Name = "GB_Trainer";
+            this.GB_Trainer.Size = new System.Drawing.Size(200, 82);
+            this.GB_Trainer.TabIndex = 74;
+            this.GB_Trainer.TabStop = false;
+            this.GB_Trainer.Text = "Trainer";
             // 
-            // groupBox3
+            // GB_Badges
             // 
-            this.groupBox3.Controls.Add(this.CHK_H8);
-            this.groupBox3.Controls.Add(this.CHK_H7);
-            this.groupBox3.Controls.Add(this.CHK_H6);
-            this.groupBox3.Controls.Add(this.CHK_H5);
-            this.groupBox3.Controls.Add(this.CHK_H4);
-            this.groupBox3.Controls.Add(this.CHK_H3);
-            this.groupBox3.Controls.Add(this.CHK_H2);
-            this.groupBox3.Controls.Add(this.CHK_H1);
-            this.groupBox3.Controls.Add(this.CHK_8);
-            this.groupBox3.Controls.Add(this.CHK_7);
-            this.groupBox3.Controls.Add(this.CHK_6);
-            this.groupBox3.Controls.Add(this.CHK_5);
-            this.groupBox3.Controls.Add(this.CHK_4);
-            this.groupBox3.Controls.Add(this.CHK_3);
-            this.groupBox3.Controls.Add(this.CHK_2);
-            this.groupBox3.Controls.Add(this.CHK_1);
-            this.groupBox3.Location = new System.Drawing.Point(219, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(157, 82);
-            this.groupBox3.TabIndex = 75;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Badges";
+            this.GB_Badges.Controls.Add(this.CHK_H8);
+            this.GB_Badges.Controls.Add(this.CHK_H7);
+            this.GB_Badges.Controls.Add(this.CHK_H6);
+            this.GB_Badges.Controls.Add(this.CHK_H5);
+            this.GB_Badges.Controls.Add(this.CHK_H4);
+            this.GB_Badges.Controls.Add(this.CHK_H3);
+            this.GB_Badges.Controls.Add(this.CHK_H2);
+            this.GB_Badges.Controls.Add(this.CHK_H1);
+            this.GB_Badges.Controls.Add(this.CHK_8);
+            this.GB_Badges.Controls.Add(this.CHK_7);
+            this.GB_Badges.Controls.Add(this.CHK_6);
+            this.GB_Badges.Controls.Add(this.CHK_5);
+            this.GB_Badges.Controls.Add(this.CHK_4);
+            this.GB_Badges.Controls.Add(this.CHK_3);
+            this.GB_Badges.Controls.Add(this.CHK_2);
+            this.GB_Badges.Controls.Add(this.CHK_1);
+            this.GB_Badges.Location = new System.Drawing.Point(218, 12);
+            this.GB_Badges.Name = "GB_Badges";
+            this.GB_Badges.Size = new System.Drawing.Size(157, 82);
+            this.GB_Badges.TabIndex = 75;
+            this.GB_Badges.TabStop = false;
+            this.GB_Badges.Text = "Badges";
             // 
             // CHK_H8
             // 
@@ -664,37 +664,38 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 261);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.GB_Badges);
+            this.Controls.Add(this.GB_Trainer);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.GB_Map);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.GB_Adventure);
+            this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "SAV_SimpleTrainer";
             this.Text = "Trainer Data Editor";
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.GB_Adventure.ResumeLayout(false);
+            this.GB_Adventure.PerformLayout();
             this.GB_Map.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.GB_Trainer.ResumeLayout(false);
+            this.GB_Trainer.PerformLayout();
+            this.GB_Badges.ResumeLayout(false);
+            this.GB_Badges.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox GB_Adventure;
         private System.Windows.Forms.Label L_Started;
         private System.Windows.Forms.DateTimePicker CAL_AdventureStartDate;
         private System.Windows.Forms.DateTimePicker CAL_HoFDate;
-        private System.Windows.Forms.Label L_LastSaved;
+        private System.Windows.Forms.Label L_Fame;
         private System.Windows.Forms.MaskedTextBox MT_Seconds;
         private System.Windows.Forms.MaskedTextBox MT_Hours;
         private System.Windows.Forms.Label L_Seconds;
@@ -724,8 +725,8 @@
         private System.Windows.Forms.Label L_X;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox GB_Trainer;
+        private System.Windows.Forms.GroupBox GB_Badges;
         private System.Windows.Forms.CheckBox CHK_8;
         private System.Windows.Forms.CheckBox CHK_7;
         private System.Windows.Forms.CheckBox CHK_6;

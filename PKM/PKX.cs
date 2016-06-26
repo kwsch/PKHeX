@@ -176,6 +176,11 @@ namespace PKHeX
             try { return SpeciesLang[lang][species]; }
             catch { return ""; }
         }
+        internal static bool getIsNicknamed(int species, string nick)
+        {
+            try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
+            catch { return false; }
+        }
         internal static readonly PersonalInfo[] Personal = Legal.PersonalAO;
 
         // Stat Fetching
@@ -1628,7 +1633,7 @@ namespace PKHeX
             new byte[] {0x1a, 0x1a}, // 381
             new byte[] {0x02, 0x02}, // 382
             new byte[] {0x46, 0x46}, // 383
-            new byte[] {0x4c, 0x4c}, // 384
+            new byte[] {0x4d, 0x4d}, // 384
             new byte[] {0x20, 0x20}, // 385
             new byte[] {0x2e, 0x2e}, // 386
         };
@@ -2039,5 +2044,86 @@ namespace PKHeX
             new byte[] { }, // Unused
             new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
         };
+
+        internal static byte[] decryptArray3(byte[] ekm)
+        {
+            if (ekm.Length != SIZE_3PARTY && ekm.Length != SIZE_3STORED)
+                return null;
+
+            uint PID = BitConverter.ToUInt32(ekm, 0);
+            uint OID = BitConverter.ToUInt32(ekm, 4);
+            uint seed = PID ^ OID;
+
+            byte[] xorkey = BitConverter.GetBytes(seed);
+            for (int i = 32; i < 80; i++)
+                ekm[i] ^= xorkey[i % 4];
+            return shuffleArray3(ekm, PID%24);
+        }
+        internal static byte[] shuffleArray3(byte[] data, uint sv)
+        {
+            byte[] sdata = new byte[data.Length];
+            Array.Copy(data, sdata, 32); // Copy unshuffled bytes
+
+            // Shuffle Away!
+            for (int block = 0; block < 4; block++)
+                Array.Copy(data, 32 + 12 * blockPosition[block][sv], sdata, 32 + 12 * block, 12);
+
+            // Fill the Battle Stats back
+            if (data.Length > SIZE_3STORED)
+                Array.Copy(data, SIZE_3STORED, sdata, SIZE_3STORED, data.Length - SIZE_3STORED);
+
+            return sdata;
+        }
+        internal static byte[] encryptArray3(byte[] pkm)
+        {
+            if (pkm.Length != SIZE_3PARTY && pkm.Length != SIZE_3STORED)
+                return null;
+
+            uint PID = BitConverter.ToUInt32(pkm, 0);
+            uint OID = BitConverter.ToUInt32(pkm, 4);
+            uint seed = PID ^ OID;
+
+            byte[] ekm = shuffleArray3(pkm, blockPositionInvert[PID%24]);
+            byte[] xorkey = BitConverter.GetBytes(seed);
+            for (int i = 32; i < 80; i++)
+                ekm[i] ^= xorkey[i % 4];
+            return ekm;
+        }
+
+        internal static ushort getG4Item(ushort g3val)
+        {
+            ushort[] arr =
+            {
+                0,1,2,3,4,5,6,7,8,9,
+                10,11,12,17,18,19,20,21,22,23,
+                24,25,26,27,28,29,30,31,32,33,
+                34,35,36,37,38,39,40,41,42,65,
+                66,67,68,69,43,44,70,71,72,73,
+                74,75,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,45,46,47,48,49,50,51,
+                52,53,0xFFFF,55,56,57,58,59,60,0xFFFF,
+                63,64,0xFFFF,76,77,78,79,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,80,81,82,83,84,85,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,86,87,0xFFFF,88,89,90,91,
+                92,93,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,149,150,151,152,153,154,155,
+                156,157,158,159,160,161,162,163,164,165,
+                166,167,168,169,170,171,172,173,174,175,
+                176,177,178,179,180,181,182,183,201,202,
+                203,204,205,206,207,208,0xFFFF,0xFFFF,0xFFFF,213,
+                214,215,216,217,218,219,220,221,222,223,
+                224,225,226,227,228,229,230,231,232,233,
+                234,235,236,237,238,239,240,241,242,243,
+                244,245,246,247,248,249,250,251,252,253,
+                254,255,256,257,258,259,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,0xFFFF,260,261,262,263,264,
+            };
+            if (g3val > arr.Length)
+                return 0xFFFF;
+            return arr[g3val];
+        }
     }
 }
