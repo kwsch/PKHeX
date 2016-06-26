@@ -19,7 +19,38 @@ namespace PKHeX
         DP = 100,
         HGSS = 101,
     }
-    internal static class SaveUtil
+    public enum Gen3Version
+    {
+        Invalid = -1,
+        RS = 0,
+        FRLG = 1,
+        E = 2
+    }
+
+    public enum Gen4Version
+    {
+        Invalid = -1,
+        DP = 0,
+        Pt = 1,
+        HGSS = 2
+    }
+
+    public enum Gen5Version
+    {
+        Invalid = -1,
+        BW = 0,
+        B2W2 = 1
+    }
+
+    public enum Gen6Version
+    {
+        Invalid = -1,
+        XY = 0,
+        ORASDEMO = 1,
+        ORAS = 2,
+    }
+
+    public static class SaveUtil
     {
         internal const int BEEF = 0x42454546;
 
@@ -35,95 +66,112 @@ namespace PKHeX
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
 
-        internal static int getSAVGeneration(byte[] data)
+        /// <summary>
+        /// Determines the generation of the given save data.
+        /// </summary>
+        /// <param name="data">Save data of which to determine the generation</param>
+        /// <returns>The generation of the save file (i.e. 4, 5, or 6), or -1 if the generation cannot be determined.</returns>
+        public static int getSAVGeneration(byte[] data)
         {
-            if (getIsG3SAV(data) != -1)
+            if (getIsG3SAV(data) != Gen3Version.Invalid)
                 return 3;
-            if (getIsG4SAV(data) != -1)
+            if (getIsG4SAV(data) != Gen4Version.Invalid)
                 return 4;
-            if (getIsG5SAV(data) != -1)
+            if (getIsG5SAV(data) != Gen5Version.Invalid)
                 return 5;
-            if (getIsG6SAV(data) != -1)
+            if (getIsG6SAV(data) != Gen6Version.Invalid)
                 return 6;
             return -1;
         }
-        internal static int getIsG3SAV(byte[] data)
+        public static Gen3Version getIsG3SAV(byte[] data)
         {
             if (data.Length != SIZE_G3RAW && data.Length != SIZE_G3RAWHALF)
-                return -1;
+                return Gen3Version.Invalid;
 
             int[] BlockOrder = new int[14];
             for (int i = 0; i < 14; i++)
                 BlockOrder[i] = BitConverter.ToInt16(data, i * 0x1000 + 0xFF4);
 
             if (BlockOrder.Any(i => i > 0xD || i < 0))
-                return -1;
+                return Gen3Version.Invalid;
 
             // Detect RS/E/FRLG
             // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
 
             uint GameCode = BitConverter.ToUInt32(data, Array.IndexOf(BlockOrder, 0) * 0x1000);
-            return GameCode < 2 ? (int)GameCode : 2;
+            return (Gen3Version)(GameCode < 2 ? (int)GameCode : 2);
         }
-        internal static int getIsG4SAV(byte[] data)
+        /// <summary>
+        /// Determines the type of 4th gen save
+        /// </summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns></returns>
+        public static Gen4Version getIsG4SAV(byte[] data)
         {
             if (data.Length != SIZE_G4RAW)
-                return -1;
+                return Gen4Version.Invalid;
             
             // General Block Checksum
             if (BitConverter.ToUInt16(data, 0xC0FE) == ccitt16(data.Take(0xC0EC).ToArray()))
-                return 0; // DP
+                return Gen4Version.DP;
             if (BitConverter.ToUInt16(data, 0xCF2A) == ccitt16(data.Take(0xCF18).ToArray()))
-                return 1; // Pt
+                return Gen4Version.Pt;
             if (BitConverter.ToUInt16(data, 0xF626) == ccitt16(data.Take(0xF618).ToArray()))
-                return 2; // HGSS
+                return Gen4Version.HGSS;
 
             // General Block Checksum is invalid, check for block identifiers
             if (data.Skip(0xC0F4).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
-                return 0; // DP
+                return Gen4Version.DP;
             if (data.Skip(0xCF20).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
-                return 1; // Pt
+                return Gen4Version.Pt;
             if (data.Skip(0xF61C).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
-                return 2; // HGSS
+                return Gen4Version.HGSS;
 
-            return -1;
+            return Gen4Version.Invalid;
         }
-        internal static int getIsG5SAV(byte[] data)
+
+        public static Gen5Version getIsG5SAV(byte[] data)
         {
             if (data.Length != SIZE_G5RAW)
-                return -1;
+                return Gen5Version.Invalid;
 
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
             ushort actual1 = ccitt16(data.Skip(SIZE_G5BW - 0x100).Take(0x8C).ToArray());
             if (chk1 == actual1)
-                return 0;
+                return Gen5Version.BW;
             ushort chk2 = BitConverter.ToUInt16(data, SIZE_G5B2W2 - 0x100 + 0x94 + 0xE);
             ushort actual2 = ccitt16(data.Skip(SIZE_G5B2W2 - 0x100).Take(0x94).ToArray());
             if (chk2 == actual2)
-                return 1;
-            return -1;
+                return Gen5Version.B2W2;
+            return Gen5Version.Invalid;
         }
-        internal static int getIsG6SAV(byte[] data)
+
+        public static Gen6Version getIsG6SAV(byte[] data)
         {
             if (!SizeValidSAV6(data.Length))
-                return -1;
+                return Gen6Version.Invalid;
 
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
-                return -1;
+                return Gen6Version.Invalid;
 
             switch (data.Length)
             {
                 case SIZE_G6XY:
-                    return 0;
+                    return Gen6Version.XY;
                 case SIZE_G6ORASDEMO:
-                    return 1;
+                    return Gen6Version.ORASDEMO;
                 case SIZE_G6ORAS:
-                    return 2;
-                default: // won't hit
-                    return 3;
+                    return Gen6Version.ORAS;
             }
+            return Gen6Version.Invalid;
         }
-        internal static SaveFile getVariantSAV(byte[] data)
+
+        /// <summary>
+        /// Creates an instance of a SaveFile using the given save data.
+        /// </summary>
+        /// <param name="data">Save data from which to create a SaveFile.</param>
+        /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
+        public static SaveFile getVariantSAV(byte[] data)
         {
             switch (getSAVGeneration(data))
             {
@@ -139,7 +187,13 @@ namespace PKHeX
                     return null;
             }
         }
-        internal static bool SizeValidSAV6(int size)
+
+        /// <summary>
+        /// Determines whether the save data size is valid for 6th generation saves.
+        /// </summary>
+        /// <param name="size">Size in bytes of the save data</param>
+        /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
+        public static bool SizeValidSAV6(int size)
         {
             switch (size)
             {
@@ -155,7 +209,7 @@ namespace PKHeX
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
         /// <returns>Checksum</returns>
-        internal static ushort ccitt16(byte[] data)
+        public static ushort ccitt16(byte[] data)
         {
             const ushort init = 0xFFFF;
             const ushort poly = 0x1021;
@@ -177,7 +231,7 @@ namespace PKHeX
         /// <summary>Simple check to see if the save is valid.</summary>
         /// <param name="savefile">Input binary file</param>
         /// <returns>True/False</returns>
-        internal static bool verifyG6SAV(byte[] savefile)
+        public static bool verifyG6SAV(byte[] savefile)
         {
             // Dynamic handling of checksums regardless of save size.
 
@@ -219,7 +273,7 @@ namespace PKHeX
         /// <summary>Verbose check to see if the save is valid.</summary>
         /// <param name="savefile">Input binary file</param>
         /// <returns>String containing invalid blocks.</returns>
-        internal static string verifyG6CHK(byte[] savefile)
+        public static string verifyG6CHK(byte[] savefile)
         {
             string rv = "";
             int invalid = 0;
@@ -267,7 +321,7 @@ namespace PKHeX
         /// <summary>Fix checksums in the input save file.</summary>
         /// <param name="savefile">Input binary file</param>
         /// <returns>Fixed save file.</returns>
-        internal static void writeG6CHK(byte[] savefile)
+        public static void writeG6CHK(byte[] savefile)
         {
             // Dynamic handling of checksums regardless of save size.
 
@@ -313,7 +367,7 @@ namespace PKHeX
             return (ushort)(val + val >> 16);
         }
 
-        internal static int getDexFormIndexXY(int species, int formct)
+        public static int getDexFormIndexXY(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
@@ -379,7 +433,7 @@ namespace PKHeX
                 default: return -1;
             }
         }
-        internal static int getDexFormIndexORAS(int species, int formct)
+        public static int getDexFormIndexORAS(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid

@@ -740,7 +740,7 @@ namespace PKHeX
             Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
 
             DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation < 6 || HaX;
-            TB_AbilityNumber.Visible = SAV.Generation >= 6 && !HaX;
+            TB_AbilityNumber.Visible = SAV.Generation >= 6 && HaX;
             CB_Ability.Visible = SAV.Generation >= 6 && !HaX;
 
             switch (SAV.Generation)
