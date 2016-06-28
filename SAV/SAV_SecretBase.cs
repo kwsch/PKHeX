@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -402,7 +403,26 @@ namespace PKHeX
             CB_Form.SelectedIndex = form;
 
             // Set Ability
-            Main.setAbilityList(MT_AbilNo, spec, CB_Ability, CB_Form);
+            setAbilityList();
+        }
+
+        private void setAbilityList()
+        {
+            int newabil = Convert.ToInt16(MT_AbilNo.Text) >> 1;
+            int species = Util.getIndex(CB_Species);
+            int formnum = CB_Form.SelectedIndex;
+            byte[] abils = Legal.PersonalAO[Legal.PersonalAO[species].FormeIndex(species, formnum)].Abilities;
+
+            // Build Ability List
+            List<string> ability_list = new List<string>
+            {
+                abilitylist[abils[0]] + " (1)",
+                abilitylist[abils[1]] + " (2)",
+                abilitylist[abils[2]] + " (H)"
+            };
+            CB_Ability.DataSource = ability_list;
+
+            CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;
         }
 
         private void updateSpecies(object sender, EventArgs e)
@@ -422,11 +442,11 @@ namespace PKHeX
                 genderflag = 0;
 
             setGenderLabel();
-            Main.setAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+            setAbilityList();
         }
         private void updateForm(object sender, EventArgs e)
         {
-            Main.setAbilityList(MT_AbilNo, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+            setAbilityList();
             
             // If form has a single gender, account for it.
             if (PKX.getGender(CB_Form.Text) < 2)
