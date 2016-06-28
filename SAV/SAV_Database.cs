@@ -15,6 +15,7 @@ namespace PKHeX
         {
             m_parent = f1;
             InitializeComponent();
+            CB_Format.SelectedIndex = MAXFORMAT - Main.SAV.Generation + 1;
             PKXBOXES = new[]
             {
                 bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
@@ -104,6 +105,7 @@ namespace PKHeX
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            B_Search.PerformClick();
             CenterToParent();
         }
         private readonly Main m_parent;
@@ -118,6 +120,7 @@ namespace PKHeX
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
+        private const int MAXFORMAT = 6;
 
         // Important Events
         private void clickView(object sender, EventArgs e)
@@ -422,6 +425,26 @@ namespace PKHeX
             // Populate Search Query Result
             IEnumerable<PKM> res = RawDB;
 
+            int format = MAXFORMAT + 1 - CB_Format.SelectedIndex;
+            res = res.Where(pk => pk.Format <= format);
+
+            switch (CB_Generation.SelectedIndex)
+            {
+                case 0: break; // Do nothing
+                case 1: // Gen 6
+                    res = res.Where(pk => pk.Gen6);
+                    break;
+                case 2: // Gen 5
+                    res = res.Where(pk => pk.Gen5);
+                    break;
+                case 3: // Gen 4
+                    res = res.Where(pk => pk.Gen4);
+                    break;
+                case 4: // Gen 3
+                    res = res.Where(pk => pk.Gen3);
+                    break;
+            }
+
             // Primary Searchables
             int species = Util.getIndex(CB_Species);
             int ability = Util.getIndex(CB_Ability);
@@ -507,22 +530,6 @@ namespace PKHeX
                     break;
                 case 4: // Full (508+)
                     res = res.Where(pk => pk.EVs.Sum() >= 508);
-                    break;
-            }
-            switch (CB_Generation.SelectedIndex)
-            {
-                case 0: break; // Do nothing
-                case 1: // Gen 6
-                    res = res.Where(pk => pk.Gen6);
-                    break;
-                case 2: // Gen 5
-                    res = res.Where(pk => pk.Gen5);
-                    break;
-                case 3: // Gen 4
-                    res = res.Where(pk => pk.Gen4);
-                    break;
-                case 4: // Gen 3
-                    res = res.Where(pk => pk.Gen3);
                     break;
             }
 
