@@ -52,19 +52,19 @@ namespace PKHeX
             }
             return -1;
         }
-        internal static PKM getPKMfromBytes(byte[] data)
+        internal static PKM getPKMfromBytes(byte[] data, string ident = null)
         {
             checkEncrypted(ref data);
             switch (getPKMDataFormat(data))
             {
                 case 3:
-                    return new PK3(data);
+                    return new PK3(data, ident);
                 case 4:
-                    return new PK4(data);
+                    return new PK4(data, ident);
                 case 5:
-                    return new PK5(data);
+                    return new PK5(data, ident);
                 case 6:
-                    return new PK6(data);
+                    return new PK6(data, ident);
                 default:
                     return null;
             }

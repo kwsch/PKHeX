@@ -90,13 +90,13 @@ namespace PKHeX
             {
                 FileInfo fi = new FileInfo(file);
                 if (fi.Extension.Contains(".pk") && PKX.getIsPKM(fi.Length))
-                    Database[0].Slot.Add(new PK6(File.ReadAllBytes(file), file));
+                    Database[0].Slot.Add(PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file));
                 else
                     loadDatabase(File.ReadAllBytes(file));
             }
             // Fetch from save file
-            foreach (var pk6 in Main.SAV.BoxData.Where(pk => pk.Species != 0))
-                Database[0].Slot.Add(pk6);
+            foreach (var pkm in Main.SAV.BoxData.Where(pk => pk.Species != 0))
+                Database[0].Slot.Add(pkm);
 
             // Prepare Database
             prepareDBForSearch();
