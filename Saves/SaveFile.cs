@@ -14,11 +14,11 @@ namespace PKHeX
         public bool Edited;
         public string FileName, FilePath;
         public abstract string BAKName { get; }
-        public abstract byte[] BAK { get; }
-        public abstract bool Exportable { get; }
+        public byte[] BAK { get; protected set; }
+        public bool Exportable { get; protected set; }
         public abstract SaveFile Clone();
         public abstract string Filter { get; }
-        public byte[] Footer { protected get; set; } // .dsv
+        public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
 
         // General PKM Properties
         protected abstract Type PKMType { get; }
@@ -40,10 +40,11 @@ namespace PKHeX
         }
         public virtual string MiscSaveChecks() { return ""; }
         public virtual string MiscSaveInfo() { return ""; }
-        public abstract GameVersion Version { get; }
+        public virtual GameVersion Version { get; protected set; }
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
         public abstract int Generation { get; }
+        public PersonalInfo[] Personal { get; protected set; }
 
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;

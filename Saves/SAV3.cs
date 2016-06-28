@@ -6,8 +6,8 @@ namespace PKHeX
     public sealed class SAV3 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
-        public override string Filter => "Main SAV|*.*";
-        public override string Extension => "";
+        public override string Filter => "SAV File|*.sav";
+        public override string Extension => ".sav";
 
         /* SAV3 Structure:
          * 0xE000 per save file
@@ -33,11 +33,15 @@ namespace PKHeX
             0x7d0  // D | PC Block 8
         };
 
-        public SAV3(byte[] data = null)
+        public SAV3(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G3RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+
+            Version = versionOverride == GameVersion.Any ? GameVersion.FRLG : SaveUtil.getIsG3SAV(Data);
+            if (Version == GameVersion.Invalid)
+                return;
 
             BlockOrder = new int[14];
             ActiveSAV = SaveUtil.SIZE_G3RAWHALF == data.Length || BitConverter.ToUInt32(Data, 0xFFC) > BitConverter.ToUInt32(Data, 0xEFFC) ? 0 : 1;
@@ -51,8 +55,6 @@ namespace PKHeX
             Block2 = Array.IndexOf(BlockOrder, 2)*0x1000 + ABO;
             Block3 = Array.IndexOf(BlockOrder, 3)*0x1000 + ABO;
 
-            uint GameCode = BitConverter.ToUInt32(Data, ABO + Array.IndexOf(BlockOrder, 0)*0x1000);
-            SaveVersion = GameCode < 2 ? (int)GameCode : 2;
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
@@ -68,20 +70,18 @@ namespace PKHeX
             }
 
             HeldItems = Legal.HeldItems_RS;
+            Personal = Legal.PersonalAO; // todo
 
             if (!Exportable)
                 resetBoxes();
         }
-
-        private readonly int SaveVersion;
+        
         private readonly int ActiveSAV;
         private int ABO => ActiveSAV*0xE000;
         private readonly int[] BlockOrder;
 
         // Configuration
-        public override byte[] BAK { get; }
-        public override bool Exportable { get; }
-        public override SaveFile Clone() { return new SAV3(Data.Take(Box).ToArray()); }
+        public override SaveFile Clone() { return new SAV3(Data.Take(Box).ToArray(), Version); }
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int SIZE_PARTY => PKX.SIZE_3PARTY;
@@ -145,19 +145,7 @@ namespace PKHeX
         }
 
         // Trainer Info
-        public override GameVersion Version
-        {
-            get
-            {
-                switch (SaveVersion)
-                {
-                    case 0: return GameVersion.RS;
-                    case 1: return GameVersion.FRLG;
-                    case 2: return GameVersion.E;
-                }
-                return GameVersion.Unknown;
-            }
-        }
+        public override GameVersion Version { get; protected set; }
 
         private bool Japanese;
         private uint SecurityKey

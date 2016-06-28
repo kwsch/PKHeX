@@ -6,6 +6,7 @@ namespace PKHeX
 {
     public enum GameVersion
     {
+        Invalid = -2,
         Any = -1,
         Unknown = 0,
         S = 1, R = 2, E = 3, FR = 4, LG = 5, CXD = 15,
@@ -14,40 +15,17 @@ namespace PKHeX
         X = 24, Y = 25, AS = 26, OR = 27,
         SN = 28, MN = 29,
 
-        RS = 200,
-        FRLG = 201,
-        DP = 100,
-        HGSS = 101,
-    }
-    public enum Gen3Version
-    {
-        Invalid = -1,
-        RS = 0,
-        FRLG = 1,
-        E = 2
-    }
-
-    public enum Gen4Version
-    {
-        Invalid = -1,
-        DP = 0,
-        Pt = 1,
-        HGSS = 2
-    }
-
-    public enum Gen5Version
-    {
-        Invalid = -1,
-        BW = 0,
-        B2W2 = 1
-    }
-
-    public enum Gen6Version
-    {
-        Invalid = -1,
-        XY = 0,
-        ORASDEMO = 1,
-        ORAS = 2,
+        // Game Groupings (SaveFile type)
+        RS = 100,
+        FRLG = 101,
+        DP = 103,
+        HGSS = 104,
+        BW = 104,
+        B2W2 = 105,
+        XY = 106,
+        ORASDEMO = 107,
+        ORAS = 108,
+        SM = 109,
     }
 
     public static class SaveUtil
@@ -66,109 +44,115 @@ namespace PKHeX
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
 
-        /// <summary>
-        /// Determines the generation of the given save data.
-        /// </summary>
+        /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
-        /// <returns>The generation of the save file (i.e. 4, 5, or 6), or -1 if the generation cannot be determined.</returns>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static int getSAVGeneration(byte[] data)
         {
-            if (getIsG3SAV(data) != Gen3Version.Invalid)
+            if (getIsG3SAV(data) != GameVersion.Invalid)
                 return 3;
-            if (getIsG4SAV(data) != Gen4Version.Invalid)
+            if (getIsG4SAV(data) != GameVersion.Invalid)
                 return 4;
-            if (getIsG5SAV(data) != Gen5Version.Invalid)
+            if (getIsG5SAV(data) != GameVersion.Invalid)
                 return 5;
-            if (getIsG6SAV(data) != Gen6Version.Invalid)
+            if (getIsG6SAV(data) != GameVersion.Invalid)
                 return 6;
             return -1;
         }
-        public static Gen3Version getIsG3SAV(byte[] data)
+        /// <summary>Determines the type of 3th gen save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG3SAV(byte[] data)
         {
             if (data.Length != SIZE_G3RAW && data.Length != SIZE_G3RAWHALF)
-                return Gen3Version.Invalid;
+                return GameVersion.Invalid;
 
             int[] BlockOrder = new int[14];
             for (int i = 0; i < 14; i++)
                 BlockOrder[i] = BitConverter.ToInt16(data, i * 0x1000 + 0xFF4);
 
             if (BlockOrder.Any(i => i > 0xD || i < 0))
-                return Gen3Version.Invalid;
+                return GameVersion.Invalid;
 
             // Detect RS/E/FRLG
             // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
 
-            uint GameCode = BitConverter.ToUInt32(data, Array.IndexOf(BlockOrder, 0) * 0x1000);
-            return (Gen3Version)(GameCode < 2 ? (int)GameCode : 2);
+            uint GameCode = BitConverter.ToUInt32(data, Array.IndexOf(BlockOrder, 0) * 0x1000 + 0xAC);
+            switch (GameCode)
+            {
+                case 0: return GameVersion.RS;
+                case 1: return GameVersion.FRLG;
+                default: return GameVersion.E;
+            }
         }
-        /// <summary>
-        /// Determines the type of 4th gen save
-        /// </summary>
+        /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
-        /// <returns></returns>
-        public static Gen4Version getIsG4SAV(byte[] data)
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG4SAV(byte[] data)
         {
             if (data.Length != SIZE_G4RAW)
-                return Gen4Version.Invalid;
+                return GameVersion.Invalid;
             
             // General Block Checksum
             if (BitConverter.ToUInt16(data, 0xC0FE) == ccitt16(data.Take(0xC0EC).ToArray()))
-                return Gen4Version.DP;
+                return GameVersion.DP;
             if (BitConverter.ToUInt16(data, 0xCF2A) == ccitt16(data.Take(0xCF18).ToArray()))
-                return Gen4Version.Pt;
+                return GameVersion.Pt;
             if (BitConverter.ToUInt16(data, 0xF626) == ccitt16(data.Take(0xF618).ToArray()))
-                return Gen4Version.HGSS;
+                return GameVersion.HGSS;
 
             // General Block Checksum is invalid, check for block identifiers
             if (data.Skip(0xC0F4).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
-                return Gen4Version.DP;
+                return GameVersion.DP;
             if (data.Skip(0xCF20).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
-                return Gen4Version.Pt;
+                return GameVersion.Pt;
             if (data.Skip(0xF61C).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
-                return Gen4Version.HGSS;
+                return GameVersion.HGSS;
 
-            return Gen4Version.Invalid;
+            return GameVersion.Invalid;
         }
-
-        public static Gen5Version getIsG5SAV(byte[] data)
+        /// <summary>Determines the type of 5th gen save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG5SAV(byte[] data)
         {
             if (data.Length != SIZE_G5RAW)
-                return Gen5Version.Invalid;
+                return GameVersion.Invalid;
 
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
             ushort actual1 = ccitt16(data.Skip(SIZE_G5BW - 0x100).Take(0x8C).ToArray());
             if (chk1 == actual1)
-                return Gen5Version.BW;
+                return GameVersion.BW;
             ushort chk2 = BitConverter.ToUInt16(data, SIZE_G5B2W2 - 0x100 + 0x94 + 0xE);
             ushort actual2 = ccitt16(data.Skip(SIZE_G5B2W2 - 0x100).Take(0x94).ToArray());
             if (chk2 == actual2)
-                return Gen5Version.B2W2;
-            return Gen5Version.Invalid;
+                return GameVersion.B2W2;
+            return GameVersion.Invalid;
         }
-
-        public static Gen6Version getIsG6SAV(byte[] data)
+        /// <summary>Determines the type of 6th gen save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG6SAV(byte[] data)
         {
             if (!SizeValidSAV6(data.Length))
-                return Gen6Version.Invalid;
+                return GameVersion.Invalid;
 
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
-                return Gen6Version.Invalid;
+                return GameVersion.Invalid;
 
             switch (data.Length)
             {
                 case SIZE_G6XY:
-                    return Gen6Version.XY;
+                    return GameVersion.XY;
                 case SIZE_G6ORASDEMO:
-                    return Gen6Version.ORASDEMO;
+                    return GameVersion.ORASDEMO;
                 case SIZE_G6ORAS:
-                    return Gen6Version.ORAS;
+                    return GameVersion.ORAS;
             }
-            return Gen6Version.Invalid;
+            return GameVersion.Invalid;
         }
 
-        /// <summary>
-        /// Creates an instance of a SaveFile using the given save data.
-        /// </summary>
+        /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
         public static SaveFile getVariantSAV(byte[] data)

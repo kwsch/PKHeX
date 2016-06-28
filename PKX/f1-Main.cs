@@ -675,7 +675,7 @@ namespace PKHeX
         private void openSAV(byte[] input, string path)
         {
             SaveFile sav = SaveUtil.getVariantSAV(input);
-            if (sav == null)
+            if (sav == null || sav.Version == GameVersion.Invalid)
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
             SAV = sav;
 
@@ -739,9 +739,9 @@ namespace PKHeX
             CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
             Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
 
-            DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation < 6 || HaX;
-            TB_AbilityNumber.Visible = SAV.Generation >= 6 && HaX;
-            CB_Ability.Visible = SAV.Generation >= 6 && !HaX;
+            DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation != 3 && HaX;
+            TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
+            CB_Ability.Visible = !DEV_Ability.Enabled;
 
             switch (SAV.Generation)
             {
@@ -763,6 +763,7 @@ namespace PKHeX
                     TB_Secure2.Text = (SAV as SAV6).Secure2.ToString("X16");
                     break;
             }
+            PKX.Personal = SAV.Personal;
 
             PKM pk = preparePKM();
             populateFilteredDataSources();
@@ -791,7 +792,6 @@ namespace PKHeX
             string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
             if (SAV.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
                 File.WriteAllBytes(backupName, SAV.BAK);
-
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
@@ -1020,6 +1020,9 @@ namespace PKHeX
         {
             if (pk == null) { Util.Error("Attempted to load a null file."); return; }
 
+            if (pk.Format != SAV.Generation)
+            { Util.Alert("Can't load future generation files."); return; }
+
             bool oldInit = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
             if (focus)
@@ -1089,7 +1092,7 @@ namespace PKHeX
             Label_OTGender.ForeColor = pk3.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk3.HeldItem;
-            setAbilityList(TB_AbilityNumber, pk3.Species, CB_Ability, CB_Form);
+            setAbilityList();
             DEV_Ability.SelectedValue = pk3.Ability;
             CB_Nature.SelectedValue = pk3.Nature;
             TB_TID.Text = pk3.TID.ToString("00000");
@@ -1180,7 +1183,7 @@ namespace PKHeX
             Label_OTGender.ForeColor = pk4.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk4.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk4.HeldItem;
-            setAbilityList(TB_AbilityNumber, pk4.Species, CB_Ability, CB_Form);
+            setAbilityList();
             DEV_Ability.SelectedValue = pk4.Ability;
             CB_Nature.SelectedValue = pk4.Nature;
             TB_TID.Text = pk4.TID.ToString("00000");
@@ -1271,6 +1274,9 @@ namespace PKHeX
             TB_EXP.Text = pk4.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk4.Gender];
             Label_Gender.ForeColor = pk4.Gender == 2 ? Label_Species.ForeColor : (pk4.Gender == 1 ? Color.Red : Color.Blue);
+
+            if (HaX)
+                DEV_Ability.SelectedValue = pk4.Ability;
         }
         private void populateFieldsPK5(PK5 pk5)
         {
@@ -1291,7 +1297,7 @@ namespace PKHeX
             Label_OTGender.ForeColor = pk5.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk5.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk5.HeldItem;
-            setAbilityList(TB_AbilityNumber, pk5.Species, CB_Ability, CB_Form);
+            setAbilityList();
             DEV_Ability.SelectedValue = pk5.Ability;
             CB_Nature.SelectedValue = pk5.Nature;
             TB_TID.Text = pk5.TID.ToString("00000");
@@ -1391,6 +1397,9 @@ namespace PKHeX
             TB_EXP.Text = pk5.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk5.Gender];
             Label_Gender.ForeColor = pk5.Gender == 2 ? Label_Species.ForeColor : (pk5.Gender == 1 ? Color.Red : Color.Blue);
+
+            if (HaX)
+                DEV_Ability.SelectedValue = pk5.Ability;
         }
         private void populateFieldsPK6(PK6 pk6)
         {
@@ -1412,7 +1421,7 @@ namespace PKHeX
             Label_OTGender.ForeColor = pk6.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk6.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk6.HeldItem;
-            setAbilityList(TB_AbilityNumber, pk6.Species, CB_Ability, CB_Form);
+            setAbilityList();
             TB_AbilityNumber.Text = pk6.AbilityNumber.ToString();
             CB_Ability.SelectedIndex = pk6.AbilityNumber < 6 ? pk6.AbilityNumber >> 1 : 0; // with some simple error handling
             CB_Nature.SelectedValue = pk6.Nature;
@@ -1557,46 +1566,29 @@ namespace PKHeX
             
             cb.DataSource = PKX.getFormList(species, types, forms, gendersymbols).ToList();
         }
-        internal static void setAbilityList(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
+        private void setAbilityList()
         {
-            if (!fieldsInitialized && string.IsNullOrWhiteSpace(tb_abil.Text))
+            if (SAV.Generation < 3) // no abilities
                 return;
-            int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
 
-            int form = cb_forme.SelectedIndex;
-            byte[] abils = PKX.getAbilities(species, form);
+            int formnum = 0;
+            int species = Util.getIndex(CB_Species);
+            if (SAV.Generation > 3) // has forms
+                formnum = CB_Form.SelectedIndex;
 
-            // Build Ability List
-            List<string> ability_list = new List<string>
-            {
-                abilitylist[abils[0]] + " (1)",
-                abilitylist[abils[1]] + " (2)",
-                abilitylist[abils[2]] + " (H)"
-            };
-            cb_abil.DataSource = ability_list;
+            byte[] abils = SAV.Personal[SAV.Personal[species].FormeIndex(species, formnum)].Abilities;
 
-            cb_abil.SelectedIndex = newabil < 3 ? newabil : 0;
-        }
-        private void setAbilityList3(MaskedTextBox tb_abil, int species, ComboBox cb_abil, ComboBox cb_forme)
-        {
-            if (!fieldsInitialized && string.IsNullOrWhiteSpace(tb_abil.Text))
-                return;
-            int newabil = Convert.ToInt16(tb_abil.Text) >> 1;
-
-            int form = cb_forme.SelectedIndex;
-            byte[] abils = PKX.Gen3Abilities[Util.getIndex(CB_Species)];
-            if (abils[0] == 76) abils[0] = 77; // Air Lock +1
-            if (abils[1] == 76) abils[1] = 77; // Air Lock +1
-
-            // Build Ability List
             List<string> ability_list = new List<string>
             {
                 abilitylist[abils[0]] + " (1)",
                 abilitylist[abils[1]] + " (2)",
             };
-            cb_abil.DataSource = ability_list;
+            if (SAV.Generation >= 5) // hidden ability
+                ability_list.Add(abilitylist[abils[1]] + " (H)");
 
-            cb_abil.SelectedIndex = newabil < 3 ? newabil : 0;
+            int curAbil = CB_Ability.SelectedIndex;
+            CB_Ability.DataSource = ability_list;
+            CB_Ability.SelectedIndex = curAbil;
         }
         // PKX Data Calculation Functions //
         private void setIsShiny()
@@ -1895,7 +1887,7 @@ namespace PKHeX
             TB_IVTotal.Text = pkm.IVs.Sum().ToString();
 
             int characteristic = pkm.Characteristic;
-            L_Characteristic.Visible = characteristic > -1;
+            L_Characteristic.Visible = Label_CharacteristicPrefix.Visible = characteristic > -1;
             if (characteristic > -1)
                 L_Characteristic.Text = characteristics[pkm.Characteristic];
             updateStats();
@@ -2046,7 +2038,7 @@ namespace PKHeX
         {
             updateStats();
             // Repopulate Abilities if Species Form has different abilities
-            setAbilityList(TB_AbilityNumber, Util.getIndex(CB_Species), CB_Ability, CB_Form);
+            setAbilityList();
 
             // Gender Forms
             if (PKX.getGender(CB_Form.Text) < 2 && Util.getIndex(CB_Species) != 201) // don't do this for Unown
@@ -2189,7 +2181,7 @@ namespace PKHeX
             
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
-            setAbilityList(TB_AbilityNumber, Species, CB_Ability, CB_Form);
+            setAbilityList();
             updateForm(null, null);
 
             // If species changes and no nickname, set the new name == speciesName.

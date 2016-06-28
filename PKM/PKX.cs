@@ -181,7 +181,7 @@ namespace PKHeX
             try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
             catch { return false; }
         }
-        internal static readonly PersonalInfo[] Personal = Legal.PersonalAO;
+        internal static PersonalInfo[] Personal = Legal.PersonalAO;
 
         // Stat Fetching
         internal static int getMovePP(int move, int ppup)
@@ -273,7 +273,7 @@ namespace PKHeX
         }
         internal static int getAbilityNumber(int species, int ability, int formnum)
         {
-            byte[] spec_abilities = Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
+            byte[] spec_abilities = getAbilities(species, formnum);
             int abilval = Array.IndexOf(spec_abilities, (byte)ability);
             if (abilval >= 0)
                 return 1 << abilval;
@@ -988,12 +988,9 @@ namespace PKHeX
         }
 
         /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
+        /// <param name="type">Hidden Power Type</param>
         /// <param name="ivs">Order: HP,ATK,DEF,SPEED,SPA,SPD</param>
         /// <returns>Hidden Power Type</returns>
-        internal static int getHPType(int[] ivs)
-        {
-            return 15 * ((ivs[0] & 1) + 2 * (ivs[1] & 1) + 4 * (ivs[2] & 1) + 8 * (ivs[3] & 1) + 16 * (ivs[4] & 1) + 32 * (ivs[5] & 1)) / 63;
-        }
         internal static int[] setHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)

@@ -10,17 +10,16 @@ namespace PKHeX
         public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
-        public SAV5(byte[] data = null, int versionOverride = -1)
+        public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G5RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
-            Footer = new byte[0];
 
             // Get Version
-            SaveVersion = versionOverride > -1 ? versionOverride : (int)SaveUtil.getIsG5SAV(Data);
-            if (SaveVersion < 0) // Invalidate Data
-                Data = null;
+            Version = versionOverride == GameVersion.Any ? GameVersion.B2W2 : SaveUtil.getIsG5SAV(Data);
+            if (Version == GameVersion.Invalid)
+                return;
 
             // First blocks are always the same position/size
             PCLayout = 0x0;
@@ -31,9 +30,9 @@ namespace PKHeX
             AdventureInfo = 0x1D900;
 
             // Different Offsets for later blocks
-            switch (SaveVersion)
+            switch (Version)
             {
-                case 0: // BW
+                case GameVersion.BW:
                     BattleBox = 0x20A00;
                     Trainer2 = 0x21200;
                     Daycare = 0x20E00;
@@ -50,7 +49,7 @@ namespace PKHeX
                     LegalMedicine = Legal.Pouch_Medicine_BW;
                     LegalBerries = Legal.Pouch_Berries_BW;
                     break;
-                case 1: // B2W2
+                case GameVersion.B2W2: // B2W2
                     BattleBox = 0x20900;
                     Trainer2 = 0x21100;
                     EventConst = 0x1FF00;
@@ -71,7 +70,7 @@ namespace PKHeX
                     break;
             }
             HeldItems = Legal.HeldItems_BW;
-
+            Personal = Legal.PersonalAO; // todo
             getBlockInfo();
 
             if (!Exportable)
@@ -79,10 +78,7 @@ namespace PKHeX
         }
 
         // Configuration
-        private int SaveVersion { get; set; }
-        public override byte[] BAK { get; }
-        public override bool Exportable { get; }
-        public override SaveFile Clone() { return new SAV5(Data, SaveVersion); }
+        public override SaveFile Clone() { return new SAV5(Data, Version); }
 
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         public override int SIZE_PARTY => PKX.SIZE_5PARTY;
@@ -99,7 +95,7 @@ namespace PKHeX
 
         public override int MaxMoveID => 559;
         public override int MaxSpeciesID => 649;
-        public override int MaxItemID => SaveVersion == 1 ? 632 : 638;
+        public override int MaxItemID => Version == GameVersion.BW ? 632 : 638;
         public override int MaxAbilityID => 164;
         public override int MaxBallID => 0x19;
         public override int MaxGameID => 23; // B2
@@ -109,7 +105,7 @@ namespace PKHeX
         private void getBlockInfo()
         {
             // Can be slick with just a list of block lengths, but oh well, precomputed.
-            if (SaveVersion == 0) // BW
+            if (Version == GameVersion.BW)
             {
                 Blocks = new[]
                 {
@@ -185,7 +181,7 @@ namespace PKHeX
                     new BlockInfo(0x23F00, 0x008C, 0x23F9A, 0x23F9A), // Checksums */
                 };
             }
-            else if (SaveVersion == 1) // B2W2
+            else if (Version == GameVersion.B2W2)
             {
                 Blocks = new[]
                 {
@@ -357,7 +353,7 @@ namespace PKHeX
         }
         public override ulong? getDaycareRNGSeed(int loc)
         {
-            if (SaveVersion != 1)
+            if (Version != GameVersion.B2W2)
                 return null;
             return BitConverter.ToUInt64(Data, Daycare + 0x1CC);
         }
@@ -371,8 +367,6 @@ namespace PKHeX
         }
         public override void setDaycareEXP(int loc, int slot, uint EXP)
         {
-            if (SaveVersion != 1)
-                return;
             BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + 4 + 0xDC + slot * 0xE4);
         }
         public override void setDaycareOccupied(int loc, int slot, bool occupied)
@@ -381,7 +375,7 @@ namespace PKHeX
         }
         public override void setDaycareRNGSeed(int loc, ulong seed)
         {
-            if (SaveVersion != 1)
+            if (Version != GameVersion.B2W2)
                 return;
             BitConverter.GetBytes(seed).CopyTo(Data, Daycare + 0x1CC);
         }

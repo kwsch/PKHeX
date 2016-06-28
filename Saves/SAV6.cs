@@ -15,21 +15,18 @@ namespace PKHeX
             Data = data == null ? new byte[SaveUtil.SIZE_G6ORAS] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
-            Footer = new byte[0];
 
             // Load Info
             getBlockInfo();
             getSAVOffsets();
 
             HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
-
+            Personal = ORAS ? Legal.PersonalAO : Legal.PersonalXY;
             if (!Exportable)
                 resetBoxes();
         }
 
         // Configuration
-        public override byte[] BAK { get; }
-        public override bool Exportable { get; }
         public override SaveFile Clone() { return new SAV6(Data); }
         
         public override int SIZE_STORED => PKX.SIZE_6STORED;

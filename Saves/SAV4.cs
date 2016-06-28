@@ -8,27 +8,28 @@ namespace PKHeX
         public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
-        public SAV4(byte[] data = null, int versionOverride = -1)
+        public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G4RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
-            Footer = new byte[0];
 
             // Get Version
-            SaveVersion = versionOverride > -1 ? versionOverride : Math.Max((int)SaveUtil.getIsG4SAV(Data), 0); // Empty file default to DP
+            Version = versionOverride == GameVersion.Any ? GameVersion.HGSS : SaveUtil.getIsG4SAV(Data);
+            if (Version == GameVersion.Invalid)
+                return;
+
             getActiveBlock();
             getSAVOffsets();
+
+            Personal = Legal.PersonalAO; // todo
 
             if (!Exportable)
                 resetBoxes();
         }
 
         // Configuration
-        public readonly int SaveVersion;
-        public override byte[] BAK { get; }
-        public override bool Exportable { get; }
-        public override SaveFile Clone() { return new SAV4(Data, SaveVersion); }
+        public override SaveFile Clone() { return new SAV4(Data, Version); }
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int SIZE_PARTY => PKX.SIZE_4PARTY;
@@ -156,23 +157,23 @@ namespace PKHeX
         private int HBO => 0x40000 * hofBlock;
         private void getActiveBlock()
         {
-            if (SaveVersion < 0)
+            if (Version < 0)
                 return;
             int ofs = 0;
 
-            if (SaveVersion == 0) ofs = 0xC0F0; // DP
-            else if (SaveVersion == 1) ofs = 0xCF1C; // PT
-            else if (SaveVersion == 2) ofs = 0xF626; // HGSS
+            if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
+            else if (Version == GameVersion.Pt) ofs = 0xCF1C; // PT
+            else if (Version == GameVersion.HGSS) ofs = 0xF626; // HGSS
             generalBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
             
-            if (SaveVersion == 0) ofs = 0x1E2D0; // DP
-            else if (SaveVersion == 1) ofs = 0x1F100; // PT
-            else if (SaveVersion == 2) ofs = 0x21A00; // HGSS
+            if (Version == GameVersion.DP) ofs = 0x1E2D0; // DP
+            else if (Version == GameVersion.Pt) ofs = 0x1F100; // PT
+            else if (Version == GameVersion.HGSS) ofs = 0x21A00; // HGSS
             storageBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
         }
         private void getSAVOffsets()
         {
-            if (SaveVersion < 0)
+            if (Version < 0)
                 return;
 
             switch (Version)
@@ -306,7 +307,7 @@ namespace PKHeX
         }
         public override int getBoxOffset(int box)
         {
-            return Box + SIZE_STORED*box*30 + (SaveVersion == 2 ? box * 0x10 : 0);
+            return Box + SIZE_STORED*box*30 + (Version == GameVersion.HGSS ? box * 0x10 : 0);
         }
         public override int getPartyOffset(int slot)
         {
@@ -314,19 +315,6 @@ namespace PKHeX
         }
 
         // Trainer Info
-        public override GameVersion Version
-        {
-            get
-            {
-                switch (SaveVersion)
-                {
-                    case 0: return GameVersion.DP;
-                    case 1: return GameVersion.Pt;
-                    case 2: return GameVersion.HGSS;
-                }
-                return GameVersion.Unknown;
-            }
-        }
         public override string OT
         {
             get
