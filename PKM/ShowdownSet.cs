@@ -247,8 +247,14 @@ namespace PKHeX
             foreach (int move in Moves.Where(move => move != 0 && move < moves.Length))
             {
                 MoveLines[movectr] += "- " + moves[move];
-                if (move == 237)
-                    MoveLines[movectr] += $" [{hptypes[PKX.getHPType(IVs)]}]";
+                if (move == 237) // Hidden Power
+                {
+                    int hp = 0;
+                    for (int i = 0; i < 6; i++)
+                        hp |= (IVs[i] & 1) << i;
+                    hp *= 0xF; hp /= 0x3F;
+                    MoveLines[movectr] += $" [{hptypes[hp]}]";
+                }
                 movectr++;
             }
             result += string.Join(Environment.NewLine, MoveLines.Take(movectr));
