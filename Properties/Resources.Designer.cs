@@ -10017,8 +10017,7 @@ namespace PKHeX.Properties {
         ///0183	(AS) Zekrom Defeated
         ///2831	(AS) Zekrom Captured
         ///0419	(OR) Latias Defeated
-        ///2834	(OR) Latias Captured
-        ///0420	(AS) Lati [rest of string was truncated]&quot;;.
+        ///2834	(OR) Latias Captu [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string flags_oras {
             get {
@@ -22823,110 +22822,6 @@ namespace PKHeX.Properties {
         internal static string text_hgss_03000_zh {
             get {
                 return ResourceManager.GetString("text_hgss_03000_zh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Items
-        ///Medizin
-        ///TM &amp; VM
-        ///Beeren
-        ///Basis-Items.
-        /// </summary>
-        internal static string text_itempouch_de {
-            get {
-                return ResourceManager.GetString("text_itempouch_de", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ITEMS
-        ///MEDICINE
-        ///TMs &amp; HMs
-        ///BERRIES
-        ///KEY ITEMS.
-        /// </summary>
-        internal static string text_itempouch_en {
-            get {
-                return ResourceManager.GetString("text_itempouch_en", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Objetos
-        ///Botiquín
-        ///MT/MO
-        ///Bayas
-        ///Objetos Clave.
-        /// </summary>
-        internal static string text_itempouch_es {
-            get {
-                return ResourceManager.GetString("text_itempouch_es", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to OBJETS
-        ///PV/PP
-        ///CT &amp; CS
-        ///BAIES
-        ///OBJETS RARES.
-        /// </summary>
-        internal static string text_itempouch_fr {
-            get {
-                return ResourceManager.GetString("text_itempouch_fr", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Strumenti
-        ///Rimedi
-        ///MT e MN
-        ///Bacche
-        ///Strumenti Base.
-        /// </summary>
-        internal static string text_itempouch_it {
-            get {
-                return ResourceManager.GetString("text_itempouch_it", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to どうぐ
-        ///かいふく
-        ///わざマシン
-        ///きのみ
-        ///たいせつなもの.
-        /// </summary>
-        internal static string text_itempouch_ja {
-            get {
-                return ResourceManager.GetString("text_itempouch_ja", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 도구
-        ///회복
-        ///기술머신
-        ///나무열매
-        ///중요한 물건.
-        /// </summary>
-        internal static string text_itempouch_ko {
-            get {
-                return ResourceManager.GetString("text_itempouch_ko", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 道具
-        ///恢复
-        ///技能学习器
-        ///树果
-        ///重要物品.
-        /// </summary>
-        internal static string text_itempouch_zh {
-            get {
-                return ResourceManager.GetString("text_itempouch_zh", resourceCulture);
             }
         }
         

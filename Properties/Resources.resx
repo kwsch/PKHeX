@@ -5395,30 +5395,6 @@
   <data name="text_hgss_03000_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_hgss_03000_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_itempouch_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\de\text_ItemPouch_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\en\text_ItemPouch_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\es\text_ItemPouch_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_itempouch_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\fr\text_ItemPouch_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\it\text_ItemPouch_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\ja\text_ItemPouch_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_itempouch_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\ko\text_ItemPouch_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_itempouch_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\zh\text_ItemPouch_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="text_items_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\de\text_Items_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

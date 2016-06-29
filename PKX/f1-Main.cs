@@ -140,7 +140,7 @@ namespace PKHeX
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
         public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
-        public static string[] wallpapernames, puffs, itempouch = { };
+        public static string[] wallpapernames, puffs = { };
         public static bool unicode;
         public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
 
@@ -842,7 +842,6 @@ namespace PKHeX
             characteristics = Util.getStringList("character", l);
             specieslist = Util.getStringList("species", l);
             wallpapernames = Util.getStringList("wallpaper", l);
-            itempouch = Util.getStringList("itempouch", l);
             encountertypelist = Util.getStringList("encountertype", l);
             gamelist = Util.getStringList("games", l);
             gamelanguages = Util.getNulledStringArray(Util.getStringList("languages"));
