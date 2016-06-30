@@ -1027,7 +1027,7 @@ namespace PKHeX
             if (focus)
                 Tab_Main.Focus();
 
-            pkm = pk;
+            pkm = pk.Clone();
             if (fieldsInitialized & !pkm.ChecksumValid)
                 Util.Alert("PKX File has an invalid checksum.");
             switch (pkm.Format)
@@ -1261,8 +1261,8 @@ namespace PKHeX
             TB_PP3.Text = pk4.Move3_PP.ToString();
             TB_PP4.Text = pk4.Move4_PP.ToString();
 
-            // Set Form if count is enough, else if count is more than 1 set equal to max else zero.
-            CB_Form.SelectedIndex = CB_Form.Items.Count > pk4.AltForm ? pk4.AltForm : (CB_Form.Items.Count > 1 ? CB_Form.Items.Count - 1 : 0);
+            // Set Form if count is enough, else cap.
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk4.AltForm ? pk4.AltForm : CB_Form.Items.Count - 1;
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk4.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
@@ -1384,8 +1384,8 @@ namespace PKHeX
             TB_PP3.Text = pk5.Move3_PP.ToString();
             TB_PP4.Text = pk5.Move4_PP.ToString();
 
-            // Set Form if count is enough, else if count is more than 1 set equal to max else zero.
-            CB_Form.SelectedIndex = CB_Form.Items.Count > pk5.AltForm ? pk5.AltForm : (CB_Form.Items.Count > 1 ? CB_Form.Items.Count - 1 : 0);
+            // Set Form if count is enough, else cap.
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk5.AltForm ? pk5.AltForm : CB_Form.Items.Count - 1;
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk5.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
@@ -1521,8 +1521,8 @@ namespace PKHeX
             TB_PP3.Text = pk6.Move3_PP.ToString();
             TB_PP4.Text = pk6.Move4_PP.ToString();
 
-            // Set Form if count is enough, else if count is more than 1 set equal to max else zero.
-            CB_Form.SelectedIndex = CB_Form.Items.Count > pk6.AltForm ? pk6.AltForm : (CB_Form.Items.Count > 1 ? CB_Form.Items.Count - 1 : 0);
+            // Set Form if count is enough, else cap.
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk6.AltForm ? pk6.AltForm : CB_Form.Items.Count - 1;
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk6.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
@@ -1554,16 +1554,22 @@ namespace PKHeX
             if (index > 0 && index < CB.Items.Count && fieldsInitialized)
                 CB.SelectedIndex = index;
         }
-        internal static void setForms(int species, ComboBox cb, Label l = null)
+        private void setForms()
         {
-            // Form Tables
-            cb.DisplayMember = "Text";
-            cb.ValueMember = "Value";
-            bool hasForms = PKX.Personal[species].HasFormes || new[] { 664, 665, 414, }.Contains(species);
-            cb.Enabled = cb.Visible = hasForms;
-            if (l != null) l.Visible = hasForms;
-            
-            cb.DataSource = PKX.getFormList(species, types, forms, gendersymbols).ToList();
+            if (SAV.Generation < 4)
+            {
+                Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
+                return;
+            }
+
+            int species = Util.getIndex(CB_Species);
+            bool hasForms = SAV.Personal[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
+
+            if (!hasForms)
+                return;
+
+            CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols).ToList();
         }
         private void setAbilityList()
         {
@@ -2155,7 +2161,7 @@ namespace PKHeX
             if (MT_Level.Visible) Level = Util.ToInt32(MT_Level.Text);
 
             // Get Forms for Given Species
-            setForms(Species, CB_Form, Label_Form);
+            setForms();
 
             // Recalculate EXP for Given Level
             uint EXP = PKX.getEXP(Level, Species);
@@ -2885,7 +2891,7 @@ namespace PKHeX
           
             pk4.FatefulEncounter = CHK_Fateful.Checked;
             pk4.Gender = PKX.getGender(Label_Gender.Text);
-            pk4.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex) & 0x1F;
+            pk4.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             pk4.EV_HP = Util.ToInt32(TB_HPEV.Text);
             pk4.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             pk4.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
@@ -3001,7 +3007,7 @@ namespace PKHeX
             pk5.Nature = (byte)Util.getIndex(CB_Nature);
             pk5.FatefulEncounter = CHK_Fateful.Checked;
             pk5.Gender = PKX.getGender(Label_Gender.Text);
-            pk5.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex) & 0x1F;
+            pk5.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             pk5.EV_HP = Util.ToInt32(TB_HPEV.Text);
             pk5.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             pk5.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
@@ -3145,7 +3151,7 @@ namespace PKHeX
             pk6.Nature = (byte)Util.getIndex(CB_Nature);
             pk6.FatefulEncounter = CHK_Fateful.Checked;
             pk6.Gender = PKX.getGender(Label_Gender.Text);
-            pk6.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.SelectedIndex) & 0x1F; // Form
+            pk6.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             pk6.EV_HP = Util.ToInt32(TB_HPEV.Text);       // EVs
             pk6.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             pk6.EV_DEF = Util.ToInt32(TB_DEFEV.Text);

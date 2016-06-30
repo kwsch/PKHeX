@@ -398,7 +398,7 @@ namespace PKHeX
             CHK_Shiny.Checked = isshiny;
 
             // Set Form
-            Main.setForms(spec, CB_Form);
+            setForms();
             int form = genform >> 3;
             CB_Form.SelectedIndex = form;
 
@@ -425,10 +425,21 @@ namespace PKHeX
             CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;
         }
 
+        private void setForms()
+        {
+            int species = Util.getIndex(CB_Species);
+            bool hasForms = Legal.PersonalAO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            CB_Form.Enabled = CB_Form.Visible = hasForms;
+
+            CB_Form.DisplayMember = "Text";
+            CB_Form.ValueMember = "Value";
+            CB_Form.DataSource = PKX.getFormList(species, Main.types, Main.forms, Main.gendersymbols).ToList();
+        }
+
         private void updateSpecies(object sender, EventArgs e)
         {
             // Get Forms for Given Species
-            Main.setForms(Util.getIndex(CB_Species), CB_Form);
+            setForms();
 
             // Check for Gender Changes
             // Get Gender Threshold

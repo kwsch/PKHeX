@@ -231,7 +231,7 @@ namespace PKHeX
 
             CHK_Nicknamed.Checked = nick == 1;
 
-            Main.setForms(species, CB_Form);
+            setForms();
             CB_Form.SelectedIndex = (int)form;
             setGenderLabel((int)gender);
             updateNickname(sender, e);
@@ -359,10 +359,20 @@ namespace PKHeX
 
             Write_Entry(null, null);
         }
-        private void updateSpecies(object sender, EventArgs e)
+
+        private void setForms()
         {
             int species = Util.getIndex(CB_Species);
-            Main.setForms(species, CB_Form);
+            bool hasForms = Legal.PersonalAO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            CB_Form.Enabled = CB_Form.Visible = hasForms;
+
+            CB_Form.DisplayMember = "Text";
+            CB_Form.ValueMember = "Value";
+            CB_Form.DataSource = PKX.getFormList(species, Main.types, Main.forms, Main.gendersymbols).ToList();
+        }
+        private void updateSpecies(object sender, EventArgs e)
+        {
+            setForms();
             updateNickname(null, null);
         }
         private void updateShiny(object sender, EventArgs e)

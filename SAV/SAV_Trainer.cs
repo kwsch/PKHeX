@@ -327,7 +327,9 @@ namespace PKHeX
             CB_MultiplayerSprite.DataSource = oras_sprite_list;
 
             L_Vivillon.Text = Main.specieslist[666] + ":";
-            Main.setForms(666, CB_Vivillon);
+            CB_Vivillon.DisplayMember = "Text";
+            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.DataSource = PKX.getFormList(666, Main.types, Main.forms, Main.gendersymbols).ToList();
         }
         private void getBadges()
         {
