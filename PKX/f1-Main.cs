@@ -4195,7 +4195,7 @@ namespace PKHeX
                     return;
                 string file = files[0];
                 if (!PKX.getIsPKM(new FileInfo(file).Length))
-                    openQuick(file);
+                { openQuick(file); return; }
 
                 byte[] data = File.ReadAllBytes(file);
                 PKM temp = PKMConverter.getPKMfromBytes(data);
