@@ -414,7 +414,7 @@ namespace PKHeX
             // split up data to individual pkm
             byte[][] pkdata = new byte[data.Length/SIZE_STORED][];
             for (int i = 0; i < data.Length; i += SIZE_STORED)
-                pkdata[i] = data.Skip(i).Take(SIZE_STORED).ToArray();
+                pkdata[i/SIZE_STORED] = data.Skip(i).Take(SIZE_STORED).ToArray();
             
             PKM[] pkms = BoxData;
             for (int i = 0; i < pkms.Length; i++)
@@ -429,7 +429,7 @@ namespace PKHeX
 
             byte[][] pkdata = new byte[data.Length / SIZE_STORED][];
             for (int i = 0; i < data.Length; i += SIZE_STORED)
-                pkdata[i] = data.Skip(i).Take(SIZE_STORED).ToArray();
+                pkdata[i/SIZE_STORED] = data.Skip(i).Take(SIZE_STORED).ToArray();
 
             PKM[] pkms = BoxData;
             for (int i = 0; i < 30; i++)
