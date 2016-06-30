@@ -807,7 +807,7 @@ namespace PKHeX
                     break;
             }
 
-            return pk6.AltForm > 0 && (Legal.BattleForms.Contains(pk6.Species) || Legal.BattleMegas.Contains(pk6.Species))
+            return pk6.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pk6.Species))
                 ? new LegalityCheck(Severity.Invalid, "Form cannot exist outside of a battle.")
                 : new LegalityCheck();
         }

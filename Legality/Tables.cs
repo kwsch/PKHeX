@@ -488,6 +488,7 @@ namespace PKHeX
             531,
             719
         };
+        internal static readonly int[] BattlePrimals = {382, 383};
         internal static readonly string[][] TradeXY =
         {
             new string[0],                       // 0 - None
