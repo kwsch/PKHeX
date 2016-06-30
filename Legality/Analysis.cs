@@ -26,10 +26,14 @@ namespace PKHeX
             if (!(pk is PK6))
                 return;
             pk6 = pk as PK6;
-            updateRelearnLegality();
-            updateMoveLegality();
-            updateChecks();
-            getLegalityReport();
+            try
+            {
+                updateRelearnLegality();
+                updateMoveLegality();
+                updateChecks();
+                getLegalityReport();
+            }
+            catch { Valid = false; }
         }
 
         public void updateRelearnLegality()
@@ -109,7 +113,7 @@ namespace PKHeX
                 r += Environment.NewLine;
 
             var chks = Checks;
-            r += chks.Where(chk => chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
+            r += chks.Where(chk => chk != null && chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
                 .Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
             return r.TrimEnd();
         }
