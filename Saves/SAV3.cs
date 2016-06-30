@@ -39,7 +39,11 @@ namespace PKHeX
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
-            Version = versionOverride == GameVersion.Any ? GameVersion.FRLG : SaveUtil.getIsG3SAV(Data);
+            if (data == null)
+                Version = GameVersion.FRLG;
+            else if (versionOverride != GameVersion.Any)
+                Version = versionOverride;
+            else Version = SaveUtil.getIsG3SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 

@@ -15,7 +15,11 @@ namespace PKHeX
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
             // Get Version
-            Version = versionOverride == GameVersion.Any ? GameVersion.HGSS : SaveUtil.getIsG4SAV(Data);
+            if (data == null)
+                Version = GameVersion.HGSS;
+            else if (versionOverride != GameVersion.Any)
+                Version = versionOverride;
+            else Version = SaveUtil.getIsG4SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 

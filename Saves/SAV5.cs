@@ -17,7 +17,11 @@ namespace PKHeX
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
             // Get Version
-            Version = versionOverride == GameVersion.Any ? GameVersion.B2W2 : SaveUtil.getIsG5SAV(Data);
+            if (data == null)
+                Version = GameVersion.B2W2;
+            else if (versionOverride != GameVersion.Any)
+                Version = versionOverride;
+            else Version = SaveUtil.getIsG5SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -503,20 +507,6 @@ namespace PKHeX
         protected override MysteryGift[] MysteryGiftCards { get { return new MysteryGift[0]; } set { } }
         
         // Trainer Info
-        public override GameVersion Version
-        {
-            get
-            {
-                switch (Game)
-                {
-                    case 20: return GameVersion.W;
-                    case 21: return GameVersion.B;
-                    case 22: return GameVersion.W2;
-                    case 23: return GameVersion.B2;
-                }
-                return GameVersion.Unknown;
-            }
-        }
         public override string OT
         {
             get { return PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, Trainer1 + 0x4, 16)); }
