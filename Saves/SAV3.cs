@@ -279,7 +279,6 @@ namespace PKHeX
             }
             set { }
         }
-        public override int Language { get { return 0; } set { } }
 
         public override int getDaycareSlotOffset(int loc, int slot)
         {

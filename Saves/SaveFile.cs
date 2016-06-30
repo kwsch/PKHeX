@@ -278,7 +278,7 @@ namespace PKHeX
 
         // Trainer Info
         public abstract int Gender { get; set; }
-        public abstract int Language { get; set; }
+        public virtual int Language { get { return -1; } set { } }
         public virtual int Game { get { return -1; } set { } }
         public abstract ushort TID { get; set; }
         public abstract ushort SID { get; set; }
