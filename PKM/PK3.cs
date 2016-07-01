@@ -61,7 +61,7 @@ namespace PKHeX
         #region Block A
         public override int Species { get { return PKX.getG4Species(BitConverter.ToUInt16(Data, 0x20)); } set { BitConverter.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x20); } }
         public override int HeldItem { get { return PKX.getG4Item((ushort)G3Item); } set { } }
-        public int G3Item { get { return PKX.getG4Item(BitConverter.ToUInt16(Data, 0x22)); } set { BitConverter.GetBytes((ushort) value).CopyTo(Data, 0x22); } }
+        public int G3Item { get { return BitConverter.ToUInt16(Data, 0x22); } set { BitConverter.GetBytes((ushort) value).CopyTo(Data, 0x22); } }
 
         public override uint EXP { get { return BitConverter.ToUInt32(Data, 0x24); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x24); } }
         private byte PPUps { get { return Data[0x28]; } set { Data[0x28] = value; } }
