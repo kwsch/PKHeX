@@ -73,6 +73,38 @@ namespace PKHeX
                 Array.Copy(Data, blockIndex * 0x1000 + ABO, Data, Box + (i - 5)*0xF80, chunkLength[i]);
             }
 
+            switch (Version)
+            {
+                case GameVersion.RS:
+                    LegalKeyItems = Legal.Pouch_Key_RS;
+                    OFS_PouchHeldItem = Party + 0x0560;
+                    OFS_PouchKeyItem = Party + 0x05B0;
+                    OFS_PouchBalls = Party + 0x0600;
+                    OFS_PouchTMHM = Party + 0x0640;
+                    OFS_PouchBerry = Party + 0x0740;
+                    break;
+                case GameVersion.FRLG:
+                    LegalKeyItems = Legal.Pouch_Key_FRLG;
+                    OFS_PouchHeldItem = Party + 0x0310;
+                    OFS_PouchKeyItem = Party + 0x03B8;
+                    OFS_PouchBalls = Party + 0x0430;
+                    OFS_PouchTMHM = Party + 0x0464;
+                    OFS_PouchBerry = Party + 0x054C;
+                    break;
+                case GameVersion.E:
+                    LegalKeyItems = Legal.Pouch_Key_E;
+                    OFS_PouchHeldItem = Party + 0x0560;
+                    OFS_PouchKeyItem = Party + 0x05D8;
+                    OFS_PouchBalls = Party + 0x0650;
+                    OFS_PouchTMHM = Party + 0x0690;
+                    OFS_PouchBerry = Party + 0x0790;
+                    break;
+            }
+            LegalItems = Legal.Pouch_Items_RS;
+            LegalBalls = Legal.Pouch_Ball_RS;
+            LegalTMHMs = Legal.Pouch_TMHM_RS;
+            LegalBerries = Legal.Pouch_Berries_RS;
+
             HeldItems = Legal.HeldItems_RS;
             Personal = Legal.PersonalAO; // todo
 
@@ -270,14 +302,31 @@ namespace PKHeX
             set { Data[Trainer1 + 0xEB8] = (byte)value; }
         }
 
+        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
         public override InventoryPouch[] Inventory
         {
             get
             {
-                return null; 
-                
+                InventoryPouch[] pouch =
+                {
+                    new InventoryPouch(InventoryType.Items, LegalItems, 95, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem)/4),
+                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, (OFS_PouchBalls - OFS_PouchKeyItem)/4),
+                    new InventoryPouch(InventoryType.Balls, LegalBalls, 95, OFS_PouchBalls, (OFS_PouchTMHM - OFS_PouchBalls)/4),
+                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 95, OFS_PouchTMHM, (OFS_PouchBerry - OFS_PouchTMHM)/4),
+                    new InventoryPouch(InventoryType.Berries, LegalBerries, 95, OFS_PouchBerry, Version == GameVersion.FRLG ? 43 : 46),
+                };
+                foreach (var p in pouch)
+                {
+                    p.SecurityKey = SecurityKey;
+                    p.getPouch(ref Data);
+                }
+                return pouch;
             }
-            set { }
+            set
+            {
+                foreach (var p in value)
+                    p.setPouch(ref Data);
+            }
         }
 
         public override int getDaycareSlotOffset(int loc, int slot)

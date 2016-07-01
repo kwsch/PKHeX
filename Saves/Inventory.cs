@@ -25,6 +25,7 @@ namespace PKHeX
         public readonly int MaxCount;
         private readonly int Offset;
         private readonly int PouchDataSize;
+        public uint SecurityKey { private get; set; } // = 0 // Gen3 Only
         public InventoryItem[] Items;
         
         public InventoryPouch(InventoryType type, ushort[] legal, int maxcount, int offset, int size = -1)
@@ -44,7 +45,7 @@ namespace PKHeX
                 items[i] = new InventoryItem
                 {
                     Index = BitConverter.ToUInt16(Data, Offset + i*4),
-                    Count = BitConverter.ToUInt16(Data, Offset + i*4 + 2)
+                    Count = BitConverter.ToUInt16(Data, Offset + i*4 + 2) ^ (ushort)SecurityKey
                 };
             }
             Items = items;

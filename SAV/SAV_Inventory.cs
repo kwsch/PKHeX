@@ -203,9 +203,27 @@ namespace PKHeX
             int Count = ModifierKeys == Keys.Control ? 1 : Pouches[pouch].MaxCount;
             for (int i = 0; i < legalitems.Length; i++)
             {
-                string itemname = Main.itemlist[legalitems[i]];
+                int item = legalitems[i];
+                string itemname;
+                int c = Count;
+
+                // Override for HMs
+                switch (SAV.Generation)
+                {
+                    case 3: {
+                        itemname = Main.itemlist[item];
+                        if (Legal.Pouch_HM_RS.Contains(legalitems[i])) c = 1;
+                        break;
+                    }
+                    default: {
+                        itemname = Main.itemlist[item];
+                        if (new[] { 420, 421, 422, 423, 423, 424, 425, 426, 427, 737 }.Contains(legalitems[i])) c = 1;
+                        break;
+                    }
+                }
+
                 dgv.Rows[i].Cells[0].Value = itemname;
-                dgv.Rows[i].Cells[1].Value = Count;
+                dgv.Rows[i].Cells[1].Value = c;
             }
             System.Media.SystemSounds.Asterisk.Play();
         }
