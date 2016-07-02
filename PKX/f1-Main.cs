@@ -1589,7 +1589,7 @@ namespace PKHeX
                 abilitylist[abils[1]] + " (2)",
             };
             if (SAV.Generation >= 5) // hidden ability
-                ability_list.Add(abilitylist[abils[1]] + " (H)");
+                ability_list.Add(abilitylist[abils[2]] + " (H)");
 
             int curAbil = CB_Ability.SelectedIndex;
             CB_Ability.DataSource = ability_list;
