@@ -58,7 +58,7 @@ namespace PKHeX
             for (int i = 0; i < Items.Length; i++)
             {
                 BitConverter.GetBytes((ushort)Items[i].Index).CopyTo(Data, Offset + i*4);
-                BitConverter.GetBytes((ushort)Items[i].Count).CopyTo(Data, Offset + i*4 + 2);
+                BitConverter.GetBytes((ushort)Items[i].Count ^ (ushort)SecurityKey).CopyTo(Data, Offset + i*4 + 2);
             }
         }
     }
