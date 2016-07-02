@@ -5395,30 +5395,6 @@
   <data name="text_hgss_03000_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_hgss_03000_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_itempouch_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\de\text_ItemPouch_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\en\text_ItemPouch_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\es\text_ItemPouch_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_itempouch_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\fr\text_ItemPouch_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\it\text_ItemPouch_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="text_itempouch_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\ja\text_ItemPouch_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_itempouch_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\ko\text_ItemPouch_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_itempouch_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\zh\text_ItemPouch_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="text_items_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\de\text_Items_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -5823,5 +5799,74 @@
   </data>
   <data name="wc6full" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\wc6full.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="const_oras" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\const_oras.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="flags_oras" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\flags_oras.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="flags_xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\flags_xy.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="about" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\about.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bak" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\bak.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="data" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\data.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="database" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\database.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dump" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\dump.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="import" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\import.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="language" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\language.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="load" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\load.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="main" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\main.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nocheck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\nocheck.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="other" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\other.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\report.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="savePKM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\savePKM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="saveSAV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\saveSAV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="showdown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\showdown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

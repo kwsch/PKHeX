@@ -15,6 +15,7 @@ namespace PKHeX
         {
             m_parent = f1;
             InitializeComponent();
+            CB_Format.SelectedIndex = MAXFORMAT - Main.SAV.Generation + 1;
             PKXBOXES = new[]
             {
                 bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
@@ -81,20 +82,21 @@ namespace PKHeX
             {
                 Version = 0,
                 Title = "Misc",
-                Description = "Individual pk6 files present in the db/sav.",
+                Description = "Individual pkm files present in the db/sav.",
             });
 
             // Load databases
             foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
             {
-                if (new FileInfo(file).Extension == ".pk6")
-                    Database[0].Slot.Add(new PK6(File.ReadAllBytes(file), file));
+                FileInfo fi = new FileInfo(file);
+                if (fi.Extension.Contains(".pk") && PKX.getIsPKM(fi.Length))
+                    Database[0].Slot.Add(PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file));
                 else
                     loadDatabase(File.ReadAllBytes(file));
             }
             // Fetch from save file
-            foreach (var pk6 in Main.SAV.BoxData.Where(pk => pk.Species != 0))
-                Database[0].Slot.Add(pk6);
+            foreach (var pkm in Main.SAV.BoxData.Where(pk => pk.Species != 0))
+                Database[0].Slot.Add(pkm);
 
             // Prepare Database
             prepareDBForSearch();
@@ -103,20 +105,22 @@ namespace PKHeX
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            B_Search.PerformClick();
             CenterToParent();
         }
         private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.DatabasePath;
         private readonly List<DatabaseList> Database = new List<DatabaseList>();
-        private List<PK6> Results;
-        private List<PK6> RawDB;
+        private List<PKM> Results;
+        private List<PKM> RawDB;
         private int slotSelected = -1; // = null;
         private Image slotColor;
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
+        private const int MAXFORMAT = 6;
 
         // Important Events
         private void clickView(object sender, EventArgs e)
@@ -129,7 +133,7 @@ namespace PKHeX
                 System.Media.SystemSounds.Exclamation.Play();
             else
             {
-                m_parent.populateFields(new PK6(dataArr[index].Data), false);
+                m_parent.populateFields(dataArr[index], false);
                 slotSelected = index + SCR_Box.Value * RES_MIN;
                 slotColor = Properties.Resources.slotView;
                 FillPKXBoxes(SCR_Box.Value);
@@ -161,12 +165,12 @@ namespace PKHeX
                     int box = Convert.ToInt32(split[0].Substring(1)) - 1;
                     int slot = Convert.ToInt32(split[1]) - 1;
                     int spot = box*30 + slot;
-                    int offset = Main.SAV.Box + spot*PK6.SIZE_STORED;
-                    var pkSAV = Main.SAV.getPK6Stored(offset);
+                    int offset = Main.SAV.getBoxOffset(0) + spot*Main.SAV.SIZE_STORED;
+                    PKM pkSAV = Main.SAV.getStoredSlot(offset);
 
                     if (pkSAV.Data.SequenceEqual(pk.Data))
                     {
-                        Main.SAV.setEK6Stored(Main.blankEK6, offset);
+                        Main.SAV.setStoredSlot(Main.SAV.BlankPKM, offset);
                         m_parent.setPKXBoxes();
                     }
                     else
@@ -188,10 +192,10 @@ namespace PKHeX
         private void clickSet(object sender, EventArgs e)
         {
             // Don't care what slot was clicked, just add it to the database
-            if (!m_parent.verifiedPKX())
+            if (!m_parent.verifiedPKM())
                 return;
 
-            PK6 pk = m_parent.preparepkx();
+            PKM pk = m_parent.preparePKM();
             if (!Directory.Exists(DatabasePath))
                 Directory.CreateDirectory(DatabasePath);
 
@@ -203,12 +207,12 @@ namespace PKHeX
                 return;
             }
 
-            File.WriteAllBytes(path, pk.Data.Take(PK6.SIZE_STORED).ToArray());
+            File.WriteAllBytes(path, pk.Data.Take(pk.SIZE_STORED).ToArray());
             pk.Identifier = path;
 
             int pre = RawDB.Count;
             RawDB.Add(pk);
-            RawDB = new List<PK6>(RawDB.Distinct()); // just in case
+            RawDB = new List<PKM>(RawDB.Distinct()); // just in case
             int post = RawDB.Count;
             if (pre == post)
             { Util.Alert("Pokémon already exists in database."); return; }
@@ -317,7 +321,7 @@ namespace PKHeX
         // IO Usage
         private class DatabaseList
         {
-            public readonly List<PK6> Slot = new List<PK6>();
+            public readonly List<PKM> Slot = new List<PKM>();
             public int Version;
             private readonly bool Unicode;
             private readonly byte[] Unused;
@@ -380,13 +384,13 @@ namespace PKHeX
         }
         private void prepareDBForSearch()
         {
-            RawDB = new List<PK6>();
+            RawDB = new List<PKM>();
 
             foreach (var db in Database)
                 RawDB.AddRange(db.Slot);
 
-            RawDB = new List<PK6>(RawDB.Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0));
-            RawDB = new List<PK6>(RawDB.Distinct());
+            RawDB = new List<PKM>(RawDB.Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0));
+            RawDB = new List<PKM>(RawDB.Distinct());
             setResults(RawDB);
         }
         private void openDB(object sender, EventArgs e)
@@ -410,16 +414,36 @@ namespace PKHeX
             if (!Directory.Exists(path)) // just in case...
                 Directory.CreateDirectory(path);
 
-            foreach (PK6 pk6 in Results)
-                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pk6.FileName)),
-                    pk6.Data.Take(0xE8).ToArray());
+            foreach (PKM pkm in Results)
+                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)),
+                    pkm.Data.Take(0xE8).ToArray());
         }
 
         // View Updates
         private void B_Search_Click(object sender, EventArgs e)
         {
             // Populate Search Query Result
-            IEnumerable<PK6> res = RawDB;
+            IEnumerable<PKM> res = RawDB;
+
+            int format = MAXFORMAT + 1 - CB_Format.SelectedIndex;
+            res = res.Where(pk => pk.Format <= format);
+
+            switch (CB_Generation.SelectedIndex)
+            {
+                case 0: break; // Do nothing
+                case 1: // Gen 6
+                    res = res.Where(pk => pk.Gen6);
+                    break;
+                case 2: // Gen 5
+                    res = res.Where(pk => pk.Gen5);
+                    break;
+                case 3: // Gen 4
+                    res = res.Where(pk => pk.Gen4);
+                    break;
+                case 4: // Gen 3
+                    res = res.Where(pk => pk.Gen3);
+                    break;
+            }
 
             // Primary Searchables
             int species = Util.getIndex(CB_Species);
@@ -508,22 +532,6 @@ namespace PKHeX
                     res = res.Where(pk => pk.EVs.Sum() >= 508);
                     break;
             }
-            switch (CB_Generation.SelectedIndex)
-            {
-                case 0: break; // Do nothing
-                case 1: // Gen 6
-                    res = res.Where(pk => pk.Gen6);
-                    break;
-                case 2: // Gen 5
-                    res = res.Where(pk => pk.Gen5);
-                    break;
-                case 3: // Gen 4
-                    res = res.Where(pk => pk.Gen4);
-                    break;
-                case 4: // Gen 3
-                    res = res.Where(pk => pk.Gen3);
-                    break;
-            }
 
             // Filter for Selected Source
             if (!Menu_SearchBoxes.Checked)
@@ -534,9 +542,9 @@ namespace PKHeX
             slotSelected = -1; // reset the slot last viewed
             
             if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked) // Legal Only
-                res = res.Where(pk => pk.Gen6 && new LegalityAnalysis(pk).Valid);
+                res = res.Where(pk => pk.Gen6 && pk is PK6 && new LegalityAnalysis(pk as PK6).Valid);
             if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked) // Illegal Only
-                res = res.Where(pk => pk.Gen6 && !new LegalityAnalysis(pk).Valid);
+                res = res.Where(pk => pk.Gen6 && pk is PK6 && !new LegalityAnalysis(pk as PK6).Valid);
 
             var results = res.ToArray();
             if (results.Length == 0)
@@ -546,7 +554,7 @@ namespace PKHeX
                 else
                     Util.Alert("No results found!");
             }
-            setResults(new List<PK6>(results)); // updates Count Label as well.
+            setResults(new List<PKM>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
         }
         private void updateScroll(object sender, ScrollEventArgs e)
@@ -554,9 +562,9 @@ namespace PKHeX
             if (e.OldValue != e.NewValue)
                 FillPKXBoxes(e.NewValue);
         }
-        private void setResults(List<PK6> res)
+        private void setResults(List<PKM> res)
         {
-            Results = new List<PK6>(res);
+            Results = new List<PKM>(res);
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
             if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
@@ -571,7 +579,7 @@ namespace PKHeX
             if (Results == null)
                 for (int i = 0; i < RES_MAX; i++)
                     PKXBOXES[i].Image = null;
-            PK6[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
+            PKM[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
             for (int i = 0; i < data.Length; i++)
                 PKXBOXES[i].Image = data[i].Sprite;
             for (int i = data.Length; i < RES_MAX; i++)

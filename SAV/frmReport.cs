@@ -13,103 +13,101 @@ namespace PKHeX
 {
     public partial class frmReport : Form
     {
-        private byte[] SaveData;
-
         public class Preview
         {
-            private readonly PK6 pk6;
-            public string Position => pk6.Identifier;
-            public Image Sprite => pk6.Sprite;
-            public string Nickname => pk6.Nickname;
-            public string Species => Main.specieslist[pk6.Species];
-            public string Nature => Main.natures[pk6.Nature];
-            public string Gender => Main.gendersymbols[pk6.Gender];
-            public string ESV => pk6.PSV.ToString("0000");
-            public string HP_Type => Main.types[pk6.HPType+1];
-            public string Ability => Main.abilitylist[pk6.Ability];
-            public string Move1 => Main.movelist[pk6.Move1];
-            public string Move2 => Main.movelist[pk6.Move2];
-            public string Move3 => Main.movelist[pk6.Move3];
-            public string Move4 => Main.movelist[pk6.Move4];
-            public string HeldItem => Main.itemlist[pk6.HeldItem];
-            public string MetLoc => PKX.getLocation(false, pk6.Version, pk6.Met_Location);
-            public string EggLoc => PKX.getLocation(true, pk6.Version, pk6.Egg_Location);
-            public string Ball => Main.balllist[pk6.Ball];
-            public string OT => pk6.OT_Name;
-            public string Version => Main.gamelist[pk6.Version];
-            public string OTLang => Main.gamelanguages[pk6.Language] ?? $"UNK {pk6.Language}";
-            public string CountryID => pk6.Country.ToString();
-            public string RegionID => pk6.Region.ToString();
-            public string DSRegionID => pk6.ConsoleRegion.ToString();
+            private readonly PKM pkm;
+            public string Position => pkm.Identifier;
+            public Image Sprite => pkm.Sprite;
+            public string Nickname => pkm.Nickname;
+            public string Species => Main.specieslist[pkm.Species];
+            public string Nature => Main.natures[pkm.Nature];
+            public string Gender => Main.gendersymbols[pkm.Gender];
+            public string ESV => pkm.PSV.ToString("0000");
+            public string HP_Type => Main.types[pkm.HPType+1];
+            public string Ability => Main.abilitylist[pkm.Ability];
+            public string Move1 => Main.movelist[pkm.Move1];
+            public string Move2 => Main.movelist[pkm.Move2];
+            public string Move3 => Main.movelist[pkm.Move3];
+            public string Move4 => Main.movelist[pkm.Move4];
+            public string HeldItem => Main.itemlist[pkm.HeldItem];
+            public string MetLoc => PKX.getLocation(pkm, egg: false);
+            public string EggLoc => PKX.getLocation(pkm, egg: true);
+            public string Ball => Main.balllist[pkm.Ball];
+            public string OT => pkm.OT_Name;
+            public string Version => Main.gamelist[pkm.Version];
+            public string OTLang => Main.gamelanguages[pkm.Language] ?? $"UNK {pkm.Language}";
+            public string CountryID => pkm.Format > 5 ? (pkm as PK6).Country.ToString() : "N/A";
+            public string RegionID => pkm.Format > 5 ? (pkm as PK6).Region.ToString() : "N/A";
+            public string DSRegionID => pkm.Format > 5 ? (pkm as PK6).ConsoleRegion.ToString() : "N/A";
 
             #region Extraneous
-            public string EC => pk6.EncryptionConstant.ToString("X8");
-            public string PID => pk6.PID.ToString("X8");
-            public int HP_IV => pk6.IV_HP;
-            public int ATK_IV => pk6.IV_ATK;
-            public int DEF_IV => pk6.IV_DEF;
-            public int SPA_IV => pk6.IV_SPA;
-            public int SPD_IV => pk6.IV_SPD;
-            public int SPE_IV => pk6.IV_SPE;
-            public uint EXP => pk6.EXP;
-            public int Level => pk6.CurrentLevel;
-            public int HP_EV => pk6.EV_HP;
-            public int ATK_EV => pk6.EV_ATK;
-            public int DEF_EV => pk6.EV_DEF;
-            public int SPA_EV => pk6.EV_SPA;
-            public int SPD_EV => pk6.EV_SPD;
-            public int SPE_EV => pk6.EV_SPE;
-            public int Cool => pk6.CNT_Cool;
-            public int Beauty => pk6.CNT_Beauty;
-            public int Cute => pk6.CNT_Cute;
-            public int Smart => pk6.CNT_Smart;
-            public int Tough => pk6.CNT_Tough;
-            public int Sheen => pk6.CNT_Sheen;
-            public int Markings => pk6.Markings;
+            public string EC => pkm.EncryptionConstant.ToString("X8");
+            public string PID => pkm.PID.ToString("X8");
+            public int HP_IV => pkm.IV_HP;
+            public int ATK_IV => pkm.IV_ATK;
+            public int DEF_IV => pkm.IV_DEF;
+            public int SPA_IV => pkm.IV_SPA;
+            public int SPD_IV => pkm.IV_SPD;
+            public int SPE_IV => pkm.IV_SPE;
+            public uint EXP => pkm.EXP;
+            public int Level => pkm.CurrentLevel;
+            public int HP_EV => pkm.EV_HP;
+            public int ATK_EV => pkm.EV_ATK;
+            public int DEF_EV => pkm.EV_DEF;
+            public int SPA_EV => pkm.EV_SPA;
+            public int SPD_EV => pkm.EV_SPD;
+            public int SPE_EV => pkm.EV_SPE;
+            public int Cool => pkm.CNT_Cool;
+            public int Beauty => pkm.CNT_Beauty;
+            public int Cute => pkm.CNT_Cute;
+            public int Smart => pkm.CNT_Smart;
+            public int Tough => pkm.CNT_Tough;
+            public int Sheen => pkm.CNT_Sheen;
+            public int Markings => pkm.MarkByte;
 
-            public string NotOT => pk6.HT_Name;
+            public string NotOT => pkm.Format > 5 ? (pkm as PK6).HT_Name : "N/A";
 
-            public int AbilityNum => pk6.AbilityNumber;
-            public int GenderFlag => pk6.Gender;
-            public int AltForms => pk6.AltForm;
-            public int PKRS_Strain => pk6.PKRS_Strain;
-            public int PKRS_Days => pk6.PKRS_Days;
-            public int MetLevel => pk6.Met_Level;
-            public int OT_Gender => pk6.OT_Gender;
+            public int AbilityNum => pkm.Format > 5 ? (pkm as PK6).AbilityNumber : -1;
+            public int GenderFlag => pkm.Gender;
+            public int AltForms => pkm.AltForm;
+            public int PKRS_Strain => pkm.PKRS_Strain;
+            public int PKRS_Days => pkm.PKRS_Days;
+            public int MetLevel => pkm.Met_Level;
+            public int OT_Gender => pkm.OT_Gender;
 
-            public bool FatefulFlag => pk6.FatefulEncounter;
-            public bool IsEgg => pk6.IsEgg;
-            public bool IsNicknamed => pk6.IsNicknamed;
-            public bool IsShiny => pk6.IsShiny;
+            public bool FatefulFlag => pkm.FatefulEncounter;
+            public bool IsEgg => pkm.IsEgg;
+            public bool IsNicknamed => pkm.IsNicknamed;
+            public bool IsShiny => pkm.IsShiny;
 
-            public int TID => pk6.TID;
-            public int SID => pk6.SID;
-            public int TSV => pk6.TSV;
-            public int Move1_PP => pk6.Move1_PP;
-            public int Move2_PP => pk6.Move2_PP;
-            public int Move3_PP => pk6.Move3_PP;
-            public int Move4_PP => pk6.Move4_PP;
-            public int Move1_PPUp => pk6.Move1_PPUps;
-            public int Move2_PPUp => pk6.Move2_PPUps;
-            public int Move3_PPUp => pk6.Move3_PPUps;
-            public int Move4_PPUp => pk6.Move4_PPUps;
-            public string Relearn1 => Main.movelist[pk6.RelearnMove1];
-            public string Relearn2 => Main.movelist[pk6.RelearnMove2];
-            public string Relearn3 => Main.movelist[pk6.RelearnMove3];
-            public string Relearn4 => Main.movelist[pk6.RelearnMove4];
-            public ushort Checksum => pk6.Checksum;
-            public int mFriendship => pk6.OT_Friendship;
-            public int OT_Affection => pk6.OT_Affection;
-            public int Egg_Year => pk6.Egg_Year;
-            public int Egg_Month => pk6.Egg_Month;
-            public int Egg_Day => pk6.Egg_Day;
-            public int Met_Year => pk6.Met_Year;
-            public int Met_Month => pk6.Met_Month;
-            public int Met_Day => pk6.Met_Day;
-            public int Encounter => pk6.EncounterType;
+            public int TID => pkm.TID;
+            public int SID => pkm.SID;
+            public int TSV => pkm.TSV;
+            public int Move1_PP => pkm.Move1_PP;
+            public int Move2_PP => pkm.Move2_PP;
+            public int Move3_PP => pkm.Move3_PP;
+            public int Move4_PP => pkm.Move4_PP;
+            public int Move1_PPUp => pkm.Move1_PPUps;
+            public int Move2_PPUp => pkm.Move2_PPUps;
+            public int Move3_PPUp => pkm.Move3_PPUps;
+            public int Move4_PPUp => pkm.Move4_PPUps;
+            public string Relearn1 => Main.movelist[pkm.RelearnMove1];
+            public string Relearn2 => Main.movelist[pkm.RelearnMove2];
+            public string Relearn3 => Main.movelist[pkm.RelearnMove3];
+            public string Relearn4 => Main.movelist[pkm.RelearnMove4];
+            public ushort Checksum => pkm.Checksum;
+            public int mFriendship => pkm.OT_Friendship;
+            public int OT_Affection => pkm.OT_Affection;
+            public int Egg_Year => pkm.Egg_Year;
+            public int Egg_Month => pkm.Egg_Month;
+            public int Egg_Day => pkm.Egg_Day;
+            public int Met_Year => pkm.Met_Year;
+            public int Met_Month => pkm.Met_Month;
+            public int Met_Day => pkm.Met_Day;
+            public int Encounter => pkm.EncounterType;
 
             #endregion
-            public Preview(PK6 p) { pk6 = p; }
+            public Preview(PKM p) { pkm = p; }
         }
         public frmReport()
         {
@@ -117,51 +115,24 @@ namespace PKHeX
             dgData.DoubleBuffered(true);
             CenterToParent();
         }
-        public void PopulateData(byte[] InputData, int BoxDataOffset)
+        public void PopulateData(SaveFile SAV)
         {
-            SaveData = (byte[])InputData.Clone();
-            PokemonList PL = new PokemonList();
-            BoxBar.Maximum = 930 + 100;
-            BoxBar.Step = 1;
-            for (int BoxNum = 0; BoxNum < 31; BoxNum++)
-            {
-                int boxoffset = BoxDataOffset + BoxNum*0xE8*30;
-                for (int SlotNum = 0; SlotNum < 30; SlotNum++)
-                {
-                    BoxBar.PerformStep();
-                    int offset = boxoffset + 0xE8 * SlotNum;
-                    byte[] slotdata = new byte[0xE8];
-                    Array.Copy(SaveData, offset, slotdata, 0, 0xE8);
-                    byte[] dslotdata = PKX.decryptArray(slotdata);
-                    if (BitConverter.ToUInt16(dslotdata, 0x8) == 0) continue;
-                    string Identifier = $"B{(BoxNum + 1).ToString("00")}:{(SlotNum + 1).ToString("00")}";
-                    PK6 pkm = new PK6(dslotdata, Identifier);
-                    if (!pkm.ChecksumValid) continue;
-                    pkm.Stat_Level = PKX.getLevel(pkm.Species, pkm.EXP); // recalc Level
-                    PL.Add(new Preview(pkm));
-                }
-            }
-            dgData.DataSource = PL;
-            dgData.AutoGenerateColumns = true;
-            BoxBar.Maximum = 930 + dgData.Columns.Count;
-            for (int i = 0; i < dgData.Columns.Count; i++)
-            {
-                BoxBar.PerformStep();
-                if (dgData.Columns[i] is DataGridViewImageColumn) continue; // Don't add sorting for Sprites
-                dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
-            }
-            BoxBar.Visible = false;
+            PopulateData(SAV.BoxData);
         }
-        public void PopulateData(PK6[] data)
+        public void PopulateData(PKM[] Data)
         {
             BoxBar.Step = 1;
             PokemonList PL = new PokemonList();
-            foreach (PK6 p in data)
-                PL.Add(new Preview(p));
+            foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
+            {
+                pkm.Stat_Level = PKX.getLevel(pkm.Species, pkm.EXP); // recalc Level
+                PL.Add(new Preview(pkm));
+                BoxBar.PerformStep();
+            }
 
             dgData.DataSource = PL;
             dgData.AutoGenerateColumns = true;
-            BoxBar.Maximum = data.Length + dgData.Columns.Count;
+            BoxBar.Maximum = Data.Length + dgData.Columns.Count;
             for (int i = 0; i < dgData.Columns.Count; i++)
             {
                 BoxBar.PerformStep();
@@ -216,14 +187,7 @@ namespace PKHeX
         private ListSortDirection listSortDirection;
         private PropertyDescriptor propertyDescriptor;
 
-        protected SortableBindingList()
-            : base(new List<T>())
-        {
-            comparers = new Dictionary<Type, PropertyComparer<T>>();
-        }
-
-        public SortableBindingList(IEnumerable<T> enumeration)
-            : base(new List<T>(enumeration))
+        protected SortableBindingList() : base(new List<T>())
         {
             comparers = new Dictionary<Type, PropertyComparer<T>>();
         }
@@ -273,13 +237,8 @@ namespace PKHeX
         {
             int count = Count;
             for (int i = 0; i < count; ++i)
-            {
-                T element = this[i];
-                if (property.GetValue(element).Equals(key))
-                {
+                if (property.GetValue(this[i]).Equals(key))
                     return i;
-                }
-            }
 
             return -1;
         }

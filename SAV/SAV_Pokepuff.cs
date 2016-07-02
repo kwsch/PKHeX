@@ -18,7 +18,7 @@ namespace PKHeX
             new ToolTip().SetToolTip(B_All, "Hold CTRL to give Deluxe instead of Supreme.");
         }
 
-        private readonly byte[] sav = (byte[])Main.SAV.Data.Clone();
+        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private readonly string[] pfa;
         private void Setup()
         {
@@ -52,9 +52,9 @@ namespace PKHeX
             for (int i = 0; i < 100; i++)
             {
                 dgv.Rows[i].Cells[0].Value = (i + 1).ToString();
-                dgv.Rows[i].Cells[1].Value = pfa[sav[Main.SAV.Puff + i]];
+                dgv.Rows[i].Cells[1].Value = pfa[SAV.Data[SAV.Puff + i]];
             }
-            MT_CNT.Text = Main.SAV.PuffCount.ToString();
+            MT_CNT.Text = SAV.PuffCount.ToString();
         }
         private void dropclick(object sender, DataGridViewCellEventArgs e)
         {
@@ -79,7 +79,7 @@ namespace PKHeX
             for (int i = 0; i < 100; i++)
                 newpuffs[i] = (byte)(Util.rnd32()%basemod + basepuff);
 
-            Array.Copy(newpuffs, 0, sav, Main.SAV.Puff, 100);
+            Array.Copy(newpuffs, 0, SAV.Data, SAV.Puff, 100);
             Setup();
         }
         private void B_None_Click(object sender, EventArgs e)
@@ -90,7 +90,7 @@ namespace PKHeX
             newpuffs[2] = 3;
             newpuffs[3] = 4;
             newpuffs[4] = 5;
-            Array.Copy(newpuffs, 0, sav, Main.SAV.Puff, 100);
+            Array.Copy(newpuffs, 0, SAV.Data, SAV.Puff, 100);
             Setup();
         }
         private void B_Sort_Click(object sender, EventArgs e)
@@ -121,7 +121,7 @@ namespace PKHeX
                 Array.Sort(puffarray);
                 Array.Resize(ref puffarray, 100);
             }
-            Array.Copy(puffarray, 0, sav, Main.SAV.Puff, 100);
+            Array.Copy(puffarray, 0, SAV.Data, SAV.Puff, 100);
             Setup();
         }
         private void B_Save_Click(object sender, EventArgs e)
@@ -138,8 +138,9 @@ namespace PKHeX
                 }
                 puffarray[i - emptyslots] = (byte)Array.IndexOf(pfa, puff);
             }
-            Main.SAV.Puffs = puffarray;
-            Main.SAV.PuffCount = Util.ToInt32(MT_CNT.Text);
+            SAV.Puffs = puffarray;
+            SAV.PuffCount = Util.ToInt32(MT_CNT.Text);
+            Main.SAV.Data = SAV.Data;
             Main.SAV.Edited = true;
             Close();
         }

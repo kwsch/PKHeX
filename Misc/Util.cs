@@ -149,6 +149,7 @@ namespace PKHeX
         internal static string[] getStringList(string f)
         {
             object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
+            if (txt == null) return new string[0];
             string[] rawlist = ((string)txt).Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].Trim();
@@ -157,6 +158,7 @@ namespace PKHeX
         internal static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
+            if (txt == null) return new string[0];
             string[] rawlist = ((string)txt).Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].Trim();
@@ -235,64 +237,74 @@ namespace PKHeX
                 rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
             }
 
-            string[] stringdata = new string[rawlist.Length];
-            int itemsToRename = 0;
+            List<string> stringdata = new List<string>();
+            int start = -1;
             for (int i = 0; i < rawlist.Length; i++)
             {
                 // Find our starting point
                 if (!rawlist[i].Contains("! " + form.Name)) continue;
-
-                // Allow renaming of the Window Title
-                string[] WindowName = rawlist[i].Split(new[] {" = "}, StringSplitOptions.None);
-                if (WindowName.Length > 1) form.Text = WindowName[1];
-                // Copy our Control Names and Text to a new array for later processing.
-                for (int j = i + 1; j < rawlist.Length; j++)
-                {
-                    if (rawlist[j].Length == 0) continue; // Skip Over Empty Lines, errhandled
-                    if (rawlist[j][0] == '-') continue; // Keep translating if line is a comment line
-                    if (rawlist[j][0] == '!') // Stop if we have reached the end of translation
-                        goto rename;
-                    stringdata[itemsToRename] = rawlist[j]; // Add the entry to process later.
-                    itemsToRename++;
-                }
+                start = i;
+                break;
             }
-            return; // Not Found
-
-            // Now that we have our items to rename in: Control = Text format, let's execute the changes!
-        rename:
-            for (int i = 0; i < itemsToRename; i++)
-            {
-                string[] SplitString = stringdata[i].Split(new[] {" = "}, StringSplitOptions.None);
-                if (SplitString.Length < 2)
-                    continue; // Error in Input, errhandled
-                string ctrl = SplitString[0]; // Control to change the text of...
-                string text = SplitString[1]; // Text to set Control.Text to...
-                Control[] controllist = form.Controls.Find(ctrl, true);
-                if (controllist.Length != 0) // If Control is found
-                { controllist[0].Text = text; goto next; }
+            if (start < 0)
+                return;
+            
+            // Rename Window Title
+            string[] WindowName = rawlist[start].Split(new[] {" = "}, StringSplitOptions.None);
+            if (WindowName.Length > 1) form.Text = WindowName[1];
                 
-                // Check MenuStrips
-                foreach (MenuStrip menu in form.Controls.OfType<MenuStrip>())
-                {
-                    // Menu Items aren't in the Form's Control array. Find within the menu's Control array.
-                    ToolStripItem[] TSI = menu.Items.Find(ctrl, true);
-                    if (TSI.Length <= 0) continue;
-                    
-                    TSI[0].Text = text; goto next;
-                }
-                // Check ContextMenuStrips
-                foreach (ContextMenuStrip cs in FindContextMenuStrips(form.Controls.OfType<Control>()).Distinct())
-                {
-                    ToolStripItem[] TSI = cs.Items.Find(ctrl, true);
-                    if (TSI.Length <= 0) continue;
+            // Fetch controls to rename
+            for (int i = start + 1; i < rawlist.Length; i++)
+            {
+                if (rawlist[i].Length == 0) continue; // Skip Over Empty Lines, errhandled
+                if (rawlist[i][0] == '-') continue; // Keep translating if line is a comment line
+                if (rawlist[i][0] == '!') // Stop if we have reached the end of translation
+                    break;
+                stringdata.Add(rawlist[i]); // Add the entry to process later.
+            }
 
-                    TSI[0].Text = text; goto next;
-                }
+            if (stringdata.Count == 0)
+                return;
 
-                next:;
+            // Find control then change display Text.
+            foreach (string str in stringdata)
+            {
+                string[] SplitString = str.Split(new[] {" = "}, StringSplitOptions.None);
+                if (SplitString.Length < 2)
+                    continue;
+
+                object c = FindControl(SplitString[0], form.Controls); // Find control within Form's controls
+                if (c == null) // Not found
+                    continue;
+
+                string text = SplitString[1]; // Text to set Control.Text to...
+
+                if (c is Control) 
+                    (c as Control).Text = text;
+                else if (c is ToolStripItem)
+                    (c as ToolStripItem).Text = text;
             }
         }
-        internal static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
+        private static object FindControl(string name, Control.ControlCollection c)
+        {
+            Control control = c.Find(name, true).FirstOrDefault();
+            if (control != null)
+                return control;
+            foreach (MenuStrip menu in c.OfType<MenuStrip>())
+            {
+                var item = menu.Items.Find(name, true).FirstOrDefault();
+                if (item != null)
+                    return item;
+            }
+            foreach (ContextMenuStrip strip in FindContextMenuStrips(c.OfType<Control>()))
+            {
+                var item = strip.Items.Find(name, true).FirstOrDefault();
+                if (item != null)
+                    return item;
+            }
+            return null;
+        }
+        private static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
         {
             List<ContextMenuStrip> cs = new List<ContextMenuStrip>();
             foreach (Control control in c)
@@ -472,58 +484,6 @@ namespace PKHeX
                 cbList.Add(ncbi);
             }
             return cbList;
-        }
-
-        // QR Utility
-        internal static byte[] getQRData()
-        {
-            // Fetch data from QR code...
-            string address;
-            try { address = Clipboard.GetText(); }
-            catch { Alert("No text (url) in clipboard."); return null; }
-            try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { Alert("Clipboard text is not a valid URL:", address); return null; } }
-            catch { Alert("Clipboard text is not a valid URL:", address); return null; }
-            string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + System.Web.HttpUtility.UrlEncode(address);
-            try
-            {
-                System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
-                System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                var reader = new StreamReader(httpWebReponse.GetResponseStream());
-                string data = reader.ReadToEnd();
-                if (data.Contains("could not find")) { Alert("Reader could not find QR data in the image."); return null; }
-                if (data.Contains("filetype not supported")) { Alert("Input URL is not valid. Double check that it is an image (jpg/png).", address); return null; }
-                // Quickly convert the json response to a data string
-                string pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim intro
-                pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]", StringComparison.Ordinal)); // Trim outro
-                if (pkstr.Contains("nQR-Code:")) pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:", StringComparison.Ordinal)); //  Remove multiple QR codes in same image
-                pkstr = pkstr.Replace("\\", ""); // Rectify response
-
-                try { return Convert.FromBase64String(pkstr); }
-                catch { Alert("QR string to Data failed.", pkstr); return null; }
-            }
-            catch { Alert("Unable to connect to the internet to decode QR code."); return null;}
-        }
-        internal static Image getQRImage(byte[] data, string server)
-        {
-            string qrdata = Convert.ToBase64String(data);
-            string message = server + qrdata;
-            string webURL = "http://chart.apis.google.com/chart?chs=365x365&cht=qr&chl=" + System.Web.HttpUtility.UrlEncode(message);
-
-            try
-            {
-                System.Net.HttpWebRequest httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(webURL);
-                System.Net.HttpWebResponse httpWebReponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                Stream stream = httpWebReponse.GetResponseStream();
-                if (stream != null) return Image.FromStream(stream);
-            }
-            catch
-            {
-                if (DialogResult.Yes != Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
-                    return null;
-                try { Clipboard.SetText(webURL); }
-                catch { Alert("Failed to set text to Clipboard"); }
-            }
-            return null;
         }
     }
 }

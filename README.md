@@ -1,26 +1,25 @@
 PKHeX
 =====
 
-Pokémon X/Y/OR/AS SAV/PKX file editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
+Pokémon NDS/3DS save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
-Supports binary file loading of the following files originating from the Nintendo 3DS:
-* Decrypted Save files (1MB/Cyber Save 0x65600/0x76000 Bytes)
-* Individual entity files (232/260 bytes), saved as .pk6 and .ek6
-* Conversion of Event Gift files (.wc6) to .pk6
-* Decrypted Battle Videos
- 
-The following files from previous generations of games are supported:
-* Transferring of previous generation entities (.pkm) to .pk6
-* Conversion of Event Files (.pgt, .pcd, .pgf) to .pk6
+Supports the following files originating from the Nintendo NDS & 3DS:
+* Save files ("main", .sav)
+* Individual Pokémon entity files (.pk*)
+* Mystery Gift files (.pgt, .pcd, .pgf, .wc6) including conversion to .pk*
+* Importing teams from Decrypted Battle Videos (X/Y/OR/AS only)
+* Transferring of previous generation entities (.pkm) to future generation formats and save files
 
-Data is then displayed in a meaningful view, and can be edited and saved back to binary data.
-Since the Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, a resigning service is required (svdt, save_manager, or SaveDataFiler).
+Data is displayed in a view which can be edited and saved.
+The interface can be translated with resource/external text files so that different languages can be supported.
 
-The interface is translatable with resource/external text files so that different languages can be supported.
+Pokémon Showdown sets can be imported/exported in addition to QR codes.
+
+Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required (svdt, save_manager, or SaveDataFiler).
 
 ## Screenshots
 
-![Main Window](http://i.snag.gy/dGdB4.jpg?raw=true)
+![Main Window](http://i.imgur.com/GBub4le.png)
 
 ### License
 

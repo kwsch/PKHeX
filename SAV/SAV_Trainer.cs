@@ -16,6 +16,7 @@ namespace PKHeX
             catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
 
             Util.TranslateInterface(this, Main.curlanguage);
+            B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
             MaisonRecords = new[]
             {
@@ -326,7 +327,9 @@ namespace PKHeX
             CB_MultiplayerSprite.DataSource = oras_sprite_list;
 
             L_Vivillon.Text = Main.specieslist[666] + ":";
-            Main.setForms(666, CB_Vivillon);
+            CB_Vivillon.DisplayMember = "Text";
+            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.DataSource = PKX.getFormList(666, Main.types, Main.forms, Main.gendersymbols).ToList();
         }
         private void getBadges()
         {
@@ -410,9 +413,9 @@ namespace PKHeX
             TB_Style.Text = SAV.Style.ToString();
 
             // Load Play Time
-            MT_Hours.Text = Main.SAV.PlayedHours.ToString();
-            MT_Minutes.Text = Main.SAV.PlayedMinutes.ToString();
-            MT_Seconds.Text = Main.SAV.PlayedSeconds.ToString();
+            MT_Hours.Text = SAV.PlayedHours.ToString();
+            MT_Minutes.Text = SAV.PlayedMinutes.ToString();
+            MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
             // Load PSS Sprite
             CB_MultiplayerSprite.SelectedValue = SAV.Sprite;
@@ -572,10 +575,6 @@ namespace PKHeX
             Main.SAV.Data = SAV.Data;
             Main.SAV.Edited = true;
             Close();
-        }
-        private void B_MaxCash_Click(object sender, EventArgs e)
-        {
-            MT_Money.Text = "9,999,999";
         }
         private void changeBadge(object sender, EventArgs e)
         {

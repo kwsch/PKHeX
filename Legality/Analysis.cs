@@ -21,13 +21,19 @@ namespace PKHeX
         public string Report => getLegalityReport();
         public string VerboseReport => getVerboseLegalityReport();
 
-        public LegalityAnalysis(PK6 pk)
+        public LegalityAnalysis(PKM pk)
         {
-            pk6 = pk;
-            updateRelearnLegality();
-            updateMoveLegality();
-            updateChecks();
-            getLegalityReport();
+            if (!(pk is PK6))
+                return;
+            pk6 = pk as PK6;
+            try
+            {
+                updateRelearnLegality();
+                updateMoveLegality();
+                updateChecks();
+                getLegalityReport();
+            }
+            catch { Valid = false; }
         }
 
         public void updateRelearnLegality()
@@ -66,7 +72,7 @@ namespace PKHeX
         }
         private string getLegalityReport()
         {
-            if (!pk6.Gen6)
+            if (pk6 == null || !pk6.Gen6)
                 return "Analysis only available for Pokémon that originate from X/Y & OR/AS.";
             
             var chks = Checks;
@@ -91,6 +97,8 @@ namespace PKHeX
         private string getVerboseLegalityReport()
         {
             string r = getLegalityReport() + Environment.NewLine;
+            if (pk6 == null)
+                return r;
             r += "===" + Environment.NewLine + Environment.NewLine;
             int rl = r.Length;
 
@@ -105,7 +113,7 @@ namespace PKHeX
                 r += Environment.NewLine;
 
             var chks = Checks;
-            r += chks.Where(chk => chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
+            r += chks.Where(chk => chk != null && chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
                 .Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
             return r.TrimEnd();
         }
