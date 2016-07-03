@@ -561,18 +561,18 @@ namespace PKHeX
         }
         public int X
         {
-            get { return BitConverter.ToInt32(Data, Trainer1 + 0x186); }
-            set { BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x186); }
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x186); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x186); }
         }
         public int Z
         {
-            get { return BitConverter.ToInt32(Data, Trainer1 + 0x18A); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x18A); }
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x18A); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x18A); }
         }
         public int Y
         {
-            get { return BitConverter.ToInt32(Data, Trainer1 + 0x18E); }
-            set { BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x18E); }
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x18E); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x18E); }
         }
 
         public override int PlayedHours
