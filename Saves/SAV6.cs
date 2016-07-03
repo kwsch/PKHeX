@@ -21,7 +21,7 @@ namespace PKHeX
             getSAVOffsets();
 
             HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
-            Personal = ORAS ? Legal.PersonalAO : Legal.PersonalXY;
+            Personal = ORAS ? PersonalInfo.AO : PersonalInfo.XY;
             if (!Exportable)
                 resetBoxes();
         }

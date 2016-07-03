@@ -14668,6 +14668,26 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_e {
+            get {
+                object obj = ResourceManager.GetObject("personal_e", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_fr {
+            get {
+                object obj = ResourceManager.GetObject("personal_fr", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_hgss {
             get {
                 object obj = ResourceManager.GetObject("personal_hgss", resourceCulture);
@@ -14678,9 +14698,29 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_lg {
+            get {
+                object obj = ResourceManager.GetObject("personal_lg", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_pt {
             get {
                 object obj = ResourceManager.GetObject("personal_pt", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_rs {
+            get {
+                object obj = ResourceManager.GetObject("personal_rs", resourceCulture);
                 return ((byte[])(obj));
             }
         }

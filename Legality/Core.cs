@@ -8,13 +8,6 @@ namespace PKHeX
         // PKHeX master Wonder Card Database
         internal static WC6[] WC6DB;
         // PKHeX master personal.dat
-        internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getArray(Properties.Resources.personal_ao, GameVersion.ORAS);
-        internal static readonly PersonalInfo[] PersonalXY = PersonalInfo.getArray(Properties.Resources.personal_xy, GameVersion.XY);
-        internal static readonly PersonalInfo[] PersonalB2W2 = PersonalInfo.getArray(Properties.Resources.personal_b2w2, GameVersion.B2W2);
-        internal static readonly PersonalInfo[] PersonalBW = PersonalInfo.getArray(Properties.Resources.personal_bw, GameVersion.BW);
-        internal static readonly PersonalInfo[] PersonalHGSS = PersonalInfo.getArray(Properties.Resources.personal_hgss, GameVersion.HGSS);
-        internal static readonly PersonalInfo[] PersonalPt = PersonalInfo.getArray(Properties.Resources.personal_pt, GameVersion.Pt);
-        internal static readonly PersonalInfo[] PersonalDP = PersonalInfo.getArray(Properties.Resources.personal_dp, GameVersion.DP);
 
         private static readonly EggMoves[] EggMoveXY = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
         private static readonly Learnset[] LevelUpXY = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
@@ -412,8 +405,8 @@ namespace PKHeX
         }
         private static IEnumerable<int> getLVLMoves(int species, int lvl, int formnum)
         {
-            int ind_XY = PersonalXY[species].FormeIndex(species, formnum);
-            int ind_AO = PersonalAO[species].FormeIndex(species, formnum);
+            int ind_XY = PersonalInfo.XY[species].FormeIndex(species, formnum);
+            int ind_AO = PersonalInfo.AO[species].FormeIndex(species, formnum);
             return LevelUpXY[ind_XY].getMoves(lvl).Concat(LevelUpAO[ind_AO].getMoves(lvl));
         }
         private static IEnumerable<EncounterArea> getEncounterSlots(PK6 pk6)
@@ -550,7 +543,7 @@ namespace PKHeX
             bool ORASTutors = Version == -1 || pk6.AO || !pk6.IsUntraded;
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
-                int formcount = PersonalAO[species].FormeCount;
+                int formcount = PersonalInfo.AO[species].FormeCount;
                 for (int i = 0; i < formcount; i++)
                     r.AddRange(getMoves(species, lvl, i, ORASTutors, Version, LVL, Tutor, Machine));
                 if (Relearn) r.AddRange(pk6.RelearnMoves);
@@ -575,8 +568,8 @@ namespace PKHeX
             List<int> r = new List<int> { 0 };
             if (Version < 0 || Version == 0)
             {
-                int index = PersonalXY[species].FormeIndex(species, form);
-                PersonalInfo pi = PersonalXY[index];
+                int index = PersonalInfo.XY[species].FormeIndex(species, form);
+                PersonalInfo pi = PersonalInfo.XY[index];
 
                 if (LVL) r.AddRange(LevelUpXY[index].getMoves(lvl));
                 if (Tutor) r.AddRange(getTutorMoves(species, form, ORASTutors));
@@ -584,8 +577,8 @@ namespace PKHeX
             }
             if (Version < 0 || Version == 1)
             {
-                int index = PersonalAO[species].FormeIndex(species, form);
-                PersonalInfo pi = PersonalAO[index];
+                int index = PersonalInfo.AO[species].FormeIndex(species, form);
+                PersonalInfo pi = PersonalInfo.AO[index];
 
                 if (LVL) r.AddRange(LevelUpAO[index].getMoves(lvl));
                 if (Tutor) r.AddRange(getTutorMoves(species, form, ORASTutors));
@@ -595,13 +588,13 @@ namespace PKHeX
         }
         private static IEnumerable<int> getEggMoves(int species, int formnum)
         {
-            int ind_XY = PersonalXY[species].FormeIndex(species, formnum);
-            int ind_AO = PersonalAO[species].FormeIndex(species, formnum);
+            int ind_XY = PersonalInfo.XY[species].FormeIndex(species, formnum);
+            int ind_AO = PersonalInfo.AO[species].FormeIndex(species, formnum);
             return EggMoveAO[ind_AO].Moves.Concat(EggMoveXY[ind_XY].Moves);
         }
         private static IEnumerable<int> getTutorMoves(int species, int formnum, bool ORASTutors)
         {
-            PersonalInfoORAS pkAO = (PersonalInfoORAS)PersonalAO[PersonalAO[species].FormeIndex(species, formnum)];
+            PersonalInfoORAS pkAO = (PersonalInfoORAS) PersonalInfo.AO[PersonalInfo.AO[species].FormeIndex(species, formnum)];
 
             // Type Tutor
             List<int> moves = TypeTutor.Where((t, i) => pkAO.TypeTutors[i]).ToList();

@@ -82,6 +82,7 @@ namespace PKHeX
                     OFS_PouchBalls = Party + 0x0600;
                     OFS_PouchTMHM = Party + 0x0640;
                     OFS_PouchBerry = Party + 0x0740;
+                    Personal = PersonalInfo.RS;
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
@@ -90,6 +91,7 @@ namespace PKHeX
                     OFS_PouchBalls = Party + 0x0430;
                     OFS_PouchTMHM = Party + 0x0464;
                     OFS_PouchBerry = Party + 0x054C;
+                    Personal = PersonalInfo.FR; // todo
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
@@ -98,6 +100,7 @@ namespace PKHeX
                     OFS_PouchBalls = Party + 0x0650;
                     OFS_PouchTMHM = Party + 0x0690;
                     OFS_PouchBerry = Party + 0x0790;
+                    Personal = PersonalInfo.E;
                     break;
             }
             LegalItems = Legal.Pouch_Items_RS;
@@ -106,7 +109,6 @@ namespace PKHeX
             LegalBerries = Legal.Pouch_Berries_RS;
 
             HeldItems = Legal.HeldItems_RS;
-            Personal = Legal.PersonalAO; // todo
 
             if (!Exportable)
                 resetBoxes();

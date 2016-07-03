@@ -4,6 +4,18 @@ namespace PKHeX
 {
     public abstract class PersonalInfo
     {
+        internal static readonly PersonalInfo[] AO = getArray(Properties.Resources.personal_ao, GameVersion.ORAS);
+        internal static readonly PersonalInfo[] XY = getArray(Properties.Resources.personal_xy, GameVersion.XY);
+        internal static readonly PersonalInfo[] B2W2 = getArray(Properties.Resources.personal_b2w2, GameVersion.B2W2);
+        internal static readonly PersonalInfo[] BW = getArray(Properties.Resources.personal_bw, GameVersion.BW);
+        internal static readonly PersonalInfo[] HGSS = getArray(Properties.Resources.personal_hgss, GameVersion.HGSS);
+        internal static readonly PersonalInfo[] Pt = getArray(Properties.Resources.personal_pt, GameVersion.Pt);
+        internal static readonly PersonalInfo[] DP = getArray(Properties.Resources.personal_dp, GameVersion.DP);
+        internal static readonly PersonalInfo[] LG = getArray(Properties.Resources.personal_lg, GameVersion.LG);
+        internal static readonly PersonalInfo[] FR = getArray(Properties.Resources.personal_fr, GameVersion.FR);
+        internal static readonly PersonalInfo[] E = getArray(Properties.Resources.personal_e, GameVersion.E);
+        internal static readonly PersonalInfo[] RS = getArray(Properties.Resources.personal_rs, GameVersion.RS);
+
         protected const int SIZE_G3 = 0x1C;
         protected const int SIZE_G4 = 0x2C;
         protected const int SIZE_BW = 0x3C;
@@ -103,6 +115,10 @@ namespace PKHeX
             int size = 0;
             switch (format)
             {
+                case GameVersion.RS:
+                case GameVersion.E:
+                case GameVersion.FR:
+                case GameVersion.LG: size = SIZE_G3; break;
                 case GameVersion.DP:
                 case GameVersion.Pt:
                 case GameVersion.HGSS: size = SIZE_G4; break;
@@ -120,6 +136,14 @@ namespace PKHeX
 
             switch (format)
             {
+                case GameVersion.RS:
+                case GameVersion.E:
+                case GameVersion.FR:
+                case GameVersion.LG:
+                    Array.Resize(ref d, 387);
+                    for (int i = 0; i < d.Length; i++) // entries are not in order of natdexID
+                        d[i] = new PersonalInfoG3(entries[PKX.getG3Species(i)]);
+                    break;
                 case GameVersion.DP:
                 case GameVersion.Pt:
                 case GameVersion.HGSS:

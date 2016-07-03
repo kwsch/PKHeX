@@ -28,9 +28,9 @@ namespace PKHeX
 
             switch (Version)
             {
-                case GameVersion.DP: Personal = Legal.PersonalDP; break;
-                case GameVersion.Pt: Personal = Legal.PersonalPt; break;
-                case GameVersion.HGSS: Personal = Legal.PersonalHGSS; break;
+                case GameVersion.DP: Personal = PersonalInfo.DP; break;
+                case GameVersion.Pt: Personal = PersonalInfo.Pt; break;
+                case GameVersion.HGSS: Personal = PersonalInfo.HGSS; break;
             }
 
             if (!Exportable)

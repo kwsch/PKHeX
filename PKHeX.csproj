@@ -78,6 +78,7 @@
     <Compile Include="PersonalInfo\PersonalInfo.cs" />
     <Compile Include="PersonalInfo\PersonalInfoB2W2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoBW.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoG3.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG4.cs" />
     <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
@@ -389,8 +390,12 @@
     <None Include="Resources\byte\personal_b2w2" />
     <None Include="Resources\byte\personal_bw" />
     <None Include="Resources\byte\personal_dp" />
+    <None Include="Resources\byte\personal_e" />
+    <None Include="Resources\byte\personal_fr" />
     <None Include="Resources\byte\personal_hgss" />
+    <None Include="Resources\byte\personal_lg" />
     <None Include="Resources\byte\personal_pt" />
+    <None Include="Resources\byte\personal_rs" />
     <None Include="Resources\byte\personal_xy" />
     <None Include="Resources\byte\wc6.pkl" />
     <None Include="Resources\byte\wc6full.pkl" />

@@ -763,11 +763,13 @@ namespace PKHeX
                     TB_Secure2.Text = (SAV as SAV6).Secure2.ToString("X16");
                     break;
             }
-            PKX.Personal = SAV.Personal;
-
             PKM pk = preparePKM();
+            PKX.Personal = SAV.Personal;
+            bool init = fieldsInitialized;
+            fieldsInitialized = false;
             populateFilteredDataSources();
             populateFields(pkm.Format != SAV.Generation ? SAV.BlankPKM : pk);
+            fieldsInitialized |= init;
 
             // SAV Specific Limits
             TB_OT.MaxLength = SAV.OTLength;
