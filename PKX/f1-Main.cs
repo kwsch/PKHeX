@@ -3545,11 +3545,15 @@ namespace PKHeX
         {
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
             if (!verifiedPKM()) return; // don't copy garbage to the box
-            
-            if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in {CB_BoxSelect.Text}?") != DialogResult.Yes)
+
+            PKM pk;
+            if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in {CB_BoxSelect.Text}?") == DialogResult.Yes)
+                pk = preparePKM();
+            else if (Util.Prompt(MessageBoxButtons.YesNo, $"Delete all Pokemon in {CB_BoxSelect.Text}?") == DialogResult.Yes)
+                pk = SAV.BlankPKM;
+            else
                 return;
 
-            PKM pk = preparePKM();
             for (int i = 0; i < 30; i++) // set to every slot in box
             {
                 SAV.setStoredSlot(pk, getPKXOffset(i));
