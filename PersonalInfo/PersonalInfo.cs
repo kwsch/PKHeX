@@ -48,14 +48,14 @@ namespace PKHeX
         public bool[] TypeTutors { get; set; }
         public bool[][] SpecialTutors { get; set; } = new bool[0][];
 
-        protected bool[] getBits(byte[] data)
+        protected static bool[] getBits(byte[] data)
         {
             bool[] r = new bool[8 * data.Length];
             for (int i = 0; i < r.Length; i++)
                 r[i] = (data[i/8] >> (i&7) & 0x1) == 1;
             return r;
         }
-        protected byte[] setBits(bool[] bits)
+        protected static byte[] setBits(bool[] bits)
         {
             byte[] data = new byte[bits.Length/8];
             for (int i = 0; i < bits.Length; i++)
@@ -67,7 +67,14 @@ namespace PKHeX
         // Data Manipulation
         public int FormeIndex(int species, int forme)
         {
-            return forme == 0 || FormStatsIndex == 0 ? species : FormStatsIndex + forme - 1;
+            if (forme == 0) // no forme requested
+                return species;
+            if (FormStatsIndex == 0) // no formes present
+                return species;
+            if (forme > FormeCount) // beyond range of species' formes
+                return species;
+
+            return FormStatsIndex + forme - 1;
         }
         public int RandomGender
         {
