@@ -411,7 +411,7 @@ namespace PKHeX
             int newabil = Convert.ToInt16(MT_AbilNo.Text) >> 1;
             int species = Util.getIndex(CB_Species);
             int formnum = CB_Form.SelectedIndex;
-            byte[] abils = Legal.PersonalAO[Legal.PersonalAO[species].FormeIndex(species, formnum)].Abilities;
+            int[] abils = Legal.PersonalAO[Legal.PersonalAO[species].FormeIndex(species, formnum)].Abilities;
 
             // Build Ability List
             List<string> ability_list = new List<string>

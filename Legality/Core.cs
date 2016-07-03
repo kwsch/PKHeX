@@ -8,8 +8,14 @@ namespace PKHeX
         // PKHeX master Wonder Card Database
         internal static WC6[] WC6DB;
         // PKHeX master personal.dat
-        internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getArray(Properties.Resources.personal_ao, PersonalInfo.SizeAO);
-        internal static readonly PersonalInfo[] PersonalXY = PersonalInfo.getArray(Properties.Resources.personal_xy, PersonalInfo.SizeXY);
+        internal static readonly PersonalInfo[] PersonalAO = PersonalInfo.getArray(Properties.Resources.personal_ao, GameVersion.ORAS);
+        internal static readonly PersonalInfo[] PersonalXY = PersonalInfo.getArray(Properties.Resources.personal_xy, GameVersion.XY);
+        internal static readonly PersonalInfo[] PersonalB2W2 = PersonalInfo.getArray(Properties.Resources.personal_b2w2, GameVersion.B2W2);
+        internal static readonly PersonalInfo[] PersonalBW = PersonalInfo.getArray(Properties.Resources.personal_bw, GameVersion.BW);
+        internal static readonly PersonalInfo[] PersonalHGSS = PersonalInfo.getArray(Properties.Resources.personal_hgss, GameVersion.HGSS);
+        internal static readonly PersonalInfo[] PersonalPt = PersonalInfo.getArray(Properties.Resources.personal_pt, GameVersion.Pt);
+        internal static readonly PersonalInfo[] PersonalDP = PersonalInfo.getArray(Properties.Resources.personal_dp, GameVersion.DP);
+
         private static readonly EggMoves[] EggMoveXY = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
         private static readonly Learnset[] LevelUpXY = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
         private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_ao, "ao"));
@@ -595,16 +601,16 @@ namespace PKHeX
         }
         private static IEnumerable<int> getTutorMoves(int species, int formnum, bool ORASTutors)
         {
-            PersonalInfo pkAO = PersonalAO[PersonalAO[species].FormeIndex(species, formnum)];
+            PersonalInfoORAS pkAO = (PersonalInfoORAS)PersonalAO[PersonalAO[species].FormeIndex(species, formnum)];
 
             // Type Tutor
-            List<int> moves = TypeTutor.Where((t, i) => pkAO.Tutors[i]).ToList();
+            List<int> moves = TypeTutor.Where((t, i) => pkAO.TypeTutors[i]).ToList();
 
             // Varied Tutors
             if (ORASTutors)
             for (int i = 0; i < Tutors_AO.Length; i++)
                 for (int b = 0; b < Tutors_AO[i].Length; b++)
-                    if (pkAO.ORASTutors[i][b])
+                    if (pkAO.SpecialTutors[i][b])
                         moves.Add(Tutors_AO[i][b]);
 
             // Keldeo - Secret Sword

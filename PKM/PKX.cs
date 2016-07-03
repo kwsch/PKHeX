@@ -243,7 +243,7 @@ namespace PKHeX
             Util.Shuffle(evs);
             return evs;
         }
-        internal static byte getBaseFriendship(int species)
+        internal static int getBaseFriendship(int species)
         {
             return Personal[species].BaseFriendship;
         }
@@ -267,14 +267,14 @@ namespace PKHeX
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
         }
-        internal static byte[] getAbilities(int species, int formnum)
+        internal static int[] getAbilities(int species, int formnum)
         {
             return Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
         }
         internal static int getAbilityNumber(int species, int ability, int formnum)
         {
-            byte[] spec_abilities = getAbilities(species, formnum);
-            int abilval = Array.IndexOf(spec_abilities, (byte)ability);
+            int[] spec_abilities = getAbilities(species, formnum);
+            int abilval = Array.IndexOf(spec_abilities, ability);
             if (abilval >= 0)
                 return 1 << abilval;
             return -1;

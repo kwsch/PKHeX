@@ -75,6 +75,12 @@
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
     <Compile Include="MysteryGifts\MysteryGift.cs" />
+    <Compile Include="PersonalInfo\PersonalInfo.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoB2W2.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoBW.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoG4.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
@@ -380,6 +386,11 @@
     <None Include="Resources\byte\evos_ao.pkl" />
     <None Include="Resources\byte\lvlmove_ao.pkl" />
     <None Include="Resources\byte\lvlmove_xy.pkl" />
+    <None Include="Resources\byte\personal_b2w2" />
+    <None Include="Resources\byte\personal_bw" />
+    <None Include="Resources\byte\personal_dp" />
+    <None Include="Resources\byte\personal_hgss" />
+    <None Include="Resources\byte\personal_pt" />
     <None Include="Resources\byte\personal_xy" />
     <None Include="Resources\byte\wc6.pkl" />
     <None Include="Resources\byte\wc6full.pkl" />

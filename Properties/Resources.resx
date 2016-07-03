@@ -5869,4 +5869,19 @@
   <data name="showdown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Program\showdown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="personal_b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_b2w2;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_bw;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_dp;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_hgss;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_pt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -376,8 +376,8 @@ namespace PKHeX
             CB_Form.SelectedIndex = form;
 
             // Set Ability
-            byte[] abilities = PKX.getAbilities(Set.Species, form);
-            int ability = Array.IndexOf(abilities, (byte)Set.Ability);
+            int[] abilities = PKX.getAbilities(Set.Species, form);
+            int ability = Array.IndexOf(abilities, Set.Ability);
             if (ability < 0) ability = 0;
             CB_Ability.SelectedIndex = ability;
             ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4, };
@@ -1581,15 +1581,9 @@ namespace PKHeX
             if (SAV.Generation > 3) // has forms
                 formnum = CB_Form.SelectedIndex;
 
-            byte[] abils = SAV.Personal[SAV.Personal[species].FormeIndex(species, formnum)].Abilities;
-
-            List<string> ability_list = new List<string>
-            {
-                abilitylist[abils[0]] + " (1)",
-                abilitylist[abils[1]] + " (2)",
-            };
-            if (SAV.Generation >= 5) // hidden ability
-                ability_list.Add(abilitylist[abils[2]] + " (H)");
+            int[] abils = SAV.Personal[SAV.Personal[species].FormeIndex(species, formnum)].Abilities;
+            string[] abilIdentifier = {" (1)", " (2)", " (H)"};
+            List<string> ability_list = abils.Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
 
             int curAbil = CB_Ability.SelectedIndex;
             CB_Ability.DataSource = ability_list;

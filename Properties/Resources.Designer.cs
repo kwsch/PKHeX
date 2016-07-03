@@ -14638,6 +14638,56 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_b2w2 {
+            get {
+                object obj = ResourceManager.GetObject("personal_b2w2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_bw {
+            get {
+                object obj = ResourceManager.GetObject("personal_bw", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_dp {
+            get {
+                object obj = ResourceManager.GetObject("personal_dp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_hgss {
+            get {
+                object obj = ResourceManager.GetObject("personal_hgss", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_pt {
+            get {
+                object obj = ResourceManager.GetObject("personal_pt", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_xy {
             get {
                 object obj = ResourceManager.GetObject("personal_xy", resourceCulture);

@@ -424,8 +424,8 @@ namespace PKHeX
         private LegalityCheck verifyAbility()
         {
             int index = Legal.PersonalAO[pk6.Species].FormeIndex(pk6.Species, pk6.AltForm);
-            byte[] abilities = Legal.PersonalAO[index].Abilities;
-            int abilval = Array.IndexOf(abilities, (byte)pk6.Ability);
+            int[] abilities = Legal.PersonalAO[index].Abilities;
+            int abilval = Array.IndexOf(abilities, pk6.Ability);
             if (abilval < 0)
                 return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form.");
 

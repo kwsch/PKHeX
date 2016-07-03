@@ -26,7 +26,12 @@ namespace PKHeX
             getActiveBlock();
             getSAVOffsets();
 
-            Personal = Legal.PersonalAO; // todo
+            switch (Version)
+            {
+                case GameVersion.DP: Personal = Legal.PersonalDP; break;
+                case GameVersion.Pt: Personal = Legal.PersonalPt; break;
+                case GameVersion.HGSS: Personal = Legal.PersonalHGSS; break;
+            }
 
             if (!Exportable)
                 resetBoxes();

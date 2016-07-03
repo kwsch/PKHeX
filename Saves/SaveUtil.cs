@@ -18,8 +18,8 @@ namespace PKHeX
         // Game Groupings (SaveFile type)
         RS = 100,
         FRLG = 101,
-        DP = 103,
-        HGSS = 104,
+        DP = 102,
+        HGSS = 103,
         BW = 104,
         B2W2 = 105,
         XY = 106,
