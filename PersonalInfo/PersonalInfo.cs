@@ -4,6 +4,7 @@ namespace PKHeX
 {
     public abstract class PersonalInfo
     {
+        protected const int SIZE_G3 = 0x1C;
         protected const int SIZE_G4 = 0x2C;
         protected const int SIZE_BW = 0x3C;
         protected const int SIZE_B2W2 = 0x4C;
