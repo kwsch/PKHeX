@@ -12,6 +12,7 @@ namespace PKHeX
                 return;
             Data = data;
 
+            // Unpack TMHM & Tutors
             TMHM = getBits(Data.Skip(0x28).Take(0x10).ToArray());
             TypeTutors = getBits(Data.Skip(0x38).Take(0x4).ToArray());
         }

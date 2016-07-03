@@ -142,7 +142,7 @@ namespace PKHeX
             byte[][] r = new byte[data.Length/size][];
             for (int i = 0; i < data.Length; i += size)
             {
-                r[i] = new byte[size];
+                r[i/size] = new byte[size];
                 Array.Copy(data, i, r[i/size], 0, size);
             }
             return r;
