@@ -108,11 +108,13 @@ namespace PKHeX
                 foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
                     openQuick(arg, force: true);
             }
-            else // Detect save
+            if (!SAV.Exportable) // No SAV loaded from exe args
             {
                 string path = detectSaveFile();
                 if (path != null)
                     openQuick(path, force: true);
+                else
+                    GB_SAVtools.Visible = false;
             }
 
             // Splash Screen closes on its own.
@@ -126,7 +128,7 @@ namespace PKHeX
 
         #region Important Variables
         public static PKM pkm = new PK6(); // Tab Pokemon Data Storage
-        public static SaveFile SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7 }; // Save File
+        public static SaveFile SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
         public static Color defaultControlWhite, defaultControlText;
         public static string eggname = "";
         public const string DatabasePath = "db";
@@ -697,6 +699,7 @@ namespace PKHeX
             setPKXBoxes();   // Reload all of the PKX Windows
 
             // Hide content if not present in game.
+            GB_SAVtools.Visible = true;
             GB_SUBE.Visible = SAV.HasSUBE;
             PB_Locked.Visible = SAV.HasBattleBox && SAV.BattleBoxLocked;
 
