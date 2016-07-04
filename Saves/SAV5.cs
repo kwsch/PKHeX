@@ -40,6 +40,8 @@ namespace PKHeX
                     BattleBox = 0x20A00;
                     Trainer2 = 0x21200;
                     Daycare = 0x20E00;
+                    PokeDex = 0x21600;
+                    PokeDexLanguageFlags = PokeDex + 0x320;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -61,6 +63,8 @@ namespace PKHeX
                     EventConst = 0x1FF00;
                     EventFlag = EventConst + 0x35E;
                     Daycare = 0x20D00;
+                    PokeDex = 0x21400;
+                    PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -349,9 +353,10 @@ namespace PKHeX
         
         private const int wcSeed = 0x1D290;
 
-        private readonly int Trainer2, AdventureInfo;
+        private readonly int Trainer2, AdventureInfo, PokeDexLanguageFlags;
         public override bool HasBoxWallpapers => false;
-        
+        public override bool HasPokeDex => false;
+
         // Daycare
         public override int DaycareSeedSize => 16;
         public override int getDaycareSlotOffset(int loc, int slot)
@@ -592,5 +597,45 @@ namespace PKHeX
         }
         public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x34); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); } }
         public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x3C); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); } }
+
+        protected override void setDex(PKM pkm)
+        {
+            if (pkm.Species == 0)
+                return;
+            if (pkm.Species > MaxSpeciesID)
+                return;
+            if (Version == GameVersion.Unknown)
+                return;
+            if (PokeDex < 0)
+                return;
+
+            const int brSize = 0x54;
+            int bit = pkm.Species - 1;
+            int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
+            int gender = pkm.Gender % 2; // genderless -> male
+            int shiny = pkm.IsShiny ? 1 : 0;
+            int shiftoff = shiny * 0x54 * 2 + gender * 0x60 + 0x60;
+
+            // Set the Species Owned Flag
+            Data[PokeDex + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+
+            // Set the [Species/Gender/Shiny] Seen Flag
+            Data[PokeDex + shiftoff + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+
+            // Set the Display flag if none are set
+            bool Displayed = false;
+            Displayed |= (Data[PokeDex + brSize * 5 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 6 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 7 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 8 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            if (!Displayed) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
+                Data[PokeDex + shiftoff + brSize * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+
+            // Set the Language
+            if (lang < 0) lang = 1;
+            Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
+
+            // Formes : todo
+        }
     }
 }

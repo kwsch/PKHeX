@@ -73,7 +73,7 @@ namespace PKHeX
         public bool HasFused => Fused > -1;
         public bool HasGTS => GTS > -1;
         public bool HasDaycare => Daycare > -1;
-        public bool HasPokeDex => PokeDex > -1;
+        public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => PCLayout > -1;
         public virtual bool HasSUBE => SUBE > -1 && !ORAS;
         public virtual bool HasGeolocation => false;
