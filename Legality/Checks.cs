@@ -28,14 +28,22 @@ namespace PKHeX
     }
     public partial class LegalityAnalysis
     {
+        private LegalityCheck verifyGender()
+        {
+            if (PersonalInfo.AO[pk6.Species].Gender == 255 && pk6.Gender != 2)
+                return new LegalityCheck(Severity.Invalid, "Genderless Pokémon should not have a gender.");
+
+            return new LegalityCheck();
+        }
         private LegalityCheck verifyECPID()
         {
             // Secondary Checks
+            LegalityCheck c = new LegalityCheck();
             if (pk6.EncryptionConstant == 0)
-                return new LegalityCheck(Severity.Fishy, "Encryption Constant is not set.");
+                c = new LegalityCheck(Severity.Fishy, "Encryption Constant is not set.");
 
             if (pk6.PID == 0)
-                return new LegalityCheck(Severity.Fishy, "PID is not set.");
+                c = new LegalityCheck(Severity.Fishy, "PID is not set.");
 
             if (EncounterType == typeof (EncounterStatic))
             {
@@ -66,7 +74,7 @@ namespace PKHeX
                 if (xor < 16 && xor >= 8 && (pk6.PID ^ 0x80000000) == pk6.EncryptionConstant)
                     return new LegalityCheck(Severity.Fishy, "Encryption Constant matches shinyxored PID.");
 
-                return special != "" ? new LegalityCheck(Severity.Valid, special) : new LegalityCheck();
+                return special != "" ? new LegalityCheck(Severity.Valid, special) : c;
             }
 
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.
@@ -85,7 +93,7 @@ namespace PKHeX
                 else
                     return new LegalityCheck(Severity.Invalid, "PID should be equal to EC!");
 
-            return new LegalityCheck();
+            return c;
         }
         private LegalityCheck verifyNickname()
         {
