@@ -191,6 +191,7 @@ namespace PKHeX
                     AdventureInfo = 0 + GBO;
                     Trainer1 = 0x64 + GBO;
                     Party = 0x98 + GBO;
+                    PokeDex = 0x12DC + GBO;
                     WondercardFlags = 0xA6D0 + GBO;
                     WondercardData = 0xA7fC + GBO;
 
@@ -220,6 +221,7 @@ namespace PKHeX
                     AdventureInfo = 0 + GBO;
                     Trainer1 = 0x68 + GBO;
                     Party = 0xA0 + GBO;
+                    PokeDex = 0x1328 + GBO;
                     WondercardFlags = 0xB4C0 + GBO;
                     WondercardData = 0xB5C0 + GBO;
 
@@ -249,6 +251,7 @@ namespace PKHeX
                     AdventureInfo = 0 + GBO;
                     Trainer1 = 0x64 + GBO;
                     Party = 0x98 + GBO;
+                    PokeDex = 0x12B8 + GBO;
                     WondercardFlags = 0x9D3C + GBO;
                     WondercardData = 0x9E3C + GBO;
 
@@ -279,6 +282,7 @@ namespace PKHeX
 
         private int WondercardFlags = int.MinValue;
         private int AdventureInfo = int.MinValue;
+        public override bool HasPokeDex => false;
 
         // Inventory
         private ushort[] LegalItems, LegalKeyItems, LegalTMHMs, LegalMedicine, LegalBerries, LegalBalls, LegalBattleItems, LegalMailItems;
@@ -666,6 +670,29 @@ namespace PKHeX
                     value[i].Data.CopyTo(Data, WondercardData + 8 * PGT.Size + (i-8) * PGT.Size);
                 }
             }
+        }
+
+        protected override void setDex(PKM pkm)
+        {
+            if (pkm.Species == 0)
+                return;
+            if (pkm.Species > MaxSpeciesID)
+                return;
+            if (Version == GameVersion.Unknown)
+                return;
+            if (PokeDex < 0)
+                return;
+
+            const int brSize = 0x40;
+            int bit = pkm.Species - 1;
+
+            // Set the Species Owned Flag
+            Data[PokeDex + brSize * 0 + bit / 8 + 0x4] |= (byte)(1 << (bit % 8));
+
+            // Set the Species Seen Flag
+            Data[PokeDex + brSize * 1 + bit / 8 + 0x4] |= (byte)(1 << (bit % 8));
+
+            // Formes : todo
         }
     }
 }
