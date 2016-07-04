@@ -865,8 +865,12 @@ namespace PKHeX
                         else
                             res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
                     }
-                    if (res.All(r => r.Valid)) // Card matched
-                    { EncounterMatch = wc; RelearnBase = wc.RelearnMoves; }
+                    if (res.Any(r => !r.Valid))
+                        continue;
+
+                    EncounterMatch = wc;
+                    RelearnBase = wc.RelearnMoves;
+                    break;
                 }
             }
             else
@@ -890,7 +894,6 @@ namespace PKHeX
             }
             if (Moves[0] == 0)
                 res[0] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
-
 
             if (pk6.Species == 647) // Keldeo
                 if (pk6.AltForm == 1 ^ pk6.Moves.Contains(548))
