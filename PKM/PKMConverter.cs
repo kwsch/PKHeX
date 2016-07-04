@@ -40,15 +40,16 @@ namespace PKHeX
                 case PKX.SIZE_6PARTY: // collision with PGT, same size.
                     if (BitConverter.ToUInt16(data, 0x4) != 0) // Bad Sanity?
                         return -1;
+                    if (BitConverter.ToUInt32(data, 0x06) == PKX.getCHK(data))
+                        return 6;
                     if (BitConverter.ToUInt16(data, 0x58) != 0) // Encrypted?
                     {
-                        PKX.getCHK(data);
                         for (int i = data.Length - 0x10; i < data.Length; i++) // 0x10 of 00's at the end != PK6
                             if (data[i] != 0)
-                                break;
-                        return 6;
+                                return 6;
+                        return -1;
                     }
-                    return -1;
+                    return 6;
             }
             return -1;
         }
