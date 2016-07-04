@@ -4,7 +4,7 @@ namespace PKHeX
 {
     internal static class PKMConverter
     {
-        internal static int Country = 31;
+        internal static int Country = 49;
         internal static int Region = 7;
         internal static int ConsoleRegion = 1;
         internal static string OT_Name = "PKHeX";
