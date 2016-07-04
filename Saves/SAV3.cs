@@ -48,16 +48,15 @@ namespace PKHeX
                 return;
 
             BlockOrder = new int[14];
+            BlockOfs = new int[14];
             ActiveSAV = SaveUtil.SIZE_G3RAWHALF == data.Length || BitConverter.ToUInt32(Data, 0xFFC) > BitConverter.ToUInt32(Data, 0xEFFC) ? 0 : 1;
             for (int i = 0; i < 14; i++)
                 BlockOrder[i] = BitConverter.ToInt16(Data, ABO + i*0x1000 + 0xFF4);
+            for (int i = 0; i < 14; i++)
+                BlockOfs[i] = Array.IndexOf(BlockOrder, i) + ABO;
 
             // Detect RS/E/FRLG
             // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
-            Trainer1 = Array.IndexOf(BlockOrder, 0)*0x1000 + ABO;
-            Party = Array.IndexOf(BlockOrder, 1)*0x1000 + ABO;
-            Block2 = Array.IndexOf(BlockOrder, 2)*0x1000 + ABO;
-            Block3 = Array.IndexOf(BlockOrder, 3)*0x1000 + ABO;
 
 
             // Set up PC data buffer beyond end of save file.
@@ -77,29 +76,29 @@ namespace PKHeX
             {
                 case GameVersion.RS:
                     LegalKeyItems = Legal.Pouch_Key_RS;
-                    OFS_PouchHeldItem = Party + 0x0560;
-                    OFS_PouchKeyItem = Party + 0x05B0;
-                    OFS_PouchBalls = Party + 0x0600;
-                    OFS_PouchTMHM = Party + 0x0640;
-                    OFS_PouchBerry = Party + 0x0740;
+                    OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
+                    OFS_PouchKeyItem = BlockOfs[1] + 0x05B0;
+                    OFS_PouchBalls = BlockOfs[1] + 0x0600;
+                    OFS_PouchTMHM = BlockOfs[1] + 0x0640;
+                    OFS_PouchBerry = BlockOfs[1] + 0x0740;
                     Personal = PersonalInfo.RS;
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
-                    OFS_PouchHeldItem = Party + 0x0310;
-                    OFS_PouchKeyItem = Party + 0x03B8;
-                    OFS_PouchBalls = Party + 0x0430;
-                    OFS_PouchTMHM = Party + 0x0464;
-                    OFS_PouchBerry = Party + 0x054C;
-                    Personal = PersonalInfo.FR; // todo
+                    OFS_PouchHeldItem = BlockOfs[1] + 0x0310;
+                    OFS_PouchKeyItem = BlockOfs[1] + 0x03B8;
+                    OFS_PouchBalls = BlockOfs[1] + 0x0430;
+                    OFS_PouchTMHM = BlockOfs[1] + 0x0464;
+                    OFS_PouchBerry = BlockOfs[1] + 0x054C;
+                    Personal = PersonalInfo.FR; // todo split FR & LG
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
-                    OFS_PouchHeldItem = Party + 0x0560;
-                    OFS_PouchKeyItem = Party + 0x05D8;
-                    OFS_PouchBalls = Party + 0x0650;
-                    OFS_PouchTMHM = Party + 0x0690;
-                    OFS_PouchBerry = Party + 0x0790;
+                    OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
+                    OFS_PouchKeyItem = BlockOfs[1] + 0x05D8;
+                    OFS_PouchBalls = BlockOfs[1] + 0x0650;
+                    OFS_PouchTMHM = BlockOfs[1] + 0x0690;
+                    OFS_PouchBerry = BlockOfs[1] + 0x0790;
                     Personal = PersonalInfo.E;
                     break;
             }
@@ -113,6 +112,8 @@ namespace PKHeX
             if (!Exportable)
                 resetBoxes();
         }
+
+        private readonly int[] BlockOfs;
         
         private readonly int ActiveSAV;
         private int ABO => ActiveSAV*0xE000;
@@ -139,9 +140,7 @@ namespace PKHeX
         protected override int GiftCountMax => 1;
         public override int OTLength => 8;
         public override int NickLength => 10;
-
-        private int Block2, Block3;
-
+        
         // Checksums
         protected override void setChecksums()
         {
@@ -192,8 +191,8 @@ namespace PKHeX
             {
                 switch (Version)
                 {
-                    case GameVersion.E: return BitConverter.ToUInt32(Data, Trainer1 + 0xAC);
-                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, Trainer1 + 0xAF8);
+                    case GameVersion.E: return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAC);
+                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAF8);
                     default: return 0;
                 }
             }
@@ -202,7 +201,7 @@ namespace PKHeX
         {
             get
             {
-                return PKX.getG3Str(Data.Skip(Trainer1).Take(0x10).ToArray(), Japanese)
+                return PKX.getG3Str(Data.Skip(BlockOfs[0]).Take(0x10).ToArray(), Japanese)
                     .Replace("\uE08F", "\u2640") // Nidoran ♂
                     .Replace("\uE08E", "\u2642") // Nidoran ♀
                     .Replace("\u2019", "\u0027"); // Farfetch'd
@@ -215,43 +214,43 @@ namespace PKHeX
                 .Replace("\u2640", "\uE08F") // Nidoran ♂
                 .Replace("\u2642", "\uE08E") // Nidoran ♀
                 .Replace("\u0027", "\u2019"); // Farfetch'd
-                PKX.setG3Str(TempNick, Japanese).CopyTo(Data, Trainer1);
+                PKX.setG3Str(TempNick, Japanese).CopyTo(Data, BlockOfs[0]);
             }
         }
         public override int Gender
         {
-            get { return Data[Trainer1 + 8]; }
-            set { Data[Trainer1 + 8] = (byte)value; }
+            get { return Data[BlockOfs[0] + 8]; }
+            set { Data[BlockOfs[0] + 8] = (byte)value; }
         }
         public override ushort TID
         {
-            get { return BitConverter.ToUInt16(Data, Trainer1 + 0xA + 0); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0xA + 0); }
+            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xA + 0); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xA + 0); }
         }
         public override ushort SID
         {
-            get { return BitConverter.ToUInt16(Data, Trainer1 + 0xC); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0xC); }
+            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xC); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xC); }
         }
         public override int PlayedHours
         {
-            get { return BitConverter.ToUInt16(Data, Trainer1 + 0xE); }
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0xE); }
+            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xE); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xE); }
         }
         public override int PlayedMinutes
         {
-            get { return Data[Trainer1 + 0x10]; }
-            set { Data[Trainer1 + 0x10] = (byte)value; }
+            get { return Data[BlockOfs[0] + 0x10]; }
+            set { Data[BlockOfs[0] + 0x10] = (byte)value; }
         }
         public override int PlayedSeconds
         {
-            get { return Data[Trainer1 + 0x11]; }
-            set { Data[Trainer1 + 0x11] = (byte)value; }
+            get { return Data[BlockOfs[0] + 0x11]; }
+            set { Data[BlockOfs[0] + 0x11] = (byte)value; }
         }
         public int PlayedFrames
         {
-            get { return Data[Trainer1 + 0x12]; }
-            set { Data[Trainer1 + 0x12] = (byte)value; }
+            get { return Data[BlockOfs[0] + 0x12]; }
+            set { Data[BlockOfs[0] + 0x12] = (byte)value; }
         }
 
         public override uint Money
@@ -261,8 +260,8 @@ namespace PKHeX
                 switch (Version)
                 {
                     case GameVersion.RS:
-                    case GameVersion.E: return BitConverter.ToUInt32(Data, Party + 0x0490) ^ SecurityKey;
-                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, Party + 0x0290) ^ SecurityKey;
+                    case GameVersion.E: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0490) ^ SecurityKey;
+                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0290) ^ SecurityKey;
                     default: return 0;
                 }
             }
@@ -271,8 +270,8 @@ namespace PKHeX
                 switch (Version)
                 {
                     case GameVersion.RS:
-                    case GameVersion.E: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, Party + 0x0490); break;
-                    case GameVersion.FRLG: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, Party + 0x0290); break;
+                    case GameVersion.E: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, BlockOfs[1] + 0x0490); break;
+                    case GameVersion.FRLG: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, BlockOfs[1] + 0x0290); break;
                 }
             }
         }
@@ -283,8 +282,8 @@ namespace PKHeX
                 switch (Version)
                 {
                     case GameVersion.RS:
-                    case GameVersion.E: return BitConverter.ToUInt32(Data, Party + 0x0494) ^ SecurityKey;
-                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, Party + 0x0294) ^ SecurityKey;
+                    case GameVersion.E: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0494) ^ SecurityKey;
+                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0294) ^ SecurityKey;
                     default: return 0;
                 }
             }
@@ -293,15 +292,15 @@ namespace PKHeX
                 switch (Version)
                 {
                     case GameVersion.RS:
-                    case GameVersion.E: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, Party + 0x0494); break;
-                    case GameVersion.FRLG: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, Party + 0x0294); break;
+                    case GameVersion.E: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, BlockOfs[1] + 0x0494); break;
+                    case GameVersion.FRLG: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, BlockOfs[1] + 0x0294); break;
                 }
             }
         }
         public int BP
         {
-            get { return Data[Trainer1 + 0xEB8]; }
-            set { Data[Trainer1 + 0xEB8] = (byte)value; }
+            get { return Data[BlockOfs[0] + 0xEB8]; }
+            set { Data[BlockOfs[0] + 0xEB8] = (byte)value; }
         }
 
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
@@ -366,7 +365,7 @@ namespace PKHeX
                 int ofs = 0x34;
                 if (GameVersion.FRLG != Version)
                     ofs += 0x200;
-                return Data[Party + ofs]; 
+                return Data[BlockOfs[1] + ofs]; 
                 
             }
             protected set
@@ -374,7 +373,7 @@ namespace PKHeX
                 int ofs = 0x34;
                 if (GameVersion.FRLG != Version)
                     ofs += 0x200;
-                Data[Party + ofs] = (byte)value; 
+                Data[BlockOfs[1] + ofs] = (byte)value; 
             }
         }
         public override int getBoxOffset(int box)
@@ -386,7 +385,7 @@ namespace PKHeX
             int ofs = 0x38;
             if (GameVersion.FRLG != Version)
                 ofs += 0x200;
-            return Party + ofs + SIZE_PARTY * slot;
+            return BlockOfs[1] + ofs + SIZE_PARTY * slot;
         }
         public override int CurrentBox
         {
@@ -419,6 +418,89 @@ namespace PKHeX
         public override byte[] decryptPKM(byte[] data)
         {
             return PKX.decryptArray3(data);
+        }
+
+        protected override void setDex(PKM pkm)
+        {
+            if (pkm.Species == 0)
+                return;
+            if (pkm.Species > MaxSpeciesID)
+                return;
+            if (Version == GameVersion.Unknown)
+                return;
+            if (BlockOfs.Any(z => z < 0))
+                return;
+            
+            int bit = pkm.Species - 1;
+            int ofs = bit/8;
+            byte bitval = (byte)(1 << (bit%8));
+
+            // Set the Captured Flag
+            Data[BlockOfs[0] + 0x28 + ofs] |= bitval;
+
+            // Set the Seen Flag
+            Data[BlockOfs[0] + 0x5C + ofs] |= bitval;
+
+            // Set the two other Seen flags (mirrored)
+            switch (Version)
+            {
+                case GameVersion.RS:
+                    Data[BlockOfs[1] + 0x938 + ofs] |= bitval;
+                    Data[BlockOfs[4] + 0xC0C + ofs] |= bitval;
+                    break;
+                case GameVersion.E:
+                    Data[BlockOfs[1] + 0x988 + ofs] |= bitval;
+                    Data[BlockOfs[4] + 0xCA4 + ofs] |= bitval;
+                    break;
+                case GameVersion.FRLG:
+                    Data[BlockOfs[1] + 0x5F8 + ofs] |= bitval;
+                    Data[BlockOfs[4] + 0xB98 + ofs] |= bitval;
+                    break;
+            }
+        }
+
+        public bool NationalDex
+        {
+            get
+            {
+                if (BlockOfs.Any(z => z < 0))
+                    return false;
+                switch (Version) // only check natdex status in Block0
+                {
+                    case GameVersion.RS:
+                    case GameVersion.E:
+                        return BitConverter.ToUInt16(Data, BlockOfs[0] + 0x19) == 0xDA01;
+                    case GameVersion.FRLG:
+                        return Data[BlockOfs[0] + 0x1B] == 0xB9;
+                }
+                return false;
+            }
+            set
+            {
+                if (BlockOfs.Any(z => z < 0))
+                    return;
+                switch (Version)
+                {
+                    case GameVersion.RS:
+                        BitConverter.GetBytes((ushort)(value ? 0xDA01 : 0)).CopyTo(Data, BlockOfs[0] + 0x19); // A
+                        Data[BlockOfs[2] + 0x3A6] &= 0xBF;
+                        Data[BlockOfs[2] + 0x3A6] |= (byte)(value ? 1 << 6 : 0); // B
+                        BitConverter.GetBytes((ushort)(value ? 0x0302 : 0)).CopyTo(Data, BlockOfs[2] + 0x44C); // C
+                        break;
+                    case GameVersion.E:
+                        BitConverter.GetBytes((ushort)(value ? 0xDA01 : 0)).CopyTo(Data, BlockOfs[0] + 0x19); // A
+                        Data[BlockOfs[2] + 0x402] &= 0xBF; // Bit6
+                        Data[BlockOfs[2] + 0x402] |= (byte)(value ? 1 << 6 : 0); // B
+                        BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x4A8); // C
+                        break;
+                    case GameVersion.FRLG:
+                        Data[BlockOfs[0] + 0x1B] = (byte)(value ? 0xB9 : 0); // A
+                        Data[BlockOfs[2] + 0x68] &= 0xFE;
+                        Data[BlockOfs[2] + 0x68] |= (byte)(value ? 1 : 0); // B
+                        BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x11C); // C
+                        break;
+                }
+            }
         }
     }
 }
