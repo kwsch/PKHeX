@@ -68,7 +68,7 @@ namespace PKHeX
         public bool HasOPower => OPower > -1;
         public bool HasJPEG => JPEGData != null;
         public bool HasBox => Box > -1;
-        public bool HasParty => Party > -1;
+        public virtual bool HasParty => Party > -1;
         public bool HasBattleBox => BattleBox > -1;
         public bool HasFused => Fused > -1;
         public bool HasGTS => GTS > -1;

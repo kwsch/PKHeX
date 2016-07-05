@@ -53,11 +53,7 @@ namespace PKHeX
             for (int i = 0; i < 14; i++)
                 BlockOrder[i] = BitConverter.ToInt16(Data, ABO + i*0x1000 + 0xFF4);
             for (int i = 0; i < 14; i++)
-                BlockOfs[i] = Array.IndexOf(BlockOrder, i) + ABO;
-
-            // Detect RS/E/FRLG
-            // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
-
+                BlockOfs[i] = Array.IndexOf(BlockOrder, i)*0x1000 + ABO;
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
@@ -113,11 +109,10 @@ namespace PKHeX
                 resetBoxes();
         }
 
-        private readonly int[] BlockOfs;
-        
         private readonly int ActiveSAV;
         private int ABO => ActiveSAV*0xE000;
         private readonly int[] BlockOrder;
+        private readonly int[] BlockOfs;
 
         // Configuration
         public override SaveFile Clone() { return new SAV3(Data.Take(Box).ToArray(), Version); }
@@ -140,7 +135,9 @@ namespace PKHeX
         protected override int GiftCountMax => 1;
         public override int OTLength => 8;
         public override int NickLength => 10;
-        
+
+        public override bool HasParty => true;
+
         // Checksums
         protected override void setChecksums()
         {
