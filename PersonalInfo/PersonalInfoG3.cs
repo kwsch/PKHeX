@@ -69,7 +69,7 @@ namespace PKHeX
         }
         public override int[] Abilities
         {
-            get { return new int[] { Data[0x18], Data[0x19] }; }
+            get { return new int[] { Data[0x16], Data[0x17] }; }
             set
             {
                 if (value?.Length != 2) return;
