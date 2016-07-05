@@ -3515,13 +3515,14 @@ namespace PKHeX
 
             if (slot >= 30 && slot < 36) // Party
             {
+                // If slot isn't overwriting existing PKM, make it write to the lowest empty PKM slot
                 if (SAV.PartyCount < slot + 1 - 30)
                 { slot = SAV.PartyCount + 30; offset = getPKXOffset(slot); }
                 SAV.setPartySlot(pk, offset);
                 setParty();
                 getSlotColor(slot, Properties.Resources.slotSet);
             }
-            else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
+            else if (slot < 30 || HaX && slot >= 36 && slot < 42)
             {
                 SAV.setStoredSlot(pk, offset);
                 getQuickFiller(SlotPictureBoxes[slot], pk);
@@ -3531,7 +3532,7 @@ namespace PKHeX
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
-            if (slot == 30 && SAV.PartyCount == 1 && !DEV_Ability.Enabled) { Util.Alert("Can't delete first slot."); return; }
+            if (slot == 30 && SAV.PartyCount == 1 && !HaX) { Util.Alert("Can't delete first slot."); return; }
 
             int offset = getPKXOffset(slot);
             if (offset < 0)
@@ -3546,7 +3547,7 @@ namespace PKHeX
                 getSlotColor(slot, Properties.Resources.slotDel);
                 return;
             }
-            if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
+            if (slot < 30 || HaX && slot >= 36 && slot < 42)
             { SAV.setStoredSlot(SAV.BlankPKM, getPKXOffset(slot)); }
             else return;
 
