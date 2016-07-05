@@ -752,7 +752,6 @@ namespace PKHeX
                     extraBytes = PK3.ExtraBytes;
                     break;
                 case 4:
-                    
                     extraBytes = PK4.ExtraBytes;
                     break;
                 case 5:
@@ -1097,7 +1096,9 @@ namespace PKHeX
             TB_PID.Text = pk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk3.HeldItem;
             setAbilityList();
-            DEV_Ability.SelectedValue = pk3.Ability;
+            int[] abils = PKX.getAbilities(pk3.Species, 0);
+            int abil = Array.IndexOf(abils, pk3.Ability);
+            CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
             CB_Nature.SelectedValue = pk3.Nature;
             TB_TID.Text = pk3.TID.ToString("00000");
             TB_SID.Text = pk3.SID.ToString("00000");
@@ -1188,7 +1189,6 @@ namespace PKHeX
             TB_PID.Text = pk4.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk4.HeldItem;
             setAbilityList();
-            DEV_Ability.SelectedValue = pk4.Ability;
             CB_Nature.SelectedValue = pk4.Nature;
             TB_TID.Text = pk4.TID.ToString("00000");
             TB_SID.Text = pk4.SID.ToString("00000");
@@ -1281,6 +1281,12 @@ namespace PKHeX
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk4.Ability;
+            else
+            {
+                int[] abils = PKX.getAbilities(pk4.Species, pk4.AltForm);
+                int abil = Array.IndexOf(abils, pk4.Ability);
+                CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
+            }
         }
         private void populateFieldsPK5(PK5 pk5)
         {
@@ -1302,7 +1308,6 @@ namespace PKHeX
             TB_PID.Text = pk5.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk5.HeldItem;
             setAbilityList();
-            DEV_Ability.SelectedValue = pk5.Ability;
             CB_Nature.SelectedValue = pk5.Nature;
             TB_TID.Text = pk5.TID.ToString("00000");
             TB_SID.Text = pk5.SID.ToString("00000");
@@ -1404,6 +1409,14 @@ namespace PKHeX
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk5.Ability;
+            else if (pk5.HiddenAbility)
+                CB_Ability.SelectedIndex = CB_Ability.Items.Count - 1;
+            else
+            {
+                int[] abils = PKX.getAbilities(pk5.Species, pk5.AltForm);
+                int abil = Array.IndexOf(abils, pk5.Ability);
+                CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
+            }
         }
         private void populateFieldsPK6(PK6 pk6)
         {
@@ -1588,7 +1601,9 @@ namespace PKHeX
 
             int[] abils = SAV.Personal[SAV.Personal[species].FormeIndex(species, formnum)].Abilities;
             string[] abilIdentifier = {" (1)", " (2)", " (H)"};
-            List<string> ability_list = abils.Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
+            List<string> ability_list = abils.Where(abil => abil != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
+            if (!ability_list.Any())
+                ability_list.Add(abilitylist[0] + abilIdentifier[0]);
 
             int curAbil = CB_Ability.SelectedIndex;
             CB_Ability.DataSource = ability_list;
@@ -2796,8 +2811,7 @@ namespace PKHeX
             pk3.SID = Util.ToInt32(TB_SID.Text);
             pk3.EXP = Util.ToUInt32(TB_EXP.Text);
             pk3.PID = Util.getHEXval(TB_PID.Text);
-            pk3.Ability = (byte)Util.getIndex(DEV_Ability);
-            //pk4.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            pk3.Ability = CB_Ability.SelectedIndex; // 0/1 (stored in IVbits)
             
             pk3.FatefulEncounter = CHK_Fateful.Checked;
             pk3.Gender = PKX.getGender(Label_Gender.Text);
@@ -2885,8 +2899,7 @@ namespace PKHeX
             pk4.SID = Util.ToInt32(TB_SID.Text);
             pk4.EXP = Util.ToUInt32(TB_EXP.Text);
             pk4.PID = Util.getHEXval(TB_PID.Text);
-            pk4.Ability = (byte)Util.getIndex(DEV_Ability);
-          //pk4.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            pk4.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
           
             pk4.FatefulEncounter = CHK_Fateful.Checked;
             pk4.Gender = PKX.getGender(Label_Gender.Text);
@@ -2979,6 +2992,7 @@ namespace PKHeX
 
             if (HaX)
             {
+                pk4.Ability = (byte)Util.getIndex(DEV_Ability);
                 pk4.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
 
@@ -3001,7 +3015,7 @@ namespace PKHeX
             pk5.EXP = Util.ToUInt32(TB_EXP.Text);
             pk5.PID = Util.getHEXval(TB_PID.Text);
             pk5.Ability = (byte)Util.getIndex(DEV_Ability);
-          //pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
 
             pk5.Nature = (byte)Util.getIndex(CB_Nature);
             pk5.FatefulEncounter = CHK_Fateful.Checked;
@@ -3095,6 +3109,7 @@ namespace PKHeX
 
             if (HaX)
             {
+                pk5.Ability = (byte)Util.getIndex(DEV_Ability);
                 pk5.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
 
@@ -3279,7 +3294,7 @@ namespace PKHeX
                 pk6.Ability = (byte)Util.getIndex(DEV_Ability);
                 pk6.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
-
+                
             // Fix Moves if a slot is empty 
             pk6.FixMoves();
             pk6.FixRelearn();
