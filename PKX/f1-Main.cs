@@ -3514,17 +3514,19 @@ namespace PKHeX
                 return;
 
             if (slot >= 30 && slot < 36) // Party
+            {
+                if (SAV.PartyCount < slot + 1 - 30)
+                { slot = SAV.PartyCount + 30; offset = getPKXOffset(slot); }
                 SAV.setPartySlot(pk, offset);
-            else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
-                SAV.setStoredSlot(pk, offset);
-            else return;
-            
-            if (slot >= 30 && slot < 36) 
                 setParty();
-            else 
+                getSlotColor(slot, Properties.Resources.slotSet);
+            }
+            else if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
+            {
+                SAV.setStoredSlot(pk, offset);
                 getQuickFiller(SlotPictureBoxes[slot], pk);
-
-            getSlotColor(slot, Properties.Resources.slotSet);
+                getSlotColor(slot, Properties.Resources.slotSet);
+            }
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -3538,7 +3540,12 @@ namespace PKHeX
                 return;
             }
             if (slot >= 30 && slot < 36) // Party
-            { SAV.setPartySlot(SAV.BlankPKM, offset); setParty(); return; }
+            {
+                SAV.deletePartySlot(slot-30);
+                setParty();
+                getSlotColor(slot, Properties.Resources.slotDel);
+                return;
+            }
             if (slot < 30 || (slot >= 36 && slot < 42 && DEV_Ability.Enabled))
             { SAV.setStoredSlot(SAV.BlankPKM, getPKXOffset(slot)); }
             else return;
@@ -3663,11 +3670,19 @@ namespace PKHeX
             PKM[] battle = SAV.BattleBoxData;
             // Refresh slots
             if (SAV.HasParty)
-                for (int i = 0; i < 6; i++)
+            {
+                for (int i = 0; i < party.Length; i++)
                     getQuickFiller(SlotPictureBoxes[i + 30], party[i]);
+                for (int i = party.Length; i < 6; i++)
+                    SlotPictureBoxes[i + 30].Image = null;
+            }
             if (SAV.HasBattleBox)
-                for (int i = 0; i < 6; i++)
+            {
+                for (int i = 0; i < battle.Length; i++)
                     getQuickFiller(SlotPictureBoxes[i + 36], battle[i]);
+                for (int i = battle.Length; i < 6; i++)
+                    SlotPictureBoxes[i + 30].Image = null;
+            }
         }
         private int getPKXOffset(int slot)
         {

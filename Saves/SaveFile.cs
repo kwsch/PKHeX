@@ -334,6 +334,11 @@ namespace PKHeX
             if (dex ?? SetUpdateDex)
                 setDex(pkm);
 
+            for (int i = 0; i < 6; i++)
+                if (getPartyOffset(i) == offset)
+                    if (PartyCount <= i)
+                        PartyCount = i + 1;
+
             setData(pkm.EncryptedPartyData, offset);
             Console.WriteLine("");
             Edited = true;
@@ -360,6 +365,11 @@ namespace PKHeX
             if (dex ?? SetUpdateDex)
                 setDex(pkm);
 
+            for (int i = 0; i < 6; i++)
+                if (getPartyOffset(i) == offset)
+                    if (PartyCount <= i)
+                        PartyCount = i + 1;
+
             setData(pkm.EncryptedPartyData, offset);
             Edited = true;
         }
@@ -374,6 +384,20 @@ namespace PKHeX
 
             setData(pkm.EncryptedBoxData, offset);
             Edited = true;
+        }
+        public void deletePartySlot(int slot)
+        {
+            if (PartyCount <= slot) // beyond party range (or empty data already present)
+                return;
+            // Move all party slots down one
+            for (int i = slot + 1; i < 6; i++) // Slide slots down
+            {
+                int slotTo = getPartyOffset(i - 1);
+                int slotFrom = getPartyOffset(i);
+                setData(getData(slotFrom, SIZE_PARTY), slotTo);
+            }
+            setStoredSlot(BlankPKM, getPartyOffset(5), false, false);
+            PartyCount -= 1;
         }
 
         public void sortBoxes(int BoxStart = 0, int BoxEnd = -1)
