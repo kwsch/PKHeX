@@ -80,9 +80,9 @@ namespace PKHeX
         // Data Manipulation
         public int FormeIndex(int species, int forme)
         {
-            if (forme == 0) // no forme requested
+            if (forme <= 0) // no forme requested
                 return species;
-            if (FormStatsIndex == 0) // no formes present
+            if (FormStatsIndex <= 0) // no formes present
                 return species;
             if (forme > FormeCount) // beyond range of species' formes
                 return species;
