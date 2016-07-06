@@ -37,6 +37,17 @@ namespace PKHeX
             if (mga.Gifts.Length < 19)
                 L_r4.Visible = false;
 
+            if (SAV.Generation == 4) // pgt & pcd, split up
+            {
+                PB_Card09.Location = PB_Card19.Location;
+                PB_Card10.Location = PB_Card20.Location;
+                PB_Card11.Location = PB_Card21.Location;
+                L_r4.Visible = true;
+                L_r1.Text = "PGT 1-6";
+                L_r2.Text = "PGT 7-8";
+                L_r4.Text = "PCD 1-3";
+            }
+
             setGiftBoxes();
             getReceivedFlags();
             
