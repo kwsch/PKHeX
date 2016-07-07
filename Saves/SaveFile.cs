@@ -291,7 +291,7 @@ namespace PKHeX
         public abstract uint Money { get; set; }
         public abstract int BoxCount { get; }
         public abstract int PartyCount { get; protected set; }
-        public virtual int CurrentBox { get { return 0; } set { } }
+        public abstract int CurrentBox { get; set; }
         public abstract string Extension { get; }
 
         // Varied Methods

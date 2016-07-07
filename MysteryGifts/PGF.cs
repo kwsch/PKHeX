@@ -3,7 +3,7 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class PGF : MysteryGift
+    public sealed class PGF : MysteryGift
     {
         internal const int Size = 0xCC;
         public override string Extension => ".pgf";

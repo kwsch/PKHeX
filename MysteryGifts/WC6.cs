@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class WC6 : MysteryGift
+    public sealed class WC6 : MysteryGift
     {
         internal const int Size = 0x108;
         internal const int SizeFull = 0x310;

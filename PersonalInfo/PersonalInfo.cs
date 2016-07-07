@@ -24,6 +24,7 @@ namespace PKHeX
         protected const int SIZE_AO = 0x50;
 
         protected byte[] Data;
+        public abstract byte[] Write();
         public abstract int HP { get; set; }
         public abstract int ATK { get; set; }
         public abstract int DEF { get; set; }
@@ -75,7 +76,6 @@ namespace PKHeX
                 data[i / 8] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
             return data;
         }
-        public virtual byte[] Write() { return Data; }
 
         // Data Manipulation
         public int FormeIndex(int species, int forme)
