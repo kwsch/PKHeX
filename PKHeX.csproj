@@ -254,7 +254,7 @@
     <Compile Include="Misc\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\Util.cs" />
+    <Compile Include="Util\Util.cs" />
     <EmbeddedResource Include="Misc\QR.resx">
       <DependentUpon>QR.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2410,9 +2410,7 @@
     <None Include="Resources\img\ribbons\artist.png" />
     <None Include="Resources\img\ribbons\alert.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SAV\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
