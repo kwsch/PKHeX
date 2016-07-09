@@ -434,6 +434,7 @@
     <Content Include="Resources\text\fr\text_Pokeblock_fr.txt" />
     <None Include="Resources\text\fr\text_tradeao_fr.txt" />
     <None Include="Resources\text\fr\text_tradexy_fr.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG3_en.txt" />
     <Content Include="Resources\text\it\text_Pokeblock_it.txt" />
     <None Include="Resources\text\it\text_tradeao_it.txt" />
     <None Include="Resources\text\it\text_tradexy_it.txt" />

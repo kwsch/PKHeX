@@ -279,6 +279,10 @@ namespace PKHeX
             Stat_SPA = Stats[4];
             Stat_SPD = Stats[5];
         }
+        public virtual bool CanHoldItem(ushort[] ValidArray)
+        {
+            return ValidArray.Contains((ushort)HeldItem);
+        }
 
         public abstract PKM Clone();
     }

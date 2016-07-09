@@ -138,7 +138,7 @@ namespace PKHeX
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks = { };
+            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items = { };
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
         public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
@@ -837,6 +837,10 @@ namespace PKHeX
             if (CB_MainLanguage.SelectedIndex < 8)
                 curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
 
+            // Past Generation strings
+            g3items = Util.getStringList("ItemsG3", "en");
+
+            // Current Generation strings
             string l = curlanguage;
             natures = Util.getStringList("natures", l);
             types = Util.getStringList("types", l);
@@ -1004,7 +1008,11 @@ namespace PKHeX
         }
         private void populateFilteredDataSources()
         {
-            ItemDataSource = Util.getCBList(itemlist, (HaX ? Enumerable.Range(0, SAV.MaxItemID) : SAV.HeldItems.Select(i => (int)i)).ToArray());
+            string[] items = itemlist;
+            if (SAV.Generation == 3)
+                items = g3items;
+
+            ItemDataSource = Util.getCBList(items, (HaX ? Enumerable.Range(0, SAV.MaxItemID) : SAV.HeldItems.Select(i => (int)i)).ToArray());
             CB_HeldItem.DataSource = new BindingSource(ItemDataSource.Where(i => i.Value <= SAV.MaxItemID), null);
 
             CB_Ball.DataSource = new BindingSource(BallDataSource.Where(b => b.Value <= SAV.MaxBallID), null);
@@ -1094,7 +1102,7 @@ namespace PKHeX
             Label_OTGender.Text = gendersymbols[pk3.OT_Gender];
             Label_OTGender.ForeColor = pk3.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk3.PID.ToString("X8");
-            CB_HeldItem.SelectedValue = pk3.HeldItem;
+            CB_HeldItem.SelectedValue = pk3.G3Item;
             setAbilityList();
             int[] abils = PKX.getAbilities(pk3.Species, 0);
             int abil = Array.IndexOf(abils, pk3.Ability);
@@ -2755,7 +2763,7 @@ namespace PKHeX
             {
                 if (pk.HeldItem > SAV.MaxItemID)
                     errata.Add($"Game can't obtain item: {itemlist[pk.HeldItem]}");
-                if (!SAV.HeldItems.Contains((ushort)pk.HeldItem))
+                if (!pk.CanHoldItem(SAV.HeldItems))
                     errata.Add($"Game can't hold item: {itemlist[pk.HeldItem]}");
             }
 

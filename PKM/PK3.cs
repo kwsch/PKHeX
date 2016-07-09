@@ -180,6 +180,10 @@ namespace PKHeX
 
             return false;
         }
+        public override bool CanHoldItem(ushort[] ValidArray)
+        {
+            return ValidArray.Contains((ushort)G3Item);
+        }
 
         public PK4 convertToPK4()
         {
