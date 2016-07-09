@@ -22,6 +22,8 @@ namespace PKHeX
             CB_ExtraBytes.SelectedIndex = 0;
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
             SaveFile.SetUpdatePKM = Menu_ModifyPK6.Checked;
+            getFieldsfromPKM = populateFieldsPK6;
+            getPKMfromFields = preparePK6;
 
             // Set up form properties and arrays.
             SlotPictureBoxes = new[] {
@@ -749,15 +751,23 @@ namespace PKHeX
             switch (SAV.Generation)
             {
                 case 3:
+                    getFieldsfromPKM = populateFieldsPK3;
+                    getPKMfromFields = preparePK3;
                     extraBytes = PK3.ExtraBytes;
                     break;
                 case 4:
+                    getFieldsfromPKM = populateFieldsPK4;
+                    getPKMfromFields = preparePK4;
                     extraBytes = PK4.ExtraBytes;
                     break;
                 case 5:
+                    getFieldsfromPKM = populateFieldsPK5;
+                    getPKMfromFields = preparePK5;
                     extraBytes = PK5.ExtraBytes;
                     break;
                 case 6:
+                    getFieldsfromPKM = populateFieldsPK6;
+                    getPKMfromFields = preparePK6;
                     extraBytes = PK6.ExtraBytes;
                     TB_GameSync.Enabled = (SAV as SAV6).GameSyncID != 0;
                     TB_GameSync.Text = (SAV as SAV6).GameSyncID.ToString("X16");
@@ -1027,6 +1037,8 @@ namespace PKHeX
                 cb.DataSource = new BindingSource(MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID), null);
             }
         }
+        private Action getFieldsfromPKM;
+        private Func<PKM> getPKMfromFields;
         public void populateFields(PKM pk, bool focus = true)
         {
             if (pk == null) { Util.Error("Attempted to load a null file."); return; }
@@ -1040,23 +1052,19 @@ namespace PKHeX
                 Tab_Main.Focus();
 
             pkm = pk.Clone();
+
             if (fieldsInitialized & !pkm.ChecksumValid)
                 Util.Alert("PKX File has an invalid checksum.");
-            switch (pkm.Format)
+
+            if (pkm.Format != SAV.Generation) // past gen format
             {
-                case 3:
-                    populateFieldsPK3(pkm as PK3);
-                    break;
-                case 4:
-                    populateFieldsPK4(pkm as PK4);
-                    break;
-                case 5:
-                    populateFieldsPK5(pkm as PK5);
-                    break;
-                case 6:
-                    populateFieldsPK6(pkm as PK6);
-                    break;
+                string c;
+                pkm = PKMConverter.convertToFormat(pkm, SAV.Generation, out c);
+                if (pk.Format != pkm.Format) // converted
+                    Util.Alert("Converted File.");
             }
+
+            getFieldsfromPKM();
 
             CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
             fieldsInitialized = oldInit;
@@ -1084,8 +1092,12 @@ namespace PKHeX
             dragout.Image = pk.Sprite;
             updateLegality();
         }
-        private void populateFieldsPK3(PK3 pk3)
+        private void populateFieldsPK3()
         {
+            PK3 pk3 = pkm as PK3;
+            if (pk3 == null)
+                return;
+
             // Do first
             pk3.Stat_Level = PKX.getLevel(pk3.Species, pk3.EXP);
             if (pk3.Stat_Level == 100)
@@ -1177,8 +1189,12 @@ namespace PKHeX
             Label_Gender.Text = gendersymbols[pk3.Gender];
             Label_Gender.ForeColor = pk3.Gender == 2 ? Label_Species.ForeColor : (pk3.Gender == 1 ? Color.Red : Color.Blue);
         }
-        private void populateFieldsPK4(PK4 pk4)
+        private void populateFieldsPK4()
         {
+            PK4 pk4 = pkm as PK4;
+            if (pk4 == null)
+                return;
+
             // Do first
             pk4.Stat_Level = PKX.getLevel(pk4.Species, pk4.EXP);
             if (pk4.Stat_Level == 100)
@@ -1293,11 +1309,15 @@ namespace PKHeX
             {
                 int[] abils = PKX.getAbilities(pk4.Species, pk4.AltForm);
                 int abil = Array.IndexOf(abils, pk4.Ability);
-                CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
+                CB_Ability.SelectedIndex = abil < 0 ? 0 : abil < CB_Ability.Items.Count ? abil : 0;
             }
         }
-        private void populateFieldsPK5(PK5 pk5)
+        private void populateFieldsPK5()
         {
+            PK5 pk5 = pkm as PK5;
+            if (pk5 == null)
+                return;
+
             // Do first
             pk5.Stat_Level = PKX.getLevel(pk5.Species, pk5.EXP);
             if (pk5.Stat_Level == 100)
@@ -1426,8 +1446,12 @@ namespace PKHeX
                 CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
             }
         }
-        private void populateFieldsPK6(PK6 pk6)
+        private void populateFieldsPK6()
         {
+            PK6 pk6 = pkm as PK6;
+            if (pk6 == null)
+                return;
+
             // Do first
             pk6.Stat_Level = PKX.getLevel(pk6.Species, pk6.EXP);
             if (pk6.Stat_Level == 100)
@@ -1615,7 +1639,7 @@ namespace PKHeX
 
             int curAbil = CB_Ability.SelectedIndex;
             CB_Ability.DataSource = ability_list;
-            CB_Ability.SelectedIndex = curAbil;
+            CB_Ability.SelectedIndex = curAbil < CB_Ability.Items.Count ? curAbil : CB_Ability.Items.Count -1;
         }
         // PKX Data Calculation Functions //
         private void setIsShiny()
@@ -2789,25 +2813,10 @@ namespace PKHeX
             if (click)
                 tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
 
-            PKM pk = null;
-            switch (pkm.Format)
-            {
-                case 3:
-                    pk = preparePK3();
-                    break;
-                case 4:
-                    pk = preparePK4();
-                    break;
-                case 5:
-                    pk = preparePK5();
-                    break;
-                case 6:
-                    pk = preparePK6();
-                    break;
-            }
+            PKM pk = getPKMfromFields();
             return pk?.Clone();
         }
-        private PK3 preparePK3()
+        private PKM preparePK3()
         {
             PK3 pk3 = pkm as PK3;
             if (pk3 == null)
@@ -2895,7 +2904,7 @@ namespace PKHeX
             pk3.RefreshChecksum();
             return pk3;
         }
-        private PK4 preparePK4()
+        private PKM preparePK4()
         {
             PK4 pk4 = pkm as PK4;
             if (pk4 == null)
@@ -3010,7 +3019,7 @@ namespace PKHeX
             pk4.RefreshChecksum();
             return pk4;
         }
-        private PK5 preparePK5()
+        private PKM preparePK5()
         {
             PK5 pk5 = pkm as PK5;
             if (pk5 == null)
@@ -3127,11 +3136,12 @@ namespace PKHeX
             pk5.RefreshChecksum();
             return pk5;
         }
-        private PK6 preparePK6()
+        private PKM preparePK6()
         {
             PK6 pk6 = pkm as PK6;
             if (pk6 == null)
                 return null;
+
             // Repopulate PK6 with Edited Stuff
             if (Util.getIndex(CB_GameOrigin) < 24)
             {
