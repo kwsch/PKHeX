@@ -1106,7 +1106,7 @@ namespace PKHeX
             setAbilityList();
             int[] abils = PKX.getAbilities(pk3.Species, 0);
             int abil = Array.IndexOf(abils, pk3.Ability);
-            CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
+            CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             CB_Nature.SelectedValue = pk3.Nature;
             TB_TID.Text = pk3.TID.ToString("00000");
             TB_SID.Text = pk3.SID.ToString("00000");
@@ -1293,7 +1293,7 @@ namespace PKHeX
             {
                 int[] abils = PKX.getAbilities(pk4.Species, pk4.AltForm);
                 int abil = Array.IndexOf(abils, pk4.Ability);
-                CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
+                CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             }
         }
         private void populateFieldsPK5(PK5 pk5)
@@ -1423,7 +1423,7 @@ namespace PKHeX
             {
                 int[] abils = PKX.getAbilities(pk5.Species, pk5.AltForm);
                 int abil = Array.IndexOf(abils, pk5.Ability);
-                CB_Ability.SelectedIndex = abil < 0 ? 0 : abil;
+                CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             }
         }
         private void populateFieldsPK6(PK6 pk6)
@@ -1609,13 +1609,13 @@ namespace PKHeX
 
             int[] abils = SAV.Personal[SAV.Personal[species].FormeIndex(species, formnum)].Abilities;
             string[] abilIdentifier = {" (1)", " (2)", " (H)"};
-            List<string> ability_list = abils.Where(abil => abil != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
+            List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
             if (!ability_list.Any())
                 ability_list.Add(abilitylist[0] + abilIdentifier[0]);
 
-            int curAbil = CB_Ability.SelectedIndex;
+            int abil = CB_Ability.SelectedIndex;
             CB_Ability.DataSource = ability_list;
-            CB_Ability.SelectedIndex = curAbil;
+            CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
         }
         // PKX Data Calculation Functions //
         private void setIsShiny()
