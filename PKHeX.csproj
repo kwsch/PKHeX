@@ -254,7 +254,13 @@
     <Compile Include="Misc\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Util\Util.cs" />
+    <Compile Include="Util\cbItem.cs" />
+    <Compile Include="Util\DataUtil.cs" />
+    <Compile Include="Util\FormUtil.cs" />
+    <Compile Include="Util\ImageUtil.cs" />
+    <Compile Include="Util\PathUtil.cs" />
+    <Compile Include="Util\RandUtil.cs" />
+    <Compile Include="Util\StringUtil.cs" />
     <EmbeddedResource Include="Misc\QR.resx">
       <DependentUpon>QR.cs</DependentUpon>
       <SubType>Designer</SubType>
