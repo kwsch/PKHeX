@@ -303,7 +303,7 @@ namespace PKHeX
         {
             string result;
             string nn = pk6.Nickname;
-            string a = (Util.cbItem)arg.SelectedItem == null ? arg.Text ?? "ERROR" : ((Util.cbItem)arg.SelectedItem).Text;
+            string a = (ComboItem)arg.SelectedItem == null ? arg.Text ?? "ERROR" : ((ComboItem)arg.SelectedItem).Text;
             int mem = Util.getIndex(m);
 
             bool enabled = false;

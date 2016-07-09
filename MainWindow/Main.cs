@@ -146,7 +146,7 @@ namespace PKHeX
         public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
         public static string[] wallpapernames, puffs = { };
         public static bool unicode;
-        public static List<Util.cbItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
+        public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
 
         public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
         private static int colorizedbox = -1;

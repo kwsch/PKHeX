@@ -254,7 +254,7 @@
     <Compile Include="Misc\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Util\cbItem.cs" />
+    <Compile Include="Misc\ComboItem.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\FormUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />

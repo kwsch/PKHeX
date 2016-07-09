@@ -37,7 +37,7 @@ namespace PKHeX
         }
         
         // DataSource Providing
-        internal static List<cbItem> getCBList(string textfile, string lang)
+        internal static List<ComboItem> getCBList(string textfile, string lang)
         {
             // Set up
             string[] inputCSV = getStringList(textfile);
@@ -63,15 +63,15 @@ namespace PKHeX
             Array.Sort(sortedList);
 
             // Arrange the input data based on original number
-            return sortedList.Select(s => new cbItem
+            return sortedList.Select(s => new ComboItem
             {
                 Text = s,
                 Value = indexes[Array.IndexOf(unsortedList, s)]
             }).ToList();
         }
-        internal static List<cbItem> getCBList(string[] inStrings, params int[][] allowed)
+        internal static List<ComboItem> getCBList(string[] inStrings, params int[][] allowed)
         {
-            List<cbItem> cbList = new List<cbItem>();
+            List<ComboItem> cbList = new List<ComboItem>();
             if (allowed?.First() == null)
                 allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
@@ -87,7 +87,7 @@ namespace PKHeX
                 Array.Sort(sortedChoices);
 
                 // Add the rest of the items
-                cbList.AddRange(sortedChoices.Select(s => new cbItem
+                cbList.AddRange(sortedChoices.Select(s => new ComboItem
                 {
                     Text = s,
                     Value = list[Array.IndexOf(unsortedChoices, s)]
@@ -95,7 +95,7 @@ namespace PKHeX
             }
             return cbList;
         }
-        internal static List<cbItem> getOffsetCBList(List<cbItem> cbList, string[] inStrings, int offset, int[] allowed)
+        internal static List<ComboItem> getOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
         {
             if (allowed == null)
                 allowed = Enumerable.Range(0, inStrings.Length).ToArray();
@@ -114,22 +114,22 @@ namespace PKHeX
             Array.Sort(sortedChoices);
 
             // Add the rest of the items
-            cbList.AddRange(sortedChoices.Select(s => new cbItem
+            cbList.AddRange(sortedChoices.Select(s => new ComboItem
             {
                 Text = s,
                 Value = allowed[Array.IndexOf(unsortedChoices, s)]
             }));
             return cbList;
         }
-        internal static List<cbItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
+        internal static List<ComboItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // Set up
-            List<cbItem> newlist = new List<cbItem>();
+            List<ComboItem> newlist = new List<ComboItem>();
 
             for (int i = 4; i > 1; i--) // add 4,3,2
             {
                 // First 3 Balls are always first
-                cbItem ncbi = new cbItem
+                ComboItem ncbi = new ComboItem
                 {
                     Text = inStrings[i],
                     Value = i
@@ -147,24 +147,24 @@ namespace PKHeX
             Array.Sort(sortedballs);
 
             // Add the rest of the balls
-            newlist.AddRange(sortedballs.Select(s => new cbItem
+            newlist.AddRange(sortedballs.Select(s => new ComboItem
             {
                 Text = s,
                 Value = stringVal[Array.IndexOf(ballnames, s)]
             }));
             return newlist;
         }
-        internal static List<cbItem> getUnsortedCBList(string textfile)
+        internal static List<ComboItem> getUnsortedCBList(string textfile)
         {
             // Set up
-            List<cbItem> cbList = new List<cbItem>();
+            List<ComboItem> cbList = new List<ComboItem>();
             string[] inputCSV = getStringList(textfile);
 
             // Gather our data from the input file
             for (int i = 1; i < inputCSV.Length; i++)
             {
                 string[] inputData = inputCSV[i].Split(',');
-                cbItem ncbi = new cbItem
+                ComboItem ncbi = new ComboItem
                 {
                     Text = inputData[1],
                     Value = Convert.ToInt32(inputData[0])

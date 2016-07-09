@@ -246,21 +246,21 @@ namespace PKHeX
             CB_GameOrigin.ValueMember =
             CB_HPType.ValueMember = "Value";
 
-            var Any = new Util.cbItem {Text = "Any", Value = -1};
+            var Any = new ComboItem {Text = "Any", Value = -1};
 
-            var DS_Species = new List<Util.cbItem>(Main.SpeciesDataSource);
+            var DS_Species = new List<ComboItem>(Main.SpeciesDataSource);
             DS_Species.RemoveAt(0); DS_Species.Insert(0, Any); CB_Species.DataSource = DS_Species;
 
-            var DS_Item = new List<Util.cbItem>(Main.ItemDataSource);
+            var DS_Item = new List<ComboItem>(Main.ItemDataSource);
             DS_Item.Insert(0, Any); CB_HeldItem.DataSource = DS_Item;
 
-            var DS_Nature = new List<Util.cbItem>(Main.NatureDataSource);
+            var DS_Nature = new List<ComboItem>(Main.NatureDataSource);
             DS_Nature.Insert(0, Any); CB_Nature.DataSource = DS_Nature;
 
-            var DS_Ability = new List<Util.cbItem>(Main.AbilityDataSource);
+            var DS_Ability = new List<ComboItem>(Main.AbilityDataSource);
             DS_Ability.Insert(0, Any); CB_Ability.DataSource = DS_Ability;
 
-            var DS_Version = new List<Util.cbItem>(Main.VersionDataSource);
+            var DS_Version = new List<ComboItem>(Main.VersionDataSource);
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
             
             string[] hptypes = new string[Main.types.Length - 2]; Array.Copy(Main.types, 1, hptypes, 0, hptypes.Length);
@@ -268,7 +268,7 @@ namespace PKHeX
             DS_Type.Insert(0, Any); CB_HPType.DataSource = DS_Type;
 
             // Set the Move ComboBoxes too..
-            var DS_Move = new List<Util.cbItem>(Main.MoveDataSource);
+            var DS_Move = new List<ComboItem>(Main.MoveDataSource);
             DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
