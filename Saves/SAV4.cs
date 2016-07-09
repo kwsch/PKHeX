@@ -426,7 +426,7 @@ namespace PKHeX
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -437,7 +437,7 @@ namespace PKHeX
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
             }
         }
         public int X
@@ -451,7 +451,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x287E; break;
                     case GameVersion.HGSS: ofs = 0x236E; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -462,12 +462,12 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x287E; break;
                     case GameVersion.HGSS: ofs = 0x236E; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
                 switch (Version)
                 {
                     case GameVersion.DP:
                     case GameVersion.HGSS:
-                        BitConverter.GetBytes(value).CopyTo(Data, 0x123C);
+                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x123C);
                         break;
                 }
             }
@@ -483,7 +483,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2886; break;
                     case GameVersion.HGSS: ofs = 0x2376; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -494,7 +494,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2886; break;
                     case GameVersion.HGSS: ofs = 0x2376; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
             }
         }
         public int Y
@@ -508,7 +508,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2882; break;
                     case GameVersion.HGSS: ofs = 0x2372; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -519,12 +519,12 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2882; break;
                     case GameVersion.HGSS: ofs = 0x2372; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
                 switch (Version)
                 {
                     case GameVersion.DP:
                     case GameVersion.HGSS:
-                        BitConverter.GetBytes(value).CopyTo(Data, 0x1240);
+                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1240);
                         break;
                 }
             }
