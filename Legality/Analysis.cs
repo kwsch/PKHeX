@@ -25,7 +25,7 @@ namespace PKHeX
         {
             if (!(pk is PK6))
                 return;
-            pk6 = pk as PK6;
+            pk6 = (PK6) pk;
             try
             {
                 updateRelearnLegality();
