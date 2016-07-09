@@ -106,11 +106,11 @@
     <Compile Include="Saves\SAV6.cs" />
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
-    <Compile Include="Subforms\PKM Editors\f2-Text.cs">
+    <Compile Include="Subforms\PKM Editors\Text.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\f2-Text.Designer.cs">
-      <DependentUpon>f2-Text.cs</DependentUpon>
+    <Compile Include="Subforms\PKM Editors\Text.Designer.cs">
+      <DependentUpon>Text.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
@@ -119,23 +119,23 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="PKM\PKX.cs" />
-    <Compile Include="MainWindow\f1-Main.cs">
+    <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow\f1-Main.Designer.cs">
-      <DependentUpon>f1-Main.cs</DependentUpon>
+    <Compile Include="MainWindow\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\f4-RibbMedal.cs">
+    <Compile Include="Subforms\PKM Editors\RibbMedal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\f4-RibbMedal.Designer.cs">
-      <DependentUpon>f4-RibbMedal.cs</DependentUpon>
+    <Compile Include="Subforms\PKM Editors\RibbMedal.Designer.cs">
+      <DependentUpon>RibbMedal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\f3-MemoryAmie.cs">
+    <Compile Include="Subforms\PKM Editors\MemoryAmie.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\f3-MemoryAmie.Designer.cs">
-      <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
+    <Compile Include="Subforms\PKM Editors\MemoryAmie.Designer.cs">
+      <DependentUpon>MemoryAmie.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -259,22 +259,22 @@
       <DependentUpon>QR.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\PKM Editors\f2-Text.resx">
-      <DependentUpon>f2-Text.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\PKM Editors\Text.resx">
+      <DependentUpon>Text.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow\f1-Main.resx">
-      <DependentUpon>f1-Main.cs</DependentUpon>
+    <EmbeddedResource Include="MainWindow\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\PKM Editors\f4-RibbMedal.resx">
-      <DependentUpon>f4-RibbMedal.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\PKM Editors\RibbMedal.resx">
+      <DependentUpon>RibbMedal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\PKM Editors\f3-MemoryAmie.resx">
-      <DependentUpon>f3-MemoryAmie.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\PKM Editors\MemoryAmie.resx">
+      <DependentUpon>MemoryAmie.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.resx">
       <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
