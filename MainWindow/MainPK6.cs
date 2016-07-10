@@ -331,7 +331,7 @@ namespace PKHeX
             pk6.FixRelearn();
 
             // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer (none for eggs)
-            if (Menu_ModifyPK6.Checked)
+            if (Menu_ModifyPKM.Checked)
                 pk6.FixMemories();
 
             // PKX is now filled

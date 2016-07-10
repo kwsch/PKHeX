@@ -474,6 +474,15 @@
   <metadata name="GB_nOT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="Label_CTGender.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TB_OTt2.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Label_PrevOT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="BTN_RerollEC.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -483,10 +492,192 @@
   <metadata name="BTN_Ribbons.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="GB_Markings.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="PB_Mark6.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAFVJREFUKFNjQAeKioqhUCZuoKSktAqI/wMVd0CFMAFMEQxjVYyuCIZRFCsrK6dh
+        UwTDQMUuUKVgD8zEpgiIy6FKEACLYkxFMICkGLciGEBxE+mAgQEAw6cxLyPYHYMAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="PB_Mark6.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAFVJREFUKFNjQAeKioqhUCZuoKSktAqI/wMVd0CFMAFMEQxjVYyuCIZRFCsrK6dh
+        UwTDQMUuUKVgD8zEpgiIy6FKEACLYkxFMICkGLciGEBxE+mAgQEAw6cxLyPYHYMAAAAASUVORK5CYII=
+</value>
+  </data>
+  <metadata name="PB_MarkPentagon.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="PB_MarkPentagon.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAGFJREFUKFNjIA/oVggyGJetYjCpUIKKYAEmFS5ARe8YjMv/gzGIjwGMy8vhClBx
+        OVQFEBhXhGJRgISB8nCAVQEUowCjsg6sikDiKADsWywKQeIYwLhsJhCfgWMM04gCDAwAOXZIpY+syQoA
+        AAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="PB_MarkPentagon.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAGFJREFUKFNjIA/oVggyGJetYjCpUIKKYAEmFS5ARe8YjMv/gzGIjwGMy8vhClBx
+        OVQFEBhXhGJRgISB8nCAVQEUowCjsg6sikDiKADsWywKQeIYwLhsJhCfgWMM04gCDAwAOXZIpY+syQoA
+        AAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="PB_Mark3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAPklEQVQoU2OA
+        gf///+PEcKCkpPQOF0ZRDBX8jwW/g6iAApAAmgIaKoS7EUSABNAU4FWIFaMoJAZjFcTE/xkAiduxT7wO
+        KegAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="PB_Mark3.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAPklEQVQoU2OA
+        gf///+PEcKCkpPQOF0ZRDBX8jwW/g6iAApAAmgIaKoS7EUSABNAU4FWIFaMoJAZjFcTE/xkAiduxT7wO
+        KegAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="PB_Mark5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAHpJREFUKFNjQAeKioodUCZuAFTkoqSk9B9EQ4UwgZycnCBQwRmowrvKysrGUCkI
+        AEqUgyRxYaCmmVClEHdhUwTEq6BKEAAouBtZEch6qBQqgLkPGUOlUAFUcreqqqoSyF0gPpBG9T3Ih0Cc
+        BuWCAUgMqDAUyiUWMDAAALO6MzuvKR9eAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="PB_Mark5.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAHpJREFUKFNjQAeKioodUCZuAFTkoqSk9B9EQ4UwgZycnCBQwRmowrvKysrGUCkI
+        AEqUgyRxYaCmmVClEHdhUwTEq6BKEAAouBtZEch6qBQqgLkPGUOlUAFUcreqqqoSyF0gPpBG9T3Ih0Cc
+        BuWCAUgMqDAUyiUWMDAAALO6MzuvKR9eAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="PB_MarkCured.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="PB_MarkCured.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAI1JREFUKFOVUEENwzAMDIViKYVBiPcogFIohXIahUKwK5VAIcSz3ZvqaPvspJMv
+        vpPjpGTodAxadwqaRrtHI16URHvyDPuCPuURxnreoY82DzELkmzRdMwIQrfKL8Ts2spnmO57TbqRCGJp
+        4g92E23pMYzF9rISdO29vKPDX5gnBe2bYH/jms4jjv+ilDfBD7LrZqlEjQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="PB_MarkCured.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAI1JREFUKFOVUEENwzAMDIViKYVBiPcogFIohXIahUKwK5VAIcSz3ZvqaPvspJMv
+        vpPjpGTodAxadwqaRrtHI16URHvyDPuCPuURxnreoY82DzELkmzRdMwIQrfKL8Ts2spnmO57TbqRCGJp
+        4g92E23pMYzF9rISdO29vKPDX5gnBe2bYH/jms4jjv+ilDfBD7LrZqlEjQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="PB_Mark2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAG5JREFUKFNjQAeKioqhUCZuoKysbKykpPQfREOFsAOgot0ghUBTz0CFMAFQ0gWk
+        CIZxOgFkCprCu1ApBADpRlYEw0C3pkGVQABQ8B26Iih+B1UCVlSOJomCgbZ1gBWqqqoqgYIDFwbJgxUS
+        BxgYAGs4NknmoWGpAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="PB_Mark2.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAG5JREFUKFNjQAeKioqhUCZuoKysbKykpPQfREOFsAOgot0ghUBTz0CFMAFQ0gWk
+        CIZxOgFkCprCu1ApBADpRlYEw0C3pkGVQABQ8B26Iih+B1UCVlSOJomCgbZ1gBWqqqoqgYIDFwbJgxUS
+        BxgYAGs4NknmoWGpAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="PB_MarkShiny.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="PB_MarkShiny.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAHhJREFUKFNjQAf/BQQ6oEzc4L+QUOh/QcH///n5jaFCmAAoKfhPUPAuWKGg4BkM
+        xSCroJLYMbJT/gkIzMSmCCQOVYIAQIkzKIqAzoBKoQIk98EUvoNKIQDII2AFAgKrgGwlMA3iY3gIKAAK
+        GigXDIB8F3QxIgADAwC7NFU/mWb72QAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="PB_MarkShiny.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAHhJREFUKFNjQAf/BQQ6oEzc4L+QUOh/QcH///n5jaFCmAAoKfhPUPAuWKGg4BkM
+        xSCroJLYMbJT/gkIzMSmCCQOVYIAQIkzKIqAzoBKoQIk98EUvoNKIQDII2AFAgKrgGwlMA3iY3gIKAAK
+        GigXDIB8F3QxIgADAwC7NFU/mWb72QAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="PB_Mark1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAGxJREFUKFNjQAbKysrGQJwGoqFCqEBVVVVJUVHxjJKS0n8YBvHl5OQEoUogAF0R
+        smKoErAiF2yKYBjuDJCbsCmAYaBBoTCFxtgUwDCKx3C5EYh3Q5VAAMh3IEF0RRi+hgFoMLmAaKgQqYCB
+        AQDOs0aM0tfjRAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="PB_Mark1.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAGxJREFUKFNjQAbKysrGQJwGoqFCqEBVVVVJUVHxjJKS0n8YBvHl5OQEoUogAF0R
+        smKoErAiF2yKYBjuDJCbsCmAYaBBoTCFxtgUwDCKx3C5EYh3Q5VAAMh3IEF0RRi+hgFoMLmAaKgQqYCB
+        AQDOs0aM0tfjRAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="PB_Mark4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAHBJREFUKFNjgAFlZWVjOTk5QRAbRCsqKrrA+GCgqqqqBATvgPg/iEbnwxUDOeVQ
+        QTAGmnQGmQ+0KQ2sECjRgSyBjkHyYIUgt2FTAMMgebBCEAA5HJsioHgoVAkCgASRFcHdhg2AJAkqggEU
+        N5EOGBgAEVY/pv9ltCoAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="PB_Mark4.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAAHBJREFUKFNjgAFlZWVjOTk5QRAbRCsqKrrA+GCgqqqqBATvgPg/iEbnwxUDOeVQ
+        QTAGmnQGmQ+0KQ2sECjRgSyBjkHyYIUgt2FTAMMgebBCEAA5HJsioHgoVAkCgASRFcHdhg2AJAkqggEU
+        N5EOGBgAEVY/pv9ltCoAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="GB_ExtraBytes.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="TB_ExtraByte.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="CB_ExtraBytes.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="GB_OT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Label_OTGender.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TB_OT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TB_SID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="TB_TID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Label_OT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Label_SID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Label_TID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="Label_EncryptionConstant.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -609,7 +800,6 @@
   <metadata name="Label_IsShiny.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label_IsShiny.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -1125,12 +1315,6 @@
   <metadata name="CB_Move1.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="TB_EC.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="GB_nOT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="Label_CTGender.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -1140,200 +1324,10 @@
   <metadata name="Label_PrevOT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Label_CTGender.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TB_OTt2.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Label_PrevOT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="BTN_RerollEC.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="BTN_History.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="BTN_Ribbons.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="PB_MarkPentagon.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="PB_MarkCured.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="PB_MarkShiny.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="PB_Mark6.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAFVJREFUKFNjQAeKioqhUCZuoKSktAqI/wMVd0CFMAFMEQxjVYyuCIZRFCsrK6dh
-        UwTDQMUuUKVgD8zEpgiIy6FKEACLYkxFMICkGLciGEBxE+mAgQEAw6cxLyPYHYMAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="PB_Mark6.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAFVJREFUKFNjQAeKioqhUCZuoKSktAqI/wMVd0CFMAFMEQxjVYyuCIZRFCsrK6dh
-        UwTDQMUuUKVgD8zEpgiIy6FKEACLYkxFMICkGLciGEBxE+mAgQEAw6cxLyPYHYMAAAAASUVORK5CYII=
-</value>
-  </data>
-  <metadata name="PB_MarkPentagon.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="PB_MarkPentagon.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAGFJREFUKFNjIA/oVggyGJetYjCpUIKKYAEmFS5ARe8YjMv/gzGIjwGMy8vhClBx
-        OVQFEBhXhGJRgISB8nCAVQEUowCjsg6sikDiKADsWywKQeIYwLhsJhCfgWMM04gCDAwAOXZIpY+syQoA
-        AAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="PB_MarkPentagon.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAGFJREFUKFNjIA/oVggyGJetYjCpUIKKYAEmFS5ARe8YjMv/gzGIjwGMy8vhClBx
-        OVQFEBhXhGJRgISB8nCAVQEUowCjsg6sikDiKADsWywKQeIYwLhsJhCfgWMM04gCDAwAOXZIpY+syQoA
-        AAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="PB_Mark3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAPklEQVQoU2OA
-        gf///+PEcKCkpPQOF0ZRDBX8jwW/g6iAApAAmgIaKoS7EUSABNAU4FWIFaMoJAZjFcTE/xkAiduxT7wO
-        KegAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="PB_Mark3.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAPklEQVQoU2OA
-        gf///+PEcKCkpPQOF0ZRDBX8jwW/g6iAApAAmgIaKoS7EUSABNAU4FWIFaMoJAZjFcTE/xkAiduxT7wO
-        KegAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="PB_Mark5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAHpJREFUKFNjQAeKioodUCZuAFTkoqSk9B9EQ4UwgZycnCBQwRmowrvKysrGUCkI
-        AEqUgyRxYaCmmVClEHdhUwTEq6BKEAAouBtZEch6qBQqgLkPGUOlUAFUcreqqqoSyF0gPpBG9T3Ih0Cc
-        BuWCAUgMqDAUyiUWMDAAALO6MzuvKR9eAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="PB_Mark5.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAHpJREFUKFNjQAeKioodUCZuAFTkoqSk9B9EQ4UwgZycnCBQwRmowrvKysrGUCkI
-        AEqUgyRxYaCmmVClEHdhUwTEq6BKEAAouBtZEch6qBQqgLkPGUOlUAFUcreqqqoSyF0gPpBG9T3Ih0Cc
-        BuWCAUgMqDAUyiUWMDAAALO6MzuvKR9eAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <metadata name="PB_MarkCured.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="PB_MarkCured.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAI1JREFUKFOVUEENwzAMDIViKYVBiPcogFIohXIahUKwK5VAIcSz3ZvqaPvspJMv
-        vpPjpGTodAxadwqaRrtHI16URHvyDPuCPuURxnreoY82DzELkmzRdMwIQrfKL8Ts2spnmO57TbqRCGJp
-        4g92E23pMYzF9rISdO29vKPDX5gnBe2bYH/jms4jjv+ilDfBD7LrZqlEjQAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="PB_MarkCured.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAI1JREFUKFOVUEENwzAMDIViKYVBiPcogFIohXIahUKwK5VAIcSz3ZvqaPvspJMv
-        vpPjpGTodAxadwqaRrtHI16URHvyDPuCPuURxnreoY82DzELkmzRdMwIQrfKL8Ts2spnmO57TbqRCGJp
-        4g92E23pMYzF9rISdO29vKPDX5gnBe2bYH/jms4jjv+ilDfBD7LrZqlEjQAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="PB_Mark2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAG5JREFUKFNjQAeKioqhUCZuoKysbKykpPQfREOFsAOgot0ghUBTz0CFMAFQ0gWk
-        CIZxOgFkCprCu1ApBADpRlYEw0C3pkGVQABQ8B26Iih+B1UCVlSOJomCgbZ1gBWqqqoqgYIDFwbJgxUS
-        BxgYAGs4NknmoWGpAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="PB_Mark2.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAG5JREFUKFNjQAeKioqhUCZuoKysbKykpPQfREOFsAOgot0ghUBTz0CFMAFQ0gWk
-        CIZxOgFkCprCu1ApBADpRlYEw0C3pkGVQABQ8B26Iih+B1UCVlSOJomCgbZ1gBWqqqoqgYIDFwbJgxUS
-        BxgYAGs4NknmoWGpAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <metadata name="PB_MarkShiny.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="PB_MarkShiny.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAHhJREFUKFNjQAf/BQQ6oEzc4L+QUOh/QcH///n5jaFCmAAoKfhPUPAuWKGg4BkM
-        xSCroJLYMbJT/gkIzMSmCCQOVYIAQIkzKIqAzoBKoQIk98EUvoNKIQDII2AFAgKrgGwlMA3iY3gIKAAK
-        GigXDIB8F3QxIgADAwC7NFU/mWb72QAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="PB_MarkShiny.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAHhJREFUKFNjQAf/BQQ6oEzc4L+QUOh/QcH///n5jaFCmAAoKfhPUPAuWKGg4BkM
-        xSCroJLYMbJT/gkIzMSmCCQOVYIAQIkzKIqAzoBKoQIk98EUvoNKIQDII2AFAgKrgGwlMA3iY3gIKAAK
-        GigXDIB8F3QxIgADAwC7NFU/mWb72QAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="PB_Mark1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAGxJREFUKFNjQAbKysrGQJwGoqFCqEBVVVVJUVHxjJKS0n8YBvHl5OQEoUogAF0R
-        smKoErAiF2yKYBjuDJCbsCmAYaBBoTCFxtgUwDCKx3C5EYh3Q5VAAMh3IEF0RRi+hgFoMLmAaKgQqYCB
-        AQDOs0aM0tfjRAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="PB_Mark1.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAGxJREFUKFNjQAbKysrGQJwGoqFCqEBVVVVJUVHxjJKS0n8YBvHl5OQEoUogAF0R
-        smKoErAiF2yKYBjuDJCbsCmAYaBBoTCFxtgUwDCKx3C5EYh3Q5VAAMh3IEF0RRi+hgFoMLmAaKgQqYCB
-        AQDOs0aM0tfjRAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="PB_Mark4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAHBJREFUKFNjgAFlZWVjOTk5QRAbRCsqKrrA+GCgqqqqBATvgPg/iEbnwxUDOeVQ
-        QTAGmnQGmQ+0KQ2sECjRgSyBjkHyYIUgt2FTAMMgebBCEAA5HJsioHgoVAkCgASRFcHdhg2AJAkqggEU
-        N5EOGBgAEVY/pv9ltCoAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="PB_Mark4.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAAHBJREFUKFNjgAFlZWVjOTk5QRAbRCsqKrrA+GCgqqqqBATvgPg/iEbnwxUDOeVQ
-        QTAGmnQGmQ+0KQ2sECjRgSyBjkHyYIUgt2FTAMMgebBCEAA5HJsioHgoVAkCgASRFcHdhg2AJAkqggEU
-        N5EOGBgAEVY/pv9ltCoAAAAASUVORK5CYII=
-</value>
-  </data>
-  <metadata name="GB_ExtraBytes.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="TB_ExtraByte.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="CB_ExtraBytes.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TB_ExtraByte.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="CB_ExtraBytes.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="GB_OT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="Label_OTGender.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1355,30 +1349,6 @@
     <value>True</value>
   </metadata>
   <metadata name="Label_TID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Label_OTGender.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TB_OT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TB_SID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TB_TID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Label_OT.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Label_SID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Label_TID.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Label_EncryptionConstant.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

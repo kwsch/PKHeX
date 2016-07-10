@@ -219,8 +219,8 @@
             this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Showdown = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ShowdownImportPK6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ShowdownExportPK6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShowdownImportPKM = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShowdownExportPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportParty = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportBattleBox = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_CyberGadget = new System.Windows.Forms.ToolStripMenuItem();
@@ -239,7 +239,7 @@
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
             this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ModifyPK6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Save = new System.Windows.Forms.Label();
@@ -2704,35 +2704,35 @@
             // Menu_Showdown
             // 
             this.Menu_Showdown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_ShowdownImportPK6,
-            this.Menu_ShowdownExportPK6,
+            this.Menu_ShowdownImportPKM,
+            this.Menu_ShowdownExportPKM,
             this.Menu_ShowdownExportParty,
             this.Menu_ShowdownExportBattleBox});
             this.Menu_Showdown.Image = global::PKHeX.Properties.Resources.showdown;
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
-            // Menu_ShowdownImportPK6
+            // Menu_ShowdownImportPKM
             // 
-            this.Menu_ShowdownImportPK6.Image = global::PKHeX.Properties.Resources.import;
-            this.Menu_ShowdownImportPK6.Name = "Menu_ShowdownImportPK6";
-            this.Menu_ShowdownImportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.Menu_ShowdownImportPK6.ShowShortcutKeys = false;
-            this.Menu_ShowdownImportPK6.Size = new System.Drawing.Size(231, 22);
-            this.Menu_ShowdownImportPK6.Text = "Import Set from Clipboard";
-            this.Menu_ShowdownImportPK6.Click += new System.EventHandler(this.clickShowdownImportPK6);
+            this.Menu_ShowdownImportPKM.Image = global::PKHeX.Properties.Resources.import;
+            this.Menu_ShowdownImportPKM.Name = "Menu_ShowdownImportPKM";
+            this.Menu_ShowdownImportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.Menu_ShowdownImportPKM.ShowShortcutKeys = false;
+            this.Menu_ShowdownImportPKM.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownImportPKM.Text = "Import Set from Clipboard";
+            this.Menu_ShowdownImportPKM.Click += new System.EventHandler(this.clickShowdownImportPK6);
             // 
-            // Menu_ShowdownExportPK6
+            // Menu_ShowdownExportPKM
             // 
-            this.Menu_ShowdownExportPK6.Image = global::PKHeX.Properties.Resources.export;
-            this.Menu_ShowdownExportPK6.Name = "Menu_ShowdownExportPK6";
-            this.Menu_ShowdownExportPK6.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.Menu_ShowdownExportPKM.Image = global::PKHeX.Properties.Resources.export;
+            this.Menu_ShowdownExportPKM.Name = "Menu_ShowdownExportPKM";
+            this.Menu_ShowdownExportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.T)));
-            this.Menu_ShowdownExportPK6.ShowShortcutKeys = false;
-            this.Menu_ShowdownExportPK6.Size = new System.Drawing.Size(231, 22);
-            this.Menu_ShowdownExportPK6.Text = "Export Set to Clipboard";
-            this.Menu_ShowdownExportPK6.Click += new System.EventHandler(this.clickShowdownExportPK6);
+            this.Menu_ShowdownExportPKM.ShowShortcutKeys = false;
+            this.Menu_ShowdownExportPKM.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownExportPKM.Text = "Export Set to Clipboard";
+            this.Menu_ShowdownExportPKM.Click += new System.EventHandler(this.clickShowdownExportPK6);
             // 
             // Menu_ShowdownExportParty
             // 
@@ -2757,7 +2757,7 @@
             this.Menu_OpenCache});
             this.Menu_CyberGadget.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
-            this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
+            this.Menu_CyberGadget.Size = new System.Drawing.Size(152, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
             // 
             // Menu_OpenTemp
@@ -2785,7 +2785,7 @@
             this.Menu_Database});
             this.Menu_Data.Image = global::PKHeX.Properties.Resources.data;
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
@@ -2831,7 +2831,7 @@
             this.Menu_OpenSDB});
             this.Menu_Other.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_Other.Name = "Menu_Other";
-            this.Menu_Other.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Other.Size = new System.Drawing.Size(152, 22);
             this.Menu_Other.Text = "Other";
             // 
             // Menu_OpenSDF
@@ -2867,7 +2867,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = global::PKHeX.Properties.Resources.language;
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2881,10 +2881,10 @@
             // 
             this.Menu_Modify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_ModifyDex,
-            this.Menu_ModifyPK6});
+            this.Menu_ModifyPKM});
             this.Menu_Modify.Image = global::PKHeX.Properties.Resources.settings;
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -2893,19 +2893,19 @@
             this.Menu_ModifyDex.CheckOnClick = true;
             this.Menu_ModifyDex.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_ModifyDex.Name = "Menu_ModifyDex";
-            this.Menu_ModifyDex.Size = new System.Drawing.Size(159, 22);
+            this.Menu_ModifyDex.Size = new System.Drawing.Size(164, 22);
             this.Menu_ModifyDex.Text = "Modify Pokédex";
             this.Menu_ModifyDex.Click += new System.EventHandler(this.mainMenuModifyDex);
             // 
-            // Menu_ModifyPK6
+            // Menu_ModifyPKM
             // 
-            this.Menu_ModifyPK6.Checked = true;
-            this.Menu_ModifyPK6.CheckOnClick = true;
-            this.Menu_ModifyPK6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_ModifyPK6.Name = "Menu_ModifyPK6";
-            this.Menu_ModifyPK6.Size = new System.Drawing.Size(159, 22);
-            this.Menu_ModifyPK6.Text = "Modify PK6 Info";
-            this.Menu_ModifyPK6.Click += new System.EventHandler(this.mainMenuModifyPKM);
+            this.Menu_ModifyPKM.Checked = true;
+            this.Menu_ModifyPKM.CheckOnClick = true;
+            this.Menu_ModifyPKM.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ModifyPKM.Name = "Menu_ModifyPKM";
+            this.Menu_ModifyPKM.Size = new System.Drawing.Size(164, 22);
+            this.Menu_ModifyPKM.Text = "Modify PKM Info";
+            this.Menu_ModifyPKM.Click += new System.EventHandler(this.mainMenuModifyPKM);
             // 
             // Menu_Unicode
             // 
@@ -2913,7 +2913,7 @@
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -2923,7 +2923,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(139, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
@@ -4748,7 +4748,7 @@
         private System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.ToolStripMenuItem Menu_Modify;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyDex;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ModifyPK6;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ModifyPKM;
         private System.Windows.Forms.ContextMenuStrip mnuVSD;
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuSet;
@@ -4765,8 +4765,8 @@
         private System.Windows.Forms.TextBox TB_Secure1;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportSAV;
         private System.Windows.Forms.ToolStripMenuItem Menu_Showdown;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportPK6;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownImportPK6;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportPKM;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownImportPKM;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportParty;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportBattleBox;
         private System.Windows.Forms.ToolStripMenuItem Menu_CyberGadget;

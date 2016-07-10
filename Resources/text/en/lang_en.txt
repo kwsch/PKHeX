@@ -18,7 +18,7 @@
 ---------------------Menu Strip------------------------
 Menu_File = File
 Menu_Open = Open...
-Menu_Save = Save PK6...
+Menu_Save = Save PKM...
 Menu_ExportSAV = Export SAV...
 Menu_ExportMAIN = Export main
 Menu_ExportBAK = Export BAK
@@ -26,8 +26,8 @@ Menu_Exit = Quit
 --
 Menu_Tools = Tools
 Menu_Showdown = Showdown
-Menu_ShowdownImportPK6 = Import Set from Clipboard
-Menu_ShowdownExportPK6 = Export Set to Clipboard
+Menu_ShowdownImportPKM = Import Set from Clipboard
+Menu_ShowdownExportPKM = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
 Menu_CyberGadget = CyberGadget
@@ -37,7 +37,7 @@ Menu_Data = Data
 Menu_LoadBoxes = Load Boxes
 Menu_DumpBoxes = Dump Boxes
 Menu_Report = Box Data Report
-Menu_Database = PK6 Database
+Menu_Database = PKM Database
 Menu_Other = Other
 Menu_OpenSDF = Open SaveDataFiler Folder
 Menu_OpenSDB = Open SaveDataBackup Folder
@@ -46,7 +46,7 @@ Menu_Options = Options
 Menu_Language = Language
 Menu_Modify = Set to SAV
 Menu_ModifyDex = Modify Pokédex
-Menu_ModifyPK6 = Modify PK6 Info
+Menu_ModifyPKM = Modify PKM Info
 Menu_Unicode = Unicode
 Menu_About = About PKHeX
 --------------------Context Menus----------------------

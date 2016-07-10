@@ -21,7 +21,7 @@ namespace PKHeX
             InitializeComponent();
             CB_ExtraBytes.SelectedIndex = 0;
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
-            SaveFile.SetUpdatePKM = Menu_ModifyPK6.Checked;
+            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
             getFieldsfromPKM = populateFieldsPK6;
             getPKMfromFields = preparePK6;
 
@@ -285,7 +285,7 @@ namespace PKHeX
         }
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
-            SaveFile.SetUpdatePKM = Menu_ModifyPK6.Checked;
+            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
         }
         private void mainMenuBoxLoad(object sender, EventArgs e)
         {
@@ -3009,7 +3009,7 @@ namespace PKHeX
         }
         private bool? getPKMSetOverride()
         {
-            var yn = Menu_ModifyPK6.Checked ? "Yes" : "No";
+            var yn = Menu_ModifyPKM.Checked ? "Yes" : "No";
             DialogResult noSet = Util.Prompt(MessageBoxButtons.YesNoCancel, 
                 "Loading overrides:",
                     "Yes - Modify .pk* when set to SAV" + Environment.NewLine +

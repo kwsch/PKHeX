@@ -18,7 +18,7 @@
 ---------------------Menu Strip------------------------
 Menu_File = ファイル
 Menu_Open = 読み込み...
-Menu_Save = 保存 PK6...
+Menu_Save = 保存 PKM...
 Menu_ExportSAV = 保存 SAV...
 Menu_ExportMAIN = 保存 main
 Menu_ExportBAK = 保存 BAK
@@ -26,8 +26,8 @@ Menu_Exit = やめる
 --
 Menu_Tools = ツール
 Menu_Showdown = Showdown
-Menu_ShowdownImportPK6 = Import Set from Clipboard
-Menu_ShowdownExportPK6 = Export Set to Clipboard
+Menu_ShowdownImportPKM = Import Set from Clipboard
+Menu_ShowdownExportPKM = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
 Menu_CyberGadget = CyberGadget
@@ -37,7 +37,7 @@ Menu_Data = データ
 Menu_LoadBoxes = ロードボックス
 Menu_DumpBoxes = ダンプボックス
 Menu_Report = ボックスデータレポート
-Menu_Database = PK6データベース
+Menu_Database = PKMデータベース
 Menu_Other = その他
 Menu_OpenSDF = オープンSaveDataFilerフォルダ
 Menu_OpenSDB = オープンSaveDataBackupフォルダ
@@ -46,7 +46,7 @@ Menu_Options = 設定
 Menu_Language = 言語
 Menu_Modify = SAVに設定
 Menu_ModifyDex = ポケモン図鑑を変更
-Menu_ModifyPK6 = PK6情報の変更
+Menu_ModifyPKM = PKM情報の変更
 Menu_Unicode = Unicode
 Menu_About = PKHeXについて
 --------------------Context Menus----------------------

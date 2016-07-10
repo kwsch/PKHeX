@@ -18,7 +18,7 @@
 ---------------------Menu Strip------------------------
 Menu_File = 파일
 Menu_Open = 열기...
-Menu_Save = 저장 PK6...
+Menu_Save = 저장 PKM...
 Menu_ExportSAV = 저장 SAV...
 Menu_ExportMAIN = 저장 main
 Menu_ExportBAK = 저장 BAK
@@ -26,8 +26,8 @@ Menu_Exit = 종료
 --
 Menu_Tools = 도구
 Menu_Showdown = Showdown
-Menu_ShowdownImportPK6 = Import Set from Clipboard
-Menu_ShowdownExportPK6 = Export Set to Clipboard
+Menu_ShowdownImportPKM = Import Set from Clipboard
+Menu_ShowdownExportPKM = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
 Menu_CyberGadget = CyberGadget
@@ -37,7 +37,7 @@ Menu_Data = 데이터
 Menu_LoadBoxes = 로드 박스
 Menu_DumpBoxes = 덤프 박스
 Menu_Report = 박스 데이터 리포트
-Menu_Database = PK6 데이터베이스
+Menu_Database = PKM 데이터베이스
 Menu_Other = 다른
 Menu_OpenSDF = 열기 SaveDataFiler 폴더
 Menu_OpenSDB = 열기 SaveDataBackup 폴더
@@ -46,7 +46,7 @@ Menu_Options = 옵션
 Menu_Language = 언어
 Menu_Modify = SAV로 설정
 Menu_ModifyDex = 포켓몬 도감 수정
-Menu_ModifyPK6 = PK6 정보 수정
+Menu_ModifyPKM = PKM 정보 수정
 Menu_Unicode = Unicode
 Menu_About = PKHeX에 대하여
 --------------------Context Menus----------------------
