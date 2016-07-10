@@ -3229,8 +3229,15 @@ namespace PKHeX
             }
             catch (ArgumentException x)
             { Util.Error("Drag & Drop Error:", x.ToString()); }
-            File.Delete(newfile);
             pkm_from_offset = 0;
+
+            // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
+            // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
+            new Thread(() =>
+            {
+                Thread.Sleep(500);
+                File.Delete(newfile);
+            }).Start();
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
