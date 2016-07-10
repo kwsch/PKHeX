@@ -149,9 +149,11 @@
             this.MT_ESV = new System.Windows.Forms.MaskedTextBox();
             this.CHK_Shiny = new System.Windows.Forms.CheckBox();
             this.TLP_Filters = new System.Windows.Forms.TableLayoutPanel();
-            this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_Format = new System.Windows.Forms.FlowLayoutPanel();
             this.CB_Format = new System.Windows.Forms.ComboBox();
+            this.CB_FormatComparator = new System.Windows.Forms.ComboBox();
             this.L_Format = new System.Windows.Forms.Label();
+            this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -223,6 +225,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bpkx61)).BeginInit();
             this.FLP_Egg.SuspendLayout();
             this.TLP_Filters.SuspendLayout();
+            this.FLP_Format.SuspendLayout();
             this.FLP_Level.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1661,6 +1664,7 @@
             this.TLP_Filters.ColumnCount = 2;
             this.TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.TLP_Filters.Controls.Add(this.FLP_Format, 1, 15);
             this.TLP_Filters.Controls.Add(this.L_Format, 0, 15);
             this.TLP_Filters.Controls.Add(this.FLP_Egg, 1, 0);
             this.TLP_Filters.Controls.Add(this.CHK_Shiny, 0, 0);
@@ -1692,7 +1696,6 @@
             this.TLP_Filters.Controls.Add(this.CB_GameOrigin, 1, 13);
             this.TLP_Filters.Controls.Add(this.L_Generation, 0, 14);
             this.TLP_Filters.Controls.Add(this.CB_Generation, 1, 14);
-            this.TLP_Filters.Controls.Add(this.CB_Format, 1, 15);
             this.TLP_Filters.Location = new System.Drawing.Point(304, 11);
             this.TLP_Filters.Name = "TLP_Filters";
             this.TLP_Filters.RowCount = 17;
@@ -1716,17 +1719,16 @@
             this.TLP_Filters.Size = new System.Drawing.Size(228, 354);
             this.TLP_Filters.TabIndex = 118;
             // 
-            // FLP_Level
+            // FLP_Format
             // 
-            this.FLP_Level.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.FLP_Level.AutoSize = true;
-            this.FLP_Level.Controls.Add(this.TB_Level);
-            this.FLP_Level.Controls.Add(this.CB_Level);
-            this.FLP_Level.Location = new System.Drawing.Point(83, 104);
-            this.FLP_Level.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Level.Name = "FLP_Level";
-            this.FLP_Level.Size = new System.Drawing.Size(88, 21);
-            this.FLP_Level.TabIndex = 119;
+            this.FLP_Format.AutoSize = true;
+            this.FLP_Format.Controls.Add(this.CB_FormatComparator);
+            this.FLP_Format.Controls.Add(this.CB_Format);
+            this.FLP_Format.Location = new System.Drawing.Point(83, 314);
+            this.FLP_Format.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_Format.Name = "FLP_Format";
+            this.FLP_Format.Size = new System.Drawing.Size(122, 21);
+            this.FLP_Format.TabIndex = 124;
             // 
             // CB_Format
             // 
@@ -1735,15 +1737,33 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
-            ">=pk6",
-            ">=pk5",
-            ">=pk4",
-            ">=pk3"});
-            this.CB_Format.Location = new System.Drawing.Point(83, 314);
+            ".pk6",
+            ".pk5",
+            ".pk4",
+            ".pk3"});
+            this.CB_Format.Location = new System.Drawing.Point(54, 0);
             this.CB_Format.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Format.Name = "CB_Format";
-            this.CB_Format.Size = new System.Drawing.Size(122, 21);
+            this.CB_Format.Size = new System.Drawing.Size(68, 21);
             this.CB_Format.TabIndex = 121;
+            this.CB_Format.Visible = false;
+            // 
+            // CB_FormatComparator
+            // 
+            this.CB_FormatComparator.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.CB_FormatComparator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_FormatComparator.FormattingEnabled = true;
+            this.CB_FormatComparator.Items.AddRange(new object[] {
+            "Any",
+            ">=",
+            "==",
+            "<="});
+            this.CB_FormatComparator.Location = new System.Drawing.Point(0, 0);
+            this.CB_FormatComparator.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_FormatComparator.Name = "CB_FormatComparator";
+            this.CB_FormatComparator.Size = new System.Drawing.Size(54, 21);
+            this.CB_FormatComparator.TabIndex = 122;
+            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.changeFormatFilter);
             // 
             // L_Format
             // 
@@ -1756,6 +1776,18 @@
             this.L_Format.TabIndex = 122;
             this.L_Format.Text = "Format:";
             this.L_Format.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // FLP_Level
+            // 
+            this.FLP_Level.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.FLP_Level.AutoSize = true;
+            this.FLP_Level.Controls.Add(this.TB_Level);
+            this.FLP_Level.Controls.Add(this.CB_Level);
+            this.FLP_Level.Location = new System.Drawing.Point(83, 104);
+            this.FLP_Level.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_Level.Name = "FLP_Level";
+            this.FLP_Level.Size = new System.Drawing.Size(88, 21);
+            this.FLP_Level.TabIndex = 119;
             // 
             // SAV_Database
             // 
@@ -1852,6 +1884,7 @@
             this.FLP_Egg.PerformLayout();
             this.TLP_Filters.ResumeLayout(false);
             this.TLP_Filters.PerformLayout();
+            this.FLP_Format.ResumeLayout(false);
             this.FLP_Level.ResumeLayout(false);
             this.FLP_Level.PerformLayout();
             this.ResumeLayout(false);
@@ -1982,7 +2015,9 @@
         public System.Windows.Forms.CheckBox CHK_IsEgg;
         private System.Windows.Forms.FlowLayoutPanel FLP_Egg;
         private System.Windows.Forms.FlowLayoutPanel FLP_Level;
-        private System.Windows.Forms.ComboBox CB_Format;
         private System.Windows.Forms.Label L_Format;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Format;
+        private System.Windows.Forms.ComboBox CB_FormatComparator;
+        private System.Windows.Forms.ComboBox CB_Format;
     }
 }

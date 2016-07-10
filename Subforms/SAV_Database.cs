@@ -15,7 +15,10 @@ namespace PKHeX
         {
             m_parent = f1;
             InitializeComponent();
-            CB_Format.SelectedIndex = MAXFORMAT - Main.SAV.Generation + 1;
+
+            // Preset Filters to only show PKM available for loaded save
+            CB_FormatComparator.SelectedIndex = 3; // <=
+
             PKXBOXES = new[]
             {
                 bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
@@ -426,23 +429,21 @@ namespace PKHeX
             IEnumerable<PKM> res = RawDB;
 
             int format = MAXFORMAT + 1 - CB_Format.SelectedIndex;
-            res = res.Where(pk => pk.Format <= format);
+            switch (CB_FormatComparator.SelectedIndex)
+            {
+                case 0: /* Do nothing */                            break;
+                case 1: res = res.Where(pk => pk.Format >= format); break;
+                case 2: res = res.Where(pk => pk.Format == format); break;
+                case 3: res = res.Where(pk => pk.Format <= format); break;
+            }
 
             switch (CB_Generation.SelectedIndex)
             {
-                case 0: break; // Do nothing
-                case 1: // Gen 6
-                    res = res.Where(pk => pk.Gen6);
-                    break;
-                case 2: // Gen 5
-                    res = res.Where(pk => pk.Gen5);
-                    break;
-                case 3: // Gen 4
-                    res = res.Where(pk => pk.Gen4);
-                    break;
-                case 4: // Gen 3
-                    res = res.Where(pk => pk.Gen3);
-                    break;
+                case 0: /* Do nothing */                break;
+                case 1: res = res.Where(pk => pk.Gen6); break;
+                case 2: res = res.Where(pk => pk.Gen5); break;
+                case 3: res = res.Where(pk => pk.Gen4); break;
+                case 4: res = res.Where(pk => pk.Gen3); break;
             }
 
             // Primary Searchables
@@ -651,6 +652,20 @@ namespace PKHeX
             int newval = oldval + (e.Delta < 0 ? 1 : -1);
             if (newval >= SCR_Box.Minimum && SCR_Box.Maximum >= newval)
                 FillPKXBoxes(SCR_Box.Value = newval);
+        }
+
+        private void changeFormatFilter(object sender, EventArgs e)
+        {
+            if (CB_FormatComparator.SelectedIndex == 0)
+            {
+                CB_Format.Visible = false; // !any
+                CB_Format.SelectedIndex = 0;
+            }
+            else
+            {
+                CB_Format.Visible = true;
+                CB_Format.SelectedIndex = MAXFORMAT - Main.SAV.Generation + 1; // SAV generation (offset by 1 for "Any")
+            }
         }
     }
 }
