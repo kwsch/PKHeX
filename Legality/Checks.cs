@@ -164,8 +164,8 @@ namespace PKHeX
             }
             // else
             {
-                // Can't have another language name if it hasn't evolved.
-                return Legal.getHasEvolved(pk6) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == nickname)
+                // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
+                return (pk6.WasTradedEgg || Legal.getHasEvolved(pk6)) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == nickname)
                        || PKX.SpeciesLang[pk6.Language][pk6.Species] == nickname
                     ? new LegalityCheck(Severity.Valid, "Nickname matches species name.")
                     : new LegalityCheck(Severity.Invalid, "Nickname does not match species name.");
