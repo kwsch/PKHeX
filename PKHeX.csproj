@@ -61,6 +61,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -118,6 +119,12 @@
     <Compile Include="Saves\SAV6.cs" />
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
+    <Compile Include="Subforms\PKM Editors\BatchEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\BatchEditor.Designer.cs">
+      <DependentUpon>BatchEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\PKM Editors\Text.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,6 +283,9 @@
     <EmbeddedResource Include="Misc\QR.resx">
       <DependentUpon>QR.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\BatchEditor.resx">
+      <DependentUpon>BatchEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\Text.resx">
       <DependentUpon>Text.cs</DependentUpon>

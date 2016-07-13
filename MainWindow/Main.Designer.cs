@@ -231,6 +231,7 @@
             this.Menu_DumpBoxes = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Database = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_BatchEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Other = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenSDF = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenSDB = new System.Windows.Forms.ToolStripMenuItem();
@@ -2782,7 +2783,8 @@
             this.Menu_LoadBoxes,
             this.Menu_DumpBoxes,
             this.Menu_Report,
-            this.Menu_Database});
+            this.Menu_Database,
+            this.Menu_BatchEditor});
             this.Menu_Data.Image = global::PKHeX.Properties.Resources.data;
             this.Menu_Data.Name = "Menu_Data";
             this.Menu_Data.Size = new System.Drawing.Size(152, 22);
@@ -2792,7 +2794,7 @@
             // 
             this.Menu_LoadBoxes.Image = global::PKHeX.Properties.Resources.load;
             this.Menu_LoadBoxes.Name = "Menu_LoadBoxes";
-            this.Menu_LoadBoxes.Size = new System.Drawing.Size(151, 22);
+            this.Menu_LoadBoxes.Size = new System.Drawing.Size(152, 22);
             this.Menu_LoadBoxes.Text = "Load Boxes";
             this.Menu_LoadBoxes.Click += new System.EventHandler(this.mainMenuBoxLoad);
             // 
@@ -2800,7 +2802,7 @@
             // 
             this.Menu_DumpBoxes.Image = global::PKHeX.Properties.Resources.dump;
             this.Menu_DumpBoxes.Name = "Menu_DumpBoxes";
-            this.Menu_DumpBoxes.Size = new System.Drawing.Size(151, 22);
+            this.Menu_DumpBoxes.Size = new System.Drawing.Size(152, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
             this.Menu_DumpBoxes.Click += new System.EventHandler(this.mainMenuBoxDump);
             // 
@@ -2810,7 +2812,7 @@
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.Menu_Report.ShowShortcutKeys = false;
-            this.Menu_Report.Size = new System.Drawing.Size(151, 22);
+            this.Menu_Report.Size = new System.Drawing.Size(152, 22);
             this.Menu_Report.Text = "Box Data &Report";
             this.Menu_Report.Click += new System.EventHandler(this.mainMenuBoxReport);
             // 
@@ -2820,9 +2822,20 @@
             this.Menu_Database.Name = "Menu_Database";
             this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.Menu_Database.ShowShortcutKeys = false;
-            this.Menu_Database.Size = new System.Drawing.Size(151, 22);
+            this.Menu_Database.Size = new System.Drawing.Size(152, 22);
             this.Menu_Database.Text = "PK6 &Database";
             this.Menu_Database.Click += new System.EventHandler(this.mainMenuDatabase);
+            // 
+            // Menu_BatchEditor
+            // 
+            this.Menu_BatchEditor.Image = global::PKHeX.Properties.Resources.settings;
+            this.Menu_BatchEditor.Name = "Menu_BatchEditor";
+            this.Menu_BatchEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.Menu_BatchEditor.ShowShortcutKeys = false;
+            this.Menu_BatchEditor.Size = new System.Drawing.Size(152, 22);
+            this.Menu_BatchEditor.Text = "Batch Editor";
+            this.Menu_BatchEditor.Visible = false;
+            this.Menu_BatchEditor.Click += new System.EventHandler(this.manMenuBatchEditor);
             // 
             // Menu_Other
             // 
@@ -4809,6 +4822,7 @@
         private System.Windows.Forms.GroupBox GB_SAVtools;
         private System.Windows.Forms.PictureBox PB_Mark1;
         private System.Windows.Forms.Button B_Pokeblocks;
+        private System.Windows.Forms.ToolStripMenuItem Menu_BatchEditor;
     }
 }
 

@@ -94,6 +94,7 @@ namespace PKHeX
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]).ToLower() : "";
             HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
+            Menu_BatchEditor.Visible = HaX;
 
             // Try and detect the language
             string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
@@ -339,6 +340,13 @@ namespace PKHeX
             else return;
 
             dumpBoxesToDB(path, dumptoboxes);
+        }
+        private void manMenuBatchEditor(object sender, EventArgs e)
+        {
+            if (!HaX) // no hotkey cheatin
+                return;
+            new BatchEditor().ShowDialog();
+            setPKXBoxes(); // refresh
         }
         // Misc Options
         private void clickShowdownImportPK6(object sender, EventArgs e)
