@@ -725,3 +725,26 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Removed: Code Generator, use save cache instead (CyberGadget users).
  - Hotfix: Fixed Gen 5 save file detection. Thanks xtreme1!
  - Hotfix: Fixed Bad Eggs from causing past gen dumping to abort. Thanks xtreme1!
+
+07/XX/16 - New Update:
+ - Fixed: Base save file when no save is loaded now has more realistic data (Console Region and Country fixed).
+ - Fixed: Loading a X/Y save file will no longer have OR/AS exclusive items/moves/forms available as choices.
+ - Fixed: Certain edge case Wonder Cards now are recognized correctly.
+ - Fixed: A few legality checks have been improved. Thanks Eskuero & chenzw95!
+ - Fixed: Box Flag truncation. Thanks chenzw95!
+ - Fixed: Save File detection for past gen saves. Thanks evandixon!
+ - Added: Clear Box with Alt-Click on Box Tab. Clear ALL Boxes with Alt-Shift-Click.
+ - Added: Sort Box with Ctrl-Click on Box Tab. Sort ALL Boxes with Ctrl-Shift-Click. Sorts by Species#.
+ - Added: RSE/FRLG/DPPt/HGSS/BW/B2W2 Save Editing Support. Can read, modify, and export save files and pkm files.
+ - Added: Trainer Info editor for Generation 3-5.
+ - Changed: Many internal routines to handle multiple generations.
+ - Changed: Mystery Gifts (Wonder Cards) Editor revised to handle multiple generations.
+ - Changed: Inventory Editor revised to handle multiple generations.
+ - Changed: Save File sub editors (buttons) have a new layout to handle multiple generations.
+ - Changed: Box Dump/Load are now accessible via the Tools menu.
+ - Changed: Updated Chinese translation. Thanks easyworld!
+ - Added: Batch Editor. Modify all Pokémon in your save file / external files with simple script instructions.
+ - - An example script is provided when the window opens. Filters can be used so that only desired PKM are modified.
+ - - "=": Requires the value to match the specified value. If not, the PKM is skipped.
+ - - "!": Requires the value to NOT match the specified value. If not, the PKM is skipped.
+ - - ".": Sets the attribute to the specified value if all filters are satisfied.
