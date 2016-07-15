@@ -94,7 +94,6 @@ namespace PKHeX
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]).ToLower() : "";
             HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
-            Menu_BatchEditor.Visible = HaX;
 
             // Try and detect the language
             string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
@@ -343,8 +342,6 @@ namespace PKHeX
         }
         private void manMenuBatchEditor(object sender, EventArgs e)
         {
-            if (!HaX) // no hotkey cheatin
-                return;
             new BatchEditor().ShowDialog();
             setPKXBoxes(); // refresh
         }
@@ -740,7 +737,6 @@ namespace PKHeX
 
             CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible =
             Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = SAV.Generation >= 6;
-            CB_Ability.Visible = TB_AbilityNumber.Visible = SAV.Generation >= 6;
             Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = SAV.Generation >= 6;
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_History.Visible = BTN_Ribbons.Visible = SAV.Generation >= 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
@@ -752,9 +748,9 @@ namespace PKHeX
             CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
             Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
 
-            DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation != 3 && HaX;
+            DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation > 3 && HaX;
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
-            CB_Ability.Visible = !DEV_Ability.Enabled;
+            CB_Ability.Visible = !DEV_Ability.Enabled && SAV.Generation >= 3;
 
             switch (SAV.Generation)
             {

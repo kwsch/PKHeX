@@ -2834,7 +2834,6 @@
             this.Menu_BatchEditor.ShowShortcutKeys = false;
             this.Menu_BatchEditor.Size = new System.Drawing.Size(152, 22);
             this.Menu_BatchEditor.Text = "Batch Editor";
-            this.Menu_BatchEditor.Visible = false;
             this.Menu_BatchEditor.Click += new System.EventHandler(this.manMenuBatchEditor);
             // 
             // Menu_Other
@@ -2880,7 +2879,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = global::PKHeX.Properties.Resources.language;
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -2897,7 +2896,7 @@
             this.Menu_ModifyPKM});
             this.Menu_Modify.Image = global::PKHeX.Properties.Resources.settings;
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -2926,7 +2925,7 @@
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -2936,7 +2935,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(139, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
