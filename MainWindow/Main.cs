@@ -2458,6 +2458,8 @@ namespace PKHeX
         {
             if (tabBoxMulti.SelectedIndex != 0)
                 return;
+            if (!SAV.HasBox)
+                return;
             if (ModifierKeys == (Keys.Alt | Keys.Shift))
             {
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Clear ALL Boxes?!"))
