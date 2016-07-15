@@ -19,6 +19,7 @@ namespace PKHeX
         public abstract SaveFile Clone();
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
+        public bool Japanese { protected get; set; }
 
         // General PKM Properties
         protected abstract Type PKMType { get; }

@@ -686,6 +686,13 @@ namespace PKHeX
             SaveFile sav = SaveUtil.getVariantSAV(input);
             if (sav == null || sav.Version == GameVersion.Invalid)
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
+            if (sav.Generation <= 3) // Japanese Save files are different. Get isJapanese
+            {
+                var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected.", "Does this file originate from a Japanese game?");
+                if (dr == DialogResult.Cancel)
+                    return;
+                sav.Japanese = dr == DialogResult.Yes;
+            }
             SAV = sav;
 
             SAV.FilePath = Path.GetDirectoryName(path);

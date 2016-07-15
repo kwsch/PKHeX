@@ -181,7 +181,6 @@ namespace PKHeX
         // Trainer Info
         public override GameVersion Version { get; protected set; }
 
-        private bool Japanese;
         private uint SecurityKey
         {
             get
