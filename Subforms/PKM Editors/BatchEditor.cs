@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -208,22 +207,6 @@ namespace PKHeX
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
             return true;
-        }
-
-        private static class ReflectUtil
-        {
-            public static bool GetValueEquals<T>(T obj, string propertyName, object value)
-            {
-                PropertyInfo pi = typeof(T).GetProperty(propertyName);
-                var v = pi.GetValue(obj, null);
-                var c = Convert.ChangeType(value, pi.PropertyType);
-                return v.Equals(c);
-            }
-            public static void SetValue<T>(T obj, string propertyName, object value)
-            {
-                PropertyInfo pi = typeof(T).GetProperty(propertyName);
-                pi.SetValue(obj, Convert.ChangeType(value, pi.PropertyType), null);
-            }
         }
     }
 }
