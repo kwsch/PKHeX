@@ -369,18 +369,18 @@ namespace PKHeX
             // Check Event Ribbons
             bool[] EventRib =
             {
-                pk6.RIB2_6, pk6.RIB2_7, pk6.RIB3_0, pk6.RIB3_1, pk6.RIB3_2,
-                pk6.RIB3_3, pk6.RIB3_4, pk6.RIB3_5, pk6.RIB3_6, pk6.RIB3_7,
-                pk6.RIB4_0, pk6.RIB4_1, pk6.RIB4_2, pk6.RIB4_3, pk6.RIB4_4
+                pk6.RibbonCountry, pk6.RibbonNational, pk6.RibbonEarth, pk6.RibbonWorld, pk6.RibbonClassic,
+                pk6.RibbonPremier, pk6.RibbonEvent, pk6.RibbonBirthday, pk6.RibbonSpecial, pk6.RibbonSouvenir,
+                pk6.RibbonWishing, pk6.RibbonChampionBattle, pk6.RibbonChampionRegional, pk6.RibbonChampionNational, pk6.RibbonChampionWorld
             };
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6 != null) // Wonder Card
             {
                 bool[] wc6rib =
                 {
-                    MatchedWC6.RIB0_3, MatchedWC6.RIB0_4, MatchedWC6.RIB0_5, MatchedWC6.RIB0_6, MatchedWC6.RIB1_5,
-                    MatchedWC6.RIB1_6, MatchedWC6.RIB0_7, MatchedWC6.RIB1_1, MatchedWC6.RIB1_2, MatchedWC6.RIB1_3,
-                    MatchedWC6.RIB1_4, MatchedWC6.RIB0_0, MatchedWC6.RIB0_1, MatchedWC6.RIB0_2, MatchedWC6.RIB1_0
+                    MatchedWC6.RibbonCountry, MatchedWC6.RibbonNational, MatchedWC6.RibbonEarth, MatchedWC6.RibbonWorld, MatchedWC6.RibbonClassic,
+                    MatchedWC6.RibbonPremier, MatchedWC6.RibbonEvent, MatchedWC6.RibbonBirthday, MatchedWC6.RibbonSpecial, MatchedWC6.RibbonSouvenir,
+                    MatchedWC6.RibbonWishing, MatchedWC6.RibbonChampionBattle, MatchedWC6.RibbonChampionRegional, MatchedWC6.RibbonChampionNational, MatchedWC6.RibbonChampionWorld
                 };
                 for (int i = 0; i < EventRib.Length; i++)
                     if (EventRib[i] ^ wc6rib[i]) // Mismatch
@@ -404,19 +404,19 @@ namespace PKHeX
             }
 
             // Unobtainable ribbons for Gen6 Origin
-            if (pk6.RIB0_1)
+            if (pk6.RibbonChampionG3Hoenn)
                 invalidRibbons.Add("GBA Champion"); // RSE HoF
-            if (pk6.RIB0_2)
+            if (pk6.RibbonChampionSinnoh)
                 invalidRibbons.Add("Sinnoh Champ"); // DPPt HoF
-            if (pk6.RIB2_2)
+            if (pk6.RibbonArtist)
                 invalidRibbons.Add("Artist"); // RSE Master Rank Portrait
-            if (pk6.RIB2_4)
+            if (pk6.RibbonRecord)
                 invalidRibbons.Add("Record"); // Unobtainable
-            if (pk6.RIB2_5)
+            if (pk6.RibbonLegend)
                 invalidRibbons.Add("Legend"); // HGSS Defeat Red @ Mt.Silver
-            if (pk6.Memory_ContestCount > 0)
+            if (pk6.RibbonCountMemoryContest > 0)
                 invalidRibbons.Add("Contest Memory"); // Gen3/4 Contest
-            if (pk6.Memory_BattleCount > 0)
+            if (pk6.RibbonCountMemoryBattle > 0)
                 invalidRibbons.Add("Battle Memory"); // Gen3/4 Battle
             
             if (missingRibbons.Count + invalidRibbons.Count == 0)

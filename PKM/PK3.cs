@@ -121,23 +121,23 @@ namespace PKHeX
         public int AbilityNumber { get { return (int)((IV32 >> 31) & 1); } set { IV32 = (IV32 & 0x7FFFFFFF) | (value == 1 ? 0x80000000 : 0); } }
 
         private uint RIB0 { get { return BitConverter.ToUInt32(Data, 0x4C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4C); } }
-        public int Cool_Ribbons  { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7)); } }
-        public int Beauty_Ribbons{ get { return (int)(RIB0 >> 03) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7)); } }
-        public int Cute_Ribbons  { get { return (int)(RIB0 >> 06) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7)); } }
-        public int Smart_Ribbons { get { return (int)(RIB0 >> 09) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7)); } }
-        public int Tough_Ribbons { get { return (int)(RIB0 >> 12) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7)); } }
-        public bool Champion { get { return (RIB0 & (1 << 15)) == 1 << 15; } set { RIB0 = (uint)(RIB0 & ~(1 << 15) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Winning { get { return (RIB0 & (1 << 16)) == 1 << 16; } set { RIB0 = (uint)(RIB0 & ~(1 << 16) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Victory { get { return (RIB0 & (1 << 17)) == 1 << 17; } set { RIB0 = (uint)(RIB0 & ~(1 << 17) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Artist { get { return (RIB0 & (1 << 18)) == 1 << 18; } set { RIB0 = (uint)(RIB0 & ~(1 << 18) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Effort { get { return (RIB0 & (1 << 19)) == 1 << 19; } set { RIB0 = (uint)(RIB0 & ~(1 << 19) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Special1 { get { return (RIB0 & (1 << 20)) == 1 << 20; } set { RIB0 = (uint)(RIB0 & ~(1 << 20) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Special2 { get { return (RIB0 & (1 << 21)) == 1 << 21; } set { RIB0 = (uint)(RIB0 & ~(1 << 21) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Special3 { get { return (RIB0 & (1 << 22)) == 1 << 22; } set { RIB0 = (uint)(RIB0 & ~(1 << 22) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Special4 { get { return (RIB0 & (1 << 23)) == 1 << 23; } set { RIB0 = (uint)(RIB0 & ~(1 << 23) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Special5 { get { return (RIB0 & (1 << 24)) == 1 << 24; } set { RIB0 = (uint)(RIB0 & ~(1 << 24) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Special6 { get { return (RIB0 & (1 << 25)) == 1 << 25; } set { RIB0 = (uint)(RIB0 & ~(1 << 25) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Special7 { get { return (RIB0 & (1 << 26)) == 1 << 26; } set { RIB0 = (uint)(RIB0 & ~(1 << 26) | (uint)(value ? 1 << 0 : 0)); } }
+        public int RibbonCountG3Cool { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Beauty { get { return (int)(RIB0 >> 03) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Cute  { get { return (int)(RIB0 >> 06) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Smart { get { return (int)(RIB0 >> 09) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Tough { get { return (int)(RIB0 >> 12) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7)); } }
+        public bool RibbonChampionG3Hoenn { get { return (RIB0 & (1 << 15)) == 1 << 15; } set { RIB0 = (uint)(RIB0 & ~(1 << 15) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonWinning { get { return (RIB0 & (1 << 16)) == 1 << 16; } set { RIB0 = (uint)(RIB0 & ~(1 << 16) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonVictory { get { return (RIB0 & (1 << 17)) == 1 << 17; } set { RIB0 = (uint)(RIB0 & ~(1 << 17) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonArtist { get { return (RIB0 & (1 << 18)) == 1 << 18; } set { RIB0 = (uint)(RIB0 & ~(1 << 18) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonEffort { get { return (RIB0 & (1 << 19)) == 1 << 19; } set { RIB0 = (uint)(RIB0 & ~(1 << 19) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonChampionBattle { get { return (RIB0 & (1 << 20)) == 1 << 20; } set { RIB0 = (uint)(RIB0 & ~(1 << 20) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonChampionRegional { get { return (RIB0 & (1 << 21)) == 1 << 21; } set { RIB0 = (uint)(RIB0 & ~(1 << 21) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonChampionNational { get { return (RIB0 & (1 << 22)) == 1 << 22; } set { RIB0 = (uint)(RIB0 & ~(1 << 22) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonCountry { get { return (RIB0 & (1 << 23)) == 1 << 23; } set { RIB0 = (uint)(RIB0 & ~(1 << 23) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonNational { get { return (RIB0 & (1 << 24)) == 1 << 24; } set { RIB0 = (uint)(RIB0 & ~(1 << 24) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonEarth { get { return (RIB0 & (1 << 25)) == 1 << 25; } set { RIB0 = (uint)(RIB0 & ~(1 << 25) | (uint)(value ? 1 << 0 : 0)); } }
+        public bool RibbonWorld { get { return (RIB0 & (1 << 26)) == 1 << 26; } set { RIB0 = (uint)(RIB0 & ~(1 << 26) | (uint)(value ? 1 << 0 : 0)); } }
         public bool Unused1 { get { return (RIB0 & (1 << 27)) == 1 << 27; } set { RIB0 = (uint)(RIB0 & ~(1 << 27) | (uint)(value ? 1 << 0 : 0)); } }
         public bool Unused2 { get { return (RIB0 & (1 << 28)) == 1 << 28; } set { RIB0 = (uint)(RIB0 & ~(1 << 28) | (uint)(value ? 1 << 0 : 0)); } }
         public bool Unused3 { get { return (RIB0 & (1 << 29)) == 1 << 29; } set { RIB0 = (uint)(RIB0 & ~(1 << 29) | (uint)(value ? 1 << 0 : 0)); } }
@@ -243,41 +243,42 @@ namespace PKHeX
                 Met_Month = moment.Month,
                 Met_Day = moment.Day,
                 Met_Location = 0x37, // Pal Park
-                RIB6_4 = Champion,
-                RIB6_5 = Winning,
-                RIB6_6 = Victory,
-                RIB6_7 = Artist,
-                RIB7_0 = Effort,
-                RIB7_1 = Special1, // Battle Champion Ribbon
-                RIB7_2 = Special2, // Regional Champion Ribbon
-                RIB7_3 = Special3, // National Champion Ribbon
-                RIB7_4 = Special4, // Country Ribbon
-                RIB7_5 = Special5, // National Ribbon
-                RIB7_6 = Special6, // Earth Ribbon
-                RIB7_7 = Special7, // World Ribbon
+
+                RibbonChampionG3Hoenn = RibbonChampionG3Hoenn,
+                RibbonWinning     = RibbonWinning,
+                RibbonVictory     = RibbonVictory,
+                RibbonArtist        = RibbonArtist,
+                RibbonEffort = RibbonEffort,
+                RibbonChampionBattle = RibbonChampionBattle,
+                RibbonChampionRegional = RibbonChampionRegional,
+                RibbonChampionNational = RibbonChampionNational,
+                RibbonCountry = RibbonCountry,
+                RibbonNational = RibbonNational,
+                RibbonEarth = RibbonEarth,
+                RibbonWorld = RibbonWorld,
             };
 
             // Remaining Ribbons
-            pk4.RIB4_0 |= Cool_Ribbons > 0;
-            pk4.RIB4_1 |= Cool_Ribbons > 1;
-            pk4.RIB4_2 |= Cool_Ribbons > 2;
-            pk4.RIB4_3 |= Cool_Ribbons > 3;
-            pk4.RIB4_4 |= Beauty_Ribbons > 0;
-            pk4.RIB4_5 |= Beauty_Ribbons > 1;
-            pk4.RIB4_6 |= Beauty_Ribbons > 2;
-            pk4.RIB4_7 |= Beauty_Ribbons > 3;
-            pk4.RIB5_0 |= Cute_Ribbons > 0;
-            pk4.RIB5_1 |= Cute_Ribbons > 1;
-            pk4.RIB5_2 |= Cute_Ribbons > 2;
-            pk4.RIB5_3 |= Cute_Ribbons > 3;
-            pk4.RIB5_4 |= Smart_Ribbons > 0;
-            pk4.RIB5_5 |= Smart_Ribbons > 1;
-            pk4.RIB5_6 |= Smart_Ribbons > 2;
-            pk4.RIB5_7 |= Smart_Ribbons > 3;
-            pk4.RIB6_0 |= Tough_Ribbons > 0;
-            pk4.RIB6_1 |= Tough_Ribbons > 1;
-            pk4.RIB6_2 |= Tough_Ribbons > 2;
-            pk4.RIB6_3 |= Tough_Ribbons > 3;
+            pk4.RibbonG3Cool          |= RibbonCountG3Cool > 0;
+            pk4.RibbonG3CoolSuper     |= RibbonCountG3Cool > 1;
+            pk4.RibbonG3CoolHyper     |= RibbonCountG3Cool > 2;
+            pk4.RibbonG3CoolMaster    |= RibbonCountG3Cool > 3;
+            pk4.RibbonG3Beauty        |= RibbonCountG3Beauty > 0;
+            pk4.RibbonG3BeautySuper   |= RibbonCountG3Beauty > 1;
+            pk4.RibbonG3BeautyHyper   |= RibbonCountG3Beauty > 2;
+            pk4.RibbonG3BeautyMaster  |= RibbonCountG3Beauty > 3;
+            pk4.RibbonG3Cute          |= RibbonCountG3Cute > 0;
+            pk4.RibbonG3CuteSuper     |= RibbonCountG3Cute > 1;
+            pk4.RibbonG3CuteHyper     |= RibbonCountG3Cute > 2;
+            pk4.RibbonG3CuteMaster    |= RibbonCountG3Cute > 3;
+            pk4.RibbonG3Smart         |= RibbonCountG3Smart > 0;
+            pk4.RibbonG3SmartSuper    |= RibbonCountG3Smart > 1;
+            pk4.RibbonG3SmartHyper    |= RibbonCountG3Smart > 2;
+            pk4.RibbonG3SmartMaster   |= RibbonCountG3Smart > 3;
+            pk4.RibbonG3Tough         |= RibbonCountG3Tough > 0;
+            pk4.RibbonG3ToughSuper    |= RibbonCountG3Tough > 1;
+            pk4.RibbonG3ToughHyper    |= RibbonCountG3Tough > 2;
+            pk4.RibbonG3ToughMaster   |= RibbonCountG3Tough > 3;
 
             // Yay for reusing string buffers!
             PKX.G4TransferTrashBytes[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
