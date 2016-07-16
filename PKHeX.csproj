@@ -125,6 +125,18 @@
     <Compile Include="Subforms\PKM Editors\BatchEditor.Designer.cs">
       <DependentUpon>BatchEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\PKM Editors\SuperTraining.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\SuperTraining.Designer.cs">
+      <DependentUpon>SuperTraining.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\RibbMedal2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\RibbMedal2.Designer.cs">
+      <DependentUpon>RibbMedal2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\PKM Editors\Text.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +291,7 @@
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\PathUtil.cs" />
     <Compile Include="Util\RandUtil.cs" />
+    <Compile Include="Util\ReflectUtil.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <EmbeddedResource Include="Misc\QR.resx">
       <DependentUpon>QR.cs</DependentUpon>
@@ -286,6 +299,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\BatchEditor.resx">
       <DependentUpon>BatchEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\SuperTraining.resx">
+      <DependentUpon>SuperTraining.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\RibbMedal2.resx">
+      <DependentUpon>RibbMedal2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\Text.resx">
       <DependentUpon>Text.cs</DependentUpon>
