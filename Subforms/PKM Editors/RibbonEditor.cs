@@ -68,9 +68,9 @@ namespace PKHeX
         private void addRibbonSprite(RibbonInfo rib)
         {
             PictureBox pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + rib.Name };
-            var img = Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
+            var img = Properties.Resources.ResourceManager.GetObject(rib.Name.Replace("CountG3", "G3").ToLower());
             if (img != null)
-                pb.BackgroundImage = (Image)img;
+                pb.BackgroundImage = (Bitmap)img;
             if (img == null)
                 return;
 
@@ -113,10 +113,21 @@ namespace PKHeX
                 {
                     rib.RibbonCount = (int)nud.Value;
                     FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.RibbonCount > 0;
-                    if (nud.Maximum == nud.Value && nud.Maximum > 4)
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower() +"2");
+                    if (nud.Maximum == 4)
+                    {
+                        string n = rib.Name.Replace("Count", "");
+                        switch ((int)nud.Value)
+                        {
+                            case 2: n += "Super"; break;
+                            case 3: n += "Hyper"; break;
+                            case 4: n += "Master"; break;
+                        }
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(n.ToLower());
+                    }
+                    else if (nud.Maximum == nud.Value)
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower() +"2");
                     else
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
                 };
                 nud.Value = rib.RibbonCount > nud.Maximum ? nud.Maximum : rib.RibbonCount;
                 TLP_Ribbons.Controls.Add(nud, 0, row);
