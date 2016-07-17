@@ -12,9 +12,14 @@ namespace PKHeX
             InitializeComponent();
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_SuperTrain.Padding = TLP_DistSuperTrain.Padding = new Padding(0, 0, vertScrollWidth, 0);
-            
+
+            // Updating a Control display with autosized elements on every row addition is cpu intensive. Disable layout updates while populating.
+            TLP_SuperTrain.SuspendLayout();
+            TLP_DistSuperTrain.SuspendLayout();
             populateRegimens("SuperTrain", TLP_SuperTrain, reglist);
             populateRegimens("DistSuperTrain", TLP_DistSuperTrain, distlist);
+            TLP_SuperTrain.ResumeLayout();
+            TLP_DistSuperTrain.ResumeLayout();
 
             CB_Bag.Items.Clear();
             CB_Bag.Items.Add("---");
@@ -24,6 +29,9 @@ namespace PKHeX
             if (pkm is PK6)
             {
                 PK6 pk6 = (PK6)pkm;
+                CHK_Secret.Checked = pk6.SecretSuperTraining;
+                if (!CHK_Secret.Checked) // force update to disable checkboxes
+                    CHK_Secret_CheckedChanged(null, null);
                 CB_Bag.SelectedIndex = pk6.TrainingBag;
                 NUD_BagHits.Value = pk6.TrainingBagHits;
             }
@@ -97,10 +105,12 @@ namespace PKHeX
             foreach (var reg in distlist)
                 ReflectUtil.SetValue(pkm, reg.Name, reg.CompletedRegimen);
 
-            if (CB_Bag.Visible)
+            if (pkm is PK6)
             {
-                (pkm as PK6).TrainingBag = CB_Bag.SelectedIndex;
-                (pkm as PK6).TrainingBagHits = (int)NUD_BagHits.Value;
+                PK6 pk6 = (PK6)pkm;
+                pk6.SecretSuperTraining = CHK_Secret.Checked;
+                pk6.TrainingBag = CB_Bag.SelectedIndex;
+                pk6.TrainingBagHits = (int)NUD_BagHits.Value;
             }
 
             Main.pkm = pkm;

@@ -60,7 +60,7 @@ namespace PKHeX
         private byte RIB1 { get { return Data[0x25]; } set { Data[0x25] = value; } } // Sinnoh 2
         private byte RIB2 { get { return Data[0x26]; } set { Data[0x26] = value; } } // Unova 1
         private byte RIB3 { get { return Data[0x27]; } set { Data[0x27] = value; } } // Unova 2
-        public bool RibbonSinnohChampion    { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonChampionSinnoh    { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool RibbonAbility           { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
         public bool RibbonAbilityGreat      { get { return (RIB0 & (1 << 2)) == 1 << 2; } set { RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
         public bool RibbonAbilityDouble     { get { return (RIB0 & (1 << 3)) == 1 << 3; } set { RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }

@@ -363,14 +363,14 @@ namespace PKHeX
             {
                 var val = Util.ToInt32(TB_PastContest.Text);
                 if (val > 40) { TB_PastContest.Text = 40.ToString(); return; }
-                PastContest.Image = Util.ChangeOpacity(val < 40 ? Properties.Resources.contestmemory : Properties.Resources.contestmemory2,
+                PastContest.Image = Util.ChangeOpacity(val < 40 ? Properties.Resources.ribboncountmemorycontest : Properties.Resources.ribboncountmemorycontest2,
                     (val != 0 ? 1 : 0) * 0.9 + 0.1);
             }
             else
             {
                 var val = Util.ToInt32(TB_PastBattle.Text);
                 if (val > 8) { TB_PastBattle.Text = 8.ToString(); return; }
-                PastBattle.Image = Util.ChangeOpacity(Util.ToUInt32(TB_PastBattle.Text) < 40 ? Properties.Resources.battlememory : Properties.Resources.battlememory2,
+                PastBattle.Image = Util.ChangeOpacity(Util.ToUInt32(TB_PastBattle.Text) < 40 ? Properties.Resources.ribboncountmemorybattle : Properties.Resources.ribboncountmemorybattle2,
                     (val != 0 ? 1 : 0) * 0.9 + 0.1);
             }
         }

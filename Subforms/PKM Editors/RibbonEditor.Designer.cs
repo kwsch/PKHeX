@@ -122,7 +122,7 @@
             this.SPLIT_Ribbons.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SPLIT_Ribbons.Panel2MinSize = 1;
             this.SPLIT_Ribbons.Size = new System.Drawing.Size(394, 229);
-            this.SPLIT_Ribbons.SplitterDistance = 150;
+            this.SPLIT_Ribbons.SplitterDistance = 180;
             this.SPLIT_Ribbons.SplitterWidth = 1;
             this.SPLIT_Ribbons.TabIndex = 7;
             // 
@@ -132,7 +132,7 @@
             this.FLP_Ribbons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Ribbons.Location = new System.Drawing.Point(0, 0);
             this.FLP_Ribbons.Name = "FLP_Ribbons";
-            this.FLP_Ribbons.Size = new System.Drawing.Size(148, 227);
+            this.FLP_Ribbons.Size = new System.Drawing.Size(178, 227);
             this.FLP_Ribbons.TabIndex = 5;
             // 
             // TLP_Ribbons
@@ -147,10 +147,10 @@
             this.TLP_Ribbons.Name = "TLP_Ribbons";
             this.TLP_Ribbons.RowCount = 1;
             this.TLP_Ribbons.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Ribbons.Size = new System.Drawing.Size(241, 227);
+            this.TLP_Ribbons.Size = new System.Drawing.Size(211, 227);
             this.TLP_Ribbons.TabIndex = 3;
             // 
-            // RibbMedal2
+            // RibbonEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

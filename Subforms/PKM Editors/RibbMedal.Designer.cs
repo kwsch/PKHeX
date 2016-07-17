@@ -1026,7 +1026,7 @@
             // 
             // PB_57
             // 
-            this.PB_57.Image = global::PKHeX.Properties.Resources.ribbon_40;
+            this.PB_57.Image = global::PKHeX.Properties.Resources.ribbonchampiong6hoenn;
             this.PB_57.Location = new System.Drawing.Point(13, 134);
             this.PB_57.Name = "PB_57";
             this.PB_57.Size = new System.Drawing.Size(24, 24);
@@ -1037,7 +1037,7 @@
             // 
             // PB_O5
             // 
-            this.PB_O5.Image = global::PKHeX.Properties.Resources.ribbon_46;
+            this.PB_O5.Image = global::PKHeX.Properties.Resources.ribbonmastertoughness;
             this.PB_O5.Location = new System.Drawing.Point(193, 134);
             this.PB_O5.Name = "PB_O5";
             this.PB_O5.Size = new System.Drawing.Size(24, 24);
@@ -1059,7 +1059,7 @@
             // 
             // PB_O4
             // 
-            this.PB_O4.Image = global::PKHeX.Properties.Resources.ribbon_45;
+            this.PB_O4.Image = global::PKHeX.Properties.Resources.ribbonmastercleverness;
             this.PB_O4.Location = new System.Drawing.Point(163, 134);
             this.PB_O4.Name = "PB_O4";
             this.PB_O4.Size = new System.Drawing.Size(24, 24);
@@ -1070,7 +1070,7 @@
             // 
             // PB_O0
             // 
-            this.PB_O0.Image = global::PKHeX.Properties.Resources.ribbon_41;
+            this.PB_O0.Image = global::PKHeX.Properties.Resources.ribbonconteststar;
             this.PB_O0.Location = new System.Drawing.Point(43, 134);
             this.PB_O0.Name = "PB_O0";
             this.PB_O0.Size = new System.Drawing.Size(24, 24);
@@ -1081,7 +1081,7 @@
             // 
             // PB_O3
             // 
-            this.PB_O3.Image = global::PKHeX.Properties.Resources.ribbon_44;
+            this.PB_O3.Image = global::PKHeX.Properties.Resources.ribbonmastercuteness;
             this.PB_O3.Location = new System.Drawing.Point(133, 134);
             this.PB_O3.Name = "PB_O3";
             this.PB_O3.Size = new System.Drawing.Size(24, 24);
@@ -1092,7 +1092,7 @@
             // 
             // PB_O2
             // 
-            this.PB_O2.Image = global::PKHeX.Properties.Resources.ribbon_43;
+            this.PB_O2.Image = global::PKHeX.Properties.Resources.ribbonmasterbeauty;
             this.PB_O2.Location = new System.Drawing.Point(103, 134);
             this.PB_O2.Name = "PB_O2";
             this.PB_O2.Size = new System.Drawing.Size(24, 24);
@@ -1103,7 +1103,7 @@
             // 
             // PB_O1
             // 
-            this.PB_O1.Image = global::PKHeX.Properties.Resources.ribbon_42;
+            this.PB_O1.Image = global::PKHeX.Properties.Resources.ribbonmastercoolness;
             this.PB_O1.Location = new System.Drawing.Point(73, 134);
             this.PB_O1.Name = "PB_O1";
             this.PB_O1.Size = new System.Drawing.Size(24, 24);
@@ -1183,7 +1183,7 @@
             // 
             // PastBattle
             // 
-            this.PastBattle.Image = global::PKHeX.Properties.Resources.battlememory;
+            this.PastBattle.Image = global::PKHeX.Properties.Resources.ribboncountmemorybattle;
             this.PastBattle.Location = new System.Drawing.Point(164, 167);
             this.PastBattle.Name = "PastBattle";
             this.PastBattle.Size = new System.Drawing.Size(40, 40);
@@ -1193,7 +1193,7 @@
             // 
             // PastContest
             // 
-            this.PastContest.Image = global::PKHeX.Properties.Resources.contestmemory;
+            this.PastContest.Image = global::PKHeX.Properties.Resources.ribboncountmemorycontest;
             this.PastContest.Location = new System.Drawing.Point(164, 127);
             this.PastContest.Name = "PastContest";
             this.PastContest.Size = new System.Drawing.Size(40, 40);
@@ -1203,7 +1203,7 @@
             // 
             // PB_54
             // 
-            this.PB_54.Image = global::PKHeX.Properties.Resources.worldchamp;
+            this.PB_54.Image = global::PKHeX.Properties.Resources.ribbonchampionworld;
             this.PB_54.Location = new System.Drawing.Point(163, 101);
             this.PB_54.Name = "PB_54";
             this.PB_54.Size = new System.Drawing.Size(24, 24);
@@ -1214,7 +1214,7 @@
             // 
             // PB_50
             // 
-            this.PB_50.Image = global::PKHeX.Properties.Resources.wishing;
+            this.PB_50.Image = global::PKHeX.Properties.Resources.ribbonwishing;
             this.PB_50.Location = new System.Drawing.Point(43, 101);
             this.PB_50.Name = "PB_50";
             this.PB_50.Size = new System.Drawing.Size(24, 24);
@@ -1225,7 +1225,7 @@
             // 
             // PB_53
             // 
-            this.PB_53.Image = global::PKHeX.Properties.Resources.nationalchamp;
+            this.PB_53.Image = global::PKHeX.Properties.Resources.ribbonchampionnational;
             this.PB_53.Location = new System.Drawing.Point(133, 101);
             this.PB_53.Name = "PB_53";
             this.PB_53.Size = new System.Drawing.Size(24, 24);
@@ -1236,7 +1236,7 @@
             // 
             // PB_52
             // 
-            this.PB_52.Image = global::PKHeX.Properties.Resources.regionalchamp;
+            this.PB_52.Image = global::PKHeX.Properties.Resources.ribbonchampionregional;
             this.PB_52.Location = new System.Drawing.Point(103, 101);
             this.PB_52.Name = "PB_52";
             this.PB_52.Size = new System.Drawing.Size(24, 24);
@@ -1247,7 +1247,7 @@
             // 
             // PB_51
             // 
-            this.PB_51.Image = global::PKHeX.Properties.Resources.battlechamp;
+            this.PB_51.Image = global::PKHeX.Properties.Resources.ribbonchampionbattle;
             this.PB_51.Location = new System.Drawing.Point(73, 101);
             this.PB_51.Name = "PB_51";
             this.PB_51.Size = new System.Drawing.Size(24, 24);
@@ -1404,7 +1404,7 @@
             // 
             // PB_47
             // 
-            this.PB_47.Image = global::PKHeX.Properties.Resources.souvenir;
+            this.PB_47.Image = global::PKHeX.Properties.Resources.ribbonsouvenir;
             this.PB_47.Location = new System.Drawing.Point(198, 177);
             this.PB_47.Name = "PB_47";
             this.PB_47.Size = new System.Drawing.Size(24, 24);
@@ -1415,7 +1415,7 @@
             // 
             // PB_46
             // 
-            this.PB_46.Image = global::PKHeX.Properties.Resources.special;
+            this.PB_46.Image = global::PKHeX.Properties.Resources.ribbonspecial;
             this.PB_46.Location = new System.Drawing.Point(171, 177);
             this.PB_46.Name = "PB_46";
             this.PB_46.Size = new System.Drawing.Size(24, 24);
@@ -1426,7 +1426,7 @@
             // 
             // PB_45
             // 
-            this.PB_45.Image = global::PKHeX.Properties.Resources.birthday;
+            this.PB_45.Image = global::PKHeX.Properties.Resources.ribbonbirthday;
             this.PB_45.Location = new System.Drawing.Point(144, 177);
             this.PB_45.Name = "PB_45";
             this.PB_45.Size = new System.Drawing.Size(24, 24);
@@ -1437,7 +1437,7 @@
             // 
             // PB_44
             // 
-            this.PB_44.Image = global::PKHeX.Properties.Resources._event;
+            this.PB_44.Image = global::PKHeX.Properties.Resources.ribbonevent;
             this.PB_44.Location = new System.Drawing.Point(117, 177);
             this.PB_44.Name = "PB_44";
             this.PB_44.Size = new System.Drawing.Size(24, 24);
@@ -1448,7 +1448,7 @@
             // 
             // PB_43
             // 
-            this.PB_43.Image = global::PKHeX.Properties.Resources.premier;
+            this.PB_43.Image = global::PKHeX.Properties.Resources.ribbonpremier;
             this.PB_43.Location = new System.Drawing.Point(89, 177);
             this.PB_43.Name = "PB_43";
             this.PB_43.Size = new System.Drawing.Size(24, 24);
@@ -1459,7 +1459,7 @@
             // 
             // PB_42
             // 
-            this.PB_42.Image = global::PKHeX.Properties.Resources.classic;
+            this.PB_42.Image = global::PKHeX.Properties.Resources.ribbonclassic;
             this.PB_42.Location = new System.Drawing.Point(62, 177);
             this.PB_42.Name = "PB_42";
             this.PB_42.Size = new System.Drawing.Size(24, 24);
@@ -1470,7 +1470,7 @@
             // 
             // PB_41
             // 
-            this.PB_41.Image = global::PKHeX.Properties.Resources.world;
+            this.PB_41.Image = global::PKHeX.Properties.Resources.ribbonworld;
             this.PB_41.Location = new System.Drawing.Point(35, 177);
             this.PB_41.Name = "PB_41";
             this.PB_41.Size = new System.Drawing.Size(24, 24);
@@ -1481,7 +1481,7 @@
             // 
             // PB_40
             // 
-            this.PB_40.Image = global::PKHeX.Properties.Resources.earth;
+            this.PB_40.Image = global::PKHeX.Properties.Resources.ribbonearth;
             this.PB_40.Location = new System.Drawing.Point(8, 177);
             this.PB_40.Name = "PB_40";
             this.PB_40.Size = new System.Drawing.Size(24, 24);
@@ -1492,7 +1492,7 @@
             // 
             // PB_37
             // 
-            this.PB_37.Image = global::PKHeX.Properties.Resources.national;
+            this.PB_37.Image = global::PKHeX.Properties.Resources.ribbonnational;
             this.PB_37.Location = new System.Drawing.Point(198, 147);
             this.PB_37.Name = "PB_37";
             this.PB_37.Size = new System.Drawing.Size(24, 24);
@@ -1503,7 +1503,7 @@
             // 
             // PB_36
             // 
-            this.PB_36.Image = global::PKHeX.Properties.Resources.country;
+            this.PB_36.Image = global::PKHeX.Properties.Resources.ribboncountry;
             this.PB_36.Location = new System.Drawing.Point(171, 147);
             this.PB_36.Name = "PB_36";
             this.PB_36.Size = new System.Drawing.Size(24, 24);
@@ -1514,7 +1514,7 @@
             // 
             // PB_35
             // 
-            this.PB_35.Image = global::PKHeX.Properties.Resources.legend;
+            this.PB_35.Image = global::PKHeX.Properties.Resources.ribbonlegend;
             this.PB_35.Location = new System.Drawing.Point(144, 147);
             this.PB_35.Name = "PB_35";
             this.PB_35.Size = new System.Drawing.Size(24, 24);
@@ -1525,7 +1525,7 @@
             // 
             // PB_34
             // 
-            this.PB_34.Image = global::PKHeX.Properties.Resources.record;
+            this.PB_34.Image = global::PKHeX.Properties.Resources.ribbonrecord;
             this.PB_34.Location = new System.Drawing.Point(117, 147);
             this.PB_34.Name = "PB_34";
             this.PB_34.Size = new System.Drawing.Size(24, 24);
@@ -1536,7 +1536,7 @@
             // 
             // PB_33
             // 
-            this.PB_33.Image = global::PKHeX.Properties.Resources.footprint;
+            this.PB_33.Image = global::PKHeX.Properties.Resources.ribbonfootprint;
             this.PB_33.Location = new System.Drawing.Point(89, 147);
             this.PB_33.Name = "PB_33";
             this.PB_33.Size = new System.Drawing.Size(24, 24);
@@ -1547,7 +1547,7 @@
             // 
             // PB_32
             // 
-            this.PB_32.Image = global::PKHeX.Properties.Resources.artist;
+            this.PB_32.Image = global::PKHeX.Properties.Resources.ribbonartist;
             this.PB_32.Location = new System.Drawing.Point(62, 147);
             this.PB_32.Name = "PB_32";
             this.PB_32.Size = new System.Drawing.Size(24, 24);
@@ -1558,7 +1558,7 @@
             // 
             // PB_31
             // 
-            this.PB_31.Image = global::PKHeX.Properties.Resources.gorgeousroyal;
+            this.PB_31.Image = global::PKHeX.Properties.Resources.ribbongorgeousroyal;
             this.PB_31.Location = new System.Drawing.Point(35, 147);
             this.PB_31.Name = "PB_31";
             this.PB_31.Size = new System.Drawing.Size(24, 24);
@@ -1569,7 +1569,7 @@
             // 
             // PB_30
             // 
-            this.PB_30.Image = global::PKHeX.Properties.Resources.royal;
+            this.PB_30.Image = global::PKHeX.Properties.Resources.ribbonroyal;
             this.PB_30.Location = new System.Drawing.Point(8, 147);
             this.PB_30.Name = "PB_30";
             this.PB_30.Size = new System.Drawing.Size(24, 24);
@@ -1797,7 +1797,7 @@
             // 
             // PB_27
             // 
-            this.PB_27.Image = global::PKHeX.Properties.Resources.gorgeous;
+            this.PB_27.Image = global::PKHeX.Properties.Resources.ribbongorgeous;
             this.PB_27.Location = new System.Drawing.Point(198, 177);
             this.PB_27.Name = "PB_27";
             this.PB_27.Size = new System.Drawing.Size(24, 24);
@@ -1808,7 +1808,7 @@
             // 
             // PB_26
             // 
-            this.PB_26.Image = global::PKHeX.Properties.Resources.smile;
+            this.PB_26.Image = global::PKHeX.Properties.Resources.ribbonsmile;
             this.PB_26.Location = new System.Drawing.Point(171, 177);
             this.PB_26.Name = "PB_26";
             this.PB_26.Size = new System.Drawing.Size(24, 24);
@@ -1819,7 +1819,7 @@
             // 
             // PB_25
             // 
-            this.PB_25.Image = global::PKHeX.Properties.Resources.snooze;
+            this.PB_25.Image = global::PKHeX.Properties.Resources.ribbonsnooze;
             this.PB_25.Location = new System.Drawing.Point(144, 177);
             this.PB_25.Name = "PB_25";
             this.PB_25.Size = new System.Drawing.Size(24, 24);
@@ -1830,7 +1830,7 @@
             // 
             // PB_24
             // 
-            this.PB_24.Image = global::PKHeX.Properties.Resources.relax;
+            this.PB_24.Image = global::PKHeX.Properties.Resources.ribbonrelax;
             this.PB_24.Location = new System.Drawing.Point(117, 177);
             this.PB_24.Name = "PB_24";
             this.PB_24.Size = new System.Drawing.Size(24, 24);
@@ -1841,7 +1841,7 @@
             // 
             // PB_23
             // 
-            this.PB_23.Image = global::PKHeX.Properties.Resources.careless;
+            this.PB_23.Image = global::PKHeX.Properties.Resources.ribboncareless;
             this.PB_23.Location = new System.Drawing.Point(89, 177);
             this.PB_23.Name = "PB_23";
             this.PB_23.Size = new System.Drawing.Size(24, 24);
@@ -1852,7 +1852,7 @@
             // 
             // PB_22
             // 
-            this.PB_22.Image = global::PKHeX.Properties.Resources.downcast;
+            this.PB_22.Image = global::PKHeX.Properties.Resources.ribbondowncast;
             this.PB_22.Location = new System.Drawing.Point(62, 177);
             this.PB_22.Name = "PB_22";
             this.PB_22.Size = new System.Drawing.Size(24, 24);
@@ -1863,7 +1863,7 @@
             // 
             // PB_21
             // 
-            this.PB_21.Image = global::PKHeX.Properties.Resources.shock;
+            this.PB_21.Image = global::PKHeX.Properties.Resources.ribbonshock;
             this.PB_21.Location = new System.Drawing.Point(35, 177);
             this.PB_21.Name = "PB_21";
             this.PB_21.Size = new System.Drawing.Size(24, 24);
@@ -1874,7 +1874,7 @@
             // 
             // PB_20
             // 
-            this.PB_20.Image = global::PKHeX.Properties.Resources.alert;
+            this.PB_20.Image = global::PKHeX.Properties.Resources.ribbonalert;
             this.PB_20.Location = new System.Drawing.Point(8, 177);
             this.PB_20.Name = "PB_20";
             this.PB_20.Size = new System.Drawing.Size(24, 24);
@@ -1885,7 +1885,7 @@
             // 
             // PB_17
             // 
-            this.PB_17.Image = global::PKHeX.Properties.Resources.effort;
+            this.PB_17.Image = global::PKHeX.Properties.Resources.ribboneffort;
             this.PB_17.Location = new System.Drawing.Point(198, 147);
             this.PB_17.Name = "PB_17";
             this.PB_17.Size = new System.Drawing.Size(24, 24);
@@ -1896,7 +1896,7 @@
             // 
             // PB_16
             // 
-            this.PB_16.Image = global::PKHeX.Properties.Resources.expertbattler;
+            this.PB_16.Image = global::PKHeX.Properties.Resources.ribbonbattlerexpert;
             this.PB_16.Location = new System.Drawing.Point(171, 147);
             this.PB_16.Name = "PB_16";
             this.PB_16.Size = new System.Drawing.Size(24, 24);
@@ -1907,7 +1907,7 @@
             // 
             // PB_15
             // 
-            this.PB_15.Image = global::PKHeX.Properties.Resources.skillfullbattler;
+            this.PB_15.Image = global::PKHeX.Properties.Resources.ribbonbattlerskillful;
             this.PB_15.Location = new System.Drawing.Point(144, 147);
             this.PB_15.Name = "PB_15";
             this.PB_15.Size = new System.Drawing.Size(24, 24);
@@ -1918,7 +1918,7 @@
             // 
             // PB_14
             // 
-            this.PB_14.Image = global::PKHeX.Properties.Resources.training;
+            this.PB_14.Image = global::PKHeX.Properties.Resources.ribbontraining;
             this.PB_14.Location = new System.Drawing.Point(117, 147);
             this.PB_14.Name = "PB_14";
             this.PB_14.Size = new System.Drawing.Size(24, 24);
@@ -1929,7 +1929,7 @@
             // 
             // PB_13
             // 
-            this.PB_13.Image = global::PKHeX.Properties.Resources.bestfriends;
+            this.PB_13.Image = global::PKHeX.Properties.Resources.ribbonbestfriends;
             this.PB_13.Location = new System.Drawing.Point(89, 147);
             this.PB_13.Name = "PB_13";
             this.PB_13.Size = new System.Drawing.Size(24, 24);
@@ -1940,7 +1940,7 @@
             // 
             // PB_12
             // 
-            this.PB_12.Image = global::PKHeX.Properties.Resources.sinnohchamp;
+            this.PB_12.Image = global::PKHeX.Properties.Resources.ribbonchampionsinnoh;
             this.PB_12.Location = new System.Drawing.Point(62, 147);
             this.PB_12.Name = "PB_12";
             this.PB_12.Size = new System.Drawing.Size(24, 24);
@@ -1951,7 +1951,7 @@
             // 
             // PB_11
             // 
-            this.PB_11.Image = global::PKHeX.Properties.Resources.hoennchamp;
+            this.PB_11.Image = global::PKHeX.Properties.Resources.ribbonchampiong3hoenn;
             this.PB_11.Location = new System.Drawing.Point(35, 147);
             this.PB_11.Name = "PB_11";
             this.PB_11.Size = new System.Drawing.Size(24, 24);
@@ -1962,7 +1962,7 @@
             // 
             // PB_10
             // 
-            this.PB_10.Image = global::PKHeX.Properties.Resources.kaloschamp;
+            this.PB_10.Image = global::PKHeX.Properties.Resources.ribbonchampionkalos;
             this.PB_10.Location = new System.Drawing.Point(8, 147);
             this.PB_10.Name = "PB_10";
             this.PB_10.Size = new System.Drawing.Size(24, 24);

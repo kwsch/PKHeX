@@ -14,7 +14,10 @@ namespace PKHeX
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_Ribbons.Padding = FLP_Ribbons.Padding = new Padding(0, 0, vertScrollWidth, 0);
             
+            // Updating a Control display with autosized elements on every row addition is cpu intensive. Disable layout updates while populating.
+            TLP_Ribbons.SuspendLayout();
             populateRibbons();
+            TLP_Ribbons.ResumeLayout();
         }
 
         private readonly List<RibbonInfo> riblist = new List<RibbonInfo>();
@@ -64,10 +67,12 @@ namespace PKHeX
         }
         private void addRibbonSprite(RibbonInfo rib)
         {
-            PictureBox pb = new PictureBox { AutoSize = true, Visible = false, Name = PrefixPB + rib.Name };
+            PictureBox pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + rib.Name };
             var img = Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
             if (img != null)
-                pb.Image = (Image)img;
+                pb.BackgroundImage = (Image)img;
+            if (img == null)
+                return;
 
             FLP_Ribbons.Controls.Add(pb);
         }
@@ -104,7 +109,15 @@ namespace PKHeX
                     nud.Maximum = 8;
                 else nud.Maximum = 4; // g3 contest ribbons
 
-                nud.ValueChanged += (sender, e) => { rib.RibbonCount = (int)nud.Value; FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.RibbonCount > 0; };
+                nud.ValueChanged += (sender, e) => 
+                {
+                    rib.RibbonCount = (int)nud.Value;
+                    FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.RibbonCount > 0;
+                    if (nud.Maximum == nud.Value && nud.Maximum > 4)
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower() +"2");
+                    else
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
+                };
                 nud.Value = rib.RibbonCount > nud.Maximum ? nud.Maximum : rib.RibbonCount;
                 TLP_Ribbons.Controls.Add(nud, 0, row);
             }
