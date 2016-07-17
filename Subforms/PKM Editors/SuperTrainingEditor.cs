@@ -57,12 +57,12 @@ namespace PKHeX
                           let RegimenValue = ReflectUtil.GetValue(pkm, RegimenName)
                           where RegimenValue is bool
                           select new RegimenInfo(RegimenName, (bool) RegimenValue));
-            TLP.ColumnCount = 2;
+            TLP.ColumnCount = 1;
             TLP.RowCount = 0;
             
             // Add Regimens
             foreach (var reg in list)
-                addRegimenChoice(reg);
+                addRegimenChoice(reg, TLP);
 
             // Force auto-size
             foreach (RowStyle style in TLP.RowStyles)
@@ -70,32 +70,24 @@ namespace PKHeX
             foreach (ColumnStyle style in TLP.ColumnStyles)
                 style.SizeType = SizeType.AutoSize;
         }
-        private void addRegimenChoice(RegimenInfo reg)
+        private void addRegimenChoice(RegimenInfo reg, TableLayoutPanel TLP)
         {
             // Get row we add to
-            int row = TLP_SuperTrain.RowCount;
-            TLP_SuperTrain.RowCount++;
-
-            var label = new Label
-            {
-                Anchor = AnchorStyles.Left,
-                Name = PrefixLabel + reg.Name,
-                Text = reg.Name,
-                Padding = Padding.Empty,
-                AutoSize = true,
-            };
-            TLP_SuperTrain.Controls.Add(label, 1, row);
+            int row = TLP.RowCount;
+            TLP.RowCount++;
 
             var chk = new CheckBox
             {
-                Anchor = AnchorStyles.Right,
+                Anchor = AnchorStyles.Left,
                 Name = PrefixCHK + reg.Name,
+                Margin = new Padding(2),
+                Text = reg.Name,
                 AutoSize = true,
                 Padding = Padding.Empty,
             };
             chk.CheckedChanged += (sender, e) => { reg.CompletedRegimen = chk.Checked; };
             chk.Checked = reg.CompletedRegimen;
-            TLP_SuperTrain.Controls.Add(chk, 0, row);
+            TLP.Controls.Add(chk, 0, row);
         }
 
         private void save()
@@ -143,7 +135,7 @@ namespace PKHeX
         }
         private void CHK_Secret_CheckedChanged(object sender, EventArgs e)
         {
-            foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>().Where(chk => Convert.ToInt16(chk.Name[10]) > 4))
+            foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>().Where(chk => Convert.ToInt16(chk.Name[14]+"") > 4))
             {
                 c.Enabled = CHK_Secret.Checked;
                 if (!CHK_Secret.Checked)

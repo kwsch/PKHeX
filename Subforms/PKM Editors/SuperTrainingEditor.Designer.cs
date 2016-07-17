@@ -153,7 +153,7 @@
             // CHK_Secret
             // 
             this.CHK_Secret.AutoSize = true;
-            this.CHK_Secret.Location = new System.Drawing.Point(3, 2);
+            this.CHK_Secret.Location = new System.Drawing.Point(2, 2);
             this.CHK_Secret.Name = "CHK_Secret";
             this.CHK_Secret.Size = new System.Drawing.Size(171, 17);
             this.CHK_Secret.TabIndex = 36;
@@ -213,16 +213,17 @@
             // TLP_DistSuperTrain
             // 
             this.TLP_DistSuperTrain.AutoScroll = true;
-            this.TLP_DistSuperTrain.ColumnCount = 2;
+            this.TLP_DistSuperTrain.AutoSize = true;
+            this.TLP_DistSuperTrain.ColumnCount = 1;
             this.TLP_DistSuperTrain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TLP_DistSuperTrain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TLP_DistSuperTrain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.TLP_DistSuperTrain.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.TLP_DistSuperTrain.Location = new System.Drawing.Point(0, 101);
+            this.TLP_DistSuperTrain.Location = new System.Drawing.Point(0, 229);
             this.TLP_DistSuperTrain.Name = "TLP_DistSuperTrain";
             this.TLP_DistSuperTrain.RowCount = 1;
             this.TLP_DistSuperTrain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_DistSuperTrain.Size = new System.Drawing.Size(215, 128);
+            this.TLP_DistSuperTrain.Size = new System.Drawing.Size(215, 0);
             this.TLP_DistSuperTrain.TabIndex = 3;
             // 
             // SuperTrainingEditor
