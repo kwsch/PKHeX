@@ -18,6 +18,7 @@ namespace PKHeX
             TLP_DistSuperTrain.SuspendLayout();
             populateRegimens("SuperTrain", TLP_SuperTrain, reglist);
             populateRegimens("DistSuperTrain", TLP_DistSuperTrain, distlist);
+            Util.TranslateInterface(this, Main.curlanguage);
             TLP_SuperTrain.ResumeLayout();
             TLP_DistSuperTrain.ResumeLayout();
 
