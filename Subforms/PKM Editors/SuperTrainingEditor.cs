@@ -145,7 +145,7 @@ namespace PKHeX
         }
         private void CHK_Secret_CheckedChanged(object sender, EventArgs e)
         {
-            foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>().Where(chk => Convert.ToInt16(chk.Name[14]+"") > 4))
+            foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>().Where(chk => Convert.ToInt16(chk.Name[14]+"") >= 4))
             {
                 c.Enabled = CHK_Secret.Checked;
                 if (!CHK_Secret.Checked)
