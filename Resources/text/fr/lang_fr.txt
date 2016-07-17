@@ -129,8 +129,9 @@ GB_nOT = Dernier Dresseur connu
 Label_PrevOT = DO :
 GB_ExtraBytes = Octets supplémentaires
 GB_Markings = Marquages
-BTN_Ribbons = Rubans / Médaill.
-BTN_History = Souvenirs/Récré
+BTN_Ribbons = Rubans
+BTN_Medals = Médaill.
+BTN_History = Souvenirs
 Label_EncryptionConstant = Valeur de cryptage :
 BTN_RerollEC = Edit.
 -----------------Save Data Interface--------------------

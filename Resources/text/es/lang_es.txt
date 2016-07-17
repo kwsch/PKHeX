@@ -129,8 +129,9 @@ GB_nOT = Ultimo dueño (no OT)
 Label_PrevOT = OT:
 GB_ExtraBytes = Bytes Extras
 GB_Markings = Marcas
-BTN_Ribbons = Listones/Medales
-BTN_History = Memorias/Recreo
+BTN_Ribbons = Listones
+BTN_Medals = Medales
+BTN_History = Memorias
 Label_EncryptionConstant = Constante de Encryption:
 BTN_RerollEC = Generar
 -----------------Save Data Interface--------------------

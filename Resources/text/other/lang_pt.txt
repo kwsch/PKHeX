@@ -129,8 +129,9 @@ GB_nOT = Último (não OT) Treinador
 Label_PrevOT = OT:
 GB_ExtraBytes = Bytes Extra
 GB_Markings = Marcas
-BTN_Ribbons = Fitas/Medalhas
-BTN_History = Memórias/Amie
+BTN_Ribbons = Fitas
+BTN_Medals = Medalhas
+BTN_History = Memórias
 Label_EncryptionConstant = Constante de Encriptação:
 BTN_RerollEC = Gerar
 -----------------Save Data Interface--------------------

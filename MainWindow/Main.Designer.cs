@@ -179,14 +179,16 @@
             this.CB_Move2 = new System.Windows.Forms.ComboBox();
             this.CB_Move1 = new System.Windows.Forms.ComboBox();
             this.Tab_OTMisc = new System.Windows.Forms.TabPage();
+            this.FLP_PKMEditors = new System.Windows.Forms.FlowLayoutPanel();
+            this.BTN_Ribbons = new System.Windows.Forms.Button();
+            this.BTN_History = new System.Windows.Forms.Button();
+            this.BTN_Medals = new System.Windows.Forms.Button();
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.GB_nOT = new System.Windows.Forms.GroupBox();
             this.Label_CTGender = new System.Windows.Forms.Label();
             this.TB_OTt2 = new System.Windows.Forms.TextBox();
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
-            this.BTN_History = new System.Windows.Forms.Button();
-            this.BTN_Ribbons = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
             this.PB_Mark6 = new System.Windows.Forms.PictureBox();
             this.PB_MarkPentagon = new System.Windows.Forms.PictureBox();
@@ -377,6 +379,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn1)).BeginInit();
             this.GB_CurrentMoves.SuspendLayout();
             this.Tab_OTMisc.SuspendLayout();
+            this.FLP_PKMEditors.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).BeginInit();
@@ -2240,11 +2243,10 @@
             // Tab_OTMisc
             // 
             this.Tab_OTMisc.AllowDrop = true;
+            this.Tab_OTMisc.Controls.Add(this.FLP_PKMEditors);
             this.Tab_OTMisc.Controls.Add(this.TB_EC);
             this.Tab_OTMisc.Controls.Add(this.GB_nOT);
             this.Tab_OTMisc.Controls.Add(this.BTN_RerollEC);
-            this.Tab_OTMisc.Controls.Add(this.BTN_History);
-            this.Tab_OTMisc.Controls.Add(this.BTN_Ribbons);
             this.Tab_OTMisc.Controls.Add(this.GB_Markings);
             this.Tab_OTMisc.Controls.Add(this.GB_ExtraBytes);
             this.Tab_OTMisc.Controls.Add(this.GB_OT);
@@ -2256,6 +2258,68 @@
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
+            // 
+            // FLP_PKMEditors
+            // 
+            this.FLP_PKMEditors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_PKMEditors.AutoSize = true;
+            this.FLP_PKMEditors.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.FLP_PKMEditors.Controls.Add(this.BTN_Ribbons);
+            this.FLP_PKMEditors.Controls.Add(this.BTN_Medals);
+            this.FLP_PKMEditors.Controls.Add(this.BTN_History);
+            this.FLP_PKMEditors.Location = new System.Drawing.Point(49, 245);
+            this.FLP_PKMEditors.Name = "FLP_PKMEditors";
+            this.FLP_PKMEditors.Size = new System.Drawing.Size(175, 25);
+            this.FLP_PKMEditors.TabIndex = 9;
+            this.FLP_PKMEditors.WrapContents = false;
+            // 
+            // BTN_Ribbons
+            // 
+            this.BTN_Ribbons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BTN_Ribbons.AutoSize = true;
+            this.BTN_Ribbons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_Ribbons.Location = new System.Drawing.Point(1, 1);
+            this.BTN_Ribbons.Margin = new System.Windows.Forms.Padding(1);
+            this.BTN_Ribbons.Name = "BTN_Ribbons";
+            this.BTN_Ribbons.Size = new System.Drawing.Size(56, 23);
+            this.BTN_Ribbons.TabIndex = 5;
+            this.BTN_Ribbons.Text = "Ribbons";
+            this.BTN_Ribbons.UseVisualStyleBackColor = true;
+            this.BTN_Ribbons.Click += new System.EventHandler(this.openRibbons);
+            // 
+            // BTN_History
+            // 
+            this.BTN_History.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BTN_History.AutoSize = true;
+            this.BTN_History.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_History.Location = new System.Drawing.Point(112, 1);
+            this.BTN_History.Margin = new System.Windows.Forms.Padding(1);
+            this.BTN_History.Name = "BTN_History";
+            this.BTN_History.Size = new System.Drawing.Size(62, 23);
+            this.BTN_History.TabIndex = 6;
+            this.BTN_History.Text = "Memories";
+            this.BTN_History.UseVisualStyleBackColor = true;
+            this.BTN_History.Click += new System.EventHandler(this.openHistory);
+            // 
+            // BTN_Medals
+            // 
+            this.BTN_Medals.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BTN_Medals.AutoSize = true;
+            this.BTN_Medals.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_Medals.Location = new System.Drawing.Point(59, 1);
+            this.BTN_Medals.Margin = new System.Windows.Forms.Padding(1);
+            this.BTN_Medals.Name = "BTN_Medals";
+            this.BTN_Medals.Size = new System.Drawing.Size(51, 23);
+            this.BTN_Medals.TabIndex = 7;
+            this.BTN_Medals.Text = "Medals";
+            this.BTN_Medals.UseVisualStyleBackColor = true;
+            this.BTN_Medals.Click += new System.EventHandler(this.openMedals);
             // 
             // TB_EC
             // 
@@ -2274,7 +2338,7 @@
             this.GB_nOT.Controls.Add(this.Label_CTGender);
             this.GB_nOT.Controls.Add(this.TB_OTt2);
             this.GB_nOT.Controls.Add(this.Label_PrevOT);
-            this.GB_nOT.Location = new System.Drawing.Point(40, 90);
+            this.GB_nOT.Location = new System.Drawing.Point(40, 85);
             this.GB_nOT.Name = "GB_nOT";
             this.GB_nOT.Size = new System.Drawing.Size(190, 50);
             this.GB_nOT.TabIndex = 2;
@@ -2326,26 +2390,6 @@
             this.BTN_RerollEC.UseVisualStyleBackColor = true;
             this.BTN_RerollEC.Click += new System.EventHandler(this.updateRandomEC);
             // 
-            // BTN_History
-            // 
-            this.BTN_History.Location = new System.Drawing.Point(138, 250);
-            this.BTN_History.Name = "BTN_History";
-            this.BTN_History.Size = new System.Drawing.Size(100, 23);
-            this.BTN_History.TabIndex = 6;
-            this.BTN_History.Text = "Memories/Amie";
-            this.BTN_History.UseVisualStyleBackColor = true;
-            this.BTN_History.Click += new System.EventHandler(this.openHistory);
-            // 
-            // BTN_Ribbons
-            // 
-            this.BTN_Ribbons.Location = new System.Drawing.Point(32, 250);
-            this.BTN_Ribbons.Name = "BTN_Ribbons";
-            this.BTN_Ribbons.Size = new System.Drawing.Size(100, 23);
-            this.BTN_Ribbons.TabIndex = 5;
-            this.BTN_Ribbons.Text = "Ribbons/Medals";
-            this.BTN_Ribbons.UseVisualStyleBackColor = true;
-            this.BTN_Ribbons.Click += new System.EventHandler(this.openRibbons);
-            // 
             // GB_Markings
             // 
             this.GB_Markings.Controls.Add(this.PB_Mark6);
@@ -2357,7 +2401,7 @@
             this.GB_Markings.Controls.Add(this.PB_MarkShiny);
             this.GB_Markings.Controls.Add(this.PB_Mark1);
             this.GB_Markings.Controls.Add(this.PB_Mark4);
-            this.GB_Markings.Location = new System.Drawing.Point(68, 188);
+            this.GB_Markings.Location = new System.Drawing.Point(68, 183);
             this.GB_Markings.Name = "GB_Markings";
             this.GB_Markings.Size = new System.Drawing.Size(135, 58);
             this.GB_Markings.TabIndex = 4;
@@ -2479,7 +2523,7 @@
             // 
             this.GB_ExtraBytes.Controls.Add(this.TB_ExtraByte);
             this.GB_ExtraBytes.Controls.Add(this.CB_ExtraBytes);
-            this.GB_ExtraBytes.Location = new System.Drawing.Point(68, 140);
+            this.GB_ExtraBytes.Location = new System.Drawing.Point(68, 135);
             this.GB_ExtraBytes.Name = "GB_ExtraBytes";
             this.GB_ExtraBytes.Size = new System.Drawing.Size(135, 48);
             this.GB_ExtraBytes.TabIndex = 3;
@@ -2517,7 +2561,7 @@
             this.GB_OT.Controls.Add(this.Label_OT);
             this.GB_OT.Controls.Add(this.Label_SID);
             this.GB_OT.Controls.Add(this.Label_TID);
-            this.GB_OT.Location = new System.Drawing.Point(40, 13);
+            this.GB_OT.Location = new System.Drawing.Point(40, 8);
             this.GB_OT.Name = "GB_OT";
             this.GB_OT.Size = new System.Drawing.Size(190, 75);
             this.GB_OT.TabIndex = 1;
@@ -2711,7 +2755,7 @@
             this.Menu_ShowdownExportBattleBox});
             this.Menu_Showdown.Image = global::PKHeX.Properties.Resources.showdown;
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
@@ -2758,7 +2802,7 @@
             this.Menu_OpenCache});
             this.Menu_CyberGadget.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
-            this.Menu_CyberGadget.Size = new System.Drawing.Size(152, 22);
+            this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
             // 
             // Menu_OpenTemp
@@ -2787,14 +2831,14 @@
             this.Menu_BatchEditor});
             this.Menu_Data.Image = global::PKHeX.Properties.Resources.data;
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(143, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
             // 
             this.Menu_LoadBoxes.Image = global::PKHeX.Properties.Resources.load;
             this.Menu_LoadBoxes.Name = "Menu_LoadBoxes";
-            this.Menu_LoadBoxes.Size = new System.Drawing.Size(152, 22);
+            this.Menu_LoadBoxes.Size = new System.Drawing.Size(151, 22);
             this.Menu_LoadBoxes.Text = "Load Boxes";
             this.Menu_LoadBoxes.Click += new System.EventHandler(this.mainMenuBoxLoad);
             // 
@@ -2802,7 +2846,7 @@
             // 
             this.Menu_DumpBoxes.Image = global::PKHeX.Properties.Resources.dump;
             this.Menu_DumpBoxes.Name = "Menu_DumpBoxes";
-            this.Menu_DumpBoxes.Size = new System.Drawing.Size(152, 22);
+            this.Menu_DumpBoxes.Size = new System.Drawing.Size(151, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
             this.Menu_DumpBoxes.Click += new System.EventHandler(this.mainMenuBoxDump);
             // 
@@ -2812,7 +2856,7 @@
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.Menu_Report.ShowShortcutKeys = false;
-            this.Menu_Report.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Report.Size = new System.Drawing.Size(151, 22);
             this.Menu_Report.Text = "Box Data &Report";
             this.Menu_Report.Click += new System.EventHandler(this.mainMenuBoxReport);
             // 
@@ -2822,7 +2866,7 @@
             this.Menu_Database.Name = "Menu_Database";
             this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.Menu_Database.ShowShortcutKeys = false;
-            this.Menu_Database.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Database.Size = new System.Drawing.Size(151, 22);
             this.Menu_Database.Text = "PK6 &Database";
             this.Menu_Database.Click += new System.EventHandler(this.mainMenuDatabase);
             // 
@@ -2832,7 +2876,7 @@
             this.Menu_BatchEditor.Name = "Menu_BatchEditor";
             this.Menu_BatchEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.Menu_BatchEditor.ShowShortcutKeys = false;
-            this.Menu_BatchEditor.Size = new System.Drawing.Size(152, 22);
+            this.Menu_BatchEditor.Size = new System.Drawing.Size(151, 22);
             this.Menu_BatchEditor.Text = "Batch Editor";
             this.Menu_BatchEditor.Click += new System.EventHandler(this.manMenuBatchEditor);
             // 
@@ -2843,7 +2887,7 @@
             this.Menu_OpenSDB});
             this.Menu_Other.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_Other.Name = "Menu_Other";
-            this.Menu_Other.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Other.Size = new System.Drawing.Size(143, 22);
             this.Menu_Other.Text = "Other";
             // 
             // Menu_OpenSDF
@@ -4392,6 +4436,8 @@
             this.GB_CurrentMoves.PerformLayout();
             this.Tab_OTMisc.ResumeLayout(false);
             this.Tab_OTMisc.PerformLayout();
+            this.FLP_PKMEditors.ResumeLayout(false);
+            this.FLP_PKMEditors.PerformLayout();
             this.GB_nOT.ResumeLayout(false);
             this.GB_nOT.PerformLayout();
             this.GB_Markings.ResumeLayout(false);
@@ -4822,6 +4868,8 @@
         private System.Windows.Forms.PictureBox PB_Mark1;
         private System.Windows.Forms.Button B_Pokeblocks;
         private System.Windows.Forms.ToolStripMenuItem Menu_BatchEditor;
+        private System.Windows.Forms.Button BTN_Medals;
+        private System.Windows.Forms.FlowLayoutPanel FLP_PKMEditors;
     }
 }
 

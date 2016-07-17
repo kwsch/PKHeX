@@ -745,7 +745,7 @@ namespace PKHeX
             CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible =
             Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = SAV.Generation >= 6;
             Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = SAV.Generation >= 6;
-            GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_History.Visible = BTN_Ribbons.Visible = SAV.Generation >= 6;
+            GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = SAV.Generation >= 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
 
             PB_MarkPentagon.Visible = SAV.Generation == 6;
@@ -755,9 +755,13 @@ namespace PKHeX
             CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
             Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
 
+            BTN_Ribbons.Visible = SAV.Generation >= 3;
             DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation > 3 && HaX;
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
             CB_Ability.Visible = !DEV_Ability.Enabled && SAV.Generation >= 3;
+
+            // Recenter PKM SubEditors
+            FLP_PKMEditors.Location = new Point((tabMain.TabPages[4].Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
 
             switch (SAV.Generation)
             {
@@ -850,6 +854,8 @@ namespace PKHeX
             InitializeStrings();
             InitializeLanguage();
             Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex]); // Translate the UI to language.
+            // Recenter PKM SubEditors
+            FLP_PKMEditors.Location = new Point((tabMain.TabPages[4].Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
         }
@@ -2236,7 +2242,11 @@ namespace PKHeX
         // Secondary Windows for Ribbons/Amie/Memories
         private void openRibbons(object sender, EventArgs e)
         {
-            new RibbMedal().ShowDialog();
+            new RibbonEditor().ShowDialog();
+        }
+        private void openMedals(object sender, EventArgs e)
+        {
+            new SuperTrainingEditor().ShowDialog();
         }
         private void openHistory(object sender, EventArgs e)
         {

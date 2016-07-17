@@ -125,17 +125,17 @@
     <Compile Include="Subforms\PKM Editors\BatchEditor.Designer.cs">
       <DependentUpon>BatchEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\SuperTraining.cs">
+    <Compile Include="Subforms\PKM Editors\SuperTrainingEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\SuperTraining.Designer.cs">
-      <DependentUpon>SuperTraining.cs</DependentUpon>
+    <Compile Include="Subforms\PKM Editors\SuperTrainingEditor.Designer.cs">
+      <DependentUpon>SuperTrainingEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\RibbMedal2.cs">
+    <Compile Include="Subforms\PKM Editors\RibbonEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\RibbMedal2.Designer.cs">
-      <DependentUpon>RibbMedal2.cs</DependentUpon>
+    <Compile Include="Subforms\PKM Editors\RibbonEditor.Designer.cs">
+      <DependentUpon>RibbonEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\PKM Editors\Text.cs">
       <SubType>Form</SubType>
@@ -300,11 +300,11 @@
     <EmbeddedResource Include="Subforms\PKM Editors\BatchEditor.resx">
       <DependentUpon>BatchEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\PKM Editors\SuperTraining.resx">
-      <DependentUpon>SuperTraining.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\PKM Editors\SuperTrainingEditor.resx">
+      <DependentUpon>SuperTrainingEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\PKM Editors\RibbMedal2.resx">
-      <DependentUpon>RibbMedal2.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\PKM Editors\RibbonEditor.resx">
+      <DependentUpon>RibbonEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\Text.resx">
       <DependentUpon>Text.cs</DependentUpon>

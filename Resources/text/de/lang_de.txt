@@ -129,8 +129,9 @@ GB_nOT = Letzter (nicht OT) Handler
 Label_PrevOT = OT:
 GB_ExtraBytes = Extra Bytes
 GB_Markings = Markierungen
-BTN_Ribbons = Bänder/Medaillen
-BTN_History = Erinnerung/Amie
+BTN_Ribbons = Bänder
+BTN_Medals = Medaillen
+BTN_History = Erinnerung
 Label_EncryptionConstant = PKX-Konstante:
 BTN_RerollEC = Neu
 -----------------Save Data Interface--------------------

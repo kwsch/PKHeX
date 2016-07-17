@@ -129,8 +129,9 @@ GB_nOT = 最新の（非親）ハンドラ
 Label_PrevOT = 親のなまえ
 GB_ExtraBytes = 余分なバイト
 GB_Markings = マーキング
-BTN_Ribbons = リボン/スーパートレーニング
-BTN_History = メモリ/ポケパルレ
+BTN_Ribbons = リボン
+BTN_Medals = スーパートレーニング
+BTN_History = メモリ
 Label_EncryptionConstant = 暗号化定数
 BTN_RerollEC = 新規作成
 -----------------Save Data Interface--------------------
