@@ -399,7 +399,7 @@ namespace PKHeX
         private void openDB(object sender, EventArgs e)
         {
             if (Directory.Exists(DatabasePath))
-                Process.Start("explorer.exe", @DatabasePath);
+                Process.Start("explorer.exe", DatabasePath);
         }
         private void Menu_Export_Click(object sender, EventArgs e)
         {
@@ -543,9 +543,9 @@ namespace PKHeX
             slotSelected = -1; // reset the slot last viewed
             
             if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked) // Legal Only
-                res = res.Where(pk => pk.Gen6 && pk is PK6 && new LegalityAnalysis(pk as PK6).Valid);
+                res = res.Where(pk => pk.Gen6 && pk is PK6 && new LegalityAnalysis((PK6) pk).Valid);
             if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked) // Illegal Only
-                res = res.Where(pk => pk.Gen6 && pk is PK6 && !new LegalityAnalysis(pk as PK6).Valid);
+                res = res.Where(pk => pk.Gen6 && pk is PK6 && !new LegalityAnalysis((PK6) pk).Valid);
 
             var results = res.ToArray();
             if (results.Length == 0)

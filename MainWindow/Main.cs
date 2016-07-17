@@ -462,9 +462,9 @@ namespace PKHeX
         {
             string path = Util.GetTempFolder();
             if (Directory.Exists(Path.Combine(path, "root")))
-                Process.Start("explorer.exe", @Path.Combine(path, "root"));
+                Process.Start("explorer.exe", Path.Combine(path, "root"));
             else if (Directory.Exists(path))
-                Process.Start("explorer.exe", @path);
+                Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the temporary file.", "Make sure the Cyber Gadget software is paused.");
         }
@@ -472,7 +472,7 @@ namespace PKHeX
         {
             string path = Util.GetCacheFolder();
             if (Directory.Exists(path))
-                Process.Start("explorer.exe", @path);
+                Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the cache folder.");
         }
@@ -480,7 +480,7 @@ namespace PKHeX
         {
             string path;
             if (Util.get3DSLocation() != null && Directory.Exists(path = Util.GetSDFLocation()))
-                Process.Start("explorer.exe", @path);
+                Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the SaveDataFiler folder.");
         }
@@ -489,7 +489,7 @@ namespace PKHeX
             string path3DS = Util.get3DSLocation();
             string path;
             if (path3DS != null && Directory.Exists(path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup")))
-                Process.Start("explorer.exe", @path);
+                Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the SaveDataBackup folder.");
         }
@@ -1941,7 +1941,7 @@ namespace PKHeX
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
         {
-            TextBox tb = !(sender is TextBox) ? TB_Nickname : sender as TextBox;
+            TextBox tb = !(sender is TextBox) ? TB_Nickname : (TextBox) sender;
             // Special Character Form
             if (ModifierKeys != Keys.Control)
                 return;
@@ -2171,7 +2171,7 @@ namespace PKHeX
                 return;
             if (!(pkm is PK6))
                 return;
-            Legality = la ?? new LegalityAnalysis(pkm as PK6);
+            Legality = la ?? new LegalityAnalysis((PK6) pkm);
             PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
             PB_Legal.Visible = pkm.Gen6 /*&& pkm is PK6*/;
 

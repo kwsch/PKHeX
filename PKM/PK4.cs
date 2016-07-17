@@ -9,7 +9,7 @@ namespace PKHeX
         {
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
-        public override int SIZE_PARTY => PKX.SIZE_4PARTY;
+        public sealed override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int Format => 4;
         public PK4(byte[] decryptedData = null, string ident = null)
