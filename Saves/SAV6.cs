@@ -102,8 +102,39 @@ namespace PKHeX
                 BitConverter.GetBytes(SaveUtil.ccitt16(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
             }
         }
-        public override bool ChecksumsValid => SaveUtil.verifyG6SAV(Data);
-        public override string ChecksumInfo => SaveUtil.verifyG6CHK(Data);
+        public override bool ChecksumsValid
+        {
+            get
+            {
+                for (int i = 0; i < Blocks.Length; i++)
+                {
+                    byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
+                    if (SaveUtil.ccitt16(array) != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
+                        return false;
+                }
+                return true;
+            }
+        }
+        public override string ChecksumInfo
+        {
+            get
+            {
+                int invalid = 0;
+                string rv = "";
+                for (int i = 0; i < Blocks.Length; i++)
+                {
+                    byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
+                    if (SaveUtil.ccitt16(array) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
+                        continue;
+
+                    invalid++;
+                    rv += $"Invalid: {i.ToString("X2")} @ Region {Blocks[i].Offset.ToString("X5") + Environment.NewLine}";
+                }
+                // Return Outputs
+                rv += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
+                return rv;
+            }   
+        }
         public ulong Secure1
         {
             get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14); }
