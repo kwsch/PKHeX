@@ -156,12 +156,6 @@
     <Compile Include="MainWindow\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\PKM Editors\RibbMedal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Subforms\PKM Editors\RibbMedal.Designer.cs">
-      <DependentUpon>RibbMedal.cs</DependentUpon>
-    </Compile>
     <Compile Include="Subforms\PKM Editors\MemoryAmie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -316,9 +310,6 @@
     <EmbeddedResource Include="MainWindow\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\PKM Editors\RibbMedal.resx">
-      <DependentUpon>RibbMedal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\MemoryAmie.resx">
       <DependentUpon>MemoryAmie.cs</DependentUpon>
