@@ -6,7 +6,7 @@ namespace PKHeX
 {
     public partial class Util
     {
-        internal static string[] getStringList(string f)
+        public static string[] getStringList(string f)
         {
             object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
             if (txt == null) return new string[0];
@@ -15,7 +15,7 @@ namespace PKHeX
                 rawlist[i] = rawlist[i].Trim();
             return rawlist;
         }
-        internal static string[] getStringList(string f, string l)
+        public static string[] getStringList(string f, string l)
         {
             object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
             if (txt == null) return new string[0];
