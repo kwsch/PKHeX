@@ -28,9 +28,9 @@ namespace PKHeX
         {
             try
             {
-                string[] newlist = new string[Util.ToInt32(SimpleStringList[SimpleStringList.Length - 1].Split(',')[0]) + 1];
+                string[] newlist = new string[ToInt32(SimpleStringList[SimpleStringList.Length - 1].Split(',')[0]) + 1];
                 for (int i = 1; i < SimpleStringList.Length; i++)
-                    newlist[Util.ToInt32(SimpleStringList[i].Split(',')[0])] = SimpleStringList[i].Split(',')[1];
+                    newlist[ToInt32(SimpleStringList[i].Split(',')[0])] = SimpleStringList[i].Split(',')[1];
                 return newlist;
             }
             catch { return null; }

@@ -28,7 +28,7 @@ namespace PKHeX
 
             if (pkm is PK6)
             {
-                PK6 pk6 = (PK6)pkm;
+                PK6 pk6 = (PK6) pkm;
                 CHK_Secret.Checked = pk6.SecretSuperTraining;
                 if (!CHK_Secret.Checked) // force update to disable checkboxes
                     CHK_Secret_CheckedChanged(null, null);
@@ -107,7 +107,7 @@ namespace PKHeX
 
             if (pkm is PK6)
             {
-                PK6 pk6 = (PK6)pkm;
+                PK6 pk6 = (PK6) pkm;
                 pk6.SecretSuperTraining = CHK_Secret.Checked;
                 pk6.TrainingBag = CB_Bag.SelectedIndex;
                 pk6.TrainingBagHits = (int)NUD_BagHits.Value;
