@@ -25687,6 +25687,58 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Littleroot Town
+        ///Oldale Town
+        ///Dewford Town
+        ///Lavaridge Town
+        ///Fallarbor Town
+        ///Verdanturf Town
+        ///Pacifidlog Town
+        ///Petalburg City
+        ///Slateport City
+        ///Mauville City
+        ///Rustboro City
+        ///Fortree City
+        ///Lilycove City
+        ///Mossdeep City
+        ///Sootopolis City
+        ///Ever Grande City
+        ///Route 101
+        ///Route 102
+        ///Route 103
+        ///Route 104
+        ///Route 105
+        ///Route 106
+        ///Route 107
+        ///Route 108
+        ///Route 109
+        ///Route 110
+        ///Route 111
+        ///Route 112
+        ///Route 113
+        ///Route 114
+        ///Route 115
+        ///Route 116
+        ///Route 117
+        ///Route 118
+        ///Route 119
+        ///Route 120
+        ///Route 121
+        ///Route 122
+        ///Route 123
+        ///Route 124
+        ///Route 125
+        ///Route 126
+        ///Route 127
+        ///Route 1 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_rsefrlg_00000_en {
+            get {
+                return ResourceManager.GetString("text_rsefrlg_00000_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ei
         ///Bisasam
         ///Bisaknosp

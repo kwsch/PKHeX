@@ -141,6 +141,7 @@ namespace PKHeX
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
             encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items = { };
+        public static string[] metRSEFRLG_00000 = { };
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
         public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
@@ -866,6 +867,7 @@ namespace PKHeX
 
             // Past Generation strings
             g3items = Util.getStringList("ItemsG3", "en");
+            metRSEFRLG_00000 = Util.getStringList("rsefrlg_00000", "en");
 
             // Current Generation strings
             string l = curlanguage;
@@ -1763,8 +1765,18 @@ namespace PKHeX
         private void updateOriginGame(object sender, EventArgs e)
         {
             int Version = Util.getIndex(CB_GameOrigin);
-
-            if (Version < 24 && origintrack != "Past" && SAV.Generation != 4)
+            
+            if (SAV.Generation == 3 && origintrack != "Gen3")
+            {
+                var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
+                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] {254, 255});
+                origintrack = "Gen3";
+                CB_MetLocation.DisplayMember = "Text";
+                CB_MetLocation.ValueMember = "Value";
+                CB_MetLocation.DataSource = met_list;
+                CB_MetLocation.SelectedValue = 0;
+            }
+            else if (Version < 24 && origintrack != "Past" && SAV.Generation >= 4)
             {
                 // Load Past Gen Locations
                 #region B2W2 Met Locations
@@ -1830,7 +1842,7 @@ namespace PKHeX
                 origintrack = "Gen4";
             }
 
-            if (Version < 0x10 && origintrack != "Gen4")
+            if (SAV.Generation > 3 && Version < 0x10 && origintrack != "Gen4")
             {
                 // Load Gen 4 egg locations if Gen 4 Origin.
                 #region HGSS Met Locations
@@ -1851,10 +1863,13 @@ namespace PKHeX
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
-            bool g4 = Version >= 7 && Version <= 12 && Version != 9;
-            CB_EncounterType.Visible = Label_EncounterType.Visible = g4;
-            if (!g4)
-                CB_EncounterType.SelectedValue = 0;
+            if (SAV.Generation >= 4)
+            {
+                bool g4 = Version >= 7 && Version <= 12 && Version != 9;
+                CB_EncounterType.Visible = Label_EncounterType.Visible = g4;
+                if (!g4)
+                    CB_EncounterType.SelectedValue = 0;
+            }
 
             setMarkings(); // Set/Remove KB marking
             if (!fieldsLoaded)
