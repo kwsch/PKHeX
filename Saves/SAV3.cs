@@ -77,7 +77,7 @@ namespace PKHeX
                     OFS_PouchBalls = BlockOfs[1] + 0x0600;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0640;
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
-                    Personal = PersonalInfo.RS;
+                    Personal = PersonalTable.RS;
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
@@ -86,7 +86,7 @@ namespace PKHeX
                     OFS_PouchBalls = BlockOfs[1] + 0x0430;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0464;
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
-                    Personal = PersonalInfo.FR; // todo split FR & LG
+                    Personal = PersonalTable.FR; // todo split FR & LG
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
@@ -95,7 +95,7 @@ namespace PKHeX
                     OFS_PouchBalls = BlockOfs[1] + 0x0650;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0690;
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
-                    Personal = PersonalInfo.E;
+                    Personal = PersonalTable.E;
                     break;
             }
             LegalItems = Legal.Pouch_Items_RS;

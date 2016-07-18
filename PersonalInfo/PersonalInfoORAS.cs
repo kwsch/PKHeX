@@ -4,9 +4,10 @@ namespace PKHeX
 {
     public class PersonalInfoORAS : PersonalInfoXY
     {
+        public new const int SIZE = 0x50;
         public PersonalInfoORAS(byte[] data)
         {
-            if (data.Length != SIZE_AO)
+            if (data.Length != SIZE)
                 return;
             Data = data;
 

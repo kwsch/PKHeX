@@ -4,9 +4,10 @@ namespace PKHeX
 {
     public class PersonalInfoG4 : PersonalInfoG3
     {
+        public new const int SIZE = 0x2C;
         public PersonalInfoG4(byte[] data)
         {
-            if (data.Length != SIZE_G4)
+            if (data.Length != SIZE)
                 return;
             Data = data;
 

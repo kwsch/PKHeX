@@ -30,7 +30,7 @@ namespace PKHeX
     {
         private LegalityCheck verifyGender()
         {
-            if (PersonalInfo.AO[pk6.Species].Gender == 255 && pk6.Gender != 2)
+            if (PersonalTable.AO[pk6.Species].Gender == 255 && pk6.Gender != 2)
                 return new LegalityCheck(Severity.Invalid, "Genderless Pokémon should not have a gender.");
 
             return new LegalityCheck();
@@ -431,8 +431,8 @@ namespace PKHeX
         }
         private LegalityCheck verifyAbility()
         {
-            int index = PersonalInfo.AO[pk6.Species].FormeIndex(pk6.Species, pk6.AltForm);
-            int[] abilities = PersonalInfo.AO[index].Abilities;
+            int index = PersonalTable.AO[pk6.Species].FormeIndex(pk6.Species, pk6.AltForm);
+            int[] abilities = PersonalTable.AO[index].Abilities;
             int abilval = Array.IndexOf(abilities, pk6.Ability);
             if (abilval < 0)
                 return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form.");

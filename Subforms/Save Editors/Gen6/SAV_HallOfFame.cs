@@ -363,7 +363,7 @@ namespace PKHeX
         private void setForms()
         {
             int species = Util.getIndex(CB_Species);
-            bool hasForms = PersonalInfo.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            bool hasForms = PersonalTable.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.DisplayMember = "Text";

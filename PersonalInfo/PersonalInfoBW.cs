@@ -6,9 +6,10 @@ namespace PKHeX
     public class PersonalInfoBW : PersonalInfo
     {
         protected PersonalInfoBW() { }
+        public const int SIZE = 0x3C;
         public PersonalInfoBW(byte[] data)
         {
-            if (data.Length != SIZE_BW)
+            if (data.Length != SIZE)
                 return;
             Data = data;
 
