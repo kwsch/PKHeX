@@ -154,12 +154,12 @@ namespace PKHeX
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel => PKX.getLevel(Species, EXP);
-        public bool Circle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool Triangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool Square      { get { return (MarkByte & (1 << 2)) == 1 << 2; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool Heart       { get { return (MarkByte & (1 << 3)) == 1 << 3; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool Star        { get { return (MarkByte & (1 << 4)) == 1 << 4; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool Diamond     { get { return (MarkByte & (1 << 5)) == 1 << 5; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkCircle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkTriangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkSquare      { get { return (MarkByte & (1 << 2)) == 1 << 2; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkHeart       { get { return (MarkByte & (1 << 3)) == 1 << 3; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkStar        { get { return (MarkByte & (1 << 4)) == 1 << 4; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkDiamond     { get { return (MarkByte & (1 << 5)) == 1 << 5; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);
