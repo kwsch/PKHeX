@@ -5,9 +5,10 @@ namespace PKHeX
     public class PersonalInfoG3 : PersonalInfo
     {
         protected PersonalInfoG3() { }
+        public const int SIZE = 0x1C;
         public PersonalInfoG3(byte[] data)
         {
-            if (data.Length != SIZE_G3)
+            if (data.Length != SIZE)
                 return;
 
             Data = data;

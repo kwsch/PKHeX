@@ -181,7 +181,7 @@ namespace PKHeX
             try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
             catch { return false; }
         }
-        internal static PersonalInfo[] Personal = PersonalInfo.AO;
+        internal static PersonalTable Personal = PersonalTable.AO;
 
         // Stat Fetching
         internal static int getMovePP(int move, int ppup)
