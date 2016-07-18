@@ -186,7 +186,7 @@ namespace PKHeX
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
 
-                OT_Friendship = PKX.getBaseFriendship(Species),
+                OT_Friendship = PersonalTable.B2W2[Species].BaseFriendship,
                 FatefulEncounter = true,
             };
             if (OTGender == 3) // User's

@@ -273,7 +273,7 @@ namespace PKHeX
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
                 
-                OT_Friendship = PKX.getBaseFriendship(Species),
+                OT_Friendship = PersonalTable.AO[Species].BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,

@@ -243,10 +243,6 @@ namespace PKHeX
             Util.Shuffle(evs);
             return evs;
         }
-        internal static int getBaseFriendship(int species)
-        {
-            return Personal[species].BaseFriendship;
-        }
         internal static int getLevel(int species, uint exp)
         {
             int growth = Personal[species].EXPGrowth;
@@ -255,29 +251,11 @@ namespace PKHeX
                 if (tl == 100) return 100;
             return --tl;
         }
-        internal static bool getIsShiny(uint PID, uint TID, uint SID)
-        {
-            uint PSV = getPSV(PID);
-            uint TSV = getTSV(TID, SID);
-            return TSV == PSV;
-        }
         internal static uint getEXP(int level, int species)
         {
             if (level <= 1) return 0;
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
-        }
-        internal static int[] getAbilities(int species, int formnum)
-        {
-            return Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
-        }
-        internal static int getAbilityNumber(int species, int ability, int formnum)
-        {
-            int[] spec_abilities = getAbilities(species, formnum);
-            int abilval = Array.IndexOf(spec_abilities, ability);
-            if (abilval >= 0)
-                return 1 << abilval;
-            return -1;
         }
         internal static int getGender(string s)
         {
@@ -435,7 +413,6 @@ namespace PKHeX
             return stats;
         }
 
-
         // PKX Manipulation
         internal static readonly byte[][] blockPosition =
         {
@@ -547,14 +524,6 @@ namespace PKHeX
             return chk == BitConverter.ToUInt16(input, 0x6);
         }
 
-        internal static uint getPSV(uint PID)
-        {
-            return (PID >> 16 ^ PID & 0xFFFF) >> 4;
-        }
-        internal static uint getTSV(uint TID, uint SID)
-        {
-            return (TID ^ SID) >> 4;
-        }
         internal static uint getRandomPID(int species, int cg, int origin, int nature, int form)
         {
             int gt = Personal[species].Gender;

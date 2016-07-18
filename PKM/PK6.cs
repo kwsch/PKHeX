@@ -629,7 +629,7 @@ namespace PKHeX
                 return;
 
             // Reset
-            HT_Friendship = PKX.getBaseFriendship(Species);
+            HT_Friendship = PersonalTable.AO[Species].BaseFriendship;
             HT_Affection = 0;
         }
 

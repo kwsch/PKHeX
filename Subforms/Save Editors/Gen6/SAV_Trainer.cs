@@ -560,7 +560,7 @@ namespace PKHeX
         {
             uint TID = Util.ToUInt32(MT_TID.Text);
             uint SID = Util.ToUInt32(MT_SID.Text);
-            uint tsv = PKX.getTSV(TID, SID);
+            uint tsv = (TID ^ SID) >> 4;
             Tip1.SetToolTip(MT_TID, "TSV: " + tsv.ToString("0000"));
             Tip2.SetToolTip(MT_SID, "TSV: " + tsv.ToString("0000"));
         }

@@ -584,7 +584,7 @@ namespace PKHeX
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
-                if (pk6.OT_Friendship != PKX.getBaseFriendship(pk6.Species))
+                if (pk6.OT_Friendship != PersonalTable.AO[pk6.Species].BaseFriendship)
                     return new LegalityCheck(Severity.Invalid, "Event OT Friendship does not match base friendship.");
                 if (pk6.OT_Affection != 0)
                     return new LegalityCheck(Severity.Invalid, "Event OT Affection should be zero.");

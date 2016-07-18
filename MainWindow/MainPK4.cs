@@ -123,7 +123,7 @@ namespace PKHeX
                 DEV_Ability.SelectedValue = pk4.Ability;
             else
             {
-                int[] abils = PKX.getAbilities(pk4.Species, pk4.AltForm);
+                int[] abils = SAV.Personal.getAbilities(pk4.Species, pk4.AltForm);
                 int abil = Array.IndexOf(abils, pk4.Ability);
                 CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             }

@@ -332,8 +332,10 @@ namespace PKHeX
                 Ability = Ability
             };
 
-            int abilnum = PKX.getAbilityNumber(Species, Ability, AltForm);
-            if (abilnum > 0) pk6.AbilityNumber = abilnum;
+            int[] abilities = PersonalTable.AO.getAbilities(Species, AltForm);
+            int abilval = Array.IndexOf(abilities, Ability);
+            if (abilval >= 0)
+                pk6.AbilityNumber = 1 << abilval;
             else // Fallback (shouldn't happen)
             {
                 if (HiddenAbility) pk6.AbilityNumber = 4; // Hidden, else G5 or G3/4 correlation.
@@ -517,7 +519,7 @@ namespace PKHeX
             pk6.HT_Memory = 4;
             pk6.HT_Feeling = (int)(Util.rnd32() % 10);
             // When transferred, friendship gets reset.
-            pk6.OT_Friendship = pk6.HT_Friendship = PKX.getBaseFriendship(Species);
+            pk6.OT_Friendship = pk6.HT_Friendship = PersonalTable.B2W2[Species].BaseFriendship;
 
             // Antishiny Mechanism
             ushort LID = (ushort)(PID & 0xFFFF);

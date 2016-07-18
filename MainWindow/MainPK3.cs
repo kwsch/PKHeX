@@ -29,7 +29,7 @@ namespace PKHeX
             TB_PID.Text = pk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk3.G3Item;
             setAbilityList();
-            int[] abils = PKX.getAbilities(pk3.Species, 0);
+            int[] abils = SAV.Personal.getAbilities(pk3.Species, 0);
             int abil = Array.IndexOf(abils, pk3.Ability);
             CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             CB_Nature.SelectedValue = pk3.Nature;

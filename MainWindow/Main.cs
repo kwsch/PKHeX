@@ -386,7 +386,7 @@ namespace PKHeX
             CB_Form.SelectedIndex = form;
 
             // Set Ability
-            int[] abilities = PKX.getAbilities(Set.Species, form);
+            int[] abilities = SAV.Personal.getAbilities(Set.Species, form);
             int ability = Array.IndexOf(abilities, Set.Ability);
             if (ability < 0) ability = 0;
             CB_Ability.SelectedIndex = ability;
@@ -1165,7 +1165,10 @@ namespace PKHeX
         // PKX Data Calculation Functions //
         private void setIsShiny()
         {
-            bool isShiny = PKX.getIsShiny(Util.getHEXval(TB_PID.Text), Util.ToUInt32(TB_TID.Text), Util.ToUInt32(TB_SID.Text));
+            pkm.PID = Util.getHEXval(TB_PID.Text);
+            pkm.TID = (int)Util.ToUInt32(TB_TID.Text);
+            pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
+            bool isShiny = pkm.IsShiny;
 
             // Set the Controls
             BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
@@ -1229,7 +1232,7 @@ namespace PKHeX
             if (ModifierKeys == Keys.Control) // prompt to reset
                 TB_Friendship.Text = pkm.CurrentFriendship.ToString();
             else
-                TB_Friendship.Text = TB_Friendship.Text == "255" ? PKX.getBaseFriendship(pkm.Species).ToString() : "255";
+                TB_Friendship.Text = TB_Friendship.Text == "255" ? SAV.Personal[pkm.Species].BaseFriendship.ToString() : "255";
         }
         private void clickGender(object sender, EventArgs e)
         {
@@ -1981,7 +1984,7 @@ namespace PKHeX
                 if (!CHK_Nicknamed.Checked)
                     updateNickname(null, null);
 
-                TB_Friendship.Text = PKX.getBaseFriendship(Util.getIndex(CB_Species)).ToString();
+                TB_Friendship.Text = SAV.Personal[Util.getIndex(CB_Species)].BaseFriendship.ToString();
 
                 if (CB_EggLocation.SelectedIndex == 0)
                 {
@@ -2050,13 +2053,15 @@ namespace PKHeX
         {
             if (SAV.Generation < 6)
                 return;
-            ushort TID = (ushort)Util.ToUInt32(TB_TID.Text);
-            ushort SID = (ushort)Util.ToUInt32(TB_SID.Text);
-            uint TSV = PKX.getTSV(TID, SID);
+
+            pkm.TID = (int)Util.ToUInt32(TB_TID.Text);
+            pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
+            var TSV = pkm.TSV;
             Tip1.SetToolTip(TB_TID, "TSV: " + TSV.ToString("0000"));
             Tip2.SetToolTip(TB_SID, "TSV: " + TSV.ToString("0000"));
 
-            uint PSV = PKX.getPSV(Util.getHEXval(TB_PID.Text));
+            pkm.PID = Util.getHEXval(TB_PID.Text);
+            var PSV = pkm.PSV;
             Tip3.SetToolTip(TB_PID, "PSV: " + PSV.ToString("0000"));
         }
         private void update_ID(object sender, EventArgs e)
