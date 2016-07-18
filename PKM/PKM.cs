@@ -154,12 +154,12 @@ namespace PKHeX
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel => PKX.getLevel(Species, EXP);
-        public bool Circle { get { return Markings[0]; } set { Markings[0] = value; } }
-        public bool Triangle { get { return Markings[1]; } set { Markings[1] = value; } }
-        public bool Square { get { return Markings[2]; } set { Markings[2] = value; } }
-        public bool Heart { get { return Markings[3]; } set { Markings[3] = value; } }
-        public bool Star { get { return Markings[4]; } set { Markings[4] = value; } }
-        public bool Diamond { get { return Markings[5]; } set { Markings[5] = value; } }
+        public bool Circle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool Triangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool Square      { get { return (MarkByte & (1 << 2)) == 1 << 2; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool Heart       { get { return (MarkByte & (1 << 3)) == 1 << 3; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool Star        { get { return (MarkByte & (1 << 4)) == 1 << 4; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool Diamond     { get { return (MarkByte & (1 << 5)) == 1 << 5; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);
