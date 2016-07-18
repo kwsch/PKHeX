@@ -95,6 +95,7 @@
     <Compile Include="PersonalInfo\PersonalInfoG4.cs" />
     <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
+    <Compile Include="PersonalInfo\PersonalTable.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
