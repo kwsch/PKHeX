@@ -26,7 +26,6 @@ namespace PKHeX
             }
             return r;
         }
-
         private PersonalTable(byte[] data, GameVersion format)
         {
             int size = 0;
@@ -92,6 +91,19 @@ namespace PKHeX
         {
             get { return Table[index]; }
             set { Table[index] = value; }
+        }
+
+        public int[] getAbilities(int species, int forme)
+        {
+            return this[getFormeIndex(species, forme)].Abilities;
+        }
+        public int getFormeIndex(int species, int forme)
+        {
+            return this[species].FormeIndex(species, forme);
+        }
+        public PersonalInfo getFormeEntry(int species, int forme)
+        {
+            return this[getFormeIndex(species, forme)];
         }
     }
 }

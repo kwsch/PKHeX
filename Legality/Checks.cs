@@ -431,8 +431,7 @@ namespace PKHeX
         }
         private LegalityCheck verifyAbility()
         {
-            int index = PersonalTable.AO[pk6.Species].FormeIndex(pk6.Species, pk6.AltForm);
-            int[] abilities = PersonalTable.AO[index].Abilities;
+            int[] abilities = PersonalTable.AO.getAbilities(pk6.Species, pk6.AltForm);
             int abilval = Array.IndexOf(abilities, pk6.Ability);
             if (abilval < 0)
                 return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form.");

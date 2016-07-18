@@ -352,7 +352,7 @@ namespace PKHeX
                     av = (int)(Util.rnd32()%(AbilityType - 1));
                     break;
             }
-            pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
+            pk.Ability = PersonalTable.AO.getAbilities(Species, pk.AltForm)[av];
             pk.AbilityNumber = 1 << av;
 
             switch (PIDType)

@@ -228,7 +228,7 @@ namespace PKHeX
                     break;
             }
             pk.HiddenAbility = av == 2;
-            pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
+            pk.Ability = PersonalTable.B2W2.getAbilities(Species, pk.AltForm)[av];
 
             if (PID != 0) 
                 pk.PID = PID;

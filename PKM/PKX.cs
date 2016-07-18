@@ -414,7 +414,7 @@ namespace PKHeX
                                         int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
                                         int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
         {
-            PersonalInfo p = Personal[Personal[species].FormeIndex(species, form)];
+            PersonalInfo p = Personal.getFormeEntry(species, form);
             // Calculate Stats
             ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
             stats[0] = (ushort)(p.HP == 1 ? 1 : (HP_IV + 2 * p.HP + HP_EV / 4 + 100) * level / 100 + 10);
