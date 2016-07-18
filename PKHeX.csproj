@@ -413,14 +413,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\byte\dexnav_ao.pkl" />
     <None Include="Resources\byte\eggmove_ao.pkl" />
     <None Include="Resources\byte\eggmove_xy.pkl" />
     <None Include="Resources\byte\encounter_a.pkl" />
-    <None Include="Resources\byte\encounter_ao.pkl" />
     <None Include="Resources\byte\encounter_o.pkl" />
     <None Include="Resources\byte\encounter_x.pkl" />
-    <None Include="Resources\byte\encounter_xy.pkl" />
     <None Include="Resources\byte\encounter_y.pkl" />
     <None Include="Resources\byte\evos_ao.pkl" />
     <None Include="Resources\byte\lvlmove_ao.pkl" />
@@ -738,7 +735,6 @@
     <None Include="Resources\text\locale\sr_ID\sr_008.txt" />
     <None Include="Resources\text\locale\sr_ID\sr_001.txt" />
     <None Include="Resources\text\locale\text_country_all.txt" />
-    <None Include="Resources\byte\personal" />
     <None Include="Resources\byte\PGLDings-NormalRegular.ttf" />
     <None Include="Resources\img\item\item_650.png" />
     <None Include="Resources\text\zh\text_xy_60000_zh.txt" />
@@ -836,7 +832,6 @@
     <None Include="Resources\img\ribbons\ribbon_41.png" />
     <None Include="Resources\img\ribbons\ribbon_40.png" />
     <None Include="Resources\img\ribbons\ribbon_46.png" />
-    <None Include="Resources\byte\fulldex_XY" />
     <None Include="Resources\img\Pokemon Sprites\unknown.png" />
     <None Include="Resources\img\item\item_670.png" />
     <None Include="Resources\img\item\item_669.png" />
