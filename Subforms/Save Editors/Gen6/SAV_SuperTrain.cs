@@ -24,18 +24,7 @@ namespace PKHeX
         }
 
         private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
-        private readonly string[] trba = {
-                                "Empty",
-                                "HP Bag S","HP Bag M","HP Bag L",
-                                "ATK Bag S","ATK Bag M","ATK Bag L",
-                                "DEF Bag S","DEF Bag M","DEF Bag L",
-                                "SpA Bag S","SpA Bag M","SpA Bag L",
-                                "SpD Bag S","SpD Bag M","SpD Bag L",
-                                "Speed Bag S","Speed Bag M","Speed Bag L",
-                                "Strength Bag","Toughen Up Bag","Swiftness Bag",
-                                "Big-Shot Bag","Double-Up Bag","Team Flare Bag",
-                                "Reset Bag","Soothing Bag",                              
-                               };
+        private readonly string[] trba;
         private readonly int offsetVal;
         private readonly int offsetTime;
         private readonly int offsetSpec;
