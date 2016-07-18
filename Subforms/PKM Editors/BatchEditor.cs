@@ -14,7 +14,16 @@ namespace PKHeX
             InitializeComponent();
             DragDrop += tabMain_DragDrop;
             DragEnter += tabMain_DragEnter;
+            CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
         }
+
+        private int currentFormat = -1;
+        private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWrite(typeof(PK6)).OrderBy(i=>i).ToArray();
+        private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWrite(typeof(PK5)).OrderBy(i=>i).ToArray();
+        private static readonly string[] pk4 = ReflectUtil.getPropertiesCanWrite(typeof(PK4)).OrderBy(i=>i).ToArray();
+        private static readonly string[] pk3 = ReflectUtil.getPropertiesCanWrite(typeof(PK3)).OrderBy(i=>i).ToArray();
+        private static readonly string[] all = pk6.Intersect(pk5).Intersect(pk4).Intersect(pk3).OrderBy(i => i).ToArray();
+        private static readonly string[] any = pk6.Union(pk5).Union(pk4).Union(pk3).Distinct().OrderBy(i => i).ToArray();
 
         // GUI Methods
         private void B_Open_Click(object sender, EventArgs e)
@@ -207,6 +216,35 @@ namespace PKHeX
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
             return true;
+        }
+
+        private void B_Add_Click(object sender, EventArgs e)
+        {
+            char[] prefix = {'.', '=', '!'};
+            string s = prefix[CB_Require.SelectedIndex] + CB_Property.Text + "=";
+            if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
+                s = Environment.NewLine + s;
+
+            RTB_Instructions.AppendText(s);
+        }
+
+        private void CB_Format_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (currentFormat == CB_Format.SelectedIndex)
+                return;
+
+            CB_Property.Items.Clear();
+            switch (CB_Format.SelectedIndex)
+            {
+                case 0: CB_Property.Items.AddRange(all.ToArray()); break; // All
+                case 1: CB_Property.Items.AddRange(pk6.ToArray()); break;
+                case 2: CB_Property.Items.AddRange(pk5.ToArray()); break;
+                case 3: CB_Property.Items.AddRange(pk4.ToArray()); break;
+                case 4: CB_Property.Items.AddRange(pk3.ToArray()); break;
+                case 5: CB_Property.Items.AddRange(any.ToArray()); break; // Any
+            }
+            CB_Property.SelectedIndex = 0;
+            currentFormat = CB_Format.SelectedIndex;
         }
     }
 }
