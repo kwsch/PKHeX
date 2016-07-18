@@ -59,7 +59,7 @@ namespace PKHeX
         private void dropclick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex != 1) return;
-            ((ComboBox)(sender as DataGridView).EditingControl).DroppedDown = true;
+            ((ComboBox)((DataGridView) sender).EditingControl).DroppedDown = true;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)

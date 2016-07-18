@@ -42,7 +42,7 @@ namespace PKHeX
         {
             string nickname = TB_Nickname.Text;
             if (nickname.Length < TB_Nickname.MaxLength)
-                TB_Nickname.Text += (sender as Label).Text;
+                TB_Nickname.Text += ((Label) sender).Text;
         }
     }
 }
