@@ -73,7 +73,7 @@ namespace PKHeX
         }
         private void changeDisplayed(object sender, EventArgs e)
         {
-            if (!(sender as CheckBox).Checked) 
+            if (!((CheckBox) sender).Checked) 
                 return;
 
             CHK_P6.Checked = sender == CHK_P6;

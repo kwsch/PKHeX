@@ -425,9 +425,9 @@ namespace PKHeX
         }
         private void changeCountryText(object sender, EventArgs e)
         {
-            if ((sender as ComboBox).Text == "")
+            if (((ComboBox) sender).Text == "")
             {
-                (sender as ComboBox).SelectedValue = 0;
+                ((ComboBox) sender).SelectedValue = 0;
                 changeCountryIndex(sender, e);
             }
         }
@@ -437,7 +437,7 @@ namespace PKHeX
             MaskedTextBox mtb = sender as MaskedTextBox;
             try
             {
-                int val = Util.ToInt32(mtb.Text);
+                int val = Util.ToInt32(mtb?.Text);
                 if (val > 255) mtb.Text = "255";
             }
             catch { mtb.Text = "0"; }

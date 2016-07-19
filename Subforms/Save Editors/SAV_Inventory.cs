@@ -136,10 +136,10 @@ namespace PKHeX
         }
         private void packBags()
         {
-            for (int p = 0; p < Pouches.Length; p++)
+            foreach (InventoryPouch t in Pouches)
             {
                 // Get DataGridView
-                DataGridView dgv = Controls.Find(DGVPrefix + Pouches[p].Type, true).FirstOrDefault() as DataGridView;
+                DataGridView dgv = Controls.Find(DGVPrefix + t.Type, true).FirstOrDefault() as DataGridView;
 
                 int ctr = 0;
                 for (int i = 0; i < dgv.Rows.Count; i++)
@@ -159,10 +159,10 @@ namespace PKHeX
                     if (itemindex == 0) // Compression of Empty Slots
                         continue;
 
-                    Pouches[p].Items[ctr++] = new InventoryItem {Index = itemindex, Count = itemcnt};
+                    t.Items[ctr++] = new InventoryItem {Index = itemindex, Count = itemcnt};
                 }
-                for (int i = ctr; i < Pouches[p].Items.Length; i++)
-                    Pouches[p].Items[i] = new InventoryItem(); // Empty Slots at the end
+                for (int i = ctr; i < t.Items.Length; i++)
+                    t.Items[i] = new InventoryItem(); // Empty Slots at the end
             }
         }
 

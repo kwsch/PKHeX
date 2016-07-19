@@ -207,7 +207,7 @@ namespace PKHeX
 
             // First Line: Name, Nickname, Gender, Item
             string result = string.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
-                species[Species] + ((Form ?? "") != "" ? "-" + Form.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
+                species[Species] + ((Form ?? "") != "" ? "-" + Form?.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
                             + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
             // IVs

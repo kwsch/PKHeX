@@ -92,7 +92,7 @@ namespace PKHeX
             #endregion
             #region Localize & Populate Fields
             string[] args = Environment.GetCommandLineArgs();
-            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]).ToLower() : "";
+            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
             HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
 
             // Try and detect the language
@@ -698,7 +698,7 @@ namespace PKHeX
 
             SAV.FilePath = Path.GetDirectoryName(path);
             SAV.FileName = Path.GetExtension(path) == ".bak"
-                ? Path.GetFileName(path).Split(new[] {" ["}, StringSplitOptions.None)[0]
+                ? Path.GetFileName(path)?.Split(new[] {" ["}, StringSplitOptions.None)[0]
                 : Path.GetFileName(path);
             L_Save.Text = $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
             
@@ -785,10 +785,10 @@ namespace PKHeX
                     getFieldsfromPKM = populateFieldsPK6;
                     getPKMfromFields = preparePK6;
                     extraBytes = PK6.ExtraBytes;
-                    TB_GameSync.Enabled = (SAV as SAV6).GameSyncID != 0;
-                    TB_GameSync.Text = (SAV as SAV6).GameSyncID.ToString("X16");
-                    TB_Secure1.Text = (SAV as SAV6).Secure1.ToString("X16");
-                    TB_Secure2.Text = (SAV as SAV6).Secure2.ToString("X16");
+                    TB_GameSync.Enabled = ((SAV6) SAV).GameSyncID != 0;
+                    TB_GameSync.Text = ((SAV6) SAV).GameSyncID.ToString("X16");
+                    TB_Secure1.Text = ((SAV6) SAV).Secure1.ToString("X16");
+                    TB_Secure2.Text = ((SAV6) SAV).Secure2.ToString("X16");
                     break;
             }
             PKM pk = preparePKM();
@@ -1298,16 +1298,16 @@ namespace PKHeX
         private void clickIV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
-                (sender as MaskedTextBox).Text = 31.ToString();
+                ((MaskedTextBox) sender).Text = 31.ToString();
             else if (ModifierKeys == Keys.Alt)
-                (sender as MaskedTextBox).Text = 0.ToString();
+                ((MaskedTextBox) sender).Text = 0.ToString();
         }
         private void clickEV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // EV
-                (sender as MaskedTextBox).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32((sender as MaskedTextBox).Text), 0), 252).ToString();
+                ((MaskedTextBox) sender).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32((sender as MaskedTextBox).Text), 0), 252).ToString();
             else if (ModifierKeys == Keys.Alt)
-                (sender as MaskedTextBox).Text = 0.ToString();
+                ((MaskedTextBox) sender).Text = 0.ToString();
         }
         private void clickOT(object sender, EventArgs e)
         {
@@ -1441,8 +1441,8 @@ namespace PKHeX
         private void updateIVs(object sender, EventArgs e)
         {
             if (changingFields || !fieldsInitialized) return;
-            if (sender != null && Util.ToInt32((sender as MaskedTextBox).Text) > 31)
-                (sender as MaskedTextBox).Text = "31";
+            if (sender != null && Util.ToInt32(((MaskedTextBox) sender).Text) > 31)
+                ((MaskedTextBox) sender).Text = "31";
 
             changingFields = true;
 
@@ -1474,8 +1474,8 @@ namespace PKHeX
         private void updateEVs(object sender, EventArgs e)
         {
             if (sender != null)
-                if (Util.ToInt32((sender as MaskedTextBox).Text) > SAV.MaxEV)
-                    (sender as MaskedTextBox).Text = SAV.MaxEV.ToString();
+                if (Util.ToInt32(((MaskedTextBox) sender).Text) > SAV.MaxEV)
+                    ((MaskedTextBox) sender).Text = SAV.MaxEV.ToString();
 
             changingFields = true;
             int EV_HP = Util.ToInt32(TB_HPEV.Text);
@@ -1610,8 +1610,8 @@ namespace PKHeX
         }
         private void update255_MTB(object sender, EventArgs e)
         {
-            if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
-                    (sender as MaskedTextBox).Text = "255";
+            if (Util.ToInt32(((MaskedTextBox) sender).Text) > byte.MaxValue)
+                    ((MaskedTextBox) sender).Text = "255";
         }
         private void updateForm(object sender, EventArgs e)
         {
@@ -1889,8 +1889,8 @@ namespace PKHeX
             if (CB_ExtraBytes.Items.Count == 0)
                 return;
             // Changed Extra Byte's Value
-            if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
-                (sender as MaskedTextBox).Text = "255";
+            if (Util.ToInt32(((MaskedTextBox) sender).Text) > byte.MaxValue)
+                ((MaskedTextBox) sender).Text = "255";
 
             int value = Util.ToInt32(TB_ExtraByte.Text);
             int offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
@@ -2133,7 +2133,7 @@ namespace PKHeX
             {
                 if (pkm.Format < 6)
                     return;
-                (pkm as PK6).RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
+                ((PK6) pkm).RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
                 Legality.updateRelearnLegality();
                 for (int i = 0; i < 4; i++)
                     movePB[i].Visible = !Legality.vRelearn[i].Valid;
@@ -2472,7 +2472,7 @@ namespace PKHeX
             if (SAV.HasBox)
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
 
-            bool dsv = Path.GetExtension(main.FileName).ToLower() == ".dsv";
+            bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
             File.WriteAllBytes(main.FileName, SAV.Write(dsv));
             Util.Alert("SAV exported to:", main.FileName);
         }
@@ -2706,11 +2706,11 @@ namespace PKHeX
             // Currently saved Value
             ulong oldval = 0;
             if (tb == TB_GameSync)
-                oldval = (SAV as SAV6).GameSyncID;
+                oldval = ((SAV6) SAV).GameSyncID;
             else if (tb == TB_Secure1)
-                oldval = (SAV as SAV6).Secure1;
+                oldval = ((SAV6) SAV).Secure1;
             else if (tb == TB_Secure2)
-                oldval = (SAV as SAV6).Secure2;
+                oldval = ((SAV6) SAV).Secure2;
 
             string filterText = Util.getOnlyHex(tb.Text);
 
@@ -2727,11 +2727,11 @@ namespace PKHeX
             if (newval != oldval)
             {
                 if (tb == TB_GameSync)
-                    (SAV as SAV6).GameSyncID = newval;
+                    ((SAV6) SAV).GameSyncID = newval;
                 else if (tb == TB_Secure1)
-                    (SAV as SAV6).Secure1 = newval;
+                    ((SAV6) SAV).Secure1 = newval;
                 else if (tb == TB_Secure2)
-                    (SAV as SAV6).Secure2 = newval;
+                    ((SAV6) SAV).Secure2 = newval;
                 SAV.Edited = true;
             }
         }
@@ -3122,7 +3122,7 @@ namespace PKHeX
                     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01,
                     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
                     0x01, 0x00, 0x00, 0x00,
-                }.CopyTo(SAV.Data, (SAV as SAV6).OPower);
+                }.CopyTo(SAV.Data, ((SAV6) SAV).OPower);
             }
             else if (SAV.XY)
                 new SAV_OPower().ShowDialog();
@@ -3142,7 +3142,7 @@ namespace PKHeX
                 return;
             string result = "PSS List" + Environment.NewLine;
             string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby", };
-            int offset = (SAV as SAV6).PSS;
+            int offset = ((SAV6) SAV).PSS;
             for (int g = 0; g < 3; g++)
             {
                 result += Environment.NewLine

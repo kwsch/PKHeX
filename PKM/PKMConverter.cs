@@ -104,11 +104,11 @@ namespace PKHeX
                     pkm.Met_Location = 30001; // Pokétransfer
             }
             if (pkm.Format == 3 && Format > 3)
-                pkm = (pkm as PK3).convertToPK4();
+                pkm = ((PK3) pkm).convertToPK4();
             if (pkm.Format == 4 && Format > 4)
-                pkm = (pkm as PK4).convertToPK5();
+                pkm = ((PK4) pkm).convertToPK5();
             if (pkm.Format == 5 && Format > 5)
-                pkm = (pkm as PK5).convertToPK6();
+                pkm = ((PK5) pkm).convertToPK6();
             comment = $"Converted from pk{currentFormat} to pk{Format}";
             return pkm;
         }
