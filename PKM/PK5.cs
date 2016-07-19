@@ -301,16 +301,18 @@ namespace PKHeX
         public override bool getGenderIsValid()
         {
             int gv = PersonalTable.B2W2[Species].Gender;
-            if (gv == 255 && Gender == 2)
-                return true;
-            if (gv == 0 && Gender == 1)
-                return true;
-            if (gv == 254 && Gender == 0)
-                return true;
-            if (gv <= (PID & 0xFF) && Gender == 0)
-                return true;
-            if (gv > (PID & 0xFF) && Gender == 1)
-                return true;
+
+            if (gv == 255)
+                return Gender == 2;
+            if (gv == 254)
+                return Gender == 0;
+            if (gv == 0)
+                return Gender == 1;
+            if (gv <= (PID & 0xFF))
+                return Gender == 0;
+            if ((PID & 0xFF) < gv)
+                return Gender == 1;
+
             return false;
         }
         public override byte[] Encrypt()
