@@ -2705,12 +2705,16 @@ namespace PKHeX
 
             // Currently saved Value
             ulong oldval = 0;
-            if (tb == TB_GameSync)
-                oldval = ((SAV6) SAV).GameSyncID;
-            else if (tb == TB_Secure1)
-                oldval = ((SAV6) SAV).Secure1;
-            else if (tb == TB_Secure2)
-                oldval = ((SAV6) SAV).Secure2;
+            if (SAV.Generation == 6)
+            {
+                SAV6 sav6 = (SAV6) SAV;
+                if (tb == TB_GameSync)
+                    oldval = sav6.GameSyncID;
+                else if (tb == TB_Secure1)
+                    oldval = sav6.Secure1;
+                else if (tb == TB_Secure2)
+                    oldval = sav6.Secure2;
+            }
 
             string filterText = Util.getOnlyHex(tb.Text);
 
@@ -2724,14 +2728,17 @@ namespace PKHeX
 
             // Write final value back to the save
             ulong newval = Convert.ToUInt64(filterText, 16);
-            if (newval != oldval)
+            if (newval == oldval) return;
+
+            if (SAV.Generation == 6)
             {
+                SAV6 sav6 = (SAV6) SAV;
                 if (tb == TB_GameSync)
-                    ((SAV6) SAV).GameSyncID = newval;
+                    sav6.GameSyncID = newval;
                 else if (tb == TB_Secure1)
-                    ((SAV6) SAV).Secure1 = newval;
+                    sav6.Secure1 = newval;
                 else if (tb == TB_Secure2)
-                    ((SAV6) SAV).Secure2 = newval;
+                    sav6.Secure2 = newval;
                 SAV.Edited = true;
             }
         }
