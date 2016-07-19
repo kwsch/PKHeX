@@ -785,10 +785,11 @@ namespace PKHeX
                     getFieldsfromPKM = populateFieldsPK6;
                     getPKMfromFields = preparePK6;
                     extraBytes = PK6.ExtraBytes;
-                    TB_GameSync.Enabled = ((SAV6) SAV).GameSyncID != 0;
-                    TB_GameSync.Text = ((SAV6) SAV).GameSyncID.ToString("X16");
-                    TB_Secure1.Text = ((SAV6) SAV).Secure1.ToString("X16");
-                    TB_Secure2.Text = ((SAV6) SAV).Secure2.ToString("X16");
+                    SAV6 sav6 = (SAV6)SAV;
+                    TB_GameSync.Enabled = sav6.GameSyncID != 0;
+                    TB_GameSync.Text = sav6.GameSyncID.ToString("X16");
+                    TB_Secure1.Text = sav6.Secure1.ToString("X16");
+                    TB_Secure2.Text = sav6.Secure2.ToString("X16");
                     break;
             }
             PKM pk = preparePKM();
