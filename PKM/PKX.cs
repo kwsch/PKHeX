@@ -321,26 +321,25 @@ namespace PKHeX
             return data;
         }
 
-        internal static string getLocation(PKM pk, bool egg)
+        internal static string getLocation(PKM pk, bool eggmet)
         {
-            return getLocation(egg, pk.Version, egg ? pk.Egg_Location : pk.Met_Location, pk.Format);
-        }
-        internal static string getLocation(bool eggmet, int gameorigin, int locval, int format)
-        {
-            if (gameorigin < 0x10 && (eggmet || format < 5))
+            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
+            if (pk.Format == 3)
+                return Main.metRSEFRLG_00000[locval%0x100];
+            if (pk.Version < 0x10 && (eggmet || pk.Format < 5))
             {
                 if (locval < 2000) return Main.metHGSS_00000[locval];
                 if (locval < 3000) return Main.metHGSS_02000[locval % 2000];
                                    return Main.metHGSS_03000[locval % 3000];
             }
-            if (gameorigin < 24)
+            if (pk.Version < 24)
             {
                 if (locval < 30000) return Main.metBW2_00000[locval];
                 if (locval < 40000) return Main.metBW2_30000[locval % 10000 - 1];
                 if (locval < 60000) return Main.metBW2_40000[locval % 10000 - 1];
                                     return Main.metBW2_60000[locval % 10000 - 1];
             }
-            if (gameorigin > 23)
+            if (pk.Version > 23)
             {
                 if (locval < 30000) return Main.metXY_00000[locval];
                 if (locval < 40000) return Main.metXY_30000[locval % 10000 - 1];
