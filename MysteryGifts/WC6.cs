@@ -221,7 +221,7 @@ namespace PKHeX
                 SID = SID,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PKX.Personal[Species].RandomGender),
+                Gender = PersonalTable.AO[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PersonalTable.AO[Species].RandomGender),
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant == 0 ? Util.rnd32() : EncryptionConstant,
                 Version = OriginGame == 0 ? SAV.Game : OriginGame,

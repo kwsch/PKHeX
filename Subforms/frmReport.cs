@@ -30,8 +30,8 @@ namespace PKHeX
             public string Move3 => Main.movelist[pkm.Move3];
             public string Move4 => Main.movelist[pkm.Move4];
             public string HeldItem => Main.itemlist[pkm.HeldItem];
-            public string MetLoc => PKX.getLocation(pkm, egg: false);
-            public string EggLoc => PKX.getLocation(pkm, egg: true);
+            public string MetLoc => PKX.getLocation(pkm, eggmet: false);
+            public string EggLoc => PKX.getLocation(pkm, eggmet: true);
             public string Ball => Main.balllist[pkm.Ball];
             public string OT => pkm.OT_Name;
             public string Version => Main.gamelist[pkm.Version];

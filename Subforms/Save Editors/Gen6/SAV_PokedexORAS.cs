@@ -116,7 +116,7 @@ namespace PKHeX
             for (int i = 0; i < 7; i++)
                 CL[i].Checked = langbools[i, pk - 1];
             
-            int gt = PKX.Personal[pk].Gender;
+            int gt = SAV.Personal[pk].Gender;
 
             CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
@@ -127,7 +127,7 @@ namespace PKHeX
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
-            int fc = PKX.Personal[species].FormeCount;
+            int fc = SAV.Personal[species].FormeCount;
             int f = SaveUtil.getDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
@@ -171,7 +171,7 @@ namespace PKHeX
 
             BitConverter.GetBytes((ushort)Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text))).CopyTo(SAV.Data, SAV.EncounterCount + (species - 1) * 2);
 
-            int fc = PKX.Personal[species].FormeCount;
+            int fc = SAV.Personal[species].FormeCount;
             int f = SaveUtil.getDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
@@ -283,7 +283,7 @@ namespace PKHeX
                 CHK_P1.Checked = ModifierKeys != Keys.Control;
             }
             int index = LB_Species.SelectedIndex+1;
-            int gt = PKX.Personal[index].Gender;
+            int gt = SAV.Personal[index].Gender;
 
             CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
             CHK_P3.Checked = CHK_P5.Checked = gt != 0 && gt != 255 && ModifierKeys != Keys.Control;
@@ -329,7 +329,7 @@ namespace PKHeX
             if (sender == mnuSeenNone || sender == mnuSeenAll || sender == mnuComplete)
                 for (int i = 0; i < CB_Species.Items.Count; i++)
                 {
-                    int gt = PKX.Personal[i + 1].Gender;
+                    int gt = SAV.Personal[i + 1].Gender;
                     LB_Species.SelectedIndex = i;
                     foreach (CheckBox t in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
                         t.Checked = mnuSeenNone != sender && t.Enabled;
@@ -354,7 +354,7 @@ namespace PKHeX
             if (sender == mnuCaughtNone || sender == mnuCaughtAll || sender == mnuComplete)
                 for (int i = 0; i < CB_Species.Items.Count; i++)
                 {
-                    int gt = PKX.Personal[i + 1].Gender;
+                    int gt = SAV.Personal[i + 1].Gender;
                     LB_Species.SelectedIndex = i;
                     foreach (CheckBox t in new[] { CHK_P1 })
                         t.Checked = mnuCaughtNone != sender;

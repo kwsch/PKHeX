@@ -793,7 +793,6 @@ namespace PKHeX
                     break;
             }
             PKM pk = preparePKM();
-            PKX.Personal = SAV.Personal;
             bool init = fieldsInitialized;
             fieldsInitialized = false;
             populateFilteredDataSources();

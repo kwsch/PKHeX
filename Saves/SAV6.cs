@@ -723,7 +723,7 @@ namespace PKHeX
             Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
 
             // Set Form flags
-            int fc = PKX.Personal[pkm.Species].FormeCount;
+            int fc = Personal[pkm.Species].FormeCount;
             int f = ORAS ? SaveUtil.getDexFormIndexORAS(pkm.Species, fc) : SaveUtil.getDexFormIndexXY(pkm.Species, fc);
             if (f >= 0)
             {

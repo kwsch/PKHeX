@@ -340,7 +340,7 @@ namespace PKHeX
         // Methods
         public override bool getGenderIsValid()
         {
-            int gv = PKX.Personal[Species].Gender;
+            int gv = PersonalTable.HGSS[Species].Gender;
 
             if (gv == 255)
                 return Gender == 2;

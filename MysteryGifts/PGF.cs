@@ -141,7 +141,7 @@ namespace PKHeX
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PKX.Personal[Species].RandomGender),
+                Gender = PersonalTable.B2W2[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PersonalTable.B2W2[Species].RandomGender),
                 AltForm = Form,
                 Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,

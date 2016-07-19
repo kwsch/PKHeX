@@ -443,7 +443,7 @@ namespace PKHeX
 
             // Check for Gender Changes
             // Get Gender Threshold
-            int gt = PKX.Personal[Util.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
 
             if (gt == 255)      // Genderless
                 genderflag = 2;
@@ -468,7 +468,7 @@ namespace PKHeX
         private void Label_Gender_Click(object sender, EventArgs e)
         {
             // Get Gender Threshold
-            int gt = PKX.Personal[Util.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
