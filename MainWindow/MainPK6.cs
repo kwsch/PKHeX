@@ -137,7 +137,6 @@ namespace PKHeX
             TB_ExtraByte.Text = pk6.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
             updateStats();
-            setIsShiny();
 
             TB_EXP.Text = pk6.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk6.Gender];

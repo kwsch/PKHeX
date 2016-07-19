@@ -1163,11 +1163,15 @@ namespace PKHeX
             CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
         }
         // PKX Data Calculation Functions //
-        private void setIsShiny()
+        private void setIsShiny(object sender)
         {
-            pkm.PID = Util.getHEXval(TB_PID.Text);
-            pkm.TID = (int)Util.ToUInt32(TB_TID.Text);
-            pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
+            if (sender == TB_PID)
+                pkm.PID = Util.getHEXval(TB_PID.Text);
+            else if (sender == TB_TID)
+                pkm.TID = (int)Util.ToUInt32(TB_TID.Text);
+            else if (sender == TB_SID)
+                pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
+
             bool isShiny = pkm.IsShiny;
 
             // Set the Controls
@@ -2054,8 +2058,6 @@ namespace PKHeX
             if (SAV.Generation < 6)
                 return;
 
-            pkm.TID = (int)Util.ToUInt32(TB_TID.Text);
-            pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
             var TSV = pkm.TSV;
             Tip1.SetToolTip(TB_TID, "TSV: " + TSV.ToString("0000"));
             Tip2.SetToolTip(TB_SID, "TSV: " + TSV.ToString("0000"));
@@ -2074,7 +2076,7 @@ namespace PKHeX
             if (Util.ToUInt32(TB_TID.Text) > ushort.MaxValue) TB_TID.Text = "65535";
             if (Util.ToUInt32(TB_SID.Text) > ushort.MaxValue) TB_SID.Text = "65535";
 
-            setIsShiny();
+            setIsShiny(sender);
             getQuickFiller(dragout);
             updateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
