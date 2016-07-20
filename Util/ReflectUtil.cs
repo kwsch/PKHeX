@@ -30,9 +30,9 @@ namespace PKHeX
                 .Where(p => p.Name.StartsWith(prefix))
                 .Select(p => p.Name);
         }
-        internal static IEnumerable<string> getPropertiesCanWrite(Type type)
+        internal static IEnumerable<string> getPropertiesCanWritePublic(Type type)
         {
-            return type.GetProperties().Where(p => p.CanWrite).Select(p => p.Name);
+            return type.GetProperties().Where(p => p.CanWrite && p.GetSetMethod(/*nonPublic*/ true).IsPublic).Select(p => p.Name);
         }
     }
 }
