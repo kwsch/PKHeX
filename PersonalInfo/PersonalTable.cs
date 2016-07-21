@@ -95,10 +95,14 @@ namespace PKHeX
 
         public int[] getAbilities(int species, int forme)
         {
+            if (species >= Table.Length)
+            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
             return this[getFormeIndex(species, forme)].Abilities;
         }
         public int getFormeIndex(int species, int forme)
         {
+            if (species >= Table.Length)
+            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
             return this[species].FormeIndex(species, forme);
         }
         public PersonalInfo getFormeEntry(int species, int forme)
