@@ -55,10 +55,16 @@ namespace PKHeX
         private BackgroundWorker b = new BackgroundWorker { WorkerReportsProgress = true };
         private void runBackgroundWorker()
         {
+            var Filters = getFilters().ToList();
+            if (Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
+            { Util.Error("Empty Filter Value detected."); return; }
+
+            var Instructions = getInstructions().ToList();
+            if (Instructions.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
+            { Util.Error("Empty Property Value detected."); return; }
+
             FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
-            var Filters = getFilters().ToList();
-            var Instructions = getInstructions().ToList();
             b = new BackgroundWorker {WorkerReportsProgress = true};
 
             b.DoWork += (sender, e) => {
@@ -133,20 +139,32 @@ namespace PKHeX
         }
         private void processSAV(PKM[] data, List<StringInstruction> Filters, List<StringInstruction> Instructions)
         {
+            int len = 0;
+            int err = 0;
             int ctr = 0;
             for (int i = 0; i < data.Length; i++)
             {
                 var pkm = data[i];
-                if (ProcessPKM(pkm, Filters, Instructions))
+                ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
+                if (r != ModifyResult.Invalid)
+                    len++;
+                if (r == ModifyResult.Error)
+                    err++;
+                if (r == ModifyResult.Modified)
                     ctr++;
+
                 b.ReportProgress(i);
             }
 
             Main.SAV.BoxData = data;
-            result = $"Modified {ctr}/{data.Length} files.";
+            result = $"Modified {ctr}/{len} files.";
+            if (err > 0)
+                result += Environment.NewLine + $"{err} files ignored due to an internal error.";
         }
         private void processFolder(string[] files, List<StringInstruction> Filters, List<StringInstruction> Instructions)
         {
+            int len = 0;
+            int err = 0;
             int ctr = 0;
             for (int i = 0; i < files.Length; i++)
             {
@@ -159,13 +177,22 @@ namespace PKHeX
 
                 byte[] data = File.ReadAllBytes(file);
                 var pkm = PKMConverter.getPKMfromBytes(data);
-                if (ProcessPKM(pkm, Filters, Instructions))
+                ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
+                if (r != ModifyResult.Invalid)
+                    len++;
+                if (r == ModifyResult.Error)
+                    err++;
+                if (r == ModifyResult.Modified)
+                {
                     ctr++;
+                    File.WriteAllBytes(file, pkm.DecryptedBoxData);
+                }
 
-                File.WriteAllBytes(file, pkm.DecryptedBoxData);
                 b.ReportProgress(i);
             }
-            result = $"Modified {ctr}/{files.Length} files.";
+            result = $"Modified {ctr}/{len} files.";
+            if (err > 0)
+                result += Environment.NewLine + $"{err} files ignored due to an internal error.";
         }
         
         private void tabMain_DragEnter(object sender, DragEventArgs e)
@@ -190,32 +217,39 @@ namespace PKHeX
             public string PropertyValue;
             public bool Evaluator;
         }
-        private static bool ProcessPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
+        private enum ModifyResult
         {
-            if (!PKM.ChecksumValid)
-                return false;
-            if (PKM.Species == 0)
-                return false;
+            Invalid,
+            Error,
+            Filtered,
+            Modified,
+        }
+        private static ModifyResult ProcessPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
+        {
+            if (!PKM.ChecksumValid || PKM.Species == 0)
+                return ModifyResult.Invalid;
+
             foreach (var cmd in Filters)
             {
                 try
                 {
                     if (ReflectUtil.GetValueEquals(PKM, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
-                        return false;
+                        return ModifyResult.Filtered;
                 }
                 catch
                 {
                     Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}.");
-                    return false;
+                    return ModifyResult.Filtered;
                 }
             }
 
+            ModifyResult result = ModifyResult.Error;
             foreach (var cmd in Instructions)
             {
-                try { ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue); }
+                try { ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue); result = ModifyResult.Modified; }
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
-            return true;
+            return result;
         }
 
         private void B_Add_Click(object sender, EventArgs e)
