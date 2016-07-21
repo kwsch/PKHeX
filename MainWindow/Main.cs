@@ -1473,19 +1473,22 @@ namespace PKHeX
         }
         private void updateEVs(object sender, EventArgs e)
         {
-            if (sender != null)
-                if (Util.ToInt32(((MaskedTextBox) sender).Text) > SAV.MaxEV)
-                    ((MaskedTextBox) sender).Text = SAV.MaxEV.ToString();
+            if (sender is MaskedTextBox)
+            {
+                MaskedTextBox m = (MaskedTextBox)sender;
+                if (Util.ToInt32(m.Text) > SAV.MaxEV)
+                { m.Text = SAV.MaxEV.ToString(); return; } // recursive on text set
+            }
 
             changingFields = true;
-            int EV_HP = Util.ToInt32(TB_HPEV.Text);
-            int EV_ATK = Util.ToInt32(TB_ATKEV.Text);
-            int EV_DEF = Util.ToInt32(TB_DEFEV.Text);
-            int EV_SPA = Util.ToInt32(TB_SPAEV.Text);
-            int EV_SPD = Util.ToInt32(TB_SPDEV.Text);
-            int EV_SPE = Util.ToInt32(TB_SPEEV.Text);
+            if (sender == TB_HPEV) pkm.EV_HP = Util.ToInt32(TB_HPEV.Text);
+            else if (sender == TB_ATKEV) pkm.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
+            else if (sender == TB_DEFEV) pkm.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
+            else if (sender == TB_SPEEV) pkm.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
+            else if (sender == TB_SPAEV) pkm.EV_SPA = Util.ToInt32(TB_SPAEV.Text);
+            else if (sender == TB_SPDEV) pkm.EV_SPD = Util.ToInt32(TB_SPDEV.Text);
 
-            int evtotal = EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
+            int evtotal = pkm.EVs.Sum();
 
             if (evtotal > 510) // Background turns Red
                 TB_EVTotal.BackColor = Color.Red;
@@ -1615,6 +1618,7 @@ namespace PKHeX
         }
         private void updateForm(object sender, EventArgs e)
         {
+            pkm.AltForm = CB_Form.SelectedIndex;
             updateStats();
             // Repopulate Abilities if Species Form has different abilities
             setAbilityList();
@@ -1634,7 +1638,7 @@ namespace PKHeX
             if (changingFields)
                 return;
             changingFields = true;
-            int form = Util.ToInt32(MT_Form.Text);
+            int form = pkm.AltForm = Util.ToInt32(MT_Form.Text);
             CB_Form.SelectedIndex = CB_Form.Items.Count > form ? form : -1;
             changingFields = false;
         }
@@ -2190,31 +2194,8 @@ namespace PKHeX
         }
         private void updateStats()
         {
-            // Gather the needed information.
-            int species = Util.getIndex(CB_Species);
-            int level = Util.ToInt32(MT_Level.Enabled ? MT_Level.Text : TB_Level.Text);
-            if (level == 0) level = 1;
-            int form = CB_Form.SelectedIndex;
-            int HP_IV = Util.ToInt32(TB_HPIV.Text);
-            int ATK_IV = Util.ToInt32(TB_ATKIV.Text);
-            int DEF_IV = Util.ToInt32(TB_DEFIV.Text);
-            int SPA_IV = Util.ToInt32(TB_SPAIV.Text);
-            int SPD_IV = Util.ToInt32(TB_SPDIV.Text);
-            int SPE_IV = Util.ToInt32(TB_SPEIV.Text);
-
-            int HP_EV = Util.ToInt32(TB_HPEV.Text);
-            int ATK_EV = Util.ToInt32(TB_ATKEV.Text);
-            int DEF_EV = Util.ToInt32(TB_DEFEV.Text);
-            int SPA_EV = Util.ToInt32(TB_SPAEV.Text);
-            int SPD_EV = Util.ToInt32(TB_SPDEV.Text);
-            int SPE_EV = Util.ToInt32(TB_SPEEV.Text);
-
-            int nature = Util.getIndex(CB_Nature);
-
             // Generate the stats.
-            ushort[] stats = PKX.getStats(species, level, nature, form,
-                                        HP_EV, ATK_EV, DEF_EV, SPA_EV, SPD_EV, SPE_EV,
-                                        HP_IV, ATK_IV, DEF_IV, SPA_IV, SPD_IV, SPE_IV);
+            ushort[] stats = pkm.getStats(SAV.Personal.getFormeEntry(pkm.Species, pkm.AltForm));
 
             Stat_HP.Text = stats[0].ToString();
             Stat_ATK.Text = stats[1].ToString();
@@ -2225,8 +2206,8 @@ namespace PKHeX
 
             // Recolor the Stat Labels based on boosted stats.
             {
-                int incr = nature / 5;
-                int decr = nature % 5;
+                int incr = pkm.Nature / 5;
+                int decr = pkm.Nature % 5;
 
                 Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
                 // Reset Label Colors

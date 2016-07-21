@@ -381,36 +381,6 @@ namespace PKHeX
             return
                 $"{pkm.Species.ToString("000")}{(pkm.IsShiny ? " ★" : "")} - {pkm.Nickname} - {pkm.Checksum.ToString("X4")}{pkm.EncryptionConstant.ToString("X8")}.{pkm.Extension}";
         }
-        internal static ushort[] getStats(PKM pkm)
-        {
-            return getStats(pkm.Species, pkm.Stat_Level, pkm.Nature, pkm.AltForm,
-                pkm.EV_HP, pkm.EV_ATK, pkm.EV_DEF, pkm.EV_SPA, pkm.EV_SPD, pkm.EV_SPE,
-                pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE);
-        }
-        internal static ushort[] getStats(int species, int level, int nature, int form,
-                                        int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
-                                        int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
-        {
-            PersonalInfo p = Personal.getFormeEntry(species, form);
-            // Calculate Stats
-            ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
-            stats[0] = (ushort)(p.HP == 1 ? 1 : (HP_IV + 2 * p.HP + HP_EV / 4 + 100) * level / 100 + 10);
-            stats[1] = (ushort)((ATK_IV + 2 * p.ATK + ATK_EV / 4) * level / 100 + 5);
-            stats[2] = (ushort)((DEF_IV + 2 * p.DEF + DEF_EV / 4) * level / 100 + 5);
-            stats[4] = (ushort)((SPA_IV + 2 * p.SPA + SPA_EV / 4) * level / 100 + 5);
-            stats[5] = (ushort)((SPD_IV + 2 * p.SPD + SPD_EV / 4) * level / 100 + 5);
-            stats[3] = (ushort)((SPE_IV + 2 * p.SPE + SPE_EV / 4) * level / 100 + 5);
-
-            // Account for nature
-            int incr = nature / 5 + 1;
-            int decr = nature % 5 + 1;
-            if (incr == decr) return stats; // if neutral return stats without mod
-            stats[incr] *= 11; stats[incr] /= 10;
-            stats[decr] *= 9; stats[decr] /= 10;
-
-            // Return Result
-            return stats;
-        }
 
         // PKX Manipulation
         internal static readonly byte[][] blockPosition =

@@ -268,10 +268,28 @@ namespace PKHeX
                 return ivTotal <= 150 ? 2 : 3;
             }
         }
-        
-        public void CalculateStats()
+
+        public ushort[] getStats(PersonalInfo p)
         {
-            ushort[] Stats = PKX.getStats(this);
+            int level = CurrentLevel;
+            ushort[] Stats = new ushort[6];
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : (IV_HP + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10);
+            Stats[1] = (ushort)((IV_ATK + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
+            Stats[2] = (ushort)((IV_DEF + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
+            Stats[4] = (ushort)((IV_SPA + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
+            Stats[5] = (ushort)((IV_SPD + 2 * p.SPD + EV_SPD / 4) * level / 100 + 5);
+            Stats[3] = (ushort)((IV_SPE + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
+
+            // Account for nature
+            int incr = Nature / 5 + 1;
+            int decr = Nature % 5 + 1;
+            if (incr == decr) return Stats;
+            Stats[incr] *= 11; Stats[incr] /= 10;
+            Stats[decr] *= 9; Stats[decr] /= 10;
+            return Stats;
+        }
+        public void setStats(ushort[] Stats)
+        {
             Stat_HPMax = Stat_HPCurrent = Stats[0];
             Stat_ATK = Stats[1];
             Stat_DEF = Stats[2];
