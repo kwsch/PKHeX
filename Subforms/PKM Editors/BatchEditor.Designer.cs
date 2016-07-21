@@ -149,7 +149,8 @@
             // 
             this.CB_Property.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Property.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Property.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Property.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Property.DropDownWidth = 200;
             this.CB_Property.FormattingEnabled = true;
             this.CB_Property.Location = new System.Drawing.Point(61, 40);

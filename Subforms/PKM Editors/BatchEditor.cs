@@ -220,8 +220,11 @@ namespace PKHeX
 
         private void B_Add_Click(object sender, EventArgs e)
         {
+            if (CB_Property.SelectedIndex < 0)
+            { Util.Alert("Invalid property selected."); return; }
+
             char[] prefix = {'.', '=', '!'};
-            string s = prefix[CB_Require.SelectedIndex] + CB_Property.Text + "=";
+            string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + "=";
             if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
                 s = Environment.NewLine + s;
 
