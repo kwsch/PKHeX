@@ -86,6 +86,9 @@ namespace PKHeX
                 setProgressBar(e.ProgressPercentage);
             };
             b.RunWorkerCompleted += (sender, e) => {
+                string result = $"Modified {ctr}/{len} files.";
+                if (err > 0)
+                    result += Environment.NewLine + $"{err} files ignored due to an internal error.";
                 Util.Alert(result);
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 setupProgressBar(0);
@@ -110,7 +113,7 @@ namespace PKHeX
         }
         
         // Mass Editing
-        private string result = "";
+        private int ctr, len, err;
         private IEnumerable<StringInstruction> getFilters()
         {
             var raw =
@@ -139,9 +142,7 @@ namespace PKHeX
         }
         private void processSAV(PKM[] data, List<StringInstruction> Filters, List<StringInstruction> Instructions)
         {
-            int len = 0;
-            int err = 0;
-            int ctr = 0;
+            len = err = ctr = 0;
             for (int i = 0; i < data.Length; i++)
             {
                 var pkm = data[i];
@@ -157,15 +158,10 @@ namespace PKHeX
             }
 
             Main.SAV.BoxData = data;
-            result = $"Modified {ctr}/{len} files.";
-            if (err > 0)
-                result += Environment.NewLine + $"{err} files ignored due to an internal error.";
         }
         private void processFolder(string[] files, List<StringInstruction> Filters, List<StringInstruction> Instructions)
         {
-            int len = 0;
-            int err = 0;
-            int ctr = 0;
+            len = err = ctr = 0;
             for (int i = 0; i < files.Length; i++)
             {
                 string file = files[i];
@@ -190,9 +186,6 @@ namespace PKHeX
 
                 b.ReportProgress(i);
             }
-            result = $"Modified {ctr}/{len} files.";
-            if (err > 0)
-                result += Environment.NewLine + $"{err} files ignored due to an internal error.";
         }
         
         private void tabMain_DragEnter(object sender, DragEventArgs e)
