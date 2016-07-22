@@ -55,6 +55,7 @@ namespace PKHeX
                 return;
 
             // Find control then change display Text.
+            form.SuspendLayout();
             foreach (string str in stringdata)
             {
                 string[] SplitString = str.Split(new[] { " = " }, StringSplitOptions.None);
@@ -72,6 +73,7 @@ namespace PKHeX
                 else if (c is ToolStripItem)
                     (c as ToolStripItem).Text = text;
             }
+            form.ResumeLayout();
         }
         private static object FindControl(string name, Control.ControlCollection c)
         {
