@@ -31,7 +31,7 @@ namespace PKHeX
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
-        public override int Ability { get { return PKX.Gen3Abilities[Species][AbilityNumber]; } set { } }
+        public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber]; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }
         public override int Met_Level { get { return -1; } set { } }
@@ -232,7 +232,7 @@ namespace PKHeX
                 IV_SPA = IV_SPA,
                 IV_SPD = IV_SPD,
                 IV_SPE = IV_SPE,
-                Ability = PKX.Gen3Abilities[Species][Ability],
+                Ability = Ability,
                 Version = Version,
                 Ball = Ball,
                 PKRS_Strain = PKRS_Strain,
