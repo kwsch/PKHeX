@@ -150,10 +150,6 @@ namespace PKHeX
                 Move2 = Move2,
                 Move3 = Move3,
                 Move4 = Move4,
-                Move1_PP = PKX.getBasePP(Move1),
-                Move2_PP = PKX.getBasePP(Move2),
-                Move3_PP = PKX.getBasePP(Move3),
-                Move4_PP = PKX.getBasePP(Move4),
                 Met_Location = MetLocation,
                 Met_Day = Day,
                 Met_Month = Month,
@@ -189,6 +185,10 @@ namespace PKHeX
                 OT_Friendship = PersonalTable.B2W2[Species].BaseFriendship,
                 FatefulEncounter = true,
             };
+            pk.Move1_PP = pk.getMovePP(Move1, 0);
+            pk.Move2_PP = pk.getMovePP(Move2, 0);
+            pk.Move3_PP = pk.getMovePP(Move3, 0);
+            pk.Move4_PP = pk.getMovePP(Move4, 0);
             if (OTGender == 3) // User's
             {
                 pk.TID = SAV.TID;

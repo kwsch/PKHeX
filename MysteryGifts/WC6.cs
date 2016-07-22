@@ -231,10 +231,6 @@ namespace PKHeX
                 Region = SAV.SubRegion,
                 ConsoleRegion = SAV.ConsoleRegion,
                 Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
-                Move1_PP = PKX.getBasePP(Move1),
-                Move2_PP = PKX.getBasePP(Move2),
-                Move3_PP = PKX.getBasePP(Move3),
-                Move4_PP = PKX.getBasePP(Move4),
                 RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
                 RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
                 Met_Location = MetLocation,
@@ -280,6 +276,10 @@ namespace PKHeX
                 OT_Feeling = OT_Feeling,
                 FatefulEncounter = true,
             };
+            pk.Move1_PP = pk.getMovePP(Move1, 0);
+            pk.Move2_PP = pk.getMovePP(Move2, 0);
+            pk.Move3_PP = pk.getMovePP(Move3, 0);
+            pk.Move4_PP = pk.getMovePP(Move4, 0);
 
             if (Day + Month + Year == 0) // No datetime set, typical for wc6full
             {

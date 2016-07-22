@@ -303,5 +303,26 @@ namespace PKHeX
         }
 
         public abstract PKM Clone();
+
+        public int getMovePP(int move, int ppup)
+        {
+            return getBasePP(move) * (5 + ppup) / 5;
+        }
+
+        private int getBasePP(int move)
+        {
+            int[] pptable;
+            switch (Format)
+            {
+                case 3: pptable = Legal.MovePP_RS; break;
+                case 4: pptable = Legal.MovePP_DP; break;
+                case 5: pptable = Legal.MovePP_BW; break;
+                case 6: pptable = Legal.MovePP_XY; break;
+                default: pptable = new int[1]; break;
+            }
+            if (move >= pptable.Length)
+                move = 0;
+            return pptable[move];
+        }
     }
 }

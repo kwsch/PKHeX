@@ -1644,10 +1644,10 @@ namespace PKHeX
         }
         private void updatePP(object sender, EventArgs e)
         {
-            TB_PP1.Text = PKX.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex).ToString();
-            TB_PP2.Text = PKX.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex).ToString();
-            TB_PP3.Text = PKX.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex).ToString();
-            TB_PP4.Text = PKX.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex).ToString();
+            TB_PP1.Text = pkm.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex).ToString();
+            TB_PP2.Text = pkm.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex).ToString();
+            TB_PP3.Text = pkm.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex).ToString();
+            TB_PP4.Text = pkm.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex).ToString();
         }
         private void updatePKRSstrain(object sender, EventArgs e)
         {

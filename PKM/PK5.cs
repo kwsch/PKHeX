@@ -370,10 +370,10 @@ namespace PKHeX
             pk6.Move3 = Move3;
             pk6.Move4 = Move4;
 
-            pk6.Move1_PP = PKX.getMovePP(Move1, Move1_PPUps);
-            pk6.Move2_PP = PKX.getMovePP(Move2, Move2_PPUps);
-            pk6.Move3_PP = PKX.getMovePP(Move3, Move3_PPUps);
-            pk6.Move4_PP = PKX.getMovePP(Move4, Move4_PPUps);
+            pk6.Move1_PP = getMovePP(Move1, Move1_PPUps);
+            pk6.Move2_PP = getMovePP(Move2, Move2_PPUps);
+            pk6.Move3_PP = getMovePP(Move3, Move3_PPUps);
+            pk6.Move4_PP = getMovePP(Move4, Move4_PPUps);
 
             pk6.Move1_PPUps = Move1_PPUps;
             pk6.Move2_PPUps = Move2_PPUps;

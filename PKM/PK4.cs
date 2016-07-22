@@ -380,10 +380,10 @@ namespace PKHeX
             };
 
             // Fix PP
-            pk5.Move1_PP = PKX.getMovePP(pk5.Move1_PP, pk5.Move1_PPUps);
-            pk5.Move2_PP = PKX.getMovePP(pk5.Move2_PP, pk5.Move2_PPUps);
-            pk5.Move3_PP = PKX.getMovePP(pk5.Move3_PP, pk5.Move3_PPUps);
-            pk5.Move4_PP = PKX.getMovePP(pk5.Move4_PP, pk5.Move4_PPUps);
+            pk5.Move1_PP = getMovePP(pk5.Move1_PP, pk5.Move1_PPUps);
+            pk5.Move2_PP = getMovePP(pk5.Move2_PP, pk5.Move2_PPUps);
+            pk5.Move3_PP = getMovePP(pk5.Move3_PP, pk5.Move3_PPUps);
+            pk5.Move4_PP = getMovePP(pk5.Move4_PP, pk5.Move4_PPUps);
 
             // Disassociate Nature and PID
             pk5.Nature = (int)(pk5.PID % 25);
