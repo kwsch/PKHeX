@@ -17,6 +17,7 @@ namespace PKHeX
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
         }
 
+        private const string CONST_RAND = "$rand";
         private int currentFormat = -1;
         private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
@@ -243,7 +244,15 @@ namespace PKHeX
             ModifyResult result = ModifyResult.Error;
             foreach (var cmd in Instructions)
             {
-                try { ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue); result = ModifyResult.Modified; }
+                try
+                {
+                    if (cmd.PropertyValue == CONST_RAND && (cmd.PropertyName == "PID" || cmd.PropertyName == "EncryptionConstant"))
+                        ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
+                    else
+                        ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
+
+                    result = ModifyResult.Modified;
+                }
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
             return result;
