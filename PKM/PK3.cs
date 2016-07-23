@@ -34,7 +34,6 @@ namespace PKHeX
         public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber]; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }
-        public override int Met_Level { get { return -1; } set { } }
 
         // 0x20 Intro
         public override uint PID { get { return BitConverter.ToUInt32(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
@@ -106,6 +105,7 @@ namespace PKHeX
         public override int Met_Location { get { return Data[0x45]; } set { Data[0x45] = (byte)value; } }
         // Origins
         private ushort Origins { get { return BitConverter.ToUInt16(Data, 0x46); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x46); } }
+        public override int Met_Level { get { return Origins & 0x3F; } set { Origins = (ushort)((Origins & ~0x3F) | value); } }
         public override int Version { get { return (Origins >> 7) & 0xF; } set { Origins = (ushort)((Origins & ~0x780) | ((value & 0xF) << 7));} }
         public override int Ball { get { return (Origins >> 11) & 0xF; } set { Origins = (ushort)((Origins & ~0x7800) | ((value & 0xF) << 11)); } }
         public override int OT_Gender { get { return (Origins >> 15) & 1; } set { Origins = (ushort)(Origins & ~(1 << 15) | ((value & 1) << 15)); } }
@@ -121,28 +121,28 @@ namespace PKHeX
         public int AbilityNumber { get { return (int)((IV32 >> 31) & 1); } set { IV32 = (IV32 & 0x7FFFFFFF) | (value == 1 ? 0x80000000 : 0); } }
 
         private uint RIB0 { get { return BitConverter.ToUInt32(Data, 0x4C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4C); } }
-        public int RibbonCountG3Cool { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7)); } }
-        public int RibbonCountG3Beauty { get { return (int)(RIB0 >> 03) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7)); } }
-        public int RibbonCountG3Cute  { get { return (int)(RIB0 >> 06) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7)); } }
-        public int RibbonCountG3Smart { get { return (int)(RIB0 >> 09) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7)); } }
-        public int RibbonCountG3Tough { get { return (int)(RIB0 >> 12) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7)); } }
-        public bool RibbonChampionG3Hoenn { get { return (RIB0 & (1 << 15)) == 1 << 15; } set { RIB0 = (uint)(RIB0 & ~(1 << 15) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonWinning { get { return (RIB0 & (1 << 16)) == 1 << 16; } set { RIB0 = (uint)(RIB0 & ~(1 << 16) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonVictory { get { return (RIB0 & (1 << 17)) == 1 << 17; } set { RIB0 = (uint)(RIB0 & ~(1 << 17) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonArtist { get { return (RIB0 & (1 << 18)) == 1 << 18; } set { RIB0 = (uint)(RIB0 & ~(1 << 18) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonEffort { get { return (RIB0 & (1 << 19)) == 1 << 19; } set { RIB0 = (uint)(RIB0 & ~(1 << 19) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonChampionBattle { get { return (RIB0 & (1 << 20)) == 1 << 20; } set { RIB0 = (uint)(RIB0 & ~(1 << 20) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonChampionRegional { get { return (RIB0 & (1 << 21)) == 1 << 21; } set { RIB0 = (uint)(RIB0 & ~(1 << 21) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonChampionNational { get { return (RIB0 & (1 << 22)) == 1 << 22; } set { RIB0 = (uint)(RIB0 & ~(1 << 22) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonCountry { get { return (RIB0 & (1 << 23)) == 1 << 23; } set { RIB0 = (uint)(RIB0 & ~(1 << 23) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonNational { get { return (RIB0 & (1 << 24)) == 1 << 24; } set { RIB0 = (uint)(RIB0 & ~(1 << 24) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonEarth { get { return (RIB0 & (1 << 25)) == 1 << 25; } set { RIB0 = (uint)(RIB0 & ~(1 << 25) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool RibbonWorld { get { return (RIB0 & (1 << 26)) == 1 << 26; } set { RIB0 = (uint)(RIB0 & ~(1 << 26) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Unused1 { get { return (RIB0 & (1 << 27)) == 1 << 27; } set { RIB0 = (uint)(RIB0 & ~(1 << 27) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Unused2 { get { return (RIB0 & (1 << 28)) == 1 << 28; } set { RIB0 = (uint)(RIB0 & ~(1 << 28) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Unused3 { get { return (RIB0 & (1 << 29)) == 1 << 29; } set { RIB0 = (uint)(RIB0 & ~(1 << 29) | (uint)(value ? 1 << 0 : 0)); } }
-        public bool Unused4 { get { return (RIB0 & (1 << 30)) == 1 << 30; } set { RIB0 = (uint)(RIB0 & ~(1 << 30) | (uint)(value ? 1 << 0 : 0)); } }
-        public override bool FatefulEncounter { get { return (RIB0 & (1 << 31)) == 1 << 31; } set { RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 0 : 0); } }
+        public int RibbonCountG3Cool        { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Beauty      { get { return (int)(RIB0 >> 03) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Cute        { get { return (int)(RIB0 >> 06) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Smart       { get { return (int)(RIB0 >> 09) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7)); } }
+        public int RibbonCountG3Tough       { get { return (int)(RIB0 >> 12) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7)); } }
+        public bool RibbonChampionG3Hoenn   { get { return (RIB0 & (1 << 15)) == 1 << 15; } set { RIB0 = (uint)(RIB0 & ~(1 << 15) | (uint)(value ? 1 << 15 : 0)); } }
+        public bool RibbonWinning           { get { return (RIB0 & (1 << 16)) == 1 << 16; } set { RIB0 = (uint)(RIB0 & ~(1 << 16) | (uint)(value ? 1 << 16 : 0)); } }
+        public bool RibbonVictory           { get { return (RIB0 & (1 << 17)) == 1 << 17; } set { RIB0 = (uint)(RIB0 & ~(1 << 17) | (uint)(value ? 1 << 17 : 0)); } }
+        public bool RibbonArtist            { get { return (RIB0 & (1 << 18)) == 1 << 18; } set { RIB0 = (uint)(RIB0 & ~(1 << 18) | (uint)(value ? 1 << 18 : 0)); } }
+        public bool RibbonEffort            { get { return (RIB0 & (1 << 19)) == 1 << 19; } set { RIB0 = (uint)(RIB0 & ~(1 << 19) | (uint)(value ? 1 << 19 : 0)); } }
+        public bool RibbonChampionBattle    { get { return (RIB0 & (1 << 20)) == 1 << 20; } set { RIB0 = (uint)(RIB0 & ~(1 << 20) | (uint)(value ? 1 << 20 : 0)); } }
+        public bool RibbonChampionRegional  { get { return (RIB0 & (1 << 21)) == 1 << 21; } set { RIB0 = (uint)(RIB0 & ~(1 << 21) | (uint)(value ? 1 << 21 : 0)); } }
+        public bool RibbonChampionNational  { get { return (RIB0 & (1 << 22)) == 1 << 22; } set { RIB0 = (uint)(RIB0 & ~(1 << 22) | (uint)(value ? 1 << 22 : 0)); } }
+        public bool RibbonCountry           { get { return (RIB0 & (1 << 23)) == 1 << 23; } set { RIB0 = (uint)(RIB0 & ~(1 << 23) | (uint)(value ? 1 << 23 : 0)); } }
+        public bool RibbonNational          { get { return (RIB0 & (1 << 24)) == 1 << 24; } set { RIB0 = (uint)(RIB0 & ~(1 << 24) | (uint)(value ? 1 << 24 : 0)); } }
+        public bool RibbonEarth             { get { return (RIB0 & (1 << 25)) == 1 << 25; } set { RIB0 = (uint)(RIB0 & ~(1 << 25) | (uint)(value ? 1 << 25 : 0)); } }
+        public bool RibbonWorld             { get { return (RIB0 & (1 << 26)) == 1 << 26; } set { RIB0 = (uint)(RIB0 & ~(1 << 26) | (uint)(value ? 1 << 26 : 0)); } }
+        public bool Unused1 { get { return (RIB0 & (1 << 27)) == 1 << 27; } set { RIB0 = (uint)(RIB0 & ~(1 << 27) | (uint)(value ? 1 << 27 : 0)); } }
+        public bool Unused2 { get { return (RIB0 & (1 << 28)) == 1 << 28; } set { RIB0 = (uint)(RIB0 & ~(1 << 28) | (uint)(value ? 1 << 28 : 0)); } }
+        public bool Unused3 { get { return (RIB0 & (1 << 29)) == 1 << 29; } set { RIB0 = (uint)(RIB0 & ~(1 << 29) | (uint)(value ? 1 << 29 : 0)); } }
+        public bool Unused4 { get { return (RIB0 & (1 << 30)) == 1 << 30; } set { RIB0 = (uint)(RIB0 & ~(1 << 30) | (uint)(value ? 1 << 30 : 0)); } }
+        public override bool FatefulEncounter { get { return RIB0 >> 31 == 1; } set { RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 31 : 0); } }
         #endregion
 
         public override int Stat_Level { get { return Data[0x54]; } set { Data[0x54] = (byte)value; } }

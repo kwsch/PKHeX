@@ -1780,7 +1780,7 @@ namespace PKHeX
             if (SAV.Generation == 3 && origintrack != "Gen3")
             {
                 var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] {254, 255});
+                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] {253, 254, 255});
                 origintrack = "Gen3";
                 CB_MetLocation.DisplayMember = "Text";
                 CB_MetLocation.ValueMember = "Value";
