@@ -204,7 +204,7 @@ namespace PKHeX
         }
 
         // Utility Methods
-        private class StringInstruction
+        public class StringInstruction
         {
             public string PropertyName;
             public string PropertyValue;
@@ -222,10 +222,14 @@ namespace PKHeX
             if (!PKM.ChecksumValid || PKM.Species == 0)
                 return ModifyResult.Invalid;
 
+            Type pkm = PKM.GetType();
+
             foreach (var cmd in Filters)
             {
                 try
                 {
+                    if (!pkm.HasProperty(cmd.PropertyName))
+                        return ModifyResult.Filtered;
                     if (ReflectUtil.GetValueEquals(PKM, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
                         return ModifyResult.Filtered;
                 }
