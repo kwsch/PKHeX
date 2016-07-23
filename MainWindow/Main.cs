@@ -1062,7 +1062,7 @@ namespace PKHeX
         {
             if (pk == null) { Util.Error("Attempted to load a null file."); return; }
 
-            if (pk.Format != SAV.Generation)
+            if (pk.Format > SAV.Generation)
             { Util.Alert("Can't load future generation files."); return; }
 
             bool oldInit = fieldsInitialized;
@@ -1079,7 +1079,7 @@ namespace PKHeX
             {
                 string c;
                 pkm = PKMConverter.convertToFormat(pkm, SAV.Generation, out c);
-                if (pk.Format != pkm.Format) // converted
+                if (pk.Format != pkm.Format && focus) // converted
                     Util.Alert("Converted File.");
             }
 
