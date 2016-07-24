@@ -793,8 +793,8 @@ L_Saying5 = 5:
 -------------------------------------------------------
 L_Details = 세부사항:
 L_Received = 받은 것들:
-B_Import = .wc6 넣기
-B_Output = .wc6 빼내기
+B_Import = 넣기
+B_Output = 빼내기
 B_Cancel = 취소
 B_Save = 저장
 ! End

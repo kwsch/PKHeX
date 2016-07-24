@@ -86,7 +86,8 @@ namespace PKHeX
         {
             try
             {
-                if (g.GiftUsed && DialogResult.Yes ==
+                // only check if the form is visible (not opening)
+                if (Visible && g.GiftUsed && DialogResult.Yes ==
                         Util.Prompt(MessageBoxButtons.YesNo,
                             "Wonder Card is marked as USED and will not be able to be picked up in-game.",
                             "Do you want to remove the USED flag so that it is UNUSED?"))
@@ -295,32 +296,35 @@ namespace PKHeX
         
         private void L_QR_Click(object sender, EventArgs e)
         {
-            if (SAV.Generation != 6)
-            {
-                Util.Alert("Feature not available for non Gen6 games.");
-                return;
-            }
             if (ModifierKeys == Keys.Alt)
             {
                 byte[] data = QR.getQRData();
                 if (data == null) return;
-                if (data.Length != WC6.Size) { Util.Alert($"Decoded data not 0x{WC6.Size.ToString("X")} bytes.",
-                    $"QR Data Size: 0x{data.Length.ToString("X")}"); }
-                else try { viewGiftData(new WC6(data)); }
-                catch { Util.Alert("Error loading wondercard data."); }
+
+                string[] types = mga.Gifts.Select(g => g.GetType().Name).Distinct().ToArray();
+                MysteryGift gift = MysteryGift.getMysteryGift(data);
+                string giftType = gift.GetType().Name;
+
+                if (mga.Gifts.All(card => card.Data.Length != data.Length))
+                    Util.Alert("Decoded data not valid for loaded save file.", $"QR Data Size: 0x{data.Length.ToString("X")}");
+                else if (types.All(type => type != giftType))
+                    Util.Alert("Gift type is not compatible with the save file.", $"QR Gift Type: {gift.GetType().Name}" + Environment.NewLine + $"Expected Types: {string.Join(", ", types)}");
+                else
+                    try { viewGiftData(gift); }
+                    catch { Util.Alert("Error loading Mystery Gift data."); }
             }
             else
             {
                 if (mg.Data.SequenceEqual(new byte[mg.Data.Length]))
                 { Util.Alert("No wondercard data found in loaded slot!"); return; }
-                if (mg.Item == 726 && mg.IsItem)
+                if (SAV.Generation == 6 && mg.Item == 726 && mg.IsItem)
                 { Util.Alert("Eon Ticket Wonder Cards will not function properly", "Inject to the save file instead."); return; }
 
                 const string server = "http://lunarcookies.github.io/wc.html#";
                 Image qr = QR.getQRImage(mg.Data, server);
                 if (qr == null) return;
 
-                string desc = getDescription(mg);
+                string desc = $"({mg.GetType().Name}) {getDescription(mg)}";
 
                 new QR(qr, PB_Preview.Image, desc, "", "", "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
             }
