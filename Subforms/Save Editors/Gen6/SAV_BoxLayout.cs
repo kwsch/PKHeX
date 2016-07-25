@@ -60,7 +60,7 @@ namespace PKHeX
             if (!editing)
                 SAV.Data[SAV.PCBackgrounds + LB_BoxSelect.SelectedIndex] = (byte)CB_BG.SelectedIndex;
 
-            PAN_BG.BackgroundImage = BoxWallpaper.getWallpaper(SAV, CB_BG.SelectedIndex + 1);
+            PAN_BG.BackgroundImage = BoxWallpaper.getWallpaper(SAV, CB_BG.SelectedIndex);
         }
     }
 }

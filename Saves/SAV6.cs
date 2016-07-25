@@ -646,7 +646,8 @@ namespace PKHeX
         }
         public override int getBoxWallpaper(int box)
         {
-            return 1 + Data[PCBackgrounds + box];
+            int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : 0;
+            return Data[ofs + box];
         }
         public override string getBoxName(int box)
         {
