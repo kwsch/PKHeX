@@ -15,7 +15,7 @@ namespace PKHeX
 
             Array.Copy(SAV.Data, SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
             Setup();
-            editor_spec = new object[]{
+            editor_spec = new Control[]{
                 GB_OT,
                 GB_CurrentMoves,
                 CB_Species,
@@ -54,7 +54,7 @@ namespace PKHeX
         private readonly string[] gendersymbols = Main.gendersymbols;
         private readonly byte[] data = new byte[0x1B40];
 
-        private readonly object[] editor_spec;
+        private readonly Control[] editor_spec;
 
         private void Setup()
         {
@@ -64,33 +64,24 @@ namespace PKHeX
             CB_Move2.Items.Clear();
             CB_Move3.Items.Clear();
             CB_Move4.Items.Clear();
+            
+            CB_Species.DisplayMember = "Text";
+            CB_Species.ValueMember = "Value";
+            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Skip(1), null);
 
-            #region Species
-            {
-                CB_Species.DisplayMember = "Text";
-                CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = Util.getCBList(Main.specieslist.Skip(1).Take(SAV.MaxSpeciesID).ToArray(), null);
-            }
-            #endregion
-            #region Moves
-            {
-                CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
-                CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
+            CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
+            CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
 
-                CB_Move1.DataSource = new BindingSource(Main.MoveDataSource, null);
-                CB_Move2.DataSource = new BindingSource(Main.MoveDataSource, null);
-                CB_Move3.DataSource = new BindingSource(Main.MoveDataSource, null);
-                CB_Move4.DataSource = new BindingSource(Main.MoveDataSource, null);
-            }
-            #endregion
-            #region Items
-            {
-                CB_HeldItem.DisplayMember = "Text";
-                CB_HeldItem.ValueMember = "Value";
-                CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
-            }
-            #endregion
+            CB_Move1.DataSource = new BindingSource(Main.MoveDataSource, null);
+            CB_Move2.DataSource = new BindingSource(Main.MoveDataSource, null);
+            CB_Move3.DataSource = new BindingSource(Main.MoveDataSource, null);
+            CB_Move4.DataSource = new BindingSource(Main.MoveDataSource, null);
+            
+            CB_HeldItem.DisplayMember = "Text";
+            CB_HeldItem.ValueMember = "Value";
+            CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -120,15 +111,15 @@ namespace PKHeX
             if (day == 0)
             {
                 s += "No records in this slot.";
-                foreach (object t in editor_spec)
-                    ((Control)t).Enabled = false;
+                foreach (Control t in editor_spec)
+                    t.Enabled = false;
 
                 editing = false;
                 NUP_PartyIndex_ValueChanged(sender, e);
                 goto end;
             }
-            foreach (object t in editor_spec)
-                ((Control)t).Enabled = true;
+            foreach (Control t in editor_spec)
+                t.Enabled = true;
 
             s += "Date: " + year + "/" + month + "/" + day + "" + Environment.NewLine + Environment.NewLine;
             CAL_MetDate.Value = new DateTime((int)year, (int)month, (int)day);
