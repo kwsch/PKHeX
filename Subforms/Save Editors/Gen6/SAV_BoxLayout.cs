@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -61,8 +60,7 @@ namespace PKHeX
             if (!editing)
                 SAV.Data[SAV.PCBackgrounds + LB_BoxSelect.SelectedIndex] = (byte)CB_BG.SelectedIndex;
 
-            string imagename = "box_wp" + (CB_BG.SelectedIndex + 1).ToString("00"); if (SAV.ORAS && CB_BG.SelectedIndex + 1 > 16) imagename += "o";
-            PAN_BG.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
+            PAN_BG.BackgroundImage = BoxWallpaper.getWallpaper(SAV, CB_BG.SelectedIndex + 1);
         }
     }
 }

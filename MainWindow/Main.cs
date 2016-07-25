@@ -2778,21 +2778,8 @@ namespace PKHeX
             if (SAV.HasBox)
             {
                 int boxoffset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
-                if (SAV.HasBoxWallpapers)
-                {
-                    int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
-                    string imagename = "";
-                    switch (SAV.Generation)
-                    {
-                        case 6:
-                            imagename = "box_wp" + boxbgval.ToString("00");
-                            if (SAV.ORAS && boxbgval > 16)
-                                imagename += "o";
-                            break;
-                    }
-                    if (!string.IsNullOrEmpty(imagename))
-                        PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
-                }
+                int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
+                PAN_Box.BackgroundImage = BoxWallpaper.getWallpaper(SAV, boxbgval);
 
                 for (int i = 0; i < 30; i++)
                     getSlotFiller(boxoffset + SAV.SIZE_STORED * i, SlotPictureBoxes[i]);

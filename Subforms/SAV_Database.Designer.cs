@@ -99,6 +99,7 @@
             this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchLegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchIllegal = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,7 +156,6 @@
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.Menu_SearchAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -992,6 +992,15 @@
             this.Menu_SearchIllegal.Size = new System.Drawing.Size(207, 22);
             this.Menu_SearchIllegal.Text = "Show Illegal";
             // 
+            // Menu_SearchAdvanced
+            // 
+            this.Menu_SearchAdvanced.CheckOnClick = true;
+            this.Menu_SearchAdvanced.Name = "Menu_SearchAdvanced";
+            this.Menu_SearchAdvanced.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.Menu_SearchAdvanced.Size = new System.Drawing.Size(207, 22);
+            this.Menu_SearchAdvanced.Text = "Advanced Search";
+            this.Menu_SearchAdvanced.Click += new System.EventHandler(this.Menu_SearchAdvanced_Click);
+            // 
             // Menu_OpenDB
             // 
             this.Menu_OpenDB.Image = global::PKHeX.Properties.Resources.folder;
@@ -1029,7 +1038,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = global::PKHeX.Properties.Resources.box_wp16;
+            this.PAN_Box.BackgroundImage = global::PKHeX.Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);
@@ -1800,15 +1809,6 @@
             this.RTB_Instructions.Size = new System.Drawing.Size(235, 352);
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
-            // 
-            // Menu_SearchAdvanced
-            // 
-            this.Menu_SearchAdvanced.CheckOnClick = true;
-            this.Menu_SearchAdvanced.Name = "Menu_SearchAdvanced";
-            this.Menu_SearchAdvanced.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.Menu_SearchAdvanced.Size = new System.Drawing.Size(207, 22);
-            this.Menu_SearchAdvanced.Text = "Advanced Search";
-            this.Menu_SearchAdvanced.Click += new System.EventHandler(this.Menu_SearchAdvanced_Click);
             // 
             // SAV_Database
             // 
