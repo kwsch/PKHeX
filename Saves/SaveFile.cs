@@ -50,6 +50,14 @@ namespace PKHeX
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;
         public bool XY => Version == GameVersion.X || Version == GameVersion.Y;
+        public bool B2W2 => Version == GameVersion.B2W2;
+        public bool BW => Version == GameVersion.BW;
+        public bool HGSS => Version == GameVersion.HGSS;
+        public bool Pt => Version == GameVersion.Pt;
+        public bool DP => Version == GameVersion.DP;
+        public bool E => Version == GameVersion.E;
+        public bool FRLG => Version == GameVersion.FRLG;
+        public bool RS => Version == GameVersion.RS;
 
         public virtual int MaxMoveID => int.MaxValue;
         public virtual int MaxSpeciesID => int.MaxValue;
