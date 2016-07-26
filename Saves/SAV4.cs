@@ -543,7 +543,7 @@ namespace PKHeX
             // Box Wallpaper is directly after the Box Names
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x18;
-            offset += BoxCount*0x28;
+            offset += BoxCount*0x28 + box;
             return Data[offset];
         }
         public override string getBoxName(int box)

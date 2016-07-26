@@ -392,7 +392,7 @@ namespace PKHeX
         {
             // Box Wallpaper is directly after the Box Names
             int offset = getBoxOffset(BoxCount);
-            offset += BoxCount * 0x9;
+            offset += BoxCount * 0x9 + box;
             return Data[offset];
         }
         public override string getBoxName(int box)

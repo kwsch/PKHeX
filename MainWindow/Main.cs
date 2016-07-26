@@ -1412,6 +1412,7 @@ namespace PKHeX
                 TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
+            pkm.EXP = Util.ToUInt32(TB_EXP.Text);
             updateStats();
             updateLegality();
         }
@@ -3256,7 +3257,8 @@ namespace PKHeX
             new Thread(() =>
             {
                 Thread.Sleep(500);
-                File.Delete(newfile);
+                if (File.Exists(newfile))
+                    File.Delete(newfile);
             }).Start();
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
