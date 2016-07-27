@@ -181,8 +181,8 @@
             this.Tab_OTMisc = new System.Windows.Forms.TabPage();
             this.FLP_PKMEditors = new System.Windows.Forms.FlowLayoutPanel();
             this.BTN_Ribbons = new System.Windows.Forms.Button();
-            this.BTN_History = new System.Windows.Forms.Button();
             this.BTN_Medals = new System.Windows.Forms.Button();
+            this.BTN_History = new System.Windows.Forms.Button();
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.GB_nOT = new System.Windows.Forms.GroupBox();
             this.Label_CTGender = new System.Windows.Forms.Label();
@@ -355,6 +355,7 @@
             this.B_OpenBerryField = new System.Windows.Forms.Button();
             this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.B_Pokeblocks = new System.Windows.Forms.Button();
+            this.B_LinkInfo = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
@@ -2289,22 +2290,6 @@
             this.BTN_Ribbons.UseVisualStyleBackColor = true;
             this.BTN_Ribbons.Click += new System.EventHandler(this.openRibbons);
             // 
-            // BTN_History
-            // 
-            this.BTN_History.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.BTN_History.AutoSize = true;
-            this.BTN_History.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BTN_History.Location = new System.Drawing.Point(112, 1);
-            this.BTN_History.Margin = new System.Windows.Forms.Padding(1);
-            this.BTN_History.Name = "BTN_History";
-            this.BTN_History.Size = new System.Drawing.Size(62, 23);
-            this.BTN_History.TabIndex = 6;
-            this.BTN_History.Text = "Memories";
-            this.BTN_History.UseVisualStyleBackColor = true;
-            this.BTN_History.Click += new System.EventHandler(this.openHistory);
-            // 
             // BTN_Medals
             // 
             this.BTN_Medals.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2320,6 +2305,22 @@
             this.BTN_Medals.Text = "Medals";
             this.BTN_Medals.UseVisualStyleBackColor = true;
             this.BTN_Medals.Click += new System.EventHandler(this.openMedals);
+            // 
+            // BTN_History
+            // 
+            this.BTN_History.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BTN_History.AutoSize = true;
+            this.BTN_History.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_History.Location = new System.Drawing.Point(112, 1);
+            this.BTN_History.Margin = new System.Windows.Forms.Padding(1);
+            this.BTN_History.Name = "BTN_History";
+            this.BTN_History.Size = new System.Drawing.Size(62, 23);
+            this.BTN_History.TabIndex = 6;
+            this.BTN_History.Text = "Memories";
+            this.BTN_History.UseVisualStyleBackColor = true;
+            this.BTN_History.Click += new System.EventHandler(this.openHistory);
             // 
             // TB_EC
             // 
@@ -4187,6 +4188,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenBerryField);
             this.FLP_SAVtools.Controls.Add(this.B_OpenSecretBase);
             this.FLP_SAVtools.Controls.Add(this.B_Pokeblocks);
+            this.FLP_SAVtools.Controls.Add(this.B_LinkInfo);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
@@ -4334,6 +4336,16 @@
             this.B_Pokeblocks.UseVisualStyleBackColor = true;
             this.B_Pokeblocks.Visible = false;
             this.B_Pokeblocks.Click += new System.EventHandler(this.B_OpenPokeblocks_Click);
+            // 
+            // B_LinkInfo
+            // 
+            this.B_LinkInfo.Location = new System.Drawing.Point(189, 119);
+            this.B_LinkInfo.Name = "B_LinkInfo";
+            this.B_LinkInfo.Size = new System.Drawing.Size(87, 23);
+            this.B_LinkInfo.TabIndex = 23;
+            this.B_LinkInfo.Text = "Link Data";
+            this.B_LinkInfo.UseVisualStyleBackColor = true;
+            this.B_LinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
             // 
             // dragout
             // 
@@ -4870,6 +4882,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_BatchEditor;
         private System.Windows.Forms.Button BTN_Medals;
         private System.Windows.Forms.FlowLayoutPanel FLP_PKMEditors;
+        private System.Windows.Forms.Button B_LinkInfo;
     }
 }
 

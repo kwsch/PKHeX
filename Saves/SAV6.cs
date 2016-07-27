@@ -201,6 +201,7 @@ namespace PKHeX
                 WondercardFlags = 0x1BC00;
                 SUBE = 0x1D890;
                 SuperTrain = 0x1F200;
+                LinkInfo = 0x1FE00;
                 Box = 0x22600;
                 JPEG = 0x57200;
 
@@ -246,6 +247,7 @@ namespace PKHeX
                 SUBE = 0x1D890;
                 PSSStats = 0x1F400;
                 SuperTrain = 0x20200;
+                LinkInfo = 0x20E00;
                 Contest = 0x23600;
                 SecretBase = 0x23A00;
                 EonTicket = 0x319B8;
@@ -285,6 +287,7 @@ namespace PKHeX
         private int JPEG { get; set; } = int.MinValue;
         private int ItemInfo { get; set; } = int.MinValue;
         private int Daycare2 { get; set; } = int.MinValue;
+        private int LinkInfo { get; set; } = int.MinValue;
 
         // Accessible as SAV6
         public int TrainerCard { get; private set; } = 0x14000;
@@ -822,6 +825,25 @@ namespace PKHeX
                     setWC6(new WC6(), i);
             }
         }
+
+        public byte[] LinkBlock
+        {
+            get
+            {
+                if (LinkInfo < 0)
+                    return null;
+                return Data.Skip(LinkInfo).Take(0xC48).ToArray();
+            }
+            set
+            {
+                if (LinkInfo < 0)
+                    return;
+                if (value.Length != 0xC48)
+                    return;
+                value.CopyTo(Data, LinkInfo);
+            }
+        }
+
         private WC6 getWC6(int index)
         {
             if (WondercardData < 0)

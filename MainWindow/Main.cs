@@ -738,6 +738,7 @@ namespace PKHeX
             B_Pokeblocks.Visible = SAV.HasPokeBlock;
             B_JPEG.Visible = SAV.HasJPEG;
             B_OpenEventFlags.Visible = SAV.HasEvents;
+            B_LinkInfo.Visible = SAV.HasLink;
             
             // Generational Interface
             byte[] extraBytes = new byte[1];
@@ -3174,6 +3175,10 @@ namespace PKHeX
         private void B_OpenSecretBase_Click(object sender, EventArgs e)
         {
             new SAV_SecretBase().ShowDialog();
+        }
+        private void B_LinkInfo_Click(object sender, EventArgs e)
+        {
+            new SAV_Link6().ShowDialog();
         }
         private void B_JPEG_Click(object sender, EventArgs e)
         {

@@ -88,6 +88,7 @@ namespace PKHeX
         public virtual bool HasGeolocation => false;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
         public bool HasEvents => EventFlags != null;
+        public bool HasLink => ORAS && !ORASDEMO || XY;
 
         // Counts
         protected virtual int GiftCountMax { get; } = int.MinValue;
