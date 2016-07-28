@@ -90,6 +90,9 @@ namespace PKHeX
             TB_PP3.Text = pk3.Move3_PP.ToString();
             TB_PP4.Text = pk3.Move4_PP.ToString();
 
+            // Set Form if count is enough, else cap.
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk3.AltForm ? pk3.AltForm : CB_Form.Items.Count - 1;
+
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk3.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 

@@ -1128,13 +1128,13 @@ namespace PKHeX
         }
         private void setForms()
         {
-            if (SAV.Generation < 4)
+            int species = Util.getIndex(CB_Species);
+            if (SAV.Generation < 4 && species != 201)
             {
                 Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
                 return;
             }
 
-            int species = Util.getIndex(CB_Species);
             bool hasForms = SAV.Personal[species].HasFormes || new[] { 201, 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
@@ -1626,7 +1626,12 @@ namespace PKHeX
             setAbilityList();
 
             // Gender Forms
-            if (PKX.getGender(CB_Form.Text) < 2 && Util.getIndex(CB_Species) != 201) // don't do this for Unown
+            if (Util.getIndex(CB_Species) == 201)
+            {
+                if (fieldsLoaded && SAV.Generation == 3)
+                    updateRandomPID(sender, e); // Fix AltForm
+            }
+            else if (PKX.getGender(CB_Form.Text) < 2)
                 Label_Gender.Text = CB_Form.Text;
 
             if (changingFields) 

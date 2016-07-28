@@ -25,7 +25,7 @@ namespace PKHeX
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int Nature { get { return (int)(PID % 25); } set { } }
-        public override int AltForm { get { return -1; } set { } }
+        public override int AltForm { get { return Species == 201 ? PKX.getUnownForm(PID) : 0; } set { } }
 
         public override bool IsNicknamed { get { return PKX.getIsNicknamed(Species, Nickname); } set { } }
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
@@ -294,8 +294,7 @@ namespace PKHeX
             pk4.IsNicknamed = IsNicknamed;
 
             // Unown Form
-            if (Species == 201)
-                pk4.AltForm = PKX.getUnownForm(PID);
+            pk4.AltForm = AltForm;
 
             // Remove HM moves
             int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };
