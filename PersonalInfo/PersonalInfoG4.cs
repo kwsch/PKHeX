@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace PKHeX
 {
@@ -21,5 +22,9 @@ namespace PKHeX
             // setBits(TypeTutors).CopyTo(Data, 0x38);
             return Data;
         }
+
+        // Manually added attributes
+        public override int FormeCount { get { return Data[0x29]; } set {} }
+        protected override int FormStatsIndex { get { return BitConverter.ToUInt16(Data, 0x2A); } set {} }
     }
 }

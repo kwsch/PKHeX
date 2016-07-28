@@ -1135,7 +1135,7 @@ namespace PKHeX
             }
 
             int species = Util.getIndex(CB_Species);
-            bool hasForms = SAV.Personal[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            bool hasForms = SAV.Personal[species].HasFormes || new[] { 201, 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
             if (!hasForms)

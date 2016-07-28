@@ -551,7 +551,6 @@ namespace PKHeX
                         t[000], // Normal
                         f[723], // Mega
                     };}
-            // MegaXY List
             switch (species)
             {
                 case 6:
@@ -572,6 +571,12 @@ namespace PKHeX
                         f[732], // PhD
                         f[733], // Libre
                         f[734], // Cosplay
+                    };
+                case 172:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[000], // Spiky
                     };
                 case 201:
                     return new[]
