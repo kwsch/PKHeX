@@ -204,6 +204,8 @@ namespace PKHeX
                 pk4.AltForm = PKX.getUnownForm(pk4.PID);
             if (IsEgg || IsManaphyEgg)
                 pk4.IsEgg = true;
+
+            pk4.RefreshChecksum();
             return pk4;
         }
     }
