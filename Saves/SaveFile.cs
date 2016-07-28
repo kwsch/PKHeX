@@ -32,7 +32,7 @@ namespace PKHeX
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
-        public byte[] Write(bool DSV)
+        public virtual byte[] Write(bool DSV)
         {
             setChecksums();
             if (Footer.Length > 0 && DSV)

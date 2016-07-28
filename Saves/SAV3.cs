@@ -57,7 +57,7 @@ namespace PKHeX
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
-            Array.Resize(ref Data, Data.Length + 0x10000); // More than enough empty space.
+            Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
 
             // Copy chunk to the allocated location
             for (int i = 5; i < 14; i++)
@@ -107,6 +107,22 @@ namespace PKHeX
 
             if (!Exportable)
                 resetBoxes();
+        }
+
+        private const int SIZE_RESERVED = 0x10000; // unpacked box data
+        public override byte[] Write(bool DSV)
+        {
+            // Copy Box data back
+            for (int i = 5; i < 14; i++)
+            {
+                int blockIndex = Array.IndexOf(BlockOrder, i);
+                if (blockIndex == -1) // block empty
+                    continue;
+                Array.Copy(Data, Box + (i - 5) * 0xF80, Data, blockIndex * 0x1000 + ABO, chunkLength[i]);
+            }
+
+            setChecksums();
+            return Data.Take(Data.Length - SIZE_RESERVED).ToArray();
         }
 
         private readonly int ActiveSAV;
