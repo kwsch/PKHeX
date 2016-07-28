@@ -10,7 +10,7 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-
+            itemlist = SAV.Generation == 3 ? Main.g3items : Main.itemlist;
             Pouches = SAV.Inventory;
             getBags();
         }
@@ -110,7 +110,7 @@ namespace PKHeX
             for (int i = 0; i < pouch.Items.Length; i++)
             {
                 int itemvalue = pouch.Items[i].Index;
-                try { itemname = Main.itemlist[itemvalue]; }
+                try { itemname = itemlist[itemvalue]; }
                 catch
                 {
                     Util.Error("Unknown item detected.", "Item ID: " + itemvalue, "Item is after: " + itemname);
@@ -145,7 +145,7 @@ namespace PKHeX
                 for (int i = 0; i < dgv.Rows.Count; i++)
                 {
                     string item = dgv.Rows[i].Cells[0].Value.ToString();
-                    int itemindex = Array.IndexOf(Main.itemlist, item);
+                    int itemindex = Array.IndexOf(itemlist, item);
                     int itemcnt;
                     try
                     { itemcnt = Convert.ToUInt16(dgv.Rows[i].Cells[1].Value.ToString()); }
@@ -167,12 +167,13 @@ namespace PKHeX
         }
 
         // Initialize String Tables
+        private readonly string[] itemlist;
         private string[] getItems(ushort[] items, bool sort = true)
         {
             string[] res = new string[items.Length + 1];
             for (int i = 0; i < res.Length - 1; i++)
-                res[i] = Main.itemlist[items[i]];
-            res[items.Length] = Main.itemlist[0];
+                res[i] = itemlist[items[i]];
+            res[items.Length] = itemlist[0];
             if (sort)
                 Array.Sort(res);
             return res;
@@ -194,7 +195,7 @@ namespace PKHeX
             {
                 for (int i = 0; i < legalitems.Length; i++)
                 {
-                    dgv.Rows[i].Cells[0].Value = Main.itemlist[0];
+                    dgv.Rows[i].Cells[0].Value = itemlist[0];
                     dgv.Rows[i].Cells[1].Value = 0;
                 }
                 Util.Alert("Items cleared.");
@@ -211,12 +212,12 @@ namespace PKHeX
                 switch (SAV.Generation)
                 {
                     case 3: {
-                        itemname = Main.itemlist[item];
+                        itemname = itemlist[item];
                         if (Legal.Pouch_HM_RS.Contains(legalitems[i])) c = 1;
                         break;
                     }
                     default: {
-                        itemname = Main.itemlist[item];
+                        itemname = itemlist[item];
                         if (new[] { 420, 421, 422, 423, 423, 424, 425, 426, 427, 737 }.Contains(legalitems[i])) c = 1;
                         break;
                     }
