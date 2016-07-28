@@ -154,7 +154,7 @@ namespace PKHeX
             {
                 PKM[] data = new PKM[PartyCount];
                 for (int i = 0; i < data.Length; i++)
-                    data[i] = getPartySlot(Party + SIZE_PARTY * i);
+                    data[i] = getPartySlot(getPartyOffset(i));
                 return data;
             }
             set
