@@ -1629,7 +1629,8 @@ namespace PKHeX
         }
         private void updateForm(object sender, EventArgs e)
         {
-            pkm.AltForm = CB_Form.SelectedIndex;
+            if (CB_Form == sender && fieldsLoaded)
+                pkm.AltForm = CB_Form.SelectedIndex;
             updateStats();
             // Repopulate Abilities if Species Form has different abilities
             setAbilityList();
