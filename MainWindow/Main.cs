@@ -689,10 +689,19 @@ namespace PKHeX
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
             if (sav.Generation <= 3) // Japanese Save files are different. Get isJapanese
             {
-                var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected.", "Does this file originate from a Japanese game?");
-                if (dr == DialogResult.Cancel)
+                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
+                if (drJP == DialogResult.Cancel)
                     return;
-                sav.Japanese = dr == DialogResult.Yes;
+                sav.Japanese = drJP == DialogResult.No;
+
+                if (sav.Version == GameVersion.FRLG)
+                {
+                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, "FRLG Detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
+                    if (drFRLG == DialogResult.Cancel)
+                        return;
+
+                    sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
+                }
             }
             SAV = sav;
 

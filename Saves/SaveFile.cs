@@ -45,7 +45,7 @@ namespace PKHeX
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
         public abstract int Generation { get; }
-        public PersonalTable Personal { get; protected set; }
+        public PersonalTable Personal { get; set; }
 
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;
