@@ -58,14 +58,14 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Gather Updated Flags
-            foreach (CheckBox flag in TLP_Flags.Controls)
+            foreach (CheckBox flag in TLP_Flags.Controls.OfType<CheckBox>())
                 flags[getControlNum(flag)] = flag.Checked;
             SAV.EventFlags = flags;
 
             // Copy back Constants
             changeConstantIndex(null, null); // Trigger Saving
             SAV.EventConsts = Constants;
-
+            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
             Close();
         }
 
