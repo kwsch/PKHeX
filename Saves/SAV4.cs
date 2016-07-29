@@ -535,8 +535,8 @@ namespace PKHeX
         // Storage
         public override int CurrentBox
         {
-            get { return Data[Box - 4]; }
-            set { Data[Box - 4] = (byte)value; }
+            get { return Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4]; }
+            set { Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4] = (byte)value; }
         }
         public override int getBoxWallpaper(int box)
         {
