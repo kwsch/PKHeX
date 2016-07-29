@@ -224,7 +224,7 @@ namespace PKHeX
             uint val = 0;
             for (int i = 0; i < data.Length; i += 4)
                 val += BitConverter.ToUInt32(data, i);
-            return (ushort)(val + val >> 16);
+            return (ushort)((val & 0xFFFF) + (val >> 16));
         }
 
         public static int getDexFormIndexXY(int species, int formct)
