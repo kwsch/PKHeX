@@ -1805,7 +1805,26 @@ namespace PKHeX
                 CB_MetLocation.DataSource = met_list;
                 CB_MetLocation.SelectedValue = 0;
             }
-            else if (Version < 24 && origintrack != "Past" && SAV.Generation >= 4)
+            else if (SAV.Generation == 4 && origintrack != "Gen4")
+            {
+                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
+                CB_MetLocation.DisplayMember = "Text";
+                CB_MetLocation.ValueMember = "Value";
+                CB_MetLocation.DataSource = met_list;
+                CB_EggLocation.DisplayMember = "Text";
+                CB_EggLocation.ValueMember = "Value";
+                CB_EggLocation.DataSource = new BindingSource(met_list, null);
+                CB_EggLocation.SelectedValue = 0;
+                CB_MetLocation.SelectedValue = 0;
+                origintrack = "Gen4";
+            }
+            else if (Version < 24 && origintrack != "Past" && SAV.Generation >= 5)
             {
                 // Load Past Gen Locations
                 #region B2W2 Met Locations
@@ -1855,23 +1874,8 @@ namespace PKHeX
                 }
                 #endregion
             }
-            else if (SAV.Generation == 4 && origintrack != "Gen4")
-            {
-                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
-                CB_MetLocation.DisplayMember = "Text";
-                CB_MetLocation.ValueMember = "Value";
-                CB_MetLocation.DataSource = met_list;
-                CB_MetLocation.SelectedValue = 0;
-                origintrack = "Gen4";
-            }
 
-            if (SAV.Generation > 3 && Version < 0x10 && origintrack != "Gen4")
+            if (SAV.Generation >= 4 && Version < 0x10 && origintrack != "Gen4")
             {
                 // Load Gen 4 egg locations if Gen 4 Origin.
                 #region HGSS Met Locations
