@@ -47,7 +47,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(318, 249);
+            this.B_Save.Location = new System.Drawing.Point(418, 249);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(90, 23);
             this.B_Save.TabIndex = 1;
@@ -58,7 +58,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(222, 249);
+            this.B_Cancel.Location = new System.Drawing.Point(322, 249);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(90, 23);
             this.B_Cancel.TabIndex = 2;
@@ -98,7 +98,7 @@
             this.PAN_Container.Controls.Add(this.SPLIT_Ribbons);
             this.PAN_Container.Location = new System.Drawing.Point(12, 12);
             this.PAN_Container.Name = "PAN_Container";
-            this.PAN_Container.Size = new System.Drawing.Size(396, 231);
+            this.PAN_Container.Size = new System.Drawing.Size(496, 231);
             this.PAN_Container.TabIndex = 6;
             // 
             // SPLIT_Ribbons
@@ -121,8 +121,8 @@
             this.SPLIT_Ribbons.Panel2.Controls.Add(this.TLP_Ribbons);
             this.SPLIT_Ribbons.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.SPLIT_Ribbons.Panel2MinSize = 1;
-            this.SPLIT_Ribbons.Size = new System.Drawing.Size(394, 229);
-            this.SPLIT_Ribbons.SplitterDistance = 180;
+            this.SPLIT_Ribbons.Size = new System.Drawing.Size(494, 229);
+            this.SPLIT_Ribbons.SplitterDistance = 270;
             this.SPLIT_Ribbons.SplitterWidth = 1;
             this.SPLIT_Ribbons.TabIndex = 7;
             // 
@@ -132,7 +132,7 @@
             this.FLP_Ribbons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Ribbons.Location = new System.Drawing.Point(0, 0);
             this.FLP_Ribbons.Name = "FLP_Ribbons";
-            this.FLP_Ribbons.Size = new System.Drawing.Size(178, 227);
+            this.FLP_Ribbons.Size = new System.Drawing.Size(268, 227);
             this.FLP_Ribbons.TabIndex = 5;
             // 
             // TLP_Ribbons
@@ -147,14 +147,14 @@
             this.TLP_Ribbons.Name = "TLP_Ribbons";
             this.TLP_Ribbons.RowCount = 1;
             this.TLP_Ribbons.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Ribbons.Size = new System.Drawing.Size(211, 227);
+            this.TLP_Ribbons.Size = new System.Drawing.Size(221, 227);
             this.TLP_Ribbons.TabIndex = 3;
             // 
             // RibbonEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 281);
+            this.ClientSize = new System.Drawing.Size(524, 281);
             this.Controls.Add(this.PAN_Container);
             this.Controls.Add(this.B_None);
             this.Controls.Add(this.B_All);
@@ -162,7 +162,7 @@
             this.Controls.Add(this.B_Save);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(440, 320);
+            this.MinimumSize = new System.Drawing.Size(540, 320);
             this.Name = "RibbonEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Ribbon Editor";

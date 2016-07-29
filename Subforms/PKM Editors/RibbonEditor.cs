@@ -89,6 +89,7 @@ namespace PKHeX
                 Name = PrefixLabel + rib.Name,
                 Text = rib.Name,
                 Padding = Padding.Empty,
+                Margin = Padding.Empty,
                 AutoSize = true,
             };
             TLP_Ribbons.Controls.Add(label, 1, row);
@@ -103,6 +104,7 @@ namespace PKHeX
                     Width = 35,
                     Increment = 1,
                     Padding = Padding.Empty,
+                    Margin = Padding.Empty,
                 };
                 if (rib.Name.Contains("MemoryContest"))
                     nud.Maximum = 40;
@@ -141,10 +143,13 @@ namespace PKHeX
                     Name = PrefixCHK + rib.Name,
                     AutoSize = true,
                     Padding = Padding.Empty,
+                    Margin = Padding.Empty,
                 };
                 chk.CheckedChanged += (sender, e) => { rib.HasRibbon = chk.Checked; FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.HasRibbon; };
                 chk.Checked = rib.HasRibbon;
                 TLP_Ribbons.Controls.Add(chk, 0, row);
+
+                label.Click += (sender, e) => { chk.Checked ^= true; };
             }
         }
         private void save()
