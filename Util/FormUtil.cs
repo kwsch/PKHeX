@@ -138,5 +138,19 @@ namespace PKHeX
         {
             return (int)(cb?.SelectedValue ?? 0);
         }
+
+        public static void FlowLayoutPanelScroll(object sender, ScrollEventArgs e)
+        {
+            var p = sender as FlowLayoutPanel;
+            switch (e.ScrollOrientation)
+            {
+                case ScrollOrientation.HorizontalScroll:
+                    p.HorizontalScroll.Value = e.NewValue;
+                    break;
+                case ScrollOrientation.VerticalScroll:
+                    p.VerticalScroll.Value = e.NewValue;
+                    break;
+            }
+        }
     }
 }
