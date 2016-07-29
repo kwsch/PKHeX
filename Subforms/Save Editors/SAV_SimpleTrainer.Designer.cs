@@ -673,6 +673,7 @@
             this.Controls.Add(this.GB_Adventure);
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "SAV_SimpleTrainer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trainer Data Editor";
             this.GB_Adventure.ResumeLayout(false);
             this.GB_Adventure.PerformLayout();
