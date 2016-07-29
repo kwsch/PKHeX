@@ -77,7 +77,11 @@ namespace PKHeX
             // Detect RS/E/FRLG
             // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
 
-            uint GameCode = BitConverter.ToUInt32(data, Array.IndexOf(BlockOrder, 0) * 0x1000 + 0xAC);
+            int Block0 = Array.IndexOf(BlockOrder, 0);
+            uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC);
+            if (GameCode == uint.MaxValue)
+                return GameVersion.Unknown; // what a hack
+            
             switch (GameCode)
             {
                 case 0: return GameVersion.RS;

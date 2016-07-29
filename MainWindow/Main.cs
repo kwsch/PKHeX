@@ -689,6 +689,22 @@ namespace PKHeX
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
             if (sav.Generation <= 3) // Japanese Save files are different. Get isJapanese
             {
+                if (sav.Version == GameVersion.Unknown)
+                {
+                    // Hacky cheats invalidated the Game Code value.
+                    var drGame = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                        "Unknown Gen3 Game Detected. Select Origins:",
+                        "Yes: Ruby / Sapphire" + Environment.NewLine + 
+                        "No: Emerald" + Environment.NewLine +
+                        "Cancel: FireRed / LeafGreen");
+
+                    if (drGame == DialogResult.Yes)
+                        sav = new SAV3(sav.Data, GameVersion.RS);
+                    else if (drGame == DialogResult.No)
+                        sav = new SAV3(sav.Data, GameVersion.E);
+                    else
+                        sav = new SAV3(sav.Data, GameVersion.FRLG);
+                }
                 var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
                 if (drJP == DialogResult.Cancel)
                     return;
