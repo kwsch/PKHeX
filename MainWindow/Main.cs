@@ -1276,12 +1276,21 @@ namespace PKHeX
             if (gt >= 255) return; 
             // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
 
-            pkm.Gender = PKX.getGender(Label_Gender.Text) ^ 1;
+            int newGender = PKX.getGender(Label_Gender.Text) ^ 1;
+            if (SAV.Generation <= 4)
+            {
+                pkm.Species = Util.getIndex(CB_Species);
+                pkm.Version = Util.getIndex(CB_GameOrigin);
+                pkm.Nature = CB_Nature.SelectedIndex;
+                pkm.AltForm = CB_Form.SelectedIndex;
+
+                pkm.setPIDGender(newGender);
+                TB_PID.Text = pkm.PID.ToString("X8");
+            }
+            pkm.Gender = newGender;
             Label_Gender.Text = gendersymbols[pkm.Gender];
             Label_Gender.ForeColor = pkm.Gender == 2 ? Label_Species.ForeColor : (pkm.Gender == 1 ? Color.Red : Color.Blue);
 
-            if (SAV.Generation < 6)
-                updateRandomPID(null, null);
 
             if (PKX.getGender(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
@@ -1962,6 +1971,9 @@ namespace PKHeX
                 incr != decr
                     ? $"+{labarray[incr].Text} / -{labarray[decr].Text}".Replace(":", "")
                     : "-/-");
+
+            if (fieldsLoaded && SAV.Generation <= 4)
+                updateRandomPID(sender, e);
         }
         private void updateNickname(object sender, EventArgs e)
         {

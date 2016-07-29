@@ -331,5 +331,13 @@ namespace PKHeX
                 PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm);
             EncryptionConstant = PID;
         }
+        public void setPIDGender(int gender)
+        {
+            PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm);
+            while (IsShiny)
+                PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm);
+
+            EncryptionConstant = PID;
+        }
     }
 }
