@@ -13,6 +13,8 @@ namespace PKHeX
         // Internal Attributes set on creation
         public byte[] Data; // Raw Storage
         public string Identifier; // User or Form Custom Attribute
+        public int Box { get; set; } = -1; // Batch Editor
+        public int Slot { get; set; } = -1; // Batch Editor
 
         public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
         public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();

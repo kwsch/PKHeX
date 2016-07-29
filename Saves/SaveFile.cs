@@ -132,6 +132,8 @@ namespace PKHeX
                 {
                     data[i] = getStoredSlot(getBoxOffset(i/30) + SIZE_STORED*(i%30));
                     data[i].Identifier = $"{getBoxName(i/30)}:{(i%30 + 1).ToString("00")}";
+                    data[i].Box = i/30 + 1;
+                    data[i].Slot = i%30 + 1;
                 }
                 return data;
             }

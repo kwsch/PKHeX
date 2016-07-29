@@ -18,6 +18,7 @@ namespace PKHeX
         }
 
         private const string CONST_RAND = "$rand";
+        private const string CONST_SHINY = "$shiny";
         private int currentFormat = -1;
         private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
@@ -248,6 +249,8 @@ namespace PKHeX
                 {
                     if (cmd.PropertyValue == CONST_RAND && (cmd.PropertyName == "PID" || cmd.PropertyName == "EncryptionConstant"))
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
+                    else if (cmd.PropertyValue == CONST_SHINY && cmd.PropertyName == "PID")
+                        PKM.setShinyPID();
                     else
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
 
