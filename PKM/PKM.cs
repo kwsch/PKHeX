@@ -324,5 +324,12 @@ namespace PKHeX
                 move = 0;
             return pptable[move];
         }
+
+        public void setShinyPID()
+        {
+            while (!IsShiny)
+                PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm);
+            EncryptionConstant = PID;
+        }
     }
 }

@@ -719,6 +719,7 @@ namespace PKHeX
                     sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
                 }
             }
+            PKM pk = preparePKM();
             SAV = sav;
 
             SAV.FilePath = Path.GetDirectoryName(path);
@@ -818,7 +819,6 @@ namespace PKHeX
                     TB_Secure2.Text = sav6.Secure2.ToString("X16");
                     break;
             }
-            PKM pk = preparePKM();
             bool init = fieldsInitialized;
             fieldsInitialized = false;
             populateFilteredDataSources();
@@ -2061,39 +2061,21 @@ namespace PKHeX
         }
         private void updateShinyPID(object sender, EventArgs e)
         {
-            uint TID = Util.ToUInt32(TB_TID.Text);
-            uint SID = Util.ToUInt32(TB_SID.Text);
-            uint PID = Util.getHEXval(TB_PID.Text);
-            if (SAV.Generation == 4)
-            {
-                int nature = Util.getIndex(CB_Nature);
-                int species = Util.getIndex(CB_Species);
-                int gender = PKX.getGender(Label_Gender.Text);
-                
-                uint oldbits = PID & 0x00010001;
-                while ((TID ^ SID ^ (PID >> 16) ^ PID & 0xFFFF) > 8 || (PID & 0x00010001) != oldbits || PID%25 != nature || gender != PKX.getGender(species, PID))
-                    PID = Util.rnd32();
-                TB_PID.Text = PID.ToString("X8");
+            pkm.TID = Util.ToInt32(TB_TID.Text);
+            pkm.SID = Util.ToInt32(TB_SID.Text);
+            pkm.PID = Util.getHEXval(TB_PID.Text);
+            pkm.Nature = Util.getIndex(CB_Nature);
+            pkm.Gender = PKX.getGender(Label_Gender.Text);
+            pkm.AltForm = CB_Form.SelectedIndex;
 
-                getQuickFiller(dragout);
-                return;
-            }
+            pkm.setShinyPID();
+            TB_PID.Text = pkm.PID.ToString("X8");
 
-            uint UID = PID >> 16;
-            uint LID = PID & 0xFFFF;
-            uint PSV = UID ^ LID;
-            uint TSV = TID ^ SID;
-            uint XOR = TSV ^ PSV;
-
-            // Preserve Gen5 Origin Ability bit just in case
-            XOR &= 0xFFFE; XOR |= UID & 1;
-
-            // New XOR should be 0 or 1.
-            TB_PID.Text = (((UID ^ XOR) << 16) + LID).ToString("X8");
-            if (Util.getIndex(CB_GameOrigin) < 24) // Pre Gen6
+            if (pkm.Format >= 6)
                 TB_EC.Text = TB_PID.Text;
 
             getQuickFiller(dragout);
+            updateLegality();
         }
         private void updateTSV(object sender, EventArgs e)
         {
