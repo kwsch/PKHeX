@@ -726,7 +726,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Hotfix: Fixed Gen 5 save file detection. Thanks xtreme1!
  - Hotfix: Fixed Bad Eggs from causing past gen dumping to abort. Thanks xtreme1!
 
-07/28/16 - New Update:
+07/28/16 - New Update: (9500)
  - Fixed: Base save file when no save is loaded now has more realistic data (Console Region and Country fixed).
  - Fixed: Loading a X/Y save file will no longer have OR/AS exclusive items/moves/forms available as choices.
  - Fixed: Certain edge case Wonder Cards now are recognized correctly.
@@ -751,3 +751,15 @@ http://projectpokemon.org/forums/showthread.php?36986
  - - ".": Sets the attribute to the specified value if all filters are satisfied.
  - Changed: Database can now search pk3/pk4/pk5/pk6 files. 
  - - An advance search option has been added, uses the same filter style as the Batch Editor.
+
+07/30/16 - New Update:
+ - Added: Batch editor "Shinify" command to make a Pokemon shiny ($shiny). Thanks exegg!
+ - Changed: Ribbon editor is now wider (5 ribbons per row). Thanks \!
+ - Fixed: Gen 3/4 save issues. Thanks BeyondTheHorizon, poutros!
+ - Fixed: Event Flag editor saving no longer throws a cast exception. Thanks Armodillomatt12!
+ - Fixed: Importing PGT/PCD to future generations no longer errors out. Thanks SubMana!
+ - Fixed: Mystery Gift window import/export button text displayed. Thanks poutros!
+ - Fixed: Misc Pokémon Link legality cases fixed. Thanks poutros!
+ - Fixed: Misc linux issues with latest refactoring. Thanks Zekario!
+ - Fixed: Trainer Editor window ~ Unicode character display. Thanks \!
+ - Fixed: Minor main window editing bugs for EXP/Nature/Gender.
