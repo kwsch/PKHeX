@@ -1283,7 +1283,7 @@ namespace PKHeX
             {
                 pkm.Species = Util.getIndex(CB_Species);
                 pkm.Version = Util.getIndex(CB_GameOrigin);
-                pkm.Nature = CB_Nature.SelectedIndex;
+                pkm.Nature = Util.getIndex(CB_Nature);
                 pkm.AltForm = CB_Form.SelectedIndex;
 
                 pkm.setPIDGender(newGender);
@@ -1592,22 +1592,24 @@ namespace PKHeX
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
-            int origin = Util.getIndex(CB_GameOrigin);
-            uint PID = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text), origin, Util.getIndex(CB_Nature), CB_Form.SelectedIndex);
-            TB_PID.Text = PID.ToString("X8");
+            if (fieldsLoaded)
+            {
+                pkm.Version = Util.getIndex(CB_GameOrigin);
+                pkm.PID = Util.getHEXval(TB_PID.Text);
+                pkm.Species = Util.getIndex(CB_Species);
+                pkm.Nature = Util.getIndex(CB_Nature);
+                pkm.AltForm = CB_Form.SelectedIndex;
+            }
+            if (sender == Label_Gender)
+                pkm.setPIDGender(pkm.Gender);
+            else if (sender == CB_Nature && pkm.Nature != Util.getIndex(CB_Nature))
+                pkm.setPIDNature(Util.getIndex(CB_Nature));
+            else if (sender == BTN_RerollPID)
+                pkm.setPIDGender(pkm.Gender);
+            TB_PID.Text = pkm.PID.ToString("X8");
             getQuickFiller(dragout);
-            if (origin >= 24)
-                return;
-
-            // Before Gen6, EC and PID are related
-            // Ensure we don't have an illegal newshiny PID.
-            uint SID = Util.ToUInt32(TB_TID.Text);
-            uint TID = Util.ToUInt32(TB_TID.Text);
-            uint XOR = TID ^ SID ^ PID >> 16 ^ PID & 0xFFFF;
-            if (XOR >> 3 == 1) // Illegal
-                updateRandomPID(sender, e); // Get a new PID
-
-            TB_EC.Text = PID.ToString("X8");
+            if (pkm.Format >= 6)
+                TB_EC.Text = pkm.EncryptionConstant.ToString("X8");
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
@@ -2119,10 +2121,14 @@ namespace PKHeX
             getQuickFiller(dragout);
             updateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
-            if (SAV.Generation == 4 && fieldsInitialized)
+            if (SAV.Generation <= 4 && fieldsLoaded)
             {
+                fieldsLoaded = false;
                 pkm.PID = Util.getHEXval(TB_PID.Text);
                 CB_Nature.SelectedValue = pkm.Nature;
+                Label_Gender.Text = gendersymbols[pkm.Gender];
+                Label_Gender.ForeColor = pkm.Gender == 2 ? Label_Species.ForeColor : (pkm.Gender == 1 ? Color.Red : Color.Blue);
+                fieldsLoaded = true;
             }
         }
         private void validateComboBox(object sender)

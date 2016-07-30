@@ -329,16 +329,17 @@ namespace PKHeX
 
         public void setShinyPID()
         {
-            while (!IsShiny)
-                PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm);
+            do PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
             EncryptionConstant = PID;
         }
         public void setPIDGender(int gender)
         {
-            PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm);
-            while (IsShiny)
-                PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm);
-
+            do PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm, PID); while (IsShiny);
+            EncryptionConstant = PID;
+        }
+        public void setPIDNature(int nature)
+        {
+            do PID = PKX.getRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
             EncryptionConstant = PID;
         }
     }
