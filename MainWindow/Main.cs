@@ -1450,7 +1450,8 @@ namespace PKHeX
                 TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
-            pkm.EXP = Util.ToUInt32(TB_EXP.Text);
+            if (fieldsLoaded)
+                pkm.EXP = Util.ToUInt32(TB_EXP.Text);
             updateStats();
             updateLegality();
         }
