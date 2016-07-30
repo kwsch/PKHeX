@@ -707,14 +707,14 @@ namespace PKHeX
                     else
                         sav = new SAV3(sav.Data, GameVersion.FRLG);
                 }
-                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
+                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation 3 ({sav.Version}) Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
                 if (drJP == DialogResult.Cancel)
                     return;
                 sav.Japanese = drJP == DialogResult.No;
 
                 if (sav.Version == GameVersion.FRLG)
                 {
-                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, "FRLG Detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
+                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
                     if (drFRLG == DialogResult.Cancel)
                         return;
 
