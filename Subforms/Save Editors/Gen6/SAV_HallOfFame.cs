@@ -67,15 +67,16 @@ namespace PKHeX
             
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Skip(1), null);
+            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Skip(1).Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
 
             CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
             CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
 
-            CB_Move1.DataSource = new BindingSource(Main.MoveDataSource, null);
-            CB_Move2.DataSource = new BindingSource(Main.MoveDataSource, null);
-            CB_Move3.DataSource = new BindingSource(Main.MoveDataSource, null);
-            CB_Move4.DataSource = new BindingSource(Main.MoveDataSource, null);
+            var MoveList = Main.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
+            CB_Move1.DataSource = new BindingSource(MoveList, null);
+            CB_Move2.DataSource = new BindingSource(MoveList, null);
+            CB_Move3.DataSource = new BindingSource(MoveList, null);
+            CB_Move4.DataSource = new BindingSource(MoveList, null);
             
             CB_HeldItem.DisplayMember = "Text";
             CB_HeldItem.ValueMember = "Value";
