@@ -3254,8 +3254,11 @@ namespace PKHeX
             if (Directory.Exists(pathCache))
                 return Directory.GetFiles(pathCache).Where(f => SaveUtil.SizeValidSAV6((int)new FileInfo(f).Length)) // filter
                     .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
-            if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // if cgse exists
-                return Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
+            try 
+            {
+                if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // if cgse exists
+                    return Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
+            } catch { }
 
             return null;
         }
