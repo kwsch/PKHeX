@@ -141,7 +141,7 @@ namespace PKHeX
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PKX.Personal[Species].RandomGender),
+                Gender = PersonalTable.B2W2[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PersonalTable.B2W2[Species].RandomGender),
                 AltForm = Form,
                 Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
@@ -150,10 +150,6 @@ namespace PKHeX
                 Move2 = Move2,
                 Move3 = Move3,
                 Move4 = Move4,
-                Move1_PP = PKX.getBasePP(Move1),
-                Move2_PP = PKX.getBasePP(Move2),
-                Move3_PP = PKX.getBasePP(Move3),
-                Move4_PP = PKX.getBasePP(Move4),
                 Met_Location = MetLocation,
                 Met_Day = Day,
                 Met_Month = Month,
@@ -186,9 +182,13 @@ namespace PKHeX
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
 
-                OT_Friendship = PKX.getBaseFriendship(Species),
+                OT_Friendship = PersonalTable.B2W2[Species].BaseFriendship,
                 FatefulEncounter = true,
             };
+            pk.Move1_PP = pk.getMovePP(Move1, 0);
+            pk.Move2_PP = pk.getMovePP(Move2, 0);
+            pk.Move3_PP = pk.getMovePP(Move3, 0);
+            pk.Move4_PP = pk.getMovePP(Move4, 0);
             if (OTGender == 3) // User's
             {
                 pk.TID = SAV.TID;
@@ -228,7 +228,7 @@ namespace PKHeX
                     break;
             }
             pk.HiddenAbility = av == 2;
-            pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
+            pk.Ability = PersonalTable.B2W2.getAbilities(Species, pk.AltForm)[av];
 
             if (PID != 0) 
                 pk.PID = PID;

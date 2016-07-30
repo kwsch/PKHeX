@@ -23,10 +23,16 @@ namespace PKHeX
             for (int i = 0; i < Constants.Length; i++)
                 CB_Stats.Items.Add(i.ToString());
 
+            TLP_Flags.SuspendLayout();
             TLP_Flags.Controls.Clear();
+
+            TLP_Const.SuspendLayout();
             TLP_Const.Controls.Clear();
             addFlagList(getStringList("flags"));
             addConstList(getStringList("const"));
+
+            TLP_Flags.ResumeLayout();
+            TLP_Const.ResumeLayout();
 
             Util.TranslateInterface(this, Main.curlanguage);
             
@@ -52,14 +58,14 @@ namespace PKHeX
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Gather Updated Flags
-            foreach (CheckBox flag in TLP_Flags.Controls)
+            foreach (CheckBox flag in TLP_Flags.Controls.OfType<CheckBox>())
                 flags[getControlNum(flag)] = flag.Checked;
             SAV.EventFlags = flags;
 
             // Copy back Constants
             changeConstantIndex(null, null); // Trigger Saving
             SAV.EventConsts = Constants;
-
+            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
             Close();
         }
 
@@ -119,6 +125,7 @@ namespace PKHeX
                     AutoSize = true
                 };
                 chk.CheckStateChanged += toggleFlag;
+                lbl.Click += (sender, e) => { chk.Checked ^= true; };
                 TLP_Flags.Controls.Add(chk, 0, i);
                 TLP_Flags.Controls.Add(lbl, 1, i);
             }
@@ -293,8 +300,8 @@ namespace PKHeX
             SaveFile s1 = SaveUtil.getVariantSAV(File.ReadAllBytes(TB_OldSAV.Text));
             SaveFile s2 = SaveUtil.getVariantSAV(File.ReadAllBytes(TB_NewSAV.Text));
 
-            if (s1.GetType() != s2.GetType())
-            { Util.Alert("Save types are different.", $"S1: {s1.GetType()}", $"S2: {s2.GetType()}"); return; }
+            if (s1.GetType() != s2.GetType()) { Util.Alert("Save types are different.", $"S1: {s1.GetType()}", $"S2: {s2.GetType()}"); return; }
+            if (s1.Version != s2.Version) { Util.Alert("Save versions are different.", $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
 
             string tbIsSet = "";
             string tbUnSet = "";

@@ -99,6 +99,7 @@
             this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchLegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchIllegal = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,10 +151,11 @@
             this.CHK_Shiny = new System.Windows.Forms.CheckBox();
             this.TLP_Filters = new System.Windows.Forms.TableLayoutPanel();
             this.FLP_Format = new System.Windows.Forms.FlowLayoutPanel();
-            this.CB_Format = new System.Windows.Forms.ComboBox();
             this.CB_FormatComparator = new System.Windows.Forms.ComboBox();
+            this.CB_Format = new System.Windows.Forms.ComboBox();
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
+            this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -947,7 +949,8 @@
             this.Menu_SearchBoxes,
             this.Menu_SearchDatabase,
             this.Menu_SearchLegal,
-            this.Menu_SearchIllegal});
+            this.Menu_SearchIllegal,
+            this.Menu_SearchAdvanced});
             this.Menu_SearchSettings.Image = global::PKHeX.Properties.Resources.settings;
             this.Menu_SearchSettings.Name = "Menu_SearchSettings";
             this.Menu_SearchSettings.Size = new System.Drawing.Size(197, 22);
@@ -959,7 +962,7 @@
             this.Menu_SearchBoxes.CheckOnClick = true;
             this.Menu_SearchBoxes.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_SearchBoxes.Name = "Menu_SearchBoxes";
-            this.Menu_SearchBoxes.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchBoxes.Size = new System.Drawing.Size(207, 22);
             this.Menu_SearchBoxes.Text = "Search Within Boxes";
             // 
             // Menu_SearchDatabase
@@ -968,7 +971,7 @@
             this.Menu_SearchDatabase.CheckOnClick = true;
             this.Menu_SearchDatabase.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_SearchDatabase.Name = "Menu_SearchDatabase";
-            this.Menu_SearchDatabase.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchDatabase.Size = new System.Drawing.Size(207, 22);
             this.Menu_SearchDatabase.Text = "Search Within Database";
             // 
             // Menu_SearchLegal
@@ -977,7 +980,7 @@
             this.Menu_SearchLegal.CheckOnClick = true;
             this.Menu_SearchLegal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_SearchLegal.Name = "Menu_SearchLegal";
-            this.Menu_SearchLegal.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchLegal.Size = new System.Drawing.Size(207, 22);
             this.Menu_SearchLegal.Text = "Show Legal";
             // 
             // Menu_SearchIllegal
@@ -986,8 +989,17 @@
             this.Menu_SearchIllegal.CheckOnClick = true;
             this.Menu_SearchIllegal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_SearchIllegal.Name = "Menu_SearchIllegal";
-            this.Menu_SearchIllegal.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchIllegal.Size = new System.Drawing.Size(207, 22);
             this.Menu_SearchIllegal.Text = "Show Illegal";
+            // 
+            // Menu_SearchAdvanced
+            // 
+            this.Menu_SearchAdvanced.CheckOnClick = true;
+            this.Menu_SearchAdvanced.Name = "Menu_SearchAdvanced";
+            this.Menu_SearchAdvanced.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.Menu_SearchAdvanced.Size = new System.Drawing.Size(207, 22);
+            this.Menu_SearchAdvanced.Text = "Advanced Search";
+            this.Menu_SearchAdvanced.Click += new System.EventHandler(this.Menu_SearchAdvanced_Click);
             // 
             // Menu_OpenDB
             // 
@@ -1026,7 +1038,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = global::PKHeX.Properties.Resources.box_wp16;
+            this.PAN_Box.BackgroundImage = global::PKHeX.Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);
@@ -1655,8 +1667,7 @@
             // 
             // TLP_Filters
             // 
-            this.TLP_Filters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.TLP_Filters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TLP_Filters.AutoScroll = true;
             this.TLP_Filters.AutoScrollMargin = new System.Drawing.Size(3, 3);
@@ -1730,6 +1741,23 @@
             this.FLP_Format.Size = new System.Drawing.Size(122, 21);
             this.FLP_Format.TabIndex = 124;
             // 
+            // CB_FormatComparator
+            // 
+            this.CB_FormatComparator.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.CB_FormatComparator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_FormatComparator.FormattingEnabled = true;
+            this.CB_FormatComparator.Items.AddRange(new object[] {
+            "Any",
+            ">=",
+            "==",
+            "<="});
+            this.CB_FormatComparator.Location = new System.Drawing.Point(0, 0);
+            this.CB_FormatComparator.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_FormatComparator.Name = "CB_FormatComparator";
+            this.CB_FormatComparator.Size = new System.Drawing.Size(54, 21);
+            this.CB_FormatComparator.TabIndex = 122;
+            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.changeFormatFilter);
+            // 
             // CB_Format
             // 
             this.CB_Format.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -1747,23 +1775,6 @@
             this.CB_Format.Size = new System.Drawing.Size(68, 21);
             this.CB_Format.TabIndex = 121;
             this.CB_Format.Visible = false;
-            // 
-            // CB_FormatComparator
-            // 
-            this.CB_FormatComparator.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_FormatComparator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_FormatComparator.FormattingEnabled = true;
-            this.CB_FormatComparator.Items.AddRange(new object[] {
-            "Any",
-            ">=",
-            "==",
-            "<="});
-            this.CB_FormatComparator.Location = new System.Drawing.Point(0, 0);
-            this.CB_FormatComparator.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_FormatComparator.Name = "CB_FormatComparator";
-            this.CB_FormatComparator.Size = new System.Drawing.Size(54, 21);
-            this.CB_FormatComparator.TabIndex = 122;
-            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.changeFormatFilter);
             // 
             // L_Format
             // 
@@ -1789,6 +1800,16 @@
             this.FLP_Level.Size = new System.Drawing.Size(88, 21);
             this.FLP_Level.TabIndex = 119;
             // 
+            // RTB_Instructions
+            // 
+            this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_Instructions.Location = new System.Drawing.Point(63, 27);
+            this.RTB_Instructions.Name = "RTB_Instructions";
+            this.RTB_Instructions.Size = new System.Drawing.Size(235, 352);
+            this.RTB_Instructions.TabIndex = 119;
+            this.RTB_Instructions.Text = "";
+            // 
             // SAV_Database
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1801,6 +1822,7 @@
             this.Controls.Add(this.B_Reset);
             this.Controls.Add(this.P_Results);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.RTB_Instructions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -2019,5 +2041,7 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_Format;
         private System.Windows.Forms.ComboBox CB_FormatComparator;
         private System.Windows.Forms.ComboBox CB_Format;
+        private System.Windows.Forms.RichTextBox RTB_Instructions;
+        private System.Windows.Forms.ToolStripMenuItem Menu_SearchAdvanced;
     }
 }

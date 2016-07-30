@@ -19,6 +19,23 @@ namespace PKHeX
                 return new PCD(data);
             return null;
         }
+        internal static MysteryGift getMysteryGift(byte[] data)
+        {
+            switch (data.Length)
+            {
+                case WC6.SizeFull:
+                case WC6.Size:
+                    return new WC6(data);
+                case PGF.Size:
+                    return new PGF(data);
+                case PGT.Size:
+                    return new PGT(data);
+                case PCD.Size:
+                    return new PCD(data);
+                default:
+                    return null;
+            }
+        }
 
         public abstract string Extension { get; }
         public virtual byte[] Data { get; set; }

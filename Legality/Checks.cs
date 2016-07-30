@@ -30,7 +30,7 @@ namespace PKHeX
     {
         private LegalityCheck verifyGender()
         {
-            if (PersonalInfo.AO[pk6.Species].Gender == 255 && pk6.Gender != 2)
+            if (PersonalTable.AO[pk6.Species].Gender == 255 && pk6.Gender != 2)
                 return new LegalityCheck(Severity.Invalid, "Genderless Pokémon should not have a gender.");
 
             return new LegalityCheck();
@@ -431,8 +431,7 @@ namespace PKHeX
         }
         private LegalityCheck verifyAbility()
         {
-            int index = PersonalInfo.AO[pk6.Species].FormeIndex(pk6.Species, pk6.AltForm);
-            int[] abilities = PersonalInfo.AO[index].Abilities;
+            int[] abilities = PersonalTable.AO.getAbilities(pk6.Species, pk6.AltForm);
             int abilval = Array.IndexOf(abilities, pk6.Ability);
             if (abilval < 0)
                 return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form.");
@@ -585,7 +584,7 @@ namespace PKHeX
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
-                if (pk6.OT_Friendship != PKX.getBaseFriendship(pk6.Species))
+                if (pk6.OT_Friendship != PersonalTable.AO[pk6.Species].BaseFriendship)
                     return new LegalityCheck(Severity.Invalid, "Event OT Friendship does not match base friendship.");
                 if (pk6.OT_Affection != 0)
                     return new LegalityCheck(Severity.Invalid, "Event OT Affection should be zero.");

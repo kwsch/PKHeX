@@ -306,6 +306,7 @@ namespace PKHeX
             CB_Generation.SelectedIndex = 0;
 
             MT_ESV.Visible = L_ESV.Visible = false;
+            RTB_Instructions.Clear();
 
             if (sender != null)
                 System.Media.SystemSounds.Asterisk.Play();
@@ -547,6 +548,36 @@ namespace PKHeX
             if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked) // Illegal Only
                 res = res.Where(pk => pk.Gen6 && pk is PK6 && !new LegalityAnalysis((PK6) pk).Valid);
 
+            if (RTB_Instructions.Lines.Any(line => line.Length > 0))
+            {
+                var raw =
+                    RTB_Instructions.Lines
+                        .Where(line => !string.IsNullOrWhiteSpace(line))
+                        .Where(line => new[] { '!', '=' }.Contains(line[0]));
+
+                var filters = (from line in raw
+                        let eval = line[0] == '='
+                        let split = line.Substring(1).Split('=')
+                        where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
+                        select new BatchEditor.StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval }).ToArray();
+
+                if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
+                { Util.Error("Empty Filter Value detected."); return; }
+
+                res = res.Where(pkm => // Compare across all filters
+                {
+                    foreach (var cmd in filters)
+                    {
+                        if (!pkm.GetType().HasProperty(cmd.PropertyName))
+                            return false;
+                        try { if (ReflectUtil.GetValueEquals(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
+                        catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
+                        return false;
+                    }
+                    return true;
+                });
+            }
+
             var results = res.ToArray();
             if (results.Length == 0)
             {
@@ -638,6 +669,12 @@ namespace PKHeX
 
             var any = result[0][0];
             m_parent.populateFields(any);
+        }
+        private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
+        {
+            if (!Menu_SearchAdvanced.Checked)
+            { Size = MinimumSize; RTB_Instructions.Clear(); }
+            else Size = MaximumSize;
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e)

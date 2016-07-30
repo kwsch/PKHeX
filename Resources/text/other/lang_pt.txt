@@ -793,8 +793,8 @@ L_Saying5 = 5:
 -------------------------------------------------------
 L_Details = Detalhes:
 L_Received = Lista de Recebidos:
-B_Import = Importar .wc6
-B_Output = Exportar .wc6
+B_Import = Importar
+B_Output = Exportar
 B_Cancel = Cancelar
 B_Save = Gravar
 ! End

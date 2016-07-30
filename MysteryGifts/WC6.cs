@@ -221,7 +221,7 @@ namespace PKHeX
                 SID = SID,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PKX.Personal[Species].RandomGender),
+                Gender = PersonalTable.AO[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PersonalTable.AO[Species].RandomGender),
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant == 0 ? Util.rnd32() : EncryptionConstant,
                 Version = OriginGame == 0 ? SAV.Game : OriginGame,
@@ -231,10 +231,6 @@ namespace PKHeX
                 Region = SAV.SubRegion,
                 ConsoleRegion = SAV.ConsoleRegion,
                 Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
-                Move1_PP = PKX.getBasePP(Move1),
-                Move2_PP = PKX.getBasePP(Move2),
-                Move3_PP = PKX.getBasePP(Move3),
-                Move4_PP = PKX.getBasePP(Move4),
                 RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
                 RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
                 Met_Location = MetLocation,
@@ -273,13 +269,17 @@ namespace PKHeX
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
                 
-                OT_Friendship = PKX.getBaseFriendship(Species),
+                OT_Friendship = PersonalTable.AO[Species].BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
                 FatefulEncounter = true,
             };
+            pk.Move1_PP = pk.getMovePP(Move1, 0);
+            pk.Move2_PP = pk.getMovePP(Move2, 0);
+            pk.Move3_PP = pk.getMovePP(Move3, 0);
+            pk.Move4_PP = pk.getMovePP(Move4, 0);
 
             if (Day + Month + Year == 0) // No datetime set, typical for wc6full
             {
@@ -352,7 +352,7 @@ namespace PKHeX
                     av = (int)(Util.rnd32()%(AbilityType - 1));
                     break;
             }
-            pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
+            pk.Ability = PersonalTable.AO.getAbilities(Species, pk.AltForm)[av];
             pk.AbilityNumber = 1 << av;
 
             switch (PIDType)

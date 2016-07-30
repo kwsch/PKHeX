@@ -14,7 +14,18 @@ namespace PKHeX
             InitializeComponent();
             DragDrop += tabMain_DragDrop;
             DragEnter += tabMain_DragEnter;
+            CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
         }
+
+        private const string CONST_RAND = "$rand";
+        private const string CONST_SHINY = "$shiny";
+        private int currentFormat = -1;
+        private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
+        private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
+        private static readonly string[] pk4 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK4)).OrderBy(i=>i).ToArray();
+        private static readonly string[] pk3 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK3)).OrderBy(i=>i).ToArray();
+        private static readonly string[] all = pk6.Intersect(pk5).Intersect(pk4).Intersect(pk3).OrderBy(i => i).ToArray();
+        private static readonly string[] any = pk6.Union(pk5).Union(pk4).Union(pk3).Distinct().OrderBy(i => i).ToArray();
 
         // GUI Methods
         private void B_Open_Click(object sender, EventArgs e)
@@ -46,10 +57,16 @@ namespace PKHeX
         private BackgroundWorker b = new BackgroundWorker { WorkerReportsProgress = true };
         private void runBackgroundWorker()
         {
+            var Filters = getFilters().ToList();
+            if (Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
+            { Util.Error("Empty Filter Value detected."); return; }
+
+            var Instructions = getInstructions().ToList();
+            if (Instructions.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
+            { Util.Error("Empty Property Value detected."); return; }
+
             FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
-            var Filters = getFilters().ToList();
-            var Instructions = getInstructions().ToList();
             b = new BackgroundWorker {WorkerReportsProgress = true};
 
             b.DoWork += (sender, e) => {
@@ -71,6 +88,9 @@ namespace PKHeX
                 setProgressBar(e.ProgressPercentage);
             };
             b.RunWorkerCompleted += (sender, e) => {
+                string result = $"Modified {ctr}/{len} files.";
+                if (err > 0)
+                    result += Environment.NewLine + $"{err} files ignored due to an internal error.";
                 Util.Alert(result);
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 setupProgressBar(0);
@@ -95,7 +115,7 @@ namespace PKHeX
         }
         
         // Mass Editing
-        private string result = "";
+        private int ctr, len, err;
         private IEnumerable<StringInstruction> getFilters()
         {
             var raw =
@@ -124,21 +144,26 @@ namespace PKHeX
         }
         private void processSAV(PKM[] data, List<StringInstruction> Filters, List<StringInstruction> Instructions)
         {
-            int ctr = 0;
+            len = err = ctr = 0;
             for (int i = 0; i < data.Length; i++)
             {
                 var pkm = data[i];
-                if (ProcessPKM(pkm, Filters, Instructions))
+                ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
+                if (r != ModifyResult.Invalid)
+                    len++;
+                if (r == ModifyResult.Error)
+                    err++;
+                if (r == ModifyResult.Modified)
                     ctr++;
+
                 b.ReportProgress(i);
             }
 
             Main.SAV.BoxData = data;
-            result = $"Modified {ctr}/{data.Length} files.";
         }
         private void processFolder(string[] files, List<StringInstruction> Filters, List<StringInstruction> Instructions)
         {
-            int ctr = 0;
+            len = err = ctr = 0;
             for (int i = 0; i < files.Length; i++)
             {
                 string file = files[i];
@@ -150,13 +175,19 @@ namespace PKHeX
 
                 byte[] data = File.ReadAllBytes(file);
                 var pkm = PKMConverter.getPKMfromBytes(data);
-                if (ProcessPKM(pkm, Filters, Instructions))
+                ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
+                if (r != ModifyResult.Invalid)
+                    len++;
+                if (r == ModifyResult.Error)
+                    err++;
+                if (r == ModifyResult.Modified)
+                {
                     ctr++;
+                    File.WriteAllBytes(file, pkm.DecryptedBoxData);
+                }
 
-                File.WriteAllBytes(file, pkm.DecryptedBoxData);
                 b.ReportProgress(i);
             }
-            result = $"Modified {ctr}/{files.Length} files.";
         }
         
         private void tabMain_DragEnter(object sender, DragEventArgs e)
@@ -175,38 +206,91 @@ namespace PKHeX
         }
 
         // Utility Methods
-        private class StringInstruction
+        public class StringInstruction
         {
             public string PropertyName;
             public string PropertyValue;
             public bool Evaluator;
         }
-        private static bool ProcessPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
+        private enum ModifyResult
         {
-            if (!PKM.ChecksumValid)
-                return false;
-            if (PKM.Species == 0)
-                return false;
+            Invalid,
+            Error,
+            Filtered,
+            Modified,
+        }
+        private static ModifyResult ProcessPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
+        {
+            if (!PKM.ChecksumValid || PKM.Species == 0)
+                return ModifyResult.Invalid;
+
+            Type pkm = PKM.GetType();
+
             foreach (var cmd in Filters)
             {
                 try
                 {
+                    if (!pkm.HasProperty(cmd.PropertyName))
+                        return ModifyResult.Filtered;
                     if (ReflectUtil.GetValueEquals(PKM, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
-                        return false;
+                        return ModifyResult.Filtered;
                 }
                 catch
                 {
                     Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}.");
-                    return false;
+                    return ModifyResult.Filtered;
                 }
             }
 
+            ModifyResult result = ModifyResult.Error;
             foreach (var cmd in Instructions)
             {
-                try { ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue); }
+                try
+                {
+                    if (cmd.PropertyValue == CONST_RAND && (cmd.PropertyName == "PID" || cmd.PropertyName == "EncryptionConstant"))
+                        ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
+                    else if (cmd.PropertyValue == CONST_SHINY && cmd.PropertyName == "PID")
+                        PKM.setShinyPID();
+                    else
+                        ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
+
+                    result = ModifyResult.Modified;
+                }
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
-            return true;
+            return result;
+        }
+
+        private void B_Add_Click(object sender, EventArgs e)
+        {
+            if (CB_Property.SelectedIndex < 0)
+            { Util.Alert("Invalid property selected."); return; }
+
+            char[] prefix = {'.', '=', '!'};
+            string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + "=";
+            if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
+                s = Environment.NewLine + s;
+
+            RTB_Instructions.AppendText(s);
+        }
+
+        private void CB_Format_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (currentFormat == CB_Format.SelectedIndex)
+                return;
+
+            CB_Property.Items.Clear();
+            switch (CB_Format.SelectedIndex)
+            {
+                case 0: CB_Property.Items.AddRange(all.ToArray()); break; // All
+                case 1: CB_Property.Items.AddRange(pk6.ToArray()); break;
+                case 2: CB_Property.Items.AddRange(pk5.ToArray()); break;
+                case 3: CB_Property.Items.AddRange(pk4.ToArray()); break;
+                case 4: CB_Property.Items.AddRange(pk3.ToArray()); break;
+                case 5: CB_Property.Items.AddRange(any.ToArray()); break; // Any
+            }
+            CB_Property.SelectedIndex = 0;
+            currentFormat = CB_Format.SelectedIndex;
         }
     }
 }

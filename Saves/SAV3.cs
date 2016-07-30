@@ -46,18 +46,39 @@ namespace PKHeX
             else Version = SaveUtil.getIsG3SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
-
-            BlockOrder = new int[14];
-            BlockOfs = new int[14];
-            ActiveSAV = SaveUtil.SIZE_G3RAWHALF == data.Length || BitConverter.ToUInt32(Data, 0xFFC) > BitConverter.ToUInt32(Data, 0xEFFC) ? 0 : 1;
+            
+            
+            int[] BlockOrder1 = new int[14];
             for (int i = 0; i < 14; i++)
-                BlockOrder[i] = BitConverter.ToInt16(Data, ABO + i*0x1000 + 0xFF4);
+                BlockOrder1[i] = BitConverter.ToInt16(Data, i*0x1000 + 0xFF4);
+            int zeroBlock1 = Array.IndexOf(BlockOrder1, 0);
+
+            if (data.Length > SaveUtil.SIZE_G3RAWHALF)
+            {
+                int[] BlockOrder2 = new int[14];
+                for (int i = 0; i < 14; i++)
+                    BlockOrder2[i] = BitConverter.ToInt16(Data, 0xE000 + i*0x1000 + 0xFF4);
+                int zeroBlock2 = Array.IndexOf(BlockOrder2, 0);
+
+                ActiveSAV = BitConverter.ToUInt32(Data, zeroBlock1*0x1000 + 0xFFC) >
+                            BitConverter.ToUInt32(Data, zeroBlock2*0x1000 + 0xEFFC)
+                    ? 0
+                    : 1;
+                BlockOrder = ActiveSAV == 0 ? BlockOrder1 : BlockOrder2;
+            }
+            else
+            {
+                ActiveSAV = 0;
+                BlockOrder = BlockOrder1;
+            }
+
+            BlockOfs = new int[14];
             for (int i = 0; i < 14; i++)
                 BlockOfs[i] = Array.IndexOf(BlockOrder, i)*0x1000 + ABO;
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
-            Array.Resize(ref Data, Data.Length + 0x10000); // More than enough empty space.
+            Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
 
             // Copy chunk to the allocated location
             for (int i = 5; i < 14; i++)
@@ -77,7 +98,7 @@ namespace PKHeX
                     OFS_PouchBalls = BlockOfs[1] + 0x0600;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0640;
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
-                    Personal = PersonalInfo.RS;
+                    Personal = PersonalTable.RS;
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
@@ -86,7 +107,7 @@ namespace PKHeX
                     OFS_PouchBalls = BlockOfs[1] + 0x0430;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0464;
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
-                    Personal = PersonalInfo.FR; // todo split FR & LG
+                    Personal = PersonalTable.FR;
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
@@ -95,7 +116,7 @@ namespace PKHeX
                     OFS_PouchBalls = BlockOfs[1] + 0x0650;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0690;
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
-                    Personal = PersonalInfo.E;
+                    Personal = PersonalTable.E;
                     break;
             }
             LegalItems = Legal.Pouch_Items_RS;
@@ -107,6 +128,22 @@ namespace PKHeX
 
             if (!Exportable)
                 resetBoxes();
+        }
+
+        private const int SIZE_RESERVED = 0x10000; // unpacked box data
+        public override byte[] Write(bool DSV)
+        {
+            // Copy Box data back
+            for (int i = 5; i < 14; i++)
+            {
+                int blockIndex = Array.IndexOf(BlockOrder, i);
+                if (blockIndex == -1) // block empty
+                    continue;
+                Array.Copy(Data, Box + (i - 5) * 0xF80, Data, blockIndex * 0x1000 + ABO, chunkLength[i]);
+            }
+
+            setChecksums();
+            return Data.Take(Data.Length - SIZE_RESERVED).ToArray();
         }
 
         private readonly int ActiveSAV;
@@ -145,7 +182,7 @@ namespace PKHeX
             {
                 byte[] chunk = Data.Skip(ABO + i*0x1000).Take(chunkLength[BlockOrder[i]]).ToArray();
                 ushort chk = SaveUtil.check32(chunk);
-                BitConverter.GetBytes(chk).CopyTo(Data, ABO + i + 0xFF4);
+                BitConverter.GetBytes(chk).CopyTo(Data, ABO + i*0x1000 + 0xFF6);
             }
         }
         public override bool ChecksumsValid
@@ -156,7 +193,7 @@ namespace PKHeX
                 {
                     byte[] chunk = Data.Skip(ABO + i * 0x1000).Take(chunkLength[BlockOrder[i]]).ToArray();
                     ushort chk = SaveUtil.check32(chunk);
-                    if (chk != BitConverter.ToUInt16(Data, ABO + i*0xFF4))
+                    if (chk != BitConverter.ToUInt16(Data, ABO + i*0x1000 + 0xFF6))
                         return false;
                 }
                 return true;
@@ -171,8 +208,9 @@ namespace PKHeX
                 {
                     byte[] chunk = Data.Skip(ABO + i * 0x1000).Take(chunkLength[BlockOrder[i]]).ToArray();
                     ushort chk = SaveUtil.check32(chunk);
-                    if (chk != BitConverter.ToUInt16(Data, ABO + i * 0xFF4))
-                        r += $"Block {BlockOrder[i]} @ {i*0x1000} (len {chunkLength[BlockOrder[i]]}) invalid." + Environment.NewLine;
+                    ushort old = BitConverter.ToUInt16(Data, ABO + i*0x1000 + 0xFF6);
+                    if (chk != old)
+                        r += $"Block {BlockOrder[i].ToString("00")} @ {(i*0x1000).ToString("X5")} invalid." + Environment.NewLine;
                 }
                 return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
             }
@@ -392,7 +430,7 @@ namespace PKHeX
         {
             // Box Wallpaper is directly after the Box Names
             int offset = getBoxOffset(BoxCount);
-            offset += BoxCount * 0x9;
+            offset += BoxCount * 0x9 + box;
             return Data[offset];
         }
         public override string getBoxName(int box)

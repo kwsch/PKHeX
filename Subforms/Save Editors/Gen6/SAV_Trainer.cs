@@ -560,7 +560,7 @@ namespace PKHeX
         {
             uint TID = Util.ToUInt32(MT_TID.Text);
             uint SID = Util.ToUInt32(MT_SID.Text);
-            uint tsv = PKX.getTSV(TID, SID);
+            uint tsv = (TID ^ SID) >> 4;
             Tip1.SetToolTip(MT_TID, "TSV: " + tsv.ToString("0000"));
             Tip2.SetToolTip(MT_SID, "TSV: " + tsv.ToString("0000"));
         }
@@ -583,7 +583,7 @@ namespace PKHeX
         private void changeSpecial(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;
-            int val = Util.ToInt32(box.Text);
+            int val = Util.ToInt32(box?.Text);
 
             if (box == MT_HairColor)
                 box.Text = (val > 7 ? 7 : val).ToString();
@@ -593,13 +593,13 @@ namespace PKHeX
         private void change255(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;
-            if (box.Text == "") box.Text = "0";
+            if (box?.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
         private void changeFFFF(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;
-            if (box.Text == "") box.Text = "0";
+            if (box?.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
         private void changeStat(object sender, EventArgs e)

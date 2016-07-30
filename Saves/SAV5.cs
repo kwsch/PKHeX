@@ -55,7 +55,7 @@ namespace PKHeX
                     LegalMedicine = Legal.Pouch_Medicine_BW;
                     LegalBerries = Legal.Pouch_Berries_BW;
 
-                    Personal = PersonalInfo.BW;
+                    Personal = PersonalTable.BW;
                     break;
                 case GameVersion.B2W2: // B2W2
                     BattleBox = 0x20900;
@@ -78,7 +78,7 @@ namespace PKHeX
                     LegalMedicine = Legal.Pouch_Medicine_BW;
                     LegalBerries = Legal.Pouch_Berries_BW;
 
-                    Personal = PersonalInfo.B2W2;
+                    Personal = PersonalTable.B2W2;
                     break;
             }
             HeldItems = Legal.HeldItems_BW;

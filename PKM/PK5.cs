@@ -300,17 +300,19 @@ namespace PKHeX
         // Methods
         public override bool getGenderIsValid()
         {
-            int gv = PKX.Personal[Species].Gender;
-            if (gv == 255 && Gender == 2)
-                return true;
-            if (gv == 0 && Gender == 1)
-                return true;
-            if (gv == 254 && Gender == 0)
-                return true;
-            if (gv <= (PID & 0xFF) && Gender == 0)
-                return true;
-            if (gv > (PID & 0xFF) && Gender == 1)
-                return true;
+            int gv = PersonalTable.B2W2[Species].Gender;
+
+            if (gv == 255)
+                return Gender == 2;
+            if (gv == 254)
+                return Gender == 0;
+            if (gv == 0)
+                return Gender == 1;
+            if (gv <= (PID & 0xFF))
+                return Gender == 0;
+            if ((PID & 0xFF) < gv)
+                return Gender == 1;
+
             return false;
         }
         public override byte[] Encrypt()
@@ -332,19 +334,21 @@ namespace PKHeX
                 Ability = Ability
             };
 
-            int abilnum = PKX.getAbilityNumber(Species, Ability, AltForm);
-            if (abilnum > 0) pk6.AbilityNumber = abilnum;
+            int[] abilities = PersonalTable.AO.getAbilities(Species, AltForm);
+            int abilval = Array.IndexOf(abilities, Ability);
+            if (abilval >= 0)
+                pk6.AbilityNumber = 1 << abilval;
             else // Fallback (shouldn't happen)
             {
                 if (HiddenAbility) pk6.AbilityNumber = 4; // Hidden, else G5 or G3/4 correlation.
                 else pk6.AbilityNumber = Gen5 ? 1 << (int)(PID >> 16 & 1) : 1 << (int)(PID & 1);
             }
-            pk6.Circle = Circle;
-            pk6.Square = Square;
-            pk6.Triangle = Triangle;
-            pk6.Heart = Heart;
-            pk6.Star = Star;
-            pk6.Diamond = Diamond;
+            pk6.MarkCircle = MarkCircle;
+            pk6.MarkSquare = MarkSquare;
+            pk6.MarkTriangle = MarkTriangle;
+            pk6.MarkHeart = MarkHeart;
+            pk6.MarkStar = MarkStar;
+            pk6.MarkDiamond = MarkDiamond;
             pk6.Language = Language;
 
             pk6.CNT_Cool = CNT_Cool;
@@ -366,10 +370,10 @@ namespace PKHeX
             pk6.Move3 = Move3;
             pk6.Move4 = Move4;
 
-            pk6.Move1_PP = PKX.getMovePP(Move1, Move1_PPUps);
-            pk6.Move2_PP = PKX.getMovePP(Move2, Move2_PPUps);
-            pk6.Move3_PP = PKX.getMovePP(Move3, Move3_PPUps);
-            pk6.Move4_PP = PKX.getMovePP(Move4, Move4_PPUps);
+            pk6.Move1_PP = getMovePP(Move1, Move1_PPUps);
+            pk6.Move2_PP = getMovePP(Move2, Move2_PPUps);
+            pk6.Move3_PP = getMovePP(Move3, Move3_PPUps);
+            pk6.Move4_PP = getMovePP(Move4, Move4_PPUps);
 
             pk6.Move1_PPUps = Move1_PPUps;
             pk6.Move2_PPUps = Move2_PPUps;
@@ -517,7 +521,7 @@ namespace PKHeX
             pk6.HT_Memory = 4;
             pk6.HT_Feeling = (int)(Util.rnd32() % 10);
             // When transferred, friendship gets reset.
-            pk6.OT_Friendship = pk6.HT_Friendship = PKX.getBaseFriendship(Species);
+            pk6.OT_Friendship = pk6.HT_Friendship = PersonalTable.B2W2[Species].BaseFriendship;
 
             // Antishiny Mechanism
             ushort LID = (ushort)(PID & 0xFFFF);

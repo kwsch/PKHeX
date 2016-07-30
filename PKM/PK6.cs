@@ -449,7 +449,7 @@ namespace PKHeX
         }
         public override bool getGenderIsValid()
         {
-            int gv = PKX.Personal[Species].Gender;
+            int gv = PersonalTable.AO[Species].Gender;
 
             if (gv == 255)
                 return Gender == 2;
@@ -629,7 +629,7 @@ namespace PKHeX
                 return;
 
             // Reset
-            HT_Friendship = PKX.getBaseFriendship(Species);
+            HT_Friendship = PersonalTable.AO[Species].BaseFriendship;
             HT_Affection = 0;
         }
 

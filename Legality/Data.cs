@@ -223,7 +223,7 @@ namespace PKHeX
         public bool XY = true;
         public bool ORAS = true;
         public bool? Shiny = false;
-        public bool OT = false;
+        public bool OT = true; // Receiver is OT?
     }
     public enum Nature
     {

@@ -77,7 +77,11 @@ namespace PKHeX
             // Detect RS/E/FRLG
             // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
 
-            uint GameCode = BitConverter.ToUInt32(data, Array.IndexOf(BlockOrder, 0) * 0x1000 + 0xAC);
+            int Block0 = Array.IndexOf(BlockOrder, 0);
+            uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC);
+            if (GameCode == uint.MaxValue)
+                return GameVersion.Unknown; // what a hack
+            
             switch (GameCode)
             {
                 case 0: return GameVersion.RS;
@@ -212,134 +216,6 @@ namespace PKHeX
             }
             return crc;
         }
-        /// <summary>Simple check to see if the save is valid.</summary>
-        /// <param name="savefile">Input binary file</param>
-        /// <returns>True/False</returns>
-        public static bool verifyG6SAV(byte[] savefile)
-        {
-            // Dynamic handling of checksums regardless of save size.
-
-            int verificationOffset = savefile.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(savefile, verificationOffset) != BEEF)
-                verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-
-            int count = (savefile.Length - verificationOffset - 0x8) / 8;
-            verificationOffset += 4;
-            int[] Lengths = new int[count];
-            ushort[] BlockIDs = new ushort[count];
-            ushort[] Checksums = new ushort[count];
-            int[] Start = new int[count];
-            int CurrentPosition = 0;
-            for (int i = 0; i < count; i++)
-            {
-                Start[i] = CurrentPosition;
-                Lengths[i] = BitConverter.ToInt32(savefile, verificationOffset + 0 + 8 * i);
-                BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
-                Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
-
-                CurrentPosition += Lengths[i] % 0x200 == 0 ? Lengths[i] : 0x200 - Lengths[i] % 0x200 + Lengths[i];
-
-                if ((BlockIDs[i] != 0) || i == 0) continue;
-                count = i;
-                break;
-            }
-            // Verify checksums
-            for (int i = 0; i < count; i++)
-            {
-                ushort chk = ccitt16(savefile.Skip(Start[i]).Take(Lengths[i]).ToArray());
-                ushort old = BitConverter.ToUInt16(savefile, verificationOffset + 6 + i * 8);
-
-                if (chk != old)
-                    return false;
-            }
-            return true;
-        }
-        /// <summary>Verbose check to see if the save is valid.</summary>
-        /// <param name="savefile">Input binary file</param>
-        /// <returns>String containing invalid blocks.</returns>
-        public static string verifyG6CHK(byte[] savefile)
-        {
-            string rv = "";
-            int invalid = 0;
-            // Dynamic handling of checksums regardless of save size.
-
-            int verificationOffset = savefile.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(savefile, verificationOffset) != BEEF)
-                verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-
-            int count = (savefile.Length - verificationOffset - 0x8) / 8;
-            verificationOffset += 4;
-            int[] Lengths = new int[count];
-            ushort[] BlockIDs = new ushort[count];
-            ushort[] Checksums = new ushort[count];
-            int[] Start = new int[count];
-            int CurrentPosition = 0;
-            for (int i = 0; i < count; i++)
-            {
-                Start[i] = CurrentPosition;
-                Lengths[i] = BitConverter.ToInt32(savefile, verificationOffset + 0 + 8 * i);
-                BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
-                Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
-
-                CurrentPosition += Lengths[i] % 0x200 == 0 ? Lengths[i] : 0x200 - Lengths[i] % 0x200 + Lengths[i];
-
-                if (BlockIDs[i] != 0 || i == 0) continue;
-                count = i;
-                break;
-            }
-            // Apply checksums
-            for (int i = 0; i < count; i++)
-            {
-                ushort chk = ccitt16(savefile.Skip(Start[i]).Take(Lengths[i]).ToArray());
-                ushort old = BitConverter.ToUInt16(savefile, verificationOffset + 6 + i * 8);
-
-                if (chk == old) continue;
-
-                invalid++;
-                rv += $"Invalid: {i.ToString("X2")} @ Region {Start[i].ToString("X5") + Environment.NewLine}";
-            }
-            // Return Outputs
-            rv += $"SAV: {count - invalid}/{count + Environment.NewLine}";
-            return rv;
-        }
-        /// <summary>Fix checksums in the input save file.</summary>
-        /// <param name="savefile">Input binary file</param>
-        /// <returns>Fixed save file.</returns>
-        public static void writeG6CHK(byte[] savefile)
-        {
-            // Dynamic handling of checksums regardless of save size.
-
-            int verificationOffset = savefile.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(savefile, verificationOffset) != BEEF)
-                verificationOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-
-            int count = (savefile.Length - verificationOffset - 0x8) / 8;
-            verificationOffset += 4;
-            int[] Lengths = new int[count];
-            ushort[] BlockIDs = new ushort[count];
-            ushort[] Checksums = new ushort[count];
-            int[] Start = new int[count];
-            int CurrentPosition = 0;
-            for (int i = 0; i < count; i++)
-            {
-                Start[i] = CurrentPosition;
-                Lengths[i] = BitConverter.ToInt32(savefile, verificationOffset + 0 + 8 * i);
-                BlockIDs[i] = BitConverter.ToUInt16(savefile, verificationOffset + 4 + 8 * i);
-                Checksums[i] = BitConverter.ToUInt16(savefile, verificationOffset + 6 + 8 * i);
-
-                CurrentPosition += Lengths[i] % 0x200 == 0 ? Lengths[i] : 0x200 - Lengths[i] % 0x200 + Lengths[i];
-
-                if (BlockIDs[i] != 0 || i == 0) continue;
-                count = i;
-                break;
-            }
-            // Apply checksums
-            for (int i = 0; i < count; i++)
-            {
-                byte[] array = savefile.Skip(Start[i]).Take(Lengths[i]).ToArray();
-                BitConverter.GetBytes(ccitt16(array)).CopyTo(savefile, verificationOffset + 6 + i * 8);
-            }
-        }
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
         /// <returns>Checksum</returns>
@@ -348,7 +224,7 @@ namespace PKHeX
             uint val = 0;
             for (int i = 0; i < data.Length; i += 4)
                 val += BitConverter.ToUInt32(data, i);
-            return (ushort)(val + val >> 16);
+            return (ushort)((val & 0xFFFF) + (val >> 16));
         }
 
         public static int getDexFormIndexXY(int species, int formct)

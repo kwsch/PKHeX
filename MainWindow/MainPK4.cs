@@ -113,7 +113,6 @@ namespace PKHeX
             TB_ExtraByte.Text = pk4.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
             updateStats();
-            setIsShiny();
 
             TB_EXP.Text = pk4.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk4.Gender];
@@ -123,7 +122,7 @@ namespace PKHeX
                 DEV_Ability.SelectedValue = pk4.Ability;
             else
             {
-                int[] abils = PKX.getAbilities(pk4.Species, pk4.AltForm);
+                int[] abils = SAV.Personal.getAbilities(pk4.Species, pk4.AltForm);
                 int abil = Array.IndexOf(abils, pk4.Ability);
                 CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             }

@@ -13,6 +13,8 @@ namespace PKHeX
         // Internal Attributes set on creation
         public byte[] Data; // Raw Storage
         public string Identifier; // User or Form Custom Attribute
+        public int Box { get; set; } = -1; // Batch Editor
+        public int Slot { get; set; } = -1; // Batch Editor
 
         public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
         public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
@@ -154,16 +156,16 @@ namespace PKHeX
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel => PKX.getLevel(Species, EXP);
-        public bool Circle { get { return Markings[0]; } set { Markings[0] = value; } }
-        public bool Triangle { get { return Markings[1]; } set { Markings[1] = value; } }
-        public bool Square { get { return Markings[2]; } set { Markings[2] = value; } }
-        public bool Heart { get { return Markings[3]; } set { Markings[3] = value; } }
-        public bool Star { get { return Markings[4]; } set { Markings[4] = value; } }
-        public bool Diamond { get { return Markings[5]; } set { Markings[5] = value; } }
+        public bool MarkCircle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkTriangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkSquare      { get { return (MarkByte & (1 << 2)) == 1 << 2; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkHeart       { get { return (MarkByte & (1 << 3)) == 1 << 3; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkStar        { get { return (MarkByte & (1 << 4)) == 1 << 4; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkDiamond     { get { return (MarkByte & (1 << 5)) == 1 << 5; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);
-        public string FileName => PKX.getFileName(this);
+        public string FileName => $"{Species.ToString("000")}{(IsShiny ? " ★" : "")} - {Nickname} - {Checksum.ToString("X4")}{EncryptionConstant.ToString("X8")}.{Extension}";
         public int[] IVs
         {
             get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; }
@@ -268,10 +270,28 @@ namespace PKHeX
                 return ivTotal <= 150 ? 2 : 3;
             }
         }
-        
-        public void CalculateStats()
+
+        public ushort[] getStats(PersonalInfo p)
         {
-            ushort[] Stats = PKX.getStats(this);
+            int level = CurrentLevel;
+            ushort[] Stats = new ushort[6];
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : (IV_HP + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10);
+            Stats[1] = (ushort)((IV_ATK + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
+            Stats[2] = (ushort)((IV_DEF + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
+            Stats[4] = (ushort)((IV_SPA + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
+            Stats[5] = (ushort)((IV_SPD + 2 * p.SPD + EV_SPD / 4) * level / 100 + 5);
+            Stats[3] = (ushort)((IV_SPE + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
+
+            // Account for nature
+            int incr = Nature / 5 + 1;
+            int decr = Nature % 5 + 1;
+            if (incr == decr) return Stats;
+            Stats[incr] *= 11; Stats[incr] /= 10;
+            Stats[decr] *= 9; Stats[decr] /= 10;
+            return Stats;
+        }
+        public void setStats(ushort[] Stats)
+        {
             Stat_HPMax = Stat_HPCurrent = Stats[0];
             Stat_ATK = Stats[1];
             Stat_DEF = Stats[2];
@@ -285,5 +305,41 @@ namespace PKHeX
         }
 
         public abstract PKM Clone();
+
+        public int getMovePP(int move, int ppup)
+        {
+            return getBasePP(move) * (5 + ppup) / 5;
+        }
+
+        private int getBasePP(int move)
+        {
+            int[] pptable;
+            switch (Format)
+            {
+                case 3: pptable = Legal.MovePP_RS; break;
+                case 4: pptable = Legal.MovePP_DP; break;
+                case 5: pptable = Legal.MovePP_BW; break;
+                case 6: pptable = Legal.MovePP_XY; break;
+                default: pptable = new int[1]; break;
+            }
+            if (move >= pptable.Length)
+                move = 0;
+            return pptable[move];
+        }
+
+        public void setShinyPID()
+        {
+            while (!IsShiny)
+                PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm);
+            EncryptionConstant = PID;
+        }
+        public void setPIDGender(int gender)
+        {
+            PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm);
+            while (IsShiny)
+                PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm);
+
+            EncryptionConstant = PID;
+        }
     }
 }

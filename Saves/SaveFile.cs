@@ -32,7 +32,7 @@ namespace PKHeX
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
-        public byte[] Write(bool DSV)
+        public virtual byte[] Write(bool DSV)
         {
             setChecksums();
             if (Footer.Length > 0 && DSV)
@@ -45,11 +45,19 @@ namespace PKHeX
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
         public abstract int Generation { get; }
-        public PersonalInfo[] Personal { get; protected set; }
+        public PersonalTable Personal { get; set; }
 
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;
         public bool XY => Version == GameVersion.X || Version == GameVersion.Y;
+        public bool B2W2 => Version == GameVersion.B2W2;
+        public bool BW => Version == GameVersion.BW;
+        public bool HGSS => Version == GameVersion.HGSS;
+        public bool Pt => Version == GameVersion.Pt;
+        public bool DP => Version == GameVersion.DP;
+        public bool E => Version == GameVersion.E;
+        public bool FRLG => Version == GameVersion.FRLG;
+        public bool RS => Version == GameVersion.RS;
 
         public virtual int MaxMoveID => int.MaxValue;
         public virtual int MaxSpeciesID => int.MaxValue;
@@ -80,6 +88,7 @@ namespace PKHeX
         public virtual bool HasGeolocation => false;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
         public bool HasEvents => EventFlags != null;
+        public bool HasLink => ORAS && !ORASDEMO || XY;
 
         // Counts
         protected virtual int GiftCountMax { get; } = int.MinValue;
@@ -123,6 +132,8 @@ namespace PKHeX
                 {
                     data[i] = getStoredSlot(getBoxOffset(i/30) + SIZE_STORED*(i%30));
                     data[i].Identifier = $"{getBoxName(i/30)}:{(i%30 + 1).ToString("00")}";
+                    data[i].Box = i/30 + 1;
+                    data[i].Slot = i%30 + 1;
                 }
                 return data;
             }
@@ -145,7 +156,7 @@ namespace PKHeX
             {
                 PKM[] data = new PKM[PartyCount];
                 for (int i = 0; i < data.Length; i++)
-                    data[i] = getPartySlot(Party + SIZE_PARTY * i);
+                    data[i] = getPartySlot(getPartyOffset(i));
                 return data;
             }
             set

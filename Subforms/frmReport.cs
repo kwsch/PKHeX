@@ -30,15 +30,15 @@ namespace PKHeX
             public string Move3 => Main.movelist[pkm.Move3];
             public string Move4 => Main.movelist[pkm.Move4];
             public string HeldItem => Main.itemlist[pkm.HeldItem];
-            public string MetLoc => PKX.getLocation(pkm, egg: false);
-            public string EggLoc => PKX.getLocation(pkm, egg: true);
+            public string MetLoc => PKX.getLocation(pkm, eggmet: false);
+            public string EggLoc => PKX.getLocation(pkm, eggmet: true);
             public string Ball => Main.balllist[pkm.Ball];
             public string OT => pkm.OT_Name;
             public string Version => Main.gamelist[pkm.Version];
             public string OTLang => Main.gamelanguages[pkm.Language] ?? $"UNK {pkm.Language}";
-            public string CountryID => pkm.Format > 5 ? (pkm as PK6).Country.ToString() : "N/A";
-            public string RegionID => pkm.Format > 5 ? (pkm as PK6).Region.ToString() : "N/A";
-            public string DSRegionID => pkm.Format > 5 ? (pkm as PK6).ConsoleRegion.ToString() : "N/A";
+            public string CountryID => pkm.Format > 5 ? ((PK6) pkm).Country.ToString() : "N/A";
+            public string RegionID => pkm.Format > 5 ? ((PK6) pkm).Region.ToString() : "N/A";
+            public string DSRegionID => pkm.Format > 5 ? ((PK6) pkm).ConsoleRegion.ToString() : "N/A";
 
             #region Extraneous
             public string EC => pkm.EncryptionConstant.ToString("X8");
@@ -65,9 +65,9 @@ namespace PKHeX
             public int Sheen => pkm.CNT_Sheen;
             public int Markings => pkm.MarkByte;
 
-            public string NotOT => pkm.Format > 5 ? (pkm as PK6).HT_Name : "N/A";
+            public string NotOT => pkm.Format > 5 ? ((PK6) pkm).HT_Name : "N/A";
 
-            public int AbilityNum => pkm.Format > 5 ? (pkm as PK6).AbilityNumber : -1;
+            public int AbilityNum => pkm.Format > 5 ? ((PK6) pkm).AbilityNumber : -1;
             public int GenderFlag => pkm.Gender;
             public int AltForms => pkm.AltForm;
             public int PKRS_Strain => pkm.PKRS_Strain;
@@ -115,12 +115,9 @@ namespace PKHeX
             dgData.DoubleBuffered(true);
             CenterToParent();
         }
-        public void PopulateData(SaveFile SAV)
-        {
-            PopulateData(SAV.BoxData);
-        }
         public void PopulateData(PKM[] Data)
         {
+            SuspendLayout();
             BoxBar.Step = 1;
             PokemonList PL = new PokemonList();
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
@@ -140,6 +137,7 @@ namespace PKHeX
                 dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
             }
             BoxBar.Visible = false;
+            ResumeLayout();
         }
         private void promptSaveCSV(object sender, FormClosingEventArgs e)
         {
@@ -159,13 +157,11 @@ namespace PKHeX
             var sb = new StringBuilder();
 
             var headers = dgData.Columns.Cast<DataGridViewColumn>();
-            sb.AppendLine(string.Join(",", headers.Select(column => "\"" + column.HeaderText + "\"").ToArray()));
+            sb.AppendLine(string.Join(",", headers.Select(column => $"\"{column.HeaderText}\"")));
 
-            foreach (DataGridViewRow row in dgData.Rows)
-            {
-                var cells = row.Cells.Cast<DataGridViewCell>();
-                sb.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
-            }
+            foreach (var cells in from DataGridViewRow row in dgData.Rows select row.Cells.Cast<DataGridViewCell>())
+                sb.AppendLine(string.Join(",", cells.Select(cell => $"\"{cell.Value}\"")));
+
             File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
         }
 

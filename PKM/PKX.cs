@@ -30,7 +30,6 @@ namespace PKHeX
             return new[] {SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
         }
 
-
         // C# PKX Function Library
         // No WinForm object related code, only to calculate information.
         // May require re-referencing to main form for string array referencing.
@@ -181,54 +180,9 @@ namespace PKHeX
             try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
             catch { return false; }
         }
-        internal static PersonalInfo[] Personal = PersonalInfo.AO;
+        internal static readonly PersonalTable Personal = PersonalTable.AO;
 
         // Stat Fetching
-        internal static int getMovePP(int move, int ppup)
-        {
-            return getBasePP(move) * (5 + ppup) / 5;
-        }
-        internal static int getBasePP(int move)
-        {
-            byte[] movepptable = 
-            {
-	            00, 
-	            35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 
-	            20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 
-	            20, 20, 30, 25, 40, 20, 15, 20, 20, 20, 30, 25, 15, 30, 25, 05, 15, 10, 05, 20, 
-	            20, 20, 05, 35, 20, 25, 20, 20, 20, 15, 25, 15, 10, 20, 25, 10, 35, 30, 15, 10, 
-	            40, 10, 15, 30, 15, 20, 10, 15, 10, 05, 10, 10, 25, 10, 20, 40, 30, 30, 20, 20, 
-	            15, 10, 40, 15, 10, 30, 10, 20, 10, 40, 40, 20, 30, 30, 20, 30, 10, 10, 20, 05, 
-	            10, 30, 20, 20, 20, 05, 15, 10, 20, 10, 15, 35, 20, 15, 10, 10, 30, 15, 40, 20, 
-	            15, 10, 05, 10, 30, 10, 15, 20, 15, 40, 20, 10, 05, 15, 10, 10, 10, 15, 30, 30, 
-	            10, 10, 20, 10, 01, 01, 10, 25, 10, 05, 15, 25, 15, 10, 15, 30, 05, 40, 15, 10, 
-	            25, 10, 30, 10, 20, 10, 10, 10, 10, 10, 20, 05, 40, 05, 05, 15, 05, 10, 05, 10, 
-	            10, 10, 10, 20, 20, 40, 15, 10, 20, 20, 25, 05, 15, 10, 05, 20, 15, 20, 25, 20, 
-	            05, 30, 05, 10, 20, 40, 05, 20, 40, 20, 15, 35, 10, 05, 05, 05, 15, 05, 20, 05, 
-	            05, 15, 20, 10, 05, 05, 15, 10, 15, 15, 10, 10, 10, 20, 10, 10, 10, 10, 15, 15, 
-	            15, 10, 20, 20, 10, 20, 20, 20, 20, 20, 10, 10, 10, 20, 20, 05, 15, 10, 10, 15, 
-	            10, 20, 05, 05, 10, 10, 20, 05, 10, 20, 10, 20, 20, 20, 05, 05, 15, 20, 10, 15, 
-	            20, 15, 10, 10, 15, 10, 05, 05, 10, 15, 10, 05, 20, 25, 05, 40, 15, 05, 40, 15, 
-	            20, 20, 05, 15, 20, 20, 15, 15, 05, 10, 30, 20, 30, 15, 05, 40, 15, 05, 20, 05, 
-	            15, 25, 25, 15, 20, 15, 20, 15, 20, 10, 20, 20, 05, 05, 10, 05, 40, 10, 10, 05, 
-	            10, 10, 15, 10, 20, 15, 30, 10, 20, 05, 10, 10, 15, 10, 10, 05, 15, 05, 10, 10, 
-	            30, 20, 20, 10, 10, 05, 05, 10, 05, 20, 10, 20, 10, 15, 10, 20, 20, 20, 15, 15, 
-	            10, 15, 15, 15, 10, 10, 10, 20, 10, 30, 05, 10, 15, 10, 10, 05, 20, 30, 10, 30, 
-	            15, 15, 15, 15, 30, 10, 20, 15, 10, 10, 20, 15, 05, 05, 15, 15, 05, 10, 05, 20, 
-	            05, 15, 20, 05, 20, 20, 20, 20, 10, 20, 10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 
-	            10, 05, 05, 10, 05, 05, 05, 15, 10, 10, 10, 10, 10, 10, 15, 20, 15, 10, 15, 10, 
-	            15, 10, 20, 10, 15, 10, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 20, 15, 10, 
-	            15, 15, 15, 15, 10, 10, 10, 10, 10, 15, 15, 15, 15, 05, 05, 15, 05, 10, 10, 10, 
-	            20, 20, 20, 10, 10, 30, 15, 15, 10, 15, 25, 10, 15, 10, 10, 10, 20, 10, 10, 10, 
-	            10, 10, 15, 15, 05, 05, 10, 10, 10, 05, 05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 
-	            10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 
-	            10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20, 
-	            10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 
-	            05 
-            };
-            if (move < 0) move = 0;
-            return movepptable[move];
-        }
         internal static byte[] getRandomEVs()
         {
             byte[] evs = new byte[6];
@@ -243,10 +197,6 @@ namespace PKHeX
             Util.Shuffle(evs);
             return evs;
         }
-        internal static int getBaseFriendship(int species)
-        {
-            return Personal[species].BaseFriendship;
-        }
         internal static int getLevel(int species, uint exp)
         {
             int growth = Personal[species].EXPGrowth;
@@ -255,29 +205,11 @@ namespace PKHeX
                 if (tl == 100) return 100;
             return --tl;
         }
-        internal static bool getIsShiny(uint PID, uint TID, uint SID)
-        {
-            uint PSV = getPSV(PID);
-            uint TSV = getTSV(TID, SID);
-            return TSV == PSV;
-        }
         internal static uint getEXP(int level, int species)
         {
             if (level <= 1) return 0;
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
-        }
-        internal static int[] getAbilities(int species, int formnum)
-        {
-            return Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
-        }
-        internal static int getAbilityNumber(int species, int ability, int formnum)
-        {
-            int[] spec_abilities = getAbilities(species, formnum);
-            int abilval = Array.IndexOf(spec_abilities, ability);
-            if (abilval >= 0)
-                return 1 << abilval;
-            return -1;
         }
         internal static int getGender(string s)
         {
@@ -343,26 +275,25 @@ namespace PKHeX
             return data;
         }
 
-        internal static string getLocation(PKM pk, bool egg)
+        internal static string getLocation(PKM pk, bool eggmet)
         {
-            return getLocation(egg, pk.Version, egg ? pk.Egg_Location : pk.Met_Location, pk.Format);
-        }
-        internal static string getLocation(bool eggmet, int gameorigin, int locval, int format)
-        {
-            if (gameorigin < 0x10 && (eggmet || format < 5))
+            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
+            if (pk.Format == 3)
+                return Main.metRSEFRLG_00000[locval%0x100];
+            if (pk.Version < 0x10 && (eggmet || pk.Format < 5))
             {
                 if (locval < 2000) return Main.metHGSS_00000[locval];
                 if (locval < 3000) return Main.metHGSS_02000[locval % 2000];
                                    return Main.metHGSS_03000[locval % 3000];
             }
-            if (gameorigin < 24)
+            if (pk.Version < 24)
             {
                 if (locval < 30000) return Main.metBW2_00000[locval];
                 if (locval < 40000) return Main.metBW2_30000[locval % 10000 - 1];
                 if (locval < 60000) return Main.metBW2_40000[locval % 10000 - 1];
                                     return Main.metBW2_60000[locval % 10000 - 1];
             }
-            if (gameorigin > 23)
+            if (pk.Version > 23)
             {
                 if (locval < 30000) return Main.metXY_00000[locval];
                 if (locval < 40000) return Main.metXY_30000[locval % 10000 - 1];
@@ -399,42 +330,6 @@ namespace PKHeX
 
             return response;
         }
-        internal static string getFileName(PKM pkm)
-        {
-            return
-                $"{pkm.Species.ToString("000")}{(pkm.IsShiny ? " ★" : "")} - {pkm.Nickname} - {pkm.Checksum.ToString("X4")}{pkm.EncryptionConstant.ToString("X8")}.{pkm.Extension}";
-        }
-        internal static ushort[] getStats(PKM pkm)
-        {
-            return getStats(pkm.Species, pkm.Stat_Level, pkm.Nature, pkm.AltForm,
-                pkm.EV_HP, pkm.EV_ATK, pkm.EV_DEF, pkm.EV_SPA, pkm.EV_SPD, pkm.EV_SPE,
-                pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE);
-        }
-        internal static ushort[] getStats(int species, int level, int nature, int form,
-                                        int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
-                                        int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
-        {
-            PersonalInfo p = Personal[Personal[species].FormeIndex(species, form)];
-            // Calculate Stats
-            ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
-            stats[0] = (ushort)(p.HP == 1 ? 1 : (HP_IV + 2 * p.HP + HP_EV / 4 + 100) * level / 100 + 10);
-            stats[1] = (ushort)((ATK_IV + 2 * p.ATK + ATK_EV / 4) * level / 100 + 5);
-            stats[2] = (ushort)((DEF_IV + 2 * p.DEF + DEF_EV / 4) * level / 100 + 5);
-            stats[4] = (ushort)((SPA_IV + 2 * p.SPA + SPA_EV / 4) * level / 100 + 5);
-            stats[5] = (ushort)((SPD_IV + 2 * p.SPD + SPD_EV / 4) * level / 100 + 5);
-            stats[3] = (ushort)((SPE_IV + 2 * p.SPE + SPE_EV / 4) * level / 100 + 5);
-
-            // Account for nature
-            int incr = nature / 5 + 1;
-            int decr = nature % 5 + 1;
-            if (incr == decr) return stats; // if neutral return stats without mod
-            stats[incr] *= 11; stats[incr] /= 10;
-            stats[decr] *= 9; stats[decr] /= 10;
-
-            // Return Result
-            return stats;
-        }
-
 
         // PKX Manipulation
         internal static readonly byte[][] blockPosition =
@@ -523,38 +418,7 @@ namespace PKHeX
             
             return chk;
         }
-        internal static bool verifychk(byte[] input)
-        {
-            ushort checksum = 0;
-            if (input.Length == 100 || input.Length == 80) // Gen 3 Files
-            {
-                for (int i = 32; i < 80; i += 2)
-                    checksum += BitConverter.ToUInt16(input, i);
 
-                return checksum == BitConverter.ToUInt16(input, 28);
-            }
-
-            if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
-                Array.Resize(ref input, 136);
-            else if (input.Length == 232 || input.Length == 260) // Gen 6
-                Array.Resize(ref input, 232);
-            else throw new ArgumentException("Wrong sized input array to verifychecksum");
-
-            ushort chk = 0;
-            for (int i = 8; i < input.Length; i += 2)
-                chk += BitConverter.ToUInt16(input, i);
-
-            return chk == BitConverter.ToUInt16(input, 0x6);
-        }
-
-        internal static uint getPSV(uint PID)
-        {
-            return (PID >> 16 ^ PID & 0xFFFF) >> 4;
-        }
-        internal static uint getTSV(uint TID, uint SID)
-        {
-            return (TID ^ SID) >> 4;
-        }
         internal static uint getRandomPID(int species, int cg, int origin, int nature, int form)
         {
             int gt = Personal[species].Gender;
@@ -687,7 +551,6 @@ namespace PKHeX
                         t[000], // Normal
                         f[723], // Mega
                     };}
-            // MegaXY List
             switch (species)
             {
                 case 6:
@@ -708,6 +571,12 @@ namespace PKHeX
                         f[732], // PhD
                         f[733], // Libre
                         f[734], // Cosplay
+                    };
+                case 172:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[000], // Spiky
                     };
                 case 201:
                     return new[]
@@ -1242,399 +1111,6 @@ namespace PKHeX
             388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,
             409,410,411,
         };
-        #endregion
-        #region Gen 3 Ability Table
-        internal static readonly byte[][] Gen3Abilities =
-        {
-            new byte[] {0x00, 0x00}, // 000
-            new byte[] {0x41, 0x41}, // 001
-            new byte[] {0x41, 0x41}, // 002
-            new byte[] {0x41, 0x41}, // 003
-            new byte[] {0x42, 0x42}, // 004
-            new byte[] {0x42, 0x42}, // 005
-            new byte[] {0x42, 0x42}, // 006
-            new byte[] {0x43, 0x43}, // 007
-            new byte[] {0x43, 0x43}, // 008
-            new byte[] {0x43, 0x43}, // 009
-            new byte[] {0x13, 0x13}, // 010
-            new byte[] {0x3d, 0x3d}, // 011
-            new byte[] {0x0e, 0x0e}, // 012
-            new byte[] {0x13, 0x13}, // 013
-            new byte[] {0x3d, 0x3d}, // 014
-            new byte[] {0x44, 0x44}, // 015
-            new byte[] {0x33, 0x33}, // 016
-            new byte[] {0x33, 0x33}, // 017
-            new byte[] {0x33, 0x33}, // 018
-            new byte[] {0x32, 0x3e}, // 019
-            new byte[] {0x32, 0x3e}, // 020
-            new byte[] {0x33, 0x33}, // 021
-            new byte[] {0x33, 0x33}, // 022
-            new byte[] {0x3d, 0x16}, // 023
-            new byte[] {0x3d, 0x16}, // 024
-            new byte[] {0x09, 0x09}, // 025
-            new byte[] {0x09, 0x09}, // 026
-            new byte[] {0x08, 0x08}, // 027
-            new byte[] {0x08, 0x08}, // 028
-            new byte[] {0x26, 0x26}, // 029
-            new byte[] {0x26, 0x26}, // 030
-            new byte[] {0x26, 0x26}, // 031
-            new byte[] {0x26, 0x26}, // 032
-            new byte[] {0x26, 0x26}, // 033
-            new byte[] {0x26, 0x26}, // 034
-            new byte[] {0x38, 0x38}, // 035
-            new byte[] {0x38, 0x38}, // 036
-            new byte[] {0x12, 0x12}, // 037
-            new byte[] {0x12, 0x12}, // 038
-            new byte[] {0x38, 0x38}, // 039
-            new byte[] {0x38, 0x38}, // 040
-            new byte[] {0x27, 0x27}, // 041
-            new byte[] {0x27, 0x27}, // 042
-            new byte[] {0x22, 0x22}, // 043
-            new byte[] {0x22, 0x22}, // 044
-            new byte[] {0x22, 0x22}, // 045
-            new byte[] {0x1b, 0x1b}, // 046
-            new byte[] {0x1b, 0x1b}, // 047
-            new byte[] {0x0e, 0x0e}, // 048
-            new byte[] {0x13, 0x13}, // 049
-            new byte[] {0x08, 0x47}, // 050
-            new byte[] {0x08, 0x47}, // 051
-            new byte[] {0x35, 0x35}, // 052
-            new byte[] {0x07, 0x07}, // 053
-            new byte[] {0x06, 0x0d}, // 054
-            new byte[] {0x06, 0x0d}, // 055
-            new byte[] {0x48, 0x48}, // 056
-            new byte[] {0x48, 0x48}, // 057
-            new byte[] {0x16, 0x12}, // 058
-            new byte[] {0x16, 0x12}, // 059
-            new byte[] {0x06, 0x0b}, // 060
-            new byte[] {0x06, 0x0b}, // 061
-            new byte[] {0x06, 0x0b}, // 062
-            new byte[] {0x1c, 0x27}, // 063
-            new byte[] {0x1c, 0x27}, // 064
-            new byte[] {0x1c, 0x27}, // 065
-            new byte[] {0x3e, 0x3e}, // 066
-            new byte[] {0x3e, 0x3e}, // 067
-            new byte[] {0x3e, 0x3e}, // 068
-            new byte[] {0x22, 0x22}, // 069
-            new byte[] {0x22, 0x22}, // 070
-            new byte[] {0x22, 0x22}, // 071
-            new byte[] {0x1d, 0x40}, // 072
-            new byte[] {0x1d, 0x40}, // 073
-            new byte[] {0x45, 0x05}, // 074
-            new byte[] {0x45, 0x05}, // 075
-            new byte[] {0x45, 0x05}, // 076
-            new byte[] {0x32, 0x12}, // 077
-            new byte[] {0x32, 0x12}, // 078
-            new byte[] {0x0c, 0x14}, // 079
-            new byte[] {0x0c, 0x14}, // 080
-            new byte[] {0x2a, 0x05}, // 081
-            new byte[] {0x2a, 0x05}, // 082
-            new byte[] {0x33, 0x27}, // 083
-            new byte[] {0x32, 0x30}, // 084
-            new byte[] {0x32, 0x30}, // 085
-            new byte[] {0x2f, 0x2f}, // 086
-            new byte[] {0x2f, 0x2f}, // 087
-            new byte[] {0x01, 0x3c}, // 088
-            new byte[] {0x01, 0x3c}, // 089
-            new byte[] {0x4b, 0x4b}, // 090
-            new byte[] {0x4b, 0x4b}, // 091
-            new byte[] {0x1a, 0x1a}, // 092
-            new byte[] {0x1a, 0x1a}, // 093
-            new byte[] {0x1a, 0x1a}, // 094
-            new byte[] {0x45, 0x05}, // 095
-            new byte[] {0x0f, 0x0f}, // 096
-            new byte[] {0x0f, 0x0f}, // 097
-            new byte[] {0x34, 0x4b}, // 098
-            new byte[] {0x34, 0x4b}, // 099
-            new byte[] {0x2b, 0x09}, // 100
-            new byte[] {0x2b, 0x09}, // 101
-            new byte[] {0x22, 0x22}, // 102
-            new byte[] {0x22, 0x22}, // 103
-            new byte[] {0x45, 0x1f}, // 104
-            new byte[] {0x45, 0x1f}, // 105
-            new byte[] {0x07, 0x07}, // 106
-            new byte[] {0x33, 0x33}, // 107
-            new byte[] {0x0c, 0x14}, // 108
-            new byte[] {0x1a, 0x1a}, // 109
-            new byte[] {0x1a, 0x1a}, // 110
-            new byte[] {0x45, 0x1f}, // 111
-            new byte[] {0x45, 0x1f}, // 112
-            new byte[] {0x1e, 0x20}, // 113
-            new byte[] {0x22, 0x22}, // 114
-            new byte[] {0x30, 0x30}, // 115
-            new byte[] {0x21, 0x21}, // 116
-            new byte[] {0x26, 0x26}, // 117
-            new byte[] {0x21, 0x29}, // 118
-            new byte[] {0x21, 0x29}, // 119
-            new byte[] {0x23, 0x1e}, // 120
-            new byte[] {0x23, 0x1e}, // 121
-            new byte[] {0x2b, 0x2b}, // 122
-            new byte[] {0x44, 0x44}, // 123
-            new byte[] {0x0c, 0x0c}, // 124
-            new byte[] {0x09, 0x09}, // 125
-            new byte[] {0x31, 0x31}, // 126
-            new byte[] {0x34, 0x34}, // 127
-            new byte[] {0x16, 0x16}, // 128
-            new byte[] {0x21, 0x21}, // 129
-            new byte[] {0x16, 0x16}, // 130
-            new byte[] {0x0b, 0x4b}, // 131
-            new byte[] {0x07, 0x07}, // 132
-            new byte[] {0x32, 0x32}, // 133
-            new byte[] {0x0b, 0x0b}, // 134
-            new byte[] {0x0a, 0x0a}, // 135
-            new byte[] {0x12, 0x12}, // 136
-            new byte[] {0x24, 0x24}, // 137
-            new byte[] {0x21, 0x4b}, // 138
-            new byte[] {0x21, 0x4b}, // 139
-            new byte[] {0x21, 0x04}, // 140
-            new byte[] {0x21, 0x04}, // 141
-            new byte[] {0x45, 0x2e}, // 142
-            new byte[] {0x11, 0x2f}, // 143
-            new byte[] {0x2e, 0x2e}, // 144
-            new byte[] {0x2e, 0x2e}, // 145
-            new byte[] {0x2e, 0x2e}, // 146
-            new byte[] {0x3d, 0x3d}, // 147
-            new byte[] {0x3d, 0x3d}, // 148
-            new byte[] {0x27, 0x27}, // 149
-            new byte[] {0x2e, 0x2e}, // 150
-            new byte[] {0x1c, 0x1c}, // 151
-            new byte[] {0x41, 0x41}, // 152
-            new byte[] {0x41, 0x41}, // 153
-            new byte[] {0x41, 0x41}, // 154
-            new byte[] {0x42, 0x42}, // 155
-            new byte[] {0x42, 0x42}, // 156
-            new byte[] {0x42, 0x42}, // 157
-            new byte[] {0x43, 0x43}, // 158
-            new byte[] {0x43, 0x43}, // 159
-            new byte[] {0x43, 0x43}, // 160
-            new byte[] {0x32, 0x33}, // 161
-            new byte[] {0x32, 0x33}, // 162
-            new byte[] {0x0f, 0x33}, // 163
-            new byte[] {0x0f, 0x33}, // 164
-            new byte[] {0x44, 0x30}, // 165
-            new byte[] {0x44, 0x30}, // 166
-            new byte[] {0x0f, 0x44}, // 167
-            new byte[] {0x0f, 0x44}, // 168
-            new byte[] {0x27, 0x27}, // 169
-            new byte[] {0x0a, 0x23}, // 170
-            new byte[] {0x0a, 0x23}, // 171
-            new byte[] {0x09, 0x09}, // 172
-            new byte[] {0x38, 0x38}, // 173
-            new byte[] {0x38, 0x38}, // 174
-            new byte[] {0x37, 0x20}, // 175
-            new byte[] {0x37, 0x20}, // 176
-            new byte[] {0x1c, 0x30}, // 177
-            new byte[] {0x1c, 0x30}, // 178
-            new byte[] {0x09, 0x09}, // 179
-            new byte[] {0x09, 0x09}, // 180
-            new byte[] {0x09, 0x09}, // 181
-            new byte[] {0x22, 0x22}, // 182
-            new byte[] {0x2f, 0x25}, // 183
-            new byte[] {0x2f, 0x25}, // 184
-            new byte[] {0x45, 0x05}, // 185
-            new byte[] {0x06, 0x0b}, // 186
-            new byte[] {0x22, 0x22}, // 187
-            new byte[] {0x22, 0x22}, // 188
-            new byte[] {0x22, 0x22}, // 189
-            new byte[] {0x32, 0x35}, // 190
-            new byte[] {0x22, 0x22}, // 191
-            new byte[] {0x22, 0x22}, // 192
-            new byte[] {0x03, 0x0e}, // 193
-            new byte[] {0x06, 0x0b}, // 194
-            new byte[] {0x06, 0x0b}, // 195
-            new byte[] {0x1c, 0x1c}, // 196
-            new byte[] {0x1c, 0x1c}, // 197
-            new byte[] {0x0f, 0x0f}, // 198
-            new byte[] {0x0c, 0x14}, // 199
-            new byte[] {0x1a, 0x1a}, // 200
-            new byte[] {0x1a, 0x1a}, // 201
-            new byte[] {0x17, 0x17}, // 202
-            new byte[] {0x27, 0x30}, // 203
-            new byte[] {0x05, 0x05}, // 204
-            new byte[] {0x05, 0x05}, // 205
-            new byte[] {0x20, 0x32}, // 206
-            new byte[] {0x08, 0x34}, // 207
-            new byte[] {0x45, 0x05}, // 208
-            new byte[] {0x16, 0x32}, // 209
-            new byte[] {0x16, 0x16}, // 210
-            new byte[] {0x21, 0x26}, // 211
-            new byte[] {0x44, 0x44}, // 212
-            new byte[] {0x05, 0x05}, // 213
-            new byte[] {0x44, 0x3e}, // 214
-            new byte[] {0x27, 0x33}, // 215
-            new byte[] {0x35, 0x35}, // 216
-            new byte[] {0x3e, 0x3e}, // 217
-            new byte[] {0x28, 0x31}, // 218
-            new byte[] {0x28, 0x31}, // 219
-            new byte[] {0x0c, 0x0c}, // 220
-            new byte[] {0x0c, 0x0c}, // 221
-            new byte[] {0x37, 0x1e}, // 222
-            new byte[] {0x37, 0x37}, // 223
-            new byte[] {0x15, 0x15}, // 224
-            new byte[] {0x37, 0x48}, // 225
-            new byte[] {0x21, 0x0b}, // 226
-            new byte[] {0x33, 0x05}, // 227
-            new byte[] {0x30, 0x12}, // 228
-            new byte[] {0x30, 0x12}, // 229
-            new byte[] {0x21, 0x21}, // 230
-            new byte[] {0x35, 0x35}, // 231
-            new byte[] {0x05, 0x05}, // 232
-            new byte[] {0x24, 0x24}, // 233
-            new byte[] {0x16, 0x16}, // 234
-            new byte[] {0x14, 0x14}, // 235
-            new byte[] {0x3e, 0x3e}, // 236
-            new byte[] {0x16, 0x16}, // 237
-            new byte[] {0x0c, 0x0c}, // 238
-            new byte[] {0x09, 0x09}, // 239
-            new byte[] {0x31, 0x31}, // 240
-            new byte[] {0x2f, 0x2f}, // 241
-            new byte[] {0x1e, 0x20}, // 242
-            new byte[] {0x2e, 0x2e}, // 243
-            new byte[] {0x2e, 0x2e}, // 244
-            new byte[] {0x2e, 0x2e}, // 245
-            new byte[] {0x3e, 0x3e}, // 246
-            new byte[] {0x3d, 0x3d}, // 247
-            new byte[] {0x2d, 0x2d}, // 248
-            new byte[] {0x2e, 0x2e}, // 249
-            new byte[] {0x2e, 0x2e}, // 250
-            new byte[] {0x1e, 0x1e}, // 251
-            new byte[] {0x41, 0x41}, // 252
-            new byte[] {0x41, 0x41}, // 253
-            new byte[] {0x41, 0x41}, // 254
-            new byte[] {0x42, 0x42}, // 255
-            new byte[] {0x42, 0x42}, // 256
-            new byte[] {0x42, 0x42}, // 257
-            new byte[] {0x43, 0x43}, // 258
-            new byte[] {0x43, 0x43}, // 259
-            new byte[] {0x43, 0x43}, // 260
-            new byte[] {0x32, 0x32}, // 261
-            new byte[] {0x16, 0x16}, // 262
-            new byte[] {0x35, 0x35}, // 263
-            new byte[] {0x35, 0x35}, // 264
-            new byte[] {0x13, 0x13}, // 265
-            new byte[] {0x3d, 0x3d}, // 266
-            new byte[] {0x44, 0x44}, // 267
-            new byte[] {0x3d, 0x3d}, // 268
-            new byte[] {0x13, 0x13}, // 269
-            new byte[] {0x21, 0x2c}, // 270
-            new byte[] {0x21, 0x2c}, // 271
-            new byte[] {0x21, 0x2c}, // 272
-            new byte[] {0x22, 0x30}, // 273
-            new byte[] {0x22, 0x30}, // 274
-            new byte[] {0x22, 0x30}, // 275
-            new byte[] {0x3e, 0x3e}, // 276
-            new byte[] {0x3e, 0x3e}, // 277
-            new byte[] {0x33, 0x33}, // 278
-            new byte[] {0x33, 0x33}, // 279
-            new byte[] {0x1c, 0x24}, // 280
-            new byte[] {0x1c, 0x24}, // 281
-            new byte[] {0x1c, 0x24}, // 282
-            new byte[] {0x21, 0x21}, // 283
-            new byte[] {0x16, 0x16}, // 284
-            new byte[] {0x1b, 0x1b}, // 285
-            new byte[] {0x1b, 0x1b}, // 286
-            new byte[] {0x36, 0x36}, // 287
-            new byte[] {0x48, 0x48}, // 288
-            new byte[] {0x36, 0x36}, // 289
-            new byte[] {0x0e, 0x0e}, // 290
-            new byte[] {0x03, 0x03}, // 291
-            new byte[] {0x19, 0x19}, // 292
-            new byte[] {0x2b, 0x2b}, // 293
-            new byte[] {0x2b, 0x2b}, // 294
-            new byte[] {0x2b, 0x2b}, // 295
-            new byte[] {0x2f, 0x3e}, // 296
-            new byte[] {0x2f, 0x3e}, // 297
-            new byte[] {0x2f, 0x3e}, // 298
-            new byte[] {0x05, 0x2a}, // 299
-            new byte[] {0x38, 0x38}, // 300
-            new byte[] {0x38, 0x38}, // 301
-            new byte[] {0x33, 0x33}, // 302
-            new byte[] {0x34, 0x16}, // 303
-            new byte[] {0x45, 0x05}, // 304
-            new byte[] {0x45, 0x05}, // 305
-            new byte[] {0x45, 0x05}, // 306
-            new byte[] {0x4a, 0x4a}, // 307
-            new byte[] {0x4a, 0x4a}, // 308
-            new byte[] {0x09, 0x1f}, // 309
-            new byte[] {0x09, 0x1f}, // 310
-            new byte[] {0x39, 0x39}, // 311
-            new byte[] {0x3a, 0x3a}, // 312
-            new byte[] {0x23, 0x44}, // 313
-            new byte[] {0x0c, 0x0c}, // 314
-            new byte[] {0x1e, 0x26}, // 315
-            new byte[] {0x40, 0x3c}, // 316
-            new byte[] {0x40, 0x3c}, // 317
-            new byte[] {0x18, 0x18}, // 318
-            new byte[] {0x18, 0x18}, // 319
-            new byte[] {0x29, 0x0c}, // 320
-            new byte[] {0x29, 0x0c}, // 321
-            new byte[] {0x0c, 0x0c}, // 322
-            new byte[] {0x28, 0x28}, // 323
-            new byte[] {0x49, 0x49}, // 324
-            new byte[] {0x2f, 0x14}, // 325
-            new byte[] {0x2f, 0x14}, // 326
-            new byte[] {0x14, 0x14}, // 327
-            new byte[] {0x34, 0x47}, // 328
-            new byte[] {0x1a, 0x1a}, // 329
-            new byte[] {0x1a, 0x1a}, // 330
-            new byte[] {0x08, 0x08}, // 331
-            new byte[] {0x08, 0x08}, // 332
-            new byte[] {0x1e, 0x1e}, // 333
-            new byte[] {0x1e, 0x1e}, // 334
-            new byte[] {0x11, 0x11}, // 335
-            new byte[] {0x3d, 0x3d}, // 336
-            new byte[] {0x1a, 0x1a}, // 337
-            new byte[] {0x1a, 0x1a}, // 338
-            new byte[] {0x0c, 0x0c}, // 339
-            new byte[] {0x0c, 0x0c}, // 340
-            new byte[] {0x34, 0x4b}, // 341
-            new byte[] {0x34, 0x4b}, // 342
-            new byte[] {0x1a, 0x1a}, // 343
-            new byte[] {0x1a, 0x1a}, // 344
-            new byte[] {0x15, 0x15}, // 345
-            new byte[] {0x15, 0x15}, // 346
-            new byte[] {0x04, 0x04}, // 347
-            new byte[] {0x04, 0x04}, // 348
-            new byte[] {0x21, 0x21}, // 349
-            new byte[] {0x3f, 0x3f}, // 350
-            new byte[] {0x3b, 0x3b}, // 351
-            new byte[] {0x10, 0x10}, // 352
-            new byte[] {0x0f, 0x0f}, // 353
-            new byte[] {0x0f, 0x0f}, // 354
-            new byte[] {0x1a, 0x1a}, // 355
-            new byte[] {0x2e, 0x2e}, // 356
-            new byte[] {0x22, 0x22}, // 357
-            new byte[] {0x1a, 0x1a}, // 358
-            new byte[] {0x2e, 0x2e}, // 359
-            new byte[] {0x17, 0x17}, // 360
-            new byte[] {0x27, 0x27}, // 361
-            new byte[] {0x27, 0x27}, // 362
-            new byte[] {0x2f, 0x2f}, // 363
-            new byte[] {0x2f, 0x2f}, // 364
-            new byte[] {0x2f, 0x2f}, // 365
-            new byte[] {0x4b, 0x4b}, // 366
-            new byte[] {0x21, 0x21}, // 367
-            new byte[] {0x21, 0x21}, // 368
-            new byte[] {0x21, 0x45}, // 369
-            new byte[] {0x21, 0x21}, // 370
-            new byte[] {0x45, 0x45}, // 371
-            new byte[] {0x45, 0x45}, // 372
-            new byte[] {0x16, 0x16}, // 373
-            new byte[] {0x1d, 0x1d}, // 374
-            new byte[] {0x1d, 0x1d}, // 375
-            new byte[] {0x1d, 0x1d}, // 376
-            new byte[] {0x1d, 0x1d}, // 377
-            new byte[] {0x1d, 0x1d}, // 378
-            new byte[] {0x1d, 0x1d}, // 379
-            new byte[] {0x1a, 0x1a}, // 380
-            new byte[] {0x1a, 0x1a}, // 381
-            new byte[] {0x02, 0x02}, // 382
-            new byte[] {0x46, 0x46}, // 383
-            new byte[] {0x4d, 0x4d}, // 384
-            new byte[] {0x20, 0x20}, // 385
-            new byte[] {0x2e, 0x2e}, // 386
-        };
-
         #endregion
         #region Gen 3/4 Character Tables (Val->Unicode)
 

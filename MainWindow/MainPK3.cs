@@ -29,9 +29,7 @@ namespace PKHeX
             TB_PID.Text = pk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk3.G3Item;
             setAbilityList();
-            int[] abils = PKX.getAbilities(pk3.Species, 0);
-            int abil = Array.IndexOf(abils, pk3.Ability);
-            CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
+            CB_Ability.SelectedIndex = pk3.AbilityNumber > CB_Ability.Items.Count ? 0 : pk3.AbilityNumber;
             CB_Nature.SelectedValue = pk3.Nature;
             TB_TID.Text = pk3.TID.ToString("00000");
             TB_SID.Text = pk3.SID.ToString("00000");
@@ -92,11 +90,13 @@ namespace PKHeX
             TB_PP3.Text = pk3.Move3_PP.ToString();
             TB_PP4.Text = pk3.Move4_PP.ToString();
 
+            // Set Form if count is enough, else cap.
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk3.AltForm ? pk3.AltForm : CB_Form.Items.Count - 1;
+
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk3.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
             updateStats();
-            setIsShiny();
 
             TB_EXP.Text = pk3.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk3.Gender];
@@ -114,7 +114,7 @@ namespace PKHeX
             pk3.SID = Util.ToInt32(TB_SID.Text);
             pk3.EXP = Util.ToUInt32(TB_EXP.Text);
             pk3.PID = Util.getHEXval(TB_PID.Text);
-            pk3.Ability = CB_Ability.SelectedIndex; // 0/1 (stored in IVbits)
+            pk3.AbilityNumber = CB_Ability.SelectedIndex; // 0/1 (stored in IVbits)
 
             pk3.FatefulEncounter = CHK_Fateful.Checked;
             pk3.Gender = PKX.getGender(Label_Gender.Text);

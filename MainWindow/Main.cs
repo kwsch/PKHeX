@@ -86,13 +86,15 @@ namespace PKHeX
             // Box to Tabs D&D
             dragout.AllowDrop = true;
 
+            FLP_SAVtools.Scroll += Util.FlowLayoutPanelScroll;
+
             // Load WC6 folder to legality
             refreshWC6DB();
 
             #endregion
             #region Localize & Populate Fields
             string[] args = Environment.GetCommandLineArgs();
-            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0]).ToLower() : "";
+            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
             HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
 
             // Try and detect the language
@@ -386,7 +388,7 @@ namespace PKHeX
             CB_Form.SelectedIndex = form;
 
             // Set Ability
-            int[] abilities = PKX.getAbilities(Set.Species, form);
+            int[] abilities = SAV.Personal.getAbilities(Set.Species, form);
             int ability = Array.IndexOf(abilities, Set.Ability);
             if (ability < 0) ability = 0;
             CB_Ability.SelectedIndex = ability;
@@ -689,16 +691,42 @@ namespace PKHeX
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
             if (sav.Generation <= 3) // Japanese Save files are different. Get isJapanese
             {
-                var dr = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected.", "Does this file originate from a Japanese game?");
-                if (dr == DialogResult.Cancel)
+                if (sav.Version == GameVersion.Unknown)
+                {
+                    // Hacky cheats invalidated the Game Code value.
+                    var drGame = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                        "Unknown Gen3 Game Detected. Select Origins:",
+                        "Yes: Ruby / Sapphire" + Environment.NewLine + 
+                        "No: Emerald" + Environment.NewLine +
+                        "Cancel: FireRed / LeafGreen");
+
+                    if (drGame == DialogResult.Yes)
+                        sav = new SAV3(sav.Data, GameVersion.RS);
+                    else if (drGame == DialogResult.No)
+                        sav = new SAV3(sav.Data, GameVersion.E);
+                    else
+                        sav = new SAV3(sav.Data, GameVersion.FRLG);
+                }
+                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
+                if (drJP == DialogResult.Cancel)
                     return;
-                sav.Japanese = dr == DialogResult.Yes;
+                sav.Japanese = drJP == DialogResult.No;
+
+                if (sav.Version == GameVersion.FRLG)
+                {
+                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, "FRLG Detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
+                    if (drFRLG == DialogResult.Cancel)
+                        return;
+
+                    sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
+                }
             }
+            PKM pk = preparePKM();
             SAV = sav;
 
             SAV.FilePath = Path.GetDirectoryName(path);
             SAV.FileName = Path.GetExtension(path) == ".bak"
-                ? Path.GetFileName(path).Split(new[] {" ["}, StringSplitOptions.None)[0]
+                ? Path.GetFileName(path)?.Split(new[] {" ["}, StringSplitOptions.None)[0]
                 : Path.GetFileName(path);
             L_Save.Text = $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
             
@@ -738,6 +766,7 @@ namespace PKHeX
             B_Pokeblocks.Visible = SAV.HasPokeBlock;
             B_JPEG.Visible = SAV.HasJPEG;
             B_OpenEventFlags.Visible = SAV.HasEvents;
+            B_LinkInfo.Visible = SAV.HasLink;
             
             // Generational Interface
             byte[] extraBytes = new byte[1];
@@ -785,14 +814,13 @@ namespace PKHeX
                     getFieldsfromPKM = populateFieldsPK6;
                     getPKMfromFields = preparePK6;
                     extraBytes = PK6.ExtraBytes;
-                    TB_GameSync.Enabled = (SAV as SAV6).GameSyncID != 0;
-                    TB_GameSync.Text = (SAV as SAV6).GameSyncID.ToString("X16");
-                    TB_Secure1.Text = (SAV as SAV6).Secure1.ToString("X16");
-                    TB_Secure2.Text = (SAV as SAV6).Secure2.ToString("X16");
+                    SAV6 sav6 = (SAV6)SAV;
+                    TB_GameSync.Enabled = sav6.GameSyncID != 0;
+                    TB_GameSync.Text = sav6.GameSyncID.ToString("X16");
+                    TB_Secure1.Text = sav6.Secure1.ToString("X16");
+                    TB_Secure2.Text = sav6.Secure2.ToString("X16");
                     break;
             }
-            PKM pk = preparePKM();
-            PKX.Personal = SAV.Personal;
             bool init = fieldsInitialized;
             fieldsInitialized = false;
             populateFilteredDataSources();
@@ -1050,10 +1078,11 @@ namespace PKHeX
             CB_GameOrigin.DataSource = new BindingSource(VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15), null);
 
             // Set the Move ComboBoxes too..
+            var moves = MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToArray();
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
-                cb.DataSource = new BindingSource(MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID), null);
+                cb.DataSource = new BindingSource(moves, null);
             }
         }
         private Action getFieldsfromPKM;
@@ -1062,7 +1091,7 @@ namespace PKHeX
         {
             if (pk == null) { Util.Error("Attempted to load a null file."); return; }
 
-            if (pk.Format != SAV.Generation)
+            if (pk.Format > SAV.Generation)
             { Util.Alert("Can't load future generation files."); return; }
 
             bool oldInit = fieldsInitialized;
@@ -1079,7 +1108,7 @@ namespace PKHeX
             {
                 string c;
                 pkm = PKMConverter.convertToFormat(pkm, SAV.Generation, out c);
-                if (pk.Format != pkm.Format) // converted
+                if (pk.Format != pkm.Format && focus) // converted
                     Util.Alert("Converted File.");
             }
 
@@ -1127,14 +1156,14 @@ namespace PKHeX
         }
         private void setForms()
         {
-            if (SAV.Generation < 4)
+            int species = Util.getIndex(CB_Species);
+            if (SAV.Generation < 4 && species != 201)
             {
                 Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
                 return;
             }
 
-            int species = Util.getIndex(CB_Species);
-            bool hasForms = SAV.Personal[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            bool hasForms = SAV.Personal[species].HasFormes || new[] { 201, 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
             if (!hasForms)
@@ -1152,7 +1181,7 @@ namespace PKHeX
             if (SAV.Generation > 3) // has forms
                 formnum = CB_Form.SelectedIndex;
 
-            int[] abils = SAV.Personal[SAV.Personal[species].FormeIndex(species, formnum)].Abilities;
+            int[] abils = SAV.Personal.getAbilities(species, formnum);
             string[] abilIdentifier = {" (1)", " (2)", " (H)"};
             List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
             if (!ability_list.Any())
@@ -1163,9 +1192,16 @@ namespace PKHeX
             CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
         }
         // PKX Data Calculation Functions //
-        private void setIsShiny()
+        private void setIsShiny(object sender)
         {
-            bool isShiny = PKX.getIsShiny(Util.getHEXval(TB_PID.Text), Util.ToUInt32(TB_TID.Text), Util.ToUInt32(TB_SID.Text));
+            if (sender == TB_PID)
+                pkm.PID = Util.getHEXval(TB_PID.Text);
+            else if (sender == TB_TID)
+                pkm.TID = (int)Util.ToUInt32(TB_TID.Text);
+            else if (sender == TB_SID)
+                pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
+
+            bool isShiny = pkm.IsShiny;
 
             // Set the Controls
             BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
@@ -1229,12 +1265,12 @@ namespace PKHeX
             if (ModifierKeys == Keys.Control) // prompt to reset
                 TB_Friendship.Text = pkm.CurrentFriendship.ToString();
             else
-                TB_Friendship.Text = TB_Friendship.Text == "255" ? PKX.getBaseFriendship(pkm.Species).ToString() : "255";
+                TB_Friendship.Text = TB_Friendship.Text == "255" ? SAV.Personal[pkm.Species].BaseFriendship.ToString() : "255";
         }
         private void clickGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
-            int gt = PKX.Personal[Util.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
@@ -1242,12 +1278,21 @@ namespace PKHeX
             if (gt >= 255) return; 
             // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
 
-            pkm.Gender = PKX.getGender(Label_Gender.Text) ^ 1;
+            int newGender = PKX.getGender(Label_Gender.Text) ^ 1;
+            if (SAV.Generation <= 4)
+            {
+                pkm.Species = Util.getIndex(CB_Species);
+                pkm.Version = Util.getIndex(CB_GameOrigin);
+                pkm.Nature = CB_Nature.SelectedIndex;
+                pkm.AltForm = CB_Form.SelectedIndex;
+
+                pkm.setPIDGender(newGender);
+                TB_PID.Text = pkm.PID.ToString("X8");
+            }
+            pkm.Gender = newGender;
             Label_Gender.Text = gendersymbols[pkm.Gender];
             Label_Gender.ForeColor = pkm.Gender == 2 ? Label_Species.ForeColor : (pkm.Gender == 1 ? Color.Red : Color.Blue);
 
-            if (SAV.Generation < 6)
-                updateRandomPID(null, null);
 
             if (PKX.getGender(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
@@ -1291,16 +1336,16 @@ namespace PKHeX
         private void clickIV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
-                (sender as MaskedTextBox).Text = 31.ToString();
+                ((MaskedTextBox) sender).Text = 31.ToString();
             else if (ModifierKeys == Keys.Alt)
-                (sender as MaskedTextBox).Text = 0.ToString();
+                ((MaskedTextBox) sender).Text = 0.ToString();
         }
         private void clickEV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // EV
-                (sender as MaskedTextBox).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32((sender as MaskedTextBox).Text), 0), 252).ToString();
+                ((MaskedTextBox) sender).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32((sender as MaskedTextBox).Text), 0), 252).ToString();
             else if (ModifierKeys == Keys.Alt)
-                (sender as MaskedTextBox).Text = 0.ToString();
+                ((MaskedTextBox) sender).Text = 0.ToString();
         }
         private void clickOT(object sender, EventArgs e)
         {
@@ -1405,6 +1450,7 @@ namespace PKHeX
                 TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
+            pkm.EXP = Util.ToUInt32(TB_EXP.Text);
             updateStats();
             updateLegality();
         }
@@ -1434,8 +1480,8 @@ namespace PKHeX
         private void updateIVs(object sender, EventArgs e)
         {
             if (changingFields || !fieldsInitialized) return;
-            if (sender != null && Util.ToInt32((sender as MaskedTextBox).Text) > 31)
-                (sender as MaskedTextBox).Text = "31";
+            if (sender != null && Util.ToInt32(((MaskedTextBox) sender).Text) > 31)
+                ((MaskedTextBox) sender).Text = "31";
 
             changingFields = true;
 
@@ -1466,19 +1512,22 @@ namespace PKHeX
         }
         private void updateEVs(object sender, EventArgs e)
         {
-            if (sender != null)
-                if (Util.ToInt32((sender as MaskedTextBox).Text) > SAV.MaxEV)
-                    (sender as MaskedTextBox).Text = SAV.MaxEV.ToString();
+            if (sender is MaskedTextBox)
+            {
+                MaskedTextBox m = (MaskedTextBox)sender;
+                if (Util.ToInt32(m.Text) > SAV.MaxEV)
+                { m.Text = SAV.MaxEV.ToString(); return; } // recursive on text set
+            }
 
             changingFields = true;
-            int EV_HP = Util.ToInt32(TB_HPEV.Text);
-            int EV_ATK = Util.ToInt32(TB_ATKEV.Text);
-            int EV_DEF = Util.ToInt32(TB_DEFEV.Text);
-            int EV_SPA = Util.ToInt32(TB_SPAEV.Text);
-            int EV_SPD = Util.ToInt32(TB_SPDEV.Text);
-            int EV_SPE = Util.ToInt32(TB_SPEEV.Text);
+            if (sender == TB_HPEV) pkm.EV_HP = Util.ToInt32(TB_HPEV.Text);
+            else if (sender == TB_ATKEV) pkm.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
+            else if (sender == TB_DEFEV) pkm.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
+            else if (sender == TB_SPEEV) pkm.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
+            else if (sender == TB_SPAEV) pkm.EV_SPA = Util.ToInt32(TB_SPAEV.Text);
+            else if (sender == TB_SPDEV) pkm.EV_SPD = Util.ToInt32(TB_SPDEV.Text);
 
-            int evtotal = EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
+            int evtotal = pkm.EVs.Sum();
 
             if (evtotal > 510) // Background turns Red
                 TB_EVTotal.BackColor = Color.Red;
@@ -1603,17 +1652,24 @@ namespace PKHeX
         }
         private void update255_MTB(object sender, EventArgs e)
         {
-            if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
-                    (sender as MaskedTextBox).Text = "255";
+            if (Util.ToInt32(((MaskedTextBox) sender).Text) > byte.MaxValue)
+                    ((MaskedTextBox) sender).Text = "255";
         }
         private void updateForm(object sender, EventArgs e)
         {
+            if (CB_Form == sender && fieldsLoaded)
+                pkm.AltForm = CB_Form.SelectedIndex;
             updateStats();
             // Repopulate Abilities if Species Form has different abilities
             setAbilityList();
 
             // Gender Forms
-            if (PKX.getGender(CB_Form.Text) < 2 && Util.getIndex(CB_Species) != 201) // don't do this for Unown
+            if (Util.getIndex(CB_Species) == 201)
+            {
+                if (fieldsLoaded && SAV.Generation == 3)
+                    updateRandomPID(sender, e); // Fix AltForm
+            }
+            else if (PKX.getGender(CB_Form.Text) < 2)
                 Label_Gender.Text = CB_Form.Text;
 
             if (changingFields) 
@@ -1627,16 +1683,16 @@ namespace PKHeX
             if (changingFields)
                 return;
             changingFields = true;
-            int form = Util.ToInt32(MT_Form.Text);
+            int form = pkm.AltForm = Util.ToInt32(MT_Form.Text);
             CB_Form.SelectedIndex = CB_Form.Items.Count > form ? form : -1;
             changingFields = false;
         }
         private void updatePP(object sender, EventArgs e)
         {
-            TB_PP1.Text = PKX.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex).ToString();
-            TB_PP2.Text = PKX.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex).ToString();
-            TB_PP3.Text = PKX.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex).ToString();
-            TB_PP4.Text = PKX.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex).ToString();
+            TB_PP1.Text = pkm.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex).ToString();
+            TB_PP2.Text = pkm.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex).ToString();
+            TB_PP3.Text = pkm.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex).ToString();
+            TB_PP4.Text = pkm.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex).ToString();
         }
         private void updatePKRSstrain(object sender, EventArgs e)
         {
@@ -1736,7 +1792,7 @@ namespace PKHeX
 
             // Check for Gender Changes
             // Get Gender Threshold
-            int gt = PKX.Personal[Species].Gender;
+            int gt = SAV.Personal[Species].Gender;
             int cg = Array.IndexOf(gendersymbols, Label_Gender.Text);
             int Gender;
 
@@ -1769,14 +1825,33 @@ namespace PKHeX
             if (SAV.Generation == 3 && origintrack != "Gen3")
             {
                 var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] {254, 255});
+                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] {253, 254, 255});
                 origintrack = "Gen3";
                 CB_MetLocation.DisplayMember = "Text";
                 CB_MetLocation.ValueMember = "Value";
                 CB_MetLocation.DataSource = met_list;
                 CB_MetLocation.SelectedValue = 0;
             }
-            else if (Version < 24 && origintrack != "Past" && SAV.Generation >= 4)
+            else if (SAV.Generation == 4 && origintrack != "Gen4")
+            {
+                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
+                CB_MetLocation.DisplayMember = "Text";
+                CB_MetLocation.ValueMember = "Value";
+                CB_MetLocation.DataSource = met_list;
+                CB_EggLocation.DisplayMember = "Text";
+                CB_EggLocation.ValueMember = "Value";
+                CB_EggLocation.DataSource = new BindingSource(met_list, null);
+                CB_EggLocation.SelectedValue = 0;
+                CB_MetLocation.SelectedValue = 0;
+                origintrack = "Gen4";
+            }
+            else if (Version < 24 && origintrack != "Past" && SAV.Generation >= 5)
             {
                 // Load Past Gen Locations
                 #region B2W2 Met Locations
@@ -1826,23 +1901,8 @@ namespace PKHeX
                 }
                 #endregion
             }
-            else if (SAV.Generation == 4 && origintrack != "Gen4")
-            {
-                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
-                CB_MetLocation.DisplayMember = "Text";
-                CB_MetLocation.ValueMember = "Value";
-                CB_MetLocation.DataSource = met_list;
-                CB_MetLocation.SelectedValue = 0;
-                origintrack = "Gen4";
-            }
 
-            if (SAV.Generation > 3 && Version < 0x10 && origintrack != "Gen4")
+            if (SAV.Generation >= 4 && Version < 0x10 && origintrack != "Gen4")
             {
                 // Load Gen 4 egg locations if Gen 4 Origin.
                 #region HGSS Met Locations
@@ -1882,8 +1942,8 @@ namespace PKHeX
             if (CB_ExtraBytes.Items.Count == 0)
                 return;
             // Changed Extra Byte's Value
-            if (Util.ToInt32((sender as MaskedTextBox).Text) > byte.MaxValue)
-                (sender as MaskedTextBox).Text = "255";
+            if (Util.ToInt32(((MaskedTextBox) sender).Text) > byte.MaxValue)
+                ((MaskedTextBox) sender).Text = "255";
 
             int value = Util.ToInt32(TB_ExtraByte.Text);
             int offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
@@ -1913,6 +1973,9 @@ namespace PKHeX
                 incr != decr
                     ? $"+{labarray[incr].Text} / -{labarray[decr].Text}".Replace(":", "")
                     : "-/-");
+
+            if (fieldsLoaded && SAV.Generation <= 4)
+                updateRandomPID(sender, e);
         }
         private void updateNickname(object sender, EventArgs e)
         {
@@ -1981,7 +2044,7 @@ namespace PKHeX
                 if (!CHK_Nicknamed.Checked)
                     updateNickname(null, null);
 
-                TB_Friendship.Text = PKX.getBaseFriendship(Util.getIndex(CB_Species)).ToString();
+                TB_Friendship.Text = SAV.Personal[Util.getIndex(CB_Species)].BaseFriendship.ToString();
 
                 if (CB_EggLocation.SelectedIndex == 0)
                 {
@@ -2012,51 +2075,33 @@ namespace PKHeX
         }
         private void updateShinyPID(object sender, EventArgs e)
         {
-            uint TID = Util.ToUInt32(TB_TID.Text);
-            uint SID = Util.ToUInt32(TB_SID.Text);
-            uint PID = Util.getHEXval(TB_PID.Text);
-            if (SAV.Generation == 4)
-            {
-                int nature = Util.getIndex(CB_Nature);
-                int species = Util.getIndex(CB_Species);
-                int gender = PKX.getGender(Label_Gender.Text);
-                
-                uint oldbits = PID & 0x00010001;
-                while ((TID ^ SID ^ (PID >> 16) ^ PID & 0xFFFF) > 8 || (PID & 0x00010001) != oldbits || PID%25 != nature || gender != PKX.getGender(species, PID))
-                    PID = Util.rnd32();
-                TB_PID.Text = PID.ToString("X8");
+            pkm.TID = Util.ToInt32(TB_TID.Text);
+            pkm.SID = Util.ToInt32(TB_SID.Text);
+            pkm.PID = Util.getHEXval(TB_PID.Text);
+            pkm.Nature = Util.getIndex(CB_Nature);
+            pkm.Gender = PKX.getGender(Label_Gender.Text);
+            pkm.AltForm = CB_Form.SelectedIndex;
 
-                getQuickFiller(dragout);
-                return;
-            }
+            pkm.setShinyPID();
+            TB_PID.Text = pkm.PID.ToString("X8");
 
-            uint UID = PID >> 16;
-            uint LID = PID & 0xFFFF;
-            uint PSV = UID ^ LID;
-            uint TSV = TID ^ SID;
-            uint XOR = TSV ^ PSV;
-
-            // Preserve Gen5 Origin Ability bit just in case
-            XOR &= 0xFFFE; XOR |= UID & 1;
-
-            // New XOR should be 0 or 1.
-            TB_PID.Text = (((UID ^ XOR) << 16) + LID).ToString("X8");
-            if (Util.getIndex(CB_GameOrigin) < 24) // Pre Gen6
+            if (pkm.Format >= 6)
                 TB_EC.Text = TB_PID.Text;
 
             getQuickFiller(dragout);
+            updateLegality();
         }
         private void updateTSV(object sender, EventArgs e)
         {
             if (SAV.Generation < 6)
                 return;
-            ushort TID = (ushort)Util.ToUInt32(TB_TID.Text);
-            ushort SID = (ushort)Util.ToUInt32(TB_SID.Text);
-            uint TSV = PKX.getTSV(TID, SID);
+
+            var TSV = pkm.TSV;
             Tip1.SetToolTip(TB_TID, "TSV: " + TSV.ToString("0000"));
             Tip2.SetToolTip(TB_SID, "TSV: " + TSV.ToString("0000"));
 
-            uint PSV = PKX.getPSV(Util.getHEXval(TB_PID.Text));
+            pkm.PID = Util.getHEXval(TB_PID.Text);
+            var PSV = pkm.PSV;
             Tip3.SetToolTip(TB_PID, "PSV: " + PSV.ToString("0000"));
         }
         private void update_ID(object sender, EventArgs e)
@@ -2069,7 +2114,7 @@ namespace PKHeX
             if (Util.ToUInt32(TB_TID.Text) > ushort.MaxValue) TB_TID.Text = "65535";
             if (Util.ToUInt32(TB_SID.Text) > ushort.MaxValue) TB_SID.Text = "65535";
 
-            setIsShiny();
+            setIsShiny(sender);
             getQuickFiller(dragout);
             updateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
@@ -2126,7 +2171,7 @@ namespace PKHeX
             {
                 if (pkm.Format < 6)
                     return;
-                (pkm as PK6).RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
+                ((PK6) pkm).RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
                 Legality.updateRelearnLegality();
                 for (int i = 0; i < 4; i++)
                     movePB[i].Visible = !Legality.vRelearn[i].Valid;
@@ -2183,31 +2228,8 @@ namespace PKHeX
         }
         private void updateStats()
         {
-            // Gather the needed information.
-            int species = Util.getIndex(CB_Species);
-            int level = Util.ToInt32(MT_Level.Enabled ? MT_Level.Text : TB_Level.Text);
-            if (level == 0) level = 1;
-            int form = CB_Form.SelectedIndex;
-            int HP_IV = Util.ToInt32(TB_HPIV.Text);
-            int ATK_IV = Util.ToInt32(TB_ATKIV.Text);
-            int DEF_IV = Util.ToInt32(TB_DEFIV.Text);
-            int SPA_IV = Util.ToInt32(TB_SPAIV.Text);
-            int SPD_IV = Util.ToInt32(TB_SPDIV.Text);
-            int SPE_IV = Util.ToInt32(TB_SPEIV.Text);
-
-            int HP_EV = Util.ToInt32(TB_HPEV.Text);
-            int ATK_EV = Util.ToInt32(TB_ATKEV.Text);
-            int DEF_EV = Util.ToInt32(TB_DEFEV.Text);
-            int SPA_EV = Util.ToInt32(TB_SPAEV.Text);
-            int SPD_EV = Util.ToInt32(TB_SPDEV.Text);
-            int SPE_EV = Util.ToInt32(TB_SPEEV.Text);
-
-            int nature = Util.getIndex(CB_Nature);
-
             // Generate the stats.
-            ushort[] stats = PKX.getStats(species, level, nature, form,
-                                        HP_EV, ATK_EV, DEF_EV, SPA_EV, SPD_EV, SPE_EV,
-                                        HP_IV, ATK_IV, DEF_IV, SPA_IV, SPD_IV, SPE_IV);
+            ushort[] stats = pkm.getStats(SAV.Personal.getFormeEntry(pkm.Species, pkm.AltForm));
 
             Stat_HP.Text = stats[0].ToString();
             Stat_ATK.Text = stats[1].ToString();
@@ -2218,8 +2240,8 @@ namespace PKHeX
 
             // Recolor the Stat Labels based on boosted stats.
             {
-                int incr = nature / 5;
-                int decr = nature % 5;
+                int incr = pkm.Nature / 5;
+                int decr = pkm.Nature % 5;
 
                 Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
                 // Reset Label Colors
@@ -2465,7 +2487,7 @@ namespace PKHeX
             if (SAV.HasBox)
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
 
-            bool dsv = Path.GetExtension(main.FileName).ToLower() == ".dsv";
+            bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
             File.WriteAllBytes(main.FileName, SAV.Write(dsv));
             Util.Alert("SAV exported to:", main.FileName);
         }
@@ -2698,12 +2720,16 @@ namespace PKHeX
 
             // Currently saved Value
             ulong oldval = 0;
-            if (tb == TB_GameSync)
-                oldval = (SAV as SAV6).GameSyncID;
-            else if (tb == TB_Secure1)
-                oldval = (SAV as SAV6).Secure1;
-            else if (tb == TB_Secure2)
-                oldval = (SAV as SAV6).Secure2;
+            if (SAV.Generation == 6)
+            {
+                SAV6 sav6 = (SAV6) SAV;
+                if (tb == TB_GameSync)
+                    oldval = sav6.GameSyncID;
+                else if (tb == TB_Secure1)
+                    oldval = sav6.Secure1;
+                else if (tb == TB_Secure2)
+                    oldval = sav6.Secure2;
+            }
 
             string filterText = Util.getOnlyHex(tb.Text);
 
@@ -2717,14 +2743,17 @@ namespace PKHeX
 
             // Write final value back to the save
             ulong newval = Convert.ToUInt64(filterText, 16);
-            if (newval != oldval)
+            if (newval == oldval) return;
+
+            if (SAV.Generation == 6)
             {
+                SAV6 sav6 = (SAV6) SAV;
                 if (tb == TB_GameSync)
-                    (SAV as SAV6).GameSyncID = newval;
+                    sav6.GameSyncID = newval;
                 else if (tb == TB_Secure1)
-                    (SAV as SAV6).Secure1 = newval;
+                    sav6.Secure1 = newval;
                 else if (tb == TB_Secure2)
-                    (SAV as SAV6).Secure2 = newval;
+                    sav6.Secure2 = newval;
                 SAV.Edited = true;
             }
         }
@@ -2783,21 +2812,8 @@ namespace PKHeX
             if (SAV.HasBox)
             {
                 int boxoffset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
-                if (SAV.HasBoxWallpapers)
-                {
-                    int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
-                    string imagename = "";
-                    switch (SAV.Generation)
-                    {
-                        case 6:
-                            imagename = "box_wp" + boxbgval.ToString("00");
-                            if (SAV.ORAS && boxbgval > 16)
-                                imagename += "o";
-                            break;
-                    }
-                    if (!string.IsNullOrEmpty(imagename))
-                        PAN_Box.BackgroundImage = (Image)Properties.Resources.ResourceManager.GetObject(imagename);
-                }
+                int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
+                PAN_Box.BackgroundImage = BoxWallpaper.getWallpaper(SAV, boxbgval);
 
                 for (int i = 0; i < 30; i++)
                     getSlotFiller(boxoffset + SAV.SIZE_STORED * i, SlotPictureBoxes[i]);
@@ -3115,7 +3131,7 @@ namespace PKHeX
                     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01,
                     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
                     0x01, 0x00, 0x00, 0x00,
-                }.CopyTo(SAV.Data, (SAV as SAV6).OPower);
+                }.CopyTo(SAV.Data, ((SAV6) SAV).OPower);
             }
             else if (SAV.XY)
                 new SAV_OPower().ShowDialog();
@@ -3135,7 +3151,7 @@ namespace PKHeX
                 return;
             string result = "PSS List" + Environment.NewLine;
             string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby", };
-            int offset = (SAV as SAV6).PSS;
+            int offset = ((SAV6) SAV).PSS;
             for (int g = 0; g < 3; g++)
             {
                 result += Environment.NewLine
@@ -3191,6 +3207,10 @@ namespace PKHeX
         private void B_OpenSecretBase_Click(object sender, EventArgs e)
         {
             new SAV_SecretBase().ShowDialog();
+        }
+        private void B_LinkInfo_Click(object sender, EventArgs e)
+        {
+            new SAV_Link6().ShowDialog();
         }
         private void B_JPEG_Click(object sender, EventArgs e)
         {
@@ -3274,7 +3294,8 @@ namespace PKHeX
             new Thread(() =>
             {
                 Thread.Sleep(500);
-                File.Delete(newfile);
+                if (File.Exists(newfile))
+                    File.Delete(newfile);
             }).Start();
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)

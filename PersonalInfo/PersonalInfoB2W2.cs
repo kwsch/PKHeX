@@ -4,9 +4,10 @@ namespace PKHeX
 {
     public class PersonalInfoB2W2 : PersonalInfoBW
     {
+        public new const int SIZE = 0x4C;
         public PersonalInfoB2W2(byte[] data)
         {
-            if (data.Length != SIZE_B2W2)
+            if (data.Length != SIZE)
                 return;
             Data = data;
 

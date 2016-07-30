@@ -411,7 +411,7 @@ namespace PKHeX
             int newabil = Convert.ToInt16(MT_AbilNo.Text) >> 1;
             int species = Util.getIndex(CB_Species);
             int formnum = CB_Form.SelectedIndex;
-            int[] abils = PersonalInfo.AO[PersonalInfo.AO[species].FormeIndex(species, formnum)].Abilities;
+            int[] abils = PersonalTable.AO.getAbilities(species, formnum);
 
             // Build Ability List
             List<string> ability_list = new List<string>
@@ -428,7 +428,7 @@ namespace PKHeX
         private void setForms()
         {
             int species = Util.getIndex(CB_Species);
-            bool hasForms = PersonalInfo.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            bool hasForms = PersonalTable.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.DisplayMember = "Text";
@@ -443,7 +443,7 @@ namespace PKHeX
 
             // Check for Gender Changes
             // Get Gender Threshold
-            int gt = PKX.Personal[Util.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
 
             if (gt == 255)      // Genderless
                 genderflag = 2;
@@ -468,7 +468,7 @@ namespace PKHeX
         private void Label_Gender_Click(object sender, EventArgs e)
         {
             // Get Gender Threshold
-            int gt = PKX.Personal[Util.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
