@@ -35,19 +35,20 @@ namespace PKHeX
             CB_Ball.DisplayMember = CB_HeldItem.DisplayMember = CB_Species.DisplayMember = CB_Nature.DisplayMember = "Text";
             CB_Ball.ValueMember = CB_HeldItem.ValueMember = CB_Species.ValueMember = CB_Nature.ValueMember = "Value";
 
-            CB_Ball.DataSource = new BindingSource(Main.BallDataSource.Where(b => b.Value <= SAV.MaxBallID), null);
-            CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
-            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID), null);
+            CB_Ball.DataSource = new BindingSource(Main.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
+            CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource.Where(i => i.Value < SAV.MaxItemID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             CB_Nature.DataSource = new BindingSource(Main.NatureDataSource, null);
             
 
             CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
             CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
 
-            CB_Move1.DataSource = new BindingSource(Main.MoveDataSource, null);
-            CB_Move2.DataSource = new BindingSource(Main.MoveDataSource, null);
-            CB_Move3.DataSource = new BindingSource(Main.MoveDataSource, null);
-            CB_Move4.DataSource = new BindingSource(Main.MoveDataSource, null);
+            var MoveList = Main.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
+            CB_Move1.DataSource = new BindingSource(MoveList, null);
+            CB_Move2.DataSource = new BindingSource(MoveList, null);
+            CB_Move3.DataSource = new BindingSource(MoveList, null);
+            CB_Move4.DataSource = new BindingSource(MoveList, null);
         }
 
         // Repopulation Functions

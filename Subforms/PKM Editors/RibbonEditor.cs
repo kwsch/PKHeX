@@ -16,6 +16,8 @@ namespace PKHeX
             
             // Updating a Control display with autosized elements on every row addition is cpu intensive. Disable layout updates while populating.
             TLP_Ribbons.SuspendLayout();
+            FLP_Ribbons.Scroll += Util.PanelScroll;
+            TLP_Ribbons.Scroll += Util.PanelScroll;
             populateRibbons();
             Util.TranslateInterface(this, Main.curlanguage);
             TLP_Ribbons.ResumeLayout();

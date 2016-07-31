@@ -18,7 +18,7 @@ namespace PKHeX
             {
                 Data = Data.Skip(SizeFull - Size).ToArray();
                 DateTime now = DateTime.Now;
-                Year = (uint)(now.Year - 2000);
+                Year = (uint)now.Year;
                 Month = (uint)now.Month;
                 Day = (uint)now.Day;
             }

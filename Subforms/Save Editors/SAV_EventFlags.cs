@@ -24,9 +24,10 @@ namespace PKHeX
                 CB_Stats.Items.Add(i.ToString());
 
             TLP_Flags.SuspendLayout();
-            TLP_Flags.Controls.Clear();
-
             TLP_Const.SuspendLayout();
+            TLP_Flags.Scroll += Util.PanelScroll;
+            TLP_Const.Scroll += Util.PanelScroll;
+            TLP_Flags.Controls.Clear();
             TLP_Const.Controls.Clear();
             addFlagList(getStringList("flags"));
             addConstList(getStringList("const"));

@@ -23,7 +23,7 @@ namespace PKHeX
             // Fill List
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Skip(1), null);
+            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Skip(1).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - " + Main.specieslist[i]);

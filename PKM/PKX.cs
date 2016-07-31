@@ -419,8 +419,9 @@ namespace PKHeX
             return chk;
         }
 
-        internal static uint getRandomPID(int species, int cg, int origin, int nature, int form)
+        internal static uint getRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
         {
+            uint bits = OLDPID & 0x00010001;
             int gt = Personal[species].Gender;
             if (origin >= 24)
                 return Util.rnd32();
@@ -441,6 +442,8 @@ namespace PKHeX
                     if (pidLetter != form)
                         continue;
                 }
+                else if (bits != (pid & 0x00010001)) // keep ability bits
+                    continue;
 
                 // Gen 3/4/5: Gender derived from PID
                 uint gv = pid & 0xFF;

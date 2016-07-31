@@ -86,7 +86,7 @@ namespace PKHeX
             // Box to Tabs D&D
             dragout.AllowDrop = true;
 
-            FLP_SAVtools.Scroll += Util.FlowLayoutPanelScroll;
+            FLP_SAVtools.Scroll += Util.PanelScroll;
 
             // Load WC6 folder to legality
             refreshWC6DB();
@@ -707,14 +707,14 @@ namespace PKHeX
                     else
                         sav = new SAV3(sav.Data, GameVersion.FRLG);
                 }
-                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {sav.Generation} Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
+                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation 3 ({sav.Version}) Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
                 if (drJP == DialogResult.Cancel)
                     return;
                 sav.Japanese = drJP == DialogResult.No;
 
                 if (sav.Version == GameVersion.FRLG)
                 {
-                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, "FRLG Detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
+                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
                     if (drFRLG == DialogResult.Cancel)
                         return;
 
@@ -1070,15 +1070,15 @@ namespace PKHeX
                 items = g3items;
 
             ItemDataSource = Util.getCBList(items, (HaX ? Enumerable.Range(0, SAV.MaxItemID) : SAV.HeldItems.Select(i => (int)i)).ToArray());
-            CB_HeldItem.DataSource = new BindingSource(ItemDataSource.Where(i => i.Value <= SAV.MaxItemID), null);
+            CB_HeldItem.DataSource = new BindingSource(ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
-            CB_Ball.DataSource = new BindingSource(BallDataSource.Where(b => b.Value <= SAV.MaxBallID), null);
-            CB_Species.DataSource = new BindingSource(SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID), null);
-            DEV_Ability.DataSource = new BindingSource(AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID), null);
-            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15), null);
+            CB_Ball.DataSource = new BindingSource(BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            DEV_Ability.DataSource = new BindingSource(AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID).ToList(), null);
+            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            var moves = MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToArray();
+            var moves = MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
@@ -1283,7 +1283,7 @@ namespace PKHeX
             {
                 pkm.Species = Util.getIndex(CB_Species);
                 pkm.Version = Util.getIndex(CB_GameOrigin);
-                pkm.Nature = CB_Nature.SelectedIndex;
+                pkm.Nature = Util.getIndex(CB_Nature);
                 pkm.AltForm = CB_Form.SelectedIndex;
 
                 pkm.setPIDGender(newGender);
@@ -1450,7 +1450,8 @@ namespace PKHeX
                 TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
-            pkm.EXP = Util.ToUInt32(TB_EXP.Text);
+            if (fieldsLoaded)
+                pkm.EXP = Util.ToUInt32(TB_EXP.Text);
             updateStats();
             updateLegality();
         }
@@ -1591,22 +1592,24 @@ namespace PKHeX
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
-            int origin = Util.getIndex(CB_GameOrigin);
-            uint PID = PKX.getRandomPID(Util.getIndex(CB_Species), PKX.getGender(Label_Gender.Text), origin, Util.getIndex(CB_Nature), CB_Form.SelectedIndex);
-            TB_PID.Text = PID.ToString("X8");
+            if (fieldsLoaded)
+            {
+                pkm.Version = Util.getIndex(CB_GameOrigin);
+                pkm.PID = Util.getHEXval(TB_PID.Text);
+                pkm.Species = Util.getIndex(CB_Species);
+                pkm.Nature = Util.getIndex(CB_Nature);
+                pkm.AltForm = CB_Form.SelectedIndex;
+            }
+            if (sender == Label_Gender)
+                pkm.setPIDGender(pkm.Gender);
+            else if (sender == CB_Nature && pkm.Nature != Util.getIndex(CB_Nature))
+                pkm.setPIDNature(Util.getIndex(CB_Nature));
+            else if (sender == BTN_RerollPID)
+                pkm.setPIDGender(pkm.Gender);
+            TB_PID.Text = pkm.PID.ToString("X8");
             getQuickFiller(dragout);
-            if (origin >= 24)
-                return;
-
-            // Before Gen6, EC and PID are related
-            // Ensure we don't have an illegal newshiny PID.
-            uint SID = Util.ToUInt32(TB_TID.Text);
-            uint TID = Util.ToUInt32(TB_TID.Text);
-            uint XOR = TID ^ SID ^ PID >> 16 ^ PID & 0xFFFF;
-            if (XOR >> 3 == 1) // Illegal
-                updateRandomPID(sender, e); // Get a new PID
-
-            TB_EC.Text = PID.ToString("X8");
+            if (pkm.Format >= 6)
+                TB_EC.Text = pkm.EncryptionConstant.ToString("X8");
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
@@ -1973,9 +1976,6 @@ namespace PKHeX
                 incr != decr
                     ? $"+{labarray[incr].Text} / -{labarray[decr].Text}".Replace(":", "")
                     : "-/-");
-
-            if (fieldsLoaded && SAV.Generation <= 4)
-                updateRandomPID(sender, e);
         }
         private void updateNickname(object sender, EventArgs e)
         {
@@ -2118,10 +2118,14 @@ namespace PKHeX
             getQuickFiller(dragout);
             updateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
             TB_PID.Select(60, 0);   // position cursor at end of field
-            if (SAV.Generation == 4 && fieldsInitialized)
+            if (SAV.Generation <= 4 && fieldsLoaded)
             {
+                fieldsLoaded = false;
                 pkm.PID = Util.getHEXval(TB_PID.Text);
                 CB_Nature.SelectedValue = pkm.Nature;
+                Label_Gender.Text = gendersymbols[pkm.Gender];
+                Label_Gender.ForeColor = pkm.Gender == 2 ? Label_Species.ForeColor : (pkm.Gender == 1 ? Color.Red : Color.Blue);
+                fieldsLoaded = true;
             }
         }
         private void validateComboBox(object sender)
@@ -2152,8 +2156,8 @@ namespace PKHeX
             validateComboBox(sender, e);
             if (sender == CB_Ability)
                 TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
-            if (fieldsInitialized && sender == CB_Nature && SAV.Generation == 4)
-                BTN_RerollPID.PerformClick();
+            if (fieldsLoaded && sender == CB_Nature && SAV.Generation <= 4)
+                updateRandomPID(sender, e);
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
         }
@@ -3247,8 +3251,11 @@ namespace PKHeX
             if (Directory.Exists(pathCache))
                 return Directory.GetFiles(pathCache).Where(f => SaveUtil.SizeValidSAV6((int)new FileInfo(f).Length)) // filter
                     .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
-            if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // if cgse exists
-                return Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
+            try 
+            {
+                if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // if cgse exists
+                    return Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
+            } catch { }
 
             return null;
         }
@@ -3337,6 +3344,7 @@ namespace PKHeX
             }
             else
             {
+                PKM pkz = SAV.getStoredSlot(pkm_from_offset);
                 if (ModifierKeys == Keys.Alt && slot > -1) // overwrite delete old slot
                 {
                     // Clear from slot 
@@ -3355,8 +3363,7 @@ namespace PKHeX
                     SAV.setStoredSlot(pk, pkm_from_offset);
                 }
                 // Copy from temp slot to new.
-                SAV.setStoredSlot(pkm_from, offset);
-                PKM pkz = SAV.getPKM(SAV.decryptPKM(pkm_from));
+                SAV.setStoredSlot(pkz, offset);
                 getQuickFiller(SlotPictureBoxes[slot], pkz);
 
                 pkm_from_offset = 0; // Clear offset value

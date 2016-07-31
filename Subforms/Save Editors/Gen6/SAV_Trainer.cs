@@ -18,6 +18,9 @@ namespace PKHeX
             Util.TranslateInterface(this, Main.curlanguage);
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
+            CB_Gender.Items.Clear();
+            CB_Gender.Items.AddRange(Main.gendersymbols.Take(2).ToArray()); // m/f depending on unicode selection
+
             MaisonRecords = new[]
             {
                 TB_MCSN,TB_MCSS,TB_MBSN,TB_MBSS,
