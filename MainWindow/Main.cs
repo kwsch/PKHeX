@@ -233,7 +233,7 @@ namespace PKHeX
 
             // Reset file dialog path if it no longer exists
             if (!Directory.Exists(ofd.InitialDirectory))
-                ofd.InitialDirectory = Environment.CurrentDirectory;
+                ofd.InitialDirectory = WorkingDirectory;
 
             // Detect main
             string path = detectSaveFile();
