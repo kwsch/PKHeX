@@ -65,6 +65,18 @@ namespace PKHeX
             if (Instructions.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
             { Util.Error("Empty Property Value detected."); return; }
 
+            string destPath = "";
+            if (RB_Path.Checked)
+            {
+                Util.Alert("Please select the folder where the files will be saved to.", "This can be the same folder as the source of PKM files.");
+                var fbd = new FolderBrowserDialog();
+                var dr = fbd.ShowDialog();
+                if (dr != DialogResult.OK)
+                    return;
+
+                destPath = fbd.SelectedPath;
+            }
+
             FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
             b = new BackgroundWorker {WorkerReportsProgress = true};
@@ -80,7 +92,7 @@ namespace PKHeX
                 {
                     var files = Directory.GetFiles(TB_Folder.Text, "*", SearchOption.AllDirectories);
                     setupProgressBar(files.Length);
-                    processFolder(files, Filters, Instructions);
+                    processFolder(files, Filters, Instructions, destPath);
                 }
             };
             b.ProgressChanged += (sender, e) =>
@@ -161,7 +173,7 @@ namespace PKHeX
 
             Main.SAV.BoxData = data;
         }
-        private void processFolder(string[] files, List<StringInstruction> Filters, List<StringInstruction> Instructions)
+        private void processFolder(string[] files, List<StringInstruction> Filters, List<StringInstruction> Instructions, string destPath)
         {
             len = err = ctr = 0;
             for (int i = 0; i < files.Length; i++)
@@ -183,7 +195,7 @@ namespace PKHeX
                 if (r == ModifyResult.Modified)
                 {
                     ctr++;
-                    File.WriteAllBytes(file, pkm.DecryptedBoxData);
+                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
                 }
 
                 b.ReportProgress(i);
