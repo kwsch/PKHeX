@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -135,9 +136,7 @@ namespace PKHeX
         public static SaveFile SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
         public static Color defaultControlWhite, defaultControlText;
         public static string eggname = "";
-        public const string DatabasePath = "db";
-        private const string WC6DatabasePath = "wc6";
-        private const string BackupPath = "bak";
+
         public static string curlanguage = "en";
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
@@ -176,6 +175,47 @@ namespace PKHeX
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         #endregion
 
+        #region Path Variables
+
+        public static string WorkingDirectory {
+            get
+            {
+                if (ApplicationDeployment.IsNetworkDeployed)
+                {
+                    return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX");
+                }
+                else
+                {
+                    return Environment.CurrentDirectory;
+                }
+            }
+        }
+
+        public static string DatabasePath
+        {
+            get
+            {
+                return Path.Combine(WorkingDirectory, "db");
+            }
+        }
+
+        private static string WC6DatabasePath
+        {
+            get
+            {
+                return Path.Combine(WorkingDirectory, "wc6");
+            }
+        }
+
+        private static string BackupPath
+        {
+            get
+            {
+                return Path.Combine(WorkingDirectory, "bak");
+            }
+        }
+        #endregion
+
         #region //// MAIN MENU FUNCTIONS ////
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
@@ -193,7 +233,7 @@ namespace PKHeX
 
             // Reset file dialog path if it no longer exists
             if (!Directory.Exists(ofd.InitialDirectory))
-                ofd.InitialDirectory = Environment.CurrentDirectory;
+                ofd.InitialDirectory = WorkingDirectory;
 
             // Detect main
             string path = detectSaveFile();
