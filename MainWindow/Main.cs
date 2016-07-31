@@ -3347,6 +3347,7 @@ namespace PKHeX
             }
             else
             {
+                PKM pkz = SAV.getStoredSlot(pkm_from_offset);
                 if (ModifierKeys == Keys.Alt && slot > -1) // overwrite delete old slot
                 {
                     // Clear from slot 
@@ -3365,8 +3366,7 @@ namespace PKHeX
                     SAV.setStoredSlot(pk, pkm_from_offset);
                 }
                 // Copy from temp slot to new.
-                SAV.setStoredSlot(pkm_from, offset);
-                PKM pkz = SAV.getPKM(SAV.decryptPKM(pkm_from));
+                SAV.setStoredSlot(pkz, offset);
                 getQuickFiller(SlotPictureBoxes[slot], pkz);
 
                 pkm_from_offset = 0; // Clear offset value
