@@ -1976,9 +1976,6 @@ namespace PKHeX
                 incr != decr
                     ? $"+{labarray[incr].Text} / -{labarray[decr].Text}".Replace(":", "")
                     : "-/-");
-
-            if (fieldsLoaded && SAV.Generation <= 4)
-                updateRandomPID(sender, e);
         }
         private void updateNickname(object sender, EventArgs e)
         {
@@ -2159,8 +2156,8 @@ namespace PKHeX
             validateComboBox(sender, e);
             if (sender == CB_Ability)
                 TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
-            if (fieldsInitialized && sender == CB_Nature && SAV.Generation == 4)
-                BTN_RerollPID.PerformClick();
+            if (fieldsLoaded && sender == CB_Nature && SAV.Generation <= 4)
+                updateRandomPID(sender, e);
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
         }
