@@ -251,6 +251,8 @@ namespace PKHeX
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
                     else if (cmd.PropertyValue == CONST_SHINY && cmd.PropertyName == "PID")
                         PKM.setShinyPID();
+                    else if (cmd.PropertyValue == "0" && cmd.PropertyName == "Species")
+                        PKM.Data = new byte[PKM.Data.Length];
                     else
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
 
