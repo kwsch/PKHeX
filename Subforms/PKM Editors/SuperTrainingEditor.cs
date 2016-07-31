@@ -16,6 +16,8 @@ namespace PKHeX
             // Updating a Control display with autosized elements on every row addition is cpu intensive. Disable layout updates while populating.
             TLP_SuperTrain.SuspendLayout();
             TLP_DistSuperTrain.SuspendLayout();
+            TLP_SuperTrain.Scroll += Util.PanelScroll;
+            TLP_DistSuperTrain.Scroll += Util.PanelScroll;
             populateRegimens("SuperTrain", TLP_SuperTrain, reglist);
             populateRegimens("DistSuperTrain", TLP_DistSuperTrain, distlist);
             Util.TranslateInterface(this, Main.curlanguage);

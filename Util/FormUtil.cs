@@ -139,9 +139,9 @@ namespace PKHeX
             return (int)(cb?.SelectedValue ?? 0);
         }
 
-        public static void FlowLayoutPanelScroll(object sender, ScrollEventArgs e)
+        public static void PanelScroll(object sender, ScrollEventArgs e)
         {
-            var p = sender as FlowLayoutPanel;
+            var p = sender as Panel;
             switch (e.ScrollOrientation)
             {
                 case ScrollOrientation.HorizontalScroll:

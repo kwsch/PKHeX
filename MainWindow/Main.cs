@@ -86,7 +86,7 @@ namespace PKHeX
             // Box to Tabs D&D
             dragout.AllowDrop = true;
 
-            FLP_SAVtools.Scroll += Util.FlowLayoutPanelScroll;
+            FLP_SAVtools.Scroll += Util.PanelScroll;
 
             // Load WC6 folder to legality
             refreshWC6DB();
