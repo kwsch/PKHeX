@@ -3326,11 +3326,13 @@ namespace PKHeX
                 if (files.Length <= 0)
                     return;
                 string file = files[0];
-                if (!PKX.getIsPKM(new FileInfo(file).Length))
+                FileInfo fi = new FileInfo(file);
+                if (!PKX.getIsPKM(fi.Length))
                 { openQuick(file); return; }
 
                 byte[] data = File.ReadAllBytes(file);
-                PKM temp = PKMConverter.getPKMfromBytes(data);
+                MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
+                PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data);
                 string c;
 
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
