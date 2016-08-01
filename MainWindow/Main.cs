@@ -177,43 +177,11 @@ namespace PKHeX
 
         #region Path Variables
 
-        public static string WorkingDirectory {
-            get
-            {
-                if (ApplicationDeployment.IsNetworkDeployed)
-                {
-                    return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX");
-                }
-                else
-                {
-                    return Environment.CurrentDirectory;
-                }
-            }
-        }
+        public static string WorkingDirectory => ApplicationDeployment.IsNetworkDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
+        public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
+        private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
+        private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
 
-        public static string DatabasePath
-        {
-            get
-            {
-                return Path.Combine(WorkingDirectory, "db");
-            }
-        }
-
-        private static string WC6DatabasePath
-        {
-            get
-            {
-                return Path.Combine(WorkingDirectory, "wc6");
-            }
-        }
-
-        private static string BackupPath
-        {
-            get
-            {
-                return Path.Combine(WorkingDirectory, "bak");
-            }
-        }
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
