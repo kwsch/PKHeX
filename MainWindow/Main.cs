@@ -116,7 +116,7 @@ namespace PKHeX
             if (!SAV.Exportable) // No SAV loaded from exe args
             {
                 string path = detectSaveFile();
-                if (path != null)
+                if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
                     GB_SAVtools.Visible = false;
