@@ -188,11 +188,22 @@ namespace PKHeX
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
         {
+            string pkx = pkm.Extension;
+            string ekx = 'e' + pkx.Substring(1, pkx.Length-1);
+
+            string supported = "*.pkm;";
+            for (int i = 3; i <= SAV.Generation; i++)
+            {
+                supported += $"*.pk{i}";
+                if (i != pkm.Format)
+                    supported += ";";
+            }
+
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "PKX File|*.pk6;*.pkx" +
-                         "|EKX File|*.ek6;*.ekx" +
-                         "|BIN File|*.bin" +
+                Filter = $"Decrypted PKM File|{supported}" +
+                         $"|Encrypted PKM File|*.{ekx}" +
+                         "|Binary File|*.bin" +
                          "|All Files|*.*",
                 RestoreDirectory = true,
                 FilterIndex = 4,
@@ -219,32 +230,32 @@ namespace PKHeX
         {
             if (!verifiedPKM()) return;
             PKM pk = preparePKM();
+            string pkx = pk.Extension;
+            string ekx = 'e' + pkx.Substring(1, pkx.Length - 1);
             SaveFileDialog sfd = new SaveFileDialog
             {
-                Filter = "PKX File|*.pk6;*.pkx" +
-                         "|EKX File|*.ek6;*.ekx" +
-                         "|BIN File|*.bin" +
+                Filter = $"Decrypted PKM File|*.{pkx}" +
+                         $"|Encrypted PKM File|*.{ekx}" +
+                         "|Binary File|*.bin" +
                          "|All Files|*.*",
-                DefaultExt = "pk6",
+                DefaultExt = pkx,
                 FileName = Util.CleanFileName(pk.FileName)
             };
             if (sfd.ShowDialog() != DialogResult.OK) return;
             string path = sfd.FileName;
-            // Injection Dummy Override
-            if (path.Contains("pokemon.ekx")) path = Path.Combine(Path.GetDirectoryName(path), "pokemon.ekx");
             string ext = Path.GetExtension(path);
 
-            if (File.Exists(path) && !path.Contains("pokemon.ekx"))
+            if (File.Exists(path))
             {
                 // File already exists, save a .bak
                 byte[] backupfile = File.ReadAllBytes(path);
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
 
-            if (new[] {".ekx", ".ek6", ".bin"}.Contains(ext))
+            if (new[] {".ekx", ekx, ".bin"}.Contains(ext))
                 File.WriteAllBytes(path, pk.EncryptedPartyData);
-            else if (new[] { ".pkx", ".pk6" }.Contains(ext))
-                File.WriteAllBytes(path, pk.Data);
+            else if (new[] { pkx }.Contains(ext))
+                File.WriteAllBytes(path, pk.DecryptedBoxData);
             else
             {
                 Util.Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
