@@ -2798,7 +2798,7 @@ namespace PKHeX
                 for (int i = 0; i < battle.Length; i++)
                     getQuickFiller(SlotPictureBoxes[i + 36], battle[i]);
                 for (int i = battle.Length; i < 6; i++)
-                    SlotPictureBoxes[i + 30].Image = null;
+                    SlotPictureBoxes[i + 36].Image = null;
             }
         }
         private int getPKXOffset(int slot)
