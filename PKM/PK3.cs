@@ -105,7 +105,7 @@ namespace PKHeX
         public override int Met_Location { get { return Data[0x45]; } set { Data[0x45] = (byte)value; } }
         // Origins
         private ushort Origins { get { return BitConverter.ToUInt16(Data, 0x46); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x46); } }
-        public override int Met_Level { get { return Origins & 0x3F; } set { Origins = (ushort)((Origins & ~0x3F) | value); } }
+        public override int Met_Level { get { return Origins & 0x7F; } set { Origins = (ushort)((Origins & ~0x7F) | value); } }
         public override int Version { get { return (Origins >> 7) & 0xF; } set { Origins = (ushort)((Origins & ~0x780) | ((value & 0xF) << 7));} }
         public override int Ball { get { return (Origins >> 11) & 0xF; } set { Origins = (ushort)((Origins & ~0x7800) | ((value & 0xF) << 11)); } }
         public override int OT_Gender { get { return (Origins >> 15) & 1; } set { Origins = (ushort)(Origins & ~(1 << 15) | ((value & 1) << 15)); } }
