@@ -1,18 +1,16 @@
 None
-Rock Smash (HGSS)
-Tall Grass
+Golpe roca (HGSS)
+Hierba Alta
 
 Dialga/Palkia
-Cave/Hall of Origin
+Cueva/Sala del Origen
 
-Surfing/Fishing
+Surfeando/Pescando
 
-Building/Enigma Stone
-Marsh/Safari
+Edificio/Misticristal 
+Pantano/Safari
 
-Starter/Fossil/Gift (DP)
-
-
+Inicial/Fosil/Regalo (DP)
 
 
 
@@ -21,5 +19,7 @@ Starter/Fossil/Gift (DP)
 
 
 
-Distortion World (Pt)
-Starter/Fossil/Gift (Pt/DP Trio)
+
+
+Mundo Distorsion (Pt)
+Inicial/Fosil/Regalo (Pt/DP Trio)

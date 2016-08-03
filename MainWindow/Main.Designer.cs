@@ -851,7 +851,7 @@
             // CHK_IsEgg
             // 
             this.CHK_IsEgg.AutoSize = true;
-            this.CHK_IsEgg.Location = new System.Drawing.Point(43, 196);
+            this.CHK_IsEgg.Location = new System.Drawing.Point(35, 196);
             this.CHK_IsEgg.Name = "CHK_IsEgg";
             this.CHK_IsEgg.Size = new System.Drawing.Size(56, 17);
             this.CHK_IsEgg.TabIndex = 16;
@@ -872,7 +872,7 @@
             // Label_Form
             // 
             this.Label_Form.AutoSize = true;
-            this.Label_Form.Location = new System.Drawing.Point(128, 136);
+            this.Label_Form.Location = new System.Drawing.Point(125, 136);
             this.Label_Form.Name = "Label_Form";
             this.Label_Form.Size = new System.Drawing.Size(33, 13);
             this.Label_Form.TabIndex = 11;
@@ -2644,9 +2644,9 @@
             // 
             // Label_EncryptionConstant
             // 
-            this.Label_EncryptionConstant.Location = new System.Drawing.Point(29, 279);
+            this.Label_EncryptionConstant.Location = new System.Drawing.Point(20, 279);
             this.Label_EncryptionConstant.Name = "Label_EncryptionConstant";
-            this.Label_EncryptionConstant.Size = new System.Drawing.Size(105, 13);
+            this.Label_EncryptionConstant.Size = new System.Drawing.Size(120, 13);
             this.Label_EncryptionConstant.TabIndex = 1;
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
