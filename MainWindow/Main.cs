@@ -252,9 +252,9 @@ namespace PKHeX
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
 
-            if (new[] {".ekx", ekx, ".bin"}.Contains(ext))
+            if (new[] {".ekx", "."+ekx, ".bin"}.Contains(ext))
                 File.WriteAllBytes(path, pk.EncryptedPartyData);
-            else if (new[] { pkx }.Contains(ext))
+            else if (new[] { "."+pkx }.Contains(ext))
                 File.WriteAllBytes(path, pk.DecryptedBoxData);
             else
             {
