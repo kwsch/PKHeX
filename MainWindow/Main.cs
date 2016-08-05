@@ -2402,7 +2402,7 @@ namespace PKHeX
         // Drag & Drop Events
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Move;
         }
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
