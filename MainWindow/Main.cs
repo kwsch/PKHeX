@@ -115,7 +115,7 @@ namespace PKHeX
             }
             if (!SAV.Exportable) // No SAV loaded from exe args
             {
-                string path = detectSaveFile();
+                string path = SaveUtil.detectSaveFile();
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
@@ -215,7 +215,7 @@ namespace PKHeX
                 ofd.InitialDirectory = WorkingDirectory;
 
             // Detect main
-            string path = detectSaveFile();
+            string path = SaveUtil.detectSaveFile();
             if (path != null)
             { ofd.InitialDirectory = Path.GetDirectoryName(path); }
             else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main")))
@@ -499,17 +499,17 @@ namespace PKHeX
         }
         private void clickOpenSDFFolder(object sender, EventArgs e)
         {
-            string path;
-            if (Util.get3DSLocation() != null && Directory.Exists(path = Util.GetSDFLocation()))
+            string path = Path.GetPathRoot(Util.get3DSLocation());
+            if (path != null && Directory.Exists(path = Path.Combine(path, "filer", "UserSaveData")))
                 Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the SaveDataFiler folder.");
         }
         private void clickOpenSDBFolder(object sender, EventArgs e)
         {
-            string path3DS = Util.get3DSLocation();
+            string path3DS = Path.GetPathRoot(Util.get3DSLocation());
             string path;
-            if (path3DS != null && Directory.Exists(path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup")))
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "SaveDataBackup")))
                 Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the SaveDataBackup folder.");
@@ -3248,35 +3248,10 @@ namespace PKHeX
         // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
         {
-            string path = detectSaveFile();
+            string path = SaveUtil.detectSaveFile();
             if (path == null || !File.Exists(path)) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
                 openQuick(path); // load save
-        }
-        private static string detectSaveFile()
-        {
-            string pathSDF = Util.GetSDFLocation();
-            string path3DS = Util.get3DSLocation();
-            string pathCache = Util.GetCacheFolder();
-            
-            if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "SaveDataBackup")) && ModifierKeys != Keys.Control)
-                return Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
-            if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
-                return Path.Combine(pathSDF, "main");
-            if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
-                return Directory.GetFiles(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves"), "main", SearchOption.AllDirectories)
-                        .Where(f => SaveUtil.SizeValidSAV6((int)new FileInfo(f).Length)) // filter
-                        .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
-            if (Directory.Exists(pathCache))
-                return Directory.GetFiles(pathCache).Where(f => SaveUtil.SizeValidSAV6((int)new FileInfo(f).Length)) // filter
-                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
-            try 
-            {
-                if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // if cgse exists
-                    return Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
-            } catch { }
-
-            return null;
         }
 
         // Drag & Drop within Box

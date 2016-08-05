@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -174,6 +175,53 @@ namespace PKHeX
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Detects a save file.
+        /// </summary>
+        /// <param name="fileName">File Name to look for.</param>
+        /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
+        public static string detectSaveFile(string fileName = SAV6.DefaultFileName)
+        {
+            string path;
+            string path3DS = Path.GetPathRoot(Util.get3DSLocation());
+            
+            // save_manager
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "saveDataBackup")))
+                if (File.Exists(path = Path.Combine(path, fileName)))
+                    return path;
+
+            // SaveDataFiler
+            if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "filer", "UserSaveData")))
+                return getNewestSavePath(Path.Combine(path3DS, "filer", "UserSaveData"), fileName);
+
+            // JKSV
+            if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
+                return getNewestSavePath(Path.Combine(path3DS, "JKSV", "Saves"), "main");
+
+            // CyberGadget (Cache)
+            string pathCache = Util.GetCacheFolder();
+            if (Directory.Exists(pathCache))
+                return Directory.GetFiles(pathCache).Where(f => SizeValidSAV6((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+
+            return null;
+        }
+        /// <summary>
+        /// Retrieves the full path of the most recent file based on LastWriteTime.
+        /// </summary>
+        /// <param name="folderPath">Folder to look within</param>
+        /// <param name="fileName">Filename to look for, if null can be named anything</param>
+        /// <param name="deep">Search all subfolders</param>
+        /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
+        public static string getNewestSavePath(string folderPath, string fileName, bool deep = true)
+        {
+            if (!Directory.Exists(folderPath))
+                return null;
+            return Directory.GetFiles(folderPath, fileName ?? "*", deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                    .Where(f => SizeValidSAV6((int)new FileInfo(f).Length)) // filter
+                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
         }
 
         /// <summary>

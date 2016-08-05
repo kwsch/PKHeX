@@ -7,6 +7,7 @@ namespace PKHeX
     public sealed class SAV6 : SaveFile
     {
         // Save Data Attributes
+        public const string DefaultFileName = "main";
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => "";
