@@ -1669,7 +1669,6 @@ namespace PKHeX
             // CB_Vivillon
             // 
             this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Vivillon.Enabled = false;
             this.CB_Vivillon.FormattingEnabled = true;
             this.CB_Vivillon.Location = new System.Drawing.Point(287, 73);
             this.CB_Vivillon.Name = "CB_Vivillon";
