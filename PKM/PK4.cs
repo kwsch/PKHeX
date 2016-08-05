@@ -392,7 +392,7 @@ namespace PKHeX
             BitConverter.GetBytes((uint)0).CopyTo(pk5.Data, 0x44);
 
             // Met / Crown Data Detection
-            pk5.Met_Location = pk5.FatefulEncounter && Array.IndexOf(new[] {251, 243, 244, 245}, pk5.Species) >= 0
+            pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Array.IndexOf(new[] {251, 243, 244, 245}, pk5.Species) >= 0
                 ? (pk5.Species == 251 ? 30010 : 30012) // Celebi : Beast
                 : 30001; // Pokétransfer (not Crown)
             
