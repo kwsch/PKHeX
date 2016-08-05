@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -139,7 +140,7 @@ namespace PKHeX
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static GameVersion getIsG6SAV(byte[] data)
         {
-            if (!SizeValidSAV6(data.Length))
+            if (!new []{SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO}.Contains(data.Length))
                 return GameVersion.Invalid;
 
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
@@ -180,48 +181,50 @@ namespace PKHeX
         /// <summary>
         /// Detects a save file.
         /// </summary>
-        /// <param name="fileName">File Name to look for.</param>
         /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
-        public static string detectSaveFile(string fileName = SAV6.DefaultFileName)
+        public static string detectSaveFile()
         {
             string path;
             string path3DS = Path.GetPathRoot(Util.get3DSLocation());
-            
+            List<string> possiblePaths = new List<string>();
+
             // save_manager
             if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "saveDataBackup")))
-                if (File.Exists(path = Path.Combine(path, fileName)))
-                    return path;
+                if (File.Exists(path = Path.Combine(path)))
+                    possiblePaths.Add(path);
 
             // SaveDataFiler
-            if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "filer", "UserSaveData")))
-                return getNewestSavePath(Path.Combine(path3DS, "filer", "UserSaveData"), fileName);
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "filer", "UserSaveData")))
+                possiblePaths.AddRange(getSavesFromFolder(path, true));
 
             // JKSV
-            if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "JKSV", "Saves")))
-                return getNewestSavePath(Path.Combine(path3DS, "JKSV", "Saves"), "main");
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "JKSV", "Saves")))
+                possiblePaths.AddRange(getSavesFromFolder(path, true));
+
+            // TWL Save Tool
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "TWLSaveTool")))
+                possiblePaths.AddRange(getSavesFromFolder(path, false));
 
             // CyberGadget (Cache)
             string pathCache = Util.GetCacheFolder();
             if (Directory.Exists(pathCache))
-                return Directory.GetFiles(pathCache).Where(f => SizeValidSAV6((int)new FileInfo(f).Length)) // filter
-                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+                possiblePaths.AddRange(getSavesFromFolder(Path.Combine(pathCache), false));
 
-            return null;
+            // return newest save file path that is valid (oh man)
+            return possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p)).ChecksumsValid);
         }
         /// <summary>
         /// Retrieves the full path of the most recent file based on LastWriteTime.
         /// </summary>
         /// <param name="folderPath">Folder to look within</param>
-        /// <param name="fileName">Filename to look for, if null can be named anything</param>
         /// <param name="deep">Search all subfolders</param>
-        /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
-        public static string getNewestSavePath(string folderPath, string fileName, bool deep = true)
+        /// <returns>Full path of all save files that match criteria.</returns>
+        public static IEnumerable<string> getSavesFromFolder(string folderPath, bool deep)
         {
             if (!Directory.Exists(folderPath))
                 return null;
-            return Directory.GetFiles(folderPath, fileName ?? "*", deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
-                    .Where(f => SizeValidSAV6((int)new FileInfo(f).Length)) // filter
-                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
+            return Directory.GetFiles(folderPath, "*", deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                    .Where(f => SizeValidSAV((int)new FileInfo(f).Length));
         }
 
         /// <summary>
@@ -229,16 +232,21 @@ namespace PKHeX
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-        public static bool SizeValidSAV6(int size)
+        public static bool SizeValidSAV(int size)
         {
             switch (size)
             {
                 case SIZE_G6XY:
                 case SIZE_G6ORASDEMO:
                 case SIZE_G6ORAS:
+                case SIZE_G5B2W2:
+                case SIZE_G4RAW:
+                case SIZE_G3RAW:
+                case SIZE_G3RAWHALF:
                     return true;
+                default:
+                    return false;
             }
-            return false;
         }
 
         // SAV Manipulation
