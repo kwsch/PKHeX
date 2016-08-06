@@ -445,9 +445,9 @@ namespace PKHeX
             pk5.Met_Level = PKX.getLevel(pk5.Species, pk5.EXP);
 
             // Remove HM moves; Defog should be kept if both are learned.
-            int[] banned = Moves.Contains(250) /*Whirlpool*/ && !Moves.Contains(432) /*Defog*/
-                ? new[] {15, 19, 57, 70, 432, 249, 127, 431} // No Defog
-                : new[] {15, 19, 57, 70, 250, 249, 127, 431};// No Whirlpool
+            int[] banned = Moves.Contains(250) && Moves.Contains(432) // Whirlpool & Defog
+                ? new[] {15, 19, 57, 70, 250, 249, 127, 431} // No Whirlpool
+                : new[] {15, 19, 57, 70,      249, 127, 431};// Transfer via advantageous game
 
             int[] newMoves = pk5.Moves;
             for (int i = 0; i < 4; i++)
