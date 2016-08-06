@@ -261,10 +261,21 @@ namespace PKHeX
             }
             set
             {
-                if (PtHGSS)
+                if (value == 0)
+                {
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
+                }
+                else if (PtHGSS)
                 {
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes(0x7D0).CopyTo(Data, 0x7E);
+                    BitConverter.GetBytes(0xBBA).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
+                }
+                else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
+                {
+                    // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
                 else
                 {
@@ -284,10 +295,21 @@ namespace PKHeX
             }
             set
             {
-                if (PtHGSS)
+                if (value == 0)
+                {
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
+                }
+                else if (PtHGSS)
                 {
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes(0x7D0).CopyTo(Data, 0x80);
+                    BitConverter.GetBytes(0xBBA).CopyTo(Data, 0x80); // Faraway Place (for DP display)
+                }
+                else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
+                {
+                    // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
                 else
                 {
@@ -299,11 +321,26 @@ namespace PKHeX
         private byte PKRS { get { return Data[0x82]; } set { Data[0x82] = value; } }
         public override int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | (value << 4)); } }
-        public override int Ball { get { return Data[0x83]; } set { Data[0x83] = (byte)value; } }
+        public override int Ball
+        {
+            get { return Data[HGSS ? 0x86 : 0x83]; }
+            set
+            {
+                if (HGSS)
+                {
+                    Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Ball to display in DP (cap at Cherish)
+                    Data[0x86] = (byte)(value <= 0x18 ? value : 4); // Cap at Comp Ball
+                }
+                else
+                {
+                    Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Cap at Cherish Ball
+                    Data[0x86] = 0; // Unused
+                }
+            }
+        }
         public override int Met_Level { get { return Data[0x84] & ~0x80; } set { Data[0x84] = (byte)((Data[0x84] & 0x80) | value); } }
         public override int OT_Gender { get { return Data[0x84] >> 7; } set { Data[0x84] = (byte)((Data[0x84] & ~0x80) | value << 7); } }
         public override int EncounterType { get { return Data[0x85]; } set { Data[0x85] = (byte)value; } }
-        public int HGSSBall { get { return Data[0x86]; } set { Data[0x86] = (byte)value; } }
         // Unused 0x87
         #endregion
 
@@ -398,8 +435,7 @@ namespace PKHeX
             
             // Delete HGSS Data
             BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
-            if (HGSSBall > 0 && HGSSBall != 4)
-                pk5.Ball = HGSSBall;
+            pk5.Ball = Ball;
 
             // Transfer Nickname and OT Name
             pk5.Nickname = Nickname;
