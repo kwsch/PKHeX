@@ -190,8 +190,7 @@ namespace PKHeX
 
             // save_manager
             if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "saveDataBackup")))
-                if (File.Exists(path = Path.Combine(path)))
-                    possiblePaths.Add(path);
+                possiblePaths.AddRange(getSavesFromFolder(path, false));
 
             // SaveDataFiler
             if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "filer", "UserSaveData")))
