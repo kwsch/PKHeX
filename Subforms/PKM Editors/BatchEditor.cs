@@ -194,8 +194,11 @@ namespace PKHeX
                     err++;
                 if (r == ModifyResult.Modified)
                 {
-                    ctr++;
-                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
+                    if (pkm.Species > 0)
+                    {
+                        ctr++;
+                        File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
+                    }
                 }
 
                 b.ReportProgress(i);
