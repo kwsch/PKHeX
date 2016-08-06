@@ -720,11 +720,11 @@ namespace PKHeX
                         "Cancel: FireRed / LeafGreen");
 
                     if (drGame == DialogResult.Yes)
-                        sav = new SAV3(sav.Data, GameVersion.RS);
+                        sav = new SAV3(sav.BAK, GameVersion.RS);
                     else if (drGame == DialogResult.No)
-                        sav = new SAV3(sav.Data, GameVersion.E);
+                        sav = new SAV3(sav.BAK, GameVersion.E);
                     else
-                        sav = new SAV3(sav.Data, GameVersion.FRLG);
+                        sav = new SAV3(sav.BAK, GameVersion.FRLG);
                 }
                 var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation 3 ({sav.Version}) Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
                 if (drJP == DialogResult.Cancel)
