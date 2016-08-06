@@ -196,7 +196,7 @@ namespace PKHeX
                 SID = SID,
                 EXP = IsEgg ? PKX.getEXP(5, Species) : EXP,
                 IsEgg = false,
-                OT_Friendship = 40,
+                OT_Friendship = 70,
                 MarkCircle = MarkCircle,
                 MarkSquare = MarkSquare,
                 MarkTriangle = MarkTriangle,
