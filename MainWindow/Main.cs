@@ -3344,7 +3344,7 @@ namespace PKHeX
                     return;
                 string file = files[0];
                 FileInfo fi = new FileInfo(file);
-                if (!PKX.getIsPKM(fi.Length))
+                if (!PKX.getIsPKM(fi.Length) && !MysteryGift.getIsMysteryGift(fi.Length))
                 { openQuick(file); return; }
 
                 byte[] data = File.ReadAllBytes(file);
