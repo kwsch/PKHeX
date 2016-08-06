@@ -457,7 +457,7 @@ namespace PKHeX
         }
         
         // Data Requests
-        internal static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny)
+        internal static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
         {
             if (species == 0)
                 return (Image)Resources.ResourceManager.GetObject("_0");
@@ -499,6 +499,9 @@ namespace PKHeX
             if (item > 0)
             {
                 Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
+                if ((generation == 3 || generation == 4) && 328 <= item && item <= 419) // gen3/4 TM
+                    itemimg = Resources.item_tm;
+
                 // Redraw
                 baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
             }
@@ -506,7 +509,7 @@ namespace PKHeX
         }
         internal static Image getSprite(PKM pkm)
         {
-            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny);
+            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
 
         // Font Related

@@ -15133,6 +15133,16 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_tm {
+            get {
+                object obj = ResourceManager.GetObject("item_tm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ! PKHeX Interface Customization File
         ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
         ///! lang_en.txt = English
@@ -15181,11 +15191,11 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ! PKHeX Interface Customization File
         ///! Languages: Save this file accordingly and put it in the same folder as PKHeX&apos;s executable.
-        ///! lang_en.txt = English
-        ///! lang_jp.txt = Japanese
+        ///! lang_en.txt = Inglés
+        ///! lang_jp.txt = Japonés
         ///! lang_fr.txt = French
-        ///! lang_de.txt = German
-        ///! lang_es.txt = Spanish
+        ///! lang_de.txt = Alemán
+        ///! lang_es.txt = Español
         ///! lang_it.txt = Italian
         ///! lang_ko.txt = Korean
         ///! lang_zh.txt = Chinese
@@ -15193,7 +15203,7 @@ namespace PKHeX.Properties {
         ///! Make sure that each edit has a &apos; = &apos; between Control name and new Text!
         ///!
         ///! -----------------------------------------------------
-        ///- DO NOT CHANGE THI [rest of string was truncated]&quot;;.
+        ///- DO NOT CHANGE THIS  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string lang_es {
             get {
@@ -20500,20 +20510,18 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to None
-        ///Rock Smash (HGSS)
-        ///Tall Grass
+        ///Golpe roca (HGSS)
+        ///Hierba Alta
         ///
         ///Dialga/Palkia
-        ///Cave/Hall of Origin
+        ///Cueva/Sala del Origen
         ///
-        ///Surfing/Fishing
+        ///Surfeando/Pescando
         ///
-        ///Building/Enigma Stone
-        ///Marsh/Safari
+        ///Edificio/Misticristal 
+        ///Pantano/Safari
         ///
-        ///Starter/Fossil/Gift (DP)
-        ///
-        ///
+        ///Inicial/Fosil/Regalo (DP)
         ///
         ///
         ///
@@ -20522,8 +20530,10 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt/DP Trio).
+        ///
+        ///
+        ///Mundo Distorsion (Pt)
+        ///Inicial/Fosil/Regalo (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_es {
             get {
@@ -20697,7 +20707,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -20949,9 +20959,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///        /// [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_de {
             get {
@@ -20960,7 +20968,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -21212,9 +21220,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///        /// [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_en {
             get {
@@ -21223,7 +21229,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -21474,10 +21480,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_es {
             get {
@@ -21486,7 +21489,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -21736,10 +21739,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_fr {
             get {
@@ -21748,7 +21748,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -21999,10 +21999,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_it {
             get {
@@ -22011,7 +22008,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -22262,9 +22259,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///        /// [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_ja {
             get {
@@ -22273,7 +22268,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -22525,9 +22520,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///        /// [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_ko {
             get {
@@ -22536,7 +22529,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -22787,10 +22780,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_zh {
             get {
@@ -22878,8 +22868,8 @@ namespace PKHeX.Properties {
         ///RojoFuego
         ///VerdeHoja
         ///
-        ///HeartGold
-        ///SoulSilver
+        ///Oro HeartGold
+        ///Plata SoulSilver
         ///
         ///Diamante
         ///Perla
@@ -22897,8 +22887,8 @@ namespace PKHeX.Properties {
         ///Negra2
         ///X
         ///Y
-        ///AS
-        ///OR.
+        ///Zafiro Alfa
+        ///Rubí Omega.
         /// </summary>
         internal static string text_games_es {
             get {

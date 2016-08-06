@@ -708,6 +708,7 @@
     <None Include="Resources\img\box\xy\box_wp03xy.png" />
     <None Include="Resources\img\box\xy\box_wp02xy.png" />
     <None Include="Resources\img\box\xy\box_wp01xy.png" />
+    <None Include="Resources\img\item\item_tm.png" />
     <Content Include="Resources\text\de\text_Pokeblock_de.txt" />
     <None Include="Resources\text\de\text_tradeao_de.txt" />
     <None Include="Resources\text\de\text_tradexy_de.txt" />
