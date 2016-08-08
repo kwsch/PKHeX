@@ -18,7 +18,7 @@ namespace PKHeX
         {
             #region Initialize Form
             new Thread(() => new SplashScreen().ShowDialog()).Start();
-            pkm_from = SAV.BlankPKM.EncryptedPartyData;
+            slotPkmSource = SAV.BlankPKM.EncryptedPartyData;
             InitializeComponent();
             CB_ExtraBytes.SelectedIndex = 0;
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
@@ -115,8 +115,8 @@ namespace PKHeX
             }
             if (!SAV.Exportable) // No SAV loaded from exe args
             {
-                string path = detectSaveFile();
-                if (path != null)
+                string path = SaveUtil.detectSaveFile();
+                if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
                     GB_SAVtools.Visible = false;
@@ -177,54 +177,33 @@ namespace PKHeX
 
         #region Path Variables
 
-        public static string WorkingDirectory {
-            get
-            {
-                if (ApplicationDeployment.IsNetworkDeployed)
-                {
-                    return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX");
-                }
-                else
-                {
-                    return Environment.CurrentDirectory;
-                }
-            }
-        }
+        public static string WorkingDirectory => ApplicationDeployment.IsNetworkDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
+        public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
+        private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
+        private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
 
-        public static string DatabasePath
-        {
-            get
-            {
-                return Path.Combine(WorkingDirectory, "db");
-            }
-        }
-
-        private static string WC6DatabasePath
-        {
-            get
-            {
-                return Path.Combine(WorkingDirectory, "wc6");
-            }
-        }
-
-        private static string BackupPath
-        {
-            get
-            {
-                return Path.Combine(WorkingDirectory, "bak");
-            }
-        }
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
         {
+            string pkx = pkm.Extension;
+            string ekx = 'e' + pkx.Substring(1, pkx.Length-1);
+
+            string supported = "*.pkm;";
+            for (int i = 3; i <= SAV.Generation; i++)
+            {
+                supported += $"*.pk{i}";
+                if (i != pkm.Format)
+                    supported += ";";
+            }
+
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "PKX File|*.pk6;*.pkx" +
-                         "|EKX File|*.ek6;*.ekx" +
-                         "|BIN File|*.bin" +
+                Filter = $"Decrypted PKM File|{supported}" +
+                         $"|Encrypted PKM File|*.{ekx}" +
+                         "|Binary File|*.bin" +
                          "|All Files|*.*",
                 RestoreDirectory = true,
                 FilterIndex = 4,
@@ -236,7 +215,7 @@ namespace PKHeX
                 ofd.InitialDirectory = WorkingDirectory;
 
             // Detect main
-            string path = detectSaveFile();
+            string path = SaveUtil.detectSaveFile();
             if (path != null)
             { ofd.InitialDirectory = Path.GetDirectoryName(path); }
             else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main")))
@@ -251,32 +230,32 @@ namespace PKHeX
         {
             if (!verifiedPKM()) return;
             PKM pk = preparePKM();
+            string pkx = pk.Extension;
+            string ekx = 'e' + pkx.Substring(1, pkx.Length - 1);
             SaveFileDialog sfd = new SaveFileDialog
             {
-                Filter = "PKX File|*.pk6;*.pkx" +
-                         "|EKX File|*.ek6;*.ekx" +
-                         "|BIN File|*.bin" +
+                Filter = $"Decrypted PKM File|*.{pkx}" +
+                         $"|Encrypted PKM File|*.{ekx}" +
+                         "|Binary File|*.bin" +
                          "|All Files|*.*",
-                DefaultExt = "pk6",
+                DefaultExt = pkx,
                 FileName = Util.CleanFileName(pk.FileName)
             };
             if (sfd.ShowDialog() != DialogResult.OK) return;
             string path = sfd.FileName;
-            // Injection Dummy Override
-            if (path.Contains("pokemon.ekx")) path = Path.Combine(Path.GetDirectoryName(path), "pokemon.ekx");
             string ext = Path.GetExtension(path);
 
-            if (File.Exists(path) && !path.Contains("pokemon.ekx"))
+            if (File.Exists(path))
             {
                 // File already exists, save a .bak
                 byte[] backupfile = File.ReadAllBytes(path);
                 File.WriteAllBytes(path + ".bak", backupfile);
             }
 
-            if (new[] {".ekx", ".ek6", ".bin"}.Contains(ext))
+            if (new[] {".ekx", "."+ekx, ".bin"}.Contains(ext))
                 File.WriteAllBytes(path, pk.EncryptedPartyData);
-            else if (new[] { ".pkx", ".pk6" }.Contains(ext))
-                File.WriteAllBytes(path, pk.Data);
+            else if (new[] { "."+pkx }.Contains(ext))
+                File.WriteAllBytes(path, pk.DecryptedBoxData);
             else
             {
                 Util.Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
@@ -520,17 +499,17 @@ namespace PKHeX
         }
         private void clickOpenSDFFolder(object sender, EventArgs e)
         {
-            string path;
-            if (Util.get3DSLocation() != null && Directory.Exists(path = Util.GetSDFLocation()))
+            string path = Path.GetPathRoot(Util.get3DSLocation());
+            if (path != null && Directory.Exists(path = Path.Combine(path, "filer", "UserSaveData")))
                 Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the SaveDataFiler folder.");
         }
         private void clickOpenSDBFolder(object sender, EventArgs e)
         {
-            string path3DS = Util.get3DSLocation();
+            string path3DS = Path.GetPathRoot(Util.get3DSLocation());
             string path;
-            if (path3DS != null && Directory.Exists(path = Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup")))
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "SaveDataBackup")))
                 Process.Start("explorer.exe", path);
             else
                 Util.Alert("Can't find the SaveDataBackup folder.");
@@ -741,11 +720,11 @@ namespace PKHeX
                         "Cancel: FireRed / LeafGreen");
 
                     if (drGame == DialogResult.Yes)
-                        sav = new SAV3(sav.Data, GameVersion.RS);
+                        sav = new SAV3(sav.BAK, GameVersion.RS);
                     else if (drGame == DialogResult.No)
-                        sav = new SAV3(sav.Data, GameVersion.E);
+                        sav = new SAV3(sav.BAK, GameVersion.E);
                     else
-                        sav = new SAV3(sav.Data, GameVersion.FRLG);
+                        sav = new SAV3(sav.BAK, GameVersion.FRLG);
                 }
                 var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation 3 ({sav.Version}) Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
                 if (drJP == DialogResult.Cancel)
@@ -807,6 +786,7 @@ namespace PKHeX
             B_JPEG.Visible = SAV.HasJPEG;
             B_OpenEventFlags.Visible = SAV.HasEvents;
             B_LinkInfo.Visible = SAV.HasLink;
+            B_CGearSkin.Visible = SAV.Generation == 5;
             
             // Generational Interface
             byte[] extraBytes = new byte[1];
@@ -2423,7 +2403,7 @@ namespace PKHeX
         // Drag & Drop Events
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Move;
         }
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
@@ -2819,7 +2799,7 @@ namespace PKHeX
                 for (int i = 0; i < battle.Length; i++)
                     getQuickFiller(SlotPictureBoxes[i + 36], battle[i]);
                 for (int i = battle.Length; i < 6; i++)
-                    SlotPictureBoxes[i + 30].Image = null;
+                    SlotPictureBoxes[i + 36].Image = null;
             }
         }
         private int getPKXOffset(int slot)
@@ -3256,6 +3236,10 @@ namespace PKHeX
         {
             new SAV_Link6().ShowDialog();
         }
+        private void B_CGearSkin_Click(object sender, EventArgs e)
+        {
+            new SAV_CGearSkin().ShowDialog();
+        }
         private void B_JPEG_Click(object sender, EventArgs e)
         {
             byte[] jpeg = SAV.JPEGData;
@@ -3269,100 +3253,108 @@ namespace PKHeX
         // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
         {
-            string path = detectSaveFile();
+            string path = SaveUtil.detectSaveFile();
             if (path == null || !File.Exists(path)) return;
             if (Util.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
                 openQuick(path); // load save
         }
-        private static string detectSaveFile()
+
+        // Drag and drop related functions
+        private void pbBoxSlot_MouseClick(object sender, MouseEventArgs e)
         {
-            string pathSDF = Util.GetSDFLocation();
-            string path3DS = Util.get3DSLocation();
-            string pathCache = Util.GetCacheFolder();
+            if (slotDragDropInProgress)
+                return;
             
-            if (path3DS != null && Directory.Exists(Path.Combine(path3DS, "SaveDataBackup")) && ModifierKeys != Keys.Control)
-                return Path.Combine(Path.GetPathRoot(path3DS), "SaveDataBackup", "main");
-            if (pathSDF != null && ModifierKeys != Keys.Shift) // if we have a result
-                return Path.Combine(pathSDF, "main");
-            if (path3DS != null && Directory.Exists(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves")))
-                return Directory.GetFiles(Path.Combine(Path.GetPathRoot(path3DS), "JKSV", "Saves"), "main", SearchOption.AllDirectories)
-                        .Where(f => SaveUtil.SizeValidSAV6((int)new FileInfo(f).Length)) // filter
-                        .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
-            if (Directory.Exists(pathCache))
-                return Directory.GetFiles(pathCache).Where(f => SaveUtil.SizeValidSAV6((int)new FileInfo(f).Length)) // filter
-                    .OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault();
-            try 
-            {
-                if (File.Exists(Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main")))) // if cgse exists
-                    return Util.NormalizePath(Path.Combine(Util.GetTempFolder(), "root", "main"));
-            } catch { }
-
-            return null;
+            clickSlot(sender, e);
         }
-
-        // Drag & Drop within Box
+        private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                slotLeftMouseIsDown = false;
+            if (e.Button == MouseButtons.Right)
+                slotRightMouseIsDown = false;
+        }
         private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
-            if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt || ModifierKeys == Keys.Shift || ModifierKeys == (Keys.Control | Keys.Alt))
-            { clickSlot(sender, e); return; }
-            PictureBox pb = (PictureBox)sender;
-            if (pb.Image == null)
+            if (e.Button == MouseButtons.Left)
+                slotLeftMouseIsDown = true;
+            if (e.Button == MouseButtons.Right)
+                slotRightMouseIsDown = true;
+        }
+        private void pbBoxSlot_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (slotDragDropInProgress)
                 return;
 
-            pkm_from_slot = getSlot(sender);
-            int offset = getPKXOffset(pkm_from_slot);
-            // Create Temp File to Drag
-            Cursor.Current = Cursors.Hand;
-
-            // Prepare Data
-            pkm_from = SAV.getData(offset, SAV.SIZE_STORED);
-            pkm_from_offset = offset;
-
-            // Make a new file name based off the PID
-            byte[] dragdata = SAV.decryptPKM(pkm_from);
-            Array.Resize(ref dragdata, SAV.SIZE_STORED);
-            PKM pkx = SAV.getPKM(dragdata);
-            string filename = pkx.FileName;
-
-            // Make File
-            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
-            try
+            if (slotLeftMouseIsDown)
             {
-                File.WriteAllBytes(newfile, dragdata);
-                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                // The goal is to create a temporary PKX file for the underlying Pokemon
+                // and use that file to perform a drag drop operation.
+
+                // Abort if there is no Pokemon in the given slot.
+                if (((PictureBox)sender).Image == null)
+                    return;
+
+                // Set flag to prevent re-entering.
+                slotDragDropInProgress = true;
+
+                slotSourceSlotNumber = getSlot(sender);
+                int offset = getPKXOffset(slotSourceSlotNumber);
+
+                // Prepare Data
+                slotPkmSource = SAV.getData(offset, SAV.SIZE_STORED);
+                slotSourceOffset = offset;
+
+                // Make a new file name based off the PID
+                byte[] dragdata = SAV.decryptPKM(slotPkmSource);
+                Array.Resize(ref dragdata, SAV.SIZE_STORED);
+                PKM pkx = SAV.getPKM(dragdata);
+                string filename = pkx.FileName;
+
+                // Make File
+                string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+                try
+                {
+                    File.WriteAllBytes(newfile, dragdata);
+                    // Thread Blocks on DoDragDrop
+                    ((PictureBox)sender).DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                }
+                catch (Exception x)
+                {
+                    Util.Error("Drag & Drop Error:", x.ToString());
+                }
+                slotSourceOffset = 0;
+
+                // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
+                // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
+                new Thread(() =>
+                {
+                    Thread.Sleep(500);
+                    if (File.Exists(newfile))
+                        File.Delete(newfile);
+                }).Start();
             }
-            catch (ArgumentException x)
-            { Util.Error("Drag & Drop Error:", x.ToString()); }
-            pkm_from_offset = 0;
-
-            // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
-            // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
-            new Thread(() =>
-            {
-                Thread.Sleep(500);
-                if (File.Exists(newfile))
-                    File.Delete(newfile);
-            }).Start();
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
-            int slot = getSlot(sender);
-            int offset = getPKXOffset(slot);
+            int slotDestinationSlotNumber = getSlot(sender);
+            int slotDestinationOffset = getPKXOffset(slotDestinationSlotNumber);
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { loadBoxesFromDB(files[0]); return; }
-            if (pkm_from_offset == 0)
+            if (slotSourceOffset == 0)
             {
                 if (files.Length <= 0)
                     return;
                 string file = files[0];
-                if (!PKX.getIsPKM(new FileInfo(file).Length))
+                FileInfo fi = new FileInfo(file);
+                if (!PKX.getIsPKM(fi.Length) && !MysteryGift.getIsMysteryGift(fi.Length))
                 { openQuick(file); return; }
 
                 byte[] data = File.ReadAllBytes(file);
-                PKM temp = PKMConverter.getPKMfromBytes(data);
+                MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
+                PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data);
                 string c;
 
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
@@ -3377,36 +3369,45 @@ namespace PKHeX
                     { Console.WriteLine(c); Console.WriteLine(concat); return; }
                 }
 
-                SAV.setStoredSlot(pk, offset);
-                getQuickFiller(SlotPictureBoxes[slot], pk);
-                getSlotColor(slot, Properties.Resources.slotSet);
+                SAV.setStoredSlot(pk, slotDestinationOffset);
+                getQuickFiller(SlotPictureBoxes[slotDestinationSlotNumber], pk);
+                getSlotColor(slotDestinationSlotNumber, Properties.Resources.slotSet);
                 Console.WriteLine(c);
             }
             else
             {
-                PKM pkz = SAV.getStoredSlot(pkm_from_offset);
-                if (ModifierKeys == Keys.Alt && slot > -1) // overwrite delete old slot
+                PKM pkz = SAV.getStoredSlot(slotSourceOffset);
+                if (ModifierKeys == Keys.Alt && slotDestinationSlotNumber > -1) // overwrite delete old slot
                 {
                     // Clear from slot 
-                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], SAV.BlankPKM); // picturebox
-                    SAV.setStoredSlot(SAV.BlankPKM, pkm_from_offset); // savefile
+                    getQuickFiller(SlotPictureBoxes[slotSourceSlotNumber], SAV.BlankPKM); // picturebox
+                    SAV.setStoredSlot(SAV.BlankPKM, slotSourceOffset); // savefile
                 }
-                else if (ModifierKeys != Keys.Control && slot > -1)
+                else if (ModifierKeys != Keys.Control && slotDestinationSlotNumber > -1)
                 {
-                    // Load data from destination
-                    PKM pk = SAV.getStoredSlot(offset);
+                    if (((PictureBox)sender).Image != null)
+                    {
+                        // Load data from destination
+                        PKM pk = SAV.getStoredSlot(slotDestinationOffset);
 
-                    // Swap slot picture
-                    getQuickFiller(SlotPictureBoxes[pkm_from_slot], pk);
+                        // Set destination pokemon image to source picture box
+                        getQuickFiller(SlotPictureBoxes[slotSourceSlotNumber], pk);
 
-                    // Swap slot data to source
-                    SAV.setStoredSlot(pk, pkm_from_offset);
+                        // Set destination pokemon data to source slot
+                        SAV.setStoredSlot(pk, slotSourceOffset);
+                    }
+                    else
+                    {
+                        // Set blank to source slot
+                        SAV.setStoredSlot(SAV.BlankPKM, slotSourceOffset);
+                        SlotPictureBoxes[slotSourceSlotNumber].Image = null;
+                    }
                 }
-                // Copy from temp slot to new.
-                SAV.setStoredSlot(pkz, offset);
-                getQuickFiller(SlotPictureBoxes[slot], pkz);
+                // Copy from temp to destination slot.
+                SAV.setStoredSlot(pkz, slotDestinationOffset);
+                getQuickFiller(SlotPictureBoxes[slotDestinationSlotNumber], pkz);
 
-                pkm_from_offset = 0; // Clear offset value
+                slotSourceOffset = 0; // Clear offset value
             }
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
@@ -3416,10 +3417,22 @@ namespace PKHeX
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
         }
+        private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            if (e.Action == DragAction.Cancel || e.Action == DragAction.Drop)
+            {
+                slotLeftMouseIsDown = false;
+                slotRightMouseIsDown = false;
+                slotDragDropInProgress = false;
+            }
+        }
 
-        private byte[] pkm_from;
-        private int pkm_from_offset;
-        private int pkm_from_slot = -1;
+        private static bool slotLeftMouseIsDown = false;
+        private static bool slotRightMouseIsDown = false;
+        private static bool slotDragDropInProgress = false;
+        private byte[] slotPkmSource;
+        private int slotSourceOffset;
+        private int slotSourceSlotNumber = -1;
         #endregion
     }
 }

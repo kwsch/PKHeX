@@ -105,7 +105,7 @@ namespace PKHeX
         public override int Met_Location { get { return Data[0x45]; } set { Data[0x45] = (byte)value; } }
         // Origins
         private ushort Origins { get { return BitConverter.ToUInt16(Data, 0x46); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x46); } }
-        public override int Met_Level { get { return Origins & 0x3F; } set { Origins = (ushort)((Origins & ~0x3F) | value); } }
+        public override int Met_Level { get { return Origins & 0x7F; } set { Origins = (ushort)((Origins & ~0x7F) | value); } }
         public override int Version { get { return (Origins >> 7) & 0xF; } set { Origins = (ushort)((Origins & ~0x780) | ((value & 0xF) << 7));} }
         public override int Ball { get { return (Origins >> 11) & 0xF; } set { Origins = (ushort)((Origins & ~0x7800) | ((value & 0xF) << 11)); } }
         public override int OT_Gender { get { return (Origins >> 15) & 1; } set { Origins = (ushort)(Origins & ~(1 << 15) | ((value & 1) << 15)); } }
@@ -196,7 +196,7 @@ namespace PKHeX
                 SID = SID,
                 EXP = IsEgg ? PKX.getEXP(5, Species) : EXP,
                 IsEgg = false,
-                OT_Friendship = 40,
+                OT_Friendship = 70,
                 MarkCircle = MarkCircle,
                 MarkSquare = MarkSquare,
                 MarkTriangle = MarkTriangle,
@@ -295,6 +295,10 @@ namespace PKHeX
 
             // Unown Form
             pk4.AltForm = AltForm;
+
+            int item = HeldItem;
+            if (HeldItem > 0)
+                pk4.HeldItem = item;
 
             // Remove HM moves
             int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };

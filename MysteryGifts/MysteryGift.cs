@@ -5,6 +5,10 @@ namespace PKHeX
 {
     public abstract class MysteryGift
     {
+        internal static bool getIsMysteryGift(long len)
+        {
+            return new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size }.Contains((int)len);
+        }
         internal static MysteryGift getMysteryGift(byte[] data, string ext)
         {
             if (data.Length == WC6.SizeFull && ext == ".wc6full")

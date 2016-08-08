@@ -5,8 +5,8 @@ Esmeralda
 RojoFuego
 VerdeHoja
 
-HeartGold
-SoulSilver
+Oro HeartGold
+Plata SoulSilver
 
 Diamante
 Perla
@@ -24,5 +24,5 @@ Blanca2
 Negra2
 X
 Y
-AS
-OR
+Zafiro Alfa
+Rubí Omega

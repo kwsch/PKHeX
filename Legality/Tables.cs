@@ -444,6 +444,7 @@ namespace PKHeX
             486, // Regigigas
             487, // Giratina
             488, // Cresselia
+            490, // Manaphy
             491, // Darkrai
             492, // Shaymin
             493, // Arceus

@@ -235,7 +235,7 @@ namespace PKHeX
 
                 ushort[] Constants = new ushort[EventConstMax];
                 for (int i = 0; i < Constants.Length; i++)
-                    Constants[i] = BitConverter.ToUInt16(Data, EventConst + i);
+                    Constants[i] = BitConverter.ToUInt16(Data, EventConst + i * 2);
                 return Constants;
             }
             set

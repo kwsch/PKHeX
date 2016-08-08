@@ -147,7 +147,8 @@ namespace PKHeX
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
-        public bool PtHGSS => new[] {GameVersion.Pt, GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
+        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
         public bool Gen5 => Version >= 20 && Version <= 23;
         public bool Gen4 => Version >= 10 && Version < 12 || Version >= 7 && Version <= 8;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;

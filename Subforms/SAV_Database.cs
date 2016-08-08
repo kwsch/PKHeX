@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -80,41 +79,33 @@ namespace PKHeX
             foreach (PictureBox p in PKXBOXES)
                 p.ContextMenuStrip = mnu;
 
-            // Load initial database
-            Database.Add(new DatabaseList
-            {
-                Version = 0,
-                Title = "Misc",
-                Description = "Individual pkm files present in the db/sav.",
-            });
-
-            // Load databases
+            // Load Data
+            RawDB = new List<PKM>();
             foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
             {
                 FileInfo fi = new FileInfo(file);
                 if (fi.Extension.Contains(".pk") && PKX.getIsPKM(fi.Length))
-                    Database[0].Slot.Add(PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file));
-                else
-                    loadDatabase(File.ReadAllBytes(file));
+                    RawDB.Add(PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file));
             }
             // Fetch from save file
             foreach (var pkm in Main.SAV.BoxData.Where(pk => pk.Species != 0))
-                Database[0].Slot.Add(pkm);
+                RawDB.Add(pkm);
 
             // Prepare Database
-            prepareDBForSearch();
+            RawDB = new List<PKM>(RawDB.Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0));
+            RawDB = new List<PKM>(RawDB.Distinct());
+            setResults(RawDB);
+
             Menu_SearchSettings.DropDown.Closing += (sender, e) =>
             {
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
-            B_Search.PerformClick();
             CenterToParent();
         }
         private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.DatabasePath;
-        private readonly List<DatabaseList> Database = new List<DatabaseList>();
         private List<PKM> Results;
         private List<PKM> RawDB;
         private int slotSelected = -1; // = null;
@@ -323,80 +314,6 @@ namespace PKHeX
         }
 
         // IO Usage
-        private class DatabaseList
-        {
-            public readonly List<PKM> Slot = new List<PKM>();
-            public int Version;
-            private readonly bool Unicode;
-            private readonly byte[] Unused;
-            public string Title;
-            public string Description;
-
-            public DatabaseList() { }
-            public DatabaseList(byte[] data)
-            {
-                if ((data.Length < 0x100 + 0xE8) || (data.Length - 0x100)%0xE8 != 0)
-                    return;
-
-                Version = BitConverter.ToInt32(data, 0);
-                Unicode = data[0x5] == 1;
-                Unused = data.Skip(4).Take(0xB).ToArray();
-
-                if (Unicode)
-                {
-                    Title = Encoding.Unicode.GetString(data, 0x10, 0x30).Trim();
-                    Description = Encoding.Unicode.GetString(data, 0x40, 0x60).Trim();
-                }
-                else
-                {
-                    Title = Encoding.ASCII.GetString(data, 0x10, 0x30).Trim();
-                    Description = Encoding.ASCII.GetString(data, 0x40, 0x60).Trim();
-                }
-
-                int count = (data.Length - 0x100)/0xE8;
-                for (int i = 0; i < count; i++)
-                    Slot.Add(new PK6(data.Skip(0x100 + i * 0xE8).Take(0xE8).ToArray()));
-            }
-            public byte[] Write()
-            {
-                using (MemoryStream ms = new MemoryStream())
-                using (BinaryWriter bw = new BinaryWriter(ms))
-                {
-                    bw.Write(Version);
-                    bw.Write(Unused);
-
-                    byte[] title = Unicode ? Encoding.Unicode.GetBytes(Title) : Encoding.ASCII.GetBytes(Title);
-                    Array.Resize(ref title, 0x30);
-                    bw.Write(title);
-                    
-                    byte[] desc = Unicode ? Encoding.Unicode.GetBytes(Description) : Encoding.ASCII.GetBytes(Description);
-                    Array.Resize(ref title, 0x60);
-                    bw.Write(desc);
-
-                    foreach (var pk6 in Slot)
-                        bw.Write(pk6.Data.Take(0xE8).ToArray());
-
-                    return ms.ToArray();
-                }
-            }
-        }
-        private void loadDatabase(byte[] data)
-        {
-            var db = new DatabaseList(data);
-            if (db.Slot.Count > 0)
-                Database.Add(db);
-        }
-        private void prepareDBForSearch()
-        {
-            RawDB = new List<PKM>();
-
-            foreach (var db in Database)
-                RawDB.AddRange(db.Slot);
-
-            RawDB = new List<PKM>(RawDB.Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0));
-            RawDB = new List<PKM>(RawDB.Distinct());
-            setResults(RawDB);
-        }
         private void openDB(object sender, EventArgs e)
         {
             if (Directory.Exists(DatabasePath))
@@ -419,8 +336,7 @@ namespace PKHeX
                 Directory.CreateDirectory(path);
 
             foreach (PKM pkm in Results)
-                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)),
-                    pkm.Data.Take(0xE8).ToArray());
+                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)), pkm.DecryptedBoxData);
         }
 
         // View Updates
@@ -644,32 +560,6 @@ namespace PKHeX
                 CB_GameOrigin.SelectedIndex = 0;
         }
 
-        // Debug
-        private void testQuery()
-        {
-            var query = from db in Database
-                        select db.Slot.Where(p => p.Move1 == 1).ToArray();
-
-            var result = query.ToArray();
-            if (!result[0].Any())
-                return;
-
-            var any = result[0][0];
-            m_parent.populateFields(any);
-        }
-        private void testUnique()
-        {
-            var query = from db in Database
-                        select db.Slot.GroupBy(p => p.Checksum + p.EncryptionConstant + p.Species) // Unique criteria
-                        .Select(grp => grp.First()).ToArray();
-
-            var result = query.ToArray();
-            if (!result[0].Any())
-                return;
-
-            var any = result[0][0];
-            m_parent.populateFields(any);
-        }
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
         {
             if (!Menu_SearchAdvanced.Checked)
