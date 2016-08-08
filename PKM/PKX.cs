@@ -159,15 +159,15 @@ namespace PKHeX
         
         internal static readonly string[][] SpeciesLang = 
         {
-            Util.getStringList("species", "ja"), // none
-            Util.getStringList("species", "ja"), // 1
-            Util.getStringList("species", "en"), // 2
-            Util.getStringList("species", "fr"), // 3
-            Util.getStringList("species", "it"), // 4
-            Util.getStringList("species", "de"), // 5
-            Util.getStringList("species", "es"), // none
-            Util.getStringList("species", "es"), // 7
-            Util.getStringList("species", "ko"), // 8
+            Util.getSpeciesList("ja"), // none
+            Util.getSpeciesList("ja"), // 1
+            Util.getSpeciesList("en"), // 2
+            Util.getSpeciesList("fr"), // 3
+            Util.getSpeciesList("it"), // 4
+            Util.getSpeciesList("de"), // 5
+            Util.getSpeciesList("es"), // none
+            Util.getSpeciesList("es"), // 7
+            Util.getSpeciesList("ko"), // 8
         };
 
         internal static string getSpeciesName(int species, int lang)

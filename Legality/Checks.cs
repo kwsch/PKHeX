@@ -1054,7 +1054,7 @@ namespace PKHeX
             return res;
         }
 
-        internal static string[] movelist = Util.getStringList("moves", "en");
+        internal static string[] movelist = Util.getMovesList("en");
         private static readonly string[] EventRibName =
         {
             "Country", "National", "Earth", "World", "Classic",
