@@ -58,7 +58,14 @@ namespace PKHeX
             }
             return -1;
         }
-        internal static PKM getPKMfromBytes(byte[] data, string ident = null)
+
+        /// <summary>
+        /// Creates an instance of <see cref="PKM"/> from the given data.
+        /// </summary>
+        /// <param name="data">Raw data of the Pokemon file.</param>
+        /// <param name="ident">Optional identifier for the Pokemon.  Usually the full path of the source file.</param>
+        /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
+        public static PKM getPKMfromBytes(byte[] data, string ident = null)
         {
             checkEncrypted(ref data);
             switch (getPKMDataFormat(data))

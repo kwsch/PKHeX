@@ -25,6 +25,11 @@ namespace PKHeX
         internal const int SIZE_6STORED = 0xE8;
         internal const int SIZE_6BLOCK = 56;
 
+        /// <summary>
+        /// Determines if the given length is valid for a Pokemon file.
+        /// </summary>
+        /// <param name="len">Length of the data to check.</param>
+        /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
         public static bool getIsPKM(long len)
         {
             return new[] {SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
