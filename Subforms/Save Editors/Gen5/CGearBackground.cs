@@ -51,7 +51,7 @@ namespace PKHeX
 
             ColorPalette = new Color[0x10];
             for (int i = 0; i < 0x10; i++)
-                ColorPalette[i] = getRGB555(BitConverter.ToUInt16(ColorData, i * 2));
+                ColorPalette[i] = getRGB555_16(BitConverter.ToUInt16(ColorData, i * 2));
 
             Tiles = new Tile[0xFF];
             for (int i = 0; i < 0xFF; i++)
@@ -145,7 +145,7 @@ namespace PKHeX
             for (int i = 0; i < data.Length; i += bpp)
             {
                 uint val = BitConverter.ToUInt32(data, i);
-                colors[i/bpp] = getRGB555(val);
+                colors[i/bpp] = getRGB555_32(val);
             }
             
             Color[] Palette = colors.Distinct().ToArray();
@@ -328,11 +328,18 @@ namespace PKHeX
             while (colorval > Convert5To8[i]) i++;
             return i;
         }
-        private static Color getRGB555(uint val)
+        private static Color getRGB555_32(uint val)
         {
             int R = (int)(val >> 0 >> 3) & 0x1F;
             int G = (int)(val >> 8 >> 3) & 0x1F;
             int B = (int)(val >> 16 >> 3) & 0x1F;
+            return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
+        }
+        private static Color getRGB555_16(ushort val)
+        {
+            int R = (val >> 0) & 0x1F;
+            int G = (val >> 5) & 0x1F;
+            int B = (val >> 10) & 0x1F;
             return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
         }
         private static ushort getRGB555(Color c)
