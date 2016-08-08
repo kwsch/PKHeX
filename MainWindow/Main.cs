@@ -921,11 +921,11 @@ namespace PKHeX
             string l = curlanguage;
             natures = Util.getStringList("natures", l);
             types = Util.getStringList("types", l);
-            abilitylist = Util.getStringList("abilities", l);
-            movelist = Util.getStringList("moves", l);
+            abilitylist = Util.getAbilitiesList(l);
+            movelist = Util.getMovesList(l);
             itemlist = Util.getStringList("items", l);
             characteristics = Util.getStringList("character", l);
-            specieslist = Util.getStringList("species", l);
+            specieslist = Util.getSpeciesList(l);
             wallpapernames = Util.getStringList("wallpaper", l);
             encountertypelist = Util.getStringList("encountertype", l);
             gamelist = Util.getStringList("games", l);
