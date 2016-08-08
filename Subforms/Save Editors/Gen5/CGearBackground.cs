@@ -139,6 +139,7 @@ namespace PKHeX
             Marshal.Copy(bData.Scan0, data, 0, data.Length);
 
             int bpp = bData.Stride/Width;
+            img.UnlockBits(bData);
             // get colors
             Color[] colors = new Color[Width*Height];
             for (int i = 0; i < data.Length; i += bpp)
@@ -177,7 +178,7 @@ namespace PKHeX
             {
                 for (int j = 0; j < tilelist.Count; j++)
                 {
-                    int rotVal = tiles[i].getRotationValue(tilelist[j].PixelData);
+                    int rotVal = tiles[i].getRotationValue(tilelist[j].ColorChoices);
                     if (rotVal <= -1) continue;
                     tm.TileChoices[i] = j;
                     tm.Rotations[i] = rotVal;
@@ -186,6 +187,7 @@ namespace PKHeX
                 if (tilelist.Count == 0xFF)
                     throw new ArgumentException($"Too many unique tiles. Expected < 256, ran out of tiles at {i + 1} of {tm.TileChoices.Length}");
                 tilelist.Add(tiles[i]);
+                tm.TileChoices[i] = tilelist.Count - 1;
 
                 next:;
             }
@@ -203,7 +205,6 @@ namespace PKHeX
             private const int TileHeight = 8;
             public readonly int[] ColorChoices;
             private Bitmap img;
-            public byte[] PixelData;
 
             public Tile(byte[] data = null)
             {
@@ -229,8 +230,6 @@ namespace PKHeX
                         var choice = Palette[index];
                         img.SetPixel(x, y, choice);
                     }
-
-                PixelData = getTileRAW(img);
             }
             public byte[] Write()
             {
@@ -254,28 +253,32 @@ namespace PKHeX
                     tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
                 return tile;
             }
-            private static byte[] getTileRAW(Bitmap tile)
-            {
-                BitmapData bData = tile.LockBits(new Rectangle(0, 0, tile.Width, tile.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                byte[] data = new byte[bData.Stride * bData.Height];
-                Marshal.Copy(bData.Scan0, data, 0, data.Length);
-                tile.UnlockBits(bData);
-                return data;
-            }
 
-            public int getRotationValue(byte[] data)
+            public int getRotationValue(int[] tileColors)
             {
                 // Check all rotation types
-                if (PixelData.SequenceEqual(data))
+                if (ColorChoices.SequenceEqual(tileColors))
                     return 0;
 
-                if (getTileRAW(Rotate(4)).SequenceEqual(data))
-                    return 4;
-                if (getTileRAW(Rotate(8)).SequenceEqual(data))
-                    return 8;
-                if (getTileRAW(Rotate(12)).SequenceEqual(data))
-                    return 12;
-                return -1;
+                // flip x
+                for (int i = 0; i < 64; i++)
+                    if (ColorChoices[(7 - (i & 7)) + 8 * (i / 8)] != tileColors[i])
+                        goto check8;
+                return 4;
+
+                // flip y
+                check8:
+                for (int i = 0; i < 64; i++)
+                    if (ColorChoices[64 - 8 * (1 + (i / 8)) + (i & 7)] != tileColors[i])
+                        goto check12;
+                return 8;
+
+                // flip xy
+                check12:
+                for (int i = 0; i < 64; i++)
+                    if (ColorChoices[63 - i] != tileColors[i])
+                        return -1;
+                return 12;
             }
         }
         private class TileMap
@@ -330,13 +333,6 @@ namespace PKHeX
             int R = (int)(val >> 0 >> 3) & 0x1F;
             int G = (int)(val >> 8 >> 3) & 0x1F;
             int B = (int)(val >> 16 >> 3) & 0x1F;
-            return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
-        }
-        private static Color getRGB555(ushort val)
-        {
-            int R = (val >> 0) & 0x1F;
-            int G = (val >> 5) & 0x1F;
-            int B = (val >> 10) & 0x1F;
             return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
         }
         private static ushort getRGB555(Color c)
