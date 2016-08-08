@@ -173,6 +173,13 @@
     </Compile>
     <Compile Include="Saves\SaveObjects.cs" />
     <Compile Include="Saves\SaveUtil.cs" />
+    <Compile Include="Subforms\Save Editors\Gen5\CGearBackground.cs" />
+    <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.Designer.cs">
+      <DependentUpon>SAV_CGearSkin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen6\SAV_Link6.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -323,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\MemoryAmie.resx">
       <DependentUpon>MemoryAmie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.resx">
+      <DependentUpon>SAV_CGearSkin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_Link6.resx">
       <DependentUpon>SAV_Link6.cs</DependentUpon>
@@ -708,6 +718,7 @@
     <None Include="Resources\img\box\xy\box_wp03xy.png" />
     <None Include="Resources\img\box\xy\box_wp02xy.png" />
     <None Include="Resources\img\box\xy\box_wp01xy.png" />
+    <None Include="Resources\img\item\item_tm.png" />
     <None Include="Resources\text\de\text_Pokeblock_de.txt" />
     <None Include="Resources\text\de\text_tradeao_de.txt" />
     <None Include="Resources\text\de\text_tradexy_de.txt" />

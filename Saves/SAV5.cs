@@ -42,6 +42,8 @@ namespace PKHeX
                     Daycare = 0x20E00;
                     PokeDex = 0x21600;
                     PokeDexLanguageFlags = PokeDex + 0x320;
+                    CGearInfoOffset = 0x1C000;
+                    CGearDataOffset = 0x52000;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -65,6 +67,8 @@ namespace PKHeX
                     Daycare = 0x20D00;
                     PokeDex = 0x21400;
                     PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
+                    CGearInfoOffset = 0x1C000;
+                    CGearDataOffset = 0x52800;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -152,7 +156,7 @@ namespace PKHeX
                     new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x23F3A), // ???
                     new BlockInfo(0x1AA00, 0x07C4, 0x1B1C6, 0x23F3C), // ???
                     new BlockInfo(0x1B200, 0x0D54, 0x1BF56, 0x23F3E), // ???
-                    new BlockInfo(0x1C000, 0x002C, 0x1C02E, 0x23F40), // ???
+                    new BlockInfo(0x1C000, 0x002C, 0x1C02E, 0x23F40), // Skin Info
                     new BlockInfo(0x1C100, 0x0658, 0x1C75A, 0x23F42), // ??? Gym badge data
                     new BlockInfo(0x1C800, 0x0A94, 0x1D296, 0x23F44), // ???
                     new BlockInfo(0x1D300, 0x01AC, 0x1D4AE, 0x23F46), // ???
@@ -229,7 +233,7 @@ namespace PKHeX
                     new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x25F3A), // Unity Tower and survey stuff
                     new BlockInfo(0x1AA00, 0x07c4, 0x1B1C6, 0x25F3C), // Pal Pad Player Data (30d)
                     new BlockInfo(0x1B200, 0x0d54, 0x1BF56, 0x25F3E), // Pal Pad Friend Data
-                    new BlockInfo(0x1C000, 0x0094, 0x1C096, 0x25F40), // C-Gear
+                    new BlockInfo(0x1C000, 0x0094, 0x1C096, 0x25F40), // Skin Info
                     new BlockInfo(0x1C100, 0x0658, 0x1C75A, 0x25F42), // Card Signature Block & ????
                     new BlockInfo(0x1C800, 0x0a94, 0x1D296, 0x25F44), // Mystery Gift
                     new BlockInfo(0x1D300, 0x01ac, 0x1D4AE, 0x25F46), // Dream World Stuff (Catalog)
@@ -353,6 +357,7 @@ namespace PKHeX
         
         private const int wcSeed = 0x1D290;
 
+        public readonly int CGearInfoOffset, CGearDataOffset;
         private readonly int Trainer2, AdventureInfo, PokeDexLanguageFlags;
         public override bool HasBoxWallpapers => false;
         public override bool HasPokeDex => false;
