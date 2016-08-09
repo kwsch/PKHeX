@@ -96,11 +96,10 @@ namespace PKHeX
         public static byte[] PSKtoCGB(byte[] psk, bool B2W2)
         {
             byte[] cgb = (byte[])psk.Clone();
-            int shiftVal = B2W2 ? 0xA000 : 0xA0A0;
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
                 int val = BitConverter.ToUInt16(psk, i);
-                int index = ValToIndex(val, shiftVal);
+                int index = ValToIndex(val);
                 BitConverter.GetBytes((ushort)index).CopyTo(cgb, i);
             }
             return cgb;
@@ -316,10 +315,11 @@ namespace PKHeX
             int val = index + shiftVal;
             return val + 15*(index/17);
         }
-        private static int ValToIndex(int val, int shiftVal)
+        private static int ValToIndex(int val)
         {
-            int index = val - shiftVal;
-            return index - 15*(index/32);
+            if ((val & 0x3FF) < 0xA0 || (val & 0x3FF) > 0x280)
+                return ((val & 0x5C00) | 0xFF);
+            return ((val % 0x20) + 0x11 * (((val & 0x3FF) - 0xA0) / 0x20)) | (val & 0x5C00);
         }
         
         private static byte convert8to5(int colorval)
