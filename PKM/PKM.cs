@@ -153,6 +153,17 @@ namespace PKHeX
         public bool Gen4 => Version >= 10 && Version < 12 || Version >= 7 && Version <= 8;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
         public bool GenU => !(Gen6 || Gen5 || Gen4 || Gen3);
+        public int GenNumber
+        {
+            get
+            {
+                if (Gen6) return 6;
+                if (Gen5) return 5;
+                if (Gen4) return 4;
+                if (Gen3) return 3;
+                return -1;
+            } 
+        }
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public bool ChecksumValid => Checksum == CalculateChecksum();

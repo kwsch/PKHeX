@@ -1628,13 +1628,13 @@ namespace PKHeX
                 pkm.setPIDGender(pkm.Gender);
             TB_PID.Text = pkm.PID.ToString("X8");
             getQuickFiller(dragout);
-            if (pkm.Format >= 6)
-                TB_EC.Text = pkm.EncryptionConstant.ToString("X8");
+            if (pkm.GenNumber < 6 && TB_EC.Visible)
+                TB_EC.Text = TB_PID.Text;
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
-            int origin = Util.getIndex(CB_GameOrigin);
-            if (origin < 24)
+            pkm.Version = Util.getIndex(CB_GameOrigin);
+            if (pkm.GenNumber < 6)
             {
                 TB_EC.Text = TB_PID.Text;
                 Util.Alert("EC should match PID.");
@@ -2101,11 +2101,12 @@ namespace PKHeX
             pkm.Nature = Util.getIndex(CB_Nature);
             pkm.Gender = PKX.getGender(Label_Gender.Text);
             pkm.AltForm = CB_Form.SelectedIndex;
+            pkm.Version = Util.getIndex(CB_GameOrigin);
 
             pkm.setShinyPID();
             TB_PID.Text = pkm.PID.ToString("X8");
 
-            if (pkm.Format < 6)
+            if (pkm.GenNumber < 6 && TB_EC.Visible)
                 TB_EC.Text = TB_PID.Text;
 
             getQuickFiller(dragout);
