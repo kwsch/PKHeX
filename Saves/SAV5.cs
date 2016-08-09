@@ -7,7 +7,7 @@ namespace PKHeX
     public sealed class SAV5 : SaveFile
     {
         // Save Data Attributes
-        public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
+        public override string BAKName => $"{FileName} [{OT} ({(GameVersion)Game})" +/* - {LastSavedTime}*/ "].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -40,6 +40,10 @@ namespace PKHeX
                     BattleBox = 0x20A00;
                     Trainer2 = 0x21200;
                     Daycare = 0x20E00;
+                    PokeDex = 0x21600;
+                    PokeDexLanguageFlags = PokeDex + 0x320;
+                    CGearInfoOffset = 0x1C000;
+                    CGearDataOffset = 0x52000;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -52,6 +56,8 @@ namespace PKHeX
                     LegalTMHMs = Legal.Pouch_TMHM_BW;
                     LegalMedicine = Legal.Pouch_Medicine_BW;
                     LegalBerries = Legal.Pouch_Berries_BW;
+
+                    Personal = PersonalTable.BW;
                     break;
                 case GameVersion.B2W2: // B2W2
                     BattleBox = 0x20900;
@@ -59,6 +65,10 @@ namespace PKHeX
                     EventConst = 0x1FF00;
                     EventFlag = EventConst + 0x35E;
                     Daycare = 0x20D00;
+                    PokeDex = 0x21400;
+                    PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
+                    CGearInfoOffset = 0x1C000;
+                    CGearDataOffset = 0x52800;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -71,10 +81,11 @@ namespace PKHeX
                     LegalTMHMs = Legal.Pouch_TMHM_BW;
                     LegalMedicine = Legal.Pouch_Medicine_BW;
                     LegalBerries = Legal.Pouch_Berries_BW;
+
+                    Personal = PersonalTable.B2W2;
                     break;
             }
             HeldItems = Legal.HeldItems_BW;
-            Personal = Legal.PersonalAO; // todo
             getBlockInfo();
 
             if (!Exportable)
@@ -145,7 +156,7 @@ namespace PKHeX
                     new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x23F3A), // ???
                     new BlockInfo(0x1AA00, 0x07C4, 0x1B1C6, 0x23F3C), // ???
                     new BlockInfo(0x1B200, 0x0D54, 0x1BF56, 0x23F3E), // ???
-                    new BlockInfo(0x1C000, 0x002C, 0x1C02E, 0x23F40), // ???
+                    new BlockInfo(0x1C000, 0x002C, 0x1C02E, 0x23F40), // Skin Info
                     new BlockInfo(0x1C100, 0x0658, 0x1C75A, 0x23F42), // ??? Gym badge data
                     new BlockInfo(0x1C800, 0x0A94, 0x1D296, 0x23F44), // ???
                     new BlockInfo(0x1D300, 0x01AC, 0x1D4AE, 0x23F46), // ???
@@ -222,7 +233,7 @@ namespace PKHeX
                     new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x25F3A), // Unity Tower and survey stuff
                     new BlockInfo(0x1AA00, 0x07c4, 0x1B1C6, 0x25F3C), // Pal Pad Player Data (30d)
                     new BlockInfo(0x1B200, 0x0d54, 0x1BF56, 0x25F3E), // Pal Pad Friend Data
-                    new BlockInfo(0x1C000, 0x0094, 0x1C096, 0x25F40), // C-Gear
+                    new BlockInfo(0x1C000, 0x0094, 0x1C096, 0x25F40), // Skin Info
                     new BlockInfo(0x1C100, 0x0658, 0x1C75A, 0x25F42), // Card Signature Block & ????
                     new BlockInfo(0x1C800, 0x0a94, 0x1D296, 0x25F44), // Mystery Gift
                     new BlockInfo(0x1D300, 0x01ac, 0x1D4AE, 0x25F46), // Dream World Stuff (Catalog)
@@ -346,9 +357,11 @@ namespace PKHeX
         
         private const int wcSeed = 0x1D290;
 
-        private readonly int Trainer2, AdventureInfo;
+        public readonly int CGearInfoOffset, CGearDataOffset;
+        private readonly int Trainer2, AdventureInfo, PokeDexLanguageFlags;
         public override bool HasBoxWallpapers => false;
-        
+        public override bool HasPokeDex => false;
+
         // Daycare
         public override int DaycareSeedSize => 16;
         public override int getDaycareSlotOffset(int loc, int slot)
@@ -558,18 +571,18 @@ namespace PKHeX
         }
         public int X
         {
-            get { return BitConverter.ToInt32(Data, Trainer1 + 0x186); }
-            set { BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x186); }
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x186); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x186); }
         }
         public int Z
         {
-            get { return BitConverter.ToInt32(Data, Trainer1 + 0x18A); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x18A); }
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x18A); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x18A); }
         }
         public int Y
         {
-            get { return BitConverter.ToInt32(Data, Trainer1 + 0x18E); }
-            set { BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x18E); }
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x18E); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x18E); }
         }
 
         public override int PlayedHours
@@ -589,5 +602,45 @@ namespace PKHeX
         }
         public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x34); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); } }
         public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x3C); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); } }
+
+        protected override void setDex(PKM pkm)
+        {
+            if (pkm.Species == 0)
+                return;
+            if (pkm.Species > MaxSpeciesID)
+                return;
+            if (Version == GameVersion.Unknown)
+                return;
+            if (PokeDex < 0)
+                return;
+
+            const int brSize = 0x54;
+            int bit = pkm.Species - 1;
+            int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
+            int gender = pkm.Gender % 2; // genderless -> male
+            int shiny = pkm.IsShiny ? 1 : 0;
+            int shiftoff = shiny * 0x54 * 2 + gender * 0x60 + 0x60;
+
+            // Set the Species Owned Flag
+            Data[PokeDex + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+
+            // Set the [Species/Gender/Shiny] Seen Flag
+            Data[PokeDex + shiftoff + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+
+            // Set the Display flag if none are set
+            bool Displayed = false;
+            Displayed |= (Data[PokeDex + brSize * 5 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 6 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 7 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 8 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            if (!Displayed) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
+                Data[PokeDex + shiftoff + brSize * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+
+            // Set the Language
+            if (lang < 0) lang = 1;
+            Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
+
+            // Formes : todo
+        }
     }
 }

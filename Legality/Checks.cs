@@ -28,14 +28,22 @@ namespace PKHeX
     }
     public partial class LegalityAnalysis
     {
+        private LegalityCheck verifyGender()
+        {
+            if (PersonalTable.AO[pk6.Species].Gender == 255 && pk6.Gender != 2)
+                return new LegalityCheck(Severity.Invalid, "Genderless Pokémon should not have a gender.");
+
+            return new LegalityCheck();
+        }
         private LegalityCheck verifyECPID()
         {
             // Secondary Checks
+            LegalityCheck c = new LegalityCheck();
             if (pk6.EncryptionConstant == 0)
-                return new LegalityCheck(Severity.Fishy, "Encryption Constant is not set.");
+                c = new LegalityCheck(Severity.Fishy, "Encryption Constant is not set.");
 
             if (pk6.PID == 0)
-                return new LegalityCheck(Severity.Fishy, "PID is not set.");
+                c = new LegalityCheck(Severity.Fishy, "PID is not set.");
 
             if (EncounterType == typeof (EncounterStatic))
             {
@@ -66,7 +74,7 @@ namespace PKHeX
                 if (xor < 16 && xor >= 8 && (pk6.PID ^ 0x80000000) == pk6.EncryptionConstant)
                     return new LegalityCheck(Severity.Fishy, "Encryption Constant matches shinyxored PID.");
 
-                return special != "" ? new LegalityCheck(Severity.Valid, special) : new LegalityCheck();
+                return special != "" ? new LegalityCheck(Severity.Valid, special) : c;
             }
 
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.
@@ -85,7 +93,7 @@ namespace PKHeX
                 else
                     return new LegalityCheck(Severity.Invalid, "PID should be equal to EC!");
 
-            return new LegalityCheck();
+            return c;
         }
         private LegalityCheck verifyNickname()
         {
@@ -156,8 +164,8 @@ namespace PKHeX
             }
             // else
             {
-                // Can't have another language name if it hasn't evolved.
-                return Legal.getHasEvolved(pk6) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == nickname)
+                // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
+                return (pk6.WasTradedEgg || Legal.getHasEvolved(pk6)) && PKX.SpeciesLang.Any(lang => lang[pk6.Species] == nickname)
                        || PKX.SpeciesLang[pk6.Language][pk6.Species] == nickname
                     ? new LegalityCheck(Severity.Valid, "Nickname matches species name.")
                     : new LegalityCheck(Severity.Invalid, "Nickname does not match species name.");
@@ -361,18 +369,18 @@ namespace PKHeX
             // Check Event Ribbons
             bool[] EventRib =
             {
-                pk6.RIB2_6, pk6.RIB2_7, pk6.RIB3_0, pk6.RIB3_1, pk6.RIB3_2,
-                pk6.RIB3_3, pk6.RIB3_4, pk6.RIB3_5, pk6.RIB3_6, pk6.RIB3_7,
-                pk6.RIB4_0, pk6.RIB4_1, pk6.RIB4_2, pk6.RIB4_3, pk6.RIB4_4
+                pk6.RibbonCountry, pk6.RibbonNational, pk6.RibbonEarth, pk6.RibbonWorld, pk6.RibbonClassic,
+                pk6.RibbonPremier, pk6.RibbonEvent, pk6.RibbonBirthday, pk6.RibbonSpecial, pk6.RibbonSouvenir,
+                pk6.RibbonWishing, pk6.RibbonChampionBattle, pk6.RibbonChampionRegional, pk6.RibbonChampionNational, pk6.RibbonChampionWorld
             };
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6 != null) // Wonder Card
             {
                 bool[] wc6rib =
                 {
-                    MatchedWC6.RIB0_3, MatchedWC6.RIB0_4, MatchedWC6.RIB0_5, MatchedWC6.RIB0_6, MatchedWC6.RIB1_5,
-                    MatchedWC6.RIB1_6, MatchedWC6.RIB0_7, MatchedWC6.RIB1_1, MatchedWC6.RIB1_2, MatchedWC6.RIB1_3,
-                    MatchedWC6.RIB1_4, MatchedWC6.RIB0_0, MatchedWC6.RIB0_1, MatchedWC6.RIB0_2, MatchedWC6.RIB1_0
+                    MatchedWC6.RibbonCountry, MatchedWC6.RibbonNational, MatchedWC6.RibbonEarth, MatchedWC6.RibbonWorld, MatchedWC6.RibbonClassic,
+                    MatchedWC6.RibbonPremier, MatchedWC6.RibbonEvent, MatchedWC6.RibbonBirthday, MatchedWC6.RibbonSpecial, MatchedWC6.RibbonSouvenir,
+                    MatchedWC6.RibbonWishing, MatchedWC6.RibbonChampionBattle, MatchedWC6.RibbonChampionRegional, MatchedWC6.RibbonChampionNational, MatchedWC6.RibbonChampionWorld
                 };
                 for (int i = 0; i < EventRib.Length; i++)
                     if (EventRib[i] ^ wc6rib[i]) // Mismatch
@@ -396,19 +404,19 @@ namespace PKHeX
             }
 
             // Unobtainable ribbons for Gen6 Origin
-            if (pk6.RIB0_1)
+            if (pk6.RibbonChampionG3Hoenn)
                 invalidRibbons.Add("GBA Champion"); // RSE HoF
-            if (pk6.RIB0_2)
+            if (pk6.RibbonChampionSinnoh)
                 invalidRibbons.Add("Sinnoh Champ"); // DPPt HoF
-            if (pk6.RIB2_2)
+            if (pk6.RibbonArtist)
                 invalidRibbons.Add("Artist"); // RSE Master Rank Portrait
-            if (pk6.RIB2_4)
+            if (pk6.RibbonRecord)
                 invalidRibbons.Add("Record"); // Unobtainable
-            if (pk6.RIB2_5)
+            if (pk6.RibbonLegend)
                 invalidRibbons.Add("Legend"); // HGSS Defeat Red @ Mt.Silver
-            if (pk6.Memory_ContestCount > 0)
+            if (pk6.RibbonCountMemoryContest > 0)
                 invalidRibbons.Add("Contest Memory"); // Gen3/4 Contest
-            if (pk6.Memory_BattleCount > 0)
+            if (pk6.RibbonCountMemoryBattle > 0)
                 invalidRibbons.Add("Battle Memory"); // Gen3/4 Battle
             
             if (missingRibbons.Count + invalidRibbons.Count == 0)
@@ -423,9 +431,8 @@ namespace PKHeX
         }
         private LegalityCheck verifyAbility()
         {
-            int index = Legal.PersonalAO[pk6.Species].FormeIndex(pk6.Species, pk6.AltForm);
-            byte[] abilities = Legal.PersonalAO[index].Abilities;
-            int abilval = Array.IndexOf(abilities, (byte)pk6.Ability);
+            int[] abilities = PersonalTable.AO.getAbilities(pk6.Species, pk6.AltForm);
+            int abilval = Array.IndexOf(abilities, pk6.Ability);
             if (abilval < 0)
                 return new LegalityCheck(Severity.Invalid, "Ability is not valid for species/form.");
 
@@ -577,7 +584,7 @@ namespace PKHeX
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
-                if (pk6.OT_Friendship != PKX.getBaseFriendship(pk6.Species))
+                if (pk6.OT_Friendship != PersonalTable.AO[pk6.Species].BaseFriendship)
                     return new LegalityCheck(Severity.Invalid, "Event OT Friendship does not match base friendship.");
                 if (pk6.OT_Affection != 0)
                     return new LegalityCheck(Severity.Invalid, "Event OT Affection should be zero.");
@@ -703,7 +710,7 @@ namespace PKHeX
             switch (pk6.OT_Memory)
             {
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
-                    if (!pk6.WasEgg)
+                    if (!pk6.WasEgg && pk6.Egg_Location != 60004)
                         return new LegalityCheck(Severity.Invalid, "OT Memory: OT did not hatch this.");
                     return new LegalityCheck(Severity.Valid, "OT Memory is valid.");
                 case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
@@ -857,8 +864,12 @@ namespace PKHeX
                         else
                             res[i] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
                     }
-                    if (res.All(r => r.Valid)) // Card matched
-                    { EncounterMatch = wc; RelearnBase = wc.RelearnMoves; }
+                    if (res.Any(r => !r.Valid))
+                        continue;
+
+                    EncounterMatch = wc;
+                    RelearnBase = wc.RelearnMoves;
+                    break;
                 }
             }
             else
@@ -882,7 +893,6 @@ namespace PKHeX
             }
             if (Moves[0] == 0)
                 res[0] = new LegalityCheck(Severity.Invalid, "Invalid Move.");
-
 
             if (pk6.Species == 647) // Keldeo
                 if (pk6.AltForm == 1 ^ pk6.Moves.Contains(548))
@@ -1044,7 +1054,7 @@ namespace PKHeX
             return res;
         }
 
-        internal static string[] movelist = Util.getStringList("moves", "en");
+        internal static string[] movelist = Util.getMovesList("en");
         private static readonly string[] EventRibName =
         {
             "Country", "National", "Earth", "World", "Classic",

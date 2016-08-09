@@ -8,7 +8,7 @@ namespace PKHeX
      * http://projectpokemon.org/forums/showthread.php?6524
      * See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
      */
-    public class PCD : MysteryGift
+    public sealed class PCD : MysteryGift
     {
         internal const int Size = 0x358; // 856
         public override string Extension => ".pcd";
@@ -85,7 +85,8 @@ namespace PKHeX
         {
             refreshData((byte[])(data?.Clone() ?? new byte[Size]));
         }
-        public void refreshData(byte[] data)
+
+        private void refreshData(byte[] data)
         {
             byte[] ekdata = new byte[PKX.SIZE_4PARTY];
             Array.Copy(data, 8, ekdata, 0, ekdata.Length);
@@ -203,6 +204,8 @@ namespace PKHeX
                 pk4.AltForm = PKX.getUnownForm(pk4.PID);
             if (IsEgg || IsManaphyEgg)
                 pk4.IsEgg = true;
+
+            pk4.RefreshChecksum();
             return pk4;
         }
     }

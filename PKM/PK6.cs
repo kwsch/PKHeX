@@ -10,7 +10,7 @@ namespace PKHeX
         {
             0x36, 0x37, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
-        public override int SIZE_PARTY => PKX.SIZE_6PARTY;
+        public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 6;
         public PK6(byte[] decryptedData = null, string ident = null)
@@ -97,104 +97,104 @@ namespace PKHeX
         private byte ST1 { get { return Data[0x2C]; } set { Data[0x2C] = value; } }
         public bool Unused0 { get { return (ST1 & (1 << 0)) == 1 << 0; } set { ST1 = (byte)(ST1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool Unused1 { get { return (ST1 & (1 << 1)) == 1 << 1; } set { ST1 = (byte)(ST1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool ST1_SPA { get { return (ST1 & (1 << 2)) == 1 << 2; } set { ST1 = (byte)(ST1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool ST1_HP  { get { return (ST1 & (1 << 3)) == 1 << 3; } set { ST1 = (byte)(ST1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool ST1_ATK { get { return (ST1 & (1 << 4)) == 1 << 4; } set { ST1 = (byte)(ST1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool ST1_SPD { get { return (ST1 & (1 << 5)) == 1 << 5; } set { ST1 = (byte)(ST1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool ST1_SPE { get { return (ST1 & (1 << 6)) == 1 << 6; } set { ST1 = (byte)(ST1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool ST1_DEF { get { return (ST1 & (1 << 7)) == 1 << 7; } set { ST1 = (byte)(ST1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool SuperTrain1_SPA { get { return (ST1 & (1 << 2)) == 1 << 2; } set { ST1 = (byte)(ST1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool SuperTrain1_HP  { get { return (ST1 & (1 << 3)) == 1 << 3; } set { ST1 = (byte)(ST1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool SuperTrain1_ATK { get { return (ST1 & (1 << 4)) == 1 << 4; } set { ST1 = (byte)(ST1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool SuperTrain1_SPD { get { return (ST1 & (1 << 5)) == 1 << 5; } set { ST1 = (byte)(ST1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool SuperTrain1_SPE { get { return (ST1 & (1 << 6)) == 1 << 6; } set { ST1 = (byte)(ST1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool SuperTrain1_DEF { get { return (ST1 & (1 << 7)) == 1 << 7; } set { ST1 = (byte)(ST1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte ST2 { get { return Data[0x2D]; } set { Data[0x2D] = value; } }
-        public bool ST2_SPA { get { return (ST2 & (1 << 0)) == 1 << 0; } set { ST2 = (byte)(ST2 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool ST2_HP  { get { return (ST2 & (1 << 1)) == 1 << 1; } set { ST2 = (byte)(ST2 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool ST2_ATK { get { return (ST2 & (1 << 2)) == 1 << 2; } set { ST2 = (byte)(ST2 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool ST2_SPD { get { return (ST2 & (1 << 3)) == 1 << 3; } set { ST2 = (byte)(ST2 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool ST2_SPE { get { return (ST2 & (1 << 4)) == 1 << 4; } set { ST2 = (byte)(ST2 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool ST2_DEF { get { return (ST2 & (1 << 5)) == 1 << 5; } set { ST2 = (byte)(ST2 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool ST3_SPA { get { return (ST2 & (1 << 6)) == 1 << 6; } set { ST2 = (byte)(ST2 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool ST3_HP  { get { return (ST2 & (1 << 7)) == 1 << 7; } set { ST2 = (byte)(ST2 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool SuperTrain2_SPA { get { return (ST2 & (1 << 0)) == 1 << 0; } set { ST2 = (byte)(ST2 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool SuperTrain2_HP  { get { return (ST2 & (1 << 1)) == 1 << 1; } set { ST2 = (byte)(ST2 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool SuperTrain2_ATK { get { return (ST2 & (1 << 2)) == 1 << 2; } set { ST2 = (byte)(ST2 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool SuperTrain2_SPD { get { return (ST2 & (1 << 3)) == 1 << 3; } set { ST2 = (byte)(ST2 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool SuperTrain2_SPE { get { return (ST2 & (1 << 4)) == 1 << 4; } set { ST2 = (byte)(ST2 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool SuperTrain2_DEF { get { return (ST2 & (1 << 5)) == 1 << 5; } set { ST2 = (byte)(ST2 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool SuperTrain3_SPA { get { return (ST2 & (1 << 6)) == 1 << 6; } set { ST2 = (byte)(ST2 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool SuperTrain3_HP { get { return (ST2 & (1 << 7)) == 1 << 7; } set { ST2 = (byte)(ST2 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte ST3 { get { return Data[0x2E]; } set { Data[0x2E] = value; } }
-        public bool ST3_ATK { get { return (ST3 & (1 << 0)) == 1 << 0; } set { ST3 = (byte)(ST3 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool ST3_SPD { get { return (ST3 & (1 << 1)) == 1 << 1; } set { ST3 = (byte)(ST3 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool ST3_SPE { get { return (ST3 & (1 << 2)) == 1 << 2; } set { ST3 = (byte)(ST3 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool ST3_DEF { get { return (ST3 & (1 << 3)) == 1 << 3; } set { ST3 = (byte)(ST3 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool ST4_1 { get { return (ST3 & (1 << 4)) == 1 << 4; } set { ST3 = (byte)(ST3 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool ST5_1 { get { return (ST3 & (1 << 5)) == 1 << 5; } set { ST3 = (byte)(ST3 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool ST5_2 { get { return (ST3 & (1 << 6)) == 1 << 6; } set { ST3 = (byte)(ST3 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool ST5_3 { get { return (ST3 & (1 << 7)) == 1 << 7; } set { ST3 = (byte)(ST3 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool SuperTrain3_ATK { get { return (ST3 & (1 << 0)) == 1 << 0; } set { ST3 = (byte)(ST3 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool SuperTrain3_SPD { get { return (ST3 & (1 << 1)) == 1 << 1; } set { ST3 = (byte)(ST3 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool SuperTrain3_SPE { get { return (ST3 & (1 << 2)) == 1 << 2; } set { ST3 = (byte)(ST3 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool SuperTrain3_DEF { get { return (ST3 & (1 << 3)) == 1 << 3; } set { ST3 = (byte)(ST3 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool SuperTrain4_1 { get { return (ST3 & (1 << 4)) == 1 << 4; } set { ST3 = (byte)(ST3 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool SuperTrain5_1 { get { return (ST3 & (1 << 5)) == 1 << 5; } set { ST3 = (byte)(ST3 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool SuperTrain5_2 { get { return (ST3 & (1 << 6)) == 1 << 6; } set { ST3 = (byte)(ST3 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool SuperTrain5_3 { get { return (ST3 & (1 << 7)) == 1 << 7; } set { ST3 = (byte)(ST3 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte ST4 { get { return Data[0x2F]; } set { Data[0x2F] = value; } }
-        public bool ST5_4 { get { return (ST4 & (1 << 0)) == 1 << 0; } set { ST4 = (byte)(ST4 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool ST6_1 { get { return (ST4 & (1 << 1)) == 1 << 1; } set { ST4 = (byte)(ST4 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool ST6_2 { get { return (ST4 & (1 << 2)) == 1 << 2; } set { ST4 = (byte)(ST4 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool ST6_3 { get { return (ST4 & (1 << 3)) == 1 << 3; } set { ST4 = (byte)(ST4 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool ST7_1 { get { return (ST4 & (1 << 4)) == 1 << 4; } set { ST4 = (byte)(ST4 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool ST7_2 { get { return (ST4 & (1 << 5)) == 1 << 5; } set { ST4 = (byte)(ST4 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool ST7_3 { get { return (ST4 & (1 << 6)) == 1 << 6; } set { ST4 = (byte)(ST4 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool ST8_1 { get { return (ST4 & (1 << 7)) == 1 << 7; } set { ST4 = (byte)(ST4 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool SuperTrain5_4 { get { return (ST4 & (1 << 0)) == 1 << 0; } set { ST4 = (byte)(ST4 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool SuperTrain6_1 { get { return (ST4 & (1 << 1)) == 1 << 1; } set { ST4 = (byte)(ST4 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool SuperTrain6_2 { get { return (ST4 & (1 << 2)) == 1 << 2; } set { ST4 = (byte)(ST4 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool SuperTrain6_3 { get { return (ST4 & (1 << 3)) == 1 << 3; } set { ST4 = (byte)(ST4 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool SuperTrain7_1 { get { return (ST4 & (1 << 4)) == 1 << 4; } set { ST4 = (byte)(ST4 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool SuperTrain7_2 { get { return (ST4 & (1 << 5)) == 1 << 5; } set { ST4 = (byte)(ST4 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool SuperTrain7_3 { get { return (ST4 & (1 << 6)) == 1 << 6; } set { ST4 = (byte)(ST4 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool SuperTrain8_1 { get { return (ST4 & (1 << 7)) == 1 << 7; } set { ST4 = (byte)(ST4 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte RIB0 { get { return Data[0x30]; } set { Data[0x30] = value; } }
-        public bool RIB0_0 { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RIB0_1 { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool RIB0_2 { get { return (RIB0 & (1 << 2)) == 1 << 2; } set { RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool RIB0_3 { get { return (RIB0 & (1 << 3)) == 1 << 3; } set { RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool RIB0_4 { get { return (RIB0 & (1 << 4)) == 1 << 4; } set { RIB0 = (byte)(RIB0 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RIB0_5 { get { return (RIB0 & (1 << 5)) == 1 << 5; } set { RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool RIB0_6 { get { return (RIB0 & (1 << 6)) == 1 << 6; } set { RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool RIB0_7 { get { return (RIB0 & (1 << 7)) == 1 << 7; } set { RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte RIB1 { get { return Data[0x31]; } set { Data[0x31] = value; } }
-        public bool RIB1_0 { get { return (RIB1 & (1 << 0)) == 1 << 0; } set { RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RIB1_1 { get { return (RIB1 & (1 << 1)) == 1 << 1; } set { RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool RIB1_2 { get { return (RIB1 & (1 << 2)) == 1 << 2; } set { RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool RIB1_3 { get { return (RIB1 & (1 << 3)) == 1 << 3; } set { RIB1 = (byte)(RIB1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool RIB1_4 { get { return (RIB1 & (1 << 4)) == 1 << 4; } set { RIB1 = (byte)(RIB1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RIB1_5 { get { return (RIB1 & (1 << 5)) == 1 << 5; } set { RIB1 = (byte)(RIB1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool RIB1_6 { get { return (RIB1 & (1 << 6)) == 1 << 6; } set { RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool RIB1_7 { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte RIB2 { get { return Data[0x32]; } set { Data[0x32] = value; } }
-        public bool RIB2_0 { get { return (RIB2 & (1 << 0)) == 1 << 0; } set { RIB2 = (byte)(RIB2 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RIB2_1 { get { return (RIB2 & (1 << 1)) == 1 << 1; } set { RIB2 = (byte)(RIB2 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool RIB2_2 { get { return (RIB2 & (1 << 2)) == 1 << 2; } set { RIB2 = (byte)(RIB2 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool RIB2_3 { get { return (RIB2 & (1 << 3)) == 1 << 3; } set { RIB2 = (byte)(RIB2 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool RIB2_4 { get { return (RIB2 & (1 << 4)) == 1 << 4; } set { RIB2 = (byte)(RIB2 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RIB2_5 { get { return (RIB2 & (1 << 5)) == 1 << 5; } set { RIB2 = (byte)(RIB2 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool RIB2_6 { get { return (RIB2 & (1 << 6)) == 1 << 6; } set { RIB2 = (byte)(RIB2 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool RIB2_7 { get { return (RIB2 & (1 << 7)) == 1 << 7; } set { RIB2 = (byte)(RIB2 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte RIB3 { get { return Data[0x33]; } set { Data[0x33] = value; } }
-        public bool RIB3_0 { get { return (RIB3 & (1 << 0)) == 1 << 0; } set { RIB3 = (byte)(RIB3 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RIB3_1 { get { return (RIB3 & (1 << 1)) == 1 << 1; } set { RIB3 = (byte)(RIB3 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool RIB3_2 { get { return (RIB3 & (1 << 2)) == 1 << 2; } set { RIB3 = (byte)(RIB3 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool RIB3_3 { get { return (RIB3 & (1 << 3)) == 1 << 3; } set { RIB3 = (byte)(RIB3 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool RIB3_4 { get { return (RIB3 & (1 << 4)) == 1 << 4; } set { RIB3 = (byte)(RIB3 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RIB3_5 { get { return (RIB3 & (1 << 5)) == 1 << 5; } set { RIB3 = (byte)(RIB3 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool RIB3_6 { get { return (RIB3 & (1 << 6)) == 1 << 6; } set { RIB3 = (byte)(RIB3 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool RIB3_7 { get { return (RIB3 & (1 << 7)) == 1 << 7; } set { RIB3 = (byte)(RIB3 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte RIB4 { get { return Data[0x34]; } set { Data[0x34] = value; } }
-        public bool RIB4_0 { get { return (RIB4 & (1 << 0)) == 1 << 0; } set { RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RIB4_1 { get { return (RIB4 & (1 << 1)) == 1 << 1; } set { RIB4 = (byte)(RIB4 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool RIB4_2 { get { return (RIB4 & (1 << 2)) == 1 << 2; } set { RIB4 = (byte)(RIB4 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool RIB4_3 { get { return (RIB4 & (1 << 3)) == 1 << 3; } set { RIB4 = (byte)(RIB4 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool RIB4_4 { get { return (RIB4 & (1 << 4)) == 1 << 4; } set { RIB4 = (byte)(RIB4 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RIB4_5 { get { return (RIB4 & (1 << 5)) == 1 << 5; } set { RIB4 = (byte)(RIB4 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool RIB4_6 { get { return (RIB4 & (1 << 6)) == 1 << 6; } set { RIB4 = (byte)(RIB4 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool RIB4_7 { get { return (RIB4 & (1 << 7)) == 1 << 7; } set { RIB4 = (byte)(RIB4 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         private byte RIB5 { get { return Data[0x35]; } set { Data[0x35] = value; } }
-        public bool RIB5_0 { get { return (RIB5 & (1 << 0)) == 1 << 0; } set { RIB5 = (byte)(RIB5 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RIB5_1 { get { return (RIB5 & (1 << 1)) == 1 << 1; } set { RIB5 = (byte)(RIB5 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool RIB5_2 { get { return (RIB5 & (1 << 2)) == 1 << 2; } set { RIB5 = (byte)(RIB5 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool RIB5_3 { get { return (RIB5 & (1 << 3)) == 1 << 3; } set { RIB5 = (byte)(RIB5 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool RIB5_4 { get { return (RIB5 & (1 << 4)) == 1 << 4; } set { RIB5 = (byte)(RIB5 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RIB5_5 { get { return (RIB5 & (1 << 5)) == 1 << 5; } set { RIB5 = (byte)(RIB5 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool RIB5_6 { get { return (RIB5 & (1 << 6)) == 1 << 6; } set { RIB5 = (byte)(RIB5 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
-        public bool RIB5_7 { get { return (RIB5 & (1 << 7)) == 1 << 7; } set { RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool RibbonChampionKalos         { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonChampionG3Hoenn       { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonChampionSinnoh        { get { return (RIB0 & (1 << 2)) == 1 << 2; } set { RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool RibbonBestFriends           { get { return (RIB0 & (1 << 3)) == 1 << 3; } set { RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool RibbonTraining              { get { return (RIB0 & (1 << 4)) == 1 << 4; } set { RIB0 = (byte)(RIB0 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool RibbonBattlerSkillful       { get { return (RIB0 & (1 << 5)) == 1 << 5; } set { RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool RibbonBattlerExpert         { get { return (RIB0 & (1 << 6)) == 1 << 6; } set { RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool RibbonEffort                { get { return (RIB0 & (1 << 7)) == 1 << 7; } set { RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool RibbonAlert                 { get { return (RIB1 & (1 << 0)) == 1 << 0; } set { RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonShock                 { get { return (RIB1 & (1 << 1)) == 1 << 1; } set { RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonDowncast              { get { return (RIB1 & (1 << 2)) == 1 << 2; } set { RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool RibbonCareless              { get { return (RIB1 & (1 << 3)) == 1 << 3; } set { RIB1 = (byte)(RIB1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool RibbonRelax                 { get { return (RIB1 & (1 << 4)) == 1 << 4; } set { RIB1 = (byte)(RIB1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool RibbonSnooze                { get { return (RIB1 & (1 << 5)) == 1 << 5; } set { RIB1 = (byte)(RIB1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool RibbonSmile                 { get { return (RIB1 & (1 << 6)) == 1 << 6; } set { RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool RibbonGorgeous              { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool RibbonRoyal                 { get { return (RIB2 & (1 << 0)) == 1 << 0; } set { RIB2 = (byte)(RIB2 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonGorgeousRoyal         { get { return (RIB2 & (1 << 1)) == 1 << 1; } set { RIB2 = (byte)(RIB2 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonArtist                { get { return (RIB2 & (1 << 2)) == 1 << 2; } set { RIB2 = (byte)(RIB2 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool RibbonFootprint             { get { return (RIB2 & (1 << 3)) == 1 << 3; } set { RIB2 = (byte)(RIB2 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool RibbonRecord                { get { return (RIB2 & (1 << 4)) == 1 << 4; } set { RIB2 = (byte)(RIB2 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool RibbonLegend                { get { return (RIB2 & (1 << 5)) == 1 << 5; } set { RIB2 = (byte)(RIB2 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool RibbonCountry               { get { return (RIB2 & (1 << 6)) == 1 << 6; } set { RIB2 = (byte)(RIB2 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool RibbonNational              { get { return (RIB2 & (1 << 7)) == 1 << 7; } set { RIB2 = (byte)(RIB2 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool RibbonEarth                 { get { return (RIB3 & (1 << 0)) == 1 << 0; } set { RIB3 = (byte)(RIB3 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonWorld                 { get { return (RIB3 & (1 << 1)) == 1 << 1; } set { RIB3 = (byte)(RIB3 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonClassic               { get { return (RIB3 & (1 << 2)) == 1 << 2; } set { RIB3 = (byte)(RIB3 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool RibbonPremier               { get { return (RIB3 & (1 << 3)) == 1 << 3; } set { RIB3 = (byte)(RIB3 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool RibbonEvent                 { get { return (RIB3 & (1 << 4)) == 1 << 4; } set { RIB3 = (byte)(RIB3 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool RibbonBirthday              { get { return (RIB3 & (1 << 5)) == 1 << 5; } set { RIB3 = (byte)(RIB3 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool RibbonSpecial               { get { return (RIB3 & (1 << 6)) == 1 << 6; } set { RIB3 = (byte)(RIB3 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool RibbonSouvenir              { get { return (RIB3 & (1 << 7)) == 1 << 7; } set { RIB3 = (byte)(RIB3 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool RibbonWishing               { get { return (RIB4 & (1 << 0)) == 1 << 0; } set { RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonChampionBattle      { get { return (RIB4 & (1 << 1)) == 1 << 1; } set { RIB4 = (byte)(RIB4 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonChampionRegional    { get { return (RIB4 & (1 << 2)) == 1 << 2; } set { RIB4 = (byte)(RIB4 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool RibbonChampionNational    { get { return (RIB4 & (1 << 3)) == 1 << 3; } set { RIB4 = (byte)(RIB4 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool RibbonChampionWorld       { get { return (RIB4 & (1 << 4)) == 1 << 4; } set { RIB4 = (byte)(RIB4 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool RIB4_5 { get { return (RIB4 & (1 << 5)) == 1 << 5; } set { RIB4 = (byte)(RIB4 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // Unused
+        public bool RIB4_6 { get { return (RIB4 & (1 << 6)) == 1 << 6; } set { RIB4 = (byte)(RIB4 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Unused
+        public bool RibbonChampionG6Hoenn       { get { return (RIB4 & (1 << 7)) == 1 << 7; } set { RIB4 = (byte)(RIB4 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool RibbonContestStar           { get { return (RIB5 & (1 << 0)) == 1 << 0; } set { RIB5 = (byte)(RIB5 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonMasterCoolness        { get { return (RIB5 & (1 << 1)) == 1 << 1; } set { RIB5 = (byte)(RIB5 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonMasterBeauty          { get { return (RIB5 & (1 << 2)) == 1 << 2; } set { RIB5 = (byte)(RIB5 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool RibbonMasterCuteness        { get { return (RIB5 & (1 << 3)) == 1 << 3; } set { RIB5 = (byte)(RIB5 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool RibbonMasterCleverness      { get { return (RIB5 & (1 << 4)) == 1 << 4; } set { RIB5 = (byte)(RIB5 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool RibbonMasterToughness       { get { return (RIB5 & (1 << 5)) == 1 << 5; } set { RIB5 = (byte)(RIB5 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool RIB5_6 { get { return (RIB5 & (1 << 6)) == 1 << 6; } set { RIB5 = (byte)(RIB5 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Unused
+        public bool RIB5_7 { get { return (RIB5 & (1 << 7)) == 1 << 7; } set { RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Unused
         public byte _0x36 { get { return Data[0x36]; } set { Data[0x36] = value; } }
         public byte _0x37 { get { return Data[0x37]; } set { Data[0x37] = value; } }
-        public int Memory_ContestCount { get { return Data[0x38]; } set { Data[0x38] = (byte)value; } }
-        public int Memory_BattleCount { get { return Data[0x39]; } set { Data[0x39] = (byte)value; } }
+        public int RibbonCountMemoryContest { get { return Data[0x38]; } set { Data[0x38] = (byte)value; } }
+        public int RibbonCountMemoryBattle { get { return Data[0x39]; } set { Data[0x39] = (byte)value; } }
         private byte DistByte { get { return Data[0x3A]; } set { Data[0x3A] = value; } }
-        public bool Dist1 { get { return (DistByte & (1 << 0)) == 1 << 0; } set { DistByte = (byte)(DistByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool Dist2 { get { return (DistByte & (1 << 1)) == 1 << 1; } set { DistByte = (byte)(DistByte & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool Dist3 { get { return (DistByte & (1 << 2)) == 1 << 2; } set { DistByte = (byte)(DistByte & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool Dist4 { get { return (DistByte & (1 << 3)) == 1 << 3; } set { DistByte = (byte)(DistByte & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool Dist5 { get { return (DistByte & (1 << 4)) == 1 << 4; } set { DistByte = (byte)(DistByte & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool Dist6 { get { return (DistByte & (1 << 5)) == 1 << 5; } set { DistByte = (byte)(DistByte & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool DistSuperTrain1 { get { return (DistByte & (1 << 0)) == 1 << 0; } set { DistByte = (byte)(DistByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool DistSuperTrain2 { get { return (DistByte & (1 << 1)) == 1 << 1; } set { DistByte = (byte)(DistByte & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool DistSuperTrain3 { get { return (DistByte & (1 << 2)) == 1 << 2; } set { DistByte = (byte)(DistByte & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool DistSuperTrain4 { get { return (DistByte & (1 << 3)) == 1 << 3; } set { DistByte = (byte)(DistByte & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool DistSuperTrain5 { get { return (DistByte & (1 << 4)) == 1 << 4; } set { DistByte = (byte)(DistByte & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool DistSuperTrain6 { get { return (DistByte & (1 << 5)) == 1 << 5; } set { DistByte = (byte)(DistByte & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
         public bool Dist7 { get { return (DistByte & (1 << 6)) == 1 << 6; } set { DistByte = (byte)(DistByte & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
         public bool Dist8 { get { return (DistByte & (1 << 7)) == 1 << 7; } set { DistByte = (byte)(DistByte & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         public byte _0x3B { get { return Data[0x3B]; } set { Data[0x3B] = value; } }
@@ -449,7 +449,7 @@ namespace PKHeX
         }
         public override bool getGenderIsValid()
         {
-            int gv = PKX.Personal[Species].Gender;
+            int gv = PersonalTable.AO[Species].Gender;
 
             if (gv == 255)
                 return Gender == 2;
@@ -629,7 +629,7 @@ namespace PKHeX
                 return;
 
             // Reset
-            HT_Friendship = PKX.getBaseFriendship(Species);
+            HT_Friendship = PersonalTable.AO[Species].BaseFriendship;
             HT_Affection = 0;
         }
 

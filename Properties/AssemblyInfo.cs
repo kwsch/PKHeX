@@ -6,7 +6,7 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PKHeX")]
-[assembly: AssemblyDescription("Pokémon Editor for Pokémon X/Y")]
+[assembly: AssemblyDescription("Pokémon Save Editor")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ProjectPokémon")]
 [assembly: AssemblyProduct("PKHeX")]

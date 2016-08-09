@@ -9,11 +9,11 @@ namespace PKHeX
         internal static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         public static readonly string[] types = Util.getStringList("types", "en");
         public static readonly string[] forms = Util.getStringList("forms", "en");
-        private static readonly string[] species = Util.getStringList("species", "en");
+        private static readonly string[] species = Util.getSpeciesList("en");
         private static readonly string[] items = Util.getStringList("items", "en");
         private static readonly string[] natures = Util.getStringList("natures", "en");
-        private static readonly string[] moves = Util.getStringList("moves", "en");
-        private static readonly string[] abilities = Util.getStringList("abilities", "en");
+        private static readonly string[] moves = Util.getMovesList("en");
+        private static readonly string[] abilities = Util.getAbilitiesList("en");
         private static readonly string[] hptypes = types.Skip(1).ToArray();
 
         // Default Set Data
@@ -207,7 +207,7 @@ namespace PKHeX
 
             // First Line: Name, Nickname, Gender, Item
             string result = string.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
-                species[Species] + ((Form ?? "") != "" ? "-" + Form.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
+                species[Species] + ((Form ?? "") != "" ? "-" + Form?.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
                             + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
             // IVs

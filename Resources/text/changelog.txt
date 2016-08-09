@@ -709,7 +709,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: ORAS 2nd daycare EXP values not being displayed. Thanks chenzw95!
  - Fixed: Mono-specific underscore issue for converting to numbers. Thanks chenzw95!
 
-5/16/16 - New Update: (1200)
+5/16/16 - New Update: (115750)
  - Added: Bulk conversion when opening a Gen4 or Gen5 save file. Box contents will be dumped to specified folder, and converted if desired.
  - Added: SetPK6 override options for importing multiple pk6's (box import, battle video).
  - Added: Event constant diff when comparing two saves in the Event Flag editor.
@@ -725,3 +725,53 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Removed: Code Generator, use save cache instead (CyberGadget users).
  - Hotfix: Fixed Gen 5 save file detection. Thanks xtreme1!
  - Hotfix: Fixed Bad Eggs from causing past gen dumping to abort. Thanks xtreme1!
+
+07/28/16 - New Update: (9500)
+ - Fixed: Base save file when no save is loaded now has more realistic data (Console Region and Country fixed).
+ - Fixed: Loading a X/Y save file will no longer have OR/AS exclusive items/moves/forms available as choices.
+ - Fixed: Certain edge case Wonder Cards now are recognized correctly.
+ - Fixed: A few legality checks have been improved. Thanks Eskuero & chenzw95!
+ - Fixed: Box Flag truncation. Thanks chenzw95!
+ - Fixed: Save File detection for past gen saves. Thanks evandixon!
+ - Added: Pokémon Link block injector (like Wonder Cards). Thanks suloku!
+ - Added: Clear Box with Alt-Click on Box Tab. Clear ALL Boxes with Alt-Shift-Click.
+ - Added: Sort Box with Ctrl-Click on Box Tab. Sort ALL Boxes with Ctrl-Shift-Click. Sorts by Species#.
+ - Added: RSE/FRLG/DPPt/HGSS/BW/B2W2 Save Editing Support. Can read, modify, and export save files and pkm files.
+ - Added: Trainer Info editor for Generation 3-5.
+ - Changed: Many internal routines to handle multiple generations.
+ - Changed: Mystery Gifts (Wonder Cards) Editor revised to handle multiple generations.
+ - Changed: Inventory Editor revised to handle multiple generations.
+ - Changed: Save File sub editors (buttons) have a new layout to handle multiple generations.
+ - Changed: Box Dump/Load are now accessible via the Tools menu.
+ - Changed: Updated Chinese translation. Thanks easyworld!
+ - Added: Batch Editor. Modify all Pokémon in your save file / external files with simple script instructions.
+ - - A script builder is provided to list attributes that may be edited (and how to edit them).
+ - - "=": Requires the value to match the specified value. If not, the PKM is skipped.
+ - - "!": Requires the value to NOT match the specified value. If not, the PKM is skipped.
+ - - ".": Sets the attribute to the specified value if all filters are satisfied.
+ - Changed: Database can now search pk3/pk4/pk5/pk6 files. 
+ - - An advance search option has been added, uses the same filter style as the Batch Editor.
+
+07/31/16 - New Update: (21700)
+ - Added: Batch editor "Shinify" command to make a Pokemon shiny ($shiny). Thanks exegg!
+ - Changed: Ribbon editor is now wider (5 ribbons per row). Thanks \!
+ - Fixed: Gen 3/4 save issues. Thanks BeyondTheHorizon, poutros!
+ - Fixed: Event Flag editor saving no longer throws a cast exception. Thanks Armodillomatt12!
+ - Fixed: Importing PGT/PCD to future generations no longer errors out. Thanks SubMana!
+ - Fixed: Mystery Gift window import/export button text displayed. Thanks poutros!
+ - Fixed: Misc Pokémon Link legality cases fixed. Thanks poutros!
+ - Fixed: Misc linux issues with latest refactoring. Thanks Zekario!
+ - Fixed: Trainer Editor window ~ Unicode character display. Thanks \!
+ - Fixed: Minor main window editing bugs for EXP/Nature/Gender.
+
+08/07/16 - New Update:
+ - Added: TWLSaveTool folder auto-detection for past generation save files.
+ - Changed: Save file auto-detection now detects the last saved file instead of a predefined order. Saving a NDS game after 3DS game will return the NDS save.
+ - Fixed: Multiple gen3/4 save/pkm/transfer bugs. Thanks BeyondTheHorizon, JHorbach, Destinyy, MichiS97, ashrobb, IamAVeryNicePereson & javier_himura!
+ - Fixed: Manaphy egg (non event) now correctly flagged as illegal. Thanks RustInPeace!
+ - Changed: Updated Spanish Translation. Thanks ajtudela!
+ - Fixed: Drag&Drop between box slots tweaked and improved. Thanks Warsen!
+ - Fixed: Mystery Gift files can now be dragged into Box slots directly.
+ - Fixed: Gen6 Trainer Info editor can now edit Vivillon forms again. Thanks Majickhat55!
+ - Added: Cleaner 'delete' command to batch editor (set species to 0 to clear data).
+ - Added: Specifying output folder when modifying a folder in the Batch Editor. Thanks \!

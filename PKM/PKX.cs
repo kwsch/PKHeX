@@ -7,7 +7,7 @@ using PKHeX.Properties;
 
 namespace PKHeX
 {
-    internal static class PKX
+    public static class PKX
     {
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
@@ -25,11 +25,15 @@ namespace PKHeX
         internal const int SIZE_6STORED = 0xE8;
         internal const int SIZE_6BLOCK = 56;
 
-        internal static bool getIsPKM(long len)
+        /// <summary>
+        /// Determines if the given length is valid for a Pokemon file.
+        /// </summary>
+        /// <param name="len">Length of the data to check.</param>
+        /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
+        public static bool getIsPKM(long len)
         {
             return new[] {SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
         }
-
 
         // C# PKX Function Library
         // No WinForm object related code, only to calculate information.
@@ -37,14 +41,14 @@ namespace PKHeX
         // Relies on Util for some common operations.
 
         // Data
-        internal static uint LCRNG(uint seed)
+        public static uint LCRNG(uint seed)
         {
             const uint a = 0x41C64E6D;
             const uint c = 0x00006073;
 
             return seed * a + c;
         }
-        internal static uint LCRNG(ref uint seed)
+        public static uint LCRNG(ref uint seed)
         {
             const uint a = 0x41C64E6D;
             const uint c = 0x00006073;
@@ -157,79 +161,34 @@ namespace PKHeX
             {1000000, 600000, 1640000, 1059860, 800000, 1250000},
         };
         #endregion
-        
-        internal static readonly string[][] SpeciesLang = 
+
+        public static readonly string[][] SpeciesLang = 
         {
-            Util.getStringList("species", "ja"), // none
-            Util.getStringList("species", "ja"), // 1
-            Util.getStringList("species", "en"), // 2
-            Util.getStringList("species", "fr"), // 3
-            Util.getStringList("species", "it"), // 4
-            Util.getStringList("species", "de"), // 5
-            Util.getStringList("species", "es"), // none
-            Util.getStringList("species", "es"), // 7
-            Util.getStringList("species", "ko"), // 8
+            Util.getSpeciesList("ja"), // none
+            Util.getSpeciesList("ja"), // 1
+            Util.getSpeciesList("en"), // 2
+            Util.getSpeciesList("fr"), // 3
+            Util.getSpeciesList("it"), // 4
+            Util.getSpeciesList("de"), // 5
+            Util.getSpeciesList("es"), // none
+            Util.getSpeciesList("es"), // 7
+            Util.getSpeciesList("ko"), // 8
         };
 
-        internal static string getSpeciesName(int species, int lang)
+        public static string getSpeciesName(int species, int lang)
         {
             try { return SpeciesLang[lang][species]; }
             catch { return ""; }
         }
-        internal static bool getIsNicknamed(int species, string nick)
+        public static bool getIsNicknamed(int species, string nick)
         {
             try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
             catch { return false; }
         }
-        internal static PersonalInfo[] Personal = Legal.PersonalAO;
+        public static readonly PersonalTable Personal = PersonalTable.AO;
 
         // Stat Fetching
-        internal static int getMovePP(int move, int ppup)
-        {
-            return getBasePP(move) * (5 + ppup) / 5;
-        }
-        internal static int getBasePP(int move)
-        {
-            byte[] movepptable = 
-            {
-	            00, 
-	            35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 
-	            20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 
-	            20, 20, 30, 25, 40, 20, 15, 20, 20, 20, 30, 25, 15, 30, 25, 05, 15, 10, 05, 20, 
-	            20, 20, 05, 35, 20, 25, 20, 20, 20, 15, 25, 15, 10, 20, 25, 10, 35, 30, 15, 10, 
-	            40, 10, 15, 30, 15, 20, 10, 15, 10, 05, 10, 10, 25, 10, 20, 40, 30, 30, 20, 20, 
-	            15, 10, 40, 15, 10, 30, 10, 20, 10, 40, 40, 20, 30, 30, 20, 30, 10, 10, 20, 05, 
-	            10, 30, 20, 20, 20, 05, 15, 10, 20, 10, 15, 35, 20, 15, 10, 10, 30, 15, 40, 20, 
-	            15, 10, 05, 10, 30, 10, 15, 20, 15, 40, 20, 10, 05, 15, 10, 10, 10, 15, 30, 30, 
-	            10, 10, 20, 10, 01, 01, 10, 25, 10, 05, 15, 25, 15, 10, 15, 30, 05, 40, 15, 10, 
-	            25, 10, 30, 10, 20, 10, 10, 10, 10, 10, 20, 05, 40, 05, 05, 15, 05, 10, 05, 10, 
-	            10, 10, 10, 20, 20, 40, 15, 10, 20, 20, 25, 05, 15, 10, 05, 20, 15, 20, 25, 20, 
-	            05, 30, 05, 10, 20, 40, 05, 20, 40, 20, 15, 35, 10, 05, 05, 05, 15, 05, 20, 05, 
-	            05, 15, 20, 10, 05, 05, 15, 10, 15, 15, 10, 10, 10, 20, 10, 10, 10, 10, 15, 15, 
-	            15, 10, 20, 20, 10, 20, 20, 20, 20, 20, 10, 10, 10, 20, 20, 05, 15, 10, 10, 15, 
-	            10, 20, 05, 05, 10, 10, 20, 05, 10, 20, 10, 20, 20, 20, 05, 05, 15, 20, 10, 15, 
-	            20, 15, 10, 10, 15, 10, 05, 05, 10, 15, 10, 05, 20, 25, 05, 40, 15, 05, 40, 15, 
-	            20, 20, 05, 15, 20, 20, 15, 15, 05, 10, 30, 20, 30, 15, 05, 40, 15, 05, 20, 05, 
-	            15, 25, 25, 15, 20, 15, 20, 15, 20, 10, 20, 20, 05, 05, 10, 05, 40, 10, 10, 05, 
-	            10, 10, 15, 10, 20, 15, 30, 10, 20, 05, 10, 10, 15, 10, 10, 05, 15, 05, 10, 10, 
-	            30, 20, 20, 10, 10, 05, 05, 10, 05, 20, 10, 20, 10, 15, 10, 20, 20, 20, 15, 15, 
-	            10, 15, 15, 15, 10, 10, 10, 20, 10, 30, 05, 10, 15, 10, 10, 05, 20, 30, 10, 30, 
-	            15, 15, 15, 15, 30, 10, 20, 15, 10, 10, 20, 15, 05, 05, 15, 15, 05, 10, 05, 20, 
-	            05, 15, 20, 05, 20, 20, 20, 20, 10, 20, 10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 
-	            10, 05, 05, 10, 05, 05, 05, 15, 10, 10, 10, 10, 10, 10, 15, 20, 15, 10, 15, 10, 
-	            15, 10, 20, 10, 15, 10, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 20, 15, 10, 
-	            15, 15, 15, 15, 10, 10, 10, 10, 10, 15, 15, 15, 15, 05, 05, 15, 05, 10, 10, 10, 
-	            20, 20, 20, 10, 10, 30, 15, 15, 10, 15, 25, 10, 15, 10, 10, 10, 20, 10, 10, 10, 
-	            10, 10, 15, 15, 05, 05, 10, 10, 10, 05, 05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 
-	            10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 
-	            10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20, 
-	            10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 
-	            05 
-            };
-            if (move < 0) move = 0;
-            return movepptable[move];
-        }
-        internal static byte[] getRandomEVs()
+        public static byte[] getRandomEVs()
         {
             byte[] evs = new byte[6];
             do {
@@ -243,11 +202,7 @@ namespace PKHeX
             Util.Shuffle(evs);
             return evs;
         }
-        internal static byte getBaseFriendship(int species)
-        {
-            return Personal[species].BaseFriendship;
-        }
-        internal static int getLevel(int species, uint exp)
+        public static int getLevel(int species, uint exp)
         {
             int growth = Personal[species].EXPGrowth;
             int tl = 1; // Initial Level. Iterate upwards to find the level
@@ -255,31 +210,13 @@ namespace PKHeX
                 if (tl == 100) return 100;
             return --tl;
         }
-        internal static bool getIsShiny(uint PID, uint TID, uint SID)
-        {
-            uint PSV = getPSV(PID);
-            uint TSV = getTSV(TID, SID);
-            return TSV == PSV;
-        }
-        internal static uint getEXP(int level, int species)
+        public static uint getEXP(int level, int species)
         {
             if (level <= 1) return 0;
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
         }
-        internal static byte[] getAbilities(int species, int formnum)
-        {
-            return Personal[Personal[species].FormeIndex(species, formnum)].Abilities;
-        }
-        internal static int getAbilityNumber(int species, int ability, int formnum)
-        {
-            byte[] spec_abilities = getAbilities(species, formnum);
-            int abilval = Array.IndexOf(spec_abilities, (byte)ability);
-            if (abilval >= 0)
-                return 1 << abilval;
-            return -1;
-        }
-        internal static int getGender(string s)
+        public static int getGender(string s)
         {
             if (s == null) 
                 return -1;
@@ -290,7 +227,7 @@ namespace PKHeX
             return 2;
         }
 
-        internal static string[] getCountryRegionText(int country, int region, string lang)
+        public static string[] getCountryRegionText(int country, int region, string lang)
         {
             // Get Language we're fetching for
             int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko"}, lang);
@@ -343,26 +280,25 @@ namespace PKHeX
             return data;
         }
 
-        internal static string getLocation(PKM pk, bool egg)
+        public static string getLocation(PKM pk, bool eggmet)
         {
-            return getLocation(egg, pk.Version, egg ? pk.Egg_Location : pk.Met_Location, pk.Format);
-        }
-        internal static string getLocation(bool eggmet, int gameorigin, int locval, int format)
-        {
-            if (gameorigin < 0x10 && (eggmet || format < 5))
+            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
+            if (pk.Format == 3)
+                return Main.metRSEFRLG_00000[locval%0x100];
+            if (pk.Version < 0x10 && (eggmet || pk.Format < 5))
             {
                 if (locval < 2000) return Main.metHGSS_00000[locval];
                 if (locval < 3000) return Main.metHGSS_02000[locval % 2000];
                                    return Main.metHGSS_03000[locval % 3000];
             }
-            if (gameorigin < 24)
+            if (pk.Version < 24)
             {
                 if (locval < 30000) return Main.metBW2_00000[locval];
                 if (locval < 40000) return Main.metBW2_30000[locval % 10000 - 1];
                 if (locval < 60000) return Main.metBW2_40000[locval % 10000 - 1];
                                     return Main.metBW2_60000[locval % 10000 - 1];
             }
-            if (gameorigin > 23)
+            if (pk.Version > 23)
             {
                 if (locval < 30000) return Main.metXY_00000[locval];
                 if (locval < 40000) return Main.metXY_30000[locval % 10000 - 1];
@@ -371,7 +307,7 @@ namespace PKHeX
             }
             return null; // Shouldn't happen.
         }
-        internal static string[] getQRText(PKM pkm)
+        public static string[] getQRText(PKM pkm)
         {
             string[] response = new string[3];
             // Summarize
@@ -399,45 +335,9 @@ namespace PKHeX
 
             return response;
         }
-        internal static string getFileName(PKM pkm)
-        {
-            return
-                $"{pkm.Species.ToString("000")}{(pkm.IsShiny ? " ★" : "")} - {pkm.Nickname} - {pkm.Checksum.ToString("X4")}{pkm.EncryptionConstant.ToString("X8")}.{pkm.Extension}";
-        }
-        internal static ushort[] getStats(PKM pkm)
-        {
-            return getStats(pkm.Species, pkm.Stat_Level, pkm.Nature, pkm.AltForm,
-                pkm.EV_HP, pkm.EV_ATK, pkm.EV_DEF, pkm.EV_SPA, pkm.EV_SPD, pkm.EV_SPE,
-                pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE);
-        }
-        internal static ushort[] getStats(int species, int level, int nature, int form,
-                                        int HP_EV, int ATK_EV, int DEF_EV, int SPA_EV, int SPD_EV, int SPE_EV,
-                                        int HP_IV, int ATK_IV, int DEF_IV, int SPA_IV, int SPD_IV, int SPE_IV)
-        {
-            PersonalInfo p = Personal[Personal[species].FormeIndex(species, form)];
-            // Calculate Stats
-            ushort[] stats = new ushort[6]; // Stats are stored as ushorts in the PKX structure. We'll cap them as such.
-            stats[0] = (ushort)(p.HP == 1 ? 1 : (HP_IV + 2 * p.HP + HP_EV / 4 + 100) * level / 100 + 10);
-            stats[1] = (ushort)((ATK_IV + 2 * p.ATK + ATK_EV / 4) * level / 100 + 5);
-            stats[2] = (ushort)((DEF_IV + 2 * p.DEF + DEF_EV / 4) * level / 100 + 5);
-            stats[4] = (ushort)((SPA_IV + 2 * p.SPA + SPA_EV / 4) * level / 100 + 5);
-            stats[5] = (ushort)((SPD_IV + 2 * p.SPD + SPD_EV / 4) * level / 100 + 5);
-            stats[3] = (ushort)((SPE_IV + 2 * p.SPE + SPE_EV / 4) * level / 100 + 5);
-
-            // Account for nature
-            int incr = nature / 5 + 1;
-            int decr = nature % 5 + 1;
-            if (incr == decr) return stats; // if neutral return stats without mod
-            stats[incr] *= 11; stats[incr] /= 10;
-            stats[decr] *= 9; stats[decr] /= 10;
-
-            // Return Result
-            return stats;
-        }
-
 
         // PKX Manipulation
-        internal static readonly byte[][] blockPosition =
+        public static readonly byte[][] blockPosition =
         {
             new byte[] {0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3},
             new byte[] {1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2},
@@ -445,11 +345,11 @@ namespace PKHeX
             new byte[] {3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0},
         };
 
-        internal static readonly byte[] blockPositionInvert =
+        public static readonly byte[] blockPositionInvert =
         {
             0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23
         };
-        internal static byte[] shuffleArray(byte[] data, uint sv)
+        public static byte[] shuffleArray(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 8); // Copy unshuffled bytes
@@ -464,7 +364,7 @@ namespace PKHeX
 
             return sdata;
         }
-        internal static byte[] decryptArray(byte[] ekx)
+        public static byte[] decryptArray(byte[] ekx)
         {
             byte[] pkx = (byte[])ekx.Clone();
 
@@ -488,7 +388,7 @@ namespace PKHeX
 
             return pkx;
         }
-        internal static byte[] encryptArray(byte[] pkx)
+        public static byte[] encryptArray(byte[] pkx)
         {
             // Shuffle
             uint pv = BitConverter.ToUInt32(pkx, 0);
@@ -515,7 +415,7 @@ namespace PKHeX
             // Done
             return ekx;
         }
-        internal static ushort getCHK(byte[] data)
+        public static ushort getCHK(byte[] data)
         {
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
@@ -523,40 +423,10 @@ namespace PKHeX
             
             return chk;
         }
-        internal static bool verifychk(byte[] input)
+
+        public static uint getRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
         {
-            ushort checksum = 0;
-            if (input.Length == 100 || input.Length == 80) // Gen 3 Files
-            {
-                for (int i = 32; i < 80; i += 2)
-                    checksum += BitConverter.ToUInt16(input, i);
-
-                return checksum == BitConverter.ToUInt16(input, 28);
-            }
-
-            if (input.Length == 236 || input.Length == 220 || input.Length == 136) // Gen 4/5
-                Array.Resize(ref input, 136);
-            else if (input.Length == 232 || input.Length == 260) // Gen 6
-                Array.Resize(ref input, 232);
-            else throw new ArgumentException("Wrong sized input array to verifychecksum");
-
-            ushort chk = 0;
-            for (int i = 8; i < input.Length; i += 2)
-                chk += BitConverter.ToUInt16(input, i);
-
-            return chk == BitConverter.ToUInt16(input, 0x6);
-        }
-
-        internal static uint getPSV(uint PID)
-        {
-            return (PID >> 16 ^ PID & 0xFFFF) >> 4;
-        }
-        internal static uint getTSV(uint TID, uint SID)
-        {
-            return (TID ^ SID) >> 4;
-        }
-        internal static uint getRandomPID(int species, int cg, int origin, int nature, int form)
-        {
+            uint bits = OLDPID & 0x00010001;
             int gt = Personal[species].Gender;
             if (origin >= 24)
                 return Util.rnd32();
@@ -577,6 +447,8 @@ namespace PKHeX
                     if (pidLetter != form)
                         continue;
                 }
+                else if (bits != (pid & 0x00010001)) // keep ability bits
+                    continue;
 
                 // Gen 3/4/5: Gender derived from PID
                 uint gv = pid & 0xFF;
@@ -588,9 +460,9 @@ namespace PKHeX
                     return pid; // PID Passes
             }
         }
-        
+
         // Data Requests
-        internal static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny)
+        public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
         {
             if (species == 0)
                 return (Image)Resources.ResourceManager.GetObject("_0");
@@ -632,14 +504,17 @@ namespace PKHeX
             if (item > 0)
             {
                 Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
+                if ((generation == 3 || generation == 4) && 328 <= item && item <= 419) // gen3/4 TM
+                    itemimg = Resources.item_tm;
+
                 // Redraw
                 baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
             }
             return baseImage;
         }
-        internal static Image getSprite(PKM pkm)
+        public static Image getSprite(PKM pkm)
         {
-            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny);
+            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
 
         // Font Related
@@ -654,7 +529,7 @@ namespace PKHeX
                 return s_FontCollection.Families;
             }
         }
-        internal static Font getPKXFont(float size)
+        public static Font getPKXFont(float size)
         {
             return new Font(FontFamilies[0], size);
         }
@@ -671,9 +546,9 @@ namespace PKHeX
             }
             catch { Util.Error("Unable to add ingame font."); }
         }
-         
+
         // Personal.dat
-        internal static string[] getFormList(int species, string[] t, string[] f, string[] g)
+        public static string[] getFormList(int species, string[] t, string[] f, string[] g)
         {
             // Mega List            
             if (Array.IndexOf(new[] 
@@ -687,7 +562,6 @@ namespace PKHeX
                         t[000], // Normal
                         f[723], // Mega
                     };}
-            // MegaXY List
             switch (species)
             {
                 case 6:
@@ -708,6 +582,12 @@ namespace PKHeX
                         f[732], // PhD
                         f[733], // Libre
                         f[734], // Cosplay
+                    };
+                case 172:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        f[000], // Spiky
                     };
                 case 201:
                     return new[]
@@ -991,13 +871,13 @@ namespace PKHeX
         /// <param name="type">Hidden Power Type</param>
         /// <param name="ivs">Order: HP,ATK,DEF,SPEED,SPA,SPD</param>
         /// <returns>Hidden Power Type</returns>
-        internal static int[] setHPIVs(int type, int[] ivs)
+        public static int[] setHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
         }
-        internal static readonly int[,] hpivs = {
+        public static readonly int[,] hpivs = {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
             { 0, 0, 0, 0, 0, 1 }, // Flying
             { 1, 1, 0, 0, 0, 1 }, // Poison
@@ -1016,7 +896,7 @@ namespace PKHeX
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
 
-        internal static string TrimFromFFFF(string input)
+        public static string TrimFromFFFF(string input)
         {
             int index = input.IndexOf((char)0xFFFF);
             return index < 0 ? input : input.Substring(0, index);
@@ -1024,7 +904,7 @@ namespace PKHeX
 
         // Past Gen Manipulation
 
-        internal static byte[] shuffleArray45(byte[] data, uint sv)
+        public static byte[] shuffleArray45(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 8); // Copy unshuffled bytes
@@ -1040,7 +920,7 @@ namespace PKHeX
             return sdata;
         }
 
-        internal static byte[] decryptArray45(byte[] ekm)
+        public static byte[] decryptArray45(byte[] ekm)
         {
             byte[] pkm = (byte[])ekm.Clone();
 
@@ -1066,7 +946,7 @@ namespace PKHeX
             return pkm;
         }
 
-        internal static byte[] encryptArray45(byte[] pkm)
+        public static byte[] encryptArray45(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = ((pv & 0x3E000) >> 0xD) % 24;
@@ -1093,26 +973,26 @@ namespace PKHeX
             // Done
             return ekm;
         }
-        
-        internal static int getUnownForm(uint PID)
+
+        public static int getUnownForm(uint PID)
         {
             byte[] data = BitConverter.GetBytes(PID);
             return (((data[3] & 3) << 6) + ((data[2] & 3) << 4) + ((data[1] & 3) << 2) + ((data[0] & 3) << 0)) % 28;
         }
 
-        internal static ushort val2charG4(ushort val)
+        public static ushort val2charG4(ushort val)
         {
             int index = Array.IndexOf(G4Values, val);
             return index > -1 ? G4Chars[index] : (ushort)0xFFFF;
         }
 
-        internal static ushort char2valG4(ushort chr)
+        public static ushort char2valG4(ushort chr)
         {
             int index = Array.IndexOf(G4Chars, chr);
             return index > -1 ? G4Values[index] : (ushort)0xFFFF;
         }
 
-        internal static string array2strG4(byte[] strdata)
+        public static string array2strG4(byte[] strdata)
         {
             string s = "";
             for (int i = 0; i < strdata.Length; i += 2)
@@ -1126,7 +1006,7 @@ namespace PKHeX
             return s;
         }
 
-        internal static byte[] str2arrayG4(string str)
+        public static byte[] str2arrayG4(string str)
         {
             byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
             for (int i = 0; i < str.Length; i++)
@@ -1142,16 +1022,16 @@ namespace PKHeX
         }
 
         // Gen3 && 3->4 Conversion has two character tables, and translates to the same character map.
-        internal static ushort getG4Val(byte val, bool jp) { return jp ? G34_4J[val] : G34_4E[val]; }
-        internal static ushort getG3Char(byte val, bool jp) { return val2charG4(getG4Val(val, jp)); }
+        public static ushort getG4Val(byte val, bool jp) { return jp ? G34_4J[val] : G34_4E[val]; }
+        public static ushort getG3Char(byte val, bool jp) { return val2charG4(getG4Val(val, jp)); }
 
-        internal static byte setG3Char(ushort chr, bool jp)
+        public static byte setG3Char(ushort chr, bool jp)
         {
             int index = Array.IndexOf(jp ? G34_4J : G34_4E, char2valG4(chr));
             return (byte)(index > -1 ? index : 0xFF);
         }
 
-        internal static string getG3Str(byte[] strdata, bool jp)
+        public static string getG3Str(byte[] strdata, bool jp)
         {
             return strdata
                 .TakeWhile(val => val < 247) // Take valid values
@@ -1160,7 +1040,7 @@ namespace PKHeX
                 .Aggregate("", (current, chr) => current + (char)chr);
         }
 
-        internal static byte[] setG3Str(string str, bool jp)
+        public static byte[] setG3Str(string str, bool jp)
         {
             byte[] strdata = new byte[str.Length + 1]; // +1 for 0xFF
             for (int i = 0; i < str.Length; i++)
@@ -1171,23 +1051,24 @@ namespace PKHeX
                 { Array.Resize(ref strdata, i); break; }
                 strdata[i] = val;
             }
-            strdata[str.Length] = 0xFF;
+            if (strdata.Length > 0)
+                strdata[strdata.Length - 1] = 0xFF;
             return strdata;
         }
 
-        internal static int getG4Species(int g3index)
+        public static int getG4Species(int g3index)
         {
             int index = Array.IndexOf(oldindex, g3index);
             return newindex[index > -1 ? index : 0];
         }
 
-        internal static int getG3Species(int g4index)
+        public static int getG3Species(int g4index)
         {
             int index = Array.IndexOf(newindex, g4index);
             return oldindex[index > -1 ? index : 0];
         }
 
-        internal static int getGender(int species, uint PID)
+        public static int getGender(int species, uint PID)
         {
             int genderratio = Personal[species].Gender;
             switch (genderratio)
@@ -1199,11 +1080,11 @@ namespace PKHeX
             }
         }
         #region Gen 3 Species Table
-        internal static readonly int[] newindex =
+        internal static int[] newindex => new[]
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
-            59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,77,79,80,81,82,83,84,85,86,
+            59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,
             87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,
             111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,
             132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,
@@ -1221,7 +1102,7 @@ namespace PKHeX
             385,386,358,
         };
 
-        internal static readonly int[] oldindex =
+        internal static int[] oldindex => new[]
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -1242,399 +1123,6 @@ namespace PKHeX
             388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,
             409,410,411,
         };
-        #endregion
-        #region Gen 3 Ability Table
-        internal static readonly byte[][] Gen3Abilities =
-        {
-            new byte[] {0x00, 0x00}, // 000
-            new byte[] {0x41, 0x41}, // 001
-            new byte[] {0x41, 0x41}, // 002
-            new byte[] {0x41, 0x41}, // 003
-            new byte[] {0x42, 0x42}, // 004
-            new byte[] {0x42, 0x42}, // 005
-            new byte[] {0x42, 0x42}, // 006
-            new byte[] {0x43, 0x43}, // 007
-            new byte[] {0x43, 0x43}, // 008
-            new byte[] {0x43, 0x43}, // 009
-            new byte[] {0x13, 0x13}, // 010
-            new byte[] {0x3d, 0x3d}, // 011
-            new byte[] {0x0e, 0x0e}, // 012
-            new byte[] {0x13, 0x13}, // 013
-            new byte[] {0x3d, 0x3d}, // 014
-            new byte[] {0x44, 0x44}, // 015
-            new byte[] {0x33, 0x33}, // 016
-            new byte[] {0x33, 0x33}, // 017
-            new byte[] {0x33, 0x33}, // 018
-            new byte[] {0x32, 0x3e}, // 019
-            new byte[] {0x32, 0x3e}, // 020
-            new byte[] {0x33, 0x33}, // 021
-            new byte[] {0x33, 0x33}, // 022
-            new byte[] {0x3d, 0x16}, // 023
-            new byte[] {0x3d, 0x16}, // 024
-            new byte[] {0x09, 0x09}, // 025
-            new byte[] {0x09, 0x09}, // 026
-            new byte[] {0x08, 0x08}, // 027
-            new byte[] {0x08, 0x08}, // 028
-            new byte[] {0x26, 0x26}, // 029
-            new byte[] {0x26, 0x26}, // 030
-            new byte[] {0x26, 0x26}, // 031
-            new byte[] {0x26, 0x26}, // 032
-            new byte[] {0x26, 0x26}, // 033
-            new byte[] {0x26, 0x26}, // 034
-            new byte[] {0x38, 0x38}, // 035
-            new byte[] {0x38, 0x38}, // 036
-            new byte[] {0x12, 0x12}, // 037
-            new byte[] {0x12, 0x12}, // 038
-            new byte[] {0x38, 0x38}, // 039
-            new byte[] {0x38, 0x38}, // 040
-            new byte[] {0x27, 0x27}, // 041
-            new byte[] {0x27, 0x27}, // 042
-            new byte[] {0x22, 0x22}, // 043
-            new byte[] {0x22, 0x22}, // 044
-            new byte[] {0x22, 0x22}, // 045
-            new byte[] {0x1b, 0x1b}, // 046
-            new byte[] {0x1b, 0x1b}, // 047
-            new byte[] {0x0e, 0x0e}, // 048
-            new byte[] {0x13, 0x13}, // 049
-            new byte[] {0x08, 0x47}, // 050
-            new byte[] {0x08, 0x47}, // 051
-            new byte[] {0x35, 0x35}, // 052
-            new byte[] {0x07, 0x07}, // 053
-            new byte[] {0x06, 0x0d}, // 054
-            new byte[] {0x06, 0x0d}, // 055
-            new byte[] {0x48, 0x48}, // 056
-            new byte[] {0x48, 0x48}, // 057
-            new byte[] {0x16, 0x12}, // 058
-            new byte[] {0x16, 0x12}, // 059
-            new byte[] {0x06, 0x0b}, // 060
-            new byte[] {0x06, 0x0b}, // 061
-            new byte[] {0x06, 0x0b}, // 062
-            new byte[] {0x1c, 0x27}, // 063
-            new byte[] {0x1c, 0x27}, // 064
-            new byte[] {0x1c, 0x27}, // 065
-            new byte[] {0x3e, 0x3e}, // 066
-            new byte[] {0x3e, 0x3e}, // 067
-            new byte[] {0x3e, 0x3e}, // 068
-            new byte[] {0x22, 0x22}, // 069
-            new byte[] {0x22, 0x22}, // 070
-            new byte[] {0x22, 0x22}, // 071
-            new byte[] {0x1d, 0x40}, // 072
-            new byte[] {0x1d, 0x40}, // 073
-            new byte[] {0x45, 0x05}, // 074
-            new byte[] {0x45, 0x05}, // 075
-            new byte[] {0x45, 0x05}, // 076
-            new byte[] {0x32, 0x12}, // 077
-            new byte[] {0x32, 0x12}, // 078
-            new byte[] {0x0c, 0x14}, // 079
-            new byte[] {0x0c, 0x14}, // 080
-            new byte[] {0x2a, 0x05}, // 081
-            new byte[] {0x2a, 0x05}, // 082
-            new byte[] {0x33, 0x27}, // 083
-            new byte[] {0x32, 0x30}, // 084
-            new byte[] {0x32, 0x30}, // 085
-            new byte[] {0x2f, 0x2f}, // 086
-            new byte[] {0x2f, 0x2f}, // 087
-            new byte[] {0x01, 0x3c}, // 088
-            new byte[] {0x01, 0x3c}, // 089
-            new byte[] {0x4b, 0x4b}, // 090
-            new byte[] {0x4b, 0x4b}, // 091
-            new byte[] {0x1a, 0x1a}, // 092
-            new byte[] {0x1a, 0x1a}, // 093
-            new byte[] {0x1a, 0x1a}, // 094
-            new byte[] {0x45, 0x05}, // 095
-            new byte[] {0x0f, 0x0f}, // 096
-            new byte[] {0x0f, 0x0f}, // 097
-            new byte[] {0x34, 0x4b}, // 098
-            new byte[] {0x34, 0x4b}, // 099
-            new byte[] {0x2b, 0x09}, // 100
-            new byte[] {0x2b, 0x09}, // 101
-            new byte[] {0x22, 0x22}, // 102
-            new byte[] {0x22, 0x22}, // 103
-            new byte[] {0x45, 0x1f}, // 104
-            new byte[] {0x45, 0x1f}, // 105
-            new byte[] {0x07, 0x07}, // 106
-            new byte[] {0x33, 0x33}, // 107
-            new byte[] {0x0c, 0x14}, // 108
-            new byte[] {0x1a, 0x1a}, // 109
-            new byte[] {0x1a, 0x1a}, // 110
-            new byte[] {0x45, 0x1f}, // 111
-            new byte[] {0x45, 0x1f}, // 112
-            new byte[] {0x1e, 0x20}, // 113
-            new byte[] {0x22, 0x22}, // 114
-            new byte[] {0x30, 0x30}, // 115
-            new byte[] {0x21, 0x21}, // 116
-            new byte[] {0x26, 0x26}, // 117
-            new byte[] {0x21, 0x29}, // 118
-            new byte[] {0x21, 0x29}, // 119
-            new byte[] {0x23, 0x1e}, // 120
-            new byte[] {0x23, 0x1e}, // 121
-            new byte[] {0x2b, 0x2b}, // 122
-            new byte[] {0x44, 0x44}, // 123
-            new byte[] {0x0c, 0x0c}, // 124
-            new byte[] {0x09, 0x09}, // 125
-            new byte[] {0x31, 0x31}, // 126
-            new byte[] {0x34, 0x34}, // 127
-            new byte[] {0x16, 0x16}, // 128
-            new byte[] {0x21, 0x21}, // 129
-            new byte[] {0x16, 0x16}, // 130
-            new byte[] {0x0b, 0x4b}, // 131
-            new byte[] {0x07, 0x07}, // 132
-            new byte[] {0x32, 0x32}, // 133
-            new byte[] {0x0b, 0x0b}, // 134
-            new byte[] {0x0a, 0x0a}, // 135
-            new byte[] {0x12, 0x12}, // 136
-            new byte[] {0x24, 0x24}, // 137
-            new byte[] {0x21, 0x4b}, // 138
-            new byte[] {0x21, 0x4b}, // 139
-            new byte[] {0x21, 0x04}, // 140
-            new byte[] {0x21, 0x04}, // 141
-            new byte[] {0x45, 0x2e}, // 142
-            new byte[] {0x11, 0x2f}, // 143
-            new byte[] {0x2e, 0x2e}, // 144
-            new byte[] {0x2e, 0x2e}, // 145
-            new byte[] {0x2e, 0x2e}, // 146
-            new byte[] {0x3d, 0x3d}, // 147
-            new byte[] {0x3d, 0x3d}, // 148
-            new byte[] {0x27, 0x27}, // 149
-            new byte[] {0x2e, 0x2e}, // 150
-            new byte[] {0x1c, 0x1c}, // 151
-            new byte[] {0x41, 0x41}, // 152
-            new byte[] {0x41, 0x41}, // 153
-            new byte[] {0x41, 0x41}, // 154
-            new byte[] {0x42, 0x42}, // 155
-            new byte[] {0x42, 0x42}, // 156
-            new byte[] {0x42, 0x42}, // 157
-            new byte[] {0x43, 0x43}, // 158
-            new byte[] {0x43, 0x43}, // 159
-            new byte[] {0x43, 0x43}, // 160
-            new byte[] {0x32, 0x33}, // 161
-            new byte[] {0x32, 0x33}, // 162
-            new byte[] {0x0f, 0x33}, // 163
-            new byte[] {0x0f, 0x33}, // 164
-            new byte[] {0x44, 0x30}, // 165
-            new byte[] {0x44, 0x30}, // 166
-            new byte[] {0x0f, 0x44}, // 167
-            new byte[] {0x0f, 0x44}, // 168
-            new byte[] {0x27, 0x27}, // 169
-            new byte[] {0x0a, 0x23}, // 170
-            new byte[] {0x0a, 0x23}, // 171
-            new byte[] {0x09, 0x09}, // 172
-            new byte[] {0x38, 0x38}, // 173
-            new byte[] {0x38, 0x38}, // 174
-            new byte[] {0x37, 0x20}, // 175
-            new byte[] {0x37, 0x20}, // 176
-            new byte[] {0x1c, 0x30}, // 177
-            new byte[] {0x1c, 0x30}, // 178
-            new byte[] {0x09, 0x09}, // 179
-            new byte[] {0x09, 0x09}, // 180
-            new byte[] {0x09, 0x09}, // 181
-            new byte[] {0x22, 0x22}, // 182
-            new byte[] {0x2f, 0x25}, // 183
-            new byte[] {0x2f, 0x25}, // 184
-            new byte[] {0x45, 0x05}, // 185
-            new byte[] {0x06, 0x0b}, // 186
-            new byte[] {0x22, 0x22}, // 187
-            new byte[] {0x22, 0x22}, // 188
-            new byte[] {0x22, 0x22}, // 189
-            new byte[] {0x32, 0x35}, // 190
-            new byte[] {0x22, 0x22}, // 191
-            new byte[] {0x22, 0x22}, // 192
-            new byte[] {0x03, 0x0e}, // 193
-            new byte[] {0x06, 0x0b}, // 194
-            new byte[] {0x06, 0x0b}, // 195
-            new byte[] {0x1c, 0x1c}, // 196
-            new byte[] {0x1c, 0x1c}, // 197
-            new byte[] {0x0f, 0x0f}, // 198
-            new byte[] {0x0c, 0x14}, // 199
-            new byte[] {0x1a, 0x1a}, // 200
-            new byte[] {0x1a, 0x1a}, // 201
-            new byte[] {0x17, 0x17}, // 202
-            new byte[] {0x27, 0x30}, // 203
-            new byte[] {0x05, 0x05}, // 204
-            new byte[] {0x05, 0x05}, // 205
-            new byte[] {0x20, 0x32}, // 206
-            new byte[] {0x08, 0x34}, // 207
-            new byte[] {0x45, 0x05}, // 208
-            new byte[] {0x16, 0x32}, // 209
-            new byte[] {0x16, 0x16}, // 210
-            new byte[] {0x21, 0x26}, // 211
-            new byte[] {0x44, 0x44}, // 212
-            new byte[] {0x05, 0x05}, // 213
-            new byte[] {0x44, 0x3e}, // 214
-            new byte[] {0x27, 0x33}, // 215
-            new byte[] {0x35, 0x35}, // 216
-            new byte[] {0x3e, 0x3e}, // 217
-            new byte[] {0x28, 0x31}, // 218
-            new byte[] {0x28, 0x31}, // 219
-            new byte[] {0x0c, 0x0c}, // 220
-            new byte[] {0x0c, 0x0c}, // 221
-            new byte[] {0x37, 0x1e}, // 222
-            new byte[] {0x37, 0x37}, // 223
-            new byte[] {0x15, 0x15}, // 224
-            new byte[] {0x37, 0x48}, // 225
-            new byte[] {0x21, 0x0b}, // 226
-            new byte[] {0x33, 0x05}, // 227
-            new byte[] {0x30, 0x12}, // 228
-            new byte[] {0x30, 0x12}, // 229
-            new byte[] {0x21, 0x21}, // 230
-            new byte[] {0x35, 0x35}, // 231
-            new byte[] {0x05, 0x05}, // 232
-            new byte[] {0x24, 0x24}, // 233
-            new byte[] {0x16, 0x16}, // 234
-            new byte[] {0x14, 0x14}, // 235
-            new byte[] {0x3e, 0x3e}, // 236
-            new byte[] {0x16, 0x16}, // 237
-            new byte[] {0x0c, 0x0c}, // 238
-            new byte[] {0x09, 0x09}, // 239
-            new byte[] {0x31, 0x31}, // 240
-            new byte[] {0x2f, 0x2f}, // 241
-            new byte[] {0x1e, 0x20}, // 242
-            new byte[] {0x2e, 0x2e}, // 243
-            new byte[] {0x2e, 0x2e}, // 244
-            new byte[] {0x2e, 0x2e}, // 245
-            new byte[] {0x3e, 0x3e}, // 246
-            new byte[] {0x3d, 0x3d}, // 247
-            new byte[] {0x2d, 0x2d}, // 248
-            new byte[] {0x2e, 0x2e}, // 249
-            new byte[] {0x2e, 0x2e}, // 250
-            new byte[] {0x1e, 0x1e}, // 251
-            new byte[] {0x41, 0x41}, // 252
-            new byte[] {0x41, 0x41}, // 253
-            new byte[] {0x41, 0x41}, // 254
-            new byte[] {0x42, 0x42}, // 255
-            new byte[] {0x42, 0x42}, // 256
-            new byte[] {0x42, 0x42}, // 257
-            new byte[] {0x43, 0x43}, // 258
-            new byte[] {0x43, 0x43}, // 259
-            new byte[] {0x43, 0x43}, // 260
-            new byte[] {0x32, 0x32}, // 261
-            new byte[] {0x16, 0x16}, // 262
-            new byte[] {0x35, 0x35}, // 263
-            new byte[] {0x35, 0x35}, // 264
-            new byte[] {0x13, 0x13}, // 265
-            new byte[] {0x3d, 0x3d}, // 266
-            new byte[] {0x44, 0x44}, // 267
-            new byte[] {0x3d, 0x3d}, // 268
-            new byte[] {0x13, 0x13}, // 269
-            new byte[] {0x21, 0x2c}, // 270
-            new byte[] {0x21, 0x2c}, // 271
-            new byte[] {0x21, 0x2c}, // 272
-            new byte[] {0x22, 0x30}, // 273
-            new byte[] {0x22, 0x30}, // 274
-            new byte[] {0x22, 0x30}, // 275
-            new byte[] {0x3e, 0x3e}, // 276
-            new byte[] {0x3e, 0x3e}, // 277
-            new byte[] {0x33, 0x33}, // 278
-            new byte[] {0x33, 0x33}, // 279
-            new byte[] {0x1c, 0x24}, // 280
-            new byte[] {0x1c, 0x24}, // 281
-            new byte[] {0x1c, 0x24}, // 282
-            new byte[] {0x21, 0x21}, // 283
-            new byte[] {0x16, 0x16}, // 284
-            new byte[] {0x1b, 0x1b}, // 285
-            new byte[] {0x1b, 0x1b}, // 286
-            new byte[] {0x36, 0x36}, // 287
-            new byte[] {0x48, 0x48}, // 288
-            new byte[] {0x36, 0x36}, // 289
-            new byte[] {0x0e, 0x0e}, // 290
-            new byte[] {0x03, 0x03}, // 291
-            new byte[] {0x19, 0x19}, // 292
-            new byte[] {0x2b, 0x2b}, // 293
-            new byte[] {0x2b, 0x2b}, // 294
-            new byte[] {0x2b, 0x2b}, // 295
-            new byte[] {0x2f, 0x3e}, // 296
-            new byte[] {0x2f, 0x3e}, // 297
-            new byte[] {0x2f, 0x3e}, // 298
-            new byte[] {0x05, 0x2a}, // 299
-            new byte[] {0x38, 0x38}, // 300
-            new byte[] {0x38, 0x38}, // 301
-            new byte[] {0x33, 0x33}, // 302
-            new byte[] {0x34, 0x16}, // 303
-            new byte[] {0x45, 0x05}, // 304
-            new byte[] {0x45, 0x05}, // 305
-            new byte[] {0x45, 0x05}, // 306
-            new byte[] {0x4a, 0x4a}, // 307
-            new byte[] {0x4a, 0x4a}, // 308
-            new byte[] {0x09, 0x1f}, // 309
-            new byte[] {0x09, 0x1f}, // 310
-            new byte[] {0x39, 0x39}, // 311
-            new byte[] {0x3a, 0x3a}, // 312
-            new byte[] {0x23, 0x44}, // 313
-            new byte[] {0x0c, 0x0c}, // 314
-            new byte[] {0x1e, 0x26}, // 315
-            new byte[] {0x40, 0x3c}, // 316
-            new byte[] {0x40, 0x3c}, // 317
-            new byte[] {0x18, 0x18}, // 318
-            new byte[] {0x18, 0x18}, // 319
-            new byte[] {0x29, 0x0c}, // 320
-            new byte[] {0x29, 0x0c}, // 321
-            new byte[] {0x0c, 0x0c}, // 322
-            new byte[] {0x28, 0x28}, // 323
-            new byte[] {0x49, 0x49}, // 324
-            new byte[] {0x2f, 0x14}, // 325
-            new byte[] {0x2f, 0x14}, // 326
-            new byte[] {0x14, 0x14}, // 327
-            new byte[] {0x34, 0x47}, // 328
-            new byte[] {0x1a, 0x1a}, // 329
-            new byte[] {0x1a, 0x1a}, // 330
-            new byte[] {0x08, 0x08}, // 331
-            new byte[] {0x08, 0x08}, // 332
-            new byte[] {0x1e, 0x1e}, // 333
-            new byte[] {0x1e, 0x1e}, // 334
-            new byte[] {0x11, 0x11}, // 335
-            new byte[] {0x3d, 0x3d}, // 336
-            new byte[] {0x1a, 0x1a}, // 337
-            new byte[] {0x1a, 0x1a}, // 338
-            new byte[] {0x0c, 0x0c}, // 339
-            new byte[] {0x0c, 0x0c}, // 340
-            new byte[] {0x34, 0x4b}, // 341
-            new byte[] {0x34, 0x4b}, // 342
-            new byte[] {0x1a, 0x1a}, // 343
-            new byte[] {0x1a, 0x1a}, // 344
-            new byte[] {0x15, 0x15}, // 345
-            new byte[] {0x15, 0x15}, // 346
-            new byte[] {0x04, 0x04}, // 347
-            new byte[] {0x04, 0x04}, // 348
-            new byte[] {0x21, 0x21}, // 349
-            new byte[] {0x3f, 0x3f}, // 350
-            new byte[] {0x3b, 0x3b}, // 351
-            new byte[] {0x10, 0x10}, // 352
-            new byte[] {0x0f, 0x0f}, // 353
-            new byte[] {0x0f, 0x0f}, // 354
-            new byte[] {0x1a, 0x1a}, // 355
-            new byte[] {0x2e, 0x2e}, // 356
-            new byte[] {0x22, 0x22}, // 357
-            new byte[] {0x1a, 0x1a}, // 358
-            new byte[] {0x2e, 0x2e}, // 359
-            new byte[] {0x17, 0x17}, // 360
-            new byte[] {0x27, 0x27}, // 361
-            new byte[] {0x27, 0x27}, // 362
-            new byte[] {0x2f, 0x2f}, // 363
-            new byte[] {0x2f, 0x2f}, // 364
-            new byte[] {0x2f, 0x2f}, // 365
-            new byte[] {0x4b, 0x4b}, // 366
-            new byte[] {0x21, 0x21}, // 367
-            new byte[] {0x21, 0x21}, // 368
-            new byte[] {0x21, 0x45}, // 369
-            new byte[] {0x21, 0x21}, // 370
-            new byte[] {0x45, 0x45}, // 371
-            new byte[] {0x45, 0x45}, // 372
-            new byte[] {0x16, 0x16}, // 373
-            new byte[] {0x1d, 0x1d}, // 374
-            new byte[] {0x1d, 0x1d}, // 375
-            new byte[] {0x1d, 0x1d}, // 376
-            new byte[] {0x1d, 0x1d}, // 377
-            new byte[] {0x1d, 0x1d}, // 378
-            new byte[] {0x1d, 0x1d}, // 379
-            new byte[] {0x1a, 0x1a}, // 380
-            new byte[] {0x1a, 0x1a}, // 381
-            new byte[] {0x02, 0x02}, // 382
-            new byte[] {0x46, 0x46}, // 383
-            new byte[] {0x4d, 0x4d}, // 384
-            new byte[] {0x20, 0x20}, // 385
-            new byte[] {0x2e, 0x2e}, // 386
-        };
-
         #endregion
         #region Gen 3/4 Character Tables (Val->Unicode)
 
@@ -1990,48 +1478,46 @@ namespace PKHeX
 
         internal static readonly ushort[] G34_4E =
         {
-            478, 351, 352, 353, 358, 359, 360, 361, 362, 363, 020, 365, 366, 369, 370,
-            371, 415, 376, 377, 378, 368, 382, 383, 384, 046, 358, 359, 392, 393, 394,
-            395, 396, 397, 398, 401, 402, 403, 416, 408, 409, 410, 400, 420, 419, 479,
-            450, 445, 003, 004, 006, 008, 010, 068, 449, 072, 013, 015, 017, 019, 021,
-            023, 025, 027, 029, 031, 033, 035, 038, 040, 042, 049, 052, 055, 058, 061,
-            050, 053, 056, 059, 062, 036, 426, 425, 480, 481, 091, 092, 094, 096, 098,
-            364, 100, 102, 106, 108, 110, 112, 114, 117, 119, 121, 123, 124, 125, 385,
-            127, 128, 131, 134, 137, 140, 396, 144, 145, 146, 147, 149, 151, 153, 154,
-            155, 156, 157, 158, 159, 160, 161, 082, 084, 086, 088, 090, 148, 150, 152,
-            093, 095, 097, 099, 101, 103, 105, 107, 109, 111, 113, 115, 118, 120, 122,
-            129, 132, 135, 138, 141, 130, 133, 136, 139, 142, 116, 289, 290, 291, 292,
-            293, 294, 295, 296, 297, 298, 427, 428, 430, 241, 230, 431, 436, 437, 434,
-            435, 443, 444, 424, 429, 242, 433, 299, 300, 301, 302, 303, 304, 305, 306,
-            307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321,
-            322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336,
-            337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 289,
-            452, 355, 373, 379, 387, 405, 411
+            478, 351, 352, 353, 358, 359, 360, 361, 362, 363, 020, 365, 366, 369, 370, 371, // 0
+            415, 376, 377, 378, 368, 382, 383, 384, 046, 358, 359, 392, 393, 394, 395, 396, // 1
+            397, 398, 401, 402, 403, 416, 408, 409, 410, 400, 420, 419, 479, 450, 445, 003, // 2
+            004, 006, 008, 010, 068, 449, 072, 013, 015, 017, 019, 021, 023, 025, 027, 029, // 3
+            031, 033, 035, 038, 040, 042, 049, 052, 055, 058, 061, 050, 053, 056, 059, 062, // 4
+            036, 426, 425, 480, 481, 091, 092, 094, 096, 098, 364, 100, 102, 106, 108, 110, // 5
+            112, 114, 117, 119, 121, 123, 124, 125, 385, 127, 128, 131, 134, 137, 140, 396, // 6
+            144, 145, 146, 147, 149, 151, 153, 154, 155, 156, 157, 158, 159, 160, 161, 082, // 7
+            084, 086, 088, 090, 148, 150, 152, 093, 095, 097, 099, 101, 103, 105, 107, 109, // 8
+            111, 113, 115, 118, 120, 122, 129, 132, 135, 138, 141, 130, 133, 136, 139, 142, // 9
+            116, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 427, 428, 430, 446, 230, // A
+            431, 436, 437, 434, 435, 443, 444, 424, 429, 242, 433, 299, 300, 301, 302, 303, // B
+            304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, // C
+            320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, // D
+            336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 289, // E
+            452, 355, 373, 379, 387, 405, 411                                               // F
         };
 
         internal static readonly ushort[] G34_4J =
         {
-            001, 003, 005, 007, 009, 011, 012, 014, 016, 018, 020, 022, 024, 026, 028,
-            030, 032, 034, 037, 039, 041, 043, 044, 045, 046, 047, 048, 051, 054, 057,
-            060, 063, 064, 065, 066, 067, 069, 071, 073, 074, 075, 076, 077, 078, 079,
-            080, 081, 002, 004, 006, 008, 010, 068, 070, 072, 013, 015, 017, 019, 021,
-            023, 025, 027, 029, 031, 033, 035, 038, 040, 042, 049, 052, 055, 058, 061,
-            050, 053, 056, 059, 062, 036, 083, 085, 087, 089, 091, 092, 094, 096, 098,
-            100, 102, 104, 106, 108, 110, 112, 114, 117, 119, 121, 123, 124, 125, 126,
-            127, 128, 131, 134, 137, 140, 143, 144, 145, 146, 147, 149, 151, 153, 154,
-            155, 156, 157, 158, 159, 160, 161, 082, 084, 086, 088, 090, 148, 150, 152,
-            093, 095, 097, 099, 101, 103, 105, 107, 109, 111, 113, 115, 118, 120, 122,
-            129, 132, 135, 138, 141, 130, 133, 136, 139, 142, 116, 162, 163, 164, 165,
-            166, 167, 168, 169, 170, 171, 225, 226, 228, 241, 230, 229, 234, 235, 232,
-            233, 443, 444, 424, 430, 242, 433, 172, 173, 174, 175, 176, 177, 178, 179,
-            180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194,
-            195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
-            210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 289,
-            452, 355, 373, 379, 387, 405, 411
+            001, 003, 005, 007, 009, 011, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, // 0
+            032, 034, 037, 039, 041, 043, 044, 045, 046, 047, 048, 051, 054, 057, 060, 063, // 1
+            064, 065, 066, 067, 069, 071, 073, 074, 075, 076, 077, 078, 079, 080, 081, 002, // 2
+            004, 006, 008, 010, 068, 070, 072, 013, 015, 017, 019, 021, 023, 025, 027, 029, // 3
+            031, 033, 035, 038, 040, 042, 049, 052, 055, 058, 061, 050, 053, 056, 059, 062, // 4
+            036, 083, 085, 087, 089, 091, 092, 094, 096, 098, 100, 102, 104, 106, 108, 110, // 5
+            112, 114, 117, 119, 121, 123, 124, 125, 126, 127, 128, 131, 134, 137, 140, 143, // 6
+            144, 145, 146, 147, 149, 151, 153, 154, 155, 156, 157, 158, 159, 160, 161, 082, // 7
+            084, 086, 088, 090, 148, 150, 152, 093, 095, 097, 099, 101, 103, 105, 107, 109, // 8
+            111, 113, 115, 118, 120, 122, 129, 132, 135, 138, 141, 130, 133, 136, 139, 142, // 9
+            116, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 225, 226, 228, 446, 230, // A
+            229, 234, 235, 232, 233, 443, 444, 424, 430, 242, 433, 172, 173, 174, 175, 176, // B
+            177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, // C
+            193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, // D
+            209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 289, // E
+            452, 355, 373, 379, 387, 405, 411                                               // F
         };
         #endregion
 
-        internal static readonly byte[][] G4TransferTrashBytes = {
+        public static readonly byte[][] G4TransferTrashBytes = {
             new byte[] { }, // Unused
             new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
             new byte[] { 0x18, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x48, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
@@ -2042,7 +1528,7 @@ namespace PKHeX
             new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
         };
 
-        internal static byte[] decryptArray3(byte[] ekm)
+        public static byte[] decryptArray3(byte[] ekm)
         {
             if (ekm.Length != SIZE_3PARTY && ekm.Length != SIZE_3STORED)
                 return null;
@@ -2056,7 +1542,7 @@ namespace PKHeX
                 ekm[i] ^= xorkey[i % 4];
             return shuffleArray3(ekm, PID%24);
         }
-        internal static byte[] shuffleArray3(byte[] data, uint sv)
+        public static byte[] shuffleArray3(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 32); // Copy unshuffled bytes
@@ -2071,7 +1557,7 @@ namespace PKHeX
 
             return sdata;
         }
-        internal static byte[] encryptArray3(byte[] pkm)
+        public static byte[] encryptArray3(byte[] pkm)
         {
             if (pkm.Length != SIZE_3PARTY && pkm.Length != SIZE_3STORED)
                 return null;
@@ -2087,7 +1573,7 @@ namespace PKHeX
             return ekm;
         }
 
-        internal static ushort getG4Item(ushort g3val)
+        public static ushort getG4Item(ushort g3val)
         {
             ushort[] arr =
             {
@@ -2098,7 +1584,7 @@ namespace PKHeX
                 66,67,68,69,43,44,70,71,72,73,
                 74,75,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
                 0xFFFF,0xFFFF,0xFFFF,45,46,47,48,49,50,51,
-                52,53,0xFFFF,55,56,57,58,59,60,0xFFFF,
+                52,53,0xFFFF,55,56,57,58,59,60,61,
                 63,64,0xFFFF,76,77,78,79,0xFFFF,0xFFFF,0xFFFF,
                 0xFFFF,0xFFFF,0xFFFF,80,81,82,83,84,85,0xFFFF,
                 0xFFFF,0xFFFF,0xFFFF,86,87,0xFFFF,88,89,90,91,
@@ -2117,6 +1603,15 @@ namespace PKHeX
                 0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
                 0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
                 0xFFFF,0xFFFF,0xFFFF,0xFFFF,260,261,262,263,264,
+
+                0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,0xFFFF,
+                328,329,330,331,332,333,334,335,336,337,
+                338,339,340,341,342,343,344,345,346,347,
+                348,349,350,351,352,353,354,355,356,357,
+                358,359,360,361,362,363,364,365,366,367,
+                368,369,370,371,372,373,374,375,376,377,
             };
             if (g3val > arr.Length)
                 return 0xFFFF;

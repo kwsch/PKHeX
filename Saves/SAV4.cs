@@ -26,7 +26,12 @@ namespace PKHeX
             getActiveBlock();
             getSAVOffsets();
 
-            Personal = Legal.PersonalAO; // todo
+            switch (Version)
+            {
+                case GameVersion.DP: Personal = PersonalTable.DP; break;
+                case GameVersion.Pt: Personal = PersonalTable.Pt; break;
+                case GameVersion.HGSS: Personal = PersonalTable.HGSS; break;
+            }
 
             if (!Exportable)
                 resetBoxes();
@@ -186,6 +191,7 @@ namespace PKHeX
                     AdventureInfo = 0 + GBO;
                     Trainer1 = 0x64 + GBO;
                     Party = 0x98 + GBO;
+                    PokeDex = 0x12DC + GBO;
                     WondercardFlags = 0xA6D0 + GBO;
                     WondercardData = 0xA7fC + GBO;
 
@@ -215,6 +221,7 @@ namespace PKHeX
                     AdventureInfo = 0 + GBO;
                     Trainer1 = 0x68 + GBO;
                     Party = 0xA0 + GBO;
+                    PokeDex = 0x1328 + GBO;
                     WondercardFlags = 0xB4C0 + GBO;
                     WondercardData = 0xB5C0 + GBO;
 
@@ -244,6 +251,7 @@ namespace PKHeX
                     AdventureInfo = 0 + GBO;
                     Trainer1 = 0x64 + GBO;
                     Party = 0x98 + GBO;
+                    PokeDex = 0x12B8 + GBO;
                     WondercardFlags = 0x9D3C + GBO;
                     WondercardData = 0x9E3C + GBO;
 
@@ -274,6 +282,7 @@ namespace PKHeX
 
         private int WondercardFlags = int.MinValue;
         private int AdventureInfo = int.MinValue;
+        public override bool HasPokeDex => false;
 
         // Inventory
         private ushort[] LegalItems, LegalKeyItems, LegalTMHMs, LegalMedicine, LegalBerries, LegalBalls, LegalBattleItems, LegalMailItems;
@@ -417,7 +426,7 @@ namespace PKHeX
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -428,7 +437,7 @@ namespace PKHeX
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
             }
         }
         public int X
@@ -442,7 +451,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x287E; break;
                     case GameVersion.HGSS: ofs = 0x236E; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -453,12 +462,12 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x287E; break;
                     case GameVersion.HGSS: ofs = 0x236E; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
                 switch (Version)
                 {
                     case GameVersion.DP:
                     case GameVersion.HGSS:
-                        BitConverter.GetBytes(value).CopyTo(Data, 0x123C);
+                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x123C);
                         break;
                 }
             }
@@ -474,7 +483,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2886; break;
                     case GameVersion.HGSS: ofs = 0x2376; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -485,7 +494,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2886; break;
                     case GameVersion.HGSS: ofs = 0x2376; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
             }
         }
         public int Y
@@ -499,7 +508,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2882; break;
                     case GameVersion.HGSS: ofs = 0x2372; break;
                 }
-                return BitConverter.ToInt32(Data, ofs);
+                return BitConverter.ToUInt16(Data, ofs);
             }
             set
             {
@@ -510,12 +519,12 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2882; break;
                     case GameVersion.HGSS: ofs = 0x2372; break;
                 }
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
                 switch (Version)
                 {
                     case GameVersion.DP:
                     case GameVersion.HGSS:
-                        BitConverter.GetBytes(value).CopyTo(Data, 0x1240);
+                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1240);
                         break;
                 }
             }
@@ -526,15 +535,15 @@ namespace PKHeX
         // Storage
         public override int CurrentBox
         {
-            get { return Data[Box - 4]; }
-            set { Data[Box - 4] = (byte)value; }
+            get { return Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4]; }
+            set { Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4] = (byte)value; }
         }
         public override int getBoxWallpaper(int box)
         {
             // Box Wallpaper is directly after the Box Names
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x18;
-            offset += BoxCount*0x28;
+            offset += BoxCount*0x28 + box;
             return Data[offset];
         }
         public override string getBoxName(int box)
@@ -661,6 +670,29 @@ namespace PKHeX
                     value[i].Data.CopyTo(Data, WondercardData + 8 * PGT.Size + (i-8) * PGT.Size);
                 }
             }
+        }
+
+        protected override void setDex(PKM pkm)
+        {
+            if (pkm.Species == 0)
+                return;
+            if (pkm.Species > MaxSpeciesID)
+                return;
+            if (Version == GameVersion.Unknown)
+                return;
+            if (PokeDex < 0)
+                return;
+
+            const int brSize = 0x40;
+            int bit = pkm.Species - 1;
+
+            // Set the Species Owned Flag
+            Data[PokeDex + brSize * 0 + bit / 8 + 0x4] |= (byte)(1 << (bit % 8));
+
+            // Set the Species Seen Flag
+            Data[PokeDex + brSize * 1 + bit / 8 + 0x4] |= (byte)(1 << (bit % 8));
+
+            // Formes : todo
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace PKHeX
 {
-    internal static class PKMConverter
+    public static class PKMConverter
     {
-        internal static int Country = 31;
+        internal static int Country = 49;
         internal static int Region = 7;
         internal static int ConsoleRegion = 1;
         internal static string OT_Name = "PKHeX";
@@ -19,7 +19,12 @@ namespace PKHeX
             OT_Gender = TRAINERGENDER;
         }
 
-        private static int getPKMDataFormat(byte[] data)
+        /// <summary>
+        /// Gets the generation of the Pokemon data.
+        /// </summary>
+        /// <param name="data">Raw data representing a Pokemon.</param>
+        /// <returns>An integer indicating the generation of the PKM file, or -1 if the data is invalid.</returns>
+        public static int getPKMDataFormat(byte[] data)
         {
             if (!PKX.getIsPKM(data.Length))
                 return -1;
@@ -40,19 +45,27 @@ namespace PKHeX
                 case PKX.SIZE_6PARTY: // collision with PGT, same size.
                     if (BitConverter.ToUInt16(data, 0x4) != 0) // Bad Sanity?
                         return -1;
+                    if (BitConverter.ToUInt32(data, 0x06) == PKX.getCHK(data))
+                        return 6;
                     if (BitConverter.ToUInt16(data, 0x58) != 0) // Encrypted?
                     {
-                        PKX.getCHK(data);
                         for (int i = data.Length - 0x10; i < data.Length; i++) // 0x10 of 00's at the end != PK6
                             if (data[i] != 0)
-                                break;
-                        return 6;
+                                return 6;
+                        return -1;
                     }
-                    return -1;
+                    return 6;
             }
             return -1;
         }
-        internal static PKM getPKMfromBytes(byte[] data, string ident = null)
+
+        /// <summary>
+        /// Creates an instance of <see cref="PKM"/> from the given data.
+        /// </summary>
+        /// <param name="data">Raw data of the Pokemon file.</param>
+        /// <param name="ident">Optional identifier for the Pokemon.  Usually the full path of the source file.</param>
+        /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
+        public static PKM getPKMfromBytes(byte[] data, string ident = null)
         {
             checkEncrypted(ref data);
             switch (getPKMDataFormat(data))
@@ -103,11 +116,11 @@ namespace PKHeX
                     pkm.Met_Location = 30001; // Pokétransfer
             }
             if (pkm.Format == 3 && Format > 3)
-                pkm = (pkm as PK3).convertToPK4();
+                pkm = ((PK3) pkm).convertToPK4();
             if (pkm.Format == 4 && Format > 4)
-                pkm = (pkm as PK4).convertToPK5();
+                pkm = ((PK4) pkm).convertToPK5();
             if (pkm.Format == 5 && Format > 5)
-                pkm = (pkm as PK5).convertToPK6();
+                pkm = ((PK5) pkm).convertToPK6();
             comment = $"Converted from pk{currentFormat} to pk{Format}";
             return pkm;
         }

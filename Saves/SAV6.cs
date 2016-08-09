@@ -21,7 +21,7 @@ namespace PKHeX
             getSAVOffsets();
 
             HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
-            Personal = ORAS ? Legal.PersonalAO : Legal.PersonalXY;
+            Personal = ORAS ? PersonalTable.AO : PersonalTable.XY;
             if (!Exportable)
                 resetBoxes();
         }
@@ -102,8 +102,39 @@ namespace PKHeX
                 BitConverter.GetBytes(SaveUtil.ccitt16(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
             }
         }
-        public override bool ChecksumsValid => SaveUtil.verifyG6SAV(Data);
-        public override string ChecksumInfo => SaveUtil.verifyG6CHK(Data);
+        public override bool ChecksumsValid
+        {
+            get
+            {
+                for (int i = 0; i < Blocks.Length; i++)
+                {
+                    byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
+                    if (SaveUtil.ccitt16(array) != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
+                        return false;
+                }
+                return true;
+            }
+        }
+        public override string ChecksumInfo
+        {
+            get
+            {
+                int invalid = 0;
+                string rv = "";
+                for (int i = 0; i < Blocks.Length; i++)
+                {
+                    byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
+                    if (SaveUtil.ccitt16(array) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
+                        continue;
+
+                    invalid++;
+                    rv += $"Invalid: {i.ToString("X2")} @ Region {Blocks[i].Offset.ToString("X5") + Environment.NewLine}";
+                }
+                // Return Outputs
+                rv += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
+                return rv;
+            }   
+        }
         public ulong Secure1
         {
             get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14); }
@@ -170,6 +201,7 @@ namespace PKHeX
                 WondercardFlags = 0x1BC00;
                 SUBE = 0x1D890;
                 SuperTrain = 0x1F200;
+                LinkInfo = 0x1FE00;
                 Box = 0x22600;
                 JPEG = 0x57200;
 
@@ -215,6 +247,7 @@ namespace PKHeX
                 SUBE = 0x1D890;
                 PSSStats = 0x1F400;
                 SuperTrain = 0x20200;
+                LinkInfo = 0x20E00;
                 Contest = 0x23600;
                 SecretBase = 0x23A00;
                 EonTicket = 0x319B8;
@@ -254,6 +287,7 @@ namespace PKHeX
         private int JPEG { get; set; } = int.MinValue;
         private int ItemInfo { get; set; } = int.MinValue;
         private int Daycare2 { get; set; } = int.MinValue;
+        private int LinkInfo { get; set; } = int.MinValue;
 
         // Accessible as SAV6
         public int TrainerCard { get; private set; } = 0x14000;
@@ -615,7 +649,8 @@ namespace PKHeX
         }
         public override int getBoxWallpaper(int box)
         {
-            return 1 + Data[PCBackgrounds + box];
+            int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : 0;
+            return Data[ofs + box];
         }
         public override string getBoxName(int box)
         {
@@ -692,7 +727,7 @@ namespace PKHeX
             Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
 
             // Set Form flags
-            int fc = PKX.Personal[pkm.Species].FormeCount;
+            int fc = Personal[pkm.Species].FormeCount;
             int f = ORAS ? SaveUtil.getDexFormIndexORAS(pkm.Species, fc) : SaveUtil.getDexFormIndexXY(pkm.Species, fc);
             if (f >= 0)
             {
@@ -790,6 +825,25 @@ namespace PKHeX
                     setWC6(new WC6(), i);
             }
         }
+
+        public byte[] LinkBlock
+        {
+            get
+            {
+                if (LinkInfo < 0)
+                    return null;
+                return Data.Skip(LinkInfo).Take(0xC48).ToArray();
+            }
+            set
+            {
+                if (LinkInfo < 0)
+                    return;
+                if (value.Length != 0xC48)
+                    return;
+                value.CopyTo(Data, LinkInfo);
+            }
+        }
+
         private WC6 getWC6(int index)
         {
             if (WondercardData < 0)

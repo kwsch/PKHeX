@@ -19,6 +19,7 @@ namespace PKHeX
         public abstract SaveFile Clone();
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
+        public bool Japanese { protected get; set; }
 
         // General PKM Properties
         protected abstract Type PKMType { get; }
@@ -31,7 +32,7 @@ namespace PKHeX
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
-        public byte[] Write(bool DSV)
+        public virtual byte[] Write(bool DSV)
         {
             setChecksums();
             if (Footer.Length > 0 && DSV)
@@ -44,11 +45,19 @@ namespace PKHeX
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
         public abstract int Generation { get; }
-        public PersonalInfo[] Personal { get; protected set; }
+        public PersonalTable Personal { get; set; }
 
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;
         public bool XY => Version == GameVersion.X || Version == GameVersion.Y;
+        public bool B2W2 => Version == GameVersion.B2W2;
+        public bool BW => Version == GameVersion.BW;
+        public bool HGSS => Version == GameVersion.HGSS;
+        public bool Pt => Version == GameVersion.Pt;
+        public bool DP => Version == GameVersion.DP;
+        public bool E => Version == GameVersion.E;
+        public bool FRLG => Version == GameVersion.FRLG;
+        public bool RS => Version == GameVersion.RS;
 
         public virtual int MaxMoveID => int.MaxValue;
         public virtual int MaxSpeciesID => int.MaxValue;
@@ -68,17 +77,18 @@ namespace PKHeX
         public bool HasOPower => OPower > -1;
         public bool HasJPEG => JPEGData != null;
         public bool HasBox => Box > -1;
-        public bool HasParty => Party > -1;
+        public virtual bool HasParty => Party > -1;
         public bool HasBattleBox => BattleBox > -1;
         public bool HasFused => Fused > -1;
         public bool HasGTS => GTS > -1;
         public bool HasDaycare => Daycare > -1;
-        public bool HasPokeDex => PokeDex > -1;
+        public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => PCLayout > -1;
         public virtual bool HasSUBE => SUBE > -1 && !ORAS;
         public virtual bool HasGeolocation => false;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
         public bool HasEvents => EventFlags != null;
+        public bool HasLink => ORAS && !ORASDEMO || XY;
 
         // Counts
         protected virtual int GiftCountMax { get; } = int.MinValue;
@@ -122,6 +132,8 @@ namespace PKHeX
                 {
                     data[i] = getStoredSlot(getBoxOffset(i/30) + SIZE_STORED*(i%30));
                     data[i].Identifier = $"{getBoxName(i/30)}:{(i%30 + 1).ToString("00")}";
+                    data[i].Box = i/30 + 1;
+                    data[i].Slot = i%30 + 1;
                 }
                 return data;
             }
@@ -144,7 +156,7 @@ namespace PKHeX
             {
                 PKM[] data = new PKM[PartyCount];
                 for (int i = 0; i < data.Length; i++)
-                    data[i] = getPartySlot(Party + SIZE_PARTY * i);
+                    data[i] = getPartySlot(getPartyOffset(i));
                 return data;
             }
             set
@@ -223,7 +235,7 @@ namespace PKHeX
 
                 ushort[] Constants = new ushort[EventConstMax];
                 for (int i = 0; i < Constants.Length; i++)
-                    Constants[i] = BitConverter.ToUInt16(Data, EventConst + i);
+                    Constants[i] = BitConverter.ToUInt16(Data, EventConst + i * 2);
                 return Constants;
             }
             set
@@ -291,7 +303,7 @@ namespace PKHeX
         public abstract uint Money { get; set; }
         public abstract int BoxCount { get; }
         public abstract int PartyCount { get; protected set; }
-        public virtual int CurrentBox { get { return 0; } set { } }
+        public abstract int CurrentBox { get; set; }
         public abstract string Extension { get; }
 
         // Varied Methods
@@ -334,6 +346,11 @@ namespace PKHeX
             if (dex ?? SetUpdateDex)
                 setDex(pkm);
 
+            for (int i = 0; i < 6; i++)
+                if (getPartyOffset(i) == offset)
+                    if (PartyCount <= i)
+                        PartyCount = i + 1;
+
             setData(pkm.EncryptedPartyData, offset);
             Console.WriteLine("");
             Edited = true;
@@ -360,6 +377,11 @@ namespace PKHeX
             if (dex ?? SetUpdateDex)
                 setDex(pkm);
 
+            for (int i = 0; i < 6; i++)
+                if (getPartyOffset(i) == offset)
+                    if (PartyCount <= i)
+                        PartyCount = i + 1;
+
             setData(pkm.EncryptedPartyData, offset);
             Edited = true;
         }
@@ -374,6 +396,20 @@ namespace PKHeX
 
             setData(pkm.EncryptedBoxData, offset);
             Edited = true;
+        }
+        public void deletePartySlot(int slot)
+        {
+            if (PartyCount <= slot) // beyond party range (or empty data already present)
+                return;
+            // Move all party slots down one
+            for (int i = slot + 1; i < 6; i++) // Slide slots down
+            {
+                int slotTo = getPartyOffset(i - 1);
+                int slotFrom = getPartyOffset(i);
+                setData(getData(slotFrom, SIZE_PARTY), slotTo);
+            }
+            setStoredSlot(BlankPKM, getPartyOffset(5), false, false);
+            PartyCount -= 1;
         }
 
         public void sortBoxes(int BoxStart = 0, int BoxEnd = -1)

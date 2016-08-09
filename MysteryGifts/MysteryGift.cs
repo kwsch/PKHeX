@@ -5,6 +5,10 @@ namespace PKHeX
 {
     public abstract class MysteryGift
     {
+        internal static bool getIsMysteryGift(long len)
+        {
+            return new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size }.Contains((int)len);
+        }
         internal static MysteryGift getMysteryGift(byte[] data, string ext)
         {
             if (data.Length == WC6.SizeFull && ext == ".wc6full")
@@ -18,6 +22,23 @@ namespace PKHeX
             if (data.Length == PCD.Size && ext == ".pcd")
                 return new PCD(data);
             return null;
+        }
+        internal static MysteryGift getMysteryGift(byte[] data)
+        {
+            switch (data.Length)
+            {
+                case WC6.SizeFull:
+                case WC6.Size:
+                    return new WC6(data);
+                case PGF.Size:
+                    return new PGF(data);
+                case PGT.Size:
+                    return new PGT(data);
+                case PCD.Size:
+                    return new PCD(data);
+                default:
+                    return null;
+            }
         }
 
         public abstract string Extension { get; }

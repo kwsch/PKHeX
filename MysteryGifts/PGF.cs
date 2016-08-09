@@ -3,7 +3,7 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class PGF : MysteryGift
+    public sealed class PGF : MysteryGift
     {
         internal const int Size = 0xCC;
         public override string Extension => ".pgf";
@@ -22,22 +22,22 @@ namespace PKHeX
         public uint PID { get { return BitConverter.ToUInt32(Data, 0x08); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x08); } }
 
         private byte RIB0 { get { return Data[0x0C]; } set { Data[0x0C] = value; } }
-        public bool RIB0_0 { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Country Ribbon
-        public bool RIB0_1 { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } } // National Ribbon
-        public bool RIB0_2 { get { return (RIB0 & (1 << 2)) == 1 << 2; } set { RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Earth Ribbon
-        public bool RIB0_3 { get { return (RIB0 & (1 << 3)) == 1 << 3; } set { RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } } // World Ribbon
-        public bool RIB0_4 { get { return (RIB0 & (1 << 4)) == 1 << 4; } set { RIB0 = (byte)(RIB0 & ~(1 << 4) | (value ? 1 << 4 : 0)); } } // Classic Ribbon
-        public bool RIB0_5 { get { return (RIB0 & (1 << 5)) == 1 << 5; } set { RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // Premier Ribbon
-        public bool RIB0_6 { get { return (RIB0 & (1 << 6)) == 1 << 6; } set { RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Event Ribbon
-        public bool RIB0_7 { get { return (RIB0 & (1 << 7)) == 1 << 7; } set { RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Birthday Ribbon
+        public bool RibbonCountry { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Country Ribbon
+        public bool RibbonNational { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } } // National Ribbon
+        public bool RibbonEarth { get { return (RIB0 & (1 << 2)) == 1 << 2; } set { RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Earth Ribbon
+        public bool RibbonWorld { get { return (RIB0 & (1 << 3)) == 1 << 3; } set { RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } } // World Ribbon
+        public bool RibbonClassic { get { return (RIB0 & (1 << 4)) == 1 << 4; } set { RIB0 = (byte)(RIB0 & ~(1 << 4) | (value ? 1 << 4 : 0)); } } // Classic Ribbon
+        public bool RibbonPremier { get { return (RIB0 & (1 << 5)) == 1 << 5; } set { RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // Premier Ribbon
+        public bool RibbonEvent { get { return (RIB0 & (1 << 6)) == 1 << 6; } set { RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Event Ribbon
+        public bool RibbonBirthday { get { return (RIB0 & (1 << 7)) == 1 << 7; } set { RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Birthday Ribbon
         private byte RIB1 { get { return Data[0x0D]; } set { Data[0x0D] = value; } }
-        public bool RIB1_0 { get { return (RIB1 & (1 << 0)) == 1 << 0; } set { RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Special Ribbon
-        public bool RIB1_1 { get { return (RIB1 & (1 << 1)) == 1 << 1; } set { RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } } // Souvenir Ribbon
-        public bool RIB1_2 { get { return (RIB1 & (1 << 2)) == 1 << 2; } set { RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Wishing Ribbon
-        public bool RIB1_3 { get { return (RIB1 & (1 << 3)) == 1 << 3; } set { RIB1 = (byte)(RIB1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } } // Battle Champ Ribbon
-        public bool RIB1_4 { get { return (RIB1 & (1 << 4)) == 1 << 4; } set { RIB1 = (byte)(RIB1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } } // Regional Champ Ribbon
-        public bool RIB1_5 { get { return (RIB1 & (1 << 5)) == 1 << 5; } set { RIB1 = (byte)(RIB1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // National Champ Ribbon
-        public bool RIB1_6 { get { return (RIB1 & (1 << 6)) == 1 << 6; } set { RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // World Champ Ribbon
+        public bool RibbonSpecial { get { return (RIB1 & (1 << 0)) == 1 << 0; } set { RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Special Ribbon
+        public bool RibbonSouvenir { get { return (RIB1 & (1 << 1)) == 1 << 1; } set { RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } } // Souvenir Ribbon
+        public bool RibbonWishing { get { return (RIB1 & (1 << 2)) == 1 << 2; } set { RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Wishing Ribbon
+        public bool RibbonChampionBattle { get { return (RIB1 & (1 << 3)) == 1 << 3; } set { RIB1 = (byte)(RIB1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } } // Battle Champ Ribbon
+        public bool RibbonChampionRegional { get { return (RIB1 & (1 << 4)) == 1 << 4; } set { RIB1 = (byte)(RIB1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } } // Regional Champ Ribbon
+        public bool RibbonChampionNational { get { return (RIB1 & (1 << 5)) == 1 << 5; } set { RIB1 = (byte)(RIB1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // National Champ Ribbon
+        public bool RibbonChampionWorld { get { return (RIB1 & (1 << 6)) == 1 << 6; } set { RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // World Champ Ribbon
         public bool RIB1_7 { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Empty
 
         public int Pokéball { get { return Data[0x0E]; } set { Data[0x0E] = (byte)value; } }
@@ -141,7 +141,7 @@ namespace PKHeX
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PKX.Personal[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PKX.Personal[Species].RandomGender),
+                Gender = PersonalTable.B2W2[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PersonalTable.B2W2[Species].RandomGender),
                 AltForm = Form,
                 Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
@@ -150,10 +150,6 @@ namespace PKHeX
                 Move2 = Move2,
                 Move3 = Move3,
                 Move4 = Move4,
-                Move1_PP = PKX.getBasePP(Move1),
-                Move2_PP = PKX.getBasePP(Move2),
-                Move3_PP = PKX.getBasePP(Move3),
-                Move4_PP = PKX.getBasePP(Move4),
                 Met_Location = MetLocation,
                 Met_Day = Day,
                 Met_Month = Month,
@@ -169,26 +165,30 @@ namespace PKHeX
                 EXP = PKX.getEXP(Level, Species),
 
                 // Ribbons
-                RIB7_4 = RIB0_0, // Country Ribbon
-                RIB7_5 = RIB0_1, // National Ribbon
-                RIB7_6 = RIB0_2, // Earth Ribbon
-                RIB7_7 = RIB0_3, // World Ribbon
-                RIB3_2 = RIB0_4, // Classic Ribbon
-                RIB3_3 = RIB0_5, // Premier Ribbon
-                RIB2_3 = RIB0_6, // Event Ribbon
-                RIB2_6 = RIB0_7, // Birthday Ribbon
+                RibbonCountry = RibbonCountry,
+                RibbonNational = RibbonNational,
+                RibbonEarth = RibbonEarth,
+                RibbonWorld = RibbonWorld,
+                RibbonClassic = RibbonClassic,
+                RibbonPremier = RibbonPremier,
+                RibbonEvent = RibbonEvent,
+                RibbonBirthday = RibbonBirthday,
 
-                RIB2_7 = RIB1_0, // Special Ribbon
-                RIB3_0 = RIB1_1, // Souvenir Ribbon
-                RIB3_1 = RIB1_2, // Wishing Ribbon
-                RIB7_1 = RIB1_3, // Battle Champ Ribbon
-                RIB7_2 = RIB1_4, // Regional Champ Ribbon
-                RIB7_3 = RIB1_5, // National Champ Ribbon
-                RIB2_5 = RIB1_6, // World Champ Ribbon
+                RibbonSpecial = RibbonSpecial,
+                RibbonSouvenir = RibbonSouvenir,
+                RibbonWishing = RibbonWishing,
+                RibbonChampionBattle = RibbonChampionBattle,
+                RibbonChampionRegional = RibbonChampionRegional,
+                RibbonChampionNational = RibbonChampionNational,
+                RibbonChampionWorld = RibbonChampionWorld,
 
-                OT_Friendship = PKX.getBaseFriendship(Species),
+                OT_Friendship = PersonalTable.B2W2[Species].BaseFriendship,
                 FatefulEncounter = true,
             };
+            pk.Move1_PP = pk.getMovePP(Move1, 0);
+            pk.Move2_PP = pk.getMovePP(Move2, 0);
+            pk.Move3_PP = pk.getMovePP(Move3, 0);
+            pk.Move4_PP = pk.getMovePP(Move4, 0);
             if (OTGender == 3) // User's
             {
                 pk.TID = SAV.TID;
@@ -228,7 +228,7 @@ namespace PKHeX
                     break;
             }
             pk.HiddenAbility = av == 2;
-            pk.Ability = PKX.Personal[PKX.Personal[Species].FormeIndex(Species, pk.AltForm)].Abilities[av];
+            pk.Ability = PersonalTable.B2W2.getAbilities(Species, pk.AltForm)[av];
 
             if (PID != 0) 
                 pk.PID = PID;

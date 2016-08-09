@@ -118,123 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="alert" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\alert.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="artist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\artist.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="battlechamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\battlechamp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="battlememory" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\battlememory.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="bestfriends" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\bestfriends.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="birthday" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\birthday.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="careless" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\careless.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="classic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\classic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="contestmemory" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\contestmemory.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="country" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\country.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="downcast" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\downcast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="earth" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\earth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="effort" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\effort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="expertbattler" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\expertbattler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="footprint" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\footprint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="gorgeous" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\gorgeous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="gorgeousroyal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\gorgeousroyal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="hoennchamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\hoennchamp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kaloschamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\kaloschamp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="legend" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\legend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="national" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\national.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="nationalchamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\nationalchamp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="premier" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\premier.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="record" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="regionalchamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\regionalchamp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="relax" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\relax.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="royal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\royal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="shock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\shock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sinnohchamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\sinnohchamp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="skillfullbattler" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\skillfullbattler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="smile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\smile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="snooze" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\snooze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="souvenir" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\souvenir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="special" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\special.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="training" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\training.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wishing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\wishing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="world" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\world.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="worldchamp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\worldchamp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_event" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\event.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="badge_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\badges\badge_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -2884,12 +2767,6 @@
   <data name="_666_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\666-15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="battlememory2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\battlememory2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="contestmemory2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\contestmemory2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="locked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\locked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -2952,78 +2829,6 @@
   </data>
   <data name="party" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\party.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp02" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp03" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp04" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp05" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp06" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp07" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp07.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp08" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp08.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp09" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp09.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp11" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp12" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp13" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp14" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp15" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp17" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp18" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp18.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp19" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp19.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp20" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp21" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp21.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp22" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp22.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp23" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp23.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="item_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\item\item_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -4219,27 +4024,6 @@
   <data name="unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ribbon_40" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbon_40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ribbon_41" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbon_41.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ribbon_42" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbon_42.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ribbon_43" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbon_43.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ribbon_44" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbon_44.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ribbon_45" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbon_45.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ribbon_46" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbon_46.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="item_534" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\item\item_534.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -4347,30 +4131,6 @@
   </data>
   <data name="_80_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\80-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp17o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp17o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp18o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp18o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp19o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp19o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp20o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp20o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp21o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp21o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp22o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp22o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp23o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp23o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="box_wp24o" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\box_wp24o.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="_25_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\25-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -5868,5 +5628,761 @@
   </data>
   <data name="showdown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Program\showdown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="personal_b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_b2w2;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_bw;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_dp;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_hgss;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_pt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_e;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_fr;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_lg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_lg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_rs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="text_ItemsG3_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG3_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="ribbonalert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonalert.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonartist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonartist.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonbattlerexpert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonbattlerexpert.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonbattlerskillful" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonbattlerskillful.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonbestfriends" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonbestfriends.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonbirthday" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonbirthday.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribboncareless" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribboncareless.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampionbattle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampionbattle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampiong3hoenn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampiong3hoenn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampiong6hoenn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampiong6hoenn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampionkalos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampionkalos.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampionnational" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampionnational.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampionregional" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampionregional.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampionsinnoh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampionsinnoh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonchampionworld" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampionworld.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonclassic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonclassic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonconteststar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonconteststar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribboncountmemorybattle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribboncountmemorybattle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribboncountmemorybattle2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribboncountmemorybattle2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribboncountmemorycontest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribboncountmemorycontest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribboncountmemorycontest2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribboncountmemorycontest2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribboncountry" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribboncountry.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbondowncast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbondowncast.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonearth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonearth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribboneffort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribboneffort.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonevent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonevent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonfootprint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonfootprint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbongorgeous" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbongorgeous.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbongorgeousroyal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbongorgeousroyal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonlegend" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonlegend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonmasterbeauty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonmasterbeauty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonmastercleverness" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonmastercleverness.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonmastercoolness" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonmastercoolness.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonmastercuteness" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonmastercuteness.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonmastertoughness" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonmastertoughness.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonnational" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonnational.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonpremier" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonpremier.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonrecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonrecord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonrelax" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonrelax.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonroyal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonroyal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonshock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonshock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonsmile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonsmile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonsnooze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonsnooze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonsouvenir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonsouvenir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonspecial" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonspecial.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbontraining" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbontraining.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonwishing" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonwishing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonworld" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonworld.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonability" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonability.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonabilitydouble" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonabilitydouble.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonabilitygreat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonabilitygreat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonabilitymulti" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonabilitymulti.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonabilitypair" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonabilitypair.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonabilityworld" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonabilityworld.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3beauty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3beauty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3beautyhyper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3beautyhyper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3beautymaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3beautymaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3beautysuper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3beautysuper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3cool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3cool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3coolhyper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3coolhyper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3coolmaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3coolmaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3coolsuper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3coolsuper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3cute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3cute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3cutehyper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3cutehyper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3cutemaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3cutemaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3cutesuper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3cutesuper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3smart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3smart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3smarthyper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3smarthyper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3smartmaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3smartmaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3smartsuper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3smartsuper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3tough" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3tough.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3toughhyper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3toughhyper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3toughmaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3toughmaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong3toughsuper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong3toughsuper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4beauty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4beauty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4beautygreat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4beautygreat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4beautymaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4beautymaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4beautyultra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4beautyultra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4cool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4cool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4coolgreat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4coolgreat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4coolmaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4coolmaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4coolultra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4coolultra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4cute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4cute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4cutegreat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4cutegreat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4cutemaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4cutemaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4cuteultra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4cuteultra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4smart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4smart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4smartgreat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4smartgreat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4smartmaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4smartmaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4smartultra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4smartultra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4tough" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4tough.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4toughgreat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4toughgreat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4toughmaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4toughmaster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbong4toughultra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbong4toughultra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonvictory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonvictory.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbonwinning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonwinning.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_rsefrlg_00000_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_rsefrlg_00000_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="box_wp01bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp01bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp01dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp01dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp01e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp01e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp01rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp01rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp01xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp01xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp02bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp02bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp02dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp02dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp02e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp02e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp02rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp02rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp02xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp02xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp03bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp03bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp03dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp03dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp03e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp03e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp03rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp03rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp03xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp03xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp04bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp04bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp04dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp04dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp04e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp04e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp04rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp04rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp04xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp04xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp05bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp05bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp05dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp05dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp05e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp05e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp05rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp05rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp05xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp05xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp06bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp06bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp06dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp06dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp06e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp06e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp06rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp06rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp06xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp06xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp07bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp07bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp07dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp07dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp07e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp07e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp07rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp07rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp07xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp07xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp08bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp08bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp08dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp08dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp08e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp08e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp08rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp08rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp08xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp08xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp09bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp09bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp09dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp09dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp09e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp09e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp09rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp09rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp09xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp09xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp10bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp10bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp10dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp10dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp10e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp10e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp10rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp10rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp10xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp10xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp11bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp11bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp11dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp11dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp11e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp11e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp11rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp11rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp11xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp11xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp12bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp12bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp12dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp12dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp12e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp12e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp12rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp12rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp12xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp12xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp13bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp13dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp13e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\frlg\box_wp13frlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp13rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp13xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp14bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp14dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp14e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\frlg\box_wp14frlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp14rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp14xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp15bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp15dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp15e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\frlg\box_wp15frlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp15rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp15xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp16bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp16dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\e\box_wp16e.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\frlg\box_wp16frlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\rs\box_wp16rs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp16xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp17ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp17b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp17bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp17dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp17hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp17pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp17xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp18ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp18b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp18bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp18dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp18hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp18pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp18xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp19ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp19b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp19bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp19dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp19hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp19pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp19xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp20ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp20b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp20bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp20dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp20hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp20pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp20xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp21ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp21b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp21bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp21dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp21hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp21pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp21xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp22ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp22b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp22bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp22dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp22hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp22pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp22xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp23ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp23b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp23bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp23dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp23hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp23pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp23xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24ao" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\ao\box_wp24ao.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\b2w2\box_wp24b2w2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bw\box_wp24bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\dp\box_wp24dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\hgss\box_wp24hgss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\pt\box_wp24pt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\xy\box_wp24xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="slotDel1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\slotDel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="slotSet1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\slotSet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="slotTrans1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\slotTrans.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="slotView1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\slotView.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="item_tm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\item\item_tm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
