@@ -2105,7 +2105,7 @@ namespace PKHeX
             pkm.setShinyPID();
             TB_PID.Text = pkm.PID.ToString("X8");
 
-            if (pkm.Format >= 6)
+            if (pkm.Format < 6)
                 TB_EC.Text = TB_PID.Text;
 
             getQuickFiller(dragout);
