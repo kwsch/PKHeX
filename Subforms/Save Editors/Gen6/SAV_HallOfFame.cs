@@ -344,7 +344,7 @@ namespace PKHeX
                 {
                     // get language
                     string l = Main.curlanguage;
-                    TB_Nickname.Text = Util.getStringList("species", l)[species];
+                    TB_Nickname.Text = Util.getSpeciesList(l)[species];
                 }
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;

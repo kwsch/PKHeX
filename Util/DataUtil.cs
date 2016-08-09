@@ -6,6 +6,37 @@ namespace PKHeX
 {
     public partial class Util
     {
+
+        /// <summary>
+        /// Gets a list of all Pokémon species names.
+        /// </summary>
+        /// <param name="language">Language of the Pokémon species names to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon species name.</returns>
+        public static string[] getSpeciesList(string language)
+        {
+            return getStringList("species", language);
+        }
+
+        /// <summary>
+        /// Gets a list of all move names.
+        /// </summary>
+        /// <param name="language">Language of the move names to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each move name.</returns>
+        public static string[] getMovesList(string language)
+        {
+            return getStringList("moves", language);
+        }
+
+        /// <summary>
+        /// Gets a list of all Pokémon ability names.
+        /// </summary>
+        /// <param name="language">Language of the Pokémon ability names to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon ability name.</returns>
+        public static string[] getAbilitiesList(string language)
+        {
+            return getStringList("abilities", language);
+        }
+
         public static string[] getStringList(string f)
         {
             object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.

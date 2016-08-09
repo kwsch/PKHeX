@@ -2,7 +2,7 @@
 
 namespace PKHeX
 {
-    internal static class PKMConverter
+    public static class PKMConverter
     {
         internal static int Country = 49;
         internal static int Region = 7;
@@ -19,7 +19,12 @@ namespace PKHeX
             OT_Gender = TRAINERGENDER;
         }
 
-        private static int getPKMDataFormat(byte[] data)
+        /// <summary>
+        /// Gets the generation of the Pokemon data.
+        /// </summary>
+        /// <param name="data">Raw data representing a Pokemon.</param>
+        /// <returns>An integer indicating the generation of the PKM file, or -1 if the data is invalid.</returns>
+        public static int getPKMDataFormat(byte[] data)
         {
             if (!PKX.getIsPKM(data.Length))
                 return -1;
@@ -53,7 +58,14 @@ namespace PKHeX
             }
             return -1;
         }
-        internal static PKM getPKMfromBytes(byte[] data, string ident = null)
+
+        /// <summary>
+        /// Creates an instance of <see cref="PKM"/> from the given data.
+        /// </summary>
+        /// <param name="data">Raw data of the Pokemon file.</param>
+        /// <param name="ident">Optional identifier for the Pokemon.  Usually the full path of the source file.</param>
+        /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
+        public static PKM getPKMfromBytes(byte[] data, string ident = null)
         {
             checkEncrypted(ref data);
             switch (getPKMDataFormat(data))
