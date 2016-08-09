@@ -7,7 +7,7 @@ using PKHeX.Properties;
 
 namespace PKHeX
 {
-    internal static class PKX
+    public static class PKX
     {
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
@@ -25,7 +25,12 @@ namespace PKHeX
         internal const int SIZE_6STORED = 0xE8;
         internal const int SIZE_6BLOCK = 56;
 
-        internal static bool getIsPKM(long len)
+        /// <summary>
+        /// Determines if the given length is valid for a Pokemon file.
+        /// </summary>
+        /// <param name="len">Length of the data to check.</param>
+        /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
+        public static bool getIsPKM(long len)
         {
             return new[] {SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
         }
@@ -36,14 +41,14 @@ namespace PKHeX
         // Relies on Util for some common operations.
 
         // Data
-        internal static uint LCRNG(uint seed)
+        public static uint LCRNG(uint seed)
         {
             const uint a = 0x41C64E6D;
             const uint c = 0x00006073;
 
             return seed * a + c;
         }
-        internal static uint LCRNG(ref uint seed)
+        public static uint LCRNG(ref uint seed)
         {
             const uint a = 0x41C64E6D;
             const uint c = 0x00006073;
@@ -156,34 +161,34 @@ namespace PKHeX
             {1000000, 600000, 1640000, 1059860, 800000, 1250000},
         };
         #endregion
-        
-        internal static readonly string[][] SpeciesLang = 
+
+        public static readonly string[][] SpeciesLang = 
         {
-            Util.getStringList("species", "ja"), // none
-            Util.getStringList("species", "ja"), // 1
-            Util.getStringList("species", "en"), // 2
-            Util.getStringList("species", "fr"), // 3
-            Util.getStringList("species", "it"), // 4
-            Util.getStringList("species", "de"), // 5
-            Util.getStringList("species", "es"), // none
-            Util.getStringList("species", "es"), // 7
-            Util.getStringList("species", "ko"), // 8
+            Util.getSpeciesList("ja"), // none
+            Util.getSpeciesList("ja"), // 1
+            Util.getSpeciesList("en"), // 2
+            Util.getSpeciesList("fr"), // 3
+            Util.getSpeciesList("it"), // 4
+            Util.getSpeciesList("de"), // 5
+            Util.getSpeciesList("es"), // none
+            Util.getSpeciesList("es"), // 7
+            Util.getSpeciesList("ko"), // 8
         };
 
-        internal static string getSpeciesName(int species, int lang)
+        public static string getSpeciesName(int species, int lang)
         {
             try { return SpeciesLang[lang][species]; }
             catch { return ""; }
         }
-        internal static bool getIsNicknamed(int species, string nick)
+        public static bool getIsNicknamed(int species, string nick)
         {
             try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
             catch { return false; }
         }
-        internal static readonly PersonalTable Personal = PersonalTable.AO;
+        public static readonly PersonalTable Personal = PersonalTable.AO;
 
         // Stat Fetching
-        internal static byte[] getRandomEVs()
+        public static byte[] getRandomEVs()
         {
             byte[] evs = new byte[6];
             do {
@@ -197,7 +202,7 @@ namespace PKHeX
             Util.Shuffle(evs);
             return evs;
         }
-        internal static int getLevel(int species, uint exp)
+        public static int getLevel(int species, uint exp)
         {
             int growth = Personal[species].EXPGrowth;
             int tl = 1; // Initial Level. Iterate upwards to find the level
@@ -205,13 +210,13 @@ namespace PKHeX
                 if (tl == 100) return 100;
             return --tl;
         }
-        internal static uint getEXP(int level, int species)
+        public static uint getEXP(int level, int species)
         {
             if (level <= 1) return 0;
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
         }
-        internal static int getGender(string s)
+        public static int getGender(string s)
         {
             if (s == null) 
                 return -1;
@@ -222,7 +227,7 @@ namespace PKHeX
             return 2;
         }
 
-        internal static string[] getCountryRegionText(int country, int region, string lang)
+        public static string[] getCountryRegionText(int country, int region, string lang)
         {
             // Get Language we're fetching for
             int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko"}, lang);
@@ -275,7 +280,7 @@ namespace PKHeX
             return data;
         }
 
-        internal static string getLocation(PKM pk, bool eggmet)
+        public static string getLocation(PKM pk, bool eggmet)
         {
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
             if (pk.Format == 3)
@@ -302,7 +307,7 @@ namespace PKHeX
             }
             return null; // Shouldn't happen.
         }
-        internal static string[] getQRText(PKM pkm)
+        public static string[] getQRText(PKM pkm)
         {
             string[] response = new string[3];
             // Summarize
@@ -332,7 +337,7 @@ namespace PKHeX
         }
 
         // PKX Manipulation
-        internal static readonly byte[][] blockPosition =
+        public static readonly byte[][] blockPosition =
         {
             new byte[] {0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3},
             new byte[] {1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2},
@@ -340,11 +345,11 @@ namespace PKHeX
             new byte[] {3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0},
         };
 
-        internal static readonly byte[] blockPositionInvert =
+        public static readonly byte[] blockPositionInvert =
         {
             0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23
         };
-        internal static byte[] shuffleArray(byte[] data, uint sv)
+        public static byte[] shuffleArray(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 8); // Copy unshuffled bytes
@@ -359,7 +364,7 @@ namespace PKHeX
 
             return sdata;
         }
-        internal static byte[] decryptArray(byte[] ekx)
+        public static byte[] decryptArray(byte[] ekx)
         {
             byte[] pkx = (byte[])ekx.Clone();
 
@@ -383,7 +388,7 @@ namespace PKHeX
 
             return pkx;
         }
-        internal static byte[] encryptArray(byte[] pkx)
+        public static byte[] encryptArray(byte[] pkx)
         {
             // Shuffle
             uint pv = BitConverter.ToUInt32(pkx, 0);
@@ -410,7 +415,7 @@ namespace PKHeX
             // Done
             return ekx;
         }
-        internal static ushort getCHK(byte[] data)
+        public static ushort getCHK(byte[] data)
         {
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
@@ -419,7 +424,7 @@ namespace PKHeX
             return chk;
         }
 
-        internal static uint getRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
+        public static uint getRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
         {
             uint bits = OLDPID & 0x00010001;
             int gt = Personal[species].Gender;
@@ -455,9 +460,9 @@ namespace PKHeX
                     return pid; // PID Passes
             }
         }
-        
+
         // Data Requests
-        internal static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
+        public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
         {
             if (species == 0)
                 return (Image)Resources.ResourceManager.GetObject("_0");
@@ -507,7 +512,7 @@ namespace PKHeX
             }
             return baseImage;
         }
-        internal static Image getSprite(PKM pkm)
+        public static Image getSprite(PKM pkm)
         {
             return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
@@ -524,7 +529,7 @@ namespace PKHeX
                 return s_FontCollection.Families;
             }
         }
-        internal static Font getPKXFont(float size)
+        public static Font getPKXFont(float size)
         {
             return new Font(FontFamilies[0], size);
         }
@@ -541,9 +546,9 @@ namespace PKHeX
             }
             catch { Util.Error("Unable to add ingame font."); }
         }
-         
+
         // Personal.dat
-        internal static string[] getFormList(int species, string[] t, string[] f, string[] g)
+        public static string[] getFormList(int species, string[] t, string[] f, string[] g)
         {
             // Mega List            
             if (Array.IndexOf(new[] 
@@ -866,13 +871,13 @@ namespace PKHeX
         /// <param name="type">Hidden Power Type</param>
         /// <param name="ivs">Order: HP,ATK,DEF,SPEED,SPA,SPD</param>
         /// <returns>Hidden Power Type</returns>
-        internal static int[] setHPIVs(int type, int[] ivs)
+        public static int[] setHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
         }
-        internal static readonly int[,] hpivs = {
+        public static readonly int[,] hpivs = {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
             { 0, 0, 0, 0, 0, 1 }, // Flying
             { 1, 1, 0, 0, 0, 1 }, // Poison
@@ -891,7 +896,7 @@ namespace PKHeX
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
 
-        internal static string TrimFromFFFF(string input)
+        public static string TrimFromFFFF(string input)
         {
             int index = input.IndexOf((char)0xFFFF);
             return index < 0 ? input : input.Substring(0, index);
@@ -899,7 +904,7 @@ namespace PKHeX
 
         // Past Gen Manipulation
 
-        internal static byte[] shuffleArray45(byte[] data, uint sv)
+        public static byte[] shuffleArray45(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 8); // Copy unshuffled bytes
@@ -915,7 +920,7 @@ namespace PKHeX
             return sdata;
         }
 
-        internal static byte[] decryptArray45(byte[] ekm)
+        public static byte[] decryptArray45(byte[] ekm)
         {
             byte[] pkm = (byte[])ekm.Clone();
 
@@ -941,7 +946,7 @@ namespace PKHeX
             return pkm;
         }
 
-        internal static byte[] encryptArray45(byte[] pkm)
+        public static byte[] encryptArray45(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = ((pv & 0x3E000) >> 0xD) % 24;
@@ -968,26 +973,26 @@ namespace PKHeX
             // Done
             return ekm;
         }
-        
-        internal static int getUnownForm(uint PID)
+
+        public static int getUnownForm(uint PID)
         {
             byte[] data = BitConverter.GetBytes(PID);
             return (((data[3] & 3) << 6) + ((data[2] & 3) << 4) + ((data[1] & 3) << 2) + ((data[0] & 3) << 0)) % 28;
         }
 
-        internal static ushort val2charG4(ushort val)
+        public static ushort val2charG4(ushort val)
         {
             int index = Array.IndexOf(G4Values, val);
             return index > -1 ? G4Chars[index] : (ushort)0xFFFF;
         }
 
-        internal static ushort char2valG4(ushort chr)
+        public static ushort char2valG4(ushort chr)
         {
             int index = Array.IndexOf(G4Chars, chr);
             return index > -1 ? G4Values[index] : (ushort)0xFFFF;
         }
 
-        internal static string array2strG4(byte[] strdata)
+        public static string array2strG4(byte[] strdata)
         {
             string s = "";
             for (int i = 0; i < strdata.Length; i += 2)
@@ -1001,7 +1006,7 @@ namespace PKHeX
             return s;
         }
 
-        internal static byte[] str2arrayG4(string str)
+        public static byte[] str2arrayG4(string str)
         {
             byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
             for (int i = 0; i < str.Length; i++)
@@ -1017,16 +1022,16 @@ namespace PKHeX
         }
 
         // Gen3 && 3->4 Conversion has two character tables, and translates to the same character map.
-        internal static ushort getG4Val(byte val, bool jp) { return jp ? G34_4J[val] : G34_4E[val]; }
-        internal static ushort getG3Char(byte val, bool jp) { return val2charG4(getG4Val(val, jp)); }
+        public static ushort getG4Val(byte val, bool jp) { return jp ? G34_4J[val] : G34_4E[val]; }
+        public static ushort getG3Char(byte val, bool jp) { return val2charG4(getG4Val(val, jp)); }
 
-        internal static byte setG3Char(ushort chr, bool jp)
+        public static byte setG3Char(ushort chr, bool jp)
         {
             int index = Array.IndexOf(jp ? G34_4J : G34_4E, char2valG4(chr));
             return (byte)(index > -1 ? index : 0xFF);
         }
 
-        internal static string getG3Str(byte[] strdata, bool jp)
+        public static string getG3Str(byte[] strdata, bool jp)
         {
             return strdata
                 .TakeWhile(val => val < 247) // Take valid values
@@ -1035,7 +1040,7 @@ namespace PKHeX
                 .Aggregate("", (current, chr) => current + (char)chr);
         }
 
-        internal static byte[] setG3Str(string str, bool jp)
+        public static byte[] setG3Str(string str, bool jp)
         {
             byte[] strdata = new byte[str.Length + 1]; // +1 for 0xFF
             for (int i = 0; i < str.Length; i++)
@@ -1051,19 +1056,19 @@ namespace PKHeX
             return strdata;
         }
 
-        internal static int getG4Species(int g3index)
+        public static int getG4Species(int g3index)
         {
             int index = Array.IndexOf(oldindex, g3index);
             return newindex[index > -1 ? index : 0];
         }
 
-        internal static int getG3Species(int g4index)
+        public static int getG3Species(int g4index)
         {
             int index = Array.IndexOf(newindex, g4index);
             return oldindex[index > -1 ? index : 0];
         }
 
-        internal static int getGender(int species, uint PID)
+        public static int getGender(int species, uint PID)
         {
             int genderratio = Personal[species].Gender;
             switch (genderratio)
@@ -1512,7 +1517,7 @@ namespace PKHeX
         };
         #endregion
 
-        internal static readonly byte[][] G4TransferTrashBytes = {
+        public static readonly byte[][] G4TransferTrashBytes = {
             new byte[] { }, // Unused
             new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
             new byte[] { 0x18, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x48, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
@@ -1523,7 +1528,7 @@ namespace PKHeX
             new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
         };
 
-        internal static byte[] decryptArray3(byte[] ekm)
+        public static byte[] decryptArray3(byte[] ekm)
         {
             if (ekm.Length != SIZE_3PARTY && ekm.Length != SIZE_3STORED)
                 return null;
@@ -1537,7 +1542,7 @@ namespace PKHeX
                 ekm[i] ^= xorkey[i % 4];
             return shuffleArray3(ekm, PID%24);
         }
-        internal static byte[] shuffleArray3(byte[] data, uint sv)
+        public static byte[] shuffleArray3(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 32); // Copy unshuffled bytes
@@ -1552,7 +1557,7 @@ namespace PKHeX
 
             return sdata;
         }
-        internal static byte[] encryptArray3(byte[] pkm)
+        public static byte[] encryptArray3(byte[] pkm)
         {
             if (pkm.Length != SIZE_3PARTY && pkm.Length != SIZE_3STORED)
                 return null;
@@ -1568,7 +1573,7 @@ namespace PKHeX
             return ekm;
         }
 
-        internal static ushort getG4Item(ushort g3val)
+        public static ushort getG4Item(ushort g3val)
         {
             ushort[] arr =
             {
