@@ -298,6 +298,7 @@
     </Compile>
     <Compile Include="Misc\ComboItem.cs" />
     <Compile Include="Util\DataUtil.cs" />
+    <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\FormUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\PathUtil.cs" />

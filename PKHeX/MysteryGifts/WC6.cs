@@ -31,18 +31,56 @@ namespace PKHeX
         public override string CardTitle { // Max len 36 char, followed by null terminator
             get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 2, 72)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(36, '\0')).CopyTo(Data, 2); } }
-        private uint Date { 
+        private uint RawDate { 
             get { return BitConverter.ToUInt32(Data, 0x4C); } 
             set { BitConverter.GetBytes(value).CopyTo(Data, 0x4C); } }
-        public uint Year {
-            get { return Date/10000; }
-            set { Date = value*10000 + Date%10000; } }
-        public uint Month {
-            get { return Date%10000/100; }
-            set { Date = Year*10000 + value*100 + Date%100; } }
-        public uint Day {
-            get { return Date%100; }
-            set { Date = Year*10000 + Month*100 + value; } }
+        private uint Year {
+            get { return RawDate/10000; }
+            set { RawDate = value*10000 + RawDate%10000; } }
+        private uint Month {
+            get { return RawDate%10000/100; }
+            set { RawDate = Year*10000 + value*100 + RawDate%100; } }
+        private uint Day {
+            get { return RawDate%100; }
+            set { RawDate = Year*10000 + Month*100 + value; } }
+
+        /// <summary>
+        /// Gets or sets the date of the card.
+        /// </summary>
+        public DateTime? Date
+        {
+            get
+            {
+                // Check to see if date is valid
+                if (!Util.IsDateValid(Year, Month, Day))
+                {
+                    return null;
+                }
+                else
+                {
+                    return new DateTime(2000 + (int)Year, (int)Month, (int)Day);
+                }
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    // Only update the properties if a value is provided.
+                    Year = (ushort)value.Value.Year;
+                    Month = (byte)value.Value.Month;
+                    Day = (byte)value.Value.Day;
+                }
+                else
+                {
+                    // Clear the Met Date.
+                    // If code tries to access MetDate again, null will be returned.
+                    Year = 0;
+                    Month = 0;
+                    Day = 0;
+                }
+            }
+        }
+
         public int CardLocation { get { return Data[0x50]; } set { Data[0x50] = (byte)value; } }
 
         public int CardType { get { return Data[0x51]; } set { Data[0x51] = (byte)value; } }
@@ -281,18 +319,15 @@ namespace PKHeX
             pk.Move3_PP = pk.getMovePP(Move3, 0);
             pk.Move4_PP = pk.getMovePP(Move4, 0);
 
-            if (Day + Month + Year == 0) // No datetime set, typical for wc6full
+            if (Date.HasValue)
             {
-                DateTime dt = DateTime.Now;
-                pk.Met_Day = dt.Day;
-                pk.Met_Month = dt.Month;
-                pk.Met_Year = dt.Year - 2000;
+                pk.MetDate = Date.Value;
             }
             else
             {
-                pk.Met_Day = (int)Day;
-                pk.Met_Month = (int)Month;
-                pk.Met_Year = (int)(Year - 2000);
+                // No datetime set, typical for wc6full
+                // Set it to now, instead of zeroing it out.
+                pk.MetDate = DateTime.Now;
             }
 
             if (pk.CurrentHandler == 0) // OT
@@ -375,9 +410,7 @@ namespace PKHeX
             if (IsEgg)
             {
                 pk.IsEgg = true;
-                pk.Egg_Day = (int) Day;
-                pk.Egg_Month = (int) Month;
-                pk.Egg_Year = (int) Year;
+                pk.EggMetDate = Date;
             }
 
             pk.RefreshChecksum();

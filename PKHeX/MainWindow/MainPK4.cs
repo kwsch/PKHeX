@@ -41,10 +41,14 @@ namespace PKHeX
             CB_EncounterType.SelectedValue = pk4.Gen4 ? pk4.EncounterType : 0;
             CB_Ball.SelectedValue = pk4.Ball;
 
-            if (pk4.Met_Month == 0) { pk4.Met_Month = 1; }
-            if (pk4.Met_Day == 0) { pk4.Met_Day = 1; }
-            try { CAL_MetDate.Value = new DateTime(pk4.Met_Year + 2000, pk4.Met_Month, pk4.Met_Day); }
-            catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
+            if (pk4.MetDate.HasValue)
+            {
+                CAL_MetDate.Value = pk4.MetDate.Value;
+            }
+            else
+            {
+                CAL_MetDate.Value = new DateTime(2000, 1, 1);
+            }
 
             if (pk4.Egg_Location != 0)
             {
@@ -53,8 +57,14 @@ namespace PKHeX
                 GB_EggConditions.Enabled = true;
 
                 CB_EggLocation.SelectedValue = pk4.Egg_Location;
-                try { CAL_EggDate.Value = new DateTime(pk4.Egg_Year + 2000, pk4.Egg_Month, pk4.Egg_Day); }
-                catch { CAL_MetDate.Value = new DateTime(2000, 1, 1); }
+                if (pk4.EggMetDate.HasValue)
+                {
+                    CAL_EggDate.Value = pk4.EggMetDate.Value;
+                }
+                else
+                {
+                    CAL_EggDate.Value = new DateTime(2000, 1, 1);
+                }
             }
             else { CAL_EggDate.Value = new DateTime(2000, 01, 01); CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
 
@@ -194,30 +204,22 @@ namespace PKHeX
             pk4.Language = Util.getIndex(CB_Language);
 
             // Default Dates
-            int egg_year = 2000;
-            int egg_month = 0;
-            int egg_day = 0;
+            DateTime? egg_date = null;
             int egg_location = 0;
             if (CHK_AsEgg.Checked) // If encountered as an egg, load the Egg Met data from fields.
             {
-                egg_year = CAL_EggDate.Value.Year;
-                egg_month = CAL_EggDate.Value.Month;
-                egg_day = CAL_EggDate.Value.Day;
+                egg_date = CAL_EggDate.Value;
                 egg_location = Util.getIndex(CB_EggLocation);
             }
             // Egg Met Data
-            pk4.Egg_Year = egg_year - 2000;
-            pk4.Egg_Month = egg_month;
-            pk4.Egg_Day = egg_day;
+            pk4.EggMetDate = egg_date;
             pk4.Egg_Location = egg_location;
             // Met Data
-            pk4.Met_Year = CAL_MetDate.Value.Year - 2000;
-            pk4.Met_Month = CAL_MetDate.Value.Month;
-            pk4.Met_Day = CAL_MetDate.Value.Day;
+            pk4.MetDate = CAL_MetDate.Value;
             pk4.Met_Location = Util.getIndex(CB_MetLocation);
 
             if (pk4.IsEgg && pk4.Met_Location == 0)    // If still an egg, it has no hatch location/date. Zero it!
-                pk4.Met_Year = pk4.Met_Month = pk4.Met_Day = 0;
+                pk4.MetDate = null;
 
             // Toss in Party Stats
             Array.Resize(ref pk4.Data, pk4.SIZE_PARTY);

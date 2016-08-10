@@ -90,9 +90,48 @@ namespace PKHeX
         // Card Attributes
         public override int Item { get { return BitConverter.ToUInt16(Data, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); } }
         
-        public ushort Year { get { return BitConverter.ToUInt16(Data, 0xAE); } set { BitConverter.GetBytes(value).CopyTo(Data, 0xAE); } }
-        public byte Month { get { return Data[0xAD]; } set { Data[0xAD] = value; } }
-        public byte Day { get { return Data[0xAC]; } set { Data[0xAC] = value; } }
+        private ushort Year { get { return BitConverter.ToUInt16(Data, 0xAE); } set { BitConverter.GetBytes(value).CopyTo(Data, 0xAE); } }
+        private byte Month { get { return Data[0xAD]; } set { Data[0xAD] = value; } }
+        private byte Day { get { return Data[0xAC]; } set { Data[0xAC] = value; } }
+
+        /// <summary>
+        /// Gets or sets the date of the card.
+        /// </summary>
+        public DateTime? Date
+        {
+            get
+            {
+                // Check to see if date is valid
+                if (!Util.IsDateValid(Year, Month, Day))
+                {
+                    return null;
+                }
+                else
+                {
+                    return new DateTime(2000 + Year, Month, Day);
+                }
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    // Only update the properties if a value is provided.
+                    Year = (ushort)value.Value.Year;
+                    Month = (byte)value.Value.Month;
+                    Day = (byte)value.Value.Day;
+                }
+                else
+                {
+                    // Clear the Met Date.
+                    // If code tries to access MetDate again, null will be returned.
+                    Year = 0;
+                    Month = 0;
+                    Day = 0;
+                }
+            }
+        }
+
+
         public override int CardID
         {
             get { return BitConverter.ToUInt16(Data, 0xB0); }
@@ -151,9 +190,7 @@ namespace PKHeX
                 Move3 = Move3,
                 Move4 = Move4,
                 Met_Location = MetLocation,
-                Met_Day = Day,
-                Met_Month = Month,
-                Met_Year = Year - 2000,
+                MetDate = Date,
                 Egg_Location = EggLocation,
                 CNT_Cool = CNT_Cool,
                 CNT_Beauty = CNT_Beauty,
@@ -255,9 +292,7 @@ namespace PKHeX
             if (IsEgg)
             {
                 // pk.IsEgg = true;
-                pk.Egg_Day = Day;
-                pk.Egg_Month = Month;
-                pk.Egg_Year = Year - 2000;
+                pk.EggMetDate = Date;
                 // Force hatch
                 pk.IsEgg = false;
                 pk.Met_Location = 4; // Nuvema Town
