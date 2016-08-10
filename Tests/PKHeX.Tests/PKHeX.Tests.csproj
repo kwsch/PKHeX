@@ -50,6 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="PKM\DateTestPKM.cs" />
+    <Compile Include="PKM\PKMTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DateUtilTests.cs" />
   </ItemGroup>
