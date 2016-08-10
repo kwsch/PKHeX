@@ -181,22 +181,17 @@ namespace PKHeX
             }
 
             // Generate Met Info
-            DateTime dt = DateTime.Now;
             if (IsPokémon)
             {
                 pk4.Met_Location = pk4.Egg_Location + 3000;
                 pk4.Egg_Location = 0;
-                pk4.Met_Day = dt.Day;
-                pk4.Met_Month = dt.Month;
-                pk4.Met_Year = dt.Year - 2000;
+                pk4.MetDate = DateTime.Now;
                 pk4.IsEgg = false;
             }
             else
             {
                 pk4.Egg_Location = pk4.Egg_Location + 3000;
-                pk4.Egg_Day = dt.Day;
-                pk4.Egg_Month = dt.Month;
-                pk4.Egg_Year = dt.Year - 2000;
+                pk4.MetDate = DateTime.Now;
                 pk4.IsEgg = false;
                 // Met Location is modified when transferred to pk5; don't worry about it.
             }

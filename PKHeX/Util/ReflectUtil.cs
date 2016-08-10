@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace PKHeX
 {
-    public static class ReflectUtil
+    public static partial class ReflectUtil
     {
         internal static bool GetValueEquals(object obj, string propertyName, object value)
         {

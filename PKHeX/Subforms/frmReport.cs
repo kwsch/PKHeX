@@ -98,12 +98,12 @@ namespace PKHeX
             public ushort Checksum => pkm.Checksum;
             public int mFriendship => pkm.OT_Friendship;
             public int OT_Affection => pkm.OT_Affection;
-            public int Egg_Year => pkm.Egg_Year;
-            public int Egg_Month => pkm.Egg_Month;
-            public int Egg_Day => pkm.Egg_Day;
-            public int Met_Year => pkm.Met_Year;
-            public int Met_Month => pkm.Met_Month;
-            public int Met_Day => pkm.Met_Day;
+            public int Egg_Year => pkm.EggMetDate.GetValueOrDefault().Year;
+            public int Egg_Month => pkm.EggMetDate.GetValueOrDefault().Month;
+            public int Egg_Day => pkm.EggMetDate.GetValueOrDefault().Day;
+            public int Met_Year => pkm.MetDate.GetValueOrDefault().Year;
+            public int Met_Month => pkm.MetDate.GetValueOrDefault().Month;
+            public int Met_Day => pkm.MetDate.GetValueOrDefault().Day;
             public int Encounter => pkm.EncounterType;
 
             #endregion

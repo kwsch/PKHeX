@@ -125,12 +125,96 @@ namespace PKHeX
         public abstract int OT_Friendship { get; set; }
 
         // Future Properties
-        public virtual int Met_Year { get { return 0; } set { } }
-        public virtual int Met_Month { get { return 0; } set { } }
-        public virtual int Met_Day { get { return 0; } set { } }
-        public virtual int Egg_Year { get { return 0; } set { } }
-        public virtual int Egg_Month { get { return 0; } set { } }
-        public virtual int Egg_Day { get { return 0; } set { } }
+        protected virtual int Met_Year { get { return 0; } set { } }
+        protected virtual int Met_Month { get { return 0; } set { } }
+        protected virtual int Met_Day { get { return 0; } set { } }
+
+        /// <summary>
+        /// The date the Pokémon was met.
+        /// </summary>
+        /// <returns>A DateTime representing the date the Pokémon was met, or null if either the <see cref="PKM"/> format does not support dates or the stored date is invalid.</returns>
+        /// <remarks>Not all <see cref="PKM"/> types support the <see cref="MetDate"/> property.  In these cases, this property will return null.
+        /// 
+        /// If null is assigned to this property, it will be cleared.</remarks>
+        public virtual DateTime? MetDate
+        {
+            get
+            {
+                // Check to see if date is valid
+                if (!Util.IsDateValid(Met_Year, Met_Month, Met_Day))
+                {
+                    return null;
+                }
+                else
+                {
+                    return new DateTime(2000 + Met_Year, Met_Month, Met_Day);
+                }
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    // Only update the properties if a value is provided.
+                    Met_Year = value.Value.Year - 2000;
+                    Met_Month = value.Value.Month;
+                    Met_Day = value.Value.Day;
+                }
+                else
+                {
+                    // Clear the Met Date.
+                    // If code tries to access MetDate again, null will be returned.
+                    Met_Year = 0;
+                    Met_Month = 0;
+                    Met_Day = 0;
+                }
+            }
+        }
+
+        protected virtual int Egg_Year { get { return 0; } set { } }
+        protected virtual int Egg_Month { get { return 0; } set { } }
+        protected virtual int Egg_Day { get { return 0; } set { } }
+
+        /// <summary>
+        /// The date a Pokémon was met as an egg.
+        /// </summary>
+        /// <returns>A DateTime representing the date the Pokémon was met as an egg, or null if the <see cref="PKM"/> format does not support dates.</returns>
+        /// <remarks>Not all <see cref="PKM"/> types support the <see cref="EggMetDate"/> property.  In these cases, this property will return null.
+        /// 
+        /// If null is assigned to this property, it will be cleared.</remarks>
+        public virtual DateTime? EggMetDate
+        {
+            get
+            {
+                // Check to see if date is valid
+                if (!Util.IsDateValid(Egg_Year, Egg_Month, Egg_Day))
+                {
+                    return null;
+                }
+                else
+                {
+                    return new DateTime(2000 + Egg_Year, Egg_Month, Egg_Day);
+                }
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    // Only update the properties if a value is provided.
+                    Egg_Year = value.Value.Year - 2000;
+                    Egg_Month = value.Value.Month;
+                    Egg_Day = value.Value.Day;
+                }
+                else
+                {
+                    // Clear the Met Date.
+                    // If code tries to access MetDate again, null will be returned.
+                    Egg_Year = 0;
+                    Egg_Month = 0;
+                    Egg_Day = 0;
+                }
+            }
+        }
+
         public virtual int OT_Affection { get { return 0; } set { } }
         public virtual int RelearnMove1 { get { return 0; } set { } }
         public virtual int RelearnMove2 { get { return 0; } set { } }

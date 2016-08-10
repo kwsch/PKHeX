@@ -238,9 +238,7 @@ namespace PKHeX
                 PKRS_Strain = PKRS_Strain,
                 PKRS_Days = PKRS_Days,
                 OT_Gender = OT_Gender,
-                Met_Year = moment.Year - 2000,
-                Met_Month = moment.Month,
-                Met_Day = moment.Day,
+                MetDate = moment,
                 Met_Location = 0x37, // Pal Park
 
                 RibbonChampionG3Hoenn = RibbonChampionG3Hoenn,
