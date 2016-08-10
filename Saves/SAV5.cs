@@ -619,7 +619,7 @@ namespace PKHeX
             int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
-            int shiftoff = shiny * 0x54 * 2 + gender * 0x60 + 0x60;
+            int shiftoff = shiny * brSize * 2 + gender * brSize + brSize;
 
             // Set the Species Owned Flag
             Data[PokeDex + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));

@@ -697,12 +697,13 @@ namespace PKHeX
             if (Version == GameVersion.Unknown)
                 return;
 
+            const int brSize = 0x60;
             int bit = pkm.Species - 1;
             int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
             int origin = pkm.Version;
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
-            int shiftoff = shiny * 0x60 * 2 + gender * 0x60 + 0x60;
+            int shiftoff = shiny * brSize * 2 + gender * brSize + brSize;
 
             // Set the [Species/Gender/Shiny] Owned Flag
             Data[PokeDex + shiftoff + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
@@ -715,12 +716,12 @@ namespace PKHeX
 
             // Set the Display flag if none are set
             bool Displayed = false;
-            Displayed |= (Data[PokeDex + 0x60 * 5 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + 0x60 * 6 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + 0x60 * 7 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + 0x60 * 8 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            if (!Displayed) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
-                Data[PokeDex + shiftoff + 0x60 * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+            Displayed |= (Data[PokeDex + brSize * 5 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 6 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 7 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[PokeDex + brSize * 8 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            if (!Displayed) // offset is already biased by brSize, reuse shiftoff but for the display flags.
+                Data[PokeDex + shiftoff + brSize * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
 
             // Set the Language
             if (lang < 0) lang = 1;
