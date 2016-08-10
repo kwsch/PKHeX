@@ -11,13 +11,13 @@ namespace PKHeX
         {
             PropertyInfo pi = obj.GetType().GetProperty(propertyName);
             var v = pi.GetValue(obj, null);
-            var c = Convert.ChangeType(value, pi.PropertyType);
+            var c = ConvertValue(value, pi.PropertyType);
             return v.Equals(c);
         }
         internal static void SetValue(object obj, string propertyName, object value)
         {
             PropertyInfo pi = obj.GetType().GetProperty(propertyName);
-            pi.SetValue(obj, Convert.ChangeType(value, pi.PropertyType), null);
+            pi.SetValue(obj, ConvertValue(value, pi.PropertyType), null);            
         }
         internal static object GetValue(object obj, string propertyName)
         {
@@ -37,6 +37,27 @@ namespace PKHeX
         internal static bool HasProperty(this Type type, string name)
         {
             return type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.Name == name);
+        }
+
+        internal static object ConvertValue(object value, Type type)
+        {
+            if (type == typeof(DateTime?)) // Used for PKM.MetDate and other similar properties
+            {
+                DateTime dateValue;
+                if (DateTime.TryParse(value.ToString(), out dateValue))
+                {
+                    return new DateTime?(dateValue);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                // Convert.ChangeType is suitable for most things
+                return Convert.ChangeType(value, type);
+            }
         }
     }
 }
