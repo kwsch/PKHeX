@@ -220,76 +220,76 @@ L_RibbonChampionNational = 国家冠军
 L_RibbonChampionWorld = 世界冠军
 L_RibbonCountMemoryContest = 以前的华丽大赛缎带
 L_RibbonCountMemoryBattle = 以前的战斗塔缎带
-L_RibbonChampionG6Hoenn = Hoenn Champion (ORAS)
-L_RibbonContestStar = Contest Star
-L_RibbonMasterCoolness = Coolness Master
-L_RibbonMasterBeauty = Beauty Master
-L_RibbonMasterCuteness = Cuteness Master
-L_RibbonMasterCleverness = Cleverness Master
-L_RibbonMasterToughness = Toughness Master
+L_RibbonChampionG6Hoenn = 丰缘冠军 (ORAS)
+L_RibbonContestStar = 华丽大赛之星
+L_RibbonMasterCoolness = 帅气大师
+L_RibbonMasterBeauty = 美丽大师
+L_RibbonMasterCuteness = 可爱大师
+L_RibbonMasterCleverness = 聪明大师
+L_RibbonMasterToughness = 强壮大师
 ----------------Contest/Battle (PAST)------------------
-L_RibbonG3Cool = Cool (G3)
-L_RibbonG3CoolSuper = Cool Super
-L_RibbonG3CoolHyper = Cool Hyper
-L_RibbonG3CoolMaster = Cool Master
-L_RibbonG3Beauty = Beauty (G3)
-L_RibbonG3BeautySuper = Beauty Super
-L_RibbonG3BeautyHyper = Beauty Hyper
-L_RibbonG3BeautyMaster = Beauty Master
-L_RibbonG3Cute = Cute (G3)
-L_RibbonG3CuteSuper = Cute Super
-L_RibbonG3CuteHyper = Cute Hyper
-L_RibbonG3CuteMaster = Cute Master
-L_RibbonG3Smart = Smart (G3)
-L_RibbonG3SmartSuper = Smart Super
-L_RibbonG3SmartHyper = Smart Hyper
-L_RibbonG3SmartMaster = Smart Master
-L_RibbonG3Tough = Tough (G3)
-L_RibbonG3ToughSuper = Tough Super
-L_RibbonG3ToughHyper = Tough Hyper
-L_RibbonG3ToughMaster = Tough Master
-L_RibbonG4Cool = Cool (G4)
-L_RibbonG4CoolGreat = Cool Great
-L_RibbonG4CoolUltra = Cool Ultra
-L_RibbonG4CoolMaster = Cool Master
-L_RibbonG4Beauty = Beauty (G4)
-L_RibbonG4BeautyGreat = Beauty Great
-L_RibbonG4BeautyUltra = Beauty Ultra
-L_RibbonG4BeautyMaster = Beauty Master
-L_RibbonG4Cute = Cute (G4)
-L_RibbonG4CuteGreat = Cute Great
-L_RibbonG4CuteUltra = Cute Ultra
-L_RibbonG4CuteMaster = Cute Master
-L_RibbonG4Smart = Smart (G4)
-L_RibbonG4SmartGreat = Smart Great
-L_RibbonG4SmartUltra = Smart Ultra
-L_RibbonG4SmartMaster = Smart Master
-L_RibbonG4Tough = Tough (G4)
-L_RibbonG4ToughGreat = Tough Great
-L_RibbonG4ToughUltra = Tough Ultra
-L_RibbonG4ToughMaster = Tough Master
-L_RibbonWinning = Winning
-L_RibbonVictory = Victory
-L_RibbonAbility = Ability
-L_RibbonAbilityGreat = Great Ability
-L_RibbonAbilityDouble = Double Ability
-L_RibbonAbilityMulti = Multi Ability
-L_RibbonAbilityPair = Pair Ability
-L_RibbonAbilityWorld = World Ability
-L_RibbonCountG3Cool = Cool
-L_RibbonCountG3Beauty = Beauty
-L_RibbonCountG3Cute = Cute
-L_RibbonCountG3Smart = Smart
-L_RibbonCountG3Tough = Tough
+L_RibbonG3Cool = 帅气 (G3)
+L_RibbonG3CoolSuper = 帅气超级
+L_RibbonG3CoolHyper = 帅气特级
+L_RibbonG3CoolMaster = 帅气大师
+L_RibbonG3Beauty = 美丽 (G3)
+L_RibbonG3BeautySuper = 美丽超级
+L_RibbonG3BeautyHyper = 美丽特级
+L_RibbonG3BeautyMaster = 美丽大师
+L_RibbonG3Cute = 可爱 (G3)
+L_RibbonG3CuteSuper = 可爱超级
+L_RibbonG3CuteHyper = 可爱特级
+L_RibbonG3CuteMaster = 可爱大师
+L_RibbonG3Smart = 聪明 (G3)
+L_RibbonG3SmartSuper = 聪明超级
+L_RibbonG3SmartHyper = 聪明特级
+L_RibbonG3SmartMaster = 聪明大师
+L_RibbonG3Tough = 强壮 (G3)
+L_RibbonG3ToughSuper = 强壮超级
+L_RibbonG3ToughHyper = 强壮特级
+L_RibbonG3ToughMaster = 强壮大师
+L_RibbonG4Cool = 帅气 (G4)
+L_RibbonG4CoolGreat = 帅气超级
+L_RibbonG4CoolUltra = 帅气特级
+L_RibbonG4CoolMaster = 帅气大师
+L_RibbonG4Beauty = 美丽 (G4)
+L_RibbonG4BeautyGreat = 美丽超级
+L_RibbonG4BeautyUltra = 美丽特级
+L_RibbonG4BeautyMaster = 美丽大师
+L_RibbonG4Cute = 可爱 (G4)
+L_RibbonG4CuteGreat = 可爱超级
+L_RibbonG4CuteUltra = 可爱特级
+L_RibbonG4CuteMaster = 可爱大师
+L_RibbonG4Smart = 聪明 (G4)
+L_RibbonG4SmartGreat = 聪明超级
+L_RibbonG4SmartUltra = 聪明特级
+L_RibbonG4SmartMaster = 聪明大师
+L_RibbonG4Tough = 强壮 (G4)
+L_RibbonG4ToughGreat = 强壮超级
+L_RibbonG4ToughUltra = 强壮特级
+L_RibbonG4ToughMaster = 强壮大师
+L_RibbonWinning = 成功
+L_RibbonVictory = 胜利
+L_RibbonAbility = 才能
+L_RibbonAbilityGreat = 超级才能
+L_RibbonAbilityDouble = 双人才能
+L_RibbonAbilityMulti = 配合才能
+L_RibbonAbilityPair = 组队双打才能
+L_RibbonAbilityWorld = 世界才能
+L_RibbonCountG3Cool = 帅气
+L_RibbonCountG3Beauty = 美丽
+L_RibbonCountG3Cute = 可爱
+L_RibbonCountG3Smart = 聪明
+L_RibbonCountG3Tough = 强壮
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
 ! SuperTrainingEditor = Medal Editor
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
-B_All = Give All
-B_None = Remove All
-B_Cancel = Cancel
-B_Save = Save
+B_All = 给与所有
+B_None = 移除所有
+B_Cancel = 取消
+B_Save = 保存
 ------------------Super Training-----------------------
 L_SuperTrain1_HP = 等级1: HP
 L_SuperTrain1_ATK = 等级1: 攻击
@@ -310,18 +310,18 @@ L_SuperTrain3_SPA = 等级3: 特攻
 L_SuperTrain3_SPD = 等级3: 特防
 L_SuperTrain3_SPE = 等级3: 速度
 CHK_Secret = 秘密训练开启
-L_SuperTrain4_1 = 等级4: Troubles
-L_SuperTrain5_1 = 等级5: 草
-L_SuperTrain5_2 = 等级5: 火
-L_SuperTrain5_3 = 等级5: 水
+L_SuperTrain4_1 = 等级4: 困境
+L_SuperTrain5_1 = 等级5: 草之石
+L_SuperTrain5_2 = 等级5: 火之石
+L_SuperTrain5_3 = 等级5: 水之石
 L_SuperTrain5_4 = 等级5: 逃跑
-L_SuperTrain6_1 = 等级6: Second
-L_SuperTrain6_2 = 等级6: Quick
-L_SuperTrain6_3 = 等级6: Long
-L_SuperTrain7_1 = 等级7: Scatter
-L_SuperTrain7_2 = 等级7: Barrage
-L_SuperTrain7_3 = 等级7: Hydreigon
-L_SuperTrain8_1 = 等级8: X/Y
+L_SuperTrain6_1 = 等级6: 反击战
+L_SuperTrain6_2 = 等级6: 速攻战
+L_SuperTrain6_3 = 等级6: 远距离
+L_SuperTrain7_1 = 等级7: 逆袭粉蛹
+L_SuperTrain7_2 = 等级7: 小气球
+L_SuperTrain7_3 = 等级7: 三头龙
+L_SuperTrain8_1 = 等级8: 最强之战
 ---
 L_Bag = 上一次使用物品:
 L_Hits = 剩余点数:
@@ -333,31 +333,468 @@ L_Hits = 剩余点数:
 ---------------------Bottom UI-------------------------
 BTN_Cancel = 取消
 BTN_Save = 保存
-L_Handler = 現在のハンドラ
-L_Fullness = 豊かさ
-L_Enjoyment = 楽しみ
+L_Handler = 现在的主人：
 -
-Tab_OTMemory = との思い出 OT
-L_OT_Friendship = なつき度
-L_OT_Affection = あい
-L_OT_TextLine = メモリタイプ
-L_OT_Quality = 強度
-L_OT_Feeling = 気持ち
-Tab_CTMemory = との思い出 notOT
-L_CT_Friendship = なつき度
-L_cT_Affection = あい
-L_CT_TextLine = メモリタイプ
-L_CT_Quality = 強度
-L_CT_Feeling = 気持ち
-Tab_Residence = 住まい
-GB_Residence = ポケモンに住んでいます
-L_Geo0 = 以前的地理位置0
-L_Geo1 = 以前的地理位置1
-L_Geo2 = 以前的地理位置2
-L_Geo3 = 以前的地理位置3
-L_Geo4 = 以前的地理位置4
-L_Region = 地域
-L_Country = 国
+Tab_OTMemory = 与原主人的记忆：
+L_OT_Friendship = 友好度：
+L_OT_Affection = 喜爱度:
+Tab_CTMemory = 与现主人的记忆：
+L_CT_Friendship = 友好度：
+L_cT_Affection = 喜爱度：
+Tab_Residence = 居住地
 --
-L_Arguments = 禁止使用 ; 左はありませんでした ; OT ; 前回のゲーム ; との思い出 ; 宝可梦 ; 地区 ; 道具 ; わざ ; 地点 ;
+L_Country = 国家
+L_Region = 地区
+L_Geo0 = 现居地:
+L_Geo1 = 故居1:
+L_Geo2 = 故居2:
+L_Geo3 = 故居3:
+L_Geo4 = 故居4:
+--
+L_Arguments = 关闭 ; 从未离开 ; 原主人 ; 前作 ; 回忆 ; 宝可梦 ; 地区 ; 道具 ; 移动 ; 位置 ;
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! f2_Text = Special Characters
+- Change stuff below this line, not above.
+-------------------------------------------------------
+-- No Elements to rename here.
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_BerryField = Berry Field Viewer
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Berry = 树果:
+L_Field = 田:
+L_Unfinished = 未完成: 需要更多研究
+L_u1 = 1
+L_u2 = 2
+L_u3 = 3
+L_u4 = 4
+L_u5 = 5
+L_u6 = 6
+L_u7 = 7
+B_Cancel = 取消
+B_Save = 保存
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
+! SAV_BoxLayout = Box Layout Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Unlocked = 已解锁:
+B_Cancel = 取消
+B_Save = 保存
+L_Flags = 解锁的背景标识:
+L_BG = 背景:
+L_BoxName = 箱子名:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_EventFlagsORAS = Event Flag Editor (ORAS)
+- Change stuff below this line, not above.
+------------------------------------------------------
+L_Ash = 火山灰:
+GB_Misc = 杂项
+flag_0288 = 配合雕像
+flag_0287 = 轮盘雕像
+flag_0286 = 三重雕像
+flag_0293 = 超级配合 已解锁
+flag_0292 = 超级轮盘 已解锁
+flag_0291 = 超级三重 已解锁
+flag_0290 = 超级双人 已解锁
+flag_0289 = 超级单人 已解锁
+flag_0285 = 双人雕像
+flag_0284 = 单人雕像
+GB_Rebattle = 重新战斗
+flag_2835 = (AS) 拉帝欧斯 已捕获
+flag_0420 = (AS) 拉帝欧斯 已打败
+L_SkyTower = *天空塔
+flag_2834 = (OR) 拉帝亚斯 已捕获
+flag_0419 = (OR) 拉帝亚斯 已打败
+flag_2828 = (OR) 龙卷云 已捕获
+flag_2830 = (OR) 雷希拉姆 已捕获
+flag_0182 = (OR) 雷希拉姆 已打败
+flag_2820 = (OR) 帕路奇犽 已捕获
+flag_2839 = (OR) 固拉多 已捕获
+flag_0648 = (OR) 固拉多 已打败
+flag_2815 = (OR) 凤王 已捕获
+flag_0208 = (OR) 凤王 已打败
+flag_2824 = 克雷色利亚 已捕获
+flag_0172 = 克雷色利亚 已打败
+flag_2821 = 席多蓝恩 已捕获
+flag_0260 = 席多蓝恩 已打败
+flag_2842 = 代欧奇希斯 已捕获
+flag_0945 = 代欧奇希斯 已打败
+flag_2838 = 雷吉斯奇鲁 已捕获
+flag_0958 = 雷吉斯奇鲁 已打败
+flag_2836 = 雷吉洛克 已捕获
+flag_0956 = 雷吉洛克 已打败
+flag_2837 = 雷吉艾斯 已捕获
+flag_0957 = 雷吉艾斯 已打败
+flag_2813 = 水君 已捕获
+flag_0175 = 水君 已打败
+flag_2811 = 雷公 已捕获
+flag_0173 = 雷公 已打败
+flag_2812 = 炎帝 已捕获
+flag_0174 = 炎帝 已打败
+flag_2832 = 土地云 已捕获
+flag_2829 = (AS) 雷电云 已捕获
+flag_2822 = 雷吉奇卡斯 已捕获
+flag_0252 = 雷吉奇卡斯 已打败
+flag_2827 = 毕力吉翁 已捕获
+flag_0178 = 毕力吉翁 已打败
+flag_2826 = 代拉基翁 已捕获
+flag_0177 = 代拉基翁 已打败
+flag_2823 = 骑拉帝纳 已捕获
+flag_2819 = (AS) 帝牙卢卡 已捕获
+flag_2833 = 酋雷姆 已捕获
+flag_0184 = 酋雷姆 已打败
+flag_2816 = 由克希 已捕获
+flag_0179 = 由克希 已打败
+flag_2817 = 艾姆利多 已捕获
+flag_0180 = 艾姆利多 已打败
+flag_2825 = 勾帕路翁 已捕获
+flag_0176 = 勾帕路翁 已打败
+flag_2814 = (AS) 洛奇亚 已捕获
+flag_0209 = (AS) 洛奇亚 已打败
+flag_2818 = 亚克诺姆 已捕获
+flag_0181 = 亚克诺姆 已打败
+flag_2831 = (AS) 捷克罗姆 已捕获
+flag_0183 = (AS) 捷克罗姆 已打败
+flag_2840 = (AS) 盖欧卡 已捕获
+flag_0647 = (AS) 盖欧卡 已打败
+GB_Researcher = 标识区别研究器
+L_UnSet = 未设置
+L_IsSet = 已设置
+B_LoadNew = 读新数据
+B_LoadOld = 读老数据
+GB_FlagStatus = 检查标识状态
+L_Flag = 标识:
+CHK_CustomFlag = 状态:
+B_Save = 保存
+B_Cancel = 取消
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_EventFlagsXY = Event Flag Editor (XY)
+- Change stuff below this line, not above.
+-------------------------------------------------------
+flag_2546 = Pokédex Obtained
+GB_Misc = Misc
+flag_0289 = Multi Statuette
+flag_0288 = Rotation Statuette
+flag_0287 = Triples Statuette
+flag_0294 = Super Multi Unlocked
+flag_0293 = Super Rotation Unlocked
+flag_0292 = Super Triples Unlocked
+flag_0291 = Super Doubles Unlocked
+flag_0290 = Super Singles Unlocked
+flag_0675 = 50: Beat Chatelaine
+flag_0286 = Doubles Statuette
+flag_0285 = Singles Statuette
+GB_Rebattle = Rebattle
+flag_0114 = Zygarde Captured
+flag_0790 = Zygarde Defeated
+flag_0115 = Mewtwo Captured
+flag_0963 = Mewtwo Defeated
+GB_Researcher = FlagDiff Researcher
+L_UnSet = UnSet
+L_IsSet = IsSet
+B_LoadNew = Load New
+B_LoadOld = Load Old
+flag_2239 = 2239
+flag_2238 = 2238
+flag_2237 = 2237
+B_Save = Save
+flag_0005 = Flag5
+flag_0004 = Flag4
+flag_0003 = Flag3
+flag_0002 = Flag2
+flag_0001 = Flag1
+GB_FlagStatus = Check Flag Status
+L_Flag = Flag:
+CHK_CustomFlag = Status:
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexORAS = Pokédex Editor (ORAS)
+- Change stuff below this line, not above.
+------------------------------------------------------
+L_goto = goto:
+GB_Owned = Owned
+CHK_P1 = Obtained
+CHK_P2 = Male
+CHK_P3 = Female
+CHK_P4 = Shiny Male
+CHK_P5 = Shiny Female
+GB_Encountered = Encountered
+CHK_P6 = Male
+CHK_P7 = Female
+CHK_P8 = Shiny Male
+CHK_P9 = Shiny Female
+L_DexNav = DexNav Lv:
+GB_Language = Languages
+CHK_L1 = Japanese
+CHK_L2 = English
+CHK_L3 = French
+CHK_L4 = Italian
+CHK_L5 = German
+CHK_L6 = Spanish
+CHK_L7 = Korean
+B_Modify = Modify...
+B_GiveAll = Check All
+L_Spinda = Spinda:
+B_Save = Save
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexXY = Pokédex Editor (XY)
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_goto = goto:
+GB_Owned = Owned
+CHK_F1 = Foreign (Pre)
+CHK_P1 = Native (Kalos)
+GB_Encountered = Encountered
+CHK_P2 = Male
+CHK_P3 = Female
+CHK_P4 = Shiny Male
+CHK_P5 = Shiny Female
+GB_Displayed = Displayed
+CHK_P6 = Male
+CHK_P7 = Female
+CHK_P8 = Shiny Male
+CHK_P9 = Shiny Female
+GB_Language = Languages
+CHK_L1 = Japanese
+CHK_L2 = English
+CHK_L3 = French
+CHK_L4 = Italian
+CHK_L5 = German
+CHK_L6 = Spanish
+CHK_L7 = Korean
+B_Modify = Modify...
+B_GiveAll = Check All
+L_Spinda = Spinda:
+B_Save = Save
+B_Cancel = Cancel
+! End
+-------------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_HallOfFame = Hall of Fame Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+B_CopyText = Copy txt
+L_Level = Level:
+L_Shiny = Shiny:
+Label_Form = Form:
+B_Cancel = Cancel
+Label_MetDate = Date:
+L_Victory = Victory Number:
+GB_OT = Trainer Information
+Label_OT = OT:
+Label_SID = SID:
+Label_TID = TID:
+Label_HeldItem = Held Item:
+GB_CurrentMoves = Current Moves
+Label_EncryptionConstant = Encryption Constant:
+CHK_Nicknamed = Nickname:
+Label_Species = Species:
+L_PartyNum = Party Index:
+B_Close = Save
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Inventory = Inventory Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Pouch = Pouches
+B_DisplayBerries = Berry
+B_DisplayMedicine = Medicine
+B_DisplayTMHM = TM/HM
+B_DisplayKeyItems = Key Items
+B_DisplayItems = Items
+B_Save = Save
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_OPower = O-Power Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Regular = Regular
+B_MaxP = Give All
+L_1 = Hatching:
+L_2 = Bargain:
+L_3 = ?Prize:
+L_4 = EXP:
+L_5 = Capture:
+L_6 = ?Encounter
+L_7 = ?Stealth:
+L_8 = HP Restore:
+L_9 = ?PP:
+L_10 = ?Befriend:
+L_11 = ?Attack:
+L_12 = ?Defense:
+L_13 = ?Sp. Atk:
+L_14 = ?Sp. Def:
+L_15 = ?Speed:
+L_16 = ?Critical Hit:
+L_17 = ?Accuracy:
+GB_Event = Event
+CHK_1 = ?Bargain MAX
+CHK_2 = ?EXP MAX
+CHK_3 = ?Prize MAX
+CHK_4 = ?Hatch MAX
+CHK_5 = ?Capture MAX
+CHK_6 = ?Restore MAX
+CHK_7 = ?Befriend MAX
+CHK_8 = ?Unused
+B_AllMax = Give All
+B_Save = Save
+B_Cancel = Cancel
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Pokepuff = ‎Poké Puffs Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Count = CNT:
+B_None = None
+B_Sort = Sort
+B_All = All
+B_Cancel = Cancel
+B_Save = Save
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_SecretBase = Secret Base Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_FlagsCaptured = Flags Captured: 
+B_FSave = <
+B_GiveDecor = Give All Decorations
+B_Cancel = Cancel
+B_Save = Save
+B_FDisplay = >
+L_Favorite = Favorites:
+--
+f_MAIN = Main
+L_TrName = Trainer Name:
+L_BaseLocation = Secret Base Location: 
+L_Happy = Happy:
+L_Encourage = Encourage:
+L_Blackboard = Blackboard:
+L_Confetti = Confetti:
+L_TeamName = Team Name:
+L_TeamSlogan = Team Slogan:
+--
+GB_Object = Object Layout
+L_Index = Index:
+L_Decoration = Decoration:
+L_Rotation = Rotation Val:
+L_X = X Coordinate:
+L_Y = Y Coordinate:
+--
+f_PKM = Trainer Pokémon
+GB_PKM = PKM
+L_Participant = Participant:
+L_EncryptionConstant = ENC:
+L_IVs = IVs
+L_EVs = EVs
+L_HP = HP
+L_ATK = ATK
+L_DEF = DEF
+L_SpA = SpA
+L_SpD = SpD
+L_SPE = SPE
+L_PKFriendship = Friendship:
+L_PPUps = PPUps
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Trainer = Trainer Data Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+Tab_Multiplayer = Multiplayer
+L_MultiplayerSprite = Multiplayer Sprite:
+L_Style = Style:
+Tab_BadgeMap = Badges/Map
+GB_Map = Map Position
+L_CurrentMap = Current Map:
+L_X = X Coordinate:
+L_Z = Z Coordinate:
+L_Y = Y Coordinate:
+L_Offset = (offset)
+Tab_Appearance = Current Appearance (X/Y)
+L_Outfit = Outfit Vals
+B_GiveAccessories = Give All Accessories
+L_Dress = Dress:
+L_Accessory = Accessory:
+L_Bag = Bag:
+L_Socks = Socks:
+L_Pants = Pants:
+L_Shirt = Shirt:
+L_Hat = Hat:
+L_FacialHair = Facial Hair:
+L_Hairstyle = Hairstyle:
+L_HairColor = Hair Color:
+L_SkinColor = Skin Color:
+GB_MaisonCurrent = Maison Streaks (Current)
+L_SuperC = Super
+L_NormalC = Normal
+L_MultiC = Multi:
+L_RotationC = Rotation:
+L_TriplesC = Triples:
+L_DoublesC = Doubles:
+L_SinglesC = Singles:
+GB_MaisonBest = Maison Streaks (Best)
+L_SuperB = Super
+L_NormalB = Normal
+L_MultiB = Multi:
+L_RotationB = Rotation:
+L_TriplesB = Triples:
+L_DoublesB = Doubles:
+L_SinglesB = Singles:
+B_Save = Save
+L_Stats = Stats
+B_Cancel = Cancel
+Tab_Overview = Overview
+L_Seconds = Sec:
+L_Minutes = Min:
+L_Hours = Hrs:
+L_Language = Language:
+L_PM = PokéMiles:
+L_Region = Region:
+L_BP = BP:
+L_Country = Country:
+B_MaxCash = +
+L_3DSReg = 3DS Region:
+L_Money = $:
+L_SID = SID:
+L_TID = TID:
+L_TrainerName = Trainer Name:
+L_Value = Value
+GB_Sayings = Saved Sayings
+L_Saying1 = 1:
+L_Saying2 = 2:
+L_Saying3 = 3:
+L_Saying4 = 4:
+L_Saying5 = 5:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Wondercard = Wonder Card I/O
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Details = Details:
+L_Received = Received List:
+B_Import = Import
+B_Output = Export
+B_Cancel = Cancel
+B_Save = Save
 ! End
