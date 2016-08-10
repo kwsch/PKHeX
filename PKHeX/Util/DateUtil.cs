@@ -28,7 +28,7 @@ namespace PKHeX
         /// <returns>A boolean indicating whether or not the date is valid.</returns>
         public static bool IsDateValid(uint year, uint month, uint day)
         {
-            return !(year < 0 || year > DateTime.MaxValue.Year || month < 1 || month > 12 || day < 1 || day > DateTime.DaysInMonth((int)year, (int)month));
+            return year < int.MaxValue && month < int.MaxValue && day < int.MaxValue && IsDateValid((int)year, (int)month, (int)day);
         }
     }
 }
