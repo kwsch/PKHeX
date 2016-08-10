@@ -155,7 +155,7 @@ namespace PKHeX
                 if (value.HasValue)
                 {
                     // Only update the properties if a value is provided.
-                    Met_Year = value.Value.Year;
+                    Met_Year = value.Value.Year - 2000;
                     Met_Month = value.Value.Month;
                     Met_Day = value.Value.Day;
                 }
@@ -200,7 +200,7 @@ namespace PKHeX
                 if (value.HasValue)
                 {
                     // Only update the properties if a value is provided.
-                    Egg_Year = value.Value.Year;
+                    Egg_Year = value.Value.Year - 2000;
                     Egg_Month = value.Value.Month;
                     Egg_Day = value.Value.Day;
                 }

@@ -116,7 +116,7 @@ namespace PKHeX
                 if (value.HasValue)
                 {
                     // Only update the properties if a value is provided.
-                    Year = (ushort)value.Value.Year;
+                    Year = (ushort)(value.Value.Year - 2000);
                     Month = (byte)value.Value.Month;
                     Day = (byte)value.Value.Day;
                 }
