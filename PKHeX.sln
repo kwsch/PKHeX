@@ -1,7 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX", "PKHeX.csproj", "{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX", "PKHeX\PKHeX.csproj", "{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.Tests", "Tests\PKHeX.Tests\PKHeX.Tests.csproj", "{8E2499BC-C11A-4809-8737-66D35A625425}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +19,15 @@ Global
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Debug|x86.Build.0 = Debug|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Release|x86.ActiveCfg = Release|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Release|x86.Build.0 = Release|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|x86.ActiveCfg = Debug|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|x86.Build.0 = Debug|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.ActiveCfg = Release|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E2499BC-C11A-4809-8737-66D35A625425} = {7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}
 	EndGlobalSection
 EndGlobal
