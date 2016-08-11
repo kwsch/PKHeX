@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -177,7 +176,18 @@ namespace PKHeX
 
         #region Path Variables
 
-        public static string WorkingDirectory => ApplicationDeployment.IsNetworkDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
+        public static string WorkingDirectory
+        {
+            get
+            {
+                // This is how we'd do it with ClickOnce deployment (after importing System.Deployment)
+                // return ApplicationDeployment.IsNetworkDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
+
+                // However, Mono and Wine don't implement this, so we're going to leave it like this, until ClickOnce deployment is a public feature.
+                return Environment.CurrentDirectory;
+            }
+        }
+            
         public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
         private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
