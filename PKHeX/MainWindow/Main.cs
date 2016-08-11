@@ -739,6 +739,7 @@ namespace PKHeX
                     sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
                 }
             }
+            loadSAV(sav, path);
         }
         private void loadSAV(SaveFile sav, string path)
         {
