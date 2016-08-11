@@ -141,7 +141,7 @@ namespace PKHeX
             get
             {
                 // Check to see if date is valid
-                if (!Util.IsDateValid(Met_Year, Met_Month, Met_Day))
+                if (!Util.IsDateValid(2000 + Met_Year, Met_Month, Met_Day))
                 {
                     return null;
                 }
@@ -186,7 +186,7 @@ namespace PKHeX
             get
             {
                 // Check to see if date is valid
-                if (!Util.IsDateValid(Egg_Year, Egg_Month, Egg_Day))
+                if (!Util.IsDateValid(2000 + Egg_Year, Egg_Month, Egg_Day))
                 {
                     return null;
                 }

@@ -103,6 +103,13 @@ namespace PKHeX.Tests.Util
 
         [TestMethod]
         [TestCategory(DateUtilCategory)]
+        public void FailsWithZeroYear()
+        {
+            Assert.IsFalse(PKHeX.Util.IsDateValid(0, 1, 1));
+        }
+
+        [TestMethod]
+        [TestCategory(DateUtilCategory)]
         public void TestUIntOverload()
         {
             Assert.IsTrue(PKHeX.Util.IsDateValid((uint)2000, (uint)1, (uint)1), "Failed 1/1/2000");

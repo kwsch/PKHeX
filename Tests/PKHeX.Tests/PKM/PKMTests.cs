@@ -22,13 +22,19 @@ namespace PKHeX.Tests.PKM
             pk.MetDay = 0;
             pk.MetMonth = 0;
             pk.MetYear = 0;
-            Assert.IsFalse(pk.MetDate.HasValue, "MetDate should be null when date components are all 0.");
+            Assert.IsFalse(pk.MetDate.HasValue, "MetDate should be null when date components are all 0.");           
 
             // Ensure MetDate gives correct date
             pk.MetDay = 10;
             pk.MetMonth = 8;
             pk.MetYear = 16;
             Assert.AreEqual(new DateTime(2016, 8, 10).Date, pk.MetDate.Value.Date, "Met date does not return correct date.");
+
+            // Ensure 0 year is calculated correctly
+            pk.MetDay = 1;
+            pk.MetMonth = 1;
+            pk.MetYear = 0;
+            Assert.AreEqual(2000, pk.MetDate.Value.Date.Year, "Year is not calculated correctly.");
         }
 
         [TestMethod]
