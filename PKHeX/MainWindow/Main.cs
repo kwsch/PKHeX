@@ -118,7 +118,7 @@ namespace PKHeX
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
-                    GB_SAVtools.Visible = false;
+                    loadSAV(SAV, null);
             }
 
             // Splash Screen closes on its own.
@@ -176,18 +176,7 @@ namespace PKHeX
 
         #region Path Variables
 
-        public static string WorkingDirectory
-        {
-            get
-            {
-                // This is how we'd do it with ClickOnce deployment (after importing System.Deployment)
-                // return ApplicationDeployment.IsNetworkDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
-
-                // However, Mono and Wine don't implement this, so we're going to leave it like this, until ClickOnce deployment is a public feature.
-                return Environment.CurrentDirectory;
-            }
-        }
-            
+        public static string WorkingDirectory => Environment.CurrentDirectory;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
         private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
@@ -274,7 +263,7 @@ namespace PKHeX
         }
         private void mainMenuExit(object sender, EventArgs e)
         {
-            if (ModifierKeys == (Keys.Control | Keys.Q)) // Hotkey Triggered
+            if (ModifierKeys == Keys.Control) // Hotkey Triggered
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?")) return;
             Close();
         }
@@ -750,53 +739,75 @@ namespace PKHeX
                     sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
                 }
             }
+        }
+        private void loadSAV(SaveFile sav, string path)
+        {
             PKM pk = preparePKM();
             SAV = sav;
 
-            SAV.FilePath = Path.GetDirectoryName(path);
-            SAV.FileName = Path.GetExtension(path) == ".bak"
-                ? Path.GetFileName(path)?.Split(new[] {" ["}, StringSplitOptions.None)[0]
-                : Path.GetFileName(path);
-            L_Save.Text = $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
-            
+            if (path != null) // Actual save file
+            {
+                SAV.FilePath = Path.GetDirectoryName(path);
+                SAV.FileName = Path.GetExtension(path) == ".bak"
+                    ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0]
+                    : Path.GetFileName(path);
+                L_Save.Text = $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
+
+                // If backup folder exists, save a backup.
+                string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
+                if (SAV.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
+                    File.WriteAllBytes(backupName, SAV.BAK);
+
+                GB_SAVtools.Visible = true;
+            }
+            else // Blank save file
+            {
+                SAV.FilePath = null;
+                SAV.FileName = "Blank Save File";
+                L_Save.Text = $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
+
+                GB_SAVtools.Visible = false;
+            }
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
 
             setBoxNames();   // Display the Box Names
             if (SAV.HasBox)
             {
-                int startBox = SAV.CurrentBox; // FF if BattleBox
+                int startBox = path == null ? 0 : SAV.CurrentBox; // FF if BattleBox
                 if (startBox > SAV.BoxCount - 1) { tabBoxMulti.SelectedIndex = 1; CB_BoxSelect.SelectedIndex = 0; }
                 else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
             }
             setPKXBoxes();   // Reload all of the PKX Windows
 
             // Hide content if not present in game.
-            GB_SAVtools.Visible = true;
             GB_SUBE.Visible = SAV.HasSUBE;
             PB_Locked.Visible = SAV.HasBattleBox && SAV.BattleBoxLocked;
 
             PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.HasBox;
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.HasBox;
 
-            PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.HasBattleBox;
-            GB_Daycare.Visible = SAV.HasDaycare;
-            GB_Fused.Visible = SAV.HasFused;
-            GB_GTS.Visible = SAV.HasGTS;
-            B_OpenSecretBase.Visible = SAV.HasSecretBase;
-            B_OpenPokepuffs.Visible = SAV.HasPuff;
-            B_OUTPasserby.Visible = SAV.HasPSS;
-            B_OpenBoxLayout.Visible = SAV.HasBoxWallpapers;
-            B_OpenWondercards.Visible = SAV.HasWondercards;
-            B_OpenSuperTraining.Visible = SAV.HasSuperTrain;
-            B_OpenHallofFame.Visible = SAV.HasHoF;
-            B_OpenOPowers.Visible = SAV.HasOPower;
-            B_OpenPokedex.Visible = SAV.HasPokeDex;
-            B_OpenBerryField.Visible = SAV.HasBerryField;
-            B_Pokeblocks.Visible = SAV.HasPokeBlock;
-            B_JPEG.Visible = SAV.HasJPEG;
-            B_OpenEventFlags.Visible = SAV.HasEvents;
-            B_LinkInfo.Visible = SAV.HasLink;
-            B_CGearSkin.Visible = SAV.Generation == 5;
+            if (GB_SAVtools.Visible)
+            {
+                PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.HasBattleBox;
+                GB_Daycare.Visible = SAV.HasDaycare;
+                GB_Fused.Visible = SAV.HasFused;
+                GB_GTS.Visible = SAV.HasGTS;
+                B_OpenSecretBase.Visible = SAV.HasSecretBase;
+                B_OpenPokepuffs.Visible = SAV.HasPuff;
+                B_OUTPasserby.Visible = SAV.HasPSS;
+                B_OpenBoxLayout.Visible = SAV.HasBoxWallpapers;
+                B_OpenWondercards.Visible = SAV.HasWondercards;
+                B_OpenSuperTraining.Visible = SAV.HasSuperTrain;
+                B_OpenHallofFame.Visible = SAV.HasHoF;
+                B_OpenOPowers.Visible = SAV.HasOPower;
+                B_OpenPokedex.Visible = SAV.HasPokeDex;
+                B_OpenBerryField.Visible = SAV.HasBerryField;
+                B_Pokeblocks.Visible = SAV.HasPokeBlock;
+                B_JPEG.Visible = SAV.HasJPEG;
+                B_OpenEventFlags.Visible = SAV.HasEvents;
+                B_LinkInfo.Visible = SAV.HasLink;
+                B_CGearSkin.Visible = SAV.Generation == 5;
+            }
             
             // Generational Interface
             byte[] extraBytes = new byte[1];
@@ -810,7 +821,7 @@ namespace PKHeX
 
             PB_MarkPentagon.Visible = SAV.Generation == 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation == 6;
-            TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Generation == 6;
+            TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation == 6;
 
             CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
             Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
@@ -875,11 +886,6 @@ namespace PKHeX
 
             // Refresh PK#->PK6 conversion info
             PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
-
-            // If backup folder exists, save a backup.
-            string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
-            if (SAV.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
-                File.WriteAllBytes(backupName, SAV.BAK);
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
