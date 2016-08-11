@@ -102,7 +102,7 @@ namespace PKHeX
             get
             {
                 // Check to see if date is valid
-                if (!Util.IsDateValid(Year, Month, Day))
+                if (!Util.IsDateValid(2000 + Year, Month, Day))
                 {
                     return null;
                 }
