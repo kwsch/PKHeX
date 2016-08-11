@@ -300,11 +300,11 @@ namespace PKHeX
             if (z != null)
             { Util.CenterToForm(z, this); z.BringToFront(); return; }
 
-            if (Directory.Exists("db"))
+            if (Directory.Exists(DatabasePath))
                 new SAV_Database(this).Show();
             else
-                Util.Alert("PKHeX's database was not found",
-                    "Please dump all boxes from a save file, then ensure the 'db' folder exists.");
+                Util.Alert("PKHeX's database was not found.",
+                    $"Please dump all boxes from a save file, then ensure the '{DatabasePath}' folder exists.");
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
