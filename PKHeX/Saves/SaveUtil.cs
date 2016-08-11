@@ -204,6 +204,10 @@ namespace PKHeX
             if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "TWLSaveTool")))
                 possiblePaths.AddRange(getSavesFromFolder(path, false));
 
+            // FBI
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "fbi", "save")))
+                possiblePaths.AddRange(getSavesFromFolder(path, false));
+
             // CyberGadget (Cache)
             string pathCache = Util.GetCacheFolder();
             if (Directory.Exists(pathCache))
