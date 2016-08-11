@@ -399,6 +399,7 @@ namespace PKHeX
             386, // Deoxys
             487, // Giratina
             492, // Shaymin
+            720, // Hoopa
         };
         internal static readonly int[] BreedMaleOnly =
         {
