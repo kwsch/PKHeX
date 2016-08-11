@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -39,25 +40,18 @@ namespace PKHeX
             return type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.Name == name);
         }
 
-        internal static object ConvertValue(object value, Type type)
+        private static object ConvertValue(object value, Type type)
         {
             if (type == typeof(DateTime?)) // Used for PKM.MetDate and other similar properties
             {
                 DateTime dateValue;
-                if (DateTime.TryParse(value.ToString(), out dateValue))
-                {
-                    return new DateTime?(dateValue);
-                }
-                else
-                {
-                    return null;
-                }
+                return DateTime.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateValue) 
+                    ? new DateTime?(dateValue) 
+                    : null;
             }
-            else
-            {
-                // Convert.ChangeType is suitable for most things
-                return Convert.ChangeType(value, type);
-            }
+
+            // Convert.ChangeType is suitable for most things
+            return Convert.ChangeType(value, type);
         }
     }
 }
