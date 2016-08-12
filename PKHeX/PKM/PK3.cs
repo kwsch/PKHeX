@@ -64,10 +64,10 @@ namespace PKHeX
 
         public override uint EXP { get { return BitConverter.ToUInt32(Data, 0x24); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x24); } }
         private byte PPUps { get { return Data[0x28]; } set { Data[0x28] = value; } }
-        public override int Move1_PPUps { get { return (PPUps >> 0) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 0)) | value); } }
-        public override int Move2_PPUps { get { return (PPUps >> 2) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 2)) | value); } }
-        public override int Move3_PPUps { get { return (PPUps >> 4) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 4)) | value); } }
-        public override int Move4_PPUps { get { return (PPUps >> 6) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 6)) | value); } }
+        public override int Move1_PPUps { get { return (PPUps >> 0) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 0)) | value << 0); } }
+        public override int Move2_PPUps { get { return (PPUps >> 2) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 2)) | value << 2); } }
+        public override int Move3_PPUps { get { return (PPUps >> 4) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 4)) | value << 4); } }
+        public override int Move4_PPUps { get { return (PPUps >> 6) & 3; } set { PPUps = (byte)((PPUps & ~(3 << 6)) | value << 6); } }
         public override int OT_Friendship { get { return Data[0x29]; } set { Data[0x29] = (byte)value; } }
         // Unused 0x2A 0x2B
         #endregion
