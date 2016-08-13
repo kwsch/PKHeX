@@ -52,21 +52,17 @@ namespace PKHeX
             get
             {
                 // Check to see if date is valid
-                if (!Util.IsDateValid(2000 + Year, Month, Day))
-                {
+                if (!Util.IsDateValid(Year, Month, Day))
                     return null;
-                }
-                else
-                {
-                    return new DateTime(2000 + (int)Year, (int)Month, (int)Day);
-                }
+
+                return new DateTime((int)Year, (int)Month, (int)Day);
             }
             set
             {
                 if (value.HasValue)
                 {
                     // Only update the properties if a value is provided.
-                    Year = (ushort)(value.Value.Year - 2000);
+                    Year = (ushort)value.Value.Year;
                     Month = (byte)value.Value.Month;
                     Day = (byte)value.Value.Day;
                 }
