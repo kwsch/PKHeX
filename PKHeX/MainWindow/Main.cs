@@ -896,10 +896,18 @@ namespace PKHeX
             List<WC6> wc6db = new List<WC6>();
             byte[] wc6bin = Properties.Resources.wc6;
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
-                wc6db.Add(new WC6(wc6bin.Skip(i).Take(WC6.Size).ToArray()));
+            {
+                byte[] data = new byte[WC6.Size];
+                Array.Copy(wc6bin, i, data, 0, WC6.Size);
+                wc6db.Add(new WC6(data));
+            }
             byte[] wc6full = Properties.Resources.wc6full;
             for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
-                wc6db.Add(new WC6(wc6full.Skip(i).Take(WC6.SizeFull).ToArray()));
+            {
+                byte[] data = new byte[WC6.SizeFull];
+                Array.Copy(wc6bin, i, data, 0, WC6.SizeFull);
+                wc6db.Add(new WC6(data));
+            }
 
             if (Directory.Exists(WC6DatabasePath))
                 wc6db.AddRange(from file in Directory.GetFiles(WC6DatabasePath, "*", SearchOption.AllDirectories)
@@ -2191,6 +2199,8 @@ namespace PKHeX
         }
         private void validateComboBox2(object sender, EventArgs e)
         {
+            if (!fieldsInitialized)
+                return;
             validateComboBox(sender, e);
             if (sender == CB_Ability)
                 TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
@@ -2201,6 +2211,8 @@ namespace PKHeX
         }
         private void validateMove(object sender, EventArgs e)
         {
+            if (!fieldsInitialized)
+                return;
             validateComboBox(sender);
             if (!fieldsLoaded)
                 return;
