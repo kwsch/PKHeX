@@ -222,10 +222,6 @@ namespace PKHeX
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Move1_PP = getMovePP(Move1, Move1_PPUps),
-                Move2_PP = getMovePP(Move2, Move2_PPUps),
-                Move3_PP = getMovePP(Move3, Move3_PPUps),
-                Move4_PP = getMovePP(Move4, Move4_PPUps),
                 IV_HP = IV_HP,
                 IV_ATK = IV_ATK,
                 IV_DEF = IV_DEF,
@@ -254,6 +250,12 @@ namespace PKHeX
                 RibbonEarth = RibbonEarth,
                 RibbonWorld = RibbonWorld,
             };
+
+            // Fix PP
+            pk4.Move1_PP = pk4.getMovePP(pk4.Move1, pk4.Move1_PPUps);
+            pk4.Move2_PP = pk4.getMovePP(pk4.Move2, pk4.Move2_PPUps);
+            pk4.Move3_PP = pk4.getMovePP(pk4.Move3, pk4.Move3_PPUps);
+            pk4.Move4_PP = pk4.getMovePP(pk4.Move4, pk4.Move4_PPUps);
 
             if (Met_Location == 0xFF) // Fateful
                 pk4.FatefulEncounter = Met_Location == 0xFF || FatefulEncounter; // obedience flag
