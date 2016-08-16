@@ -48,8 +48,8 @@ namespace PKHeX
         public PersonalTable Personal { get; set; }
 
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
-        public bool ORAS => Version == GameVersion.OR || Version == GameVersion.AS;
-        public bool XY => Version == GameVersion.X || Version == GameVersion.Y;
+        public bool ORAS => Data.Length == SaveUtil.SIZE_G6ORAS;
+        public bool XY => Data.Length == SaveUtil.SIZE_G6XY;
         public bool B2W2 => Version == GameVersion.B2W2;
         public bool BW => Version == GameVersion.BW;
         public bool HGSS => Version == GameVersion.HGSS;
