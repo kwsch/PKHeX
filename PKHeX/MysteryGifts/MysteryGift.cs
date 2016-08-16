@@ -45,6 +45,13 @@ namespace PKHeX
         public virtual byte[] Data { get; set; }
         public abstract PKM convertToPKM(SaveFile SAV);
 
+        public MysteryGift Clone()
+        {
+            byte[] data = (byte[])Data.Clone();
+            return getMysteryGift(data);
+        }
+        public string Type => GetType().Name;
+
         // Properties
         public abstract bool GiftUsed { get; set; }
         public abstract string CardTitle { get; set; }
@@ -57,6 +64,6 @@ namespace PKHeX
         public virtual int Quantity { get { return 1; } set { } }
         public bool Empty => Data.SequenceEqual(new byte[Data.Length]);
 
-        public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID.ToString("0000")}" : "N/A") + $" - {CardTitle.Trim()}" + Environment.NewLine;
+        public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID.ToString("0000")}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}" + Environment.NewLine;
     }
 }
