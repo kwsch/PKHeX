@@ -160,7 +160,6 @@ namespace PKHeX
             pk5.SID = Util.ToInt32(TB_SID.Text);
             pk5.EXP = Util.ToUInt32(TB_EXP.Text);
             pk5.PID = Util.getHEXval(TB_PID.Text);
-            pk5.Ability = (byte)Util.getIndex(DEV_Ability);
             pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
 
             pk5.Nature = (byte)Util.getIndex(CB_Nature);
