@@ -160,7 +160,6 @@ namespace PKHeX
             pk5.SID = Util.ToInt32(TB_SID.Text);
             pk5.EXP = Util.ToUInt32(TB_EXP.Text);
             pk5.PID = Util.getHEXval(TB_PID.Text);
-            pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
 
             pk5.Nature = (byte)Util.getIndex(CB_Nature);
             pk5.FatefulEncounter = CHK_Fateful.Checked;
@@ -248,6 +247,11 @@ namespace PKHeX
             {
                 pk5.Ability = (byte)Util.getIndex(DEV_Ability);
                 pk5.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
+            }
+            else
+            {
+                pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+                pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
             }
 
             // Fix Moves if a slot is empty 
