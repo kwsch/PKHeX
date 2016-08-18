@@ -269,7 +269,7 @@ namespace PKHeX
                 else if (PtHGSS)
                 {
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes(0xBBA).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
+                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
                 }
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
@@ -303,7 +303,7 @@ namespace PKHeX
                 else if (PtHGSS)
                 {
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes(0xBBA).CopyTo(Data, 0x80); // Faraway Place (for DP display)
+                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x80); // Faraway Place (for DP display)
                 }
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
