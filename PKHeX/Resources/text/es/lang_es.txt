@@ -703,7 +703,7 @@ L_Y = Coord. Y:
 --
 f_PKM = Entrenador Pokémon
 GB_PKM = PKM
-L_Participant = Participant:e
+L_Participant = Participante:
 L_EncryptionConstant = ENC:
 L_IVs = IVs
 L_EVs = EVs
