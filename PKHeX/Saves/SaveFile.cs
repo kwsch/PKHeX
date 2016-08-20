@@ -450,7 +450,10 @@ namespace PKHeX
             // split up data to individual pkm
             byte[][] pkdata = new byte[data.Length/SIZE_STORED][];
             for (int i = 0; i < data.Length; i += SIZE_STORED)
-                pkdata[i/SIZE_STORED] = data.Skip(i).Take(SIZE_STORED).ToArray();
+            {
+                pkdata[i/SIZE_STORED] = new byte[SIZE_STORED];
+                Array.Copy(data, i, pkdata[i/SIZE_STORED], 0, SIZE_STORED);
+            }
             
             PKM[] pkms = BoxData;
             for (int i = 0; i < pkms.Length; i++)
@@ -465,7 +468,10 @@ namespace PKHeX
 
             byte[][] pkdata = new byte[data.Length / SIZE_STORED][];
             for (int i = 0; i < data.Length; i += SIZE_STORED)
-                pkdata[i/SIZE_STORED] = data.Skip(i).Take(SIZE_STORED).ToArray();
+            {
+                pkdata[i/SIZE_STORED] = new byte[SIZE_STORED];
+                Array.Copy(data, i, pkdata[i/SIZE_STORED], 0, SIZE_STORED);
+            }
 
             PKM[] pkms = BoxData;
             for (int i = 0; i < 30; i++)
@@ -479,7 +485,12 @@ namespace PKHeX
         
         public byte[] getData(int Offset, int Length)
         {
-            return Data.Skip(Offset).Take(Length).ToArray();
+            if (Offset + Length > Data.Length)
+                return null;
+
+            byte[] data = new byte[Length];
+            Array.Copy(Data, Offset, data, 0, Length);
+            return data;
         }
         public void setData(byte[] input, int Offset)
         {

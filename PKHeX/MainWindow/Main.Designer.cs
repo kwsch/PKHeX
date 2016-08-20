@@ -341,14 +341,10 @@
             this.B_VerifyCHK = new System.Windows.Forms.Button();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.FLP_SAVtools = new System.Windows.Forms.FlowLayoutPanel();
-            this.B_OpenPokepuffs = new System.Windows.Forms.Button();
-            this.B_OpenItemPouch = new System.Windows.Forms.Button();
             this.B_OpenTrainerInfo = new System.Windows.Forms.Button();
-            this.B_OUTPasserby = new System.Windows.Forms.Button();
+            this.B_OpenItemPouch = new System.Windows.Forms.Button();
             this.B_OpenBoxLayout = new System.Windows.Forms.Button();
             this.B_OpenWondercards = new System.Windows.Forms.Button();
-            this.B_OpenSuperTraining = new System.Windows.Forms.Button();
-            this.B_OpenHallofFame = new System.Windows.Forms.Button();
             this.B_OpenOPowers = new System.Windows.Forms.Button();
             this.B_OpenEventFlags = new System.Windows.Forms.Button();
             this.B_OpenPokedex = new System.Windows.Forms.Button();
@@ -356,6 +352,10 @@
             this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.B_Pokeblocks = new System.Windows.Forms.Button();
             this.B_LinkInfo = new System.Windows.Forms.Button();
+            this.B_OpenPokepuffs = new System.Windows.Forms.Button();
+            this.B_OpenSuperTraining = new System.Windows.Forms.Button();
+            this.B_OpenHallofFame = new System.Windows.Forms.Button();
+            this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_CGearSkin = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -4363,36 +4363,36 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_SAVtools.AutoScroll = true;
-            this.FLP_SAVtools.Controls.Add(this.B_OpenPokepuffs);
-            this.FLP_SAVtools.Controls.Add(this.B_OpenItemPouch);
             this.FLP_SAVtools.Controls.Add(this.B_OpenTrainerInfo);
-            this.FLP_SAVtools.Controls.Add(this.B_OUTPasserby);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenItemPouch);
             this.FLP_SAVtools.Controls.Add(this.B_OpenBoxLayout);
             this.FLP_SAVtools.Controls.Add(this.B_OpenWondercards);
-            this.FLP_SAVtools.Controls.Add(this.B_OpenSuperTraining);
-            this.FLP_SAVtools.Controls.Add(this.B_OpenHallofFame);
             this.FLP_SAVtools.Controls.Add(this.B_OpenOPowers);
             this.FLP_SAVtools.Controls.Add(this.B_OpenEventFlags);
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokedex);
-            this.FLP_SAVtools.Controls.Add(this.B_OpenBerryField);
-            this.FLP_SAVtools.Controls.Add(this.B_OpenSecretBase);
-            this.FLP_SAVtools.Controls.Add(this.B_Pokeblocks);
             this.FLP_SAVtools.Controls.Add(this.B_LinkInfo);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenBerryField);
+            this.FLP_SAVtools.Controls.Add(this.B_Pokeblocks);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenSecretBase);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenPokepuffs);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenSuperTraining);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenHallofFame);
+            this.FLP_SAVtools.Controls.Add(this.B_OUTPasserby);
             this.FLP_SAVtools.Controls.Add(this.B_CGearSkin);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
             this.FLP_SAVtools.TabIndex = 101;
             // 
-            // B_OpenPokepuffs
+            // B_OpenTrainerInfo
             // 
-            this.B_OpenPokepuffs.Location = new System.Drawing.Point(3, 3);
-            this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
-            this.B_OpenPokepuffs.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenPokepuffs.TabIndex = 1;
-            this.B_OpenPokepuffs.Text = "‎Poké Puffs";
-            this.B_OpenPokepuffs.UseVisualStyleBackColor = true;
-            this.B_OpenPokepuffs.Click += new System.EventHandler(this.B_OpenPokepuffs_Click);
+            this.B_OpenTrainerInfo.Location = new System.Drawing.Point(3, 3);
+            this.B_OpenTrainerInfo.Name = "B_OpenTrainerInfo";
+            this.B_OpenTrainerInfo.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenTrainerInfo.TabIndex = 3;
+            this.B_OpenTrainerInfo.Text = "Trainer Info";
+            this.B_OpenTrainerInfo.UseVisualStyleBackColor = true;
+            this.B_OpenTrainerInfo.Click += new System.EventHandler(this.B_OpenTrainerInfo_Click);
             // 
             // B_OpenItemPouch
             // 
@@ -4404,29 +4404,9 @@
             this.B_OpenItemPouch.UseVisualStyleBackColor = true;
             this.B_OpenItemPouch.Click += new System.EventHandler(this.B_OpenItemPouch_Click);
             // 
-            // B_OpenTrainerInfo
-            // 
-            this.B_OpenTrainerInfo.Location = new System.Drawing.Point(189, 3);
-            this.B_OpenTrainerInfo.Name = "B_OpenTrainerInfo";
-            this.B_OpenTrainerInfo.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenTrainerInfo.TabIndex = 3;
-            this.B_OpenTrainerInfo.Text = "Trainer Info";
-            this.B_OpenTrainerInfo.UseVisualStyleBackColor = true;
-            this.B_OpenTrainerInfo.Click += new System.EventHandler(this.B_OpenTrainerInfo_Click);
-            // 
-            // B_OUTPasserby
-            // 
-            this.B_OUTPasserby.Location = new System.Drawing.Point(3, 32);
-            this.B_OUTPasserby.Name = "B_OUTPasserby";
-            this.B_OUTPasserby.Size = new System.Drawing.Size(87, 23);
-            this.B_OUTPasserby.TabIndex = 4;
-            this.B_OUTPasserby.Text = "Passerby";
-            this.B_OUTPasserby.UseVisualStyleBackColor = true;
-            this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
-            // 
             // B_OpenBoxLayout
             // 
-            this.B_OpenBoxLayout.Location = new System.Drawing.Point(96, 32);
+            this.B_OpenBoxLayout.Location = new System.Drawing.Point(189, 3);
             this.B_OpenBoxLayout.Name = "B_OpenBoxLayout";
             this.B_OpenBoxLayout.Size = new System.Drawing.Size(87, 23);
             this.B_OpenBoxLayout.TabIndex = 5;
@@ -4436,7 +4416,7 @@
             // 
             // B_OpenWondercards
             // 
-            this.B_OpenWondercards.Location = new System.Drawing.Point(189, 32);
+            this.B_OpenWondercards.Location = new System.Drawing.Point(3, 32);
             this.B_OpenWondercards.Name = "B_OpenWondercards";
             this.B_OpenWondercards.Size = new System.Drawing.Size(87, 23);
             this.B_OpenWondercards.TabIndex = 6;
@@ -4444,30 +4424,9 @@
             this.B_OpenWondercards.UseVisualStyleBackColor = true;
             this.B_OpenWondercards.Click += new System.EventHandler(this.B_OpenWondercards_Click);
             // 
-            // B_OpenSuperTraining
-            // 
-            this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 61);
-            this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
-            this.B_OpenSuperTraining.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenSuperTraining.TabIndex = 7;
-            this.B_OpenSuperTraining.Text = "Super Train";
-            this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
-            this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);
-            // 
-            // B_OpenHallofFame
-            // 
-            this.B_OpenHallofFame.Location = new System.Drawing.Point(96, 61);
-            this.B_OpenHallofFame.Name = "B_OpenHallofFame";
-            this.B_OpenHallofFame.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenHallofFame.TabIndex = 8;
-            this.B_OpenHallofFame.Text = "Hall of Fame";
-            this.B_OpenHallofFame.UseVisualStyleBackColor = true;
-            this.B_OpenHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
-            // 
             // B_OpenOPowers
             // 
-            this.B_OpenOPowers.Location = new System.Drawing.Point(189, 61);
+            this.B_OpenOPowers.Location = new System.Drawing.Point(96, 32);
             this.B_OpenOPowers.Name = "B_OpenOPowers";
             this.B_OpenOPowers.Size = new System.Drawing.Size(87, 23);
             this.B_OpenOPowers.TabIndex = 9;
@@ -4477,7 +4436,7 @@
             // 
             // B_OpenEventFlags
             // 
-            this.B_OpenEventFlags.Location = new System.Drawing.Point(3, 90);
+            this.B_OpenEventFlags.Location = new System.Drawing.Point(189, 32);
             this.B_OpenEventFlags.Name = "B_OpenEventFlags";
             this.B_OpenEventFlags.Size = new System.Drawing.Size(87, 23);
             this.B_OpenEventFlags.TabIndex = 10;
@@ -4487,7 +4446,7 @@
             // 
             // B_OpenPokedex
             // 
-            this.B_OpenPokedex.Location = new System.Drawing.Point(96, 90);
+            this.B_OpenPokedex.Location = new System.Drawing.Point(3, 61);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
             this.B_OpenPokedex.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokedex.TabIndex = 11;
@@ -4497,7 +4456,7 @@
             // 
             // B_OpenBerryField
             // 
-            this.B_OpenBerryField.Location = new System.Drawing.Point(189, 90);
+            this.B_OpenBerryField.Location = new System.Drawing.Point(189, 61);
             this.B_OpenBerryField.Name = "B_OpenBerryField";
             this.B_OpenBerryField.Size = new System.Drawing.Size(87, 23);
             this.B_OpenBerryField.TabIndex = 12;
@@ -4507,7 +4466,7 @@
             // 
             // B_OpenSecretBase
             // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(3, 119);
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(96, 90);
             this.B_OpenSecretBase.Name = "B_OpenSecretBase";
             this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
             this.B_OpenSecretBase.TabIndex = 21;
@@ -4518,7 +4477,7 @@
             // 
             // B_Pokeblocks
             // 
-            this.B_Pokeblocks.Location = new System.Drawing.Point(96, 119);
+            this.B_Pokeblocks.Location = new System.Drawing.Point(3, 90);
             this.B_Pokeblocks.Name = "B_Pokeblocks";
             this.B_Pokeblocks.Size = new System.Drawing.Size(87, 23);
             this.B_Pokeblocks.TabIndex = 22;
@@ -4529,13 +4488,54 @@
             // 
             // B_LinkInfo
             // 
-            this.B_LinkInfo.Location = new System.Drawing.Point(189, 119);
+            this.B_LinkInfo.Location = new System.Drawing.Point(96, 61);
             this.B_LinkInfo.Name = "B_LinkInfo";
             this.B_LinkInfo.Size = new System.Drawing.Size(87, 23);
             this.B_LinkInfo.TabIndex = 23;
             this.B_LinkInfo.Text = "Link Data";
             this.B_LinkInfo.UseVisualStyleBackColor = true;
             this.B_LinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
+            // 
+            // B_OpenPokepuffs
+            // 
+            this.B_OpenPokepuffs.Location = new System.Drawing.Point(189, 90);
+            this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
+            this.B_OpenPokepuffs.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenPokepuffs.TabIndex = 1;
+            this.B_OpenPokepuffs.Text = "‎Poké Puffs";
+            this.B_OpenPokepuffs.UseVisualStyleBackColor = true;
+            this.B_OpenPokepuffs.Click += new System.EventHandler(this.B_OpenPokepuffs_Click);
+            // 
+            // B_OpenSuperTraining
+            // 
+            this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 119);
+            this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
+            this.B_OpenSuperTraining.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSuperTraining.TabIndex = 7;
+            this.B_OpenSuperTraining.Text = "Super Train";
+            this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
+            this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);
+            // 
+            // B_OpenHallofFame
+            // 
+            this.B_OpenHallofFame.Location = new System.Drawing.Point(96, 119);
+            this.B_OpenHallofFame.Name = "B_OpenHallofFame";
+            this.B_OpenHallofFame.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenHallofFame.TabIndex = 8;
+            this.B_OpenHallofFame.Text = "Hall of Fame";
+            this.B_OpenHallofFame.UseVisualStyleBackColor = true;
+            this.B_OpenHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
+            // 
+            // B_OUTPasserby
+            // 
+            this.B_OUTPasserby.Location = new System.Drawing.Point(189, 119);
+            this.B_OUTPasserby.Name = "B_OUTPasserby";
+            this.B_OUTPasserby.Size = new System.Drawing.Size(87, 23);
+            this.B_OUTPasserby.TabIndex = 4;
+            this.B_OUTPasserby.Text = "Passerby";
+            this.B_OUTPasserby.UseVisualStyleBackColor = true;
+            this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
             // 
             // B_CGearSkin
             // 

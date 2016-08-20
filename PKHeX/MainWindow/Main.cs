@@ -787,7 +787,7 @@ namespace PKHeX
             PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.HasBox;
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.HasBox;
 
-            if (GB_SAVtools.Visible)
+            if (path != null) // Actual save file
             {
                 PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.HasBattleBox;
                 GB_Daycare.Visible = SAV.HasDaycare;
@@ -802,7 +802,7 @@ namespace PKHeX
                 B_OpenHallofFame.Visible = SAV.HasHoF;
                 B_OpenOPowers.Visible = SAV.HasOPower;
                 B_OpenPokedex.Visible = SAV.HasPokeDex;
-                B_OpenBerryField.Visible = SAV.HasBerryField;
+                B_OpenBerryField.Visible = SAV.HasBerryField && SAV.XY;
                 B_Pokeblocks.Visible = SAV.HasPokeBlock;
                 B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Visible = SAV.HasEvents;
