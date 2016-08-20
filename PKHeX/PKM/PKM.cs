@@ -426,17 +426,20 @@ namespace PKHeX
         public void setShinyPID()
         {
             do PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
-            EncryptionConstant = PID;
+            if (GenNumber < 6)
+                EncryptionConstant = PID;
         }
         public void setPIDGender(int gender)
         {
             do PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm, PID); while (IsShiny);
-            EncryptionConstant = PID;
+            if (GenNumber < 6)
+                EncryptionConstant = PID;
         }
         public void setPIDNature(int nature)
         {
             do PID = PKX.getRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
-            EncryptionConstant = PID;
+            if (GenNumber < 6)
+                EncryptionConstant = PID;
         }
     }
 }

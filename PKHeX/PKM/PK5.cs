@@ -158,8 +158,8 @@ namespace PKHeX
         public override int Gender { get { return (Data[0x40] >> 1) & 0x3; } set { Data[0x40] = (byte)(Data[0x40] & ~0x06 | (value << 1)); } }
         public override int AltForm { get { return Data[0x40] >> 3; } set { Data[0x40] = (byte)(Data[0x40] & 0x07 | (value << 3)); } }
         public override int Nature { get { return Data[0x41]; } set { Data[0x41] = (byte)value; } }
-        public bool HiddenAbility { get { return (Data[0x41] & 1) == 1; } set { Data[0x41] = (byte)(Data[0x41] & ~0x01 | (value ? 1 : 0)); } }
-        public bool NPokémon { get { return (Data[0x41] & 2) == 2; } set { Data[0x41] = (byte)(Data[0x41] & ~0x02 | (value ? 2 : 0)); } }
+        public bool HiddenAbility { get { return (Data[0x42] & 1) == 1; } set { Data[0x42] = (byte)(Data[0x42] & ~0x01 | (value ? 1 : 0)); } }
+        public bool NPokémon { get { return (Data[0x42] & 2) == 2; } set { Data[0x42] = (byte)(Data[0x42] & ~0x02 | (value ? 2 : 0)); } }
         // 0x43-0x47 Unused
         #endregion
 

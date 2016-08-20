@@ -594,9 +594,9 @@ namespace PKHeX
             if (!pk6.WasEvent && !(pk6.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
             {
                 if (pk6.HT_Name.Length != 0)
-                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- HT Name present but has no previous Country.");
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation Memory -- HT Name present but has no previous Country.");
                 if (pk6.Geo1_Country != 0)
-                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- Previous country of residence but no Handling Trainer.");
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation Memory -- Previous country of residence but no Handling Trainer.");
                 if (pk6.HT_Memory != 0)
                     return new LegalityCheck(Severity.Invalid, "Memory -- Handling Trainer memory present but no Handling Trainer.");
                 if (pk6.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.

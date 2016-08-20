@@ -787,7 +787,7 @@ namespace PKHeX
             PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.HasBox;
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.HasBox;
 
-            if (GB_SAVtools.Visible)
+            if (path != null) // Actual save file
             {
                 PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.HasBattleBox;
                 GB_Daycare.Visible = SAV.HasDaycare;
@@ -802,7 +802,7 @@ namespace PKHeX
                 B_OpenHallofFame.Visible = SAV.HasHoF;
                 B_OpenOPowers.Visible = SAV.HasOPower;
                 B_OpenPokedex.Visible = SAV.HasPokeDex;
-                B_OpenBerryField.Visible = SAV.HasBerryField;
+                B_OpenBerryField.Visible = SAV.HasBerryField && SAV.XY;
                 B_Pokeblocks.Visible = SAV.HasPokeBlock;
                 B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Visible = SAV.HasEvents;
@@ -821,7 +821,6 @@ namespace PKHeX
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
 
             PB_MarkPentagon.Visible = SAV.Generation == 6;
-            PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation == 6;
             TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation == 6;
 
             CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
@@ -876,7 +875,6 @@ namespace PKHeX
 
             // Common HaX Interface
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
-            PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible &= !HaX;
             TB_Level.Visible = !HaX;
 
             // Load Extra Byte List
@@ -2272,13 +2270,13 @@ namespace PKHeX
                 return;
             Legality = la ?? new LegalityAnalysis((PK6) pkm);
             PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
-            PB_Legal.Visible = pkm.Gen6 /*&& pkm is PK6*/;
+            PB_Legal.Visible = pkm.Gen6 /*&& pkm is PK6*/ && !HaX;
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.vMoves[i].Valid;
+                movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
             for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !Legality.vRelearn[i].Valid;
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
         }
         private void updateStats()
         {

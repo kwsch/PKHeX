@@ -123,7 +123,7 @@ namespace PKHeX
             LB_Received.SelectedIndex = LB_Received.Items.IndexOf(card);
         }
 
-        // Wonder Card IO (.wc6<->window)
+        // Mystery Gift IO (.file<->window)
         private string getFilter()
         {
             switch (SAV.Generation)
@@ -169,7 +169,19 @@ namespace PKHeX
             File.WriteAllBytes(path, mg.Data);
         }
 
-        // Wonder Card RW (window<->sav)
+        private int getLastUnfilledByType(MysteryGift Gift, MysteryGiftAlbum Album)
+        {
+            for (int i = 0; i < Album.Gifts.Length; i++)
+            {
+                if (!Album.Gifts[i].Empty)
+                    continue;
+                if (Album.Gifts[i].Type != Gift.Type)
+                    continue;
+                return i;
+            }
+            return -1;
+        }
+        // Mystery Gift RW (window<->sav)
         private void clickView(object sender, EventArgs e)
         {
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
@@ -187,16 +199,16 @@ namespace PKHeX
             int index = Array.IndexOf(pba, sender);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
-            int lastUnfilled = Array.FindIndex(pba, p => p.Image == null);
+            int lastUnfilled = getLastUnfilledByType(mg, mga);
             if (lastUnfilled > -1 && lastUnfilled < index)
                 index = lastUnfilled;
-            if (mg.Data.Length != mga.Gifts[index].Data.Length)
+            if (mg.Type != mga.Gifts[index].Type)
             {
-                Util.Alert("Can't set slot here.", $"{mg.GetType()} != {mga.Gifts[index].GetType()}");
+                Util.Alert("Can't set slot here.", $"{mg.Type} != {mga.Gifts[index].Type}");
                 return;
             }
             setBackground(index, Properties.Resources.slotSet);
-            mga.Gifts[index] = mg;
+            mga.Gifts[index] = mg.Clone();
             setGiftBoxes();
             setCardID(mg.CardID);
         }
@@ -205,8 +217,26 @@ namespace PKHeX
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(pba, sender);
 
-            setBackground(index, Properties.Resources.slotDel);
             mga.Gifts[index].Data = new byte[mga.Gifts[index].Data.Length];
+
+            // Shuffle blank card down
+            int i = index;
+            while (i < mga.Gifts.Length - 1)
+            {
+                if (mga.Gifts[i+1].Empty)
+                    break;
+                if (mga.Gifts[i+1].Type != mga.Gifts[i].Type)
+                    break;
+
+                i++;
+
+                var mg1 = mga.Gifts[i];
+                var mg2 = mga.Gifts[i-1];
+
+                mga.Gifts[i-1] = mg1;
+                mga.Gifts[i] = mg2;
+            }
+            setBackground(i, Properties.Resources.slotDel);
             setGiftBoxes();
         }
 
@@ -230,7 +260,7 @@ namespace PKHeX
             Close();
         }
 
-        // Delete WC Flag
+        // Delete Received Flag
         private void clearRecievedFlag(object sender, EventArgs e)
         {
             if (LB_Received.SelectedIndex < 0) return;
@@ -301,14 +331,14 @@ namespace PKHeX
                 byte[] data = QR.getQRData();
                 if (data == null) return;
 
-                string[] types = mga.Gifts.Select(g => g.GetType().Name).Distinct().ToArray();
+                string[] types = mga.Gifts.Select(g => g.Type).Distinct().ToArray();
                 MysteryGift gift = MysteryGift.getMysteryGift(data);
-                string giftType = gift.GetType().Name;
+                string giftType = gift.Type;
 
                 if (mga.Gifts.All(card => card.Data.Length != data.Length))
                     Util.Alert("Decoded data not valid for loaded save file.", $"QR Data Size: 0x{data.Length.ToString("X")}");
                 else if (types.All(type => type != giftType))
-                    Util.Alert("Gift type is not compatible with the save file.", $"QR Gift Type: {gift.GetType().Name}" + Environment.NewLine + $"Expected Types: {string.Join(", ", types)}");
+                    Util.Alert("Gift type is not compatible with the save file.", $"QR Gift Type: {gift.Type}" + Environment.NewLine + $"Expected Types: {string.Join(", ", types)}");
                 else
                     try { viewGiftData(gift); }
                     catch { Util.Alert("Error loading Mystery Gift data."); }
@@ -324,7 +354,7 @@ namespace PKHeX
                 Image qr = QR.getQRImage(mg.Data, server);
                 if (qr == null) return;
 
-                string desc = $"({mg.GetType().Name}) {getDescription(mg)}";
+                string desc = $"({mg.Type}) {getDescription(mg)}";
 
                 new QR(qr, PB_Preview.Image, desc, "", "", "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
             }
@@ -370,8 +400,8 @@ namespace PKHeX
             int index = Array.IndexOf(pba, sender);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
-            int lastUnfilled = Array.FindIndex(pba, p => p.Image == null);
-            if (lastUnfilled < index)
+            int lastUnfilled = getLastUnfilledByType(mg, mga);
+            if (lastUnfilled > -1 && lastUnfilled < index)
                 index = lastUnfilled;
             
             if (wc_slot == -1) // dropped
@@ -384,15 +414,11 @@ namespace PKHeX
                 { Util.Alert("Data size invalid.", files[0]); return; }
                 
                 byte[] data = File.ReadAllBytes(files[0]);
-                chk:
                 if (data.Length != mga.Gifts[index].Data.Length)
                 {
-                    if (index < 8)
-                    {
-                        index = 8;
-                        goto chk;
-                    }
-                    { Util.Alert("Can't set slot here.", $"{data.Length} != {mga.Gifts[index].Data.Length}, {mga.Gifts[index].GetType()}", files[0]); return; }
+                    Util.Alert("Can't set slot here.",
+                        $"{data.Length} != {mga.Gifts[index].Data.Length}, {mga.Gifts[index].Type}", files[0]);
+                    return;
                 }
 
                 mga.Gifts[index].Data = data;
@@ -401,17 +427,34 @@ namespace PKHeX
             }
             else // Swap Data
             {
-                // Check to see if they copied beyond blank slots.
-                if (index > Math.Max(wc_slot, lastUnfilled - 1))
-                    index = Math.Max(wc_slot, lastUnfilled - 1);
-
                 MysteryGift s1 = mga.Gifts[index];
                 MysteryGift s2 = mga.Gifts[wc_slot];
 
-                if (s1.Data.Length != s2.Data.Length)
-                { Util.Alert("Can't swap these two slots."); return; }
+                if (s1.Type != s2.Type)
+                { Util.Alert($"Can't swap {s1.Type} with {s2.Type}."); return; }
                 mga.Gifts[wc_slot] = s1;
                 mga.Gifts[index] = s2;
+
+                if (mga.Gifts[wc_slot].Empty) // empty slot created, slide down
+                {
+                    int i = wc_slot;
+                    while (i < index)
+                    {
+                        if (mga.Gifts[i + 1].Empty)
+                            break;
+                        if (mga.Gifts[i + 1].Type != mga.Gifts[i].Type)
+                            break;
+
+                        i++;
+
+                        var mg1 = mga.Gifts[i];
+                        var mg2 = mga.Gifts[i - 1];
+
+                        mga.Gifts[i - 1] = mg1;
+                        mga.Gifts[i] = mg2;
+                    }
+                    index = i-1;
+                }
             }
             setBackground(index, Properties.Resources.slotView);
             setGiftBoxes();

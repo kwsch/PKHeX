@@ -262,11 +262,15 @@ namespace PKHeX
             {
                 try
                 {
-                    if (cmd.PropertyValue == CONST_RAND && (cmd.PropertyName == "PID" || cmd.PropertyName == "EncryptionConstant"))
+                    if (cmd.PropertyName == "EncryptionConstant" && cmd.PropertyValue == CONST_RAND)
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
-                    else if (cmd.PropertyValue == CONST_SHINY && cmd.PropertyName == "PID")
+                    else if(cmd.PropertyName == "PID" && cmd.PropertyValue == CONST_RAND)
+                        PKM.setPIDGender(PKM.Gender);
+                    else if (cmd.PropertyName == "EncryptionConstant" && cmd.PropertyValue == "PID")
+                        PKM.EncryptionConstant = PKM.PID;
+                    else if (cmd.PropertyName == "PID" && cmd.PropertyValue == CONST_SHINY)
                         PKM.setShinyPID();
-                    else if (cmd.PropertyValue == "0" && cmd.PropertyName == "Species")
+                    else if (cmd.PropertyName == "Species" && cmd.PropertyValue == "0")
                         PKM.Data = new byte[PKM.Data.Length];
                     else
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
