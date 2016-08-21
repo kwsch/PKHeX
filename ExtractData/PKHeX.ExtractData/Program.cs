@@ -15,29 +15,34 @@ namespace PKHeX.ExtractData
                 folder = Directory.GetParent(folder).FullName;
             if (Path.GetFileName(folder).ToLower() == "bin")
                 folder = Directory.GetParent(folder).FullName;
-            if (!Directory.Exists(folder)) return;
-            if (!Directory.Exists(folder + "\\Logs\\")) Directory.CreateDirectory(folder + "\\Logs\\");
+            string log_folder = folder + "\\Logs\\";
+            if (!Directory.Exists(log_folder))
+                Directory.CreateDirectory(log_folder);
 
             ExtTMHM3 TMHM3 = new ExtTMHM3();
             ExtLearnSet3 Learn3Data = new ExtLearnSet3();
             ExtMoveTutors3 MoveTutors3 = new ExtMoveTutors3();
             ExtEggMoves3 EggMoves3Data = new ExtEggMoves3();
-            
-            TMHM3.ExtractTMHM(folder + "\\Logs\\", folder + "\\GBA\\", folder + "\\Output\\");
-            MoveTutors3.ExtractMoveTutors(folder + "\\Logs\\", folder + "\\GBA\\", folder + "\\Output\\");
-            Learn3Data.ExtractLevelUpMovesData(folder + "\\Logs\\", folder + "\\GBA\\", folder + "\\Output\\");
-            EggMoves3Data.ExtractEggMovesData(folder + "\\Logs\\", folder + "\\GBA\\", folder + "\\Output\\");
+
+            string gba_folder = folder + "\\GBA\\";
+            string nds_folder = folder + "\\NDS\\";
+            string output_folder = folder + "\\Output\\";
+
+            TMHM3.ExtractTMHM(log_folder, gba_folder, output_folder);
+            MoveTutors3.ExtractMoveTutors(log_folder, gba_folder, output_folder);
+            Learn3Data.ExtractLevelUpMovesData(log_folder, gba_folder, output_folder);
+            EggMoves3Data.ExtractEggMovesData(log_folder, gba_folder, output_folder);
 
             ExtLearnSet4 Learn4Data = new ExtLearnSet4();
             ExtEggMoves4 EggMoves4Data = new ExtEggMoves4();
             ExtMoveTutors4 MoveTutors4 = new ExtMoveTutors4();
 
-            MoveTutors4.ExtractMoveTutors4(folder + "\\Logs\\", folder + "\\NDS\\", folder + "\\Output\\");
-            Learn4Data.ExtractLevelUpMovesData(folder + "\\Logs\\", folder + "\\NDS\\", folder + "\\Output\\");
-            EggMoves4Data.ExtractEggMovesData(folder + "\\Logs\\", folder + "\\NDS\\", folder + "\\Output\\");
+            MoveTutors4.ExtractMoveTutors4(log_folder, nds_folder, output_folder);
+            Learn4Data.ExtractLevelUpMovesData(log_folder, nds_folder, output_folder);
+            EggMoves4Data.ExtractEggMovesData(log_folder, nds_folder, output_folder);
 
             ExtLearnSet5 Learn5Data = new ExtLearnSet5();
-            Learn5Data.ExtractLevelUpMovesData(folder + "\\Logs\\", folder + "\\NDS\\", folder + "\\Output\\");
+            Learn5Data.ExtractLevelUpMovesData(log_folder, nds_folder, output_folder);
 
             DateTime End = DateTime.Now;
             TimeSpan Diff = End - Start;
