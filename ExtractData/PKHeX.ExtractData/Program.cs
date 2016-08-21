@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace PKHeX.ExtractData
@@ -11,6 +7,7 @@ namespace PKHeX.ExtractData
     {
         static void Main(string[] args)
         {
+            DateTime Start = DateTime.Now;
             string folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             if (Path.GetFileName(folder).ToLower() == "debug")
                 folder = Directory.GetParent(folder).FullName;
@@ -41,6 +38,9 @@ namespace PKHeX.ExtractData
 
             ExtLearnSet5 Learn5Data = new ExtLearnSet5();
             Learn5Data.ExtractLevelUpMovesData(folder + "\\Logs\\", folder + "\\NDS\\", folder + "\\Output\\");
+
+            DateTime End = DateTime.Now;
+            TimeSpan Diff = End - Start;
         }
     }
 }

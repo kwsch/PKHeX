@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace PKHeX.ExtractData
@@ -107,7 +104,6 @@ namespace PKHeX.ExtractData
                     {
                         if (MoveList[dexnumber][k])
                         {
-                            //log += all_moves[MoveTutors[k]] + Environment.NewLine;
                             moves[count] = all_moves[MoveTutors[k]] + Environment.NewLine;
                             count++;
                         }

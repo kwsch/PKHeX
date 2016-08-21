@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace PKHeX.ExtractData
@@ -121,10 +118,6 @@ namespace PKHeX.ExtractData
                     throw new Exception("Invalid input data");
 
                 byte[] OutputLearnset = new byte[Input[i].Length * 2];
-        
-                //Output[i].Levels = new int[Input[i].Length /2];
-                //Output[i].Moves = new int[Input[i].Length / 2];
-                //Output[i].Count = Input[i].Length / 2;
 
                 //Raw Format. Two bytes per move and level, bits 0-8 = moveid 9-15 = level
                 for (int j = 0; j < Input[i].Length - 1; j += 2)

@@ -1,120 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PKHeX.ExtractData
 {
     class ExtractUtils
     {
-        internal static ushort[] SearchMovesId(string[] SearchMoves)
-        {
-            string[] all_moves = Util.getMovesList("en");
-            ushort[] Id_SearchMoves = new ushort[SearchMoves.Length];
-
-            for (int i = 0; i < Id_SearchMoves.Length; i++)
-            {
-                string move_find = SearchMoves[i].Trim();
-                if (all_moves.Contains(move_find))
-                {
-                    Id_SearchMoves[i] = (ushort)all_moves.
-                            Select((move, index) => new { index = index, move = move }).
-                            Where(x => x.move == move_find).
-                            Select(x => x.index).
-                            First();
-                }
-                else
-                {
-                    object a = new object();
-                }
-            }
-
-            return Id_SearchMoves;
-        }
-        internal static ushort SearchMovesId(string SearchMove)
-        {
-            string[] all_moves = Util.getMovesList("en");
-           
-            if (all_moves.Contains(SearchMove))
-            {
-                return (ushort)all_moves.
-                        Select((move, index) => new { index = index, move = move }).
-                        Where(x => x.move == SearchMove).
-                        Select(x => x.index).
-                        First();
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        internal static int SearchSpecieId(string SearchSpecie)
-        {
-            string[] all_species= Util.getSpeciesList("en");
-
-            if (all_species.Contains(SearchSpecie))
-            {
-                return  all_species.
-                        Select((name, index) => new { index = index, name = name }).
-                        Where(x => x.name == SearchSpecie).
-                        Select(x => x.index).
-                        First();
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        private static string[] getStringList(string txt)
-        {
-            //object txt = Properties.Resources.ResourceManager.GetObject("text_" + f + "_" + l); // Fetch File, \n to list.
-            if (txt == null) return new string[0];
-            string[] rawlist = ((string)txt).Split('\n');
-            for (int i = 0; i < rawlist.Length; i++)
-                rawlist[i] = rawlist[i].Trim();
-            return rawlist;
-        }
-
-        internal static bool HasFormWithTableEntry(int species, PersonalTable Personal)
-        {
-            for (int j = 0; j < Personal[species].FormeCount; j++)
-            {
-                if (Personal[species].FormeIndex(species, j) != species)
-                    return true;
-            }
-            return false;
-        }
-
-        public static int[][] MoveListClone(int[][] LearnSet1)
-        {
-            int[][] Output_Moves = new int[LearnSet1.Length][];
-
-            for (int i = 0; i < LearnSet1.Length; i++)
-            {
-                Output_Moves[i] = (int[])LearnSet1[i].Clone();
-            }
-            return Output_Moves;
-        }
-
-        public static int[][] JoinMoveListData(int[][] LearnSet1, int[][] LearnSet2)
-        {
-            int[][] Output_Moves = new int[Math.Max(LearnSet1.Length, LearnSet2.Length)][];
-
-            for (int i = 0; i < LearnSet1.Length; i++)
-            {
-                if (LearnSet1.Length > i && LearnSet2.Length > i)
-                    Output_Moves[i] = LearnSet1[i].Union(LearnSet2[i]).ToArray();
-                else if (LearnSet1.Length > i)
-                    Output_Moves[i] = LearnSet1[i];
-                else if (LearnSet2.Length > i)
-                    Output_Moves[i] = LearnSet2[i];
-            }
-            return Output_Moves;
-        }
 
         internal static string[] gendersymbols = { "♂", "♀", "-" };
 
@@ -194,22 +85,6 @@ namespace PKHeX.ExtractData
                     return false;
             }
             return true;
-        }
-
-        static int SearchBytes(byte[] haystack, byte[] needle)
-        {
-            var len = needle.Length;
-            var limit = haystack.Length - len;
-            for (var i = 0; i <= limit; i++)
-            {
-                var k = 0;
-                for (; k < len; k++)
-                {
-                    if (needle[k] != haystack[i + k]) break;
-                }
-                if (k == len) return i;
-            }
-            return -1;
         }
 
         /*First array contains species who have another entry in the personal table and learnset table with different data
