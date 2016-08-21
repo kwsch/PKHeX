@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace PKHeX.ExtractData
 {
@@ -137,47 +138,47 @@ namespace PKHeX.ExtractData
         {
             string[] species = Util.getSpeciesList("en");
             string[] moves = Util.getMovesList("en");
-            string log = string.Empty;
+            StringBuilder log = new StringBuilder();
             for (int i = 0; i < LearnData.Length; i++)
             {
                 int dexnumber = TransformSpeciesIndex.getG4Species(i);
                 if (dexnumber > 0)
-                    log += "SPECIE " + species[dexnumber] + Environment.NewLine;
+                    log.AppendLine("SPECIE " + species[dexnumber]);
                 else
-                    log += "UNUSED SLOT SPECIE " + Environment.NewLine;
-                log += "INDEX " + i + " DEX NUMBER " + dexnumber + Environment.NewLine;
+                    log.AppendLine("UNUSED SLOT SPECIE");
+                log.AppendLine("INDEX " + i + " DEX NUMBER " + dexnumber);
                 for (int j = 0; j < LearnData[i].Count; j++)
                 {
-                    log += moves[LearnData[i].Moves[j]] + " at level " + LearnData[i].Levels[j] + Environment.NewLine;
+                    log.AppendLine(moves[LearnData[i].Moves[j]] + " at level " + LearnData[i].Levels[j]);
                 }
-                log += Environment.NewLine;
+                log.AppendLine();
             }
 
-            File.WriteAllText(folder + filename, log);
+            File.WriteAllText(folder + filename, log.ToString());
         }
 
         internal override void TraceLearnSet(string folder, string filename, Learnset[] LearnData)
         {
             string[] species = Util.getSpeciesList("en");
             string[] moves = Util.getMovesList("en");
-            string log = string.Empty;
+            StringBuilder log = new StringBuilder();
             for (int i = 0; i < LearnData.Length; i++)
             {
                 int dexnumber = i;
                 int indexnumber = TransformSpeciesIndex.getG3Species(i);
-                if (dexnumber >0)
-                    log += "SPECIE " + species[dexnumber] + Environment.NewLine;
+                if (dexnumber > 0)
+                    log.AppendLine("SPECIE " + species[dexnumber]);
                 else
-                    log += "UNUSED SLOT SPECIE " + Environment.NewLine;
-                log += "INDEX " + indexnumber + " DEX NUMBER " + dexnumber + Environment.NewLine;
+                    log.AppendLine("UNUSED SLOT SPECIE ");
+                log.AppendLine("INDEX " + indexnumber + " DEX NUMBER " + dexnumber);
                 for (int j = 0; j < LearnData[i].Count; j++)
                 {
-                    log += moves[LearnData[i].Moves[j]] + " at level " + LearnData[i].Levels[j] + Environment.NewLine;
+                    log.AppendLine(moves[LearnData[i].Moves[j]] + " at level " + LearnData[i].Levels[j]);
                 }
-                log += Environment.NewLine;
+                log.AppendLine();
             }
 
-            File.WriteAllText(folder + filename, log);
+            File.WriteAllText(folder + filename, log.ToString());
         }
     }
 }

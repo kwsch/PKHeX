@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.IO;
+using System.Text;
 
 namespace PKHeX.ExtractData
 {
@@ -141,14 +142,13 @@ namespace PKHeX.ExtractData
             }
         }
 
-        internal static string SpeciesLogText(int indexnumber, GenerationData GData,bool B1W1)
+        internal static void SpeciesLogText(ref StringBuilder log,int indexnumber, GenerationData GData,bool B1W1)
         {
             string[] species = Util.getSpeciesList("en");
-            string log = "";
             if (indexnumber == 0)
-                log += "UNUSED DATA " + Environment.NewLine;
+                log.AppendLine("UNUSED DATA");
             else if (indexnumber <= GData.MaxSpeciesGeneration)
-                log += "SPECIE " + species[indexnumber] + Environment.NewLine;
+                log.AppendLine("SPECIE " + species[indexnumber]);
 
             int[] Hasforms = new int[0];
             int[] FormToDexNumber = new int[0];
@@ -179,8 +179,8 @@ namespace PKHeX.ExtractData
                 string[] formStrings = PKX.getFormList(indexnumber,
                                          Util.getStringList("types", "en"),
                                          Util.getStringList("forms", "en"), ExtractUtils.gendersymbols);
-                log += Environment.NewLine;
-                log += "FORM " + formStrings[0] + Environment.NewLine;
+                log.AppendLine();
+                log.AppendLine("FORM " + formStrings[0]);
             }
 
             if (indexnumber > GData.MaxSpeciesGeneration)
@@ -188,19 +188,18 @@ namespace PKHeX.ExtractData
                 if (indexnumber > GData.MaxSpeciesGeneration && FormToDexNumber[indexnumber - GData.MaxSpeciesGeneration - 1] > 0)
                 {
                     int realdexnumber = FormToDexNumber[indexnumber - GData.MaxSpeciesGeneration - 1];
-                    log += "SPECIE " + species[realdexnumber] + " DEX NUMBER " + realdexnumber + Environment.NewLine;
+                    log.AppendLine("SPECIE " + species[realdexnumber] + " DEX NUMBER " + realdexnumber);
                     string[] formStrings = PKX.getFormList(realdexnumber,
                                    Util.getStringList("types", "en"),
                                    Util.getStringList("forms", "en"), ExtractUtils.gendersymbols);
-                    log += Environment.NewLine;
-                    log += "FORM " + formStrings[FormNumberIndex[indexnumber - GData.MaxSpeciesGeneration - 1]] + Environment.NewLine;
+                    log.AppendLine();
+                    log.AppendLine("FORM " + formStrings[FormNumberIndex[indexnumber - GData.MaxSpeciesGeneration - 1]]);
                 }
                 else  //494 495 in GEN 4
-                    log += "UNUSED DATA " + Environment.NewLine;
+                    log.AppendLine("UNUSED DATA");
             }
 
-            log += "INDEX NUMBER " + indexnumber + Environment.NewLine;
-            return log;
+            log.AppendLine("INDEX NUMBER " + indexnumber);
         }
 
         internal static byte[] PackTMHMTutorMoves(string Header, TMHMTutorMoves[] Moves,int Size)

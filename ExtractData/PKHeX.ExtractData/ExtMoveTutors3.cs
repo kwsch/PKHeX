@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.IO;
+using System.Text;
 
 namespace PKHeX.ExtractData
 {
@@ -84,18 +85,18 @@ namespace PKHeX.ExtractData
         {
             string[] species = Util.getSpeciesList("en");
             string[] all_moves = Util.getMovesList("en");
-            string log = string.Empty;
+            StringBuilder log = new StringBuilder();
 
             for (int i = 0; i < MoveList.Length; i++)
             {
                 int indexnumber = IndexOrder ? i : TransformSpeciesIndex.getG3Species(i);
                 int dexnumber = IndexOrder ? TransformSpeciesIndex.getG4Species(i) : i;
                 if (dexnumber > 0)
-                    log += "SPECIE " + species[dexnumber] + Environment.NewLine;
+                    log.AppendLine("SPECIE " + species[dexnumber]);
                 else
-                    log += "UNUSED SLOT SPECIE " + Environment.NewLine;
+                    log.AppendLine("UNUSED SLOT SPECIE ");
 
-                log += "DEX NUMBER " + dexnumber + " INDEX NUMBER " + indexnumber + Environment.NewLine;
+                log.AppendLine("DEX NUMBER " + dexnumber + " INDEX NUMBER " + indexnumber);
                 if (MoveList[dexnumber].Any(x => x))
                 {
                     string[] moves = new string[MoveList[dexnumber].Count(x => x)];
@@ -109,16 +110,16 @@ namespace PKHeX.ExtractData
                         }
                     }
                     //Print moves ordered to compare with webs like bulbapedia
-                    log += moves.OrderBy(m => m).Aggregate((m1, m2) => (m1 + m2));
+                    log.Append(moves.OrderBy(m => m).Aggregate((m1, m2) => (m1 + m2)));
                 }
                 else
                 {
-                    log += " No move tutors available for this pokemon" + Environment.NewLine;
+                    log.AppendLine(" No move tutors available for this pokemon");
                 }
 
-                log += Environment.NewLine;
+                log.AppendLine();
             }
-            File.WriteAllText(folder + filename, log);
+            File.WriteAllText(folder + filename, log.ToString());
         }
 
     }

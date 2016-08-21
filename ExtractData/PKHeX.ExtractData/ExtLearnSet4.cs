@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.IO;
+using System.Text;
 
 namespace PKHeX.ExtractData
 {
@@ -231,28 +232,28 @@ namespace PKHeX.ExtractData
         internal virtual void TraceLearnSet(string folder,string filename, Learnset[] LearnData, bool B1W1)
         {
             string[] all_moves = Util.getMovesList("en");
-            string log = string.Empty;
+            StringBuilder log = new StringBuilder();
 
             for (int i = 0; i < LearnData.Length; i++)
             {
                 int dexnumber = i;
-                log += ExtractUtils.SpeciesLogText(i, GData, B1W1);
+                ExtractUtils.SpeciesLogText(ref log,i, GData, B1W1);
                 if (LearnData[dexnumber].Count >0)
                 {
                     for (int j = 0; j < LearnData[dexnumber].Count; j++)
                     {
-                        log += all_moves[LearnData[dexnumber].Moves[j]] + " at level " + LearnData[dexnumber].Levels[j] + Environment.NewLine;
+                        log.AppendLine(all_moves[LearnData[dexnumber].Moves[j]] + " at level " + LearnData[dexnumber].Levels[j]);
                     }
                 }
                 else
                 {
-                    log += " No level up moves available for this pokemon" + Environment.NewLine;
+                    log.AppendLine(" No level up moves available for this pokemon");
                 }
 
-                log += Environment.NewLine;
+                log.AppendLine();
             }
 
-            File.WriteAllText(folder + filename, log);
+            File.WriteAllText(folder + filename, log.ToString());
         }
     }
 }

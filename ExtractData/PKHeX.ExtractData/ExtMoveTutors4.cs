@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.IO;
+using System.Text;
 
 namespace PKHeX.ExtractData
 {
@@ -200,25 +201,23 @@ namespace PKHeX.ExtractData
 
         internal void TraceMoveTutorsList(string filename, ushort[] MoveList)
         {
-            string log = string.Empty;
+            StringBuilder log = new StringBuilder();
             string[] all_moves = Util.getMovesList("en");
             for (int i = 0; i < MoveList.Length; i++)
             {
-                log += $"Index {i} Move {MoveList[i]} { all_moves[MoveList[i]]}"+  Environment.NewLine;
+                log.AppendLine( $"Index {i} Move {MoveList[i]} { all_moves[MoveList[i]]}");
             }
-            File.WriteAllText(filename, log);
+            File.WriteAllText(filename, log.ToString());
         }
         internal void TraceMoveTutorsCompatibilityList(string folder,string filename,ushort[] MoveTutors, bool[][] MoveList)
         {
             string[] species = Util.getSpeciesList("en");
             string[] all_moves = Util.getMovesList("en");
-            string log = string.Empty;
-
+            StringBuilder log = new StringBuilder();
             for (int i = 0; i < MoveList.Length; i++)
             {
                 int dexnumber = i;
-                log += ExtractUtils.SpeciesLogText(i, GData, false);
-
+                ExtractUtils.SpeciesLogText(ref log, i, GData, false);
                 if (MoveList[dexnumber].Any(x=>x))
                 {
                     string[] moves = new string[MoveList[dexnumber].Count(x=>x)];
@@ -233,17 +232,17 @@ namespace PKHeX.ExtractData
                         }
                     }
                     //Print moves ordered to compare with webs like bulbapedia
-                    log += moves.OrderBy(m => m).Aggregate((m1, m2) => (m1 + m2));
+                    log.Append(moves.OrderBy(m => m).Aggregate((m1, m2) => (m1 + m2)));
                 }
                 else
                 {
-                    log +=" No move tutors available for this pokemon" + Environment.NewLine;
+                    log.AppendLine(" No move tutors available for this pokemon");
                 }
 
-                log += Environment.NewLine;
+                log.AppendLine();
             }
 
-            File.WriteAllText(folder + filename, log);
+            File.WriteAllText(folder + filename, log.ToString());
         }
 
         protected virtual int[] TutorMove_BlastBurn => new int[] { 307 };

@@ -294,7 +294,7 @@ namespace PKHeX.ExtractData
         }
 
 
-        public int[][] InheritanceTMHMMOves(bool[][] FlagsCompatibility, ushort[] MoveList)
+        public int[][] InheritanceTMHMMoves(bool[][] FlagsCompatibility, ushort[] MoveList)
         {
             int[][] Output_Moves = new int[FlagsCompatibility.Length][];
 
@@ -312,37 +312,37 @@ namespace PKHeX.ExtractData
 
         internal void TraceTMHMList(string filename, ushort[] MoveList, int TMCount, int HMCount)
         {
-            string log = string.Empty;
+            StringBuilder log = new StringBuilder();
             string[] all_moves = Util.getMovesList("en");
 
             for (int i = 0; i < TMCount; i++)
             {
-                log += $"TM{(i + 1).ToString("00")} Move {MoveList[i]} { all_moves[MoveList[i]]}" + Environment.NewLine;
+                log.AppendLine($"TM{(i + 1).ToString("00")} Move {MoveList[i]} { all_moves[MoveList[i]]}");
             }
             for (int i = TMCount; i < MoveList.Length; i++)
             {
-                log += $"HM{(i - TMCount + 1).ToString("00")} Move {MoveList[i]} { all_moves[MoveList[i]]}" + Environment.NewLine;
+                log.AppendLine($"HM{(i - TMCount + 1).ToString("00")} Move {MoveList[i]} { all_moves[MoveList[i]]}");
             }
 
-            File.WriteAllText(filename, log);
+            File.WriteAllText(filename, log.ToString());
         }
 
         internal void TraceTMHMCompatibilityList(string folder, string filename, ushort[] TMHMMoves, bool[][] MoveList,int TMCount,int HMCount,bool IndexOrder)
         {
             string[] species = Util.getSpeciesList("en");
             string[] all_moves = Util.getMovesList("en");
-            string log = string.Empty;
+            StringBuilder log = new StringBuilder();
 
             for (int i = 0; i < MoveList.Length; i++)
             {
                 int indexnumber = IndexOrder ? i : TransformSpeciesIndex.getG3Species(i);
                 int dexnumber = IndexOrder ? TransformSpeciesIndex.getG4Species(i) : i;
                 if (dexnumber > 0)
-                    log += "SPECIE " + species[dexnumber] + Environment.NewLine;
+                    log.AppendLine("SPECIE " + species[dexnumber]);
                 else
-                    log += "UNUSED SLOT SPECIE " + Environment.NewLine;
+                    log.AppendLine("UNUSED SLOT SPECIE");
 
-                log += "DEX NUMBER " + dexnumber + " INDEX NUMBER " + indexnumber + Environment.NewLine;
+                log.AppendLine("DEX NUMBER " + dexnumber + " INDEX NUMBER " + indexnumber);
                 if (MoveList[dexnumber].Any(x => x))
                 {
                     int count = 0;
@@ -350,7 +350,7 @@ namespace PKHeX.ExtractData
                     {
                         if (MoveList[dexnumber][k])
                         {
-                            log += $"TM{(k+1).ToString("00")} { all_moves[TMHMMoves[k]]}" + Environment.NewLine;
+                            log.AppendLine($"TM{(k + 1).ToString("00")} { all_moves[TMHMMoves[k]]}");
                             count++;
                         }
                     }
@@ -358,18 +358,18 @@ namespace PKHeX.ExtractData
                     {
                         if (MoveList[dexnumber][k])
                         {
-                            log += $"HM{(k - TMCount + 1).ToString("00")} { all_moves[TMHMMoves[k]]}" + Environment.NewLine;
+                            log.AppendLine($"HM{(k - TMCount + 1).ToString("00")} { all_moves[TMHMMoves[k]]}");
                             count++;
                         }
                     }
                 }
                 else
-                    log += " No TM or HM moves available for this pokemon" + Environment.NewLine;
-               
-                log += Environment.NewLine;
+                    log.AppendLine(" No TM or HM moves available for this pokemon");
+
+                log.AppendLine();
             }
 
-            File.WriteAllText(folder + filename, log);
+            File.WriteAllText(folder + filename, log.ToString());
         }
 
     }
