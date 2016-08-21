@@ -54,7 +54,10 @@ namespace PKHeX
             foreach (PictureBox pb in PAN_Box.Controls)
             {
                 pb.AllowDrop = true; // The PictureBoxes have their own drag&drop event handlers (pbBoxSlot)
+                pb.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
             }
+            dragout.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
             foreach (TabPage tab in tabMain.TabPages)
             {
                 tab.AllowDrop = true;
@@ -2440,6 +2443,7 @@ namespace PKHeX
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             openQuick(files[0]);
+            e.Effect = DragDropEffects.Copy;
         }
         // Decrypted Export
         private void dragout_MouseDown(object sender, MouseEventArgs e)
@@ -2461,10 +2465,13 @@ namespace PKHeX
             try
             {
                 File.WriteAllBytes(newfile, dragdata);
+                PictureBox pb = (PictureBox)sender;
+                Cursor.Current = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
             { Util.Error("Drag & Drop Error", x.ToString()); }
+            Cursor.Current = DefaultCursor;
             File.Delete(newfile);
         }
         private void dragout_DragOver(object sender, DragEventArgs e)
@@ -2482,7 +2489,9 @@ namespace PKHeX
         }
         private void dragoutDrop(object sender, DragEventArgs e)
         {
-            openQuick(((string[])e.Data.GetData(DataFormats.FileDrop))[0]);
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            openQuick(files[0]);
+            e.Effect = DragDropEffects.Copy;
         }
         #endregion
 
@@ -3323,13 +3332,14 @@ namespace PKHeX
                 // and use that file to perform a drag drop operation.
 
                 // Abort if there is no Pokemon in the given slot.
-                if (((PictureBox)sender).Image == null)
+                PictureBox pb = (PictureBox)sender;
+                if (pb.Image == null)
                     return;
 
                 // Set flag to prevent re-entering.
                 slotDragDropInProgress = true;
 
-                slotSourceSlotNumber = getSlot(sender);
+                slotSourceSlotNumber = getSlot(pb);
                 int offset = getPKXOffset(slotSourceSlotNumber);
 
                 // Prepare Data
@@ -3347,14 +3357,22 @@ namespace PKHeX
                 try
                 {
                     File.WriteAllBytes(newfile, dragdata);
+                    var img = (Bitmap)pb.Image;
+                    Cursor.Current = new Cursor(img.GetHicon());
+                    pb.Image = null;
                     // Thread Blocks on DoDragDrop
-                    ((PictureBox)sender).DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                    DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                    if (result == DragDropEffects.None || result == DragDropEffects.Copy) // not dropped to another box slot, restore img
+                        pb.Image = img;
+                    if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
+                        getSlotColor(slotSourceSlotNumber, Properties.Resources.slotView);
                 }
                 catch (Exception x)
                 {
                     Util.Error("Drag & Drop Error:", x.ToString());
                 }
                 slotSourceOffset = 0;
+                Cursor.Current = DefaultCursor;
 
                 // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
                 // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
