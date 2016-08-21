@@ -332,28 +332,41 @@ namespace PKHeX
         public void RefreshChecksum() { Checksum = CalculateChecksum(); }
         public void FixMoves()
         {
+            ReorderMoves();
+
+            if (Move1 == 0) { Move1_PP = 0; Move1_PPUps = 0; }
+            if (Move2 == 0) { Move2_PP = 0; Move2_PPUps = 0; }
+            if (Move3 == 0) { Move3_PP = 0; Move3_PPUps = 0; }
+            if (Move4 == 0) { Move4_PP = 0; Move4_PPUps = 0; }
+        }
+
+        private void ReorderMoves()
+        {
             if (Move4 != 0 && Move3 == 0)
             {
                 Move3 = Move4;
                 Move3_PP = Move4_PP;
                 Move3_PPUps = Move4_PPUps;
-                Move4 = Move4_PP = Move4_PPUps = 0;
+                Move4 = 0;
             }
             if (Move3 != 0 && Move2 == 0)
             {
                 Move2 = Move3;
                 Move2_PP = Move3_PP;
                 Move2_PPUps = Move3_PPUps;
-                Move3 = Move3_PP = Move3_PPUps = 0;
+                Move3 = 0;
+                ReorderMoves();
             }
             if (Move2 != 0 && Move1 == 0)
             {
                 Move1 = Move2;
                 Move1_PP = Move2_PP;
                 Move1_PPUps = Move2_PPUps;
-                Move2 = Move2_PP = Move2_PPUps = 0;
+                Move2 = 0;
+                ReorderMoves();
             }
         }
+
         public int PotentialRating
         {
             get
