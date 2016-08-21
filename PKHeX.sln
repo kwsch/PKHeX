@@ -15,30 +15,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExtractData", "ExtractData"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Debug|x86.ActiveCfg = Debug|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Debug|x86.Build.0 = Debug|x86
-		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Release|Any CPU.ActiveCfg = Release|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Release|x86.ActiveCfg = Release|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Release|x86.Build.0 = Release|x86
-		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|x86.ActiveCfg = Debug|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|x86.Build.0 = Debug|x86
-		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|Any CPU.ActiveCfg = Release|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.ActiveCfg = Release|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.Build.0 = Release|x86
-		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Debug|x86.Build.0 = Debug|Any CPU
-		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Release|x86.ActiveCfg = Release|Any CPU
 		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
