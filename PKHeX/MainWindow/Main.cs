@@ -3360,12 +3360,14 @@ namespace PKHeX
                     var img = (Bitmap)pb.Image;
                     Cursor.Current = new Cursor(img.GetHicon());
                     pb.Image = null;
+                    pb.BackColor = Color.FromArgb(100, 200, 200, 200);
                     // Thread Blocks on DoDragDrop
                     DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
                     if (result == DragDropEffects.None || result == DragDropEffects.Copy) // not dropped to another box slot, restore img
                         pb.Image = img;
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
                         getSlotColor(slotSourceSlotNumber, Properties.Resources.slotView);
+                    pb.BackColor = Color.Transparent;
                 }
                 catch (Exception x)
                 {
