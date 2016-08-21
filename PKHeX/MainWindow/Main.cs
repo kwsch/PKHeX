@@ -3363,7 +3363,7 @@ namespace PKHeX
                     pb.BackColor = Color.FromArgb(100, 200, 200, 200);
                     // Thread Blocks on DoDragDrop
                     DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-                    if (result == DragDropEffects.None || result == DragDropEffects.Copy) // not dropped to another box slot, restore img
+                    if (result != DragDropEffects.Link) // not dropped to another box slot, restore img
                         pb.Image = img;
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
                         getSlotColor(slotSourceSlotNumber, Properties.Resources.slotView);
@@ -3458,6 +3458,7 @@ namespace PKHeX
                 SAV.setStoredSlot(pkz, slotDestinationOffset);
                 getQuickFiller(SlotPictureBoxes[slotDestinationSlotNumber], pkz);
 
+                e.Effect = DragDropEffects.Link;
                 slotSourceOffset = 0; // Clear offset value
             }
         }
