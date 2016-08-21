@@ -10821,6 +10821,36 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] eggmove_dppt {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_dppt", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eggmove_g3 {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_g3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] eggmove_hgss {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_hgss", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] eggmove_xy {
             get {
                 object obj = ResourceManager.GetObject("eggmove_xy", resourceCulture);
@@ -10979,6 +11009,16 @@ namespace PKHeX.Properties {
             get {
                 object obj = ResourceManager.GetObject("helditem", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] hmtm_g3 {
+            get {
+                object obj = ResourceManager.GetObject("hmtm_g3", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -15401,6 +15441,96 @@ namespace PKHeX.Properties {
         internal static byte[] lvlmove_ao {
             get {
                 object obj = ResourceManager.GetObject("lvlmove_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_b2w2 {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_b2w2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_bw {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_bw", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_dp {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_dp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_e {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_e", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_fr {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_fr", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_hgss {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_hgss", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_lg {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_lg", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_pt {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_pt", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_rs {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_rs", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -22883,8 +23013,8 @@ namespace PKHeX.Properties {
         ///
         ///Blanca
         ///Negra
-        ///Blanca2
-        ///Negra2
+        ///Blanca 2
+        ///Negra 2
         ///X
         ///Y
         ///Zafiro Alfa
@@ -30742,6 +30872,26 @@ namespace PKHeX.Properties {
             get {
                 object obj = ResourceManager.GetObject("tr_73", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tutors_g3 {
+            get {
+                object obj = ResourceManager.GetObject("tutors_g3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tutors_g4 {
+            get {
+                object obj = ResourceManager.GetObject("tutors_g4", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

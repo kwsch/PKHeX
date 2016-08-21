@@ -13,7 +13,7 @@ namespace PKHeX
         private static readonly Learnset[] LevelUpXY = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
         private static readonly EggMoves[] EggMoveAO = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_ao, "ao"));
         private static readonly Learnset[] LevelUpAO = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
-        private static readonly Evolutions[] Evolves = Evolutions.getArray(Data.unpackMini(Properties.Resources.evos_ao, "ao"));
+        public static readonly Evolutions[] Evolves = Evolutions.getArray(Data.unpackMini(Properties.Resources.evos_ao, "ao"));
         private static readonly EncounterArea[] SlotsA;
         private static readonly EncounterArea[] SlotsO;
         private static readonly EncounterArea[] SlotsX;
@@ -22,6 +22,26 @@ namespace PKHeX
         private static readonly EncounterStatic[] StaticY;
         private static readonly EncounterStatic[] StaticA;
         private static readonly EncounterStatic[] StaticO;
+
+        //Gen 3
+        private static readonly Learnset[] LevelUpE = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_e, "em"));
+        private static readonly Learnset[] LevelUpRS = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_rs, "rs"));
+        private static readonly Learnset[] LevelUpFR = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_fr, "fr"));
+        private static readonly Learnset[] LevelUpLG = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_lg, "lg"));
+        private static readonly EggMoves[] EggMoveG3 = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_g3, "g3"));
+        private static readonly TMHMTutorMoves[] TutorsG3 = TMHMTutorMoves.getArray(Data.unpackMini(Properties.Resources.tutors_g3, "g3"));
+        private static readonly TMHMTutorMoves[] HMTMG3 = TMHMTutorMoves.getArray(Data.unpackMini(Properties.Resources.hmtm_g3, "g3"));
+        //Gen 4
+        private static readonly Learnset[] LevelUpDP = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_dp, "dp"));
+        private static readonly Learnset[] LevelUpPt = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_pt, "pt"));
+        private static readonly Learnset[] LevelUpHGSS = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_hgss, "hs"));
+        private static readonly EggMoves[] EggMoveDPPt = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_dppt, "dp"));
+        private static readonly EggMoves[] EggMoveHGSS = EggMoves.getArray(Data.unpackMini(Properties.Resources.eggmove_hgss, "hs"));
+        private static readonly TMHMTutorMoves[] TutorsG4 = TMHMTutorMoves.getArray(Data.unpackMini(Properties.Resources.tutors_g4, "g4"));
+        //Gen 5
+        private static readonly Learnset[] LevelUpBW = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_bw, "51"));
+        private static readonly Learnset[] LevelUpB2W2 = Learnset.getArray(Data.unpackMini(Properties.Resources.lvlmove_b2w2, "52"));
+
         private static EncounterStatic[] getSpecial(GameVersion Game)
         {
             if (Game == GameVersion.X || Game == GameVersion.Y)

@@ -57,11 +57,51 @@ namespace PKHeX
             }
         }
 
+        public EggMoves(int[] _Moves)
+        {
+            if (_Moves?.Length ==0)
+            { Count = 0; Moves = new int[0]; return; }
+            Count = _Moves.Length;
+            Moves = _Moves;
+        }
+
         public static EggMoves[] getArray(byte[][] entries)
         {
             EggMoves[] data = new EggMoves[entries.Length];
             for (int i = 0; i < data.Length; i++)
                 data[i] = new EggMoves(entries[i]);
+            return data;
+        }
+    }
+    public class TMHMTutorMoves
+    {
+        public readonly bool[] Compatibility;
+        public bool[] getBits(byte[] data)
+        {
+            bool[] r = new bool[8 * data.Length];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = (data[i / 8] >> (i & 7) & 0x1) == 1;
+            return r;
+        }
+
+        public byte[] setBits()
+        {
+            byte[] data = new byte[Compatibility.Length / 8];
+            for (int i = 0; i < Compatibility.Length; i++)
+                data[i / 8] |= (byte)(Compatibility[i] ? 1 << (i & 0x7) : 0);
+            return data;
+        }
+
+        public TMHMTutorMoves(byte[] data)
+        {
+            Compatibility = getBits(data);
+        }
+
+        public static TMHMTutorMoves[] getArray(byte[][] entries)
+        {
+            TMHMTutorMoves[] data = new TMHMTutorMoves[entries.Length];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = new TMHMTutorMoves(entries[i]);
             return data;
         }
     }
