@@ -130,9 +130,8 @@ namespace PKHeX.ExtractData
         {
             byte[][] Byte_Data = new byte[maxspecies][];
             Byte_Data[0] = new byte[size];
-            byte[] RawData = File.ReadAllBytes(filename);
 
-            using (var s = new MemoryStream(RawData))
+            using (var s = new FileStream(filename,FileMode.Open))
             using (var br = new BinaryReader(s))
             {
                 br.BaseStream.Seek(offset, SeekOrigin.Begin);

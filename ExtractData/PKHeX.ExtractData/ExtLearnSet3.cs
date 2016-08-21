@@ -106,12 +106,10 @@ namespace PKHeX.ExtractData
         {
             byte[][] OutputData = new byte[GData.MaxSpeciesIndexGeneration+1][];
 
-            byte[] RawData = File.ReadAllBytes(folder + filename);
-
             int[] OffsetTable = new int[GData.MaxSpeciesIndexGeneration+1];
             OffsetTable[0] = OffSet_LevelUpData;
 
-            using (var s = new MemoryStream(RawData))
+            using (var s = new FileStream(folder + filename,FileMode.Open))
             using (var br = new BinaryReader(s))
             {
                 br.BaseStream.Seek(OffSet_LevelUpData, SeekOrigin.Begin);

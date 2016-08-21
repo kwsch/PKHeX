@@ -240,13 +240,12 @@ namespace PKHeX.ExtractData
         {
             if (!File.Exists(filename))
                 throw new FileNotFoundException("File Not Exits");
-            byte[] fileData = File.ReadAllBytes(filename);
 
             int current = -1;
             int[][] Moves = new int[SpeciesEggIndex.Length][];
 
             List<int> CurrentSpeciesMoves = null;
-            using (var s = new MemoryStream(fileData))
+            using (var s = new FileStream(filename, FileMode.Open))
             using (var br = new BinaryReader(s))
             {
                 br.BaseStream.Seek(offset, SeekOrigin.Begin);

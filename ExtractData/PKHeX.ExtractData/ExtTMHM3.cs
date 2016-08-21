@@ -195,10 +195,7 @@ namespace PKHeX.ExtractData
         internal override byte[][] ExtractCompatibilityList(int maxspecies, string filename, int offset, int size)
         {
             byte[][] Byte_Data = new byte[maxspecies+1][];
-            //Byte_Data[0] = new byte[size];
-            byte[] RawData = File.ReadAllBytes(filename);
-
-            using (var s = new MemoryStream(RawData))
+            using (var s = new FileStream(filename, FileMode.Open))
             using (var br = new BinaryReader(s))
             {
                 br.BaseStream.Seek(offset, SeekOrigin.Begin);
