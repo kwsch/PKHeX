@@ -11,187 +11,6 @@ namespace PKHeX.ExtractData
     {
         internal override GenerationData GData => Generation3Data.Create();
 
-        static readonly string[] TMMoves_Gen4 =
-            {"Focus Punch ",
-            "Dragon Claw ",
-            "Water Pulse ",
-            "Calm Mind ",
-            "Roar ",
-            "Toxic ",
-            "Hail ",
-            "Bulk Up ",
-            "Bullet Seed ",
-            "Hidden Power ",
-            "Sunny Day ",
-            "Taunt ",
-            "Ice Beam ",
-            "Blizzard ",
-            "Hyper Beam ",
-            "Light Screen ",
-            "Protect ",
-            "Rain Dance ",
-            "Giga Drain ",
-            "Safeguard ",
-            "Frustration ",
-            "Solar Beam ",
-            "Iron Tail ",
-            "Thunderbolt ",
-            "Thunder ",
-            "Earthquake ",
-            "Return ",
-            "Dig ",
-            "Psychic ",
-            "Shadow Ball ",
-            "Brick Break ",
-            "Double Team ",
-            "Reflect ",
-            "Shock Wave ",
-            "Flamethrower ",
-            "Sludge Bomb ",
-            "Sandstorm ",
-            "Fire Blast ",
-            "Rock Tomb ",
-            "Aerial Ace ",
-            "Torment ",
-            "Facade ",
-            "Secret Power ",
-            "Rest ",
-            "Attract ",
-            "Thief ",
-            "Steel Wing ",
-            "Skill Swap ",
-            "Snatch ",
-            "Overheat ",
-            "Roost ",
-            "Focus Blast ",
-            "Energy Ball ",
-            "False Swipe ",
-            "Brine ",
-            "Fling ",
-            "Charge Beam ",
-            "Endure ",
-            "Dragon Pulse ",
-            "Drain Punch ",
-            "Will-O-Wisp ",
-            "Silver Wind ",
-            "Embargo ",
-            "Explosion ",
-            "Shadow Claw ",
-            "Payback ",
-            "Recycle ",
-            "Giga Impact ",
-            "Rock Polish ",
-            "Flash ",
-            "Stone Edge ",
-            "Avalanche ",
-            "Thunder Wave ",
-            "Gyro Ball ",
-            "Swords Dance ",
-            "Stealth Rock ",
-            "Psych Up ",
-            "Captivate ",
-            "Dark Pulse ",
-            "Rock Slide ",
-            "X-Scissor ",
-            "Sleep Talk ",
-            "Natural Gift ",
-            "Poison Jab ",
-            "Dream Eater ",
-            "Grass Knot ",
-            "Swagger ",
-            "Pluck ",
-            "U-turn ",
-            "Substitute ",
-            "Flash Cannon ",
-            "Trick Room "};
-        static readonly string[] TMMoves_Gen3 =
-            {"Focus Punch ",
-            "Dragon Claw ",
-            "Water Pulse ",
-            "Calm Mind ",
-            "Roar ",
-            "Toxic ",
-            "Hail ",
-            "Bulk Up ",
-            "Bullet Seed ",
-            "Hidden Power ",
-            "Sunny Day ",
-            "Taunt ",
-            "Ice Beam ",
-            "Blizzard ",
-            "Hyper Beam ",
-            "Light Screen ",
-            "Protect ",
-            "Rain Dance ",
-            "Giga Drain ",
-            "Safeguard ",
-            "Frustration ",
-            "Solar Beam ",
-            "Iron Tail ",
-            "Thunderbolt ",
-            "Thunder ",
-            "Earthquake ",
-            "Return ",
-            "Dig ",
-            "Psychic ",
-            "Shadow Ball ",
-            "Brick Break ",
-            "Double Team ",
-            "Reflect ",
-            "Shock Wave ",
-            "Flamethrower ",
-            "Sludge Bomb ",
-            "Sandstorm ",
-            "Fire Blast ",
-            "Rock Tomb ",
-            "Aerial Ace ",
-            "Torment ",
-            "Facade ",
-            "Secret Power ",
-            "Rest ",
-            "Attract ",
-            "Thief ",
-            "Steel Wing ",
-            "Skill Swap ",
-            "Snatch ",
-            "Overheat " };
-
-        static readonly string[] HMMoves_Gen3 = {
-            "Cut ",
-            "Fly ",
-            "Surf ",
-            "Strength ",
-            "Flash ",
-            "Rock Smash ",
-            "Waterfall ",
-            "Dive "};
-
-        static readonly string[] HMMoves_Gen4_DPPt = {
-            "Cut ",
-            "Fly ",
-            "Surf ",
-            "Strength ",
-            "Defog ",
-            "Rock Smash ",
-            "Waterfall ",
-            "Rock Climb "};
-
-        static readonly string[] HMMoves_Gen4_HGSS= {
-            "Cut ",
-            "Fly ",
-            "Surf ",
-            "Strength ",
-            "Whirlpool ",
-            "Rock Smash ",
-            "Waterfall ",
-            "Rock Climb "};
-
-        int[] TM_Gen3_MoveId = { 264, 337, 352, 347, 46, 92, 258, 339, 331, 237, 241, 269, 58, 59, 63, 113, 182, 240, 202, 219, 218, 76, 231, 85, 87, 89, 216, 91, 94, 247, 280, 104, 115, 351, 53, 188, 201, 126, 317, 332, 259, 263, 290, 156, 213, 168, 211, 285, 289, 315 };
-        int[] TM_Gen4_MoveId = { 264, 337, 352, 347, 46, 92, 258, 339, 331, 237, 241, 269, 58, 59, 63, 113, 182, 240, 202, 219, 218, 76, 231, 85, 87, 89, 216, 91, 94, 247, 280, 104, 115, 351, 53, 188, 201, 126, 317, 332, 259, 263, 290, 156, 213, 168, 211, 285, 289, 315, 355, 411, 412, 206, 362, 374, 451, 203, 406, 409, 261, 318, 373, 153, 421, 371, 278, 416, 397, 148, 444, 419, 86, 360, 14, 446, 244, 445, 399, 157, 404, 214, 363, 398, 138, 447, 207, 365, 369, 164, 430, 433 };
-        int[] HM_Gen3_MoveId = { 15, 19, 57, 70, 148, 249, 127, 291 };
-        int[] HM_Gen4_DPPt_MoveId = { 15, 19, 57, 70, 432, 249, 127, 431 };
-        int[] HM_Gen4_HGSS_MoveId = { 15, 19, 57, 70, 250, 249, 127, 431 };
-
         internal override byte[][] ExtractCompatibilityList(int maxspecies, string filename, int offset, int size)
         {
             byte[][] Byte_Data = new byte[maxspecies+1][];
@@ -228,14 +47,17 @@ namespace PKHeX.ExtractData
         const int OffSet_E_TMHMCompatibilty = 0x31E898; //0x31E8A0 - 8
         const int GBA_HMTMComp_Size = 8;
 
+        const int TMMoves_Gen3 = 50;
+        const int HMMoves_Gen3 = 8;
+
         public void ExtractTMHM(string log_folder, string source_folder, string output_folder)
         {
             /*Extract move list Raw data*/
-            ushort[] R_TMHM  = ExtractMoveList(source_folder + gba_ruby_rom      ,TMMoves_Gen3.Length + HMMoves_Gen3.Length, OffSet_R_TMHMData  ,TMHMDataSize, false);
-            ushort[] S_TMHM  = ExtractMoveList(source_folder + gba_sapphire_rom  ,TMMoves_Gen3.Length + HMMoves_Gen3.Length, OffSet_S_TMHMData  ,TMHMDataSize, false);
-            ushort[] E_TMHM  = ExtractMoveList(source_folder + gba_emerald_rom   ,TMMoves_Gen3.Length + HMMoves_Gen3.Length, OffSet_E_TMHMData  ,TMHMDataSize, false);
-            ushort[] FR_TMHM = ExtractMoveList(source_folder + gba_firered_rom   ,TMMoves_Gen3.Length + HMMoves_Gen3.Length, OffSet_FR_TMHMData ,TMHMDataSize, false);
-            ushort[] LG_TMHM = ExtractMoveList(source_folder + gba_leafgreen_rom ,TMMoves_Gen3.Length + HMMoves_Gen3.Length, OffSet_LG_TMHMData ,TMHMDataSize, false);
+            ushort[] R_TMHM  = ExtractMoveList(source_folder + gba_ruby_rom      ,TMMoves_Gen3 + HMMoves_Gen3, OffSet_R_TMHMData  ,TMHMDataSize, false);
+            ushort[] S_TMHM  = ExtractMoveList(source_folder + gba_sapphire_rom  ,TMMoves_Gen3 + HMMoves_Gen3, OffSet_S_TMHMData  ,TMHMDataSize, false);
+            ushort[] E_TMHM  = ExtractMoveList(source_folder + gba_emerald_rom   ,TMMoves_Gen3 + HMMoves_Gen3, OffSet_E_TMHMData  ,TMHMDataSize, false);
+            ushort[] FR_TMHM = ExtractMoveList(source_folder + gba_firered_rom   ,TMMoves_Gen3 + HMMoves_Gen3, OffSet_FR_TMHMData ,TMHMDataSize, false);
+            ushort[] LG_TMHM = ExtractMoveList(source_folder + gba_leafgreen_rom ,TMMoves_Gen3 + HMMoves_Gen3, OffSet_LG_TMHMData ,TMHMDataSize, false);
 
             /*Data is equal between all GBA games*/
             bool R_S_EqualsMoves   = ExtractUtils.CheckArrayEqual(R_TMHM  ,S_TMHM);
@@ -251,11 +73,11 @@ namespace PKHeX.ExtractData
             byte[][] LG_Compatibility = ExtractCompatibilityList(GData.MaxSpeciesIndexGeneration, source_folder + gba_leafgreen_rom, OffSet_LG_TMHMCompatibilty, GBA_HMTMComp_Size);
 
             /*Transform to bool array*/
-            bool[][] R_FlagsCompatibility  = RawFlagsToBoolean(R_Compatibility, TMMoves_Gen3.Length + HMMoves_Gen3.Length);
-            bool[][] S_FlagsCompatibility  = RawFlagsToBoolean(S_Compatibility, TMMoves_Gen3.Length + HMMoves_Gen3.Length);
-            bool[][] E_FlagsCompatibility  = RawFlagsToBoolean(E_Compatibility, TMMoves_Gen3.Length + HMMoves_Gen3.Length);
-            bool[][] FR_FlagsCompatibility = RawFlagsToBoolean(FR_Compatibility, TMMoves_Gen3.Length + HMMoves_Gen3.Length);
-            bool[][] LG_FlagsCompatibility = RawFlagsToBoolean(LG_Compatibility, TMMoves_Gen3.Length + HMMoves_Gen3.Length);
+            bool[][] R_FlagsCompatibility  = RawFlagsToBoolean(R_Compatibility, TMMoves_Gen3 + HMMoves_Gen3);
+            bool[][] S_FlagsCompatibility  = RawFlagsToBoolean(S_Compatibility, TMMoves_Gen3 + HMMoves_Gen3);
+            bool[][] E_FlagsCompatibility  = RawFlagsToBoolean(E_Compatibility, TMMoves_Gen3 + HMMoves_Gen3);
+            bool[][] FR_FlagsCompatibility = RawFlagsToBoolean(FR_Compatibility, TMMoves_Gen3 + HMMoves_Gen3);
+            bool[][] LG_FlagsCompatibility = RawFlagsToBoolean(LG_Compatibility, TMMoves_Gen3 + HMMoves_Gen3);
 
             /*Data is equal between all GBA games*/
             bool R_S_EqualsComp   = ExtractUtils.CheckArrayEqual(R_Compatibility, S_Compatibility);
@@ -265,15 +87,15 @@ namespace PKHeX.ExtractData
 
             /*From here only Emerald data is used*/
 
-            TraceTMHMList(log_folder + "G3_HMTM.log", E_TMHM, TMMoves_Gen3.Length, HMMoves_Gen3.Length);
-            TraceTMHMCompatibilityList(log_folder, "G3_HMTM_Index_Comp.log"    , E_TMHM, E_FlagsCompatibility, TMMoves_Gen3.Length, HMMoves_Gen3.Length,true);
+            TraceTMHMList(log_folder + "G3_HMTM.log", E_TMHM, TMMoves_Gen3, HMMoves_Gen3);
+            TraceTMHMCompatibilityList(log_folder, "G3_HMTM_Index_Comp.log"    , E_TMHM, E_FlagsCompatibility, TMMoves_Gen3, HMMoves_Gen3,true);
 
             /*Data is stored in gen 3 index number, not in dex number. 
             * Order the data in dex order to have the same order in pkhex like the personal table*/
             E_Compatibility = GData.TransformDexOrder(E_Compatibility);
-            E_FlagsCompatibility = RawFlagsToBoolean(E_Compatibility, TMMoves_Gen3.Length + HMMoves_Gen3.Length);
+            E_FlagsCompatibility = RawFlagsToBoolean(E_Compatibility, TMMoves_Gen3 + HMMoves_Gen3);
 
-            TraceTMHMCompatibilityList(log_folder, "G3_HMTM_DexNumber_Comp.log", E_TMHM, E_FlagsCompatibility, TMMoves_Gen3.Length, HMMoves_Gen3.Length, false);
+            TraceTMHMCompatibilityList(log_folder, "G3_HMTM_DexNumber_Comp.log", E_TMHM, E_FlagsCompatibility, TMMoves_Gen3, HMMoves_Gen3, false);
 
             TMHMTutorMoves[] E_MovesCompatibility = TMHMTutorMoves.getArray(E_Compatibility);
 
