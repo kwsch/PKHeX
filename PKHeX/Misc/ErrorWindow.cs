@@ -13,7 +13,8 @@ namespace PKHeX.Misc
     {
         public static void ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
         {
-            var dialog = new ErrorWindow(); // Todo: provide language
+            var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+            var dialog = new ErrorWindow(lang);
             dialog.ShowContinue = allowContinue;
             dialog.Message = friendlyMessage;
             dialog.Error = ex;

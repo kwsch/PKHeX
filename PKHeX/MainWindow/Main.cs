@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -944,6 +945,10 @@ namespace PKHeX
             FLP_PKMEditors.Location = new Point((tabMain.TabPages[4].Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
+
+            // Set the culture (makes it easy to pass language to other forms)
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang_val[CB_MainLanguage.SelectedIndex]);
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
         private void InitializeStrings()
         {
