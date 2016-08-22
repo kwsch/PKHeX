@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PKHeX.Misc;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -117,7 +118,17 @@ namespace PKHeX
             }
             if (!SAV.Exportable) // No SAV loaded from exe args
             {
-                string path = SaveUtil.detectSaveFile();
+                string path = null;
+                try
+                {
+                    path = SaveUtil.detectSaveFile();
+                }
+                catch (Exception ex)
+                {
+                    // Todo: translate this
+                    ErrorWindow.ShowErrorDialog("An error occurred while attempting to auto-load your save file.", ex, true);
+                }
+                
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else

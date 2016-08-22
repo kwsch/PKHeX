@@ -184,6 +184,8 @@ namespace PKHeX
         /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
         public static string detectSaveFile()
         {
+
+            throw new Exception("Testing...");
             string path;
             string path3DS = Path.GetPathRoot(Util.get3DSLocation());
             List<string> possiblePaths = new List<string>();
