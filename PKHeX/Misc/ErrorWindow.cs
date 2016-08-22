@@ -79,7 +79,31 @@ namespace PKHeX.Misc
             set
             {
                 _error = value;
-                T_ExceptionDetails.Text = value.ToString();
+
+                var details = new StringBuilder();
+                details.AppendLine("Exception Details:");
+                details.AppendLine(value.ToString());
+                details.AppendLine();
+
+                details.AppendLine("Loaded Assemblies:");
+                details.AppendLine("--------------------");
+                try
+                {
+                    foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        details.AppendLine(item.FullName);
+                        details.AppendLine(item.Location);
+                        details.AppendLine();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    details.AppendLine("An error occurred while listing the Loaded Assemblies:");
+                    details.AppendLine(ex.ToString());
+                }
+                details.AppendLine("--------------------");
+
+                T_ExceptionDetails.Text = details.ToString();
             }
         }
         private Exception _error;
