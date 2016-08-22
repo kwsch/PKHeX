@@ -367,8 +367,8 @@ L_Arguments = Onglet désactivé ; Toujours avec ; DO ; Génération précédent
 ! ErrorWindow = Erreur
 - Change stuff below this line, not above.
 -------------------------------------------------------
-L_ProvideInfo = S'il vous plaît fournir ces informations lorsque vous rapportez cette error: 
-B_CopyToClipboard = Copier dans les Notes
+L_ProvideInfo = Veuillez fournir les informations suivantes dans votre rapport d'erreur :
+B_CopyToClipboard = Copier dans le presse-papier
 B_Continue = Continuer
 B_Abort = Abandonner
 ! End

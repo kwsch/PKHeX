@@ -72,7 +72,7 @@
             this.B_CopyToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.B_CopyToClipboard.Location = new System.Drawing.Point(12, 201);
             this.B_CopyToClipboard.Name = "B_CopyToClipboard";
-            this.B_CopyToClipboard.Size = new System.Drawing.Size(133, 23);
+            this.B_CopyToClipboard.Size = new System.Drawing.Size(164, 23);
             this.B_CopyToClipboard.TabIndex = 3;
             this.B_CopyToClipboard.Text = "Copy to Clipboard";
             this.B_CopyToClipboard.UseVisualStyleBackColor = true;
