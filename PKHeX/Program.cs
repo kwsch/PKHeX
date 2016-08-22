@@ -35,6 +35,7 @@ namespace PKHeX
             DialogResult result = DialogResult.Cancel;
             try
             {
+                // Todo: make this translatable
                 ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
             }
             catch
@@ -64,6 +65,7 @@ namespace PKHeX
             try
             {
                 var ex = (Exception)e.ExceptionObject;
+                // Todo: make this translatable
                 ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
             }
             catch
