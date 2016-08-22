@@ -804,8 +804,8 @@ B_Save = Guardar
 ! ErrorWindow = Error
 - Change stuff below this line, not above.
 -------------------------------------------------------
-L_ProvideInfo = Please provide this information when reporting this error: 
-B_CopyToClipboard = Copy to Clipboard
-B_Continue = Continue
-B_Abort = Abort
+L_ProvideInfo = Por favor, proporciona esta información cuando reportes este fallo:
+B_CopyToClipboard = Copiar al portapapeles
+B_Continue = Continuar
+B_Abort = Abortar
 ! End
