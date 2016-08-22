@@ -798,3 +798,13 @@ B_Output = Export
 B_Cancel = Cancel
 B_Save = Save
 ! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! ErrorWindow = Error
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_ProvideInfo = Please provide this information when reporting this error: 
+B_CopyToClipboard = Copy to Clipboard
+B_Continue = Continue
+B_Abort = Abort
+! End

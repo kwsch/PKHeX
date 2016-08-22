@@ -360,3 +360,13 @@ L_Country = 国
 --
 L_Arguments = 使用禁止 ; 左はありませんでした ; OT ; 前回のゲーム ; との思い出 ; ポケモン ; エリア ; 項目 ; わざ ; 場所 ;
 ! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! ErrorWindow = Error
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_ProvideInfo = Please provide this information when reporting this error: 
+B_CopyToClipboard = Copy to Clipboard
+B_Continue = Continue
+B_Abort = Abort
+! End
