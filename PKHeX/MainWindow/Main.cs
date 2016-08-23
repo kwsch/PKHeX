@@ -1228,6 +1228,8 @@ namespace PKHeX
                 formnum = CB_Form.SelectedIndex;
 
             int[] abils = SAV.Personal.getAbilities(species, formnum);
+            if (abils[1] == 0)
+                abils[1] = abils[0];
             string[] abilIdentifier = {" (1)", " (2)", " (H)"};
             List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
             if (!ability_list.Any())
@@ -1652,6 +1654,9 @@ namespace PKHeX
                 pkm.setPIDNature(Util.getIndex(CB_Nature));
             else if (sender == BTN_RerollPID)
                 pkm.setPIDGender(pkm.Gender);
+            else if (sender == CB_Ability && CB_Ability.SelectedIndex != pkm.PIDAbility && pkm.PIDAbility > -1)
+                pkm.PID = PKX.getRandomPID(pkm.Species, pkm.Gender, pkm.Version, pkm.Nature, pkm.Format, (uint)(CB_Ability.SelectedIndex * 0x10001));
+
             TB_PID.Text = pkm.PID.ToString("X8");
             getQuickFiller(dragout);
             if (pkm.GenNumber < 6 && TB_EC.Visible)
@@ -2203,10 +2208,15 @@ namespace PKHeX
             if (!fieldsInitialized)
                 return;
             validateComboBox(sender, e);
-            if (sender == CB_Ability)
-                TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
-            if (fieldsLoaded && sender == CB_Nature && SAV.Generation <= 4)
-                updateRandomPID(sender, e);
+            if (fieldsLoaded)
+            {
+                if (sender == CB_Ability && SAV.Generation >= 6)
+                    TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
+                if (sender == CB_Ability && SAV.Generation <= 5 && CB_Ability.SelectedIndex < 2) // not hidden
+                    updateRandomPID(sender, e);
+                if (sender == CB_Nature && SAV.Generation <= 4)
+                    updateRandomPID(sender, e);
+            }
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
         }
