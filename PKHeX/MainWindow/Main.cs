@@ -3464,6 +3464,8 @@ namespace PKHeX
                         SlotPictureBoxes[slotSourceSlotNumber].Image = null;
                     }
                 }
+                else
+                    getQuickFiller(SlotPictureBoxes[slotSourceSlotNumber], pkz);
                 // Copy from temp to destination slot.
                 SAV.setStoredSlot(pkz, slotDestinationOffset);
                 getQuickFiller(SlotPictureBoxes[slotDestinationSlotNumber], pkz);
