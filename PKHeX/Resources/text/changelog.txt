@@ -764,7 +764,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Trainer Editor window ~ Unicode character display. Thanks \!
  - Fixed: Minor main window editing bugs for EXP/Nature/Gender.
 
-08/07/16 - New Update:
+08/07/16 - New Update: (38200)
  - Added: TWLSaveTool folder auto-detection for past generation save files.
  - Changed: Save file auto-detection now detects the last saved file instead of a predefined order. Saving a NDS game after 3DS game will return the NDS save.
  - Fixed: Multiple gen3/4 save/pkm/transfer bugs. Thanks BeyondTheHorizon, JHorbach, Destinyy, MichiS97, ashrobb, IamAVeryNicePereson & javier_himura!
@@ -775,3 +775,17 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Gen6 Trainer Info editor can now edit Vivillon forms again. Thanks Majickhat55!
  - Added: Cleaner 'delete' command to batch editor (set species to 0 to clear data).
  - Added: Specifying output folder when modifying a folder in the Batch Editor. Thanks \!
+
+08/22/16 - New Update:
+ - Changed: Drag&Drop now replaces the cursor with the sprite to better simulate moving a Pokémon.
+ - Added: FBI homebrew save file detection. Thanks poutros!
+ - Fixed: Program now indicates the type of blank save file loaded if none is detected on startup.
+ - Fixed: Vivillon form Showdown Import behavior. Thansk sora10pls!
+ - Fixed: Vivillon form selection in Trainer Editor re-enabled. Thanks Tsunamical!
+ - Fixed: Program should now load data much quicker; includes save files, box slots, and pcdata.
+ - Fixed: Past gen transfer / save file bugs. Thanks vacero, JSS, Ninjistix & Porta_14
+ - Fixed: Mystery Gift manipulation now behaves better. Thanks jonaththejonath, sora10pls, Odaxis & rush2802!
+ - Fixed: Legality indication persists when loading a save file.
+ - Fixed: Hyperspace Fury legality. Thanks RanEncounter!
+ - Changed: Batch Editor improvements for PID/EC writing. Thanks JSS & Pokegeo!
+ - Changed: Updated Spanish and Chinese translation. Thanks ajtudela & easyworld!

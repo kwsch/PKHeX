@@ -287,6 +287,17 @@ namespace PKHeX
             get { return new[] { Move1, Move2, Move3, Move4 }; }
             set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
         }
+        public int PIDAbility
+        {
+            get
+            {
+                if (GenNumber > 5 || Format > 5)
+                    return -1;
+                if (GenNumber == 5)
+                    return (int)((PID >> 16) & 1);
+                return (int)(PID & 1);
+            }
+        }
 
         public bool[] Markings
         {
