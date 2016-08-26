@@ -11,7 +11,7 @@ namespace PKHeX.Misc
 {
     public partial class ErrorWindow : Form
     {
-        public static void ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
+        public static DialogResult ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
         {
             var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
             var dialog = new ErrorWindow(lang);
@@ -24,6 +24,7 @@ namespace PKHeX.Misc
             {
                 Application.Exit();
             }
+            return dialogResult;
         }
 
         public ErrorWindow()

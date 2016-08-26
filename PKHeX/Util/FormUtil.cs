@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PKHeX.Misc;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -9,7 +10,7 @@ namespace PKHeX
 {
     public partial class Util
     {
-        // Form Translation
+        #region Form Translation
         internal static void TranslateInterface(Control form, string lang)
         {
             // Check to see if a the translation file exists in the same folder as the executable
@@ -113,20 +114,40 @@ namespace PKHeX
             int y = parent.Location.Y + (parent.Height - child.Height) / 2;
             child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
         }
+        #endregion
 
-        // Message Displays
+        #region Message Displays
+        /// <summary>
+        /// Displays a dialog showing the details of an error.
+        /// </summary>
+        /// <param name="friendlyMessage">User-friendly message about the error.</param>
+        /// <param name="exception">Instance of the error's <see cref="Exception"/>.</param>
+        /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
+        internal static DialogResult Error(string friendlyMessage, Exception exception)
+        {
+            System.Media.SystemSounds.Exclamation.Play();
+            return ErrorWindow.ShowErrorDialog(friendlyMessage, exception, true, true);
+        }
+
+        /// <summary>
+        /// Displays a dialog showing the details of an error.
+        /// </summary>
+        /// <param name="lines">User-friendly message about the error.</param>
+        /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
         internal static DialogResult Error(params string[] lines)
         {
             System.Media.SystemSounds.Exclamation.Play();
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
         internal static DialogResult Alert(params string[] lines)
         {
             System.Media.SystemSounds.Asterisk.Play();
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+
         internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
             System.Media.SystemSounds.Question.Play();
@@ -152,5 +173,6 @@ namespace PKHeX
                     break;
             }
         }
+        #endregion
     }
 }

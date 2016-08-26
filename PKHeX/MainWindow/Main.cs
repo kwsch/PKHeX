@@ -551,7 +551,7 @@ namespace PKHeX
                 catch (Exception e) { Util.Error("File is in use by another program!", path, e.ToString()); return; }
 
                 try { openFile(input, path, ext); }
-                catch (Exception e) { Util.Error("Unable to load file.", e.ToString()); }
+                catch (Exception e) { Util.Error("Unable to load file.", e); }
             }
         }
         private void openFile(byte[] input, string path, string ext)
@@ -2503,7 +2503,7 @@ namespace PKHeX
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
-            { Util.Error("Drag & Drop Error", x.ToString()); }
+            { Util.Error("Drag & Drop Error", x); }
             Cursor = DragInfo.Cursor = DefaultCursor;
             File.Delete(newfile);
         }
@@ -2559,7 +2559,7 @@ namespace PKHeX
 
             try { Directory.CreateDirectory(BackupPath); Util.Alert("Backup folder created!", 
                 $"If you wish to no longer automatically back up save files, delete the \"{BackupPath}\" folder."); }
-            catch { Util.Error($"Unable to create backup folder @ {BackupPath}"); }
+            catch(Exception ex) { Util.Error($"Unable to create backup folder @ {BackupPath}", ex); }
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
@@ -3428,7 +3428,7 @@ namespace PKHeX
                 }
                 catch (Exception x)
                 {
-                    Util.Error("Drag & Drop Error:", x.ToString());
+                    Util.Error("Drag & Drop Error", x);
                 }
                 DragInfo.Reset();
                 Cursor = DefaultCursor;

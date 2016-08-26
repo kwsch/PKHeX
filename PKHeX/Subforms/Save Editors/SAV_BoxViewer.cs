@@ -193,7 +193,7 @@ namespace PKHeX
                 }
                 catch (Exception x)
                 {
-                    Util.Error("Drag & Drop Error:", x.ToString());
+                    Util.Error("Drag & Drop Error", x);
                 }
                 DragInfo.Reset();
                 Cursor = DefaultCursor;
