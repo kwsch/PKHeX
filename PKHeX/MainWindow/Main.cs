@@ -17,7 +17,7 @@ namespace PKHeX
         {
             #region Initialize Form
             new Thread(() => new SplashScreen().ShowDialog()).Start();
-            slotPkmSource = SAV.BlankPKM.EncryptedPartyData;
+            DragInfo.slotPkmSource = SAV.BlankPKM.EncryptedPartyData;
             InitializeComponent();
             CB_ExtraBytes.SelectedIndex = 0;
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
@@ -773,6 +773,11 @@ namespace PKHeX
                 GB_SAVtools.Visible = false;
             }
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
+
+            // Close subforms that are save dependent
+            Type[] f = { typeof(SAV_BoxViewer), typeof(f2_Text) };
+            foreach (var form in Application.OpenForms.Cast<Form>().Where(form => f.Contains(form.GetType())).ToArray())
+                form.Close();
 
             setBoxNames();   // Display the Box Names
             if (SAV.HasBox)
@@ -2402,7 +2407,7 @@ namespace PKHeX
         invalid:
             { SystemSounds.Exclamation.Play(); return false; }
         }
-        private static string[] verifyPKMtoSAV(PKM pk)
+        public static string[] verifyPKMtoSAV(PKM pk)
         {
             // Check if PKM properties are outside of the valid range
             List<string> errata = new List<string>();
@@ -2454,6 +2459,8 @@ namespace PKHeX
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             openQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
+
+            Cursor = DefaultCursor;
         }
         // Decrypted Export
         private void dragout_MouseDown(object sender, MouseEventArgs e)
@@ -2476,12 +2483,12 @@ namespace PKHeX
             {
                 File.WriteAllBytes(newfile, dragdata);
                 PictureBox pb = (PictureBox)sender;
-                Cursor.Current = new Cursor(((Bitmap)pb.Image).GetHicon());
+                Cursor = DragInfo.Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
             { Util.Error("Drag & Drop Error", x.ToString()); }
-            Cursor.Current = DefaultCursor;
+            Cursor = DragInfo.Cursor = DefaultCursor;
             File.Delete(newfile);
         }
         private void dragout_DragOver(object sender, DragEventArgs e)
@@ -2502,6 +2509,8 @@ namespace PKHeX
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             openQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
+
+            Cursor = DefaultCursor;
         }
         #endregion
 
@@ -2617,6 +2626,20 @@ namespace PKHeX
                 setPKXBoxes();
                 Util.Alert("Current Box sorted!");
             }
+            else if (ModifierKeys == Keys.Shift)
+            {
+                var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_BoxViewer)) as SAV_BoxViewer;
+                if (z != null)
+                { Util.CenterToForm(z, this); z.BringToFront(); return; }
+
+                new SAV_BoxViewer(this).Show();
+            }
+        }
+        public int swapBoxesViewer(int viewBox)
+        {
+            int mainBox = CB_BoxSelect.SelectedIndex;
+            CB_BoxSelect.SelectedIndex = viewBox;
+            return mainBox;
         }
 
         private void clickSlot(object sender, EventArgs e)
@@ -2980,8 +3003,8 @@ namespace PKHeX
             catch
             {
                 CB_BoxSelect.Items.Clear();
-                for (int i = 0; i < SAV.BoxCount; i++)
-                    CB_BoxSelect.Items.Add("BOX " + (i+1));
+                for (int i = 1; i <= SAV.BoxCount; i++)
+                    CB_BoxSelect.Items.Add($"BOX {i}");
             }
             if (selectedbox < CB_BoxSelect.Items.Count)
                 CB_BoxSelect.SelectedIndex = selectedbox; // restore selected box
@@ -2992,7 +3015,7 @@ namespace PKHeX
             pk = pk ?? preparePKM(false); // don't perform control loss click
 
             if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
-            pb.Image = pk.Sprite;
+            pb.Image = pk.Species != 0 ? pk.Sprite : null;
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
         }
@@ -3312,7 +3335,7 @@ namespace PKHeX
         // Drag and drop related functions
         private void pbBoxSlot_MouseClick(object sender, MouseEventArgs e)
         {
-            if (slotDragDropInProgress)
+            if (DragInfo.slotDragDropInProgress)
                 return;
             
             clickSlot(sender, e);
@@ -3320,23 +3343,23 @@ namespace PKHeX
         private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                slotLeftMouseIsDown = false;
+                DragInfo.slotLeftMouseIsDown = false;
             if (e.Button == MouseButtons.Right)
-                slotRightMouseIsDown = false;
+                DragInfo.slotRightMouseIsDown = false;
         }
         private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                slotLeftMouseIsDown = true;
+                DragInfo.slotLeftMouseIsDown = true;
             if (e.Button == MouseButtons.Right)
-                slotRightMouseIsDown = true;
+                DragInfo.slotRightMouseIsDown = true;
         }
         private void pbBoxSlot_MouseMove(object sender, MouseEventArgs e)
         {
-            if (slotDragDropInProgress)
+            if (DragInfo.slotDragDropInProgress)
                 return;
 
-            if (slotLeftMouseIsDown)
+            if (DragInfo.slotLeftMouseIsDown)
             {
                 // The goal is to create a temporary PKX file for the underlying Pokemon
                 // and use that file to perform a drag drop operation.
@@ -3347,17 +3370,18 @@ namespace PKHeX
                     return;
 
                 // Set flag to prevent re-entering.
-                slotDragDropInProgress = true;
+                DragInfo.slotDragDropInProgress = true;
 
-                slotSourceSlotNumber = getSlot(pb);
-                int offset = getPKXOffset(slotSourceSlotNumber);
+                DragInfo.slotSourceSlotNumber = getSlot(pb);
+                int offset = getPKXOffset(DragInfo.slotSourceSlotNumber);
 
                 // Prepare Data
-                slotPkmSource = SAV.getData(offset, SAV.SIZE_STORED);
-                slotSourceOffset = offset;
+                DragInfo.slotPkmSource = SAV.getData(offset, SAV.SIZE_STORED);
+                DragInfo.slotSourceOffset = offset;
+                DragInfo.slotSourceBoxNumber = CB_BoxSelect.SelectedIndex;
 
                 // Make a new file name based off the PID
-                byte[] dragdata = SAV.decryptPKM(slotPkmSource);
+                byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
                 Array.Resize(ref dragdata, SAV.SIZE_STORED);
                 PKM pkx = SAV.getPKM(dragdata);
                 string filename = pkx.FileName;
@@ -3368,43 +3392,51 @@ namespace PKHeX
                 {
                     File.WriteAllBytes(newfile, dragdata);
                     var img = (Bitmap)pb.Image;
-                    Cursor.Current = new Cursor(img.GetHicon());
+                    DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
                     pb.Image = null;
-                    pb.BackColor = Color.FromArgb(100, 200, 200, 200);
+                    pb.BackgroundImage = Properties.Resources.slotDrag;
                     // Thread Blocks on DoDragDrop
+                    DragInfo.CurrentPath = newfile;
                     DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
                     if (result != DragDropEffects.Link) // not dropped to another box slot, restore img
                         pb.Image = img;
+                    else // refresh image
+                        getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
+                    pb.BackgroundImage = null;
+                    
+                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber)
+                        SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
+
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
-                        getSlotColor(slotSourceSlotNumber, Properties.Resources.slotView);
-                    pb.BackColor = Color.Transparent;
+                        getSlotColor(DragInfo.slotSourceSlotNumber, Properties.Resources.slotView);
                 }
                 catch (Exception x)
                 {
                     Util.Error("Drag & Drop Error:", x.ToString());
                 }
-                slotSourceOffset = 0;
-                Cursor.Current = DefaultCursor;
+                DragInfo.Reset();
+                Cursor = DefaultCursor;
 
                 // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
                 // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
                 new Thread(() =>
                 {
                     Thread.Sleep(500);
-                    if (File.Exists(newfile))
+                    if (File.Exists(newfile) && DragInfo.CurrentPath == null)
                         File.Delete(newfile);
                 }).Start();
             }
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
-            int slotDestinationSlotNumber = getSlot(sender);
-            int slotDestinationOffset = getPKXOffset(slotDestinationSlotNumber);
+            DragInfo.slotDestinationSlotNumber = getSlot(sender);
+            DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
+            DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { loadBoxesFromDB(files[0]); return; }
-            if (slotSourceOffset == 0)
+            if (DragInfo.slotSourceOffset < 0) // file
             {
                 if (files.Length <= 0)
                     return;
@@ -3430,48 +3462,45 @@ namespace PKHeX
                     { Console.WriteLine(c); Console.WriteLine(concat); return; }
                 }
 
-                SAV.setStoredSlot(pk, slotDestinationOffset);
-                getQuickFiller(SlotPictureBoxes[slotDestinationSlotNumber], pk);
-                getSlotColor(slotDestinationSlotNumber, Properties.Resources.slotSet);
+                SAV.setStoredSlot(pk, DragInfo.slotDestinationOffset);
+                getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pk);
+                getSlotColor(DragInfo.slotDestinationSlotNumber, Properties.Resources.slotSet);
                 Console.WriteLine(c);
             }
             else
             {
-                PKM pkz = SAV.getStoredSlot(slotSourceOffset);
-                if (ModifierKeys == Keys.Alt && slotDestinationSlotNumber > -1) // overwrite delete old slot
+                PKM pkz = SAV.getStoredSlot(DragInfo.slotSourceOffset);
+                if (ModifierKeys == Keys.Alt && DragInfo.slotDestinationSlotNumber > -1) // overwrite delete old slot
                 {
-                    // Clear from slot 
-                    getQuickFiller(SlotPictureBoxes[slotSourceSlotNumber], SAV.BlankPKM); // picturebox
-                    SAV.setStoredSlot(SAV.BlankPKM, slotSourceOffset); // savefile
+                    // Clear from slot
+                    if (DragInfo.SameBox)
+                        getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], SAV.BlankPKM); // picturebox
+
+                    SAV.setStoredSlot(SAV.BlankPKM, DragInfo.slotSourceOffset);
                 }
-                else if (ModifierKeys != Keys.Control && slotDestinationSlotNumber > -1)
+                else if (ModifierKeys != Keys.Control && DragInfo.slotDestinationSlotNumber > -1)
                 {
-                    if (((PictureBox)sender).Image != null)
-                    {
-                        // Load data from destination
-                        PKM pk = SAV.getStoredSlot(slotDestinationOffset);
+                    // Load data from destination
+                    PKM pk = ((PictureBox) sender).Image != null
+                        ? SAV.getStoredSlot(DragInfo.slotDestinationOffset)
+                        : SAV.BlankPKM;
 
-                        // Set destination pokemon image to source picture box
-                        getQuickFiller(SlotPictureBoxes[slotSourceSlotNumber], pk);
+                    // Set destination pokemon image to source picture box
+                    if (DragInfo.SameBox)
+                        getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pk);
 
-                        // Set destination pokemon data to source slot
-                        SAV.setStoredSlot(pk, slotSourceOffset);
-                    }
-                    else
-                    {
-                        // Set blank to source slot
-                        SAV.setStoredSlot(SAV.BlankPKM, slotSourceOffset);
-                        SlotPictureBoxes[slotSourceSlotNumber].Image = null;
-                    }
+                    // Set destination pokemon data to source slot
+                    SAV.setStoredSlot(pk, DragInfo.slotSourceOffset);
                 }
-                else
-                    getQuickFiller(SlotPictureBoxes[slotSourceSlotNumber], pkz);
+                else if (DragInfo.SameBox)
+                    getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pkz);
+
                 // Copy from temp to destination slot.
-                SAV.setStoredSlot(pkz, slotDestinationOffset);
-                getQuickFiller(SlotPictureBoxes[slotDestinationSlotNumber], pkz);
+                SAV.setStoredSlot(pkz, DragInfo.slotDestinationOffset);
+                getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pkz);
 
                 e.Effect = DragDropEffects.Link;
-                slotSourceOffset = 0; // Clear offset value
+                Cursor = DefaultCursor;
             }
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
@@ -3480,23 +3509,57 @@ namespace PKHeX
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
+
+            if (DragInfo.slotDragDropInProgress)
+                Cursor = DragInfo.Cursor;
         }
         private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
             if (e.Action == DragAction.Cancel || e.Action == DragAction.Drop)
             {
-                slotLeftMouseIsDown = false;
-                slotRightMouseIsDown = false;
-                slotDragDropInProgress = false;
+                DragInfo.slotLeftMouseIsDown = false;
+                DragInfo.slotRightMouseIsDown = false;
+                DragInfo.slotDragDropInProgress = false;
             }
         }
 
-        private static bool slotLeftMouseIsDown = false;
-        private static bool slotRightMouseIsDown = false;
-        private static bool slotDragDropInProgress = false;
-        private byte[] slotPkmSource;
-        private int slotSourceOffset;
-        private int slotSourceSlotNumber = -1;
+        public static class DragInfo
+        {
+            public static bool slotLeftMouseIsDown;
+            public static bool slotRightMouseIsDown;
+            public static bool slotDragDropInProgress;
+
+            public static byte[] slotPkmSource;
+            public static byte[] slotPkmDestination;
+
+            public static int slotSourceOffset = -1;
+            public static int slotSourceSlotNumber = -1;
+            public static int slotSourceBoxNumber = -1;
+
+            public static int slotDestinationOffset = -1;
+            public static int slotDestinationSlotNumber = -1;
+            public static int slotDestinationBoxNumber = -1;
+
+            public static Cursor Cursor;
+            public static string CurrentPath;
+
+            public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;
+            public static void Reset()
+            {
+                slotLeftMouseIsDown = false;
+                slotRightMouseIsDown = false;
+                slotDragDropInProgress = false;
+
+                slotPkmSource = null;
+                slotSourceOffset = slotSourceSlotNumber = slotSourceBoxNumber = -1;
+                slotPkmDestination = null;
+                slotDestinationOffset = slotSourceBoxNumber = slotDestinationBoxNumber = -1;
+
+                Cursor = null;
+                CurrentPath = null;
+            }
+        }
+
         #endregion
     }
 }
