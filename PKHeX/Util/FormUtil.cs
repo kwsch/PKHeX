@@ -126,7 +126,7 @@ namespace PKHeX
         internal static DialogResult Error(string friendlyMessage, Exception exception)
         {
             System.Media.SystemSounds.Exclamation.Play();
-            return ErrorWindow.ShowErrorDialog(friendlyMessage, exception, true, true);
+            return ErrorWindow.ShowErrorDialog(friendlyMessage, exception, true);
         }
 
         /// <summary>
