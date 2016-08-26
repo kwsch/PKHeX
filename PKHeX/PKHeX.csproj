@@ -197,6 +197,12 @@
     <Compile Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.Designer.cs">
       <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxViewer.Designer.cs">
+      <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\SAV_Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -348,6 +354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.resx">
       <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxViewer.resx">
+      <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
@@ -2715,7 +2724,12 @@
     <None Include="Resources\img\ribbons\artist.png" />
     <None Include="Resources\img\ribbons\alert.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\img\box\slotDrag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\box\swapBox.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

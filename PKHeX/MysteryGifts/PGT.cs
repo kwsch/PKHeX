@@ -116,12 +116,12 @@ namespace PKHeX
             }
         }
 
-        private GiftType Type { get { return (GiftType)Data[0]; } set {Data[0] = (byte)value; } }
-        public bool IsHatched => Type == GiftType.Pokémon;
-        public bool IsEgg => Type == GiftType.PokémonEgg;
-        public bool IsManaphyEgg => Type == GiftType.ManaphyEgg;
-        public override bool IsItem { get { return Type == GiftType.Item; } set { if (value) CardType = (int)GiftType.Item; } }
-        public override bool IsPokémon { get { return Type == GiftType.Pokémon || Type == GiftType.PokémonEgg || Type == GiftType.ManaphyEgg; } set { } }
+        private GiftType PGTGiftType { get { return (GiftType)Data[0]; } set {Data[0] = (byte)value; } }
+        public bool IsHatched => PGTGiftType == GiftType.Pokémon;
+        public bool IsEgg => PGTGiftType == GiftType.PokémonEgg;
+        public bool IsManaphyEgg => PGTGiftType == GiftType.ManaphyEgg;
+        public override bool IsItem { get { return PGTGiftType == GiftType.Item; } set { if (value) CardType = (int)GiftType.Item; } }
+        public override bool IsPokémon { get { return PGTGiftType == GiftType.Pokémon || PGTGiftType == GiftType.PokémonEgg || PGTGiftType == GiftType.ManaphyEgg; } set { } }
 
         public override PKM convertToPKM(SaveFile SAV)
         {

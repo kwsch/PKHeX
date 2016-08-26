@@ -16673,6 +16673,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap slotDrag {
+            get {
+                object obj = ResourceManager.GetObject("slotDrag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap slotSet {
             get {
                 object obj = ResourceManager.GetObject("slotSet", resourceCulture);
@@ -18426,6 +18436,16 @@ namespace PKHeX.Properties {
         internal static string sr_186 {
             get {
                 return ResourceManager.GetString("sr_186", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap swapBox {
+            get {
+                object obj = ResourceManager.GetObject("swapBox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -22883,8 +22903,8 @@ namespace PKHeX.Properties {
         ///
         ///Blanca
         ///Negra
-        ///Blanca2
-        ///Negra2
+        ///Blanca 2
+        ///Negra 2
         ///X
         ///Y
         ///Zafiro Alfa
