@@ -151,6 +151,7 @@ namespace PKHeX
         public static string[] wallpapernames, puffs = { };
         public static bool unicode;
         public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
+        private static List<ComboItem> metGen1, metGen2, metGen3, metGen4, metGen5, metGen6;
 
         public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
         private static int colorizedbox = -1;
@@ -172,7 +173,7 @@ namespace PKHeX
                 "中文", // CHN
                 "Português", // Portuguese
             };
-        private static string origintrack;
+        private static GameVersion origintrack;
         private readonly PictureBox[] SlotPictureBoxes, movePB, relearnPB;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         #endregion
@@ -1051,7 +1052,7 @@ namespace PKHeX
             abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = "(" + itemlist[0] + ")";
 
             // Force an update to the met locations
-            origintrack = "";
+            origintrack = GameVersion.Unknown;
 
             // Update Legality Analysis strings
             LegalityAnalysis.movelist = movelist;
@@ -1107,6 +1108,48 @@ namespace PKHeX
             VersionDataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
 
             MoveDataSource = Util.getCBList(movelist, null);
+
+            #region Met Locations
+            // Gen 3
+            {
+                var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
+                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
+                metGen3 = met_list;
+            }
+            // Gen 4
+            {
+                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
+                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
+                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
+                metGen4 = met_list;
+            }
+            // Gen 5
+            {
+                var met_list = Util.getCBList(metBW2_00000, new[] { 0 });
+                met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, new[] { 60002 });
+                met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, new[] { 30003 });
+                met_list = Util.getOffsetCBList(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
+                met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
+                met_list = Util.getOffsetCBList(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
+                met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
+                metGen5 = met_list;
+            }
+            // Gen 6
+            {
+                var met_list = Util.getCBList(metXY_00000, new[] { 0 });
+                met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, new[] { 60002 });
+                met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, new[] { 30002 });
+                met_list = Util.getOffsetCBList(met_list, metXY_00000, 00000, Legal.Met_XY_0);
+                met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, Legal.Met_XY_3);
+                met_list = Util.getOffsetCBList(met_list, metXY_40000, 40001, Legal.Met_XY_4);
+                met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, Legal.Met_XY_6);
+                metGen6 = met_list;
+            }
+            #endregion
 
             CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
             CB_HPType.DataSource = Util.getCBList(types.Skip(1).Take(16).ToArray(), null);
@@ -1877,114 +1920,112 @@ namespace PKHeX
 
             updateLegality();
         }
+        private IEnumerable<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
+        {
+            if (egg)
+            {
+                if (Version < GameVersion.W && SaveFormat >= 5)
+                    return metGen4;
+            }
+
+            switch (Version)
+            {
+                case GameVersion.CXD:
+                    if (SaveFormat == 3)
+                        return metGen3;
+                    break;
+
+                case GameVersion.R:
+                case GameVersion.S:
+                    if (SaveFormat == 3)
+                        return metGen3.OrderByDescending(loc => loc.Value <= 87); // Ferry
+                    break;
+                case GameVersion.E:
+                    if (SaveFormat == 3)
+                        return metGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)); // Trainer Hill
+                    break;
+                case GameVersion.FR:
+                case GameVersion.LG:
+                    if (SaveFormat == 3)
+                        return metGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197); // Celadon Dept.
+                    break;
+
+                case GameVersion.D:
+                case GameVersion.P:
+                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
+                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value <= 111)); // Battle Park
+                    break;
+
+                case GameVersion.Pt:
+                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
+                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value <= 125)); // Rock Peak Ruins
+                    break;
+
+                case GameVersion.HG:
+                case GameVersion.SS:
+                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
+                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)); // Celadon Dept.
+                    break;
+
+                case GameVersion.B:
+                case GameVersion.W:
+                    return metGen5;
+
+                case GameVersion.B2:
+                case GameVersion.W2:
+                    return metGen5.Take(3).Concat(metGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)); // Abyssal Ruins
+
+                case GameVersion.X:
+                case GameVersion.Y:
+                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)); // Unknown Dungeon
+
+                case GameVersion.OR:
+                case GameVersion.AS:
+                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)); // Secret Base
+            }
+
+            // Currently on a future game, return corresponding list for generation
+            if (Version <= GameVersion.CXD && SaveFormat == 4)
+                return metGen4.Where(loc => loc.Value == 0x37) // Pal Park to front
+                    .Concat(metGen4.Take(4))
+                    .Concat(metGen4.Skip(4).Where(loc => loc.Value != 0x37));
+
+            if (Version < GameVersion.X && SaveFormat >= 5) // PokéTransfer to front
+                return metGen5.Where(loc => loc.Value == 30001)
+                    .Concat(metGen5.Take(3))
+                    .Concat(metGen5.Skip(3).Where(loc => loc.Value != 30001));
+
+            return metGen6;
+        }
         private void updateOriginGame(object sender, EventArgs e)
         {
-            int Version = Util.getIndex(CB_GameOrigin);
-            
-            if (SAV.Generation == 3 && origintrack != "Gen3")
+            GameVersion Version = (GameVersion)Util.getIndex(CB_GameOrigin);
+
+            // check if differs
+            GameVersion newTrack = SaveUtil.getVersionGroup(Version);
+            if (newTrack != origintrack)
             {
-                var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] {253, 254, 255});
-                origintrack = "Gen3";
+                var met_list = getLocationList(Version, SAV.Generation, egg:false);
                 CB_MetLocation.DisplayMember = "Text";
                 CB_MetLocation.ValueMember = "Value";
-                CB_MetLocation.DataSource = met_list;
-                CB_MetLocation.SelectedValue = 0;
-            }
-            else if (SAV.Generation == 4 && origintrack != "Gen4")
-            {
-                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
-                CB_MetLocation.DisplayMember = "Text";
-                CB_MetLocation.ValueMember = "Value";
-                CB_MetLocation.DataSource = met_list;
+                CB_MetLocation.DataSource = new BindingSource(met_list, null);
+                CB_MetLocation.SelectedIndex = 0; // transporter or pal park for past gen pkm
+
+                var egg_list = getLocationList(Version, SAV.Generation, egg:true);
                 CB_EggLocation.DisplayMember = "Text";
                 CB_EggLocation.ValueMember = "Value";
-                CB_EggLocation.DataSource = new BindingSource(met_list, null);
-                CB_EggLocation.SelectedValue = 0;
-                CB_MetLocation.SelectedValue = 0;
-                origintrack = "Gen4";
-            }
-            else if (Version < 24 && origintrack != "Past" && SAV.Generation >= 5)
-            {
-                // Load Past Gen Locations
-                #region B2W2 Met Locations
-                {
-                    // Build up our met list
-                    var met_list = Util.getCBList(metBW2_00000, new[] { 0 });
-                    met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, new[] { 60002 });
-                    met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, new[] { 30003 });
-                    met_list = Util.getOffsetCBList(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
-                    met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
-                    met_list = Util.getOffsetCBList(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
-                    met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
-                    CB_MetLocation.DisplayMember = "Text";
-                    CB_MetLocation.ValueMember = "Value";
-                    CB_MetLocation.DataSource = met_list;
-                    CB_EggLocation.DisplayMember = "Text";
-                    CB_EggLocation.ValueMember = "Value";
-                    CB_EggLocation.DataSource = new BindingSource(met_list, null);
-                    CB_EggLocation.SelectedValue = 0;
-                    CB_MetLocation.SelectedValue = Version < 20 ? 30001 : 60001;
-                    origintrack = "Past";
-                }
-                #endregion
-            }
-            else if (Version > 23 && origintrack != "XY")
-            {
-                // Load X/Y/OR/AS locations
-                #region ORAS Met Locations
-                {
-                    // Build up our met list
-                    var met_list = Util.getCBList(metXY_00000, new[] { 0 });
-                    met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, new[] { 60002 });
-                    met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, new[] { 30002 });
-                    met_list = Util.getOffsetCBList(met_list, metXY_00000, 00000, Legal.Met_XY_0);
-                    met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, Legal.Met_XY_3);
-                    met_list = Util.getOffsetCBList(met_list, metXY_40000, 40001, Legal.Met_XY_4);
-                    met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, Legal.Met_XY_6);
-                    CB_MetLocation.DisplayMember = "Text";
-                    CB_MetLocation.ValueMember = "Value";
-                    CB_MetLocation.DataSource = met_list;
-                    CB_EggLocation.DisplayMember = "Text";
-                    CB_EggLocation.ValueMember = "Value";
-                    CB_EggLocation.DataSource = new BindingSource(met_list, null);
-                    CB_EggLocation.SelectedValue = 0;
-                    CB_MetLocation.SelectedValue = 0;
-                    origintrack = "XY";
-                }
-                #endregion
-            }
+                CB_EggLocation.DataSource = new BindingSource(egg_list, null);
+                CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
 
-            if (SAV.Generation >= 4 && Version < 0x10 && origintrack != "Gen4")
-            {
-                // Load Gen 4 egg locations if Gen 4 Origin.
-                #region HGSS Met Locations
-                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
-
-                CB_EggLocation.DisplayMember = "Text";
-                CB_EggLocation.ValueMember = "Value";
-                CB_EggLocation.DataSource = met_list;
-                CB_EggLocation.SelectedValue = 0;
-                origintrack = "Gen4";
-                #endregion
+                origintrack = newTrack;
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
             if (SAV.Generation >= 4)
             {
-                bool g4 = Version >= 7 && Version <= 12 && Version != 9;
+                bool g4 = Version >= GameVersion.D && Version <= GameVersion.SS;
+                if ((int) Version == 9) // invalid
+                    g4 = false;
                 CB_EncounterType.Visible = Label_EncounterType.Visible = g4;
                 if (!g4)
                     CB_EncounterType.SelectedValue = 0;
@@ -1993,7 +2034,7 @@ namespace PKHeX
             setMarkings(); // Set/Remove KB marking
             if (!fieldsLoaded)
                 return;
-            pkm.Version = Version;
+            pkm.Version = (int)Version;
             updateLegality();
         }
         private void updateExtraByteValue(object sender, EventArgs e)
