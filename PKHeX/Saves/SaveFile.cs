@@ -58,6 +58,7 @@ namespace PKHeX
         public bool E => Version == GameVersion.E;
         public bool FRLG => Version == GameVersion.FRLG;
         public bool RS => Version == GameVersion.RS;
+        public bool RBY => Version == GameVersion.RBY;
 
         public virtual int MaxMoveID => int.MaxValue;
         public virtual int MaxSpeciesID => int.MaxValue;
@@ -260,6 +261,7 @@ namespace PKHeX
         protected int OFS_PouchBalls { get; set; } = int.MinValue;
         protected int OFS_BattleItems { get; set; } = int.MinValue;
         protected int OFS_MailItems { get; set; } = int.MinValue;
+        protected int OFS_PCItem { get; set; } = int.MinValue;
 
         // Mystery Gift
         protected virtual bool[] MysteryGiftReceivedFlags { get { return null; } set { } }

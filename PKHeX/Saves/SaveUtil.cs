@@ -45,6 +45,8 @@ namespace PKHeX
         internal const int SIZE_G4RAW = 0x80000;
         internal const int SIZE_G3RAW = 0x20000;
         internal const int SIZE_G3RAWHALF = 0x10000;
+        internal const int SIZE_G1RAW = 0x8000;
+        internal const int SIZE_G1BAT = 0x802C;
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
 
@@ -53,6 +55,8 @@ namespace PKHeX
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static int getSAVGeneration(byte[] data)
         {
+            if (getIsG1SAV(data) != GameVersion.Invalid)
+                return 1;
             if (getIsG3SAV(data) != GameVersion.Invalid)
                 return 3;
             if (getIsG4SAV(data) != GameVersion.Invalid)
@@ -62,6 +66,47 @@ namespace PKHeX
             if (getIsG6SAV(data) != GameVersion.Invalid)
                 return 6;
             return -1;
+        }
+        /// <summary>Determines the type of 1st gen save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG1SAV(byte[] data)
+        {
+            if (data.Length != SIZE_G1RAW && data.Length != SIZE_G1BAT)
+                return GameVersion.Invalid;
+
+            // Check if it's not an american save or a japanese save
+            if (!(getIsG1SAVU(data) || getIsG1SAVJ(data)))
+                return GameVersion.Invalid;
+            // I can't actually detect which game version, because it's not stored anywhere.
+            // If you can think of anything to do here, please implement :)
+            return GameVersion.RBY;
+        }
+        /// <summary>Determines if 1st gen save is non-japanese</summary>
+        /// <param name="data">Save data of which to determine the region</param>
+        /// <returns>True if a valid non-japanese save, False otherwise.</returns>
+        public static bool getIsG1SAVU(byte[] data)
+        {
+            foreach (int ofs in new[] { 0x2F2C, 0x30C0 })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
+                    return false;
+            }
+            return true;
+        }
+        /// <summary>Determines if 1st gen save is japanese</summary>
+        /// <param name="data">Save data of which to determine the region</param>
+        /// <returns>True if a valid japanese save, False otherwise.</returns>
+        public static bool getIsG1SAVJ(byte[] data)
+        {
+            foreach (int ofs in new[] { 0x2ED5, 0x302D })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 30 || data[ofs + 1 + num_entries] != 0xFF)
+                    return false;
+            }
+            return true;
         }
         /// <summary>Determines the type of 3th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>

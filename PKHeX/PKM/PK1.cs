@@ -186,7 +186,7 @@ namespace PKHeX
         #endregion
     }
 
-    class PokemonList
+    class PokemonList1
     {
         internal const int CAPACITY_DAYCARE = 1;
         internal const int CAPACITY_PARTY = 6;
@@ -225,7 +225,7 @@ namespace PKHeX
             return new[] { (byte)0 }.Concat(Enumerable.Repeat((byte)0xFF, cap + 1)).Concat(Enumerable.Repeat((byte)0, getEntrySize(c) * cap)).Concat(Enumerable.Repeat((byte)0x50, (is_JP ? PK1.STRLEN_J : PK1.STRLEN_U) * 2 * cap)).ToArray();
         }
 
-        public PokemonList(byte[] d, CapacityType c = CapacityType.Single, bool jp = false)
+        public PokemonList1(byte[] d, CapacityType c = CapacityType.Single, bool jp = false)
         {
             Japanese = jp;
             Data = d ?? getEmptyList(c, Japanese);
@@ -248,13 +248,13 @@ namespace PKHeX
             }
         }
 
-        public PokemonList(CapacityType c = CapacityType.Single, bool jp = false)
+        public PokemonList1(CapacityType c = CapacityType.Single, bool jp = false)
             : this(null, c, jp)
         {
             Count = 1;
         }
 
-        public PokemonList(PK1 pk)
+        public PokemonList1(PK1 pk)
             : this(CapacityType.Single, pk.Japanese)
         {
             this[0] = pk;

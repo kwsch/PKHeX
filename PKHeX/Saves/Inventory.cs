@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX
 {
@@ -23,7 +24,8 @@ namespace PKHeX
         public readonly InventoryType Type;
         public readonly ushort[] LegalItems;
         public readonly int MaxCount;
-        private readonly int Offset;
+        public int Count => Items.Count(it => it.Count > 0);
+        public readonly int Offset;
         private readonly int PouchDataSize;
         public uint SecurityKey { private get; set; } // = 0 // Gen3 Only
         public InventoryItem[] Items;

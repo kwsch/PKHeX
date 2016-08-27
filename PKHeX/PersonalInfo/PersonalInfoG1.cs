@@ -47,6 +47,15 @@ namespace PKHeX
         public int Move4 { get { return Data[0x0D]; } set { Data[0x0D] = (byte)value; } }
         public override int EXPGrowth { get { return Data[0x13]; } set { Data[0x13] = (byte)value; } }
 
+        // EV Yields are just aliases for base stats in Gen I
+        public override int EV_HP { get { return HP; } set { } }
+        public override int EV_ATK { get { return ATK; } set { } }
+        public override int EV_DEF { get { return DEF; } set { } }
+        public override int EV_SPE { get { return SPE; } set { } }
+        public int EV_SPC { get { return SPC; } set { } }
+        public override int EV_SPA { get { return EV_SPC; } set { } }
+        public override int EV_SPD { get { return EV_SPC; } set { } }
+
         // Future game values, unused
         public override int[] Items { get { return new[] { 0, 0 }; } set { } }
         public override int[] EggGroups { get { return new[] { 0, 0 }; } set { } }
@@ -56,12 +65,5 @@ namespace PKHeX
         public override int BaseFriendship { get { return 0; } set { } }
         public override int EscapeRate { get { return 0; } set { } }
         public override int Color { get { return 0; } set { } }
-        private int EVYield { get { return 0; } set { } }
-        public override int EV_HP { get { return 0; } set { } }
-        public override int EV_ATK { get { return 0; } set { } }
-        public override int EV_DEF { get { return 0; } set { } }
-        public override int EV_SPE { get { return 0; } set { } }
-        public override int EV_SPA { get { return 0; } set { } }
-        public override int EV_SPD { get { return 0; } set { } }
     }
 }

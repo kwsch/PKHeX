@@ -90,6 +90,7 @@
     <Compile Include="PersonalInfo\PersonalInfo.cs" />
     <Compile Include="PersonalInfo\PersonalInfoB2W2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoBW.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoG1.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG3.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG4.cs" />
     <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Saves\BlockInfo.cs" />
     <Compile Include="Saves\BoxWallpaper.cs" />
     <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\SAV1.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
     <Compile Include="Saves\SAV5.cs" />
@@ -462,6 +464,7 @@
     <None Include="Resources\byte\personal_hgss" />
     <None Include="Resources\byte\personal_lg" />
     <None Include="Resources\byte\personal_pt" />
+    <None Include="Resources\byte\personal_rby" />
     <None Include="Resources\byte\personal_rs" />
     <None Include="Resources\byte\personal_xy" />
     <None Include="Resources\byte\wc6.pkl" />
