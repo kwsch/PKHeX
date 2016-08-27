@@ -692,7 +692,25 @@ namespace PKHeX
             // Set the Species Seen Flag
             Data[PokeDex + brSize * 1 + bit / 8 + 0x4] |= (byte)(1 << (bit % 8));
 
-            // Formes : todo
+            int FormOffset = PokeDex + 0x108;
+            int PokeDexLanguageFlags = FormOffset + 0x20 + 494 + 6;
+
+            // Set the Language
+            if (!DP)
+            {
+                int lang = pkm.Language - 1; if (lang > 5) lang = 0; // no KOR
+                if (lang < 0) lang = 1;
+                Data[PokeDexLanguageFlags + pkm.Species] |= (byte)(1 << lang);
+            }
+
+            // Formes : Castform & Cherrim do not have entries (Battle Only formes)
+            // Lowest sub-value of formevalue is displayed, else is order of formes displayed.
+
+            // Standard Forme Bytes (DP)
+            // [Shellos-Gastrodon-Burmy-Wormadam],[Unown*0x1C]
+
+            // Extra Forme Bytes (PtHGSS)
+            // [Rotom*4-highest bits unused],[Shaymin],[Giratina],[Pichu-HGSS ONLY]
         }
     }
 }
