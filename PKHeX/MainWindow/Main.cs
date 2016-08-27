@@ -2236,28 +2236,13 @@ namespace PKHeX
             if (new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Contains(sender)) // Move
                 updatePP(sender, e);
             
-            // Refresh Relearn if...
-            if (new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 }.Contains(sender))
-            {
-                if (pkm.Format < 6)
-                    return;
-                ((PK6) pkm).RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
-                Legality.updateRelearnLegality();
-                for (int i = 0; i < 4; i++)
-                    movePB[i].Visible = !Legality.vRelearn[i].Valid;
-            }
-            // else, Refresh Moves
-            {
-                pkm.Moves = new[] { Util.getIndex(CB_Move1), Util.getIndex(CB_Move2), Util.getIndex(CB_Move3), Util.getIndex(CB_Move4) };
-                Legality.updateMoveLegality();
-                for (int i = 0; i < 4; i++)
-                    movePB[i].Visible = !Legality.vMoves[i].Valid;
-            }
-            if (relearnPB.Any(p => p.Visible) || movePB.Any(p => p.Visible))
-            {
-                Legality.Valid = false;
-                PB_Legal.Image = Properties.Resources.warn;
-            }
+            if (pkm.Format < 6)
+                return;
+
+            // Legality
+            pkm.Moves = new[] { Util.getIndex(CB_Move1), Util.getIndex(CB_Move2), Util.getIndex(CB_Move3), Util.getIndex(CB_Move4) };
+            pkm.RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
+            updateLegality();
         }
         private void validateLocation(object sender, EventArgs e)
         {
@@ -2293,8 +2278,15 @@ namespace PKHeX
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
                 movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
+
+            int[] suggested = Legality.getSuggestedRelearn();
             for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
+            {
+                if (pkm.RelearnMoves[i] == 0 && suggested[i] != 0)
+                    relearnPB[i].Visible = !HaX;
+                else
+                    relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
+            }
         }
         private void updateStats()
         {
