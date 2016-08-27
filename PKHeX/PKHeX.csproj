@@ -95,6 +95,7 @@
     <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="PersonalInfo\PersonalTable.cs" />
+    <Compile Include="PKM\PK1.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
@@ -300,6 +301,7 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\ComboItem.cs" />
+    <Compile Include="Util\ByteUtil.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\FormUtil.cs" />

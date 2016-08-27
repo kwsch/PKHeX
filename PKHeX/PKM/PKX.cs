@@ -9,6 +9,11 @@ namespace PKHeX
 {
     public static class PKX
     {
+        internal const int SIZE_1ULIST = 69;
+        internal const int SIZE_1JLIST = 59;
+        internal const int SIZE_1PARTY = 40;
+        internal const int SIZE_1STORED = 33;
+
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
         internal const int SIZE_3BLOCK = 12;
@@ -1617,5 +1622,21 @@ namespace PKHeX
                 return 0xFFFF;
             return arr[g3val];
         }
+
+        public static byte setG1Char(ushort chr, bool jp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string getG1Str(byte[] strdata, bool jp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static byte[] setG1Str(string str, bool jp)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
