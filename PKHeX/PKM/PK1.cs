@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace PKHeX
 {
@@ -73,7 +74,19 @@ namespace PKHeX
         public override bool IsNicknamed { get { throw new NotImplementedException(); } set { } }
 
         #region Stored Attributes
-        public override int Species { get { return PKX.getG1Species(Data[0]); } set { Data[0] = (byte)PKX.setG1Species(Data[0]); } }
+        public override int Species
+        {
+            get { return PKX.getG1Species(Data[0]); }
+            set
+            {
+                // Before updating catch rate, check if Special Yellow Version Pikachu
+                if (!(PKX.getG1Species(Data[0]) == 25 && value == 25 && Catch_Rate == 163))
+                    Catch_Rate = PersonalTable.RBY[value].CatchRate;
+                Data[0] = (byte)PKX.setG1Species(value);
+                Type_A = PersonalTable.RBY[value].Types[0];
+                Type_B = PersonalTable.RBY[value].Types[1];
+            }
+        }
 
         public override int Stat_HPCurrent { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x1)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x1); } }
         public int Status_Condition { get { return Data[4]; } set { Data[4] = (byte)value; } }
