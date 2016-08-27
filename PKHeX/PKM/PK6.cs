@@ -411,18 +411,6 @@ namespace PKHeX
         public bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name);
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         
-        public int[] RelearnMoves
-        {
-            get { return new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 }; }
-            set
-            {
-                if (value.Length > 0) RelearnMove1 = value[0];
-                if (value.Length > 1) RelearnMove2 = value[1];
-                if (value.Length > 2) RelearnMove3 = value[2];
-                if (value.Length > 3) RelearnMove4 = value[3];
-            }
-        }
-
         // Complex Generated Attributes
 
         public override int Characteristic
