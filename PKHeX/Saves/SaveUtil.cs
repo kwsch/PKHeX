@@ -18,6 +18,8 @@ namespace PKHeX
         SN = 28, MN = 29,
 
         // Game Groupings (SaveFile type)
+        RBY = 98,
+        GSC = 99,
         RS = 100,
         FRLG = 101,
         DP = 102,

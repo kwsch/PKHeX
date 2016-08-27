@@ -73,7 +73,7 @@ namespace PKHeX
         public override bool IsNicknamed { get { throw new NotImplementedException(); } set { } }
 
         #region Stored Attributes
-        public override int Species { get { return Data[0]; } set { } }
+        public override int Species { get { return PKX.getG1Species(Data[0]); } set { Data[0] = (byte)PKX.setG1Species(Data[0]); } }
 
         public override int Stat_HPCurrent { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x1)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x1); } }
         public int Status_Condition { get { return Data[4]; } set { Data[4] = (byte)value; } }
@@ -148,8 +148,8 @@ namespace PKHeX
         public override ushort Checksum { get { return 0; } set { } }
         public override int Language { get { return 0; } set { } }
         public override bool FatefulEncounter { get { return false; } set { } }
-        public override int TSV => 0;
-        public override int PSV => 0;
+        public override int TSV => 0x0000;
+        public override int PSV => 0xFFFF;
         public override int Characteristic => -1;
         public override byte MarkByte { get { return 0; } protected set { } }
         public override int CurrentFriendship { get { return 0; } set { } }
