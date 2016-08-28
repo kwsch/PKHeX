@@ -1769,7 +1769,10 @@ namespace PKHeX
             if (Util.getIndex(CB_Species) == 201)
             {
                 if (fieldsLoaded && SAV.Generation == 3)
-                    updateRandomPID(sender, e); // Fix AltForm
+                {
+                    pkm.setPIDUnown3(CB_Form.SelectedIndex);
+                    TB_PID.Text = pkm.PID.ToString("X8");
+                }
             }
             else if (PKX.getGender(CB_Form.Text) < 2)
                 Label_Gender.Text = CB_Form.Text;

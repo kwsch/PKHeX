@@ -476,5 +476,9 @@ namespace PKHeX
             if (GenNumber < 6)
                 EncryptionConstant = PID;
         }
+        public void setPIDUnown3(int form)
+        {
+            do PID = Util.rnd32(); while (PKX.getUnownForm(PID) != form);
+        }
     }
 }
