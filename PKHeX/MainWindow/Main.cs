@@ -2026,7 +2026,7 @@ namespace PKHeX
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
             if (SAV.Generation >= 4)
             {
-                bool g4 = Version >= GameVersion.D && Version <= GameVersion.SS;
+                bool g4 = Version >= GameVersion.HG && Version <= GameVersion.Pt;
                 if ((int) Version == 9) // invalid
                     g4 = false;
                 CB_EncounterType.Visible = Label_EncounterType.Visible = g4;
