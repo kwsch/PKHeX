@@ -73,6 +73,9 @@
     <Compile Include="Legality\Tables3.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="MainWindow\MainPK1.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainWindow\MainPK6.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -16,10 +16,10 @@ namespace PKHeX
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 
-        public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
-        public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
-        public byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
-        public byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
+        public virtual byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
+        public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
+        public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
+        public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         
         protected ushort CalculateChecksum()
         {
@@ -250,7 +250,7 @@ namespace PKHeX
         }
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
-        public bool ChecksumValid => Checksum == CalculateChecksum();
+        public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel => PKX.getLevel(Species, EXP);
         public bool MarkCircle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool MarkTriangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
@@ -391,7 +391,7 @@ namespace PKHeX
             }
         }
 
-        public ushort[] getStats(PersonalInfo p)
+        public virtual ushort[] getStats(PersonalInfo p)
         {
             int level = CurrentLevel;
             ushort[] Stats = new ushort[6];

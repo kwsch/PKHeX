@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
 using PKHeX.Properties;
 
 namespace PKHeX
@@ -13,7 +12,7 @@ namespace PKHeX
     {
         internal const int SIZE_1ULIST = 69;
         internal const int SIZE_1JLIST = 59;
-        internal const int SIZE_1PARTY = 40;
+        internal const int SIZE_1PARTY = 44;
         internal const int SIZE_1STORED = 33;
 
         internal const int SIZE_3PARTY = 100;
@@ -195,19 +194,30 @@ namespace PKHeX
         public static readonly PersonalTable Personal = PersonalTable.AO;
 
         // Stat Fetching
-        public static byte[] getRandomEVs()
+        public static uint[] getRandomEVs(int Generation = 6)
         {
-            byte[] evs = new byte[6];
-            do {
-                evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
-                evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
-                evs[2] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1]), 252);
-                evs[3] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2]), 252);
-                evs[4] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
-                evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
-            } while (evs.Sum(b => b) > 510); // recalculate random EVs...
-            Util.Shuffle(evs);
-            return evs;
+            if (Generation > 2)
+            {
+                uint[] evs = new uint[6];
+                do
+                {
+                    evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
+                    evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
+                    evs[2] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1]), 252);
+                    evs[3] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2]), 252);
+                    evs[4] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
+                    evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
+                } while (evs.Sum(b => b) > 510); // recalculate random EVs...
+                Util.Shuffle(evs);
+                return evs;
+            }
+            else
+            {
+                uint[] evs = new uint[6];
+                for (int i = 0; i < evs.Length; i++)
+                    evs[i] = Util.rnd32()%0x10000;
+                return evs;
+            }
         }
         public static int getLevel(int species, uint exp)
         {
@@ -1693,7 +1703,6 @@ namespace PKHeX
 			{0xE3, "-"},
             {0xE6, "?"},
             {0xE7, "!"},
-            {0xE8, "."},
             {0xEF, "♂"},
             {0xF2, "."},
             {0xF3, "/"},
@@ -1778,7 +1787,6 @@ namespace PKHeX
 			{"-", 0xE3},
             {"?", 0xE6},
             {"!", 0xE7},
-            {".", 0xE8},
             {"♂", 0xEF},
             {".", 0xF2},
             {"/", 0xF3},

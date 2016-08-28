@@ -63,5 +63,43 @@ namespace PKHeX
                 BitConverter.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + i*4 + 2);
             }
         }
+
+        public void getPouchG1(ref byte[] Data)
+        {
+            InventoryItem[] items = new InventoryItem[PouchDataSize];
+            int numStored = Data[Offset];
+            for (int i = 0; i < numStored; i++)
+            {
+                items[i] = new InventoryItem
+                {
+                    Index = Data[Offset + i * 2 + 1],
+                    Count = Data[Offset + i * 2 + 2]
+                };
+            }
+            for (int i = numStored; i < items.Length; i++)
+            {
+                items[i] = new InventoryItem
+                {
+                    Index = 0,
+                    Count = 0
+                };
+            }
+            Items = items;
+
+        }
+
+        public void setPouchG1(ref byte[] Data)
+        {
+            if (Items.Length != PouchDataSize)
+                throw new ArgumentException("Item array length does not match original pouch size.");
+
+            for (int i = 0; i < Items.Length; i++)
+            {
+                Data[Offset + i * 2 + 1] = (byte)Items[i].Index;
+                Data[Offset + i * 2 + 2] = (byte)Items[i].Count;
+            }
+            Data[Offset] = (byte) Count;
+            Data[Offset + 1 + 2*Count] = 0xFF;
+        }
     }
 }

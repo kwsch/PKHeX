@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -9,6 +10,9 @@ namespace PKHeX
         // Internal use only
         protected byte[] otname;
         protected byte[] nick;
+
+        public byte[] OT_Name_Raw => (byte[])otname.Clone();
+        public byte[] Nickname_Raw => (byte[])nick.Clone();
 
         public sealed override int SIZE_PARTY => PKX.SIZE_1PARTY;
         public override int SIZE_STORED => PKX.SIZE_1STORED;
@@ -68,8 +72,14 @@ namespace PKHeX
 
         public override byte[] Encrypt()
         {
-            throw new NotImplementedException();
+            // Oh god this is such total abuse of what this method is meant to do
+            // Please forgive me
+            return new PokemonList1(this).GetBytes();
         }
+
+        // Please forgive me.
+        public override byte[] EncryptedPartyData => Encrypt().ToArray();
+        public override byte[] EncryptedBoxData => Encrypt().ToArray();
 
         public override bool IsNicknamed { get { throw new NotImplementedException(); } set { } }
 
@@ -100,7 +110,7 @@ namespace PKHeX
         public override int TID { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0xC)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0xC); } }
         public override uint EXP
         {
-            get { return Util.SwapEndianness(BitConverter.ToUInt32(Data, 0xE)) & 0x00FFFFFF; }
+            get { return (Util.SwapEndianness(BitConverter.ToUInt32(Data, 0xE)) >> 8) & 0x00FFFFFF; }
             set { Array.Copy(BitConverter.GetBytes(Util.SwapEndianness((value << 8) & 0xFFFFFF00)), 0, Data, 0xE, 3); }
         }
         public override int EV_HP { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x11)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x11); } }
@@ -111,13 +121,13 @@ namespace PKHeX
         public override int EV_SPA { get { return EV_SPC; } set { EV_SPC = value; } }
         public override int EV_SPD { get { return EV_SPC; } set { EV_SPC = value; } }
         public ushort DV16 { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x1B)); } set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x1B); } }
-        public override int IV_HP { get { return ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPD & 1) << 1) | ((IV_SPC & 1) << 0); } set { } }
+        public override int IV_HP { get { return ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); } set { } }
         public override int IV_ATK { get { return (DV16 >> 12) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); } }
         public override int IV_DEF { get { return (DV16 >> 8) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); } }
         public override int IV_SPE { get { return (DV16 >> 4) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); } }
         public int IV_SPC { get { return (DV16 >> 0) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); } }
         public override int IV_SPA { get { return IV_SPC; } set { IV_SPC = value; } }
-        public override int IV_SPD { get { return IV_SPC; } set { IV_SPC = value; } }
+        public override int IV_SPD { get { return IV_SPC; } set { } }
         public override int Move1_PP { get { return Data[0x1D] & 0x3F; } set { Data[0x1D] = (byte)((Data[0x1D] & 0xC0) | (value & 0x3F)); } }
         public override int Move2_PP { get { return Data[0x1E] & 0x3F; } set { Data[0x1E] = (byte)((Data[0x1E] & 0xC0) | (value & 0x3F)); } }
         public override int Move3_PP { get { return Data[0x1F] & 0x3F; } set { Data[0x1F] = (byte)((Data[0x1F] & 0xC0) | (value & 0x3F)); } }
@@ -144,6 +154,23 @@ namespace PKHeX
         public override int Stat_SPD { get { return Stat_SPC; } set { Stat_SPC = value; } }
         #endregion
 
+        public override ushort[] getStats(PersonalInfo p)
+        {
+            ushort[] Stats = new ushort[6];
+            for (int i = 0; i < Stats.Length; i++)
+            {
+                ushort L = (ushort)Stat_Level;
+                ushort B = (ushort)p.Stats[i];
+                ushort I = (ushort)IVs[i];
+                ushort E = // Fixed formula via http://www.smogon.com/ingame/guides/rby_gsc_stats
+                    (ushort)Math.Floor(Math.Min(255, Math.Floor(Math.Sqrt(Math.Max(0, EVs[i] - 1)) + 1)) / 4.0);
+                Stats[i] = (ushort)Math.Floor((2 * (B + I) + E) * L / 100.0 + 5);
+            }
+            Stats[0] += (ushort)(5 + Stat_Level); // HP
+
+            return Stats;
+        }
+
         #region Future, Unused Attributes
         public override bool getGenderIsValid()
         {
@@ -157,7 +184,15 @@ namespace PKHeX
         public override bool IsEgg { get { return false; } set { } }
         public override int Gender { get { return 0; } set { } }
         public override int HeldItem { get { return 0; } set { } }
+
+        public override bool CanHoldItem(ushort[] ValidArray)
+        {
+            return false;
+        }
+
         public override ushort Sanity { get { return 0; } set { } }
+
+        public override bool ChecksumValid => true;
         public override ushort Checksum { get { return 0; } set { } }
         public override int Language { get { return 0; } set { } }
         public override bool FatefulEncounter { get { return false; } set { } }
@@ -298,8 +333,8 @@ namespace PKHeX
             {
                 Data[1 + i] = (byte)Pokemon[i].Species;
                 Array.Copy(Pokemon[i].Data, 0, Data, 2 + Capacity + Entry_Size * i, Entry_Size);
-                Array.Copy(PKX.setG1Str(Pokemon[i].OT_Name, Japanese), 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * i, StringLength);
-                Array.Copy(PKX.setG1Str(Pokemon[i].Nickname, Japanese), 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * Capacity + StringLength * i, StringLength);
+                Array.Copy(Pokemon[i].OT_Name_Raw, 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * i, StringLength);
+                Array.Copy(Pokemon[i].Nickname_Raw, 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * Capacity + StringLength * i, StringLength);
             }
             Data[1 + Count] = byte.MaxValue;
         }

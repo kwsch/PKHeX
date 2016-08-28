@@ -10,6 +10,9 @@
         public abstract int SPE { get; set; }
         public abstract int SPA { get; set; }
         public abstract int SPD { get; set; }
+
+        public int[] Stats => new[] { HP, ATK, DEF, SPE, SPA, SPD };
+
         public abstract int EV_HP { get; set; }
         public abstract int EV_ATK { get; set; }
         public abstract int EV_DEF { get; set; }

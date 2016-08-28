@@ -212,6 +212,8 @@ namespace PKHeX
         {
             switch (getSAVGeneration(data))
             {
+                case 1:
+                    return new SAV1(data);
                 case 3:
                     return new SAV3(data);
                 case 4:

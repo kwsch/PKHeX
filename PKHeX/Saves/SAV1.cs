@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Globalization;
 using System.Linq;
 
@@ -22,21 +23,83 @@ namespace PKHeX
             if (Version == GameVersion.Invalid)
                 return;
 
-            Japanese = SaveUtil.getIsG1SAVJ(data);
+            Box = Data.Length;
+            Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
+            Party = getPartyOffset(0);
 
-            OFS_PouchHeldItem = (Japanese ? 0x25C4 : 0x25C9);
-            OFS_PCItem = (Japanese ? 0x27DC : 0x27E6);
+            Japanese = SaveUtil.getIsG1SAVJ(data);
             Personal = PersonalTable.RBY;
+
+            // Stash boxes after the save file's end.
+            byte[] TempBox = new byte[SIZE_BOX];
+            for (int i = 0; i < BoxCount; i++)
+            {
+                if (i < BoxCount / 2)
+                    Array.Copy(Data, 0x4000 + i * TempBox.Length, TempBox, 0, TempBox.Length);
+                else
+                    Array.Copy(Data, 0x6000 + (i - BoxCount / 2) * TempBox.Length, TempBox, 0, TempBox.Length);
+                PokemonList1 PL1 = new PokemonList1(TempBox, Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+                for (int j = 0; j < PL1.Pokemon.Length; j++)
+                {
+                    if (j < PL1.Count)
+                    {
+                        byte[] pkDat = new PokemonList1(PL1[j]).GetBytes();
+                        pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + i * SIZE_BOX + j * SIZE_STORED);
+                    }
+                    else
+                    {
+                        byte[] pkDat = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
+                        pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + i * SIZE_BOX + j * SIZE_STORED);
+                    }
+                }
+            }
+
+            Array.Copy(Data, Japanese ? 0x302D : 0x30C0, TempBox, 0, TempBox.Length);
+            PokemonList1 curBoxPL = new PokemonList1(TempBox, Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+            for (int i = 0; i < curBoxPL.Pokemon.Length; i++)
+            {
+                if (i < curBoxPL.Count)
+                {
+                    byte[] pkDat = new PokemonList1(curBoxPL[i]).GetBytes();
+                    pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + CurrentBox * SIZE_BOX + i * SIZE_STORED);
+                }
+                else
+                {
+                    byte[] pkDat = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
+                    pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + CurrentBox * SIZE_BOX + i * SIZE_STORED);
+                }
+            }
+
+            byte[] TempParty = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Party, Japanese)];
+            Array.Copy(Data, Japanese ? 0x2ED5 : 0x2F2C, TempParty, 0, TempParty.Length);
+            PokemonList1 partyList = new PokemonList1(TempParty, PokemonList1.CapacityType.Party, Japanese);
+            for (int i = 0; i < partyList.Pokemon.Length; i++)
+            {
+                if (i < partyList.Count)
+                {
+                    byte[] pkDat = new PokemonList1(partyList[i]).GetBytes();
+                    pkDat.CopyTo(Data, getPartyOffset(i));
+                }
+                else
+                {
+                    byte[] pkDat = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
+                    pkDat.CopyTo(Data, getPartyOffset(i));
+                }
+            }
+
+            File.WriteAllBytes("temp.sav", Data);
+            
 
             if (!Exportable)
                 resetBoxes();
         }
 
-        private const int SIZE_RESERVED = 0x10000; // unpacked box data
+        private const int SIZE_RESERVED = 0x8000; // unpacked box data
         public override byte[] Write(bool DSV)
         {
-
+            // TODO: Implement Box Data Relocation
             setChecksums();
+            Array.Resize(ref Data, Data.Length - SIZE_RESERVED);
             return Data;
         }
 
@@ -44,9 +107,11 @@ namespace PKHeX
         // Configuration
         public override SaveFile Clone() { return new SAV1(Data); }
 
-        public override int SIZE_STORED => PKX.SIZE_1STORED;
-        public override int SIZE_PARTY => PKX.SIZE_1PARTY;
-        public override PKM BlankPKM => new PK1();
+        public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
+        public override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
+
+        public int SIZE_BOX => PokemonList1.GetDataLength(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+        public override PKM BlankPKM => new PK1(null, null, Japanese);
         protected override Type PKMType => typeof(PK1);
 
         public override int MaxMoveID => 165;
@@ -58,6 +123,7 @@ namespace PKHeX
 
         public override int BoxCount => Japanese ? 8 : 12;
         public override int MaxEV => 65535;
+        public override int MaxIV => 15;
         public override int Generation => 1;
         protected override int GiftCountMax => 0;
         public override int OTLength => Japanese ? 5 : 10;
@@ -114,7 +180,7 @@ namespace PKHeX
 
         public override string OT
         {
-            get { return PKX.getG3Str(Data.Skip(0x2598).Take(StringLength).ToArray(), Japanese); }
+            get { return PKX.getG1Str(Data.Skip(0x2598).Take(StringLength).ToArray(), Japanese); }
             set
             {
                 byte[] strdata = PKX.setG1Str(value, Japanese);
@@ -174,7 +240,7 @@ namespace PKHeX
             }
         }
 
-        private readonly ushort[] LegalItems;
+        private readonly ushort[] LegalItems = Enumerable.Range(1, 255).Select(i => (ushort)i).ToArray();
         public override InventoryPouch[] Inventory
         {
             get
@@ -182,21 +248,12 @@ namespace PKHeX
                 ushort[] legalItems = LegalItems;
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, legalItems, 99, OFS_PouchHeldItem + 2, 20),
-                    new InventoryPouch(InventoryType.Items, legalItems, 99, OFS_PCItem + 2, 50),
+                    new InventoryPouch(InventoryType.Items, legalItems, 99, (Japanese ? 0x25C4 : 0x25C9), 20),
+                    new InventoryPouch(InventoryType.Items, legalItems, 99, (Japanese ? 0x27DC : 0x27E6), 50),
                 };
                 foreach (var p in pouch)
                 {
-                    p.getPouch(ref Data);
-                    int ofs = 0;
-                    for (int i = 0; i < p.Count; i++)
-                    {
-                        while (p.Items[ofs].Count == 0)
-                            ofs++;
-                        p.Items[i] = p.Items[ofs++];
-                    }
-                    while (ofs < p.MaxCount)
-                        p.Items[ofs++] = new InventoryItem { Count = 0, Index = 0 };
+                    p.getPouchG1(ref Data);
                 }
                 return pouch;
             }
@@ -211,10 +268,9 @@ namespace PKHeX
                             ofs++;
                         p.Items[i] = p.Items[ofs++];
                     }
-                    while (ofs < p.MaxCount)
+                    while (ofs < p.Items.Length)
                         p.Items[ofs++] = new InventoryItem { Count = 0, Index = 0 };
-                    p.setPouch(ref Data);
-                    Data[p.Offset - 2] = (byte)p.Count;
+                    p.setPouchG1(ref Data);
                 }
             }
         }
@@ -244,6 +300,9 @@ namespace PKHeX
         }
 
         // Storage
+
+        public override int BoxSlotCount => Japanese ? 30 : 20;
+
         public override int PartyCount
         {
             get { return Data[Japanese ? 0x2ED5 : 0x2F2C]; }
@@ -254,16 +313,16 @@ namespace PKHeX
         }
         public override int getBoxOffset(int box)
         {
-            throw new NotImplementedException();
+            return Data.Length - SIZE_RESERVED + box * SIZE_BOX;
         }
         public override int getPartyOffset(int slot)
         {
-            throw new NotImplementedException();
+            return Data.Length - SIZE_RESERVED + BoxCount * SIZE_BOX + slot * SIZE_STORED;
         }
         public override int CurrentBox
         {
-            get { return Data[Japanese ? 0x2842 : 0x284C]; }
-            set { Data[Japanese ? 0x2842 : 0x284C] = (byte)value; }
+            get { return Data[Japanese ? 0x2842 : 0x284C] & 0x7F; }
+            set { Data[Japanese ? 0x2842 : 0x284C] = (byte)((Data[Japanese ? 0x2842 : 0x284C] & 0x80) | (value & 0x7F)); }
         }
         public override int getBoxWallpaper(int box)
         {
@@ -271,16 +330,16 @@ namespace PKHeX
         }
         public override string getBoxName(int box)
         {
-            int boxNum = box + 1;
-            return $"Box {boxNum}";
+            return string.Format("Box {0}", box + 1);
         }
         public override void setBoxName(int box, string value)
         {
-
+            // Don't allow for custom box names
         }
+
         public override PKM getPKM(byte[] data)
         {
-            if (data.Length == PKX.SIZE_1JLIST || data.Length == PKX.SIZE_1ULIST)
+            if (data.Length == SIZE_STORED)
                 return new PokemonList1(data, PokemonList1.CapacityType.Single, Japanese)[0];
             return new PK1(data);
         }

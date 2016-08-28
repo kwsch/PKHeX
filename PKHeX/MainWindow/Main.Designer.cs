@@ -348,10 +348,10 @@
             this.B_OpenOPowers = new System.Windows.Forms.Button();
             this.B_OpenEventFlags = new System.Windows.Forms.Button();
             this.B_OpenPokedex = new System.Windows.Forms.Button();
-            this.B_OpenBerryField = new System.Windows.Forms.Button();
-            this.B_OpenSecretBase = new System.Windows.Forms.Button();
-            this.B_Pokeblocks = new System.Windows.Forms.Button();
             this.B_LinkInfo = new System.Windows.Forms.Button();
+            this.B_OpenBerryField = new System.Windows.Forms.Button();
+            this.B_Pokeblocks = new System.Windows.Forms.Button();
+            this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
@@ -4454,6 +4454,16 @@
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
             this.B_OpenPokedex.Click += new System.EventHandler(this.B_OpenPokedex_Click);
             // 
+            // B_LinkInfo
+            // 
+            this.B_LinkInfo.Location = new System.Drawing.Point(96, 61);
+            this.B_LinkInfo.Name = "B_LinkInfo";
+            this.B_LinkInfo.Size = new System.Drawing.Size(87, 23);
+            this.B_LinkInfo.TabIndex = 23;
+            this.B_LinkInfo.Text = "Link Data";
+            this.B_LinkInfo.UseVisualStyleBackColor = true;
+            this.B_LinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
+            // 
             // B_OpenBerryField
             // 
             this.B_OpenBerryField.Location = new System.Drawing.Point(189, 61);
@@ -4463,17 +4473,6 @@
             this.B_OpenBerryField.Text = "Berry Field";
             this.B_OpenBerryField.UseVisualStyleBackColor = true;
             this.B_OpenBerryField.Click += new System.EventHandler(this.B_OpenBerryField_Click);
-            // 
-            // B_OpenSecretBase
-            // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(96, 90);
-            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
-            this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenSecretBase.TabIndex = 21;
-            this.B_OpenSecretBase.Text = "Secret Base";
-            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
-            this.B_OpenSecretBase.Visible = false;
-            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
             // B_Pokeblocks
             // 
@@ -4486,15 +4485,16 @@
             this.B_Pokeblocks.Visible = false;
             this.B_Pokeblocks.Click += new System.EventHandler(this.B_OpenPokeblocks_Click);
             // 
-            // B_LinkInfo
+            // B_OpenSecretBase
             // 
-            this.B_LinkInfo.Location = new System.Drawing.Point(96, 61);
-            this.B_LinkInfo.Name = "B_LinkInfo";
-            this.B_LinkInfo.Size = new System.Drawing.Size(87, 23);
-            this.B_LinkInfo.TabIndex = 23;
-            this.B_LinkInfo.Text = "Link Data";
-            this.B_LinkInfo.UseVisualStyleBackColor = true;
-            this.B_LinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(96, 90);
+            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
+            this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSecretBase.TabIndex = 21;
+            this.B_OpenSecretBase.Text = "Secret Base";
+            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
+            this.B_OpenSecretBase.Visible = false;
+            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
             // B_OpenPokepuffs
             // 

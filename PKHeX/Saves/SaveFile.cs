@@ -29,6 +29,7 @@ namespace PKHeX
         public abstract int SIZE_STORED { get; }
         public abstract int SIZE_PARTY { get; }
         public abstract int MaxEV { get; }
+        public virtual int MaxIV => 31;
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
@@ -128,13 +129,13 @@ namespace PKHeX
         {
             get
             {
-                PKM[] data = new PKM[BoxCount*30];
+                PKM[] data = new PKM[BoxCount*BoxSlotCount];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    data[i] = getStoredSlot(getBoxOffset(i/30) + SIZE_STORED*(i%30));
-                    data[i].Identifier = $"{getBoxName(i/30)}:{(i%30 + 1).ToString("00")}";
-                    data[i].Box = i/30 + 1;
-                    data[i].Slot = i%30 + 1;
+                    data[i] = getStoredSlot(getBoxOffset(i/BoxSlotCount) + SIZE_STORED*(i%BoxSlotCount));
+                    data[i].Identifier = $"{getBoxName(i/BoxSlotCount)}:{(i%BoxSlotCount + 1).ToString("00")}";
+                    data[i].Box = i/BoxSlotCount + 1;
+                    data[i].Slot = i%BoxSlotCount + 1;
                 }
                 return data;
             }
@@ -142,13 +143,13 @@ namespace PKHeX
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                if (value.Length != BoxCount*30)
-                    throw new ArgumentException($"Expected {BoxCount*30}, got {value.Length}");
+                if (value.Length != BoxCount*BoxSlotCount)
+                    throw new ArgumentException($"Expected {BoxCount*BoxSlotCount}, got {value.Length}");
                 if (value.Any(pk => PKMType != pk.GetType()))
                     throw new ArgumentException($"Not {PKMType} array.");
 
                 for (int i = 0; i < value.Length; i++)
-                    setStoredSlot(value[i], getBoxOffset(i/30) + SIZE_STORED*(i%30));
+                    setStoredSlot(value[i], getBoxOffset(i/BoxSlotCount) + SIZE_STORED*(i%BoxSlotCount));
             }
         }
         public PKM[] PartyData
@@ -330,6 +331,7 @@ namespace PKHeX
         public abstract void setDaycareOccupied(int loc, int slot, bool occupied);
 
         // Storage
+        public virtual int BoxSlotCount => 30;
         public PKM getPartySlot(int offset)
         {
             return getPKM(decryptPKM(getData(offset, SIZE_PARTY)));
@@ -417,9 +419,9 @@ namespace PKHeX
         public void sortBoxes(int BoxStart = 0, int BoxEnd = -1)
         {
             PKM[] BD = BoxData;
-            var Section = BD.Skip(BoxStart*30);
+            var Section = BD.Skip(BoxStart*BoxSlotCount);
             if (BoxEnd > BoxStart)
-                Section = Section.Take(30*(BoxEnd - BoxStart));
+                Section = Section.Take(BoxSlotCount*(BoxEnd - BoxStart));
 
             var Sorted = Section
                 .OrderBy(p => p.Species == 0) // empty slots at end
@@ -427,7 +429,7 @@ namespace PKHeX
                 .ThenBy(p => p.Species) // species sorted
                 .ThenBy(p => p.IsNicknamed).ToArray();
 
-            Array.Copy(Sorted, 0, BD, BoxStart*30, Sorted.Length);
+            Array.Copy(Sorted, 0, BD, BoxStart*BoxSlotCount, Sorted.Length);
             BoxData = BD;
         }
         public void resetBoxes(int BoxStart = 0, int BoxEnd = -1)
@@ -437,13 +439,13 @@ namespace PKHeX
             for (int i = BoxStart; i < BoxEnd; i++)
             {
                 int offset = getBoxOffset(i);
-                for (int p = 0; p < 30; p++)
+                for (int p = 0; p < BoxSlotCount; p++)
                     setStoredSlot(BlankPKM, offset + SIZE_STORED * p);
             }
         }
 
         public byte[] getPCBin() { return BoxData.SelectMany(pk => pk.EncryptedBoxData).ToArray(); }
-        public byte[] getBoxBin(int box) { return BoxData.Skip(box*30).Take(30).SelectMany(pk => pk.EncryptedBoxData).ToArray(); }
+        public byte[] getBoxBin(int box) { return BoxData.Skip(box*BoxSlotCount).Take(BoxSlotCount).SelectMany(pk => pk.EncryptedBoxData).ToArray(); }
         public bool setPCBin(byte[] data)
         {
             if (data.Length != getPCBin().Length)
@@ -476,8 +478,8 @@ namespace PKHeX
             }
 
             PKM[] pkms = BoxData;
-            for (int i = 0; i < 30; i++)
-                pkms[box*30 + i].Data = decryptPKM(pkdata[i]);
+            for (int i = 0; i < BoxSlotCount; i++)
+                pkms[box*BoxSlotCount + i].Data = decryptPKM(pkdata[i]);
             BoxData = pkms;
             return true;
         }
