@@ -174,7 +174,7 @@ namespace PKHeX
             }
         }
 
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
+        private readonly ushort[] LegalItems;
         public override InventoryPouch[] Inventory
         {
             get
