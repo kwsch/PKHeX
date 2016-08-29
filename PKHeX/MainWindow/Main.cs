@@ -2662,14 +2662,20 @@ namespace PKHeX
                 setPKXBoxes();
                 Util.Alert("Current Box sorted!");
             }
-            else if (ModifierKeys == Keys.Shift)
+        }
+        private void clickBoxDouble(object sender, MouseEventArgs e)
+        {
+            if (tabBoxMulti.SelectedIndex != 0)
+                return;
+            if (!SAV.HasBox)
+                return;
+            if (ModifierKeys != Keys.Shift)
             {
                 var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_BoxViewer)) as SAV_BoxViewer;
                 if (z != null)
                 { Util.CenterToForm(z, this); z.BringToFront(); return; }
-
-                new SAV_BoxViewer(this).Show();
             }
+            new SAV_BoxViewer(this).Show();
         }
         public int swapBoxesViewer(int viewBox)
         {
