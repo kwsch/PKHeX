@@ -22,6 +22,7 @@ namespace PKHeX
 
             // Load rest
             TB_TID.Text = pk1.TID.ToString("00000");
+            CHK_Nicknamed.Checked = pk1.IsNicknamed;
             TB_Nickname.Text = pk1.Nickname;
             TB_OT.Text = pk1.OT_Name;
             GB_OT.BackgroundImage = null;
@@ -54,6 +55,8 @@ namespace PKHeX
             TB_PP2.Text = pk1.Move2_PP.ToString();
             TB_PP3.Text = pk1.Move3_PP.ToString();
             TB_PP4.Text = pk1.Move4_PP.ToString();
+
+            CB_Language.SelectedIndex = pk1.Japanese ? 0 : 1;
 
             updateStats();
 

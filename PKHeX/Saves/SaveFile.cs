@@ -361,7 +361,7 @@ namespace PKHeX
             Console.WriteLine("");
             Edited = true;
         }
-        public void setStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
+        public virtual void setStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
         {
             if (pkm == null) return;
             if (pkm.GetType() != PKMType)

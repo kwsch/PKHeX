@@ -101,7 +101,25 @@ namespace PKHeX
         public override byte[] DecryptedBoxData => Encrypt().ToArray();
         public override byte[] DecryptedPartyData => Encrypt().ToArray();
 
-        public override bool IsNicknamed { get { throw new NotImplementedException(); } set { } }
+        public override bool IsNicknamed
+        {
+            get
+            {
+                string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
+                return
+                    !nick.SequenceEqual(
+                        PKX.setG1Str(spName, Japanese)
+                            .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1)));
+            }
+            set { }
+        }
+
+        public void setNotNicknamed()
+        {
+            string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
+            nick = PKX.setG1Str(spName, Japanese).Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1)).ToArray();
+        }
+
 
         #region Stored Attributes
         public override int Species
@@ -343,12 +361,16 @@ namespace PKHeX
             set
             {
                 if (value == null) return;
-                Pokemon[i] = (PK1)value.Clone();
+                Pokemon[i] = (PK1)(((PK1)value).Clone());
             }
         }
 
         private void Update()
         {
+            if (Pokemon.Any(pk => (pk.Species == 0)))
+                Count = (byte) Array.FindIndex(Pokemon, pk => (pk.Species == 0));
+            else
+                Count = Capacity;
             for (int i = 0; i < Count; i++)
             {
                 Data[1 + i] = (byte)PKX.setG1Species(Pokemon[i].Species);

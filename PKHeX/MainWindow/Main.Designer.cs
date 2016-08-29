@@ -926,6 +926,7 @@
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
             this.TB_Nickname.TabIndex = 5;
+            this.TB_Nickname.TextChanged += new System.EventHandler(this.updateIsNicknamed);
             this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
             // 
             // CB_Species

@@ -862,11 +862,12 @@ namespace PKHeX
 
             CHK_Infected.Visible = CHK_Cured.Visible = SAV.Generation >= 3;
 
+            // Second daycare slot
+            SlotPictureBoxes[43].Visible = SAV.Generation > 1;
+
             CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation > 1;
 
             Label_OTGender.Visible = SAV.Generation > 1;
-
-            CHK_Nicknamed.Enabled = SAV.Generation > 2;
 
             if (1 <= sav.Generation && sav.Generation <= 2)
             {
@@ -2141,6 +2142,8 @@ namespace PKHeX
                 if (SAV.Generation < 5) // All caps GenIV and previous
                     nick = nick.ToUpper();
                 TB_Nickname.Text = nick;
+                if (SAV.Generation == 1)
+                  ((PK1)pkm).setNotNicknamed();
             }
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
@@ -2943,6 +2946,28 @@ namespace PKHeX
                 SAV.Edited = true;
             }
         }
+
+        private void updateIsNicknamed(object sender, EventArgs e)
+        {
+            if (!CHK_Nicknamed.Checked)
+            {
+                int species = Util.getIndex(CB_Species);
+                if (species < 1 || species > SAV.MaxSpeciesID)
+                    return;
+                int lang = Util.getIndex(CB_Language);
+                if (CHK_IsEgg.Checked) species = 0; // Set species to 0 to get the egg name.
+                string nick = PKX.getSpeciesName(CHK_IsEgg.Checked ? 0 : species, lang);
+
+                if (SAV.Generation < 5) // All caps GenIV and previous
+                    nick = nick.ToUpper();
+                if (TB_Nickname.Text != nick)
+                {
+                    CHK_Nicknamed.Checked = true;
+                    pkm.Nickname = TB_Nickname.Text;
+                }
+            }
+        }
+
         // Generic Subfunctions //
         private void setParty()
         {
@@ -3155,6 +3180,7 @@ namespace PKHeX
         }
         private void getBox(object sender, EventArgs e)
         {
+            SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
             setPKXBoxes();
         }
         private void switchDaycare(object sender, EventArgs e)
