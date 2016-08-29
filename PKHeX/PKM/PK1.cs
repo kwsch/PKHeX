@@ -8,8 +8,8 @@ namespace PKHeX
     class PK1 : PKM
     {
         // Internal use only
-        protected byte[] otname;
-        protected byte[] nick;
+        protected internal byte[] otname;
+        protected internal byte[] nick;
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
@@ -23,6 +23,8 @@ namespace PKHeX
         public override int Format => 1;
 
         public bool Japanese => otname.Length == STRLEN_J;
+
+        public override string FileName => $"{Species.ToString("000")} - {Nickname} - {OT_Name}.{Extension}";
 
         public PK1(byte[] decryptedData = null, string ident = null, bool jp = false)
         {
@@ -41,7 +43,7 @@ namespace PKHeX
 
         public override PKM Clone()
         {
-            PK1 new_pk1 = new PK1(Data);
+            PK1 new_pk1 = new PK1(Data, Identifier, Japanese);
             Array.Copy(otname, 0, new_pk1.otname, 0, otname.Length);
             Array.Copy(nick, 0, new_pk1.nick, 0, nick.Length);
             return new_pk1;
@@ -53,7 +55,15 @@ namespace PKHeX
             {
                 byte[] strdata = PKX.setG1Str(value, Japanese);
                 if (strdata.Length > StringLength)
-                    throw new ArgumentOutOfRangeException("OT Name too long for given PK1");
+                    throw new ArgumentOutOfRangeException($"Nickname {value} too long for given PK1");
+                if (nick.Any(b => b == 0) && nick[StringLength - 1] == 0x50 && Array.FindIndex(nick, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
+                {
+                    int firstInd = Array.FindIndex(nick, b => b == 0);
+                    for (int i = firstInd; i < StringLength - 1; i++)
+                        if (nick[i] != 0)
+                            break;
+                    strdata = strdata.Take(strdata.Length - 1).ToArray();
+                }
                 strdata.CopyTo(nick, 0);
             }
         }
@@ -65,7 +75,15 @@ namespace PKHeX
             {
                 byte[] strdata = PKX.setG1Str(value, Japanese);
                 if (strdata.Length > StringLength)
-                    throw new ArgumentOutOfRangeException("OT Name too long for given PK1");
+                    throw new ArgumentOutOfRangeException($"OT Name {value} too long for given PK1");
+                if (otname.Any(b => b == 0) && otname[StringLength - 1] == 0x50 && Array.FindIndex(otname, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
+                {
+                    int firstInd = Array.FindIndex(otname, b => b == 0);
+                    for (int i = firstInd; i < StringLength - 1; i++)
+                        if (otname[i] != 0)
+                            break;
+                    strdata = strdata.Take(strdata.Length - 1).ToArray();
+                }
                 strdata.CopyTo(otname, 0);
             }
         }
@@ -80,6 +98,8 @@ namespace PKHeX
         // Please forgive me.
         public override byte[] EncryptedPartyData => Encrypt().ToArray();
         public override byte[] EncryptedBoxData => Encrypt().ToArray();
+        public override byte[] DecryptedBoxData => Encrypt().ToArray();
+        public override byte[] DecryptedPartyData => Encrypt().ToArray();
 
         public override bool IsNicknamed { get { throw new NotImplementedException(); } set { } }
 
@@ -119,7 +139,7 @@ namespace PKHeX
         public override int EV_SPE { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x17)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x17); } }
         public int EV_SPC { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x19)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x19); } }
         public override int EV_SPA { get { return EV_SPC; } set { EV_SPC = value; } }
-        public override int EV_SPD { get { return EV_SPC; } set { EV_SPC = value; } }
+        public override int EV_SPD { get { return EV_SPC; } set { } }
         public ushort DV16 { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x1B)); } set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x1B); } }
         public override int IV_HP { get { return ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); } set { } }
         public override int IV_ATK { get { return (DV16 >> 12) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); } }
@@ -151,7 +171,7 @@ namespace PKHeX
         public int Stat_SPC { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2A)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x2A); } }
         // Leave SPA and SPD as alias for SPC
         public override int Stat_SPA { get { return Stat_SPC; } set { Stat_SPC = value; } }
-        public override int Stat_SPD { get { return Stat_SPC; } set { Stat_SPC = value; } }
+        public override int Stat_SPD { get { return Stat_SPC; } set { } }
         #endregion
 
         public override ushort[] getStats(PersonalInfo p)
@@ -278,8 +298,8 @@ namespace PKHeX
                 int base_ofs = 2 + Capacity;
                 byte[] dat = Data.Skip(base_ofs + Entry_Size * i).Take(Entry_Size).ToArray();
                 Pokemon[i] = new PK1(dat, null, jp);
-                Pokemon[i].OT_Name = PKX.getG1Str(Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * i).Take(StringLength).ToArray(), Japanese);
-                Pokemon[i].Nickname = PKX.getG1Str(Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * Capacity + StringLength * i).Take(StringLength).ToArray(), Japanese);
+                Pokemon[i].otname = Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * i).Take(StringLength).ToArray();
+                Pokemon[i].nick = Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * Capacity + StringLength * i).Take(StringLength).ToArray();
             }
         }
 
@@ -331,7 +351,7 @@ namespace PKHeX
         {
             for (int i = 0; i < Count; i++)
             {
-                Data[1 + i] = (byte)Pokemon[i].Species;
+                Data[1 + i] = (byte)PKX.setG1Species(Pokemon[i].Species);
                 Array.Copy(Pokemon[i].Data, 0, Data, 2 + Capacity + Entry_Size * i, Entry_Size);
                 Array.Copy(Pokemon[i].OT_Name_Raw, 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * i, StringLength);
                 Array.Copy(Pokemon[i].Nickname_Raw, 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * Capacity + StringLength * i, StringLength);

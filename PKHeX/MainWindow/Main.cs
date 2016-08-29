@@ -237,7 +237,7 @@ namespace PKHeX
             SaveFileDialog sfd = new SaveFileDialog
             {
                 Filter = $"Decrypted PKM File|*.{pkx}" +
-                         $"|Encrypted PKM File|*.{ekx}" +
+                         (SAV.Generation > 2 ? "" : $"|Encrypted PKM File|*.{ekx}") +
                          "|Binary File|*.bin" +
                          "|All Files|*.*",
                 DefaultExt = pkx,
@@ -592,6 +592,8 @@ namespace PKHeX
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
+                else if (SAV.Generation == 1 && ((PK1) pk).Japanese != SAV.GetJapanese)
+                    Util.Alert(string.Format("Cannot load {0} PK1 in {1} save file.", SAV.GetJapanese ? "an International" : "a Japanese", SAV.GetJapanese ? "a Japanese" : "an International"));
                 else 
                     populateFields(pk);
                 Console.WriteLine(c);
@@ -848,7 +850,23 @@ namespace PKHeX
             Label_CharacteristicPrefix.Visible = L_Characteristic.Visible = SAV.Generation > 1;
             Label_ContestStats.Visible = Label_Cool.Visible = Label_Tough.Visible = Label_Smart.Visible =
                 Label_Sheen.Visible = Label_Beauty.Visible = Label_Cute.Visible = TB_Cool.Visible = TB_Tough.Visible =
-                    TB_Smart.Visible = TB_Sheen.Visible = TB_Beauty.Visible = TB_Cute.Visible = SAV.Generation >= 3;
+                    TB_Smart.Visible = TB_Sheen.Visible = TB_Beauty.Visible = TB_Cute.Visible = Label_Nature.Visible =
+                    CB_Nature.Visible = Label_Language.Visible = CB_Language.Visible = Label_Ability.Visible = 
+                    Label_Friendship.Visible = Label_HatchCounter.Visible = TB_Friendship.Visible = BTN_RerollPID.Visible = 
+                    Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
+
+            // Met Tab
+            CHK_Fateful.Visible = Label_OriginGame.Visible = Label_Ball.Visible = Label_MetLevel.Visible =
+                Label_MetLocation.Visible = CB_GameOrigin.Visible = CB_Ball.Visible = CB_MetLocation.Visible =
+                    TB_MetLevel.Visible = SAV.Generation > 2;
+
+            CHK_Infected.Visible = CHK_Cured.Visible = SAV.Generation >= 3;
+
+            CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation > 1;
+
+            Label_OTGender.Visible = SAV.Generation > 1;
+
+            CHK_Nicknamed.Enabled = SAV.Generation > 2;
 
             if (1 <= sav.Generation && sav.Generation <= 2)
             {
@@ -922,7 +940,7 @@ namespace PKHeX
             bool init = fieldsInitialized;
             fieldsInitialized = false;
             populateFilteredDataSources();
-            populateFields(pkm.Format != SAV.Generation ? SAV.BlankPKM : pk);
+            populateFields((pkm.Format != SAV.Generation || SAV.Generation == 1) ? SAV.BlankPKM : pk);
             fieldsInitialized |= init;
 
             // SAV Specific Limits
@@ -1312,8 +1330,8 @@ namespace PKHeX
             bool isShiny = pkm.IsShiny;
 
             // Set the Controls
-            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
-            Label_IsShiny.Visible = isShiny;
+            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny && SAV.Generation > 2;
+            Label_IsShiny.Visible = isShiny && SAV.Generation > 1;
 
             // Refresh Markings (for Shiny Star if applicable)
             setMarkings();
@@ -1686,6 +1704,7 @@ namespace PKHeX
         }
         private void updateRandomEVs(object sender, EventArgs e)
         {
+            changingFields = true;
             if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Shift)
             {
                 // Max EVs
@@ -1706,6 +1725,8 @@ namespace PKHeX
                 TB_SPDEV.Text = evs[4].ToString();
                 TB_SPEEV.Text = evs[5].ToString();
             }
+            changingFields = false;
+            updateEVs(null, null);
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
@@ -2174,8 +2195,9 @@ namespace PKHeX
                 }
             }
             // Display hatch counter if it is an egg, Display Friendship if it is not.
-            Label_HatchCounter.Visible = CHK_IsEgg.Checked;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked;
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 2;
+
 
             // Update image to (not) show egg.
             if (!fieldsInitialized) return;
@@ -2981,11 +3003,13 @@ namespace PKHeX
                 for (int i = 0; i < 30; i++)
                 {
                     if (i < SAV.BoxSlotCount)
-                        getSlotFiller(boxoffset + SAV.SIZE_STORED*i, SlotPictureBoxes[i]);
+                    {
+                        getSlotFiller(boxoffset + SAV.SIZE_STORED * i, SlotPictureBoxes[i]);
+                    }
                     else
                     {
                         SlotPictureBoxes[i].Image = null;
-                        SlotPictureBoxes[i].BackColor = Color.Gray;
+                        SlotPictureBoxes[i].Visible = false;
                     }
                 }
             }
@@ -3100,6 +3124,7 @@ namespace PKHeX
                 // 00s present in slot.
                 pb.Image = null;
                 pb.BackColor = Color.Transparent;
+                pb.Visible = true;
                 return;
             }
             PKM p = SAV.getStoredSlot(offset);
@@ -3108,11 +3133,13 @@ namespace PKHeX
                 // Bad Egg present in slot.
                 pb.Image = null;
                 pb.BackColor = Color.Red;
+                pb.Visible = true;
                 return;
             }
             // Something stored in slot. Only display if species is valid.
             pb.Image = p.Species == 0 ? null : p.Sprite;
             pb.BackColor = Color.Transparent;
+            pb.Visible = true;
         }
         private void getSlotColor(int slot, Image color)
         {

@@ -21,6 +21,8 @@ namespace PKHeX
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public bool Japanese { protected get; set; }
 
+        public bool GetJapanese => Japanese;
+
         // General PKM Properties
         protected abstract Type PKMType { get; }
         public abstract PKM getPKM(byte[] data);

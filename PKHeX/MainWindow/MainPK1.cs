@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX
 {
@@ -93,7 +94,6 @@ namespace PKHeX
             pk1.IV_DEF = Util.ToInt32(TB_DEFIV.Text);
             pk1.IV_SPE = Util.ToInt32(TB_SPEIV.Text);
             pk1.IV_SPA = Util.ToInt32(TB_SPAIV.Text);
-
 
             pk1.OT_Name = TB_OT.Text;
 
