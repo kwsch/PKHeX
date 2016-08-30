@@ -549,10 +549,10 @@ namespace PKHeX
             else
             {
                 byte[] input; try { input = File.ReadAllBytes(path); }
-                catch (Exception e) { Util.Error("File is in use by another program!", path, e.ToString()); return; }
+                catch (Exception e) { Util.Error("Unable to load file.  It could be in use by another program.\nPath: " + path, e); return; }
 
                 try { openFile(input, path, ext); }
-                catch (Exception e) { Util.Error("Unable to load file.", e); }
+                catch (Exception e) { Util.Error("Unable to load file.\nPath: " + path, e); }
             }
         }
         private void openFile(byte[] input, string path, string ext)
