@@ -182,7 +182,7 @@ namespace PKHeX
                     // Thread Blocks on DoDragDrop
                     DragInfo.CurrentPath = newfile;
                     DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-                    if (result != DragDropEffects.Link) // not dropped to another box slot, restore img
+                    if (!DragInfo.SourceValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
                         pb.Image = img;
                     else // refresh image
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
@@ -250,7 +250,8 @@ namespace PKHeX
             else
             {
                 PKM pkz = SAV.getStoredSlot(DragInfo.slotSourceOffset);
-                if (ModifierKeys == Keys.Alt && DragInfo.slotDestinationSlotNumber > -1) // overwrite
+                if (!DragInfo.SourceValid) { } // not overwritable, do nothing
+                else if (ModifierKeys == Keys.Alt && DragInfo.DestinationValid) // overwrite
                 {
                     // Clear from slot
                     if (DragInfo.SameBox)
@@ -258,7 +259,7 @@ namespace PKHeX
 
                     SAV.setStoredSlot(SAV.BlankPKM, DragInfo.slotSourceOffset);
                 }
-                else if (ModifierKeys != Keys.Control && DragInfo.slotDestinationSlotNumber > -1) // move
+                else if (ModifierKeys != Keys.Control && DragInfo.DestinationValid) // move
                 {
                     // Load data from destination
                     PKM pk = ((PictureBox)sender).Image != null

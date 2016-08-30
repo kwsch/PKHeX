@@ -3420,7 +3420,7 @@ namespace PKHeX
                 // Prepare Data
                 DragInfo.slotPkmSource = SAV.getData(offset, SAV.SIZE_STORED);
                 DragInfo.slotSourceOffset = offset;
-                DragInfo.slotSourceBoxNumber = CB_BoxSelect.SelectedIndex;
+                DragInfo.slotSourceBoxNumber = DragInfo.slotSourceSlotNumber >= 30  ? -1 : CB_BoxSelect.SelectedIndex;
 
                 // Make a new file name based off the PID
                 byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
@@ -3440,7 +3440,7 @@ namespace PKHeX
                     // Thread Blocks on DoDragDrop
                     DragInfo.CurrentPath = newfile;
                     DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-                    if (result != DragDropEffects.Link) // not dropped to another box slot, restore img
+                    if (!DragInfo.SourceValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
                         pb.Image = img;
                     else // refresh image
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
@@ -3512,7 +3512,8 @@ namespace PKHeX
             else
             {
                 PKM pkz = SAV.getStoredSlot(DragInfo.slotSourceOffset);
-                if (ModifierKeys == Keys.Alt && DragInfo.slotDestinationSlotNumber > -1) // overwrite delete old slot
+                if (!DragInfo.SourceValid) { } // not overwritable, do nothing
+                else if (ModifierKeys == Keys.Alt && DragInfo.DestinationValid) // overwrite delete old slot
                 {
                     // Clear from slot
                     if (DragInfo.SameBox)
@@ -3520,7 +3521,7 @@ namespace PKHeX
 
                     SAV.setStoredSlot(SAV.BlankPKM, DragInfo.slotSourceOffset);
                 }
-                else if (ModifierKeys != Keys.Control && DragInfo.slotDestinationSlotNumber > -1)
+                else if (ModifierKeys != Keys.Control && DragInfo.DestinationValid)
                 {
                     // Load data from destination
                     PKM pk = ((PictureBox) sender).Image != null
@@ -3586,6 +3587,8 @@ namespace PKHeX
             public static string CurrentPath;
 
             public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;
+            public static bool SourceValid => slotSourceBoxNumber > -1;
+            public static bool DestinationValid => slotDestinationBoxNumber > -1;
             public static void Reset()
             {
                 slotLeftMouseIsDown = false;
