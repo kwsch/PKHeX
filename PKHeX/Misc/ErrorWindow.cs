@@ -80,34 +80,42 @@ namespace PKHeX.Misc
             set
             {
                 _error = value;
-
-                var details = new StringBuilder();
-                details.AppendLine("Exception Details:");
-                details.AppendLine(value.ToString());
-                details.AppendLine();
-
-                details.AppendLine("Loaded Assemblies:");
-                details.AppendLine("--------------------");
-                try
-                {
-                    foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
-                    {
-                        details.AppendLine(item.FullName);
-                        details.AppendLine(item.Location);
-                        details.AppendLine();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    details.AppendLine("An error occurred while listing the Loaded Assemblies:");
-                    details.AppendLine(ex.ToString());
-                }
-                details.AppendLine("--------------------");
-
-                T_ExceptionDetails.Text = details.ToString();
+                UpdateExceptionDetailsMessage();             
             }
         }
         private Exception _error;
+
+        private void UpdateExceptionDetailsMessage()
+        {
+            var details = new StringBuilder();
+            details.AppendLine("Exception Details:");
+            details.AppendLine(Error.ToString());
+            details.AppendLine();
+
+            details.AppendLine("Loaded Assemblies:");
+            details.AppendLine("--------------------");
+            try
+            {
+                foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    details.AppendLine(item.FullName);
+                    details.AppendLine(item.Location);
+                    details.AppendLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                details.AppendLine("An error occurred while listing the Loaded Assemblies:");
+                details.AppendLine(ex.ToString());
+            }
+            details.AppendLine("--------------------");
+
+            // Include message in case it contains important information, like a file path.
+            details.AppendLine("User Message:");
+            details.AppendLine(Message);
+
+            T_ExceptionDetails.Text = details.ToString();
+        }
 
         private void btnCopyToClipboard_Click(object sender, EventArgs e)
         {
