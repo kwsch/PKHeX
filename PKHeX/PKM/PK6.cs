@@ -273,7 +273,8 @@ namespace PKHeX
             get { return BitConverter.ToUInt16(Data, 0x70); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
         }
-        public bool SecretSuperTraining { get { return Data[0x72] == 1; } set { Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); } }
+        public bool SecretSuperTrainingUnlocked { get { return (Data[0x72] & 1) == 1; } set { Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); } }
+        public bool SecretSuperTrainingComplete { get { return (Data[0x72] & 2) == 2; } set { Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); } }
         public byte _0x73 { get { return Data[0x73]; } set { Data[0x73] = value; } }
         private uint IV32 { get { return BitConverter.ToUInt32(Data, 0x74); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x74); } }
         public override int IV_HP { get { return (int)(IV32 >> 00) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); } }
