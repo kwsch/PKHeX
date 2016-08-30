@@ -3008,6 +3008,7 @@
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 50;
             this.tabBoxMulti.Click += new System.EventHandler(this.clickBoxSort);
+            this.tabBoxMulti.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.clickBoxDouble);
             // 
             // Tab_Box
             // 

@@ -205,6 +205,59 @@ namespace PKHeX
             return GameVersion.Invalid;
         }
 
+        /// <summary>Determines the Version Grouping of an input Version ID</summary>
+        /// <param name="Version">Version of which to determine the group</param>
+        /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getVersionGroup(GameVersion Version)
+        {
+            switch (Version)
+            {
+                case GameVersion.CXD:
+                    return GameVersion.CXD;
+
+                case GameVersion.R:
+                case GameVersion.S:
+                    return GameVersion.RS;
+
+                case GameVersion.E:
+                    return GameVersion.E;
+
+                case GameVersion.FR:
+                case GameVersion.LG:
+                    return GameVersion.FR;
+
+                case GameVersion.D:
+                case GameVersion.P:
+                    return GameVersion.DP;
+
+                case GameVersion.Pt:
+                    return GameVersion.Pt;
+
+                case GameVersion.HG:
+                case GameVersion.SS:
+                    return GameVersion.HGSS;
+
+                case GameVersion.B:
+                case GameVersion.W:
+                    return GameVersion.BW;
+
+                case GameVersion.B2:
+                case GameVersion.W2:
+                    return GameVersion.B2W2;
+
+                case GameVersion.X:
+                case GameVersion.Y:
+                    return GameVersion.XY;
+
+                case GameVersion.OR:
+                case GameVersion.AS:
+                    return GameVersion.ORAS;
+
+                default:
+                    return GameVersion.Invalid;
+            }
+        }
+
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
@@ -335,7 +388,7 @@ namespace PKHeX
             return (ushort)((val & 0xFFFF) + (val >> 16));
         }
 
-        public static int getDexFormIndexXY(int species, int formct)
+        public static int getDexFormIndexBW(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
@@ -357,11 +410,29 @@ namespace PKHeX
                 case 648: return 066; // 2 Meloetta
                 case 555: return 068; // 2 Darmanitan
                 case 550: return 070; // 2 Basculin
+                default: return -1;
+            }
+        }
+        public static int getDexFormIndexB2W2(int species, int formct)
+        {
+            if (formct < 1 || species < 0)
+                return -1; // invalid
+            switch (species)
+            {
                 case 646: return 072; // 3 Kyurem
                 case 647: return 075; // 2 Keldeo
                 case 642: return 077; // 2 Thundurus
                 case 641: return 079; // 2 Tornadus
                 case 645: return 081; // 2 Landorus
+                default: return getDexFormIndexBW(species, formct);
+            }
+        }
+        public static int getDexFormIndexXY(int species, int formct)
+        {
+            if (formct < 1 || species < 0)
+                return -1; // invalid
+            switch (species)
+            {
                 case 666: return 083; // 20 Vivillion
                 case 669: return 103; // 5 Flabébé
                 case 670: return 108; // 6 Floette
@@ -398,7 +469,7 @@ namespace PKHeX
                 case 445: return 183; // 2 Garchomp
                 case 448: return 185; // 2 Lucario
                 case 460: return 187; // 2 Abomasnow
-                default: return -1;
+                default: return getDexFormIndexB2W2(species, formct);
             }
         }
         public static int getDexFormIndexORAS(int species, int formct)
