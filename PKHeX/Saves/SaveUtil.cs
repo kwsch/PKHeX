@@ -215,6 +215,9 @@ namespace PKHeX
                 case GameVersion.CXD:
                     return GameVersion.CXD;
 
+                case GameVersion.RBY:
+                    return GameVersion.RBY;
+
                 case GameVersion.R:
                 case GameVersion.S:
                     return GameVersion.RS;

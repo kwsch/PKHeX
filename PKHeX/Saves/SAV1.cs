@@ -343,7 +343,7 @@ namespace PKHeX
             }
         }
 
-        private readonly ushort[] LegalItems = Enumerable.Range(1, 255).Select(i => (ushort)i).ToArray();
+        private readonly ushort[] LegalItems = PKX.getG1LegalItems().Select(i => (ushort)i).ToArray();
         public override InventoryPouch[] Inventory
         {
             get
@@ -352,7 +352,7 @@ namespace PKHeX
                 InventoryPouch[] pouch =
                 {
                     new InventoryPouch(InventoryType.Items, legalItems, 99, (Japanese ? 0x25C4 : 0x25C9), 20),
-                    new InventoryPouch(InventoryType.Items, legalItems, 99, (Japanese ? 0x27DC : 0x27E6), 50),
+                    new InventoryPouch(InventoryType.MailItems, legalItems, 99, (Japanese ? 0x27DC : 0x27E6), 50)
                 };
                 foreach (var p in pouch)
                 {
