@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_SimpleTrainer));
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.L_Started = new System.Windows.Forms.Label();
             this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
@@ -63,6 +64,9 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.GB_Trainer = new System.Windows.Forms.GroupBox();
+            this.B_MaxCoins = new System.Windows.Forms.Button();
+            this.L_Coins = new System.Windows.Forms.Label();
+            this.MT_Coins = new System.Windows.Forms.MaskedTextBox();
             this.GB_Badges = new System.Windows.Forms.GroupBox();
             this.CHK_H8 = new System.Windows.Forms.CheckBox();
             this.CHK_H7 = new System.Windows.Forms.CheckBox();
@@ -80,6 +84,14 @@
             this.CHK_3 = new System.Windows.Forms.CheckBox();
             this.CHK_2 = new System.Windows.Forms.CheckBox();
             this.CHK_1 = new System.Windows.Forms.CheckBox();
+            this.GB_Options = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CB_SoundType = new System.Windows.Forms.ComboBox();
+            this.LBL_TextSpeed = new System.Windows.Forms.Label();
+            this.CB_TextSpeed = new System.Windows.Forms.ComboBox();
+            this.LBL_BattleStyle = new System.Windows.Forms.Label();
+            this.CB_BattleStyle = new System.Windows.Forms.ComboBox();
+            this.CHK_BattleEffects = new System.Windows.Forms.CheckBox();
             this.GB_Adventure.SuspendLayout();
             this.GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
@@ -88,6 +100,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
             this.GB_Trainer.SuspendLayout();
             this.GB_Badges.SuspendLayout();
+            this.GB_Options.SuspendLayout();
             this.SuspendLayout();
             // 
             // GB_Adventure
@@ -248,7 +261,7 @@
             this.CB_Gender.Items.AddRange(new object[] {
             "♂",
             "♀"});
-            this.CB_Gender.Location = new System.Drawing.Point(99, 55);
+            this.CB_Gender.Location = new System.Drawing.Point(119, 55);
             this.CB_Gender.Name = "CB_Gender";
             this.CB_Gender.Size = new System.Drawing.Size(40, 21);
             this.CB_Gender.TabIndex = 68;
@@ -458,6 +471,9 @@
             // 
             // GB_Trainer
             // 
+            this.GB_Trainer.Controls.Add(this.B_MaxCoins);
+            this.GB_Trainer.Controls.Add(this.L_Coins);
+            this.GB_Trainer.Controls.Add(this.MT_Coins);
             this.GB_Trainer.Controls.Add(this.TB_OTName);
             this.GB_Trainer.Controls.Add(this.B_MaxCash);
             this.GB_Trainer.Controls.Add(this.MT_SID);
@@ -474,6 +490,37 @@
             this.GB_Trainer.TabIndex = 74;
             this.GB_Trainer.TabStop = false;
             this.GB_Trainer.Text = "Trainer";
+            // 
+            // B_MaxCoins
+            // 
+            this.B_MaxCoins.Location = new System.Drawing.Point(95, 56);
+            this.B_MaxCoins.Name = "B_MaxCoins";
+            this.B_MaxCoins.Size = new System.Drawing.Size(20, 20);
+            this.B_MaxCoins.TabIndex = 71;
+            this.B_MaxCoins.Text = "+";
+            this.B_MaxCoins.UseVisualStyleBackColor = true;
+            this.B_MaxCoins.Visible = false;
+            // 
+            // L_Coins
+            // 
+            this.L_Coins.AutoSize = true;
+            this.L_Coins.Location = new System.Drawing.Point(11, 59);
+            this.L_Coins.Name = "L_Coins";
+            this.L_Coins.Size = new System.Drawing.Size(36, 13);
+            this.L_Coins.TabIndex = 70;
+            this.L_Coins.Text = "Coins:";
+            this.L_Coins.Visible = false;
+            // 
+            // MT_Coins
+            // 
+            this.MT_Coins.Location = new System.Drawing.Point(53, 55);
+            this.MT_Coins.Mask = "00000";
+            this.MT_Coins.Name = "MT_Coins";
+            this.MT_Coins.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_Coins.Size = new System.Drawing.Size(39, 20);
+            this.MT_Coins.TabIndex = 69;
+            this.MT_Coins.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Coins.Visible = false;
             // 
             // GB_Badges
             // 
@@ -660,17 +707,100 @@
             this.CHK_1.UseVisualStyleBackColor = true;
             this.CHK_1.Visible = false;
             // 
+            // GB_Options
+            // 
+            this.GB_Options.Controls.Add(this.label1);
+            this.GB_Options.Controls.Add(this.CB_SoundType);
+            this.GB_Options.Controls.Add(this.LBL_TextSpeed);
+            this.GB_Options.Controls.Add(this.CB_TextSpeed);
+            this.GB_Options.Controls.Add(this.LBL_BattleStyle);
+            this.GB_Options.Controls.Add(this.CB_BattleStyle);
+            this.GB_Options.Controls.Add(this.CHK_BattleEffects);
+            this.GB_Options.Location = new System.Drawing.Point(217, 99);
+            this.GB_Options.Name = "GB_Options";
+            this.GB_Options.Size = new System.Drawing.Size(157, 125);
+            this.GB_Options.TabIndex = 72;
+            this.GB_Options.TabStop = false;
+            this.GB_Options.Text = "Options";
+            this.GB_Options.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 71);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(68, 13);
+            this.label1.TabIndex = 25;
+            this.label1.Text = "Sound Type:";
+            // 
+            // CB_SoundType
+            // 
+            this.CB_SoundType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_SoundType.FormattingEnabled = true;
+            this.CB_SoundType.Location = new System.Drawing.Point(71, 68);
+            this.CB_SoundType.Name = "CB_SoundType";
+            this.CB_SoundType.Size = new System.Drawing.Size(80, 21);
+            this.CB_SoundType.TabIndex = 24;
+            // 
+            // LBL_TextSpeed
+            // 
+            this.LBL_TextSpeed.AutoSize = true;
+            this.LBL_TextSpeed.Location = new System.Drawing.Point(6, 98);
+            this.LBL_TextSpeed.Name = "LBL_TextSpeed";
+            this.LBL_TextSpeed.Size = new System.Drawing.Size(65, 13);
+            this.LBL_TextSpeed.TabIndex = 23;
+            this.LBL_TextSpeed.Text = "Text Speed:";
+            // 
+            // CB_TextSpeed
+            // 
+            this.CB_TextSpeed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TextSpeed.FormattingEnabled = true;
+            this.CB_TextSpeed.Location = new System.Drawing.Point(71, 95);
+            this.CB_TextSpeed.Name = "CB_TextSpeed";
+            this.CB_TextSpeed.Size = new System.Drawing.Size(80, 21);
+            this.CB_TextSpeed.TabIndex = 22;
+            // 
+            // LBL_BattleStyle
+            // 
+            this.LBL_BattleStyle.AutoSize = true;
+            this.LBL_BattleStyle.Location = new System.Drawing.Point(8, 44);
+            this.LBL_BattleStyle.Name = "LBL_BattleStyle";
+            this.LBL_BattleStyle.Size = new System.Drawing.Size(63, 13);
+            this.LBL_BattleStyle.TabIndex = 21;
+            this.LBL_BattleStyle.Text = "Battle Style:";
+            // 
+            // CB_BattleStyle
+            // 
+            this.CB_BattleStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_BattleStyle.FormattingEnabled = true;
+            this.CB_BattleStyle.Location = new System.Drawing.Point(71, 41);
+            this.CB_BattleStyle.Name = "CB_BattleStyle";
+            this.CB_BattleStyle.Size = new System.Drawing.Size(80, 21);
+            this.CB_BattleStyle.TabIndex = 20;
+            // 
+            // CHK_BattleEffects
+            // 
+            this.CHK_BattleEffects.AutoSize = true;
+            this.CHK_BattleEffects.Location = new System.Drawing.Point(26, 18);
+            this.CHK_BattleEffects.Name = "CHK_BattleEffects";
+            this.CHK_BattleEffects.Size = new System.Drawing.Size(111, 17);
+            this.CHK_BattleEffects.TabIndex = 19;
+            this.CHK_BattleEffects.Text = "Use Battle Effects";
+            this.CHK_BattleEffects.UseVisualStyleBackColor = true;
+            // 
             // SAV_SimpleTrainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.GB_Options);
             this.Controls.Add(this.GB_Badges);
             this.Controls.Add(this.GB_Trainer);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.GB_Map);
             this.Controls.Add(this.GB_Adventure);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "SAV_SimpleTrainer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -686,6 +816,8 @@
             this.GB_Trainer.PerformLayout();
             this.GB_Badges.ResumeLayout(false);
             this.GB_Badges.PerformLayout();
+            this.GB_Options.ResumeLayout(false);
+            this.GB_Options.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -744,5 +876,16 @@
         private System.Windows.Forms.CheckBox CHK_H3;
         private System.Windows.Forms.CheckBox CHK_H2;
         private System.Windows.Forms.CheckBox CHK_H1;
+        private System.Windows.Forms.Button B_MaxCoins;
+        private System.Windows.Forms.Label L_Coins;
+        private System.Windows.Forms.MaskedTextBox MT_Coins;
+        private System.Windows.Forms.GroupBox GB_Options;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox CB_SoundType;
+        private System.Windows.Forms.Label LBL_TextSpeed;
+        private System.Windows.Forms.ComboBox CB_TextSpeed;
+        private System.Windows.Forms.Label LBL_BattleStyle;
+        private System.Windows.Forms.ComboBox CB_BattleStyle;
+        private System.Windows.Forms.CheckBox CHK_BattleEffects;
     }
 }

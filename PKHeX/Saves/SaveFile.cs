@@ -487,7 +487,16 @@ namespace PKHeX
         }
 
         protected virtual void setPKM(PKM pkm) { }
-        protected virtual void setDex(PKM pkm) { }
+        protected virtual void setDex(PKM pkm)
+        {
+            setSeen(pkm);
+            setCaught(pkm);
+        }
+
+        public virtual bool getSeen(PKM pkm) { throw new NotImplementedException(); }
+        public virtual bool getCaught(PKM pkm) { throw new NotImplementedException(); }
+        protected internal virtual void setSeen(PKM pkm, bool seen = true) { }
+        protected internal virtual void setCaught(PKM pkm, bool caught = true) { }
         
         public byte[] getData(int Offset, int Length)
         {

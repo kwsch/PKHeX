@@ -98,6 +98,9 @@ namespace PKHeX
             daycareList.GetBytes().CopyTo(Data, getPartyOffset(7));
             Daycare = getPartyOffset(7); 
 
+            // Enable Pokedex editing
+            PokeDex = 0;
+
             if (!Exportable)
                 resetBoxes();
         }
@@ -134,7 +137,7 @@ namespace PKHeX
             partyPL.GetBytes().CopyTo(Data, Japanese ? 0x2ED5 : 0x2F2C);
 
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
-            byte[] rawDC = getData(getDaycareSlotOffset(0, 0), SIZE_STORED);
+            byte[] rawDC = getData(getDaycareSlotOffset(), SIZE_STORED);
             byte[] dc = new byte[1 + 2*StringLength + PKX.SIZE_1STORED];
             dc[0] = rawDC[0];
             Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY + StringLength, dc, 1, StringLength);
@@ -268,6 +271,58 @@ namespace PKHeX
             set { Data[Japanese ? 0x2CA3 : 0x2CF0] = (byte)value; }
         }
 
+        public int Badges
+        {
+            get { return Data[Japanese ? 0x25F8 : 0x2602]; }
+            set { if (value < 0) return; Data[Japanese ? 0x25F8 : 0x2602] = (byte)value; }
+        }
+
+        private byte Options
+        {
+            get { return Data[Japanese ? 0x25F7 : 0x2601]; }
+            set { Data[Japanese ? 0x25F7 : 0x2601] = value; }
+        }
+
+        public bool BattleEffects
+        {
+            get { return (Options & 0x80) == 0; }
+            set { Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80)); }
+        }
+
+        public bool BattleStyleSwitch
+        {
+            get { return (Options & 0x40) == 0; }
+            set { Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40)); }
+        }
+
+        public int Sound
+        {
+            get { return (Options & 0x30) >> 4; }
+            set
+            {
+                var new_sound = value;
+                if (new_sound > 3)
+                    new_sound = 3;
+                if (new_sound < 0)
+                    new_sound = 0;
+                Options = (byte)((Options & 0xCF) | (new_sound << 4));
+            }
+        }
+
+        public int TextSpeed
+        {
+            get { return Options & 0x7; }
+            set
+            {
+                var new_speed = value;
+                if (new_speed > 7)
+                    new_speed = 7;
+                if (new_speed < 0)
+                    new_speed = 0;
+                Options = (byte)((Options & 0xF8) | new_speed);
+            }
+        }
+
         public override uint Money
         {
             get { return uint.Parse((Util.SwapEndianness(BitConverter.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3)) >> 8).ToString("X6")); }
@@ -396,7 +451,39 @@ namespace PKHeX
             return data;
         }
 
-        protected override void setDex(PKM pkm)
+        public override bool getSeen(PKM pkm)
+        {
+            if (pkm.Species == 0)
+                return false;
+            if (pkm.Species > MaxSpeciesID)
+                return false;
+            if (Version == GameVersion.Unknown)
+                return false;
+
+            int bit = pkm.Species - 1;
+            int ofs = bit >> 3;
+            byte bitval = (byte)(1 << (bit & 7));
+            // Get the Seen Flag
+            return (Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] & bitval) != 0;
+        }
+
+        public override bool getCaught(PKM pkm)
+        {
+            if (pkm.Species == 0)
+                return false;
+            if (pkm.Species > MaxSpeciesID)
+                return false;
+            if (Version == GameVersion.Unknown)
+                return false;
+
+            int bit = pkm.Species - 1;
+            int ofs = bit >> 3;
+            byte bitval = (byte)(1 << (bit & 7));
+            // Get the Caught Flag
+            return (Data[(Japanese ? 0x259E : 0x25A3) + ofs] & bitval) != 0;
+        }
+
+        protected internal override void setSeen(PKM pkm, bool seen)
         {
             if (pkm.Species == 0)
                 return;
@@ -404,16 +491,32 @@ namespace PKHeX
                 return;
             if (Version == GameVersion.Unknown)
                 return;
-            
+
             int bit = pkm.Species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit % 7));
-
-            // Set the Captured Flag
-            Data[(Japanese ? 0x259E : 0x25A3) + ofs] |= bitval;
-
+            byte bitval = (byte)(1 << (bit & 7));
             // Set the Seen Flag
-            Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] |= bitval;
+            Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] &= (byte)(~bitval);
+            if (seen)
+                Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] |= bitval;
+        }
+
+        protected internal override void setCaught(PKM pkm, bool caught)
+        {
+            if (pkm.Species == 0)
+                return;
+            if (pkm.Species > MaxSpeciesID)
+                return;
+            if (Version == GameVersion.Unknown)
+                return;
+
+            int bit = pkm.Species - 1;
+            int ofs = bit >> 3;
+            byte bitval = (byte)(1 << (bit & 7));
+            // Set the Captured Flag
+            Data[(Japanese ? 0x259E : 0x25A3) + ofs] &= (byte)(~bitval);
+            if (caught)
+                Data[(Japanese ? 0x259E : 0x25A3) + ofs] |= bitval;
         }
     }
 }

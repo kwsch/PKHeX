@@ -3366,6 +3366,8 @@ namespace PKHeX
                 new SAV_PokedexORAS().ShowDialog();
             else if (SAV.XY)
                 new SAV_PokedexXY().ShowDialog();
+            else if (SAV.RBY)
+                new SAV_SimplePokedex().ShowDialog();
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {

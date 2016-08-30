@@ -14,9 +14,14 @@ namespace PKHeX
             cba = new[] {CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8};
             TB_OTName.MaxLength = SAV.OTLength;
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
+            B_MaxCoins.Click += (sender, e) => MT_Coins.Text = "9999";
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.gendersymbols.Take(2).ToArray()); // m/f depending on unicode selection
+
+            L_SID.Visible = MT_SID.Visible = SAV.Generation > 2;
+            L_Coins.Visible = B_MaxCoins.Visible = MT_Coins.Visible = SAV.Generation < 3;
+            CB_Gender.Visible = SAV.Generation > 1;
 
             TB_OTName.Text = SAV.OT;
             CB_Gender.SelectedIndex = SAV.Gender;
@@ -26,6 +31,29 @@ namespace PKHeX
             MT_Hours.Text = SAV.PlayedHours.ToString();
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
+
+
+            int badgeval = 0;
+            if (SAV is SAV1)
+            {
+                SAV1 sav1 = (SAV1)SAV;
+                MT_Coins.Text = sav1.Coin.ToString();
+                badgeval = sav1.Badges;
+
+                L_Started.Visible = L_Fame.Visible = false;
+                CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
+                CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
+                GB_Map.Visible = false;
+                GB_Options.Visible = true;
+                CB_BattleStyle.Items.AddRange(new[] { "Switch", "Set" });
+                CB_SoundType.Items.AddRange(new[] { "Mono", "Stereo", "Earphone2", "Earphone3" });
+                CB_TextSpeed.Items.AddRange(new[] { "0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7" });
+
+                CHK_BattleEffects.Checked = sav1.BattleEffects;
+                CB_BattleStyle.SelectedIndex = sav1.BattleStyleSwitch ? 0 : 1;
+                CB_SoundType.SelectedIndex = sav1.Sound;
+                CB_TextSpeed.SelectedIndex = sav1.TextSpeed;
+            }
 
             if (SAV is SAV3)
             {
@@ -38,7 +66,6 @@ namespace PKHeX
                 return;
             }
 
-            int badgeval = 0;
             if (SAV is SAV4)
             {
                 SAV4 s = (SAV4)SAV;
@@ -103,6 +130,18 @@ namespace PKHeX
             int badgeval = 0;
             for (int i = 0; i < cba.Length; i++)
                 badgeval |= (cba[i].Checked ? 1 : 0) << i;
+
+            if (SAV is SAV1)
+            {
+                SAV1 sav1 = (SAV1) SAV;
+                sav1.Coin = (ushort) Util.ToUInt32(MT_Coins.Text);
+                sav1.Badges = badgeval & 0xFF;
+
+                sav1.BattleEffects = CHK_BattleEffects.Checked;
+                sav1.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
+                sav1.Sound = CB_SoundType.SelectedIndex;
+                sav1.TextSpeed = CB_TextSpeed.SelectedIndex;
+            }
 
             if (SAV is SAV4)
             {
