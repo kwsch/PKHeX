@@ -52,9 +52,11 @@
             // 
             // L_Message
             // 
+            this.L_Message.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Message.Location = new System.Drawing.Point(9, 9);
             this.L_Message.Name = "L_Message";
-            this.L_Message.Size = new System.Drawing.Size(363, 27);
+            this.L_Message.Size = new System.Drawing.Size(477, 27);
             this.L_Message.TabIndex = 1;
             this.L_Message.Text = "An unknown error has occurred.";
             // 
@@ -110,7 +112,9 @@
             this.Controls.Add(this.L_ProvideInfo);
             this.Controls.Add(this.L_Message);
             this.Controls.Add(this.T_ExceptionDetails);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "ErrorWindow";
             this.Text = "Error";
             this.ResumeLayout(false);
