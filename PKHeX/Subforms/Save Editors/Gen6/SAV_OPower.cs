@@ -86,7 +86,7 @@ namespace PKHeX
                 {
                     data[c] = 1;
                 }
-                Array.Copy(data, 0, Main.SAV.Data, o + offsets[i], data.Length);
+                Array.Copy(data, 0, SAV.Data, o + offsets[i], data.Length);
             }
 
             // Save Maxes
