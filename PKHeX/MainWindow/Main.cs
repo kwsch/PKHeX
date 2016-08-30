@@ -180,7 +180,7 @@ namespace PKHeX
 
         #region Path Variables
 
-        public static string WorkingDirectory => Environment.CurrentDirectory;
+        public static string WorkingDirectory => Util.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
         private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
