@@ -32,7 +32,7 @@ namespace PKHeX
             int size = 0;
             switch (format)
             {
-                case GameVersion.RBY: size = PersonalInfoG1.SIZE;break;
+                case GameVersion.RBY: size = PersonalInfoG1.SIZE; break;
                 case GameVersion.RS:
                 case GameVersion.E:
                 case GameVersion.FR:

@@ -177,7 +177,7 @@ namespace PKHeX
         public static string[] wallpapernames, puffs = { };
         public static bool unicode;
         public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        private static List<ComboItem> metGen1, metGen2, metGen3, metGen4, metGen5, metGen6;
+        private static List<ComboItem> metGen2, metGen3, metGen4, metGen5, metGen6;
 
         public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
         private static int colorizedbox = -1;
@@ -622,7 +622,7 @@ namespace PKHeX
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
                 else if (SAV.Generation == 1 && ((PK1) pk).Japanese != SAV.GetJapanese)
-                    Util.Alert(string.Format("Cannot load {0} PK1 in {1} save file.", SAV.GetJapanese ? "an International" : "a Japanese", SAV.GetJapanese ? "a Japanese" : "an International"));
+                    Util.Alert($"Cannot load {(SAV.GetJapanese ? "an International" : "a Japanese")} PK1 in {(SAV.GetJapanese ? "a Japanese" : "an International")} save file.");
                 else 
                     populateFields(pk);
                 Console.WriteLine(c);
@@ -886,8 +886,8 @@ namespace PKHeX
 
             // Met Tab
             CHK_Fateful.Visible = Label_OriginGame.Visible = Label_Ball.Visible = Label_MetLevel.Visible =
-                Label_MetLocation.Visible = CB_GameOrigin.Visible = CB_Ball.Visible = CB_MetLocation.Visible =
-                    TB_MetLevel.Visible = SAV.Generation > 2;
+            CB_MetLocation.Visible = Label_MetLocation.Visible = SAV.Generation > 2 || (SAV.Version == GameVersion.GSC);
+            CB_GameOrigin.Visible = CB_Ball.Visible = TB_MetLevel.Visible = SAV.Generation > 2;
 
             CHK_Infected.Visible = CHK_Cured.Visible = SAV.Generation >= 3;
 
@@ -903,8 +903,8 @@ namespace PKHeX
                 Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = false;
                 Label_SPA.Text = "Spc";
                 TB_HPIV.ReadOnly = true;
-                Control[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
-                foreach (MaskedTextBox ctrl in evControls)
+                MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
+                foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "00000";
                     ctrl.Size = new Size(37, 20);
@@ -919,8 +919,8 @@ namespace PKHeX
                 Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = true;
                 Label_SPA.Text = "SpA";
                 TB_HPIV.ReadOnly = false;
-                Control[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
-                foreach (MaskedTextBox ctrl in evControls)
+                MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
+                foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "000";
                     ctrl.Size = new Size(31, 20);
@@ -1209,6 +1209,12 @@ namespace PKHeX
             MoveDataSource = Util.getCBList(movelist, null);
 
             #region Met Locations
+            // Gen 2
+            {
+                var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 0x5F).ToArray());
+                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
+                metGen2 = null;
+            }
             // Gen 3
             {
                 var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
@@ -1764,12 +1770,12 @@ namespace PKHeX
             }
             else
             {
-                TB_HPIV.Text = (Util.rnd32() % (SAV.MaxIV + 1)).ToString();
-                TB_ATKIV.Text = (Util.rnd32() % (SAV.MaxIV + 1)).ToString();
-                TB_DEFIV.Text = (Util.rnd32() % (SAV.MaxIV + 1)).ToString();
-                TB_SPAIV.Text = (Util.rnd32() % (SAV.MaxIV + 1)).ToString();
-                TB_SPDIV.Text = (Util.rnd32() % (SAV.MaxIV + 1)).ToString();
-                TB_SPEIV.Text = (Util.rnd32() % (SAV.MaxIV + 1)).ToString();
+                TB_HPIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
+                TB_ATKIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
+                TB_DEFIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
+                TB_SPAIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
+                TB_SPDIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
+                TB_SPEIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
             }
             changingFields = false;
             updateIVs(null, null);

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Globalization;
 using System.Linq;
 
 namespace PKHeX
@@ -17,9 +15,7 @@ namespace PKHeX
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
-            if (data == null)
-                Version = GameVersion.RBY;
-            else Version = SaveUtil.getIsG1SAV(Data);
+            Version = data == null ? GameVersion.RBY : SaveUtil.getIsG1SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -137,7 +133,7 @@ namespace PKHeX
             partyPL.GetBytes().CopyTo(Data, Japanese ? 0x2ED5 : 0x2F2C);
 
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
-            byte[] rawDC = getData(getDaycareSlotOffset(), SIZE_STORED);
+            byte[] rawDC = getData(getDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
             byte[] dc = new byte[1 + 2*StringLength + PKX.SIZE_1STORED];
             dc[0] = rawDC[0];
             Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY + StringLength, dc, 1, StringLength);
@@ -179,8 +175,10 @@ namespace PKHeX
         protected override int GiftCountMax => 0;
         public override int OTLength => Japanese ? 5 : 10;
         public override int NickLength => Japanese ? 5 : 10;
+        public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
+        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
 
         // Checksums
         protected override void setChecksums()
@@ -216,18 +214,10 @@ namespace PKHeX
                 return Data[CHECKSUM_OFS] == (byte)chksum;
             }
         }
-        public override string ChecksumInfo
-        {
-            get
-            {
-                return ChecksumsValid ? "Checksum valid." : "Checksum invalid";
-            }
-        }
+        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
 
         // Trainer Info
         public override GameVersion Version { get; protected set; }
-
-        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
 
         public override string OT
         {
@@ -236,7 +226,7 @@ namespace PKHeX
             {
                 byte[] strdata = PKX.setG1Str(value, Japanese);
                 if (strdata.Length > StringLength)
-                    throw new ArgumentOutOfRangeException("OT Name too long for given save file.");
+                    throw new ArgumentException("OT Name too long for given save file.");
                 strdata.CopyTo(Data, 0x2598);
             }
         }
@@ -276,25 +266,21 @@ namespace PKHeX
             get { return Data[Japanese ? 0x25F8 : 0x2602]; }
             set { if (value < 0) return; Data[Japanese ? 0x25F8 : 0x2602] = (byte)value; }
         }
-
         private byte Options
         {
             get { return Data[Japanese ? 0x25F7 : 0x2601]; }
             set { Data[Japanese ? 0x25F7 : 0x2601] = value; }
         }
-
         public bool BattleEffects
         {
             get { return (Options & 0x80) == 0; }
             set { Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80)); }
         }
-
         public bool BattleStyleSwitch
         {
             get { return (Options & 0x40) == 0; }
             set { Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40)); }
         }
-
         public int Sound
         {
             get { return (Options & 0x30) >> 4; }
@@ -308,7 +294,6 @@ namespace PKHeX
                 Options = (byte)((Options & 0xCF) | (new_sound << 4));
             }
         }
-
         public int TextSpeed
         {
             get { return Options & 0x7; }
@@ -322,13 +307,12 @@ namespace PKHeX
                 Options = (byte)((Options & 0xF8) | new_speed);
             }
         }
-
         public override uint Money
         {
             get { return uint.Parse((Util.SwapEndianness(BitConverter.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3)) >> 8).ToString("X6")); }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(uint.Parse(value.ToString("000000"), NumberStyles.HexNumber))).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
+                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt32(value.ToString("000000"), 16))).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
             }
         }
         public uint Coin
@@ -339,7 +323,7 @@ namespace PKHeX
             }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(ushort.Parse(value.ToString("0000"), NumberStyles.HexNumber))).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
+                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt16(value.ToString("0000"), 16))).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
             }
         }
 
@@ -351,8 +335,8 @@ namespace PKHeX
                 ushort[] legalItems = LegalItems;
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, legalItems, 99, (Japanese ? 0x25C4 : 0x25C9), 20),
-                    new InventoryPouch(InventoryType.MailItems, legalItems, 99, (Japanese ? 0x27DC : 0x27E6), 50)
+                    new InventoryPouch(InventoryType.Items, legalItems, 99, Japanese ? 0x25C4 : 0x25C9, 20),
+                    new InventoryPouch(InventoryType.MailItems, legalItems, 99, Japanese ? 0x27DC : 0x27E6, 50)
                 };
                 foreach (var p in pouch)
                 {
@@ -377,7 +361,7 @@ namespace PKHeX
                 }
             }
         }
-        public override int getDaycareSlotOffset(int loc = 0, int slot = 0)
+        public override int getDaycareSlotOffset(int loc, int slot)
         {
             return Daycare;
         }
@@ -385,7 +369,7 @@ namespace PKHeX
         {
             return null;
         }
-        public override uint? getDaycareEXP(int loc = 0, int slot = 0)
+        public override uint? getDaycareEXP(int loc, int slot)
         {
             return null;
         }
@@ -403,9 +387,6 @@ namespace PKHeX
         }
 
         // Storage
-
-        public override int BoxSlotCount => Japanese ? 30 : 20;
-
         public override int PartyCount
         {
             get { return Data[Japanese ? 0x2ED5 : 0x2F2C]; }
@@ -433,7 +414,7 @@ namespace PKHeX
         }
         public override string getBoxName(int box)
         {
-            return string.Format("Box {0}", box + 1);
+            return $"BOX {box + 1}";
         }
         public override void setBoxName(int box, string value)
         {
@@ -451,6 +432,7 @@ namespace PKHeX
             return data;
         }
 
+        // Pokédex
         public override bool getSeen(PKM pkm)
         {
             if (pkm.Species == 0)
@@ -466,7 +448,6 @@ namespace PKHeX
             // Get the Seen Flag
             return (Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] & bitval) != 0;
         }
-
         public override bool getCaught(PKM pkm)
         {
             if (pkm.Species == 0)
@@ -482,8 +463,7 @@ namespace PKHeX
             // Get the Caught Flag
             return (Data[(Japanese ? 0x259E : 0x25A3) + ofs] & bitval) != 0;
         }
-
-        protected internal override void setSeen(PKM pkm, bool seen)
+        protected internal override void setSeen(PKM pkm, bool seen = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -500,8 +480,7 @@ namespace PKHeX
             if (seen)
                 Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] |= bitval;
         }
-
-        protected internal override void setCaught(PKM pkm, bool caught)
+        protected internal override void setCaught(PKM pkm, bool caught = true)
         {
             if (pkm.Species == 0)
                 return;

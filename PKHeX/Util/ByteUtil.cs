@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PKHeX
+﻿namespace PKHeX
 {
     public partial class Util
     {
         /// <summary>
         /// Swaps the Endianness of an int
+        /// </summary>
         /// <param name="val">Value to swap endianness of.</param>
         /// <returns>The endianness-swapped value.</returns>
         internal static int SwapEndianness(int val)
@@ -18,6 +14,7 @@ namespace PKHeX
 
         /// <summary>
         /// Swaps the Endianness of a uint
+        /// </summary>
         /// <param name="val">Value to swap endianness of.</param>
         /// <returns>The endianness-swapped value.</returns>
         internal static uint SwapEndianness(uint val)
@@ -30,6 +27,7 @@ namespace PKHeX
 
         /// <summary>
         /// Swaps the Endianness of a short
+        /// </summary>
         /// <param name="val">Value to swap endianness of.</param>
         /// <returns>The endianness-swapped value.</returns>
         internal static int SwapEndianness(short val)
@@ -39,6 +37,7 @@ namespace PKHeX
 
         /// <summary>
         /// Swaps the Endianness of a ushort
+        /// </summary>
         /// <param name="val">Value to swap endianness of.</param>
         /// <returns>The endianness-swapped value.</returns>
         internal static ushort SwapEndianness(ushort val)

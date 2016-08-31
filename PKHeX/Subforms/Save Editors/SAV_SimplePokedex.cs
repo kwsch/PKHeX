@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace PKHeX
 {
@@ -28,12 +26,11 @@ namespace PKHeX
             }
             initialized = true;
         }
-        private readonly CheckBox[] cba;
         private readonly SaveFile SAV = Main.SAV.Clone();
 
-        private bool[] seen;
-        private bool[] caught;
-        private bool initialized;
+        private readonly bool[] seen;
+        private readonly bool[] caught;
+        private readonly bool initialized;
 
         private void B_Save_Click(object sender, EventArgs e)
         {

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace PKHeX
 {
-    class PK1 : PKM
+    public class PK1 : PKM
     {
         // Internal use only
         protected internal byte[] otname;
@@ -32,11 +30,7 @@ namespace PKHeX
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
-            int strLen = STRLEN_U;
-            if (jp)
-            {
-                strLen = STRLEN_J;
-            }
+            int strLen = jp ? STRLEN_J : STRLEN_U;
             otname = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
             nick = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
         }
@@ -106,8 +100,7 @@ namespace PKHeX
             get
             {
                 string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-                return
-                    !nick.SequenceEqual(
+                return !nick.SequenceEqual( 
                         PKX.setG1Str(spName, Japanese)
                             .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1)));
             }
@@ -259,14 +252,14 @@ namespace PKHeX
         #endregion
     }
 
-    class PokemonList1
+    public class PokemonList1
     {
         internal const int CAPACITY_DAYCARE = 1;
         internal const int CAPACITY_PARTY = 6;
         internal const int CAPACITY_STORED = 20;
         internal const int CAPACITY_STORED_JP = 30;
 
-        private bool Japanese;
+        private readonly bool Japanese;
 
         private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
 
@@ -315,9 +308,12 @@ namespace PKHeX
             {
                 int base_ofs = 2 + Capacity;
                 byte[] dat = Data.Skip(base_ofs + Entry_Size * i).Take(Entry_Size).ToArray();
-                Pokemon[i] = new PK1(dat, null, jp);
-                Pokemon[i].otname = Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * i).Take(StringLength).ToArray();
-                Pokemon[i].nick = Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * Capacity + StringLength * i).Take(StringLength).ToArray();
+                Pokemon[i] = new PK1(dat, null, jp)
+                {
+                    otname = Data.Skip(base_ofs + Capacity*Entry_Size + StringLength*i).Take(StringLength).ToArray(),
+                    nick = Data.Skip(base_ofs + Capacity*Entry_Size + StringLength*Capacity + StringLength*i)
+                            .Take(StringLength).ToArray()
+                };
             }
         }
 
@@ -361,14 +357,14 @@ namespace PKHeX
             set
             {
                 if (value == null) return;
-                Pokemon[i] = (PK1)(((PK1)value).Clone());
+                Pokemon[i] = (PK1)value.Clone();
             }
         }
 
         private void Update()
         {
-            if (Pokemon.Any(pk => (pk.Species == 0)))
-                Count = (byte) Array.FindIndex(Pokemon, pk => (pk.Species == 0));
+            if (Pokemon.Any(pk => pk.Species == 0))
+                Count = (byte) Array.FindIndex(Pokemon, pk => pk.Species == 0);
             else
                 Count = Capacity;
             for (int i = 0; i < Count; i++)
