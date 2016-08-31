@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -19,6 +20,31 @@ namespace PKHeX
             new Thread(() => new SplashScreen().ShowDialog()).Start();
             DragInfo.slotPkmSource = SAV.BlankPKM.EncryptedPartyData;
             InitializeComponent();
+
+            // Check for Updates
+            L_UpdateAvailable.Click += (sender, e) => { Process.Start(ThreadPath); };
+            new Thread(() =>
+            {
+                string data = Util.getStringFromURL(VersionPath);
+                if (data == null)
+                    return;
+                try
+                {
+                    DateTime upd = DateTime.ParseExact(data, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                    DateTime cur = DateTime.ParseExact(Properties.Resources.ProgramVersion, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+
+                    if (upd <= cur)
+                        return;
+                    
+                    string message = $"New Update Available! {upd.ToString("d")}";
+                    if (InvokeRequired)
+                        try { Invoke((MethodInvoker) delegate { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }); }
+                        catch { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }
+                    else { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }
+                }
+                catch { }
+            }).Start();
+
             CB_ExtraBytes.SelectedIndex = 0;
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
             SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
@@ -184,6 +210,8 @@ namespace PKHeX
         public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
         private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
+        private static string ThreadPath => @"https://projectpokemon.org/forums/showthread.php?36986";
+        private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/Text/version.txt";
 
         #endregion
 
@@ -756,7 +784,7 @@ namespace PKHeX
                 SAV.FileName = Path.GetExtension(path) == ".bak"
                     ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0]
                     : Path.GetFileName(path);
-                L_Save.Text = $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
+                Text = "PKHeX - " + $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
 
                 // If backup folder exists, save a backup.
                 string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
@@ -769,7 +797,7 @@ namespace PKHeX
             {
                 SAV.FilePath = null;
                 SAV.FileName = "Blank Save File";
-                L_Save.Text = $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
+                Text = "PKHeX - " + $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
 
                 GB_SAVtools.Visible = false;
             }
@@ -2622,7 +2650,7 @@ namespace PKHeX
         }
         private void clickBoxSort(object sender, EventArgs e)
         {
-            if (tabBoxMulti.SelectedIndex != 0)
+            if (tabBoxMulti.SelectedTab != Tab_Box)
                 return;
             if (!SAV.HasBox)
                 return;
@@ -2665,7 +2693,12 @@ namespace PKHeX
         }
         private void clickBoxDouble(object sender, MouseEventArgs e)
         {
-            if (tabBoxMulti.SelectedIndex != 0)
+            if (tabBoxMulti.SelectedTab == Tab_SAV)
+            {
+                clickSaveFileName(sender, e);
+                return;
+            }
+            if (tabBoxMulti.SelectedTab != Tab_Box)
                 return;
             if (!SAV.HasBox)
                 return;

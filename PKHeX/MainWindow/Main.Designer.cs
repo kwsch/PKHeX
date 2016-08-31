@@ -245,7 +245,6 @@
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.L_Save = new System.Windows.Forms.Label();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
             this.PAN_Box = new System.Windows.Forms.Panel();
@@ -363,6 +362,7 @@
             this.mnuLQR = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
+            this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -2985,16 +2985,6 @@
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
-            // L_Save
-            // 
-            this.L_Save.AutoSize = true;
-            this.L_Save.Location = new System.Drawing.Point(300, 5);
-            this.L_Save.Name = "L_Save";
-            this.L_Save.Size = new System.Drawing.Size(54, 13);
-            this.L_Save.TabIndex = 4;
-            this.L_Save.Text = "SAV: N/A";
-            this.L_Save.Click += new System.EventHandler(this.clickSaveFileName);
-            // 
             // tabBoxMulti
             // 
             this.tabBoxMulti.Controls.Add(this.Tab_Box);
@@ -4604,16 +4594,28 @@
             this.PB_Legal.TabStop = false;
             this.PB_Legal.Click += new System.EventHandler(this.clickLegality);
             // 
+            // L_UpdateAvailable
+            // 
+            this.L_UpdateAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_UpdateAvailable.Location = new System.Drawing.Point(305, 5);
+            this.L_UpdateAvailable.Name = "L_UpdateAvailable";
+            this.L_UpdateAvailable.Size = new System.Drawing.Size(300, 13);
+            this.L_UpdateAvailable.TabIndex = 102;
+            this.L_UpdateAvailable.TabStop = true;
+            this.L_UpdateAvailable.Text = "New Update Available!";
+            this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_UpdateAvailable.Visible = false;
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 361);
+            this.Controls.Add(this.L_UpdateAvailable);
             this.Controls.Add(this.PB_Legal);
             this.Controls.Add(this.dragout);
             this.Controls.Add(this.tabBoxMulti);
-            this.Controls.Add(this.L_Save);
             this.Controls.Add(this.tabMain);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.GB_SAVtools);
@@ -4884,7 +4886,6 @@
         private System.Windows.Forms.Label L_Characteristic;
         private System.Windows.Forms.TextBox TB_IVTotal;
         private System.Windows.Forms.Label L_Potential;
-        private System.Windows.Forms.Label L_Save;
         private System.Windows.Forms.TabControl tabBoxMulti;
         private System.Windows.Forms.TabPage Tab_Box;
         private System.Windows.Forms.TabPage Tab_PartyBattle;
@@ -5085,6 +5086,7 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_PKMEditors;
         private System.Windows.Forms.Button B_LinkInfo;
         private System.Windows.Forms.Button B_CGearSkin;
+        private System.Windows.Forms.LinkLabel L_UpdateAvailable;
     }
 }
 

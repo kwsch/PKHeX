@@ -15586,6 +15586,15 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string for the Program Version.
+        /// </summary>
+        internal static string ProgramVersion {
+            get {
+                return ResourceManager.GetString("ProgramVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap rare_icon {
