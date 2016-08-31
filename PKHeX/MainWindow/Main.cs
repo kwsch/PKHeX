@@ -211,7 +211,7 @@ namespace PKHeX
         private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string ThreadPath => @"https://projectpokemon.org/forums/showthread.php?36986";
-        private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/Text/version.txt";
+        private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
 
         #endregion
 
