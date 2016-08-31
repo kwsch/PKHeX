@@ -15688,6 +15688,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_rby {
+            get {
+                object obj = ResourceManager.GetObject("personal_rby", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_rs {
             get {
                 object obj = ResourceManager.GetObject("personal_rs", resourceCulture);
@@ -15712,6 +15722,15 @@ namespace PKHeX.Properties {
             get {
                 object obj = ResourceManager.GetObject("pgldings_normalregular", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 20160830.
+        /// </summary>
+        internal static string ProgramVersion {
+            get {
+                return ResourceManager.GetString("ProgramVersion", resourceCulture);
             }
         }
         
@@ -16796,6 +16815,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap slotDel1 {
             get {
                 object obj = ResourceManager.GetObject("slotDel1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap slotDrag {
+            get {
+                object obj = ResourceManager.GetObject("slotDrag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -18556,6 +18585,16 @@ namespace PKHeX.Properties {
         internal static string sr_186 {
             get {
                 return ResourceManager.GetString("sr_186", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap swapBox {
+            get {
+                object obj = ResourceManager.GetObject("swapBox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -23615,6 +23654,60 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (None)
+        ///New Bark Town
+        ///Route 29
+        ///Cherrygrove City
+        ///Route 30
+        ///Route 31
+        ///Violet City
+        ///Sprout Tower
+        ///Route 32
+        ///Ruins of Alph
+        ///Union Cave
+        ///Route 33
+        ///Azalea Town
+        ///Slowpoke Well
+        ///Ilex Forest
+        ///Route 34
+        ///Goldenrod City
+        ///Radio Tower
+        ///Route 35
+        ///National Park
+        ///Route 36
+        ///Route 37
+        ///Ecruteak City
+        ///Tin Tower
+        ///Burned Tower
+        ///Route 38
+        ///Route 39
+        ///Olivine City
+        ///Lighthouse
+        ///Battle Tower
+        ///Route 40
+        ///Whirl Islands
+        ///Route 41
+        ///Cianwood City
+        ///Route 42
+        ///Mt. Mortar
+        ///Mahogany Town
+        ///Route 43
+        ///Lake of Rage
+        ///Route 44
+        ///Ice Path
+        ///Blackthorn City
+        ///Dragon&apos;s Den
+        ///Route 45
+        ///Dark Cave
+        ///Rout [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_gsc_00000_en {
+            get {
+                return ResourceManager.GetString("text_gsc_00000_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mysteriöser Ort
         ///Zweiblattdorf
         ///Sandgemme
@@ -25186,6 +25279,63 @@ namespace PKHeX.Properties {
         internal static string text_items_zh {
             get {
                 return ResourceManager.GetString("text_items_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (None)
+        ///Master Ball
+        ///Ultra Ball
+        ///Great Ball
+        ///Poké Ball
+        ///Town Map
+        ///Bicycle
+        ///????? (7)
+        ///Safari Ball
+        ///Pokédex
+        ///Moon Stone
+        ///Antidote
+        ///Burn Heal
+        ///Ice Heal
+        ///Awakening
+        ///Parlyz Heal
+        ///Full Restore
+        ///Max Potion
+        ///Hyper Potion
+        ///Super Potion
+        ///Potion
+        ///BoulderBadge
+        ///CascadeBadge
+        ///ThunderBadge
+        ///RainbowBadge
+        ///SoulBadge
+        ///MarshBadge
+        ///VolcanoBadge
+        ///EarthBadge
+        ///Escape Rope
+        ///Repel
+        ///Old Amber
+        ///Fire Stone
+        ///Thunder Stone
+        ///Water Stone
+        ///HP Up
+        ///Protein
+        ///Iron
+        ///Carbos
+        ///Calcium
+        ///Rare Candy
+        ///Dome Fossil
+        ///Helix Fossil
+        ///Secret Key
+        ///????? (44)
+        ///Bike Voucher
+        ///X Accuracy
+        ///Leaf Stone
+        ///Card Ke [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG1_en {
+            get {
+                return ResourceManager.GetString("text_ItemsG1_en", resourceCulture);
             }
         }
         

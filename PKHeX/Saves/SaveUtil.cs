@@ -18,6 +18,8 @@ namespace PKHeX
         SN = 28, MN = 29,
 
         // Game Groupings (SaveFile type)
+        RBY = 98,
+        GSC = 99,
         RS = 100,
         FRLG = 101,
         DP = 102,
@@ -43,6 +45,8 @@ namespace PKHeX
         internal const int SIZE_G4RAW = 0x80000;
         internal const int SIZE_G3RAW = 0x20000;
         internal const int SIZE_G3RAWHALF = 0x10000;
+        internal const int SIZE_G1RAW = 0x8000;
+        internal const int SIZE_G1BAT = 0x802C;
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
 
@@ -51,6 +55,8 @@ namespace PKHeX
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static int getSAVGeneration(byte[] data)
         {
+            if (getIsG1SAV(data) != GameVersion.Invalid)
+                return 1;
             if (getIsG3SAV(data) != GameVersion.Invalid)
                 return 3;
             if (getIsG4SAV(data) != GameVersion.Invalid)
@@ -60,6 +66,47 @@ namespace PKHeX
             if (getIsG6SAV(data) != GameVersion.Invalid)
                 return 6;
             return -1;
+        }
+        /// <summary>Determines the type of 1st gen save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG1SAV(byte[] data)
+        {
+            if (data.Length != SIZE_G1RAW && data.Length != SIZE_G1BAT)
+                return GameVersion.Invalid;
+
+            // Check if it's not an american save or a japanese save
+            if (!(getIsG1SAVU(data) || getIsG1SAVJ(data)))
+                return GameVersion.Invalid;
+            // I can't actually detect which game version, because it's not stored anywhere.
+            // If you can think of anything to do here, please implement :)
+            return GameVersion.RBY;
+        }
+        /// <summary>Determines if 1st gen save is non-japanese</summary>
+        /// <param name="data">Save data of which to determine the region</param>
+        /// <returns>True if a valid non-japanese save, False otherwise.</returns>
+        public static bool getIsG1SAVU(byte[] data)
+        {
+            foreach (int ofs in new[] { 0x2F2C, 0x30C0 })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
+                    return false;
+            }
+            return true;
+        }
+        /// <summary>Determines if 1st gen save is japanese</summary>
+        /// <param name="data">Save data of which to determine the region</param>
+        /// <returns>True if a valid japanese save, False otherwise.</returns>
+        public static bool getIsG1SAVJ(byte[] data)
+        {
+            foreach (int ofs in new[] { 0x2ED5, 0x302D })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 30 || data[ofs + 1 + num_entries] != 0xFF)
+                    return false;
+            }
+            return true;
         }
         /// <summary>Determines the type of 3th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -158,6 +205,62 @@ namespace PKHeX
             return GameVersion.Invalid;
         }
 
+        /// <summary>Determines the Version Grouping of an input Version ID</summary>
+        /// <param name="Version">Version of which to determine the group</param>
+        /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getVersionGroup(GameVersion Version)
+        {
+            switch (Version)
+            {
+                case GameVersion.CXD:
+                    return GameVersion.CXD;
+
+                case GameVersion.RBY:
+                    return GameVersion.RBY;
+
+                case GameVersion.R:
+                case GameVersion.S:
+                    return GameVersion.RS;
+
+                case GameVersion.E:
+                    return GameVersion.E;
+
+                case GameVersion.FR:
+                case GameVersion.LG:
+                    return GameVersion.FR;
+
+                case GameVersion.D:
+                case GameVersion.P:
+                    return GameVersion.DP;
+
+                case GameVersion.Pt:
+                    return GameVersion.Pt;
+
+                case GameVersion.HG:
+                case GameVersion.SS:
+                    return GameVersion.HGSS;
+
+                case GameVersion.B:
+                case GameVersion.W:
+                    return GameVersion.BW;
+
+                case GameVersion.B2:
+                case GameVersion.W2:
+                    return GameVersion.B2W2;
+
+                case GameVersion.X:
+                case GameVersion.Y:
+                    return GameVersion.XY;
+
+                case GameVersion.OR:
+                case GameVersion.AS:
+                    return GameVersion.ORAS;
+
+                default:
+                    return GameVersion.Invalid;
+            }
+        }
+
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
@@ -165,6 +268,8 @@ namespace PKHeX
         {
             switch (getSAVGeneration(data))
             {
+                case 1:
+                    return new SAV1(data);
                 case 3:
                     return new SAV3(data);
                 case 4:
@@ -286,7 +391,7 @@ namespace PKHeX
             return (ushort)((val & 0xFFFF) + (val >> 16));
         }
 
-        public static int getDexFormIndexXY(int species, int formct)
+        public static int getDexFormIndexBW(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
@@ -308,11 +413,29 @@ namespace PKHeX
                 case 648: return 066; // 2 Meloetta
                 case 555: return 068; // 2 Darmanitan
                 case 550: return 070; // 2 Basculin
+                default: return -1;
+            }
+        }
+        public static int getDexFormIndexB2W2(int species, int formct)
+        {
+            if (formct < 1 || species < 0)
+                return -1; // invalid
+            switch (species)
+            {
                 case 646: return 072; // 3 Kyurem
                 case 647: return 075; // 2 Keldeo
                 case 642: return 077; // 2 Thundurus
                 case 641: return 079; // 2 Tornadus
                 case 645: return 081; // 2 Landorus
+                default: return getDexFormIndexBW(species, formct);
+            }
+        }
+        public static int getDexFormIndexXY(int species, int formct)
+        {
+            if (formct < 1 || species < 0)
+                return -1; // invalid
+            switch (species)
+            {
                 case 666: return 083; // 20 Vivillion
                 case 669: return 103; // 5 Flabébé
                 case 670: return 108; // 6 Floette
@@ -349,7 +472,7 @@ namespace PKHeX
                 case 445: return 183; // 2 Garchomp
                 case 448: return 185; // 2 Lucario
                 case 460: return 187; // 2 Abomasnow
-                default: return -1;
+                default: return getDexFormIndexB2W2(species, formct);
             }
         }
         public static int getDexFormIndexORAS(int species, int formct)

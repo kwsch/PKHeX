@@ -16,10 +16,10 @@ namespace PKHeX
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 
-        public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
-        public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
-        public byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
-        public byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
+        public virtual byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
+        public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
+        public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
+        public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         
         protected ushort CalculateChecksum()
         {
@@ -250,7 +250,7 @@ namespace PKHeX
         }
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
-        public bool ChecksumValid => Checksum == CalculateChecksum();
+        public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel => PKX.getLevel(Species, EXP);
         public bool MarkCircle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool MarkTriangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
@@ -261,7 +261,7 @@ namespace PKHeX
         public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);
-        public string FileName => $"{Species.ToString("000")}{(IsShiny ? " ★" : "")} - {Nickname} - {Checksum.ToString("X4")}{EncryptionConstant.ToString("X8")}.{Extension}";
+        public virtual string FileName => $"{Species.ToString("000")}{(IsShiny ? " ★" : "")} - {Nickname} - {Checksum.ToString("X4")}{EncryptionConstant.ToString("X8")}.{Extension}";
         public int[] IVs
         {
             get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; }
@@ -286,6 +286,28 @@ namespace PKHeX
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }
             set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
+        }
+        public int[] RelearnMoves
+        {
+            get { return new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 }; }
+            set
+            {
+                if (value.Length > 0) RelearnMove1 = value[0];
+                if (value.Length > 1) RelearnMove2 = value[1];
+                if (value.Length > 2) RelearnMove3 = value[2];
+                if (value.Length > 3) RelearnMove4 = value[3];
+            }
+        }
+        public int PIDAbility
+        {
+            get
+            {
+                if (GenNumber > 5 || Format > 5)
+                    return -1;
+                if (GenNumber == 5)
+                    return (int)((PID >> 16) & 1);
+                return (int)(PID & 1);
+            }
         }
 
         public bool[] Markings
@@ -380,7 +402,7 @@ namespace PKHeX
             }
         }
 
-        public ushort[] getStats(PersonalInfo p)
+        public virtual ushort[] getStats(PersonalInfo p)
         {
             int level = CurrentLevel;
             ushort[] Stats = new ushort[6];
@@ -453,6 +475,10 @@ namespace PKHeX
             do PID = PKX.getRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
             if (GenNumber < 6)
                 EncryptionConstant = PID;
+        }
+        public void setPIDUnown3(int form)
+        {
+            do PID = Util.rnd32(); while (PKX.getUnownForm(PID) != form);
         }
     }
 }

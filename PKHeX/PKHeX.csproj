@@ -73,6 +73,9 @@
     <Compile Include="Legality\Tables3.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="MainWindow\MainPK1.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainWindow\MainPK6.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,11 +93,13 @@
     <Compile Include="PersonalInfo\PersonalInfo.cs" />
     <Compile Include="PersonalInfo\PersonalInfoB2W2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoBW.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoG1.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG3.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG4.cs" />
     <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="PersonalInfo\PersonalTable.cs" />
+    <Compile Include="PKM\PK1.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
@@ -119,6 +124,7 @@
     <Compile Include="Saves\BlockInfo.cs" />
     <Compile Include="Saves\BoxWallpaper.cs" />
     <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\SAV1.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
     <Compile Include="Saves\SAV5.cs" />
@@ -188,6 +194,18 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.Designer.cs">
       <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxViewer.Designer.cs">
+      <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_SimplePokedex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_SimplePokedex.Designer.cs">
+      <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\SAV_Database.cs">
       <SubType>Form</SubType>
@@ -294,10 +312,12 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\ComboItem.cs" />
+    <Compile Include="Util\ByteUtil.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\FormUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />
+    <Compile Include="Util\NetUtil.cs" />
     <Compile Include="Util\PathUtil.cs" />
     <Compile Include="Util\RandUtil.cs" />
     <Compile Include="Util\ReflectUtil.cs" />
@@ -337,6 +357,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.resx">
       <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxViewer.resx">
+      <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_SimplePokedex.resx">
+      <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
@@ -451,6 +477,7 @@
     <None Include="Resources\byte\personal_hgss" />
     <None Include="Resources\byte\personal_lg" />
     <None Include="Resources\byte\personal_pt" />
+    <None Include="Resources\byte\personal_rby" />
     <None Include="Resources\byte\personal_rs" />
     <None Include="Resources\byte\personal_xy" />
     <None Include="Resources\byte\wc6.pkl" />
@@ -2704,7 +2731,21 @@
     <None Include="Resources\img\ribbons\artist.png" />
     <None Include="Resources\img\ribbons\alert.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\img\box\slotDrag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\box\swapBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\version.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\gen3\text_gsc_00000_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\gen3\text_ItemsG1_en.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

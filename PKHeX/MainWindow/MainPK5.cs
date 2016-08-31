@@ -145,7 +145,15 @@ namespace PKHeX
             {
                 int[] abils = SAV.Personal.getAbilities(pk5.Species, pk5.AltForm);
                 int abil = Array.IndexOf(abils, pk5.Ability);
-                CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
+
+                if (abil < 0)
+                    CB_Ability.SelectedIndex = 0;
+                else if (abil == 2)
+                    CB_Ability.SelectedIndex = 2;
+                else if (abils[0] == abils[1] || abils[1] == 0)
+                    CB_Ability.SelectedIndex = pk5.PIDAbility;
+                else
+                    CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             }
         }
         private PKM preparePK5()
