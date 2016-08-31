@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace PKHeX
 {
     public static class PKX
     {
+        internal const int SIZE_1ULIST = 69;
+        internal const int SIZE_1JLIST = 59;
+        internal const int SIZE_1PARTY = 44;
+        internal const int SIZE_1STORED = 33;
+
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
         internal const int SIZE_3BLOCK = 12;
@@ -32,7 +38,7 @@ namespace PKHeX
         /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
         public static bool getIsPKM(long len)
         {
-            return new[] {SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
+            return new[] {SIZE_1JLIST, SIZE_1ULIST, SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
         }
 
         // C# PKX Function Library
@@ -188,19 +194,30 @@ namespace PKHeX
         public static readonly PersonalTable Personal = PersonalTable.AO;
 
         // Stat Fetching
-        public static byte[] getRandomEVs()
+        public static uint[] getRandomEVs(int Generation = 6)
         {
-            byte[] evs = new byte[6];
-            do {
-                evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
-                evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
-                evs[2] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1]), 252);
-                evs[3] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2]), 252);
-                evs[4] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
-                evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
-            } while (evs.Sum(b => b) > 510); // recalculate random EVs...
-            Util.Shuffle(evs);
-            return evs;
+            if (Generation > 2)
+            {
+                uint[] evs = new uint[6];
+                do
+                {
+                    evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
+                    evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
+                    evs[2] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1]), 252);
+                    evs[3] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2]), 252);
+                    evs[4] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
+                    evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
+                } while (evs.Sum(b => b) > 510); // recalculate random EVs...
+                Util.Shuffle(evs);
+                return evs;
+            }
+            else
+            {
+                uint[] evs = new uint[6];
+                for (int i = 0; i < evs.Length; i++)
+                    evs[i] = Util.rnd32()%0x10000;
+                return evs;
+            }
         }
         public static int getLevel(int species, uint exp)
         {
@@ -1617,5 +1634,545 @@ namespace PKHeX
                 return 0xFFFF;
             return arr[g3val];
         }
+
+        #region Gen 1 Character Tables
+        private static Dictionary<byte, string> RBY2U_U => new Dictionary<byte, string>{
+            {0x50, "\0"},
+            {0x5D, "[TRAINER]"},
+            {0x7F, " "},
+            {0x80, "A"},
+            {0x81, "B"},
+            {0x82, "C"},
+            {0x83, "D"},
+            {0x84, "E"},
+            {0x85, "F"},
+            {0x86, "G"},
+            {0x87, "H"},
+            {0x88, "I"},
+            {0x89, "J"},
+            {0x8A, "K"},
+            {0x8B, "L"},
+            {0x8C, "M"},
+            {0x8D, "N"},
+            {0x8E, "O"},
+            {0x8F, "P"},
+            {0x90, "Q"},
+            {0x91, "R"},
+            {0x92, "S"},
+            {0x93, "T"},
+            {0x94, "U"},
+            {0x95, "V"},
+            {0x96, "W"},
+            {0x97, "X"},
+            {0x98, "Y"},
+            {0x99, "Z"},
+            {0x9A, "["},
+            {0x9B, "\\"},
+            {0x9C, "]"},
+            {0x9D, "^"},
+            {0x9E, "_"},
+            {0x9F, "`"},
+            {0xA0, "a"},
+            {0xA1, "b"},
+            {0xA2, "c"},
+            {0xA3, "d"},
+            {0xA4, "e"},
+            {0xA5, "f"},
+            {0xA6, "g"},
+            {0xA7, "h"},
+            {0xA8, "i"},
+            {0xA9, "j"},
+            {0xAA, "k"},
+            {0xAB, "l"},
+            {0xAC, "m"},
+            {0xAD, "n"},
+            {0xAE, "o"},
+            {0xAF, "p"},
+            {0xB0, "q"},
+            {0xB1, "r"},
+            {0xB2, "s"},
+            {0xB3, "t"},
+            {0xB4, "u"},
+            {0xB5, "v"},
+            {0xB6, "w"},
+            {0xB7, "x"},
+            {0xB8, "y"},
+            {0xB9, "z"},
+            {0xE1, "{"}, /* Pk */
+            {0xE2, "}"}, /* Mn */
+            {0xE3, "-"},
+            {0xE6, "?"},
+            {0xE7, "!"},
+            {0xEF, "♂"},
+            {0xF2, "."},
+            {0xF3, "/"},
+            {0xF4, ","},
+            {0xF5, "♀"},
+            {0xF6, "0"},
+            {0xF7, "1"},
+            {0xF8, "2"},
+            {0xF9, "3"},
+            {0xFA, "4"},
+            {0xFB, "5"},
+            {0xFC, "6"},
+            {0xFD, "7"},
+            {0xFE, "8"},
+            {0xFF, "9"}
+        };
+
+        private static Dictionary<string, byte> U2RBY_U => new Dictionary<string, byte> {
+            {"\0", 0x50},
+            {"[TRAINER]", 0x5D},
+            {" ", 0x7F},
+            {"A", 0x80},
+            {"B", 0x81},
+            {"C", 0x82},
+            {"D", 0x83},
+            {"E", 0x84},
+            {"F", 0x85},
+            {"G", 0x86},
+            {"H", 0x87},
+            {"I", 0x88},
+            {"J", 0x89},
+            {"K", 0x8A},
+            {"L", 0x8B},
+            {"M", 0x8C},
+            {"N", 0x8D},
+            {"O", 0x8E},
+            {"P", 0x8F},
+            {"Q", 0x90},
+            {"R", 0x91},
+            {"S", 0x92},
+            {"T", 0x93},
+            {"U", 0x94},
+            {"V", 0x95},
+            {"W", 0x96},
+            {"X", 0x97},
+            {"Y", 0x98},
+            {"Z", 0x99},
+            {"[", 0x9A},
+            {"\\", 0x9B},
+            {"]", 0x9C},
+            {"^", 0x9D},
+            {"_", 0x9E},
+            {"`", 0x9F},
+            {"a", 0xA0},
+            {"b", 0xA1},
+            {"c", 0xA2},
+            {"d", 0xA3},
+            {"e", 0xA4},
+            {"f", 0xA5},
+            {"g", 0xA6},
+            {"h", 0xA7},
+            {"i", 0xA8},
+            {"j", 0xA9},
+            {"k", 0xAA},
+            {"l", 0xAB},
+            {"m", 0xAC},
+            {"n", 0xAD},
+            {"o", 0xAE},
+            {"p", 0xAF},
+            {"q", 0xB0},
+            {"r", 0xB1},
+            {"s", 0xB2},
+            {"t", 0xB3},
+            {"u", 0xB4},
+            {"v", 0xB5},
+            {"w", 0xB6},
+            {"x", 0xB7},
+            {"y", 0xB8},
+            {"z", 0xB9},
+            {"{", 0xE1}, /* Pk */
+            {"}", 0xE2}, /* Mn */
+            {"-", 0xE3},
+            {"?", 0xE6},
+            {"!", 0xE7},
+            {"♂", 0xEF},
+            {".", 0xF2},
+            {"/", 0xF3},
+            {",", 0xF4},
+            {"♀", 0xF5},
+            {"0", 0xF6},
+            {"1", 0xF7},
+            {"2", 0xF8},
+            {"3", 0xF9},
+            {"4", 0xFA},
+            {"5", 0xFB},
+            {"6", 0xFC},
+            {"7", 0xFD},
+            {"8", 0xFE},
+            {"9", 0xFF}
+        };
+        private static Dictionary<string, byte> U2RBY_J => new Dictionary<string, byte> {
+            {"ガ", 0x05},
+            {"ギ", 0x06},
+            {"グ", 0x07},
+            {"ゲ", 0x08},
+            {"ゴ", 0x09},
+            {"ザ", 0x0A},
+            {"ジ", 0x0B},
+            {"ズ", 0x0C},
+            {"ゼ", 0x0D},
+            {"ゾ", 0x0E},
+            {"ダ", 0x0F},
+            {"ヂ", 0x10},
+            {"ヅ", 0x11},
+            {"デ", 0x12},
+            {"ド", 0x13},
+            {"バ", 0x19},
+            {"ビ", 0x1A},
+            {"ブ", 0x1B},
+            {"ボ", 0x1C},
+            {"が", 0x26},
+            {"ぎ", 0x27},
+            {"ぐ", 0x28},
+            {"げ", 0x29},
+            {"ご", 0x2A},
+            {"ざ", 0x2B},
+            {"じ", 0x2C},
+            {"ず", 0x2D},
+            {"ぜ", 0x2E},
+            {"ぞ", 0x2F},
+            {"だ", 0x30},
+            {"ぢ", 0x31},
+            {"づ", 0x32},
+            {"で", 0x33},
+            {"ど", 0x34},
+            {"ば", 0x3A},
+            {"び", 0x3B},
+            {"ぶ", 0x3C},
+            {"ベ", 0x3D},
+            {"べ", 0x3D},
+            {"ぼ", 0x3E},
+            {"パ", 0x40},
+            {"ピ", 0x41},
+            {"プ", 0x42},
+            {"ポ", 0x43},
+            {"ぱ", 0x44},
+            {"ぴ", 0x45},
+            {"ぷ", 0x46},
+            {"ぺ", 0x47},
+            {"ペ", 0x47},
+            {"ぽ", 0x48},
+            {"\0", 0x50},
+            {"トレーナー", 0x5D},
+            {"ア", 0x80},
+            {"イ", 0x81},
+            {"ウ", 0x82},
+            {"ェ", 0x83},
+            {"エ", 0x83},
+            {"オ", 0x84},
+            {"ォ", 0x84},
+            {"カ", 0x85},
+            {"キ", 0x86},
+            {"ク", 0x87},
+            {"ケ", 0x88},
+            {"コ", 0x89},
+            {"サ", 0x8A},
+            {"シ", 0x8B},
+            {"ス", 0x8C},
+            {"セ", 0x8D},
+            {"ソ", 0x8E},
+            {"タ", 0x8F},
+            {"チ", 0x90},
+            {"ツ", 0x91},
+            {"テ", 0x92},
+            {"ト", 0x93},
+            {"ナ", 0x94},
+            {"ニ", 0x95},
+            {"ヌ", 0x96},
+            {"ネ", 0x97},
+            {"ノ", 0x98},
+            {"ハ", 0x99},
+            {"ヒ", 0x9A},
+            {"フ", 0x9B},
+            {"ホ", 0x9C},
+            {"マ", 0x9D},
+            {"ミ", 0x9E},
+            {"ム", 0x9F},
+            {"メ", 0xA0},
+            {"モ", 0xA1},
+            {"ヤ", 0xA2},
+            {"ユ", 0xA3},
+            {"ヨ", 0xA4},
+            {"ラ", 0xA5},
+            {"ル", 0xA6},
+            {"レ", 0xA7},
+            {"ロ", 0xA8},
+            {"ワ", 0xA9},
+            {"ヲ", 0xAA},
+            {"ン", 0xAB},
+            {"ッ", 0xAC},
+            {"ャ", 0xAD},
+            {"ュ", 0xAE},
+            {"ョ", 0xAF},
+            {"ィ", 0xB0},
+            {"あ", 0xB1},
+            {"い", 0xB2},
+            {"う", 0xB3},
+            {"え", 0xB4},
+            {"お", 0xB5},
+            {"か", 0xB6},
+            {"き", 0xB7},
+            {"く", 0xB8},
+            {"け", 0xB9},
+            {"こ", 0xBA},
+            {"さ", 0xBB},
+            {"し", 0xBC},
+            {"す", 0xBD},
+            {"せ", 0xBE},
+            {"そ", 0xBF},
+            {"た", 0xC0},
+            {"ち", 0xC1},
+            {"つ", 0xC2},
+            {"て", 0xC3},
+            {"と", 0xC4},
+            {"な", 0xC5},
+            {"に", 0xC6},
+            {"ぬ", 0xC7},
+            {"ね", 0xC8},
+            {"の", 0xC9},
+            {"は", 0xCA},
+            {"ひ", 0xCB},
+            {"ふ", 0xCC},
+            {"へ", 0xCD},
+            {"ほ", 0xCE},
+            {"ま", 0xCF},
+            {"み", 0xD0},
+            {"む", 0xD1},
+            {"め", 0xD2},
+            {"も", 0xD3},
+            {"や", 0xD4},
+            {"ゆ", 0xD5},
+            {"よ", 0xD6},
+            {"ら", 0xD7},
+            {"リ", 0xD8},
+            {"り", 0xD8},
+            {"る", 0xD9},
+            {"れ", 0xDA},
+            {"ろ", 0xDB},
+            {"わ", 0xDC},
+            {"を", 0xDD},
+            {"ん", 0xDE},
+            {"っ", 0xDF},
+            {"ゃ", 0xE0},
+            {"ゅ", 0xE1},
+            {"ょ", 0xE2},
+            {"ー", 0xE3},
+            {"ァ", 0xE9},
+            {"♂", 0xEF},
+            {"♀", 0xF5}
+        };
+
+        private static Dictionary<byte, string> RBY2U_J => new Dictionary<byte, string> {
+            {0x05, "ガ"},
+            {0x06, "ギ"},
+            {0x07, "グ"},
+            {0x08, "ゲ"},
+            {0x09, "ゴ"},
+            {0x0A, "ザ"},
+            {0x0B, "ジ"},
+            {0x0C, "ズ"},
+            {0x0D, "ゼ"},
+            {0x0E, "ゾ"},
+            {0x0F, "ダ"},
+            {0x10, "ヂ"},
+            {0x11, "ヅ"},
+            {0x12, "デ"},
+            {0x13, "ド"},
+            {0x19, "バ"},
+            {0x1A, "ビ"},
+            {0x1B, "ブ"},
+            {0x1C, "ボ"},
+            {0x26, "が"},
+            {0x27, "ぎ"},
+            {0x28, "ぐ"},
+            {0x29, "げ"},
+            {0x2A, "ご"},
+            {0x2B, "ざ"},
+            {0x2C, "じ"},
+            {0x2D, "ず"},
+            {0x2E, "ぜ"},
+            {0x2F, "ぞ"},
+            {0x30, "だ"},
+            {0x31, "ぢ"},
+            {0x32, "づ"},
+            {0x33, "で"},
+            {0x34, "ど"},
+            {0x3A, "ば"},
+            {0x3B, "び"},
+            {0x3C, "ぶ"},
+            {0x3D, "ベ"},
+            {0x3E, "ぼ"},
+            {0x40, "パ"},
+            {0x41, "ピ"},
+            {0x42, "プ"},
+            {0x43, "ポ"},
+            {0x44, "ぱ"},
+            {0x45, "ぴ"},
+            {0x46, "ぷ"},
+            {0x47, "ペ"},
+            {0x48, "ぽ"},
+            {0x50, "\0"},
+            {0x5D, "トレーナー"},
+            {0x80, "ア"},
+            {0x81, "イ"},
+            {0x82, "ウ"},
+            {0x83, "ェ"},
+            {0x84, "オ"},
+            {0x85, "カ"},
+            {0x86, "キ"},
+            {0x87, "ク"},
+            {0x88, "ケ"},
+            {0x89, "コ"},
+            {0x8A, "サ"},
+            {0x8B, "シ"},
+            {0x8C, "ス"},
+            {0x8D, "セ"},
+            {0x8E, "ソ"},
+            {0x8F, "タ"},
+            {0x90, "チ"},
+            {0x91, "ツ"},
+            {0x92, "テ"},
+            {0x93, "ト"},
+            {0x94, "ナ"},
+            {0x95, "ニ"},
+            {0x96, "ヌ"},
+            {0x97, "ネ"},
+            {0x98, "ノ"},
+            {0x99, "ハ"},
+            {0x9A, "ヒ"},
+            {0x9B, "フ"},
+            {0x9C, "ホ"},
+            {0x9D, "マ"},
+            {0x9E, "ミ"},
+            {0x9F, "ム"},
+            {0xA0, "メ"},
+            {0xA1, "モ"},
+            {0xA2, "ヤ"},
+            {0xA3, "ユ"},
+            {0xA4, "ヨ"},
+            {0xA5, "ラ"},
+            {0xA6, "ル"},
+            {0xA7, "レ"},
+            {0xA8, "ロ"},
+            {0xA9, "ワ"},
+            {0xAA, "ヲ"},
+            {0xAB, "ン"},
+            {0xAC, "ッ"},
+            {0xAD, "ャ"},
+            {0xAE, "ュ"},
+            {0xAF, "ョ"},
+            {0xB0, "ィ"},
+            {0xB1, "あ"},
+            {0xB2, "い"},
+            {0xB3, "う"},
+            {0xB4, "え"},
+            {0xB5, "お"},
+            {0xB6, "か"},
+            {0xB7, "き"},
+            {0xB8, "く"},
+            {0xB9, "け"},
+            {0xBA, "こ"},
+            {0xBB, "さ"},
+            {0xBC, "し"},
+            {0xBD, "す"},
+            {0xBE, "せ"},
+            {0xBF, "そ"},
+            {0xC0, "た"},
+            {0xC1, "ち"},
+            {0xC2, "つ"},
+            {0xC3, "て"},
+            {0xC4, "と"},
+            {0xC5, "な"},
+            {0xC6, "に"},
+            {0xC7, "ぬ"},
+            {0xC8, "ね"},
+            {0xC9, "の"},
+            {0xCA, "は"},
+            {0xCB, "ひ"},
+            {0xCC, "ふ"},
+            {0xCD, "へ"},
+            {0xCE, "ほ"},
+            {0xCF, "ま"},
+            {0xD0, "み"},
+            {0xD1, "む"},
+            {0xD2, "め"},
+            {0xD3, "も"},
+            {0xD4, "や"},
+            {0xD5, "ゆ"},
+            {0xD6, "よ"},
+            {0xD7, "ら"},
+            {0xD8, "リ"},
+            {0xD9, "る"},
+            {0xDA, "れ"},
+            {0xDB, "ろ"},
+            {0xDC, "わ"},
+            {0xDD, "を"},
+            {0xDE, "ん"},
+            {0xDF, "っ"},
+            {0xE0, "ゃ"},
+            {0xE1, "ゅ"},
+            {0xE2, "ょ"},
+            {0xE3, "ー"},
+            {0xE9, "ァ"},
+            {0xEF, "♂"},
+            {0xF5, "♀"}
+        };
+        #endregion
+
+        #region Gen 1 Item Table
+        public static string[] getG1ItemList()
+        {
+            return new[] { "(None)", "Master Ball", "Ultra Ball", "Great Ball", "Poké Ball", "Town Map", "Bicycle", "????? (7)", "Safari Ball", "Pokédex", "Moon Stone", "Antidote", "Burn Heal", "Ice Heal", "Awakening", "Parlyz Heal", "Full Restore", "Max Potion", "Hyper Potion", "Super Potion", "Potion", "BoulderBadge", "CascadeBadge", "ThunderBadge", "RainbowBadge", "SoulBadge", "MarshBadge", "VolcanoBadge", "EarthBadge", "Escape Rope", "Repel", "Old Amber", "Fire Stone", "Thunder Stone", "Water Stone", "HP Up", "Protein", "Iron", "Carbos", "Calcium", "Rare Candy", "Dome Fossil", "Helix Fossil", "Secret Key", "????? (44)", "Bike Voucher", "X Accuracy", "Leaf Stone", "Card Key", "Nugget", "PP Up (Unused)", "Poké Doll", "Full Heal", "Revive", "Max Revive", "Guard Spec.", "Super Repel", "Max Repel", "Dire Hit", "Coin", "Fresh Water", "Soda Pop", "Lemonade", "S.S. Ticket", "Gold Teeth", "X Attack", "X Defend", "X Speed", "X Special", "Coin Case", "Oak's Parcel", "Itemfinder", "Silph Scope", "Poké Flute", "Lift Key", "Exp. All", "Old Rod", "Good Rod", "Super Rod", "PP Up", "Ether", "Max Ether", "Elixer", "Max Elixer", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "HM01", "HM02", "HM03", "HM04", "HM05", "TM01", "TM02", "TM03", "TM04", "TM05", "TM06", "TM07", "TM08", "TM09", "TM10", "TM11", "TM12", "TM13", "TM14", "TM15", "TM16", "TM17", "TM18", "TM19", "TM20", "TM21", "TM22", "TM23", "TM24", "TM25", "TM26", "TM27", "TM28", "TM29", "TM30", "TM31", "TM32", "TM33", "TM34", "TM35", "TM36", "TM37", "TM38", "TM39", "TM40", "TM41", "TM42", "TM43", "TM44", "TM45", "TM46", "TM47", "TM48", "TM49", "TM50", "TM51", "TM52", "TM53", "TM54", "TM55" };
+        }
+
+        #endregion
+        public static int[] getG1LegalItems()
+        {
+            return Enumerable.Range(0, 7)     // 0-6
+           .Concat(Enumerable.Range(10, 11))  // 10-20
+           .Concat(Enumerable.Range(29, 15))  // 29-43
+           .Concat(Enumerable.Range(45, 5))   // 45-49
+           .Concat(Enumerable.Range(51, 8))   // 51-58
+           .Concat(Enumerable.Range(60, 24))  // 60-83
+           .Concat(Enumerable.Range(196, 54)) // 196-249
+           .ToArray();
+        }
+
+        public static int getG1Species(int raw_id)
+        {
+            int[] table = { 0x00, 0x70, 0x73, 0x20, 0x23, 0x15, 0x64, 0x22, 0x50, 0x02, 0x67, 0x6C, 0x66, 0x58, 0x5E, 0x1D, 0x1F, 0x68, 0x6F, 0x83, 0x3B, 0x97, 0x82, 0x5A, 0x48, 0x5C, 0x7B, 0x78, 0x09, 0x7F, 0x72, 0x00, 0x00, 0x3A, 0x5F, 0x16, 0x10, 0x4F, 0x40, 0x4B, 0x71, 0x43, 0x7A, 0x6A, 0x6B, 0x18, 0x2F, 0x36, 0x60, 0x4C, 0x00, 0x7E, 0x00, 0x7D, 0x52, 0x6D, 0x00, 0x38, 0x56, 0x32, 0x80, 0x00, 0x00, 0x00, 0x53, 0x30, 0x95, 0x00, 0x00, 0x00, 0x54, 0x3C, 0x7C, 0x92, 0x90, 0x91, 0x84, 0x34, 0x62, 0x00, 0x00, 0x00, 0x25, 0x26, 0x19, 0x1A, 0x00, 0x00, 0x93, 0x94, 0x8C, 0x8D, 0x74, 0x75, 0x00, 0x00, 0x1B, 0x1C, 0x8A, 0x8B, 0x27, 0x28, 0x85, 0x88, 0x87, 0x86, 0x42, 0x29, 0x17, 0x2E, 0x3D, 0x3E, 0x0D, 0x0E, 0x0F, 0x00, 0x55, 0x39, 0x33, 0x31, 0x57, 0x00, 0x00, 0x0A, 0x0B, 0x0C, 0x44, 0x00, 0x37, 0x61, 0x2A, 0x96, 0x8F, 0x81, 0x00, 0x00, 0x59, 0x00, 0x63, 0x5B, 0x00, 0x65, 0x24, 0x6E, 0x35, 0x69, 0x00, 0x5D, 0x3F, 0x41, 0x11, 0x12, 0x79, 0x01, 0x03, 0x49, 0x00, 0x76, 0x77, 0x00, 0x00, 0x00, 0x00, 0x4D, 0x4E, 0x13, 0x14, 0x21, 0x1E, 0x4A, 0x89, 0x8E, 0x00, 0x51, 0x00, 0x00, 0x04, 0x07, 0x05, 0x08, 0x06, 0x00, 0x00, 0x00, 0x00, 0x2B, 0x2C, 0x2D, 0x45, 0x46, 0x47, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            return table[raw_id];
+        }
+
+        public static int setG1Species(int dex_id)
+        {
+            int[] table = { 0x00, 0x99, 0x09, 0x9A, 0xB0, 0xB2, 0xB4, 0xB1, 0xB3, 0x1C, 0x7B, 0x7C, 0x7D, 0x70, 0x71, 0x72, 0x24, 0x96, 0x97, 0xA5, 0xA6, 0x05, 0x23, 0x6C, 0x2D, 0x54, 0x55, 0x60, 0x61, 0x0F, 0xA8, 0x10, 0x03, 0xA7, 0x07, 0x04, 0x8E, 0x52, 0x53, 0x64, 0x65, 0x6B, 0x82, 0xB9, 0xBA, 0xBB, 0x6D, 0x2E, 0x41, 0x77, 0x3B, 0x76, 0x4D, 0x90, 0x2F, 0x80, 0x39, 0x75, 0x21, 0x14, 0x47, 0x6E, 0x6F, 0x94, 0x26, 0x95, 0x6A, 0x29, 0x7E, 0xBC, 0xBD, 0xBE, 0x18, 0x9B, 0xA9, 0x27, 0x31, 0xA3, 0xA4, 0x25, 0x08, 0xAD, 0x36, 0x40, 0x46, 0x74, 0x3A, 0x78, 0x0D, 0x88, 0x17, 0x8B, 0x19, 0x93, 0x0E, 0x22, 0x30, 0x81, 0x4E, 0x8A, 0x06, 0x8D, 0x0C, 0x0A, 0x11, 0x91, 0x2B, 0x2C, 0x0B, 0x37, 0x8F, 0x12, 0x01, 0x28, 0x1E, 0x02, 0x5C, 0x5D, 0x9D, 0x9E, 0x1B, 0x98, 0x2A, 0x1A, 0x48, 0x35, 0x33, 0x1D, 0x3C, 0x85, 0x16, 0x13, 0x4C, 0x66, 0x69, 0x68, 0x67, 0xAA, 0x62, 0x63, 0x5A, 0x5B, 0xAB, 0x84, 0x4A, 0x4B, 0x49, 0x58, 0x59, 0x42, 0x83, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            return table[dex_id];
+        }
+
+        public static string getG1Str(byte[] strdata, bool jp)
+        {
+            Dictionary<byte, string> dict = jp ? RBY2U_J : RBY2U_U;
+            return strdata
+                .TakeWhile(b => dict.ContainsKey(b))
+                .Select(b => dict[b])
+                .TakeWhile(s => s != "\0")
+                .Aggregate("", (current, cur) => current + cur);
+        }
+
+        public static byte[] setG1Str(string str, bool jp)
+        {
+            Dictionary<string, byte> dict = jp ? U2RBY_J : U2RBY_U;
+            if (dict.ContainsKey(str)) // Handle "[TRAINER]"
+                return new[] {dict[str], dict["\0"]};
+            return str
+                .TakeWhile(c => dict.ContainsKey(c.ToString()))
+                .Select(c => dict[c.ToString()])
+                .Concat(new[] {dict["\0"]})
+                .ToArray();
+        }
+
     }
 }

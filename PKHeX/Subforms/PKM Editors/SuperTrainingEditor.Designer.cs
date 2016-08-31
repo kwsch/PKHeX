@@ -36,7 +36,8 @@
             this.PAN_Training = new System.Windows.Forms.Panel();
             this.SPLIT_Training = new System.Windows.Forms.SplitContainer();
             this.TLP_SuperTrain = new System.Windows.Forms.TableLayoutPanel();
-            this.CHK_Secret = new System.Windows.Forms.CheckBox();
+            this.CHK_SecretComplete = new System.Windows.Forms.CheckBox();
+            this.CHK_SecretUnlocked = new System.Windows.Forms.CheckBox();
             this.CB_Bag = new System.Windows.Forms.ComboBox();
             this.L_Bag = new System.Windows.Forms.Label();
             this.NUD_BagHits = new System.Windows.Forms.NumericUpDown();
@@ -123,7 +124,8 @@
             // 
             // SPLIT_Training.Panel2
             // 
-            this.SPLIT_Training.Panel2.Controls.Add(this.CHK_Secret);
+            this.SPLIT_Training.Panel2.Controls.Add(this.CHK_SecretComplete);
+            this.SPLIT_Training.Panel2.Controls.Add(this.CHK_SecretUnlocked);
             this.SPLIT_Training.Panel2.Controls.Add(this.CB_Bag);
             this.SPLIT_Training.Panel2.Controls.Add(this.L_Bag);
             this.SPLIT_Training.Panel2.Controls.Add(this.NUD_BagHits);
@@ -150,23 +152,34 @@
             this.TLP_SuperTrain.Size = new System.Drawing.Size(173, 229);
             this.TLP_SuperTrain.TabIndex = 4;
             // 
-            // CHK_Secret
+            // CHK_SecretComplete
             // 
-            this.CHK_Secret.AutoSize = true;
-            this.CHK_Secret.Location = new System.Drawing.Point(2, 2);
-            this.CHK_Secret.Name = "CHK_Secret";
-            this.CHK_Secret.Size = new System.Drawing.Size(171, 17);
-            this.CHK_Secret.TabIndex = 36;
-            this.CHK_Secret.Text = "Secret Super Training Enabled";
-            this.CHK_Secret.UseVisualStyleBackColor = true;
-            this.CHK_Secret.CheckedChanged += new System.EventHandler(this.CHK_Secret_CheckedChanged);
+            this.CHK_SecretComplete.AutoSize = true;
+            this.CHK_SecretComplete.Enabled = false;
+            this.CHK_SecretComplete.Location = new System.Drawing.Point(3, 17);
+            this.CHK_SecretComplete.Name = "CHK_SecretComplete";
+            this.CHK_SecretComplete.Size = new System.Drawing.Size(145, 17);
+            this.CHK_SecretComplete.TabIndex = 37;
+            this.CHK_SecretComplete.Text = "Secret Training Complete";
+            this.CHK_SecretComplete.UseVisualStyleBackColor = true;
+            // 
+            // CHK_SecretUnlocked
+            // 
+            this.CHK_SecretUnlocked.AutoSize = true;
+            this.CHK_SecretUnlocked.Location = new System.Drawing.Point(3, 2);
+            this.CHK_SecretUnlocked.Name = "CHK_SecretUnlocked";
+            this.CHK_SecretUnlocked.Size = new System.Drawing.Size(147, 17);
+            this.CHK_SecretUnlocked.TabIndex = 36;
+            this.CHK_SecretUnlocked.Text = "Secret Training Unlocked";
+            this.CHK_SecretUnlocked.UseVisualStyleBackColor = true;
+            this.CHK_SecretUnlocked.CheckedChanged += new System.EventHandler(this.CHK_Secret_CheckedChanged);
             // 
             // CB_Bag
             // 
             this.CB_Bag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_Bag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Bag.FormattingEnabled = true;
-            this.CB_Bag.Location = new System.Drawing.Point(46, 50);
+            this.CB_Bag.Location = new System.Drawing.Point(46, 54);
             this.CB_Bag.Name = "CB_Bag";
             this.CB_Bag.Size = new System.Drawing.Size(138, 21);
             this.CB_Bag.TabIndex = 35;
@@ -174,7 +187,7 @@
             // L_Bag
             // 
             this.L_Bag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Bag.Location = new System.Drawing.Point(31, 34);
+            this.L_Bag.Location = new System.Drawing.Point(31, 38);
             this.L_Bag.Name = "L_Bag";
             this.L_Bag.Size = new System.Drawing.Size(100, 13);
             this.L_Bag.TabIndex = 34;
@@ -184,7 +197,7 @@
             // NUD_BagHits
             // 
             this.NUD_BagHits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_BagHits.Location = new System.Drawing.Point(134, 75);
+            this.NUD_BagHits.Location = new System.Drawing.Point(134, 79);
             this.NUD_BagHits.Maximum = new decimal(new int[] {
             255,
             0,
@@ -203,7 +216,7 @@
             // L_Hits
             // 
             this.L_Hits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Hits.Location = new System.Drawing.Point(31, 77);
+            this.L_Hits.Location = new System.Drawing.Point(31, 81);
             this.L_Hits.Name = "L_Hits";
             this.L_Hits.Size = new System.Drawing.Size(100, 13);
             this.L_Hits.TabIndex = 32;
@@ -264,8 +277,9 @@
         private System.Windows.Forms.NumericUpDown NUD_BagHits;
         private System.Windows.Forms.Label L_Bag;
         private System.Windows.Forms.ComboBox CB_Bag;
-        private System.Windows.Forms.CheckBox CHK_Secret;
+        private System.Windows.Forms.CheckBox CHK_SecretUnlocked;
         private System.Windows.Forms.TableLayoutPanel TLP_SuperTrain;
         private System.Windows.Forms.SplitContainer SPLIT_Training;
+        private System.Windows.Forms.CheckBox CHK_SecretComplete;
     }
 }
