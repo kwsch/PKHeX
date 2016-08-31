@@ -15,6 +15,7 @@ namespace PKHeX
         internal static readonly PersonalTable FR = new PersonalTable(Properties.Resources.personal_fr, GameVersion.FR);
         internal static readonly PersonalTable E = new PersonalTable(Properties.Resources.personal_e, GameVersion.E);
         internal static readonly PersonalTable RS = new PersonalTable(Properties.Resources.personal_rs, GameVersion.RS);
+        internal static readonly PersonalTable RBY = new PersonalTable(Properties.Resources.personal_rby, GameVersion.RBY);
 
         private static byte[][] splitBytes(byte[] data, int size)
         {
@@ -31,6 +32,7 @@ namespace PKHeX
             int size = 0;
             switch (format)
             {
+                case GameVersion.RBY: size = PersonalInfoG1.SIZE; break;
                 case GameVersion.RS:
                 case GameVersion.E:
                 case GameVersion.FR:
@@ -52,6 +54,10 @@ namespace PKHeX
 
             switch (format)
             {
+                case GameVersion.RBY:
+                    for (int i = 0; i < d.Length; i++)
+                        d[i] = new PersonalInfoG1(entries[i]);
+                    break;
                 case GameVersion.RS:
                 case GameVersion.E:
                 case GameVersion.FR:

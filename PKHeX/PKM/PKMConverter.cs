@@ -31,6 +31,9 @@ namespace PKHeX
 
             switch (data.Length)
             {
+                case PKX.SIZE_1JLIST:
+                case PKX.SIZE_1ULIST:
+                    return 1;
                 case PKX.SIZE_3PARTY:
                 case PKX.SIZE_3STORED:
                     return 3;
@@ -70,6 +73,11 @@ namespace PKHeX
             checkEncrypted(ref data);
             switch (getPKMDataFormat(data))
             {
+                case 1:
+                    var PL = new PokemonList1(data, PokemonList1.CapacityType.Single, data.Length == PKX.SIZE_1JLIST);
+                    if (ident != null)
+                        PL[0].Identifier = ident;
+                    return PL[0];
                 case 3:
                     return new PK3(data, ident);
                 case 4:
@@ -101,6 +109,17 @@ namespace PKHeX
                           + "Desired Format: " + Format;
                 return null;
             }
+            if ((pk.Format == 1 || pk.Format == 2) && 2 < Format && Format < 7)
+            {
+                comment = $"Cannot convert a PK{pk.Format} to a PK{Format}.";
+                return null;
+            }
+            if (pk.Format == 1 && Format == 7)
+            {
+                comment = "PK1 to PK7 conversion is not yet supported." + Environment.NewLine
+                          + "Please wait for Sun/Moon to release and documentation to occur.";
+                return null;
+            }
             string currentFormat = pk.Format.ToString();
             PKM pkm = pk.Clone();
             if (pkm.IsEgg) // force hatch
@@ -130,6 +149,7 @@ namespace PKHeX
             ushort chk = 0;
             switch (format)
             {
+                case 1:
                 case 3: // TOneverDO, nobody exports encrypted pk3s
                     return;
                 case 4:
