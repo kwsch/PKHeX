@@ -15558,6 +15558,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_rby {
+            get {
+                object obj = ResourceManager.GetObject("personal_rby", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_rs {
             get {
                 object obj = ResourceManager.GetObject("personal_rs", resourceCulture);
