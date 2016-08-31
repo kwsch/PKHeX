@@ -15596,7 +15596,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string for the Program Version.
+        ///   Looks up a localized string similar to 20160830.
         /// </summary>
         internal static string ProgramVersion {
             get {
