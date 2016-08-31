@@ -15,6 +15,11 @@ namespace PKHeX
         internal const int SIZE_1PARTY = 44;
         internal const int SIZE_1STORED = 33;
 
+        internal const int SIZE_2ULIST = 73;
+        internal const int SIZE_2JLIST = 63;
+        internal const int SIZE_2PARTY = 48;
+        internal const int SIZE_2STORED = 32;
+
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
         internal const int SIZE_3BLOCK = 12;
@@ -38,7 +43,7 @@ namespace PKHeX
         /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
         public static bool getIsPKM(long len)
         {
-            return new[] {SIZE_1JLIST, SIZE_1ULIST, SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
+            return new[] {SIZE_1JLIST, SIZE_1ULIST, SIZE_2ULIST, SIZE_2JLIST, SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
         }
 
         // C# PKX Function Library
@@ -1636,7 +1641,7 @@ namespace PKHeX
         }
 
         #region Gen 1 Character Tables
-        private static Dictionary<byte, string> RBY2U_U => new Dictionary<byte, string>{
+        internal static Dictionary<byte, string> RBY2U_U => new Dictionary<byte, string>{
             {0x50, "\0"},
             {0x5D, "[TRAINER]"},
             {0x7F, " "},
@@ -1699,8 +1704,8 @@ namespace PKHeX
             {0xB8, "y"},
             {0xB9, "z"},
             {0xE1, "{"}, /* Pk */
-            {0xE2, "}"}, /* Mn */
-            {0xE3, "-"},
+			{0xE2, "}"}, /* Mn */
+			{0xE3, "-"},
             {0xE6, "?"},
             {0xE7, "!"},
             {0xEF, "♂"},
@@ -1720,7 +1725,7 @@ namespace PKHeX
             {0xFF, "9"}
         };
 
-        private static Dictionary<string, byte> U2RBY_U => new Dictionary<string, byte> {
+        internal static Dictionary<string, byte> U2RBY_U => new Dictionary<string, byte> {
             {"\0", 0x50},
             {"[TRAINER]", 0x5D},
             {" ", 0x7F},
@@ -1783,8 +1788,8 @@ namespace PKHeX
             {"y", 0xB8},
             {"z", 0xB9},
             {"{", 0xE1}, /* Pk */
-            {"}", 0xE2}, /* Mn */
-            {"-", 0xE3},
+			{"}", 0xE2}, /* Mn */
+			{"-", 0xE3},
             {"?", 0xE6},
             {"!", 0xE7},
             {"♂", 0xEF},
@@ -1803,7 +1808,7 @@ namespace PKHeX
             {"8", 0xFE},
             {"9", 0xFF}
         };
-        private static Dictionary<string, byte> U2RBY_J => new Dictionary<string, byte> {
+        internal static Dictionary<string, byte> U2RBY_J => new Dictionary<string, byte> {
             {"ガ", 0x05},
             {"ギ", 0x06},
             {"グ", 0x07},
@@ -1964,7 +1969,7 @@ namespace PKHeX
             {"♀", 0xF5}
         };
 
-        private static Dictionary<byte, string> RBY2U_J => new Dictionary<byte, string> {
+        static Dictionary<byte, string> RBY2U_J => new Dictionary<byte, string> {
             {0x05, "ガ"},
             {0x06, "ギ"},
             {0x07, "グ"},
