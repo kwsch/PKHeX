@@ -13,7 +13,7 @@ namespace PKHeX
             switch (SAV.Generation)
             {
                 case 1:
-                    itemlist = PKX.getG1ItemList();
+                    itemlist = Main.g1items;
                     B_GiveAll.Visible = false; // Can't give all, not enough room
                     break;
                 case 3:
