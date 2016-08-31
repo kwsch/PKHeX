@@ -245,7 +245,6 @@
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.L_Save = new System.Windows.Forms.Label();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
             this.PAN_Box = new System.Windows.Forms.Panel();
@@ -348,10 +347,10 @@
             this.B_OpenOPowers = new System.Windows.Forms.Button();
             this.B_OpenEventFlags = new System.Windows.Forms.Button();
             this.B_OpenPokedex = new System.Windows.Forms.Button();
-            this.B_OpenBerryField = new System.Windows.Forms.Button();
-            this.B_OpenSecretBase = new System.Windows.Forms.Button();
-            this.B_Pokeblocks = new System.Windows.Forms.Button();
             this.B_LinkInfo = new System.Windows.Forms.Button();
+            this.B_OpenBerryField = new System.Windows.Forms.Button();
+            this.B_Pokeblocks = new System.Windows.Forms.Button();
+            this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
@@ -363,6 +362,7 @@
             this.mnuLQR = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
+            this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -926,6 +926,7 @@
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
             this.TB_Nickname.TabIndex = 5;
+            this.TB_Nickname.TextChanged += new System.EventHandler(this.updateIsNicknamed);
             this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
             // 
             // CB_Species
@@ -2985,16 +2986,6 @@
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
-            // L_Save
-            // 
-            this.L_Save.AutoSize = true;
-            this.L_Save.Location = new System.Drawing.Point(300, 5);
-            this.L_Save.Name = "L_Save";
-            this.L_Save.Size = new System.Drawing.Size(54, 13);
-            this.L_Save.TabIndex = 4;
-            this.L_Save.Text = "SAV: N/A";
-            this.L_Save.Click += new System.EventHandler(this.clickSaveFileName);
-            // 
             // tabBoxMulti
             // 
             this.tabBoxMulti.Controls.Add(this.Tab_Box);
@@ -3007,6 +2998,7 @@
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 50;
             this.tabBoxMulti.Click += new System.EventHandler(this.clickBoxSort);
+            this.tabBoxMulti.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.clickBoxDouble);
             // 
             // Tab_Box
             // 
@@ -4454,6 +4446,16 @@
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
             this.B_OpenPokedex.Click += new System.EventHandler(this.B_OpenPokedex_Click);
             // 
+            // B_LinkInfo
+            // 
+            this.B_LinkInfo.Location = new System.Drawing.Point(96, 61);
+            this.B_LinkInfo.Name = "B_LinkInfo";
+            this.B_LinkInfo.Size = new System.Drawing.Size(87, 23);
+            this.B_LinkInfo.TabIndex = 23;
+            this.B_LinkInfo.Text = "Link Data";
+            this.B_LinkInfo.UseVisualStyleBackColor = true;
+            this.B_LinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
+            // 
             // B_OpenBerryField
             // 
             this.B_OpenBerryField.Location = new System.Drawing.Point(189, 61);
@@ -4463,17 +4465,6 @@
             this.B_OpenBerryField.Text = "Berry Field";
             this.B_OpenBerryField.UseVisualStyleBackColor = true;
             this.B_OpenBerryField.Click += new System.EventHandler(this.B_OpenBerryField_Click);
-            // 
-            // B_OpenSecretBase
-            // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(96, 90);
-            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
-            this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenSecretBase.TabIndex = 21;
-            this.B_OpenSecretBase.Text = "Secret Base";
-            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
-            this.B_OpenSecretBase.Visible = false;
-            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
             // B_Pokeblocks
             // 
@@ -4486,15 +4477,16 @@
             this.B_Pokeblocks.Visible = false;
             this.B_Pokeblocks.Click += new System.EventHandler(this.B_OpenPokeblocks_Click);
             // 
-            // B_LinkInfo
+            // B_OpenSecretBase
             // 
-            this.B_LinkInfo.Location = new System.Drawing.Point(96, 61);
-            this.B_LinkInfo.Name = "B_LinkInfo";
-            this.B_LinkInfo.Size = new System.Drawing.Size(87, 23);
-            this.B_LinkInfo.TabIndex = 23;
-            this.B_LinkInfo.Text = "Link Data";
-            this.B_LinkInfo.UseVisualStyleBackColor = true;
-            this.B_LinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(96, 90);
+            this.B_OpenSecretBase.Name = "B_OpenSecretBase";
+            this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSecretBase.TabIndex = 21;
+            this.B_OpenSecretBase.Text = "Secret Base";
+            this.B_OpenSecretBase.UseVisualStyleBackColor = true;
+            this.B_OpenSecretBase.Visible = false;
+            this.B_OpenSecretBase.Click += new System.EventHandler(this.B_OpenSecretBase_Click);
             // 
             // B_OpenPokepuffs
             // 
@@ -4603,16 +4595,28 @@
             this.PB_Legal.TabStop = false;
             this.PB_Legal.Click += new System.EventHandler(this.clickLegality);
             // 
+            // L_UpdateAvailable
+            // 
+            this.L_UpdateAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_UpdateAvailable.Location = new System.Drawing.Point(305, 5);
+            this.L_UpdateAvailable.Name = "L_UpdateAvailable";
+            this.L_UpdateAvailable.Size = new System.Drawing.Size(300, 13);
+            this.L_UpdateAvailable.TabIndex = 102;
+            this.L_UpdateAvailable.TabStop = true;
+            this.L_UpdateAvailable.Text = "New Update Available!";
+            this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_UpdateAvailable.Visible = false;
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 361);
+            this.Controls.Add(this.L_UpdateAvailable);
             this.Controls.Add(this.PB_Legal);
             this.Controls.Add(this.dragout);
             this.Controls.Add(this.tabBoxMulti);
-            this.Controls.Add(this.L_Save);
             this.Controls.Add(this.tabMain);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.GB_SAVtools);
@@ -4883,7 +4887,6 @@
         private System.Windows.Forms.Label L_Characteristic;
         private System.Windows.Forms.TextBox TB_IVTotal;
         private System.Windows.Forms.Label L_Potential;
-        private System.Windows.Forms.Label L_Save;
         private System.Windows.Forms.TabControl tabBoxMulti;
         private System.Windows.Forms.TabPage Tab_Box;
         private System.Windows.Forms.TabPage Tab_PartyBattle;
@@ -5084,6 +5087,7 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_PKMEditors;
         private System.Windows.Forms.Button B_LinkInfo;
         private System.Windows.Forms.Button B_CGearSkin;
+        private System.Windows.Forms.LinkLabel L_UpdateAvailable;
     }
 }
 

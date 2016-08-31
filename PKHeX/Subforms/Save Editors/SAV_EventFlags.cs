@@ -171,8 +171,8 @@ namespace PKHeX
                 };
                 var mtb = new NumericUpDown
                 {
-                    Maximum = short.MaxValue,
-                    Minimum = short.MinValue,
+                    Maximum = ushort.MaxValue,
+                    Minimum = ushort.MinValue,
                     Value = Constants[num[i]],
                     Name = constTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,

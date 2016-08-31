@@ -15558,6 +15558,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_rby {
+            get {
+                object obj = ResourceManager.GetObject("personal_rby", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_rs {
             get {
                 object obj = ResourceManager.GetObject("personal_rs", resourceCulture);
@@ -15582,6 +15592,15 @@ namespace PKHeX.Properties {
             get {
                 object obj = ResourceManager.GetObject("pgldings_normalregular", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 20160830.
+        /// </summary>
+        internal static string ProgramVersion {
+            get {
+                return ResourceManager.GetString("ProgramVersion", resourceCulture);
             }
         }
         
@@ -16666,6 +16685,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap slotDel1 {
             get {
                 object obj = ResourceManager.GetObject("slotDel1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap slotDrag {
+            get {
+                object obj = ResourceManager.GetObject("slotDrag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -18426,6 +18455,16 @@ namespace PKHeX.Properties {
         internal static string sr_186 {
             get {
                 return ResourceManager.GetString("sr_186", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap swapBox {
+            get {
+                object obj = ResourceManager.GetObject("swapBox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -22883,8 +22922,8 @@ namespace PKHeX.Properties {
         ///
         ///Blanca
         ///Negra
-        ///Blanca2
-        ///Negra2
+        ///Blanca 2
+        ///Negra 2
         ///X
         ///Y
         ///Zafiro Alfa
