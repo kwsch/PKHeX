@@ -169,8 +169,8 @@ namespace PKHeX
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items = { };
-        public static string[] metRSEFRLG_00000 = { };
+            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items, g1items = { };
+        public static string[] metGSC_00000, metRSEFRLG_00000 = { };
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
         public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
@@ -1046,7 +1046,9 @@ namespace PKHeX
 
             // Past Generation strings
             g3items = Util.getStringList("ItemsG3", "en");
+            g1items = Util.getStringList("ItemsG1", "en");
             metRSEFRLG_00000 = Util.getStringList("rsefrlg_00000", "en");
+            metGSC_00000 = Util.getStringList("gsc_00000", "en");
 
             // Current Generation strings
             string l = curlanguage;
@@ -1211,9 +1213,9 @@ namespace PKHeX
             #region Met Locations
             // Gen 2
             {
-                var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 0x5F).ToArray());
-                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
-                metGen2 = null;
+                var met_list = Util.getCBList(metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
+                met_list = Util.getOffsetCBList(met_list, metGSC_00000, 00000, new[] { 0x7E, 0x7F });
+                metGen2 = met_list;
             }
             // Gen 3
             {
@@ -2053,6 +2055,11 @@ namespace PKHeX
 
             switch (Version)
             {
+                case GameVersion.GSC:
+                    if (SaveFormat == 2)
+                        return metGen2;
+                    break;
+
                 case GameVersion.CXD:
                     if (SaveFormat == 3)
                         return metGen3;

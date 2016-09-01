@@ -2121,13 +2121,6 @@ namespace PKHeX
         };
         #endregion
 
-        #region Gen 1 Item Table
-        public static string[] getG1ItemList()
-        {
-            return new[] { "(None)", "Master Ball", "Ultra Ball", "Great Ball", "Poké Ball", "Town Map", "Bicycle", "????? (7)", "Safari Ball", "Pokédex", "Moon Stone", "Antidote", "Burn Heal", "Ice Heal", "Awakening", "Parlyz Heal", "Full Restore", "Max Potion", "Hyper Potion", "Super Potion", "Potion", "BoulderBadge", "CascadeBadge", "ThunderBadge", "RainbowBadge", "SoulBadge", "MarshBadge", "VolcanoBadge", "EarthBadge", "Escape Rope", "Repel", "Old Amber", "Fire Stone", "Thunder Stone", "Water Stone", "HP Up", "Protein", "Iron", "Carbos", "Calcium", "Rare Candy", "Dome Fossil", "Helix Fossil", "Secret Key", "????? (44)", "Bike Voucher", "X Accuracy", "Leaf Stone", "Card Key", "Nugget", "PP Up (Unused)", "Poké Doll", "Full Heal", "Revive", "Max Revive", "Guard Spec.", "Super Repel", "Max Repel", "Dire Hit", "Coin", "Fresh Water", "Soda Pop", "Lemonade", "S.S. Ticket", "Gold Teeth", "X Attack", "X Defend", "X Speed", "X Special", "Coin Case", "Oak's Parcel", "Itemfinder", "Silph Scope", "Poké Flute", "Lift Key", "Exp. All", "Old Rod", "Good Rod", "Super Rod", "PP Up", "Ether", "Max Ether", "Elixer", "Max Elixer", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "HM01", "HM02", "HM03", "HM04", "HM05", "TM01", "TM02", "TM03", "TM04", "TM05", "TM06", "TM07", "TM08", "TM09", "TM10", "TM11", "TM12", "TM13", "TM14", "TM15", "TM16", "TM17", "TM18", "TM19", "TM20", "TM21", "TM22", "TM23", "TM24", "TM25", "TM26", "TM27", "TM28", "TM29", "TM30", "TM31", "TM32", "TM33", "TM34", "TM35", "TM36", "TM37", "TM38", "TM39", "TM40", "TM41", "TM42", "TM43", "TM44", "TM45", "TM46", "TM47", "TM48", "TM49", "TM50", "TM51", "TM52", "TM53", "TM54", "TM55" };
-        }
-
-        #endregion
         public static int[] getG1LegalItems()
         {
             return Enumerable.Range(0, 7)     // 0-6

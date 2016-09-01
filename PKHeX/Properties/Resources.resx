@@ -6397,4 +6397,10 @@
   <data name="personal_rby" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\byte\personal_rby;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="text_gsc_00000_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_gsc_00000_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG1_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG1_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
 </root>
