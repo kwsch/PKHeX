@@ -1079,6 +1079,10 @@ namespace PKHeX
                 puffs = Util.getStringList("puff", l);
             }
 
+            // Gen4 Mail names not stored in future games. No clever solution like for HM's, so improvise.
+            for (int i = 137; i <= 148; i++)
+                itemlist[i] = $"Mail #{i-137+1} (G4)";
+
             // Fix Item Names (Duplicate entries)
             int len = itemlist[425].Length;
             itemlist[426] = itemlist[425].Substring(0, len-1) + (char)(itemlist[425][len-1]+1) + " (G4)";
