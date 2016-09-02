@@ -18,7 +18,7 @@ namespace PKHeX
         internal const int STRLEN_U = 11;
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
 
-        public override int Format => 1;
+        public override int Format => 2;
 
         public bool Japanese => otname.Length == STRLEN_J;
 
@@ -92,8 +92,7 @@ namespace PKHeX
         {
             // Oh god this is such total abuse of what this method is meant to do
             // Please forgive me
-            return (byte[]) Data.Clone();
-            // return new PokemonList1(this).GetBytes();
+            return new PokemonList2(this).GetBytes();
         }
 
         // Please forgive me.
@@ -213,8 +212,7 @@ namespace PKHeX
 
         public override bool getGenderIsValid()
         {
-            return true;
-            int gv = PersonalTable.GSC[Species].Gender;
+            int gv = PersonalTable.C[Species].Gender;
 
             if (gv == 255)
                 return Gender == 2;
@@ -222,29 +220,90 @@ namespace PKHeX
                 return Gender == 0;
             if (gv == 0)
                 return Gender == 1;
-            if (gv <= (PID & 0xFF))
-                return Gender == 0;
-            if ((PID & 0xFF) < gv)
-                return Gender == 1;
-
+            switch (gv)
+            {
+                case 191:
+                    return IV_ATK >= 2 ? Gender == 0 : Gender == 1;
+                case 127:
+                    return IV_ATK >= 5 ? Gender == 0 : Gender == 1;
+                case 63:
+                    return IV_ATK >= 7 ? Gender == 0 : Gender == 1;
+                case 31:
+                    return IV_ATK >= 12 ? Gender == 0 : Gender == 1;
+            }
             return false;
         }
 
         public override bool IsEgg { get; set; }
-        public override int Gender { get { return 0; } set { } }
+
+        public override int Gender
+        {
+            get
+            {
+                int gv = PersonalTable.C[Species].Gender;
+                if (gv == 255)
+                    return 2;
+                if (gv == 254)
+                    return 0;
+                if (gv == 0)
+                    return 1;
+                switch (gv)
+                {
+                    case 191:
+                        return IV_ATK >= 2 ? 0 : 1;
+                    case 127:
+                        return IV_ATK >= 5 ? 0 : 1;
+                    case 63:
+                        return IV_ATK >= 7 ? 0 : 1;
+                    case 31:
+                        return IV_ATK >= 12 ? 0 : 1;
+                }
+                Console.WriteLine("Unknown Gender value: " + gv);
+                return 0;
+            }
+            set { }
+        }
 
         public bool hasMetData => CaughtData != 0;
 
         public override bool CanHoldItem(ushort[] ValidArray)
         {
-            return false;
+            return ValidArray.Contains((ushort)HeldItem);
         }
 
         #region Future, Unused Attributes
         public override uint EncryptionConstant { get { return 0; } set { } }
         public override uint PID { get { return 0; } set { } }
         public override int Nature { get { return 0; } set { } }
-        public override int AltForm { get { return 0; } set { } }
+
+        public override int AltForm
+        {
+            get
+            {
+                if (Species != 201) // Unown
+                    return 0;
+                else
+                {
+                    uint formeVal = 0;
+                    formeVal |= (uint)((IV_ATK & 0x6) << 5);
+                    formeVal |= (uint)((IV_DEF & 0x6) << 3);
+                    formeVal |= (uint)((IV_SPE & 0x6) << 1);
+                    formeVal |= (uint)((IV_SPC & 0x6) >> 1);
+                    return (int)(formeVal / 10);
+                }
+            }
+            set{ }
+        }
+
+        public override int HPType
+        {
+            get { return 4 * (IV_ATK % 4) + (IV_DEF % 4); }
+            set
+            {
+
+            }
+        }
+        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (new[] { 2, 3, 6, 7, 10, 11, 14, 15 }).Contains(IV_ATK);
         public override ushort Sanity { get { return 0; } set { } }
         public override bool ChecksumValid => true;
         public override ushort Checksum { get { return 0; } set { } }

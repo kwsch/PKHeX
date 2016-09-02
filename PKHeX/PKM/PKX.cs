@@ -528,6 +528,8 @@ namespace PKHeX
                 Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
                 if ((generation == 3 || generation == 4) && 328 <= item && item <= 419) // gen3/4 TM
                     itemimg = Resources.item_tm;
+                if (generation == 2)
+                    itemimg = Resources.helditem; // Don't even try
 
                 // Redraw
                 baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);

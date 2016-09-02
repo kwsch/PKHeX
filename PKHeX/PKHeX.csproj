@@ -73,6 +73,9 @@
     <Compile Include="Legality\Tables3.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="MainWindow\MainPK2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainWindow\MainPK1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +96,7 @@
     <Compile Include="PersonalInfo\PersonalInfo.cs" />
     <Compile Include="PersonalInfo\PersonalInfoB2W2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoBW.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoG2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG1.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG3.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG4.cs" />
@@ -100,6 +104,7 @@
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="PersonalInfo\PersonalTable.cs" />
     <Compile Include="PKM\PK1.cs" />
+    <Compile Include="PKM\PK2.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
@@ -119,6 +124,7 @@
     <Compile Include="Saves\BlockInfo.cs" />
     <Compile Include="Saves\BoxWallpaper.cs" />
     <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
@@ -422,6 +428,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Misc\personal_gs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -471,9 +478,11 @@
     <None Include="Resources\byte\lvlmove_xy.pkl" />
     <None Include="Resources\byte\personal_b2w2" />
     <None Include="Resources\byte\personal_bw" />
+    <None Include="Resources\byte\personal_c" />
     <None Include="Resources\byte\personal_dp" />
     <None Include="Resources\byte\personal_e" />
     <None Include="Resources\byte\personal_fr" />
+    <None Include="Resources\byte\personal_gs" />
     <None Include="Resources\byte\personal_hgss" />
     <None Include="Resources\byte\personal_lg" />
     <None Include="Resources\byte\personal_pt" />
@@ -2745,6 +2754,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\text\gen3\text_ItemsG1_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\text\gen3\text_ItemsG2_en.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6403,4 +6403,13 @@
   <data name="text_ItemsG1_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\gen3\text_ItemsG1_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
+  <data name="personal_c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\byte\personal_c;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_gs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\byte\personal_gs;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="text_ItemsG2_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\text\gen3\text_itemsg2_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

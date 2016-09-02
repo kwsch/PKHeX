@@ -169,7 +169,7 @@ namespace PKHeX
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items, g1items = { };
+            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items, g2items, g1items = { };
         public static string[] metGSC_00000, metRSEFRLG_00000 = { };
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
@@ -874,9 +874,10 @@ namespace PKHeX
             GB_Markings.Visible = SAV.Generation > 2;
 
             Label_HeldItem.Visible = CB_HeldItem.Visible = SAV.Generation > 1;
-            Label_Total.Visible = TB_IVTotal.Visible = TB_EVTotal.Visible = L_Potential.Visible =
-                Label_HiddenPowerPrefix.Visible = CB_HPType.Visible = SAV.Generation > 1;
-            Label_CharacteristicPrefix.Visible = L_Characteristic.Visible = SAV.Generation > 1;
+            Label_Total.Visible = TB_IVTotal.Visible = TB_EVTotal.Visible = L_Potential.Visible = SAV.Generation > 2;
+            Label_HiddenPowerPrefix.Visible = CB_HPType.Visible = SAV.Generation > 1;
+            CB_HPType.Enabled = SAV.Generation > 2;
+            Label_CharacteristicPrefix.Visible = L_Characteristic.Visible = SAV.Generation > 2;
             Label_ContestStats.Visible = Label_Cool.Visible = Label_Tough.Visible = Label_Smart.Visible =
                 Label_Sheen.Visible = Label_Beauty.Visible = Label_Cute.Visible = TB_Cool.Visible = TB_Tough.Visible =
                     TB_Smart.Visible = TB_Sheen.Visible = TB_Beauty.Visible = TB_Cute.Visible = Label_Nature.Visible =
@@ -941,6 +942,11 @@ namespace PKHeX
                     getPKMfromFields = preparePK1;
                     extraBytes = new byte[] {};
                     break;
+                case 2:
+                    getFieldsfromPKM = populateFieldsPK2;
+                    getPKMfromFields = preparePK2;
+                    extraBytes = new byte[] { };
+                    break;
                 case 3:
                     getFieldsfromPKM = populateFieldsPK3;
                     getPKMfromFields = preparePK3;
@@ -970,7 +976,7 @@ namespace PKHeX
             bool init = fieldsInitialized;
             fieldsInitialized = false;
             populateFilteredDataSources();
-            populateFields((pkm.Format != SAV.Generation || SAV.Generation == 1) ? SAV.BlankPKM : pk);
+            populateFields((pkm.Format != SAV.Generation || SAV.Generation < 3) ? SAV.BlankPKM : pk);
             fieldsInitialized |= init;
 
             // SAV Specific Limits
@@ -1046,6 +1052,7 @@ namespace PKHeX
 
             // Past Generation strings
             g3items = Util.getStringList("ItemsG3", "en");
+            g2items = Util.getStringList("ItemsG2", "en");
             g1items = Util.getStringList("ItemsG1", "en");
             metRSEFRLG_00000 = Util.getStringList("rsefrlg_00000", "en");
             metGSC_00000 = Util.getStringList("gsc_00000", "en");
@@ -1271,6 +1278,8 @@ namespace PKHeX
                 string[] items = itemlist;
                 if (SAV.Generation == 3)
                     items = g3items;
+                if (SAV.Generation == 2)
+                    items = g2items;
 
                 ItemDataSource = Util.getCBList(items, (HaX ? Enumerable.Range(0, SAV.MaxItemID) : SAV.HeldItems.Select(i => (int)i)).ToArray());
                 CB_HeldItem.DataSource = new BindingSource(ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
@@ -1410,7 +1419,7 @@ namespace PKHeX
             bool isShiny = pkm.IsShiny;
 
             // Set the Controls
-            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny && SAV.Generation > 2;
+            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny && SAV.Generation > 1;
             Label_IsShiny.Visible = isShiny && SAV.Generation > 1;
 
             // Refresh Markings (for Shiny Star if applicable)
@@ -1707,6 +1716,16 @@ namespace PKHeX
             if (SAV.Generation < 3)
             {
                 TB_HPIV.Text = pkm.IV_HP.ToString("00");
+                if (SAV.Generation == 2)
+                {
+                    Label_Gender.Text = gendersymbols[pkm.Gender];
+                    Label_Gender.ForeColor = pkm.Gender == 2
+                        ? Label_Species.ForeColor
+                        : (pkm.Gender == 1 ? Color.Red : Color.Blue);
+                    CB_Form.SelectedIndex = pkm.AltForm;
+                    setIsShiny(null);
+                    getQuickFiller(dragout);
+                }
             }
                     
             CB_HPType.SelectedValue = pkm.HPType;
@@ -2260,6 +2279,8 @@ namespace PKHeX
             {
                 CHK_Nicknamed.Checked = false;
                 TB_Friendship.Text = "1";
+                if (SAV.Generation == 2)
+                    pkm.IsEgg = true;
 
                 // If we are an egg, it won't have a met location.
                 CHK_AsEgg.Checked = true;
@@ -2273,6 +2294,9 @@ namespace PKHeX
                 if (!CHK_Nicknamed.Checked)
                     updateNickname(null, null);
 
+                if (SAV.Generation == 2)
+                    pkm.IsEgg = false;
+
                 TB_Friendship.Text = SAV.Personal[Util.getIndex(CB_Species)].BaseFriendship.ToString();
 
                 if (CB_EggLocation.SelectedIndex == 0)
@@ -2284,7 +2308,7 @@ namespace PKHeX
             }
             // Display hatch counter if it is an egg, Display Friendship if it is not.
             Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 2;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
 
 
             // Update image to (not) show egg.
@@ -2313,7 +2337,16 @@ namespace PKHeX
             pkm.AltForm = CB_Form.SelectedIndex;
             pkm.Version = Util.getIndex(CB_GameOrigin);
 
-            pkm.setShinyPID();
+            if (pkm.Format > 2)
+                pkm.setShinyPID();
+            else
+            {
+                TB_ATKIV.Text = "15";
+                TB_DEFIV.Text = "10";
+                TB_SPEIV.Text = "10";
+                TB_SPAIV.Text = "10";
+                updateIVs(null, null);
+            }
             TB_PID.Text = pkm.PID.ToString("X8");
 
             if (pkm.GenNumber < 6 && TB_EC.Visible)
@@ -3454,7 +3487,7 @@ namespace PKHeX
                 new SAV_PokedexORAS().ShowDialog();
             else if (SAV.XY)
                 new SAV_PokedexXY().ShowDialog();
-            else if (SAV.RBY)
+            else if (SAV.RBY || SAV.GSC)
                 new SAV_SimplePokedex().ShowDialog();
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
