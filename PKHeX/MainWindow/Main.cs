@@ -1080,6 +1080,9 @@ namespace PKHeX
             }
 
             // Fix Item Names (Duplicate entries)
+            int len = itemlist[425].Length;
+            itemlist[426] = itemlist[425].Substring(0, len-1) + (char)(itemlist[425][len-1]+1) + " (G4)";
+            itemlist[427] = itemlist[425].Substring(0, len-1) + (char)(itemlist[425][len-1]+2) + " (G4)";
             itemlist[456] += " (HG/SS)"; // S.S. Ticket
             itemlist[736] += " (OR/AS)"; // S.S. Ticket
             itemlist[463] += " (DPPt)"; // Storage Key
