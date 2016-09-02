@@ -185,6 +185,7 @@ namespace PKHeX
                                     )
                                 {
                                     string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
+                                    if (tmp.Length < 2) return;
                                     Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
                                     Form = tmp[1].Trim();
                                     if (tmp.Length > 2)
