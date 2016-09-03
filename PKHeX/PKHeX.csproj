@@ -116,6 +116,11 @@
     <Compile Include="Misc\QR.Designer.cs">
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Saves\BlockInfo.cs" />
     <Compile Include="Saves\BoxWallpaper.cs" />
     <Compile Include="Saves\Inventory.cs" />
@@ -168,11 +173,6 @@
     </Compile>
     <Compile Include="Subforms\PKM Editors\MemoryAmie.Designer.cs">
       <DependentUpon>MemoryAmie.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Saves\SaveObjects.cs" />
     <Compile Include="Saves\SaveUtil.cs" />

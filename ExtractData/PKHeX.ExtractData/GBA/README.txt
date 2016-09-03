@@ -1,0 +1,2 @@
+Put here the GBA roms, the program expect an USA rom. If other rom is used like for example a Spanish, French or European English or a hacked rom 
+the offsets should be changed to the correct ones for the rom used

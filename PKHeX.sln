@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.Tests", "Tests\PKHeX.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.ExtractData", "ExtractData\PKHeX.ExtractData\PKHeX.ExtractData.csproj", "{D61CD059-1B2C-40B5-863B-DFE69512FF62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExtractData", "ExtractData", "{B85B6F19-42DB-4B64-B196-6ADD37FC65BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -23,11 +27,16 @@ Global
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|x86.Build.0 = Debug|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.ActiveCfg = Release|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.Build.0 = Release|x86
+		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Debug|x86.Build.0 = Debug|Any CPU
+		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Release|x86.ActiveCfg = Release|Any CPU
+		{D61CD059-1B2C-40B5-863B-DFE69512FF62}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8E2499BC-C11A-4809-8737-66D35A625425} = {7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}
+		{D61CD059-1B2C-40B5-863B-DFE69512FF62} = {B85B6F19-42DB-4B64-B196-6ADD37FC65BB}
 	EndGlobalSection
 EndGlobal
