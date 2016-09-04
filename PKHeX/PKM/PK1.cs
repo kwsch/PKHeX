@@ -120,8 +120,8 @@ namespace PKHeX
             get { return PKX.getG1Species(Data[0]); }
             set
             {
-                // Before updating catch rate, check if Special Yellow Version Pikachu
-                if (!(PKX.getG1Species(Data[0]) == 25 && value == 25 && Catch_Rate == 163))
+                // Before updating catch rate, check if non-standard
+                if (Catch_Rate == PersonalTable.RBY[Species].CatchRate)
                     Catch_Rate = PersonalTable.RBY[value].CatchRate;
                 Data[0] = (byte)PKX.setG1Species(value);
                 Type_A = PersonalTable.RBY[value].Types[0];
@@ -250,6 +250,46 @@ namespace PKHeX
         public override int CNT_Tough { get { return 0; } set { } }
         public override int CNT_Sheen { get { return 0; } set { } }
         #endregion
+
+        public PK2 convertToPK2()
+        {
+            PK2 pk2 = new PK2(null, Identifier, Japanese);
+            pk2.Species = Species;
+            Array.Copy(Data, 0x7, pk2.Data, 0x1, 0x1A);
+            // https://github.com/pret/pokecrystal/blob/master/engine/link.asm#L1132
+            if (!Legal.HeldItems_GSC.Contains((ushort)pk2.HeldItem)) 
+                switch (pk2.HeldItem)
+                {
+                    case 0x19:
+                        pk2.HeldItem = 0x92; // Leftovers
+                        break;
+                    case 0x2D:
+                        pk2.HeldItem = 0x53; // Bitter Berry
+                        break;
+                    case 0x32:
+                        pk2.HeldItem = 0xAE; // Leftovers
+                        break;
+                    case 0x5A:
+                    case 0x64:
+                    case 0x78:
+                    case 0x87:
+                    case 0xBE:
+                    case 0xC3:
+                    case 0xDC:
+                    case 0xFA:
+                    case 0xFF:
+                        pk2.HeldItem = 0xAD; // Berry
+                        break;
+                }
+            pk2.CurrentFriendship = PersonalTable.C[Species].BaseFriendship;
+            // Pokerus = 0
+            // Caught Data = 0
+            pk2.Stat_Level = Stat_Level;
+            Array.Copy(otname, 0, pk2.otname, 0, otname.Length);
+            Array.Copy(nick, 0, pk2.nick, 0, nick.Length);
+
+            return pk2;
+        }
     }
 
     public class PokemonList1

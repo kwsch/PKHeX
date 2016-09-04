@@ -325,6 +325,20 @@ public override int Stat_Level
         public override int CNT_Tough { get { return 0; } set { } }
         public override int CNT_Sheen { get { return 0; } set { } }
         #endregion
+
+        public PK1 convertToPK1()
+        {
+            PK1 pk1 = new PK1(null, Identifier, Japanese);
+            Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
+            pk1.Species = Species; // This will take care of Typing :)
+            pk1.Stat_HPCurrent = Stat_HPCurrent;
+            pk1.Stat_Level = Stat_Level;
+            // Status = 0
+            Array.Copy(otname, 0, pk1.otname, 0, otname.Length);
+            Array.Copy(nick, 0, pk1.nick, 0, nick.Length);
+
+            return pk1;
+        }
     }
 
     public class PokemonList2

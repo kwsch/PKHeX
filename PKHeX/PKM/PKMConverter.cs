@@ -100,6 +100,9 @@ namespace PKHeX
         }
         internal static PKM convertToFormat(PKM pk, int Format, out string comment)
         {
+            string currentFormat = pk.Format.ToString();
+            PKM pkm = pk.Clone();
+
             if (pk == null)
             {
                 comment = "Null input. Aborting.";
@@ -109,6 +112,34 @@ namespace PKHeX
             {
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
+            }
+            if (pk.Format != Format && pk.Format <= 2 && Format <= 2)
+            {
+                if (Format == 2) // pk.Format == 1
+                {
+                    pkm = ((PK1) pk).convertToPK2();
+                }
+                if (Format == 1) // pk.Format == 2
+                {
+                    // Only convert if it's legal to do so.
+                    if (1 <= pk.Species && pk.Species <= 151)
+                    {
+                        foreach (var move in new[] { pk.Move1, pk.Move2, pk.Move3, pk.Move4})
+                            if (move < 1 || move > 165)
+                            {
+                                comment = $"Pokemon cannot be converted due to invalid move: {Main.movelist[move]}";
+                                return null;
+                            }
+                        pkm = ((PK2) pk).convertToPK1();
+                    }
+                    else
+                    {
+                        comment =$"Cannot convert a {PKX.getSpeciesName(pk.Species, ((PK2)pk).Japanese ? 1 : 2)} to pk{Format}";
+                        return null;
+                    }
+                }
+                comment = $"Converted from pk{pk.Format} to pk{Format}";
+                return pkm;
             }
             if (pk.Format > Format)
             {
@@ -128,8 +159,6 @@ namespace PKHeX
                           + "Please wait for Sun/Moon to release and documentation to occur.";
                 return null;
             }
-            string currentFormat = pk.Format.ToString();
-            PKM pkm = pk.Clone();
             if (pkm.IsEgg) // force hatch
             {
                 pkm.IsEgg = false;
