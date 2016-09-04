@@ -208,7 +208,7 @@ namespace PKHeX
 
         public static string WorkingDirectory => Environment.CurrentDirectory;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
-        private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
+        public static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string ThreadPath => @"https://projectpokemon.org/forums/showthread.php?36986";
         private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
@@ -326,6 +326,15 @@ namespace PKHeX
             else
                 Util.Alert("PKHeX's database was not found.",
                     $"Please dump all boxes from a save file, then ensure the '{DatabasePath}' folder exists.");
+        }
+        private void mainMenuMysteryDM(object sender, EventArgs e)
+        {
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_MysteryGiftDB)) as SAV_MysteryGiftDB;
+            if (z != null)
+            { Util.CenterToForm(z, this); z.BringToFront(); return; }
+
+            new SAV_MysteryGiftDB(this).Show();
+            
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
@@ -1048,7 +1057,7 @@ namespace PKHeX
             for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
             {
                 byte[] data = new byte[WC6.SizeFull];
-                Array.Copy(wc6bin, i, data, 0, WC6.SizeFull);
+                Array.Copy(wc6full, i, data, 0, WC6.SizeFull);
                 wc6db.Add(new WC6(data));
             }
 

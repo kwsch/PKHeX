@@ -213,6 +213,12 @@
     <Compile Include="Subforms\Save Editors\SAV_SimplePokedex.Designer.cs">
       <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\SAV_MysteryGiftDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SAV_MysteryGiftDB.Designer.cs">
+      <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\SAV_Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -369,6 +375,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_SimplePokedex.resx">
       <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SAV_MysteryGiftDB.resx">
+      <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
@@ -2756,6 +2765,7 @@
     <None Include="Resources\text\gen3\text_ItemsG1_en.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\img\Program\gift.png" />
     <Content Include="Resources\text\gen3\text_ItemsG2_en.txt" />
     <None Include="Resources\img\Pokemon Sprites\172_1.png" />
   </ItemGroup>

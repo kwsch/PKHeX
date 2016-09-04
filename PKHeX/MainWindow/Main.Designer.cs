@@ -78,6 +78,8 @@
             this.MT_Level = new System.Windows.Forms.MaskedTextBox();
             this.DEV_Ability = new System.Windows.Forms.ComboBox();
             this.Tab_Met = new System.Windows.Forms.TabPage();
+            this.L_MetTimeOfDay = new System.Windows.Forms.Label();
+            this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.CHK_Fateful = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -233,6 +235,7 @@
             this.Menu_DumpBoxes = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Database = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_MGDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_BatchEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Other = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenSDF = new System.Windows.Forms.ToolStripMenuItem();
@@ -363,8 +366,6 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.L_MetTimeOfDay = new System.Windows.Forms.Label();
-            this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -1068,6 +1069,33 @@
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
+            // 
+            // L_MetTimeOfDay
+            // 
+            this.L_MetTimeOfDay.Location = new System.Drawing.Point(25, 165);
+            this.L_MetTimeOfDay.Name = "L_MetTimeOfDay";
+            this.L_MetTimeOfDay.Size = new System.Drawing.Size(77, 13);
+            this.L_MetTimeOfDay.TabIndex = 10;
+            this.L_MetTimeOfDay.Text = "Time of Day:";
+            this.L_MetTimeOfDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_MetTimeOfDay.Visible = false;
+            // 
+            // CB_MetTimeOfDay
+            // 
+            this.CB_MetTimeOfDay.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_MetTimeOfDay.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_MetTimeOfDay.DropDownWidth = 150;
+            this.CB_MetTimeOfDay.FormattingEnabled = true;
+            this.CB_MetTimeOfDay.Items.AddRange(new object[] {
+            "(None)",
+            "Morning",
+            "Day",
+            "Night"});
+            this.CB_MetTimeOfDay.Location = new System.Drawing.Point(105, 162);
+            this.CB_MetTimeOfDay.Name = "CB_MetTimeOfDay";
+            this.CB_MetTimeOfDay.Size = new System.Drawing.Size(122, 21);
+            this.CB_MetTimeOfDay.TabIndex = 11;
+            this.CB_MetTimeOfDay.Visible = false;
             // 
             // CHK_AsEgg
             // 
@@ -2762,7 +2790,7 @@
             this.Menu_ShowdownExportBattleBox});
             this.Menu_Showdown.Image = global::PKHeX.Properties.Resources.showdown;
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
@@ -2809,7 +2837,7 @@
             this.Menu_OpenCache});
             this.Menu_CyberGadget.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
-            this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
+            this.Menu_CyberGadget.Size = new System.Drawing.Size(152, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
             // 
             // Menu_OpenTemp
@@ -2835,17 +2863,18 @@
             this.Menu_DumpBoxes,
             this.Menu_Report,
             this.Menu_Database,
+            this.Menu_MGDatabase,
             this.Menu_BatchEditor});
             this.Menu_Data.Image = global::PKHeX.Properties.Resources.data;
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
             // 
             this.Menu_LoadBoxes.Image = global::PKHeX.Properties.Resources.load;
             this.Menu_LoadBoxes.Name = "Menu_LoadBoxes";
-            this.Menu_LoadBoxes.Size = new System.Drawing.Size(151, 22);
+            this.Menu_LoadBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_LoadBoxes.Text = "Load Boxes";
             this.Menu_LoadBoxes.Click += new System.EventHandler(this.mainMenuBoxLoad);
             // 
@@ -2853,7 +2882,7 @@
             // 
             this.Menu_DumpBoxes.Image = global::PKHeX.Properties.Resources.dump;
             this.Menu_DumpBoxes.Name = "Menu_DumpBoxes";
-            this.Menu_DumpBoxes.Size = new System.Drawing.Size(151, 22);
+            this.Menu_DumpBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
             this.Menu_DumpBoxes.Click += new System.EventHandler(this.mainMenuBoxDump);
             // 
@@ -2863,7 +2892,7 @@
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.Menu_Report.ShowShortcutKeys = false;
-            this.Menu_Report.Size = new System.Drawing.Size(151, 22);
+            this.Menu_Report.Size = new System.Drawing.Size(182, 22);
             this.Menu_Report.Text = "Box Data &Report";
             this.Menu_Report.Click += new System.EventHandler(this.mainMenuBoxReport);
             // 
@@ -2873,9 +2902,19 @@
             this.Menu_Database.Name = "Menu_Database";
             this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.Menu_Database.ShowShortcutKeys = false;
-            this.Menu_Database.Size = new System.Drawing.Size(151, 22);
+            this.Menu_Database.Size = new System.Drawing.Size(182, 22);
             this.Menu_Database.Text = "PK6 &Database";
             this.Menu_Database.Click += new System.EventHandler(this.mainMenuDatabase);
+            // 
+            // Menu_MGDatabase
+            // 
+            this.Menu_MGDatabase.Image = global::PKHeX.Properties.Resources.gift;
+            this.Menu_MGDatabase.Name = "Menu_MGDatabase";
+            this.Menu_MGDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
+            this.Menu_MGDatabase.ShowShortcutKeys = false;
+            this.Menu_MGDatabase.Size = new System.Drawing.Size(182, 22);
+            this.Menu_MGDatabase.Text = "&Mystery Gift Database";
+            this.Menu_MGDatabase.Click += new System.EventHandler(this.mainMenuMysteryDM);
             // 
             // Menu_BatchEditor
             // 
@@ -2883,7 +2922,7 @@
             this.Menu_BatchEditor.Name = "Menu_BatchEditor";
             this.Menu_BatchEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.Menu_BatchEditor.ShowShortcutKeys = false;
-            this.Menu_BatchEditor.Size = new System.Drawing.Size(151, 22);
+            this.Menu_BatchEditor.Size = new System.Drawing.Size(182, 22);
             this.Menu_BatchEditor.Text = "Batch Editor";
             this.Menu_BatchEditor.Click += new System.EventHandler(this.manMenuBatchEditor);
             // 
@@ -2894,7 +2933,7 @@
             this.Menu_OpenSDB});
             this.Menu_Other.Image = global::PKHeX.Properties.Resources.other;
             this.Menu_Other.Name = "Menu_Other";
-            this.Menu_Other.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Other.Size = new System.Drawing.Size(152, 22);
             this.Menu_Other.Text = "Other";
             // 
             // Menu_OpenSDF
@@ -4611,33 +4650,6 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // L_MetTimeOfDay
-            // 
-            this.L_MetTimeOfDay.Location = new System.Drawing.Point(25, 165);
-            this.L_MetTimeOfDay.Name = "L_MetTimeOfDay";
-            this.L_MetTimeOfDay.Size = new System.Drawing.Size(77, 13);
-            this.L_MetTimeOfDay.TabIndex = 10;
-            this.L_MetTimeOfDay.Text = "Time of Day:";
-            this.L_MetTimeOfDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_MetTimeOfDay.Visible = false;
-            // 
-            // CB_MetTimeOfDay
-            // 
-            this.CB_MetTimeOfDay.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_MetTimeOfDay.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_MetTimeOfDay.DropDownWidth = 150;
-            this.CB_MetTimeOfDay.FormattingEnabled = true;
-            this.CB_MetTimeOfDay.Items.AddRange(new object[] {
-            "(None)",
-            "Morning",
-            "Day",
-            "Night"});
-            this.CB_MetTimeOfDay.Location = new System.Drawing.Point(105, 162);
-            this.CB_MetTimeOfDay.Name = "CB_MetTimeOfDay";
-            this.CB_MetTimeOfDay.Size = new System.Drawing.Size(122, 21);
-            this.CB_MetTimeOfDay.TabIndex = 11;
-            this.CB_MetTimeOfDay.Visible = false;
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5121,6 +5133,7 @@
         private System.Windows.Forms.LinkLabel L_UpdateAvailable;
         private System.Windows.Forms.Label L_MetTimeOfDay;
         public System.Windows.Forms.ComboBox CB_MetTimeOfDay;
+        private System.Windows.Forms.ToolStripMenuItem Menu_MGDatabase;
     }
 }
 
