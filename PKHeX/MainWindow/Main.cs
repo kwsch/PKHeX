@@ -412,8 +412,11 @@ namespace PKHeX
             if (Set.Species < 0)
             { Util.Alert("Set data not found in clipboard."); return; }
 
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Clipboard.GetText())) 
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Set.getText())) 
             { return; }
+
+            if (Set.InvalidLines.Any())
+                Util.Alert("Invalid lines detected:", string.Join(Environment.NewLine, Set.InvalidLines));
 
             // Set Species & Nickname
             CB_Species.SelectedValue = Set.Species;
@@ -1096,7 +1099,14 @@ namespace PKHeX
                 puffs = Util.getStringList("puff", l);
             }
 
+            // Gen4 Mail names not stored in future games. No clever solution like for HM's, so improvise.
+            for (int i = 137; i <= 148; i++)
+                itemlist[i] = $"Mail #{i-137+1} (G4)";
+
             // Fix Item Names (Duplicate entries)
+            int len = itemlist[425].Length;
+            itemlist[426] = itemlist[425].Substring(0, len-1) + (char)(itemlist[425][len-1]+1) + " (G4)";
+            itemlist[427] = itemlist[425].Substring(0, len-1) + (char)(itemlist[425][len-1]+2) + " (G4)";
             itemlist[456] += " (HG/SS)"; // S.S. Ticket
             itemlist[736] += " (OR/AS)"; // S.S. Ticket
             itemlist[463] += " (DPPt)"; // Storage Key
