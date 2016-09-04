@@ -2924,7 +2924,7 @@ namespace PKHeX
             { SAV.setStoredSlot(SAV.BlankPKM, getPKXOffset(slot)); }
             else return;
 
-            SlotPictureBoxes[slot].Image = null;
+            getQuickFiller(SlotPictureBoxes[slot], SAV.BlankPKM);
             getSlotColor(slot, Properties.Resources.slotDel);
         }
         private void clickClone(object sender, EventArgs e)
@@ -2961,7 +2961,7 @@ namespace PKHeX
             { SystemSounds.Asterisk.Play(); return; }
             if (typeof (PK6) != pk.GetType())
             {
-                Util.Alert($"Checking legality of {pk.GetType()} files is not supported.");
+                Util.Alert($"Checking legality of {pk.GetType().Name} files is not supported.");
                 return;
             }
             showLegality(pk as PK6, slot < 0, ModifierKeys == Keys.Control);
