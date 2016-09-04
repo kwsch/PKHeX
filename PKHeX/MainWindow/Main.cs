@@ -412,8 +412,11 @@ namespace PKHeX
             if (Set.Species < 0)
             { Util.Alert("Set data not found in clipboard."); return; }
 
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Clipboard.GetText())) 
+            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Set.getText())) 
             { return; }
+
+            if (Set.InvalidLines.Any())
+                Util.Alert("Invalid lines detected:", string.Join(Environment.NewLine, Set.InvalidLines));
 
             // Set Species & Nickname
             CB_Species.SelectedValue = Set.Species;

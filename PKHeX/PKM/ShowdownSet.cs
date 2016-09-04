@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -30,6 +31,7 @@ namespace PKHeX
         public int[] EVs;
         public int[] IVs;
         public int[] Moves;
+        public List<string> InvalidLines = new List<string>();
 
         // Parsing Utility
         public ShowdownSet(string input = null)
@@ -136,6 +138,7 @@ namespace PKHeX
                     case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
                     case "Shiny": { Shiny = brokenline[1] == "Yes"; break; }
                     case "Happiness": { Friendship = Util.ToInt32(brokenline[1]); break; }
+                    case "Nature": { Nature = Array.IndexOf(natures, brokenline[1]); break; }
                     case "EVs":
                         {
                             // Get EV list String
@@ -195,7 +198,13 @@ namespace PKHeX
                             else if (brokenline[0].Contains("Nature"))
                                 Nature = Array.IndexOf(natures, line.Split(' ')[0]);
                             else // Fallback
-                                Species = Array.IndexOf(species, line.Split('(')[0]);
+                            {
+                                int spec = Array.IndexOf(species, line.Split('(')[0]);
+                                if (spec > 0)
+                                    Species = spec;
+                                else
+                                    InvalidLines.Add(line);
+                            }
                         }
                         break;
                 }
@@ -207,9 +216,9 @@ namespace PKHeX
                 return "";
 
             // First Line: Name, Nickname, Gender, Item
-            string result = string.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
+            string result = string.Format(Nickname != null && species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
                 species[Species] + ((Form ?? "") != "" ? "-" + Form?.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
-                            + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
+                            + Gender + (Item > 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
             // IVs
             string[] ivstr = new string[6];
@@ -236,12 +245,14 @@ namespace PKHeX
                 result += "EVs: " + string.Join(" / ", evstr.Take(evctr)) + Environment.NewLine;
 
             // Secondary Stats
-            result += "Ability: " + abilities[Ability] + Environment.NewLine;
+            if (Ability > -1)
+                result += "Ability: " + abilities[Ability] + Environment.NewLine;
             result += "Level: " + Level + Environment.NewLine;
             if (Shiny)
                 result += "Shiny: Yes" + Environment.NewLine;
 
-            result += natures[Nature] + " Nature" + Environment.NewLine;
+            if (Nature > -1)
+                result += natures[Nature] + " Nature" + Environment.NewLine;
             // Add in Moves
             string[] MoveLines = new string[Moves.Length];
             int movectr = 0;
