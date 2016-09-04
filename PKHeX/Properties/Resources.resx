@@ -6411,6 +6411,7 @@
   </data>
   <data name="text_ItemsG2_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\text\gen3\text_itemsg2_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="_172_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\172_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
