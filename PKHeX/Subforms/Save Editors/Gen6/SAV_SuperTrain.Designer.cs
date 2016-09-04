@@ -207,6 +207,8 @@
             // CB_Species
             // 
             this.CB_Species.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Species.FormattingEnabled = true;
             this.CB_Species.Location = new System.Drawing.Point(176, 38);
             this.CB_Species.Name = "CB_Species";

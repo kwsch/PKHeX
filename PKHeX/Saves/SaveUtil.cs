@@ -8,6 +8,9 @@ namespace PKHeX
 {
     public enum GameVersion
     {
+        /* I don't want to assign Gen I/II... */
+        GS = -4,
+        C = -3,
         Invalid = -2,
         Any = -1,
         Unknown = 0,
@@ -45,6 +48,11 @@ namespace PKHeX
         internal const int SIZE_G4RAW = 0x80000;
         internal const int SIZE_G3RAW = 0x20000;
         internal const int SIZE_G3RAWHALF = 0x10000;
+        internal const int SIZE_G2RAW_U = 0x8000;
+        internal const int SIZE_G2BAT_U = 0x802C;
+        internal const int SIZE_G2EMU = 0x8030;
+        internal const int SIZE_G2RAW_J = 0x10000;
+        internal const int SIZE_G2BAT_J = 0x1002C;
         internal const int SIZE_G1RAW = 0x8000;
         internal const int SIZE_G1BAT = 0x802C;
 
@@ -57,6 +65,8 @@ namespace PKHeX
         {
             if (getIsG1SAV(data) != GameVersion.Invalid)
                 return 1;
+            if (getIsG2SAV(data) != GameVersion.Invalid)
+                return 2;
             if (getIsG3SAV(data) != GameVersion.Invalid)
                 return 3;
             if (getIsG4SAV(data) != GameVersion.Invalid)
@@ -107,6 +117,71 @@ namespace PKHeX
                     return false;
             }
             return true;
+        }
+        /// <summary>Determines the type of 2nd gen save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG2SAV(byte[] data)
+        {
+            if (data.Length != SIZE_G2RAW_U && data.Length != SIZE_G2BAT_U && data.Length != SIZE_G2RAW_J && data.Length != SIZE_G2BAT_J && data.Length != SIZE_G2EMU)
+                return GameVersion.Invalid;
+
+            // Check if it's not an american save or a japanese save
+            if (getIsG2SAVU(data) != GameVersion.Invalid)
+                return getIsG2SAVU(data);
+            if (getIsG2SAVJ(data) != GameVersion.Invalid)
+                return getIsG2SAVJ(data);
+            return GameVersion.Invalid;
+        }
+        /// <summary>Determines if 2nd gen save is non-japanese</summary>
+        /// <param name="data">Save data of which to determine the region</param>
+        /// <returns>True if a valid non-japanese save, False otherwise.</returns>
+        public static GameVersion getIsG2SAVU(byte[] data)
+        {
+            bool gs = true;
+            bool c = true;
+            foreach (int ofs in new[] { 0x288A, 0x2D6C })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
+                    gs = false;
+            }
+            foreach (int ofs in new[] { 0x2865, 0x2D10 })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
+                    c = false;
+            }
+            if (gs)
+                return GameVersion.GS;
+            if (c)
+                return GameVersion.C;
+            return GameVersion.Invalid;
+        }
+        /// <summary>Determines if 2nd gen save is japanese</summary>
+        /// <param name="data">Save data of which to determine the region</param>
+        /// <returns>True if a valid japanese save, False otherwise.</returns>
+        public static GameVersion getIsG2SAVJ(byte[] data)
+        {
+            bool gs = true;
+            bool c = true;
+            foreach (int ofs in new[] { 0x283E, 0x2D10 })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 30 || data[ofs + 1 + num_entries] != 0xFF)
+                    gs = false;
+            }
+            foreach (int ofs in new[] { 0x281A, 0x2D10 })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 30 || data[ofs + 1 + num_entries] != 0xFF)
+                    c = false;
+            }
+            if (gs)
+                return GameVersion.GS;
+            if (c)
+                return GameVersion.C;
+            return GameVersion.Invalid;
         }
         /// <summary>Determines the type of 3th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -218,6 +293,10 @@ namespace PKHeX
                 case GameVersion.RBY:
                     return GameVersion.RBY;
 
+                case GameVersion.GS:
+                case GameVersion.C:
+                    return GameVersion.GSC;
+
                 case GameVersion.R:
                 case GameVersion.S:
                     return GameVersion.RS;
@@ -270,6 +349,8 @@ namespace PKHeX
             {
                 case 1:
                     return new SAV1(data);
+                case 2:
+                    return new SAV2(data);
                 case 3:
                     return new SAV3(data);
                 case 4:

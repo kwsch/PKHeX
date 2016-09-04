@@ -134,11 +134,13 @@ namespace PKHeX
 
         private void B_All_Click(object sender, EventArgs e)
         {
+            if (CHK_SecretUnlocked.Checked) // only give dist if Secret is Unlocked (None -> All -> All*)
+                foreach (var c in TLP_DistSuperTrain.Controls.OfType<CheckBox>())
+                    c.Checked = true;
+            
             CHK_SecretUnlocked.Checked = true;
             CHK_SecretComplete.Checked = true;
             foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>())
-                c.Checked = true;
-            foreach (var c in TLP_DistSuperTrain.Controls.OfType<CheckBox>())
                 c.Checked = true;
         }
         private void B_None_Click(object sender, EventArgs e)

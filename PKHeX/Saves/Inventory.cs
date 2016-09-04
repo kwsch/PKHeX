@@ -67,22 +67,56 @@ namespace PKHeX
         public void getPouchG1(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
-            int numStored = Data[Offset];
-            for (int i = 0; i < numStored; i++)
+            if (Type == InventoryType.TMHMs)
             {
-                items[i] = new InventoryItem
+                int slot = 0;
+                for (int i = 0; i < items.Length; i++)
                 {
-                    Index = Data[Offset + i * 2 + 1],
-                    Count = Data[Offset + i * 2 + 2]
-                };
+                    if (Data[Offset + i] != 0)
+                        items[slot++] = new InventoryItem
+                        {
+                            Index = LegalItems[i],
+                            Count = Data[Offset+i]
+                        };
+                }
+                while (slot < items.Length)
+                    items[slot++] = new InventoryItem
+                    {
+                        Index = 0,
+                        Count = 0
+                    };
             }
-            for (int i = numStored; i < items.Length; i++)
+            else
             {
-                items[i] = new InventoryItem
+                int numStored = Data[Offset];
+                for (int i = 0; i < numStored; i++)
                 {
-                    Index = 0,
-                    Count = 0
-                };
+                    switch (Type)
+                    {
+                        case InventoryType.KeyItems:
+                            items[i] = new InventoryItem
+                            {
+                                Index = Data[Offset + i + 1],
+                                Count = 1
+                            };
+                            break;
+                        default:
+                            items[i] = new InventoryItem
+                            {
+                                Index = Data[Offset + i * 2 + 1],
+                                Count = Data[Offset + i * 2 + 2]
+                            };
+                            break;
+                    }
+                }
+                for (int i = numStored; i < items.Length; i++)
+                {
+                    items[i] = new InventoryItem
+                    {
+                        Index = 0,
+                        Count = 0
+                    };
+                }
             }
             Items = items;
 
@@ -92,14 +126,33 @@ namespace PKHeX
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
-
-            for (int i = 0; i < Items.Length; i++)
+            if (Type == InventoryType.TMHMs)
             {
-                Data[Offset + i * 2 + 1] = (byte)Items[i].Index;
-                Data[Offset + i * 2 + 2] = (byte)Items[i].Count;
+                for (int i = 0; i < Items.Length; i++)
+                {
+                    if (LegalItems.Any(it => it == Items[i].Index))
+                        Data[Offset + Array.FindIndex(LegalItems, it => Items[i].Index == it)] = (byte) Items[i].Count;
+                }
             }
-            Data[Offset] = (byte) Count;
-            Data[Offset + 1 + 2*Count] = 0xFF;
+            else if (Type == InventoryType.KeyItems)
+            {
+                for (int i = 0; i < Items.Length; i++)
+                {
+                    Data[Offset + i + 1] = (byte)Items[i].Index;
+                }
+                Data[Offset] = (byte)Count;
+                Data[Offset + 1 + Count] = 0xFF;
+            }
+            else
+            {
+                for (int i = 0; i < Items.Length; i++)
+                {
+                    Data[Offset + i * 2 + 1] = (byte)Items[i].Index;
+                    Data[Offset + i * 2 + 2] = (byte)Items[i].Count;
+                }
+                Data[Offset] = (byte)Count;
+                Data[Offset + 1 + 2 * Count] = 0xFF;
+            }
         }
     }
 }
