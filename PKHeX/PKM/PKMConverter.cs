@@ -100,43 +100,32 @@ namespace PKHeX
         }
         internal static PKM convertToFormat(PKM pk, int Format, out string comment)
         {
-            string currentFormat = pk.Format.ToString();
-            PKM pkm = pk.Clone();
-
-            if (pk == null)
+            if (pk == null || pk.Species == 0)
             {
                 comment = "Null input. Aborting.";
                 return null;
             }
+
+            string currentFormat = pk.Format.ToString();
+            PKM pkm = pk.Clone();
+
             if (pk.Format == Format)
             {
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
             }
-            if (pk.Format != Format && pk.Format <= 2 && Format <= 2)
+            if (pk.Format <= 2 && Format <= 2) // 1<->2, already checked not equal
             {
-                if (Format == 2) // pk.Format == 1
+                switch (Format)
                 {
-                    pkm = ((PK1) pk).convertToPK2();
-                }
-                if (Format == 1) // pk.Format == 2
-                {
-                    // Only convert if it's legal to do so.
-                    if (1 <= pk.Species && pk.Species <= 151)
-                    {
-                        foreach (var move in new[] { pk.Move1, pk.Move2, pk.Move3, pk.Move4})
-                            if (move < 1 || move > 165)
-                            {
-                                comment = $"Pokemon cannot be converted due to invalid move: {Main.movelist[move]}";
-                                return null;
-                            }
-                        pkm = ((PK2) pk).convertToPK1();
-                    }
-                    else
-                    {
-                        comment =$"Cannot convert a {PKX.getSpeciesName(pk.Species, ((PK2)pk).Japanese ? 1 : 2)} to pk{Format}";
-                        return null;
-                    }
+                    case 1:
+                        if (pk.Species > 151)
+                        { comment = $"Cannot convert a {PKX.getSpeciesName(pk.Species, ((PK2)pk).Japanese ? 1 : 2)} to pk{Format}"; return null; }
+                        pkm = ((PK2)pk).convertToPK1();
+                        break;
+                    case 2:
+                        pkm = ((PK1)pk).convertToPK2();
+                        break;
                 }
                 comment = $"Converted from pk{pk.Format} to pk{Format}";
                 return pkm;
