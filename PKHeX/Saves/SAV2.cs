@@ -35,17 +35,17 @@ namespace PKHeX
             switch (Version)
             {
                 case GameVersion.GS:
-                    DaylightSavingsOffset = Japanese ? -1 : 0x2042;
-                    TimePlayedOffset = Japanese ? -1 : 0x2053;
-                    PaletteOffset = Japanese ? -1 : 0x206B;
-                    MoneyOffset = Japanese ? -1 : 0x23DB;
-                    JohtoBadgesOffset = Japanese ? -1 : 0x23E4;
-                    CurrentBoxIndexOffset = Japanese ? -1 : 0x2724;
-                    BoxNamesOffset = Japanese ? -1 : 0x2727;
+                    DaylightSavingsOffset = Japanese ? 0x2029 : 0x2042;
+                    TimePlayedOffset = Japanese ? 0x2034 : 0x2053;
+                    PaletteOffset = Japanese ? 0x204C : 0x206B;
+                    MoneyOffset = Japanese ? 0x23BC : 0x23DB;
+                    JohtoBadgesOffset = Japanese ? 0x23C5 : 0x23E4;
+                    CurrentBoxIndexOffset = Japanese ? 0x2705 : 0x2724;
+                    BoxNamesOffset = Japanese ? 0x2708 : 0x2727;
                     PartyOffset = Japanese ? 0x283E : 0x288A;
-                    PokedexCaughtOffset = Japanese ? -1 : 0x2A4C;
-                    PokedexSeenOffset = Japanese ? -1 : 0x2A6C;
-                    CurrentBoxOffset = Japanese ? -1 : 0x2D6C;
+                    PokedexCaughtOffset = Japanese ? 0x29CE : 0x2A4C;
+                    PokedexSeenOffset = Japanese ? 0x29EE : 0x2A6C;
+                    CurrentBoxOffset = Japanese ? 0x2D10 : 0x2D6C;
                     GenderOffset = -1; // No gender in GSC
                     break;
                 case GameVersion.C:
@@ -188,6 +188,10 @@ namespace PKHeX
                 Array.Copy(Data, 0x2856, Data, 0x7E39, 0x288A - 0x2856);
                 Array.Copy(Data, 0x288A, Data, 0x10E8, 0x2D69 - 0x288A);
             }
+            if (Version == GameVersion.GS && Japanese)
+            {
+                Array.Copy(Data, 0x2009, Data, 0x7209, 0xC83);
+            }
             byte[] outData = new byte[Data.Length - SIZE_RESERVED];
             Array.Copy(Data, outData, outData.Length);
             return outData;
@@ -261,9 +265,16 @@ namespace PKHeX
                 BitConverter.GetBytes(accum).CopyTo(Data, 0x2D0D);
                 BitConverter.GetBytes(accum).CopyTo(Data, 0x1F0D);
             }
-            /* TODO: Find Japanese GS Checksum region */
 
-            for (int i = 0x2B83; i <= 0x2D68; i++)
+            for (int i = 0x2B83; i <= 0x2C8B; i++)
+                accum += Data[i];
+            if (Version == GameVersion.GS && Japanese)
+            {
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x2D0D);
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x7F0D);
+            }
+
+            for (int i = 0x2C8C; i <= 0x2D68; i++)
                 accum += Data[i];
             if (Version == GameVersion.GS && !Japanese)
             {
@@ -280,16 +291,19 @@ namespace PKHeX
                 for (int i = 0x2009; i <= 0x2B3A; i++)
                     accum += Data[i];
                 if (Version == GameVersion.C && Japanese)
-                    return accum == Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2D0D)); // Japanese Crystal
+                    return accum == BitConverter.ToUInt16(Data, 0x2D0D); // Japanese Crystal
 
                 for (int i = 0x2B3B; i <= 0x2B82; i++)
                     accum += Data[i];
                 if (Version == GameVersion.C && !Japanese)
                     return accum == BitConverter.ToUInt16(Data, 0x2D0D); // US Crystal
 
-                /* TODO: Find Japanese GS Checksum region */
+                for (int i = 0x2B83; i <= 0x2C8B; i++)
+                    accum += Data[i];
+                if (Version == GameVersion.GS && Japanese)
+                    return accum == BitConverter.ToUInt16(Data, 0x2D69); // Japanese Gold/Silver
 
-                for (int i = 0x2B83; i <= 0x2D68; i++)
+                for (int i = 0x2C8C; i <= 0x2D68; i++)
                     accum += Data[i];
                 if (Version == GameVersion.GS && !Japanese)
                     return accum == BitConverter.ToUInt16(Data, 0x2D69); // US Gold/Silver
@@ -311,9 +325,12 @@ namespace PKHeX
             if (Version == GameVersion.C && !Japanese)
                 return accum; // US Crystal
 
-            /* TODO: Find Japanese GS Checksum region */
+            for (int i = 0x2B83; i <= 0x2C8B; i++)
+                accum += Data[i];
+            if (Version == GameVersion.GS && Japanese)
+                return accum; // Japanese Gold/Silver
 
-            for (int i = 0x2B83; i <= 0x2D68; i++)
+            for (int i = 0x2C8C; i <= 0x2D68; i++)
                 accum += Data[i];
             if (Version == GameVersion.GS && !Japanese)
                 return accum; // US Gold/Silver
@@ -453,18 +470,18 @@ namespace PKHeX
                         new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? 0x2402 : 0x2420, 20),
                         new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, Japanese ? 0x242C : 0x244A, 26),
                         new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? 0x2447 : 0x2465, 12),
-                        new InventoryPouch(InventoryType.MailItems, LegalItems, 99, Japanese ? 0x2461 : 0x247F, 50)
+                        new InventoryPouch(InventoryType.MailItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Japanese ? 0x2461 : 0x247F, 50)
                     };
                 }
                 else
                 {
                     pouch = new[]
                     {
-                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, Japanese ? -1 : 0x23E6, 57),
-                        new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? -1 : 0x241F, 20),
-                        new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 99, Japanese ? -1 : 0x2449, 26),
-                        new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? -1 : 0x2464, 12),
-                        new InventoryPouch(InventoryType.MailItems, LegalItems, 99, Japanese ? -1 : 0x247E, 50)
+                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, Japanese ? 0x23C7 : 0x23E6, 57),
+                        new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? 0x2400 : 0x241F, 20),
+                        new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 99, Japanese ? 0x242A : 0x2449, 26),
+                        new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? 0x2445 : 0x2464, 12),
+                        new InventoryPouch(InventoryType.MailItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Japanese ? 0x245F : 0x247E, 50)
                     };
                 }
                 foreach (var p in pouch)
