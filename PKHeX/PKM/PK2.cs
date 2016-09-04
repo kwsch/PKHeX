@@ -337,6 +337,13 @@ public override int Stat_Level
             Array.Copy(otname, 0, pk1.otname, 0, otname.Length);
             Array.Copy(nick, 0, pk1.nick, 0, nick.Length);
 
+            int[] newMoves = pk1.Moves;
+            for (int i = 0; i < 4; i++)
+                if (newMoves[i] > 165) // not present in Gen 1
+                    newMoves[i] = 0;
+            pk1.Moves = newMoves;
+            pk1.FixMoves();
+
             return pk1;
         }
     }
