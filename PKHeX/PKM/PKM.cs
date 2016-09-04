@@ -447,6 +447,8 @@ namespace PKHeX
             int[] pptable;
             switch (Format)
             {
+                case 1: pptable = Legal.MovePP_RBY; break;
+                case 2: pptable = Legal.MovePP_GSC; break;
                 case 3: pptable = Legal.MovePP_RS; break;
                 case 4: pptable = Legal.MovePP_DP; break;
                 case 5: pptable = Legal.MovePP_BW; break;

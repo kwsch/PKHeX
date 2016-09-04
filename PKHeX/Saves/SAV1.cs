@@ -327,7 +327,7 @@ namespace PKHeX
             }
         }
 
-        private readonly ushort[] LegalItems = PKX.getG1LegalItems().Select(i => (ushort)i).ToArray();
+        private readonly ushort[] LegalItems = Legal.Pouch_Items_RBY;
         public override InventoryPouch[] Inventory
         {
             get
