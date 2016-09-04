@@ -2746,6 +2746,9 @@
   <ItemGroup>
     <None Include="Resources\text\gen3\text_ItemsG1_en.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\172_1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
