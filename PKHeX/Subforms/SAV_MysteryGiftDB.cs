@@ -271,10 +271,7 @@ namespace PKHeX
             var results = res.ToArray();
             if (results.Length == 0)
             {
-                if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked)
-                    Util.Alert("No data source to search!", "No results found!");
-                else
-                    Util.Alert("No results found!");
+                Util.Alert("No results found!");
             }
             setResults(new List<MysteryGift>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
@@ -299,8 +296,11 @@ namespace PKHeX
         private void FillPKXBoxes(int start)
         {
             if (Results == null)
+            {
                 for (int i = 0; i < RES_MAX; i++)
                     PKXBOXES[i].Image = null;
+                return;
+            }
             var data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
             for (int i = 0; i < data.Length; i++)
                 PKXBOXES[i].Image = SAV_Wondercard.getSprite(data[i]);

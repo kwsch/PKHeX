@@ -525,8 +525,11 @@ namespace PKHeX
         private void FillPKXBoxes(int start)
         {
             if (Results == null)
+            {
                 for (int i = 0; i < RES_MAX; i++)
                     PKXBOXES[i].Image = null;
+                return;
+            }
             PKM[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
             for (int i = 0; i < data.Length; i++)
                 PKXBOXES[i].Image = data[i].Sprite;
