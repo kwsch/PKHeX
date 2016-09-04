@@ -173,7 +173,7 @@ namespace PKHeX
         public override int MaxIV => 15;
         public override int Generation => 1;
         protected override int GiftCountMax => 0;
-        public override int OTLength => Japanese ? 5 : 10;
+        public override int OTLength => Japanese ? 5 : 7;
         public override int NickLength => Japanese ? 5 : 10;
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
