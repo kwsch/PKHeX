@@ -42,6 +42,9 @@ namespace PKHeX
                 pb.DragEnter += pbBoxSlot_DragEnter;
                 pb.QueryContinueDrag += pbBoxSlot_QueryContinueDrag;
             }
+            for (int i = SAV.BoxSlotCount; i < SlotPictureBoxes.Length; i++)
+                SlotPictureBoxes[i].Visible = false;
+
             try
             {
                 CB_BoxSelect.Items.Clear();
@@ -87,7 +90,7 @@ namespace PKHeX
             int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
             PAN_Box.BackgroundImage = BoxWallpaper.getWallpaper(SAV, boxbgval);
 
-            for (int i = 0; i < SlotPictureBoxes.Length; i++)
+            for (int i = 0; i < SAV.BoxSlotCount; i++)
                 getSlotFiller(boxoffset + SAV.SIZE_STORED*i, SlotPictureBoxes[i]);
         }
         private void getSlotFiller(int offset, PictureBox pb)
