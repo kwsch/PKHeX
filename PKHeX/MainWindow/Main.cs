@@ -912,10 +912,10 @@ namespace PKHeX
             CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation > 1;
 
 
-            if (1 <= sav.Generation && sav.Generation <= 2)
+            if (sav.Generation == 1)
             {
                 Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = false;
-                Label_SPA.Text = "Spc";
+                Label_SPA.Text = "Spc:";
                 TB_HPIV.ReadOnly = true;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
@@ -928,10 +928,28 @@ namespace PKHeX
                     ctrl.Location = new Point(173, ctrl.Location.Y);
                 Label_Stats.Location = new Point(168, Label_Stats.Location.Y);
             }
+            else if (sav.Generation == 2)
+            {
+                Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = true;
+                Label_SPA.Text = "SpA:";
+                TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = true;
+                TB_HPIV.ReadOnly = true;
+                MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
+                foreach (var ctrl in evControls)
+                {
+                    ctrl.Mask = "00000";
+                    ctrl.Size = new Size(37, 20);
+                }
+                Control[] statControls = { Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE };
+                foreach (Control ctrl in statControls)
+                    ctrl.Location = new Point(173, ctrl.Location.Y);
+                Label_Stats.Location = new Point(168, Label_Stats.Location.Y);
+            }
             else
             {
                 Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = true;
-                Label_SPA.Text = "SpA";
+                Label_SPA.Text = "SpA:";
+                TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = false;
                 TB_HPIV.ReadOnly = false;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
@@ -1738,6 +1756,7 @@ namespace PKHeX
             if (SAV.Generation < 3)
             {
                 TB_HPIV.Text = pkm.IV_HP.ToString("00");
+                TB_SPDIV.Text = TB_SPAIV.Text;
                 if (SAV.Generation == 2)
                 {
                     Label_Gender.Text = gendersymbols[pkm.Gender];
@@ -1783,6 +1802,9 @@ namespace PKHeX
             else if (sender == TB_SPEEV) pkm.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
             else if (sender == TB_SPAEV) pkm.EV_SPA = Util.ToInt32(TB_SPAEV.Text);
             else if (sender == TB_SPDEV) pkm.EV_SPD = Util.ToInt32(TB_SPDEV.Text);
+
+            if (SAV.Generation < 3)
+                TB_SPDEV.Text = TB_SPAEV.Text;
 
             int evtotal = pkm.EVs.Sum();
 
