@@ -20,6 +20,7 @@ namespace PKHeX
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public bool Japanese { protected get; set; }
+        public string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes}ː{PlayedSeconds}"; // not :
 
         public bool GetJapanese => Japanese;
 
