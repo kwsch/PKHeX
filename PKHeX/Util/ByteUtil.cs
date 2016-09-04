@@ -30,7 +30,7 @@
         /// </summary>
         /// <param name="val">Value to swap endianness of.</param>
         /// <returns>The endianness-swapped value.</returns>
-        internal static int SwapEndianness(short val)
+        internal static short SwapEndianness(short val)
         {
             return (short)SwapEndianness((ushort)val);
         }

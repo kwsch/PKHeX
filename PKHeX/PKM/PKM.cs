@@ -226,7 +226,7 @@ namespace PKHeX
         public abstract int CurrentHandler { get; set; }
 
         // Derived
-        public bool IsShiny => TSV == PSV;
+        public virtual bool IsShiny => TSV == PSV;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
@@ -335,7 +335,7 @@ namespace PKHeX
             get { return new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen }; }
             set { if (value?.Length != 6) return; CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2]; CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5]; }
         }
-        public int HPType
+        public virtual int HPType
         {
             get { return 15 * ((IV_HP & 1) + 2 * (IV_ATK & 1) + 4 * (IV_DEF & 1) + 8 * (IV_SPE & 1) + 16 * (IV_SPA & 1) + 32 * (IV_SPD & 1)) / 63; }
             set
