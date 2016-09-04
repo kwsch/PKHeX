@@ -55,7 +55,7 @@ namespace PKHeX
         public override int EXPGrowth { get { return Data[0x16]; } set { Data[0x16] = (byte)value; } }
         public override int[] EggGroups
         {
-            get { return new int[] { Data[0x17] >> 4, Data[0x17] & 0xF }; }
+            get { return new[] { Data[0x17] >> 4, Data[0x17] & 0xF }; }
             set
             {
                 if (value?.Length != 2) return;

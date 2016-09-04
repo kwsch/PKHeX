@@ -59,7 +59,6 @@ namespace PKHeX
             {
                 SAV2 sav2 = (SAV2)SAV;
                 MT_Coins.Text = sav2.Coin.ToString();
-                badgeval = sav2.Badges;
 
                 L_Started.Visible = L_Fame.Visible = false;
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;

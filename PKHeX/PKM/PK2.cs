@@ -30,11 +30,7 @@ namespace PKHeX
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
-            int strLen = STRLEN_U;
-            if (jp)
-            {
-                strLen = STRLEN_J;
-            }
+            int strLen = jp ? STRLEN_J : STRLEN_U;
             otname = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
             nick = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
 
@@ -107,8 +103,7 @@ namespace PKHeX
             get
             {
                 string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-                return
-                    !nick.SequenceEqual(
+                return !nick.SequenceEqual(
                         PKX.setG1Str(spName, Japanese)
                             .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1)));
             }
@@ -332,14 +327,14 @@ public override int Stat_Level
         #endregion
     }
 
-    class PokemonList2
+    public class PokemonList2
     {
-        internal const int CAPACITY_DAYCARE = 1;
-        internal const int CAPACITY_PARTY = 6;
-        internal const int CAPACITY_STORED = 20;
-        internal const int CAPACITY_STORED_JP = 30;
+        private const int CAPACITY_DAYCARE = 1;
+        private const int CAPACITY_PARTY = 6;
+        private const int CAPACITY_STORED = 20;
+        private const int CAPACITY_STORED_JP = 30;
 
-        private bool Japanese;
+        private readonly bool Japanese;
 
         private int StringLength => Japanese ? PK2.STRLEN_J : PK2.STRLEN_U;
 
@@ -387,10 +382,13 @@ public override int Stat_Level
             {
                 int base_ofs = 2 + Capacity;
                 byte[] dat = Data.Skip(base_ofs + Entry_Size * i).Take(Entry_Size).ToArray();
-                Pokemon[i] = new PK2(dat, null, jp);
-                Pokemon[i].IsEgg = Data[1 + i] == 0xFD;
-                Pokemon[i].otname = Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * i).Take(StringLength).ToArray();
-                Pokemon[i].nick = Data.Skip(base_ofs + Capacity * Entry_Size + StringLength * Capacity + StringLength * i).Take(StringLength).ToArray();
+                Pokemon[i] = new PK2(dat, null, jp)
+                {
+                    IsEgg = Data[1 + i] == 0xFD,
+                    otname = Data.Skip(base_ofs + Capacity*Entry_Size + StringLength*i).Take(StringLength).ToArray(),
+                    nick = Data.Skip(base_ofs + Capacity*Entry_Size + StringLength*Capacity + StringLength*i)
+                            .Take(StringLength).ToArray()
+                };
             }
         }
 
@@ -417,11 +415,6 @@ public override int Stat_Level
             set { Data[0] = value > Capacity ? Capacity : value; }
         }
 
-        public int GetCapacity()
-        {
-            return Capacity;
-        }
-
         public readonly PK2[] Pokemon;
 
         public PK2 this[int i]
@@ -434,14 +427,14 @@ public override int Stat_Level
             set
             {
                 if (value == null) return;
-                Pokemon[i] = (PK2)(((PK2)value).Clone());
+                Pokemon[i] = (PK2)value.Clone();
             }
         }
 
         private void Update()
         {
-            if (Pokemon.Any(pk => (pk.Species == 0)))
-                Count = (byte)Array.FindIndex(Pokemon, pk => (pk.Species == 0));
+            if (Pokemon.Any(pk => pk.Species == 0))
+                Count = (byte)Array.FindIndex(Pokemon, pk => pk.Species == 0);
             else
                 Count = Capacity;
             for (int i = 0; i < Count; i++)

@@ -26,43 +26,11 @@ namespace PKHeX
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = getPartyOffset(0);
-
-
+            
             Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
 
-            OptionsOffset = 0x2000;
-            Trainer1 = 0x2009;
-            switch (Version)
-            {
-                case GameVersion.GS:
-                    DaylightSavingsOffset = Japanese ? 0x2029 : 0x2042;
-                    TimePlayedOffset = Japanese ? 0x2034 : 0x2053;
-                    PaletteOffset = Japanese ? 0x204C : 0x206B;
-                    MoneyOffset = Japanese ? 0x23BC : 0x23DB;
-                    JohtoBadgesOffset = Japanese ? 0x23C5 : 0x23E4;
-                    CurrentBoxIndexOffset = Japanese ? 0x2705 : 0x2724;
-                    BoxNamesOffset = Japanese ? 0x2708 : 0x2727;
-                    PartyOffset = Japanese ? 0x283E : 0x288A;
-                    PokedexCaughtOffset = Japanese ? 0x29CE : 0x2A4C;
-                    PokedexSeenOffset = Japanese ? 0x29EE : 0x2A6C;
-                    CurrentBoxOffset = Japanese ? 0x2D10 : 0x2D6C;
-                    GenderOffset = -1; // No gender in GSC
-                    break;
-                case GameVersion.C:
-                    DaylightSavingsOffset = Japanese ? 0x2029 : 0x2042;
-                    TimePlayedOffset = Japanese ? 0x2034 : 0x2052;
-                    PaletteOffset = Japanese ? 0x204C : 0x206A;
-                    MoneyOffset = Japanese ? 0x23BE : 0x23DC;
-                    JohtoBadgesOffset = Japanese ? 0x23C7 : 0x23E5;
-                    CurrentBoxIndexOffset = Japanese ? 0x26E2 : 0x2700;
-                    BoxNamesOffset = Japanese ? 0x26E5 : 0x2703;
-                    PartyOffset = Japanese ? 0x281A : 0x2865;
-                    PokedexCaughtOffset = Japanese ? 0x29AA : 0x2A27;
-                    PokedexSeenOffset = Japanese ? 0x29CA : 0x2A47;
-                    CurrentBoxOffset = 0x2D10;
-                    GenderOffset = Japanese ? 0x8000 : 0x3E3D;
-                    break;
-            }
+            getSAVOffsets();
+
             LegalItems = new ushort[] { 3, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 51, 52, 53, 57, 60, 62, 63, 64, 65, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 117, 118, 119, 121, 122, 123, 124, 125, 126, 131, 132, 138, 139, 140, 143, 144, 146, 150, 151, 152, 156, 158, 163, 168, 169, 170, 172, 173, 174, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189 };
             LegalBalls = new ushort[] { 1, 2, 4, 5, 157, 159, 160, 161, 164, 165, 166, 167};
             LegalKeyItems = new ushort[] {7, 54, 55, 58, 59, 61, 66, 67, 68 , 69, 71, 127, 128, 130, 133, 134, 175, 178};
@@ -197,6 +165,42 @@ namespace PKHeX
             return outData;
         }
 
+        private void getSAVOffsets()
+        {
+            OptionsOffset = 0x2000;
+            Trainer1 = 0x2009;
+            switch (Version)
+            {
+                case GameVersion.GS:
+                    DaylightSavingsOffset = Japanese ? 0x2029 : 0x2042;
+                    TimePlayedOffset = Japanese ? 0x2034 : 0x2053;
+                    PaletteOffset = Japanese ? 0x204C : 0x206B;
+                    MoneyOffset = Japanese ? 0x23BC : 0x23DB;
+                    JohtoBadgesOffset = Japanese ? 0x23C5 : 0x23E4;
+                    CurrentBoxIndexOffset = Japanese ? 0x2705 : 0x2724;
+                    BoxNamesOffset = Japanese ? 0x2708 : 0x2727;
+                    PartyOffset = Japanese ? 0x283E : 0x288A;
+                    PokedexCaughtOffset = Japanese ? 0x29CE : 0x2A4C;
+                    PokedexSeenOffset = Japanese ? 0x29EE : 0x2A6C;
+                    CurrentBoxOffset = Japanese ? 0x2D10 : 0x2D6C;
+                    GenderOffset = -1; // No gender in GSC
+                    break;
+                case GameVersion.C:
+                    DaylightSavingsOffset = Japanese ? 0x2029 : 0x2042;
+                    TimePlayedOffset = Japanese ? 0x2034 : 0x2052;
+                    PaletteOffset = Japanese ? 0x204C : 0x206A;
+                    MoneyOffset = Japanese ? 0x23BE : 0x23DC;
+                    JohtoBadgesOffset = Japanese ? 0x23C7 : 0x23E5;
+                    CurrentBoxIndexOffset = Japanese ? 0x26E2 : 0x2700;
+                    BoxNamesOffset = Japanese ? 0x26E5 : 0x2703;
+                    PartyOffset = Japanese ? 0x281A : 0x2865;
+                    PokedexCaughtOffset = Japanese ? 0x29AA : 0x2A27;
+                    PokedexSeenOffset = Japanese ? 0x29CA : 0x2A47;
+                    CurrentBoxOffset = 0x2D10;
+                    GenderOffset = Japanese ? 0x8000 : 0x3E3D;
+                    break;
+            }
+        }
 
         // Configuration
         public override SaveFile Clone() { return new SAV2(Data.Take(Data.Length - SIZE_RESERVED).ToArray()); }
@@ -232,19 +236,19 @@ namespace PKHeX
 
 
         // Offsets
-        protected int OptionsOffset { get; set; } = int.MinValue;
-        protected int DaylightSavingsOffset { get; set; } = int.MinValue;
-        protected int TimePlayedOffset { get; set; } = int.MinValue;
-        protected int PaletteOffset { get; set; } = int.MinValue;
-        protected int MoneyOffset { get; set; } = int.MinValue;
-        protected int JohtoBadgesOffset { get; set; } = int.MinValue;
-        protected int CurrentBoxIndexOffset { get; set; } = int.MinValue;
-        protected int BoxNamesOffset { get; set; } = int.MinValue;
-        protected int PartyOffset { get; set; } = int.MinValue;
-        protected int PokedexSeenOffset { get; set; } = int.MinValue;
-        protected int PokedexCaughtOffset { get; set; } = int.MinValue;
-        protected int CurrentBoxOffset { get; set; } = int.MinValue;
-        protected int GenderOffset { get; set; } = int.MinValue;
+        private int OptionsOffset { get; set; } = int.MinValue;
+        private int DaylightSavingsOffset { get; set; } = int.MinValue;
+        private int TimePlayedOffset { get; set; } = int.MinValue;
+        private int PaletteOffset { get; set; } = int.MinValue;
+        private int MoneyOffset { get; set; } = int.MinValue;
+        private int JohtoBadgesOffset { get; set; } = int.MinValue;
+        private int CurrentBoxIndexOffset { get; set; } = int.MinValue;
+        private int BoxNamesOffset { get; set; } = int.MinValue;
+        private int PartyOffset { get; set; } = int.MinValue;
+        private int PokedexSeenOffset { get; set; } = int.MinValue;
+        private int PokedexCaughtOffset { get; set; } = int.MinValue;
+        private int CurrentBoxOffset { get; set; } = int.MinValue;
+        private int GenderOffset { get; set; } = int.MinValue;
 
         // Checksums
         protected override void setChecksums()
@@ -337,7 +341,7 @@ namespace PKHeX
 
             return 0;
         }
-        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : string.Format("Checksum invalid ({0} != {1})", Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2D0D)).ToString("X4"), getChecksum().ToString("X4"));
+        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
 
         // Trainer Info
         public override GameVersion Version { get; protected set; }

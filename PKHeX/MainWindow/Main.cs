@@ -2936,12 +2936,6 @@ namespace PKHeX
             else
                 SystemSounds.Exclamation.Play();
         }
-
-        private void validateComboBox(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
-
         private void clickSet(object sender, EventArgs e)
         {
             if (!verifiedPKM()) return;
