@@ -963,6 +963,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _172_1 {
+            get {
+                object obj = ResourceManager.GetObject("_172_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _173 {
             get {
                 object obj = ResourceManager.GetObject("_173", resourceCulture);
@@ -15498,6 +15508,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_c {
+            get {
+                object obj = ResourceManager.GetObject("personal_c", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_dp {
             get {
                 object obj = ResourceManager.GetObject("personal_dp", resourceCulture);
@@ -15521,6 +15541,16 @@ namespace PKHeX.Properties {
         internal static byte[] personal_fr {
             get {
                 object obj = ResourceManager.GetObject("personal_fr", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] personal_gs {
+            get {
+                object obj = ResourceManager.GetObject("personal_gs", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -25206,6 +25236,60 @@ namespace PKHeX.Properties {
         internal static string text_ItemsG1_en {
             get {
                 return ResourceManager.GetString("text_ItemsG1_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (None)
+        ///Master Ball
+        ///Ultra Ball
+        ///BrightPowder
+        ///Great Ball
+        ///Poké Ball
+        ///Teru-sama (0)
+        ///Bicycle
+        ///Moon Stone
+        ///Antidote
+        ///Burn Heal
+        ///Ice Heal
+        ///Awakening
+        ///Parlyz Heal
+        ///Full Restore
+        ///Max Potion
+        ///Hyper Potion
+        ///Super Potion
+        ///Potion
+        ///Escape Rope
+        ///Repel
+        ///Max Elixer
+        ///Fire Stone
+        ///Thunder Stone
+        ///Water Stone
+        ///Teru-sama (1)
+        ///HP Up
+        ///Protein
+        ///Iron
+        ///Carbos
+        ///Lucky Punch
+        ///Calcium
+        ///Rare Candy
+        ///X Accuracy
+        ///Leaf Stone
+        ///Metal Powder
+        ///Nugget
+        ///Poké Doll
+        ///Full Heal
+        ///Revive
+        ///Max Revive
+        ///Guard Spec.
+        ///Super Repel
+        ///Max Repel
+        ///Dire Hit
+        ///Ter [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG2_en {
+            get {
+                return ResourceManager.GetString("text_ItemsG2_en", resourceCulture);
             }
         }
         

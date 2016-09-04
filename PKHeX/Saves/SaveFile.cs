@@ -63,6 +63,8 @@ namespace PKHeX
         public bool RS => Version == GameVersion.RS;
         public bool RBY => Version == GameVersion.RBY;
 
+        public bool GSC => Version == GameVersion.GS || Version == GameVersion.C;
+
         public virtual int MaxMoveID => int.MaxValue;
         public virtual int MaxSpeciesID => int.MaxValue;
         public virtual int MaxAbilityID => int.MaxValue;

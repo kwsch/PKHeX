@@ -55,6 +55,28 @@ namespace PKHeX
                 CB_TextSpeed.SelectedIndex = sav1.TextSpeed;
             }
 
+            if (SAV is SAV2)
+            {
+                SAV2 sav2 = (SAV2)SAV;
+                MT_Coins.Text = sav2.Coin.ToString();
+
+                L_Started.Visible = L_Fame.Visible = false;
+                CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
+                CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
+                GB_Map.Visible = false;
+                GB_Options.Visible = true;
+                CB_BattleStyle.Items.AddRange(new[] { "Switch", "Set" });
+                CB_SoundType.Items.AddRange(new[] { "Mono", "Stereo" });
+                CB_TextSpeed.Items.AddRange(new[] { "0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7" });
+
+                CHK_BattleEffects.Checked = sav2.BattleEffects;
+                CB_BattleStyle.SelectedIndex = sav2.BattleStyleSwitch ? 0 : 1;
+                CB_SoundType.SelectedIndex = sav2.Sound > 0 ? 1 : 0;
+                CB_TextSpeed.SelectedIndex = sav2.TextSpeed;
+                badgeval = sav2.Badges;
+                cba = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_6, CHK_5, CHK_7, CHK_8, CHK_H1, CHK_H2, CHK_H3, CHK_H4, CHK_H5, CHK_H6, CHK_H7, CHK_H8 };
+            }
+
             if (SAV is SAV3)
             {
                 GB_Map.Visible = false;
@@ -141,6 +163,18 @@ namespace PKHeX
                 sav1.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
                 sav1.Sound = CB_SoundType.SelectedIndex;
                 sav1.TextSpeed = CB_TextSpeed.SelectedIndex;
+            }
+
+            if (SAV is SAV2)
+            {
+                SAV2 sav2 = (SAV2)SAV;
+                sav2.Coin = (ushort)Util.ToUInt32(MT_Coins.Text);
+                sav2.Badges = badgeval & 0xFFFF;
+
+                sav2.BattleEffects = CHK_BattleEffects.Checked;
+                sav2.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
+                sav2.Sound = CB_SoundType.SelectedIndex > 0 ? 2 : 0;
+                sav2.TextSpeed = CB_TextSpeed.SelectedIndex;
             }
 
             if (SAV is SAV4)
