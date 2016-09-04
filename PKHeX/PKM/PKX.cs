@@ -1968,7 +1968,17 @@ namespace PKHeX
             {"ー", 0xE3},
             {"ァ", 0xE9},
             {"♂", 0xEF},
-            {"♀", 0xF5}
+            {"♀", 0xF5},
+            {"0", 0xF6},
+            {"1", 0xF7},
+            {"2", 0xF8},
+            {"3", 0xF9},
+            {"4", 0xFA},
+            {"5", 0xFB},
+            {"6", 0xFC},
+            {"7", 0xFD},
+            {"8", 0xFE},
+            {"9", 0xFF}
         };
 
         static Dictionary<byte, string> RBY2U_J => new Dictionary<byte, string> {
@@ -2124,7 +2134,17 @@ namespace PKHeX
             {0xE3, "ー"},
             {0xE9, "ァ"},
             {0xEF, "♂"},
-            {0xF5, "♀"}
+            {0xF5, "♀"},
+            {0xF6, "0"},
+            {0xF7, "1"},
+            {0xF8, "2"},
+            {0xF9, "3"},
+            {0xFA, "4"},
+            {0xFB, "5"},
+            {0xFC, "6"},
+            {0xFD, "7"},
+            {0xFE, "8"},
+            {0xFF, "9"}
         };
         #endregion
 

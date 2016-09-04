@@ -870,25 +870,36 @@ namespace PKHeX
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
             CB_Ability.Visible = !DEV_Ability.Enabled && SAV.Generation >= 3;
 
-            GB_ExtraBytes.Visible = SAV.Generation > 1;
+            GB_ExtraBytes.Visible = SAV.Generation > 2;
             GB_Markings.Visible = SAV.Generation > 2;
 
             Label_HeldItem.Visible = CB_HeldItem.Visible = SAV.Generation > 1;
             Label_Total.Visible = TB_IVTotal.Visible = TB_EVTotal.Visible = L_Potential.Visible = SAV.Generation > 2;
             Label_HiddenPowerPrefix.Visible = CB_HPType.Visible = SAV.Generation > 1;
-            CB_HPType.Enabled = SAV.Generation > 2;
+            CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation > 2;
             Label_CharacteristicPrefix.Visible = L_Characteristic.Visible = SAV.Generation > 2;
             Label_ContestStats.Visible = Label_Cool.Visible = Label_Tough.Visible = Label_Smart.Visible =
                 Label_Sheen.Visible = Label_Beauty.Visible = Label_Cute.Visible = TB_Cool.Visible = TB_Tough.Visible =
                     TB_Smart.Visible = TB_Sheen.Visible = TB_Beauty.Visible = TB_Cute.Visible = Label_Nature.Visible =
                     CB_Nature.Visible = Label_Language.Visible = CB_Language.Visible = Label_Ability.Visible = 
-                    Label_Friendship.Visible = Label_HatchCounter.Visible = TB_Friendship.Visible = BTN_RerollPID.Visible = 
-                    Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
+                    BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
 
+            Label_Friendship.Visible = Label_HatchCounter.Visible = TB_Friendship.Visible = SAV.Generation >= 2;
             // Met Tab
-            CHK_Fateful.Visible = Label_OriginGame.Visible = Label_Ball.Visible = Label_MetLevel.Visible =
-            CB_MetLocation.Visible = Label_MetLocation.Visible = SAV.Generation > 2 || (SAV.Version == GameVersion.GSC);
-            CB_GameOrigin.Visible = CB_Ball.Visible = TB_MetLevel.Visible = SAV.Generation > 2;
+            CHK_Fateful.Visible = Label_OriginGame.Visible = Label_Ball.Visible = 
+            CB_Ball.Visible = CB_GameOrigin.Visible = SAV.Generation > 2;
+            Label_MetLocation.Visible = CB_MetLocation.Visible = Label_MetLevel.Visible  = TB_MetLevel.Visible = Label_OTGender.Visible = 
+                SAV.Generation > 1;
+
+            L_MetTimeOfDay.Visible = CB_MetTimeOfDay.Visible = SAV.Generation == 2;
+
+            if (SAV.Generation == 2)
+            {
+                var met_list = getLocationList(SAV.Version, SAV.Generation, egg: false);
+                CB_MetLocation.DisplayMember = "Text";
+                CB_MetLocation.ValueMember = "Value";
+                CB_MetLocation.DataSource = new BindingSource(met_list, null);
+            }
 
             CHK_Infected.Visible = CHK_Cured.Visible = SAV.Generation >= 3;
 
@@ -897,7 +908,6 @@ namespace PKHeX
 
             CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation > 1;
 
-            Label_OTGender.Visible = SAV.Generation > 1;
 
             if (1 <= sav.Generation && sav.Generation <= 2)
             {
@@ -1378,6 +1388,8 @@ namespace PKHeX
 
             bool hasForms = SAV.Personal[species].HasFormes || new[] { 201, 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
+            if (SAV.Generation == 2)
+                CB_Form.Enabled = false;
 
             if (!hasForms)
                 return;
@@ -2075,6 +2087,8 @@ namespace PKHeX
             switch (Version)
             {
                 case GameVersion.GSC:
+                case GameVersion.GS:
+                case GameVersion.C:
                     if (SaveFormat == 2)
                         return metGen2;
                     break;
@@ -2890,6 +2904,12 @@ namespace PKHeX
             else
                 SystemSounds.Exclamation.Play();
         }
+
+        private void validateComboBox(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
         private void clickSet(object sender, EventArgs e)
         {
             if (!verifiedPKM()) return;

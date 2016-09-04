@@ -22,6 +22,11 @@ namespace PKHeX
             CB_HeldItem.SelectedValue = pk2.HeldItem;
             CB_Form.SelectedIndex = pk2.AltForm;
             CHK_IsEgg.Checked = pk2.IsEgg;
+            TB_Friendship.Text = pk2.CurrentFriendship.ToString();
+
+            TB_MetLevel.Text = pk2.Met_Level.ToString();
+            CB_MetLocation.SelectedValue = pk2.Met_Location;
+            CB_MetTimeOfDay.SelectedIndex = pk2.Met_TimeOfDay;
 
             // Load rest
             TB_TID.Text = pk2.TID.ToString("00000");
@@ -29,7 +34,8 @@ namespace PKHeX
             TB_Nickname.Text = pk2.Nickname;
             TB_OT.Text = pk2.OT_Name;
             GB_OT.BackgroundImage = null;
-
+            Label_OTGender.Text = gendersymbols[pk2.OT_Gender];
+            Label_OTGender.ForeColor = pk2.OT_Gender == 1 ? Color.Red : Color.Blue;
             // Reset Label and ComboBox visibility, as well as non-data checked status.
             Label_PKRS.Visible = false;
             Label_PKRSdays.Visible = false;
@@ -79,6 +85,10 @@ namespace PKHeX
             pk2.EXP = Util.ToUInt32(TB_EXP.Text);
             pk2.HeldItem = Util.getIndex(CB_HeldItem);
             pk2.IsEgg = CHK_IsEgg.Checked;
+            pk2.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
+            pk2.Met_Level = Util.ToInt32(TB_MetLevel.Text);
+            pk2.Met_Location = Util.getIndex(CB_MetLocation);
+            pk2.Met_TimeOfDay = CB_MetTimeOfDay.SelectedIndex;
 
             pk2.EV_HP = Util.ToInt32(TB_HPEV.Text);
             pk2.EV_ATK = Util.ToInt32(TB_ATKEV.Text);

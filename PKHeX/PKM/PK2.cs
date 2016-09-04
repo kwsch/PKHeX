@@ -46,6 +46,7 @@ namespace PKHeX
             PK2 new_pk2 = new PK2(Data, Identifier, Japanese);
             Array.Copy(otname, 0, new_pk2.otname, 0, otname.Length);
             Array.Copy(nick, 0, new_pk2.nick, 0, nick.Length);
+            new_pk2.IsEgg = IsEgg;
             return new_pk2;
         }
         public override string Nickname
@@ -170,10 +171,12 @@ namespace PKHeX
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
         // Crystal only Caught Data
         private int CaughtData { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x1D)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x1D); } }
-        public override int Met_Level { get { return (CaughtData >> 8) & 0x3F; } set { CaughtData = (CaughtData & 0xC0FF) | (value & 0x3F); } }
-        public override int OT_Gender { get { return (CaughtData >> 7) & 1; } set { CaughtData = (CaughtData & 0xFFEF) | (value & 1); } }
+        public int Met_TimeOfDay { get { return (CaughtData >> 14) & 0x3; } set { CaughtData = (CaughtData & 0x3FFF) | ((value & 0x3) << 14); } }
+        public override int Met_Level { get { return (CaughtData >> 8) & 0x3F; } set { CaughtData = (CaughtData & 0xC0FF) | ((value & 0x3F) << 8); } }
+        public override int OT_Gender { get { return (CaughtData >> 7) & 1; } set { CaughtData = (CaughtData & 0xFFEF) | ((value & 1) << 7); } }
         public override int Met_Location { get { return CaughtData & 0x7F; } set { CaughtData = (CaughtData & 0xFF80) | (value & 0x7F); } }
-        public override int Stat_Level
+        
+public override int Stat_Level
         {
             get { return Data[0x1F]; }
             set { Data[0x1F] = (byte)value; }

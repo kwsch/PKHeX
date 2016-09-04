@@ -363,6 +363,8 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.L_MetTimeOfDay = new System.Windows.Forms.Label();
+            this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
@@ -1042,6 +1044,8 @@
             // Tab_Met
             // 
             this.Tab_Met.AllowDrop = true;
+            this.Tab_Met.Controls.Add(this.L_MetTimeOfDay);
+            this.Tab_Met.Controls.Add(this.CB_MetTimeOfDay);
             this.Tab_Met.Controls.Add(this.CHK_AsEgg);
             this.Tab_Met.Controls.Add(this.CHK_Fateful);
             this.Tab_Met.Controls.Add(this.GB_EggConditions);
@@ -4607,6 +4611,33 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
+            // L_MetTimeOfDay
+            // 
+            this.L_MetTimeOfDay.Location = new System.Drawing.Point(25, 165);
+            this.L_MetTimeOfDay.Name = "L_MetTimeOfDay";
+            this.L_MetTimeOfDay.Size = new System.Drawing.Size(77, 13);
+            this.L_MetTimeOfDay.TabIndex = 10;
+            this.L_MetTimeOfDay.Text = "Time of Day:";
+            this.L_MetTimeOfDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_MetTimeOfDay.Visible = false;
+            // 
+            // CB_MetTimeOfDay
+            // 
+            this.CB_MetTimeOfDay.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_MetTimeOfDay.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_MetTimeOfDay.DropDownWidth = 150;
+            this.CB_MetTimeOfDay.FormattingEnabled = true;
+            this.CB_MetTimeOfDay.Items.AddRange(new object[] {
+            "(None)",
+            "Morning",
+            "Day",
+            "Night"});
+            this.CB_MetTimeOfDay.Location = new System.Drawing.Point(105, 162);
+            this.CB_MetTimeOfDay.Name = "CB_MetTimeOfDay";
+            this.CB_MetTimeOfDay.Size = new System.Drawing.Size(122, 21);
+            this.CB_MetTimeOfDay.TabIndex = 11;
+            this.CB_MetTimeOfDay.Visible = false;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5088,6 +5119,8 @@
         private System.Windows.Forms.Button B_LinkInfo;
         private System.Windows.Forms.Button B_CGearSkin;
         private System.Windows.Forms.LinkLabel L_UpdateAvailable;
+        private System.Windows.Forms.Label L_MetTimeOfDay;
+        public System.Windows.Forms.ComboBox CB_MetTimeOfDay;
     }
 }
 

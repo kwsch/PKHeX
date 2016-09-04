@@ -11,7 +11,7 @@ namespace PKHeX
 
         public SAV2(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G2RAW] : (byte[])data.Clone();
+            Data = data == null ? new byte[SaveUtil.SIZE_G2RAW_U] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
@@ -19,11 +19,15 @@ namespace PKHeX
             if (Version == GameVersion.Invalid)
                 return;
 
+            Japanese = SaveUtil.getIsG2SAVJ(Data) != GameVersion.Invalid;
+            if (Japanese && Data.Length < SaveUtil.SIZE_G2RAW_J)
+                Array.Resize(ref Data, SaveUtil.SIZE_G2RAW_J);
+
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = getPartyOffset(0);
 
-            Japanese = false;
+
             Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
 
             OptionsOffset = 0x2000;
@@ -31,11 +35,11 @@ namespace PKHeX
             switch (Version)
             {
                 case GameVersion.GS:
-                    DaylightSavingsOffset = Japanese ? -1 : 0x2037;
+                    DaylightSavingsOffset = Japanese ? -1 : 0x2042;
                     TimePlayedOffset = Japanese ? -1 : 0x2053;
                     PaletteOffset = Japanese ? -1 : 0x206B;
                     MoneyOffset = Japanese ? -1 : 0x23DB;
-                    JohtoBadgesOffset = Japanese ? -1 : 0xD57C;
+                    JohtoBadgesOffset = Japanese ? -1 : 0x23E4;
                     CurrentBoxIndexOffset = Japanese ? -1 : 0x2724;
                     BoxNamesOffset = Japanese ? -1 : 0x2727;
                     PartyOffset = Japanese ? 0x283E : 0x288A;
@@ -45,22 +49,28 @@ namespace PKHeX
                     GenderOffset = -1; // No gender in GSC
                     break;
                 case GameVersion.C:
-                    DaylightSavingsOffset = Japanese ? -1 : 0x2037;
-                    TimePlayedOffset = Japanese ? -1 : 0x2054;
-                    PaletteOffset = Japanese ? -1 : 0x206A;
-                    MoneyOffset = Japanese ? -1 : 0x23DC;
-                    JohtoBadgesOffset = Japanese ? -1 : 0x23E5;
-                    CurrentBoxIndexOffset = Japanese ? -1 : 0x2700;
-                    BoxNamesOffset = Japanese ? 0x2708 : 0x2703;
+                    DaylightSavingsOffset = Japanese ? 0x2029 : 0x2042;
+                    TimePlayedOffset = Japanese ? 0x2034 : 0x2052;
+                    PaletteOffset = Japanese ? 0x204C : 0x206A;
+                    MoneyOffset = Japanese ? 0x23BE : 0x23DC;
+                    JohtoBadgesOffset = Japanese ? 0x23C7 : 0x23E5;
+                    CurrentBoxIndexOffset = Japanese ? 0x26E2 : 0x2700;
+                    BoxNamesOffset = Japanese ? 0x26E5 : 0x2703;
                     PartyOffset = Japanese ? 0x281A : 0x2865;
-                    PokedexCaughtOffset = Japanese ? -1 : 0x2A27;
-                    PokedexSeenOffset = Japanese ? -1 : 0x2A47;
+                    PokedexCaughtOffset = Japanese ? 0x29AA : 0x2A27;
+                    PokedexSeenOffset = Japanese ? 0x29CA : 0x2A47;
                     CurrentBoxOffset = 0x2D10;
-                    GenderOffset = Japanese ? -1 : 0x3E3D;
+                    GenderOffset = Japanese ? 0x8000 : 0x3E3D;
                     break;
             }
             LegalItems = new ushort[] { 3, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 51, 52, 53, 57, 60, 62, 63, 64, 65, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 117, 118, 119, 121, 122, 123, 124, 125, 126, 131, 132, 138, 139, 140, 143, 144, 146, 150, 151, 152, 156, 158, 163, 168, 169, 170, 172, 173, 174, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189 };
             LegalBalls = new ushort[] { 1, 2, 4, 5, 157, 159, 160, 161, 164, 165, 166, 167};
+            LegalKeyItems = new ushort[] {7, 54, 55, 58, 59, 61, 66, 67, 68 , 69, 71, 127, 128, 130, 133, 134, 175, 178};
+            if (Version == GameVersion.C)
+            {
+                LegalKeyItems = LegalKeyItems.Concat(new ushort[] {70, 115, 116, 129}).ToArray();
+            }
+            LegalTMHMs = new ushort[] {191, 192, 193, 194, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249};
             HeldItems = new ushort[] {0}.Concat(LegalItems).Concat(LegalBalls).ToArray();
             Array.Sort(HeldItems);
             
@@ -120,20 +130,10 @@ namespace PKHeX
                     pkDat.CopyTo(Data, getPartyOffset(i));
                 }
             }
-            /*
-            byte[] rawDC = new byte[0x38];
-            Array.Copy(Data, Japanese ? 0x2CA7 : 0x2CF4, rawDC, 0, rawDC.Length);
-            byte[] TempDaycare = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
-            TempDaycare[0] = rawDC[0];
-            Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY + StringLength, StringLength);
-            Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY, StringLength);
-            Array.Copy(rawDC, 1 + 2 * StringLength, TempDaycare, 2 + 1, PKX.SIZE_1STORED);
-            PokemonList1 daycareList = new PokemonList1(TempDaycare, PokemonList1.CapacityType.Single, Japanese);
-            daycareList.GetBytes().CopyTo(Data, getPartyOffset(7));
-            Daycare = getPartyOffset(7); 
-            */
+
+            // Daycare currently undocumented for all Gen II games.
+
             // Enable Pokedex editing
-            Console.WriteLine(SIZE_STOREDBOX.ToString("X"));
             PokeDex = 0;
 
             if (!Exportable)
@@ -145,42 +145,49 @@ namespace PKHeX
         {
             for (int i = 0; i < BoxCount; i++)
             {
-                PokemonList1 boxPL = new PokemonList1(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+                PokemonList2 boxPL = new PokemonList2(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
                 int slot = 0;
                 for (int j = 0; j < boxPL.Pokemon.Length; j++)
                 {
-                    PK1 boxPK = (PK1) getPKM(getData(getBoxOffset(i) + j*SIZE_STORED, SIZE_STORED));
+                    PK2 boxPK = (PK2) getPKM(getData(getBoxOffset(i) + j*SIZE_STORED, SIZE_STORED));
                     if (boxPK.Species > 0)
                         boxPL[slot++] = boxPK;
                 }
-                if (i < BoxCount / 2)
-                    boxPL.GetBytes().CopyTo(Data, 0x4000 + i * SIZE_STOREDBOX);
+                if (i < (Japanese ? 6 : 7))
+                    boxPL.GetBytes().CopyTo(Data, 0x4000 + i * (SIZE_STOREDBOX + 2));
                 else
-                    boxPL.GetBytes().CopyTo(Data, 0x6000 + (i - BoxCount / 2) * SIZE_STOREDBOX);
+                    boxPL.GetBytes().CopyTo(Data, 0x6000 + (i - (Japanese ? 6 : 7)) * (SIZE_STOREDBOX + 2));
                 if (i == CurrentBox)
-                    boxPL.GetBytes().CopyTo(Data, Japanese ? 0x302D : 0x30C0);
+                    boxPL.GetBytes().CopyTo(Data, CurrentBoxOffset);
             }
 
-            PokemonList1 partyPL = new PokemonList1(PokemonList1.CapacityType.Party, Japanese);
+            PokemonList2 partyPL = new PokemonList2(PokemonList2.CapacityType.Party, Japanese);
             int pSlot = 0;
             for (int i = 0; i < 6; i++)
             {
-                PK1 partyPK = (PK1)getPKM(getData(getPartyOffset(i), SIZE_STORED));
+                PK2 partyPK = (PK2)getPKM(getData(getPartyOffset(i), SIZE_STORED));
                 if (partyPK.Species > 0)
                     partyPL[pSlot++] = partyPK;
             }
-            partyPL.GetBytes().CopyTo(Data, Japanese ? 0x2ED5 : 0x2F2C);
-
-            // Daycare is read-only, but in case it ever becomes editable, copy it back in.
-            byte[] rawDC = getData(getDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
-            byte[] dc = new byte[1 + 2*StringLength + PKX.SIZE_1STORED];
-            dc[0] = rawDC[0];
-            Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY + StringLength, dc, 1, StringLength);
-            Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
-            Array.Copy(rawDC, 2 + 1, dc, 1 + 2*StringLength, PKX.SIZE_1STORED);
-            dc.CopyTo(Data, Japanese ? 0x2CA7 : 0x2CF4);
+            partyPL.GetBytes().CopyTo(Data, PartyOffset);
 
             setChecksums();
+            if (Version == GameVersion.C && !Japanese)
+            {
+                Array.Copy(Data, 0x2009, Data, 0x1209, 0xB7A);
+            }
+            if (Version == GameVersion.C && Japanese)
+            {
+                Array.Copy(Data, 0x2009, Data, 0x7209, 0xB32);
+            }
+            if (Version == GameVersion.GS && !Japanese)
+            {
+                Array.Copy(Data, 0x2009, Data, 0x15C7, 0x222F - 0x2009);
+                Array.Copy(Data, 0x222F, Data, 0x3D69, 0x23D9 - 0x222F);
+                Array.Copy(Data, 0x23D9, Data, 0x0C6B, 0x2856 - 0x23D9);
+                Array.Copy(Data, 0x2856, Data, 0x7E39, 0x288A - 0x2856);
+                Array.Copy(Data, 0x288A, Data, 0x10E8, 0x2D69 - 0x288A);
+            }
             byte[] outData = new byte[Data.Length - SIZE_RESERVED];
             Array.Copy(Data, outData, outData.Length);
             return outData;
@@ -242,20 +249,28 @@ namespace PKHeX
             for (int i = 0x2009; i <= 0x2B3A; i++)
                 accum += Data[i];
             if (Version == GameVersion.C && Japanese)
-                BitConverter.GetBytes(Util.SwapEndianness(accum)).CopyTo(Data, 0x2D0D);
+            {
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x2D0D);
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x7F0D);
+            }
 
             for (int i = 0x2B3B; i <= 0x2B82; i++)
                 accum += Data[i];
             if (Version == GameVersion.C && !Japanese)
-                BitConverter.GetBytes(Util.SwapEndianness(accum)).CopyTo(Data, 0x2D0D);
-
+            { 
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x2D0D);
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x1F0D);
+            }
             /* TODO: Find Japanese GS Checksum region */
 
             for (int i = 0x2B83; i <= 0x2D68; i++)
                 accum += Data[i];
             if (Version == GameVersion.GS && !Japanese)
-                BitConverter.GetBytes(Util.SwapEndianness(accum)).CopyTo(Data, 0x2D69);
-            
+            {
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x2D69);
+                BitConverter.GetBytes(accum).CopyTo(Data, 0x7E6D);
+            }
+
         }
         public override bool ChecksumsValid
         {
@@ -270,19 +285,42 @@ namespace PKHeX
                 for (int i = 0x2B3B; i <= 0x2B82; i++)
                     accum += Data[i];
                 if (Version == GameVersion.C && !Japanese)
-                    return accum == Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2D0D)); // Japanese Crystal
+                    return accum == BitConverter.ToUInt16(Data, 0x2D0D); // US Crystal
 
                 /* TODO: Find Japanese GS Checksum region */
 
                 for (int i = 0x2B83; i <= 0x2D68; i++)
                     accum += Data[i];
                 if (Version == GameVersion.GS && !Japanese)
-                    return accum == Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2D69)); // US Gold/Silver
+                    return accum == BitConverter.ToUInt16(Data, 0x2D69); // US Gold/Silver
 
                 return false;
             }
         }
-        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
+
+        private int getChecksum()
+        {
+            ushort accum = 0;
+            for (int i = 0x2009; i <= 0x2B3A; i++)
+                accum += Data[i];
+            if (Version == GameVersion.C && Japanese)
+                return accum; // Japanese Crystal
+
+            for (int i = 0x2B3B; i <= 0x2B82; i++)
+                accum += Data[i];
+            if (Version == GameVersion.C && !Japanese)
+                return accum; // US Crystal
+
+            /* TODO: Find Japanese GS Checksum region */
+
+            for (int i = 0x2B83; i <= 0x2D68; i++)
+                accum += Data[i];
+            if (Version == GameVersion.GS && !Japanese)
+                return accum; // US Gold/Silver
+
+            return 0;
+        }
+        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : string.Format("Checksum invalid ({0} != {1})", Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2D0D)).ToString("X4"), getChecksum().ToString("X4"));
 
         // Trainer Info
         public override GameVersion Version { get; protected set; }
@@ -300,8 +338,14 @@ namespace PKHeX
         }
         public override int Gender
         {
-            get { return 0; }
-            set { }
+            get { return Version == GameVersion.C ? Data[GenderOffset] : 0; }
+            set
+            {
+                if (Version != GameVersion.C)
+                    return;
+                Data[GenderOffset] = (byte) value;
+                Data[PaletteOffset] = (byte) value;
+            }
         }
         public override ushort TID
         {
@@ -315,29 +359,29 @@ namespace PKHeX
         }
         public override int PlayedHours
         {
-            get { return BitConverter.ToUInt16(Data, Japanese ? 0x2CA0 : 0x2CED); }
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Japanese ? 0x2CA0 : 0x2CED); }
+            get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, TimePlayedOffset)); }
+            set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data,TimePlayedOffset); }
         }
         public override int PlayedMinutes
         {
-            get { return Data[Japanese ? 0x2CA2 : 0x2CEF]; }
-            set { Data[Japanese ? 0x2CA2 : 0x2CEF] = (byte)value; }
+            get { return Data[TimePlayedOffset+2]; }
+            set { Data[TimePlayedOffset+2] = (byte)value; }
         }
         public override int PlayedSeconds
         {
-            get { return Data[Japanese ? 0x2CA3 : 0x2CF0]; }
-            set { Data[Japanese ? 0x2CA3 : 0x2CF0] = (byte)value; }
+            get { return Data[TimePlayedOffset + 3]; }
+            set { Data[TimePlayedOffset + 3] = (byte)value; }
         }
 
         public int Badges
         {
-            get { return Data[Japanese ? 0x25F8 : 0x2602]; }
-            set { if (value < 0) return; Data[Japanese ? 0x25F8 : 0x2602] = (byte)value; }
+            get { return BitConverter.ToUInt16(Data, JohtoBadgesOffset); }
+            set { if (value < 0) return; BitConverter.GetBytes(value).CopyTo(Data, JohtoBadgesOffset); }
         }
         private byte Options
         {
-            get { return Data[Japanese ? 0x25F7 : 0x2601]; }
-            set { Data[Japanese ? 0x25F7 : 0x2601] = value; }
+            get { return Data[0x2000]; }
+            set { Data[0x2000] = value; }
         }
         public bool BattleEffects
         {
@@ -355,10 +399,10 @@ namespace PKHeX
             set
             {
                 var new_sound = value;
-                if (new_sound > 3)
-                    new_sound = 3;
+                if (new_sound > 0)
+                    new_sound = 2; // Stereo
                 if (new_sound < 0)
-                    new_sound = 0;
+                    new_sound = 0; // Mono
                 Options = (byte)((Options & 0xCF) | (new_sound << 4));
             }
         }
@@ -377,35 +421,52 @@ namespace PKHeX
         }
         public override uint Money
         {
-            get { return uint.Parse((Util.SwapEndianness(BitConverter.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3)) >> 8).ToString("X6")); }
+            get { return Util.SwapEndianness(BitConverter.ToUInt32(Data, MoneyOffset)) >> 8; }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt32(value.ToString("000000"), 16))).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
+                BitConverter.GetBytes(Util.SwapEndianness(value > 999999 ? 999999 : value)).Skip(1).ToArray().CopyTo(Data, MoneyOffset);
             }
         }
         public uint Coin
         {
             get
             {
-                return uint.Parse(Util.SwapEndianness(BitConverter.ToUInt16(Data, Japanese ? 0x2846 : 0x2850)).ToString("X4"));
+                return Util.SwapEndianness(BitConverter.ToUInt16(Data, MoneyOffset+7));
             }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt16(value.ToString("0000"), 16))).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
+               BitConverter.GetBytes(Util.SwapEndianness(value > 9999 ? 9999 : value)).ToArray().CopyTo(Data, MoneyOffset + 7);
             }
         }
 
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
+        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs;
         public override InventoryPouch[] Inventory
         {
             get
             {
-                ushort[] legalItems = LegalItems;
-                InventoryPouch[] pouch =
+                InventoryPouch[] pouch;
+                if (Version == GameVersion.C)
                 {
-                    new InventoryPouch(InventoryType.Items, legalItems, 99, Japanese ? 0x25C4 : 0x25C9, 20),
-                    new InventoryPouch(InventoryType.MailItems, legalItems, 99, Japanese ? 0x27DC : 0x27E6, 50)
-                };
+                    pouch = new[]
+                    {
+                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, Japanese ? 0x23C9 : 0x23E7, 57),
+                        new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? 0x2402 : 0x2420, 20),
+                        new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, Japanese ? 0x242C : 0x244A, 26),
+                        new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? 0x2447 : 0x2465, 12),
+                        new InventoryPouch(InventoryType.MailItems, LegalItems, 99, Japanese ? 0x2461 : 0x247F, 50)
+                    };
+                }
+                else
+                {
+                    pouch = new[]
+                    {
+                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, Japanese ? -1 : 0x23E6, 57),
+                        new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? -1 : 0x241F, 20),
+                        new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 99, Japanese ? -1 : 0x2449, 26),
+                        new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? -1 : 0x2464, 12),
+                        new InventoryPouch(InventoryType.MailItems, LegalItems, 99, Japanese ? -1 : 0x247E, 50)
+                    };
+                }
                 foreach (var p in pouch)
                 {
                     p.getPouchG1(ref Data);
@@ -563,7 +624,17 @@ namespace PKHeX
             // Set the Captured Flag
             Data[PokedexCaughtOffset + ofs] &= (byte)(~bitval);
             if (caught)
+            {
                 Data[PokedexCaughtOffset + ofs] |= bitval;
+                if (pkm.Species == 201) // Unown
+                {
+                    // Give all Unown caught to prevent a crash on pokedex view
+                    for (int i = 1; i <= 26; i++)
+                    {
+                        Data[PokedexSeenOffset + 0x1F + i] = (byte)(i);
+                    }
+                }
+            }
         }
     }
 }

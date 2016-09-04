@@ -16,6 +16,10 @@ namespace PKHeX
                     itemlist = Main.g1items;
                     B_GiveAll.Visible = false; // Can't give all, not enough room
                     break;
+                case 2:
+                    itemlist = Main.g2items;
+                    B_GiveAll.Visible = false;
+                    break;
                 case 3:
                     itemlist = Main.g3items;
                     break;

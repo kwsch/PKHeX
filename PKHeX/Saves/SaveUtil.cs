@@ -49,10 +49,10 @@ namespace PKHeX
         internal const int SIZE_G4RAW = 0x80000;
         internal const int SIZE_G3RAW = 0x20000;
         internal const int SIZE_G3RAWHALF = 0x10000;
-        internal const int SIZE_G2RAW = 0x8000;
-        internal const int SIZE_G2BAT = 0x802C;
-        internal const int SIZE_G2EMU = 0x10000;
-        internal const int SIZE_G2EMUBAT = 0x1002C;
+        internal const int SIZE_G2RAW_U = 0x8000;
+        internal const int SIZE_G2BAT_U = 0x802C;
+        internal const int SIZE_G2RAW_J = 0x10000;
+        internal const int SIZE_G2BAT_J = 0x1002C;
         internal const int SIZE_G1RAW = 0x8000;
         internal const int SIZE_G1BAT = 0x802C;
 
@@ -123,7 +123,7 @@ namespace PKHeX
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static GameVersion getIsG2SAV(byte[] data)
         {
-            if (data.Length != SIZE_G2RAW && data.Length != SIZE_G2BAT && data.Length != SIZE_G2EMU && data.Length != SIZE_G2EMUBAT)
+            if (data.Length != SIZE_G2RAW_U && data.Length != SIZE_G2BAT_U && data.Length != SIZE_G2RAW_J && data.Length != SIZE_G2BAT_J)
                 return GameVersion.Invalid;
 
             // Check if it's not an american save or a japanese save

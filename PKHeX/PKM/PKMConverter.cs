@@ -34,6 +34,9 @@ namespace PKHeX
                 case PKX.SIZE_1JLIST:
                 case PKX.SIZE_1ULIST:
                     return 1;
+                case PKX.SIZE_2ULIST:
+                case PKX.SIZE_2JLIST:
+                    return 2;
                 case PKX.SIZE_3PARTY:
                 case PKX.SIZE_3STORED:
                     return 3;
@@ -74,10 +77,15 @@ namespace PKHeX
             switch (getPKMDataFormat(data))
             {
                 case 1:
-                    var PL = new PokemonList1(data, PokemonList1.CapacityType.Single, data.Length == PKX.SIZE_1JLIST);
+                    var PL1 = new PokemonList1(data, PokemonList1.CapacityType.Single, data.Length == PKX.SIZE_1JLIST);
                     if (ident != null)
-                        PL[0].Identifier = ident;
-                    return PL[0];
+                        PL1[0].Identifier = ident;
+                    return PL1[0];
+                case 2:
+                    var PL2 = new PokemonList2(data, PokemonList2.CapacityType.Single, data.Length == PKX.SIZE_2JLIST);
+                    if (ident != null)
+                        PL2[0].Identifier = ident;
+                    return PL2[0];
                 case 3:
                     return new PK3(data, ident);
                 case 4:

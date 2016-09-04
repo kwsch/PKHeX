@@ -73,7 +73,7 @@ namespace PKHeX
 
         // Future game values, unused
         public override int[] Abilities { get { return new[] { 0, 0 }; } set { } }
-        public override int BaseFriendship { get { return 0; } set { } }
+        public override int BaseFriendship { get { return 70; } set { } }
         public override int EscapeRate { get { return 0; } set { } }
         public override int Color { get { return 0; } set { } }
     }
