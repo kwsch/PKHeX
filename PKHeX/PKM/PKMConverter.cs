@@ -125,7 +125,7 @@ namespace PKHeX
                     if (1 <= pk.Species && pk.Species <= 151)
                     {
                         foreach (var move in new[] { pk.Move1, pk.Move2, pk.Move3, pk.Move4})
-                            if (move < 1 || move > 165)
+                            if (move < 0 || move > 165)
                             {
                                 comment = $"Pokemon cannot be converted due to invalid move: {Main.movelist[move]}";
                                 return null;
