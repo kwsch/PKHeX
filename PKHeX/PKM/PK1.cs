@@ -284,7 +284,7 @@ namespace PKHeX
             pk2.CurrentFriendship = PersonalTable.C[Species].BaseFriendship;
             // Pokerus = 0
             // Caught Data = 0
-            pk2.Stat_Level = Stat_Level;
+            pk2.Stat_Level = PKX.getLevel(Species, EXP);
             Array.Copy(otname, 0, pk2.otname, 0, otname.Length);
             Array.Copy(nick, 0, pk2.nick, 0, nick.Length);
 
