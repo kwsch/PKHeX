@@ -869,9 +869,6 @@ namespace PKHeX
             Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = SAV.Generation >= 6;
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = SAV.Generation >= 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
-            TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
-            if (HaX && SAV.Generation >= 6)
-                TB_AbilityNumber.Visible = true;
 
             PB_MarkPentagon.Visible = SAV.Generation == 6;
             TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation == 6;
@@ -885,7 +882,7 @@ namespace PKHeX
             FLP_Nature.Visible = SAV.Generation >= 3;
             FLP_Ability.Visible = SAV.Generation >= 3;
             FLP_Language.Visible = SAV.Generation >= 3;
-            GB_ExtraBytes.Visible = SAV.Generation >= 3;
+            GB_ExtraBytes.Enabled = SAV.Generation >= 3;
             GB_Markings.Visible = SAV.Generation >= 3;
             BTN_Ribbons.Visible = SAV.Generation >= 3;
             CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation >= 3;
@@ -895,9 +892,10 @@ namespace PKHeX
 
             FLP_FriendshipForm.Visible = SAV.Generation >= 2;
             FLP_HeldItem.Visible = SAV.Generation >= 2;
-            
-
             CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation >= 2;
+
+            // HaX override, needs to be after DEV_Ability enabled assignment.
+            TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
 
             // Met Tab
             FLP_MetDate.Visible = SAV.Generation >= 4;
@@ -1014,7 +1012,7 @@ namespace PKHeX
             TB_Level.Visible = !HaX;
 
             // Load Extra Byte List
-            if (GB_ExtraBytes.Visible)
+            if (GB_ExtraBytes.Enabled)
             {
                 CB_ExtraBytes.Items.Clear();
                 foreach (byte b in extraBytes)
