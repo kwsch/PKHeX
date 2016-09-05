@@ -2144,18 +2144,18 @@ namespace PKHeX
                 case GameVersion.D:
                 case GameVersion.P:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value <= 111)); // Battle Park
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)); // Battle Park
                     break;
 
                 case GameVersion.Pt:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value <= 125)); // Rock Peak Ruins
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)); // Rock Peak Ruins
                     break;
 
                 case GameVersion.HG:
                 case GameVersion.SS:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)); // Celadon Dept.
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)); // Celadon Dept.
                     break;
 
                 case GameVersion.B:
