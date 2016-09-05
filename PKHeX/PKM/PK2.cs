@@ -215,18 +215,18 @@ public override int Stat_Level
             if (gv == 255)
                 return Gender == 2;
             if (gv == 254)
-                return Gender == 0;
-            if (gv == 0)
                 return Gender == 1;
+            if (gv == 0)
+                return Gender == 0;
             switch (gv)
             {
-                case 191:
-                    return IV_ATK >= 2 ? Gender == 0 : Gender == 1;
-                case 127:
-                    return IV_ATK >= 5 ? Gender == 0 : Gender == 1;
-                case 63:
-                    return IV_ATK >= 7 ? Gender == 0 : Gender == 1;
                 case 31:
+                    return IV_ATK >= 2 ? Gender == 0 : Gender == 1;
+                case 63:
+                    return IV_ATK >= 5 ? Gender == 0 : Gender == 1;
+                case 127:
+                    return IV_ATK >= 7 ? Gender == 0 : Gender == 1;
+                case 191:
                     return IV_ATK >= 12 ? Gender == 0 : Gender == 1;
             }
             return false;
@@ -242,18 +242,18 @@ public override int Stat_Level
                 if (gv == 255)
                     return 2;
                 if (gv == 254)
-                    return 0;
-                if (gv == 0)
                     return 1;
+                if (gv == 0)
+                    return 0;
                 switch (gv)
                 {
-                    case 191:
-                        return IV_ATK >= 2 ? 0 : 1;
-                    case 127:
-                        return IV_ATK >= 5 ? 0 : 1;
-                    case 63:
-                        return IV_ATK >= 7 ? 0 : 1;
                     case 31:
+                        return IV_ATK >= 2 ? 0 : 1;
+                    case 63:
+                        return IV_ATK >= 5 ? 0 : 1;
+                    case 127:
+                        return IV_ATK >= 7 ? 0 : 1;
+                    case 191:
                         return IV_ATK >= 12 ? 0 : 1;
                 }
                 Console.WriteLine("Unknown Gender value: " + gv);
