@@ -840,6 +840,9 @@ namespace PKHeX
         };
         internal static readonly int[] Ban_Gen3Ball =
         {
+            387, 390, 393, //1 - Turtwig, Chimchar, Piplup
+            388, 391, 394, //2
+            389, 392, 395, //3
             495, 498, 501, //1 - Snivy, Tepig, Oshawott
             496, 499, 502, //2
             497, 500, 503, //3
@@ -850,6 +853,9 @@ namespace PKHeX
             152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
             153, 156, 159, //2
             154, 157, 160, //3
+            387, 390, 393, //1 - Turtwig, Chimchar, Piplup
+            388, 391, 394, //2
+            389, 392, 395, //3
             495, 498, 501, //1 - Snivy, Tepig, Oshawott
             496, 499, 502, //2
             497, 500, 503, //3
