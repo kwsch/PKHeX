@@ -870,6 +870,8 @@ namespace PKHeX
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = SAV.Generation >= 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
+            if (HaX && SAV.Generation >= 6)
+                TB_AbilityNumber.Visible = true;
 
             PB_MarkPentagon.Visible = SAV.Generation == 6;
             TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation == 6;
@@ -1414,6 +1416,9 @@ namespace PKHeX
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
             if (SAV.Generation == 2)
                 CB_Form.Enabled = false;
+            
+            if (HaX)
+                Label_Form.Visible = true;
 
             if (!hasForms)
                 return;

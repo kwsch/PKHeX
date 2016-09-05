@@ -1157,14 +1157,14 @@
             this.DEV_Ability.Location = new System.Drawing.Point(0, 21);
             this.DEV_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Ability.Name = "DEV_Ability";
-            this.DEV_Ability.Size = new System.Drawing.Size(122, 21);
+            this.DEV_Ability.Size = new System.Drawing.Size(126, 21);
             this.DEV_Ability.TabIndex = 14;
             this.DEV_Ability.Visible = false;
             // 
             // TB_AbilityNumber
             // 
             this.TB_AbilityNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AbilityNumber.Location = new System.Drawing.Point(122, 21);
+            this.TB_AbilityNumber.Location = new System.Drawing.Point(126, 21);
             this.TB_AbilityNumber.Margin = new System.Windows.Forms.Padding(0);
             this.TB_AbilityNumber.Mask = "0";
             this.TB_AbilityNumber.Name = "TB_AbilityNumber";
