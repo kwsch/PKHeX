@@ -865,111 +865,94 @@ namespace PKHeX
             byte[] extraBytes = new byte[1];
             Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV
 
-            CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible =
-            Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = SAV.Generation >= 6;
+            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = SAV.Generation >= 6;
             Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = SAV.Generation >= 6;
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = SAV.Generation >= 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
+            TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
 
             PB_MarkPentagon.Visible = SAV.Generation == 6;
             TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation == 6;
 
-            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
-            Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
+            FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = SAV.Generation == 5;
 
-            BTN_Ribbons.Visible = SAV.Generation >= 3;
+            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
+
             DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation > 3 && HaX;
-            TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
             CB_Ability.Visible = !DEV_Ability.Enabled && SAV.Generation >= 3;
+            FLP_Nature.Visible = SAV.Generation >= 3;
+            FLP_Ability.Visible = SAV.Generation >= 3;
+            FLP_Language.Visible = SAV.Generation >= 3;
+            GB_ExtraBytes.Visible = SAV.Generation >= 3;
+            GB_Markings.Visible = SAV.Generation >= 3;
+            BTN_Ribbons.Visible = SAV.Generation >= 3;
+            CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation >= 3;
+            FLP_PKRSRight.Visible = SAV.Generation >= 3;
+            FLP_PKRS.Visible = SAV.Generation >= 3;
+            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
 
-            GB_ExtraBytes.Visible = SAV.Generation > 2;
-            GB_Markings.Visible = SAV.Generation > 2;
+            FLP_FriendshipForm.Visible = SAV.Generation >= 2;
+            FLP_HeldItem.Visible = SAV.Generation >= 2;
+            
 
-            Label_HeldItem.Visible = CB_HeldItem.Visible = SAV.Generation > 1;
-            Label_Total.Visible = TB_IVTotal.Visible = TB_EVTotal.Visible = L_Potential.Visible = SAV.Generation > 2;
-            Label_HiddenPowerPrefix.Visible = CB_HPType.Visible = SAV.Generation > 1;
-            CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation > 2;
-            Label_CharacteristicPrefix.Visible = L_Characteristic.Visible = SAV.Generation > 2;
-            Label_ContestStats.Visible = Label_Cool.Visible = Label_Tough.Visible = Label_Smart.Visible =
-                Label_Sheen.Visible = Label_Beauty.Visible = Label_Cute.Visible = TB_Cool.Visible = TB_Tough.Visible =
-                    TB_Smart.Visible = TB_Sheen.Visible = TB_Beauty.Visible = TB_Cute.Visible = Label_Nature.Visible =
-                    CB_Nature.Visible = Label_Language.Visible = CB_Language.Visible = Label_Ability.Visible = 
-                    BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
+            CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation >= 2;
 
-            Label_Friendship.Visible = Label_HatchCounter.Visible = TB_Friendship.Visible = SAV.Generation >= 2;
             // Met Tab
-            CHK_Fateful.Visible = Label_OriginGame.Visible = Label_Ball.Visible = 
-            CB_Ball.Visible = CB_GameOrigin.Visible = SAV.Generation > 2;
-            Label_MetLocation.Visible = CB_MetLocation.Visible = Label_MetLevel.Visible  = TB_MetLevel.Visible = Label_OTGender.Visible = 
-                SAV.Generation > 1;
+            FLP_MetDate.Visible = SAV.Generation >= 4;
+            FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = SAV.Generation >= 3;
+            FLP_MetLocation.Visible = FLP_MetLevel.Visible = SAV.Generation >= 2;
+            FLP_TimeOfDay.Visible = SAV.Generation == 2;
 
-            L_MetTimeOfDay.Visible = CB_MetTimeOfDay.Visible = SAV.Generation == 2;
+            // Stats
+            FLP_StatsTotal.Visible = SAV.Generation >= 3;
+            FLP_Characteristic.Visible = SAV.Generation >= 3;
+            FLP_HPType.Visible = SAV.Generation >= 2;
 
-            if (SAV.Generation == 2)
-            {
-                var met_list = getLocationList(SAV.Version, SAV.Generation, egg: false);
-                CB_MetLocation.DisplayMember = "Text";
-                CB_MetLocation.ValueMember = "Value";
-                CB_MetLocation.DataSource = new BindingSource(met_list, null);
-            }
-
-            CHK_Infected.Visible = CHK_Cured.Visible = SAV.Generation >= 3;
+            PAN_Contest.Visible = SAV.Generation >= 3;
 
             // Second daycare slot
-            SlotPictureBoxes[43].Visible = SAV.Generation > 1;
-
-            CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation > 1;
-
+            SlotPictureBoxes[43].Visible = SAV.Generation >= 2;
 
             if (sav.Generation == 1)
             {
-                Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = false;
-                Label_SPA.Text = "Spc:";
+                FLP_SpD.Visible = false;
+                Label_SPA.Visible = false;
+                Label_SPC.Visible = true;
                 TB_HPIV.ReadOnly = true;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "00000";
-                    ctrl.Size = new Size(37, 20);
+                    ctrl.Size = Stat_HP.Size;
                 }
-                Control[] statControls = {Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE};
-                foreach (Control ctrl in statControls)
-                    ctrl.Location = new Point(173, ctrl.Location.Y);
-                Label_Stats.Location = new Point(168, Label_Stats.Location.Y);
             }
             else if (sav.Generation == 2)
             {
-                Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = true;
-                Label_SPA.Text = "SpA:";
+                FLP_SpD.Visible = true;
+                Label_SPA.Visible = true;
+                Label_SPC.Visible = false;
                 TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = true;
                 TB_HPIV.ReadOnly = true;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "00000";
-                    ctrl.Size = new Size(37, 20);
+                    ctrl.Size = Stat_HP.Size;
                 }
-                Control[] statControls = { Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE };
-                foreach (Control ctrl in statControls)
-                    ctrl.Location = new Point(173, ctrl.Location.Y);
-                Label_Stats.Location = new Point(168, Label_Stats.Location.Y);
             }
             else
             {
-                Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = true;
-                Label_SPA.Text = "SpA:";
+                FLP_SpD.Visible = true;
+                Label_SPA.Visible = true;
+                Label_SPC.Visible = false;
                 TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = false;
                 TB_HPIV.ReadOnly = false;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "000";
-                    ctrl.Size = new Size(31, 20);
+                    ctrl.Size = TB_ExtraByte.Size;
                 }
-                Control[] statControls = { Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE };
-                foreach (Control ctrl in statControls)
-                    ctrl.Location = new Point(167, ctrl.Location.Y);
-                Label_Stats.Location = new Point(162, Label_Stats.Location.Y);
             }
 
             // Recenter PKM SubEditors
@@ -1396,6 +1379,9 @@ namespace PKHeX
                 }
             }
             fieldsLoaded = true;
+
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
 
             // Set the Preview Box
             dragout.Image = pk.Sprite;
@@ -2461,7 +2447,7 @@ namespace PKHeX
             { cb.SelectedIndex = 0; return; }
             cb.BackColor = cb.SelectedValue == null ? Color.DarkSalmon : defaultControlWhite;
         }
-        private void validateComboBox(object sender, EventArgs e)
+        private void validateComboBox(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!(sender is ComboBox))
                 return;
@@ -2475,7 +2461,7 @@ namespace PKHeX
         {
             if (!fieldsInitialized)
                 return;
-            validateComboBox(sender, e);
+            validateComboBox(sender, null);
             if (fieldsLoaded)
             {
                 if (sender == CB_Ability && SAV.Generation >= 6)
