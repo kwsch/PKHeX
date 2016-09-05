@@ -344,7 +344,8 @@ namespace PKHeX
             else
             {
                 CB_Format.Visible = true;
-                CB_Format.SelectedIndex = MAXFORMAT - Main.SAV.Generation + 1; // SAV generation (offset by 1 for "Any")
+                int index = MAXFORMAT - Main.SAV.Generation + 1;
+                CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0; // SAV generation (offset by 1 for "Any")
             }
         }
     }

@@ -1350,9 +1350,10 @@ namespace PKHeX
         public void populateFields(PKM pk, bool focus = true)
         {
             if (pk == null) { Util.Error("Attempted to load a null file."); return; }
-
-            if (pk.Format > SAV.Generation)
-            { Util.Alert("Can't load future generation files."); return; }
+            
+            if ((pk.Format >= 3 && pk.Format > SAV.Generation) // pk3-7, can't go backwards
+                || (pk.Format <= 2 && SAV.Generation > 2 && SAV.Generation < 7)) // pk1-2, can't go 3-6
+            { Util.Alert($"Can't load Gen{pk.Format} to Gen{SAV.Generation} games."); return; }
 
             bool oldInit = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;

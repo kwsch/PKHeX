@@ -43,7 +43,15 @@ namespace PKHeX
         /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
         public static bool getIsPKM(long len)
         {
-            return new[] {SIZE_1JLIST, SIZE_1ULIST, SIZE_2ULIST, SIZE_2JLIST, SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
+            return new[]
+            {
+                SIZE_1JLIST, SIZE_1ULIST, SIZE_1PARTY, SIZE_1STORED,
+                SIZE_2ULIST, SIZE_2JLIST, SIZE_2PARTY, SIZE_2STORED,
+                SIZE_3STORED, SIZE_3PARTY,
+                SIZE_4STORED, SIZE_4PARTY,
+                SIZE_5PARTY,
+                SIZE_6STORED, SIZE_6PARTY
+            }.Contains((int)len);
         }
 
         // C# PKX Function Library
