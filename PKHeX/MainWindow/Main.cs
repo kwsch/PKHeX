@@ -66,8 +66,7 @@ namespace PKHeX
                                 };
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
-            defaultControlWhite = CB_Species.BackColor;
-            defaultControlText = Label_Species.ForeColor;
+            Label_Species.ResetForeColor();
 
             // Set up Language Selection
             foreach (var cbItem in main_langlist)
@@ -162,7 +161,6 @@ namespace PKHeX
         #region Important Variables
         public static PKM pkm = new PK6(); // Tab Pokemon Data Storage
         public static SaveFile SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
-        public static Color defaultControlWhite, defaultControlText;
         public static string eggname = "";
 
         public static string curlanguage = "en";
@@ -790,6 +788,8 @@ namespace PKHeX
         private void loadSAV(SaveFile sav, string path)
         {
             PKM pk = preparePKM();
+            // clean fields
+            populateFields(SAV.BlankPKM);
             SAV = sav;
 
             if (path != null) // Actual save file
@@ -956,7 +956,7 @@ namespace PKHeX
             }
 
             // Recenter PKM SubEditors
-            FLP_PKMEditors.Location = new Point((tabMain.TabPages[4].Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
+            FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
 
             switch (SAV.Generation)
             {
@@ -1007,6 +1007,16 @@ namespace PKHeX
             TB_OT.MaxLength = SAV.OTLength;
             TB_OTt2.MaxLength = SAV.OTLength;
             TB_Nickname.MaxLength = SAV.NickLength;
+
+            // Hide Unused Tabs
+            if (SAV.Generation == 1 && tabMain.TabPages.Contains(Tab_Met))
+                tabMain.TabPages.Remove(Tab_Met);
+            else if (SAV.Generation != 1 && !tabMain.TabPages.Contains(Tab_Met))
+            {
+                tabMain.TabPages.Insert(1, Tab_Met);
+                // force update -- re-added tab may be untranslated
+                Util.TranslateInterface(this, curlanguage);
+            }
 
             // Common HaX Interface
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
@@ -1065,7 +1075,7 @@ namespace PKHeX
             InitializeLanguage();
             Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex]); // Translate the UI to language.
             // Recenter PKM SubEditors
-            FLP_PKMEditors.Location = new Point((tabMain.TabPages[4].Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
+            FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
         }
@@ -2261,7 +2271,7 @@ namespace PKHeX
             Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
             // Reset Label Colors
             foreach (Label label in labarray)
-                label.ForeColor = defaultControlText;
+                label.ResetForeColor();
 
             // Set Colored StatLabels only if Nature isn't Neutral
             NatureTip.SetToolTip(CB_Nature,
@@ -2449,7 +2459,10 @@ namespace PKHeX
             cb.SelectionLength = 0;
             if (cb.Text == "")
             { cb.SelectedIndex = 0; return; }
-            cb.BackColor = cb.SelectedValue == null ? Color.DarkSalmon : defaultControlWhite;
+            if (cb.SelectedValue == null)
+                cb.BackColor = Color.DarkSalmon;
+            else
+                cb.ResetBackColor();
         }
         private void validateComboBox(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -2561,7 +2574,7 @@ namespace PKHeX
                 Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
                 // Reset Label Colors
                 foreach (Label label in labarray)
-                    label.ForeColor = defaultControlText;
+                    label.ResetForeColor();
 
                 // Set Colored StatLabels only if Nature isn't Neutral
                 if (incr == decr) return;
@@ -2619,38 +2632,30 @@ namespace PKHeX
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
-            #region ComboBoxes to verify they are set.
             ComboBox[] cba = {
                                  CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
                                  CB_MetLocation, CB_EggLocation, CB_Ball,   // Met Tab
                                  CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
                                  CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
                              };
-            for (int i = 0; i < cba.Length; i++)
-            {
-                int back = cba[i].BackColor.ToArgb();
-                if (!cba[i].Visible || back == SystemColors.Control.ToArgb() || back == 0 ||
-                    !(back != -1 & back != defaultControlWhite.ToArgb())) continue;
-                if (i < 6)      // Main Tab
-                    tabMain.SelectedIndex = 0;
-                else if (i < 9) // Met Tab
-                    tabMain.SelectedIndex = 1;
-                else            // Moves
-                    tabMain.SelectedIndex = 3;
-                goto invalid;
-            }
-            #endregion
-            // Further logic checking
-            if (SAV.Generation >= 3 && Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
-            { tabMain.SelectedIndex = 2; goto invalid; }
-            // If no errors detected...
-            if (Util.getIndex(CB_Species) != 0) return true;
-            // Else
-            tabMain.SelectedIndex = 0;
 
-            // else...
-        invalid:
-            { SystemSounds.Exclamation.Play(); return false; }
+            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon);
+            if (cb != null)
+            {
+                Control c = cb.Parent;
+                while (!(c is TabPage))
+                    c = c.Parent;
+                tabMain.SelectedTab = c as TabPage;
+            }
+            else if (SAV.Generation >= 3 && Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
+                tabMain.SelectedTab = Tab_Stats;
+            else if (Util.getIndex(CB_Species) == 0)
+                tabMain.SelectedTab = Tab_Main;
+            else
+                return true;
+
+            SystemSounds.Exclamation.Play();
+            return false;
         }
         public static string[] verifyPKMtoSAV(PKM pk)
         {
