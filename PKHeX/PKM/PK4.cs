@@ -323,19 +323,26 @@ namespace PKHeX
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | (value << 4)); } }
         public override int Ball
         {
-            get { return Data[HGSS ? 0x86 : 0x83]; }
+            get
+            {
+                // Pokemon obtained in HGSS have the HGSS ball set (@0x86)
+                // However, this info is not set when receiving a wondercard!
+                // The PGT contains a preformatted PK4 file, which is slightly modified.
+                // No HGSS balls were used, and no HGSS ball info is set.
+
+                // Sneaky way = return the higher of the two values.
+                return Math.Max(Data[0x86], Data[0x83]);
+            }
             set
             {
-                if (HGSS)
-                {
-                    Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Ball to display in DP (cap at Cherish)
+                // Ball to display in DPPt
+                Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Cap at Cherish Ball
+
+                // HGSS Exclusive Balls -- If the user wants to screw things up, let them. Any legality checking could catch hax.
+                if (value > 0x10 || (HGSS && !FatefulEncounter))
                     Data[0x86] = (byte)(value <= 0x18 ? value : 4); // Cap at Comp Ball
-                }
                 else
-                {
-                    Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Cap at Cherish Ball
                     Data[0x86] = 0; // Unused
-                }
             }
         }
         public override int Met_Level { get { return Data[0x84] & ~0x80; } set { Data[0x84] = (byte)((Data[0x84] & 0x80) | value); } }
