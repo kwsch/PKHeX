@@ -798,7 +798,7 @@ namespace PKHeX
                 SAV.FileName = Path.GetExtension(path) == ".bak"
                     ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0]
                     : Path.GetFileName(path);
-                Text = "PKHeX - " + $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
+                Text = $"PKH{(HaX ? "a" : "e")}X - " + $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
 
                 // If backup folder exists, save a backup.
                 string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
@@ -811,7 +811,7 @@ namespace PKHeX
             {
                 SAV.FilePath = null;
                 SAV.FileName = "Blank Save File";
-                Text = "PKHeX - " + $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
+                Text = $"PKH{(HaX ? "a" : "e")}X - " + $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
 
                 GB_SAVtools.Visible = false;
             }
@@ -997,9 +997,10 @@ namespace PKHeX
                     break;
             }
             bool init = fieldsInitialized;
-            fieldsInitialized = false;
+            fieldsInitialized = fieldsLoaded = false;
+            pkm = (pkm.Format != SAV.Generation || SAV.Generation < 3) ? SAV.BlankPKM : pk;
             populateFilteredDataSources();
-            populateFields((pkm.Format != SAV.Generation || SAV.Generation < 3) ? SAV.BlankPKM : pk);
+            populateFields(pkm);
             fieldsInitialized |= init;
 
             // SAV Specific Limits
