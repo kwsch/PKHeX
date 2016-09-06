@@ -3699,7 +3699,7 @@ namespace PKHeX
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
                     
-                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber)
+                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber && DragInfo.slotDestinationSlotNumber > -1)
                         SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
