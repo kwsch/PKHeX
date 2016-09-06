@@ -882,7 +882,7 @@ namespace PKHeX
             FLP_Nature.Visible = SAV.Generation >= 3;
             FLP_Ability.Visible = SAV.Generation >= 3;
             FLP_Language.Visible = SAV.Generation >= 3;
-            GB_ExtraBytes.Enabled = SAV.Generation >= 3;
+            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = SAV.Generation >= 3;
             GB_Markings.Visible = SAV.Generation >= 3;
             BTN_Ribbons.Visible = SAV.Generation >= 3;
             CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation >= 3;
@@ -893,6 +893,9 @@ namespace PKHeX
             FLP_FriendshipForm.Visible = SAV.Generation >= 2;
             FLP_HeldItem.Visible = SAV.Generation >= 2;
             CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation >= 2;
+
+            if (SAV.Generation == 1)
+                Label_IsShiny.Visible = false;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
@@ -1585,32 +1588,40 @@ namespace PKHeX
             if (!(ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt))
                 return;
 
+            if (sender == Label_SPC)
+                sender = Label_SPA;
             int index = Array.IndexOf(new[] { Label_HP, Label_ATK, Label_DEF, Label_SPA, Label_SPD, Label_SPE }, sender);
 
             if (ModifierKeys == Keys.Alt) // EV
             {
-                var arrayEV = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV};
-                arrayEV[index].Text = (e.Button == MouseButtons.Left
-                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(arrayEV[index].Text), 0), 252) 
-                    : 0).ToString();
+                var mt = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV}[index];
+                if (e.Button == MouseButtons.Left) // max
+                    mt.Text = SAV.Generation >= 3
+                        ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(mt.Text), 0), 252).ToString()
+                        : ushort.MaxValue.ToString();
+                else // min
+                    mt.Text = 0.ToString();
             }
             else
             new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV}[index].Text =
-                (e.Button == MouseButtons.Left ? 31 : 0).ToString();
+                (e.Button == MouseButtons.Left ? SAV.MaxIV : 0).ToString();
         }
         private void clickIV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
-                ((MaskedTextBox) sender).Text = 31.ToString();
+                ((MaskedTextBox) sender).Text = SAV.MaxIV.ToString();
             else if (ModifierKeys == Keys.Alt)
                 ((MaskedTextBox) sender).Text = 0.ToString();
         }
         private void clickEV(object sender, EventArgs e)
         {
+            MaskedTextBox mt = (MaskedTextBox)sender;
             if (ModifierKeys == Keys.Control) // EV
-                ((MaskedTextBox) sender).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32((sender as MaskedTextBox).Text), 0), 252).ToString();
+                mt.Text = SAV.Generation >= 3
+                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(mt.Text), 0), 252).ToString()
+                    : ushort.MaxValue.ToString();
             else if (ModifierKeys == Keys.Alt)
-                ((MaskedTextBox) sender).Text = 0.ToString();
+                mt.Text = 0.ToString();
         }
         private void clickOT(object sender, EventArgs e)
         {

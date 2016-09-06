@@ -2381,6 +2381,7 @@
             this.Label_SPC.TabIndex = 125;
             this.Label_SPC.Text = "SpC:";
             this.Label_SPC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_SPC.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
             // 
             // FLP_SpARight
             // 
