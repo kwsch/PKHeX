@@ -76,6 +76,8 @@ namespace PKHeX
             // Load Data
             RawDB = new List<MysteryGift>();
             RawDB.AddRange(Legal.WC6DB);
+
+            if (Directory.Exists(DatabasePath))
             foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
             {
                 FileInfo fi = new FileInfo(file);
