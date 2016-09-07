@@ -45,8 +45,8 @@ namespace PKHeX
         {
             return new[]
             {
-                SIZE_1JLIST, SIZE_1ULIST, SIZE_1PARTY, SIZE_1STORED,
-                SIZE_2ULIST, SIZE_2JLIST, SIZE_2PARTY, SIZE_2STORED,
+                SIZE_1JLIST, SIZE_1ULIST,
+                SIZE_2ULIST, SIZE_2JLIST,
                 SIZE_3STORED, SIZE_3PARTY,
                 SIZE_4STORED, SIZE_4PARTY,
                 SIZE_5PARTY,

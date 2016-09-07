@@ -33,13 +33,9 @@ namespace PKHeX
             {
                 case PKX.SIZE_1JLIST:
                 case PKX.SIZE_1ULIST:
-                case PKX.SIZE_1PARTY:
-                case PKX.SIZE_1STORED:
                     return 1;
                 case PKX.SIZE_2ULIST:
                 case PKX.SIZE_2JLIST:
-                case PKX.SIZE_2PARTY:
-                case PKX.SIZE_2STORED:
                     return 2;
                 case PKX.SIZE_3PARTY:
                 case PKX.SIZE_3STORED:
