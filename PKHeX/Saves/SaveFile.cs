@@ -466,7 +466,14 @@ namespace PKHeX
             
             PKM[] pkms = BoxData;
             for (int i = 0; i < pkms.Length; i++)
-                pkms[i].Data = decryptPKM(pkdata[i]);
+            {
+                if (Generation == 1)
+                    pkms[i] = new PokemonList1(decryptPKM(pkdata[i]))[0];
+                else if (Generation == 2)
+                    pkms[i] = new PokemonList2(decryptPKM(pkdata[i]))[0];
+                else
+                    pkms[i].Data = decryptPKM(pkdata[i]);
+            }
             BoxData = pkms;
             return true;
         }
@@ -484,7 +491,14 @@ namespace PKHeX
 
             PKM[] pkms = BoxData;
             for (int i = 0; i < BoxSlotCount; i++)
-                pkms[box*BoxSlotCount + i].Data = decryptPKM(pkdata[i]);
+            {
+                if (Generation == 1)
+                    pkms[box * BoxSlotCount + i] = new PokemonList1(decryptPKM(pkdata[i]))[0];
+                else if (Generation == 2)
+                    pkms[box * BoxSlotCount + i] = new PokemonList2(decryptPKM(pkdata[i]))[0];
+                else
+                    pkms[box * BoxSlotCount + i].Data = decryptPKM(pkdata[i]);
+            }
             BoxData = pkms;
             return true;
         }
