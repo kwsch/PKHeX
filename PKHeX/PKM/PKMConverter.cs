@@ -100,15 +100,35 @@ namespace PKHeX
         }
         internal static PKM convertToFormat(PKM pk, int Format, out string comment)
         {
-            if (pk == null)
+            if (pk == null || pk.Species == 0)
             {
                 comment = "Null input. Aborting.";
                 return null;
             }
+
+            string currentFormat = pk.Format.ToString();
+            PKM pkm = pk.Clone();
+
             if (pk.Format == Format)
             {
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
+            }
+            if (pk.Format <= 2 && Format <= 2) // 1<->2, already checked not equal
+            {
+                switch (Format)
+                {
+                    case 1:
+                        if (pk.Species > 151)
+                        { comment = $"Cannot convert a {PKX.getSpeciesName(pk.Species, ((PK2)pk).Japanese ? 1 : 2)} to pk{Format}"; return null; }
+                        pkm = ((PK2)pk).convertToPK1();
+                        break;
+                    case 2:
+                        pkm = ((PK1)pk).convertToPK2();
+                        break;
+                }
+                comment = $"Converted from pk{pk.Format} to pk{Format}";
+                return pkm;
             }
             if (pk.Format > Format)
             {
@@ -128,8 +148,6 @@ namespace PKHeX
                           + "Please wait for Sun/Moon to release and documentation to occur.";
                 return null;
             }
-            string currentFormat = pk.Format.ToString();
-            PKM pkm = pk.Clone();
             if (pkm.IsEgg) // force hatch
             {
                 pkm.IsEgg = false;

@@ -43,7 +43,15 @@ namespace PKHeX
         /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
         public static bool getIsPKM(long len)
         {
-            return new[] {SIZE_1JLIST, SIZE_1ULIST, SIZE_2ULIST, SIZE_2JLIST, SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
+            return new[]
+            {
+                SIZE_1JLIST, SIZE_1ULIST,
+                SIZE_2ULIST, SIZE_2JLIST,
+                SIZE_3STORED, SIZE_3PARTY,
+                SIZE_4STORED, SIZE_4PARTY,
+                SIZE_5PARTY,
+                SIZE_6STORED, SIZE_6PARTY
+            }.Contains((int)len);
         }
 
         // C# PKX Function Library
@@ -2147,18 +2155,6 @@ namespace PKHeX
             {0xFF, "9"}
         };
         #endregion
-
-        public static int[] getG1LegalItems()
-        {
-            return Enumerable.Range(0, 7)     // 0-6
-           .Concat(Enumerable.Range(10, 11))  // 10-20
-           .Concat(Enumerable.Range(29, 15))  // 29-43
-           .Concat(Enumerable.Range(45, 5))   // 45-49
-           .Concat(Enumerable.Range(51, 8))   // 51-58
-           .Concat(Enumerable.Range(60, 24))  // 60-83
-           .Concat(Enumerable.Range(196, 54)) // 196-249
-           .ToArray();
-        }
 
         public static int getG1Species(int raw_id)
         {
