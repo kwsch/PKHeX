@@ -468,7 +468,7 @@ namespace PKHeX
         }
         private int wc_slot = -1;
 
-        private static Image getSprite(MysteryGift gift)
+        internal static Image getSprite(MysteryGift gift)
         {
             Image img;
             if (gift.IsPokémon)
@@ -487,7 +487,7 @@ namespace PKHeX
             if (gift.Empty)
                 return "Empty Slot. No data!";
 
-            string s = gift.getCardHeader();
+            string s = gift.getCardHeader() + Environment.NewLine;
             if (gift.IsItem)
             {
                 s += "Item: " + Main.itemlist[gift.Item] + Environment.NewLine + "Quantity: " + gift.Quantity;

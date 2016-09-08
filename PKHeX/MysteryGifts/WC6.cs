@@ -9,7 +9,8 @@ namespace PKHeX
         internal const int Size = 0x108;
         internal const int SizeFull = 0x310;
         internal const uint EonTicketConst = 0x225D73C2;
-        public override string Extension => ".wc6";
+        public override string Extension => "wc6";
+        public override int Format => 6;
 
         public WC6(byte[] data = null)
         {
@@ -94,6 +95,7 @@ namespace PKHeX
         
         // Pokémon Properties
         public override bool IsPokémon { get { return CardType == 0; } set { if (value) CardType = 0; } }
+        public override bool IsShiny { get { return PIDType == 2; } }
         public int TID { 
             get { return BitConverter.ToUInt16(Data, 0x68); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); } }
@@ -109,7 +111,7 @@ namespace PKHeX
         public int Pokéball {
             get { return Data[0x76]; } 
             set { Data[0x76] = (byte)value; } }
-        public int HeldItem {
+        public override int HeldItem {
             get { return BitConverter.ToUInt16(Data, 0x78); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x78); } }
         public int Move1 {
@@ -124,7 +126,7 @@ namespace PKHeX
         public int Move4 {
             get { return BitConverter.ToUInt16(Data, 0x80); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x80); } }
-        public int Species {
+        public override int Species {
             get { return BitConverter.ToUInt16(Data, 0x82); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x82); } }
         public int Form {
@@ -174,7 +176,7 @@ namespace PKHeX
             get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB6, 0x1A)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0xB6); } }
         public int Level { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
-        public bool IsEgg { get { return Data[0xD1] == 1; } set { Data[0xD1] = (byte)(value ? 1 : 0); } }
+        public override bool IsEgg { get { return Data[0xD1] == 1; } set { Data[0xD1] = (byte)(value ? 1 : 0); } }
         public uint PID {
             get { return BitConverter.ToUInt32(Data, 0xD4); }
             set { BitConverter.GetBytes(value).CopyTo(Data, 0xD4); } }
@@ -218,16 +220,9 @@ namespace PKHeX
         public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         public bool IsNicknamed => Nickname.Length > 0;
 
-        public int[] Moves
+        public override int[] Moves
         {
             get { return new[] {Move1, Move2, Move3, Move4}; }
-            set
-            {
-                if (value.Length > 0) Move1 = value[0];
-                if (value.Length > 1) Move2 = value[1];
-                if (value.Length > 2) Move3 = value[2];
-                if (value.Length > 3) Move4 = value[3];
-            }
         }
         public int[] RelearnMoves
         {

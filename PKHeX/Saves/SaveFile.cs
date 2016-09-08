@@ -20,6 +20,7 @@ namespace PKHeX
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public bool Japanese { protected get; set; }
+        public string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes.ToString("00")}ː{PlayedSeconds.ToString("00")}"; // not :
 
         public bool GetJapanese => Japanese;
 
@@ -465,7 +466,7 @@ namespace PKHeX
             
             PKM[] pkms = BoxData;
             for (int i = 0; i < pkms.Length; i++)
-                pkms[i].Data = decryptPKM(pkdata[i]);
+                pkms[i] = getPKM(decryptPKM(pkdata[i]));
             BoxData = pkms;
             return true;
         }
@@ -483,7 +484,7 @@ namespace PKHeX
 
             PKM[] pkms = BoxData;
             for (int i = 0; i < BoxSlotCount; i++)
-                pkms[box*BoxSlotCount + i].Data = decryptPKM(pkdata[i]);
+                pkms[box*BoxSlotCount + i] = getPKM(decryptPKM(pkdata[i]));
             BoxData = pkms;
             return true;
         }

@@ -7,7 +7,7 @@ namespace PKHeX
     public sealed class SAV5 : SaveFile
     {
         // Save Data Attributes
-        public override string BAKName => $"{FileName} [{OT} ({(GameVersion)Game})" +/* - {LastSavedTime}*/ "].bak";
+        public override string BAKName => $"{FileName} [{OT} ({(GameVersion)Game}) - {PlayTimeString}].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)

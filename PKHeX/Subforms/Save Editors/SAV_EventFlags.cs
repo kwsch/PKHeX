@@ -218,7 +218,7 @@ namespace PKHeX
             else
             {
                 c_CustomFlag.Enabled = true;
-                nud.BackColor = Main.defaultControlWhite;
+                nud.ResetBackColor();
                 c_CustomFlag.Checked = flags[flag];
             }
         }
