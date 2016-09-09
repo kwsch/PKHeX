@@ -172,6 +172,7 @@ namespace PKHeX
         protected override int GiftCountMax => 1;
         public override int OTLength => 8;
         public override int NickLength => 10;
+        public override int MaxMoney => 999999;
 
         public override bool HasParty => true;
 

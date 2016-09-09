@@ -13,7 +13,8 @@ namespace PKHeX
 
             cba = new[] {CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8};
             TB_OTName.MaxLength = SAV.OTLength;
-            B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
+            B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
+            MT_Money.Mask = "00000000000".Substring(0, SAV.MaxMoney.ToString().Length);
             B_MaxCoins.Click += (sender, e) => MT_Coins.Text = "9999";
 
             CB_Gender.Items.Clear();

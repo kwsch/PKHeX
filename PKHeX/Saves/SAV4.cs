@@ -53,6 +53,7 @@ namespace PKHeX
         protected override int GiftCountMax => 11;
         public override int OTLength => 8;
         public override int NickLength => 10;
+        public override int MaxMoney => 999999;
 
         public override int MaxMoveID => 467;
         public override int MaxSpeciesID => 493;

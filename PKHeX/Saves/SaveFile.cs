@@ -105,6 +105,7 @@ namespace PKHeX
         public virtual int DaycareSeedSize { get; } = 0;
         public abstract int OTLength { get; }
         public abstract int NickLength { get; }
+        public virtual int MaxMoney { get; } = 9999999;
 
         // Offsets
         protected int Box { get; set; } = int.MinValue;

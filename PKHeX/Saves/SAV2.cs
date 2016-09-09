@@ -216,6 +216,7 @@ namespace PKHeX
         public override int MaxItemID => 255;
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
+        public override int MaxMoney => 999999;
 
         public override int BoxCount => Japanese ? 9 : 14;
         public override int MaxEV => 65535;
