@@ -2860,7 +2860,7 @@ namespace PKHeX
                     return;
 
                 SAV.resetBoxes();
-                CB_BoxSelect.SelectedIndex = 0;
+                setPKXBoxes();
                 Util.Alert("Boxes cleared!");
             }
             else if (ModifierKeys == Keys.Alt)
@@ -2878,7 +2878,7 @@ namespace PKHeX
                     return;
 
                 SAV.sortBoxes();
-                CB_BoxSelect.SelectedIndex = 0;
+                setPKXBoxes();
                 Util.Alert("Boxes sorted!");
             }
             else if (ModifierKeys == Keys.Control)
