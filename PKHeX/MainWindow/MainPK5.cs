@@ -136,6 +136,7 @@ namespace PKHeX
             TB_EXP.Text = pk5.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk5.Gender];
             Label_Gender.ForeColor = pk5.Gender == 2 ? Label_Species.ForeColor : (pk5.Gender == 1 ? Color.Red : Color.Blue);
+            CHK_NSparkle.Checked = pk5.NPokémon;
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk5.Ability;
@@ -239,6 +240,8 @@ namespace PKHeX
             pk5.EncounterType = Util.getIndex(CB_EncounterType);
             pk5.Version = Util.getIndex(CB_GameOrigin);
             pk5.Language = Util.getIndex(CB_Language);
+
+            pk5.NPokémon = CHK_NSparkle.Checked;
 
             // Toss in Party Stats
             Array.Resize(ref pk5.Data, pk5.SIZE_PARTY);

@@ -525,8 +525,11 @@ namespace PKHeX
         private void FillPKXBoxes(int start)
         {
             if (Results == null)
+            {
                 for (int i = 0; i < RES_MAX; i++)
                     PKXBOXES[i].Image = null;
+                return;
+            }
             PKM[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
             for (int i = 0; i < data.Length; i++)
                 PKXBOXES[i].Image = data[i].Sprite;
@@ -591,7 +594,8 @@ namespace PKHeX
             else
             {
                 CB_Format.Visible = true;
-                CB_Format.SelectedIndex = MAXFORMAT - Main.SAV.Generation + 1; // SAV generation (offset by 1 for "Any")
+                int index = MAXFORMAT - Main.SAV.Generation + 1;
+                CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0; // SAV generation (offset by 1 for "Any")
             }
         }
     }

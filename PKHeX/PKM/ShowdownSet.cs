@@ -31,7 +31,7 @@ namespace PKHeX
         public int[] EVs;
         public int[] IVs;
         public int[] Moves;
-        public List<string> InvalidLines = new List<string>();
+        public readonly List<string> InvalidLines = new List<string>();
 
         // Parsing Utility
         public ShowdownSet(string input = null)
@@ -120,7 +120,10 @@ namespace PKHeX
                         {
                             string type = moveString.Remove(0, 13).Replace("[", "").Replace("]", ""); // Trim out excess data
                             int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
-                            if (hpVal >= 0) IVs = PKX.setHPIVs(hpVal, IVs); // Get IVs
+                            if (hpVal >= 0)
+                                IVs = PKX.setHPIVs(hpVal, IVs); // Get IVs
+                            else
+                                InvalidLines.Add($"Invalid Hidden Power Type: {type}");
                         }
                         moveString = "Hidden Power";
                     }
@@ -142,17 +145,41 @@ namespace PKHeX
                     case "EVs":
                         {
                             // Get EV list String
-                            string[] evlist = brokenline[1].Replace("SAtk", "SpA").Replace("SDef", "SpD").Replace("Spd", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
-                            for (int i = 0; i < evlist.Length / 2; i++)
-                                EVs[Array.IndexOf(StatNames, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
+                            string[] evlist = brokenline[1]
+                                // Because people think they can type sets out...
+                                .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
+                                .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
+                                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
+                            for (int i = 0; i < evlist.Length/2; i++)
+                            {
+                                ushort EV;
+                                ushort.TryParse(evlist[i * 2 + 0], out EV);
+                                int index = Array.IndexOf(StatNames, evlist[i*2 + 1]);
+                                if (index > -1)
+                                    EVs[index] = EV;
+                                else
+                                    InvalidLines.Add($"Unknown EV Type input: {evlist[i*2]}");
+                            }
                             break;
                         }
                     case "IVs":
                         {
                             // Get IV list String
-                            string[] ivlist = brokenline[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
-                            for (int i = 0; i < ivlist.Length / 2; i++)
-                                IVs[Array.IndexOf(StatNames, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
+                            string[] ivlist = brokenline[1]
+                                // Because people think they can type sets out...
+                                .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
+                                .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
+                                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
+                            for (int i = 0; i < ivlist.Length/2; i++)
+                            {
+                                byte IV;
+                                byte.TryParse(ivlist[i*2 + 0], out IV);
+                                int index = Array.IndexOf(StatNames, ivlist[i*2 + 1]);
+                                if (index > -1)
+                                    IVs[index] = IV;
+                                else
+                                    InvalidLines.Add($"Unknown EV Type input: {ivlist[i * 2]}");
+                            }
                             break;
                         }
                     default:

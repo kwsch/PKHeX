@@ -48,11 +48,18 @@ namespace PKHeX
             dgv.Columns.Add(dgvIndex);
             dgv.Columns.Add(dgvPuff);
 
-            dgv.Rows.Add(100);
-            for (int i = 0; i < 100; i++)
+            var Puffs = SAV.Puffs;
+            dgv.Rows.Add(Puffs.Length);
+            for (int i = 0; i < Puffs.Length; i++)
             {
                 dgv.Rows[i].Cells[0].Value = (i + 1).ToString();
-                dgv.Rows[i].Cells[1].Value = pfa[SAV.Data[SAV.Puff + i]];
+                int puffval = Puffs[i];
+                if (puffval >= pfa.Length)
+                {
+                    Util.Error($"Invalid Puff Index: {i}", $"Expected < ${pfa.Length}");
+                    puffval = 0;
+                }
+                dgv.Rows[i].Cells[1].Value = pfa[puffval];
             }
             MT_CNT.Text = SAV.PuffCount.ToString();
         }

@@ -5,7 +5,7 @@ namespace PKHeX
 {
     public sealed class SAV1 : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
+        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "SAV File|*.sav";
         public override string Extension => ".sav";
 
@@ -167,13 +167,14 @@ namespace PKHeX
         public override int MaxItemID => 255;
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
+        public override int MaxMoney => 999999;
 
         public override int BoxCount => Japanese ? 8 : 12;
         public override int MaxEV => 65535;
         public override int MaxIV => 15;
         public override int Generation => 1;
         protected override int GiftCountMax => 0;
-        public override int OTLength => Japanese ? 5 : 10;
+        public override int OTLength => Japanese ? 5 : 7;
         public override int NickLength => Japanese ? 5 : 10;
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
@@ -327,7 +328,7 @@ namespace PKHeX
             }
         }
 
-        private readonly ushort[] LegalItems = PKX.getG1LegalItems().Select(i => (ushort)i).ToArray();
+        private readonly ushort[] LegalItems = Legal.Pouch_Items_RBY;
         public override InventoryPouch[] Inventory
         {
             get

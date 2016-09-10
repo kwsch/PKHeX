@@ -66,8 +66,7 @@ namespace PKHeX
                                 };
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
-            defaultControlWhite = CB_Species.BackColor;
-            defaultControlText = Label_Species.ForeColor;
+            Label_Species.ResetForeColor();
 
             // Set up Language Selection
             foreach (var cbItem in main_langlist)
@@ -162,7 +161,6 @@ namespace PKHeX
         #region Important Variables
         public static PKM pkm = new PK6(); // Tab Pokemon Data Storage
         public static SaveFile SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
-        public static Color defaultControlWhite, defaultControlText;
         public static string eggname = "";
 
         public static string curlanguage = "en";
@@ -208,7 +206,7 @@ namespace PKHeX
 
         public static string WorkingDirectory => Environment.CurrentDirectory;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
-        private static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
+        public static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string ThreadPath => @"https://projectpokemon.org/forums/showthread.php?36986";
         private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
@@ -326,6 +324,15 @@ namespace PKHeX
             else
                 Util.Alert("PKHeX's database was not found.",
                     $"Please dump all boxes from a save file, then ensure the '{DatabasePath}' folder exists.");
+        }
+        private void mainMenuMysteryDM(object sender, EventArgs e)
+        {
+            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_MysteryGiftDB)) as SAV_MysteryGiftDB;
+            if (z != null)
+            { Util.CenterToForm(z, this); z.BringToFront(); return; }
+
+            new SAV_MysteryGiftDB(this).Show();
+            
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
@@ -781,6 +788,8 @@ namespace PKHeX
         private void loadSAV(SaveFile sav, string path)
         {
             PKM pk = preparePKM();
+            // clean fields
+            populateFields(SAV.BlankPKM);
             SAV = sav;
 
             if (path != null) // Actual save file
@@ -789,7 +798,7 @@ namespace PKHeX
                 SAV.FileName = Path.GetExtension(path) == ".bak"
                     ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0]
                     : Path.GetFileName(path);
-                Text = "PKHeX - " + $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
+                Text = $"PKH{(HaX ? "a" : "e")}X - " + $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
 
                 // If backup folder exists, save a backup.
                 string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
@@ -802,7 +811,7 @@ namespace PKHeX
             {
                 SAV.FilePath = null;
                 SAV.FileName = "Blank Save File";
-                Text = "PKHeX - " + $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
+                Text = $"PKH{(HaX ? "a" : "e")}X - " + $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
 
                 GB_SAVtools.Visible = false;
             }
@@ -856,8 +865,7 @@ namespace PKHeX
             byte[] extraBytes = new byte[1];
             Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV
 
-            CB_Country.Visible = CB_SubRegion.Visible = CB_3DSReg.Visible =
-            Label_Country.Visible = Label_SubRegion.Visible = Label_3DSRegion.Visible = SAV.Generation >= 6;
+            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = SAV.Generation >= 6;
             Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = SAV.Generation >= 6;
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = SAV.Generation >= 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
@@ -865,106 +873,93 @@ namespace PKHeX
             PB_MarkPentagon.Visible = SAV.Generation == 6;
             TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation == 6;
 
-            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = 
-            Label_MetDate.Visible = CAL_MetDate.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
+            FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = SAV.Generation == 5;
 
-            BTN_Ribbons.Visible = SAV.Generation >= 3;
+            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = SAV.Generation >= 4;
+
             DEV_Ability.Enabled = DEV_Ability.Visible = SAV.Generation > 3 && HaX;
-            TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
             CB_Ability.Visible = !DEV_Ability.Enabled && SAV.Generation >= 3;
+            FLP_Nature.Visible = SAV.Generation >= 3;
+            FLP_Ability.Visible = SAV.Generation >= 3;
+            FLP_Language.Visible = SAV.Generation >= 3;
+            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = SAV.Generation >= 3;
+            GB_Markings.Visible = SAV.Generation >= 3;
+            BTN_Ribbons.Visible = SAV.Generation >= 3;
+            CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation >= 3;
+            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
 
-            GB_ExtraBytes.Visible = SAV.Generation > 2;
-            GB_Markings.Visible = SAV.Generation > 2;
+            FLP_FriendshipForm.Visible = SAV.Generation >= 2;
+            FLP_HeldItem.Visible = SAV.Generation >= 2;
+            CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation >= 2;
+            FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = SAV.Generation >= 2;
+            Label_OTGender.Visible = SAV.Generation >= 2;
 
-            Label_HeldItem.Visible = CB_HeldItem.Visible = SAV.Generation > 1;
-            Label_Total.Visible = TB_IVTotal.Visible = TB_EVTotal.Visible = L_Potential.Visible = SAV.Generation > 2;
-            Label_HiddenPowerPrefix.Visible = CB_HPType.Visible = SAV.Generation > 1;
-            CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation > 2;
-            Label_CharacteristicPrefix.Visible = L_Characteristic.Visible = SAV.Generation > 2;
-            Label_ContestStats.Visible = Label_Cool.Visible = Label_Tough.Visible = Label_Smart.Visible =
-                Label_Sheen.Visible = Label_Beauty.Visible = Label_Cute.Visible = TB_Cool.Visible = TB_Tough.Visible =
-                    TB_Smart.Visible = TB_Sheen.Visible = TB_Beauty.Visible = TB_Cute.Visible = Label_Nature.Visible =
-                    CB_Nature.Visible = Label_Language.Visible = CB_Language.Visible = Label_Ability.Visible = 
-                    BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
+            if (SAV.Generation == 1)
+                Label_IsShiny.Visible = false;
 
-            Label_Friendship.Visible = Label_HatchCounter.Visible = TB_Friendship.Visible = SAV.Generation >= 2;
+            // HaX override, needs to be after DEV_Ability enabled assignment.
+            TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
+
             // Met Tab
-            CHK_Fateful.Visible = Label_OriginGame.Visible = Label_Ball.Visible = 
-            CB_Ball.Visible = CB_GameOrigin.Visible = SAV.Generation > 2;
-            Label_MetLocation.Visible = CB_MetLocation.Visible = Label_MetLevel.Visible  = TB_MetLevel.Visible = Label_OTGender.Visible = 
-                SAV.Generation > 1;
+            FLP_MetDate.Visible = SAV.Generation >= 4;
+            FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = SAV.Generation >= 3;
+            FLP_MetLocation.Visible = FLP_MetLevel.Visible = SAV.Generation >= 2;
+            FLP_TimeOfDay.Visible = SAV.Generation == 2;
 
-            L_MetTimeOfDay.Visible = CB_MetTimeOfDay.Visible = SAV.Generation == 2;
+            // Stats
+            FLP_StatsTotal.Visible = SAV.Generation >= 3;
+            FLP_Characteristic.Visible = SAV.Generation >= 3;
+            FLP_HPType.Visible = SAV.Generation >= 2;
 
-            if (SAV.Generation == 2)
-            {
-                var met_list = getLocationList(SAV.Version, SAV.Generation, egg: false);
-                CB_MetLocation.DisplayMember = "Text";
-                CB_MetLocation.ValueMember = "Value";
-                CB_MetLocation.DataSource = new BindingSource(met_list, null);
-            }
-
-            CHK_Infected.Visible = CHK_Cured.Visible = SAV.Generation >= 3;
+            PAN_Contest.Visible = SAV.Generation >= 3;
 
             // Second daycare slot
-            SlotPictureBoxes[43].Visible = SAV.Generation > 1;
-
-            CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation > 1;
-
+            SlotPictureBoxes[43].Visible = SAV.Generation >= 2;
 
             if (sav.Generation == 1)
             {
-                Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = false;
-                Label_SPA.Text = "Spc:";
+                FLP_SpD.Visible = false;
+                Label_SPA.Visible = false;
+                Label_SPC.Visible = true;
                 TB_HPIV.ReadOnly = true;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "00000";
-                    ctrl.Size = new Size(37, 20);
+                    ctrl.Size = Stat_HP.Size;
                 }
-                Control[] statControls = {Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE};
-                foreach (Control ctrl in statControls)
-                    ctrl.Location = new Point(173, ctrl.Location.Y);
-                Label_Stats.Location = new Point(168, Label_Stats.Location.Y);
             }
             else if (sav.Generation == 2)
             {
-                Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = true;
-                Label_SPA.Text = "SpA:";
+                FLP_SpD.Visible = true;
+                Label_SPA.Visible = true;
+                Label_SPC.Visible = false;
                 TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = true;
                 TB_HPIV.ReadOnly = true;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "00000";
-                    ctrl.Size = new Size(37, 20);
+                    ctrl.Size = Stat_HP.Size;
                 }
-                Control[] statControls = { Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE };
-                foreach (Control ctrl in statControls)
-                    ctrl.Location = new Point(173, ctrl.Location.Y);
-                Label_Stats.Location = new Point(168, Label_Stats.Location.Y);
             }
             else
             {
-                Label_SPD.Visible = TB_SPDEV.Visible = TB_SPDIV.Visible = Stat_SPD.Visible = true;
-                Label_SPA.Text = "SpA:";
+                FLP_SpD.Visible = true;
+                Label_SPA.Visible = true;
+                Label_SPC.Visible = false;
                 TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = false;
                 TB_HPIV.ReadOnly = false;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
                     ctrl.Mask = "000";
-                    ctrl.Size = new Size(31, 20);
+                    ctrl.Size = TB_ExtraByte.Size;
                 }
-                Control[] statControls = { Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE };
-                foreach (Control ctrl in statControls)
-                    ctrl.Location = new Point(167, ctrl.Location.Y);
-                Label_Stats.Location = new Point(162, Label_Stats.Location.Y);
             }
 
             // Recenter PKM SubEditors
-            FLP_PKMEditors.Location = new Point((tabMain.TabPages[4].Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
+            FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
 
             switch (SAV.Generation)
             {
@@ -1005,9 +1000,10 @@ namespace PKHeX
                     break;
             }
             bool init = fieldsInitialized;
-            fieldsInitialized = false;
+            fieldsInitialized = fieldsLoaded = false;
+            pkm = (pkm.Format != SAV.Generation || SAV.Generation < 3) ? SAV.BlankPKM : pk;
             populateFilteredDataSources();
-            populateFields((pkm.Format != SAV.Generation || SAV.Generation < 3) ? SAV.BlankPKM : pk);
+            populateFields(pkm);
             fieldsInitialized |= init;
 
             // SAV Specific Limits
@@ -1015,12 +1011,22 @@ namespace PKHeX
             TB_OTt2.MaxLength = SAV.OTLength;
             TB_Nickname.MaxLength = SAV.NickLength;
 
+            // Hide Unused Tabs
+            if (SAV.Generation == 1 && tabMain.TabPages.Contains(Tab_Met))
+                tabMain.TabPages.Remove(Tab_Met);
+            else if (SAV.Generation != 1 && !tabMain.TabPages.Contains(Tab_Met))
+            {
+                tabMain.TabPages.Insert(1, Tab_Met);
+                // force update -- re-added tab may be untranslated
+                Util.TranslateInterface(this, curlanguage);
+            }
+
             // Common HaX Interface
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
             TB_Level.Visible = !HaX;
 
             // Load Extra Byte List
-            if (GB_ExtraBytes.Visible)
+            if (GB_ExtraBytes.Enabled)
             {
                 CB_ExtraBytes.Items.Clear();
                 foreach (byte b in extraBytes)
@@ -1048,7 +1054,7 @@ namespace PKHeX
             for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
             {
                 byte[] data = new byte[WC6.SizeFull];
-                Array.Copy(wc6bin, i, data, 0, WC6.SizeFull);
+                Array.Copy(wc6full, i, data, 0, WC6.SizeFull);
                 wc6db.Add(new WC6(data));
             }
 
@@ -1072,7 +1078,7 @@ namespace PKHeX
             InitializeLanguage();
             Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex]); // Translate the UI to language.
             // Recenter PKM SubEditors
-            FLP_PKMEditors.Location = new Point((tabMain.TabPages[4].Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
+            FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
         }
@@ -1341,9 +1347,10 @@ namespace PKHeX
         public void populateFields(PKM pk, bool focus = true)
         {
             if (pk == null) { Util.Error("Attempted to load a null file."); return; }
-
-            if (pk.Format > SAV.Generation)
-            { Util.Alert("Can't load future generation files."); return; }
+            
+            if ((pk.Format >= 3 && pk.Format > SAV.Generation) // pk3-7, can't go backwards
+                || (pk.Format <= 2 && SAV.Generation > 2 && SAV.Generation < 7)) // pk1-2, can't go 3-6
+            { Util.Alert($"Can't load Gen{pk.Format} to Gen{SAV.Generation} games."); return; }
 
             bool oldInit = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
@@ -1387,6 +1394,9 @@ namespace PKHeX
             }
             fieldsLoaded = true;
 
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
+
             // Set the Preview Box
             dragout.Image = pk.Sprite;
             updateLegality();
@@ -1418,6 +1428,9 @@ namespace PKHeX
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
             if (SAV.Generation == 2)
                 CB_Form.Enabled = false;
+            
+            if (HaX)
+                Label_Form.Visible = true;
 
             if (!hasForms)
                 return;
@@ -1575,32 +1588,40 @@ namespace PKHeX
             if (!(ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt))
                 return;
 
+            if (sender == Label_SPC)
+                sender = Label_SPA;
             int index = Array.IndexOf(new[] { Label_HP, Label_ATK, Label_DEF, Label_SPA, Label_SPD, Label_SPE }, sender);
 
             if (ModifierKeys == Keys.Alt) // EV
             {
-                var arrayEV = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV};
-                arrayEV[index].Text = (e.Button == MouseButtons.Left
-                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(arrayEV[index].Text), 0), 252) 
-                    : 0).ToString();
+                var mt = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV}[index];
+                if (e.Button == MouseButtons.Left) // max
+                    mt.Text = SAV.Generation >= 3
+                        ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(mt.Text), 0), 252).ToString()
+                        : ushort.MaxValue.ToString();
+                else // min
+                    mt.Text = 0.ToString();
             }
             else
             new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV}[index].Text =
-                (e.Button == MouseButtons.Left ? 31 : 0).ToString();
+                (e.Button == MouseButtons.Left ? SAV.MaxIV : 0).ToString();
         }
         private void clickIV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
-                ((MaskedTextBox) sender).Text = 31.ToString();
+                ((MaskedTextBox) sender).Text = SAV.MaxIV.ToString();
             else if (ModifierKeys == Keys.Alt)
                 ((MaskedTextBox) sender).Text = 0.ToString();
         }
         private void clickEV(object sender, EventArgs e)
         {
+            MaskedTextBox mt = (MaskedTextBox)sender;
             if (ModifierKeys == Keys.Control) // EV
-                ((MaskedTextBox) sender).Text = Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32((sender as MaskedTextBox).Text), 0), 252).ToString();
+                mt.Text = SAV.Generation >= 3
+                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(mt.Text), 0), 252).ToString()
+                    : ushort.MaxValue.ToString();
             else if (ModifierKeys == Keys.Alt)
-                ((MaskedTextBox) sender).Text = 0.ToString();
+                mt.Text = 0.ToString();
         }
         private void clickOT(object sender, EventArgs e)
         {
@@ -2148,18 +2169,18 @@ namespace PKHeX
                 case GameVersion.D:
                 case GameVersion.P:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value <= 111)); // Battle Park
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)); // Battle Park
                     break;
 
                 case GameVersion.Pt:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value <= 125)); // Rock Peak Ruins
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)); // Rock Peak Ruins
                     break;
 
                 case GameVersion.HG:
                 case GameVersion.SS:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen6.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)); // Celadon Dept.
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)); // Celadon Dept.
                     break;
 
                 case GameVersion.B:
@@ -2261,7 +2282,7 @@ namespace PKHeX
             Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
             // Reset Label Colors
             foreach (Label label in labarray)
-                label.ForeColor = defaultControlText;
+                label.ResetForeColor();
 
             // Set Colored StatLabels only if Nature isn't Neutral
             NatureTip.SetToolTip(CB_Nature,
@@ -2449,9 +2470,12 @@ namespace PKHeX
             cb.SelectionLength = 0;
             if (cb.Text == "")
             { cb.SelectedIndex = 0; return; }
-            cb.BackColor = cb.SelectedValue == null ? Color.DarkSalmon : defaultControlWhite;
+            if (cb.SelectedValue == null)
+                cb.BackColor = Color.DarkSalmon;
+            else
+                cb.ResetBackColor();
         }
-        private void validateComboBox(object sender, EventArgs e)
+        private void validateComboBox(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!(sender is ComboBox))
                 return;
@@ -2465,7 +2489,7 @@ namespace PKHeX
         {
             if (!fieldsInitialized)
                 return;
-            validateComboBox(sender, e);
+            validateComboBox(sender, null);
             if (fieldsLoaded)
             {
                 if (sender == CB_Ability && SAV.Generation >= 6)
@@ -2561,7 +2585,7 @@ namespace PKHeX
                 Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
                 // Reset Label Colors
                 foreach (Label label in labarray)
-                    label.ForeColor = defaultControlText;
+                    label.ResetForeColor();
 
                 // Set Colored StatLabels only if Nature isn't Neutral
                 if (incr == decr) return;
@@ -2619,38 +2643,30 @@ namespace PKHeX
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
-            #region ComboBoxes to verify they are set.
             ComboBox[] cba = {
                                  CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
                                  CB_MetLocation, CB_EggLocation, CB_Ball,   // Met Tab
                                  CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
                                  CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
                              };
-            for (int i = 0; i < cba.Length; i++)
-            {
-                int back = cba[i].BackColor.ToArgb();
-                if (!cba[i].Visible || back == SystemColors.Control.ToArgb() || back == 0 ||
-                    !(back != -1 & back != defaultControlWhite.ToArgb())) continue;
-                if (i < 6)      // Main Tab
-                    tabMain.SelectedIndex = 0;
-                else if (i < 9) // Met Tab
-                    tabMain.SelectedIndex = 1;
-                else            // Moves
-                    tabMain.SelectedIndex = 3;
-                goto invalid;
-            }
-            #endregion
-            // Further logic checking
-            if (SAV.Generation >= 3 && Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
-            { tabMain.SelectedIndex = 2; goto invalid; }
-            // If no errors detected...
-            if (Util.getIndex(CB_Species) != 0) return true;
-            // Else
-            tabMain.SelectedIndex = 0;
 
-            // else...
-        invalid:
-            { SystemSounds.Exclamation.Play(); return false; }
+            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon);
+            if (cb != null)
+            {
+                Control c = cb.Parent;
+                while (!(c is TabPage))
+                    c = c.Parent;
+                tabMain.SelectedTab = c as TabPage;
+            }
+            else if (SAV.Generation >= 3 && Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
+                tabMain.SelectedTab = Tab_Stats;
+            else if (Util.getIndex(CB_Species) == 0)
+                tabMain.SelectedTab = Tab_Main;
+            else
+                return true;
+
+            SystemSounds.Exclamation.Play();
+            return false;
         }
         public static string[] verifyPKMtoSAV(PKM pk)
         {
@@ -2844,7 +2860,7 @@ namespace PKHeX
                     return;
 
                 SAV.resetBoxes();
-                CB_BoxSelect.SelectedIndex = 0;
+                setPKXBoxes();
                 Util.Alert("Boxes cleared!");
             }
             else if (ModifierKeys == Keys.Alt)
@@ -2862,7 +2878,7 @@ namespace PKHeX
                     return;
 
                 SAV.sortBoxes();
-                CB_BoxSelect.SelectedIndex = 0;
+                setPKXBoxes();
                 Util.Alert("Boxes sorted!");
             }
             else if (ModifierKeys == Keys.Control)
@@ -3378,7 +3394,7 @@ namespace PKHeX
                     Directory.CreateDirectory(Path.Combine(path, boxfolder));
                 }
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
-                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.Data.Take(SAV.SIZE_STORED).ToArray());
+                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.DecryptedBoxData);
             }
         }
         private void loadBoxesFromDB(string path)
@@ -3700,7 +3716,7 @@ namespace PKHeX
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
                     
-                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber)
+                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber && DragInfo.slotDestinationSlotNumber > -1)
                         SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight

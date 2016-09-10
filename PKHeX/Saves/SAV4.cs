@@ -5,7 +5,7 @@ namespace PKHeX
 {
     public sealed class SAV4 : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
+        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
         public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -53,6 +53,7 @@ namespace PKHeX
         protected override int GiftCountMax => 11;
         public override int OTLength => 8;
         public override int NickLength => 10;
+        public override int MaxMoney => 999999;
 
         public override int MaxMoveID => 467;
         public override int MaxSpeciesID => 493;
