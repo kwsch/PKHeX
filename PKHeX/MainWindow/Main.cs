@@ -1099,15 +1099,16 @@ namespace PKHeX
             if (CB_MainLanguage.SelectedIndex < 8)
                 curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
 
+            string l = curlanguage;
+
             // Past Generation strings
-            g3items = Util.getStringList("ItemsG3", "en");
-            g2items = Util.getStringList("ItemsG2", "en");
-            g1items = Util.getStringList("ItemsG1", "en");
-            metRSEFRLG_00000 = Util.getStringList("rsefrlg_00000", "en");
-            metGSC_00000 = Util.getStringList("gsc_00000", "en");
+            g3items = Util.getStringListFallback("ItemsG3", l, "en");
+            g2items = Util.getStringListFallback("ItemsG2", l, "en");
+            g1items = Util.getStringListFallback("ItemsG1", l, "en");
+            metRSEFRLG_00000 = Util.getStringListFallback("rsefrlg_00000", l, "en");
+            metGSC_00000 = Util.getStringListFallback("gsc_00000", l, "en");
 
             // Current Generation strings
-            string l = curlanguage;
             natures = Util.getStringList("natures", l);
             types = Util.getStringList("types", l);
             abilitylist = Util.getAbilitiesList(l);
