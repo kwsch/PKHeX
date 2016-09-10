@@ -898,13 +898,13 @@ namespace PKHeX
             BTN_Ribbons.Visible = SAV.Generation >= 3;
             CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation >= 3;
             BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
+            Label_IVs.Visible = SAV.Generation >= 3; // DVs appears instead
 
             FLP_FriendshipForm.Visible = SAV.Generation >= 2;
             FLP_HeldItem.Visible = SAV.Generation >= 2;
             CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = SAV.Generation >= 2;
             Label_OTGender.Visible = SAV.Generation >= 2;
-            Label_IVs.Visible = SAV.Generation >= 2; // DVs appears instead
 
             if (SAV.Generation == 1)
                 Label_IsShiny.Visible = false;
