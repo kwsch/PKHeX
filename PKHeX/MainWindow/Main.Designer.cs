@@ -157,7 +157,9 @@
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
             this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
             this.FLP_StatsHeaderRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_IVs = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_IVs = new System.Windows.Forms.Label();
+            this.Label_DVs = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
             this.FLP_HP = new System.Windows.Forms.FlowLayoutPanel();
@@ -411,9 +413,9 @@
             this.B_OpenOPowers = new System.Windows.Forms.Button();
             this.B_OpenEventFlags = new System.Windows.Forms.Button();
             this.B_OpenPokedex = new System.Windows.Forms.Button();
-            this.B_LinkInfo = new System.Windows.Forms.Button();
+            this.B_OpenLinkInfo = new System.Windows.Forms.Button();
             this.B_OpenBerryField = new System.Windows.Forms.Button();
-            this.B_Pokeblocks = new System.Windows.Forms.Button();
+            this.B_OpenPokeblocks = new System.Windows.Forms.Button();
             this.B_OpenSecretBase = new System.Windows.Forms.Button();
             this.B_OpenPokepuffs = new System.Windows.Forms.Button();
             this.B_OpenSuperTraining = new System.Windows.Forms.Button();
@@ -473,6 +475,7 @@
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
             this.FLP_StatsHeaderRight.SuspendLayout();
+            this.FLP_IVs.SuspendLayout();
             this.FLP_HP.SuspendLayout();
             this.FLP_HPRight.SuspendLayout();
             this.FLP_Atk.SuspendLayout();
@@ -2079,7 +2082,7 @@
             // FLP_StatsHeaderRight
             // 
             this.FLP_StatsHeaderRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_StatsHeaderRight.Controls.Add(this.Label_IVs);
+            this.FLP_StatsHeaderRight.Controls.Add(this.FLP_IVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_EVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_Stats);
             this.FLP_StatsHeaderRight.Location = new System.Drawing.Point(107, 0);
@@ -2087,6 +2090,17 @@
             this.FLP_StatsHeaderRight.Name = "FLP_StatsHeaderRight";
             this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_StatsHeaderRight.TabIndex = 123;
+            // 
+            // FLP_IVs
+            // 
+            this.FLP_IVs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_IVs.Controls.Add(this.Label_IVs);
+            this.FLP_IVs.Controls.Add(this.Label_DVs);
+            this.FLP_IVs.Location = new System.Drawing.Point(0, 0);
+            this.FLP_IVs.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_IVs.Name = "FLP_IVs";
+            this.FLP_IVs.Size = new System.Drawing.Size(30, 21);
+            this.FLP_IVs.TabIndex = 124;
             // 
             // Label_IVs
             // 
@@ -2097,6 +2111,16 @@
             this.Label_IVs.TabIndex = 26;
             this.Label_IVs.Text = "IVs";
             this.Label_IVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Label_DVs
+            // 
+            this.Label_DVs.Location = new System.Drawing.Point(0, 21);
+            this.Label_DVs.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_DVs.Name = "Label_DVs";
+            this.Label_DVs.Size = new System.Drawing.Size(30, 21);
+            this.Label_DVs.TabIndex = 26;
+            this.Label_DVs.Text = "DVs";
+            this.Label_DVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_EVs
             // 
@@ -3572,7 +3596,7 @@
             this.Menu_ExportMAIN.Name = "Menu_ExportMAIN";
             this.Menu_ExportMAIN.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportMAIN.ShowShortcutKeys = false;
-            this.Menu_ExportMAIN.Size = new System.Drawing.Size(130, 22);
+            this.Menu_ExportMAIN.Size = new System.Drawing.Size(142, 22);
             this.Menu_ExportMAIN.Text = "&Export main";
             this.Menu_ExportMAIN.Click += new System.EventHandler(this.clickExportSAV);
             // 
@@ -3582,8 +3606,8 @@
             this.Menu_ExportBAK.Name = "Menu_ExportBAK";
             this.Menu_ExportBAK.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_ExportBAK.ShowShortcutKeys = false;
-            this.Menu_ExportBAK.Size = new System.Drawing.Size(130, 22);
-            this.Menu_ExportBAK.Text = "Export &BAK";
+            this.Menu_ExportBAK.Size = new System.Drawing.Size(142, 22);
+            this.Menu_ExportBAK.Text = "Export &Backup";
             this.Menu_ExportBAK.Click += new System.EventHandler(this.clickExportSAVBAK);
             // 
             // Menu_Exit
@@ -3729,7 +3753,7 @@
             this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.Menu_Database.ShowShortcutKeys = false;
             this.Menu_Database.Size = new System.Drawing.Size(182, 22);
-            this.Menu_Database.Text = "PK6 &Database";
+            this.Menu_Database.Text = "PKM &Database";
             this.Menu_Database.Click += new System.EventHandler(this.mainMenuDatabase);
             // 
             // Menu_MGDatabase
@@ -5231,9 +5255,9 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenOPowers);
             this.FLP_SAVtools.Controls.Add(this.B_OpenEventFlags);
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokedex);
-            this.FLP_SAVtools.Controls.Add(this.B_LinkInfo);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenLinkInfo);
             this.FLP_SAVtools.Controls.Add(this.B_OpenBerryField);
-            this.FLP_SAVtools.Controls.Add(this.B_Pokeblocks);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenPokeblocks);
             this.FLP_SAVtools.Controls.Add(this.B_OpenSecretBase);
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokepuffs);
             this.FLP_SAVtools.Controls.Add(this.B_OpenSuperTraining);
@@ -5315,15 +5339,15 @@
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
             this.B_OpenPokedex.Click += new System.EventHandler(this.B_OpenPokedex_Click);
             // 
-            // B_LinkInfo
+            // B_OpenLinkInfo
             // 
-            this.B_LinkInfo.Location = new System.Drawing.Point(96, 61);
-            this.B_LinkInfo.Name = "B_LinkInfo";
-            this.B_LinkInfo.Size = new System.Drawing.Size(87, 23);
-            this.B_LinkInfo.TabIndex = 23;
-            this.B_LinkInfo.Text = "Link Data";
-            this.B_LinkInfo.UseVisualStyleBackColor = true;
-            this.B_LinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
+            this.B_OpenLinkInfo.Location = new System.Drawing.Point(96, 61);
+            this.B_OpenLinkInfo.Name = "B_OpenLinkInfo";
+            this.B_OpenLinkInfo.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenLinkInfo.TabIndex = 23;
+            this.B_OpenLinkInfo.Text = "Link Data";
+            this.B_OpenLinkInfo.UseVisualStyleBackColor = true;
+            this.B_OpenLinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
             // 
             // B_OpenBerryField
             // 
@@ -5335,16 +5359,16 @@
             this.B_OpenBerryField.UseVisualStyleBackColor = true;
             this.B_OpenBerryField.Click += new System.EventHandler(this.B_OpenBerryField_Click);
             // 
-            // B_Pokeblocks
+            // B_OpenPokeblocks
             // 
-            this.B_Pokeblocks.Location = new System.Drawing.Point(3, 90);
-            this.B_Pokeblocks.Name = "B_Pokeblocks";
-            this.B_Pokeblocks.Size = new System.Drawing.Size(87, 23);
-            this.B_Pokeblocks.TabIndex = 22;
-            this.B_Pokeblocks.Text = "Pokéblocks";
-            this.B_Pokeblocks.UseVisualStyleBackColor = true;
-            this.B_Pokeblocks.Visible = false;
-            this.B_Pokeblocks.Click += new System.EventHandler(this.B_OpenPokeblocks_Click);
+            this.B_OpenPokeblocks.Location = new System.Drawing.Point(3, 90);
+            this.B_OpenPokeblocks.Name = "B_OpenPokeblocks";
+            this.B_OpenPokeblocks.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenPokeblocks.TabIndex = 22;
+            this.B_OpenPokeblocks.Text = "Pokéblocks";
+            this.B_OpenPokeblocks.UseVisualStyleBackColor = true;
+            this.B_OpenPokeblocks.Visible = false;
+            this.B_OpenPokeblocks.Click += new System.EventHandler(this.B_OpenPokeblocks_Click);
             // 
             // B_OpenSecretBase
             // 
@@ -5559,6 +5583,7 @@
             this.FLP_HackedStats.ResumeLayout(false);
             this.FLP_HackedStats.PerformLayout();
             this.FLP_StatsHeaderRight.ResumeLayout(false);
+            this.FLP_IVs.ResumeLayout(false);
             this.FLP_HP.ResumeLayout(false);
             this.FLP_HPRight.ResumeLayout(false);
             this.FLP_HPRight.PerformLayout();
@@ -6008,11 +6033,11 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVtools;
         private System.Windows.Forms.GroupBox GB_SAVtools;
         private System.Windows.Forms.PictureBox PB_Mark1;
-        private System.Windows.Forms.Button B_Pokeblocks;
+        private System.Windows.Forms.Button B_OpenPokeblocks;
         private System.Windows.Forms.ToolStripMenuItem Menu_BatchEditor;
         private System.Windows.Forms.Button BTN_Medals;
         private System.Windows.Forms.FlowLayoutPanel FLP_PKMEditors;
-        private System.Windows.Forms.Button B_LinkInfo;
+        private System.Windows.Forms.Button B_OpenLinkInfo;
         private System.Windows.Forms.Button B_CGearSkin;
         private System.Windows.Forms.LinkLabel L_UpdateAvailable;
         private System.Windows.Forms.Label L_MetTimeOfDay;
@@ -6097,6 +6122,8 @@
         private System.Windows.Forms.MaskedTextBox TB_Smart;
         private System.Windows.Forms.MaskedTextBox TB_Tough;
         private System.Windows.Forms.MaskedTextBox TB_Sheen;
+        private System.Windows.Forms.FlowLayoutPanel FLP_IVs;
+        private System.Windows.Forms.Label Label_DVs;
     }
 }
 

@@ -328,7 +328,7 @@ namespace PKHeX
         public abstract int getDaycareSlotOffset(int loc, int slot);
         public abstract uint? getDaycareEXP(int loc, int slot);
         public virtual ulong? getDaycareRNGSeed(int loc) { return null; }
-        public virtual bool? getDaycareHasEgg(int loc) { return false; }
+        public virtual bool? getDaycareHasEgg(int loc) { return null; }
         public abstract bool? getDaycareOccupied(int loc, int slot);
         
         public abstract void setDaycareEXP(int loc, int slot, uint EXP);

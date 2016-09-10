@@ -835,7 +835,18 @@ namespace PKHeX
             GB_SUBE.Visible = SAV.HasSUBE;
             PB_Locked.Visible = SAV.HasBattleBox && SAV.BattleBoxLocked;
 
-            PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.HasBox;
+            if (!SAV.HasBox && tabBoxMulti.TabPages.Contains(Tab_Box))
+            {
+                tabBoxMulti.TabPages.Remove(Tab_Box);
+                tabBoxMulti.TabPages.Remove(Tab_Other);
+            }
+            else if (SAV.HasBox && !tabBoxMulti.TabPages.Contains(Tab_Box))
+            {
+                tabBoxMulti.TabPages.Insert(0, Tab_Box);
+                tabBoxMulti.TabPages.Insert(2, Tab_Other);
+                // force update -- re-added tab may be untranslated
+                Util.TranslateInterface(this, curlanguage);
+            }
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.HasBox;
 
             if (path != null) // Actual save file
@@ -854,10 +865,10 @@ namespace PKHeX
                 B_OpenOPowers.Visible = SAV.HasOPower;
                 B_OpenPokedex.Visible = SAV.HasPokeDex;
                 B_OpenBerryField.Visible = SAV.HasBerryField && SAV.XY;
-                B_Pokeblocks.Visible = SAV.HasPokeBlock;
+                B_OpenPokeblocks.Visible = SAV.HasPokeBlock;
                 B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Visible = SAV.HasEvents;
-                B_LinkInfo.Visible = SAV.HasLink;
+                B_OpenLinkInfo.Visible = SAV.HasLink;
                 B_CGearSkin.Visible = SAV.Generation == 5;
             }
             
@@ -893,6 +904,7 @@ namespace PKHeX
             CHK_IsEgg.Visible = Label_Gender.Visible = SAV.Generation >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = SAV.Generation >= 2;
             Label_OTGender.Visible = SAV.Generation >= 2;
+            Label_IVs.Visible = SAV.Generation >= 2; // DVs appears instead
 
             if (SAV.Generation == 1)
                 Label_IsShiny.Visible = false;

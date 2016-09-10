@@ -44,7 +44,7 @@
             this.TB_Unk = new System.Windows.Forms.MaskedTextBox();
             this.L_Unk = new System.Windows.Forms.Label();
             this.L_Species = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.L_Time0 = new System.Windows.Forms.Label();
             this.L_Records = new System.Windows.Forms.Label();
             this.L_Bags = new System.Windows.Forms.Label();
             this.L_UNKNOWN = new System.Windows.Forms.Label();
@@ -245,15 +245,15 @@
             this.L_Species.TabIndex = 129;
             this.L_Species.Text = "Species:";
             // 
-            // label4
+            // L_Time0
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(178, 99);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
-            this.label4.TabIndex = 130;
-            this.label4.Text = "Time:";
+            this.L_Time0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Time0.AutoSize = true;
+            this.L_Time0.Location = new System.Drawing.Point(178, 99);
+            this.L_Time0.Name = "L_Time0";
+            this.L_Time0.Size = new System.Drawing.Size(33, 13);
+            this.L_Time0.TabIndex = 130;
+            this.L_Time0.Text = "Time:";
             // 
             // L_Records
             // 
@@ -292,7 +292,7 @@
             this.Controls.Add(this.L_UNKNOWN);
             this.Controls.Add(this.L_Bags);
             this.Controls.Add(this.L_Records);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.L_Time0);
             this.Controls.Add(this.L_Species);
             this.Controls.Add(this.L_Unk);
             this.Controls.Add(this.TB_Unk);
@@ -339,7 +339,7 @@
         private System.Windows.Forms.MaskedTextBox TB_Unk;
         private System.Windows.Forms.Label L_Unk;
         private System.Windows.Forms.Label L_Species;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label L_Time0;
         private System.Windows.Forms.Label L_Records;
         private System.Windows.Forms.Label L_Bags;
         private System.Windows.Forms.Label L_UNKNOWN;
