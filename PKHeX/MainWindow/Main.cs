@@ -2142,7 +2142,7 @@ namespace PKHeX
 
             updateLegality();
         }
-        private IEnumerable<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
+        private List<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
         {
             if (egg)
             {
@@ -2167,33 +2167,33 @@ namespace PKHeX
                 case GameVersion.R:
                 case GameVersion.S:
                     if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value <= 87); // Ferry
+                        return metGen3.OrderByDescending(loc => loc.Value <= 87).ToList(); // Ferry
                     break;
                 case GameVersion.E:
                     if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)); // Trainer Hill
+                        return metGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)).ToList(); // Trainer Hill
                     break;
                 case GameVersion.FR:
                 case GameVersion.LG:
                     if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197); // Celadon Dept.
+                        return metGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197).ToList(); // Celadon Dept.
                     break;
 
                 case GameVersion.D:
                 case GameVersion.P:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)); // Battle Park
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)).ToList(); // Battle Park
                     break;
 
                 case GameVersion.Pt:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)); // Rock Peak Ruins
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)).ToList(); // Rock Peak Ruins
                     break;
 
                 case GameVersion.HG:
                 case GameVersion.SS:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)); // Celadon Dept.
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)).ToList(); // Celadon Dept.
                     break;
 
                 case GameVersion.B:
@@ -2202,27 +2202,27 @@ namespace PKHeX
 
                 case GameVersion.B2:
                 case GameVersion.W2:
-                    return metGen5.Take(3).Concat(metGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)); // Abyssal Ruins
+                    return metGen5.Take(3).Concat(metGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)).ToList(); // Abyssal Ruins
 
                 case GameVersion.X:
                 case GameVersion.Y:
-                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)); // Unknown Dungeon
+                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)).ToList(); // Unknown Dungeon
 
                 case GameVersion.OR:
                 case GameVersion.AS:
-                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)); // Secret Base
+                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)).ToList(); // Secret Base
             }
 
             // Currently on a future game, return corresponding list for generation
             if (Version <= GameVersion.CXD && SaveFormat == 4)
                 return metGen4.Where(loc => loc.Value == 0x37) // Pal Park to front
                     .Concat(metGen4.Take(4))
-                    .Concat(metGen4.Skip(4).Where(loc => loc.Value != 0x37));
+                    .Concat(metGen4.Skip(4).Where(loc => loc.Value != 0x37)).ToList();
 
             if (Version < GameVersion.X && SaveFormat >= 5) // PokéTransfer to front
                 return metGen5.Where(loc => loc.Value == 30001)
                     .Concat(metGen5.Take(3))
-                    .Concat(metGen5.Skip(3).Where(loc => loc.Value != 30001));
+                    .Concat(metGen5.Skip(3).Where(loc => loc.Value != 30001)).ToList();
 
             return metGen6;
         }
