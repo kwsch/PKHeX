@@ -49,9 +49,10 @@
             this.B_LoadNew = new System.Windows.Forms.Button();
             this.B_LoadOld = new System.Windows.Forms.Button();
             this.GB_Flags = new System.Windows.Forms.GroupBox();
+            this.TLP_Flags = new System.Windows.Forms.TableLayoutPanel();
             this.GB_Constants = new System.Windows.Forms.GroupBox();
             this.TLP_Const = new System.Windows.Forms.TableLayoutPanel();
-            this.TLP_Flags = new System.Windows.Forms.TableLayoutPanel();
+            this.L_EventFlagWarn = new System.Windows.Forms.Label();
             this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
             this.GB_Researcher.SuspendLayout();
@@ -271,21 +272,38 @@
             this.GB_Flags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.GB_Flags.Controls.Add(this.TLP_Flags);
-            this.GB_Flags.Location = new System.Drawing.Point(12, 12);
+            this.GB_Flags.Location = new System.Drawing.Point(12, 24);
             this.GB_Flags.Name = "GB_Flags";
-            this.GB_Flags.Size = new System.Drawing.Size(212, 210);
+            this.GB_Flags.Size = new System.Drawing.Size(212, 198);
             this.GB_Flags.TabIndex = 39;
             this.GB_Flags.TabStop = false;
             this.GB_Flags.Text = "Event Flags";
+            // 
+            // TLP_Flags
+            // 
+            this.TLP_Flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TLP_Flags.AutoScroll = true;
+            this.TLP_Flags.ColumnCount = 2;
+            this.TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.TLP_Flags.Location = new System.Drawing.Point(6, 19);
+            this.TLP_Flags.Name = "TLP_Flags";
+            this.TLP_Flags.RowCount = 2;
+            this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.TLP_Flags.Size = new System.Drawing.Size(200, 172);
+            this.TLP_Flags.TabIndex = 0;
             // 
             // GB_Constants
             // 
             this.GB_Constants.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.GB_Constants.Controls.Add(this.TLP_Const);
-            this.GB_Constants.Location = new System.Drawing.Point(235, 12);
+            this.GB_Constants.Location = new System.Drawing.Point(235, 24);
             this.GB_Constants.Name = "GB_Constants";
-            this.GB_Constants.Size = new System.Drawing.Size(212, 210);
+            this.GB_Constants.Size = new System.Drawing.Size(212, 198);
             this.GB_Constants.TabIndex = 40;
             this.GB_Constants.TabStop = false;
             this.GB_Constants.Text = "Event Constants";
@@ -303,31 +321,28 @@
             this.TLP_Const.Name = "TLP_Const";
             this.TLP_Const.RowCount = 1;
             this.TLP_Const.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Const.Size = new System.Drawing.Size(200, 184);
+            this.TLP_Const.Size = new System.Drawing.Size(200, 172);
             this.TLP_Const.TabIndex = 0;
             // 
-            // TLP_Flags
+            // L_EventFlagWarn
             // 
-            this.TLP_Flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.L_EventFlagWarn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TLP_Flags.AutoScroll = true;
-            this.TLP_Flags.ColumnCount = 2;
-            this.TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Flags.Location = new System.Drawing.Point(6, 19);
-            this.TLP_Flags.Name = "TLP_Flags";
-            this.TLP_Flags.RowCount = 2;
-            this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Flags.Size = new System.Drawing.Size(200, 184);
-            this.TLP_Flags.TabIndex = 0;
+            this.L_EventFlagWarn.ForeColor = System.Drawing.Color.Red;
+            this.L_EventFlagWarn.Location = new System.Drawing.Point(12, 1);
+            this.L_EventFlagWarn.Name = "L_EventFlagWarn";
+            this.L_EventFlagWarn.Size = new System.Drawing.Size(435, 20);
+            this.L_EventFlagWarn.TabIndex = 41;
+            this.L_EventFlagWarn.Text = "Altering Event Flags may impact other story events. Save file backups are recomme" +
+    "nded.";
+            this.L_EventFlagWarn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SAV_EventFlags
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(454, 351);
+            this.Controls.Add(this.L_EventFlagWarn);
             this.Controls.Add(this.GB_Constants);
             this.Controls.Add(this.GB_Flags);
             this.Controls.Add(this.GB_Researcher);
@@ -378,5 +393,6 @@
         private System.Windows.Forms.GroupBox GB_Constants;
         private System.Windows.Forms.TableLayoutPanel TLP_Const;
         private System.Windows.Forms.TableLayoutPanel TLP_Flags;
+        private System.Windows.Forms.Label L_EventFlagWarn;
     }
 }

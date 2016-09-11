@@ -6,7 +6,8 @@ namespace PKHeX
     public sealed class PGF : MysteryGift
     {
         internal const int Size = 0xCC;
-        public override string Extension => ".pgf";
+        public override string Extension => "pgf";
+        public override int Format => 5;
 
         public PGF(byte[] data = null)
         {
@@ -41,12 +42,13 @@ namespace PKHeX
         public bool RIB1_7 { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Empty
 
         public int Pokéball { get { return Data[0x0E]; } set { Data[0x0E] = (byte)value; } }
-        public int HeldItem { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
+        public override int HeldItem { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
         public int Move1 { get { return BitConverter.ToUInt16(Data, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x12); } }
         public int Move2 { get { return BitConverter.ToUInt16(Data, 0x14); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x14); } }
         public int Move3 { get { return BitConverter.ToUInt16(Data, 0x16); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); } }
         public int Move4 { get { return BitConverter.ToUInt16(Data, 0x18); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); } }
-        public int Species { get { return BitConverter.ToUInt16(Data, 0x1A); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); } }
+        public override int Species { get { return BitConverter.ToUInt16(Data, 0x1A); }
+        }
         public int Form { get { return Data[0x1C]; } set { Data[0x1C] = (byte)value; } }
         public int Language { get { return Data[0x1D]; } set { Data[0x1D] = (byte)value; } }
         public string Nickname
@@ -79,7 +81,7 @@ namespace PKHeX
             set { Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); } }
         public int OTGender { get { return Data[0x5A]; } set { Data[0x5A] = (byte)value; } }
         public int Level { get { return Data[0x5B]; } set { Data[0x5C] = (byte)value; } }
-        public bool IsEgg { get { return Data[0x5C] == 1; } set { Data[0x5C] = (byte)(value ? 1 : 0); } }
+        public override bool IsEgg { get { return Data[0x5C] == 1; } set { Data[0x5C] = (byte)(value ? 1 : 0); } }
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle
         {
@@ -102,21 +104,17 @@ namespace PKHeX
             get
             {
                 // Check to see if date is valid
-                if (!Util.IsDateValid(2000 + Year, Month, Day))
-                {
+                if (!Util.IsDateValid(Year, Month, Day))
                     return null;
-                }
-                else
-                {
-                    return new DateTime(2000 + Year, Month, Day);
-                }
+
+                return new DateTime(Year, Month, Day);
             }
             set
             {
                 if (value.HasValue)
                 {
                     // Only update the properties if a value is provided.
-                    Year = (ushort)(value.Value.Year - 2000);
+                    Year = (ushort)value.Value.Year;
                     Month = (byte)value.Value.Month;
                     Day = (byte)value.Value.Day;
                 }
@@ -146,16 +144,9 @@ namespace PKHeX
         public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         public bool IsNicknamed => Nickname.Length > 0;
 
-        public int[] Moves
+        public override int[] Moves
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }
-            set
-            {
-                if (value.Length > 0) Move1 = value[0];
-                if (value.Length > 1) Move2 = value[1];
-                if (value.Length > 2) Move3 = value[2];
-                if (value.Length > 3) Move4 = value[3];
-            }
         }
         public override bool IsPokémon { get { return CardType == 1; } set { if (value) CardType = 1; } }
         public override bool IsItem { get { return CardType == 2; } set { if (value) CardType = 2; } }

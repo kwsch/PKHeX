@@ -1,9 +1,9 @@
 PKHeX
 =====
 
-Pokémon NDS/3DS save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
+Pokémon GBA/NDS/3DS save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
-Supports the following files originating from the Nintendo NDS & 3DS:
+Supports the following files originating from the Nintendo GBA, NDS, & 3DS:
 * Save files ("main", .sav)
 * Individual Pokémon entity files (.pk*)
 * Mystery Gift files (.pgt, .pcd, .pgf, .wc6) including conversion to .pk*

@@ -11,7 +11,8 @@ namespace PKHeX
     public sealed class PCD : MysteryGift
     {
         internal const int Size = 0x358; // 856
-        public override string Extension => ".pcd";
+        public override string Extension => "pcd";
+        public override int Format => 4;
         
         public PCD(byte[] data = null)
         {
@@ -50,6 +51,12 @@ namespace PKHeX
             }
         }
 
+        public override int Species => Gift.PK.Species;
+        public override int[] Moves => Gift.PK.Moves;
+        public override bool IsShiny => Gift.PK.IsShiny;
+        public override bool IsEgg => Gift.PK.IsEgg;
+        public override int HeldItem => Gift.PK.HeldItem;
+
         public override PKM convertToPKM(SaveFile SAV)
         {
             return Gift.convertToPKM(SAV);
@@ -58,7 +65,8 @@ namespace PKHeX
     public class PGT : MysteryGift
     {
         internal const int Size = 0x104; // 260
-        public override string Extension => ".pgt";
+        public override string Extension => "pgt";
+        public override int Format => 4;
 
         private enum GiftType
         {
@@ -103,7 +111,7 @@ namespace PKHeX
         public byte Slot { get { return Data[2]; } set { Data[2] = value; } }
         public byte Detail { get { return Data[3]; } set { Data[3] = value; } }
         public override int Item { get { return BitConverter.ToUInt16(Data, 0x4); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4); } }
-        private PK4 PK;
+        public PK4 PK;
         private byte[] Unknown;
         private byte[] RAW;
 
@@ -116,12 +124,17 @@ namespace PKHeX
             }
         }
 
-        private GiftType Type { get { return (GiftType)Data[0]; } set {Data[0] = (byte)value; } }
-        public bool IsHatched => Type == GiftType.Pokémon;
-        public bool IsEgg => Type == GiftType.PokémonEgg;
-        public bool IsManaphyEgg => Type == GiftType.ManaphyEgg;
-        public override bool IsItem { get { return Type == GiftType.Item; } set { if (value) CardType = (int)GiftType.Item; } }
-        public override bool IsPokémon { get { return Type == GiftType.Pokémon || Type == GiftType.PokémonEgg || Type == GiftType.ManaphyEgg; } set { } }
+        private GiftType PGTGiftType { get { return (GiftType)Data[0]; } set {Data[0] = (byte)value; } }
+        public bool IsHatched => PGTGiftType == GiftType.Pokémon;
+        public override bool IsEgg => PGTGiftType == GiftType.PokémonEgg;
+        public bool IsManaphyEgg => PGTGiftType == GiftType.ManaphyEgg;
+        public override bool IsItem { get { return PGTGiftType == GiftType.Item; } set { if (value) CardType = (int)GiftType.Item; } }
+        public override bool IsPokémon { get { return PGTGiftType == GiftType.Pokémon || PGTGiftType == GiftType.PokémonEgg || PGTGiftType == GiftType.ManaphyEgg; } set { } }
+
+        public override int Species => PK.Species;
+        public override int[] Moves => PK.Moves;
+        public override bool IsShiny => PK.IsShiny;
+        public override int HeldItem => PK.HeldItem;
 
         public override PKM convertToPKM(SaveFile SAV)
         {

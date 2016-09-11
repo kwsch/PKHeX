@@ -5,7 +5,7 @@ namespace PKHeX
 {
     public sealed class SAV4 : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
+        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
         public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -53,6 +53,7 @@ namespace PKHeX
         protected override int GiftCountMax => 11;
         public override int OTLength => 8;
         public override int NickLength => 10;
+        public override int MaxMoney => 999999;
 
         public override int MaxMoveID => 467;
         public override int MaxSpeciesID => 493;
@@ -687,12 +688,162 @@ namespace PKHeX
             int bit = pkm.Species - 1;
 
             // Set the Species Owned Flag
-            Data[PokeDex + brSize * 0 + bit / 8 + 0x4] |= (byte)(1 << (bit % 8));
+            Data[PokeDex + brSize*0 + bit/8 + 0x4] |= (byte) (1 << (bit%8));
 
             // Set the Species Seen Flag
-            Data[PokeDex + brSize * 1 + bit / 8 + 0x4] |= (byte)(1 << (bit % 8));
+            Data[PokeDex + brSize*1 + bit/8 + 0x4] |= (byte) (1 << (bit%8));
 
-            // Formes : todo
+            int FormOffset1 = PokeDex + 0x108;
+            int PokeDexLanguageFlags = FormOffset1 + 0x20;
+
+            // Formes : Castform & Cherrim do not have entries (Battle Only formes)
+            // Lowest sub-value of formevalue is displayed, else is order of formes displayed.
+
+            // Deoxys forms 1-2 are stored in the last byte of the first bitRegion.
+            // Deoxys forms 3-4 are stored in the last byte of the second bitRegion.
+            if (pkm.Species == 386)
+            {
+                uint val = (uint)(Data[PokeDex + 0x4 + 1*brSize - 1] | Data[PokeDex + 0x4 + 2*brSize - 1] << 8);
+                int[] forms = getDexFormValues(val, 4, 4);
+                checkInsertForm(ref forms, pkm.AltForm);
+                uint newval = setDexFormValues(forms, 4, 4);
+
+                Data[PokeDex + 0x4 + 1*brSize - 1] = (byte)(newval & 0xFF);
+                Data[PokeDex + 0x4 + 2*brSize - 1] = (byte)((newval>>8) & 0xFF);
+            }
+
+            // After the BitRegions is 0x20 bytes for the rest of the formes.
+            // Standard Forme Bytes (DP)
+            // [Shellos-Gastrodon-Burmy-Wormadam],[Unown*0x1C]
+            if (pkm.Species == 422) // Shellos
+            {
+                int[] forms = getDexFormValues(Data[FormOffset1 + 0], 2, 2);
+                checkInsertForm(ref forms, pkm.AltForm);
+                uint newval = setDexFormValues(forms, 2, 2);
+                Data[FormOffset1 + 0] = (byte)newval;
+            }
+            if (pkm.Species == 423) // Gastrodon
+            {
+                int[] forms = getDexFormValues(Data[FormOffset1 + 1], 2, 2);
+                checkInsertForm(ref forms, pkm.AltForm);
+                uint newval = setDexFormValues(forms, 2, 2);
+                Data[FormOffset1 + 1] = (byte)newval;
+            }
+            if (pkm.Species == 412) // Burmy
+            {
+                int[] forms = getDexFormValues(Data[FormOffset1 + 2], 2, 3);
+                checkInsertForm(ref forms, pkm.AltForm);
+                uint newval = setDexFormValues(forms, 2, 3);
+                Data[FormOffset1 + 2] = (byte)newval;
+            }
+            if (pkm.Species == 413) // Wormadam
+            {
+                int[] forms = getDexFormValues(Data[FormOffset1 + 3], 2, 3);
+                checkInsertForm(ref forms, pkm.AltForm);
+                uint newval = setDexFormValues(forms, 2, 3);
+                Data[FormOffset1 + 3] = (byte)newval;
+            }
+            if (pkm.Species == 201) // Unown
+            {
+                for (int i = 0; i < 0x1C; i++)
+                {
+                    byte val = Data[FormOffset1 + 4 + i];
+                    if (val == pkm.AltForm)
+                        break; // already set
+                    if (val != 0xFF)
+                        continue; // keep searching
+
+                    Data[FormOffset1 + 4 + i] = (byte)pkm.AltForm;
+                    break; // form now set
+                }
+            }
+
+            // DP stops here.
+            if (DP)
+                return;
+
+            // Set the Language
+            int lang = pkm.Language - 1;
+            if (lang > 5) lang = 0; // no KOR
+            if (lang < 0) lang = 1;
+            Data[PokeDexLanguageFlags + pkm.Species] |= (byte) (1 << lang);
+
+            int FormOffset2 = PokeDexLanguageFlags + 0x210;
+            // PtHGSS added more forms.
+            // [Rotom*4-highest bits unused],[Shaymin],[Giratina],[Pichu-HGSS ONLY]
+            if (pkm.Species == 479) // Rotom
+            {
+                int[] forms = getDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6);
+                checkInsertForm(ref forms, pkm.AltForm);
+                uint newval = setDexFormValues(forms, 3, 6);
+                BitConverter.GetBytes(newval).CopyTo(Data, FormOffset2);
+            }
+            if (pkm.Species == 492) // Shaymin
+            {
+                int[] forms = getDexFormValues(Data[FormOffset2 + 4], 2, 2);
+                uint newval = setDexFormValues(forms, 2, 2);
+                Data[FormOffset1 + 3] = (byte)newval;
+            }
+            if (pkm.Species == 487) // Giratina
+            {
+                int[] forms = getDexFormValues(Data[FormOffset2 + 5], 2, 2);
+                uint newval = setDexFormValues(forms, 2, 2);
+                Data[FormOffset1 + 3] = (byte)newval;
+            }
+            if (pkm.Species == 172 && HGSS) // Pichu
+            {
+                int[] forms = getDexFormValues(Data[FormOffset2 + 6], 2, 3);
+                uint newval = setDexFormValues(forms, 2, 3);
+                Data[FormOffset1 + 3] = (byte)newval;
+            }
+        }
+        private int[] getDexFormValues(uint Value, int BitsPerForm, int readCt)
+        {
+            int[] Forms = new int[readCt];
+            int n1 = 0xFF >> (8 - BitsPerForm);
+            for (int i = 0; i < Forms.Length; i++)
+            {
+                int val = (int)(Value >> (i*BitsPerForm))&n1;
+                if (n1 == val)
+                    Forms[i] = -1;
+                else
+                    Forms[i] = val;
+            }
+            return Forms;
+        }
+        private uint setDexFormValues(int[] Forms, int BitsPerForm, int readCt)
+        {
+            int n1 = 0xFF >> (8 - BitsPerForm);
+            uint Value = 0xFFFFFFFF << (Forms.Length*BitsPerForm);
+            for (int i = 0; i < Forms.Length; i++)
+            {
+                int val = Forms[i];
+                if (val == -1)
+                    val = n1;
+
+                Value |= (uint)(val << (BitsPerForm*i));
+            }
+            return Value;
+        }
+        private bool checkInsertForm(ref int[] Forms, int FormNum)
+        {
+            if (Forms.Any(num => num == FormNum))
+            {
+                return false; // already in list
+            }
+            if (Forms.All(num => num == -1))
+            {
+                Forms[0] = FormNum;
+                return true; // none in list, insert at top
+            }
+
+            // insert at first empty
+            int n1 = Array.IndexOf(Forms, -1);
+            if (n1 < 0)
+                return false;
+
+            Forms[n1] = FormNum;
+            return true;
         }
     }
 }

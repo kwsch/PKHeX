@@ -1768,7 +1768,9 @@
             ".pk6",
             ".pk5",
             ".pk4",
-            ".pk3"});
+            ".pk3",
+            ".pk2",
+            ".pk1"});
             this.CB_Format.Location = new System.Drawing.Point(54, 0);
             this.CB_Format.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Format.Name = "CB_Format";

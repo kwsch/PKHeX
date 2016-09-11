@@ -42,8 +42,17 @@ namespace PKHeX
         }
 
         public abstract string Extension { get; }
+        public string FileName => getCardHeader() + "." + Extension;
         public virtual byte[] Data { get; set; }
         public abstract PKM convertToPKM(SaveFile SAV);
+        public abstract int Format { get; }
+
+        public MysteryGift Clone()
+        {
+            byte[] data = (byte[])Data.Clone();
+            return getMysteryGift(data);
+        }
+        public string Type => GetType().Name;
 
         // Properties
         public abstract bool GiftUsed { get; set; }
@@ -57,6 +66,18 @@ namespace PKHeX
         public virtual int Quantity { get { return 1; } set { } }
         public bool Empty => Data.SequenceEqual(new byte[Data.Length]);
 
-        public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID.ToString("0000")}" : "N/A") + $" - {CardTitle.Trim()}" + Environment.NewLine;
+        public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID.ToString("0000")}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
+
+        // Search Properties
+        public virtual int Species { get { return -1; } set { } }
+        public virtual int[] Moves => new int[0];
+        public virtual bool IsShiny => false;
+        public virtual bool IsEgg { get { return false; } set { } }
+        public virtual int HeldItem { get { return -1; } set { } }
+        public bool Gen7 => Format == 7;
+        public bool Gen6 => Format == 6;
+        public bool Gen5 => Format == 5;
+        public bool Gen4 => Format == 4;
+        public bool Gen3 => Format == 3;
     }
 }

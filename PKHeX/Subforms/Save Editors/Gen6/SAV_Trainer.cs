@@ -454,6 +454,8 @@ namespace PKHeX
             CAL_LastSavedTime.Value = new DateTime(2000, 1, 1, SAV.LastSavedHour, SAV.LastSavedMinute, 0);
             CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
             CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
+            CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
+            CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
         }
         private void save()
         {
@@ -539,6 +541,11 @@ namespace PKHeX
             seconds -= seconds%86400;
             seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             SAV.SecondsToStart = seconds;
+
+            int fame = (int)(CAL_HoFDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            fame -= fame % 86400;
+            fame += (int)(CAL_HoFTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            SAV.SecondsToFame = fame;
 
             SAV.LastSavedYear = CAL_LastSavedDate.Value.Year;
             SAV.LastSavedMonth = CAL_LastSavedDate.Value.Month;

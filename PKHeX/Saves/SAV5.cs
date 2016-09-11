@@ -7,7 +7,7 @@ namespace PKHeX
     public sealed class SAV5 : SaveFile
     {
         // Save Data Attributes
-        public override string BAKName => $"{FileName} [{OT} ({(GameVersion)Game})" +/* - {LastSavedTime}*/ "].bak";
+        public override string BAKName => $"{FileName} [{OT} ({(GameVersion)Game}) - {PlayTimeString}].bak";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
         public override string Extension => ".sav";
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -622,25 +622,47 @@ namespace PKHeX
             int shiftoff = shiny * brSize * 2 + gender * brSize + brSize;
 
             // Set the Species Owned Flag
-            Data[PokeDex + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+            Data[PokeDex + 0x8 + bit / 8] |= (byte)(1 << (bit % 8));
 
             // Set the [Species/Gender/Shiny] Seen Flag
-            Data[PokeDex + shiftoff + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+            Data[PokeDex + 0x8 + shiftoff + bit / 8] |= (byte)(1 << (bit % 8));
 
             // Set the Display flag if none are set
             bool Displayed = false;
-            Displayed |= (Data[PokeDex + brSize * 5 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 6 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 7 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 8 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            if (!Displayed) // offset is already biased by 0x60, reuse shiftoff but for the display flags.
-                Data[PokeDex + shiftoff + brSize * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+            Displayed |= (Data[PokeDex + 0x8 + brSize*5 + bit/8] & (byte)(1 << (bit%8))) != 0;
+            Displayed |= (Data[PokeDex + 0x8 + brSize*6 + bit/8] & (byte)(1 << (bit%8))) != 0;
+            Displayed |= (Data[PokeDex + 0x8 + brSize*7 + bit/8] & (byte)(1 << (bit%8))) != 0;
+            Displayed |= (Data[PokeDex + 0x8 + brSize*8 + bit/8] & (byte)(1 << (bit%8))) != 0;
+            if (!Displayed) // offset is already biased by brSize, reuse shiftoff but for the display flags.
+                Data[PokeDex + 0x8 + shiftoff + brSize*4 + bit/8] |= (byte)(1 << (bit%8));
 
             // Set the Language
             if (lang < 0) lang = 1;
-            Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
+            Data[PokeDexLanguageFlags + (bit*7 + lang) / 8] |= (byte)(1 << ((bit*7 + lang) % 8));
 
-            // Formes : todo
+            // Formes
+            int fc = Personal[pkm.Species].FormeCount;
+            int f = B2W2 ? SaveUtil.getDexFormIndexB2W2(pkm.Species, fc) : SaveUtil.getDexFormIndexBW(pkm.Species, fc);
+            if (f < 0) return;
+
+            int FormLen = B2W2 ? 0xB : 0x9;
+            int FormDex = PokeDex + 0x8 + brSize*9;
+            bit = f + pkm.AltForm;
+
+            // Set Form Seen Flag
+            Data[FormDex + FormLen*shiny + bit/8] |= (byte)(1 << (bit%8));
+
+            // Set Displayed Flag if necessary, check all flags
+            for (int i = 0; i < fc; i++)
+            {
+                bit = f + i;
+                if ((Data[FormDex + FormLen*2 + bit/8] & (byte)(1 << (bit%8))) != 0) // Nonshiny
+                    return; // already set
+                if ((Data[FormDex + FormLen*3 + bit/8] & (byte)(1 << (bit%8))) != 0) // Shiny
+                    return; // already set
+            }
+            bit = f + pkm.AltForm;
+            Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
         }
     }
 }

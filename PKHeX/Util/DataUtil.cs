@@ -55,6 +55,13 @@ namespace PKHeX
                 rawlist[i] = rawlist[i].Trim();
             return rawlist;
         }
+        public static string[] getStringListFallback(string f, string l, string fallback)
+        {
+            string[] text = getStringList(f, l);
+            if (text.Length == 0)
+                text = getStringList(f, fallback);
+            return text;
+        }
         internal static string[] getNulledStringArray(string[] SimpleStringList)
         {
             try

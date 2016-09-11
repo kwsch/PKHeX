@@ -81,7 +81,7 @@ namespace PKHeX
         public bool RibbonRecord            { get { return (RIB2 & (1 << 2)) == 1 << 2; } set { RIB2 = (byte)(RIB2 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
         public bool RibbonEvent             { get { return (RIB2 & (1 << 3)) == 1 << 3; } set { RIB2 = (byte)(RIB2 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
         public bool RibbonLegend            { get { return (RIB2 & (1 << 4)) == 1 << 4; } set { RIB2 = (byte)(RIB2 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RibbonWorldChampion     { get { return (RIB2 & (1 << 5)) == 1 << 5; } set { RIB2 = (byte)(RIB2 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
+        public bool RibbonChampionWorld     { get { return (RIB2 & (1 << 5)) == 1 << 5; } set { RIB2 = (byte)(RIB2 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
         public bool RibbonBirthday          { get { return (RIB2 & (1 << 6)) == 1 << 6; } set { RIB2 = (byte)(RIB2 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
         public bool RibbonSpecial           { get { return (RIB2 & (1 << 7)) == 1 << 7; } set { RIB2 = (byte)(RIB2 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         public bool RibbonSouvenir          { get { return (RIB3 & (1 << 0)) == 1 << 0; } set { RIB3 = (byte)(RIB3 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
@@ -269,7 +269,7 @@ namespace PKHeX
                 else if (PtHGSS)
                 {
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes(0xBBA).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
+                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
                 }
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
@@ -303,7 +303,7 @@ namespace PKHeX
                 else if (PtHGSS)
                 {
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes(0xBBA).CopyTo(Data, 0x80); // Faraway Place (for DP display)
+                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x80); // Faraway Place (for DP display)
                 }
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
@@ -323,19 +323,26 @@ namespace PKHeX
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | (value << 4)); } }
         public override int Ball
         {
-            get { return Data[HGSS ? 0x86 : 0x83]; }
+            get
+            {
+                // Pokemon obtained in HGSS have the HGSS ball set (@0x86)
+                // However, this info is not set when receiving a wondercard!
+                // The PGT contains a preformatted PK4 file, which is slightly modified.
+                // No HGSS balls were used, and no HGSS ball info is set.
+
+                // Sneaky way = return the higher of the two values.
+                return Math.Max(Data[0x86], Data[0x83]);
+            }
             set
             {
-                if (HGSS)
-                {
-                    Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Ball to display in DP (cap at Cherish)
+                // Ball to display in DPPt
+                Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Cap at Cherish Ball
+
+                // HGSS Exclusive Balls -- If the user wants to screw things up, let them. Any legality checking could catch hax.
+                if (value > 0x10 || (HGSS && !FatefulEncounter))
                     Data[0x86] = (byte)(value <= 0x18 ? value : 4); // Cap at Comp Ball
-                }
                 else
-                {
-                    Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Cap at Cherish Ball
                     Data[0x86] = 0; // Unused
-                }
             }
         }
         public override int Met_Level { get { return Data[0x84] & ~0x80; } set { Data[0x84] = (byte)((Data[0x84] & 0x80) | value); } }
@@ -415,10 +422,10 @@ namespace PKHeX
             };
 
             // Fix PP
-            pk5.Move1_PP = getMovePP(pk5.Move1_PP, pk5.Move1_PPUps);
-            pk5.Move2_PP = getMovePP(pk5.Move2_PP, pk5.Move2_PPUps);
-            pk5.Move3_PP = getMovePP(pk5.Move3_PP, pk5.Move3_PPUps);
-            pk5.Move4_PP = getMovePP(pk5.Move4_PP, pk5.Move4_PPUps);
+            pk5.Move1_PP = pk5.getMovePP(pk5.Move1, pk5.Move1_PPUps);
+            pk5.Move2_PP = pk5.getMovePP(pk5.Move2, pk5.Move2_PPUps);
+            pk5.Move3_PP = pk5.getMovePP(pk5.Move3, pk5.Move3_PPUps);
+            pk5.Move4_PP = pk5.getMovePP(pk5.Move4, pk5.Move4_PPUps);
 
             // Disassociate Nature and PID
             pk5.Nature = (int)(pk5.PID % 25);

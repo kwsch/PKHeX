@@ -136,6 +136,7 @@ namespace PKHeX
             TB_EXP.Text = pk5.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk5.Gender];
             Label_Gender.ForeColor = pk5.Gender == 2 ? Label_Species.ForeColor : (pk5.Gender == 1 ? Color.Red : Color.Blue);
+            CHK_NSparkle.Checked = pk5.NPokémon;
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk5.Ability;
@@ -145,7 +146,15 @@ namespace PKHeX
             {
                 int[] abils = SAV.Personal.getAbilities(pk5.Species, pk5.AltForm);
                 int abil = Array.IndexOf(abils, pk5.Ability);
-                CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
+
+                if (abil < 0)
+                    CB_Ability.SelectedIndex = 0;
+                else if (abil == 2)
+                    CB_Ability.SelectedIndex = 2;
+                else if (abils[0] == abils[1] || abils[1] == 0)
+                    CB_Ability.SelectedIndex = pk5.PIDAbility;
+                else
+                    CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             }
         }
         private PKM preparePK5()
@@ -160,8 +169,6 @@ namespace PKHeX
             pk5.SID = Util.ToInt32(TB_SID.Text);
             pk5.EXP = Util.ToUInt32(TB_EXP.Text);
             pk5.PID = Util.getHEXval(TB_PID.Text);
-            pk5.Ability = (byte)Util.getIndex(DEV_Ability);
-            pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
 
             pk5.Nature = (byte)Util.getIndex(CB_Nature);
             pk5.FatefulEncounter = CHK_Fateful.Checked;
@@ -234,6 +241,8 @@ namespace PKHeX
             pk5.Version = Util.getIndex(CB_GameOrigin);
             pk5.Language = Util.getIndex(CB_Language);
 
+            pk5.NPokémon = CHK_NSparkle.Checked;
+
             // Toss in Party Stats
             Array.Resize(ref pk5.Data, pk5.SIZE_PARTY);
             pk5.Stat_Level = Util.ToInt32(TB_Level.Text);
@@ -249,6 +258,11 @@ namespace PKHeX
             {
                 pk5.Ability = (byte)Util.getIndex(DEV_Ability);
                 pk5.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
+            }
+            else
+            {
+                pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+                pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
             }
 
             // Fix Moves if a slot is empty 

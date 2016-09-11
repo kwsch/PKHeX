@@ -175,8 +175,10 @@ namespace PKHeX
         {
             var evs = pk6.EVs;
             int sum = evs.Sum();
+            if (pk6.IsEgg && sum > 0)
+                return new LegalityCheck(Severity.Invalid, "Eggs cannot receive EVs.");
             if (sum == 0 && pk6.Stat_Level - pk6.Met_Level > 0)
-                return new LegalityCheck(Severity.Fishy, "All EVs are zero, but leveled above Met Level");
+                return new LegalityCheck(Severity.Fishy, "All EVs are zero, but leveled above Met Level.");
             if (sum == 508)
                 return new LegalityCheck(Severity.Fishy, "2 EVs remaining.");
             if (sum > 510)
@@ -349,6 +351,8 @@ namespace PKHeX
                 return new LegalityCheck(Severity.Invalid, "Met Level does not match Wonder Card level.");
 
             int lvl = pk6.CurrentLevel;
+            if (lvl > 1 && pk6.IsEgg)
+                return new LegalityCheck(Severity.Invalid, "Current level for an egg is invalid.");
             if (lvl < pk6.Met_Level)
                 return new LegalityCheck(Severity.Invalid, "Current level is below met level.");
             if ((pk6.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pk6) && pk6.Species != 350)
@@ -365,6 +369,28 @@ namespace PKHeX
 
             List<string> missingRibbons = new List<string>();
             List<string> invalidRibbons = new List<string>();
+            
+            if (pk6.IsEgg)
+            {
+                var RibbonNames = ReflectUtil.getPropertiesStartWithPrefix(pk6.GetType(), "Ribbon");
+                foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pk6, RibbonName)))
+                {
+                    if ((RibbonValue as int?) > 0)
+                        return new LegalityCheck(Severity.Invalid, "Eggs should not have ribbons.");
+                    if (RibbonValue as bool? == true)
+                        return new LegalityCheck(Severity.Invalid, "Eggs should not have ribbons.");
+                }
+
+                var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pk6.GetType(), "DistSuperTrain");
+                if (DistNames.Select(MissionName => ReflectUtil.GetValue(pk6, MissionName)).Any(Flag => Flag as bool? == true))
+                    return new LegalityCheck(Severity.Invalid, "Distribution Super Training missions on Egg.");
+
+                var TrainNames = ReflectUtil.getPropertiesStartWithPrefix(pk6.GetType(), "SuperTrain");
+                if (TrainNames.Select(MissionName => ReflectUtil.GetValue(pk6, MissionName)).Any(Flag => Flag as bool? == true))
+                    return new LegalityCheck(Severity.Fishy, "Super Training missions on Egg.");
+
+                return new LegalityCheck();
+            }
 
             // Check Event Ribbons
             bool[] EventRib =
@@ -420,7 +446,13 @@ namespace PKHeX
                 invalidRibbons.Add("Battle Memory"); // Gen3/4 Battle
             
             if (missingRibbons.Count + invalidRibbons.Count == 0)
+            {
+                var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pk6.GetType(), "DistSuperTrain");
+                if (DistNames.Select(MissionName => ReflectUtil.GetValue(pk6, MissionName)).Any(Flag => Flag as bool? == true))
+                    return new LegalityCheck(Severity.Fishy, "Distribution Super Training missions are not released.");
+
                 return new LegalityCheck(Severity.Valid, "All ribbons accounted for.");
+            }
 
             string[] result = new string[2];
             if (missingRibbons.Count > 0)
@@ -594,9 +626,9 @@ namespace PKHeX
             if (!pk6.WasEvent && !(pk6.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pk6.HT_Name.Length == 0 || pk6.Geo1_Country == 0)) // Is not Traded
             {
                 if (pk6.HT_Name.Length != 0)
-                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- HT Name present but has no previous Country.");
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation Memory -- HT Name present but has no previous Country.");
                 if (pk6.Geo1_Country != 0)
-                    return new LegalityCheck(Severity.Invalid, "GeoLocation -- Previous country of residence but no Handling Trainer.");
+                    return new LegalityCheck(Severity.Invalid, "GeoLocation Memory -- Previous country of residence but no Handling Trainer.");
                 if (pk6.HT_Memory != 0)
                     return new LegalityCheck(Severity.Invalid, "Memory -- Handling Trainer memory present but no Handling Trainer.");
                 if (pk6.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
@@ -820,6 +852,14 @@ namespace PKHeX
         }
         private LegalityCheck verifyMisc()
         {
+            if (pk6.IsEgg)
+            {
+                if (new[] { pk6.Move1_PPUps, pk6.Move2_PPUps, pk6.Move3_PPUps, pk6.Move4_PPUps }.Any(ppup => ppup > 0))
+                    return new LegalityCheck(Severity.Invalid, "Cannot apply PP Ups to an Egg.");
+                if (pk6.CNTs.Any(stat => stat > 0))
+                    return new LegalityCheck(Severity.Invalid, "Cannot increase Contest Stats of an Egg.");
+            }
+
             if (pk6.Gen6 && Encounter.Valid && EncounterType == typeof(WC6) ^ pk6.FatefulEncounter)
             {
                 if (EncounterType == typeof(EncounterStatic) && pk6.Species == 386) // Deoxys Matched @ Sky Pillar

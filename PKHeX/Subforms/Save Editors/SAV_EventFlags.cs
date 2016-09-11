@@ -171,8 +171,8 @@ namespace PKHeX
                 };
                 var mtb = new NumericUpDown
                 {
-                    Maximum = short.MaxValue,
-                    Minimum = short.MinValue,
+                    Maximum = ushort.MaxValue,
+                    Minimum = ushort.MinValue,
                     Value = Constants[num[i]],
                     Name = constTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,
@@ -218,7 +218,7 @@ namespace PKHeX
             else
             {
                 c_CustomFlag.Enabled = true;
-                nud.BackColor = Main.defaultControlWhite;
+                nud.ResetBackColor();
                 c_CustomFlag.Checked = flags[flag];
             }
         }
@@ -301,7 +301,7 @@ namespace PKHeX
             SaveFile s1 = SaveUtil.getVariantSAV(File.ReadAllBytes(TB_OldSAV.Text));
             SaveFile s2 = SaveUtil.getVariantSAV(File.ReadAllBytes(TB_NewSAV.Text));
 
-            if (s1.GetType() != s2.GetType()) { Util.Alert("Save types are different.", $"S1: {s1.GetType()}", $"S2: {s2.GetType()}"); return; }
+            if (s1.GetType() != s2.GetType()) { Util.Alert("Save types are different.", $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return; }
             if (s1.Version != s2.Version) { Util.Alert("Save versions are different.", $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
 
             string tbIsSet = "";

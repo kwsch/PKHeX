@@ -16,10 +16,10 @@ namespace PKHeX
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 
-        public byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
-        public byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
-        public byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
-        public byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
+        public virtual byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
+        public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
+        public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
+        public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         
         protected ushort CalculateChecksum()
         {
@@ -226,7 +226,7 @@ namespace PKHeX
         public abstract int CurrentHandler { get; set; }
 
         // Derived
-        public bool IsShiny => TSV == PSV;
+        public virtual bool IsShiny => TSV == PSV;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
@@ -250,7 +250,7 @@ namespace PKHeX
         }
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
-        public bool ChecksumValid => Checksum == CalculateChecksum();
+        public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel => PKX.getLevel(Species, EXP);
         public bool MarkCircle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool MarkTriangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
@@ -261,7 +261,7 @@ namespace PKHeX
         public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);
-        public string FileName => $"{Species.ToString("000")}{(IsShiny ? " ★" : "")} - {Nickname} - {Checksum.ToString("X4")}{EncryptionConstant.ToString("X8")}.{Extension}";
+        public virtual string FileName => $"{Species.ToString("000")}{(IsShiny ? " ★" : "")} - {Nickname} - {Checksum.ToString("X4")}{EncryptionConstant.ToString("X8")}.{Extension}";
         public int[] IVs
         {
             get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; }
@@ -286,6 +286,28 @@ namespace PKHeX
         {
             get { return new[] { Move1, Move2, Move3, Move4 }; }
             set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
+        }
+        public int[] RelearnMoves
+        {
+            get { return new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 }; }
+            set
+            {
+                if (value.Length > 0) RelearnMove1 = value[0];
+                if (value.Length > 1) RelearnMove2 = value[1];
+                if (value.Length > 2) RelearnMove3 = value[2];
+                if (value.Length > 3) RelearnMove4 = value[3];
+            }
+        }
+        public int PIDAbility
+        {
+            get
+            {
+                if (GenNumber > 5 || Format > 5)
+                    return -1;
+                if (GenNumber == 5)
+                    return (int)((PID >> 16) & 1);
+                return (int)(PID & 1);
+            }
         }
 
         public bool[] Markings
@@ -313,7 +335,7 @@ namespace PKHeX
             get { return new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen }; }
             set { if (value?.Length != 6) return; CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2]; CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5]; }
         }
-        public int HPType
+        public virtual int HPType
         {
             get { return 15 * ((IV_HP & 1) + 2 * (IV_ATK & 1) + 4 * (IV_DEF & 1) + 8 * (IV_SPE & 1) + 16 * (IV_SPA & 1) + 32 * (IV_SPD & 1)) / 63; }
             set
@@ -332,28 +354,41 @@ namespace PKHeX
         public void RefreshChecksum() { Checksum = CalculateChecksum(); }
         public void FixMoves()
         {
+            ReorderMoves();
+
+            if (Move1 == 0) { Move1_PP = 0; Move1_PPUps = 0; }
+            if (Move2 == 0) { Move2_PP = 0; Move2_PPUps = 0; }
+            if (Move3 == 0) { Move3_PP = 0; Move3_PPUps = 0; }
+            if (Move4 == 0) { Move4_PP = 0; Move4_PPUps = 0; }
+        }
+
+        private void ReorderMoves()
+        {
             if (Move4 != 0 && Move3 == 0)
             {
                 Move3 = Move4;
                 Move3_PP = Move4_PP;
                 Move3_PPUps = Move4_PPUps;
-                Move4 = Move4_PP = Move4_PPUps = 0;
+                Move4 = 0;
             }
             if (Move3 != 0 && Move2 == 0)
             {
                 Move2 = Move3;
                 Move2_PP = Move3_PP;
                 Move2_PPUps = Move3_PPUps;
-                Move3 = Move3_PP = Move3_PPUps = 0;
+                Move3 = 0;
+                ReorderMoves();
             }
             if (Move2 != 0 && Move1 == 0)
             {
                 Move1 = Move2;
                 Move1_PP = Move2_PP;
                 Move1_PPUps = Move2_PPUps;
-                Move2 = Move2_PP = Move2_PPUps = 0;
+                Move2 = 0;
+                ReorderMoves();
             }
         }
+
         public int PotentialRating
         {
             get
@@ -367,7 +402,7 @@ namespace PKHeX
             }
         }
 
-        public ushort[] getStats(PersonalInfo p)
+        public virtual ushort[] getStats(PersonalInfo p)
         {
             int level = CurrentLevel;
             ushort[] Stats = new ushort[6];
@@ -412,6 +447,8 @@ namespace PKHeX
             int[] pptable;
             switch (Format)
             {
+                case 1: pptable = Legal.MovePP_RBY; break;
+                case 2: pptable = Legal.MovePP_GSC; break;
                 case 3: pptable = Legal.MovePP_RS; break;
                 case 4: pptable = Legal.MovePP_DP; break;
                 case 5: pptable = Legal.MovePP_BW; break;
@@ -426,17 +463,24 @@ namespace PKHeX
         public void setShinyPID()
         {
             do PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
-            EncryptionConstant = PID;
+            if (GenNumber < 6)
+                EncryptionConstant = PID;
         }
         public void setPIDGender(int gender)
         {
             do PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm, PID); while (IsShiny);
-            EncryptionConstant = PID;
+            if (GenNumber < 6)
+                EncryptionConstant = PID;
         }
         public void setPIDNature(int nature)
         {
             do PID = PKX.getRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
-            EncryptionConstant = PID;
+            if (GenNumber < 6)
+                EncryptionConstant = PID;
+        }
+        public void setPIDUnown3(int form)
+        {
+            do PID = Util.rnd32(); while (PKX.getUnownForm(PID) != form);
         }
     }
 }

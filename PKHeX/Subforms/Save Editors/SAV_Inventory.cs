@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,7 +11,23 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            itemlist = SAV.Generation == 3 ? Main.g3items : Main.itemlist;
+            switch (SAV.Generation)
+            {
+                case 1:
+                    itemlist = Main.g1items;
+                    B_GiveAll.Visible = false; // Can't give all, not enough room
+                    break;
+                case 2:
+                    itemlist = Main.g2items;
+                    B_GiveAll.Visible = false;
+                    break;
+                case 3:
+                    itemlist = Main.g3items;
+                    break;
+                default:
+                    itemlist = Main.itemlist;
+                    break;
+            }
             Pouches = SAV.Inventory;
             getBags();
         }
@@ -35,6 +52,8 @@ namespace PKHeX
 
         private void getBags()
         {
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+            tabControl1.ItemSize = new Size(IL_Pouch.Images[0].Width + 4, 0);
             for (int i = 0; i < Pouches.Length; i++)
             {
                 // Add Tab
@@ -155,6 +174,8 @@ namespace PKHeX
                         itemcnt++; // No 0 count of items
                     else if (itemcnt > 995)
                         itemcnt = 995; // cap out
+                    else if (itemcnt > 99 && SAV.Generation < 3)
+                        itemcnt = 99;
 
                     if (itemindex == 0) // Compression of Empty Slots
                         continue;

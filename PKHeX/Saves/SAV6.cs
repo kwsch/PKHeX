@@ -98,7 +98,8 @@ namespace PKHeX
             // Apply checksums
             for (int i = 0; i < Blocks.Length; i++)
             {
-                byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
+                byte[] array = new byte[Blocks[i].Length];
+                Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                 BitConverter.GetBytes(SaveUtil.ccitt16(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
             }
         }
@@ -108,7 +109,8 @@ namespace PKHeX
             {
                 for (int i = 0; i < Blocks.Length; i++)
                 {
-                    byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
+                    byte[] array = new byte[Blocks[i].Length];
+                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                     if (SaveUtil.ccitt16(array) != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
                         return false;
                 }
@@ -123,7 +125,8 @@ namespace PKHeX
                 string rv = "";
                 for (int i = 0; i < Blocks.Length; i++)
                 {
-                    byte[] array = Data.Skip(Blocks[i].Offset).Take(Blocks[i].Length).ToArray();
+                    byte[] array = new byte[Blocks[i].Length];
+                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                     if (SaveUtil.ccitt16(array) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
                         continue;
 
@@ -727,35 +730,33 @@ namespace PKHeX
             if (lang < 0) lang = 1;
             Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
 
-            // Set Form flags
-            int fc = Personal[pkm.Species].FormeCount;
-            int f = ORAS ? SaveUtil.getDexFormIndexORAS(pkm.Species, fc) : SaveUtil.getDexFormIndexXY(pkm.Species, fc);
-            if (f >= 0)
-            {
-                int FormLen = ORAS ? 0x26 : 0x18;
-                int FormDex = PokeDex + 0x368;
-                bit = f + pkm.AltForm;
-                // Set Seen Flag
-                Data[FormDex + FormLen * shiny + bit / 8] |= (byte)(1 << (bit % 8));
-
-                // Set Displayed Flag if necessary, check all flags
-                bool FormDisplayed = false;
-                for (int i = 0; i < fc; i++)
-                {
-                    bit = f + i;
-                    FormDisplayed |= (Data[FormDex + FormLen * 2 + bit / 8] & (byte)(1 << (bit % 8))) != 0; // Nonshiny
-                    FormDisplayed |= (Data[FormDex + FormLen * 3 + bit / 8] & (byte)(1 << (bit % 8))) != 0; // Shiny
-                }
-                if (!FormDisplayed)
-                {
-                    bit = f + pkm.AltForm;
-                    Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
-                }
-            }
-
             // Set DexNav count (only if not encountered previously)
             if (ORAS && getEncounterCount(pkm.Species - 1) == 0)
                 setEncounterCount(pkm.Species - 1, 1);
+
+            // Set Form flags
+            int fc = Personal[pkm.Species].FormeCount;
+            int f = ORAS ? SaveUtil.getDexFormIndexORAS(pkm.Species, fc) : SaveUtil.getDexFormIndexXY(pkm.Species, fc);
+            if (f < 0) return;
+
+            int FormLen = ORAS ? 0x26 : 0x18;
+            int FormDex = PokeDex + 0x8 + brSize*9;
+            bit = f + pkm.AltForm;
+
+            // Set Form Seen Flag
+            Data[FormDex + FormLen*shiny + bit/8] |= (byte)(1 << (bit%8));
+
+            // Set Displayed Flag if necessary, check all flags
+            for (int i = 0; i < fc; i++)
+            {
+                bit = f + i;
+                if ((Data[FormDex + FormLen*2 + bit/8] & (byte) (1 << (bit%8))) != 0) // Nonshiny
+                    return; // already set
+                if ((Data[FormDex + FormLen*3 + bit/8] & (byte) (1 << (bit%8))) != 0) // Shiny
+                    return; // already set
+            }
+            bit = f + pkm.AltForm;
+            Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
         }
         public override byte[] decryptPKM(byte[] data)
         {

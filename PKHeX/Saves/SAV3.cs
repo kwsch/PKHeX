@@ -5,7 +5,7 @@ namespace PKHeX
 {
     public sealed class SAV3 : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version})" +/* - {LastSavedTime}*/ "].bak";
+        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "SAV File|*.sav";
         public override string Extension => ".sav";
 
@@ -172,6 +172,7 @@ namespace PKHeX
         protected override int GiftCountMax => 1;
         public override int OTLength => 8;
         public override int NickLength => 10;
+        public override int MaxMoney => 999999;
 
         public override bool HasParty => true;
 

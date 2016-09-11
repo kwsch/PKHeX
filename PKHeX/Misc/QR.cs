@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
-using System.Net;
 using System.Web;
 using System.Windows.Forms;
 
@@ -57,10 +55,7 @@ namespace PKHeX
             string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + HttpUtility.UrlEncode(address);
             try
             {
-                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(webURL);
-                HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                var reader = new StreamReader(httpWebReponse.GetResponseStream());
-                string data = reader.ReadToEnd();
+                string data = Util.getStringFromURL(webURL);
                 if (data.Contains("could not find")) { Util.Alert("Reader could not find QR data in the image."); return null; }
                 if (data.Contains("filetype not supported")) { Util.Alert("Input URL is not valid. Double check that it is an image (jpg/png).", address); return null; }
                 // Quickly convert the json response to a data string
@@ -82,10 +77,7 @@ namespace PKHeX
 
             try
             {
-                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(webURL);
-                HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                Stream stream = httpWebReponse.GetResponseStream();
-                if (stream != null) return Image.FromStream(stream);
+                return Util.getImageFromURL(webURL);
             }
             catch
             {

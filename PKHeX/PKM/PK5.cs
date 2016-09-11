@@ -158,8 +158,8 @@ namespace PKHeX
         public override int Gender { get { return (Data[0x40] >> 1) & 0x3; } set { Data[0x40] = (byte)(Data[0x40] & ~0x06 | (value << 1)); } }
         public override int AltForm { get { return Data[0x40] >> 3; } set { Data[0x40] = (byte)(Data[0x40] & 0x07 | (value << 3)); } }
         public override int Nature { get { return Data[0x41]; } set { Data[0x41] = (byte)value; } }
-        public bool HiddenAbility { get { return (Data[0x41] & 1) == 1; } set { Data[0x41] = (byte)(Data[0x41] & ~0x01 | (value ? 1 : 0)); } }
-        public bool NPokémon { get { return (Data[0x41] & 2) == 2; } set { Data[0x41] = (byte)(Data[0x41] & ~0x02 | (value ? 2 : 0)); } }
+        public bool HiddenAbility { get { return (Data[0x42] & 1) == 1; } set { Data[0x42] = (byte)(Data[0x42] & ~0x01 | (value ? 1 : 0)); } }
+        public bool NPokémon { get { return (Data[0x42] & 2) == 2; } set { Data[0x42] = (byte)(Data[0x42] & ~0x02 | (value ? 2 : 0)); } }
         // 0x43-0x47 Unused
         #endregion
 
@@ -370,15 +370,16 @@ namespace PKHeX
             pk6.Move3 = Move3;
             pk6.Move4 = Move4;
 
-            pk6.Move1_PP = getMovePP(Move1, Move1_PPUps);
-            pk6.Move2_PP = getMovePP(Move2, Move2_PPUps);
-            pk6.Move3_PP = getMovePP(Move3, Move3_PPUps);
-            pk6.Move4_PP = getMovePP(Move4, Move4_PPUps);
-
             pk6.Move1_PPUps = Move1_PPUps;
             pk6.Move2_PPUps = Move2_PPUps;
             pk6.Move3_PPUps = Move3_PPUps;
             pk6.Move4_PPUps = Move4_PPUps;
+
+            // Fix PP
+            pk6.Move1_PP = pk6.getMovePP(pk6.Move1, pk6.Move1_PPUps);
+            pk6.Move2_PP = pk6.getMovePP(pk6.Move2, pk6.Move2_PPUps);
+            pk6.Move3_PP = pk6.getMovePP(pk6.Move3, pk6.Move3_PPUps);
+            pk6.Move4_PP = pk6.getMovePP(pk6.Move4, pk6.Move4_PPUps);
 
             pk6.IV_HP = IV_HP;
             pk6.IV_ATK = IV_ATK;
