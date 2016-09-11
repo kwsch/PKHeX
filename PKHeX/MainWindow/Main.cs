@@ -2325,9 +2325,14 @@ namespace PKHeX
 
                 if (SAV.Generation < 5) // All caps GenIV and previous
                     nick = nick.ToUpper();
+                if (SAV.Generation < 3)
+                    nick = nick.Replace(" ", "");
                 TB_Nickname.Text = nick;
                 if (SAV.Generation == 1)
-                  ((PK1)pkm).setNotNicknamed();
+                    ((PK1)pkm).setNotNicknamed();
+                if (SAV.Generation == 2)
+                    ((PK2)pkm).setNotNicknamed();
+
             }
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
@@ -3156,6 +3161,8 @@ namespace PKHeX
 
                 if (SAV.Generation < 5) // All caps GenIV and previous
                     nick = nick.ToUpper();
+                if (SAV.Generation < 3)
+                    nick = nick.Replace(" ", "");
                 if (TB_Nickname.Text != nick)
                 {
                     CHK_Nicknamed.Checked = true;

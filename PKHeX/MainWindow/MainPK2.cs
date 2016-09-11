@@ -96,7 +96,10 @@ namespace PKHeX
             pk2.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
             pk2.EV_SPC = Util.ToInt32(TB_SPAEV.Text);
 
-            pk2.Nickname = TB_Nickname.Text;
+            if (CHK_Nicknamed.Checked)
+                pk2.Nickname = TB_Nickname.Text;
+            else 
+                pk2.setNotNicknamed();
             pk2.Move1 = Util.getIndex(CB_Move1);
             pk2.Move2 = Util.getIndex(CB_Move2);
             pk2.Move3 = Util.getIndex(CB_Move3);

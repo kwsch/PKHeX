@@ -1713,11 +1713,13 @@ namespace PKHeX
             {0xB7, "x"},
             {0xB8, "y"},
             {0xB9, "z"},
+            {0xE0, "’"},
             {0xE1, "{"}, /* Pk */
             {0xE2, "}"}, /* Mn */
             {0xE3, "-"},
             {0xE6, "?"},
             {0xE7, "!"},
+            {0xE8, "."}, // Alias decimal point to .
             {0xEF, "♂"},
             {0xF2, "."},
             {0xF3, "/"},
@@ -1797,6 +1799,8 @@ namespace PKHeX
             {"x", 0xB7},
             {"y", 0xB8},
             {"z", 0xB9},
+            {"'", 0xE0}, // Alias ' to ’ for Farfetch'd
+            {"’", 0xE0}, 
             {"{", 0xE1}, /* Pk */
             {"}", 0xE2}, /* Mn */
             {"-", 0xE3},

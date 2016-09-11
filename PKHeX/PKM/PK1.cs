@@ -100,9 +100,11 @@ namespace PKHeX
             get
             {
                 string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
+                spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
                 return !nick.SequenceEqual(
                         PKX.setG1Str(spName, Japanese)
-                            .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1)));
+                            .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1))
+                            .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)));
             }
             set { }
         }
@@ -110,7 +112,11 @@ namespace PKHeX
         public void setNotNicknamed()
         {
             string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-            nick = PKX.setG1Str(spName, Japanese).Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1)).ToArray();
+            spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+            nick = PKX.setG1Str(spName, Japanese)
+                      .Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1))
+                      .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)) // Decimal point<->period fix
+                      .ToArray();
         }
 
 
