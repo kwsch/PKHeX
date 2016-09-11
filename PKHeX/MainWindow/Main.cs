@@ -1460,7 +1460,7 @@ namespace PKHeX
                 formnum = CB_Form.SelectedIndex;
 
             int[] abils = SAV.Personal.getAbilities(species, formnum);
-            if (abils[1] == 0)
+            if (abils[1] == 0 && SAV.Generation != 3)
                 abils[1] = abils[0];
             string[] abilIdentifier = {" (1)", " (2)", " (H)"};
             List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
