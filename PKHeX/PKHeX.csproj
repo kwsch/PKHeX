@@ -454,6 +454,11 @@
     <None Include="Resources\text\gen3\text_ItemsG2_es.txt" />
     <None Include="Resources\text\gen3\text_ItemsG3_es.txt" />
     <None Include="Resources\text\gen3\text_rsefrlg_00000_es.txt" />
+	<None Include="Resources\text\gen3\text_gsc_00000_zh.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG1_zh.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG2_zh.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG3_zh.txt" />
+    <None Include="Resources\text\gen3\text_rsefrlg_00000_zh.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
