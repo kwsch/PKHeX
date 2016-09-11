@@ -6418,4 +6418,34 @@
   <data name="gift" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Program\gift.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="text_gsc_00000_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_gsc_00000_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_gsc_00000_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_gsc_00000_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG1_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG1_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG1_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG1_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG2_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG2_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_ItemsG2_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG2_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_ItemsG3_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG3_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG3_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG3_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_rsefrlg_00000_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_rsefrlg_00000_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_rsefrlg_00000_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_rsefrlg_00000_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
 </root>

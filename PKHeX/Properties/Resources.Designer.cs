@@ -16672,6 +16672,7 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to If you are having issues viewing certain symbols/text: Options -&gt; Toggle Font.
         ///
+        /////
         ///
         ///// Main Window
         ///
@@ -16682,6 +16683,7 @@ namespace PKHeX.Properties {
         ///CTRL-Q: Quit
         ///
         ///CTRL-D: Open Database
+        ///CTRL-G: Open Mystery Gift Database
         ///CTRL-R: Open Box Report
         ///CTRL-P: Open About PKHeX
         ///CTRL-T: Import Showdown Set
@@ -16690,8 +16692,7 @@ namespace PKHeX.Properties {
         ///Control + Click on...
         ///- Species: Import Showdown/Smogon set from Clipboard.
         ///- Nickname/OT box: Bring up the ingame-special characters.
-        ///- Individual IVs: Set IV to max.
-        ///- Indivi [rest of string was truncated]&quot;;.
+        ///-  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
@@ -21308,7 +21309,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spiky
+        ///   Looks up a localized string similar to Picoreja
         ///
         ///
         ///
@@ -21509,8 +21510,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Unaa
-        ///
+        ///Una
         ///
         ///
         ///
@@ -23618,6 +23618,196 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Ninguno)
+        ///Pueblo Primavera
+        ///Ruta 29
+        ///Ciudad Cerezo
+        ///Ruta 30
+        ///Ruta 31
+        ///Ciudad Malva
+        ///Torre Bellsprout
+        ///Ruta 32
+        ///Ruinas Alfa
+        ///Cueva Unión
+        ///Ruta 33
+        ///Pueblo Azalea
+        ///Pozo Slowpoke
+        ///Encinar
+        ///Ruta 34
+        ///Ciudad Trigal
+        ///Torre Radio
+        ///Ruta 35
+        ///Parque Nacional
+        ///Ruta 36
+        ///Ruta 37
+        ///Ciudad Iris
+        ///Torre Campana
+        ///Torre Quemada
+        ///Ruta 38
+        ///Ruta 39
+        ///Ciudad Olivo
+        ///Faro
+        ///Torre Batalla
+        ///Ruta 40
+        ///Islas Remolino
+        ///Ruta 41
+        ///Ciudad Orquídea
+        ///Ruta 42
+        ///Mt. Mortero
+        ///Pueblo Caoba
+        ///Ruta 43
+        ///Lago de la Furia
+        ///Ruta 44
+        ///Ruta Helada
+        ///Ciudad Endrino
+        ///Guarida Dragón
+        ///Ruta 45
+        ///Cueva Oscura
+        ///Rut [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_gsc_00000_es {
+            get {
+                return ResourceManager.GetString("text_gsc_00000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (None)
+        ///若叶镇
+        ///29号路
+        ///吉花市
+        ///30号路
+        ///31号路
+        ///桔梗市
+        ///喇叭芽之塔
+        ///32号路
+        ///阿露福遗迹
+        ///互连洞
+        ///33号路
+        ///桧皮镇
+        ///呆呆兽之井
+        ///桐树林
+        ///34号路
+        ///满金市
+        ///广播电塔
+        ///35号路
+        ///自然公园
+        ///36号路
+        ///37号路
+        ///圆朱市
+        ///铃铛塔
+        ///烧焦塔
+        ///38号路
+        ///39号路
+        ///浅黄市
+        ///灯塔
+        ///对战塔
+        ///40号路
+        ///漩涡列岛
+        ///41号路
+        ///湛蓝市
+        ///42号路
+        ///擂钵山
+        ///卡吉镇
+        ///43号路
+        ///愤怒之湖
+        ///44号路
+        ///冰雪通路
+        ///烟墨市
+        ///龙穴
+        ///45号路
+        ///黑暗穴
+        ///46号路
+        ///白银洞窟
+        ///真新镇
+        ///1号路
+        ///常磐市
+        ///2号路
+        ///尼比市
+        ///3号路
+        ///月见山
+        ///4号路
+        ///华蓝市
+        ///24号路
+        ///25号路
+        ///5号路
+        ///地道
+        ///6号路
+        ///枯叶市
+        ///地鼠洞
+        ///7号路
+        ///8号路
+        ///9号路
+        ///岩山隧道
+        ///10号路
+        ///无人发电站
+        ///紫苑镇
+        ///紫苑广播电塔
+        ///彩虹市
+        ///金黄市
+        ///11号路
+        ///12号路
+        ///13号路
+        ///14号路
+        ///15号路
+        ///16号路
+        ///17号路
+        ///18号路
+        ///浅红市
+        ///19号路
+        ///20号路
+        ///双子岛
+        ///红莲岛
+        ///21号路
+        ///22号路
+        ///冠军之路
+        ///23号路
+        ///石英高原
+        ///26号路
+        ///27号路
+        ///都城瀑布
+        ///28号路
+        ///快船
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///不能说
+        ///事件.
+        /// </summary>
+        internal static string text_gsc_00000_zh {
+            get {
+                return ResourceManager.GetString("text_gsc_00000_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mysteriöser Ort
         ///Zweiblattdorf
         ///Sandgemme
@@ -25250,6 +25440,231 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ningún
+        ///Master Ball
+        ///Ultra Ball
+        ///Super Ball
+        ///Poké Ball
+        ///Mapa
+        ///Bicicleta
+        ///????? (7)
+        ///Safari Ball
+        ///Pokédex
+        ///Piedra Lunar
+        ///Antídoto
+        ///Antiquemar
+        ///Antihielo
+        ///Despertar
+        ///Antiparalizador
+        ///Restaurar Todo
+        ///Poción Máxima
+        ///Hiperpoción
+        ///Superpoción
+        ///Poción
+        ///Medalla Roca
+        ///Medalla Cascada
+        ///Medalla Trueno
+        ///Medalla Arcoiris
+        ///Medalla Alma
+        ///Medalla Pantano
+        ///Medalla Volcán
+        ///Medalla Tierra
+        ///Cuerda Huida
+        ///Repelente
+        ///Ámbar viejo
+        ///Piedra Fuego
+        ///Piedra Trueno
+        ///Piedra Agua
+        ///Más PS
+        ///Proteína
+        ///Hierro
+        ///Carburante
+        ///Calcio
+        ///Caramelo Raro
+        ///Fósil domo
+        ///Fósil hélix
+        ///Llave secreta
+        ///? [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG1_es {
+            get {
+                return ResourceManager.GetString("text_ItemsG1_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (无)
+        ///掌门球
+        ///高级球
+        ///超级球
+        ///精灵球
+        ///城镇地图
+        ///自行车
+        ///????? (7)
+        ///狩猎球
+        ///宝可梦图鉴
+        ///月之石
+        ///解毒剂
+        ///灼伤药
+        ///解冻药
+        ///解眠药
+        ///解麻药
+        ///回复药水
+        ///全满药水
+        ///超高级药水
+        ///超级药水
+        ///药水
+        ///灰色徽章
+        ///蓝色徽章
+        ///橘色徽章
+        ///彩虹徽章
+        ///粉红徽章
+        ///金黄徽章
+        ///深红徽章
+        ///绿色徽章
+        ///脱离洞穴的绳子
+        ///除虫喷雾器
+        ///秘密琥珀
+        ///火之石
+        ///雷之石
+        ///水之石
+        ///HP提升剂
+        ///攻击牛磺剂
+        ///防御提升剂
+        ///效果防护
+        ///特攻增加剂
+        ///神奇糖果
+        ///龟壳化石
+        ///贝之化石
+        ///神秘的钥匙
+        ///????? (44)
+        ///兑换券
+        ///命中加强
+        ///叶之石
+        ///卡片钥匙
+        ///金色珠
+        ///PP提升剂（未使用）
+        ///皮皮玩偶
+        ///万能药
+        ///更生剂
+        ///特级更生剂
+        ///防御效果
+        ///白银喷雾器
+        ///黄金喷雾器
+        ///要害攻击
+        ///代币
+        ///美味之水
+        ///塞可汽水
+        ///综合调味乳
+        ///船票
+        ///金子做的假牙
+        ///力量增强
+        ///伤害预防
+        ///速度增加
+        ///特殊增强
+        ///代币盒
+        ///包裹
+        ///蓝色卡片
+        ///幻影透视镜
+        ///神奇宝贝之笛
+        ///电梯的钥匙
+        ///学习装置
+        ///破烂钓竿
+        ///优秀钓竿
+        ///超强钓竿
+        ///PP提升剂
+        ///PP小补剂
+        ///PP单补剂
+        ///PP大补剂
+        ///PP全补剂
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG1_zh {
+            get {
+                return ResourceManager.GetString("text_ItemsG1_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (None)
         ///Master Ball
         ///Ultra Ball
@@ -25300,6 +25715,148 @@ namespace PKHeX.Properties {
         internal static string text_ItemsG2_en {
             get {
                 return ResourceManager.GetString("text_ItemsG2_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ningún
+        ///Master Ball
+        ///Ultra Ball
+        ///Polvo brillo
+        ///Super Ball
+        ///Poké Ball
+        ///Teru-sama (0)
+        ///Bicicleta
+        ///Piedra Lunar
+        ///Antídoto
+        ///Antiquemar
+        ///Antihielo
+        ///Despertar
+        ///Antiparalizador
+        ///Restaurar Todo
+        ///Poción Máxima
+        ///Hiperpoción
+        ///Superpoción
+        ///Poción
+        ///Cuerda Huida
+        ///Repelente
+        ///Elixir Máximo
+        ///Piedra Fuego
+        ///Piedra Trueno
+        ///Piedra Agua
+        ///Teru-sama (1)
+        ///Más PS
+        ///Proteína
+        ///Hierro
+        ///Carburante
+        ///Puño suerte
+        ///Calcio
+        ///Caramelo Raro
+        ///Precisión X
+        ///Piedra Hoja
+        ///Polvo metálico
+        ///Pepita
+        ///Poké Muñeco
+        ///Cura Total
+        ///Revivir
+        ///Revivir Máximo
+        ///Prote [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG2_es {
+            get {
+                return ResourceManager.GetString("text_ItemsG2_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (无)
+        ///掌门球
+        ///高级球
+        ///亮光之粉
+        ///超级球
+        ///精灵球
+        ///卡比丘 (0)
+        ///自行车
+        ///月之石
+        ///解毒剂
+        ///灼伤药
+        ///解冻药
+        ///解眠药
+        ///解麻药
+        ///回复药水
+        ///全满药水
+        ///超高级药水
+        ///超级药水
+        ///药水
+        ///脱离洞穴的绳子
+        ///除虫喷雾器
+        ///PP全补剂
+        ///火之石
+        ///雷之石
+        ///水之石
+        ///卡比丘 (1)
+        ///HP提升剂
+        ///攻击牛磺剂
+        ///防御提升剂
+        ///效果防护
+        ///幸运之拳
+        ///特攻增加剂
+        ///神奇糖果
+        ///命中加强
+        ///叶之石
+        ///金属粉
+        ///金色珠
+        ///皮皮玩偶
+        ///万能药
+        ///更生剂
+        ///特级更生剂
+        ///防御效果
+        ///白银喷雾器
+        ///黄金喷雾器
+        ///要害攻击
+        ///卡比丘 (2)
+        ///美味之水
+        ///塞可汽水
+        ///综合调味乳
+        ///力量增强
+        ///卡比丘 (3)
+        ///伤害预防
+        ///速度增加
+        ///特殊增强
+        ///代币盒
+        ///蓝色卡片
+        ///卡比丘 (4)
+        ///学习装置
+        ///破烂钓竿
+        ///优秀钓竿
+        ///银叶
+        ///超强钓竿
+        ///PP提升剂
+        ///PP小补剂
+        ///PP单补剂
+        ///PP大补剂
+        ///红色的鳞片
+        ///秘传之药
+        ///船票
+        ///神奇之蛋
+        ///透明铃铛
+        ///银色之翼
+        ///摩摩牛奶
+        ///先攻之爪
+        ///解毒的果实
+        ///金叶
+        ///柔软的沙子
+        ///尖锐的鸟嘴
+        ///消除麻痹的果实
+        ///烧烤的果实
+        ///冰冻的果实
+        ///毒针
+        ///王者之证
+        ///苦涩的 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG2_zh {
+            get {
+                return ResourceManager.GetString("text_ItemsG2_zh", resourceCulture);
             }
         }
         
@@ -25356,6 +25913,177 @@ namespace PKHeX.Properties {
         internal static string text_ItemsG3_en {
             get {
                 return ResourceManager.GetString("text_ItemsG3_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ningún
+        ///Master Ball
+        ///Ultra Ball
+        ///Super Ball
+        ///Poké Ball
+        ///Safari Ball
+        ///Malla Ball
+        ///Buceo Ball
+        ///Nido Ball
+        ///Acopio Ball
+        ///Turno Ball
+        ///Lujo Ball
+        ///Honor Ball
+        ///Poción
+        ///Antídoto
+        ///Antiquemar
+        ///Antihielo
+        ///Despertar
+        ///Antiparalizador
+        ///Restaurar Todo
+        ///Poción Máxima
+        ///Hiperpoción
+        ///Superpoción
+        ///Cura Total
+        ///Revivir
+        ///Revivir Máximo
+        ///Agua Fresca
+        ///Refresco
+        ///Limonada
+        ///Leche Mu-mu
+        ///Polvo Energía
+        ///Raíz Energía
+        ///Polvo Curación
+        ///Hierba Revivir
+        ///Éter
+        ///Éter Máximo
+        ///Elixir
+        ///Elixir Máximo
+        ///Galleta Lava
+        ///Flauta Azul
+        ///Flauta Amarilla
+        ///Flauta Roja
+        ///Flauta Negra
+        ///Flauta Blanca
+        ///Zumo d [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3_es {
+            get {
+                return ResourceManager.GetString("text_ItemsG3_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (无)
+        ///掌门球
+        ///高级球
+        ///超级球
+        ///精灵球
+        ///狩猎球
+        ///网纹球
+        ///潜水球
+        ///巢穴球
+        ///重复球
+        ///计时球
+        ///华丽球
+        ///首席球
+        ///药水
+        ///解毒剂
+        ///灼伤药
+        ///解冻药
+        ///解眠药
+        ///解麻药
+        ///回复药水
+        ///全满药水
+        ///超高级药水
+        ///超级药水
+        ///万能药
+        ///更生剂
+        ///特级更生剂
+        ///美味之水
+        ///塞可汽水
+        ///综合调味乳
+        ///摩摩牛奶
+        ///元气之粉
+        ///元气之根
+        ///万能之粉
+        ///复活草
+        ///PP小补剂
+        ///PP单补剂
+        ///PP大补剂
+        ///PP全补剂
+        ///釜炎仙贝
+        ///蓝色哨子
+        ///黄色哨子
+        ///红色哨子
+        ///黑色哨子
+        ///白色哨子
+        ///树果汁
+        ///神圣之灰
+        ///浅滩海盐
+        ///浅滩贝壳
+        ///红色碎片
+        ///蓝色碎片
+        ///黄色碎片
+        ///绿色碎片
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///HP提升剂
+        ///攻击牛磺剂
+        ///防御提升剂
+        ///效果防护
+        ///特攻增加剂
+        ///神奇糖果
+        ///PP提升剂
+        ///特防甲壳剂
+        ///PP增加剂
+        ///???
+        ///防御效果
+        ///要害攻击
+        ///力量增强
+        ///伤害预防
+        ///速度增加
+        ///命中加强
+        ///特殊增强
+        ///皮皮玩偶
+        ///向尾喵的尾巴
+        ///???
+        ///白银喷雾器
+        ///黄金喷雾器
+        ///脱离洞穴的绳子
+        ///除虫喷雾器
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///???
+        ///太阳之石
+        ///月之石
+        ///火之石
+        ///雷之石
+        ///水之石
+        ///叶之石
+        ///???
+        ///???
+        ///???
+        ///???
+        ///小蘑菇
+        ///大蘑菇
+        ///???
+        ///珍珠
+        ///大珍珠
+        ///星星的沙子
+        ///星星 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3_zh {
+            get {
+                return ResourceManager.GetString("text_ItemsG3_zh", resourceCulture);
             }
         }
         
@@ -27089,6 +27817,153 @@ namespace PKHeX.Properties {
         internal static string text_rsefrlg_00000_en {
             get {
                 return ResourceManager.GetString("text_rsefrlg_00000_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Villa Raíz
+        ///Pueblo Escaso
+        ///Pueblo Azuliza
+        ///Pueblo Lavacalda
+        ///Pueblo Pardal
+        ///Pueblo Verdegal
+        ///Pueblo Oromar
+        ///Ciudad Petalia
+        ///Ciudad Portual
+        ///Ciudad Malvalona
+        ///Ciudad Férrica
+        ///Ciudad Arborada
+        ///Ciudad Calagua
+        ///Ciudad Algaria
+        ///Arrecípolis
+        ///Ciudad Colosalia
+        ///Ruta 101
+        ///Ruta 102
+        ///Ruta 103
+        ///Ruta 104
+        ///Ruta 105
+        ///Ruta 106
+        ///Ruta 107
+        ///Ruta 108
+        ///Ruta 109
+        ///Ruta 110
+        ///Ruta 111
+        ///Ruta 112
+        ///Ruta 113
+        ///Ruta 114
+        ///Ruta 115
+        ///Ruta 116
+        ///Ruta 117
+        ///Ruta 118
+        ///Ruta 119
+        ///Ruta 120
+        ///Ruta 121
+        ///Ruta 122
+        ///Ruta 123
+        ///Ruta 124
+        ///Ruta 125
+        ///Ruta 126
+        ///Ruta 127
+        ///Ruta 128
+        ///Ruta 129
+        ///Ruta 130
+        ///Ruta [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_rsefrlg_00000_es {
+            get {
+                return ResourceManager.GetString("text_rsefrlg_00000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 未白镇
+        ///古辰镇
+        ///武斗镇
+        ///釜炎镇
+        ///秋叶镇
+        ///绿荫镇
+        ///暮水镇
+        ///橙华市
+        ///凯那市
+        ///紫堇市
+        ///卡那兹市
+        ///茵郁市
+        ///水静市
+        ///绿岭市
+        ///琉璃市
+        ///彩幽市
+        ///101号路
+        ///102号路
+        ///103号路
+        ///104号路
+        ///105号路
+        ///106号路
+        ///107号路
+        ///108号路
+        ///109号路
+        ///110号路
+        ///111号路
+        ///112号路
+        ///113号路
+        ///114号路
+        ///115号路
+        ///116号路
+        ///117号路
+        ///118号路
+        ///119号路
+        ///120号路
+        ///121号路
+        ///122号路
+        ///123号路
+        ///124号路
+        ///125号路
+        ///126号路
+        ///127号路
+        ///128号路
+        ///129号路
+        ///130号路
+        ///131号路
+        ///132号路
+        ///133号路
+        ///134号路
+        ///水下(124号路)
+        ///水下(126号路)
+        ///水下(127号路)
+        ///水下(128号路)
+        ///水下(琉璃市)
+        ///石之洞窟
+        ///烟突山
+        ///野生原野区 (红蓝绿宝石)
+        ///对战塔 (红蓝宝石) / 对战开拓区 (绿宝石)
+        ///橙华森林
+        ///卡绿隧道
+        ///弃船
+        ///新紫堇
+        ///流星瀑布
+        ///流星瀑布 (未使用)
+        ///送火山
+        ///秘密指挥部
+        ///浅滩洞穴
+        ///海底洞窟
+        ///水下(海底洞窟)
+        ///冠军之路 (红蓝绿宝石)
+        ///梦幻岛
+        ///觉醒祠堂
+        ///南方孤岛
+        ///热焰小径
+        ///热焰小径 (2)
+        ///凹凸山道
+        ///凹凸山道 (2)
+        ///布告石室
+        ///水下(134号路)
+        ///天旱焦岩
+        ///小岛横穴
+        ///沙漠遗迹
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_rsefrlg_00000_zh {
+            get {
+                return ResourceManager.GetString("text_rsefrlg_00000_zh", resourceCulture);
             }
         }
         

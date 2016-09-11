@@ -178,7 +178,7 @@ namespace PKHeX
                                 if (index > -1)
                                     IVs[index] = IV;
                                 else
-                                    InvalidLines.Add($"Unknown EV Type input: {ivlist[i * 2]}");
+                                    InvalidLines.Add($"Unknown IV Type input: {ivlist[i * 2]}");
                             }
                             break;
                         }
