@@ -1,0 +1,29 @@
+﻿<Properties StartupItem="PKHeX\PKHeX.csproj">
+  <MonoDevelop.Ide.ItemProperties.PKHeX PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="PKHeX\Subforms\Save Editors\SAV_SimpleTrainer.Designer.cs">
+    <Files>
+      <File FileName="PKHeX\Resources\text\es\lang_es.txt" Line="1" Column="1" />
+      <File FileName="PKHeX\Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.cs" Line="38" Column="75" />
+      <File FileName="PKHeX\Subforms\Save Editors\Gen6\SAV_HallOfFame.Designer.cs" Line="613" Column="46" />
+      <File FileName="PKHeX\Subforms\Save Editors\Gen6\SAV_Trainer.Designer.cs" Line="1824" Column="43" />
+      <File FileName="PKHeX\Subforms\Save Editors\Gen6\SAV_PokedexORAS.Designer.cs" Line="528" Column="53" />
+      <File FileName="PKHeX\Resources\text\en\text_Character_en.txt" Line="1" Column="1" />
+      <File FileName="PKHeX\Properties\Resources.Designer.cs" Line="20278" Column="54" />
+      <File FileName="PKHeX\Resources\text\es\text_Character_es.txt" Line="26" Column="39" />
+      <File FileName="PKHeX\Subforms\PKM Editors\MemoryAmie.Designer.cs" Line="804" Column="47" />
+      <File FileName="PKHeX\Subforms\Save Editors\Gen6\SAV_SuperTrain.Designer.cs" Line="3" Column="33" />
+      <File FileName="PKHeX\MainWindow\Main.Designer.cs" Line="5394" Column="49" />
+      <File FileName="PKHeX\Saves\SaveFile.cs" Line="113" Column="23" />
+      <File FileName="PKHeX\MainWindow\Main.cs" Line="3510" Column="25" />
+      <File FileName="PKHeX\MainWindow\Main.resx" Line="1261" Column="25" />
+      <File FileName="PKHeX\PKM\PK6.cs" Line="555" Column="23" />
+      <File FileName="PKHeX\Subforms\Save Editors\SAV_SimpleTrainer.Designer.cs" Line="809" Column="47" />
+      <File FileName="PKHeX\Subforms\Save Editors\Gen5\SAV_CGearSkin.Designer.cs" Line="138" Column="39" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

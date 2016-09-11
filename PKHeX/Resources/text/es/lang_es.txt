@@ -38,6 +38,8 @@ Menu_LoadBoxes = Cargar Cajas
 Menu_DumpBoxes = Exportar Cajas
 Menu_Report = Informe de la caja
 Menu_Database = Base de datos de PKM
+Menu_MGDatabase = Base de datos de regalo misterioso
+Menu_BatchEditor = Editor por lotes
 Menu_Other = Otro
 Menu_OpenSDF = Abrir carpeta SaveDataFiler
 Menu_OpenSDB = Abrir carpeta SaveDataBackup
@@ -76,6 +78,8 @@ Label_PKRSdays = d:
 Label_Country = País:
 Label_SubRegion = Subregión:
 Label_3DSRegion = Región 3DS:
+L_NSparkle = Brillo de N
+CHK_NSparkle = Activo
 ---------------------Met Tab Data-----------------------
 Tab_Met = Conocido
 Label_OriginGame = Juego Original:
@@ -92,6 +96,7 @@ Label_EggLocation = Lugar:
 Label_EggDate = Fecha:
 --------------------Stats Tab Data----------------------
 Tab_Stats = Estadísticas
+CHK_HackedStats = Estadísticas Hackeadas
 Label_IVs = IVs
 Label_EVs = EVs
 Label_Stats = Esta.
@@ -101,6 +106,7 @@ Label_DEF = Defensa:
 Label_SPA = Atq. Esp.:
 Label_SPD = Def. Esp.:
 Label_SPE = Velocidad:
+Label_SPC = Especial:
 Label_Total = Total:
 Label_HiddenPowerPrefix = Tipo del Poder Oculto:
 Label_CharacteristicPrefix = Características:
@@ -142,34 +148,37 @@ Tab_SAV = SAV
 B_OpenPokePuffs = ‎Pokélito
 B_OpenItemPouch = Inventario
 B_OpenTrainerInfo = Entrenador
+B_OUTPasserby = Transeúntes
 B_OpenBoxLayout = Fondos Cajas
 B_OpenWondercards = Tarjetas Misteriosas
-B_OpenBerryField = C. de Bayas
+B_OpenSuperTraining = Superentren.
+B_OpenHallofFame = Hall de la fama
 B_OpenOPowers = Poder O
 B_OpenEventFlags = Eventos
 B_OpenPokedex = Pokédex
-B_OpenSuperTraining = Superentren.
+B_OpenBerryField = C. de Bayas
+B_OpenPokeBlocks = Pokécubos
+B_OpenLinkInfo = Datos Enlace
 --
 B_OpenSecretBase = Base Secreta
+B_CGearSkin = C-Gear
 --------------------Tab Internals-----------------------
 L_Party = Equipo:
 L_BattleBox = Caja de Combate:
-L_ReadOnlyPBB = Sólo leer.
+L_ReadOnlyPBB = Sólo lectura.
 GB_Daycare = Guardería
 GB_GTS = GTS
-GB_Fused = Fusionado
+GB_Fused = Fusión
 GB_SUBE = Viejo
 DayCare_HasEgg = Huevo Disponible
-L_DaycareSeed = Seed
-L_ReadOnlyOther = Sólo leer.
+L_DaycareSeed = Semill.
+L_ReadOnlyOther = Sólo lectura.
 B_JPEG = Guardar PGL .JPEG
-B_OpenHallofFame = Hall de la fama
-B_OUTPasserby = Transeúntes
 B_VerifyCHK = Checksums
-B_SaveBoxBin = Save Box Data++
-L_GameSync = Game Sync ID:
-L_Secure1 = Secure Value 1:
-L_Secure2 = Secure Value 2:
+B_SaveBoxBin = Guardar Cajas++
+L_GameSync = ID de Sincronización:
+L_Secure1 = Valor Seguro 1:
+L_Secure2 = Valor Seguro  2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
@@ -293,23 +302,23 @@ B_Save = Guardar
 ------------------Super Training-----------------------
 CHK_SuperTraining = Superentrenamiento Normal
 CHK_SuperTrain1_HP = Nv. 1: PS
-CHK_SuperTrain1_ATK = Nv. 1: Atq
-CHK_SuperTrain1_DEF = Nv. 1: Def
-CHK_SuperTrain1_SPA = Nv. 1: AtE
-CHK_SuperTrain1_SPD = Nv. 1: DfE
-CHK_SuperTrain1_SPE = Nv. 1: Vel
+CHK_SuperTrain1_ATK = Nv. 1: Ataque
+CHK_SuperTrain1_DEF = Nv. 1: Defensa
+CHK_SuperTrain1_SPA = Nv. 1: Ataque Especial
+CHK_SuperTrain1_SPD = Nv. 1: Defensa Especial
+CHK_SuperTrain1_SPE = Nv. 1: Velocidad
 CHK_SuperTrain2_HP = Nv. 2: PS
-CHK_SuperTrain2_ATK = Nv. 2: Atq
-CHK_SuperTrain2_DEF = Nv. 2: Def
-CHK_SuperTrain2_SPA = Nv. 2: AtE
-CHK_SuperTrain2_SPD = Nv. 2: DfE
-CHK_SuperTrain2_SPE = Nv. 2: Vel
+CHK_SuperTrain2_ATK = Nv. 2: Ataque
+CHK_SuperTrain2_DEF = Nv. 2: Defensa
+CHK_SuperTrain2_SPA = Nv. 2: Ataque Especial
+CHK_SuperTrain2_SPD = Nv. 2: Defensa Especial
+CHK_SuperTrain2_SPE = Nv. 2: Velocidad
 CHK_SuperTrain3_HP = Nv. 3: PS
-CHK_SuperTrain3_ATK = Nv. 3: Atq
-CHK_SuperTrain3_DEF = Nv. 3: Def
-CHK_SuperTrain3_SPA = Nv. 3: AtE
-CHK_SuperTrain3_SPD = Nv. 3: DfE
-CHK_SuperTrain3_SPE = Nv. 3: Vel
+CHK_SuperTrain3_ATK = Nv. 3: Ataque
+CHK_SuperTrain3_DEF = Nv. 3: Defensa
+CHK_SuperTrain3_SPA = Nv. 3: Ataque Especial
+CHK_SuperTrain3_SPD = Nv. 3: Defensa Especial
+CHK_SuperTrain3_SPE = Nv. 3: Velocidad
 CHK_SecretUnlocked = Superentrenamiento Desbloqueado
 CHK_SecretComplete = Superentrenamiento Completa
 CHK_SuperTrain4_1 = Nv. 4: Dificultad tras otra
@@ -330,20 +339,25 @@ L_Hits = Golpes restantes:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
-! MemoryAmie = Editor de Memorias / Amigos
+! MemoryAmie = Editor de Memorias / Poké Recreo
 - Change stuff below this line, not above.
 ---------------------Bottom UI-------------------------
 BTN_Cancel = Cancelar
 BTN_Save = Guardar
-L_Handler = Manejador Actual:
+L_Handler = Dueño Actual:
+B_ClearAll = Limpiar todo
 -
 Tab_OTMemory = Memorias con: EO
 L_OT_Friendship = Amistad:
-L_OT_Affection = Cariño:
+L_OT_Affection = Afecto:
+L_OT_TextLine = Tipo Memoria:
 Tab_CTMemory = Memorias con: noEO
 L_CT_Friendship = Amistad:
 L_cT_Affection = Cariño:
 Tab_Residence = Residencia
+GB_Residence = El Pokémon ha residido en:
+L_Enjoyment = Diversión:
+L_Fullness = Saciedad:
 --
 L_Country = País
 L_Region = Región
@@ -353,7 +367,7 @@ L_Geo2 = Anterior 2:
 L_Geo3 = Anterior 3:
 L_Geo4 = Anterior 4:
 --
-L_Arguments = Disabled ; Never left ; OT ; Past Gen ; Memories with ; Pokémon ; Area ; Item(s) ; Move ; Location ;
+L_Arguments = Deshabilitado ; Nunca dejado ; EO ; Gen Pas ; Memorias con ; Pokémon ; Área ; Objeto(s) ; Mov. ; Localización ;
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
@@ -364,12 +378,73 @@ L_Arguments = Disabled ; Never left ; OT ; Past Gen ; Memories with ; Pokémon ;
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
+! SAV_PokeBlockORAS = Editor de Pokécubos
+- Change stuff below this line, not above.
+-------------------------------------------------------
+
+L_Red = Pokécubos Rojos:
+L_Blue = Pokécubos Azules:
+L_Pink = Pokécubos Rosas:
+L_Green = Pokécubos Verdes:
+L_Yellow = Pokécubos Amarillos:
+L_Rainbow = Pokécubos Arcoíris:
+L_Red = Pokécubos Rojos Plus:
+L_Blue = Pokécubos Azules Plus:
+L_Pink = Pokécubos Rosas Plus:
+L_Green = Pokécubos Verdes Plus:
+L_Yellow = Pokécubos Amarillos Plus:
+L_Rainbow = Pokécubos Arcoíris Plus:
+B_RandomizeBerries = PkCubos aleatorios
+B_GiveAllBlocks = Todos Max
+B_Cancel = Cancelar
+B_Save = Guardar
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Link6 = Editor de Enlace de Datos
+- Change stuff below this line, not above.
+-------------------------------------------------------
+TAB_Main = Inicio
+TAB_PKM = Pokémon
+TAB_Items = Objetos
+L_BP = Ptos Batalla:
+L_Pokemiles: PokéMillas
+CHK_LinkAvailable = Habilitar Pokémon Link
+B_Import = Importar
+B_Export = Exportar
+B_Cancel = Cancelar
+B_Save = Guardar
+L_Item1 = Objeto 1:
+L_Item2 = Objeto 2:
+L_Item3 = Objeto 3:
+L_Item4 = Objeto 4:
+L_Item5 = Objeto 5:
+L_Item6 = Objeto 6:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! SAV_SuperTrain = Records de Superentrenamiento
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+L_Records = Records
+L_Bags = Bolsas de Entrenamiento
+L_Species = Especie:
+L_Unk = L_Unk
+L_Time0 = Tiempo:
+L_Time1 = Tiempo1
+L_Time2 = Tiempo2
+L_UNKNOWN = DESCONOCIDO
+L_Species2 = Especie
+B_Cancel = Cancelar
+B_Save = Guardar
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
 ! SAV_BerryField = Visor de Campos de Bayas
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Berry = Baya:
 L_Field = Campo:
-L_Unfinished = Unfinished: Needs More Research
+L_Unfinished = Sin acabar: Necesita más investigación
 L_u1 = 1
 L_u2 = 2
 L_u3 = 3
@@ -397,7 +472,7 @@ L_BoxName = Nombre de la caja:
 ! SAV_EventFlagsORAS = Editor de Eventos (ORAS)
 - Change stuff below this line, not above.
 ------------------------------------------------------
-L_Ash = Asho volcánico:
+L_Ash = Ceniza volcánica:
 GB_Misc = Misc
 flag_0288 = Multi Statuette
 flag_0287 = Rotation Statuette
@@ -412,7 +487,7 @@ flag_0284 = Singles Statuette
 GB_Rebattle = Rebattle
 flag_2835 = (AS) Latios Capturado
 flag_0420 = (AS) Latios Derrotado
-L_SkyTower = *Sky Tower
+L_SkyTower = *Torre del Cielo
 flag_2834 = (OR) Latias Capturado
 flag_0419 = (OR) Latias Derrotado
 flag_2828 = (OR) Tornadus Capturado
@@ -467,12 +542,12 @@ flag_2831 = (AS) Zekrom Capturado
 flag_0183 = (AS) Zekrom Derrotado
 flag_2840 = (AS) Kyogre Capturado
 flag_0647 = (AS) Kyogre Derrotado
-GB_Researcher = FlagDiff Researcher
+GB_Researcher = Investigador de FlagDiff
 L_UnSet = UnSet
 L_IsSet = IsSet
 B_LoadNew = Carg. Nuevo
-B_LoadOld = Carg. Antiguo
-GB_FlagStatus = Check Flag Status
+B_LoadOld = Carg. Antig.
+GB_FlagStatus = Comprobar Estado de Flags
 L_Flag = Flag:
 CHK_CustomFlag = Estado:
 B_Save = Guardar
@@ -501,11 +576,11 @@ flag_0114 = Zygarde Capturado
 flag_0790 = Zygarde Derrotado
 flag_0115 = Mewtwo Capturado
 flag_0963 = Mewtwo Derrotado
-GB_Researcher = FlagDiff Researcher
+GB_Researcher = Investigador de FlagDiff
 L_UnSet = UnSet
 L_IsSet = IsSet
 B_LoadNew = Carg. Nuevo
-B_LoadOld = Carg. Antiguo
+B_LoadOld = Carg. Antig.
 flag_2239 = 2239
 flag_2238 = 2238
 flag_2237 = 2237
@@ -515,7 +590,7 @@ flag_0004 = Flag4
 flag_0003 = Flag3
 flag_0002 = Flag2
 flag_0001 = Flag1
-GB_FlagStatus = Check Flag Status
+GB_FlagStatus = Comprobar Estado de Flags
 L_Flag = Flag:
 CHK_CustomFlag = Estado:
 B_Cancel = Cancelar
@@ -525,7 +600,7 @@ B_Cancel = Cancelar
 ! SAV_PokedexORAS = Editor de Pokédex (ORAS)
 - Change stuff below this line, not above.
 ------------------------------------------------------
-L_goto = goto:
+L_goto = Ir a:
 GB_Owned = Obtenido
 CHK_P1 = Obtenido
 CHK_P2 = Macho
@@ -533,10 +608,14 @@ CHK_P3 = Hembra
 CHK_P4 = Macho brillante
 CHK_P5 = Hembra brillante
 GB_Encountered = Encontrado
+GB_Displayed = Aparecido
 CHK_P6 = Macho
 CHK_P7 = Hembra
 CHK_P8 = Macho brillante
 CHK_P9 = Hembra brillante
+L_FormsSeen = Formas vistas
+L_FormDisplayed = Formas mostradas
+B_ModifyForms = Modificar...
 L_DexNav = Nvl. DexNav:
 GB_Language = Idiomas
 CHK_L1 = Japonés
@@ -547,7 +626,7 @@ CHK_L5 = Alemán
 CHK_L6 = Español
 CHK_L7 = Coreano
 B_Modify = Modificar...
-B_GiveAll = Marcar todos
+B_GiveAll = Todos Max
 L_Spinda = Spinda:
 B_Save = Guardar
 B_Cancel = Cancelar
@@ -557,7 +636,7 @@ B_Cancel = Cancelar
 ! SAV_PokedexXY = Editor de Pokédex (XY)
 - Change stuff below this line, not above.
 -------------------------------------------------------
-L_goto = ir a:
+L_goto = Ir a:
 GB_Owned = Obtenido
 CHK_F1 = Extranjero (Pre)
 CHK_P1 = Nativo (Kalos)
@@ -566,11 +645,14 @@ CHK_P2 = Macho
 CHK_P3 = Hembra
 CHK_P4 = Macho brillante
 CHK_P5 = Hembra brillante
-GB_Displayed = Mostrado
+GB_Displayed = Aparecido
 CHK_P6 = Macho
 CHK_P7 = Hembra
 CHK_P8 = Macho brillante
 CHK_P9 = Hembra brillante
+L_FormsSeen = Formas vistas
+L_FormDisplayed = Formas mostradas
+B_ModifyForms = Modificar...
 GB_Language = Idiomas
 CHK_L1 = Japonés
 CHK_L2 = Inglés
@@ -580,7 +662,7 @@ CHK_L5 = Alemán
 CHK_L6 = Español
 CHK_L7 = Coreano
 B_Modify = Modificar...
-B_GiveAll = Marcar todos
+B_GiveAll = Todos Max
 L_Spinda = Spinda:
 B_Save = Guardar
 B_Cancel = Cancelar
@@ -607,6 +689,7 @@ Label_EncryptionConstant = Cte. de Encriptación:
 CHK_Nicknamed = Apodo:
 Label_Species = Especie:
 L_PartyNum = N. equipo:
+B_Delete = Borrar
 B_Close = Guardar
 ! End
 ! -----------------------------------------------------
@@ -614,12 +697,7 @@ B_Close = Guardar
 ! SAV_Inventory = Editor de Inventario
 - Change stuff below this line, not above.
 -------------------------------------------------------
-GB_Pouch = Pokélitos
-B_DisplayBerries = Bayas
-B_DisplayMedicine = Medicinas
-B_DisplayTMHM = MT/MO
-B_DisplayKeyItems = Objetos clave
-B_DisplayItems = Objetos
+B_GiveAll = Todos Max
 B_Save = Guardar
 B_Cancel = Cancelar
 ! End
@@ -677,7 +755,7 @@ B_Save = Guardar
 ! SAV_SecretBase = Editor de Bases Secretas
 - Change stuff below this line, not above.
 -------------------------------------------------------
-L_FlagsCaptured = Flags Captur.: 
+L_FlagsCaptured = Capturadas: 
 B_FSave = <
 B_GiveDecor = Marcar Decoraciones
 B_Cancel = Cancelar
@@ -688,10 +766,10 @@ L_Favorite = Favoritos:
 f_MAIN = Inicio
 L_TrName = Nombre Ent.:
 L_BaseLocation = Localización Base: 
-L_Happy = Happy:
-L_Encourage = Encourage:
-L_Blackboard = Blackboard:
-L_Confetti = Confetti:
+L_Happy = Feliz:
+L_Encourage = Estimulante:
+L_Blackboard = Pizarra:
+L_Confetti = Confeti:
 L_TeamName = Nombre Eq.:
 L_TeamSlogan = Eslógan Eq.:
 --
@@ -709,11 +787,11 @@ L_EncryptionConstant = ENC:
 L_IVs = IVs
 L_EVs = EVs
 L_HP = PS
-L_ATK = ATQ
-L_DEF = DEF
-L_SpA = AtE
-L_SpD = DfE
-L_SPE = VEL
+L_ATK = Atq.
+L_DEF = Def.
+L_SpA = AtqE.
+L_SpD = DefE.
+L_SPE = Vel.
 L_PKFriendship = Amistad:
 L_PPUps = PPs
 ! End
@@ -724,14 +802,20 @@ L_PPUps = PPs
 -------------------------------------------------------
 Tab_Multiplayer = Multijugador
 L_MultiplayerSprite = Icono Multijugador:
-L_Style = Estilo:
+GB_Sayings = Frases guardadas
+L_Saying1 = 1:
+L_Saying2 = 2:
+L_Saying3 = 3:
+L_Saying4 = 4:
+L_Saying5 = 5:
+--
 Tab_BadgeMap = Medallas/Mapa
 GB_Map = Posición en el Mapa
 L_CurrentMap = Mapa actual:
 L_X = Coordenada X:
 L_Z = Coordenada Z:
 L_Y = Coordenada Y:
-L_Offset = (offset)
+--
 Tab_Appearance = Apariencia (X/Y)
 L_Outfit = Valores Atuendos
 B_GiveAccessories = Marcar Accesorios
@@ -746,7 +830,9 @@ L_FacialHair = Pelo Facial:
 L_Hairstyle = Estilo Pelo:
 L_HairColor = Color Pelo:
 L_SkinColor = Color Piel:
-GB_MaisonCurrent = Maison Streaks (Current)
+--
+Tab_Maison = Mansión
+GB_MaisonCurrent = Rachas Mansión (Actual)
 L_SuperC = Super
 L_NormalC = Normal
 L_MultiC = Multi:
@@ -754,7 +840,7 @@ L_RotationC = Rotation:
 L_TriplesC = Triples:
 L_DoublesC = Dobles:
 L_SinglesC = Indiv.:
-GB_MaisonBest = Maison Streaks (Best)
+GB_MaisonBest = Rachas Mansión (Mejor)
 L_SuperB = Super
 L_NormalB = Normal
 L_MultiB = Multi:
@@ -765,28 +851,77 @@ L_SinglesB = Indiv:
 B_Save = Guardar
 L_Stats = Estadísticas
 B_Cancel = Cancelar
+--
 Tab_Overview = Inicio
-L_Seconds = Seg:
-L_Minutes = Min:
-L_Hours = Hrs:
+L_TrainerName = Nombre Entr.:
 L_Language = Idioma:
-L_PM = PokéMillas:
 L_Region = Subregión:
-L_BP = BP:
 L_Country = País:
 B_MaxCash = +
 L_3DSReg = Región 3DS:
 L_Money = $:
-L_SID = SID:
 L_TID = TID:
-L_TrainerName = Nombre Entrena.:
+L_SID = SID:
+--
+GB_Adventure = Información de la Aventura
+L_Seconds = Seg:
+L_Minutes = Min:
+L_Hours = Hrs:
+L_Started = Comienzo:
+L_Fame = Hall Fama:
+L_LastSaved = Último:
+--
+GB_Stats = Estadísticas
+L_PM = PokéMillas:
+L_BP = BP:
+L_Style = Estilo:
 L_Value = Valor
-GB_Sayings = Saved Sayings
-L_Saying1 = 1:
-L_Saying2 = 2:
-L_Saying3 = 3:
-L_Saying4 = 4:
-L_Saying5 = 5:
+L_Offset = (offset)
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_SimpleTrainer = Editor del Entrenador
+- Change stuff below this line, not above.
+-------------------------------------------------------
+GB_Trainer = Nombre
+L_TrainerName = Nombre Entr.:
+B_MaxCash = +
+L_Money = $:
+L_TID = TID:
+L_SID = SID:
+GB_Adventure = Información de la Aventura
+L_Seconds = Seg:
+L_Minutes = Min:
+L_Hours = Hrs:
+L_Started = Comienzo:
+L_Fame = Hall Fama:
+GB_Badges = Medallas
+GB_Map = Posición en el Mapa
+L_CurrentMap = Mapa actual:
+L_X = Coordenada X:
+L_Z = Coordenada Z:
+L_Y = Coordenada Y:
+GB_Options = Opciones
+label1 = Tipo Son.:
+LBL_TextSpeed = Vel. Texto:
+LBL_BattleStyle = Estilo Bat.:
+CHK_BattleEffects = Usar efectos de batalla
+B_Cancel = Cancelar
+B_Save = Guardar
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_SimplePokedex = Editor de Pokédex
+- Change stuff below this line, not above.
+-------------------------------------------------------
+label2 = Atrapados:
+Label_Seen = Vistos:
+B_SeenNone = Visto Ninguno
+B_SeenAll = Vistos Todos
+B_CaughtNone = Atrapado Ninguno
+B_CaughtAll = Atrapados Todos
+B_Cancel = Cancelar
+B_Save = Guardar
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
@@ -797,6 +932,18 @@ L_Details = Detalles:
 L_Received = Lista de recibidos:
 B_Import = Importar
 B_Output = Exportar
+B_Cancel = Cancelar
+B_Save = Guardar
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_CGearSkin = Editor de la apariencia del C-Gear
+- Change stuff below this line, not above.
+-------------------------------------------------------
+B_ImportPNG = Importar .png
+B_ExportPNG = Exportar .png
+B_ImportCGB = Importar .cgb/.psk
+B_ExportCGB = Exportar .cgb
 B_Cancel = Cancelar
 B_Save = Guardar
 ! End
