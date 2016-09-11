@@ -1045,6 +1045,10 @@ namespace PKHeX
                 CB_ExtraBytes.SelectedIndex = 0;
             }
 
+            // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
+            if (SAV.Generation == 2)
+                updateOriginGame(null, null);
+
             // Refresh PK#->PK6 conversion info
             PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
 
@@ -2142,8 +2146,11 @@ namespace PKHeX
 
             updateLegality();
         }
-        private List<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
+        private static List<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
         {
+            if (SaveFormat == 2)
+                return metGen2;
+
             if (egg)
             {
                 if (Version < GameVersion.W && SaveFormat >= 5)
@@ -2152,13 +2159,6 @@ namespace PKHeX
 
             switch (Version)
             {
-                case GameVersion.GSC:
-                case GameVersion.GS:
-                case GameVersion.C:
-                    if (SaveFormat == 2)
-                        return metGen2;
-                    break;
-
                 case GameVersion.CXD:
                     if (SaveFormat == 3)
                         return metGen3;

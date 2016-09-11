@@ -175,7 +175,7 @@ namespace PKHeX
                         itemcnt++; // No 0 count of items
                     else if (itemcnt > 995)
                         itemcnt = 995; // cap out
-                    else if (itemcnt > 99 && SAV.Generation < 3)
+                    else if (itemcnt > 99 && SAV.Generation <= 3)
                         itemcnt = 99;
 
                     if (itemindex == 0) // Compression of Empty Slots

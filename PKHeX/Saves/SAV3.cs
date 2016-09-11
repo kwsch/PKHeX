@@ -152,7 +152,7 @@ namespace PKHeX
         private readonly int[] BlockOfs;
 
         // Configuration
-        public override SaveFile Clone() { return new SAV3(Data.Take(Box).ToArray(), Version); }
+        public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version); }
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int SIZE_PARTY => PKX.SIZE_3PARTY;
