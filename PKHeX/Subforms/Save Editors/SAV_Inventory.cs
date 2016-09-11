@@ -23,6 +23,7 @@ namespace PKHeX
                     break;
                 case 3:
                     itemlist = Main.g3items;
+                    B_GiveAll.Visible = false;
                     break;
                 default:
                     itemlist = Main.itemlist;
