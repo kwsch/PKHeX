@@ -1382,7 +1382,8 @@ namespace PKHeX
                     Util.Alert("Converted File.");
             }
 
-            getFieldsfromPKM();
+            try { getFieldsfromPKM(); }
+            catch { fieldsInitialized = oldInit; throw; }
 
             CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
             fieldsInitialized = oldInit;
