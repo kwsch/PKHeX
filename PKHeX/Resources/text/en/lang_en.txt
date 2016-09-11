@@ -96,7 +96,6 @@ Label_EggDate = Date:
 Tab_Stats = Stats
 CHK_HackedStats = Hacked Stats
 Label_IVs = IVs
-Label_DVs = DVs
 Label_EVs = EVs
 Label_Stats = Stats
 Label_HP = HP:

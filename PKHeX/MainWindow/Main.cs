@@ -898,7 +898,6 @@ namespace PKHeX
             BTN_Ribbons.Visible = SAV.Generation >= 3;
             CB_HPType.Enabled = CB_Form.Enabled = SAV.Generation >= 3;
             BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = SAV.Generation >= 3;
-            Label_IVs.Visible = SAV.Generation >= 3; // DVs appears instead
 
             FLP_FriendshipForm.Visible = SAV.Generation >= 2;
             FLP_HeldItem.Visible = SAV.Generation >= 2;
@@ -933,7 +932,7 @@ namespace PKHeX
                 FLP_SpD.Visible = false;
                 Label_SPA.Visible = false;
                 Label_SPC.Visible = true;
-                TB_HPIV.ReadOnly = true;
+                TB_HPIV.Enabled = false;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
@@ -946,8 +945,8 @@ namespace PKHeX
                 FLP_SpD.Visible = true;
                 Label_SPA.Visible = true;
                 Label_SPC.Visible = false;
-                TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = true;
-                TB_HPIV.ReadOnly = true;
+                TB_SPDEV.Enabled = TB_SPDIV.Enabled = false;
+                TB_HPIV.Enabled = false;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
@@ -960,8 +959,8 @@ namespace PKHeX
                 FLP_SpD.Visible = true;
                 Label_SPA.Visible = true;
                 Label_SPC.Visible = false;
-                TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = false;
-                TB_HPIV.ReadOnly = false;
+                TB_SPDEV.Enabled = TB_SPDIV.Enabled = true;
+                TB_HPIV.Enabled = true;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
@@ -1789,7 +1788,7 @@ namespace PKHeX
 
             if (SAV.Generation < 3)
             {
-                TB_HPIV.Text = pkm.IV_HP.ToString("00");
+                TB_HPIV.Text = pkm.IV_HP.ToString();
                 TB_SPDIV.Text = TB_SPAIV.Text;
                 if (SAV.Generation == 2)
                 {

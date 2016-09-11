@@ -157,9 +157,6 @@
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
             this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
             this.FLP_StatsHeaderRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_IVs = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_IVs = new System.Windows.Forms.Label();
-            this.Label_DVs = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
             this.FLP_HP = new System.Windows.Forms.FlowLayoutPanel();
@@ -429,6 +426,7 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.Label_IVs = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -475,7 +473,6 @@
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
             this.FLP_StatsHeaderRight.SuspendLayout();
-            this.FLP_IVs.SuspendLayout();
             this.FLP_HP.SuspendLayout();
             this.FLP_HPRight.SuspendLayout();
             this.FLP_Atk.SuspendLayout();
@@ -2082,7 +2079,7 @@
             // FLP_StatsHeaderRight
             // 
             this.FLP_StatsHeaderRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_StatsHeaderRight.Controls.Add(this.FLP_IVs);
+            this.FLP_StatsHeaderRight.Controls.Add(this.Label_IVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_EVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_Stats);
             this.FLP_StatsHeaderRight.Location = new System.Drawing.Point(107, 0);
@@ -2090,37 +2087,6 @@
             this.FLP_StatsHeaderRight.Name = "FLP_StatsHeaderRight";
             this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_StatsHeaderRight.TabIndex = 123;
-            // 
-            // FLP_IVs
-            // 
-            this.FLP_IVs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_IVs.Controls.Add(this.Label_IVs);
-            this.FLP_IVs.Controls.Add(this.Label_DVs);
-            this.FLP_IVs.Location = new System.Drawing.Point(0, 0);
-            this.FLP_IVs.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_IVs.Name = "FLP_IVs";
-            this.FLP_IVs.Size = new System.Drawing.Size(30, 21);
-            this.FLP_IVs.TabIndex = 124;
-            // 
-            // Label_IVs
-            // 
-            this.Label_IVs.Location = new System.Drawing.Point(0, 0);
-            this.Label_IVs.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_IVs.Name = "Label_IVs";
-            this.Label_IVs.Size = new System.Drawing.Size(30, 21);
-            this.Label_IVs.TabIndex = 26;
-            this.Label_IVs.Text = "IVs";
-            this.Label_IVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_DVs
-            // 
-            this.Label_DVs.Location = new System.Drawing.Point(0, 21);
-            this.Label_DVs.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_DVs.Name = "Label_DVs";
-            this.Label_DVs.Size = new System.Drawing.Size(30, 21);
-            this.Label_DVs.TabIndex = 26;
-            this.Label_DVs.Text = "DVs";
-            this.Label_DVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_EVs
             // 
@@ -5500,6 +5466,16 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
+            // Label_IVs
+            // 
+            this.Label_IVs.Location = new System.Drawing.Point(0, 0);
+            this.Label_IVs.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_IVs.Name = "Label_IVs";
+            this.Label_IVs.Size = new System.Drawing.Size(30, 21);
+            this.Label_IVs.TabIndex = 29;
+            this.Label_IVs.Text = "IVs";
+            this.Label_IVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5583,7 +5559,6 @@
             this.FLP_HackedStats.ResumeLayout(false);
             this.FLP_HackedStats.PerformLayout();
             this.FLP_StatsHeaderRight.ResumeLayout(false);
-            this.FLP_IVs.ResumeLayout(false);
             this.FLP_HP.ResumeLayout(false);
             this.FLP_HPRight.ResumeLayout(false);
             this.FLP_HPRight.PerformLayout();
@@ -5781,7 +5756,6 @@
         private System.Windows.Forms.Label Label_HiddenPowerPrefix;
         private System.Windows.Forms.Label Label_Stats;
         private System.Windows.Forms.Label Label_EVs;
-        private System.Windows.Forms.Label Label_IVs;
         private System.Windows.Forms.Label Label_Total;
         private System.Windows.Forms.Label Label_SPE;
         private System.Windows.Forms.Label Label_SPD;
@@ -6122,8 +6096,7 @@
         private System.Windows.Forms.MaskedTextBox TB_Smart;
         private System.Windows.Forms.MaskedTextBox TB_Tough;
         private System.Windows.Forms.MaskedTextBox TB_Sheen;
-        private System.Windows.Forms.FlowLayoutPanel FLP_IVs;
-        private System.Windows.Forms.Label Label_DVs;
+        private System.Windows.Forms.Label Label_IVs;
     }
 }
 
