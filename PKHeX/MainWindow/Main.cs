@@ -835,7 +835,18 @@ namespace PKHeX
             GB_SUBE.Visible = SAV.HasSUBE;
             PB_Locked.Visible = SAV.HasBattleBox && SAV.BattleBoxLocked;
 
-            PAN_Box.Visible = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = SAV.HasBox;
+            if (!SAV.HasBox && tabBoxMulti.TabPages.Contains(Tab_Box))
+            {
+                tabBoxMulti.TabPages.Remove(Tab_Box);
+                tabBoxMulti.TabPages.Remove(Tab_Other);
+            }
+            else if (SAV.HasBox && !tabBoxMulti.TabPages.Contains(Tab_Box))
+            {
+                tabBoxMulti.TabPages.Insert(0, Tab_Box);
+                tabBoxMulti.TabPages.Insert(2, Tab_Other);
+                // force update -- re-added tab may be untranslated
+                Util.TranslateInterface(this, curlanguage);
+            }
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.HasBox;
 
             if (path != null) // Actual save file
@@ -854,10 +865,10 @@ namespace PKHeX
                 B_OpenOPowers.Visible = SAV.HasOPower;
                 B_OpenPokedex.Visible = SAV.HasPokeDex;
                 B_OpenBerryField.Visible = SAV.HasBerryField && SAV.XY;
-                B_Pokeblocks.Visible = SAV.HasPokeBlock;
+                B_OpenPokeblocks.Visible = SAV.HasPokeBlock;
                 B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Visible = SAV.HasEvents;
-                B_LinkInfo.Visible = SAV.HasLink;
+                B_OpenLinkInfo.Visible = SAV.HasLink;
                 B_CGearSkin.Visible = SAV.Generation == 5;
             }
             
@@ -921,7 +932,7 @@ namespace PKHeX
                 FLP_SpD.Visible = false;
                 Label_SPA.Visible = false;
                 Label_SPC.Visible = true;
-                TB_HPIV.ReadOnly = true;
+                TB_HPIV.Enabled = false;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
@@ -934,8 +945,8 @@ namespace PKHeX
                 FLP_SpD.Visible = true;
                 Label_SPA.Visible = true;
                 Label_SPC.Visible = false;
-                TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = true;
-                TB_HPIV.ReadOnly = true;
+                TB_SPDEV.Enabled = TB_SPDIV.Enabled = false;
+                TB_HPIV.Enabled = false;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
@@ -948,8 +959,8 @@ namespace PKHeX
                 FLP_SpD.Visible = true;
                 Label_SPA.Visible = true;
                 Label_SPC.Visible = false;
-                TB_SPDEV.ReadOnly = TB_SPDIV.ReadOnly = false;
-                TB_HPIV.ReadOnly = false;
+                TB_SPDEV.Enabled = TB_SPDIV.Enabled = true;
+                TB_HPIV.Enabled = true;
                 MaskedTextBox[] evControls = { TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV };
                 foreach (var ctrl in evControls)
                 {
@@ -1087,15 +1098,16 @@ namespace PKHeX
             if (CB_MainLanguage.SelectedIndex < 8)
                 curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
 
+            string l = curlanguage;
+
             // Past Generation strings
-            g3items = Util.getStringList("ItemsG3", "en");
-            g2items = Util.getStringList("ItemsG2", "en");
-            g1items = Util.getStringList("ItemsG1", "en");
-            metRSEFRLG_00000 = Util.getStringList("rsefrlg_00000", "en");
-            metGSC_00000 = Util.getStringList("gsc_00000", "en");
+            g3items = Util.getStringListFallback("ItemsG3", l, "en");
+            g2items = Util.getStringListFallback("ItemsG2", l, "en");
+            g1items = Util.getStringListFallback("ItemsG1", l, "en");
+            metRSEFRLG_00000 = Util.getStringListFallback("rsefrlg_00000", l, "en");
+            metGSC_00000 = Util.getStringListFallback("gsc_00000", l, "en");
 
             // Current Generation strings
-            string l = curlanguage;
             natures = Util.getStringList("natures", l);
             types = Util.getStringList("types", l);
             abilitylist = Util.getAbilitiesList(l);
@@ -1448,7 +1460,7 @@ namespace PKHeX
                 formnum = CB_Form.SelectedIndex;
 
             int[] abils = SAV.Personal.getAbilities(species, formnum);
-            if (abils[1] == 0)
+            if (abils[1] == 0 && SAV.Generation != 3)
                 abils[1] = abils[0];
             string[] abilIdentifier = {" (1)", " (2)", " (H)"};
             List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
@@ -1776,7 +1788,7 @@ namespace PKHeX
 
             if (SAV.Generation < 3)
             {
-                TB_HPIV.Text = pkm.IV_HP.ToString("00");
+                TB_HPIV.Text = pkm.IV_HP.ToString();
                 TB_SPDIV.Text = TB_SPAIV.Text;
                 if (SAV.Generation == 2)
                 {
@@ -2129,7 +2141,7 @@ namespace PKHeX
 
             updateLegality();
         }
-        private IEnumerable<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
+        private List<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
         {
             if (egg)
             {
@@ -2154,33 +2166,33 @@ namespace PKHeX
                 case GameVersion.R:
                 case GameVersion.S:
                     if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value <= 87); // Ferry
+                        return metGen3.OrderByDescending(loc => loc.Value <= 87).ToList(); // Ferry
                     break;
                 case GameVersion.E:
                     if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)); // Trainer Hill
+                        return metGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)).ToList(); // Trainer Hill
                     break;
                 case GameVersion.FR:
                 case GameVersion.LG:
                     if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197); // Celadon Dept.
+                        return metGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197).ToList(); // Celadon Dept.
                     break;
 
                 case GameVersion.D:
                 case GameVersion.P:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)); // Battle Park
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)).ToList(); // Battle Park
                     break;
 
                 case GameVersion.Pt:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)); // Rock Peak Ruins
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)).ToList(); // Rock Peak Ruins
                     break;
 
                 case GameVersion.HG:
                 case GameVersion.SS:
                     if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)); // Celadon Dept.
+                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)).ToList(); // Celadon Dept.
                     break;
 
                 case GameVersion.B:
@@ -2189,27 +2201,27 @@ namespace PKHeX
 
                 case GameVersion.B2:
                 case GameVersion.W2:
-                    return metGen5.Take(3).Concat(metGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)); // Abyssal Ruins
+                    return metGen5.Take(3).Concat(metGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)).ToList(); // Abyssal Ruins
 
                 case GameVersion.X:
                 case GameVersion.Y:
-                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)); // Unknown Dungeon
+                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)).ToList(); // Unknown Dungeon
 
                 case GameVersion.OR:
                 case GameVersion.AS:
-                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)); // Secret Base
+                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)).ToList(); // Secret Base
             }
 
             // Currently on a future game, return corresponding list for generation
             if (Version <= GameVersion.CXD && SaveFormat == 4)
                 return metGen4.Where(loc => loc.Value == 0x37) // Pal Park to front
                     .Concat(metGen4.Take(4))
-                    .Concat(metGen4.Skip(4).Where(loc => loc.Value != 0x37));
+                    .Concat(metGen4.Skip(4).Where(loc => loc.Value != 0x37)).ToList();
 
             if (Version < GameVersion.X && SaveFormat >= 5) // PokéTransfer to front
                 return metGen5.Where(loc => loc.Value == 30001)
                     .Concat(metGen5.Take(3))
-                    .Concat(metGen5.Skip(3).Where(loc => loc.Value != 30001));
+                    .Concat(metGen5.Skip(3).Where(loc => loc.Value != 30001)).ToList();
 
             return metGen6;
         }

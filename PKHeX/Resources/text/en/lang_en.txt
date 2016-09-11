@@ -21,7 +21,7 @@ Menu_Open = Open...
 Menu_Save = Save PKM...
 Menu_ExportSAV = Export SAV...
 Menu_ExportMAIN = Export main
-Menu_ExportBAK = Export BAK
+Menu_ExportBAK = Export Backup
 Menu_Exit = Quit
 --
 Menu_Tools = Tools
@@ -38,6 +38,8 @@ Menu_LoadBoxes = Load Boxes
 Menu_DumpBoxes = Dump Boxes
 Menu_Report = Box Data Report
 Menu_Database = PKM Database
+Menu_MGDatabase = Mystery Gift Database
+Menu_BatchEditor = Batch Editor
 Menu_Other = Other
 Menu_OpenSDF = Open SaveDataFiler Folder
 Menu_OpenSDB = Open SaveDataBackup Folder
@@ -92,6 +94,7 @@ Label_EggLocation = Location:
 Label_EggDate = Date:
 --------------------Stats Tab Data----------------------
 Tab_Stats = Stats
+CHK_HackedStats = Hacked Stats
 Label_IVs = IVs
 Label_EVs = EVs
 Label_Stats = Stats
@@ -101,6 +104,7 @@ Label_DEF = Def:
 Label_SPA = SpA:
 Label_SPD = SpD:
 Label_SPE = Spe:
+Label_SPC = SpC:
 Label_Total = Total:
 Label_HiddenPowerPrefix = Hidden Power Type:
 Label_CharacteristicPrefix = Characteristic:
@@ -144,15 +148,18 @@ B_OpenItemPouch = Items
 B_OpenTrainerInfo = Trainer Info
 B_OUTPasserby = Passerby
 B_OpenBoxLayout = Box Layout
-B_OpenWondercards = WonderCard
+B_OpenWondercards = Mystery Gift
 B_OpenSuperTraining = Super Train
 B_OpenHallofFame = Hall of Fame
 B_OpenOPowers = O-Powers
 B_OpenEventFlags = Event Flags
 B_OpenPokedex = Pokédex
 B_OpenBerryField = Berry Field
+B_OpenPokeBlocks = Pokéblocks
+B_OpenLinkInfo = Link Data
 --
 B_OpenSecretBase = Secret Base
+B_CGearSkin = C-Gear Skin
 --------------------Tab Internals-----------------------
 L_Party = Party:
 L_BattleBox = Battle Box:
@@ -363,6 +370,66 @@ L_Arguments = Disabled ; Never left ; OT ; Past Gen ; Memories with ; Pokémon ;
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
+! SAV_PokeBlockORAS = Pokéblock Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Red = Red Pokéblocks:
+L_Blue = Blue Pokéblocks:
+L_Pink = Pink Pokéblocks:
+L_Green = Green Pokéblocks:
+L_Yellow = Yellow Pokéblocks:
+L_Rainbow = Rainbow Pokéblocks:
+L_Red = Red Pokéblocks +:
+L_Blue = Blue Pokéblocks +:
+L_Pink = Pink Pokéblocks +:
+L_Green = Green Pokéblocks +:
+L_Yellow = Yellow Pokéblocks +:
+L_Rainbow = Rainbow Pokéblocks +:
+B_RandomizeBerries = Randomize Berries
+B_GiveAllBlocks = Give All Blocks
+B_Cancel = Cancel
+B_Save = Save
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Link6 = Pokémon Link Tool
+- Change stuff below this line, not above.
+-------------------------------------------------------
+TAB_Main = Main
+TAB_PKM = Pokémon
+TAB_Items = Items
+L_BP = Battle Points:
+L_Pokemiles: PokéMiles
+CHK_LinkAvailable = Pokémon Link Enabled
+B_Import = Import
+B_Export = Export
+B_Cancel = Cancel
+B_Save = Save
+L_Item1 = Item 1:
+L_Item2 = Item 2:
+L_Item3 = Item 3:
+L_Item4 = Item 4:
+L_Item5 = Item 5:
+L_Item6 = Item 6:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! SuperTrain = Super Training Records
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+L_Records = Records
+L_Bags = Training Bags
+L_Species = Species:
+L_Unk = L_Unk
+L_Time0 = Time:
+L_Time1 = Time1
+L_Time2 = Time2
+L_UNKNOWN = UNKNOWN
+L_Species2 = Species
+B_Cancel = Cancel
+B_Save = Save
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
 ! SAV_BerryField = Berry Field Viewer
 - Change stuff below this line, not above.
 -------------------------------------------------------
@@ -525,13 +592,14 @@ B_Cancel = Cancel
 - Change stuff below this line, not above.
 ------------------------------------------------------
 L_goto = goto:
-GB_Owned = Owned
-CHK_P1 = Obtained
+GB_Owned = Seen
 CHK_P2 = Male
 CHK_P3 = Female
 CHK_P4 = Shiny Male
 CHK_P5 = Shiny Female
-GB_Encountered = Encountered
+GB_Owned = Owned
+CHK_P1 = Obtained
+GB_Displayed = Displayed
 CHK_P6 = Male
 CHK_P7 = Female
 CHK_P8 = Shiny Male
@@ -606,6 +674,7 @@ Label_EncryptionConstant = Encryption Constant:
 CHK_Nicknamed = Nickname:
 Label_Species = Species:
 L_PartyNum = Party Index:
+B_Delete = Delete
 B_Close = Save
 ! End
 ! -----------------------------------------------------
@@ -613,12 +682,7 @@ B_Close = Save
 ! SAV_Inventory = Inventory Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
-GB_Pouch = Pouches
-B_DisplayBerries = Berry
-B_DisplayMedicine = Medicine
-B_DisplayTMHM = TM/HM
-B_DisplayKeyItems = Key Items
-B_DisplayItems = Items
+B_GiveAll = Give All
 B_Save = Save
 B_Cancel = Cancel
 ! End
@@ -723,14 +787,20 @@ L_PPUps = PPUps
 -------------------------------------------------------
 Tab_Multiplayer = Multiplayer
 L_MultiplayerSprite = Multiplayer Sprite:
-L_Style = Style:
+GB_Sayings = Saved Sayings
+L_Saying1 = 1:
+L_Saying2 = 2:
+L_Saying3 = 3:
+L_Saying4 = 4:
+L_Saying5 = 5:
+--
 Tab_BadgeMap = Badges/Map
 GB_Map = Map Position
 L_CurrentMap = Current Map:
 L_X = X Coordinate:
 L_Z = Z Coordinate:
 L_Y = Y Coordinate:
-L_Offset = (offset)
+--
 Tab_Appearance = Current Appearance (X/Y)
 L_Outfit = Outfit Vals
 B_GiveAccessories = Give All Accessories
@@ -745,6 +815,8 @@ L_FacialHair = Facial Hair:
 L_Hairstyle = Hairstyle:
 L_HairColor = Hair Color:
 L_SkinColor = Skin Color:
+--
+Tab_Maison = Maison
 GB_MaisonCurrent = Maison Streaks (Current)
 L_SuperC = Super
 L_NormalC = Normal
@@ -764,32 +836,35 @@ L_SinglesB = Singles:
 B_Save = Save
 L_Stats = Stats
 B_Cancel = Cancel
+--
 Tab_Overview = Overview
-L_Seconds = Sec:
-L_Minutes = Min:
-L_Hours = Hrs:
+L_TrainerName = Trainer Name:
 L_Language = Language:
-L_PM = PokéMiles:
 L_Region = Region:
-L_BP = BP:
 L_Country = Country:
 B_MaxCash = +
 L_3DSReg = 3DS Region:
 L_Money = $:
-L_SID = SID:
 L_TID = TID:
-L_TrainerName = Trainer Name:
+L_SID = SID:
+-
+GB_Adventure = Adventure Info
+L_Seconds = Sec:
+L_Minutes = Min:
+L_Hours = Hrs:
+L_Started = Game Started:
+L_Fame = HoF Entered:
+L_LastSaved = Last Saved:
+-
+L_PM = PokéMiles:
+L_BP = BP:
+L_Style = Style:
 L_Value = Value
-GB_Sayings = Saved Sayings
-L_Saying1 = 1:
-L_Saying2 = 2:
-L_Saying3 = 3:
-L_Saying4 = 4:
-L_Saying5 = 5:
+L_Offset = (offset)
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Wondercard = Wonder Card I/O
+! SAV_Wondercard = Mystery Gift I/O
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Details = Details:
