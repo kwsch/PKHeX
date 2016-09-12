@@ -34,6 +34,9 @@ namespace PKHeX
                 case PKX.SIZE_1JLIST:
                 case PKX.SIZE_1ULIST:
                     return 1;
+                case PKX.SIZE_2ULIST:
+                case PKX.SIZE_2JLIST:
+                    return 2;
                 case PKX.SIZE_3PARTY:
                 case PKX.SIZE_3STORED:
                     return 3;
@@ -74,10 +77,15 @@ namespace PKHeX
             switch (getPKMDataFormat(data))
             {
                 case 1:
-                    var PL = new PokemonList1(data, PokemonList1.CapacityType.Single, data.Length == PKX.SIZE_1JLIST);
+                    var PL1 = new PokemonList1(data, PokemonList1.CapacityType.Single, data.Length == PKX.SIZE_1JLIST);
                     if (ident != null)
-                        PL[0].Identifier = ident;
-                    return PL[0];
+                        PL1[0].Identifier = ident;
+                    return PL1[0];
+                case 2:
+                    var PL2 = new PokemonList2(data, PokemonList2.CapacityType.Single, data.Length == PKX.SIZE_2JLIST);
+                    if (ident != null)
+                        PL2[0].Identifier = ident;
+                    return PL2[0];
                 case 3:
                     return new PK3(data, ident);
                 case 4:
@@ -92,15 +100,35 @@ namespace PKHeX
         }
         internal static PKM convertToFormat(PKM pk, int Format, out string comment)
         {
-            if (pk == null)
+            if (pk == null || pk.Species == 0)
             {
                 comment = "Null input. Aborting.";
                 return null;
             }
+
+            string currentFormat = pk.Format.ToString();
+            PKM pkm = pk.Clone();
+
             if (pk.Format == Format)
             {
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
+            }
+            if (pk.Format <= 2 && Format <= 2) // 1<->2, already checked not equal
+            {
+                switch (Format)
+                {
+                    case 1:
+                        if (pk.Species > 151)
+                        { comment = $"Cannot convert a {PKX.getSpeciesName(pk.Species, ((PK2)pk).Japanese ? 1 : 2)} to pk{Format}"; return null; }
+                        pkm = ((PK2)pk).convertToPK1();
+                        break;
+                    case 2:
+                        pkm = ((PK1)pk).convertToPK2();
+                        break;
+                }
+                comment = $"Converted from pk{pk.Format} to pk{Format}";
+                return pkm;
             }
             if (pk.Format > Format)
             {
@@ -120,8 +148,6 @@ namespace PKHeX
                           + "Please wait for Sun/Moon to release and documentation to occur.";
                 return null;
             }
-            string currentFormat = pk.Format.ToString();
-            PKM pkm = pk.Clone();
             if (pkm.IsEgg) // force hatch
             {
                 pkm.IsEgg = false;

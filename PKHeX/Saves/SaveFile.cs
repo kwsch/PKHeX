@@ -20,6 +20,7 @@ namespace PKHeX
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public bool Japanese { protected get; set; }
+        public string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes.ToString("00")}ː{PlayedSeconds.ToString("00")}"; // not :
 
         public bool GetJapanese => Japanese;
 
@@ -63,6 +64,8 @@ namespace PKHeX
         public bool RS => Version == GameVersion.RS;
         public bool RBY => Version == GameVersion.RBY;
 
+        public bool GSC => Version == GameVersion.GS || Version == GameVersion.C;
+
         public virtual int MaxMoveID => int.MaxValue;
         public virtual int MaxSpeciesID => int.MaxValue;
         public virtual int MaxAbilityID => int.MaxValue;
@@ -102,6 +105,7 @@ namespace PKHeX
         public virtual int DaycareSeedSize { get; } = 0;
         public abstract int OTLength { get; }
         public abstract int NickLength { get; }
+        public virtual int MaxMoney { get; } = 9999999;
 
         // Offsets
         protected int Box { get; set; } = int.MinValue;
@@ -324,7 +328,7 @@ namespace PKHeX
         public abstract int getDaycareSlotOffset(int loc, int slot);
         public abstract uint? getDaycareEXP(int loc, int slot);
         public virtual ulong? getDaycareRNGSeed(int loc) { return null; }
-        public virtual bool? getDaycareHasEgg(int loc) { return false; }
+        public virtual bool? getDaycareHasEgg(int loc) { return null; }
         public abstract bool? getDaycareOccupied(int loc, int slot);
         
         public abstract void setDaycareEXP(int loc, int slot, uint EXP);
@@ -463,7 +467,7 @@ namespace PKHeX
             
             PKM[] pkms = BoxData;
             for (int i = 0; i < pkms.Length; i++)
-                pkms[i].Data = decryptPKM(pkdata[i]);
+                pkms[i] = getPKM(decryptPKM(pkdata[i]));
             BoxData = pkms;
             return true;
         }
@@ -481,7 +485,7 @@ namespace PKHeX
 
             PKM[] pkms = BoxData;
             for (int i = 0; i < BoxSlotCount; i++)
-                pkms[box*BoxSlotCount + i].Data = decryptPKM(pkdata[i]);
+                pkms[box*BoxSlotCount + i] = getPKM(decryptPKM(pkdata[i]));
             BoxData = pkms;
             return true;
         }

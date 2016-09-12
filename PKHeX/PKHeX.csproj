@@ -72,9 +72,14 @@
     <Compile Include="Legality\Checks.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
+    <Compile Include="Legality\Tables2.cs" />
+    <Compile Include="Legality\Tables1.cs" />
     <Compile Include="Legality\Tables3.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="MainWindow\MainPK2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainWindow\MainPK1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +106,7 @@
     <Compile Include="PersonalInfo\PersonalInfo.cs" />
     <Compile Include="PersonalInfo\PersonalInfoB2W2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoBW.cs" />
+    <Compile Include="PersonalInfo\PersonalInfoG2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG1.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG3.cs" />
     <Compile Include="PersonalInfo\PersonalInfoG4.cs" />
@@ -108,6 +114,7 @@
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="PersonalInfo\PersonalTable.cs" />
     <Compile Include="PKM\PK1.cs" />
+    <Compile Include="PKM\PK2.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
@@ -127,6 +134,7 @@
     <Compile Include="Saves\BlockInfo.cs" />
     <Compile Include="Saves\BoxWallpaper.cs" />
     <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
@@ -214,6 +222,12 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\SAV_SimplePokedex.Designer.cs">
       <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\SAV_MysteryGiftDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SAV_MysteryGiftDB.Designer.cs">
+      <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\SAV_Database.cs">
       <SubType>Form</SubType>
@@ -375,6 +389,9 @@
     <EmbeddedResource Include="Subforms\Save Editors\SAV_SimplePokedex.resx">
       <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SAV_MysteryGiftDB.resx">
+      <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
     </EmbeddedResource>
@@ -433,6 +450,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Misc\personal_gs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -442,6 +460,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\text\gen3\text_gsc_00000_es.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG1_es.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG2_es.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG3_es.txt" />
+    <None Include="Resources\text\gen3\text_rsefrlg_00000_es.txt" />
+	<None Include="Resources\text\gen3\text_gsc_00000_zh.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG1_zh.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG2_zh.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG3_zh.txt" />
+    <None Include="Resources\text\gen3\text_rsefrlg_00000_zh.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -482,9 +510,11 @@
     <None Include="Resources\byte\lvlmove_xy.pkl" />
     <None Include="Resources\byte\personal_b2w2" />
     <None Include="Resources\byte\personal_bw" />
+    <None Include="Resources\byte\personal_c" />
     <None Include="Resources\byte\personal_dp" />
     <None Include="Resources\byte\personal_e" />
     <None Include="Resources\byte\personal_fr" />
+    <None Include="Resources\byte\personal_gs" />
     <None Include="Resources\byte\personal_hgss" />
     <None Include="Resources\byte\personal_lg" />
     <None Include="Resources\byte\personal_pt" />
@@ -2750,6 +2780,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\text\version.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\gen3\text_gsc_00000_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\gen3\text_ItemsG1_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Program\gift.png" />
+    <Content Include="Resources\text\gen3\text_ItemsG2_en.txt" />
+    <None Include="Resources\img\Pokemon Sprites\172_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

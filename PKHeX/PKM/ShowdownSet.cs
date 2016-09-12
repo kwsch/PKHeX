@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -30,6 +31,7 @@ namespace PKHeX
         public int[] EVs;
         public int[] IVs;
         public int[] Moves;
+        public readonly List<string> InvalidLines = new List<string>();
 
         // Parsing Utility
         public ShowdownSet(string input = null)
@@ -118,7 +120,10 @@ namespace PKHeX
                         {
                             string type = moveString.Remove(0, 13).Replace("[", "").Replace("]", ""); // Trim out excess data
                             int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
-                            if (hpVal >= 0) IVs = PKX.setHPIVs(hpVal, IVs); // Get IVs
+                            if (hpVal >= 0)
+                                IVs = PKX.setHPIVs(hpVal, IVs); // Get IVs
+                            else
+                                InvalidLines.Add($"Invalid Hidden Power Type: {type}");
                         }
                         moveString = "Hidden Power";
                     }
@@ -136,20 +141,45 @@ namespace PKHeX
                     case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
                     case "Shiny": { Shiny = brokenline[1] == "Yes"; break; }
                     case "Happiness": { Friendship = Util.ToInt32(brokenline[1]); break; }
+                    case "Nature": { Nature = Array.IndexOf(natures, brokenline[1]); break; }
                     case "EVs":
                         {
                             // Get EV list String
-                            string[] evlist = brokenline[1].Replace("SAtk", "SpA").Replace("SDef", "SpD").Replace("Spd", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
-                            for (int i = 0; i < evlist.Length / 2; i++)
-                                EVs[Array.IndexOf(StatNames, evlist[1 + i * 2])] = (byte)Util.ToInt32(evlist[0 + 2 * i]);
+                            string[] evlist = brokenline[1]
+                                // Because people think they can type sets out...
+                                .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
+                                .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
+                                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
+                            for (int i = 0; i < evlist.Length/2; i++)
+                            {
+                                ushort EV;
+                                ushort.TryParse(evlist[i * 2 + 0], out EV);
+                                int index = Array.IndexOf(StatNames, evlist[i*2 + 1]);
+                                if (index > -1)
+                                    EVs[index] = EV;
+                                else
+                                    InvalidLines.Add($"Unknown EV Type input: {evlist[i*2]}");
+                            }
                             break;
                         }
                     case "IVs":
                         {
                             // Get IV list String
-                            string[] ivlist = brokenline[1].Split(new[] { " / ", " " }, StringSplitOptions.None);
-                            for (int i = 0; i < ivlist.Length / 2; i++)
-                                IVs[Array.IndexOf(StatNames, ivlist[1 + i * 2])] = (byte)Util.ToInt32(ivlist[0 + 2 * i]);
+                            string[] ivlist = brokenline[1]
+                                // Because people think they can type sets out...
+                                .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
+                                .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
+                                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
+                            for (int i = 0; i < ivlist.Length/2; i++)
+                            {
+                                byte IV;
+                                byte.TryParse(ivlist[i*2 + 0], out IV);
+                                int index = Array.IndexOf(StatNames, ivlist[i*2 + 1]);
+                                if (index > -1)
+                                    IVs[index] = IV;
+                                else
+                                    InvalidLines.Add($"Unknown IV Type input: {ivlist[i * 2]}");
+                            }
                             break;
                         }
                     default:
@@ -185,6 +215,7 @@ namespace PKHeX
                                     )
                                 {
                                     string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
+                                    if (tmp.Length < 2) return;
                                     Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
                                     Form = tmp[1].Trim();
                                     if (tmp.Length > 2)
@@ -194,7 +225,13 @@ namespace PKHeX
                             else if (brokenline[0].Contains("Nature"))
                                 Nature = Array.IndexOf(natures, line.Split(' ')[0]);
                             else // Fallback
-                                Species = Array.IndexOf(species, line.Split('(')[0]);
+                            {
+                                int spec = Array.IndexOf(species, line.Split('(')[0]);
+                                if (spec > 0)
+                                    Species = spec;
+                                else
+                                    InvalidLines.Add(line);
+                            }
                         }
                         break;
                 }
@@ -206,9 +243,9 @@ namespace PKHeX
                 return "";
 
             // First Line: Name, Nickname, Gender, Item
-            string result = string.Format(species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
+            string result = string.Format(Nickname != null && species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
                 species[Species] + ((Form ?? "") != "" ? "-" + Form?.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
-                            + Gender + (Item != 0 ? " @ " + items[Item] : "") + Environment.NewLine;
+                            + Gender + (Item > 0 ? " @ " + items[Item] : "") + Environment.NewLine;
 
             // IVs
             string[] ivstr = new string[6];
@@ -235,12 +272,14 @@ namespace PKHeX
                 result += "EVs: " + string.Join(" / ", evstr.Take(evctr)) + Environment.NewLine;
 
             // Secondary Stats
-            result += "Ability: " + abilities[Ability] + Environment.NewLine;
+            if (Ability > -1)
+                result += "Ability: " + abilities[Ability] + Environment.NewLine;
             result += "Level: " + Level + Environment.NewLine;
             if (Shiny)
                 result += "Shiny: Yes" + Environment.NewLine;
 
-            result += natures[Nature] + " Nature" + Environment.NewLine;
+            if (Nature > -1)
+                result += natures[Nature] + " Nature" + Environment.NewLine;
             // Add in Moves
             string[] MoveLines = new string[Moves.Length];
             int movectr = 0;

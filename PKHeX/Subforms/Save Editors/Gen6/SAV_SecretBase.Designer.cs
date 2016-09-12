@@ -396,12 +396,12 @@
             // 
             // L_PKFriendship
             // 
-            this.L_PKFriendship.AutoSize = true;
-            this.L_PKFriendship.Location = new System.Drawing.Point(265, 166);
+            this.L_PKFriendship.Location = new System.Drawing.Point(245, 163);
             this.L_PKFriendship.Name = "L_PKFriendship";
-            this.L_PKFriendship.Size = new System.Drawing.Size(55, 13);
+            this.L_PKFriendship.Size = new System.Drawing.Size(75, 21);
             this.L_PKFriendship.TabIndex = 82;
             this.L_PKFriendship.Text = "Friendship";
+            this.L_PKFriendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Ball
             // 
@@ -451,7 +451,7 @@
             this.CHK_Shiny.AutoSize = true;
             this.CHK_Shiny.Location = new System.Drawing.Point(146, 92);
             this.CHK_Shiny.Name = "CHK_Shiny";
-            this.CHK_Shiny.Size = new System.Drawing.Size(38, 17);
+            this.CHK_Shiny.Size = new System.Drawing.Size(35, 17);
             this.CHK_Shiny.TabIndex = 77;
             this.CHK_Shiny.Text = "☆";
             this.CHK_Shiny.UseVisualStyleBackColor = true;
@@ -514,7 +514,7 @@
             this.CB_Move4.FormattingEnabled = true;
             this.CB_Move4.Location = new System.Drawing.Point(15, 225);
             this.CB_Move4.Name = "CB_Move4";
-            this.CB_Move4.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move4.Size = new System.Drawing.Size(122, 21);
             this.CB_Move4.TabIndex = 74;
             // 
             // CB_PPu1
@@ -538,7 +538,7 @@
             this.CB_Move3.FormattingEnabled = true;
             this.CB_Move3.Location = new System.Drawing.Point(15, 203);
             this.CB_Move3.Name = "CB_Move3";
-            this.CB_Move3.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move3.Size = new System.Drawing.Size(122, 21);
             this.CB_Move3.TabIndex = 72;
             // 
             // CB_Move2
@@ -548,7 +548,7 @@
             this.CB_Move2.FormattingEnabled = true;
             this.CB_Move2.Location = new System.Drawing.Point(15, 181);
             this.CB_Move2.Name = "CB_Move2";
-            this.CB_Move2.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move2.Size = new System.Drawing.Size(122, 21);
             this.CB_Move2.TabIndex = 70;
             // 
             // CB_Move1
@@ -558,21 +558,21 @@
             this.CB_Move1.FormattingEnabled = true;
             this.CB_Move1.Location = new System.Drawing.Point(15, 159);
             this.CB_Move1.Name = "CB_Move1";
-            this.CB_Move1.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move1.Size = new System.Drawing.Size(122, 21);
             this.CB_Move1.TabIndex = 68;
             // 
             // L_Participant
             // 
-            this.L_Participant.AutoSize = true;
-            this.L_Participant.Location = new System.Drawing.Point(12, 19);
+            this.L_Participant.Location = new System.Drawing.Point(15, 19);
             this.L_Participant.Name = "L_Participant";
-            this.L_Participant.Size = new System.Drawing.Size(60, 13);
+            this.L_Participant.Size = new System.Drawing.Size(78, 20);
             this.L_Participant.TabIndex = 67;
             this.L_Participant.Text = "Participant:";
+            this.L_Participant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_FPKM
             // 
-            this.NUD_FPKM.Location = new System.Drawing.Point(78, 17);
+            this.NUD_FPKM.Location = new System.Drawing.Point(99, 21);
             this.NUD_FPKM.Maximum = new decimal(new int[] {
             3,
             0,
@@ -584,7 +584,7 @@
             0,
             0});
             this.NUD_FPKM.Name = "NUD_FPKM";
-            this.NUD_FPKM.Size = new System.Drawing.Size(35, 20);
+            this.NUD_FPKM.Size = new System.Drawing.Size(38, 20);
             this.NUD_FPKM.TabIndex = 66;
             this.NUD_FPKM.Value = new decimal(new int[] {
             1,
@@ -627,18 +627,18 @@
             // 
             // L_EncryptionConstant
             // 
-            this.L_EncryptionConstant.AutoSize = true;
-            this.L_EncryptionConstant.Location = new System.Drawing.Point(12, 47);
+            this.L_EncryptionConstant.Location = new System.Drawing.Point(15, 44);
             this.L_EncryptionConstant.Name = "L_EncryptionConstant";
-            this.L_EncryptionConstant.Size = new System.Drawing.Size(32, 13);
+            this.L_EncryptionConstant.Size = new System.Drawing.Size(56, 21);
             this.L_EncryptionConstant.TabIndex = 62;
             this.L_EncryptionConstant.Text = "ENC:";
+            this.L_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_EC
             // 
             this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_EC.Location = new System.Drawing.Point(53, 45);
+            this.TB_EC.Location = new System.Drawing.Point(77, 44);
             this.TB_EC.MaxLength = 8;
             this.TB_EC.Name = "TB_EC";
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
@@ -668,62 +668,62 @@
             // L_SPE
             // 
             this.L_SPE.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SPE.AutoSize = true;
-            this.L_SPE.Location = new System.Drawing.Point(235, 140);
+            this.L_SPE.Location = new System.Drawing.Point(209, 138);
             this.L_SPE.Name = "L_SPE";
-            this.L_SPE.Size = new System.Drawing.Size(28, 13);
+            this.L_SPE.Size = new System.Drawing.Size(50, 21);
             this.L_SPE.TabIndex = 13;
             this.L_SPE.Text = "SPE";
+            this.L_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_SpD
             // 
             this.L_SpD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SpD.AutoSize = true;
-            this.L_SpD.Location = new System.Drawing.Point(235, 118);
+            this.L_SpD.Location = new System.Drawing.Point(209, 116);
             this.L_SpD.Name = "L_SpD";
-            this.L_SpD.Size = new System.Drawing.Size(28, 13);
+            this.L_SpD.Size = new System.Drawing.Size(50, 21);
             this.L_SpD.TabIndex = 12;
             this.L_SpD.Text = "SpD";
+            this.L_SpD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_SpA
             // 
             this.L_SpA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SpA.AutoSize = true;
-            this.L_SpA.Location = new System.Drawing.Point(236, 96);
+            this.L_SpA.Location = new System.Drawing.Point(209, 94);
             this.L_SpA.Name = "L_SpA";
-            this.L_SpA.Size = new System.Drawing.Size(27, 13);
+            this.L_SpA.Size = new System.Drawing.Size(50, 21);
             this.L_SpA.TabIndex = 11;
             this.L_SpA.Text = "SpA";
+            this.L_SpA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_DEF
             // 
             this.L_DEF.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_DEF.AutoSize = true;
-            this.L_DEF.Location = new System.Drawing.Point(235, 74);
+            this.L_DEF.Location = new System.Drawing.Point(209, 72);
             this.L_DEF.Name = "L_DEF";
-            this.L_DEF.Size = new System.Drawing.Size(28, 13);
+            this.L_DEF.Size = new System.Drawing.Size(50, 21);
             this.L_DEF.TabIndex = 4;
             this.L_DEF.Text = "DEF";
+            this.L_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_ATK
             // 
             this.L_ATK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_ATK.AutoSize = true;
-            this.L_ATK.Location = new System.Drawing.Point(235, 52);
+            this.L_ATK.Location = new System.Drawing.Point(209, 50);
             this.L_ATK.Name = "L_ATK";
-            this.L_ATK.Size = new System.Drawing.Size(28, 13);
+            this.L_ATK.Size = new System.Drawing.Size(50, 21);
             this.L_ATK.TabIndex = 3;
             this.L_ATK.Text = "ATK";
+            this.L_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_HP
             // 
             this.L_HP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_HP.AutoSize = true;
-            this.L_HP.Location = new System.Drawing.Point(241, 30);
+            this.L_HP.Location = new System.Drawing.Point(209, 28);
             this.L_HP.Name = "L_HP";
-            this.L_HP.Size = new System.Drawing.Size(22, 13);
+            this.L_HP.Size = new System.Drawing.Size(50, 21);
             this.L_HP.TabIndex = 2;
             this.L_HP.Text = "HP";
+            this.L_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // f_MAIN
             // 
@@ -754,7 +754,7 @@
             // 
             // NUD_FBaseLocation
             // 
-            this.NUD_FBaseLocation.Location = new System.Drawing.Point(128, 35);
+            this.NUD_FBaseLocation.Location = new System.Drawing.Point(159, 5);
             this.NUD_FBaseLocation.Maximum = new decimal(new int[] {
             85,
             0,
@@ -778,7 +778,7 @@
             // 
             this.TB_FT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_FT2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FT2.Location = new System.Drawing.Point(240, 132);
+            this.TB_FT2.Location = new System.Drawing.Point(92, 101);
             this.TB_FT2.MaxLength = 16;
             this.TB_FT2.Name = "TB_FT2";
             this.TB_FT2.Size = new System.Drawing.Size(124, 20);
@@ -788,7 +788,7 @@
             // 
             this.TB_FT1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_FT1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FT1.Location = new System.Drawing.Point(240, 110);
+            this.TB_FT1.Location = new System.Drawing.Point(92, 80);
             this.TB_FT1.MaxLength = 16;
             this.TB_FT1.Name = "TB_FT1";
             this.TB_FT1.Size = new System.Drawing.Size(124, 20);
@@ -797,10 +797,9 @@
             // L_TeamSlogan
             // 
             this.L_TeamSlogan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_TeamSlogan.AutoSize = true;
-            this.L_TeamSlogan.Location = new System.Drawing.Point(166, 135);
+            this.L_TeamSlogan.Location = new System.Drawing.Point(11, 100);
             this.L_TeamSlogan.Name = "L_TeamSlogan";
-            this.L_TeamSlogan.Size = new System.Drawing.Size(73, 13);
+            this.L_TeamSlogan.Size = new System.Drawing.Size(75, 21);
             this.L_TeamSlogan.TabIndex = 17;
             this.L_TeamSlogan.Text = "Team Slogan:";
             this.L_TeamSlogan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -808,10 +807,9 @@
             // L_TeamName
             // 
             this.L_TeamName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_TeamName.AutoSize = true;
-            this.L_TeamName.Location = new System.Drawing.Point(171, 113);
+            this.L_TeamName.Location = new System.Drawing.Point(11, 79);
             this.L_TeamName.Name = "L_TeamName";
-            this.L_TeamName.Size = new System.Drawing.Size(68, 13);
+            this.L_TeamName.Size = new System.Drawing.Size(75, 21);
             this.L_TeamName.TabIndex = 16;
             this.L_TeamName.Text = "Team Name:";
             this.L_TeamName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -830,85 +828,85 @@
             this.GB_Object.Controls.Add(this.NUD_FObjType);
             this.GB_Object.Controls.Add(this.L_Index);
             this.GB_Object.Controls.Add(this.NUD_FObject);
-            this.GB_Object.Location = new System.Drawing.Point(6, 158);
+            this.GB_Object.Location = new System.Drawing.Point(222, 56);
             this.GB_Object.Name = "GB_Object";
-            this.GB_Object.Size = new System.Drawing.Size(357, 103);
+            this.GB_Object.Size = new System.Drawing.Size(142, 154);
             this.GB_Object.TabIndex = 13;
             this.GB_Object.TabStop = false;
             this.GB_Object.Text = "Object Layout";
             // 
             // L_Y
             // 
-            this.L_Y.AutoSize = true;
-            this.L_Y.Location = new System.Drawing.Point(231, 48);
+            this.L_Y.Location = new System.Drawing.Point(10, 117);
             this.L_Y.Name = "L_Y";
-            this.L_Y.Size = new System.Drawing.Size(71, 13);
+            this.L_Y.Size = new System.Drawing.Size(75, 21);
             this.L_Y.TabIndex = 9;
             this.L_Y.Text = "Y Coordinate:";
+            this.L_Y.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_X
             // 
-            this.L_X.AutoSize = true;
-            this.L_X.Location = new System.Drawing.Point(231, 22);
+            this.L_X.Location = new System.Drawing.Point(10, 96);
             this.L_X.Name = "L_X";
-            this.L_X.Size = new System.Drawing.Size(71, 13);
+            this.L_X.Size = new System.Drawing.Size(75, 21);
             this.L_X.TabIndex = 8;
             this.L_X.Text = "X Coordinate:";
+            this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_FX
             // 
-            this.NUD_FX.Location = new System.Drawing.Point(308, 20);
+            this.NUD_FX.Location = new System.Drawing.Point(87, 98);
             this.NUD_FX.Maximum = new decimal(new int[] {
             40,
             0,
             0,
             0});
             this.NUD_FX.Name = "NUD_FX";
-            this.NUD_FX.Size = new System.Drawing.Size(36, 20);
+            this.NUD_FX.Size = new System.Drawing.Size(40, 20);
             this.NUD_FX.TabIndex = 7;
             this.NUD_FX.ValueChanged += new System.EventHandler(this.changeObjectQuality);
             // 
             // NUD_FY
             // 
-            this.NUD_FY.Location = new System.Drawing.Point(308, 46);
+            this.NUD_FY.Location = new System.Drawing.Point(87, 119);
             this.NUD_FY.Maximum = new decimal(new int[] {
             40,
             0,
             0,
             0});
             this.NUD_FY.Name = "NUD_FY";
-            this.NUD_FY.Size = new System.Drawing.Size(36, 20);
+            this.NUD_FY.Size = new System.Drawing.Size(40, 20);
             this.NUD_FY.TabIndex = 6;
             this.NUD_FY.ValueChanged += new System.EventHandler(this.changeObjectQuality);
             // 
             // L_Rotation
             // 
-            this.L_Rotation.AutoSize = true;
-            this.L_Rotation.Location = new System.Drawing.Point(6, 74);
+            this.L_Rotation.Location = new System.Drawing.Point(10, 70);
             this.L_Rotation.Name = "L_Rotation";
-            this.L_Rotation.Size = new System.Drawing.Size(68, 13);
+            this.L_Rotation.Size = new System.Drawing.Size(75, 21);
             this.L_Rotation.TabIndex = 5;
             this.L_Rotation.Text = "Rotation Val:";
+            this.L_Rotation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Decoration
             // 
-            this.L_Decoration.AutoSize = true;
-            this.L_Decoration.Location = new System.Drawing.Point(12, 48);
+            this.L_Decoration.Location = new System.Drawing.Point(10, 49);
             this.L_Decoration.Name = "L_Decoration";
-            this.L_Decoration.Size = new System.Drawing.Size(62, 13);
+            this.L_Decoration.Size = new System.Drawing.Size(75, 21);
             this.L_Decoration.TabIndex = 4;
             this.L_Decoration.Text = "Decoration:";
+            this.L_Decoration.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_FRot
             // 
-            this.NUD_FRot.Location = new System.Drawing.Point(76, 72);
+            this.NUD_FRot.Location = new System.Drawing.Point(87, 72);
             this.NUD_FRot.Maximum = new decimal(new int[] {
             7,
             0,
             0,
             0});
             this.NUD_FRot.Name = "NUD_FRot";
-            this.NUD_FRot.Size = new System.Drawing.Size(36, 20);
+            this.NUD_FRot.Size = new System.Drawing.Size(40, 20);
             this.NUD_FRot.TabIndex = 3;
             this.NUD_FRot.Value = new decimal(new int[] {
             1,
@@ -919,7 +917,7 @@
             // 
             // NUD_FObjType
             // 
-            this.NUD_FObjType.Location = new System.Drawing.Point(76, 46);
+            this.NUD_FObjType.Location = new System.Drawing.Point(87, 51);
             this.NUD_FObjType.Maximum = new decimal(new int[] {
             173,
             0,
@@ -931,7 +929,7 @@
             0,
             -2147483648});
             this.NUD_FObjType.Name = "NUD_FObjType";
-            this.NUD_FObjType.Size = new System.Drawing.Size(38, 20);
+            this.NUD_FObjType.Size = new System.Drawing.Size(40, 20);
             this.NUD_FObjType.TabIndex = 2;
             this.NUD_FObjType.Value = new decimal(new int[] {
             1,
@@ -942,16 +940,16 @@
             // 
             // L_Index
             // 
-            this.L_Index.AutoSize = true;
-            this.L_Index.Location = new System.Drawing.Point(38, 22);
+            this.L_Index.Location = new System.Drawing.Point(10, 23);
             this.L_Index.Name = "L_Index";
-            this.L_Index.Size = new System.Drawing.Size(36, 13);
+            this.L_Index.Size = new System.Drawing.Size(75, 21);
             this.L_Index.TabIndex = 1;
             this.L_Index.Text = "Index:";
+            this.L_Index.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_FObject
             // 
-            this.NUD_FObject.Location = new System.Drawing.Point(76, 20);
+            this.NUD_FObject.Location = new System.Drawing.Point(87, 25);
             this.NUD_FObject.Maximum = new decimal(new int[] {
             25,
             0,
@@ -963,7 +961,7 @@
             0,
             0});
             this.NUD_FObject.Name = "NUD_FObject";
-            this.NUD_FObject.Size = new System.Drawing.Size(36, 20);
+            this.NUD_FObject.Size = new System.Drawing.Size(40, 20);
             this.NUD_FObject.TabIndex = 0;
             this.NUD_FObject.Value = new decimal(new int[] {
             1,
@@ -974,18 +972,18 @@
             // 
             // L_BaseLocation
             // 
-            this.L_BaseLocation.AutoSize = true;
-            this.L_BaseLocation.Location = new System.Drawing.Point(6, 35);
+            this.L_BaseLocation.Location = new System.Drawing.Point(3, 3);
             this.L_BaseLocation.Name = "L_BaseLocation";
-            this.L_BaseLocation.Size = new System.Drawing.Size(112, 13);
+            this.L_BaseLocation.Size = new System.Drawing.Size(150, 21);
             this.L_BaseLocation.TabIndex = 11;
             this.L_BaseLocation.Text = "Secret Base Location:";
+            this.L_BaseLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_FSay4
             // 
             this.TB_FSay4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_FSay4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FSay4.Location = new System.Drawing.Point(240, 72);
+            this.TB_FSay4.Location = new System.Drawing.Point(92, 190);
             this.TB_FSay4.MaxLength = 16;
             this.TB_FSay4.Name = "TB_FSay4";
             this.TB_FSay4.Size = new System.Drawing.Size(124, 20);
@@ -995,7 +993,7 @@
             // 
             this.TB_FSay3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_FSay3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FSay3.Location = new System.Drawing.Point(240, 50);
+            this.TB_FSay3.Location = new System.Drawing.Point(92, 169);
             this.TB_FSay3.MaxLength = 16;
             this.TB_FSay3.Name = "TB_FSay3";
             this.TB_FSay3.Size = new System.Drawing.Size(124, 20);
@@ -1005,7 +1003,7 @@
             // 
             this.TB_FSay2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_FSay2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FSay2.Location = new System.Drawing.Point(240, 28);
+            this.TB_FSay2.Location = new System.Drawing.Point(92, 148);
             this.TB_FSay2.MaxLength = 16;
             this.TB_FSay2.Name = "TB_FSay2";
             this.TB_FSay2.Size = new System.Drawing.Size(124, 20);
@@ -1015,7 +1013,7 @@
             // 
             this.TB_FSay1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_FSay1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FSay1.Location = new System.Drawing.Point(240, 6);
+            this.TB_FSay1.Location = new System.Drawing.Point(92, 127);
             this.TB_FSay1.MaxLength = 16;
             this.TB_FSay1.Name = "TB_FSay1";
             this.TB_FSay1.Size = new System.Drawing.Size(124, 20);
@@ -1024,7 +1022,7 @@
             // TB_FOT
             // 
             this.TB_FOT.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_FOT.Location = new System.Drawing.Point(80, 7);
+            this.TB_FOT.Location = new System.Drawing.Point(123, 54);
             this.TB_FOT.MaxLength = 12;
             this.TB_FOT.Name = "TB_FOT";
             this.TB_FOT.Size = new System.Drawing.Size(93, 20);
@@ -1032,20 +1030,19 @@
             // 
             // L_TrName
             // 
-            this.L_TrName.AutoSize = true;
-            this.L_TrName.Location = new System.Drawing.Point(6, 9);
+            this.L_TrName.Location = new System.Drawing.Point(9, 53);
             this.L_TrName.Name = "L_TrName";
-            this.L_TrName.Size = new System.Drawing.Size(74, 13);
+            this.L_TrName.Size = new System.Drawing.Size(108, 21);
             this.L_TrName.TabIndex = 9;
             this.L_TrName.Text = "Trainer Name:";
+            this.L_TrName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Confetti
             // 
             this.L_Confetti.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Confetti.AutoSize = true;
-            this.L_Confetti.Location = new System.Drawing.Point(193, 75);
+            this.L_Confetti.Location = new System.Drawing.Point(11, 189);
             this.L_Confetti.Name = "L_Confetti";
-            this.L_Confetti.Size = new System.Drawing.Size(46, 13);
+            this.L_Confetti.Size = new System.Drawing.Size(75, 21);
             this.L_Confetti.TabIndex = 8;
             this.L_Confetti.Text = "Confetti:";
             this.L_Confetti.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1053,10 +1050,9 @@
             // L_Blackboard
             // 
             this.L_Blackboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Blackboard.AutoSize = true;
-            this.L_Blackboard.Location = new System.Drawing.Point(175, 53);
+            this.L_Blackboard.Location = new System.Drawing.Point(11, 168);
             this.L_Blackboard.Name = "L_Blackboard";
-            this.L_Blackboard.Size = new System.Drawing.Size(64, 13);
+            this.L_Blackboard.Size = new System.Drawing.Size(75, 21);
             this.L_Blackboard.TabIndex = 7;
             this.L_Blackboard.Text = "Blackboard:";
             this.L_Blackboard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1064,10 +1060,9 @@
             // L_Encourage
             // 
             this.L_Encourage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Encourage.AutoSize = true;
-            this.L_Encourage.Location = new System.Drawing.Point(177, 32);
+            this.L_Encourage.Location = new System.Drawing.Point(11, 147);
             this.L_Encourage.Name = "L_Encourage";
-            this.L_Encourage.Size = new System.Drawing.Size(62, 13);
+            this.L_Encourage.Size = new System.Drawing.Size(75, 21);
             this.L_Encourage.TabIndex = 6;
             this.L_Encourage.Text = "Encourage:";
             this.L_Encourage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1075,10 +1070,9 @@
             // L_Happy
             // 
             this.L_Happy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Happy.AutoSize = true;
-            this.L_Happy.Location = new System.Drawing.Point(198, 9);
+            this.L_Happy.Location = new System.Drawing.Point(11, 126);
             this.L_Happy.Name = "L_Happy";
-            this.L_Happy.Size = new System.Drawing.Size(41, 13);
+            this.L_Happy.Size = new System.Drawing.Size(75, 21);
             this.L_Happy.TabIndex = 5;
             this.L_Happy.Text = "Happy:";
             this.L_Happy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1098,7 +1092,7 @@
             // B_GiveDecor
             // 
             this.B_GiveDecor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_GiveDecor.Location = new System.Drawing.Point(144, 302);
+            this.B_GiveDecor.Location = new System.Drawing.Point(162, 302);
             this.B_GiveDecor.Name = "B_GiveDecor";
             this.B_GiveDecor.Size = new System.Drawing.Size(112, 23);
             this.B_GiveDecor.TabIndex = 19;
@@ -1118,7 +1112,7 @@
             // 
             // MT_Flags
             // 
-            this.MT_Flags.Location = new System.Drawing.Point(93, 304);
+            this.MT_Flags.Location = new System.Drawing.Point(111, 304);
             this.MT_Flags.Mask = "00000";
             this.MT_Flags.Name = "MT_Flags";
             this.MT_Flags.Size = new System.Drawing.Size(39, 20);
@@ -1127,12 +1121,12 @@
             // 
             // L_FlagsCaptured
             // 
-            this.L_FlagsCaptured.AutoSize = true;
             this.L_FlagsCaptured.Location = new System.Drawing.Point(9, 307);
             this.L_FlagsCaptured.Name = "L_FlagsCaptured";
-            this.L_FlagsCaptured.Size = new System.Drawing.Size(84, 13);
+            this.L_FlagsCaptured.Size = new System.Drawing.Size(100, 13);
             this.L_FlagsCaptured.TabIndex = 22;
             this.L_FlagsCaptured.Text = "Flags Captured: ";
+            this.L_FlagsCaptured.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_FDelete
             // 
@@ -1175,7 +1169,6 @@
             this.f_MAIN.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FBaseLocation)).EndInit();
             this.GB_Object.ResumeLayout(false);
-            this.GB_Object.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FRot)).EndInit();

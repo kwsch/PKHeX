@@ -15,6 +15,11 @@ namespace PKHeX
         internal const int SIZE_1PARTY = 44;
         internal const int SIZE_1STORED = 33;
 
+        internal const int SIZE_2ULIST = 73;
+        internal const int SIZE_2JLIST = 63;
+        internal const int SIZE_2PARTY = 48;
+        internal const int SIZE_2STORED = 32;
+
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
         internal const int SIZE_3BLOCK = 12;
@@ -38,7 +43,15 @@ namespace PKHeX
         /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
         public static bool getIsPKM(long len)
         {
-            return new[] {SIZE_1JLIST, SIZE_1ULIST, SIZE_3STORED, SIZE_3PARTY, SIZE_4STORED, SIZE_4PARTY, SIZE_5PARTY, SIZE_6STORED, SIZE_6PARTY}.Contains((int)len);
+            return new[]
+            {
+                SIZE_1JLIST, SIZE_1ULIST,
+                SIZE_2ULIST, SIZE_2JLIST,
+                SIZE_3STORED, SIZE_3PARTY,
+                SIZE_4STORED, SIZE_4PARTY,
+                SIZE_5PARTY,
+                SIZE_6STORED, SIZE_6PARTY
+            }.Contains((int)len);
         }
 
         // C# PKX Function Library
@@ -523,6 +536,8 @@ namespace PKHeX
                 Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
                 if ((generation == 3 || generation == 4) && 328 <= item && item <= 419) // gen3/4 TM
                     itemimg = Resources.item_tm;
+                if (generation == 2)
+                    itemimg = Resources.helditem; // Don't even try
 
                 // Redraw
                 baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
@@ -1698,11 +1713,13 @@ namespace PKHeX
             {0xB7, "x"},
             {0xB8, "y"},
             {0xB9, "z"},
+            {0xE0, "’"},
             {0xE1, "{"}, /* Pk */
             {0xE2, "}"}, /* Mn */
             {0xE3, "-"},
             {0xE6, "?"},
             {0xE7, "!"},
+            {0xE8, "."}, // Alias decimal point to .
             {0xEF, "♂"},
             {0xF2, "."},
             {0xF3, "/"},
@@ -1782,6 +1799,8 @@ namespace PKHeX
             {"x", 0xB7},
             {"y", 0xB8},
             {"z", 0xB9},
+            {"'", 0xE0}, // Alias ' to ’ for Farfetch'd
+            {"’", 0xE0}, 
             {"{", 0xE1}, /* Pk */
             {"}", 0xE2}, /* Mn */
             {"-", 0xE3},
@@ -1961,7 +1980,17 @@ namespace PKHeX
             {"ー", 0xE3},
             {"ァ", 0xE9},
             {"♂", 0xEF},
-            {"♀", 0xF5}
+            {"♀", 0xF5},
+            {"0", 0xF6},
+            {"1", 0xF7},
+            {"2", 0xF8},
+            {"3", 0xF9},
+            {"4", 0xFA},
+            {"5", 0xFB},
+            {"6", 0xFC},
+            {"7", 0xFD},
+            {"8", 0xFE},
+            {"9", 0xFF}
         };
 
         private static Dictionary<byte, string> RBY2U_J => new Dictionary<byte, string> {
@@ -2117,28 +2146,19 @@ namespace PKHeX
             {0xE3, "ー"},
             {0xE9, "ァ"},
             {0xEF, "♂"},
-            {0xF5, "♀"}
+            {0xF5, "♀"},
+            {0xF6, "0"},
+            {0xF7, "1"},
+            {0xF8, "2"},
+            {0xF9, "3"},
+            {0xFA, "4"},
+            {0xFB, "5"},
+            {0xFC, "6"},
+            {0xFD, "7"},
+            {0xFE, "8"},
+            {0xFF, "9"}
         };
         #endregion
-
-        #region Gen 1 Item Table
-        public static string[] getG1ItemList()
-        {
-            return new[] { "(None)", "Master Ball", "Ultra Ball", "Great Ball", "Poké Ball", "Town Map", "Bicycle", "????? (7)", "Safari Ball", "Pokédex", "Moon Stone", "Antidote", "Burn Heal", "Ice Heal", "Awakening", "Parlyz Heal", "Full Restore", "Max Potion", "Hyper Potion", "Super Potion", "Potion", "BoulderBadge", "CascadeBadge", "ThunderBadge", "RainbowBadge", "SoulBadge", "MarshBadge", "VolcanoBadge", "EarthBadge", "Escape Rope", "Repel", "Old Amber", "Fire Stone", "Thunder Stone", "Water Stone", "HP Up", "Protein", "Iron", "Carbos", "Calcium", "Rare Candy", "Dome Fossil", "Helix Fossil", "Secret Key", "????? (44)", "Bike Voucher", "X Accuracy", "Leaf Stone", "Card Key", "Nugget", "PP Up (Unused)", "Poké Doll", "Full Heal", "Revive", "Max Revive", "Guard Spec.", "Super Repel", "Max Repel", "Dire Hit", "Coin", "Fresh Water", "Soda Pop", "Lemonade", "S.S. Ticket", "Gold Teeth", "X Attack", "X Defend", "X Speed", "X Special", "Coin Case", "Oak's Parcel", "Itemfinder", "Silph Scope", "Poké Flute", "Lift Key", "Exp. All", "Old Rod", "Good Rod", "Super Rod", "PP Up", "Ether", "Max Ether", "Elixer", "Max Elixer", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "HM01", "HM02", "HM03", "HM04", "HM05", "TM01", "TM02", "TM03", "TM04", "TM05", "TM06", "TM07", "TM08", "TM09", "TM10", "TM11", "TM12", "TM13", "TM14", "TM15", "TM16", "TM17", "TM18", "TM19", "TM20", "TM21", "TM22", "TM23", "TM24", "TM25", "TM26", "TM27", "TM28", "TM29", "TM30", "TM31", "TM32", "TM33", "TM34", "TM35", "TM36", "TM37", "TM38", "TM39", "TM40", "TM41", "TM42", "TM43", "TM44", "TM45", "TM46", "TM47", "TM48", "TM49", "TM50", "TM51", "TM52", "TM53", "TM54", "TM55" };
-        }
-
-        #endregion
-        public static int[] getG1LegalItems()
-        {
-            return Enumerable.Range(0, 7)     // 0-6
-           .Concat(Enumerable.Range(10, 11))  // 10-20
-           .Concat(Enumerable.Range(29, 15))  // 29-43
-           .Concat(Enumerable.Range(45, 5))   // 45-49
-           .Concat(Enumerable.Range(51, 8))   // 51-58
-           .Concat(Enumerable.Range(60, 24))  // 60-83
-           .Concat(Enumerable.Range(196, 54)) // 196-249
-           .ToArray();
-        }
 
         public static int getG1Species(int raw_id)
         {
