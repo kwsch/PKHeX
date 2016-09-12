@@ -76,7 +76,7 @@ namespace PKHeX
             new ToolTip().SetToolTip(dragout, "PKM QuickSave");
 
             // Box Drag & Drop
-            foreach (PictureBox pb in PAN_Box.Controls)
+            foreach (PictureBox pb in SlotPictureBoxes)
             {
                 pb.AllowDrop = true; // The PictureBoxes have their own drag&drop event handlers (pbBoxSlot)
                 pb.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
@@ -831,23 +831,28 @@ namespace PKHeX
             }
             setPKXBoxes();   // Reload all of the PKX Windows
 
+            bool WindowTranslationRequired = false;
+
             // Hide content if not present in game.
             GB_SUBE.Visible = SAV.HasSUBE;
             PB_Locked.Visible = SAV.HasBattleBox && SAV.BattleBoxLocked;
 
             if (!SAV.HasBox && tabBoxMulti.TabPages.Contains(Tab_Box))
-            {
                 tabBoxMulti.TabPages.Remove(Tab_Box);
-                tabBoxMulti.TabPages.Remove(Tab_Other);
-            }
             else if (SAV.HasBox && !tabBoxMulti.TabPages.Contains(Tab_Box))
             {
                 tabBoxMulti.TabPages.Insert(0, Tab_Box);
-                tabBoxMulti.TabPages.Insert(2, Tab_Other);
-                // force update -- re-added tab may be untranslated
-                Util.TranslateInterface(this, curlanguage);
+                WindowTranslationRequired = true;
             }
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.HasBox;
+
+            if (!SAV.HasDaycare && tabBoxMulti.TabPages.Contains(Tab_Other))
+                tabBoxMulti.TabPages.Remove(Tab_Other);
+            else if (SAV.HasDaycare && !tabBoxMulti.TabPages.Contains(Tab_Other))
+            {
+                tabBoxMulti.TabPages.Insert(tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle) + 1, Tab_Other);
+                WindowTranslationRequired = true;
+            }
 
             if (path != null) // Actual save file
             {
@@ -1028,8 +1033,7 @@ namespace PKHeX
             else if (SAV.Generation != 1 && !tabMain.TabPages.Contains(Tab_Met))
             {
                 tabMain.TabPages.Insert(1, Tab_Met);
-                // force update -- re-added tab may be untranslated
-                Util.TranslateInterface(this, curlanguage);
+                WindowTranslationRequired = true;
             }
 
             // Common HaX Interface
@@ -1051,6 +1055,9 @@ namespace PKHeX
 
             // Refresh PK#->PK6 conversion info
             PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
+
+            if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
+                Util.TranslateInterface(this, curlanguage);
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
