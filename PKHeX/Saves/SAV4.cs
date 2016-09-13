@@ -23,7 +23,8 @@ namespace PKHeX
             if (Version == GameVersion.Invalid)
                 return;
 
-            getActiveBlock();
+            getActiveGeneralBlock();
+            getActiveStorageBlock();
             getSAVOffsets();
 
             switch (Version)
@@ -165,29 +166,42 @@ namespace PKHeX
         private int SBO => 0x40000 * storageBlock;
         private int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
-        private void getActiveBlock()
+        private void getActiveGeneralBlock()
         {
             if (Version < 0)
                 return;
             int ofs = 0;
 
             // Check to see if the save is initialized completely
+            // if the block is not initialized, fall back to the other save.
             if (Data.Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
-            {
-                // sav0 is not initialized, fall back to sav1.
-                // since the file has already been checked for gen4 validity, we know sav1 is good
-                generalBlock = storageBlock = 1;
-                return;
-            }
+            { generalBlock = 1; return; }
+            if (Data.Skip(0x40000).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            { generalBlock = 1; return; }
 
             if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
             else if (Version == GameVersion.Pt) ofs = 0xCF1C; // PT
             else if (Version == GameVersion.HGSS) ofs = 0xF626; // HGSS
             generalBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
             
+        }
+        private void getActiveStorageBlock()
+        {
+            if (Version < 0)
+                return;
+            int ofs = 0;
+
             if (Version == GameVersion.DP) ofs = 0x1E2D0; // DP
             else if (Version == GameVersion.Pt) ofs = 0x1F100; // PT
             else if (Version == GameVersion.HGSS) ofs = 0x21A00; // HGSS
+
+            // Check to see if the save is initialized completely
+            // if the block is not initialized, fall back to the other save.
+            if (Data.Skip(ofs).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            { storageBlock = 1; return; }
+            if (Data.Skip(ofs + 0x40000).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            { storageBlock = 0; return; }
+
             storageBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
         }
         private void getSAVOffsets()
