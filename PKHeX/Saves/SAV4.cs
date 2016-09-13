@@ -82,7 +82,7 @@ namespace PKHeX
                     break;
                 case GameVersion.HGSS:
                     // 0x0000-0xF618 @ 0xF626
-                    // 0xF700-0x219FC @ 0x21A0E
+                    // 0xF700-0x21A00 @ 0x21A0E
                     BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xF618).ToArray())).CopyTo(Data, 0xF626 + GBO);
                     BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0xF700 + SBO).Take(0x12300).ToArray())).CopyTo(Data, 0x21A0E + SBO);
                     break;
@@ -170,6 +170,15 @@ namespace PKHeX
             if (Version < 0)
                 return;
             int ofs = 0;
+
+            // Check to see if the save is initialized completely
+            if (Data.Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            {
+                // sav0 is not initialized, fall back to sav1.
+                // since the file has already been checked for gen4 validity, we know sav1 is good
+                generalBlock = storageBlock = 1;
+                return;
+            }
 
             if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
             else if (Version == GameVersion.Pt) ofs = 0xCF1C; // PT
@@ -427,6 +436,7 @@ namespace PKHeX
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
+                ofs += GBO;
                 return BitConverter.ToUInt16(Data, ofs);
             }
             set
@@ -438,6 +448,7 @@ namespace PKHeX
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
+                ofs += GBO;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
             }
         }
@@ -452,6 +463,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x287E; break;
                     case GameVersion.HGSS: ofs = 0x236E; break;
                 }
+                ofs += GBO;
                 return BitConverter.ToUInt16(Data, ofs);
             }
             set
@@ -463,12 +475,13 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x287E; break;
                     case GameVersion.HGSS: ofs = 0x236E; break;
                 }
+                ofs += GBO;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
                 switch (Version)
                 {
                     case GameVersion.DP:
                     case GameVersion.HGSS:
-                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x123C);
+                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x123C + GBO);
                         break;
                 }
             }
@@ -484,6 +497,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2886; break;
                     case GameVersion.HGSS: ofs = 0x2376; break;
                 }
+                ofs += GBO;
                 return BitConverter.ToUInt16(Data, ofs);
             }
             set
@@ -495,6 +509,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2886; break;
                     case GameVersion.HGSS: ofs = 0x2376; break;
                 }
+                ofs += GBO;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
             }
         }
@@ -509,6 +524,7 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2882; break;
                     case GameVersion.HGSS: ofs = 0x2372; break;
                 }
+                ofs += GBO;
                 return BitConverter.ToUInt16(Data, ofs);
             }
             set
@@ -520,12 +536,13 @@ namespace PKHeX
                     case GameVersion.Pt: ofs = 0x2882; break;
                     case GameVersion.HGSS: ofs = 0x2372; break;
                 }
+                ofs += GBO;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
                 switch (Version)
                 {
                     case GameVersion.DP:
                     case GameVersion.HGSS:
-                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1240);
+                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1240 + GBO);
                         break;
                 }
             }
