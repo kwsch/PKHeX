@@ -61,6 +61,7 @@ namespace PKHeX
         }
         private readonly Main parent;
         private readonly PictureBox[] SlotPictureBoxes;
+        public int CurrentBox => CB_BoxSelect.SelectedIndex;
 
         private void CB_BoxSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -84,7 +85,7 @@ namespace PKHeX
         {
             return SAV.getBoxOffset(CB_BoxSelect.SelectedIndex) + slot * SAV.SIZE_STORED;
         }
-        private void setPKXBoxes()
+        public void setPKXBoxes()
         {
             int boxoffset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
             int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
@@ -159,6 +160,7 @@ namespace PKHeX
                 // Set flag to prevent re-entering.
                 DragInfo.slotDragDropInProgress = true;
 
+                DragInfo.slotSource = this;
                 DragInfo.slotSourceSlotNumber = getSlot(pb);
                 int offset = getPKXOffset(DragInfo.slotSourceSlotNumber);
 
@@ -166,6 +168,7 @@ namespace PKHeX
                 DragInfo.slotPkmSource = SAV.getData(offset, SAV.SIZE_STORED);
                 DragInfo.slotSourceOffset = offset;
                 DragInfo.slotSourceBoxNumber = CB_BoxSelect.SelectedIndex;
+                DragInfo.slotSource = this;
 
                 // Make a new file name based off the PID
                 byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
@@ -198,6 +201,7 @@ namespace PKHeX
                 {
                     Util.Error("Drag & Drop Error:", x.ToString());
                 }
+                parent.notifyBoxViewerRefresh();
                 DragInfo.Reset();
                 Cursor = DefaultCursor;
 
@@ -213,6 +217,7 @@ namespace PKHeX
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
+            DragInfo.slotDestination = this;
             DragInfo.slotDestinationSlotNumber = getSlot(sender);
             DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
             DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
@@ -285,6 +290,11 @@ namespace PKHeX
 
                 e.Effect = DragDropEffects.Link;
                 Cursor = DefaultCursor;
+            }
+            if (DragInfo.slotSource == null) // another instance or file
+            {
+                parent.notifyBoxViewerRefresh();
+                DragInfo.Reset();
             }
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)

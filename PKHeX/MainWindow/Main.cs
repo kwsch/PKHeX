@@ -2941,6 +2941,14 @@ namespace PKHeX
             CB_BoxSelect.SelectedIndex = viewBox;
             return mainBox;
         }
+        public void notifyBoxViewerRefresh()
+        {
+            var views = Application.OpenForms.OfType<SAV_BoxViewer>();
+            foreach (var v in views.Where(v => DragInfo.WasDragParticipant(v, v.CurrentBox) == false))
+                v.setPKXBoxes();
+            if (DragInfo.WasDragParticipant(this, CB_BoxSelect.SelectedIndex) == false)
+                setPKXBoxes();
+        }
 
         private void clickSlot(object sender, EventArgs e)
         {
@@ -3711,6 +3719,7 @@ namespace PKHeX
                 // Set flag to prevent re-entering.
                 DragInfo.slotDragDropInProgress = true;
 
+                DragInfo.slotSource = this;
                 DragInfo.slotSourceSlotNumber = getSlot(pb);
                 int offset = getPKXOffset(DragInfo.slotSourceSlotNumber);
 
@@ -3753,6 +3762,7 @@ namespace PKHeX
                 {
                     Util.Error("Drag & Drop Error:", x.ToString());
                 }
+                notifyBoxViewerRefresh();
                 DragInfo.Reset();
                 Cursor = DefaultCursor;
 
@@ -3768,6 +3778,7 @@ namespace PKHeX
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
+            DragInfo.slotDestination = this;
             DragInfo.slotDestinationSlotNumber = getSlot(sender);
             DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
             DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
@@ -3842,6 +3853,11 @@ namespace PKHeX
                 e.Effect = DragDropEffects.Link;
                 Cursor = DefaultCursor;
             }
+            if (DragInfo.slotSource == null) // another instance or file
+            {
+                notifyBoxViewerRefresh();
+                DragInfo.Reset();
+            }
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
         {
@@ -3872,10 +3888,12 @@ namespace PKHeX
             public static byte[] slotPkmSource;
             public static byte[] slotPkmDestination;
 
+            public static object slotSource;
             public static int slotSourceOffset = -1;
             public static int slotSourceSlotNumber = -1;
             public static int slotSourceBoxNumber = -1;
 
+            public static object slotDestination;
             public static int slotDestinationOffset = -1;
             public static int slotDestinationSlotNumber = -1;
             public static int slotDestinationBoxNumber = -1;
@@ -3899,6 +3917,17 @@ namespace PKHeX
 
                 Cursor = null;
                 CurrentPath = null;
+
+                slotSource = null;
+                slotDestination = null;
+            }
+
+            public static bool? WasDragParticipant(object form, int index)
+            {
+                if (slotDestinationBoxNumber != index)
+                    return null; // form was not watching box
+                return slotSource == form || slotDestination == form; // form already updated?
+
             }
         }
 
