@@ -639,7 +639,7 @@ namespace PKHeX
             }
             #endregion
             #region PC/Box Data
-            else if (BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input, 8) > 0 && PKX.getIsPKM(input.Length / 30 / SAV.BoxCount) || PKX.getIsPKM(input.Length / 30))
+            else if (BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input, 8) > 0 && PKX.getIsPKM(input.Length / SAV.BoxSlotCount / SAV.BoxCount) || PKX.getIsPKM(input.Length / SAV.BoxSlotCount))
             {
                 if (SAV.setPCBin(input))
                     Util.Alert("PC Binary loaded.");
@@ -3425,7 +3425,7 @@ namespace PKHeX
                 string boxfolder = "";
                 if (individualBoxFolders)
                 {
-                    boxfolder = SAV.getBoxName(i/30);
+                    boxfolder = SAV.getBoxName(i/SAV.BoxSlotCount);
                     Directory.CreateDirectory(Path.Combine(path, boxfolder));
                 }
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
@@ -3445,7 +3445,7 @@ namespace PKHeX
 
             bool? noSetb = getPKMSetOverride();
 
-            int ctr = CB_BoxSelect.SelectedIndex*30;
+            int ctr = CB_BoxSelect.SelectedIndex*SAV.BoxSlotCount;
             int pastctr = 0;
             string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
 
@@ -3459,15 +3459,15 @@ namespace PKHeX
                 {
                     if (verifyPKMtoSAV(pk).Length > 0)
                         continue;
-                    SAV.setStoredSlot(pk, SAV.getBoxOffset(ctr/30) + ctr%30 * SAV.SIZE_STORED, noSetb);
+                    SAV.setStoredSlot(pk, SAV.getBoxOffset(ctr/SAV.BoxSlotCount) + ctr%SAV.BoxSlotCount * SAV.SIZE_STORED, noSetb);
                     if (pk.Format != temp.Format) // Transferred
                         pastctr++;
-                    if (++ctr == SAV.BoxCount*30) // Boxes full!
+                    if (++ctr == SAV.BoxCount*SAV.BoxSlotCount) // Boxes full!
                         break; 
                 }
                 Console.WriteLine(c);
             }
-            ctr -= 30*CB_BoxSelect.SelectedIndex; // actual imported count
+            ctr -= SAV.BoxSlotCount * CB_BoxSelect.SelectedIndex; // actual imported count
             if (ctr <= 0)
                 return; 
 
