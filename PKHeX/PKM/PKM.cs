@@ -20,6 +20,7 @@ namespace PKHeX
         public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
         public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
+        public virtual bool Valid => ChecksumValid && Sanity == 0;
         
         protected ushort CalculateChecksum()
         {

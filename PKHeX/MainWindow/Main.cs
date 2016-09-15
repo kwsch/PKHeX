@@ -2975,7 +2975,7 @@ namespace PKHeX
 
             // Load the PKX file
             PKM pk = 30 <= slot && slot < 36 ? SAV.getPartySlot(offset) : SAV.getStoredSlot(offset);
-            if (pk.Sanity == 0 && pk.Species != 0)
+            if (pk.Valid && pk.Species != 0)
             {
                 try { populateFields(pk); }
                 catch { }
@@ -3371,7 +3371,7 @@ namespace PKHeX
                 return;
             }
             PKM p = SAV.getStoredSlot(offset);
-            if (p.Sanity != 0 || !p.ChecksumValid) // Invalid
+            if (!p.Valid) // Invalid
             {
                 // Bad Egg present in slot.
                 pb.Image = null;
@@ -3419,7 +3419,7 @@ namespace PKHeX
             for (int i = 0; i < boxdata.Length; i++)
             {
                 PKM pk = boxdata[i];
-                if (pk.Species == 0 || pk.Sanity != 0)
+                if (pk.Species == 0 || !pk.Valid)
                     continue;
                 string fileName = Util.CleanFileName(pk.FileName);
                 string boxfolder = "";

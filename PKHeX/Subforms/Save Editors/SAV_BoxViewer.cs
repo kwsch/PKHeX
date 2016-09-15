@@ -104,7 +104,7 @@ namespace PKHeX
                 return;
             }
             PKM p = SAV.getStoredSlot(offset);
-            if (p.Sanity != 0 || !p.ChecksumValid) // Invalid
+            if (!p.Valid) // Invalid
             {
                 // Bad Egg present in slot.
                 pb.Image = null;

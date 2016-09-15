@@ -11,6 +11,7 @@ namespace PKHeX
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
+        public override bool Valid => Species <= 252;
 
         public sealed override int SIZE_PARTY => PKX.SIZE_2PARTY;
         public override int SIZE_STORED => PKX.SIZE_2STORED;
@@ -307,7 +308,7 @@ public override int Stat_Level
 
             }
         }
-        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (new[] { 2, 3, 6, 7, 10, 11, 14, 15 }).Contains(IV_ATK);
+        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
         public override ushort Sanity { get { return 0; } set { } }
         public override bool ChecksumValid => true;
         public override ushort Checksum { get { return 0; } set { } }

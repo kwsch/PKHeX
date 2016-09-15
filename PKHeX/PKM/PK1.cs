@@ -11,6 +11,7 @@ namespace PKHeX
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
+        public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
         public sealed override int SIZE_PARTY => PKX.SIZE_1PARTY;
         public override int SIZE_STORED => PKX.SIZE_1STORED;
