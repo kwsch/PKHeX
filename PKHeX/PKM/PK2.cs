@@ -133,7 +133,8 @@ namespace PKHeX
                 Data[0] = (byte)value;
             }
         }
-        public override int HeldItem { get { return Data[0x1]; } set { Data[0x1] = (byte)value; } }
+        public override int HeldItem { get { return PKX.getG4Item((byte) G2Item); } set { } }
+        public int G2Item { get { return Data[0x1]; } set { Data[0x1] = (byte)value; } }
         public override int Move1 { get { return Data[2]; } set { Data[2] = (byte) value; } }
         public override int Move2 { get { return Data[3]; } set { Data[3] = (byte)value; } }
         public override int Move3 { get { return Data[4]; } set { Data[4] = (byte)value; } }

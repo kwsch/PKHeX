@@ -19,7 +19,7 @@ namespace PKHeX
             CB_Species.SelectedValue = pk2.Species;
             TB_Level.Text = pk2.Stat_Level.ToString();
             TB_EXP.Text = pk2.EXP.ToString();
-            CB_HeldItem.SelectedValue = pk2.HeldItem;
+            CB_HeldItem.SelectedValue = pk2.G2Item;
             CB_Form.SelectedIndex = pk2.AltForm;
             CHK_IsEgg.Checked = pk2.IsEgg;
             TB_Friendship.Text = pk2.CurrentFriendship.ToString();
@@ -83,7 +83,7 @@ namespace PKHeX
             pk2.Species = Util.getIndex(CB_Species);
             pk2.TID = Util.ToInt32(TB_TID.Text);
             pk2.EXP = Util.ToUInt32(TB_EXP.Text);
-            pk2.HeldItem = Util.getIndex(CB_HeldItem);
+            pk2.G2Item = Util.getIndex(CB_HeldItem);
             pk2.IsEgg = CHK_IsEgg.Checked;
             pk2.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
             pk2.Met_Level = Util.ToInt32(TB_MetLevel.Text);
