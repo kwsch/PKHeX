@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -262,7 +263,11 @@ namespace PKHeX
             {
                 try
                 {
-                    if (cmd.PropertyName == "EncryptionConstant" && cmd.PropertyValue == CONST_RAND)
+                    if (cmd.PropertyName == "MetDate")
+                        PKM.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                    else if (cmd.PropertyName == "EggMetDate")
+                        PKM.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                    else if (cmd.PropertyName == "EncryptionConstant" && cmd.PropertyValue == CONST_RAND)
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
                     else if(cmd.PropertyName == "PID" && cmd.PropertyValue == CONST_RAND)
                         PKM.setPIDGender(PKM.Gender);
