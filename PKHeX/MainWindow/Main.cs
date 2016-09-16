@@ -404,6 +404,7 @@ namespace PKHeX
         {
             new BatchEditor().ShowDialog();
             setPKXBoxes(); // refresh
+            updateBoxViewers();
         }
         // Misc Options
         private void clickShowdownImportPK6(object sender, EventArgs e)
@@ -651,12 +652,13 @@ namespace PKHeX
                     return;
                 }
                 setPKXBoxes();
+                updateBoxViewers();
             }
             #endregion
             #region Battle Video
             else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0 && BitConverter.ToUInt16(input, 0xE12) == 0)
             {
-                if (SAV.Generation < 6)
+                if (SAV.Generation != 6)
                 { Util.Alert("Cannot load a Gen6 Battle Video to a past generation save file."); return; }
 
                 if (Util.Prompt(MessageBoxButtons.YesNo, "Load Battle Video Pokémon data to " + CB_BoxSelect.Text + "?", "The box will be overwritten.") != DialogResult.Yes)
@@ -670,6 +672,7 @@ namespace PKHeX
                     SAV.setStoredSlot(data, offset + i * SAV.SIZE_STORED, noSetb);
                 }
                 setPKXBoxes();
+                updateBoxViewers();
             }
             #endregion
             #region Mystery Gift (Templates)
@@ -2879,42 +2882,34 @@ namespace PKHeX
                 return;
             if (!SAV.HasBox)
                 return;
-            if (ModifierKeys == (Keys.Alt | Keys.Shift))
-            {
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Clear ALL Boxes?!"))
-                    return;
 
+            string modified;
+            if (ModifierKeys == (Keys.Alt | Keys.Shift) && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear ALL Boxes?!"))
+            {
                 SAV.resetBoxes();
-                setPKXBoxes();
-                Util.Alert("Boxes cleared!");
+                modified = "Boxes cleared!";
             }
-            else if (ModifierKeys == Keys.Alt)
+            else if (ModifierKeys == Keys.Alt && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear Current Box?"))
             {
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Clear Current Box?"))
-                    return;
-
                 SAV.resetBoxes(CB_BoxSelect.SelectedIndex, CB_BoxSelect.SelectedIndex + 1);
-                setPKXBoxes();
-                Util.Alert("Current Box cleared!");
+                modified = "Current Box cleared!";
             }
-            else if (ModifierKeys == (Keys.Control | Keys.Shift))
+            else if (ModifierKeys == (Keys.Control | Keys.Shift) && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Sort ALL Boxes?!"))
             {
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Sort ALL Boxes?!"))
-                    return;
-
                 SAV.sortBoxes();
-                setPKXBoxes();
-                Util.Alert("Boxes sorted!");
+                modified = "Boxes sorted!";
             }
-            else if (ModifierKeys == Keys.Control)
+            else if (ModifierKeys == Keys.Control && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Sort Current Box?"))
             {
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Sort Current Box?"))
-                    return;
-
                 SAV.sortBoxes(CB_BoxSelect.SelectedIndex, CB_BoxSelect.SelectedIndex + 1);
-                setPKXBoxes();
-                Util.Alert("Current Box sorted!");
+                modified = "Current Box sorted!";
             }
+            else
+                return;
+
+            setPKXBoxes();
+            updateBoxViewers();
+            Util.Alert(modified);
         }
         private void clickBoxDouble(object sender, MouseEventArgs e)
         {
@@ -2948,6 +2943,12 @@ namespace PKHeX
                 v.setPKXBoxes();
             if (DragInfo.WasDragParticipant(this, CB_BoxSelect.SelectedIndex) == false)
                 setPKXBoxes();
+        }
+        private void updateBoxViewers()
+        {
+            var views = Application.OpenForms.OfType<SAV_BoxViewer>();
+            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex))
+                v.setPKXBoxes();
         }
 
         private void clickSlot(object sender, EventArgs e)
@@ -3020,10 +3021,7 @@ namespace PKHeX
                 getSlotColor(slot, Properties.Resources.slotSet);
             }
 
-            // notify subforms
-            var views = Application.OpenForms.OfType<SAV_BoxViewer>();
-            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex))
-                v.setPKXBoxes();
+            updateBoxViewers();
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -3049,11 +3047,7 @@ namespace PKHeX
 
             getQuickFiller(SlotPictureBoxes[slot], SAV.BlankPKM);
             getSlotColor(slot, Properties.Resources.slotDel);
-            
-            // notify subforms
-            var views = Application.OpenForms.OfType<SAV_BoxViewer>();
-            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex))
-                v.setPKXBoxes();
+            updateBoxViewers();
         }
         private void clickClone(object sender, EventArgs e)
         {
@@ -3073,6 +3067,7 @@ namespace PKHeX
                 SAV.setStoredSlot(pk, getPKXOffset(i));
                 getQuickFiller(SlotPictureBoxes[i], pk);
             }
+            updateBoxViewers();
         }
         private void clickLegality(object sender, EventArgs e)
         {
@@ -3482,6 +3477,7 @@ namespace PKHeX
                 return; 
 
             setPKXBoxes();
+            updateBoxViewers();
             string result = $"Loaded {ctr} files to boxes.";
             if (pastctr > 0)
                 Util.Alert(result, $"Conversion successful for {pastctr} past generation files.");
@@ -3534,6 +3530,7 @@ namespace PKHeX
             new SAV_BoxLayout(CB_BoxSelect.SelectedIndex).ShowDialog();
             setBoxNames(); // fix box names
             setPKXBoxes(); // refresh box background
+            updateBoxViewers(); // update subviewers
         }
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
