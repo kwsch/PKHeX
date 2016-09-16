@@ -3019,6 +3019,11 @@ namespace PKHeX
                 getQuickFiller(SlotPictureBoxes[slot], pk);
                 getSlotColor(slot, Properties.Resources.slotSet);
             }
+
+            // notify subforms
+            var views = Application.OpenForms.OfType<SAV_BoxViewer>();
+            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex))
+                v.setPKXBoxes();
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -3044,6 +3049,11 @@ namespace PKHeX
 
             getQuickFiller(SlotPictureBoxes[slot], SAV.BlankPKM);
             getSlotColor(slot, Properties.Resources.slotDel);
+            
+            // notify subforms
+            var views = Application.OpenForms.OfType<SAV_BoxViewer>();
+            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex))
+                v.setPKXBoxes();
         }
         private void clickClone(object sender, EventArgs e)
         {
@@ -3927,7 +3937,6 @@ namespace PKHeX
                 if (slotDestinationBoxNumber != index)
                     return null; // form was not watching box
                 return slotSource == form || slotDestination == form; // form already updated?
-
             }
         }
 
