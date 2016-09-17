@@ -324,7 +324,7 @@ namespace PKHeX
             }
             catch (Exception e)
             {
-                Util.Error(e.ToString());
+                Util.Error("An unexpected error has occurred.", e);
                 Console.Write(e);
             }
             TB_IsSet.Text = tbIsSet;
@@ -344,7 +344,7 @@ namespace PKHeX
             }
             catch (Exception e)
             {
-                Util.Error(e.ToString());
+                Util.Error("An unexpected error has occurred.", e);
                 Console.Write(e);
             }
 

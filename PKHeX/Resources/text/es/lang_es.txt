@@ -947,3 +947,13 @@ B_ExportCGB = Exportar .cgb
 B_Cancel = Cancelar
 B_Save = Guardar
 ! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! ErrorWindow = Error
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_ProvideInfo = Por favor, proporciona esta información cuando reportes este fallo:
+B_CopyToClipboard = Copiar al portapapeles
+B_Continue = Continuar
+B_Abort = Abortar
+! End
