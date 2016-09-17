@@ -367,6 +367,10 @@ namespace PKHeX
             if (!Encounter.Valid)
                 return new LegalityCheck(Severity.Valid, "Skipped Ribbon check due to other check being invalid.");
 
+            var TrainNames = ReflectUtil.getPropertiesStartWithPrefix(pk6.GetType(), "SuperTrain").ToArray();
+            if (TrainNames.Count(MissionName => ReflectUtil.GetValue(pk6, MissionName) as bool? == true) == 30 ^ pk6.SecretSuperTrainingComplete)
+                return new LegalityCheck(Severity.Invalid, "Super Training complete flag mismatch.");
+
             List<string> missingRibbons = new List<string>();
             List<string> invalidRibbons = new List<string>();
             
@@ -385,9 +389,8 @@ namespace PKHeX
                 if (DistNames.Select(MissionName => ReflectUtil.GetValue(pk6, MissionName)).Any(Flag => Flag as bool? == true))
                     return new LegalityCheck(Severity.Invalid, "Distribution Super Training missions on Egg.");
 
-                var TrainNames = ReflectUtil.getPropertiesStartWithPrefix(pk6.GetType(), "SuperTrain");
                 if (TrainNames.Select(MissionName => ReflectUtil.GetValue(pk6, MissionName)).Any(Flag => Flag as bool? == true))
-                    return new LegalityCheck(Severity.Fishy, "Super Training missions on Egg.");
+                    return new LegalityCheck(Severity.Invalid, "Super Training missions on Egg.");
 
                 return new LegalityCheck();
             }
