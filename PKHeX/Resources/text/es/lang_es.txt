@@ -408,7 +408,7 @@ TAB_Main = Inicio
 TAB_PKM = Pokémon
 TAB_Items = Objetos
 L_BP = Ptos Batalla:
-L_Pokemiles: PokéMillas
+L_Pokemiles = PokéMillas:
 CHK_LinkAvailable = Habilitar Pokémon Link
 B_Import = Importar
 B_Export = Exportar
@@ -764,7 +764,7 @@ B_FDisplay = >
 L_Favorite = Favoritos:
 --
 f_MAIN = Inicio
-L_TrName = Nombre Ent.:
+L_TrName = Nombre Entrenador:
 L_BaseLocation = Localización Base: 
 L_Happy = Feliz:
 L_Encourage = Estimulante:
@@ -774,14 +774,14 @@ L_TeamName = Nombre Eq.:
 L_TeamSlogan = Eslógan Eq.:
 --
 GB_Object = Objetos
-L_Index = Índ.:
-L_Decoration = Decor.:
+L_Index = Índice:
+L_Decoration = Decoración:
 L_Rotation = Rotación:
 L_X = Coord. X:
 L_Y = Coord. Y:
 --
 f_PKM = Entrenador Pokémon
-GB_PKM = PKM
+GB_PKM = Pokémon
 L_Participant = Participante:
 L_EncryptionConstant = ENC:
 L_IVs = IVs
