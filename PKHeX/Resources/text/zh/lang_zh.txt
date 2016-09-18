@@ -799,3 +799,13 @@ B_Output = 导出
 B_Cancel = 取消
 B_Save = 保存
 ! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! ErrorWindow = Error
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_ProvideInfo = Please provide this information when reporting this error: 
+B_CopyToClipboard = Copy to Clipboard
+B_Continue = Continue
+B_Abort = Abort
+! End

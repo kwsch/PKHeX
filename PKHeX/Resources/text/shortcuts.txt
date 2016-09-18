@@ -1,6 +1,5 @@
 ﻿If you are having issues viewing certain symbols/text: Options -> Toggle Font.
 
-
 // Main Window
 
 CTRL-O: Open
@@ -10,6 +9,7 @@ CTRL-B: Export BAK
 CTRL-Q: Quit
 
 CTRL-D: Open Database
+CTRL-G: Open Mystery Gift Database
 CTRL-R: Open Box Report
 CTRL-P: Open About PKHeX
 CTRL-T: Import Showdown Set
@@ -41,17 +41,16 @@ Click on the OT label to set relevant details to that of the save file.
 Drop WC6/PGF/PCD/PGT to convert to PK6 in the main tabs.
 - Hold CTRL to open the Wonder Card interface when opening a WC6.
 
-// Party / Battle Box
-- Double click to export team to Showdown set format.
-
 // Save File
 
-Click on the Save File path (above Boxes): Auto-detect/Reload save.
- - Shift skips SaveDataFiler
+Doubleclick on the SAV Tab: Auto-detect/Reload latest save.
 
 // Boxes
 
-Control-Click Box Tab: Sort Boxes.
+Control-Click Box Tab: Sort Current Box contents.
+Control-Shift-Click Box Tab: Sort All Boxes.
+Alt-Click Box Tab: Delete Current Box contents.
+Alt-Shift-Click Box Tab: Delete All Boxes.
 
 Control-Drag a Box Slot to Copy-Overwrite
 Alt-Drag a Box Slot to Delete-Overwrite
@@ -61,17 +60,20 @@ Control-Click a slot to load slot to tabs.
 Shift-Click a slot to set tabs to slot.
 Alt-Click a slot to delete the data in slot.
 
-Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team) to Clipboard.
+Doubleclick the Box tab to open up a new Box Viewer. Only one is allowed at a time, unless you hold shift when doubleclicking.
+- Note: Having multiple instances of the same box open and making changes to that box will not re-sync the box sprites until the box is reloaded.
 
+// Party / Battle Box
+Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team) to Clipboard.
 
 // Misc Editors
 
 INVENTORY:
-- Alt-Click loading a pouch will give all items with quantity x995. *1 for TMHM/Key.
+- Holding ALT when clicking Give All will clear all items for that pouch.
 
 POKEPUFF:
 - Control Click the All Button to give un-exceptional Pokepuffs.
 - Control Click the Sort Button to sort in reverse.
 
-WONDERCARD:
+MYSTERY GIFT:
 - Alt-Click QR to import from QR image.

@@ -46,7 +46,7 @@ namespace PKHeX
             }
             catch (Exception ex)
             {
-                Util.Error(ex.Message);
+                Util.Error("An unexpected error has occurred.", ex);
             }
         }
         private void B_ExportPNG_Click(object sender, EventArgs e)

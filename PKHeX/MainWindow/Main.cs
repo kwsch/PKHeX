@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PKHeX.Misc;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -142,7 +143,17 @@ namespace PKHeX
             }
             if (!SAV.Exportable) // No SAV loaded from exe args
             {
-                string path = SaveUtil.detectSaveFile();
+                string path = null;
+                try
+                {
+                    path = SaveUtil.detectSaveFile();
+                }
+                catch (Exception ex)
+                {
+                    // Todo: translate this
+                    ErrorWindow.ShowErrorDialog("An error occurred while attempting to auto-load your save file.", ex, true);
+                }
+                
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
@@ -204,7 +215,7 @@ namespace PKHeX
 
         #region Path Variables
 
-        public static string WorkingDirectory => Environment.CurrentDirectory;
+        public static string WorkingDirectory => Util.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
         public static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
@@ -576,10 +587,10 @@ namespace PKHeX
             else
             {
                 byte[] input; try { input = File.ReadAllBytes(path); }
-                catch (Exception e) { Util.Error("File is in use by another program!", path, e.ToString()); return; }
+                catch (Exception e) { Util.Error("Unable to load file.  It could be in use by another program.\nPath: " + path, e); return; }
 
                 try { openFile(input, path, ext); }
-                catch (Exception e) { Util.Error("Unable to load file.", e.ToString()); }
+                catch (Exception e) { Util.Error("Unable to load file.\nPath: " + path, e); }
             }
         }
         private void openFile(byte[] input, string path, string ext)
@@ -1106,6 +1117,10 @@ namespace PKHeX
             FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
+
+            // Set the culture (makes it easy to pass language to other forms)
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang_val[CB_MainLanguage.SelectedIndex]);
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
         private void InitializeStrings()
         {
@@ -2779,7 +2794,7 @@ namespace PKHeX
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
-            { Util.Error("Drag & Drop Error", x.ToString()); }
+            { Util.Error("Drag & Drop Error", x); }
             Cursor = DragInfo.Cursor = DefaultCursor;
             File.Delete(newfile);
         }
@@ -2835,7 +2850,7 @@ namespace PKHeX
 
             try { Directory.CreateDirectory(BackupPath); Util.Alert("Backup folder created!", 
                 $"If you wish to no longer automatically back up save files, delete the \"{BackupPath}\" folder."); }
-            catch { Util.Error($"Unable to create backup folder @ {BackupPath}"); }
+            catch(Exception ex) { Util.Error($"Unable to create backup folder @ {BackupPath}", ex); }
         }
         private void clickExportSAV(object sender, EventArgs e)
         {
@@ -3767,7 +3782,7 @@ namespace PKHeX
                 }
                 catch (Exception x)
                 {
-                    Util.Error("Drag & Drop Error:", x.ToString());
+                    Util.Error("Drag & Drop Error", x);
                 }
                 notifyBoxViewerRefresh();
                 DragInfo.Reset();

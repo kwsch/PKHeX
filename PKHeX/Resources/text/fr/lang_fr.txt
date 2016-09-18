@@ -363,3 +363,13 @@ L_Country = Pays
 --
 L_Arguments = Onglet désactivé ; Toujours avec ; DO ; Génération précédente - ; Souvenirs avec ; Pokémon  ; Zone  ; Objet(s)  ; Attaque  ; Emplacement 
 ! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! ErrorWindow = Erreur
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_ProvideInfo = Veuillez fournir les informations suivantes dans votre rapport d'erreur :
+B_CopyToClipboard = Copier dans le presse-papier
+B_Continue = Continuer
+B_Abort = Abandonner
+! End

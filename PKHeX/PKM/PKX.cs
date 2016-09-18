@@ -574,7 +574,7 @@ namespace PKHeX
                 AddFontMemResourceEx(fontPtr, (uint)Resources.pgldings_normalregular.Length, IntPtr.Zero, ref dummy);
                 Marshal.FreeCoTaskMem(fontPtr);
             }
-            catch { Util.Error("Unable to add ingame font."); }
+            catch (Exception ex) { Util.Error("Unable to add ingame font.", ex); }
         }
 
         // Personal.dat
