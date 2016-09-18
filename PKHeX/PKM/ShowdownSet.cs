@@ -33,6 +33,11 @@ namespace PKHeX
         public int[] Moves;
         public readonly List<string> InvalidLines = new List<string>();
 
+        public int[] IVsSpeedFirst => new[] {IVs[0], IVs[1], IVs[2], IVs[5], IVs[3], IVs[4]};
+        public int[] IVsSpeedLast => new[] {IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3]};
+        public int[] EVsSpeedFirst => new[] {EVs[0], EVs[1], EVs[2], EVs[5], EVs[3], EVs[4]};
+        public int[] EVsSpeedLast => new[] {EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3]};
+
         // Parsing Utility
         public ShowdownSet(string input = null)
         {
@@ -127,7 +132,12 @@ namespace PKHeX
                         }
                         moveString = "Hidden Power";
                     }
-                    Moves[movectr++] = Array.IndexOf(moves, moveString);
+                    int move = Array.IndexOf(moves, moveString);
+                    if (move < 0)
+                        InvalidLines.Add($"Unknown Move: {moveString}");
+                    else
+                        Moves[movectr++] = move;
+
                     if (movectr == 4)
                         break; // End of moves
                     continue;
@@ -236,6 +246,9 @@ namespace PKHeX
                         break;
                 }
             }
+
+            IVs = IVsSpeedFirst;
+            EVs = EVsSpeedFirst;
         }
         public string getText()
         {
@@ -243,14 +256,25 @@ namespace PKHeX
                 return "";
 
             // First Line: Name, Nickname, Gender, Item
-            string result = string.Format(Nickname != null && species[Species] != Nickname ? "{0} ({1})" : "{1}", Nickname,
-                species[Species] + ((Form ?? "") != "" ? "-" + Form?.Replace("Mega ", "Mega-") : "")) // Species (& Form if necessary)
-                            + Gender + (Item > 0 ? " @ " + items[Item] : "") + Environment.NewLine;
+            string specForm = species[Species];
+            if (!string.IsNullOrWhiteSpace(Form))
+            {
+                if (Form.Contains("Mega"))
+                    specForm += Form.Replace("Mega ", "Mega-");
+                else
+                    specForm += "-" + Form;
+            }
+            string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}"; 
+            if (!string.IsNullOrEmpty(Gender))
+                result += $" ({Gender})";
+            if (Item > 0 && Item < items.Length)
+                result += " @ " + items[Item];
+            result += Environment.NewLine;
 
             // IVs
             string[] ivstr = new string[6];
             int ivctr = 0;
-            int[] sIVs = { IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3] }; // Reorganize speed
+            int[] sIVs = IVsSpeedLast; // Reorganize speed
             for (int i = 0; i < 6; i++)
             {
                 if (sIVs[i] == 31) continue;
@@ -261,7 +285,7 @@ namespace PKHeX
 
             // EVs
             string[] evstr = new string[6];
-            int[] sEVs = { EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3] }; // Reorganize speed
+            int[] sEVs = EVsSpeedLast; // Reorganize speed
             int evctr = 0;
             for (int i = 0; i < 6; i++)
             {
@@ -272,7 +296,7 @@ namespace PKHeX
                 result += "EVs: " + string.Join(" / ", evstr.Take(evctr)) + Environment.NewLine;
 
             // Secondary Stats
-            if (Ability > -1)
+            if (Ability > -1 && Ability < abilities.Length)
                 result += "Ability: " + abilities[Ability] + Environment.NewLine;
             result += "Level: " + Level + Environment.NewLine;
             if (Shiny)
@@ -303,6 +327,8 @@ namespace PKHeX
         internal static string getShowdownText(PKM pkm)
         {
             if (pkm.Species == 0) return "";
+
+            string[] Forms = PKX.getFormList(pkm.Species, types, forms, new[] {"", "F", ""});
             ShowdownSet Set = new ShowdownSet
             {
                 Nickname = pkm.Nickname,
@@ -313,11 +339,11 @@ namespace PKHeX
                 IVs = pkm.IVs,
                 Moves = pkm.Moves,
                 Nature = pkm.Nature,
-                Gender = new[] { " (M)", " (F)", "" }[pkm.Gender],
+                Gender = new[] { "M", "F", "" }[pkm.Gender < 2 ? pkm.Gender : 2],
                 Friendship = pkm.CurrentFriendship,
                 Level = PKX.getLevel(pkm.Species, pkm.EXP),
                 Shiny = pkm.IsShiny,
-                Form = pkm.AltForm > 0 ? PKX.getFormList(pkm.Species, types, forms, new[] { "", "F", "" })[pkm.AltForm] : "",
+                Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : "",
             };
             if (Set.Form == "F") Set.Gender = "";
             return Set.getText();

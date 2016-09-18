@@ -464,7 +464,7 @@ namespace PKHeX
             int ability = Array.IndexOf(abilities, Set.Ability);
             if (ability < 0) ability = 0;
             CB_Ability.SelectedIndex = ability;
-            ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4, };
+            ComboBox[] m = {CB_Move1, CB_Move2, CB_Move3, CB_Move4};
             for (int i = 0; i < 4; i++) m[i].SelectedValue = Set.Moves[i];
 
             // Set Item and Nature
@@ -475,17 +475,17 @@ namespace PKHeX
             TB_HPIV.Text = Set.IVs[0].ToString();
             TB_ATKIV.Text = Set.IVs[1].ToString();
             TB_DEFIV.Text = Set.IVs[2].ToString();
-            TB_SPAIV.Text = Set.IVs[3].ToString();
-            TB_SPDIV.Text = Set.IVs[4].ToString();
-            TB_SPEIV.Text = Set.IVs[5].ToString();
+            TB_SPAIV.Text = Set.IVs[4].ToString();
+            TB_SPDIV.Text = Set.IVs[5].ToString();
+            TB_SPEIV.Text = Set.IVs[3].ToString();
 
             // Set EVs
             TB_HPEV.Text = Set.EVs[0].ToString();
             TB_ATKEV.Text = Set.EVs[1].ToString();
             TB_DEFEV.Text = Set.EVs[2].ToString();
-            TB_SPAEV.Text = Set.EVs[3].ToString();
-            TB_SPDEV.Text = Set.EVs[4].ToString();
-            TB_SPEEV.Text = Set.EVs[5].ToString();
+            TB_SPAEV.Text = Set.EVs[4].ToString();
+            TB_SPDEV.Text = Set.EVs[5].ToString();
+            TB_SPEEV.Text = Set.EVs[3].ToString();
 
             // Set Level and Friendship
             TB_Level.Text = Set.Level.ToString();
@@ -494,6 +494,10 @@ namespace PKHeX
             // Reset IV/EVs
             BTN_RerollPID.PerformClick();
             BTN_RerollEC.PerformClick();
+            ComboBox[] p = {CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4};
+            for (int i = 0; i < 4; i++)
+                p[i].SelectedIndex = m[i].SelectedIndex != 0 ? 3 : 0; // max PP
+            
             if (Set.Shiny) BTN_Shinytize.PerformClick();
             pkm = preparePKM();
             updateLegality();
