@@ -38,6 +38,8 @@ Menu_LoadBoxes = 加载箱子信息
 Menu_DumpBoxes = 导出箱子信息
 Menu_Report = 箱子数据报告
 Menu_Database = PKM数据库
+Menu_MGDatabase = 神秘礼物数据库
+Menu_BatchEditor = 批量编辑器
 Menu_Other = 其他
 Menu_OpenSDF = 打开SaveDataFiler文件夹
 Menu_OpenSDB = 打开SaveDataBackup文件夹
@@ -92,15 +94,17 @@ Label_EggLocation = 取得场所
 Label_EggDate = 孵化日期
 --------------------Stats Tab Data----------------------
 Tab_Stats = 数值
+CHK_HackedStats = Hacked Stats
 Label_IVs = 个体值
 Label_EVs = 努力值
 Label_Stats = 能力值
 Label_HP = HP:
-Label_ATK = 攻击
-Label_DEF = 防御
-Label_SPA = 特攻
-Label_SPD = 特防
-Label_SPE = 速度
+Label_ATK = 攻击:
+Label_DEF = 防御:
+Label_SPA = 特攻:
+Label_SPD = 特防:
+Label_SPE = 速度:
+Label_SPC = 特殊:
 Label_Total = 努力值合计
 Label_HiddenPowerPrefix = 觉醒力量:
 Label_CharacteristicPrefix = 个性
@@ -144,15 +148,18 @@ B_OpenItemPouch = 道具
 B_OpenTrainerInfo = 训练师情报
 B_OUTPasserby = 路人
 B_OpenBoxLayout = 箱子的布局
-B_OpenWondercards = 神秘卡片
+B_OpenWondercards = 神秘礼物
 B_OpenSuperTraining = 超级训练
 B_OpenHallofFame = 名人堂
 B_OpenOPowers =  OPowers
 B_OpenEventFlags = 事件
 B_OpenPokedex = 图鉴
 B_OpenBerryField = 树果农场
+B_OpenPokeBlocks = 能量方块
+B_OpenLinkInfo = 宝可梦连接
 --
 B_OpenSecretBase = 秘密基地
+B_CGearSkin = C装置皮肤
 --------------------Tab Internals-----------------------
 L_Party = 手持
 L_BattleBox = 战斗箱
@@ -366,6 +373,66 @@ L_Arguments = 关闭 ; 从未离开 ; 原主人 ; 前作 ; 回忆 ; 宝可梦 ; 
 ! SAV_BerryField = Berry Field Viewer
 - Change stuff below this line, not above.
 -------------------------------------------------------
+L_Red = 红色能量方块:
+L_Blue = 蓝色能量方块:
+L_Pink = 粉色能量方块:
+L_Green = 绿色能量方块:
+L_Yellow = 黄色能量方块:
+L_Rainbow = 彩虹能量方块:
+L_Red = 红色能量方块+:
+L_Blue = 蓝色能量方块+:
+L_Pink = 粉色能量方块 +:
+L_Green = 绿色能量方块+:
+L_Yellow = 黄色能量方块+:
+L_Rainbow = 彩虹能量方块+:
+B_RandomizeBerries = 随机树果
+B_GiveAllBlocks = 获得所有方块
+B_Cancel = 取消
+B_Save = 保存
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_Link6 = Pokémon Link Tool
+- Change stuff below this line, not above.
+-------------------------------------------------------
+TAB_Main = 主界面
+TAB_PKM = 宝可梦
+TAB_Items = 道具
+L_BP = 战斗点数BP:
+L_Pokemiles: 宝可梦里程
+CHK_LinkAvailable = 宝可梦连接开启
+B_Import = 导入
+B_Export = 导出
+B_Cancel = 取消
+B_Save = 保存
+L_Item1 = 道具1:
+L_Item2 = 道具2:
+L_Item3 = 道具3:
+L_Item4 = 道具4:
+L_Item5 = 道具5:
+L_Item6 = 道具6:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. 
+! SuperTrain = Super Training Records
+- Change stuff below this line, not above.
+----------------------Buttons--------------------------
+L_Records = 记录
+L_Bags = 训练沙袋
+L_Species = 种类:
+L_Unk = L_Unk
+L_Time0 = 时间:
+L_Time1 = 时间1
+L_Time2 = 时间2
+L_UNKNOWN = 未知
+L_Species2 = 种类
+B_Cancel = 取消
+B_Save = 保存
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_BerryField = Berry Field Viewer
+- Change stuff below this line, not above.
+-------------------------------------------------------
 L_Berry = 树果:
 L_Field = 田:
 L_Unfinished = 未完成: 需要更多研究
@@ -482,7 +549,7 @@ B_Cancel = 取消
 ! SAV_EventFlagsXY = Event Flag Editor (XY)
 - Change stuff below this line, not above.
 -------------------------------------------------------
-flag_2546 = 精灵图鉴已获得
+flag_2546 = 图鉴已获得
 GB_Misc = 杂项
 flag_0289 = 配合雕像
 flag_0288 = 轮盘雕像
@@ -525,13 +592,14 @@ B_Cancel = 取消
 - Change stuff below this line, not above.
 ------------------------------------------------------
 L_goto = 转到:
-GB_Owned = 拥有
-CHK_P1 = 已获得
+GB_Owned = 看到
 CHK_P2 = 公
 CHK_P3 = 母
 CHK_P4 = 闪光公
 CHK_P5 = 闪光母
 GB_Encountered = 已遇到
+CHK_P1 = 已获得
+GB_Displayed = 显示的
 CHK_P6 = 公
 CHK_P7 = 母
 CHK_P8 = 闪光公
@@ -565,7 +633,7 @@ CHK_P2 = 公
 CHK_P3 = 母
 CHK_P4 = 闪光 公
 CHK_P5 = 闪光 母
-GB_Displayed = 展示的
+GB_Displayed = 显示的
 CHK_P6 = 公
 CHK_P7 = 母
 CHK_P8 = 闪光 公
@@ -606,6 +674,7 @@ Label_EncryptionConstant = 加密常数:
 CHK_Nicknamed = 昵称:
 Label_Species = 种类:
 L_PartyNum = 队伍排序:
+B_Delete = 删除
 B_Close = 保存
 ! End
 ! -----------------------------------------------------
@@ -613,12 +682,7 @@ B_Close = 保存
 ! SAV_Inventory = Inventory Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
-GB_Pouch = 背包
-B_DisplayBerries = 树果
-B_DisplayMedicine = 回复
-B_DisplayTMHM = 技能机器
-B_DisplayKeyItems = 重要道具
-B_DisplayItems = 道具
+B_GiveAll = 获得所有
 B_Save = 保存
 B_Cancel = 取消
 ! End
@@ -723,14 +787,20 @@ L_PPUps = PP上升
 -------------------------------------------------------
 Tab_Multiplayer = 多人游戏
 L_MultiplayerSprite = 多人游戏头像:
-L_Style = 风格:
+GB_Sayings = 保存的招呼话
+L_Saying1 = 1:
+L_Saying2 = 2:
+L_Saying3 = 3:
+L_Saying4 = 4:
+L_Saying5 = 5:
+--
 Tab_BadgeMap = 徽章/地图
 GB_Map = 地图位置
 L_CurrentMap = 当前地图:
 L_X = X 轴:
 L_Z = Z 轴:
 L_Y = Y 轴:
-L_Offset = (偏移量)
+--
 Tab_Appearance = 当前形象 (X/Y)
 L_Outfit = 服装的值
 B_GiveAccessories = 获得所有服装
@@ -745,6 +815,8 @@ L_FacialHair = 胡须:
 L_Hairstyle = 发型:
 L_HairColor = 发色:
 L_SkinColor = 肤色:
+--
+Tab_Maison = 对战宅第
 GB_MaisonCurrent = 对战宅第连胜数 (当前)
 L_SuperC = 超级
 L_NormalC = 普通
@@ -764,28 +836,31 @@ L_SinglesB = 单打:
 B_Save = 保存
 L_Stats = 统计
 B_Cancel = 取消
+--
 Tab_Overview = 概览
-L_Seconds = 秒:
-L_Minutes = 分:
-L_Hours = 时:
+L_TrainerName = 训练家名字:
 L_Language = 语言:
-L_PM = 口袋里程:
 L_Region = 区域:
-L_BP = BP:
 L_Country = 国家:
 B_MaxCash = +
 L_3DSReg = 3DS区域:
 L_Money = $:
 L_SID = 内ID:
 L_TID = 外ID:
-L_TrainerName = 训练家名字:
+-
+GB_Adventure = 冒险信息
+L_Seconds = 秒:
+L_Minutes = 分:
+L_Hours = 时:
+L_Started = 游戏已进行:
+L_Fame = 进入名人堂:
+L_LastSaved = 上一次保存:
+-
+L_PM = 宝可梦里程:
+L_BP = BP:
+L_Style = 风格:
 L_Value = 值
-GB_Sayings = 保存的招呼话
-L_Saying1 = 1:
-L_Saying2 = 2:
-L_Saying3 = 3:
-L_Saying4 = 4:
-L_Saying5 = 5:
+L_Offset = (偏移)
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
