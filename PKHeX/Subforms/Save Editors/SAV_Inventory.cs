@@ -130,12 +130,15 @@ namespace PKHeX
             for (int i = 0; i < pouch.Items.Length; i++)
             {
                 int itemvalue = pouch.Items[i].Index;
-                try { itemname = itemlist[itemvalue]; }
-                catch
+                if (itemvalue >= itemlist.Length)
                 {
                     Util.Error("Unknown item detected.", "Item ID: " + itemvalue, "Item is after: " + itemname);
+                    dgv.Rows[i].Cells[0].Value = itemarr[0];
+                    dgv.Rows[i].Cells[1].Value = 0;
                     continue;
                 }
+                itemname = itemlist[itemvalue];
+
                 int itemarrayval = Array.IndexOf(itemarr, itemname);
                 if (itemarrayval == -1)
                 {
