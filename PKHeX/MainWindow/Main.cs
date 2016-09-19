@@ -601,14 +601,24 @@ namespace PKHeX
         {
             MysteryGift tg; PKM temp; string c;
             byte[] footer = new byte[0];
-            #region DeSmuME .dsv detect
-            if (input.Length > SaveUtil.SIZE_G4RAW)
+            byte[] header = new byte[0];
+            #region Header/Footer detect
+            if (input.Length > SaveUtil.SIZE_G4RAW) // DeSmuME
             {
                 bool dsv = SaveUtil.FOOTER_DSV.SequenceEqual(input.Skip(input.Length - SaveUtil.FOOTER_DSV.Length));
                 if (dsv)
                 {
                     footer = input.Skip(SaveUtil.SIZE_G4RAW).ToArray();
-                    input = input.Take(SaveUtil.SIZE_G4RAW).ToArray();
+                    input = input.Take(footer.Length).ToArray();
+                }
+            }
+            if (input.Length == SaveUtil.SIZE_G3BOXGCI)
+            {
+                bool gci = SaveUtil.HEADER_GCI.SequenceEqual(input.Take(SaveUtil.HEADER_GCI.Length));
+                if (gci)
+                {
+                    header = input.Take(SaveUtil.SIZE_G3BOXGCI - SaveUtil.SIZE_G3BOX).ToArray();
+                    input = input.Skip(header.Length).ToArray();
                 }
             }
             #endregion
@@ -640,8 +650,8 @@ namespace PKHeX
             }
             #endregion
             #region SAV/PKM
-            else if (SaveUtil.getSAVGeneration(input) > -1) // Supports Gen4/5/6
-            { openSAV(input, path); SAV.Footer = footer; }
+            else if (SaveUtil.getSAVGeneration(input) != -1)
+            { openSAV(input, path); SAV.Footer = footer; SAV.Header = header; }
             else if ((temp = PKMConverter.getPKMfromBytes(input)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
@@ -864,11 +874,30 @@ namespace PKHeX
             }
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = B_SaveBoxBin.Enabled = SAV.HasBox;
 
+            int BoxTab = tabBoxMulti.TabPages.IndexOf(Tab_Box);
+            int PartyTab = tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle);
+
+            if (!SAV.HasParty && tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
+                tabBoxMulti.TabPages.Remove(Tab_PartyBattle);
+            else if (SAV.HasParty && !tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
+            {
+                int index = BoxTab;
+                if (index < 0)
+                    index = -1;
+                tabBoxMulti.TabPages.Insert(index + 1, Tab_PartyBattle);
+                WindowTranslationRequired = true;
+            }
+
             if (!SAV.HasDaycare && tabBoxMulti.TabPages.Contains(Tab_Other))
                 tabBoxMulti.TabPages.Remove(Tab_Other);
             else if (SAV.HasDaycare && !tabBoxMulti.TabPages.Contains(Tab_Other))
             {
-                tabBoxMulti.TabPages.Insert(tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle) + 1, Tab_Other);
+                int index = PartyTab;
+                if (index < 0)
+                    index = BoxTab;
+                if (index < 0)
+                    index = -1;
+                tabBoxMulti.TabPages.Insert(index + 1, Tab_Other);
                 WindowTranslationRequired = true;
             }
 
@@ -893,8 +922,12 @@ namespace PKHeX
                 B_OpenEventFlags.Visible = SAV.HasEvents;
                 B_OpenLinkInfo.Visible = SAV.HasLink;
                 B_CGearSkin.Visible = SAV.Generation == 5;
+
+                B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = SAV.HasParty; // Box RS
             }
-            
+            GB_SAVtools.Visible = FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Visible);
+
+
             // Generational Interface
             byte[] extraBytes = new byte[1];
             Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV

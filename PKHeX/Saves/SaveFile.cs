@@ -19,6 +19,7 @@ namespace PKHeX
         public abstract SaveFile Clone();
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
+        public byte[] Header { protected get; set; } = new byte[0]; // .gci
         public bool Japanese { protected get; set; }
         public string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes.ToString("00")}ː{PlayedSeconds.ToString("00")}"; // not :
 
@@ -41,6 +42,8 @@ namespace PKHeX
             setChecksums();
             if (Footer.Length > 0 && DSV)
                 return Data.Concat(Footer).ToArray();
+            if (Header.Length > 0)
+                return Header.Concat(Data).ToArray();
             return Data;
         }
         public virtual string MiscSaveChecks() { return ""; }
@@ -259,7 +262,7 @@ namespace PKHeX
         }
 
         // Inventory
-        public abstract InventoryPouch[] Inventory { get; set; }
+        public virtual InventoryPouch[] Inventory { get; set; }
         protected int OFS_PouchHeldItem { get; set; } = int.MinValue;
         protected int OFS_PouchKeyItem { get; set; } = int.MinValue;
         protected int OFS_PouchMedicine { get; set; } = int.MinValue;
@@ -298,20 +301,20 @@ namespace PKHeX
         public virtual int SubRegion { get { return -1; } set { } }
 
         // Trainer Info
-        public abstract int Gender { get; set; }
+        public virtual int Gender { get; set; }
         public virtual int Language { get { return -1; } set { } }
         public virtual int Game { get { return -1; } set { } }
-        public abstract ushort TID { get; set; }
-        public abstract ushort SID { get; set; }
-        public abstract string OT { get; set; }
-        public abstract int PlayedHours { get; set; }
-        public abstract int PlayedMinutes { get; set; }
-        public abstract int PlayedSeconds { get; set; }
+        public virtual ushort TID { get; set; }
+        public virtual ushort SID { get; set; }
+        public virtual string OT { get; set; }
+        public virtual int PlayedHours { get; set; }
+        public virtual int PlayedMinutes { get; set; }
+        public virtual int PlayedSeconds { get; set; }
         public virtual int SecondsToStart { get; set; }
         public virtual int SecondsToFame { get; set; }
-        public abstract uint Money { get; set; }
+        public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
-        public abstract int PartyCount { get; protected set; }
+        public virtual int PartyCount { get; protected set; }
         public abstract int CurrentBox { get; set; }
         public abstract string Extension { get; }
 
@@ -325,19 +328,20 @@ namespace PKHeX
 
         // Daycare
         public int DaycareIndex = 0;
-        public abstract int getDaycareSlotOffset(int loc, int slot);
-        public abstract uint? getDaycareEXP(int loc, int slot);
+        public virtual int getDaycareSlotOffset(int loc, int slot) { return -1; }
+        public virtual uint? getDaycareEXP(int loc, int slot) { return null; }
         public virtual ulong? getDaycareRNGSeed(int loc) { return null; }
         public virtual bool? getDaycareHasEgg(int loc) { return null; }
-        public abstract bool? getDaycareOccupied(int loc, int slot);
-        
-        public abstract void setDaycareEXP(int loc, int slot, uint EXP);
+        public virtual bool? getDaycareOccupied(int loc, int slot) { return null; }
+
+        public virtual void setDaycareEXP(int loc, int slot, uint EXP) { }
         public virtual void setDaycareRNGSeed(int loc, ulong seed) { }
         public virtual void setDaycareHasEgg(int loc, bool hasEgg) { }
-        public abstract void setDaycareOccupied(int loc, int slot, bool occupied);
+        public virtual void setDaycareOccupied(int loc, int slot, bool occupied) { }
 
         // Storage
         public virtual int BoxSlotCount => 30;
+
         public PKM getPartySlot(int offset)
         {
             return getPKM(decryptPKM(getData(offset, SIZE_PARTY)));
@@ -457,12 +461,14 @@ namespace PKHeX
             if (data.Length != getPCBin().Length)
                 return false;
 
+            int len = BlankPKM.EncryptedBoxData.Length;
+
             // split up data to individual pkm
-            byte[][] pkdata = new byte[data.Length/SIZE_STORED][];
-            for (int i = 0; i < data.Length; i += SIZE_STORED)
+            byte[][] pkdata = new byte[data.Length/len][];
+            for (int i = 0; i < data.Length; i += len)
             {
-                pkdata[i/SIZE_STORED] = new byte[SIZE_STORED];
-                Array.Copy(data, i, pkdata[i/SIZE_STORED], 0, SIZE_STORED);
+                pkdata[i/len] = new byte[len];
+                Array.Copy(data, i, pkdata[i/len], 0, len);
             }
             
             PKM[] pkms = BoxData;
@@ -476,11 +482,14 @@ namespace PKHeX
             if (data.Length != getBoxBin(box).Length)
                 return false;
 
-            byte[][] pkdata = new byte[data.Length / SIZE_STORED][];
-            for (int i = 0; i < data.Length; i += SIZE_STORED)
+            int len = BlankPKM.EncryptedBoxData.Length;
+
+            // split up data to individual pkm
+            byte[][] pkdata = new byte[data.Length/len][];
+            for (int i = 0; i < data.Length; i += len)
             {
-                pkdata[i/SIZE_STORED] = new byte[SIZE_STORED];
-                Array.Copy(data, i, pkdata[i/SIZE_STORED], 0, SIZE_STORED);
+                pkdata[i/len] = new byte[len];
+                Array.Copy(data, i, pkdata[i/len], 0, len);
             }
 
             PKM[] pkms = BoxData;

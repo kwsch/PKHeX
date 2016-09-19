@@ -164,6 +164,7 @@
     <Compile Include="Saves\Inventory.cs" />
     <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
+    <Compile Include="Saves\SAV3RSBox.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
     <Compile Include="Saves\SAV5.cs" />
@@ -494,7 +495,7 @@
     <None Include="Resources\text\gen3\text_ItemsG2_es.txt" />
     <None Include="Resources\text\gen3\text_ItemsG3_es.txt" />
     <None Include="Resources\text\gen3\text_rsefrlg_00000_es.txt" />
-	<None Include="Resources\text\gen3\text_gsc_00000_zh.txt" />
+    <None Include="Resources\text\gen3\text_gsc_00000_zh.txt" />
     <None Include="Resources\text\gen3\text_ItemsG1_zh.txt" />
     <None Include="Resources\text\gen3\text_ItemsG2_zh.txt" />
     <None Include="Resources\text\gen3\text_ItemsG3_zh.txt" />
