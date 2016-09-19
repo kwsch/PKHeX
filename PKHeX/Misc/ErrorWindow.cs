@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -14,11 +9,12 @@ namespace PKHeX.Misc
         public static DialogResult ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
         {
             var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-            var dialog = new ErrorWindow(lang);
-            dialog.ShowContinue = allowContinue;
-            dialog.Message = friendlyMessage;
-            dialog.Error = ex;
-
+            var dialog = new ErrorWindow(lang)
+            {
+                ShowContinue = allowContinue,
+                Message = friendlyMessage,
+                Error = ex
+            };
             var dialogResult = dialog.ShowDialog();
             if (dialogResult == DialogResult.Abort)
             {
