@@ -149,7 +149,7 @@ namespace PKHeX
 
 
         // Configuration
-        public override SaveFile Clone() { return new SAV1(Data.Take(Data.Length - SIZE_RESERVED).ToArray()); }
+        public override SaveFile Clone() { return new SAV1(Write(DSV: false)); }
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
         public override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;

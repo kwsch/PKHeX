@@ -353,6 +353,15 @@ namespace PKHeX
                 case 2: res = res.Where(pk => pk.Format == format); break;
                 case 3: res = res.Where(pk => pk.Format <= format); break;
             }
+            if (CB_FormatComparator.SelectedIndex != 0)
+            {
+                if (format <= 2) // 1-2
+                    res = res.Where(pk => pk.Format <= 2);
+                if (format >= 3 && format <= 6) // 3-6
+                    res = res.Where(pk => pk.Format >= 3);
+                if (format >= 7) // 1,3-6,7
+                    res = res.Where(pk => pk.Format != 2);
+            }
 
             switch (CB_Generation.SelectedIndex)
             {

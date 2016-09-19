@@ -11,6 +11,7 @@ namespace PKHeX
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
+        public override bool Valid => Species <= 252;
 
         public sealed override int SIZE_PARTY => PKX.SIZE_2PARTY;
         public override int SIZE_STORED => PKX.SIZE_2STORED;
@@ -22,7 +23,7 @@ namespace PKHeX
 
         public bool Japanese => otname.Length == STRLEN_J;
 
-        public override string FileName => $"{Species.ToString("000")} - {Nickname} - {OT_Name}.{Extension}";
+        public override string FileName => $"{Species.ToString("000")} - {Nickname} - {SaveUtil.ccitt16(Encrypt()).ToString("X4")}.{Extension}";
 
         public PK2(byte[] decryptedData = null, string ident = null, bool jp = false)
         {
@@ -103,9 +104,11 @@ namespace PKHeX
             get
             {
                 string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
+                spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
                 return !nick.SequenceEqual(
                         PKX.setG1Str(spName, Japanese)
-                            .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1)));
+                            .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1))
+                            .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)));
             }
             set { }
         }
@@ -113,7 +116,11 @@ namespace PKHeX
         public void setNotNicknamed()
         {
             string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-            nick = PKX.setG1Str(spName, Japanese).Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1)).ToArray();
+            spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+            nick = PKX.setG1Str(spName, Japanese)
+                      .Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1))
+                      .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)) // Decimal point<->period fix
+                      .ToArray();
         }
 
 
@@ -126,7 +133,8 @@ namespace PKHeX
                 Data[0] = (byte)value;
             }
         }
-        public override int HeldItem { get { return Data[0x1]; } set { Data[0x1] = (byte)value; } }
+        public override int HeldItem { get { return PKX.getG4Item((byte) G2Item); } set { } }
+        public int G2Item { get { return Data[0x1]; } set { Data[0x1] = (byte)value; } }
         public override int Move1 { get { return Data[2]; } set { Data[2] = (byte) value; } }
         public override int Move2 { get { return Data[3]; } set { Data[3] = (byte)value; } }
         public override int Move3 { get { return Data[4]; } set { Data[4] = (byte)value; } }
@@ -301,7 +309,7 @@ public override int Stat_Level
 
             }
         }
-        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (new[] { 2, 3, 6, 7, 10, 11, 14, 15 }).Contains(IV_ATK);
+        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
         public override ushort Sanity { get { return 0; } set { } }
         public override bool ChecksumValid => true;
         public override ushort Checksum { get { return 0; } set { } }

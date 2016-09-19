@@ -58,12 +58,42 @@
   <PropertyGroup>
     <StartupObject>PKHeX.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ClickOnce-Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\ClickOnce-Debug\</OutputPath>
+    <DefineConstants>DEBUG;CLICKONCE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ClickOnce-Release|x86'">
+    <DefineConstants>CLICKONCE</DefineConstants>
+    <OutputPath>bin\x86\ClickOnce-Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'ClickOnce-Debug|x86'">
+    <Reference Include="System.Deployment" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'ClickOnce-Release|x86'">
+    <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Legality\Analysis.cs" />
@@ -92,6 +122,12 @@
     </Compile>
     <Compile Include="MainWindow\MainPK3.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\ErrorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\ErrorWindow.Designer.cs">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MysteryGifts\MysteryGift.cs" />
     <Compile Include="MysteryGifts\PL6.cs" />
@@ -128,6 +164,7 @@
     <Compile Include="Saves\Inventory.cs" />
     <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
+    <Compile Include="Saves\SAV3RSBox.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
     <Compile Include="Saves\SAV5.cs" />
@@ -329,6 +366,7 @@
     <Compile Include="Util\ByteUtil.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
+    <Compile Include="Util\DeployUtil.cs" />
     <Compile Include="Util\FormUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\NetUtil.cs" />
@@ -336,6 +374,9 @@
     <Compile Include="Util\RandUtil.cs" />
     <Compile Include="Util\ReflectUtil.cs" />
     <Compile Include="Util\StringUtil.cs" />
+    <EmbeddedResource Include="Misc\ErrorWindow.resx">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Misc\QR.resx">
       <DependentUpon>QR.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -454,7 +495,7 @@
     <None Include="Resources\text\gen3\text_ItemsG2_es.txt" />
     <None Include="Resources\text\gen3\text_ItemsG3_es.txt" />
     <None Include="Resources\text\gen3\text_rsefrlg_00000_es.txt" />
-	<None Include="Resources\text\gen3\text_gsc_00000_zh.txt" />
+    <None Include="Resources\text\gen3\text_gsc_00000_zh.txt" />
     <None Include="Resources\text\gen3\text_ItemsG1_zh.txt" />
     <None Include="Resources\text\gen3\text_ItemsG2_zh.txt" />
     <None Include="Resources\text\gen3\text_ItemsG3_zh.txt" />

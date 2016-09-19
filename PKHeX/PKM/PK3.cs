@@ -257,8 +257,7 @@ namespace PKHeX
             pk4.Move3_PP = pk4.getMovePP(pk4.Move3, pk4.Move3_PPUps);
             pk4.Move4_PP = pk4.getMovePP(pk4.Move4, pk4.Move4_PPUps);
 
-            if (Met_Location == 0xFF) // Fateful
-                pk4.FatefulEncounter = Met_Location == 0xFF || FatefulEncounter; // obedience flag
+            pk4.FatefulEncounter = Met_Location == 0xFF || FatefulEncounter; // obedience flag
 
             // Remaining Ribbons
             pk4.RibbonG3Cool          |= RibbonCountG3Cool > 0;

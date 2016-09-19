@@ -58,7 +58,6 @@ namespace PKHeX
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
             L_Viewed.Text = ""; // invis for now
-            populateComboBoxes();
 
             ContextMenuStrip mnu = new ContextMenuStrip();
             ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
@@ -97,6 +96,8 @@ namespace PKHeX
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+
+            populateComboBoxes();
             CenterToParent();
         }
         private readonly Main m_parent;
@@ -143,7 +144,10 @@ namespace PKHeX
             var Any = new ComboItem {Text = "Any", Value = -1};
 
             var DS_Species = new List<ComboItem>(Main.SpeciesDataSource);
-            DS_Species.RemoveAt(0); DS_Species.Insert(0, Any); CB_Species.DataSource = DS_Species;
+            DS_Species.RemoveAt(0);
+            var filteredSpecies = DS_Species.Where(spec => RawDB.Any(mg => mg.Species == spec.Value)).ToList();
+            filteredSpecies.Insert(0, Any);
+            CB_Species.DataSource = filteredSpecies;
 
             var DS_Item = new List<ComboItem>(Main.ItemDataSource);
             DS_Item.Insert(0, Any); CB_HeldItem.DataSource = DS_Item;

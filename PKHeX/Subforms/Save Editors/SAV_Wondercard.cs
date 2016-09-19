@@ -99,7 +99,7 @@ namespace PKHeX
             }
             catch (Exception e)
             {
-                Util.Error("Loading of data failed... is this really a Wonder Card?", e.ToString());
+                Util.Error("Loading of data failed... is this really a Wonder Card?", e);
                 RTB.Clear();
             }
         }
@@ -390,8 +390,8 @@ namespace PKHeX
                 File.WriteAllBytes(newfile, card.Data);
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
-            catch (ArgumentException x)
-            { Util.Error("Drag & Drop Error:", x.ToString()); }
+            catch (Exception x)
+            { Util.Error("Drag & Drop Error", x); }
             File.Delete(newfile);
             wc_slot = -1;
         }

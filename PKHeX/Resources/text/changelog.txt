@@ -776,7 +776,7 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Added: Cleaner 'delete' command to batch editor (set species to 0 to clear data).
  - Added: Specifying output folder when modifying a folder in the Batch Editor. Thanks \!
 
-08/22/16 - New Update:
+08/22/16 - New Update: (53700)
  - Changed: Drag&Drop now replaces the cursor with the sprite to better simulate moving a Pokémon.
  - Added: FBI homebrew save file detection. Thanks poutros!
  - Fixed: Program now indicates the type of blank save file loaded if none is detected on startup.
@@ -789,3 +789,37 @@ http://projectpokemon.org/forums/showthread.php?36986
  - Fixed: Hyperspace Fury legality. Thanks RanEncounter!
  - Changed: Batch Editor improvements for PID/EC writing. Thanks JSS & Pokegeo!
  - Changed: Updated Spanish and Chinese translation. Thanks ajtudela & easyworld!
+
+09/18/16 - New Update:
+ - Added: Gen 1 & 2 support. Thanks SciresM, and all those who tested!
+ - Added: Gen 1<->2 conversion. Thanks SciresM!
+ - Added: Super Secret Training Completed flag. Thanks SciresM!
+ - Added: Program will now check for updates when the program starts. If an update is available, a URL label will appear.
+ - Added: Mystery Gift event database browser. Currently only views wc6, can be loaded to tabs! Hotkey is CTRL-G.
+ - Added: Gen 4 & 5 Pokedex form flags will be set when the Pokémon is set to the save file.
+ - Added: Hall of Fame time in Trainer editor. Thanks ricksee!
+ - Added: Gen 1/2/3 Met Location and Item strings for Spanish and Chinese games. Thanks ajtudela & easyworld!
+ - Added: Spiky Eared Pichu sprite.
+ - Added: MetDate/EggMetDate property setting in the Batch Editor (refer to FAQ, yyyyMMdd format). Thanks AvantGourd!
+ - Added: Box Viewer popup for easier box management. Doubleclick the "Box" tab. To open more than one, hold Shift while double clicking.
+ - Fixed: Non-box drag&drop slots will set the cursor to the slot's sprite while dragging, just like Box Slots.
+ - Fixed: O-Power editing saving will now save back to the save file.
+ - Fixed: Improved save detection for gen4/5 games, including saves that were just (re)started.
+ - Fixed: Gen4 ribbon editor give-all no longer throws an exception.
+ - Fixed: Changed event constants from signed to unsigned. Thanks evandixon!
+ - Fixed: Changing Unown's form as a pk3 will now update the PID. Thanks NinFanBoyFTW!
+ - Fixed: EncounterType dropdown now appears at the correct time. Thanks JSS!
+ - Fixed: HM07/HM08 inventory editing for gen4/5. Thanks msbhvn & Liger0!
+ - Fixed: Setting gen4 HGSS balls corrected. Thanks theSLAYER!
+ - Fixed: Gen3 inventory editor give-all disabled, as Bag is too small to give all items for a given pouch. Thanks Liger0!
+ - Fixed: Gen1/2/3 sub-editors erasing changes made to box Pokémon. Thanks SciresM, MichiS97!
+ - Fixed: Tangled Feet Rayquaza in Gen3. Thanks Delta Blast Burn!
+ - Legality: Level 20 Gallade is now recognized as legal. Thanks Rohul1997!
+ - Legality: Gen4 starters disallowed from having Gen3/4 balls. Thanks /u/Subject21_J
+ - Legality: Added Super Training legality checks. Thanks sora10pls!
+ - Changed: Inventory Editing now uses prettier sprites for each tab.
+ - Changed: Showdown Set parsing updated to account for user error when manually typing a set instead of exporting from Showdown as intended.
+ - Changed: Backed up save file names are now easier on the eye. Gen 1-5 saves will use played time, Gen 6 use the last saved datetime.
+ - Changed: First 3 tabs of PKM editor (left side) redesigned to fit and collapse controls for all the different games that are supported.
+ - Changed: Tabs with no controls visible will be hidden. Example: Hiding Box Tab with ORAS Demo save loaded.
+ - Changed: Met locations are now top-sorted with the locations available to the Origin Game.

@@ -137,8 +137,6 @@ namespace PKHeX
 
                 if (abil < 0)
                     CB_Ability.SelectedIndex = 0;
-                else if (abil == 2)
-                    CB_Ability.SelectedIndex = 2;
                 else if (abils[0] == abils[1] || abils[1] == 0)
                     CB_Ability.SelectedIndex = pk4.PIDAbility;
                 else

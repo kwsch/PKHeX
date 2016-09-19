@@ -23,6 +23,7 @@ namespace PKHeX
                     break;
                 case 3:
                     itemlist = Main.g3items;
+                    B_GiveAll.Visible = false;
                     break;
                 default:
                     itemlist = Main.itemlist;
@@ -129,12 +130,15 @@ namespace PKHeX
             for (int i = 0; i < pouch.Items.Length; i++)
             {
                 int itemvalue = pouch.Items[i].Index;
-                try { itemname = itemlist[itemvalue]; }
-                catch
+                if (itemvalue >= itemlist.Length)
                 {
                     Util.Error("Unknown item detected.", "Item ID: " + itemvalue, "Item is after: " + itemname);
+                    dgv.Rows[i].Cells[0].Value = itemarr[0];
+                    dgv.Rows[i].Cells[1].Value = 0;
                     continue;
                 }
+                itemname = itemlist[itemvalue];
+
                 int itemarrayval = Array.IndexOf(itemarr, itemname);
                 if (itemarrayval == -1)
                 {
@@ -174,7 +178,7 @@ namespace PKHeX
                         itemcnt++; // No 0 count of items
                     else if (itemcnt > 995)
                         itemcnt = 995; // cap out
-                    else if (itemcnt > 99 && SAV.Generation < 3)
+                    else if (itemcnt > 99 && SAV.Generation <= 3)
                         itemcnt = 99;
 
                     if (itemindex == 0) // Compression of Empty Slots

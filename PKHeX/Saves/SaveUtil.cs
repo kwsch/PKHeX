@@ -9,6 +9,7 @@ namespace PKHeX
     public enum GameVersion
     {
         /* I don't want to assign Gen I/II... */
+        RSBOX = -5,
         GS = -4,
         C = -3,
         Invalid = -2,
@@ -46,6 +47,8 @@ namespace PKHeX
         internal const int SIZE_G5BW = 0x24000;
         internal const int SIZE_G5B2W2 = 0x26000;
         internal const int SIZE_G4RAW = 0x80000;
+        internal const int SIZE_G3BOX = 0x76000;
+        internal const int SIZE_G3BOXGCI = 0x76040; // +64 if has GCI data
         internal const int SIZE_G3RAW = 0x20000;
         internal const int SIZE_G3RAWHALF = 0x10000;
         internal const int SIZE_G2RAW_U = 0x8000;
@@ -57,6 +60,7 @@ namespace PKHeX
         internal const int SIZE_G1BAT = 0x802C;
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
+        internal static readonly byte[] HEADER_GCI = {0x47, 0x50, 0x58}; // GPX*
 
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
@@ -69,6 +73,8 @@ namespace PKHeX
                 return 2;
             if (getIsG3SAV(data) != GameVersion.Invalid)
                 return 3;
+            if (getIsG3BOXSAV(data) != GameVersion.Invalid)
+                return (int)GameVersion.RSBOX;
             if (getIsG4SAV(data) != GameVersion.Invalid)
                 return 4;
             if (getIsG5SAV(data) != GameVersion.Invalid)
@@ -183,7 +189,7 @@ namespace PKHeX
                 return GameVersion.C;
             return GameVersion.Invalid;
         }
-        /// <summary>Determines the type of 3th gen save</summary>
+        /// <summary>Determines the type of 3rd gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static GameVersion getIsG3SAV(byte[] data)
@@ -213,6 +219,31 @@ namespace PKHeX
                 default: return GameVersion.E;
             }
         }
+        /// <summary>Determines the type of 3rd gen Box RS</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG3BOXSAV(byte[] data)
+        {
+            if (!new[] { SIZE_G3BOX, SIZE_G3BOXGCI }.Contains(data.Length))
+                return GameVersion.Invalid;
+
+            byte[] sav = data.Skip(data.Length - SIZE_G3BOX).Take(SIZE_G3BOX).ToArray();
+
+            // Verify first checksum
+            uint chk = 0; // initial value
+            for (int j = 0x4; j < 0x1FFC; j += 2)
+            {
+                chk += (ushort)(sav[0x2000 + j] << 8);
+                chk += sav[0x2000 + j + 1];
+            }
+            ushort chkA = (ushort)chk;
+            ushort chkB = (ushort)(0xF004 - chkA);
+
+            ushort CHK_A = (ushort)((sav[0x2000] << 8) | sav[0x2001]);
+            ushort CHK_B = (ushort)((sav[0x2002] << 8) | sav[0x2003]);
+
+            return CHK_A == chkA && CHK_B == chkB ? GameVersion.RSBOX : GameVersion.Invalid;
+        }
         /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
@@ -235,6 +266,14 @@ namespace PKHeX
             if (data.Skip(0xCF20).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
                 return GameVersion.Pt;
             if (data.Skip(0xF61C).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+                return GameVersion.HGSS;
+
+            // Check the other save
+            if (data.Skip(0xC0F4 + 0x40000).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+                return GameVersion.DP;
+            if (data.Skip(0xCF20 + 0x40000).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+                return GameVersion.Pt;
+            if (data.Skip(0xF61C + 0x40000).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
                 return GameVersion.HGSS;
 
             return GameVersion.Invalid;
@@ -353,6 +392,8 @@ namespace PKHeX
                     return new SAV2(data);
                 case 3:
                     return new SAV3(data);
+                case (int)GameVersion.RSBOX:
+                    return new SAV3RSBox(data);
                 case 4:
                     return new SAV4(data);
                 case 5:

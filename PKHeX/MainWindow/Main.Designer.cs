@@ -157,6 +157,7 @@
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
             this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
             this.FLP_StatsHeaderRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_IVs = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
             this.FLP_HP = new System.Windows.Forms.FlowLayoutPanel();
@@ -426,7 +427,6 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.Label_IVs = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -1063,10 +1063,12 @@
             // 
             // Label_Form
             // 
-            this.Label_Form.Location = new System.Drawing.Point(22, 0);
+            this.Label_Form.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.Label_Form.AutoSize = true;
+            this.Label_Form.Location = new System.Drawing.Point(22, 4);
             this.Label_Form.Margin = new System.Windows.Forms.Padding(0);
             this.Label_Form.Name = "Label_Form";
-            this.Label_Form.Size = new System.Drawing.Size(35, 21);
+            this.Label_Form.Size = new System.Drawing.Size(33, 13);
             this.Label_Form.TabIndex = 11;
             this.Label_Form.Text = "Form:";
             this.Label_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1077,10 +1079,10 @@
             this.CB_Form.DropDownWidth = 85;
             this.CB_Form.Enabled = false;
             this.CB_Form.FormattingEnabled = true;
-            this.CB_Form.Location = new System.Drawing.Point(57, 0);
+            this.CB_Form.Location = new System.Drawing.Point(55, 0);
             this.CB_Form.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Form.Name = "CB_Form";
-            this.CB_Form.Size = new System.Drawing.Size(69, 21);
+            this.CB_Form.Size = new System.Drawing.Size(71, 21);
             this.CB_Form.TabIndex = 12;
             this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.updateForm);
             // 
@@ -2087,6 +2089,16 @@
             this.FLP_StatsHeaderRight.Name = "FLP_StatsHeaderRight";
             this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_StatsHeaderRight.TabIndex = 123;
+            // 
+            // Label_IVs
+            // 
+            this.Label_IVs.Location = new System.Drawing.Point(0, 0);
+            this.Label_IVs.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_IVs.Name = "Label_IVs";
+            this.Label_IVs.Size = new System.Drawing.Size(30, 21);
+            this.Label_IVs.TabIndex = 29;
+            this.Label_IVs.Text = "IVs";
+            this.Label_IVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_EVs
             // 
@@ -5465,16 +5477,6 @@
             this.L_UpdateAvailable.Text = "New Update Available!";
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
-            // 
-            // Label_IVs
-            // 
-            this.Label_IVs.Location = new System.Drawing.Point(0, 0);
-            this.Label_IVs.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_IVs.Name = "Label_IVs";
-            this.Label_IVs.Size = new System.Drawing.Size(30, 21);
-            this.Label_IVs.TabIndex = 29;
-            this.Label_IVs.Text = "IVs";
-            this.Label_IVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Main
             // 
