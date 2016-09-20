@@ -94,7 +94,7 @@ Label_EggLocation = 取得场所
 Label_EggDate = 孵化日期
 --------------------Stats Tab Data----------------------
 Tab_Stats = 数值
-CHK_HackedStats = Hacked Stats
+CHK_HackedStats = 修改过的状态
 Label_IVs = 个体值
 Label_EVs = 努力值
 Label_Stats = 能力值
