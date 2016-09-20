@@ -592,7 +592,7 @@ B_Cancel = Cancel
 - Change stuff below this line, not above.
 ------------------------------------------------------
 L_goto = goto:
-GB_Owned = Seen
+GB_Encountered = Seen
 CHK_P2 = Male
 CHK_P3 = Female
 CHK_P4 = Shiny Male
@@ -628,7 +628,7 @@ L_goto = goto:
 GB_Owned = Owned
 CHK_F1 = Foreign (Pre)
 CHK_P1 = Native (Kalos)
-GB_Encountered = Encountered
+GB_Encountered = Seen
 CHK_P2 = Male
 CHK_P3 = Female
 CHK_P4 = Shiny Male
