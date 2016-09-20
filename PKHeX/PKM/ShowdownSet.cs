@@ -7,36 +7,37 @@ namespace PKHeX
     public class ShowdownSet
     {
         // String to Values
-        internal static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
-        public static readonly string[] types = Util.getStringList("types", "en");
-        public static readonly string[] forms = Util.getStringList("forms", "en");
+        private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+        private static readonly string[] types = Util.getStringList("types", "en");
+        private static readonly string[] forms = Util.getStringList("forms", "en");
         private static readonly string[] species = Util.getSpeciesList("en");
         private static readonly string[] items = Util.getStringList("items", "en");
         private static readonly string[] natures = Util.getStringList("natures", "en");
         private static readonly string[] moves = Util.getMovesList("en");
         private static readonly string[] abilities = Util.getAbilitiesList("en");
         private static readonly string[] hptypes = types.Skip(1).ToArray();
+        private const int MAX_SPECIES = 721;
 
         // Default Set Data
-        public string Nickname;
-        public int Species;
-        public string Form;
-        public string Gender;
-        public int Item;
-        public int Ability;
-        public int Level;
-        public bool Shiny;
-        public int Friendship;
-        public int Nature;
-        public int[] EVs;
-        public int[] IVs;
-        public int[] Moves;
+        public string Nickname { get; set; }
+        public int Species { get; private set; } = -1;
+        public string Form { get; private set; }
+        public string Gender { get; private set; }
+        public int Item { get; private set; }
+        public int Ability { get; private set; }
+        public int Level { get; private set; } = 100;
+        public bool Shiny { get; private set; }
+        public int Friendship { get; private set; } = 255;
+        public int Nature { get; private set; }
+        public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
+        public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
+        public int[] Moves { get; private set; } = {0, 0, 0, 0};
         public readonly List<string> InvalidLines = new List<string>();
 
-        public int[] IVsSpeedFirst => new[] {IVs[0], IVs[1], IVs[2], IVs[5], IVs[3], IVs[4]};
-        public int[] IVsSpeedLast => new[] {IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3]};
-        public int[] EVsSpeedFirst => new[] {EVs[0], EVs[1], EVs[2], EVs[5], EVs[3], EVs[4]};
-        public int[] EVsSpeedLast => new[] {EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3]};
+        private int[] IVsSpeedFirst => new[] {IVs[0], IVs[1], IVs[2], IVs[5], IVs[3], IVs[4]};
+        private int[] IVsSpeedLast => new[] {IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3]};
+        private int[] EVsSpeedFirst => new[] {EVs[0], EVs[1], EVs[2], EVs[5], EVs[3], EVs[4]};
+        private int[] EVsSpeedLast => new[] {EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3]};
 
         // Parsing Utility
         public ShowdownSet(string input = null)
@@ -44,104 +45,33 @@ namespace PKHeX
             if (input == null)
                 return;
 
-            Nickname = null;
-            Species = -1;
-            Form = null;
-            Gender = null;
-            Item = 0;
-            Ability = 0;
-            Level = 100;
-            Shiny = false;
-            Friendship = 255;
-            Nature = 0;
-            EVs = new int[6];
-            IVs = new[] { 31, 31, 31, 31, 31, 31 };
-            Moves = new int[4];
-
             string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
             for (int i = 0; i < lines.Length; i++) lines[i] = lines[i].Replace("'", "’").Trim(); // Sanitize apostrophes
+
+            lines = lines.Where(line => line.Length > 2).ToArray();
 
             if (lines.Length < 3) return;
 
             // Seek for start of set
-            int start = -1;
-            for (int i = 0; i < lines.Length; i++)
-                if (lines[i].Contains(" @ ")) { start = i; break; }
-            lines = lines.Skip(start).Take(lines.Length - start).ToArray();
-
-            // Abort if no text is found
-            if (start == -1)
+            int start = Array.FindIndex(lines, line => line.Contains(" @ "));
+            
+            if (start != -1) // Has Item -- skip to start.
+                lines = lines.Skip(start).Take(lines.Length - start).ToArray();
+            else // Has no Item -- try parsing the first line anyway.
             {
-                // Try to parse the first line if it does not have any item
-                string ld = lines[0];
-                // Gender Detection
-                string last3 = ld.Substring(ld.Length - 3);
-                if (last3 == "(M)" || last3 == "(F)")
-                {
-                    Gender = last3.Substring(1, 1);
-                    ld = ld.Substring(0, ld.Length - 3);
-                }
-                // Nickname Detection
-                string spec = ld;
-                if (spec.Contains("("))
-                {
-                    int index = spec.LastIndexOf("(", StringComparison.Ordinal);
-                    string n1, n2;
-                    if (index != 0) // correct format
-                    {
-                        n1 = spec.Substring(0, index - 1);
-                        n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
-                    }
-                    else // nickname first (manually created set, incorrect)
-                    {
-                        int end = spec.IndexOf(")", StringComparison.Ordinal);
-                        n2 = spec.Substring(1, end - 1);
-                        n1 = spec.Substring(end + 2);
-                    }
-
-                    bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
-                    spec = inverted ? n2 : n1;
-                    Nickname = inverted ? n1 : n2;
-                }
-                Species = Array.IndexOf(species, spec.Replace(" ", ""));
-                if (
-                    (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
-                    &&
-                    (Species = Array.IndexOf(species, spec.Replace(" ", ""))) < 0 // Has Form
-                    )
-                {
-                    string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
-                    if (tmp.Length < 2) return;
-                    Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
-                    Form = tmp[1].Trim();
-                    if (tmp.Length > 2)
-                        Form += " " + tmp[2];
-                }
+                parseFirstLine(lines[0]);
                 if (Species < -1)
-                    return;
+                    return; // Abort if no text is found
+
                 lines = lines.Skip(1).Take(lines.Length - 1).ToArray();
             }
             int movectr = 0;
             // Detect relevant data
             foreach (string line in lines)
             {
-                if (line.Length < 2) continue;
-                if (line.Contains("- "))
+                if (line.StartsWith("-"))
                 {
-                    string moveString = line.Substring(2);
-                    if (moveString.Contains("Hidden Power"))
-                    {
-                        if (moveString.Length > 13) // Defined Hidden Power
-                        {
-                            string type = moveString.Remove(0, 13).Replace("[", "").Replace("]", ""); // Trim out excess data
-                            int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
-                            if (hpVal >= 0)
-                                IVs = PKX.setHPIVs(hpVal, IVs); // Get IVs
-                            else
-                                InvalidLines.Add($"Invalid Hidden Power Type: {type}");
-                        }
-                        moveString = "Hidden Power";
-                    }
+                    string moveString = parseLineMove(line);
                     int move = Array.IndexOf(moves, moveString);
                     if (move < 0)
                         InvalidLines.Add($"Unknown Move: {moveString}");
@@ -157,113 +87,50 @@ namespace PKHeX
                 switch (brokenline[0])
                 {
                     case "Trait":
-                    case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1]); break; }
-                    case "Level": { Level = Util.ToInt32(brokenline[1]); break; }
-                    case "Shiny": { Shiny = brokenline[1] == "Yes"; break; }
-                    case "Happiness": { Friendship = Util.ToInt32(brokenline[1]); break; }
-                    case "Nature": { Nature = Array.IndexOf(natures, brokenline[1]); break; }
-                    case "EVs":
-                        {
-                            // Get EV list String
-                            string[] evlist = brokenline[1]
-                                // Because people think they can type sets out...
-                                .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
-                                .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
-                                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
-                            for (int i = 0; i < evlist.Length/2; i++)
-                            {
-                                ushort EV;
-                                ushort.TryParse(evlist[i * 2 + 0], out EV);
-                                int index = Array.IndexOf(StatNames, evlist[i*2 + 1]);
-                                if (index > -1)
-                                    EVs[index] = EV;
-                                else
-                                    InvalidLines.Add($"Unknown EV Type input: {evlist[i*2]}");
-                            }
-                            break;
-                        }
-                    case "IVs":
-                        {
-                            // Get IV list String
-                            string[] ivlist = brokenline[1]
-                                // Because people think they can type sets out...
-                                .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
-                                .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
-                                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
-                            for (int i = 0; i < ivlist.Length/2; i++)
-                            {
-                                byte IV;
-                                byte.TryParse(ivlist[i*2 + 0], out IV);
-                                int index = Array.IndexOf(StatNames, ivlist[i*2 + 1]);
-                                if (index > -1)
-                                    IVs[index] = IV;
-                                else
-                                    InvalidLines.Add($"Unknown IV Type input: {ivlist[i * 2]}");
-                            }
-                            break;
-                        }
+                    case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1].Trim()); break; }
+                    case "Level": { Level = Util.ToInt32(brokenline[1].Trim()); break; }
+                    case "Shiny": { Shiny = brokenline[1].Trim() == "Yes"; break; }
+                    case "Happiness": { Friendship = Util.ToInt32(brokenline[1].Trim()); break; }
+                    case "Nature": { Nature = Array.IndexOf(natures, brokenline[1].Trim()); break; }
+                    case "EV":
+                    case "EVs": { parseLineEVs(brokenline[1].Trim()); break; }
+                    case "IV":
+                    case "IVs": { parseLineIVs(brokenline[1].Trim()); break; }
                     default:
+                    {
+                        // Either Nature or Gender ItemSpecies
+                        if (brokenline[0].Contains(" @ "))
                         {
-                            // Either Nature or Gender ItemSpecies
-                            if (brokenline[0].Contains(" @ "))
-                            {
-                                string[] ld = line.Split(new[] { " @ " }, StringSplitOptions.None);
-                                Item = Array.IndexOf(items, ld.Last());
-                                // Gender Detection
-                                string last3 = ld[0].Substring(ld[0].Length - 3);
-                                if (last3 == "(M)" || last3 == "(F)")
-                                {
-                                    Gender = last3.Substring(1, 1);
-                                    ld[0] = ld[0].Substring(0, ld[ld.Length - 2].Length - 3);
-                                }
-                                // Nickname Detection
-                                string spec = ld[0];
-                                if (spec.Contains("(") && spec.Contains(")"))
-                                {
-                                    int index = spec.LastIndexOf("(", StringComparison.Ordinal);
-                                    string n1, n2;
-                                    if (index != 0) // correct format
-                                    {
-                                        n1 = spec.Substring(0, index - 1);
-                                        n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
-                                    }
-                                    else // nickname first (manually created set, incorrect)
-                                    {
-                                        int end = spec.IndexOf(")", StringComparison.Ordinal);
-                                        n2 = spec.Substring(1, end - 1);
-                                        n1 = spec.Substring(end + 2);
-                                    }
+                            string[] pieces = line.Split(new[] {" @ "}, StringSplitOptions.None);
+                            string itemstr = pieces.Last().Trim();
+                            int item = Array.IndexOf(items, itemstr);
+                            if (item < 0)
+                                InvalidLines.Add($"Unknown Item: {itemstr}");
+                            else
+                                Item = item;
 
-                                    bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
-                                    spec = inverted ? n2 : n1;
-                                    Nickname = inverted ? n1 : n2;
-                                }
-                                if (
-                                    (Species = Array.IndexOf(species, spec)) < 0 // Not an Edge Case
-                                    &&
-                                    (Species = Array.IndexOf(species, spec.Replace(" ", ""))) < 0 // Has Form
-                                    )
-                                {
-                                    string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
-                                    if (tmp.Length < 2) return;
-                                    Species = Array.IndexOf(species, tmp[0].Replace(" ", ""));
-                                    Form = tmp[1].Trim();
-                                    if (tmp.Length > 2)
-                                        Form += " " + tmp[2];
-                                }
-                            }
-                            else if (brokenline[0].Contains("Nature"))
-                                Nature = Array.IndexOf(natures, line.Split(' ')[0]);
-                            else // Fallback
-                            {
-                                int spec = Array.IndexOf(species, line.Split('(')[0]);
-                                if (spec > 0)
-                                    Species = spec;
-                                else
-                                    InvalidLines.Add(line);
-                            }
+                            parseFirstLine(pieces[0]);
+                        }
+                        else if (brokenline[0].Contains("Nature"))
+                        {
+                            string naturestr = line.Split(' ')[0].Trim();
+                            int nature = Array.IndexOf(natures, naturestr);
+                            if (Nature < 0)
+                                InvalidLines.Add($"Unknown Nature: {naturestr}");
+                            else
+                                Nature = nature;
+                        }
+                        else // Fallback
+                        {
+                            string speciesstr = line.Split('(')[0].Trim();
+                            int spec = Array.IndexOf(species, speciesstr);
+                            if (spec < 1)
+                                InvalidLines.Add(speciesstr);
+                            else
+                                Species = spec;
                         }
                         break;
+                    }
                 }
             }
 
@@ -272,7 +139,7 @@ namespace PKHeX
         }
         public string getText()
         {
-            if (Species == 0 || Species > 722)
+            if (Species == 0 || Species > MAX_SPECIES)
                 return "";
 
             // First Line: Name, Nickname, Gender, Item
@@ -367,6 +234,117 @@ namespace PKHeX
             };
             if (Set.Form == "F") Set.Gender = "";
             return Set.getText();
+        }
+
+        private void parseFirstLine(string line)
+        {
+            // Gender Detection
+            string last3 = line.Substring(line.Length - 3);
+            if (last3 == "(M)" || last3 == "(F)")
+            {
+                Gender = last3.Substring(1, 1);
+                line = line.Substring(0, line.Length - 3);
+            }
+
+            // Nickname Detection
+            string spec = line;
+            if (spec.Contains("(") && spec.Contains(")"))
+                parseSpeciesNickname(ref spec);
+
+            spec = spec.Trim();
+            if ((Species = Array.IndexOf(species, spec)) >= 0) // success, nothing else!
+                return;
+
+            string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
+            if (tmp.Length < 2)
+                return;
+
+            Species = Array.IndexOf(species, tmp[0].Trim());
+            Form = tmp[1].Trim();
+            if (tmp.Length > 2)
+                Form += " " + tmp[2];
+        }
+        private void parseSpeciesNickname(ref string line)
+        {
+            int index = line.LastIndexOf("(", StringComparison.Ordinal);
+            string n1, n2;
+            if (index != 0) // correct format
+            {
+                n1 = line.Substring(0, index - 1);
+                n2 = line.Substring(index).Trim();
+                replaceAll(ref n2, "", "[", "]", "(", ")"); // Trim out excess data
+            }
+            else // nickname first (manually created set, incorrect)
+            {
+                int end = line.IndexOf(")", StringComparison.Ordinal);
+                n2 = line.Substring(index + 1, end - 1);
+                n1 = line.Substring(end + 2);
+            }
+
+            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
+            line = inverted ? n2 : n1;
+            Nickname = inverted ? n1 : n2;
+        }
+        private string parseLineMove(string line)
+        {
+            string moveString = line.Substring(line[1] == ' ' ? 2 : 1);
+            if (!moveString.Contains("Hidden Power"))
+                return moveString;
+
+            // Defined Hidden Power
+            if (moveString.Length > 13)
+            {
+                string type = moveString.Remove(0, 13);
+                replaceAll(ref type, "", "[", "]", "(", ")"); // Trim out excess data
+                int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
+                if (hpVal >= 0)
+                    IVs = PKX.setHPIVs(hpVal, IVs); // Get IVs
+                else
+                    InvalidLines.Add($"Invalid Hidden Power Type: {type}");
+            }
+            moveString = "Hidden Power";
+            return moveString;
+        }
+        private void parseLineEVs(string line)
+        {
+            string[] evlist = splitLineStats(line);
+            for (int i = 0; i < evlist.Length / 2; i++)
+            {
+                ushort EV;
+                ushort.TryParse(evlist[i * 2 + 0], out EV);
+                int index = Array.IndexOf(StatNames, evlist[i * 2 + 1]);
+                if (index > -1)
+                    EVs[index] = EV;
+                else
+                    InvalidLines.Add($"Unknown EV Type input: {evlist[i * 2]}");
+            }
+        }
+        private void parseLineIVs(string line)
+        {
+            string[] ivlist = splitLineStats(line);
+            for (int i = 0; i < ivlist.Length / 2; i++)
+            {
+                byte IV;
+                byte.TryParse(ivlist[i * 2 + 0], out IV);
+                int index = Array.IndexOf(StatNames, ivlist[i * 2 + 1]);
+                if (index > -1)
+                    IVs[index] = IV;
+                else
+                    InvalidLines.Add($"Unknown IV Type input: {ivlist[i * 2]}");
+            }
+        }
+
+        private static string[] splitLineStats(string line)
+        {
+            // Because people think they can type sets out...
+            return line
+                .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
+                .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
+                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
+        }
+        private static void replaceAll(ref string rv, string o, params string[] i)
+        {
+            rv = i.Aggregate(rv, (current, v) => current.Replace(v, o));
         }
     }
 }
