@@ -335,8 +335,8 @@ L_Bag = 上一次使用物品:
 L_Hits = 剩余点数:
 ! End
 ! -----------------------------------------------------
-- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
-! MemoryAmie
+- DO NOT CHANGE THIS SECTION.
+! MemoryAmie = Memory / Amie Editor
 - Change stuff below this line, not above.
 ---------------------Bottom UI-------------------------
 BTN_Cancel = 取消
@@ -370,7 +370,7 @@ L_Arguments = 关闭 ; 从未离开 ; 原主人 ; 前作 ; 回忆 ; 宝可梦 ; 
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_BerryField = Berry Field Viewer
+! SAV_PokeBlockORAS = Pokéblock Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Red = 红色能量方块:
@@ -864,7 +864,7 @@ L_Offset = (偏移)
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Wondercard = Wonder Card I/O
+! SAV_Wondercard = Mystery Gift I/O
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Details = 说明:
