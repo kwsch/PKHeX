@@ -86,8 +86,18 @@ namespace PKHeX
                 if (spec.Contains("("))
                 {
                     int index = spec.LastIndexOf("(", StringComparison.Ordinal);
-                    string n1 = spec.Substring(0, index - 1);
-                    string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+                    string n1, n2;
+                    if (index != 0) // correct format
+                    {
+                        n1 = spec.Substring(0, index - 1);
+                        n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+                    }
+                    else // nickname first (manually created set, incorrect)
+                    {
+                        int end = spec.IndexOf(")", StringComparison.Ordinal);
+                        n2 = spec.Substring(1, end - 1);
+                        n1 = spec.Substring(end + 2);
+                    }
 
                     bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
                     spec = inverted ? n2 : n1;
@@ -208,11 +218,21 @@ namespace PKHeX
                                 }
                                 // Nickname Detection
                                 string spec = ld[0];
-                                if (spec.Contains("("))
+                                if (spec.Contains("(") && spec.Contains(")"))
                                 {
                                     int index = spec.LastIndexOf("(", StringComparison.Ordinal);
-                                    string n1 = spec.Substring(0, index - 1);
-                                    string n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+                                    string n1, n2;
+                                    if (index != 0) // correct format
+                                    {
+                                        n1 = spec.Substring(0, index - 1);
+                                        n2 = spec.Substring(index).Replace("(", "").Replace(")", "").Replace(" ", "");
+                                    }
+                                    else // nickname first (manually created set, incorrect)
+                                    {
+                                        int end = spec.IndexOf(")", StringComparison.Ordinal);
+                                        n2 = spec.Substring(1, end - 1);
+                                        n1 = spec.Substring(end + 2);
+                                    }
 
                                     bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
                                     spec = inverted ? n2 : n1;

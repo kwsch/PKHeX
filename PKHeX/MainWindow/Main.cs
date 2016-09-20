@@ -431,6 +431,9 @@ namespace PKHeX
             if (Set.Species < 0)
             { Util.Alert("Set data not found in clipboard."); return; }
 
+            if (Set.Nickname != null && Set.Nickname.Length > SAV.NickLength)
+                Set.Nickname = Set.Nickname.Substring(0, SAV.NickLength);
+
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Import this set?", Set.getText())) 
             { return; }
 
