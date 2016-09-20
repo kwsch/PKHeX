@@ -592,12 +592,12 @@ B_Cancel = 取消
 - Change stuff below this line, not above.
 ------------------------------------------------------
 L_goto = 转到:
-GB_Owned = 看到
+GB_Encountered = 看到
 CHK_P2 = 公
 CHK_P3 = 母
 CHK_P4 = 闪光公
 CHK_P5 = 闪光母
-GB_Encountered = 已遇到
+GB_Owned = 已遇到
 CHK_P1 = 已获得
 GB_Displayed = 显示的
 CHK_P6 = 公
@@ -628,7 +628,7 @@ L_goto = 转到:
 GB_Owned = 拥有
 CHK_F1 = 外国 (前作)
 CHK_P1 = 本国 (卡洛斯地区)
-GB_Encountered = 已遇到
+GB_Encountered = 看到
 CHK_P2 = 公
 CHK_P3 = 母
 CHK_P4 = 闪光 公
