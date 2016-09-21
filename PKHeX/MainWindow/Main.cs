@@ -2469,7 +2469,15 @@ namespace PKHeX
         private void updateMetAsEgg(object sender, EventArgs e)
         {
             GB_EggConditions.Enabled = CHK_AsEgg.Checked;
-            if (CHK_AsEgg.Checked) return;
+            if (CHK_AsEgg.Checked)
+            {
+                if (!fieldsLoaded)
+                    return;
+
+                CAL_EggDate.Value = DateTime.Now;
+                CB_EggLocation.SelectedIndex = 1;
+                return;
+            }
             // Remove egg met data
             CHK_IsEgg.Checked = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
