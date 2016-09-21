@@ -910,25 +910,27 @@ namespace PKHeX
                 GB_Daycare.Visible = SAV.HasDaycare;
                 GB_Fused.Visible = SAV.HasFused;
                 GB_GTS.Visible = SAV.HasGTS;
-                B_OpenSecretBase.Visible = SAV.HasSecretBase;
-                B_OpenPokepuffs.Visible = SAV.HasPuff;
-                B_OUTPasserby.Visible = SAV.HasPSS;
-                B_OpenBoxLayout.Visible = SAV.HasBoxWallpapers;
-                B_OpenWondercards.Visible = SAV.HasWondercards;
-                B_OpenSuperTraining.Visible = SAV.HasSuperTrain;
-                B_OpenHallofFame.Visible = SAV.HasHoF;
-                B_OpenOPowers.Visible = SAV.HasOPower;
-                B_OpenPokedex.Visible = SAV.HasPokeDex;
-                B_OpenBerryField.Visible = SAV.HasBerryField && SAV.XY;
-                B_OpenPokeblocks.Visible = SAV.HasPokeBlock;
-                B_JPEG.Visible = SAV.HasJPEG;
-                B_OpenEventFlags.Visible = SAV.HasEvents;
-                B_OpenLinkInfo.Visible = SAV.HasLink;
-                B_CGearSkin.Visible = SAV.Generation == 5;
+                B_OpenSecretBase.Enabled = SAV.HasSecretBase;
+                B_OpenPokepuffs.Enabled = SAV.HasPuff;
+                B_OUTPasserby.Enabled = SAV.HasPSS;
+                B_OpenBoxLayout.Enabled = SAV.HasBoxWallpapers;
+                B_OpenWondercards.Enabled = SAV.HasWondercards;
+                B_OpenSuperTraining.Enabled = SAV.HasSuperTrain;
+                B_OpenHallofFame.Enabled = SAV.HasHoF;
+                B_OpenOPowers.Enabled = SAV.HasOPower;
+                B_OpenPokedex.Enabled = SAV.HasPokeDex;
+                B_OpenBerryField.Enabled = SAV.HasBerryField && SAV.XY;
+                B_OpenPokeblocks.Enabled = SAV.HasPokeBlock;
+                B_JPEG.Enabled = SAV.HasJPEG;
+                B_OpenEventFlags.Enabled = SAV.HasEvents;
+                B_OpenLinkInfo.Enabled = SAV.HasLink;
+                B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = SAV.HasParty; // Box RS
             }
-            GB_SAVtools.Visible = FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Visible);
+            GB_SAVtools.Visible = FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
+            foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
+                c.Visible = c.Enabled;
 
 
             // Generational Interface
