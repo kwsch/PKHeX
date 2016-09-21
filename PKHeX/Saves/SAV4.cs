@@ -179,11 +179,11 @@ namespace PKHeX
             if (Data.Skip(0x40000).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { generalBlock = 1; return; }
 
+            // Check SaveCount for current save
             if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
             else if (Version == GameVersion.Pt) ofs = 0xCF1C; // PT
-            else if (Version == GameVersion.HGSS) ofs = 0xF626; // HGSS
+            else if (Version == GameVersion.HGSS) ofs = 0xF618; // HGSS
             generalBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
-            
         }
         private void getActiveStorageBlock()
         {
@@ -191,6 +191,7 @@ namespace PKHeX
                 return;
             int ofs = 0;
 
+            // Check SaveCount for current save
             if (Version == GameVersion.DP) ofs = 0x1E2D0; // DP
             else if (Version == GameVersion.Pt) ofs = 0x1F100; // PT
             else if (Version == GameVersion.HGSS) ofs = 0x21A00; // HGSS
