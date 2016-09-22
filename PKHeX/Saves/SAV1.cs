@@ -202,17 +202,11 @@ namespace PKHeX
             get
             {
                 int CHECKSUM_OFS = Japanese ? 0x3594 : 0x3523;
-                Data[CHECKSUM_OFS] = 0;
-                uint chksum = 0;
-                for (int i = 0x2598; i < CHECKSUM_OFS; i++)
-                {
-                    chksum += Data[i];
-                }
-
-                chksum = ~chksum;
-                chksum &= 0xFF;
-
-                return Data[CHECKSUM_OFS] == (byte)chksum;
+                byte temp = Data[CHECKSUM_OFS]; // cache current chk
+                setChecksums(); // chksum is recalculated (after being set to 0 to perform check)
+                byte chk = Data[CHECKSUM_OFS]; // correct checksum
+                Data[CHECKSUM_OFS] = temp; // restore old chk
+                return temp == chk;
             }
         }
         public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
