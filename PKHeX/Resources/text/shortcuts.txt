@@ -61,7 +61,6 @@ Shift-Click a slot to set tabs to slot.
 Alt-Click a slot to delete the data in slot.
 
 Doubleclick the Box tab to open up a new Box Viewer. Only one is allowed at a time, unless you hold shift when doubleclicking.
-- Note: Having multiple instances of the same box open and making changes to that box will not re-sync the box sprites until the box is reloaded.
 
 // Party / Battle Box
 Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team) to Clipboard.
