@@ -425,8 +425,8 @@ namespace PKHeX
         // Storage
         public override int PartyCount
         {
-            get { return Data[Party]; }
-            protected set { Data[Party] = (byte)value; }
+            get { return Data[Party + 4]; }
+            protected set { Data[Party + 4] = (byte)value; }
         }
         public override int getBoxOffset(int box)
         {
