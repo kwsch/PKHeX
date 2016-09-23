@@ -98,7 +98,7 @@ namespace PKHeX
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         public override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override PKM BlankPKM => new PK5();
-        protected override Type PKMType => typeof(PK5);
+        public override Type PKMType => typeof(PK5);
 
         public override int BoxCount => 24;
         public override int MaxEV => 255;

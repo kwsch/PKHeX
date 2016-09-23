@@ -44,7 +44,7 @@ namespace PKHeX
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override PKM BlankPKM => new PK4();
-        protected override Type PKMType => typeof(PK4);
+        public override Type PKMType => typeof(PK4);
 
         public override int BoxCount => 18;
         public override int MaxEV => 255;

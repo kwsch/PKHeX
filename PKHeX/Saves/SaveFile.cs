@@ -26,7 +26,7 @@ namespace PKHeX
         public bool GetJapanese => Japanese;
 
         // General PKM Properties
-        protected abstract Type PKMType { get; }
+        public abstract Type PKMType { get; }
         public abstract PKM getPKM(byte[] data);
         public abstract PKM BlankPKM { get; }
         public abstract byte[] decryptPKM(byte[] data);
@@ -111,7 +111,7 @@ namespace PKHeX
         public virtual int MaxMoney { get; } = 9999999;
 
         // Offsets
-        protected int Box { get; set; } = int.MinValue;
+        protected virtual int Box { get; set; } = int.MinValue;
         protected int Party { get; set; } = int.MinValue;
         protected int Trainer1 { get; set; } = int.MinValue;
         protected int Daycare { get; set; } = int.MinValue;

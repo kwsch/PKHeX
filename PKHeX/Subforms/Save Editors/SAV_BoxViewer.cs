@@ -239,7 +239,7 @@ namespace PKHeX
                 PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data);
                 string c;
 
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                 { Util.Error(c); Console.WriteLine(c); return; }
 
