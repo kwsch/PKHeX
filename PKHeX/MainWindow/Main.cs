@@ -967,6 +967,21 @@ namespace PKHeX
             if (SAV.Generation == 1)
                 Label_IsShiny.Visible = false;
 
+            if (SAV.Version == GameVersion.BATREV)
+            {
+                L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
+                CB_SaveSlot.Items.Clear();
+                CB_SaveSlot.DisplayMember = "Text"; CB_SaveSlot.ValueMember = "Value";
+                CB_SaveSlot.DataSource = new BindingSource(((SAV4BR) SAV).SaveSlots.Select(i => new ComboItem
+                {
+                    Text = ((SAV4BR) SAV).SaveNames[i],
+                    Value = i
+                }).ToList(), null);
+                CB_SaveSlot.SelectedValue = ((SAV4BR)SAV).CurrentSlot;
+            }
+            else
+                L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
+
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
 
@@ -3085,6 +3100,16 @@ namespace PKHeX
 
             updateBoxViewers();
         }
+
+        private void updateSaveSlot(object sender, EventArgs e)
+        {
+            if (SAV.Version == GameVersion.BATREV)
+            {
+                ((SAV4BR) SAV).CurrentSlot = Util.getIndex(CB_SaveSlot);
+                setPKXBoxes();
+            }
+        }
+
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);

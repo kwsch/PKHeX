@@ -29,6 +29,10 @@ namespace PKHeX
             {
                 RefreshChecksum();
             }
+            if (Valid && Sanity == 0)
+            {
+                Sanity = 0x4000;
+            }
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }

@@ -45,7 +45,7 @@ namespace PKHeX
                 case PKX.SIZE_4PARTY:
                 case PKX.SIZE_4STORED:
                 case PKX.SIZE_5PARTY:
-                    if ((BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
+                    if (((BitConverter.ToUInt16(data, 0x4) == 0) && (BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10)) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
                         return 5;
                     return 4;
                 case PKX.SIZE_6STORED:
