@@ -512,6 +512,27 @@ namespace PKHeX
                 val += BitConverter.ToUInt32(data, i);
             return (ushort)((val & 0xFFFF) + (val >> 16));
         }
+        internal static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
+        {
+            if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
+            {
+                bool dsv = FOOTER_DSV.SequenceEqual(input.Skip(input.Length - FOOTER_DSV.Length));
+                if (dsv)
+                {
+                    footer = input.Skip(SIZE_G4RAW).ToArray();
+                    input = input.Take(footer.Length).ToArray();
+                }
+            }
+            if (input.Length == SIZE_G3BOXGCI)
+            {
+                bool gci = HEADER_GCI.SequenceEqual(input.Take(HEADER_GCI.Length));
+                if (gci)
+                {
+                    header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                }
+            }
+        }
 
         public static int getDexFormIndexBW(int species, int formct)
         {

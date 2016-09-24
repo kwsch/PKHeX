@@ -605,26 +605,7 @@ namespace PKHeX
             MysteryGift tg; PKM temp; string c;
             byte[] footer = new byte[0];
             byte[] header = new byte[0];
-            #region Header/Footer detect
-            if (input.Length > SaveUtil.SIZE_G4RAW) // DeSmuME
-            {
-                bool dsv = SaveUtil.FOOTER_DSV.SequenceEqual(input.Skip(input.Length - SaveUtil.FOOTER_DSV.Length));
-                if (dsv)
-                {
-                    footer = input.Skip(SaveUtil.SIZE_G4RAW).ToArray();
-                    input = input.Take(footer.Length).ToArray();
-                }
-            }
-            if (input.Length == SaveUtil.SIZE_G3BOXGCI)
-            {
-                bool gci = SaveUtil.HEADER_GCI.SequenceEqual(input.Take(SaveUtil.HEADER_GCI.Length));
-                if (gci)
-                {
-                    header = input.Take(SaveUtil.SIZE_G3BOXGCI - SaveUtil.SIZE_G3BOX).ToArray();
-                    input = input.Skip(header.Length).ToArray();
-                }
-            }
-            #endregion
+            SaveUtil.CheckHeaderFooter(ref input, ref header, ref footer);
             #region Powersaves Read-Only Conversion
             if (input.Length == 0x10009C) // Resize to 1MB
             {
@@ -654,7 +635,11 @@ namespace PKHeX
             #endregion
             #region SAV/PKM
             else if (SaveUtil.getSAVGeneration(input) != -1)
-            { openSAV(input, path); SAV.Footer = footer; SAV.Header = header; }
+            {
+                openSAV(input, path);
+                SAV.Footer = footer;
+                SAV.Header = header;
+            }
             else if ((temp = PKMConverter.getPKMfromBytes(input)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
