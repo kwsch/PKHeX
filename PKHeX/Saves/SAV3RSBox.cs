@@ -80,7 +80,7 @@ namespace PKHeX
         public override int MaxBallID => 0xC;
         public override int MaxGameID => 5;
         
-        public override int MaxEV => 252;
+        public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
         public override int OTLength => 8;
