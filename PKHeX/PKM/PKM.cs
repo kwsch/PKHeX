@@ -8,7 +8,7 @@ namespace PKHeX
     {
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
-        public string Extension => "pk" + Format;
+        public virtual string Extension => "pk" + Format;
 
         // Internal Attributes set on creation
         public byte[] Data; // Raw Storage
@@ -22,7 +22,7 @@ namespace PKHeX
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         public virtual bool Valid => ChecksumValid && Sanity == 0;
         
-        protected ushort CalculateChecksum()
+        protected virtual ushort CalculateChecksum()
         {
             ushort chk = 0;
             switch (Format)

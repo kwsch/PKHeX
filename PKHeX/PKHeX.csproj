@@ -143,6 +143,7 @@
     <Compile Include="PersonalInfo\PersonalTable.cs" />
     <Compile Include="PKM\PK1.cs" />
     <Compile Include="PKM\PK2.cs" />
+    <Compile Include="PKM\BK4.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Saves\SAV3RSBox.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
+    <Compile Include="Saves\SAV4BR.cs" />
     <Compile Include="Saves\SAV5.cs" />
     <Compile Include="Saves\SAV6.cs" />
     <Compile Include="Saves\SaveFile.cs" />
