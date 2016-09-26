@@ -373,7 +373,7 @@ namespace PKHeX
         {
             if (pkm == null) return;
             if (pkm.GetType() != PKMType)
-                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a Gen{Generation} Save File.");
+                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a {GetType().Name.Last()} Save File.");
             if (trade ?? SetUpdatePKM)
                 setPKM(pkm);
             if (dex ?? SetUpdateDex)

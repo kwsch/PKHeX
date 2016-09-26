@@ -375,6 +375,7 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\ComboItem.cs" />
+    <Compile Include="Util\BigEndian.cs" />
     <Compile Include="Util\ByteUtil.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />

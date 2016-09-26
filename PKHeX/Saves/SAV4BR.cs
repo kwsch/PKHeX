@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -12,6 +11,7 @@ namespace PKHeX
         public override string Filter => "PbrSaveData|*";
         public override string Extension => "";
 
+        private const int SAVE_COUNT = 4;
         public SAV4BR(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G4BR] : (byte[])data.Clone();
@@ -24,8 +24,7 @@ namespace PKHeX
             Data = DecryptPBRSaveData(data);
 
             // Detect active save
-            if (Util.SwapEndianness(BitConverter.ToUInt32(Data, 0x1C004C)) >
-                Util.SwapEndianness(BitConverter.ToUInt32(Data, 0x4C)))
+            if (BigEndian.ToUInt32(Data, 0x1C004C) > BigEndian.ToUInt32(Data, 0x4C))
             {
                 byte[] tempData = new byte[0x1C0000];
                 Array.Copy(Data, 0, tempData, 0, 0x1C0000);
@@ -34,8 +33,8 @@ namespace PKHeX
             }
 
             SaveSlots = new List<int>();
-            SaveNames = new string[4];
-            for (int i = 0; i < 4; i++)
+            SaveNames = new string[SAVE_COUNT];
+            for (int i = 0; i < SAVE_COUNT; i++)
             {
                 if (BitConverter.ToUInt16(Data, 0x390 + 0x6FF00*i) != 0)
                 {
@@ -53,20 +52,20 @@ namespace PKHeX
                 resetBoxes();
         }
 
-        private readonly int SaveCount;
-        public override byte[] Write(bool dsv = false)
+        private readonly int SaveCount; // TODO : unique save identification
+        public override byte[] Write(bool DSV)
         {
             setChecksums();
             return EncryptPBRSaveData(Data);
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV4BR(Write()); }
+        public override SaveFile Clone() { return new SAV4BR(Write(DSV: false)); }
 
-        public List<int> SaveSlots;
-        public string[] SaveNames;
+        public readonly List<int> SaveSlots;
+        public readonly string[] SaveNames;
         public int CurrentSlot;
-        protected override int Box {
+        protected override int Box { // 4 save slots, data reading depends on current slot
             get { return 0x978 + 0x6FF00*CurrentSlot; }
             set { }
         }
@@ -111,19 +110,13 @@ namespace PKHeX
                 return valid;
             }
         }
-        public override string ChecksumInfo
-        {
-            get
-            {
-                return $"Checksums valid: {ChecksumsValid}.";
-            }
-        }
+        public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
         // Trainer Info
         public override GameVersion Version { get { return GameVersion.BATREV; } protected set { } }
 
         // Storage
-        public override int getPartyOffset(int slot)
+        public override int getPartyOffset(int slot) // TODO
         {
             return -1;
         }
@@ -131,23 +124,13 @@ namespace PKHeX
         {
             return Box + SIZE_STORED * box * 30;
         }
-        public override int CurrentBox
-        {
-            get { return 0; }
-            set { /* This isn't a real field. */ }
-        }
-        public override int getBoxWallpaper(int box)
-        {
-            return 0;
-        }
-        public override string getBoxName(int box)
-        {
-            return $"BOX {box + 1}";
-        }
-        public override void setBoxName(int box, string value)
-        {
-            /* No custom box names here. */
-        }
+
+        // Save file does not have Box Name / Wallpaper info
+        public override int CurrentBox { get { return 0; } set { } }
+        public override int getBoxWallpaper(int box) { return box; }
+        public override string getBoxName(int box) { return $"BOX {box + 1}"; }
+        public override void setBoxName(int box, string value) { }
+
         public override PKM getPKM(byte[] data)
         {
             byte[] pkm = data.Take(SIZE_STORED).ToArray();
@@ -161,40 +144,24 @@ namespace PKHeX
 
         protected override void setDex(PKM pkm) { }
 
-        public override void setStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
-        {
-            if (pkm == null) return;
-            if (pkm.GetType() != PKMType)
-                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a Battle Revolution Save File.");
-            if (trade ?? SetUpdatePKM)
-                setPKM(pkm);
-            if (dex ?? SetUpdateDex)
-                setDex(pkm);
-            byte[] data = pkm.EncryptedBoxData;
-            setData(data, offset);
-
-            Edited = true;
-        }
-
         public static byte[] DecryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
             for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
             {
-
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
 
                 ushort[] keys = new ushort[4];
                 for (int i = 0; i < keys.Length; i++)
-                    keys[i] = Util.SwapEndianness(BitConverter.ToUInt16(input, base_ofs + i * 2));
+                    keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
 
                 for (int ofs = base_ofs + 8; ofs < base_ofs + 0x1C0000; ofs += 8)
                 {
                     for (int i = 0; i < keys.Length; i++)
                     {
-                        ushort val = Util.SwapEndianness(BitConverter.ToUInt16(input, ofs + i*2));
+                        ushort val = BigEndian.ToUInt16(input, ofs + i*2);
                         val -= keys[i];
-                        BitConverter.GetBytes(Util.SwapEndianness(val)).CopyTo(output, ofs + i*2);
+                        BigEndian.GetBytes(val).CopyTo(output, ofs + i*2);
                     }
                     ushort[] oldKeys = (ushort[])keys.Clone();
                     oldKeys[0] += 0x43;
@@ -210,25 +177,24 @@ namespace PKHeX
             return output;
         }
 
-        public static byte[] EncryptPBRSaveData(byte[] input)
+        private static byte[] EncryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
             for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
             {
-
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
 
                 ushort[] keys = new ushort[4];
                 for (int i = 0; i < keys.Length; i++)
-                    keys[i] = Util.SwapEndianness(BitConverter.ToUInt16(input, base_ofs + i * 2));
+                    keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
 
                 for (int ofs = base_ofs + 8; ofs < base_ofs + 0x1C0000; ofs += 8)
                 {
                     for (int i = 0; i < keys.Length; i++)
                     {
-                        ushort val = Util.SwapEndianness(BitConverter.ToUInt16(input, ofs + i * 2));
+                        ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
                         val += keys[i];
-                        BitConverter.GetBytes(Util.SwapEndianness(val)).CopyTo(output, ofs + i * 2);
+                        BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
                     }
                     ushort[] oldKeys = (ushort[])keys.Clone();
                     oldKeys[0] += 0x43;
@@ -249,15 +215,15 @@ namespace PKHeX
             uint[] storedChecksums = new uint[16];
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                storedChecksums[i] = Util.SwapEndianness(BitConverter.ToUInt32(input, checksum_offset + i*4));
-                BitConverter.GetBytes((uint) 0).CopyTo(input, checksum_offset + i*4);
+                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + i*4);
+                BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + i*4);
             }
 
             uint[] checksums = new uint[16];
 
             for (int i = 0; i < len; i += 2)
             {
-                ushort val = Util.SwapEndianness(BitConverter.ToUInt16(input, offset + i));
+                ushort val = BigEndian.ToUInt16(input, offset + i);
                 for (int j = 0; j < 16; j++)
                 {
                     checksums[j] += (uint)((val >> j) & 1);
@@ -266,7 +232,7 @@ namespace PKHeX
 
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                BitConverter.GetBytes(Util.SwapEndianness(storedChecksums[i])).CopyTo(input, checksum_offset + i*4);
+                BigEndian.GetBytes(storedChecksums[i]).CopyTo(input, checksum_offset + i*4);
             }
 
             return checksums.SequenceEqual(storedChecksums);
@@ -277,7 +243,7 @@ namespace PKHeX
             uint[] storedChecksums = new uint[16];
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                storedChecksums[i] = Util.SwapEndianness(BitConverter.ToUInt32(input, checksum_offset + i * 4));
+                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + i * 4);
                 BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + i * 4);
             }
 
@@ -285,7 +251,7 @@ namespace PKHeX
 
             for (int i = 0; i < len; i += 2)
             {
-                ushort val = Util.SwapEndianness(BitConverter.ToUInt16(input, offset + i));
+                ushort val = BigEndian.ToUInt16(input, offset + i);
                 for (int j = 0; j < 16; j++)
                 {
                     checksums[j] += (uint)((val >> j) & 1);
@@ -294,13 +260,8 @@ namespace PKHeX
 
             for (int i = 0; i < checksums.Length; i++)
             {
-                BitConverter.GetBytes(Util.SwapEndianness(checksums[i])).CopyTo(input, checksum_offset + i * 4);
+                BigEndian.GetBytes(checksums[i]).CopyTo(input, checksum_offset + i * 4);
             }
-        }
-
-        private void SwapBytes(byte[] input, int offset, int num_bytes)
-        {
-            input.Skip(offset).Take(num_bytes).Reverse().ToArray().CopyTo(input, offset);
         }
     }
 }
