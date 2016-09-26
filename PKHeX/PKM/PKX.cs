@@ -581,7 +581,7 @@ namespace PKHeX
         }
 
         // Personal.dat
-        public static string[] getFormList(int species, string[] t, string[] f, string[] g)
+        public static string[] getFormList(int species, string[] t, string[] f, string[] g, int generation = 6)
         {
             // Mega List            
             if (Array.IndexOf(new[] 
@@ -708,6 +708,49 @@ namespace PKHeX
                     };
 
                 case 493:
+                    if (generation == 4)
+                        return new[]
+                        {
+                            t[00], // Normal
+                            t[01], // Fighting
+                            t[02], // Flying
+                            t[03], // Poison
+                            t[04], // etc
+                            t[05],
+                            t[06],
+                            t[07],
+                            t[08],
+                            "???", // ???-type arceus
+                            t[09],
+                            t[10],
+                            t[11],
+                            t[12],
+                            t[13],
+                            t[14],
+                            t[15],
+                            t[16] // No Fairy Type
+                        };
+                    if (generation == 5)
+                        return new[]
+                        {
+                            t[00], // Normal
+                            t[01], // Fighting
+                            t[02], // Flying
+                            t[03], // Poison
+                            t[04], // etc
+                            t[05],
+                            t[06],
+                            t[07],
+                            t[08],
+                            t[09],
+                            t[10],
+                            t[11],
+                            t[12],
+                            t[13],
+                            t[14],
+                            t[15],
+                            t[16] // No Fairy type
+                        };
                     return new[]
                     {
                         t[00], // Normal
@@ -1049,6 +1092,35 @@ namespace PKHeX
                 if (val == 0xFFFF || chr == 0xFFFF)
                 { Array.Resize(ref strdata, i * 2); break; }
                 BitConverter.GetBytes(val).CopyTo(strdata, i * 2);
+            }
+            BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
+            return strdata;
+        }
+
+        public static string array2strG4BE(byte[] strdata)
+        {
+            string s = "";
+            for (int i = 0; i < strdata.Length; i += 2)
+            {
+                ushort val = Util.SwapEndianness(BitConverter.ToUInt16(strdata, i));
+                if (val == 0xFFFF) break;
+                ushort chr = val2charG4(val);
+                if (chr == 0xFFFF) break;
+                s += (char)chr;
+            }
+            return s;
+        }
+
+        public static byte[] str2arrayG4BE(string str)
+        {
+            byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
+            for (int i = 0; i < str.Length; i++)
+            {
+                ushort chr = str[i];
+                ushort val = char2valG4(chr);
+                if (val == 0xFFFF || chr == 0xFFFF)
+                { Array.Resize(ref strdata, i * 2); break; }
+                BitConverter.GetBytes(Util.SwapEndianness(val)).CopyTo(strdata, i * 2);
             }
             BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
             return strdata;

@@ -455,7 +455,7 @@ namespace PKHeX
             // Set Form
             string[] formStrings = PKX.getFormList(Set.Species,
                 Util.getStringList("types", "en"),
-                Util.getStringList("forms", "en"), gendersymbols);
+                Util.getStringList("forms", "en"), gendersymbols, SAV.Generation);
             int form = 0;
             for (int i = 0; i < formStrings.Length; i++)
                 if (formStrings[i].Contains(Set.Form ?? ""))
@@ -589,7 +589,7 @@ namespace PKHeX
 
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
-            if (fi.Length > 0x10009C)
+            if (fi.Length > 0x10009C && fi.Length != 0x380000)
                 Util.Error("Input file is too large.", path);
             else
             {
@@ -642,7 +642,7 @@ namespace PKHeX
             }
             else if ((temp = PKMConverter.getPKMfromBytes(input)) != null)
             {
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
                 else if (SAV.Generation == 1 && ((PK1) pk).Japanese != SAV.GetJapanese)
@@ -702,7 +702,7 @@ namespace PKHeX
                     B_OpenWondercards_Click(tg, null);
                     return;
                 }
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
                 else
@@ -803,9 +803,9 @@ namespace PKHeX
         }
         private void loadSAV(SaveFile sav, string path)
         {
-            PKM pk = preparePKM();
             // clean fields
             populateFields(SAV.BlankPKM);
+            PKM pk = preparePKM();
             SAV = sav;
 
             if (path != null) // Actual save file
@@ -954,6 +954,21 @@ namespace PKHeX
             if (SAV.Generation == 1)
                 Label_IsShiny.Visible = false;
 
+            if (SAV.Version == GameVersion.BATREV)
+            {
+                L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
+                CB_SaveSlot.Items.Clear();
+                CB_SaveSlot.DisplayMember = "Text"; CB_SaveSlot.ValueMember = "Value";
+                CB_SaveSlot.DataSource = new BindingSource(((SAV4BR) SAV).SaveSlots.Select(i => new ComboItem
+                {
+                    Text = ((SAV4BR) SAV).SaveNames[i],
+                    Value = i
+                }).ToList(), null);
+                CB_SaveSlot.SelectedValue = ((SAV4BR)SAV).CurrentSlot;
+            }
+            else
+                L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
+
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
 
@@ -1050,8 +1065,16 @@ namespace PKHeX
                     extraBytes = PK3.ExtraBytes;
                     break;
                 case 4:
-                    getFieldsfromPKM = populateFieldsPK4;
-                    getPKMfromFields = preparePK4;
+                    if (SAV.Version == GameVersion.BATREV)
+                    {
+                        getFieldsfromPKM = populateFieldsBK4;
+                        getPKMfromFields = prepareBK4;
+                    }
+                    else
+                    {
+                        getFieldsfromPKM = populateFieldsPK4;
+                        getPKMfromFields = preparePK4;
+                    }
                     extraBytes = PK4.ExtraBytes;
                     break;
                 case 5:
@@ -1447,7 +1470,7 @@ namespace PKHeX
             if (pkm.Format != SAV.Generation) // past gen format
             {
                 string c;
-                pkm = PKMConverter.convertToFormat(pkm, SAV.Generation, out c);
+                pkm = PKMConverter.convertToFormat(pkm, SAV.PKMType, out c);
                 if (pk.Format != pkm.Format && focus) // converted
                     Util.Alert("Converted File.");
             }
@@ -1518,7 +1541,7 @@ namespace PKHeX
             if (!hasForms)
                 return;
 
-            CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols).ToList();
+            CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols, SAV.Generation).ToList();
         }
         private void setAbilityList()
         {
@@ -2831,7 +2854,7 @@ namespace PKHeX
             // Create Temp File to Drag
             PKM pkx = preparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
-            string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" : ".pk") + pkx.Format}";
+            string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" + pkx.Format : "."+pkx.Extension) }";
             byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
             // Make file
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
@@ -3037,7 +3060,6 @@ namespace PKHeX
                 Util.Error($"Slot read error @ slot {slot}.");
                 return;
             }
-
             // Load the PKX file
             PKM pk = 30 <= slot && slot < 36 ? SAV.getPartySlot(offset) : SAV.getStoredSlot(offset);
             if (pk.Valid && pk.Species != 0)
@@ -3087,6 +3109,16 @@ namespace PKHeX
 
             updateBoxViewers();
         }
+
+        private void updateSaveSlot(object sender, EventArgs e)
+        {
+            if (SAV.Version == GameVersion.BATREV)
+            {
+                ((SAV4BR) SAV).CurrentSlot = Util.getIndex(CB_SaveSlot);
+                setPKXBoxes();
+            }
+        }
+
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
@@ -3522,7 +3554,7 @@ namespace PKHeX
             {
                 string c;
                 PKM temp = PKMConverter.getPKMfromBytes(data);
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
 
                 if (pk != null) // Write to save
                 {
@@ -3871,7 +3903,7 @@ namespace PKHeX
                 PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data);
                 string c;
 
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                 { Util.Error(c); Console.WriteLine(c); return; }
 

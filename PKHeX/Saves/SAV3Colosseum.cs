@@ -108,7 +108,7 @@ namespace PKHeX
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;
         public override int SIZE_PARTY => PKX.SIZE_3CSTORED; // unused
         public override PKM BlankPKM => new CK3();
-        protected override Type PKMType => typeof(CK3);
+        public override Type PKMType => typeof(CK3);
 
         public override int MaxMoveID => 354;
         public override int MaxSpeciesID => 386;

@@ -159,7 +159,7 @@ namespace PKHeX
         public int SIZE_STOREDBOX => PokemonList1.GetDataLength(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
 
         public override PKM BlankPKM => new PK1(null, null, Japanese);
-        protected override Type PKMType => typeof(PK1);
+        public override Type PKMType => typeof(PK1);
 
         public override int MaxMoveID => 165;
         public override int MaxSpeciesID => 151;

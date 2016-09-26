@@ -32,7 +32,7 @@ namespace PKHeX
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override PKM BlankPKM => new PK6();
-        protected override Type PKMType => typeof(PK6);
+        public override Type PKMType => typeof(PK6);
 
         public override int BoxCount => 31;
         public override int MaxEV => 252;

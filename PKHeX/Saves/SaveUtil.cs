@@ -9,8 +9,9 @@ namespace PKHeX
     public enum GameVersion
     {
         /* I don't want to assign Gen I/II... */
-        XD = -7,
-        COLO = -6,
+        XD = -11,
+        COLO = -10,
+        BATREV = -7,
         RSBOX = -5,
         GS = -4,
         C = -3,
@@ -48,6 +49,7 @@ namespace PKHeX
         internal const int SIZE_G5RAW = 0x80000;
         internal const int SIZE_G5BW = 0x24000;
         internal const int SIZE_G5B2W2 = 0x26000;
+        internal const int SIZE_G4BR = 0x380000;
         internal const int SIZE_G4RAW = 0x80000;
         internal const int SIZE_G3BOX = 0x76000;
         internal const int SIZE_G3BOXGCI = 0x76040; // +64 if has GCI data
@@ -87,6 +89,8 @@ namespace PKHeX
                 return (int)GameVersion.RSBOX;
             if (getIsG4SAV(data) != GameVersion.Invalid)
                 return 4;
+            if (getIsG4BRSAV(data) != GameVersion.Invalid)
+                return (int) GameVersion.BATREV;
             if (getIsG5SAV(data) != GameVersion.Invalid)
                 return 5;
             if (getIsG6SAV(data) != GameVersion.Invalid)
@@ -314,6 +318,23 @@ namespace PKHeX
 
             return GameVersion.Invalid;
         }
+        /// <summary>Determines the type of 4th gen Battle Revolution</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG4BRSAV(byte[] data)
+        {
+            if (data.Length != SIZE_G4BR)
+                return GameVersion.Invalid;
+
+            byte[] sav = SAV4BR.DecryptPBRSaveData(data);
+
+            bool valid = SAV4BR.VerifyChecksum(sav, 0, 0x1C0000, 0x1BFF80);
+            valid &= SAV4BR.VerifyChecksum(sav, 0, 0x100, 8);
+            valid &= SAV4BR.VerifyChecksum(sav, 0x1C0000, 0x1C0000, 0x1BFF80 + 0x1C0000);
+            valid &= SAV4BR.VerifyChecksum(sav, 0x1C0000, 0x100, 0x1C0008);
+
+            return  valid ? GameVersion.BATREV : GameVersion.Invalid;
+        }
         /// <summary>Determines the type of 5th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
@@ -436,6 +457,8 @@ namespace PKHeX
                     return new SAV3XD(data);
                 case 4:
                     return new SAV4(data);
+                case (int)GameVersion.BATREV:
+                    return new SAV4BR(data);
                 case 5:
                     return new SAV5(data);
                 case 6:
