@@ -9,6 +9,8 @@ namespace PKHeX
     public enum GameVersion
     {
         /* I don't want to assign Gen I/II... */
+        XD = -7,
+        COLO = -6,
         RSBOX = -5,
         GS = -4,
         C = -3,
@@ -49,6 +51,10 @@ namespace PKHeX
         internal const int SIZE_G4RAW = 0x80000;
         internal const int SIZE_G3BOX = 0x76000;
         internal const int SIZE_G3BOXGCI = 0x76040; // +64 if has GCI data
+        internal const int SIZE_G3COLO = 0x60000;
+        internal const int SIZE_G3COLOGCI = 0x60040; // +64 if has GCI data
+        internal const int SIZE_G3XD = 0x56000;
+        internal const int SIZE_G3XDGCI = 0x56040; // +64 if has GCI data
         internal const int SIZE_G3RAW = 0x20000;
         internal const int SIZE_G3RAWHALF = 0x10000;
         internal const int SIZE_G2RAW_U = 0x8000;
@@ -60,7 +66,9 @@ namespace PKHeX
         internal const int SIZE_G1BAT = 0x802C;
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
-        internal static readonly byte[] HEADER_GCI = {0x47, 0x50, 0x58}; // GPX*
+        internal static readonly byte[] HEADER_BOX = Encoding.ASCII.GetBytes("GPX");
+        internal static readonly byte[] HEADER_COLO = Encoding.ASCII.GetBytes("GC6");
+        internal static readonly byte[] HEADER_XD = Encoding.ASCII.GetBytes("GXX");
 
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
@@ -73,6 +81,8 @@ namespace PKHeX
                 return 2;
             if (getIsG3SAV(data) != GameVersion.Invalid)
                 return 3;
+            if (getIsG3CXDSAV(data) != GameVersion.Invalid)
+                return (int)GameVersion.COLO;
             if (getIsG3BOXSAV(data) != GameVersion.Invalid)
                 return (int)GameVersion.RSBOX;
             if (getIsG4SAV(data) != GameVersion.Invalid)
@@ -244,6 +254,32 @@ namespace PKHeX
 
             return CHK_A == chkA && CHK_B == chkB ? GameVersion.RSBOX : GameVersion.Invalid;
         }
+        /// <summary>Determines the type of 3rd gen Colosseum</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG3CXDSAV(byte[] data)
+        {
+            if (!new[] { SIZE_G3COLO, SIZE_G3COLOGCI }.Contains(data.Length))
+                return GameVersion.Invalid;
+
+            // Check the intro bytes for each save slot
+            byte[] slotintroColo = {0x01, 0x01, 0x00, 0x00};
+            byte[] slotintroXD =   {0x01, 0x01, 0x01, 0x00};
+            int offset = data.Length - SIZE_G3COLO;
+            int coloct = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                var ident = data.Skip(0x6000 + offset + 0x1E000*i).Take(4).ToArray();
+                if (ident.SequenceEqual(slotintroColo))
+                {
+                    coloct++;
+                    continue;
+                }
+                if (!ident.SequenceEqual(slotintroXD))
+                    return GameVersion.Invalid;
+            }
+            return coloct == 3 ? GameVersion.COLO : GameVersion.XD;
+        }
         /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
@@ -394,6 +430,10 @@ namespace PKHeX
                     return new SAV3(data);
                 case (int)GameVersion.RSBOX:
                     return new SAV3RSBox(data);
+                case (int)GameVersion.COLO:
+                    return new SAV3Colosseum(data);
+                case (int)GameVersion.XD:
+                    return new SAV3XD(data);
                 case 4:
                     return new SAV4(data);
                 case 5:
@@ -525,10 +565,28 @@ namespace PKHeX
             }
             if (input.Length == SIZE_G3BOXGCI)
             {
-                bool gci = HEADER_GCI.SequenceEqual(input.Take(HEADER_GCI.Length));
+                bool gci = HEADER_BOX.SequenceEqual(input.Take(HEADER_BOX.Length));
                 if (gci)
                 {
                     header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                }
+            }
+            if (input.Length == SIZE_G3COLOGCI)
+            {
+                bool gci = HEADER_COLO.SequenceEqual(input.Take(HEADER_COLO.Length));
+                if (gci)
+                {
+                    header = input.Take(SIZE_G3COLOGCI - SIZE_G3COLO).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                }
+            }
+            if (input.Length == SIZE_G3XDGCI)
+            {
+                bool gci = HEADER_XD.SequenceEqual(input.Take(HEADER_XD.Length));
+                if (gci)
+                {
+                    header = input.Take(SIZE_G3XDGCI - SIZE_G3XD).ToArray();
                     input = input.Skip(header.Length).ToArray();
                 }
             }
@@ -650,6 +708,33 @@ namespace PKHeX
                 case 649: return 256; // 5 Genesect
                 case 676: return 261; // 10 Furfrou
                 default: return getDexFormIndexXY(species, formct);
+            }
+        }
+
+        public static int getCXDVersionID(int gen3version)
+        {
+            switch ((GameVersion)gen3version)
+            {
+                case GameVersion.FR: return 1;
+                case GameVersion.LG: return 2;
+                case GameVersion.S: return 8;
+                case GameVersion.R: return 9;
+                case GameVersion.E: return 10;
+                case GameVersion.CXD: return 11;
+                default: return 0;
+            }
+        }
+        public static int getG3VersionID(int CXDversion)
+        {
+            switch (CXDversion)
+            {
+                case 1: return (int)GameVersion.FR;
+                case 2: return (int)GameVersion.LG;
+                case 8: return (int)GameVersion.S;
+                case 9: return (int)GameVersion.R;
+                case 10: return (int)GameVersion.E;
+                case 11: return (int)GameVersion.CXD;
+                default: return (int)GameVersion.Unknown;
             }
         }
     }

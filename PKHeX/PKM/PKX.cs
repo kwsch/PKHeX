@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using PKHeX.Properties;
 
 namespace PKHeX
@@ -20,6 +21,8 @@ namespace PKHeX
         internal const int SIZE_2PARTY = 48;
         internal const int SIZE_2STORED = 32;
 
+        internal const int SIZE_3CSTORED = 312;
+        internal const int SIZE_3XSTORED = 196;
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
         internal const int SIZE_3BLOCK = 12;
@@ -2228,5 +2231,20 @@ namespace PKHeX
                 .ToArray();
         }
 
+        public static string getColoStr(byte[] data, int offset, int length)
+        {
+            return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length * 2));
+        }
+        public static byte[] setColoStr(string value, int length)
+        {
+            if (value.Length > length)
+                value = value.Substring(0, length); // Hard cap
+            string TempNick = value // Replace Special Characters and add Terminator
+                .Replace("\u2640", "\uE08F") // nidoran
+                .Replace("\u2642", "\uE08E") // nidoran
+                .Replace("\u0027", "\u2019") // farfetch'd
+                .PadRight(value.Length + 1, (char)0); // Null Terminator
+            return Encoding.BigEndianUnicode.GetBytes(TempNick);
+        }
     }
 }

@@ -1031,6 +1031,20 @@ namespace PKHeX
                     extraBytes = new byte[] { };
                     break;
                 case 3:
+                    if (SAV.Version == GameVersion.COLO)
+                    {
+                        getFieldsfromPKM = populateFieldsCK3;
+                        getPKMfromFields = prepareCK3;
+                        extraBytes = CK3.ExtraBytes;
+                        break;
+                    }
+                    if (SAV.Version == GameVersion.XD)
+                    {
+                        getFieldsfromPKM = populateFieldsXK3;
+                        getPKMfromFields = prepareXK3;
+                        extraBytes = XK3.ExtraBytes;
+                        break;
+                    }
                     getFieldsfromPKM = populateFieldsPK3;
                     getPKMfromFields = preparePK3;
                     extraBytes = PK3.ExtraBytes;

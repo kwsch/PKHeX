@@ -105,10 +105,16 @@
     <Compile Include="Legality\Tables3.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="MainWindow\MainXK3.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainWindow\MainPK2.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow\MainPK1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainCK3.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow\MainPK6.cs">
@@ -141,6 +147,8 @@
     <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="PersonalInfo\PersonalTable.cs" />
+    <Compile Include="PKM\CK3.cs" />
+    <Compile Include="PKM\XK3.cs" />
     <Compile Include="PKM\PK1.cs" />
     <Compile Include="PKM\PK2.cs" />
     <Compile Include="PKM\PKM.cs" />
@@ -164,6 +172,8 @@
     <Compile Include="Saves\Inventory.cs" />
     <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
+    <Compile Include="Saves\SAV3XD.cs" />
+    <Compile Include="Saves\SAV3Colosseum.cs" />
     <Compile Include="Saves\SAV3RSBox.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
