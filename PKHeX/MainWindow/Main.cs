@@ -1426,7 +1426,21 @@ namespace PKHeX
             {
                 string[] items = itemlist;
                 if (SAV.Generation == 3)
+                {
                     items = g3items;
+                    if (SAV.Version == GameVersion.COLO)
+                    {
+                        Array.Resize(ref g3items, SAV.MaxItemID + 1);
+                        // TODO: ITEMS
+                    }
+                    if (SAV.Version == GameVersion.XD)
+                    {
+                        Array.Resize(ref g3items, SAV.MaxItemID + 1);
+                        // TODO: ITEMS
+                    }
+                    for (int i = 374; i < g3items.Length; i++)
+                        g3items[i] = g3items[i] ?? $"ITEM {i}";
+                }
                 if (SAV.Generation == 2)
                     items = g2items;
 

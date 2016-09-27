@@ -163,15 +163,7 @@ namespace PKHeX
                         val -= keys[i];
                         BigEndian.GetBytes(val).CopyTo(output, ofs + i*2);
                     }
-                    ushort[] oldKeys = (ushort[])keys.Clone();
-                    oldKeys[0] += 0x43;
-                    oldKeys[1] += 0x29;
-                    oldKeys[2] += 0x17;
-                    oldKeys[3] += 0x13;
-                    keys[0] = (ushort)((oldKeys[0] & 0xf) | ((oldKeys[1] << 4) & 0xf0) | ((oldKeys[2] << 8) & 0xf00) | ((oldKeys[3] << 12) & 0xf000));
-                    keys[1] = (ushort)(((oldKeys[0] >> 4) & 0xf) | (oldKeys[1] & 0xf0) | ((oldKeys[2] << 4) & 0xf00) | ((oldKeys[3] << 8) & 0xf000));
-                    keys[2] = (ushort)((oldKeys[2] & 0xf00) | ((oldKeys[1] & 0xf00) >> 4) | ((oldKeys[0] & 0xf00) >> 8) | ((oldKeys[3] << 4) & 0xf000));
-                    keys[3] = (ushort)(((oldKeys[0] >> 12) & 0xf) | ((oldKeys[1] >> 8) & 0xf0) | ((oldKeys[2] >> 4) & 0xf00) | (oldKeys[3] & 0xf000));
+                    keys = SaveUtil.AdvanceGCKeys(keys);
                 }
             }
             return output;
@@ -196,15 +188,7 @@ namespace PKHeX
                         val += keys[i];
                         BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
                     }
-                    ushort[] oldKeys = (ushort[])keys.Clone();
-                    oldKeys[0] += 0x43;
-                    oldKeys[1] += 0x29;
-                    oldKeys[2] += 0x17;
-                    oldKeys[3] += 0x13;
-                    keys[0] = (ushort)((oldKeys[0] & 0xf) | ((oldKeys[1] << 4) & 0xf0) | ((oldKeys[2] << 8) & 0xf00) | ((oldKeys[3] << 12) & 0xf000));
-                    keys[1] = (ushort)(((oldKeys[0] >> 4) & 0xf) | (oldKeys[1] & 0xf0) | ((oldKeys[2] << 4) & 0xf00) | ((oldKeys[3] << 8) & 0xf000));
-                    keys[2] = (ushort)((oldKeys[2] & 0xf00) | ((oldKeys[1] & 0xf00) >> 4) | ((oldKeys[0] & 0xf00) >> 8) | ((oldKeys[3] << 4) & 0xf000));
-                    keys[3] = (ushort)(((oldKeys[0] >> 12) & 0xf) | ((oldKeys[1] >> 8) & 0xf0) | ((oldKeys[2] >> 4) & 0xf00) | (oldKeys[3] & 0xf000));
+                    keys = SaveUtil.AdvanceGCKeys(keys);
                 }
             }
             return output;

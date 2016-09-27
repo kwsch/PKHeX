@@ -32,7 +32,7 @@ namespace PKHeX
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
-            if (SaveUtil.getIsG3CXDSAV(Data) != GameVersion.COLO)
+            if (SaveUtil.getIsG3COLOSAV(Data) != GameVersion.COLO)
                 return;
 
             OriginalData = (byte[])Data.Clone();
@@ -113,7 +113,7 @@ namespace PKHeX
         public override int MaxMoveID => 354;
         public override int MaxSpeciesID => 386;
         public override int MaxAbilityID => 77;
-        public override int MaxItemID => 374;
+        public override int MaxItemID => 547;
         public override int MaxBallID => 0xC;
         public override int MaxGameID => 5;
         
@@ -291,8 +291,8 @@ namespace PKHeX
         }
 
         // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
-        public override string OT { get { return PKX.getColoStr(Data, 0x78, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x78); } }
-        private string OT2 { get { return PKX.getColoStr(Data, 0x8C, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x8C); OT = value; } }
+        public override string OT { get { return PKX.getColoStr(Data, 0x78, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
+        private string OT2 { get { return PKX.getColoStr(Data, 0x8C, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x8C); } }
         public override ushort SID { get { return BigEndian.ToUInt16(Data, 0xA4); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xA4); } }
         public override ushort TID { get { return BigEndian.ToUInt16(Data, 0xA6); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xA6); } }
 

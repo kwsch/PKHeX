@@ -65,7 +65,7 @@ namespace PKHeX
         public bool CapturedFlag    { get { return (XDPKMFLAGS & (1 << 2)) == 1 << 2; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 2) | (value ? 1 << 2 : 0); } }
         public bool UnusedFlag3     { get { return (XDPKMFLAGS & (1 << 3)) == 1 << 3; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 3) | (value ? 1 << 3 : 0); } }
         public bool BlockTrades     { get { return (XDPKMFLAGS & (1 << 4)) == 1 << 4; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 4) | (value ? 1 << 4 : 0); } }
-        public override bool Valid => (XDPKMFLAGS & (1 << 5)) == 1 << 5;
+        public override bool Valid => (XDPKMFLAGS & (1 << 5)) == 0; // invalid flag not set
         public int AbilityNumber    { get { return (XDPKMFLAGS >> 6) & 1; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 6) | (value << 6); } }
         public override bool IsEgg  { get { return (XDPKMFLAGS & (1 << 7)) == 1 << 7; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 7) | (value ? 1 << 7 : 0); } }
         // 0x1E-0x1F Unknown
@@ -93,10 +93,10 @@ namespace PKHeX
         public bool RibbonArtist            { get { return (RIB0 & (1 << 03)) == 1 << 03; } set { RIB0 = (ushort)(RIB0 & ~(1 << 03) | (ushort)(value ? 1 << 03 : 0)); } }
         public bool RibbonEffort            { get { return (RIB0 & (1 << 04)) == 1 << 04; } set { RIB0 = (ushort)(RIB0 & ~(1 << 04) | (ushort)(value ? 1 << 04 : 0)); } }
         public bool RibbonChampionBattle    { get { return (RIB0 & (1 << 05)) == 1 << 05; } set { RIB0 = (ushort)(RIB0 & ~(1 << 05) | (ushort)(value ? 1 << 05 : 0)); } }
-        public bool RibbonChampionRegional  { get { return (RIB0 & (1 << 06)) == 1 << 06; } set { RIB0 = (ushort)(RIB0 & ~(1 << 06) | (ushort)(value ? 1 << 06 : 0)); } }
+        public bool RibbonChampionRegional  { get { return (RIB0 & (1 << 06)) == 1 << 06; } set { RIB0 = (ushort)(RIB0 & ~(1 << 06) | (ushort)(value ? 1 << 06 : 0)); } } // don't think this is right, shouldn't this be National?
         public bool RibbonChampionNational  { get { return (RIB0 & (1 << 07)) == 1 << 07; } set { RIB0 = (ushort)(RIB0 & ~(1 << 07) | (ushort)(value ? 1 << 07 : 0)); } }
         public bool RibbonCountry           { get { return (RIB0 & (1 << 08)) == 1 << 08; } set { RIB0 = (ushort)(RIB0 & ~(1 << 08) | (ushort)(value ? 1 << 08 : 0)); } }
-        public bool RibbonNational          { get { return (RIB0 & (1 << 09)) == 1 << 09; } set { RIB0 = (ushort)(RIB0 & ~(1 << 09) | (ushort)(value ? 1 << 09 : 0)); } }
+        public bool RibbonNational          { get { return (RIB0 & (1 << 09)) == 1 << 09; } set { RIB0 = (ushort)(RIB0 & ~(1 << 09) | (ushort)(value ? 1 << 09 : 0)); } } // Shouldn't this be Regional? (are all these bits inverse?)
         public bool RibbonEarth             { get { return (RIB0 & (1 << 10)) == 1 << 10; } set { RIB0 = (ushort)(RIB0 & ~(1 << 10) | (ushort)(value ? 1 << 10 : 0)); } }
         public bool RibbonWorld             { get { return (RIB0 & (1 << 11)) == 1 << 11; } set { RIB0 = (ushort)(RIB0 & ~(1 << 11) | (ushort)(value ? 1 << 11 : 0)); } }
         public bool Unused1                 { get { return (RIB0 & (1 << 12)) == 1 << 12; } set { RIB0 = (ushort)(RIB0 & ~(1 << 12) | (ushort)(value ? 1 << 12 : 0)); } }

@@ -83,8 +83,10 @@ namespace PKHeX
                 return 2;
             if (getIsG3SAV(data) != GameVersion.Invalid)
                 return 3;
-            if (getIsG3CXDSAV(data) != GameVersion.Invalid)
+            if (getIsG3COLOSAV(data) != GameVersion.Invalid)
                 return (int)GameVersion.COLO;
+            if (getIsG3XDSAV(data) != GameVersion.Invalid)
+                return (int)GameVersion.XD;
             if (getIsG3BOXSAV(data) != GameVersion.Invalid)
                 return (int)GameVersion.RSBOX;
             if (getIsG4SAV(data) != GameVersion.Invalid)
@@ -261,28 +263,40 @@ namespace PKHeX
         /// <summary>Determines the type of 3rd gen Colosseum</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG3CXDSAV(byte[] data)
+        public static GameVersion getIsG3COLOSAV(byte[] data)
         {
             if (!new[] { SIZE_G3COLO, SIZE_G3COLOGCI }.Contains(data.Length))
                 return GameVersion.Invalid;
 
             // Check the intro bytes for each save slot
             byte[] slotintroColo = {0x01, 0x01, 0x00, 0x00};
-            byte[] slotintroXD =   {0x01, 0x01, 0x01, 0x00};
             int offset = data.Length - SIZE_G3COLO;
-            int coloct = 0;
             for (int i = 0; i < 3; i++)
             {
                 var ident = data.Skip(0x6000 + offset + 0x1E000*i).Take(4).ToArray();
-                if (ident.SequenceEqual(slotintroColo))
-                {
-                    coloct++;
-                    continue;
-                }
+                if (!ident.SequenceEqual(slotintroColo))
+                    return GameVersion.Invalid;
+            }
+            return GameVersion.COLO;
+        }
+        /// <summary>Determines the type of 3rd gen XD</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG3XDSAV(byte[] data)
+        {
+            if (!new[] {  SIZE_G3XD, SIZE_G3XDGCI }.Contains(data.Length))
+                return GameVersion.Invalid;
+
+            // Check the intro bytes for each save slot
+            byte[] slotintroXD = { 0x01, 0x01, 0x01, 0x00 };
+            int offset = data.Length - SIZE_G3XD;
+            for (int i = 0; i < 2; i++)
+            {
+                var ident = data.Skip(0x6000 + offset + 0x28000 * i).Take(4).ToArray();
                 if (!ident.SequenceEqual(slotintroXD))
                     return GameVersion.Invalid;
             }
-            return coloct == 3 ? GameVersion.COLO : GameVersion.XD;
+            return GameVersion.XD;
         }
         /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -759,6 +773,55 @@ namespace PKHeX
                 case 11: return (int)GameVersion.CXD;
                 default: return (int)GameVersion.Unknown;
             }
+        }
+
+
+        internal static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
+        {
+            byte[] output = (byte[])input.Clone();
+            for (int ofs = start; ofs < end; ofs += 8)
+            {
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
+                    val -= keys[i];
+                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                }
+                keys = AdvanceGCKeys(keys);
+            }
+            return output;
+        }
+        internal static byte[] EncryptGC(byte[] input, int start, int end, ushort[] keys)
+        {
+            byte[] output = (byte[])input.Clone();
+            for (int ofs = start; ofs < end; ofs += 8)
+            {
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
+                    val += keys[i];
+                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                }
+                keys = AdvanceGCKeys(keys);
+            }
+            return output;
+        }
+
+        public static ushort[] AdvanceGCKeys(ushort[] oldKeys)
+        {
+            oldKeys[0] += 0x43;
+            oldKeys[1] += 0x29;
+            oldKeys[2] += 0x17;
+            oldKeys[3] += 0x13;
+
+            ushort[] keys = new ushort[4];
+
+            keys[0] = (ushort)(oldKeys[0] & 0xf         | oldKeys[1] << 4 & 0xf0    | oldKeys[2] << 8 & 0xf00   | oldKeys[3] << 12 & 0xf000);
+            keys[1] = (ushort)(oldKeys[0] >> 4 & 0xf    | oldKeys[1] & 0xf0         | oldKeys[2] << 4 & 0xf00   | oldKeys[3] << 8 & 0xf000);
+            keys[2] = (ushort)(oldKeys[2] & 0xf00       | (oldKeys[1] & 0xf00) >> 4 | (oldKeys[0] & 0xf00) >> 8 | oldKeys[3] << 4 & 0xf000);
+            keys[3] = (ushort)(oldKeys[0] >> 12 & 0xf   | oldKeys[1] >> 8 & 0xf0    | oldKeys[2] >> 4 & 0xf00   | oldKeys[3] & 0xf000);
+
+            return keys;
         }
     }
 }
