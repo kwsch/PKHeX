@@ -193,7 +193,7 @@ namespace PKHeX
         private static int colorizedbox = -1;
         private static Image colorizedcolor;
         private static int colorizedslot;
-        private static bool HaX;
+        public static bool HaX;
         private LegalityAnalysis Legality = new LegalityAnalysis(new PK3());
         private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
         private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "pt" };

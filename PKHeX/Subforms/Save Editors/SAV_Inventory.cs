@@ -34,6 +34,9 @@ namespace PKHeX
                     itemlist = Main.itemlist;
                     break;
             }
+            for (int i = 0; i < itemlist.Length; i++)
+                if (itemlist[i] == "")
+                    itemlist[i] = $"(Item #{i.ToString("000")})";
             Pouches = SAV.Inventory;
             getBags();
         }
@@ -103,7 +106,8 @@ namespace PKHeX
         {
             var pouch = Pouches[bag];
             var itemcount = Pouches[bag].Items.Length;
-            string[] itemarr = getItems(pouch.LegalItems);
+            string[] itemarr = Main.HaX ? (string[])itemlist.Clone() : getItems(pouch.LegalItems);
+
             dgv.Rows.Clear();
             dgv.Columns.Clear();
 
