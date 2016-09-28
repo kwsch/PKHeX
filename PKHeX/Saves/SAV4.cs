@@ -177,7 +177,7 @@ namespace PKHeX
             if (Data.Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { generalBlock = 1; return; }
             if (Data.Skip(0x40000).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
-            { generalBlock = 1; return; }
+            { generalBlock = 0; return; }
 
             // Check SaveCount for current save
             if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
