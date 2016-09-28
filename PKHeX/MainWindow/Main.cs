@@ -805,8 +805,8 @@ namespace PKHeX
         private void loadSAV(SaveFile sav, string path)
         {
             // clean fields
-            populateFields(SAV.BlankPKM);
             PKM pk = preparePKM();
+            populateFields(SAV.BlankPKM);
             SAV = sav;
 
             if (path != null) // Actual save file
@@ -1096,7 +1096,7 @@ namespace PKHeX
             }
             bool init = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
-            pkm = (pkm.Format != SAV.Generation || SAV.Generation < 3) ? SAV.BlankPKM : pk;
+            pkm = pkm.GetType() != SAV.PKMType ? SAV.BlankPKM : pk;
             populateFilteredDataSources();
             populateFields(pkm);
             fieldsInitialized |= init;
@@ -3297,6 +3297,8 @@ namespace PKHeX
 
         private void updateIsNicknamed(object sender, EventArgs e)
         {
+            if (!fieldsLoaded)
+                return;
             if (!CHK_Nicknamed.Checked)
             {
                 int species = Util.getIndex(CB_Species);
