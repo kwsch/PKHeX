@@ -15636,7 +15636,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20160830.
+        ///   Looks up a localized string similar to 20160918.
         /// </summary>
         internal static string ProgramVersion {
             get {
@@ -16672,8 +16672,6 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to If you are having issues viewing certain symbols/text: Options -&gt; Toggle Font.
         ///
-        /////
-        ///
         ///// Main Window
         ///
         ///CTRL-O: Open
@@ -16692,7 +16690,7 @@ namespace PKHeX.Properties {
         ///Control + Click on...
         ///- Species: Import Showdown/Smogon set from Clipboard.
         ///- Nickname/OT box: Bring up the ingame-special characters.
-        ///-  [rest of string was truncated]&quot;;.
+        ///- Indivi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
@@ -26084,6 +26082,114 @@ namespace PKHeX.Properties {
         internal static string text_ItemsG3_zh {
             get {
                 return ResourceManager.GetString("text_ItemsG3_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jail Key
+        ///Elevator Key
+        ///Small Tablet
+        ///F-Disk
+        ///R-Disk
+        ///L-Disk
+        ///D-Disk
+        ///U-Disk
+        ///Subway Key
+        ///Maingate Key
+        ///Card Key
+        ///Down St. Key
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///Data ROM
+        ///Steel Teeth
+        ///Gear
+        ///Red ID Badge
+        ///Grn ID Badge
+        ///Blu ID Badge
+        ///Ylw ID Badge
+        ///Time Flute
+        ///Ein File S
+        ///Ein File H
+        ///Ein File C
+        ///Ein File P
+        ///Cologne Case
+        ///Joy Scent
+        ///Excite Scent
+        ///Vivid Scent
+        ///Powerup Part
+        ///Ein  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3Colosseum_en {
+            get {
+                return ResourceManager.GetString("text_ItemsG3Colosseum_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safe Key
+        ///Elevator Key
+        ///Bonsly Card
+        ///Machine Part
+        ///Gonzap&apos;s Key
+        ///Data ROM
+        ///ID Card
+        ///Music Disc
+        ///System Lever
+        ///Mayor&apos;s Note
+        ///Miror Radar
+        ///Poké Snack
+        ///Cologne Case
+        ///Joy Scent
+        ///Excite Scent
+        ///Vivid Scent
+        ///Sun Shard
+        ///Moon Shard
+        ///Bonsly Photo
+        ///Cry Analyzer
+        ///???
+        ///???
+        ///???
+        ///Krane Memo 1
+        ///Krane Memo 2
+        ///Krane Memo 3
+        ///Krane Memo 4
+        ///Krane Memo 5
+        ///Voice Case 1
+        ///Voice Case 2
+        ///Voice Case 3
+        ///Voice Case 4
+        ///Voice Case 5
+        ///Disc Case
+        ///Battle CD 01
+        ///Battle CD 02
+        ///Battle CD 03
+        ///Battle CD 04
+        ///Battle CD 05
+        ///Battle CD 06
+        ///Battle CD 07
+        ///Battle CD 08
+        ///Battle CD 09
+        ///Battle CD 1 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3XD_en {
+            get {
+                return ResourceManager.GetString("text_ItemsG3XD_en", resourceCulture);
             }
         }
         

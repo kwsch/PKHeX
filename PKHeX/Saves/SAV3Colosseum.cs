@@ -65,9 +65,9 @@ namespace PKHeX
             Party = 0x000A8;
             OFS_PouchHeldItem = 0x007F8;
             OFS_PouchKeyItem = 0x00848;
-            OFS_PouchBalls = 0x0087C;
+            OFS_PouchBalls = 0x008F4;
             OFS_PouchTMHM = 0x00934;
-            OFS_PouchBerry = 0x009BC;
+            OFS_PouchBerry = 0x00A34;
             OFS_PouchCologne = 0x00AEC; // Cologne
 
             Box = 0x00B90;
@@ -309,7 +309,7 @@ namespace PKHeX
                 {
                     new InventoryPouch(InventoryType.Items, LegalItems, 995, OFS_PouchHeldItem, 20), // 20 COLO, 30 XD
                     new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
-                    new InventoryPouch(InventoryType.TMHMs, LegalBalls, 995, OFS_PouchTMHM, 16),
+                    new InventoryPouch(InventoryType.Balls, LegalBalls, 995, OFS_PouchBalls, 16),
                     new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 995, OFS_PouchTMHM, 64),
                     new InventoryPouch(InventoryType.Berries, LegalBerries, 995, OFS_PouchBerry, 46),
                     new InventoryPouch(InventoryType.Medicine, LegalCologne, 995, OFS_PouchCologne, 3), // Cologne

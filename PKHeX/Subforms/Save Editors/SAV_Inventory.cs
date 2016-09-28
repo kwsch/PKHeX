@@ -22,7 +22,12 @@ namespace PKHeX
                     B_GiveAll.Visible = false;
                     break;
                 case 3:
-                    itemlist = Main.g3items;
+                    switch (SAV.Version)
+                    {
+                        case GameVersion.XD: itemlist = Main.g3xditems; break;
+                        case GameVersion.COLO: itemlist = Main.g3coloitems; break;
+                        default: itemlist = Main.g3items; break;
+                    }
                     B_GiveAll.Visible = false;
                     break;
                 default:

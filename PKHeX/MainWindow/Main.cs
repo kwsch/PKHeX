@@ -178,7 +178,8 @@ namespace PKHeX
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items, g2items, g1items = { };
+            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, 
+            g3coloitems, g3xditems, g3items, g2items, g1items = { };
         public static string[] metGSC_00000, metRSEFRLG_00000 = { };
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
@@ -1195,6 +1196,22 @@ namespace PKHeX
 
             // Past Generation strings
             g3items = Util.getStringListFallback("ItemsG3", l, "en");
+            // XD and Colosseum
+            {
+                g3coloitems = (string[])g3items.Clone();
+                string[] tmp = Util.getStringListFallback("ItemsG3Colosseum", l, "en");
+                Array.Resize(ref g3coloitems, 500 + tmp.Length);
+                for (int i = g3items.Length; i < g3coloitems.Length; i++)
+                    g3coloitems[i] = $"UNUSED {i}";
+                Array.Copy(tmp, 0, g3coloitems, g3coloitems.Length - tmp.Length, tmp.Length);
+
+                g3xditems = (string[])g3items.Clone();
+                string[] tmp2 = Util.getStringListFallback("ItemsG3XD", l, "en");
+                Array.Resize(ref g3xditems, 500 + tmp2.Length);
+                for (int i = g3items.Length; i < g3xditems.Length; i++)
+                    g3xditems[i] = $"UNUSED {i}";
+                Array.Copy(tmp2, 0, g3xditems, g3xditems.Length - tmp2.Length, tmp2.Length);
+            }
             g2items = Util.getStringListFallback("ItemsG2", l, "en");
             g1items = Util.getStringListFallback("ItemsG1", l, "en");
             metRSEFRLG_00000 = Util.getStringListFallback("rsefrlg_00000", l, "en");
@@ -1427,15 +1444,15 @@ namespace PKHeX
                 string[] items = itemlist;
                 if (SAV.Generation == 3)
                 {
-                    items = g3items;
+                    items = (string[])g3items.Clone();
                     if (SAV.Version == GameVersion.COLO)
                     {
-                        Array.Resize(ref g3items, SAV.MaxItemID + 1);
+                        Array.Resize(ref items, SAV.MaxItemID + 1);
                         // TODO: ITEMS
                     }
                     if (SAV.Version == GameVersion.XD)
                     {
-                        Array.Resize(ref g3items, SAV.MaxItemID + 1);
+                        Array.Resize(ref items, SAV.MaxItemID + 1);
                         // TODO: ITEMS
                     }
                     for (int i = 374; i < g3items.Length; i++)

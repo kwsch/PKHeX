@@ -114,7 +114,7 @@ namespace PKHeX
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV3(Write(DSV: false), Version); }
+        public override SaveFile Clone() { return new SAV3XD(Write(DSV: false)); }
 
         public override int SIZE_STORED => PKX.SIZE_3XSTORED;
         public override int SIZE_PARTY => PKX.SIZE_3XSTORED; // unused
@@ -136,7 +136,6 @@ namespace PKHeX
         public override int MaxMoney => 999999;
 
         public override int BoxCount => 8;
-        public override bool HasParty => false;
 
         // Checksums
         protected override void setChecksums()
@@ -205,11 +204,11 @@ namespace PKHeX
                 {
                     new InventoryPouch(InventoryType.Items, LegalItems, 995, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
                     new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
-                    new InventoryPouch(InventoryType.TMHMs, LegalBalls, 995, OFS_PouchTMHM, 16),
+                    new InventoryPouch(InventoryType.Balls, LegalBalls, 995, OFS_PouchBalls, 16),
                     new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 995, OFS_PouchTMHM, 64),
                     new InventoryPouch(InventoryType.Berries, LegalBerries, 995, OFS_PouchBerry, 46),
                     new InventoryPouch(InventoryType.Medicine, LegalCologne, 995, OFS_PouchCologne, 3), // Cologne
-                    new InventoryPouch(InventoryType.Medicine, LegalDisc, 995, OFS_PouchDisc, 60), // Cologne
+                    new InventoryPouch(InventoryType.BattleItems, LegalDisc, 995, OFS_PouchDisc, 60)
                 };
                 foreach (var p in pouch)
                     p.getPouchBigEndian(ref Data);
