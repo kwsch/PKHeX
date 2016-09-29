@@ -17,9 +17,10 @@ namespace PKHeX
         private readonly int SaveIndex = -1;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
         private readonly int OFS_PouchCologne, OFS_PouchDisc;
+        private readonly int[] subOffsets = new int[16];
         public SAV3XD(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3BOX] : (byte[])data.Clone();
+            Data = data == null ? new byte[SaveUtil.SIZE_G3XD] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
@@ -56,7 +57,6 @@ namespace PKHeX
 
             // Get Offset Info
             ushort[] subLength = new ushort[16];
-            int[] subOffsets = new int[16];
             for (int i = 0; i < 16; i++)
             {
                 subLength[i] = BigEndian.ToUInt16(Data, 0x20 + 2*i);
@@ -140,17 +140,62 @@ namespace PKHeX
         // Checksums
         protected override void setChecksums()
         {
-            
+            Data = setXDChecksums(Data, subOffsets[0]);
         }
-        public override bool ChecksumsValid
-        {
-            get { return false; }
-        }
+        public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
         public override string ChecksumInfo
         {
-            get { return ""; }
-        }
+            get
+            {
+                byte[] data = setXDChecksums(Data, subOffsets[0]);
 
+                const int start = 0xA8; // 0x88 + 0x20
+                int oldHC = BigEndian.ToInt32(Data, start + subOffsets[0] + 0x38);
+                int newHC = BigEndian.ToInt32(data, start + subOffsets[0] + 0x38);
+                bool header = newHC == oldHC;
+
+                var oldCHK = Data.Skip(0x10).Take(0x10);
+                var newCHK = data.Skip(0x10).Take(0x10);
+                bool body = newCHK.SequenceEqual(oldCHK);
+                return $"Header Checksum {(header ? "V" : "Inv")}alid, Body Checksum {(body ? "V" : "Inv")}alid.";
+            }
+        }
+        private static byte[] setXDChecksums(byte[] input, int subOffset0)
+        {
+            if (input.Length != 0x28000)
+                throw new ArgumentException("Input should be a slot, not the entire save binary.");
+
+            byte[] data = (byte[])input.Clone();
+            const int start = 0xA8; // 0x88 + 0x20
+
+            // Header Checksum
+            int newHC = 0;
+            for (int i = 0; i < 8; i++)
+                newHC += data[i];
+
+            BigEndian.GetBytes(newHC).CopyTo(data, start + subOffset0 + 0x38);
+
+            // Body Checksum
+            new byte[16].CopyTo(data, 0x10); // Clear old Checksum Data
+            uint[] checksum = new uint[4];
+            int dt = 8;
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 0x9FF4; j += 2, dt += 2)
+                    checksum[i] += BigEndian.ToUInt16(data, dt);
+
+            ushort[] newchks = new ushort[8];
+            for (int i = 0; i < 4; i++)
+            {
+                newchks[i*2] = (ushort)(checksum[i] >> 16);
+                newchks[i*2+1] = (ushort)checksum[i];
+            }
+
+            Array.Reverse(newchks);
+            for (int i = 0; i < newchks.Length; i++)
+                BigEndian.GetBytes(newchks[i]).CopyTo(data, 0x10 + 2*i);
+
+            return data;
+        }
         // Trainer Info
         public override GameVersion Version { get { return GameVersion.XD; } protected set { } }
         public override string OT { get { return PKX.getColoStr(Data, Trainer1 + 0x00, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, Trainer1 + 0x00);  } }

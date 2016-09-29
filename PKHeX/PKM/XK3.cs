@@ -12,8 +12,8 @@ namespace PKHeX
             0x7A, 0x7B,
             0x7E, 0x7F
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_3CSTORED;
-        public override int SIZE_STORED => PKX.SIZE_3CSTORED;
+        public sealed override int SIZE_PARTY => PKX.SIZE_3XSTORED;
+        public override int SIZE_STORED => PKX.SIZE_3XSTORED;
         public override int Format => 3;
         public XK3(byte[] decryptedData = null, string ident = null)
         {
@@ -40,7 +40,7 @@ namespace PKHeX
 
         // Silly Attributes
         public override ushort Sanity { get { return 0; } set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get { return PKX.getCHK(Data); } set { } } // totally false, just a way to get a 'random' ident for the pkm.
+        public override ushort Checksum { get { return SaveUtil.ccitt16(Data); } set { } } // totally false, just a way to get a 'random' ident for the pkm.
 
         public override int Species { get { return PKX.getG4Species(BigEndian.ToUInt16(Data, 0x00)); } set { BigEndian.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x00); } }
         public override int HeldItem { get { return PKX.getG4Item((ushort)G3Item); } set { } }

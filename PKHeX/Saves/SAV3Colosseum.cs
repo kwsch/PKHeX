@@ -28,7 +28,7 @@ namespace PKHeX
         private readonly int OFS_PouchCologne;
         public SAV3Colosseum(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3BOX] : (byte[])data.Clone();
+            Data = data == null ? new byte[SaveUtil.SIZE_G3COLO] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
