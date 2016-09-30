@@ -10,7 +10,7 @@ namespace PKHeX
     {
         internal static bool GetValueEquals(object obj, string propertyName, object value)
         {
-            PropertyInfo pi = obj.GetType().GetProperty(propertyName);
+            PropertyInfo pi = obj.GetType().GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             var v = pi.GetValue(obj, null);
             var c = ConvertValue(value, pi.PropertyType);
             return v.Equals(c);
@@ -37,7 +37,11 @@ namespace PKHeX
         }
         internal static bool HasProperty(this Type type, string name)
         {
-            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.Name == name);
+            return type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance) != null;
+        }
+        internal static bool HasPropertyAll(this Type type, string name)
+        {
+            return type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance) != null;
         }
 
         private static object ConvertValue(object value, Type type)
