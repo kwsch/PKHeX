@@ -183,6 +183,7 @@
     <Compile Include="Saves\SAV6.cs" />
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Subforms\PKM Editors\BatchEditor.cs">
       <SubType>Form</SubType>
     </Compile>

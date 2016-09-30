@@ -47,8 +47,6 @@ namespace PKHeX
             }).Start();
 
             CB_ExtraBytes.SelectedIndex = 0;
-            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
-            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
             getFieldsfromPKM = populateFieldsPK6;
             getPKMfromFields = preparePK6;
 
@@ -111,6 +109,13 @@ namespace PKHeX
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            Menu_Options.DropDown.Closing += (sender, e) =>
+            {
+                if (!Menu_Unicode.Selected)
+                    return;
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
 
             // Box to Tabs D&D
             dragout.AllowDrop = true;
@@ -124,13 +129,32 @@ namespace PKHeX
             #region Localize & Populate Fields
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
-            HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
+            HaX = filename?.IndexOf("hax", StringComparison.Ordinal) >= 0;
 
-            // Try and detect the language
-            string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
-            if (lastTwoChars == "jp") lastTwoChars = "ja";
-            int lang = Array.IndexOf(lang_val, lastTwoChars);
-            CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
+            bool showChangelog = false;
+            // Load User Settings
+            {
+                unicode = Menu_Unicode.Checked = Properties.Settings.Default.Unicode;
+                SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Properties.Settings.Default.SetUpdateDex;
+                SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Properties.Settings.Default.SetUpdatePKM;
+
+                // Select Language
+                string l = Properties.Settings.Default.Language;
+                if (l.Length != 2) l = "en";
+                int lang = Array.IndexOf(lang_val, l);
+                CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
+
+                // Version Check
+                if (Properties.Settings.Default.Version.Length > 0) // already run on system
+                {
+                    int lastrev; int.TryParse(Properties.Settings.Default.Version, out lastrev);
+                    int currrev; int.TryParse(Properties.Resources.ProgramVersion, out currrev);
+
+                    showChangelog = lastrev < currrev;
+                }
+                Properties.Settings.Default.Version = Properties.Resources.ProgramVersion;
+                Properties.Settings.Default.Save();
+            }
 
             InitializeFields();
             formInitialized = true;
@@ -166,6 +190,9 @@ namespace PKHeX
             Show();
             WindowState = FormWindowState.Normal;
             if (HaX) Util.Alert("Illegal mode activated.", "Please behave.");
+            
+            if (showChangelog)
+                new About().ShowDialog();
             #endregion
         }
 
@@ -348,16 +375,19 @@ namespace PKHeX
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
-            unicode = Menu_Unicode.Checked;
+            Properties.Settings.Default.Unicode = unicode = Menu_Unicode.Checked;
+            Properties.Settings.Default.Save();
             updateUnicode();
         }
         private void mainMenuModifyDex(object sender, EventArgs e)
         {
-            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
+            Properties.Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
+            Properties.Settings.Default.Save();
         }
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
-            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
+            Properties.Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
+            Properties.Settings.Default.Save();
         }
         private void mainMenuBoxLoad(object sender, EventArgs e)
         {
@@ -1177,14 +1207,18 @@ namespace PKHeX
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
-            Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex]); // Translate the UI to language.
+            string ProgramTitle = Text;
+            Util.TranslateInterface(this, curlanguage); // Translate the UI to language.
+            Text = ProgramTitle;
             // Recenter PKM SubEditors
             FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
 
             // Set the culture (makes it easy to pass language to other forms)
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang_val[CB_MainLanguage.SelectedIndex]);
+            Properties.Settings.Default.Language = curlanguage;
+            Properties.Settings.Default.Save();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage);
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
         private void InitializeStrings()
