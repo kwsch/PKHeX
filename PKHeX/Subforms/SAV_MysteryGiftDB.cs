@@ -264,7 +264,7 @@ namespace PKHeX
                 {
                     foreach (var cmd in filters)
                     {
-                        if (!gift.GetType().HasProperty(cmd.PropertyName))
+                        if (!gift.GetType().HasPropertyAll(cmd.PropertyName))
                             return false;
                         try { if (ReflectUtil.GetValueEquals(gift, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
                         catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
