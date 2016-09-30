@@ -939,7 +939,7 @@ namespace PKHeX
 
             if (pk6.Species == 647) // Keldeo
                 if (pk6.AltForm == 1 ^ pk6.Moves.Contains(548))
-                    res[0] = new LegalityCheck(Severity.Invalid, "Secret Sword / Resolute Keldeo Mismatch.");
+                    res[Array.IndexOf(pk6.Moves, 548)] = new LegalityCheck(Severity.Invalid, "Secret Sword / Resolute Keldeo Mismatch.");
 
             // Duplicate Moves Check
             for (int i = 0; i < 4; i++)
