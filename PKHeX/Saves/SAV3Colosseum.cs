@@ -24,6 +24,8 @@ namespace PKHeX
 
         private readonly int SaveCount = -1;
         private readonly int SaveIndex = -1;
+        private readonly StrategyMemo StrategyMemo;
+        private readonly int Memo;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne;
         private readonly int OFS_PouchCologne;
         public SAV3Colosseum(byte[] data = null)
@@ -72,6 +74,8 @@ namespace PKHeX
 
             Box = 0x00B90;
             Daycare = 0x08170;
+            Memo = 0x082B0;
+            StrategyMemo = new StrategyMemo(Data, Memo, xd:false);
 
             LegalItems = Legal.Pouch_Items_COLO;
             LegalKeyItems = Legal.Pouch_Key_COLO;
@@ -90,6 +94,7 @@ namespace PKHeX
         private readonly byte[] OriginalData;
         public override byte[] Write(bool DSV)
         {
+            StrategyMemo.FinalData.CopyTo(Data, Memo);
             setChecksums();
 
             // Get updated save slot data
@@ -267,7 +272,24 @@ namespace PKHeX
             return data;
         }
 
-        protected override void setDex(PKM pkm) { }
+        protected override void setDex(PKM pkm)
+        {
+            // Dex Related
+            var entry = StrategyMemo.GetEntry(pkm.Species);
+            if (entry.IsEmpty) // Populate
+            {
+                entry.Species = pkm.Species;
+                entry.PID = pkm.PID;
+                entry.TID = pkm.TID;
+                entry.SID = pkm.SID;
+            }
+            if (entry.Matches(pkm.Species, pkm.PID, pkm.TID, pkm.SID))
+            {
+                entry.Seen = true;
+                entry.Owned = true;
+            }
+            StrategyMemo.SetEntry(entry);
+        }
         
         private TimeSpan PlayedSpan
         {

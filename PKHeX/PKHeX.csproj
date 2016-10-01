@@ -168,9 +168,9 @@
     <Compile Include="Misc\QR.Designer.cs">
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
-    <Compile Include="Saves\BlockInfo.cs" />
-    <Compile Include="Saves\BoxWallpaper.cs" />
-    <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\Substructures\BlockInfo.cs" />
+    <Compile Include="Saves\Substructures\BoxWallpaper.cs" />
+    <Compile Include="Saves\Substructures\Inventory.cs" />
     <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
     <Compile Include="Saves\SAV3XD.cs" />
@@ -183,6 +183,8 @@
     <Compile Include="Saves\SAV6.cs" />
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
+    <Compile Include="Saves\Substructures\ShadowInfo.cs" />
+    <Compile Include="Saves\Substructures\StrategyMemo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Subforms\PKM Editors\BatchEditor.cs">
       <SubType>Form</SubType>
@@ -232,7 +234,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Saves\SaveObjects.cs" />
+    <Compile Include="Saves\Substructures\SaveObjects.cs" />
     <Compile Include="Saves\SaveUtil.cs" />
     <Compile Include="Subforms\Save Editors\Gen5\CGearBackground.cs" />
     <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.cs">

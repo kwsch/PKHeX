@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -15,6 +16,8 @@ namespace PKHeX
 
         private readonly int SaveCount = -1;
         private readonly int SaveIndex = -1;
+        private readonly int Memo;
+        private readonly StrategyMemo StrategyMemo;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
         private readonly int OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
@@ -67,11 +70,11 @@ namespace PKHeX
             Party = Trainer1 + 0x30;
             Box = subOffsets[2] + 0xA8;
             Daycare = subOffsets[4] + 0xA8;
-            // Memo = subOffsets[5] + 0xA8;
+            Memo = subOffsets[5] + 0xA8;
             // Shadow = subOffsets[7] + 0xA8;
             // Purifier = subOffsets[14] + 0xA8;
 
-            System.IO.File.WriteAllBytes("xd", Data);
+            StrategyMemo = new StrategyMemo(Data, Memo, xd: true);
 
             OFS_PouchHeldItem = Trainer1 + 0x4C8;
             OFS_PouchKeyItem = Trainer1 + 0x540;
@@ -99,6 +102,8 @@ namespace PKHeX
         private readonly byte[] OriginalData;
         public override byte[] Write(bool DSV)
         {
+            // Set Memo Back
+            StrategyMemo.FinalData.CopyTo(Data, Memo);
             setChecksums();
 
             // Get updated save slot data
@@ -239,7 +244,24 @@ namespace PKHeX
             return data;
         }
 
-        protected override void setDex(PKM pkm) { }
+        protected override void setDex(PKM pkm)
+        {
+            // Dex Related
+            var entry = StrategyMemo.GetEntry(pkm.Species);
+            if (entry.IsEmpty) // Populate
+            {
+                entry.Species = pkm.Species;
+                entry.PID = pkm.PID;
+                entry.TID = pkm.TID;
+                entry.SID = pkm.SID;
+            }
+            if (entry.Matches(pkm.Species, pkm.PID, pkm.TID, pkm.SID))
+            {
+                entry.Seen = true;
+                entry.Owned = true;
+            }
+            StrategyMemo.SetEntry(entry);
+        }
         
         public override InventoryPouch[] Inventory
         {
