@@ -96,6 +96,25 @@ namespace PKHeX
             // Load Extrabyte Value
             TB_ExtraByte.Text = xk3.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
+            NUD_ShadowID.Value = xk3.ShadowID;
+            FLP_Purification.Visible = xk3.ShadowID > 0;
+            if (xk3.ShadowID > 0)
+            {
+                int puri = xk3.Purification;
+                if (puri > NUD_Purification.Maximum)
+                    puri = (int)NUD_Purification.Maximum;
+                NUD_Purification.Value = puri;
+                CHK_Shadow.Checked = puri > 0;
+
+                NUD_ShadowID.Value = Math.Max(xk3.ShadowID, 0);
+            }
+            else
+            {
+                NUD_Purification.Value = 0;
+                CHK_Shadow.Checked = false;
+                NUD_ShadowID.Value = 0;
+            }
+
             updateStats();
 
             TB_EXP.Text = xk3.EXP.ToString();
@@ -183,6 +202,11 @@ namespace PKHeX
             {
                 xk3.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
+
+            // Shadow Info
+            xk3.ShadowID = (int)NUD_ShadowID.Value;
+            if (xk3.ShadowID > 0)
+                xk3.Purification = (int)NUD_Purification.Value;
 
             // Fix Moves if a slot is empty 
             xk3.FixMoves();

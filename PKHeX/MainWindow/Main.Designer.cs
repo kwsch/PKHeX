@@ -105,6 +105,13 @@
             this.FLP_NSparkle = new System.Windows.Forms.FlowLayoutPanel();
             this.L_NSparkle = new System.Windows.Forms.Label();
             this.CHK_NSparkle = new System.Windows.Forms.CheckBox();
+            this.FLP_ShadowID = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_ShadowID = new System.Windows.Forms.Label();
+            this.NUD_ShadowID = new System.Windows.Forms.NumericUpDown();
+            this.FLP_Purification = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_HeartGauge = new System.Windows.Forms.Label();
+            this.NUD_Purification = new System.Windows.Forms.NumericUpDown();
+            this.CHK_Shadow = new System.Windows.Forms.CheckBox();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -393,6 +400,8 @@
             this.subepkx2 = new System.Windows.Forms.PictureBox();
             this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
+            this.CB_SaveSlot = new System.Windows.Forms.ComboBox();
+            this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
             this.L_Secure1 = new System.Windows.Forms.Label();
@@ -427,8 +436,6 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.L_SaveSlot = new System.Windows.Forms.Label();
-            this.CB_SaveSlot = new System.Windows.Forms.ComboBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -458,6 +465,10 @@
             this.FLP_SubRegion.SuspendLayout();
             this.FLP_3DSRegion.SuspendLayout();
             this.FLP_NSparkle.SuspendLayout();
+            this.FLP_ShadowID.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ShadowID)).BeginInit();
+            this.FLP_Purification.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).BeginInit();
             this.Tab_Met.SuspendLayout();
             this.GB_EggConditions.SuspendLayout();
             this.FLP_Met.SuspendLayout();
@@ -593,6 +604,8 @@
             // tabMain
             // 
             this.tabMain.AllowDrop = true;
+            this.tabMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tabMain.Controls.Add(this.Tab_Main);
             this.tabMain.Controls.Add(this.Tab_Met);
             this.tabMain.Controls.Add(this.Tab_Stats);
@@ -635,9 +648,11 @@
             this.FLP_Main.Controls.Add(this.FLP_SubRegion);
             this.FLP_Main.Controls.Add(this.FLP_3DSRegion);
             this.FLP_Main.Controls.Add(this.FLP_NSparkle);
+            this.FLP_Main.Controls.Add(this.FLP_ShadowID);
+            this.FLP_Main.Controls.Add(this.FLP_Purification);
             this.FLP_Main.Location = new System.Drawing.Point(0, 2);
             this.FLP_Main.Name = "FLP_Main";
-            this.FLP_Main.Size = new System.Drawing.Size(272, 322);
+            this.FLP_Main.Size = new System.Drawing.Size(272, 391);
             this.FLP_Main.TabIndex = 103;
             // 
             // FLP_PID
@@ -1500,6 +1515,90 @@
             this.CHK_NSparkle.Text = "Active";
             this.CHK_NSparkle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_NSparkle.UseVisualStyleBackColor = true;
+            // 
+            // FLP_ShadowID
+            // 
+            this.FLP_ShadowID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_ShadowID.Controls.Add(this.L_ShadowID);
+            this.FLP_ShadowID.Controls.Add(this.NUD_ShadowID);
+            this.FLP_ShadowID.Location = new System.Drawing.Point(0, 317);
+            this.FLP_ShadowID.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_ShadowID.Name = "FLP_ShadowID";
+            this.FLP_ShadowID.Size = new System.Drawing.Size(272, 21);
+            this.FLP_ShadowID.TabIndex = 114;
+            // 
+            // L_ShadowID
+            // 
+            this.L_ShadowID.Location = new System.Drawing.Point(0, 0);
+            this.L_ShadowID.Margin = new System.Windows.Forms.Padding(0);
+            this.L_ShadowID.Name = "L_ShadowID";
+            this.L_ShadowID.Size = new System.Drawing.Size(110, 21);
+            this.L_ShadowID.TabIndex = 9;
+            this.L_ShadowID.Text = "Shadow ID:";
+            this.L_ShadowID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_ShadowID
+            // 
+            this.NUD_ShadowID.Location = new System.Drawing.Point(110, 1);
+            this.NUD_ShadowID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.NUD_ShadowID.Maximum = new decimal(new int[] {
+            72,
+            0,
+            0,
+            0});
+            this.NUD_ShadowID.Name = "NUD_ShadowID";
+            this.NUD_ShadowID.Size = new System.Drawing.Size(51, 20);
+            this.NUD_ShadowID.TabIndex = 103;
+            this.NUD_ShadowID.ValueChanged += new System.EventHandler(this.updateShadowID);
+            // 
+            // FLP_Purification
+            // 
+            this.FLP_Purification.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_Purification.Controls.Add(this.L_HeartGauge);
+            this.FLP_Purification.Controls.Add(this.NUD_Purification);
+            this.FLP_Purification.Controls.Add(this.CHK_Shadow);
+            this.FLP_Purification.Location = new System.Drawing.Point(0, 338);
+            this.FLP_Purification.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_Purification.Name = "FLP_Purification";
+            this.FLP_Purification.Size = new System.Drawing.Size(272, 21);
+            this.FLP_Purification.TabIndex = 113;
+            // 
+            // L_HeartGauge
+            // 
+            this.L_HeartGauge.Location = new System.Drawing.Point(0, 0);
+            this.L_HeartGauge.Margin = new System.Windows.Forms.Padding(0);
+            this.L_HeartGauge.Name = "L_HeartGauge";
+            this.L_HeartGauge.Size = new System.Drawing.Size(110, 21);
+            this.L_HeartGauge.TabIndex = 9;
+            this.L_HeartGauge.Text = "Heart Gauge:";
+            this.L_HeartGauge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Purification
+            // 
+            this.NUD_Purification.Location = new System.Drawing.Point(110, 1);
+            this.NUD_Purification.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.NUD_Purification.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.NUD_Purification.Name = "NUD_Purification";
+            this.NUD_Purification.Size = new System.Drawing.Size(51, 20);
+            this.NUD_Purification.TabIndex = 103;
+            this.NUD_Purification.ValueChanged += new System.EventHandler(this.updatePurification);
+            // 
+            // CHK_Shadow
+            // 
+            this.CHK_Shadow.AutoSize = true;
+            this.CHK_Shadow.Location = new System.Drawing.Point(161, 3);
+            this.CHK_Shadow.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.CHK_Shadow.Name = "CHK_Shadow";
+            this.CHK_Shadow.Size = new System.Drawing.Size(65, 17);
+            this.CHK_Shadow.TabIndex = 16;
+            this.CHK_Shadow.Text = "Shadow";
+            this.CHK_Shadow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_Shadow.UseVisualStyleBackColor = true;
+            this.CHK_Shadow.CheckedChanged += new System.EventHandler(this.updateShadowCHK);
             // 
             // Tab_Met
             // 
@@ -3545,7 +3644,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(139, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.mainMenuOpen);
             // 
@@ -3555,7 +3654,7 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(139, 22);
             this.Menu_Save.Text = "&Save PK6...";
             this.Menu_Save.Click += new System.EventHandler(this.mainMenuSave);
             // 
@@ -3567,7 +3666,7 @@
             this.Menu_ExportSAV.Enabled = false;
             this.Menu_ExportSAV.Image = global::PKHeX.Properties.Resources.saveSAV;
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
-            this.Menu_ExportSAV.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(139, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             // 
             // Menu_ExportMAIN
@@ -3576,7 +3675,7 @@
             this.Menu_ExportMAIN.Name = "Menu_ExportMAIN";
             this.Menu_ExportMAIN.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportMAIN.ShowShortcutKeys = false;
-            this.Menu_ExportMAIN.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ExportMAIN.Size = new System.Drawing.Size(142, 22);
             this.Menu_ExportMAIN.Text = "&Export main";
             this.Menu_ExportMAIN.Click += new System.EventHandler(this.clickExportSAV);
             // 
@@ -3586,7 +3685,7 @@
             this.Menu_ExportBAK.Name = "Menu_ExportBAK";
             this.Menu_ExportBAK.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_ExportBAK.ShowShortcutKeys = false;
-            this.Menu_ExportBAK.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ExportBAK.Size = new System.Drawing.Size(142, 22);
             this.Menu_ExportBAK.Text = "Export &Backup";
             this.Menu_ExportBAK.Click += new System.EventHandler(this.clickExportSAVBAK);
             // 
@@ -3596,7 +3695,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(139, 22);
             this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.mainMenuExit);
             // 
@@ -3861,6 +3960,7 @@
             // 
             // tabBoxMulti
             // 
+            this.tabBoxMulti.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tabBoxMulti.Controls.Add(this.Tab_Box);
             this.tabBoxMulti.Controls.Add(this.Tab_PartyBattle);
             this.tabBoxMulti.Controls.Add(this.Tab_Other);
@@ -5121,6 +5221,25 @@
             this.Tab_SAV.Text = "SAV";
             this.Tab_SAV.UseVisualStyleBackColor = true;
             // 
+            // CB_SaveSlot
+            // 
+            this.CB_SaveSlot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_SaveSlot.FormattingEnabled = true;
+            this.CB_SaveSlot.Location = new System.Drawing.Point(150, 148);
+            this.CB_SaveSlot.Name = "CB_SaveSlot";
+            this.CB_SaveSlot.Size = new System.Drawing.Size(121, 21);
+            this.CB_SaveSlot.TabIndex = 20;
+            this.CB_SaveSlot.SelectedValueChanged += new System.EventHandler(this.updateSaveSlot);
+            // 
+            // L_SaveSlot
+            // 
+            this.L_SaveSlot.AutoSize = true;
+            this.L_SaveSlot.Location = new System.Drawing.Point(92, 151);
+            this.L_SaveSlot.Name = "L_SaveSlot";
+            this.L_SaveSlot.Size = new System.Drawing.Size(56, 13);
+            this.L_SaveSlot.TabIndex = 19;
+            this.L_SaveSlot.Text = "Save Slot:";
+            // 
             // L_Secure2
             // 
             this.L_Secure2.Location = new System.Drawing.Point(33, 113);
@@ -5217,6 +5336,8 @@
             // 
             // GB_SAVtools
             // 
+            this.GB_SAVtools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_SAVtools.Controls.Add(this.FLP_SAVtools);
             this.GB_SAVtools.Location = new System.Drawing.Point(300, 252);
             this.GB_SAVtools.Name = "GB_SAVtools";
@@ -5482,25 +5603,6 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // L_SaveSlot
-            // 
-            this.L_SaveSlot.AutoSize = true;
-            this.L_SaveSlot.Location = new System.Drawing.Point(92, 151);
-            this.L_SaveSlot.Name = "L_SaveSlot";
-            this.L_SaveSlot.Size = new System.Drawing.Size(56, 13);
-            this.L_SaveSlot.TabIndex = 19;
-            this.L_SaveSlot.Text = "Save Slot:";
-            // 
-            // CB_SaveSlot
-            // 
-            this.CB_SaveSlot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_SaveSlot.FormattingEnabled = true;
-            this.CB_SaveSlot.Location = new System.Drawing.Point(150, 148);
-            this.CB_SaveSlot.Name = "CB_SaveSlot";
-            this.CB_SaveSlot.Size = new System.Drawing.Size(121, 21);
-            this.CB_SaveSlot.TabIndex = 20;
-            this.CB_SaveSlot.SelectedValueChanged += new System.EventHandler(this.updateSaveSlot);
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5562,6 +5664,11 @@
             this.FLP_3DSRegion.ResumeLayout(false);
             this.FLP_NSparkle.ResumeLayout(false);
             this.FLP_NSparkle.PerformLayout();
+            this.FLP_ShadowID.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ShadowID)).EndInit();
+            this.FLP_Purification.ResumeLayout(false);
+            this.FLP_Purification.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).EndInit();
             this.Tab_Met.ResumeLayout(false);
             this.Tab_Met.PerformLayout();
             this.GB_EggConditions.ResumeLayout(false);
@@ -6124,6 +6231,13 @@
         private System.Windows.Forms.Label Label_IVs;
         private System.Windows.Forms.ComboBox CB_SaveSlot;
         private System.Windows.Forms.Label L_SaveSlot;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Purification;
+        public System.Windows.Forms.CheckBox CHK_Shadow;
+        private System.Windows.Forms.Label L_HeartGauge;
+        private System.Windows.Forms.NumericUpDown NUD_Purification;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ShadowID;
+        private System.Windows.Forms.Label L_ShadowID;
+        private System.Windows.Forms.NumericUpDown NUD_ShadowID;
     }
 }
 

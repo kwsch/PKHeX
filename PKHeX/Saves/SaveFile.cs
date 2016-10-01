@@ -109,6 +109,7 @@ namespace PKHeX
         public abstract int OTLength { get; }
         public abstract int NickLength { get; }
         public virtual int MaxMoney { get; } = 9999999;
+        public virtual int MaxShadowID { get; } = 0;
 
         // Offsets
         protected virtual int Box { get; set; } = int.MinValue;
@@ -342,11 +343,11 @@ namespace PKHeX
         // Storage
         public virtual int BoxSlotCount => 30;
 
-        public PKM getPartySlot(int offset)
+        public virtual PKM getPartySlot(int offset)
         {
             return getPKM(decryptPKM(getData(offset, SIZE_PARTY)));
         }
-        public PKM getStoredSlot(int offset)
+        public virtual PKM getStoredSlot(int offset)
         {
             return getPKM(decryptPKM(getData(offset, SIZE_STORED)));
         }
@@ -437,6 +438,7 @@ namespace PKHeX
                 .OrderBy(p => p.Species == 0) // empty slots at end
                 .ThenBy(p => p.IsEgg) // eggs to the end
                 .ThenBy(p => p.Species) // species sorted
+                .ThenBy(p => p.AltForm) // altforms sorted
                 .ThenBy(p => p.IsNicknamed).ToArray();
 
             Array.Copy(Sorted, 0, BD, BoxStart*BoxSlotCount, Sorted.Length);

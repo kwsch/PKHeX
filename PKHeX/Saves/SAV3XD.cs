@@ -16,8 +16,10 @@ namespace PKHeX
 
         private readonly int SaveCount = -1;
         private readonly int SaveIndex = -1;
-        private readonly int Memo;
+        private readonly int Memo, Shadow;
         private readonly StrategyMemo StrategyMemo;
+        private readonly ShadowInfoTableXD ShadowInfo;
+        public override int MaxShadowID => ShadowInfo.Count;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
         private readonly int OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
@@ -71,10 +73,11 @@ namespace PKHeX
             Box = subOffsets[2] + 0xA8;
             Daycare = subOffsets[4] + 0xA8;
             Memo = subOffsets[5] + 0xA8;
-            // Shadow = subOffsets[7] + 0xA8;
+            Shadow = subOffsets[7] + 0xA8;
             // Purifier = subOffsets[14] + 0xA8;
 
             StrategyMemo = new StrategyMemo(Data, Memo, xd: true);
+            ShadowInfo = new ShadowInfoTableXD(Data.Skip(Shadow).Take(subLength[7]).ToArray());
 
             OFS_PouchHeldItem = Trainer1 + 0x4C8;
             OFS_PouchKeyItem = Trainer1 + 0x540;
@@ -104,6 +107,7 @@ namespace PKHeX
         {
             // Set Memo Back
             StrategyMemo.FinalData.CopyTo(Data, Memo);
+            ShadowInfo.FinalData.CopyTo(Data, Shadow);
             setChecksums();
 
             // Get updated save slot data
@@ -242,6 +246,35 @@ namespace PKHeX
         public override byte[] decryptPKM(byte[] data)
         {
             return data;
+        }
+
+        public override PKM getPartySlot(int offset)
+        {
+            return getStoredSlot(offset);
+        }
+        public override PKM getStoredSlot(int offset)
+        {
+            // Get Shadow Data
+            var pk = getPKM(decryptPKM(getData(offset, SIZE_STORED))) as XK3;
+            if (pk?.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
+                pk.Purification = ShadowInfo[pk.ShadowID - 1].Purification;
+            return pk;
+        }
+        protected override void setPKM(PKM pkm)
+        {
+            XK3 pk = pkm as XK3;
+            if (pk == null)
+                return; // shouldn't ever hit
+            
+            // Set Shadow Data back to save
+            if (pk.ShadowID <= 0 || pk.ShadowID >= ShadowInfo.Count)
+                return;
+
+            var entry = ShadowInfo[pk.ShadowID - 1];
+            entry.Purification = pk.Purification;
+            entry.Species = pk.Species;
+            entry.PID = pk.PID;
+            entry.IsPurified = pk.Purification == 0;
         }
 
         protected override void setDex(PKM pkm)

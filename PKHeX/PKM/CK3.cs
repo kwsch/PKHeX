@@ -170,8 +170,8 @@ namespace PKHeX
         public override bool Valid => Data[0xCD] == 0;
         // 0xCE unknown
         public override byte MarkByte { get { return Data[0xCF]; } protected set { Data[0xCF] = value; } }
-        public override int PKRS_Days { get { return Data[0xD0] & 0xF; } set { Data[0xD0] = (byte)(value & 0xF); } }
-        public ushort ShadowID { get { return BigEndian.ToUInt16(Data, 0xD8); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xD8); } }
+        public override int PKRS_Days { get { return Math.Max((sbyte)Data[0xD0], (sbyte)0); } set { Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); } }
+        public int ShadowID { get { return BigEndian.ToUInt16(Data, 0xD8); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD8); } }
         public int Purification { get { return BigEndian.ToInt32(Data, 0xDC); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xDC); } }
         public uint EXP_Shadow { get { return BigEndian.ToUInt32(Data, 0xC0); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xC0); } }
         public override bool FatefulEncounter { get { return Data[0x11C] == 1; } set { Data[0x11C] = (byte)(value ? 1 : 0); } }

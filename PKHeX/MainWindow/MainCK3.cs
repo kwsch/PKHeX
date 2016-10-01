@@ -99,6 +99,25 @@ namespace PKHeX
             // Load Extrabyte Value
             TB_ExtraByte.Text = ck3.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
+            NUD_ShadowID.Value = ck3.ShadowID;
+            FLP_Purification.Visible = ck3.ShadowID > 0;
+            if (ck3.ShadowID > 0)
+            {
+                int puri = ck3.Purification;
+                if (puri > NUD_Purification.Maximum)
+                    puri = (int)NUD_Purification.Maximum;
+                NUD_Purification.Value = puri;
+                CHK_Shadow.Checked = puri > 0;
+
+                NUD_ShadowID.Value = Math.Max(ck3.ShadowID, 0);
+            }
+            else
+            {
+                NUD_Purification.Value = 0;
+                CHK_Shadow.Checked = false;
+                NUD_ShadowID.Value = 0;
+            }
+
             updateStats();
 
             TB_EXP.Text = ck3.EXP.ToString();
@@ -186,6 +205,11 @@ namespace PKHeX
             {
                 ck3.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
+
+            // Shadow Info
+            ck3.ShadowID = (int)NUD_ShadowID.Value;
+            if (ck3.ShadowID > 0)
+                ck3.Purification = (int)NUD_Purification.Value;
 
             // Fix Moves if a slot is empty 
             ck3.FixMoves();

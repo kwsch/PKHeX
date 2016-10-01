@@ -23,7 +23,7 @@ namespace PKHeX
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new XK3(Data); }
+        public override PKM Clone() { return new XK3(Data) {Purification = Purification}; }
 
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
@@ -57,7 +57,7 @@ namespace PKHeX
         public override int CNT_Sheen { get { return Data[0x12]; } set { Data[0x12] = (byte)value; } }
         public override int PKRS_Strain { get { return Data[0x13] & 0xF; } set { Data[0x13] = (byte)(value & 0xF); } }
         public override byte MarkByte { get { return Data[0x14]; } protected set { Data[0x14] = value; } }
-        public override int PKRS_Days { get { return Data[0x15] & 0xF; } set { Data[0x15] = (byte)(value & 0xF); } }
+        public override int PKRS_Days { get { return Math.Max((sbyte)Data[0x15], (sbyte)0); } set { Data[0x15] = (byte)(value == 0 ? 0xFF : value & 0xF); } }
         // 0x16-0x1C Battle Related
         private int XDPKMFLAGS { get { return Data[0x1D]; } set { Data[0x1D] = (byte)value; } }
         public bool UnusedFlag0     { get { return (XDPKMFLAGS & (1 << 0)) == 1 << 0; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 0) | (value ? 1 << 0 : 0); } }
@@ -179,9 +179,10 @@ namespace PKHeX
         public int RibbonCountG3Smart { get { return Data[0xB6]; } set { Data[0xB6] = (byte)value; } }
         public int RibbonCountG3Tough { get { return Data[0xB7]; } set { Data[0xB7] = (byte)value; } }
 
-        public ushort ShadowID { get { return BigEndian.ToUInt16(Data, 0xBA); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xBA); } }
+        public int ShadowID { get { return BigEndian.ToUInt16(Data, 0xBA); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xBA); } }
         
         // Purification information is stored in the save file and accessed based on the Shadow ID.
+        public int Purification { get; set; }
 
         // Generated Attributes
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);

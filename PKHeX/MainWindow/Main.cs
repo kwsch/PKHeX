@@ -999,6 +999,9 @@ namespace PKHeX
             }
             else
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
+            
+            FLP_Purification.Visible = FLP_ShadowID.Visible = SAV.Version == GameVersion.COLO || SAV.Version == GameVersion.XD;
+            NUD_ShadowID.Maximum = SAV.MaxShadowID;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
@@ -2638,6 +2641,28 @@ namespace PKHeX
                 Label_Gender.ForeColor = pkm.Gender == 2 ? Label_Species.ForeColor : (pkm.Gender == 1 ? Color.Red : Color.Blue);
                 fieldsLoaded = true;
             }
+        }
+        private void updateShadowID(object sender, EventArgs e)
+        {
+            if (!fieldsLoaded)
+                return;
+            FLP_Purification.Visible = NUD_ShadowID.Value > 0;
+        }
+        private void updatePurification(object sender, EventArgs e)
+        {
+            if (!fieldsLoaded)
+                return;
+            fieldsLoaded = false;
+            CHK_Shadow.Checked = NUD_Purification.Value == 0;
+            fieldsLoaded = true;
+        }
+        private void updateShadowCHK(object sender, EventArgs e)
+        {
+            if (!fieldsLoaded)
+                return;
+            fieldsLoaded = false;
+            NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
+            fieldsLoaded = true;
         }
         private void validateComboBox(object sender)
         {
