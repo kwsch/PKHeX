@@ -90,6 +90,12 @@ namespace PKHeX
 
             if (!Exportable)
                 resetBoxes();
+
+            // Since PartyCount is not stored in the save file,
+            // Count up how many party slots are active.
+            for (int i = 0; i < 6; i++)
+                if (getPartySlot(getPartyOffset(i)).Species != 0)
+                    PartyCount++;
         }
 
         private readonly byte[] OriginalData;

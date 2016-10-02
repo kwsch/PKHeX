@@ -10725,23 +10725,12 @@ namespace PKHeX.Properties {
         ///http://projectpokemon.org/
         ///http://projectpokemon.org/forums/showthread.php?36986
         ///
-        ///02/09/14: 
-        /// - Initial Version
-        ///
-        ///02/15/14: 
-        /// - Finished Forms and Stat Calculations.
-        ///
-        ///02/18/14: 
-        /// - Added Hold Back as a move, fixed minor bugs, will have an update later with accurate Ribbon Labels.
-        ///
-        ///02/18/14ab: 
-        /// - More fixes regarding encryption and non-breaking for dumped data.
-        ///
-        ///02/21/14: 
-        /// - Added in Lati@site and Drag &amp; Drop support.
-        ///
-        ///02/22/14: 
-        /// - Updated for future-proofing; savin [rest of string was truncated]&quot;;.
+        ///09/18/16 - New Update:
+        /// - Added: Gen 1 &amp; 2 support. Thanks SciresM, and all those who tested!
+        /// - Added: Gen 1&lt;-&gt;2 conversion. Thanks SciresM!
+        /// - Added: Super Secret Training Completed flag. Thanks SciresM!
+        /// - Added: Program will now check for updates when the program starts. If an update is available, a URL label will appear.
+        /// - Added: Mystery Gift event database browser. Currently only views wc6, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -20517,6 +20506,34 @@ namespace PKHeX.Properties {
         internal static string text_character_zh {
             get {
                 return ResourceManager.GetString("text_character_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (None)
+        ///Outskirt Stand (C) Cipher Lab (XD)
+        ///Outskirt Stand (C)
+        ///Phenac City (C)
+        ///Phenac City (C)
+        ///Mayor&apos;s House (C)
+        ///Mayor&apos;s House (C)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Pre Gym (C) Cipher Lab (XD)
+        ///Pre Gym (C) Mt. Battle (XD)
+        ///Phenac Stadium (C) Mt. Battle (XD)
+        ///Phenac Stadium (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///P [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_cxd_00000_en {
+            get {
+                return ResourceManager.GetString("text_cxd_00000_en", resourceCulture);
             }
         }
         

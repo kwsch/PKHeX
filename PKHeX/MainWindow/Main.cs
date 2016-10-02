@@ -207,14 +207,14 @@ namespace PKHeX
             memories, genloc, trainingbags, trainingstage, characteristics,
             encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, 
             g3coloitems, g3xditems, g3items, g2items, g1items = { };
-        public static string[] metGSC_00000, metRSEFRLG_00000 = { };
+        public static string[] metGSC_00000, metRSEFRLG_00000, metCXD_00000 = { };
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
         public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
         public static string[] wallpapernames, puffs = { };
         public static bool unicode;
         public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        private static List<ComboItem> metGen2, metGen3, metGen4, metGen5, metGen6;
+        private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6;
 
         public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
         private static int colorizedbox = -1;
@@ -1254,6 +1254,14 @@ namespace PKHeX
             metRSEFRLG_00000 = Util.getStringListFallback("rsefrlg_00000", l, "en");
             metGSC_00000 = Util.getStringListFallback("gsc_00000", l, "en");
 
+            metCXD_00000 = Util.getStringListFallback("cxd_00000", l, "en");
+            // Sanitize a little
+            var metSanitize = (string[])metCXD_00000.Clone();
+            for (int i = 0; i < metSanitize.Length; i++)
+                if (metCXD_00000.Count(r => r == metSanitize[i]) > 1)
+                    metSanitize[i] += $" [{i.ToString("000")}]";
+            metCXD_00000 = metSanitize;
+
             // Current Generation strings
             natures = Util.getStringList("natures", l);
             types = Util.getStringList("types", l);
@@ -1432,6 +1440,9 @@ namespace PKHeX
                 var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
                 met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
                 metGen3 = met_list;
+
+                var cxd_list = Util.getCBList(metCXD_00000, Enumerable.Range(0, metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
+                metGen3CXD = cxd_list;
             }
             // Gen 4
             {
@@ -1481,19 +1492,12 @@ namespace PKHeX
                 string[] items = itemlist;
                 if (SAV.Generation == 3)
                 {
-                    items = (string[])g3items.Clone();
-                    if (SAV.Version == GameVersion.COLO)
+                    switch (SAV.Version)
                     {
-                        Array.Resize(ref items, SAV.MaxItemID + 1);
-                        // TODO: ITEMS
+                        case GameVersion.COLO: items = g3coloitems; break;
+                        case GameVersion.XD: items = g3xditems; break;
+                        default: items = g3items; break;
                     }
-                    if (SAV.Version == GameVersion.XD)
-                    {
-                        Array.Resize(ref items, SAV.MaxItemID + 1);
-                        // TODO: ITEMS
-                    }
-                    for (int i = 374; i < g3items.Length; i++)
-                        g3items[i] = g3items[i] ?? $"ITEM {i}";
                 }
                 if (SAV.Generation == 2)
                     items = g2items;
@@ -2318,7 +2322,7 @@ namespace PKHeX
             {
                 case GameVersion.CXD:
                     if (SaveFormat == 3)
-                        return metGen3;
+                        return metGen3CXD;
                     break;
 
                 case GameVersion.R:
@@ -2404,6 +2408,12 @@ namespace PKHeX
                 CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
 
                 origintrack = newTrack;
+
+                // Stretch C/XD met location dropdowns
+                int width = CB_EggLocation.DropDownWidth;
+                if (Version == GameVersion.CXD && SAV.Generation == 3)
+                    width = 2*width;
+                CB_MetLocation.DropDownWidth = width;
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
