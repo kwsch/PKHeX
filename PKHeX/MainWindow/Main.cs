@@ -3934,16 +3934,17 @@ namespace PKHeX
                 DragInfo.slotSourceBoxNumber = DragInfo.slotSourceSlotNumber >= 30  ? -1 : CB_BoxSelect.SelectedIndex;
 
                 // Make a new file name based off the PID
+                bool encrypt = ModifierKeys == Keys.Control;
                 byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
                 Array.Resize(ref dragdata, SAV.SIZE_STORED);
                 PKM pkx = SAV.getPKM(dragdata);
-                string filename = pkx.FileName;
+                string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension) }";
 
                 // Make File
                 string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
                 try
                 {
-                    File.WriteAllBytes(newfile, dragdata);
+                    File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
                     var img = (Bitmap)pb.Image;
                     DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
                     pb.Image = null;
