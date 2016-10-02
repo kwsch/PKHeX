@@ -65,8 +65,8 @@ namespace PKHeX
         public bool CapturedFlag    { get { return (XDPKMFLAGS & (1 << 2)) == 1 << 2; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 2) | (value ? 1 << 2 : 0); } }
         public bool UnusedFlag3     { get { return (XDPKMFLAGS & (1 << 3)) == 1 << 3; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 3) | (value ? 1 << 3 : 0); } }
         public bool BlockTrades     { get { return (XDPKMFLAGS & (1 << 4)) == 1 << 4; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 4) | (value ? 1 << 4 : 0); } }
-        public override bool Valid => (XDPKMFLAGS & (1 << 5)) == 0; // invalid flag not set
-        public int AbilityNumber    { get { return (XDPKMFLAGS >> 6) & 1; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 6) | (value << 6); } }
+        public override bool Valid  { get { return (XDPKMFLAGS & (1 << 5)) == 0; }      set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 5) | (value ? 0 : 1 << 5); } } // invalid flag
+        public int AbilityNumber    { get { return (XDPKMFLAGS >> 6) & 1; }             set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 6) | (value << 6); } }
         public override bool IsEgg  { get { return (XDPKMFLAGS & (1 << 7)) == 1 << 7; } set { XDPKMFLAGS = XDPKMFLAGS & ~(1 << 7) | (value ? 1 << 7 : 0); } }
         // 0x1E-0x1F Unknown
         public override uint EXP { get { return BigEndian.ToUInt32(Data, 0x20); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x20); } }

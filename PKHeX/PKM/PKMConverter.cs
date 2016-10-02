@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 
 namespace PKHeX
@@ -41,6 +40,8 @@ namespace PKHeX
                     return 2;
                 case PKX.SIZE_3PARTY:
                 case PKX.SIZE_3STORED:
+                case PKX.SIZE_3CSTORED:
+                case PKX.SIZE_3XSTORED:
                     return 3;
                 case PKX.SIZE_4PARTY:
                 case PKX.SIZE_4STORED:
@@ -89,7 +90,11 @@ namespace PKHeX
                         PL2[0].Identifier = ident;
                     return PL2[0];
                 case 3:
-                    return new PK3(data, ident);
+                    switch (data.Length) { 
+                        case PKX.SIZE_3CSTORED: return new CK3(data, ident);
+                        case PKX.SIZE_3XSTORED: return new XK3(data, ident);
+                        default: return new PK3(data, ident);
+                    }
                 case 4:
                     var pk = new PK4(data, ident);
                     if (!pk.Valid || pk.Sanity != 0)
@@ -149,7 +154,7 @@ namespace PKHeX
                         {
                             if (pk.Species > 151)
                             {
-                                comment = $"Cannot convert a {PKX.getSpeciesName(pk.Species, ((PK2)pk).Japanese ? 1 : 2)} to {PKMType.Name}";
+                                comment = $"Cannot convert a {PKX.getSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
                                 return null;
                             }
                             pkm = ((PK2)pk).convertToPK1();
@@ -158,18 +163,29 @@ namespace PKHeX
                             pkm = null;
                         break;
                     case "PK2":
-                        if (PKMType == typeof(PK1))
-                        {
-                            pkm = ((PK1)pk).convertToPK2();
-                        }
-                        else
-                            pkm = null;
+                        pkm = PKMType == typeof(PK1) ? ((PK1)pkm).convertToPK2() : null;
                         break;
+                    case "CK3":
+                    case "XK3":
+                        // interconverting C/XD needs to visit main series format
+                        // ends up stripping purification/shadow etc stats
+                        pkm = pkm.convertToPK3();
+                        goto case "PK3"; // fall through
                     case "PK3":
-                        if (toFormat == 3)
+                        if (toFormat == 3) // Gen3 Inter-trading
                         {
-                            // Colo/XD stuff here!
+                            switch (PKMType.Name)
+                            {
+                                case "CK3": pkm = pkm.convertToCK3(); break;
+                                case "XK3": pkm = pkm.convertToXK3(); break;
+                                case "PK3": pkm = pkm.convertToPK3(); break; // already converted, instantly returns
+                                default: throw new FormatException();
+                            }
+                            break;
                         }
+                        if (fromType.Name != "PK3")
+                            pkm = pkm.convertToPK3();
+
                         pkm = ((PK3)pkm).convertToPK4();
                         if (toFormat == 4)
                         {
@@ -210,14 +226,11 @@ namespace PKHeX
                         break;
                 }
             }
-            if (pkm == null)
-            {
-                comment = $"Cannot convert a {fromType.Name} to a {PKMType.Name}.";
-            }
-            else
-            {
-                comment = $"Converted from {fromType.Name} to {PKMType.Name}.";
-            }
+
+            comment = pkm == null
+                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}." 
+                : $"Converted from {fromType.Name} to {PKMType.Name}.";
+
             return pkm;
         }
         internal static void checkEncrypted(ref byte[] pkm)

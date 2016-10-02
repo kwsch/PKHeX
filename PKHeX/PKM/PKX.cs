@@ -51,6 +51,7 @@ namespace PKHeX
                 SIZE_1JLIST, SIZE_1ULIST,
                 SIZE_2ULIST, SIZE_2JLIST,
                 SIZE_3STORED, SIZE_3PARTY,
+                SIZE_3CSTORED, SIZE_3XSTORED,
                 SIZE_4STORED, SIZE_4PARTY,
                 SIZE_5PARTY,
                 SIZE_6STORED, SIZE_6PARTY

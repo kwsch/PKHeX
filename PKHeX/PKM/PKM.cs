@@ -20,8 +20,8 @@ namespace PKHeX
         public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
         public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
-        public virtual bool Valid => ChecksumValid && Sanity == 0;
-        
+        public virtual bool Valid { get { return ChecksumValid && Sanity == 0; } set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+
         protected virtual ushort CalculateChecksum()
         {
             ushort chk = 0;
@@ -482,6 +482,54 @@ namespace PKHeX
         public void setPIDUnown3(int form)
         {
             do PID = Util.rnd32(); while (PKX.getUnownForm(PID) != form);
+        }
+
+        // Gen3 Conversion -- do not use if format > 4
+        public PKM convertToCK3()
+        {
+            if (Format != 3)
+                return null;
+            if (GetType() == typeof(CK3))
+                return this;
+            var pk = new CK3();
+            TransferPropertiesWithReflection(this, pk);
+            pk.setStats(getStats(PersonalTable.RS[pk.Species]));
+            return pk;
+        }
+        public PKM convertToXK3()
+        {
+            if (Format != 3)
+                return null;
+            if (GetType() == typeof(XK3))
+                return this;
+            var pk = new XK3();
+            TransferPropertiesWithReflection(this, pk);
+            pk.setStats(getStats(PersonalTable.RS[pk.Species]));
+            return pk;
+        }
+        public PKM convertToPK3()
+        {
+            if (Format != 3)
+                return null;
+            if (GetType() == typeof(PK3))
+                return this;
+            var pk = new PK3();
+            TransferPropertiesWithReflection(this, pk);
+            pk.RefreshChecksum();
+            return pk;
+        }
+        protected void TransferPropertiesWithReflection(PKM Source, PKM Destination)
+        {
+            var SourceProperties = ReflectUtil.getPropertiesCanWritePublic(Source.GetType());
+            var DestinationProperties = ReflectUtil.getPropertiesCanWritePublic(Destination.GetType());
+
+            foreach (string property in SourceProperties.Intersect(DestinationProperties).Where(prop => prop != nameof(Data)))
+            {
+                var prop = ReflectUtil.GetValue(this, property);
+                if (prop == null)
+                    continue;
+                ReflectUtil.SetValue(Destination, property, prop);
+            }
         }
     }
 }

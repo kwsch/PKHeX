@@ -437,21 +437,19 @@ namespace PKHeX
         public PK4 convertToPK4()
         {
             PK4 pk4 = new PK4();
-            foreach (string property in ReflectUtil.getPropertiesCanWritePublic(typeof(PK4)).Intersect(ReflectUtil.getPropertiesCanWritePublic(typeof(BK4))))
-            {
-                var prop = ReflectUtil.GetValue(this, property);
-                if (prop != null)
-                    ReflectUtil.SetValue(pk4, property, prop);
-            }
+            TransferPropertiesWithReflection(this, pk4);
             // Fix Non-Reflectable properties
             Array.Copy(Data, 0x78, pk4.Data, 0x78, 6); // Met Info
+            // Preserve Trash Bytes
             for (int i = 0; i < 11; i++) // Nickname
             {
-                Data.Skip(0x48 + 2 * i).Take(2).Reverse().ToArray().CopyTo(pk4.Data, 0x48 + 2 * i);
+                pk4.Data[0x48 + 2*i] = Data[0x48 + 2*i + 1];
+                pk4.Data[0x48 + 2*i + 1] = Data[0x48 + 2*i];
             }
             for (int i = 0; i < 8; i++) // OT_Name
             {
-                Data.Skip(0x68 + 2 * i).Take(2).Reverse().ToArray().CopyTo(pk4.Data, 0x68 + 2 * i);
+                pk4.Data[0x68 + 2*i] = Data[0x68 + 2*i + 1];
+                pk4.Data[0x68 + 2*i + 1] = Data[0x68 + 2*i];
             }
             pk4.Sanity = 0;
             pk4.RefreshChecksum();
