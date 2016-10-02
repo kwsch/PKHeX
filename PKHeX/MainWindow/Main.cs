@@ -3536,7 +3536,6 @@ namespace PKHeX
         {
             if (!SAV.HasBox)
                 return;
-            int selectedbox = CB_BoxSelect.SelectedIndex; // precache selected box
             // Build ComboBox Dropdown Items
             try
             {
@@ -3550,8 +3549,8 @@ namespace PKHeX
                 for (int i = 1; i <= SAV.BoxCount; i++)
                     CB_BoxSelect.Items.Add($"BOX {i}");
             }
-            if (selectedbox < CB_BoxSelect.Items.Count)
-                CB_BoxSelect.SelectedIndex = selectedbox; // restore selected box
+            if (SAV.CurrentBox < CB_BoxSelect.Items.Count)
+                CB_BoxSelect.SelectedIndex = SAV.CurrentBox; // restore selected box
         }
         private void getQuickFiller(PictureBox pb, PKM pk = null)
         {
@@ -3601,7 +3600,11 @@ namespace PKHeX
         }
         private void getBox(object sender, EventArgs e)
         {
-            SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
+            if (SAV.CurrentBox != CB_BoxSelect.SelectedIndex)
+            {
+                SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
+                SAV.Edited = true; // Dumb
+            }
             setPKXBoxes();
         }
         private void switchDaycare(object sender, EventArgs e)
