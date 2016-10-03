@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -125,7 +124,7 @@ namespace PKHeX
             // Put save slot back in original save data
             byte[] newFile = (byte[])OriginalData.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex * SLOT_SIZE, newSAV.Length);
-            return newFile;
+            return Header.Concat(newFile).ToArray();
         }
 
         // Configuration

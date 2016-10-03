@@ -62,7 +62,8 @@ namespace PKHeX
             // Set Data Back
             foreach (RSBOX_Block b in Blocks)
                 b.Data.CopyTo(Data, b.Offset);
-            return Data.Take(Data.Length - SIZE_RESERVED).ToArray();
+            byte[] newFile = Data.Take(Data.Length - SIZE_RESERVED).ToArray();
+            return Header.Concat(newFile).ToArray();
         }
 
         // Configuration
