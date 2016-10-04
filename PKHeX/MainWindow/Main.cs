@@ -1170,6 +1170,10 @@ namespace PKHeX
 
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
                 Util.TranslateInterface(this, curlanguage);
+            
+            // No changes made yet
+            UndoStack.Clear(); Menu_Undo.Enabled = false;
+            RedoStack.Clear(); Menu_Redo.Enabled = false;
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
@@ -3202,6 +3206,18 @@ namespace PKHeX
             }
             else if (slot < 30 || HaX && slot >= 36 && slot < 42)
             {
+                if (slot < 30)
+                {
+                    UndoStack.Push(new SlotChange
+                    {
+                        Box = CB_BoxSelect.SelectedIndex,
+                        Slot = slot,
+                        Offset = offset,
+                        OriginalData = SAV.getStoredSlot(offset)
+                    });
+                    Menu_Undo.Enabled = true;
+                }
+
                 SAV.setStoredSlot(pk, offset);
                 getQuickFiller(SlotPictureBoxes[slot], pk);
                 getSlotColor(slot, Properties.Resources.slotSet);
@@ -3209,16 +3225,6 @@ namespace PKHeX
 
             updateBoxViewers();
         }
-
-        private void updateSaveSlot(object sender, EventArgs e)
-        {
-            if (SAV.Version == GameVersion.BATREV)
-            {
-                ((SAV4BR) SAV).CurrentSlot = Util.getIndex(CB_SaveSlot);
-                setPKXBoxes();
-            }
-        }
-
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
@@ -3238,12 +3244,80 @@ namespace PKHeX
                 return;
             }
             if (slot < 30 || HaX && slot >= 36 && slot < 42)
-            { SAV.setStoredSlot(SAV.BlankPKM, getPKXOffset(slot)); }
+            {
+                if (slot < 30)
+                {
+                    UndoStack.Push(new SlotChange
+                    {
+                        Box = CB_BoxSelect.SelectedIndex,
+                        Slot = slot,
+                        Offset = offset,
+                        OriginalData = SAV.getStoredSlot(offset)
+                    });
+                    Menu_Undo.Enabled = true;
+                }
+                SAV.setStoredSlot(SAV.BlankPKM, getPKXOffset(slot));
+            }
             else return;
 
             getQuickFiller(SlotPictureBoxes[slot], SAV.BlankPKM);
             getSlotColor(slot, Properties.Resources.slotDel);
             updateBoxViewers();
+        }
+        private readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
+        private readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
+        private void clickUndo(object sender, EventArgs e)
+        {
+            if (!UndoStack.Any())
+                return;
+
+            SlotChange change = UndoStack.Pop();
+            if (change.Slot >= 30)
+                return;
+
+            RedoStack.Push(new SlotChange
+            {
+                Slot = change.Slot,
+                Box = change.Box,
+                Offset = change.Offset,
+                OriginalData = SAV.getStoredSlot(change.Offset)
+            });
+            undoSlotChange(change);
+        }
+        private void clickRedo(object sender, EventArgs e)
+        {
+            if (!RedoStack.Any())
+                return;
+
+            SlotChange change = RedoStack.Pop();
+            if (change.Slot >= 30)
+                return;
+
+            UndoStack.Push(new SlotChange
+            {
+                Slot = change.Slot,
+                Box = change.Box,
+                Offset = change.Offset,
+                OriginalData = SAV.getStoredSlot(change.Offset)
+            });
+            undoSlotChange(change);
+        }
+        private void undoSlotChange(SlotChange change)
+        {
+            int slot = change.Slot;
+            int offset = change.Offset;
+            PKM pk = (PKM)change.OriginalData;
+
+            if (CB_BoxSelect.SelectedIndex != change.Box)
+                CB_BoxSelect.SelectedIndex = change.Box;
+            SAV.setStoredSlot(pk, offset);
+            getQuickFiller(SlotPictureBoxes[slot], pk);
+            getSlotColor(slot, Properties.Resources.slotSet);
+
+            Menu_Undo.Enabled = UndoStack.Any();
+            Menu_Redo.Enabled = RedoStack.Any();
+
+            SystemSounds.Asterisk.Play();
         }
         private void clickClone(object sender, EventArgs e)
         {
@@ -3285,7 +3359,13 @@ namespace PKHeX
             }
             showLegality(pk as PK6, slot < 0, ModifierKeys == Keys.Control);
         }
-
+        private void updateSaveSlot(object sender, EventArgs e)
+        {
+            if (SAV.Version != GameVersion.BATREV)
+                return;
+            ((SAV4BR)SAV).CurrentSlot = Util.getIndex(CB_SaveSlot);
+            setPKXBoxes();
+        }
         private void updateEggRNGSeed(object sender, EventArgs e)
         {
             if (TB_RNGSeed.Text.Length == 0)
@@ -3363,7 +3443,6 @@ namespace PKHeX
                 SAV.Edited = true;
             }
         }
-
         private void updateIsNicknamed(object sender, EventArgs e)
         {
             if (!fieldsLoaded)
