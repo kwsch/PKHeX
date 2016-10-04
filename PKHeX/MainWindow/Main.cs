@@ -676,8 +676,8 @@ namespace PKHeX
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
-                else if (SAV.Generation == 1 && ((PK1) pk).Japanese != SAV.GetJapanese)
-                    Util.Alert($"Cannot load {(SAV.GetJapanese ? "an International" : "a Japanese")} PK1 in {(SAV.GetJapanese ? "a Japanese" : "an International")} save file.");
+                else if (SAV.Generation < 3 && (pk is PK1 ? ((PK1)pk).Japanese : ((PK2)pk).Japanese) != SAV.GetJapanese)
+                    Util.Alert($"Cannot load {(SAV.GetJapanese ? "an International" : "a Japanese")} {pk.GetType().Name} in {(SAV.GetJapanese ? "a Japanese" : "an International")} save file.");
                 else 
                     populateFields(pk);
                 Console.WriteLine(c);
@@ -1130,6 +1130,8 @@ namespace PKHeX
             bool init = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
             pkm = pkm.GetType() != SAV.PKMType ? SAV.BlankPKM : pk;
+            if (pkm.Format < 3)
+                pkm = SAV.BlankPKM;
             populateFilteredDataSources();
             populateFields(pkm);
             fieldsInitialized |= init;
@@ -2896,14 +2898,22 @@ namespace PKHeX
             List<string> errata = new List<string>();
             if (SAV.Generation > 1)
             {
-                if (pk.HeldItem > itemlist.Length)
-                    errata.Add($"Item Index beyond range: {pk.HeldItem}");
+                ushort held;
+                if (SAV.Generation == 2)
+                    held = (ushort)(((PK2) pk).G2Item);
+                else if (SAV.Generation == 3)
+                    held = (ushort)(((PK3) pk).G3Item);
+                else
+                    held = (ushort)(pk.HeldItem);
+
+                if (held > itemlist.Length)
+                    errata.Add($"Item Index beyond range: {held}");
                 else
                 {
-                    if (pk.HeldItem > SAV.MaxItemID)
-                        errata.Add($"Game can't obtain item: {itemlist[pk.HeldItem]}");
+                    if (held > SAV.MaxItemID)
+                        errata.Add($"Game can't obtain item: {itemlist[held]}");
                     if (!pk.CanHoldItem(SAV.HeldItems))
-                        errata.Add($"Game can't hold item: {itemlist[pk.HeldItem]}");
+                        errata.Add($"Game can't hold item: {itemlist[held]}");
                 }
             }
 

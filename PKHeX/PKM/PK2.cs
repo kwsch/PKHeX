@@ -274,7 +274,7 @@ public override int Stat_Level
 
         public override bool CanHoldItem(ushort[] ValidArray)
         {
-            return ValidArray.Contains((ushort)HeldItem);
+            return ValidArray.Contains((ushort)G2Item);
         }
 
         #region Future, Unused Attributes

@@ -132,7 +132,7 @@ namespace PKHeX
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
             }
-            if (fromFormat <= toFormat)
+            if (fromFormat <= toFormat || fromFormat == 2)
             {
                 pkm = pk.Clone();
                 if (pkm.IsEgg) // force hatch
@@ -150,20 +150,20 @@ namespace PKHeX
                 switch (fromType.Name)
                 {
                     case "PK1":
-                        if (PKMType == typeof(PK2))
+                        pkm = (PKMType == typeof (PK2)) ? ((PK1) pk).convertToPK2() : null;
+                        break;
+                    case "PK2":
+                        if (PKMType == typeof (PK1))
                         {
                             if (pk.Species > 151)
                             {
                                 comment = $"Cannot convert a {PKX.getSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
                                 return null;
                             }
-                            pkm = ((PK2)pk).convertToPK1();
+                            pkm = ((PK2) pk).convertToPK1();
                         }
                         else
                             pkm = null;
-                        break;
-                    case "PK2":
-                        pkm = PKMType == typeof(PK1) ? ((PK1)pkm).convertToPK2() : null;
                         break;
                     case "CK3":
                     case "XK3":
