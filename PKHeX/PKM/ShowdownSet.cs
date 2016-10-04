@@ -145,12 +145,8 @@ namespace PKHeX
             // First Line: Name, Nickname, Gender, Item
             string specForm = species[Species];
             if (!string.IsNullOrWhiteSpace(Form))
-            {
-                if (Form.Contains("Mega"))
-                    specForm += Form.Replace("Mega ", "Mega-");
-                else
-                    specForm += "-" + Form;
-            }
+                specForm += "-" + Form.Replace("Mega ", "Mega-");
+
             string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}"; 
             if (!string.IsNullOrEmpty(Gender))
                 result += $" ({Gender})";
