@@ -2899,12 +2899,24 @@ namespace PKHeX
             if (SAV.Generation > 1)
             {
                 ushort held;
-                if (SAV.Generation == 2)
-                    held = (ushort)(((PK2) pk).G2Item);
-                else if (SAV.Generation == 3)
-                    held = (ushort)(((PK3) pk).G3Item);
-                else
-                    held = (ushort)(pk.HeldItem);
+                switch (pk.GetType().Name)
+                {
+                    case "PK2":
+                        held = (ushort)(((PK2)pk).G2Item);
+                        break;
+                    case "CK3":
+                        held = (ushort)(((CK3)pk).G3Item);
+                        break;
+                    case "XK3":
+                        held = (ushort)(((XK3)pk).G3Item);
+                        break;
+                    case "PK3":
+                        held = (ushort)(((PK3)pk).G3Item);
+                        break;
+                    default:
+                        held = (ushort)(pk.HeldItem);
+                        break;
+                }
 
                 if (held > itemlist.Length)
                     errata.Add($"Item Index beyond range: {held}");
