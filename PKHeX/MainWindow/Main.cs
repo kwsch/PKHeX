@@ -1719,6 +1719,9 @@ namespace PKHeX
         }
         private void clickGender(object sender, EventArgs e)
         {
+            if (SAV.Generation == 2)
+                return;
+
             // Get Gender Threshold
             int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
 
@@ -3224,6 +3227,8 @@ namespace PKHeX
             }
 
             updateBoxViewers();
+
+            RedoStack.Clear(); Menu_Redo.Enabled = false;
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -3263,6 +3268,8 @@ namespace PKHeX
             getQuickFiller(SlotPictureBoxes[slot], SAV.BlankPKM);
             getSlotColor(slot, Properties.Resources.slotDel);
             updateBoxViewers();
+
+            RedoStack.Clear(); Menu_Redo.Enabled = false;
         }
         private readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
         private readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
