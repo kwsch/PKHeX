@@ -47,7 +47,6 @@ namespace PKHeX
             if (Version == GameVersion.Invalid)
                 return;
             
-            
             int[] BlockOrder1 = new int[14];
             for (int i = 0; i < 14; i++)
                 BlockOrder1[i] = BitConverter.ToInt16(Data, i*0x1000 + 0xFF4);
@@ -60,6 +59,11 @@ namespace PKHeX
                     BlockOrder2[i] = BitConverter.ToInt16(Data, 0xE000 + i*0x1000 + 0xFF4);
                 int zeroBlock2 = Array.IndexOf(BlockOrder2, 0);
 
+                if (zeroBlock2 < 0)
+                    ActiveSAV = 0;
+                else if (zeroBlock1 < 0)
+                    ActiveSAV = 1;
+                else
                 ActiveSAV = BitConverter.ToUInt32(Data, zeroBlock1*0x1000 + 0xFFC) >
                             BitConverter.ToUInt32(Data, zeroBlock2*0x1000 + 0xEFFC)
                     ? 0

@@ -213,27 +213,34 @@ namespace PKHeX
             if (data.Length != SIZE_G3RAW && data.Length != SIZE_G3RAWHALF)
                 return GameVersion.Invalid;
 
-            int[] BlockOrder = new int[14];
-            for (int i = 0; i < 14; i++)
-                BlockOrder[i] = BitConverter.ToInt16(data, i * 0x1000 + 0xFF4);
-
-            if (BlockOrder.Any(i => i > 0xD || i < 0))
-                return GameVersion.Invalid;
-
-            // Detect RS/E/FRLG
-            // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
-
-            int Block0 = Array.IndexOf(BlockOrder, 0);
-            uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC);
-            if (GameCode == uint.MaxValue)
-                return GameVersion.Unknown; // what a hack
-            
-            switch (GameCode)
+            // check the save file(s)
+            int count = data.Length/SIZE_G3RAWHALF;
+            for (int s = 0; s < count; s++)
             {
-                case 0: return GameVersion.RS;
-                case 1: return GameVersion.FRLG;
-                default: return GameVersion.E;
+                int ofs = 0xE000*s;
+                int[] BlockOrder = new int[14];
+                for (int i = 0; i < 14; i++)
+                    BlockOrder[i] = BitConverter.ToInt16(data, i * 0x1000 + 0xFF4 + ofs);
+
+                if (BlockOrder.Any(i => i > 0xD || i < 0))
+                    continue;
+
+                // Detect RS/E/FRLG
+                // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
+
+                int Block0 = Array.IndexOf(BlockOrder, 0);
+                uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC + ofs);
+                if (GameCode == uint.MaxValue)
+                    return GameVersion.Unknown; // what a hack
+
+                switch (GameCode)
+                {
+                    case 0: return GameVersion.RS;
+                    case 1: return GameVersion.FRLG;
+                    default: return GameVersion.E;
+                }
             }
+            return GameVersion.Invalid;
         }
         /// <summary>Determines the type of 3rd gen Box RS</summary>
         /// <param name="data">Save data of which to determine the type</param>
