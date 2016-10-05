@@ -11,7 +11,6 @@ namespace PKHeX
     public sealed class PCD : MysteryGift
     {
         internal const int Size = 0x358; // 856
-        public override string Extension => "pcd";
         public override int Format => 4;
         
         public PCD(byte[] data = null)
@@ -65,7 +64,6 @@ namespace PKHeX
     public class PGT : MysteryGift
     {
         internal const int Size = 0x104; // 260
-        public override string Extension => "pgt";
         public override int Format => 4;
 
         private enum GiftType

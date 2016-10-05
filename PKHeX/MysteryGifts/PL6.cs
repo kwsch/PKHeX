@@ -7,8 +7,7 @@ namespace PKHeX
     public class PL6 //: PokemonLink
     {
         internal const int Size = 0xA47;
-        internal const string Filter = "Pokémon Link Data|*.bin|All Files (*.*)|*.*";
-        internal const string Extension = ".bin";
+        internal const string Filter = "Pokémon Link Data|*.pl6|All Files (*.*)|*.*";
 
         public byte[] Data;
         public PL6(byte[] data = null)
