@@ -2839,7 +2839,7 @@
     <None Include="Resources\text\gen3\text_ItemsG3Colosseum_en.txt" />
     <None Include="Resources\img\Program\gift.png" />
     <None Include="Resources\text\gen3\text_cxd_00000_en.txt" />
-    <Content Include="Resources\text\gen3\text_ItemsG2_en.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG2_en.txt" />
     <None Include="Resources\img\Pokemon Sprites\172_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

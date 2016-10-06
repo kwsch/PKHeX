@@ -485,8 +485,8 @@ namespace PKHeX
 
             // Set Form
             string[] formStrings = PKX.getFormList(Set.Species,
-                Util.getStringList("types", "en"),
-                Util.getStringList("forms", "en"), gendersymbols, SAV.Generation);
+                Util.getTypesList("en"),
+                Util.getFormsList("en"), gendersymbols, SAV.Generation);
             int form = 0;
             for (int i = 0; i < formStrings.Length; i++)
                 if (formStrings[i].Contains(Set.Form ?? ""))
@@ -1269,12 +1269,12 @@ namespace PKHeX
             metCXD_00000 = metSanitize;
 
             // Current Generation strings
-            natures = Util.getStringList("natures", l);
-            types = Util.getStringList("types", l);
+            natures = Util.getNaturesList(l);
+            types = Util.getTypesList(l);
             abilitylist = Util.getAbilitiesList(l);
             movelist = Util.getMovesList(l);
-            itemlist = Util.getStringList("items", l);
-            characteristics = Util.getStringList("character", l);
+            itemlist = Util.getItemsList(l);
+            characteristics = Util.getCharacteristicsList(l);
             specieslist = Util.getSpeciesList(l);
             wallpapernames = Util.getStringList("wallpaper", l);
             encountertypelist = Util.getStringList("encountertype", l);
@@ -1288,7 +1288,7 @@ namespace PKHeX
             if (l != "pt" || (l == "pt" && !fieldsInitialized)) // load initial binaries
             {
                 pokeblocks = Util.getStringList("pokeblock", l);
-                forms = Util.getStringList("forms", l);
+                forms = Util.getFormsList(l);
                 memories = Util.getStringList("memories", l);
                 genloc = Util.getStringList("genloc", l);
                 trainingbags = Util.getStringList("trainingbag", l);

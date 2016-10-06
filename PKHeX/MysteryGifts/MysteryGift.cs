@@ -5,11 +5,25 @@ namespace PKHeX
 {
     public abstract class MysteryGift
     {
-        internal static bool getIsMysteryGift(long len)
+
+        /// <summary>
+        /// Determines whether or not the given length of bytes is valid for a mystery gift.
+        /// </summary>
+        /// <param name="len">Length, in bytes, of the data of which to determine validity.</param>
+        /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
+        public static bool getIsMysteryGift(long len)
         {
             return new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size }.Contains((int)len);
         }
-        internal static MysteryGift getMysteryGift(byte[] data, string ext)
+
+        /// <summary>
+        /// Converts the given data to a <see cref="MysteryGift"/>.
+        /// </summary>
+        /// <param name="data">Raw data of the mystery gift.</param>
+        /// <param name="ext">Extension of the file from which the <paramref name="data"/> was retrieved.</param>
+        /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> or <paramref name="ext"/> is invalid.</returns>
+        /// <remarks>This overload differs from <see cref="getMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
+        public static MysteryGift getMysteryGift(byte[] data, string ext)
         {
             if (data.Length == WC6.SizeFull && ext == ".wc6full")
                 return new WC6(data);
@@ -23,7 +37,13 @@ namespace PKHeX
                 return new PCD(data);
             return null;
         }
-        internal static MysteryGift getMysteryGift(byte[] data)
+
+        /// <summary>
+        /// Converts the given data to a <see cref="MysteryGift"/>.
+        /// </summary>
+        /// <param name="data">Raw data of the mystery gift.</param>
+        /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> is invalid.</returns>
+        public static MysteryGift getMysteryGift(byte[] data)
         {
             switch (data.Length)
             {
