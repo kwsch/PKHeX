@@ -227,8 +227,12 @@ namespace PKHeX
 
                 // Detect RS/E/FRLG
                 // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
-
                 int Block0 = Array.IndexOf(BlockOrder, 0);
+
+                // Sometimes not all blocks are present (start of game), yielding multiple block0's.
+                // Real 0th block comes before block1.
+                if (BlockOrder[0] == 1 && Block0 != BlockOrder.Length - 1)
+                    continue;
                 uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC + ofs);
                 if (GameCode == uint.MaxValue)
                     return GameVersion.Unknown; // what a hack
