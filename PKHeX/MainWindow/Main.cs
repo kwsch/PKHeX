@@ -1906,18 +1906,17 @@ namespace PKHeX
             else
             {
                 // Change the XP
-                int Level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
+                int Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
                 if (Level > 100) TB_Level.Text = "100";
                 if (Level > byte.MaxValue) MT_Level.Text = "255";
 
                 TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
-            if (fieldsLoaded)
+            if (fieldsLoaded) // store values back
             {
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
-                if (SAV.Generation < 3)
-                    pkm.Stat_Level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
+                pkm.Stat_Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
             }
             updateStats();
             updateLegality();
