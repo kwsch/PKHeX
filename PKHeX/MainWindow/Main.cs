@@ -1885,7 +1885,7 @@ namespace PKHeX
         private bool changingFields;
         private void updateEXPLevel(object sender, EventArgs e)
         {
-            if (changingFields) return;
+            if (changingFields || !fieldsInitialized) return;
 
             changingFields = true;
             if (sender == TB_EXP)
@@ -1917,7 +1917,7 @@ namespace PKHeX
             {
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
                 if (SAV.Generation < 3)
-                    pkm.Stat_Level = Util.ToInt32(TB_Level.Text);
+                    pkm.Stat_Level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
             }
             updateStats();
             updateLegality();
