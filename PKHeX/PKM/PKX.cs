@@ -1103,7 +1103,7 @@ namespace PKHeX
             string s = "";
             for (int i = 0; i < strdata.Length; i += 2)
             {
-                ushort val = Util.SwapEndianness(BitConverter.ToUInt16(strdata, i));
+                ushort val = BigEndian.ToUInt16(strdata, i);
                 if (val == 0xFFFF) break;
                 ushort chr = val2charG4(val);
                 if (chr == 0xFFFF) break;
@@ -1121,7 +1121,7 @@ namespace PKHeX
                 ushort val = char2valG4(chr);
                 if (val == 0xFFFF || chr == 0xFFFF)
                 { Array.Resize(ref strdata, i * 2); break; }
-                BitConverter.GetBytes(Util.SwapEndianness(val)).CopyTo(strdata, i * 2);
+                BigEndian.GetBytes(val).CopyTo(strdata, i * 2);
             }
             BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
             return strdata;

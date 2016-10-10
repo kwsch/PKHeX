@@ -232,8 +232,8 @@ namespace PKHeX
         }
         public override ushort TID
         {
-            get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, Japanese ? 0x25FB : 0x2605)); }
-            set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, Japanese ? 0x25FB : 0x2605); }
+            get { return BigEndian.ToUInt16(Data, Japanese ? 0x25FB : 0x2605); }
+            set { BigEndian.GetBytes(value).CopyTo(Data, Japanese ? 0x25FB : 0x2605); }
         }
         public override ushort SID
         {
@@ -304,21 +304,21 @@ namespace PKHeX
         }
         public override uint Money
         {
-            get { return uint.Parse((Util.SwapEndianness(BitConverter.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3)) >> 8).ToString("X6")); }
+            get { return uint.Parse((BigEndian.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3) >> 8).ToString("X6")); }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt32(value.ToString("000000"), 16))).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
+                BigEndian.GetBytes(Convert.ToUInt32(value.ToString("000000"), 16)).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
             }
         }
         public uint Coin
         {
             get
             {
-                return uint.Parse(Util.SwapEndianness(BitConverter.ToUInt16(Data, Japanese ? 0x2846 : 0x2850)).ToString("X4"));
+                return uint.Parse(BigEndian.ToUInt16(Data, Japanese ? 0x2846 : 0x2850).ToString("X4"));
             }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt16(value.ToString("0000"), 16))).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
+                BigEndian.GetBytes(Convert.ToUInt16(value.ToString("0000"), 16)).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
             }
         }
 

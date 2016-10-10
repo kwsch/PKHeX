@@ -300,8 +300,8 @@ namespace PKHeX
         
         private TimeSpan PlayedSpan
         {
-            get { return TimeSpan.FromSeconds((double)(Util.SwapEndianness(BitConverter.ToUInt32(Data, 40)) - 0x47000000) / 128); }
-            set { BitConverter.GetBytes(Util.SwapEndianness((uint)(value.TotalSeconds * 128) + 0x47000000)).CopyTo(Data, 40); }
+            get { return TimeSpan.FromSeconds((double)(BigEndian.ToUInt32(Data, 40) - 0x47000000) / 128); }
+            set { BigEndian.GetBytes((uint)(value.TotalSeconds * 128) + 0x47000000).CopyTo(Data, 40); }
         }
         public override int PlayedHours
         {

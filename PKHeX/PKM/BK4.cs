@@ -45,19 +45,19 @@ namespace PKHeX
         public override int CurrentHandler { get { return 0; } set { } }
 
         // Structure
-        public override uint PID { get { return Util.SwapEndianness(BitConverter.ToUInt32(Data, 0x00)); } set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x00); } }
-        public override ushort Sanity { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x04)); } set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x04); } }
-        public override ushort Checksum { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x06)); } set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x06); } }
+        public override uint PID { get { return BigEndian.ToUInt32(Data, 0x00); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x00); } }
+        public override ushort Sanity { get { return BigEndian.ToUInt16(Data, 0x04); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x04); } }
+        public override ushort Checksum { get { return BigEndian.ToUInt16(Data, 0x06); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x06); } }
         
         #region Block A
-        public override int Species { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x08)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x08); } }
-        public override int HeldItem { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x0A)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x0A); } }
-        public override int SID { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x0C)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x0C); } }
-        public override int TID { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x0E)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x0E); } }
+        public override int Species { get { return BigEndian.ToUInt16(Data, 0x08); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x08); } }
+        public override int HeldItem { get { return BigEndian.ToUInt16(Data, 0x0A); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0A); } }
+        public override int SID { get { return BigEndian.ToUInt16(Data, 0x0C); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0C); } }
+        public override int TID { get { return BigEndian.ToUInt16(Data, 0x0E); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0E); } }
         public override uint EXP
         {
-            get { return Util.SwapEndianness(BitConverter.ToUInt32(Data, 0x10)); }
-            set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x10); }
+            get { return BigEndian.ToUInt32(Data, 0x10); }
+            set { BigEndian.GetBytes(value).CopyTo(Data, 0x10); }
         }
         public override int OT_Friendship { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
         public override int Ability { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
@@ -115,10 +115,10 @@ namespace PKHeX
         #endregion
 
         #region Block B
-        public override int Move1 { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x28)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x28); } }
-        public override int Move2 { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2A)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x2A); } }
-        public override int Move3 { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2C)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x2C); } }
-        public override int Move4 { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2E)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x2E); } }
+        public override int Move1 { get { return BigEndian.ToUInt16(Data, 0x28); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x28); } }
+        public override int Move2 { get { return BigEndian.ToUInt16(Data, 0x2A); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2A); } }
+        public override int Move3 { get { return BigEndian.ToUInt16(Data, 0x2C); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2C); } }
+        public override int Move4 { get { return BigEndian.ToUInt16(Data, 0x2E); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2E); } }
         public override int Move1_PP { get { return Data[0x30]; } set { Data[0x30] = (byte)value; } }
         public override int Move2_PP { get { return Data[0x31]; } set { Data[0x31] = (byte)value; } }
         public override int Move3_PP { get { return Data[0x32]; } set { Data[0x32] = (byte)value; } }
@@ -127,7 +127,7 @@ namespace PKHeX
         public override int Move2_PPUps { get { return Data[0x35]; } set { Data[0x35] = (byte)value; } }
         public override int Move3_PPUps { get { return Data[0x36]; } set { Data[0x36] = (byte)value; } }
         public override int Move4_PPUps { get { return Data[0x37]; } set { Data[0x37] = (byte)value; } }
-        public uint IV32 { get { return Util.SwapEndianness(BitConverter.ToUInt32(Data, 0x38)); } set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x38); } }
+        public uint IV32 { get { return BigEndian.ToUInt32(Data, 0x38); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x38); } }
         public override int IV_HP { get { return (int)(IV32 >> 02) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 02)) | (uint)((value > 31 ? 31 : value) << 02)); } }
         public override int IV_ATK { get { return (int)(IV32 >> 07) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 07)) | (uint)((value > 31 ? 31 : value) << 07)); } }
         public override int IV_DEF { get { return (int)(IV32 >> 12) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 12)) | (uint)((value > 31 ? 31 : value) << 12)); } }
@@ -274,33 +274,33 @@ namespace PKHeX
         {
             get
             {
-                ushort hgssloc = Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x44));
+                ushort hgssloc = BigEndian.ToUInt16(Data, 0x44);
                 if (hgssloc != 0)
                     return hgssloc;
-                return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x7E));
+                return BigEndian.ToUInt16(Data, 0x7E);
             }
             set
             {
                 if (value == 0)
                 {
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x7E);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x44);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
                 else if (PtHGSS)
                 {
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0xBBA)).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
+                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x44);
+                    BigEndian.GetBytes((ushort)0xBBA).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
                 }
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
                     // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x7E);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x44);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
                 else
                 {
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x7E);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x44);
+                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x7E);
                 }
             }
         }
@@ -308,33 +308,33 @@ namespace PKHeX
         {
             get
             {
-                ushort hgssloc = Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x46));
+                ushort hgssloc = BigEndian.ToUInt16(Data, 0x46);
                 if (hgssloc != 0)
                     return hgssloc;
-                return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x80));
+                return BigEndian.ToUInt16(Data, 0x80);
             }
             set
             {
                 if (value == 0)
                 {
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x80);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
                 else if (PtHGSS)
                 {
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0xBBA)).CopyTo(Data, 0x80); // Faraway Place (for DP display)
+                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x46);
+                    BigEndian.GetBytes((ushort)0xBBA).CopyTo(Data, 0x80); // Faraway Place (for DP display)
                 }
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
                     // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x80);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
                 else
                 {
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)0)).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x80);
+                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x80);
                 }
             }
         }
@@ -372,13 +372,13 @@ namespace PKHeX
         #endregion
 
         public override int Stat_Level { get { return Data[0x8C]; } set { Data[0x8C] = (byte)value; } }
-        public override int Stat_HPCurrent { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x8E)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x8E); } }
-        public override int Stat_HPMax { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x90)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x90); } }
-        public override int Stat_ATK { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x92)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x92); } }
-        public override int Stat_DEF { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x94)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x94); } }
-        public override int Stat_SPE { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x96)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x96); } }
-        public override int Stat_SPA { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x98)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x98); } }
-        public override int Stat_SPD { get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x9A)); } set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data, 0x9A); } }
+        public override int Stat_HPCurrent { get { return BigEndian.ToUInt16(Data, 0x8E); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x8E); } }
+        public override int Stat_HPMax { get { return BigEndian.ToUInt16(Data, 0x90); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x90); } }
+        public override int Stat_ATK { get { return BigEndian.ToUInt16(Data, 0x92); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x92); } }
+        public override int Stat_DEF { get { return BigEndian.ToUInt16(Data, 0x94); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x94); } }
+        public override int Stat_SPE { get { return BigEndian.ToUInt16(Data, 0x96); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x96); } }
+        public override int Stat_SPA { get { return BigEndian.ToUInt16(Data, 0x98); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x98); } }
+        public override int Stat_SPD { get { return BigEndian.ToUInt16(Data, 0x9A); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x9A); } }
 
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
@@ -424,7 +424,7 @@ namespace PKHeX
         {
             ushort chk = 0;
             for (int i = 8; i < SIZE_STORED; i += 2)
-                chk += Util.SwapEndianness(BitConverter.ToUInt16(Data, i));
+                chk += BigEndian.ToUInt16(Data, i);
             return chk;
         }
 
