@@ -608,7 +608,7 @@ namespace PKHeX
                 if (dsv)
                 {
                     footer = input.Skip(SIZE_G4RAW).ToArray();
-                    input = input.Take(footer.Length).ToArray();
+                    input = input.Take(SIZE_G4RAW).ToArray();
                 }
             }
             if (input.Length == SIZE_G3BOXGCI)
