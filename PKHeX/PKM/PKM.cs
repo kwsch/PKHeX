@@ -227,6 +227,7 @@ namespace PKHeX
         public abstract int CurrentHandler { get; set; }
 
         // Derived
+        public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;

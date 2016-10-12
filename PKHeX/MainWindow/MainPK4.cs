@@ -28,7 +28,6 @@ namespace PKHeX
             Label_OTGender.ForeColor = pk4.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk4.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk4.HeldItem;
-            setAbilityList();
             CB_Nature.SelectedValue = pk4.Nature;
             TB_TID.Text = pk4.TID.ToString("00000");
             TB_SID.Text = pk4.SID.ToString("00000");

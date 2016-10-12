@@ -27,8 +27,7 @@ namespace PKHeX
             Label_OTGender.Text = gendersymbols[ck3.OT_Gender];
             Label_OTGender.ForeColor = ck3.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = ck3.PID.ToString("X8");
-            CB_HeldItem.SelectedValue = ck3.G3Item;
-            setAbilityList();
+            CB_HeldItem.SelectedValue = ck3.HeldItem;
             CB_Ability.SelectedIndex = ck3.AbilityNumber > CB_Ability.Items.Count ? 0 : ck3.AbilityNumber;
             CB_Nature.SelectedValue = ck3.Nature;
             TB_TID.Text = ck3.TID.ToString("00000");
@@ -131,7 +130,7 @@ namespace PKHeX
                 return null;
 
             ck3.Species = Util.getIndex(CB_Species);
-            ck3.G3Item = Util.getIndex(CB_HeldItem);
+            ck3.HeldItem = Util.getIndex(CB_HeldItem);
             ck3.TID = Util.ToInt32(TB_TID.Text);
             ck3.SID = Util.ToInt32(TB_SID.Text);
             ck3.EXP = Util.ToUInt32(TB_EXP.Text);

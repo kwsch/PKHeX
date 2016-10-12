@@ -548,7 +548,7 @@ namespace PKHeX
         }
         public static Image getSprite(PKM pkm)
         {
-            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
+            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
 
         // Font Related

@@ -43,8 +43,8 @@ namespace PKHeX
         public override ushort Checksum { get { return SaveUtil.ccitt16(Data); } set { } } // totally false, just a way to get a 'random' ident for the pkm.
 
         public override int Species { get { return PKX.getG4Species(BigEndian.ToUInt16(Data, 0x00)); } set { BigEndian.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x00); } }
-        public override int HeldItem { get { return PKX.getG4Item((ushort)G3Item); } set { } }
-        public int G3Item { get { return BigEndian.ToUInt16(Data, 0x02); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x02); } }
+        public override int SpriteItem => PKX.getG4Item((ushort)HeldItem);
+        public override int HeldItem { get { return BigEndian.ToUInt16(Data, 0x02); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x02); } }
         public override int Stat_HPCurrent { get { return BigEndian.ToUInt16(Data, 0x04); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x04); } }
         public override int OT_Friendship { get { return Data[0x06]; } set { Data[0x06] = (byte)value; } }
         public override int Met_Location { get { return BigEndian.ToUInt16(Data, 0x08); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x08); } }
@@ -209,10 +209,6 @@ namespace PKHeX
                 return Gender == 1;
 
             return false;
-        }
-        public override bool CanHoldItem(ushort[] ValidArray)
-        {
-            return ValidArray.Contains((ushort)G3Item);
         }
     }
 }

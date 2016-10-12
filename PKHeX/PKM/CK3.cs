@@ -79,8 +79,8 @@ namespace PKHeX
         public override int Move4_PP { get { return Data[0x86]; } set { Data[0x86] = (byte)value; } }
         public override int Move4_PPUps { get { return Data[0x87]; } set { Data[0x87] = (byte)value; } }
 
-        public override int HeldItem { get { return PKX.getG4Item((ushort)G3Item); } set { } }
-        public int G3Item { get { return BigEndian.ToUInt16(Data, 0x88); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x88); } }
+        public override int SpriteItem => PKX.getG4Item((ushort)HeldItem);
+        public override int HeldItem { get { return BigEndian.ToUInt16(Data, 0x88); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x88); } }
 
         // More party stats
         public override int Stat_HPCurrent { get { return BigEndian.ToUInt16(Data, 0x8A); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x8A); } }
@@ -202,10 +202,6 @@ namespace PKHeX
                 return Gender == 1;
 
             return false;
-        }
-        public override bool CanHoldItem(ushort[] ValidArray)
-        {
-            return ValidArray.Contains((ushort)G3Item);
         }
     }
 }

@@ -1597,7 +1597,7 @@ namespace PKHeX
         private void setForms()
         {
             int species = Util.getIndex(CB_Species);
-            if (SAV.Generation < 4 && species != 201)
+            if (SAV.Generation < 4 && species != 201 || SAV.Generation < 3)
             {
                 Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
                 return;
@@ -1605,10 +1605,8 @@ namespace PKHeX
 
             bool hasForms = SAV.Personal[species].HasFormes || new[] { 201, 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
-            if (SAV.Generation == 2)
-                CB_Form.Enabled = false;
             
-            if (HaX)
+            if (HaX && SAV.Generation >= 4)
                 Label_Form.Visible = true;
 
             if (!hasForms)
@@ -1661,20 +1659,20 @@ namespace PKHeX
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             for (int i = 0; i < 6; i++)
-                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, (pkm.Markings[i] ? 1 : 0) * 0.9 + 0.1);
+                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, pkm.Markings[i] ? 1 : 0.1);
 
-            PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, (!BTN_Shinytize.Enabled ? 1 : 0) * 0.9 + 0.1);
-            PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, (CHK_Cured.Checked ? 1 : 0) * 0.9 + 0.1);
+            PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, !BTN_Shinytize.Enabled ? 1 : 0.1);
+            PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, CHK_Cured.Checked ? 1 : 0.1);
 
-            int Version = Util.getIndex(CB_GameOrigin); // 24,25 = XY, 26,27 = ORAS, 28,29 = ???
-            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (Version >= 24 && Version <= 29 ? 1 : 0) * 0.9 + 0.1);
+            int Version = pkm.Version;
+            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, Version >= 24 && Version <= 29 ? 1 : 0.1);
         }
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)
         {
-            if (SAV.Generation != 6)
+            if (SAV.Generation <= 3)
             {
-                Util.Alert("QR feature only available for 6th Gen Games.");
+                Util.Alert("QR feature not available for loaded game.");
                 return;
             }
             if (ModifierKeys == Keys.Alt)
@@ -1683,15 +1681,20 @@ namespace PKHeX
                 byte[] ekx = QR.getQRData();
 
                 if (ekx == null) return;
+                
+                if (ekx.Length != SAV.SIZE_STORED) { Util.Alert($"Decoded data not {SAV.SIZE_STORED} bytes.", $"QR Data Size: {SAV.SIZE_STORED}"); }
+                else
+                {
+                    PKM pk = PKMConverter.getPKMfromBytes(ekx);
+                    if (!pk.Valid || pk.Species <= 0)
+                    { Util.Alert("Invalid data detected."); return; }
 
-                if (ekx.Length != PKX.SIZE_6STORED) { Util.Alert($"Decoded data not {PKX.SIZE_6STORED} bytes.", $"QR Data Size: {ekx.Length}"); }
-                else try
-                    {
-                        PK6 pk = new PK6(PKX.decryptArray(ekx));
-                        if (pk.ChecksumValid) { populateFields(pk); }
-                        else Util.Alert("Invalid checksum in QR data.");
-                    }
-                    catch { Util.Alert("Error loading decrypted data."); }
+                    string c; PKM pkz = PKMConverter.convertToFormat(pk, SAV.PKMType, out c);
+                    if (pkz == null)
+                    { Util.Alert(c); return; }
+
+                    populateFields(pkz);
+                }
             }
             else
             {
@@ -1699,12 +1702,13 @@ namespace PKHeX
                 PKM pkx = preparePKM();
                 byte[] ekx = pkx.EncryptedBoxData;
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
-                Image qr = QR.getQRImage(ekx, server);
+                Image qr = QR.getQRImage(ekx, pkx.Format == 6 ? server : "null/#"); // pls no use QR on non gen6 -- bad user!
 
                 if (qr == null) return;
 
                 string[] r = pkx.QRText;
-                new QR(qr, dragout.Image, r[0], r[1], r[2], "PKHeX @ ProjectPokemon.org").ShowDialog();
+                const string refURL = "PKHeX @ ProjectPokemon.org";
+                new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})").ShowDialog();
             }
         }
         private void clickFriendship(object sender, EventArgs e)
@@ -2076,13 +2080,8 @@ namespace PKHeX
         private void updateRandomPID(object sender, EventArgs e)
         {
             if (fieldsLoaded)
-            {
-                pkm.Version = Util.getIndex(CB_GameOrigin);
                 pkm.PID = Util.getHEXval(TB_PID.Text);
-                pkm.Species = Util.getIndex(CB_Species);
-                pkm.Nature = Util.getIndex(CB_Nature);
-                pkm.AltForm = CB_Form.SelectedIndex;
-            }
+
             if (sender == Label_Gender)
                 pkm.setPIDGender(pkm.Gender);
             else if (sender == CB_Nature && pkm.Nature != Util.getIndex(CB_Nature))
@@ -2094,7 +2093,7 @@ namespace PKHeX
 
             TB_PID.Text = pkm.PID.ToString("X8");
             getQuickFiller(dragout);
-            if (pkm.GenNumber < 6 && TB_EC.Visible)
+            if (pkm.GenNumber < 6 && SAV.Generation >= 6)
                 TB_EC.Text = TB_PID.Text;
         }
         private void updateRandomEC(object sender, EventArgs e)
@@ -2209,12 +2208,8 @@ namespace PKHeX
 
             // If no days are selected
             if (CB_PKRSStrain.SelectedIndex == 0)
-            {
-                // Never Infected
-                CHK_Cured.Checked = false;
-                CHK_Infected.Checked = false;
-            }
-            else CHK_Cured.Checked = true;
+                CHK_Cured.Checked = CHK_Infected.Checked = false; // No Strain = Never Cured / Infected, triggers Strain update
+            else CHK_Cured.Checked = true; // Any Strain = Cured
         }
         private void updatePKRSCured(object sender, EventArgs e)
         {
@@ -2270,21 +2265,22 @@ namespace PKHeX
         }
         private void updateSpecies(object sender, EventArgs e)
         {
-            // Change Species Prompted
-            int Species = Util.getIndex(CB_Species);
-            int Level = Util.ToInt32(TB_Level.Text);
-            if (MT_Level.Visible) Level = Util.ToInt32(MT_Level.Text);
-
-            // Get Forms for Given Species
+            // Get Species dependent information
+            setAbilityList();
             setForms();
+            updateForm(null, null);
+            
+            if (!fieldsLoaded)
+                return;
 
+            pkm.Species = Util.getIndex(CB_Species);
             // Recalculate EXP for Given Level
-            uint EXP = PKX.getEXP(Level, Species);
+            uint EXP = PKX.getEXP(pkm.CurrentLevel, pkm.Species);
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
             // Get Gender Threshold
-            int gt = SAV.Personal[Species].Gender;
+            int gt = SAV.Personal[pkm.Species].Gender;
             int cg = Array.IndexOf(gendersymbols, Label_Gender.Text);
             int Gender;
 
@@ -2301,8 +2297,6 @@ namespace PKHeX
             
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
-            setAbilityList();
-            updateForm(null, null);
 
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
@@ -2502,7 +2496,6 @@ namespace PKHeX
                     ((PK1)pkm).setNotNicknamed();
                 if (SAV.Generation == 2)
                     ((PK2)pkm).setNotNicknamed();
-
             }
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
@@ -2530,27 +2523,38 @@ namespace PKHeX
         }
         private void updateIsEgg(object sender, EventArgs e)
         {
+            // Display hatch counter if it is an egg, Display Friendship if it is not.
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
+
+            if (!fieldsLoaded)
+                return;
+
+            pkm.IsEgg = CHK_IsEgg.Checked;
             if (CHK_IsEgg.Checked)
             {
-                CHK_Nicknamed.Checked = false;
                 TB_Friendship.Text = "1";
-                if (SAV.Generation == 2)
-                    pkm.IsEgg = true;
 
                 // If we are an egg, it won't have a met location.
                 CHK_AsEgg.Checked = true;
                 GB_EggConditions.Enabled = true;
 
                 CAL_MetDate.Value = new DateTime(2000, 01, 01);
-                CB_MetLocation.SelectedIndex = 2;
+
+                // if egg wasn't originally obtained by OT => Link Trade, else => None
+                bool isTraded = SAV.OT != TB_OT.Text || SAV.TID != Util.ToInt32(TB_TID.Text) || SAV.SID != Util.ToInt32(TB_SID.Text);
+                CB_MetLocation.SelectedIndex = isTraded ? 2 : 0;
+
+                if (!CHK_Nicknamed.Checked)
+                {
+                    TB_Nickname.Text = PKX.getSpeciesName(0, Util.getIndex(CB_Language));
+                    CHK_Nicknamed.Checked = true;
+                }
             }
             else // Not Egg
             {
                 if (!CHK_Nicknamed.Checked)
                     updateNickname(null, null);
-
-                if (SAV.Generation == 2)
-                    pkm.IsEgg = false;
 
                 TB_Friendship.Text = SAV.Personal[Util.getIndex(CB_Species)].BaseFriendship.ToString();
 
@@ -2560,14 +2564,11 @@ namespace PKHeX
                     CHK_AsEgg.Checked = false;
                     GB_EggConditions.Enabled = false;
                 }
+
+                if (TB_Nickname.Text == PKX.getSpeciesName(0, Util.getIndex(CB_Language)))
+                    CHK_Nicknamed.Checked = false;
             }
-            // Display hatch counter if it is an egg, Display Friendship if it is not.
-            Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
 
-
-            // Update image to (not) show egg.
-            if (!fieldsInitialized) return;
             updateNickname(null, null);
             getQuickFiller(dragout);
         }
@@ -2715,7 +2716,10 @@ namespace PKHeX
                 if (sender == CB_Ability && SAV.Generation <= 5 && CB_Ability.SelectedIndex < 2) // not hidden
                     updateRandomPID(sender, e);
                 if (sender == CB_Nature && SAV.Generation <= 4)
+                {
+                    pkm.Nature = CB_Nature.SelectedIndex;
                     updateRandomPID(sender, e);
+                }
             }
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
@@ -2753,7 +2757,7 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void showLegality(PK6 pk, bool tabs, bool verbose)
+        private void showLegality(PKM pk, bool tabs, bool verbose)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
             if (tabs)
@@ -2786,14 +2790,14 @@ namespace PKHeX
         private void updateStats()
         {
             // Generate the stats.
-            ushort[] stats = pkm.getStats(SAV.Personal.getFormeEntry(pkm.Species, pkm.AltForm));
+            pkm.setStats(pkm.getStats(SAV.Personal.getFormeEntry(pkm.Species, pkm.AltForm)));
 
-            Stat_HP.Text = stats[0].ToString();
-            Stat_ATK.Text = stats[1].ToString();
-            Stat_DEF.Text = stats[2].ToString();
-            Stat_SPA.Text = stats[4].ToString();
-            Stat_SPD.Text = stats[5].ToString();
-            Stat_SPE.Text = stats[3].ToString();
+            Stat_HP.Text = pkm.Stat_HPCurrent.ToString();
+            Stat_ATK.Text = pkm.Stat_ATK.ToString();
+            Stat_DEF.Text = pkm.Stat_DEF.ToString();
+            Stat_SPA.Text = pkm.Stat_SPA.ToString();
+            Stat_SPD.Text = pkm.Stat_SPD.ToString();
+            Stat_SPE.Text = pkm.Stat_SPE.ToString();
 
             // Recolor the Stat Labels based on boosted stats.
             {
@@ -2844,10 +2848,8 @@ namespace PKHeX
         }
         private void openHistory(object sender, EventArgs e)
         {
-            if (pkm.Format < 6) return;
             // Write back current values
             PK6 pk6 = pkm as PK6;
-            pk6.Version = Util.getIndex(CB_GameOrigin);
             pk6.HT_Name = TB_OTt2.Text;
             pk6.OT_Name = TB_OT.Text;
             pk6.IsEgg = CHK_IsEgg.Checked;
@@ -2892,35 +2894,14 @@ namespace PKHeX
             List<string> errata = new List<string>();
             if (SAV.Generation > 1)
             {
-                ushort held;
-                switch (pk.GetType().Name)
-                {
-                    case "PK2":
-                        held = (ushort)(((PK2)pk).G2Item);
-                        break;
-                    case "CK3":
-                        held = (ushort)(((CK3)pk).G3Item);
-                        break;
-                    case "XK3":
-                        held = (ushort)(((XK3)pk).G3Item);
-                        break;
-                    case "PK3":
-                        held = (ushort)(((PK3)pk).G3Item);
-                        break;
-                    default:
-                        held = (ushort)(pk.HeldItem);
-                        break;
-                }
+                ushort held = (ushort)pk.HeldItem;
 
                 if (held > itemlist.Length)
                     errata.Add($"Item Index beyond range: {held}");
-                else
-                {
-                    if (held > SAV.MaxItemID)
-                        errata.Add($"Game can't obtain item: {itemlist[held]}");
-                    if (!pk.CanHoldItem(SAV.HeldItems))
-                        errata.Add($"Game can't hold item: {itemlist[held]}");
-                }
+                else if (held > SAV.MaxItemID)
+                    errata.Add($"Game can't obtain item: {itemlist[held]}");
+                else if (!pk.CanHoldItem(SAV.HeldItems))
+                    errata.Add($"Game can't hold item: {itemlist[held]}");
             }
 
             if (pk.Species > specieslist.Length)
@@ -3470,6 +3451,7 @@ namespace PKHeX
         {
             if (!fieldsLoaded)
                 return;
+
             if (!CHK_Nicknamed.Checked)
             {
                 int species = Util.getIndex(CB_Species);
