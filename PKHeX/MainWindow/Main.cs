@@ -181,7 +181,7 @@ namespace PKHeX
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
-                    loadSAV(SAV, null);
+                    openSAV(SAV, null);
             }
 
             // Splash Screen closes on its own.
@@ -633,10 +633,7 @@ namespace PKHeX
         }
         private void openFile(byte[] input, string path, string ext)
         {
-            MysteryGift tg; PKM temp; string c;
-            byte[] footer = new byte[0];
-            byte[] header = new byte[0];
-            SaveUtil.CheckHeaderFooter(ref input, ref header, ref footer);
+            SaveFile sav; MysteryGift tg; PKM temp; string c;
             #region Powersaves Read-Only Conversion
             if (input.Length == 0x10009C) // Resize to 1MB
             {
@@ -661,23 +658,25 @@ namespace PKHeX
                 if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SaveUtil.BEEF)
                 { Util.Error("The data file is not a valid save file", path); return; }
 
-                openSAV(psdata, path);
+                openSAV(new SAV6(psdata), path);
             }
             #endregion
             #region SAV/PKM
-            else if (SaveUtil.getSAVGeneration(input) != -1)
+            else if ((sav = SaveUtil.getVariantSAV(input)) != null)
             {
-                openSAV(input, path);
-                SAV.Footer = footer;
-                SAV.Header = header;
+                openSAV(sav, path);
             }
             else if ((temp = PKMConverter.getPKMfromBytes(input)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
-                else if (SAV.Generation < 3 && (pk is PK1 ? ((PK1)pk).Japanese : ((PK2)pk).Japanese) != SAV.GetJapanese)
-                    Util.Alert($"Cannot load {(SAV.GetJapanese ? "an International" : "a Japanese")} {pk.GetType().Name} in {(SAV.GetJapanese ? "a Japanese" : "an International")} save file.");
+                else if (SAV.Generation < 3 && ((pk as PK1)?.Japanese ?? ((PK2)pk).Japanese) != SAV.Japanese)
+                {
+                    string a_lang = SAV.Japanese ? "an International" : "a Japanese";
+                    string pk_type = pk.GetType().Name;
+                    Util.Alert($"Cannot load {a_lang} {pk_type} in {a_lang} save file.");
+                }
                 else 
                     populateFields(pk);
                 Console.WriteLine(c);
@@ -723,17 +722,11 @@ namespace PKHeX
             else if ((tg = MysteryGift.getMysteryGift(input, ext)) != null)
             {
                 if (!tg.IsPokémon)
-                {
-                    Util.Alert("Mystery Gift is not a Pokémon.", path);
-                    return;
-                }
+                { Util.Alert("Mystery Gift is not a Pokémon.", path); return; }
+
                 temp = tg.convertToPKM(SAV);
-                if (temp.Format == SAV.Generation && ModifierKeys == Keys.Control && SAV.HasWondercards)
-                {
-                    B_OpenWondercards_Click(tg, null);
-                    return;
-                }
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
+
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
                 else
@@ -784,7 +777,7 @@ namespace PKHeX
                 // Save file is now decrypted!
 
                 // Trigger Loading of the decrypted save file.
-                openSAV(decryptedPS, path);
+                openSAV(new SAV6(decryptedPS), path);
 
                 // Abort the opening of a non-cyber file.
                 return true;
@@ -793,47 +786,49 @@ namespace PKHeX
             if (xorpath != exepath || loop++ > 0) return false; // no xorpad compatible
             xorpath = Path.GetDirectoryName(path); goto check;
         }
-        private void openSAV(byte[] input, string path)
+        private void openSAV(SaveFile sav, string path)
         {
-            SaveFile sav = SaveUtil.getVariantSAV(input);
             if (sav == null || sav.Version == GameVersion.Invalid)
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
-            if (sav.Generation == 3) // Japanese Save files are different. Get isJapanese
+
+            // Finish setting up the save file.
+            if (sav.IndeterminateGame && sav.Generation == 3)
             {
-                if (sav.Version == GameVersion.Unknown)
+                // Hacky cheats invalidated the Game Code value.
+                var drGame = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                    "Unknown Gen3 Game Detected. Select Origins:",
+                    "Yes: Ruby / Sapphire" + Environment.NewLine +
+                    "No: Emerald" + Environment.NewLine +
+                    "Cancel: FireRed / LeafGreen");
+
+                switch (drGame) // Reset save file info
                 {
-                    // Hacky cheats invalidated the Game Code value.
-                    var drGame = Util.Prompt(MessageBoxButtons.YesNoCancel,
-                        "Unknown Gen3 Game Detected. Select Origins:",
-                        "Yes: Ruby / Sapphire" + Environment.NewLine + 
-                        "No: Emerald" + Environment.NewLine +
-                        "Cancel: FireRed / LeafGreen");
-
-                    if (drGame == DialogResult.Yes)
-                        sav = new SAV3(sav.BAK, GameVersion.RS);
-                    else if (drGame == DialogResult.No)
-                        sav = new SAV3(sav.BAK, GameVersion.E);
-                    else
-                        sav = new SAV3(sav.BAK, GameVersion.FRLG);
-                }
-                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation 3 ({sav.Version}) Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
-                if (drJP == DialogResult.Cancel)
-                    return;
-                sav.Japanese = drJP == DialogResult.No;
-
-                if (sav.Version == GameVersion.FRLG)
-                {
-                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
-                    if (drFRLG == DialogResult.Cancel)
-                        return;
-
-                    sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
+                    case DialogResult.Yes: sav = new SAV3(sav.BAK, GameVersion.RS); break;
+                    case DialogResult.No: sav = new SAV3(sav.BAK, GameVersion.E); break;
+                    case DialogResult.Cancel: sav = new SAV3(sav.BAK, GameVersion.FRLG); break;
+                    default: return;
                 }
             }
-            loadSAV(sav, path);
-        }
-        private void loadSAV(SaveFile sav, string path)
-        {
+            if (sav.IndeterminateLanguage)
+            {
+                // Japanese Save files are different. Get isJapanese
+                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} Save File detected. Select language...", 
+                    "Yes: International" + Environment.NewLine + "No: Japanese");
+                if (drJP == DialogResult.Cancel)
+                    return;
+
+                sav.Japanese = drJP == DialogResult.No;
+            }
+            if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
+            {
+                var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...",
+                    "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
+                if (drFRLG == DialogResult.Cancel)
+                    return;
+
+                sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
+            }
+
             // clean fields
             PKM pk = preparePKM();
             populateFields(SAV.BlankPKM);
@@ -2400,7 +2395,7 @@ namespace PKHeX
             GameVersion Version = (GameVersion)Util.getIndex(CB_GameOrigin);
 
             // check if differs
-            GameVersion newTrack = SaveUtil.getVersionGroup(Version);
+            GameVersion newTrack = SaveUtil.getMetLocationVersionGroup(Version);
             if (newTrack != origintrack)
             {
                 var met_list = getLocationList(Version, SAV.Generation, egg:false);

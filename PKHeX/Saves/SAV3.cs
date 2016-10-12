@@ -157,6 +157,9 @@ namespace PKHeX
 
         // Configuration
         public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version); }
+        public override bool IndeterminateGame => Version == GameVersion.Unknown;
+        public override bool IndeterminateLanguage => true; // Unknown JP/International
+        public override bool IndeterminateSubVersion => Version == GameVersion.FRLG;
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int SIZE_PARTY => PKX.SIZE_3PARTY;

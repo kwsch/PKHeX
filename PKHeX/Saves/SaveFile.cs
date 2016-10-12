@@ -20,10 +20,11 @@ namespace PKHeX
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public byte[] Header { protected get; set; } = new byte[0]; // .gci
-        public bool Japanese { protected get; set; }
+        public bool Japanese { get; set; }
         public string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes.ToString("00")}ː{PlayedSeconds.ToString("00")}"; // not :
-
-        public bool GetJapanese => Japanese;
+        public virtual bool IndeterminateGame => false;
+        public virtual bool IndeterminateLanguage => false;
+        public virtual bool IndeterminateSubVersion => false;
 
         // General PKM Properties
         public abstract Type PKMType { get; }
@@ -367,7 +368,6 @@ namespace PKHeX
                         PartyCount = i + 1;
 
             setData(pkm.EncryptedPartyData, offset);
-            Console.WriteLine("");
             Edited = true;
         }
         public virtual void setStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)

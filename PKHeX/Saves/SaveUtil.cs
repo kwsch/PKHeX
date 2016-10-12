@@ -37,6 +37,9 @@ namespace PKHeX
         ORASDEMO = 107,
         ORAS = 108,
         SM = 109,
+        
+        // Extra Game Groupings (Generation)
+        Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7
     }
 
     public static class SaveUtil
@@ -75,29 +78,33 @@ namespace PKHeX
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static int getSAVGeneration(byte[] data)
+        public static GameVersion getSAVGeneration(byte[] data)
         {
             if (getIsG1SAV(data) != GameVersion.Invalid)
-                return 1;
+                return GameVersion.Gen1;
             if (getIsG2SAV(data) != GameVersion.Invalid)
-                return 2;
+                return GameVersion.Gen2;
             if (getIsG3SAV(data) != GameVersion.Invalid)
-                return 3;
-            if (getIsG3COLOSAV(data) != GameVersion.Invalid)
-                return (int)GameVersion.COLO;
-            if (getIsG3XDSAV(data) != GameVersion.Invalid)
-                return (int)GameVersion.XD;
-            if (getIsG3BOXSAV(data) != GameVersion.Invalid)
-                return (int)GameVersion.RSBOX;
+                return GameVersion.Gen3;
             if (getIsG4SAV(data) != GameVersion.Invalid)
-                return 4;
-            if (getIsG4BRSAV(data) != GameVersion.Invalid)
-                return (int) GameVersion.BATREV;
+                return GameVersion.Gen4;
             if (getIsG5SAV(data) != GameVersion.Invalid)
-                return 5;
+                return GameVersion.Gen5;
             if (getIsG6SAV(data) != GameVersion.Invalid)
-                return 6;
-            return -1;
+                return GameVersion.Gen6;
+            if (getIsG7SAV(data) != GameVersion.Invalid)
+                return GameVersion.Gen7;
+
+            if (getIsG3COLOSAV(data) != GameVersion.Invalid)
+                return GameVersion.COLO;
+            if (getIsG3XDSAV(data) != GameVersion.Invalid)
+                return GameVersion.XD;
+            if (getIsG3BOXSAV(data) != GameVersion.Invalid)
+                return GameVersion.RSBOX;
+            if (getIsG4BRSAV(data) != GameVersion.Invalid)
+                return GameVersion.BATREV;
+
+            return GameVersion.Invalid;
         }
         /// <summary>Determines the type of 1st gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -400,11 +407,16 @@ namespace PKHeX
             }
             return GameVersion.Invalid;
         }
+        public static GameVersion getIsG7SAV(byte[] data)
+        {
+            // return GameVersion.Gen7;
+            return GameVersion.Invalid;
+        }
 
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="Version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getVersionGroup(GameVersion Version)
+        public static GameVersion getMetLocationVersionGroup(GameVersion Version)
         {
             switch (Version)
             {
@@ -466,31 +478,34 @@ namespace PKHeX
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
         public static SaveFile getVariantSAV(byte[] data)
         {
+            // Pre-check for header/footer signatures
+            SaveFile sav;
+            byte[] header = new byte[0], footer = new byte[0];
+            CheckHeaderFooter(ref data, ref header, ref footer);
+
             switch (getSAVGeneration(data))
             {
-                case 1:
-                    return new SAV1(data);
-                case 2:
-                    return new SAV2(data);
-                case 3:
-                    return new SAV3(data);
-                case (int)GameVersion.RSBOX:
-                    return new SAV3RSBox(data);
-                case (int)GameVersion.COLO:
-                    return new SAV3Colosseum(data);
-                case (int)GameVersion.XD:
-                    return new SAV3XD(data);
-                case 4:
-                    return new SAV4(data);
-                case (int)GameVersion.BATREV:
-                    return new SAV4BR(data);
-                case 5:
-                    return new SAV5(data);
-                case 6:
-                    return new SAV6(data);
-                default:
-                    return null;
+                // Main Games
+                case GameVersion.Gen1:      sav = new SAV1(data); break;
+                case GameVersion.Gen2:      sav = new SAV2(data); break;
+                case GameVersion.Gen3:      sav = new SAV3(data); break;
+                case GameVersion.Gen4:      sav = new SAV4(data); break;
+                case GameVersion.Gen5:      sav = new SAV5(data); break;
+                case GameVersion.Gen6:      sav = new SAV6(data); break;
+                //case GameVersion.Gen7:      sav = new SAV7(data); break;
+
+                // Side Games
+                case GameVersion.COLO:      sav = new SAV3Colosseum(data); break;
+                case GameVersion.XD:        sav = new SAV3XD(data); break;
+                case GameVersion.RSBOX:     sav = new SAV3RSBox(data); break;
+                case GameVersion.BATREV:    sav = new SAV4BR(data); break;
+                
+                // No pattern matched
+                default: return null;
             }
+            sav.Header = header;
+            sav.Footer = footer;
+            return sav;
         }
 
         /// <summary>
@@ -546,7 +561,7 @@ namespace PKHeX
         }
 
         /// <summary>
-        /// Determines whether the save data size is valid for 6th generation saves.
+        /// Determines whether the save data size is valid for autodetecting saves.
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
@@ -554,13 +569,14 @@ namespace PKHeX
         {
             switch (size)
             {
+                case SIZE_G3RAW:
+                case SIZE_G3RAWHALF:
+
+                case SIZE_G4RAW: // Gen4/5
+
                 case SIZE_G6XY:
                 case SIZE_G6ORASDEMO:
                 case SIZE_G6ORAS:
-                case SIZE_G5B2W2:
-                case SIZE_G4RAW:
-                case SIZE_G3RAW:
-                case SIZE_G3RAWHALF:
                     return true;
                 default:
                     return false;
