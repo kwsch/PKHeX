@@ -1,4 +1,4 @@
-﻿If you are having issues viewing certain symbols/text: Options -> Toggle Font.
+﻿If you are having issues viewing certain symbols/text: Options -> Unicode
 
 // Main Window
 
@@ -34,12 +34,11 @@ Alt + Click on...
 Shift + Click on...
 - Preview Sprite to bring up a QR for the viewed Pokémon.
 
-Hold Control when dragging out the Preview Sprite to save encrypted (ekx).
+Hold Control when dragging to save encrypted (ekx).
 
 Click on the OT label to set relevant details to that of the save file.
 
 Drop WC6/PGF/PCD/PGT to convert to PK6 in the main tabs.
-- Hold CTRL to open the Wonder Card interface when opening a WC6.
 
 // Save File
 
@@ -71,7 +70,7 @@ INVENTORY:
 - Holding ALT when clicking Give All will clear all items for that pouch.
 
 POKEPUFF:
-- Control Click the All Button to give un-exceptional Pokepuffs.
+- Control Click the All Button to give the best Pokepuffs.
 - Control Click the Sort Button to sort in reverse.
 
 MYSTERY GIFT:
