@@ -23,7 +23,7 @@ namespace PKHeX
             InitializeComponent();
 
             // Check for Updates
-            L_UpdateAvailable.Click += (sender, e) => { Process.Start(ThreadPath); };
+            L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
             new Thread(() =>
             {
                 string data = Util.getStringFromURL(VersionPath);
@@ -476,7 +476,7 @@ namespace PKHeX
             CHK_Nicknamed.Checked = Set.Nickname != null;
             if (Set.Nickname != null)
                 TB_Nickname.Text = Set.Nickname;
-            if (Set.Gender != null && PKX.getGender(Set.Gender) != 2 && PKX.getGender(Set.Gender) != 2)
+            if (Set.Gender != null)
             {
                 int Gender = PKX.getGender(Set.Gender);
                 Label_Gender.Text = gendersymbols[Gender];
@@ -699,21 +699,20 @@ namespace PKHeX
             }
             #endregion
             #region Battle Video
-            else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0 && BitConverter.ToUInt16(input, 0xE12) == 0)
+            else if (input.Length == BV6.SIZE && BV6.getIsValid(input))
             {
                 if (SAV.Generation != 6)
                 { Util.Alert("Cannot load a Gen6 Battle Video to a past generation save file."); return; }
 
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Battle Video Pokémon data to " + CB_BoxSelect.Text + "?", "The box will be overwritten.") != DialogResult.Yes)
+                if (Util.Prompt(MessageBoxButtons.YesNo, $"Load Battle Video Pokémon data to {CB_BoxSelect.Text}?", "The box will be overwritten.") != DialogResult.Yes)
                     return;
 
                 bool? noSetb = getPKMSetOverride();
+                PKM[] data = new BV6(input).BattlePKMs;
                 int offset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
                 for (int i = 0; i < 24; i++)
-                {
-                    byte[] data = input.Skip(0xE18 + PKX.SIZE_6PARTY * i + i / 6 * 8).Take(PKX.SIZE_6STORED).ToArray();
-                    SAV.setStoredSlot(data, offset + i * SAV.SIZE_STORED, noSetb);
-                }
+                    SAV.setStoredSlot(data[i], offset + i*SAV.SIZE_STORED, noSetb);
+
                 setPKXBoxes();
                 updateBoxViewers();
             }
@@ -3328,13 +3327,10 @@ namespace PKHeX
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
             if (!verifiedPKM()) return; // don't copy garbage to the box
 
-            PKM pk;
-            if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in {CB_BoxSelect.Text}?") == DialogResult.Yes)
-                pk = preparePKM();
-            else if (Util.Prompt(MessageBoxButtons.YesNo, $"Delete all Pokemon in {CB_BoxSelect.Text}?") == DialogResult.Yes)
-                pk = SAV.BlankPKM;
-            else
+            if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in {CB_BoxSelect.Text}?") != DialogResult.Yes)
                 return;
+
+            PKM pk = preparePKM();
 
             for (int i = 0; i < 30; i++) // set to every slot in box
             {

@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Saves\Substructures\BlockInfo.cs" />
     <Compile Include="Saves\Substructures\BoxWallpaper.cs" />
+    <Compile Include="Saves\Substructures\BV6.cs" />
     <Compile Include="Saves\Substructures\Inventory.cs" />
     <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
