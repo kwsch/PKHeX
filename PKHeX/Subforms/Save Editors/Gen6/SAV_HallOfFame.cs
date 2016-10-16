@@ -144,8 +144,8 @@ namespace PKHeX
                 uint shiny = slgf >> 14 & 0x1;
                 // uint unkn = slgf >> 15;
 
-                string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 22));
-                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 22));
+                string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
+                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
 
                 if (species == 0) 
                     continue; 
@@ -207,8 +207,8 @@ namespace PKHeX
             TB_TID.Text = BitConverter.ToUInt16(data, offset + 0x10).ToString("00000");
             TB_SID.Text = BitConverter.ToUInt16(data, offset + 0x12).ToString("00000");
 
-            TB_Nickname.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 22));
-            TB_OT.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 22));
+            TB_Nickname.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
+            TB_OT.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
 
             uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
             uint form = slgf & 0x1F;
@@ -236,61 +236,21 @@ namespace PKHeX
                 return; //Don't do writing until loaded
 
             Validate_TextBoxes();
-            byte[] StringBuffer = new byte[22]; //Mimic in-game behavior of not clearing strings. It's awful, but accuracy > good.
-            string[] text_writes = new string[6 * 2]; //2 strings per mon, 6 mons
 
             int index = LB_DataEntry.SelectedIndex;
-
-            int offset = index * 0x1B4;
-            for (int i = 0; i < text_writes.Length; i++)
-            {
-                string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 22));
-                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 22));
-                text_writes[i] = nickname;
-                i++;
-                text_writes[i] = OTname;
-                offset += 0x48;
-            }
-
             int partymember = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
+            int offset = index * 0x1B4 + partymember * 0x48;
 
-            text_writes[partymember * 2] = TB_Nickname.Text;
-            text_writes[partymember * 2 + 1] = TB_OT.Text;
-           
-            offset = index * 0x1B4 + partymember * 0x48;
+            BitConverter.GetBytes(Convert.ToUInt16(CB_Species.SelectedValue)).CopyTo(data, offset + 0x00);
+            BitConverter.GetBytes(Convert.ToUInt16(CB_HeldItem.SelectedValue)).CopyTo(data, offset + 0x02);
+            BitConverter.GetBytes(Convert.ToUInt16(CB_Move1.SelectedValue)).CopyTo(data, offset + 0x04);
+            BitConverter.GetBytes(Convert.ToUInt16(CB_Move2.SelectedValue)).CopyTo(data, offset + 0x06);
+            BitConverter.GetBytes(Convert.ToUInt16(CB_Move3.SelectedValue)).CopyTo(data, offset + 0x08);
+            BitConverter.GetBytes(Convert.ToUInt16(CB_Move4.SelectedValue)).CopyTo(data, offset + 0x0A);
+            BitConverter.GetBytes(Convert.ToUInt32(TB_EC.Text,16)).CopyTo(data, offset + 0x0C);
 
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(CB_Species.SelectedValue)), 0, data, offset + 0x00, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(CB_HeldItem.SelectedValue)), 0, data, offset + 0x02, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(CB_Move1.SelectedValue)), 0, data, offset + 0x04, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(CB_Move2.SelectedValue)), 0, data, offset + 0x06, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(CB_Move3.SelectedValue)), 0, data, offset + 0x08, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(CB_Move4.SelectedValue)), 0, data, offset + 0x0A, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt32(TB_EC.Text,16)), 0, data, offset + 0x0C, 4);
-
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(TB_TID.Text)), 0, data, offset + 0x010, 2);
-            Array.Copy(BitConverter.GetBytes(Convert.ToUInt16(TB_SID.Text)), 0, data, offset + 0x012, 2);
-
-            #region Write Strings
-            {
-                int ofs = index * 0x1B4;
-                for (int i = 0; i < 6; i++)
-                {
-                    Array.Copy(Encoding.Unicode.GetBytes(text_writes[i * 2]), StringBuffer, text_writes[i*2].Length*2);
-                    int pos = text_writes[i * 2].Length * 2;
-                    if (pos<StringBuffer.Length)
-                        StringBuffer[pos] = 0;
-
-                    Array.Copy(StringBuffer, 0, data, ofs + 0x18, 22);
-                    Array.Copy(Encoding.Unicode.GetBytes(text_writes[i * 2 + 1]), StringBuffer, text_writes[i * 2 + 1].Length * 2);
-                    pos = text_writes[i * 2 + 1].Length * 2;
-                    if (pos < StringBuffer.Length)
-                        StringBuffer[pos] = 0;
-
-                    Array.Copy(StringBuffer, 0, data, ofs + 0x30, 22);
-                    ofs += 0x48;
-                }
-            }
-            #endregion
+            BitConverter.GetBytes(Convert.ToUInt16(TB_TID.Text)).CopyTo(data, offset + 0x10);
+            BitConverter.GetBytes(Convert.ToUInt16(TB_SID.Text)).CopyTo(data, offset + 0x12);
 
             uint rawslgf = BitConverter.ToUInt32(data, offset + 0x14);
             uint slgf = 0;
@@ -301,12 +261,18 @@ namespace PKHeX
                 slgf |= 1 << 14;
 
             slgf |= rawslgf & 0x8000;
-            Array.Copy(BitConverter.GetBytes(slgf), 0, data, offset + 0x014, 2);
+            Array.Copy(BitConverter.GetBytes(slgf), 0, data, offset + 0x14, 2);
 
             uint nick = 0;
             if (CHK_Nicknamed.Checked)
                 nick = 1;
-            Array.Copy(BitConverter.GetBytes(nick), 0, data, offset + 0x016, 2);
+            Array.Copy(BitConverter.GetBytes(nick), 0, data, offset + 0x16, 2);
+
+            //Mimic in-game behavior of not clearing strings. It's awful, but accuracy > good.
+            string pk = TB_Nickname.Text; if (pk.Length != 12) pk = pk.PadRight(pk.Length + 1, '\0');
+            string ot = TB_OT.Text; if (ot.Length != 12) ot = ot.PadRight(pk.Length + 1, '\0');
+            Encoding.Unicode.GetBytes(pk).CopyTo(data, offset + 0x18);
+            Encoding.Unicode.GetBytes(ot).CopyTo(data, offset + 0x30);
 
             offset = index * 0x1B4;
 
@@ -328,9 +294,9 @@ namespace PKHeX
         private void Validate_TextBoxes()
         {
             TB_Level.Text = Math.Min(Util.ToInt32(TB_Level.Text), 100).ToString();
-            TB_VN.Text = Math.Min(Util.ToInt32(TB_VN.Text), 255).ToString();
-            TB_TID.Text = Math.Min(Util.ToInt32(TB_TID.Text), 65535).ToString();
-            TB_SID.Text = Math.Min(Util.ToInt32(TB_SID.Text), 65535).ToString();
+            TB_VN.Text = Math.Min(Util.ToInt32(TB_VN.Text), byte.MaxValue).ToString();
+            TB_TID.Text = Math.Min(Util.ToInt32(TB_TID.Text), ushort.MaxValue).ToString();
+            TB_SID.Text = Math.Min(Util.ToInt32(TB_SID.Text), ushort.MaxValue).ToString();
         }
         private void updateNickname(object sender, EventArgs e)
         {

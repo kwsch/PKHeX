@@ -108,7 +108,7 @@
             this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB.Location = new System.Drawing.Point(72, 16);
             this.RTB.Name = "RTB";
             this.RTB.ReadOnly = true;
@@ -205,7 +205,7 @@
             // 
             this.TB_Nickname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_Nickname.Location = new System.Drawing.Point(483, 71);
-            this.TB_Nickname.MaxLength = 11;
+            this.TB_Nickname.MaxLength = 12;
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
             this.TB_Nickname.TabIndex = 37;
@@ -539,7 +539,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(614, 312);
+            this.ClientSize = new System.Drawing.Size(604, 301);
             this.Controls.Add(this.B_Delete);
             this.Controls.Add(this.B_CopyText);
             this.Controls.Add(this.TB_Level);
