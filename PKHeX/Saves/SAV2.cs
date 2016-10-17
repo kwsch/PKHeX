@@ -6,7 +6,7 @@ namespace PKHeX
     public sealed class SAV2 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "SAV File|*.sav";
+        public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         public SAV2(byte[] data = null)

@@ -7,7 +7,7 @@ namespace PKHeX
     public sealed class SAV3Colosseum : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "GameCube Save File|*.gci";
+        public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
         public override string Extension => ".gci";
 
         // 3 Save files are stored
