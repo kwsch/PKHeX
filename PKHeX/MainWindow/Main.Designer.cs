@@ -5647,6 +5647,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PKHeX";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.tabMain_DragEnter);
             this.tabMain.ResumeLayout(false);
