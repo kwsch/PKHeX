@@ -314,6 +314,8 @@
             this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
@@ -436,8 +438,6 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -3900,7 +3900,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = global::PKHeX.Properties.Resources.language;
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -3919,7 +3919,7 @@
             this.Menu_Redo});
             this.Menu_Modify.Image = global::PKHeX.Properties.Resources.settings;
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -3942,13 +3942,33 @@
             this.Menu_ModifyPKM.Text = "Modify PKM Info";
             this.Menu_ModifyPKM.Click += new System.EventHandler(this.mainMenuModifyPKM);
             // 
+            // Menu_Undo
+            // 
+            this.Menu_Undo.Enabled = false;
+            this.Menu_Undo.Name = "Menu_Undo";
+            this.Menu_Undo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.Menu_Undo.ShowShortcutKeys = false;
+            this.Menu_Undo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Undo.Text = "Undo Last Change";
+            this.Menu_Undo.Click += new System.EventHandler(this.clickUndo);
+            // 
+            // Menu_Redo
+            // 
+            this.Menu_Redo.Enabled = false;
+            this.Menu_Redo.Name = "Menu_Redo";
+            this.Menu_Redo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.Menu_Redo.ShowShortcutKeys = false;
+            this.Menu_Redo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Redo.Text = "Redo Last Change";
+            this.Menu_Redo.Click += new System.EventHandler(this.clickRedo);
+            // 
             // Menu_Unicode
             // 
             this.Menu_Unicode.Checked = true;
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -3958,7 +3978,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(139, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
@@ -5607,26 +5627,6 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // Menu_Undo
-            // 
-            this.Menu_Undo.Enabled = false;
-            this.Menu_Undo.Name = "Menu_Undo";
-            this.Menu_Undo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.Menu_Undo.ShowShortcutKeys = false;
-            this.Menu_Undo.Size = new System.Drawing.Size(164, 22);
-            this.Menu_Undo.Text = "Undo Last Change";
-            this.Menu_Undo.Click += new System.EventHandler(this.clickUndo);
-            // 
-            // Menu_Redo
-            // 
-            this.Menu_Redo.Enabled = false;
-            this.Menu_Redo.Name = "Menu_Redo";
-            this.Menu_Redo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.Menu_Redo.ShowShortcutKeys = false;
-            this.Menu_Redo.Size = new System.Drawing.Size(164, 22);
-            this.Menu_Redo.Text = "Redo Last Change";
-            this.Menu_Redo.Click += new System.EventHandler(this.clickRedo);
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5647,6 +5647,7 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PKHeX";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.tabMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.tabMain_DragEnter);
             this.tabMain.ResumeLayout(false);
