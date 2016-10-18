@@ -2994,6 +2994,17 @@ namespace PKHeX
 
             Cursor = DefaultCursor;
         }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (SAV.Edited)
+            {
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.  Are you sure you want to close PKHeX?") != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
         #endregion
 
         #region //// SAVE FILE FUNCTIONS ////
@@ -3054,6 +3065,7 @@ namespace PKHeX
 
             bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
             File.WriteAllBytes(main.FileName, SAV.Write(dsv));
+            SAV.Edited = false;
             Util.Alert("SAV exported to:", main.FileName);
         }
 
