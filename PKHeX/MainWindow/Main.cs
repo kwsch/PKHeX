@@ -181,7 +181,10 @@ namespace PKHeX
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
+                {
                     openSAV(SAV, null);
+                    SAV.Edited = false; // Prevents form close warning from showing until changes are made
+                }                    
             }
 
             // Splash Screen closes on its own.
