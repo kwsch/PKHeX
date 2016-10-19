@@ -6,7 +6,7 @@ namespace PKHeX
     public sealed class SAV2 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "SAV File|*.sav";
+        public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         public SAV2(byte[] data = null)
@@ -208,7 +208,7 @@ namespace PKHeX
         public int SIZE_STOREDBOX => PokemonList2.GetDataLength(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
 
         public override PKM BlankPKM => new PK2(null, null, Japanese);
-        protected override Type PKMType => typeof(PK2);
+        public override Type PKMType => typeof(PK2);
 
         public override int MaxMoveID => 251;
         public override int MaxSpeciesID => 251;
@@ -366,8 +366,8 @@ namespace PKHeX
         }
         public override ushort TID
         {
-            get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, 0x2009)); }
-            set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, 0x2009); }
+            get { return BigEndian.ToUInt16(Data, 0x2009); }
+            set { BigEndian.GetBytes(value).CopyTo(Data, 0x2009); }
         }
         public override ushort SID
         {
@@ -376,8 +376,8 @@ namespace PKHeX
         }
         public override int PlayedHours
         {
-            get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, TimePlayedOffset)); }
-            set { BitConverter.GetBytes(Util.SwapEndianness((ushort)value)).CopyTo(Data,TimePlayedOffset); }
+            get { return BigEndian.ToUInt16(Data, TimePlayedOffset); }
+            set { BigEndian.GetBytes((ushort)value).CopyTo(Data,TimePlayedOffset); }
         }
         public override int PlayedMinutes
         {
@@ -438,21 +438,21 @@ namespace PKHeX
         }
         public override uint Money
         {
-            get { return Util.SwapEndianness(BitConverter.ToUInt32(Data, MoneyOffset)) >> 8; }
+            get { return BigEndian.ToUInt32(Data, MoneyOffset) >> 8; }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(value > 999999 ? 999999 : value)).Skip(1).ToArray().CopyTo(Data, MoneyOffset);
+                BigEndian.GetBytes(value > 999999 ? 999999 : value).Skip(1).ToArray().CopyTo(Data, MoneyOffset);
             }
         }
         public uint Coin
         {
             get
             {
-                return Util.SwapEndianness(BitConverter.ToUInt16(Data, MoneyOffset+7));
+                return BigEndian.ToUInt16(Data, MoneyOffset+7);
             }
             set
             {
-               BitConverter.GetBytes(Util.SwapEndianness(value > 9999 ? 9999 : value)).ToArray().CopyTo(Data, MoneyOffset + 7);
+               BigEndian.GetBytes(value > 9999 ? 9999 : value).ToArray().CopyTo(Data, MoneyOffset + 7);
             }
         }
 

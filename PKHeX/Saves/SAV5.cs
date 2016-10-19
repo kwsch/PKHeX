@@ -8,7 +8,7 @@ namespace PKHeX
     {
         // Save Data Attributes
         public override string BAKName => $"{FileName} [{OT} ({(GameVersion)Game}) - {PlayTimeString}].bak";
-        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
+        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
@@ -98,7 +98,7 @@ namespace PKHeX
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         public override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override PKM BlankPKM => new PK5();
-        protected override Type PKMType => typeof(PK5);
+        public override Type PKMType => typeof(PK5);
 
         public override int BoxCount => 24;
         public override int MaxEV => 255;
@@ -425,8 +425,8 @@ namespace PKHeX
         // Storage
         public override int PartyCount
         {
-            get { return Data[Party]; }
-            protected set { Data[Party] = (byte)value; }
+            get { return Data[Party + 4]; }
+            protected set { Data[Party + 4] = (byte)value; }
         }
         public override int getBoxOffset(int box)
         {

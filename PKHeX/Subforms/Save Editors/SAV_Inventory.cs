@@ -22,13 +22,21 @@ namespace PKHeX
                     B_GiveAll.Visible = false;
                     break;
                 case 3:
-                    itemlist = Main.g3items;
+                    switch (SAV.Version)
+                    {
+                        case GameVersion.XD: itemlist = Main.g3xditems; break;
+                        case GameVersion.COLO: itemlist = Main.g3coloitems; break;
+                        default: itemlist = Main.g3items; break;
+                    }
                     B_GiveAll.Visible = false;
                     break;
                 default:
                     itemlist = Main.itemlist;
                     break;
             }
+            for (int i = 0; i < itemlist.Length; i++)
+                if (itemlist[i] == "")
+                    itemlist[i] = $"(Item #{i.ToString("000")})";
             Pouches = SAV.Inventory;
             getBags();
         }
@@ -98,7 +106,8 @@ namespace PKHeX
         {
             var pouch = Pouches[bag];
             var itemcount = Pouches[bag].Items.Length;
-            string[] itemarr = getItems(pouch.LegalItems);
+            string[] itemarr = Main.HaX ? (string[])itemlist.Clone() : getItems(pouch.LegalItems);
+
             dgv.Rows.Clear();
             dgv.Columns.Clear();
 
@@ -169,20 +178,24 @@ namespace PKHeX
                 {
                     string item = dgv.Rows[i].Cells[0].Value.ToString();
                     int itemindex = Array.IndexOf(itemlist, item);
-                    int itemcnt;
-                    try
-                    { itemcnt = Convert.ToUInt16(dgv.Rows[i].Cells[1].Value.ToString()); }
-                    catch { itemcnt = 0; }
-
-                    if (itemcnt == 0)
-                        itemcnt++; // No 0 count of items
-                    else if (itemcnt > 995)
-                        itemcnt = 995; // cap out
-                    else if (itemcnt > 99 && SAV.Generation <= 3)
-                        itemcnt = 99;
-
-                    if (itemindex == 0) // Compression of Empty Slots
+                    if (itemindex <= 0) // Compression of Empty Slots
                         continue;
+
+                    int itemcnt;
+                    int.TryParse(dgv.Rows[i].Cells[1].Value.ToString(), out itemcnt);
+
+                    if (Main.HaX) 
+                    {
+                        // Cap at absolute maximum
+                        if (SAV.Generation <= 2 && itemcnt > byte.MaxValue)
+                            itemcnt = byte.MaxValue;
+                        else if (SAV.Generation >= 3 && itemcnt > ushort.MaxValue)
+                            itemcnt = ushort.MaxValue;
+                    }
+                    else if (itemcnt > t.MaxCount)
+                        itemcnt = t.MaxCount; // Cap at pouch maximum
+                    else if (itemcnt <= 0)
+                        itemcnt = 1;
 
                     t.Items[ctr++] = new InventoryItem {Index = itemindex, Count = itemcnt};
                 }

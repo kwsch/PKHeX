@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX
 {
@@ -39,11 +40,13 @@ namespace PKHeX
                     return 2;
                 case PKX.SIZE_3PARTY:
                 case PKX.SIZE_3STORED:
+                case PKX.SIZE_3CSTORED:
+                case PKX.SIZE_3XSTORED:
                     return 3;
                 case PKX.SIZE_4PARTY:
                 case PKX.SIZE_4STORED:
                 case PKX.SIZE_5PARTY:
-                    if ((BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
+                    if (((BitConverter.ToUInt16(data, 0x4) == 0) && (BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10)) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
                         return 5;
                     return 4;
                 case PKX.SIZE_6STORED:
@@ -87,9 +90,20 @@ namespace PKHeX
                         PL2[0].Identifier = ident;
                     return PL2[0];
                 case 3:
-                    return new PK3(data, ident);
+                    switch (data.Length) { 
+                        case PKX.SIZE_3CSTORED: return new CK3(data, ident);
+                        case PKX.SIZE_3XSTORED: return new XK3(data, ident);
+                        default: return new PK3(data, ident);
+                    }
                 case 4:
-                    return new PK4(data, ident);
+                    var pk = new PK4(data, ident);
+                    if (!pk.Valid || pk.Sanity != 0)
+                    {
+                        var bk = new BK4(data, ident);
+                        if (bk.Valid)
+                            return bk;
+                    }
+                    return pk;
                 case 5:
                     return new PK5(data, ident);
                 case 6:
@@ -98,7 +112,7 @@ namespace PKHeX
                     return null;
             }
         }
-        internal static PKM convertToFormat(PKM pk, int Format, out string comment)
+        internal static PKM convertToFormat(PKM pk, Type PKMType, out string comment)
         {
             if (pk == null || pk.Species == 0)
             {
@@ -106,67 +120,117 @@ namespace PKHeX
                 return null;
             }
 
-            string currentFormat = pk.Format.ToString();
-            PKM pkm = pk.Clone();
+            Type fromType = pk.GetType();
+            int fromFormat = int.Parse(fromType.Name.Last().ToString());
+            int toFormat = int.Parse(PKMType.Name.Last().ToString());
+            Console.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
 
-            if (pk.Format == Format)
+            PKM pkm = null;
+
+            if (fromType == PKMType)
             {
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
             }
-            if (pk.Format <= 2 && Format <= 2) // 1<->2, already checked not equal
+            if (fromFormat <= toFormat || fromFormat == 2)
             {
-                switch (Format)
+                pkm = pk.Clone();
+                if (pkm.IsEgg) // force hatch
                 {
-                    case 1:
-                        if (pk.Species > 151)
-                        { comment = $"Cannot convert a {PKX.getSpeciesName(pk.Species, ((PK2)pk).Japanese ? 1 : 2)} to pk{Format}"; return null; }
-                        pkm = ((PK2)pk).convertToPK1();
+                    pkm.IsEgg = false;
+                    if (pkm.AO)
+                        pkm.Met_Location = 318; // Battle Resort
+                    else if (pkm.XY)
+                        pkm.Met_Location = 38; // Route 7
+                    else if (pkm.Gen5)
+                        pkm.Met_Location = 16; // Route 16
+                    else
+                        pkm.Met_Location = 30001; // Pokétransfer
+                }
+                switch (fromType.Name)
+                {
+                    case "PK1":
+                        pkm = (PKMType == typeof (PK2)) ? ((PK1) pk).convertToPK2() : null;
                         break;
-                    case 2:
-                        pkm = ((PK1)pk).convertToPK2();
+                    case "PK2":
+                        if (PKMType == typeof (PK1))
+                        {
+                            if (pk.Species > 151)
+                            {
+                                comment = $"Cannot convert a {PKX.getSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
+                                return null;
+                            }
+                            pkm = ((PK2) pk).convertToPK1();
+                        }
+                        else
+                            pkm = null;
+                        break;
+                    case "CK3":
+                    case "XK3":
+                        // interconverting C/XD needs to visit main series format
+                        // ends up stripping purification/shadow etc stats
+                        pkm = pkm.convertToPK3();
+                        goto case "PK3"; // fall through
+                    case "PK3":
+                        if (toFormat == 3) // Gen3 Inter-trading
+                        {
+                            switch (PKMType.Name)
+                            {
+                                case "CK3": pkm = pkm.convertToCK3(); break;
+                                case "XK3": pkm = pkm.convertToXK3(); break;
+                                case "PK3": pkm = pkm.convertToPK3(); break; // already converted, instantly returns
+                                default: throw new FormatException();
+                            }
+                            break;
+                        }
+                        if (fromType.Name != "PK3")
+                            pkm = pkm.convertToPK3();
+
+                        pkm = ((PK3)pkm).convertToPK4();
+                        if (toFormat == 4)
+                        {
+                            if (PKMType == typeof (BK4))
+                                pkm = ((PK4) pkm).convertToBK4();
+                            break;
+                        }
+                        pkm = ((PK4)pkm).convertToPK5();
+                        if (toFormat == 5)
+                            break;
+                        pkm = ((PK5)pkm).convertToPK6();
+                        break;
+                    case "PK4":
+                        if (PKMType == typeof(BK4))
+                        {
+                            pkm = ((PK4)pkm).convertToBK4();
+                            break;
+                        }
+                        pkm = ((PK4)pkm).convertToPK5();
+                        if (toFormat == 5)
+                            break;
+                        pkm = ((PK5)pkm).convertToPK6();
+                        break;
+                    case "BK4":
+                        pkm = ((BK4)pkm).convertToPK4();
+                        if (toFormat == 4)
+                            break;
+                        pkm = ((PK4)pkm).convertToPK5();
+                        if (toFormat == 5)
+                            break;
+                        pkm = ((PK5)pkm).convertToPK6();
+                        break;
+                    case "PK5":
+                        pkm = ((PK5)pkm).convertToPK6();
+                        break;
+                    case "PK6":
+                        // This shouldn't happen before Sun/Moon.
                         break;
                 }
-                comment = $"Converted from pk{pk.Format} to pk{Format}";
-                return pkm;
             }
-            if (pk.Format > Format)
-            {
-                comment = "Cannot convert a PKM backwards." + Environment.NewLine
-                          + "Current Format: " + pk.Format + Environment.NewLine
-                          + "Desired Format: " + Format;
-                return null;
-            }
-            if ((pk.Format == 1 || pk.Format == 2) && 2 < Format && Format < 7)
-            {
-                comment = $"Cannot convert a PK{pk.Format} to a PK{Format}.";
-                return null;
-            }
-            if (pk.Format == 1 && Format == 7)
-            {
-                comment = "PK1 to PK7 conversion is not yet supported." + Environment.NewLine
-                          + "Please wait for Sun/Moon to release and documentation to occur.";
-                return null;
-            }
-            if (pkm.IsEgg) // force hatch
-            {
-                pkm.IsEgg = false;
-                if (pkm.AO)
-                    pkm.Met_Location = 318; // Battle Resort
-                else if (pkm.XY)
-                    pkm.Met_Location = 38; // Route 7
-                else if (pkm.Gen5)
-                    pkm.Met_Location = 16; // Route 16
-                else
-                    pkm.Met_Location = 30001; // Pokétransfer
-            }
-            if (pkm.Format == 3 && Format > 3)
-                pkm = ((PK3) pkm).convertToPK4();
-            if (pkm.Format == 4 && Format > 4)
-                pkm = ((PK4) pkm).convertToPK5();
-            if (pkm.Format == 5 && Format > 5)
-                pkm = ((PK5) pkm).convertToPK6();
-            comment = $"Converted from pk{currentFormat} to pk{Format}";
+
+            comment = pkm == null
+                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}." 
+                : $"Converted from {fromType.Name} to {PKMType.Name}.";
+
             return pkm;
         }
         internal static void checkEncrypted(ref byte[] pkm)
@@ -180,6 +244,8 @@ namespace PKHeX
                     return;
                 case 4:
                 case 5:
+                    if (BitConverter.ToUInt16(pkm, 4) != 0) // BK4
+                        return;
                     for (int i = 8; i < PKX.SIZE_4STORED; i += 2)
                         chk += BitConverter.ToUInt16(pkm, i);
                     if (chk != BitConverter.ToUInt16(pkm, 0x06))

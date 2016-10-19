@@ -6,7 +6,7 @@ namespace PKHeX
     public sealed class SAV3 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "SAV File|*.sav";
+        public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         /* SAV3 Structure:
@@ -47,7 +47,6 @@ namespace PKHeX
             if (Version == GameVersion.Invalid)
                 return;
             
-            
             int[] BlockOrder1 = new int[14];
             for (int i = 0; i < 14; i++)
                 BlockOrder1[i] = BitConverter.ToInt16(Data, i*0x1000 + 0xFF4);
@@ -60,6 +59,11 @@ namespace PKHeX
                     BlockOrder2[i] = BitConverter.ToInt16(Data, 0xE000 + i*0x1000 + 0xFF4);
                 int zeroBlock2 = Array.IndexOf(BlockOrder2, 0);
 
+                if (zeroBlock2 < 0)
+                    ActiveSAV = 0;
+                else if (zeroBlock1 < 0)
+                    ActiveSAV = 1;
+                else
                 ActiveSAV = BitConverter.ToUInt32(Data, zeroBlock1*0x1000 + 0xFFC) >
                             BitConverter.ToUInt32(Data, zeroBlock2*0x1000 + 0xEFFC)
                     ? 0
@@ -153,11 +157,14 @@ namespace PKHeX
 
         // Configuration
         public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version); }
+        public override bool IndeterminateGame => Version == GameVersion.Unknown;
+        public override bool IndeterminateLanguage => true; // Unknown JP/International
+        public override bool IndeterminateSubVersion => Version == GameVersion.FRLG;
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int SIZE_PARTY => PKX.SIZE_3PARTY;
         public override PKM BlankPKM => new PK3();
-        protected override Type PKMType => typeof(PK3);
+        public override Type PKMType => typeof(PK3);
 
         public override int MaxMoveID => 354;
         public override int MaxSpeciesID => 386;
@@ -167,7 +174,7 @@ namespace PKHeX
         public override int MaxGameID => 5;
 
         public override int BoxCount => 14;
-        public override int MaxEV => 252;
+        public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
         public override int OTLength => 8;

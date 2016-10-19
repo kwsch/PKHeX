@@ -15,7 +15,7 @@ namespace PKHeX
             Setup();
 
             new ToolTip().SetToolTip(B_Sort, "Hold CTRL to reverse sort.");
-            new ToolTip().SetToolTip(B_All, "Hold CTRL to give Deluxe instead of Supreme.");
+            new ToolTip().SetToolTip(B_All, "Hold CTRL to best instead of varied.");
         }
 
         private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
@@ -75,16 +75,18 @@ namespace PKHeX
         }
         private void B_All_Click(object sender, EventArgs e)
         {
-            int basepuff = 20;
-            int basemod = 6;
-            if (ModifierKeys == Keys.Control)
-            {
-                basepuff = 1;
-                basemod = 0x19;
-            }
+            int[] plus10 = {21, 22};
             byte[] newpuffs = new byte[100];
-            for (int i = 0; i < 100; i++)
-                newpuffs[i] = (byte)(Util.rnd32()%basemod + basepuff);
+
+            if (ModifierKeys == Keys.Control)
+                for (int i = 0; i < 100; i++)
+                    newpuffs[i] = (byte)plus10[Util.rnd32() & 1];
+            else
+            {
+                for (int i = 0; i < 100; i++)
+                    newpuffs[i] = (byte)(i % (pfa.Length - 1) + 1);
+                Util.Shuffle(newpuffs);
+            }
 
             Array.Copy(newpuffs, 0, SAV.Data, SAV.Puff, 100);
             Setup();

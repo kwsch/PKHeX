@@ -9,7 +9,6 @@ namespace PKHeX
         internal const int Size = 0x108;
         internal const int SizeFull = 0x310;
         internal const uint EonTicketConst = 0x225D73C2;
-        public override string Extension => "wc6";
         public override int Format => 6;
 
         public WC6(byte[] data = null)

@@ -6,7 +6,7 @@ namespace PKHeX
     public sealed class SAV1 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "SAV File|*.sav";
+        public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         public SAV1(byte[] data = null)
@@ -159,7 +159,7 @@ namespace PKHeX
         public int SIZE_STOREDBOX => PokemonList1.GetDataLength(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
 
         public override PKM BlankPKM => new PK1(null, null, Japanese);
-        protected override Type PKMType => typeof(PK1);
+        public override Type PKMType => typeof(PK1);
 
         public override int MaxMoveID => 165;
         public override int MaxSpeciesID => 151;
@@ -202,17 +202,11 @@ namespace PKHeX
             get
             {
                 int CHECKSUM_OFS = Japanese ? 0x3594 : 0x3523;
-                Data[CHECKSUM_OFS] = 0;
-                uint chksum = 0;
-                for (int i = 0x2598; i < CHECKSUM_OFS; i++)
-                {
-                    chksum += Data[i];
-                }
-
-                chksum = ~chksum;
-                chksum &= 0xFF;
-
-                return Data[CHECKSUM_OFS] == (byte)chksum;
+                byte temp = Data[CHECKSUM_OFS]; // cache current chk
+                setChecksums(); // chksum is recalculated (after being set to 0 to perform check)
+                byte chk = Data[CHECKSUM_OFS]; // correct checksum
+                Data[CHECKSUM_OFS] = temp; // restore old chk
+                return temp == chk;
             }
         }
         public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
@@ -238,8 +232,8 @@ namespace PKHeX
         }
         public override ushort TID
         {
-            get { return Util.SwapEndianness(BitConverter.ToUInt16(Data, Japanese ? 0x25FB : 0x2605)); }
-            set { BitConverter.GetBytes(Util.SwapEndianness(value)).CopyTo(Data, Japanese ? 0x25FB : 0x2605); }
+            get { return BigEndian.ToUInt16(Data, Japanese ? 0x25FB : 0x2605); }
+            set { BigEndian.GetBytes(value).CopyTo(Data, Japanese ? 0x25FB : 0x2605); }
         }
         public override ushort SID
         {
@@ -310,21 +304,21 @@ namespace PKHeX
         }
         public override uint Money
         {
-            get { return uint.Parse((Util.SwapEndianness(BitConverter.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3)) >> 8).ToString("X6")); }
+            get { return uint.Parse((BigEndian.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3) >> 8).ToString("X6")); }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt32(value.ToString("000000"), 16))).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
+                BigEndian.GetBytes(Convert.ToUInt32(value.ToString("000000"), 16)).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
             }
         }
         public uint Coin
         {
             get
             {
-                return uint.Parse(Util.SwapEndianness(BitConverter.ToUInt16(Data, Japanese ? 0x2846 : 0x2850)).ToString("X4"));
+                return uint.Parse(BigEndian.ToUInt16(Data, Japanese ? 0x2846 : 0x2850).ToString("X4"));
             }
             set
             {
-                BitConverter.GetBytes(Util.SwapEndianness(Convert.ToUInt16(value.ToString("0000"), 16))).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
+                BigEndian.GetBytes(Convert.ToUInt16(value.ToString("0000"), 16)).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
             }
         }
 

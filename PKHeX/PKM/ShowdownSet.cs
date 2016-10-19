@@ -8,11 +8,11 @@ namespace PKHeX
     {
         // String to Values
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
-        private static readonly string[] types = Util.getStringList("types", "en");
-        private static readonly string[] forms = Util.getStringList("forms", "en");
+        private static readonly string[] types = Util.getTypesList("en");
+        private static readonly string[] forms = Util.getFormsList("en");
         private static readonly string[] species = Util.getSpeciesList("en");
-        private static readonly string[] items = Util.getStringList("items", "en");
-        private static readonly string[] natures = Util.getStringList("natures", "en");
+        private static readonly string[] items = Util.getItemsList("en");
+        private static readonly string[] natures = Util.getNaturesList("en");
         private static readonly string[] moves = Util.getMovesList("en");
         private static readonly string[] abilities = Util.getAbilitiesList("en");
         private static readonly string[] hptypes = types.Skip(1).ToArray();
@@ -145,12 +145,8 @@ namespace PKHeX
             // First Line: Name, Nickname, Gender, Item
             string specForm = species[Species];
             if (!string.IsNullOrWhiteSpace(Form))
-            {
-                if (Form.Contains("Mega"))
-                    specForm += Form.Replace("Mega ", "Mega-");
-                else
-                    specForm += "-" + Form;
-            }
+                specForm += "-" + Form.Replace("Mega ", "Mega-");
+
             string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}"; 
             if (!string.IsNullOrEmpty(Gender))
                 result += $" ({Gender})";

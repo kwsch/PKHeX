@@ -23,7 +23,7 @@ namespace PKHeX
             InitializeComponent();
 
             // Check for Updates
-            L_UpdateAvailable.Click += (sender, e) => { Process.Start(ThreadPath); };
+            L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
             new Thread(() =>
             {
                 string data = Util.getStringFromURL(VersionPath);
@@ -47,8 +47,6 @@ namespace PKHeX
             }).Start();
 
             CB_ExtraBytes.SelectedIndex = 0;
-            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
-            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
             getFieldsfromPKM = populateFieldsPK6;
             getPKMfromFields = preparePK6;
 
@@ -111,6 +109,13 @@ namespace PKHeX
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            Menu_Options.DropDown.Closing += (sender, e) =>
+            {
+                if (!Menu_Unicode.Selected)
+                    return;
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
 
             // Box to Tabs D&D
             dragout.AllowDrop = true;
@@ -124,13 +129,32 @@ namespace PKHeX
             #region Localize & Populate Fields
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
-            HaX = filename.IndexOf("hax", StringComparison.Ordinal) >= 0;
+            HaX = filename?.IndexOf("hax", StringComparison.Ordinal) >= 0;
 
-            // Try and detect the language
-            string lastTwoChars = filename.Length > 2 ? filename.Substring(filename.Length - 2) : "";
-            if (lastTwoChars == "jp") lastTwoChars = "ja";
-            int lang = Array.IndexOf(lang_val, lastTwoChars);
-            CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
+            bool showChangelog = false;
+            // Load User Settings
+            {
+                unicode = Menu_Unicode.Checked = Properties.Settings.Default.Unicode;
+                SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Properties.Settings.Default.SetUpdateDex;
+                SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Properties.Settings.Default.SetUpdatePKM;
+
+                // Select Language
+                string l = Properties.Settings.Default.Language;
+                if (l.Length != 2) l = "en";
+                int lang = Array.IndexOf(lang_val, l);
+                CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
+
+                // Version Check
+                if (Properties.Settings.Default.Version.Length > 0) // already run on system
+                {
+                    int lastrev; int.TryParse(Properties.Settings.Default.Version, out lastrev);
+                    int currrev; int.TryParse(Properties.Resources.ProgramVersion, out currrev);
+
+                    showChangelog = lastrev < currrev;
+                }
+                Properties.Settings.Default.Version = Properties.Resources.ProgramVersion;
+                Properties.Settings.Default.Save();
+            }
 
             InitializeFields();
             formInitialized = true;
@@ -157,7 +181,7 @@ namespace PKHeX
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
-                    loadSAV(SAV, null);
+                    openSAV(SAV, null);
             }
 
             // Splash Screen closes on its own.
@@ -166,6 +190,9 @@ namespace PKHeX
             Show();
             WindowState = FormWindowState.Normal;
             if (HaX) Util.Alert("Illegal mode activated.", "Please behave.");
+            
+            if (showChangelog)
+                new About().ShowDialog();
             #endregion
         }
 
@@ -178,21 +205,22 @@ namespace PKHeX
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, g3items, g2items, g1items = { };
-        public static string[] metGSC_00000, metRSEFRLG_00000 = { };
+            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, 
+            g3coloitems, g3xditems, g3items, g2items, g1items = { };
+        public static string[] metGSC_00000, metRSEFRLG_00000, metCXD_00000 = { };
         public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
         public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
         public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
         public static string[] wallpapernames, puffs = { };
         public static bool unicode;
         public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        private static List<ComboItem> metGen2, metGen3, metGen4, metGen5, metGen6;
+        private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6;
 
         public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
         private static int colorizedbox = -1;
         private static Image colorizedcolor;
         private static int colorizedslot;
-        private static bool HaX;
+        public static bool HaX;
         private LegalityAnalysis Legality = new LegalityAnalysis(new PK3());
         private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
         private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "pt" };
@@ -347,16 +375,19 @@ namespace PKHeX
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
-            unicode = Menu_Unicode.Checked;
+            Properties.Settings.Default.Unicode = unicode = Menu_Unicode.Checked;
+            Properties.Settings.Default.Save();
             updateUnicode();
         }
         private void mainMenuModifyDex(object sender, EventArgs e)
         {
-            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
+            Properties.Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
+            Properties.Settings.Default.Save();
         }
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
-            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
+            Properties.Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
+            Properties.Settings.Default.Save();
         }
         private void mainMenuBoxLoad(object sender, EventArgs e)
         {
@@ -445,7 +476,7 @@ namespace PKHeX
             CHK_Nicknamed.Checked = Set.Nickname != null;
             if (Set.Nickname != null)
                 TB_Nickname.Text = Set.Nickname;
-            if (Set.Gender != null && PKX.getGender(Set.Gender) != 2 && PKX.getGender(Set.Gender) != 2)
+            if (Set.Gender != null)
             {
                 int Gender = PKX.getGender(Set.Gender);
                 Label_Gender.Text = gendersymbols[Gender];
@@ -454,8 +485,8 @@ namespace PKHeX
 
             // Set Form
             string[] formStrings = PKX.getFormList(Set.Species,
-                Util.getStringList("types", "en"),
-                Util.getStringList("forms", "en"), gendersymbols);
+                Util.getTypesList("en"),
+                Util.getFormsList("en"), gendersymbols, SAV.Generation);
             int form = 0;
             for (int i = 0; i < formStrings.Length; i++)
                 if (formStrings[i].Contains(Set.Form ?? ""))
@@ -589,7 +620,7 @@ namespace PKHeX
 
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
-            if (fi.Length > 0x10009C)
+            if (fi.Length > 0x10009C && fi.Length != 0x380000)
                 Util.Error("Input file is too large.", path);
             else
             {
@@ -602,29 +633,7 @@ namespace PKHeX
         }
         private void openFile(byte[] input, string path, string ext)
         {
-            MysteryGift tg; PKM temp; string c;
-            byte[] footer = new byte[0];
-            byte[] header = new byte[0];
-            #region Header/Footer detect
-            if (input.Length > SaveUtil.SIZE_G4RAW) // DeSmuME
-            {
-                bool dsv = SaveUtil.FOOTER_DSV.SequenceEqual(input.Skip(input.Length - SaveUtil.FOOTER_DSV.Length));
-                if (dsv)
-                {
-                    footer = input.Skip(SaveUtil.SIZE_G4RAW).ToArray();
-                    input = input.Take(footer.Length).ToArray();
-                }
-            }
-            if (input.Length == SaveUtil.SIZE_G3BOXGCI)
-            {
-                bool gci = SaveUtil.HEADER_GCI.SequenceEqual(input.Take(SaveUtil.HEADER_GCI.Length));
-                if (gci)
-                {
-                    header = input.Take(SaveUtil.SIZE_G3BOXGCI - SaveUtil.SIZE_G3BOX).ToArray();
-                    input = input.Skip(header.Length).ToArray();
-                }
-            }
-            #endregion
+            SaveFile sav; MysteryGift tg; PKM temp; string c;
             #region Powersaves Read-Only Conversion
             if (input.Length == 0x10009C) // Resize to 1MB
             {
@@ -649,19 +658,25 @@ namespace PKHeX
                 if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SaveUtil.BEEF)
                 { Util.Error("The data file is not a valid save file", path); return; }
 
-                openSAV(psdata, path);
+                openSAV(new SAV6(psdata), path);
             }
             #endregion
             #region SAV/PKM
-            else if (SaveUtil.getSAVGeneration(input) != -1)
-            { openSAV(input, path); SAV.Footer = footer; SAV.Header = header; }
+            else if ((sav = SaveUtil.getVariantSAV(input)) != null)
+            {
+                openSAV(sav, path);
+            }
             else if ((temp = PKMConverter.getPKMfromBytes(input)) != null)
             {
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
-                else if (SAV.Generation == 1 && ((PK1) pk).Japanese != SAV.GetJapanese)
-                    Util.Alert($"Cannot load {(SAV.GetJapanese ? "an International" : "a Japanese")} PK1 in {(SAV.GetJapanese ? "a Japanese" : "an International")} save file.");
+                else if (SAV.Generation < 3 && ((pk as PK1)?.Japanese ?? ((PK2)pk).Japanese) != SAV.Japanese)
+                {
+                    string a_lang = SAV.Japanese ? "an International" : "a Japanese";
+                    string pk_type = pk.GetType().Name;
+                    Util.Alert($"Cannot load {a_lang} {pk_type} in {a_lang} save file.");
+                }
                 else 
                     populateFields(pk);
                 Console.WriteLine(c);
@@ -684,21 +699,20 @@ namespace PKHeX
             }
             #endregion
             #region Battle Video
-            else if (input.Length == 0x2E60 && BitConverter.ToUInt64(input, 0xE18) != 0 && BitConverter.ToUInt16(input, 0xE12) == 0)
+            else if (input.Length == BV6.SIZE && BV6.getIsValid(input))
             {
                 if (SAV.Generation != 6)
                 { Util.Alert("Cannot load a Gen6 Battle Video to a past generation save file."); return; }
 
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Load Battle Video Pokémon data to " + CB_BoxSelect.Text + "?", "The box will be overwritten.") != DialogResult.Yes)
+                if (Util.Prompt(MessageBoxButtons.YesNo, $"Load Battle Video Pokémon data to {CB_BoxSelect.Text}?", "The box will be overwritten.") != DialogResult.Yes)
                     return;
 
                 bool? noSetb = getPKMSetOverride();
+                PKM[] data = new BV6(input).BattlePKMs;
                 int offset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
                 for (int i = 0; i < 24; i++)
-                {
-                    byte[] data = input.Skip(0xE18 + PKX.SIZE_6PARTY * i + i / 6 * 8).Take(PKX.SIZE_6STORED).ToArray();
-                    SAV.setStoredSlot(data, offset + i * SAV.SIZE_STORED, noSetb);
-                }
+                    SAV.setStoredSlot(data[i], offset + i*SAV.SIZE_STORED, noSetb);
+
                 setPKXBoxes();
                 updateBoxViewers();
             }
@@ -707,17 +721,11 @@ namespace PKHeX
             else if ((tg = MysteryGift.getMysteryGift(input, ext)) != null)
             {
                 if (!tg.IsPokémon)
-                {
-                    Util.Alert("Mystery Gift is not a Pokémon.", path);
-                    return;
-                }
+                { Util.Alert("Mystery Gift is not a Pokémon.", path); return; }
+
                 temp = tg.convertToPKM(SAV);
-                if (temp.Format == SAV.Generation && ModifierKeys == Keys.Control && SAV.HasWondercards)
-                {
-                    B_OpenWondercards_Click(tg, null);
-                    return;
-                }
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
+
                 if (pk == null)
                     Util.Alert("Conversion failed.", c);
                 else
@@ -768,7 +776,7 @@ namespace PKHeX
                 // Save file is now decrypted!
 
                 // Trigger Loading of the decrypted save file.
-                openSAV(decryptedPS, path);
+                openSAV(new SAV6(decryptedPS), path);
 
                 // Abort the opening of a non-cyber file.
                 return true;
@@ -777,49 +785,51 @@ namespace PKHeX
             if (xorpath != exepath || loop++ > 0) return false; // no xorpad compatible
             xorpath = Path.GetDirectoryName(path); goto check;
         }
-        private void openSAV(byte[] input, string path)
+        private void openSAV(SaveFile sav, string path)
         {
-            SaveFile sav = SaveUtil.getVariantSAV(input);
             if (sav == null || sav.Version == GameVersion.Invalid)
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
-            if (sav.Generation == 3) // Japanese Save files are different. Get isJapanese
+
+            // Finish setting up the save file.
+            if (sav.IndeterminateGame && sav.Generation == 3)
             {
-                if (sav.Version == GameVersion.Unknown)
+                // Hacky cheats invalidated the Game Code value.
+                var drGame = Util.Prompt(MessageBoxButtons.YesNoCancel,
+                    "Unknown Gen3 Game Detected. Select Origins:",
+                    "Yes: Ruby / Sapphire" + Environment.NewLine +
+                    "No: Emerald" + Environment.NewLine +
+                    "Cancel: FireRed / LeafGreen");
+
+                switch (drGame) // Reset save file info
                 {
-                    // Hacky cheats invalidated the Game Code value.
-                    var drGame = Util.Prompt(MessageBoxButtons.YesNoCancel,
-                        "Unknown Gen3 Game Detected. Select Origins:",
-                        "Yes: Ruby / Sapphire" + Environment.NewLine + 
-                        "No: Emerald" + Environment.NewLine +
-                        "Cancel: FireRed / LeafGreen");
-
-                    if (drGame == DialogResult.Yes)
-                        sav = new SAV3(sav.BAK, GameVersion.RS);
-                    else if (drGame == DialogResult.No)
-                        sav = new SAV3(sav.BAK, GameVersion.E);
-                    else
-                        sav = new SAV3(sav.BAK, GameVersion.FRLG);
-                }
-                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"Generation 3 ({sav.Version}) Save File detected. Select Origins:", "Yes: International" + Environment.NewLine + "No: Japanese");
-                if (drJP == DialogResult.Cancel)
-                    return;
-                sav.Japanese = drJP == DialogResult.No;
-
-                if (sav.Version == GameVersion.FRLG)
-                {
-                    var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...", "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
-                    if (drFRLG == DialogResult.Cancel)
-                        return;
-
-                    sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
+                    case DialogResult.Yes: sav = new SAV3(sav.BAK, GameVersion.RS); break;
+                    case DialogResult.No: sav = new SAV3(sav.BAK, GameVersion.E); break;
+                    case DialogResult.Cancel: sav = new SAV3(sav.BAK, GameVersion.FRLG); break;
+                    default: return;
                 }
             }
-            loadSAV(sav, path);
-        }
-        private void loadSAV(SaveFile sav, string path)
-        {
-            PKM pk = preparePKM();
+            if (sav.IndeterminateLanguage)
+            {
+                // Japanese Save files are different. Get isJapanese
+                var drJP = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} Save File detected. Select language...", 
+                    "Yes: International" + Environment.NewLine + "No: Japanese");
+                if (drJP == DialogResult.Cancel)
+                    return;
+
+                sav.Japanese = drJP == DialogResult.No;
+            }
+            if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
+            {
+                var drFRLG = Util.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...",
+                    "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
+                if (drFRLG == DialogResult.Cancel)
+                    return;
+
+                sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
+            }
+
             // clean fields
+            PKM pk = preparePKM();
             populateFields(SAV.BlankPKM);
             SAV = sav;
 
@@ -910,25 +920,27 @@ namespace PKHeX
                 GB_Daycare.Visible = SAV.HasDaycare;
                 GB_Fused.Visible = SAV.HasFused;
                 GB_GTS.Visible = SAV.HasGTS;
-                B_OpenSecretBase.Visible = SAV.HasSecretBase;
-                B_OpenPokepuffs.Visible = SAV.HasPuff;
-                B_OUTPasserby.Visible = SAV.HasPSS;
-                B_OpenBoxLayout.Visible = SAV.HasBoxWallpapers;
-                B_OpenWondercards.Visible = SAV.HasWondercards;
-                B_OpenSuperTraining.Visible = SAV.HasSuperTrain;
-                B_OpenHallofFame.Visible = SAV.HasHoF;
-                B_OpenOPowers.Visible = SAV.HasOPower;
-                B_OpenPokedex.Visible = SAV.HasPokeDex;
-                B_OpenBerryField.Visible = SAV.HasBerryField && SAV.XY;
-                B_OpenPokeblocks.Visible = SAV.HasPokeBlock;
-                B_JPEG.Visible = SAV.HasJPEG;
-                B_OpenEventFlags.Visible = SAV.HasEvents;
-                B_OpenLinkInfo.Visible = SAV.HasLink;
-                B_CGearSkin.Visible = SAV.Generation == 5;
+                B_OpenSecretBase.Enabled = SAV.HasSecretBase;
+                B_OpenPokepuffs.Enabled = SAV.HasPuff;
+                B_OUTPasserby.Enabled = SAV.HasPSS;
+                B_OpenBoxLayout.Enabled = SAV.HasBoxWallpapers;
+                B_OpenWondercards.Enabled = SAV.HasWondercards;
+                B_OpenSuperTraining.Enabled = SAV.HasSuperTrain;
+                B_OpenHallofFame.Enabled = SAV.HasHoF;
+                B_OpenOPowers.Enabled = SAV.HasOPower;
+                B_OpenPokedex.Enabled = SAV.HasPokeDex;
+                B_OpenBerryField.Enabled = SAV.HasBerryField && SAV.XY;
+                B_OpenPokeblocks.Enabled = SAV.HasPokeBlock;
+                B_JPEG.Enabled = SAV.HasJPEG;
+                B_OpenEventFlags.Enabled = SAV.HasEvents;
+                B_OpenLinkInfo.Enabled = SAV.HasLink;
+                B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = SAV.HasParty; // Box RS
             }
-            GB_SAVtools.Visible = FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Visible);
+            GB_SAVtools.Visible = FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
+            foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
+                c.Visible = c.Enabled;
 
 
             // Generational Interface
@@ -966,6 +978,24 @@ namespace PKHeX
 
             if (SAV.Generation == 1)
                 Label_IsShiny.Visible = false;
+
+            if (SAV.Version == GameVersion.BATREV)
+            {
+                L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
+                CB_SaveSlot.Items.Clear();
+                CB_SaveSlot.DisplayMember = "Text"; CB_SaveSlot.ValueMember = "Value";
+                CB_SaveSlot.DataSource = new BindingSource(((SAV4BR) SAV).SaveSlots.Select(i => new ComboItem
+                {
+                    Text = ((SAV4BR) SAV).SaveNames[i],
+                    Value = i
+                }).ToList(), null);
+                CB_SaveSlot.SelectedValue = ((SAV4BR)SAV).CurrentSlot;
+            }
+            else
+                L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
+            
+            FLP_Purification.Visible = FLP_ShadowID.Visible = SAV.Version == GameVersion.COLO || SAV.Version == GameVersion.XD;
+            NUD_ShadowID.Maximum = SAV.MaxShadowID;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = SAV.Generation >= 6 && DEV_Ability.Enabled;
@@ -1044,13 +1074,35 @@ namespace PKHeX
                     extraBytes = new byte[] { };
                     break;
                 case 3:
+                    if (SAV.Version == GameVersion.COLO)
+                    {
+                        getFieldsfromPKM = populateFieldsCK3;
+                        getPKMfromFields = prepareCK3;
+                        extraBytes = CK3.ExtraBytes;
+                        break;
+                    }
+                    if (SAV.Version == GameVersion.XD)
+                    {
+                        getFieldsfromPKM = populateFieldsXK3;
+                        getPKMfromFields = prepareXK3;
+                        extraBytes = XK3.ExtraBytes;
+                        break;
+                    }
                     getFieldsfromPKM = populateFieldsPK3;
                     getPKMfromFields = preparePK3;
                     extraBytes = PK3.ExtraBytes;
                     break;
                 case 4:
-                    getFieldsfromPKM = populateFieldsPK4;
-                    getPKMfromFields = preparePK4;
+                    if (SAV.Version == GameVersion.BATREV)
+                    {
+                        getFieldsfromPKM = populateFieldsBK4;
+                        getPKMfromFields = prepareBK4;
+                    }
+                    else
+                    {
+                        getFieldsfromPKM = populateFieldsPK4;
+                        getPKMfromFields = preparePK4;
+                    }
                     extraBytes = PK4.ExtraBytes;
                     break;
                 case 5:
@@ -1071,7 +1123,9 @@ namespace PKHeX
             }
             bool init = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
-            pkm = (pkm.Format != SAV.Generation || SAV.Generation < 3) ? SAV.BlankPKM : pk;
+            pkm = pkm.GetType() != SAV.PKMType ? SAV.BlankPKM : pk;
+            if (pkm.Format < 3)
+                pkm = SAV.BlankPKM;
             populateFilteredDataSources();
             populateFields(pkm);
             fieldsInitialized |= init;
@@ -1112,6 +1166,10 @@ namespace PKHeX
 
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
                 Util.TranslateInterface(this, curlanguage);
+            
+            // No changes made yet
+            UndoStack.Clear(); Menu_Undo.Enabled = false;
+            RedoStack.Clear(); Menu_Redo.Enabled = false;
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
@@ -1152,14 +1210,18 @@ namespace PKHeX
             Menu_Options.DropDown.Close();
             InitializeStrings();
             InitializeLanguage();
-            Util.TranslateInterface(this, lang_val[CB_MainLanguage.SelectedIndex]); // Translate the UI to language.
+            string ProgramTitle = Text;
+            Util.TranslateInterface(this, curlanguage); // Translate the UI to language.
+            Text = ProgramTitle;
             // Recenter PKM SubEditors
             FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
             fieldsInitialized |= alreadyInit;
 
             // Set the culture (makes it easy to pass language to other forms)
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(lang_val[CB_MainLanguage.SelectedIndex]);
+            Properties.Settings.Default.Language = curlanguage;
+            Properties.Settings.Default.Save();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage);
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
         private void InitializeStrings()
@@ -1171,18 +1233,42 @@ namespace PKHeX
 
             // Past Generation strings
             g3items = Util.getStringListFallback("ItemsG3", l, "en");
+            // XD and Colosseum
+            {
+                g3coloitems = (string[])g3items.Clone();
+                string[] tmp = Util.getStringListFallback("ItemsG3Colosseum", l, "en");
+                Array.Resize(ref g3coloitems, 500 + tmp.Length);
+                for (int i = g3items.Length; i < g3coloitems.Length; i++)
+                    g3coloitems[i] = $"UNUSED {i}";
+                Array.Copy(tmp, 0, g3coloitems, g3coloitems.Length - tmp.Length, tmp.Length);
+
+                g3xditems = (string[])g3items.Clone();
+                string[] tmp2 = Util.getStringListFallback("ItemsG3XD", l, "en");
+                Array.Resize(ref g3xditems, 500 + tmp2.Length);
+                for (int i = g3items.Length; i < g3xditems.Length; i++)
+                    g3xditems[i] = $"UNUSED {i}";
+                Array.Copy(tmp2, 0, g3xditems, g3xditems.Length - tmp2.Length, tmp2.Length);
+            }
             g2items = Util.getStringListFallback("ItemsG2", l, "en");
             g1items = Util.getStringListFallback("ItemsG1", l, "en");
             metRSEFRLG_00000 = Util.getStringListFallback("rsefrlg_00000", l, "en");
             metGSC_00000 = Util.getStringListFallback("gsc_00000", l, "en");
 
+            metCXD_00000 = Util.getStringListFallback("cxd_00000", l, "en");
+            // Sanitize a little
+            var metSanitize = (string[])metCXD_00000.Clone();
+            for (int i = 0; i < metSanitize.Length; i++)
+                if (metCXD_00000.Count(r => r == metSanitize[i]) > 1)
+                    metSanitize[i] += $" [{i.ToString("000")}]";
+            metCXD_00000 = metSanitize;
+
             // Current Generation strings
-            natures = Util.getStringList("natures", l);
-            types = Util.getStringList("types", l);
+            natures = Util.getNaturesList(l);
+            types = Util.getTypesList(l);
             abilitylist = Util.getAbilitiesList(l);
             movelist = Util.getMovesList(l);
-            itemlist = Util.getStringList("items", l);
-            characteristics = Util.getStringList("character", l);
+            itemlist = Util.getItemsList(l);
+            characteristics = Util.getCharacteristicsList(l);
             specieslist = Util.getSpeciesList(l);
             wallpapernames = Util.getStringList("wallpaper", l);
             encountertypelist = Util.getStringList("encountertype", l);
@@ -1196,7 +1282,7 @@ namespace PKHeX
             if (l != "pt" || (l == "pt" && !fieldsInitialized)) // load initial binaries
             {
                 pokeblocks = Util.getStringList("pokeblock", l);
-                forms = Util.getStringList("forms", l);
+                forms = Util.getFormsList(l);
                 memories = Util.getStringList("memories", l);
                 genloc = Util.getStringList("genloc", l);
                 trainingbags = Util.getStringList("trainingbag", l);
@@ -1354,6 +1440,9 @@ namespace PKHeX
                 var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
                 met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
                 metGen3 = met_list;
+
+                var cxd_list = Util.getCBList(metCXD_00000, Enumerable.Range(0, metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
+                metGen3CXD = cxd_list;
             }
             // Gen 4
             {
@@ -1402,7 +1491,14 @@ namespace PKHeX
             {
                 string[] items = itemlist;
                 if (SAV.Generation == 3)
-                    items = g3items;
+                {
+                    switch (SAV.Version)
+                    {
+                        case GameVersion.COLO: items = g3coloitems; break;
+                        case GameVersion.XD: items = g3xditems; break;
+                        default: items = g3items; break;
+                    }
+                }
                 if (SAV.Generation == 2)
                     items = g2items;
 
@@ -1446,7 +1542,7 @@ namespace PKHeX
             if (pkm.Format != SAV.Generation) // past gen format
             {
                 string c;
-                pkm = PKMConverter.convertToFormat(pkm, SAV.Generation, out c);
+                pkm = PKMConverter.convertToFormat(pkm, SAV.PKMType, out c);
                 if (pk.Format != pkm.Format && focus) // converted
                     Util.Alert("Converted File.");
             }
@@ -1500,7 +1596,7 @@ namespace PKHeX
         private void setForms()
         {
             int species = Util.getIndex(CB_Species);
-            if (SAV.Generation < 4 && species != 201)
+            if (SAV.Generation < 4 && species != 201 || SAV.Generation < 3)
             {
                 Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
                 return;
@@ -1508,16 +1604,14 @@ namespace PKHeX
 
             bool hasForms = SAV.Personal[species].HasFormes || new[] { 201, 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
-            if (SAV.Generation == 2)
-                CB_Form.Enabled = false;
             
-            if (HaX)
+            if (HaX && SAV.Generation >= 4)
                 Label_Form.Visible = true;
 
             if (!hasForms)
                 return;
 
-            CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols).ToList();
+            CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols, SAV.Generation).ToList();
         }
         private void setAbilityList()
         {
@@ -1564,20 +1658,20 @@ namespace PKHeX
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             for (int i = 0; i < 6; i++)
-                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, (pkm.Markings[i] ? 1 : 0) * 0.9 + 0.1);
+                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, pkm.Markings[i] ? 1 : 0.1);
 
-            PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, (!BTN_Shinytize.Enabled ? 1 : 0) * 0.9 + 0.1);
-            PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, (CHK_Cured.Checked ? 1 : 0) * 0.9 + 0.1);
+            PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, !BTN_Shinytize.Enabled ? 1 : 0.1);
+            PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, CHK_Cured.Checked ? 1 : 0.1);
 
-            int Version = Util.getIndex(CB_GameOrigin); // 24,25 = XY, 26,27 = ORAS, 28,29 = ???
-            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, (Version >= 24 && Version <= 29 ? 1 : 0) * 0.9 + 0.1);
+            int Version = pkm.Version;
+            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, Version >= 24 && Version <= 29 ? 1 : 0.1);
         }
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)
         {
-            if (SAV.Generation != 6)
+            if (SAV.Generation <= 3)
             {
-                Util.Alert("QR feature only available for 6th Gen Games.");
+                Util.Alert("QR feature not available for loaded game.");
                 return;
             }
             if (ModifierKeys == Keys.Alt)
@@ -1586,15 +1680,20 @@ namespace PKHeX
                 byte[] ekx = QR.getQRData();
 
                 if (ekx == null) return;
+                
+                if (ekx.Length != SAV.SIZE_STORED) { Util.Alert($"Decoded data not {SAV.SIZE_STORED} bytes.", $"QR Data Size: {SAV.SIZE_STORED}"); }
+                else
+                {
+                    PKM pk = PKMConverter.getPKMfromBytes(ekx);
+                    if (!pk.Valid || pk.Species <= 0)
+                    { Util.Alert("Invalid data detected."); return; }
 
-                if (ekx.Length != PKX.SIZE_6STORED) { Util.Alert($"Decoded data not {PKX.SIZE_6STORED} bytes.", $"QR Data Size: {ekx.Length}"); }
-                else try
-                    {
-                        PK6 pk = new PK6(PKX.decryptArray(ekx));
-                        if (pk.ChecksumValid) { populateFields(pk); }
-                        else Util.Alert("Invalid checksum in QR data.");
-                    }
-                    catch { Util.Alert("Error loading decrypted data."); }
+                    string c; PKM pkz = PKMConverter.convertToFormat(pk, SAV.PKMType, out c);
+                    if (pkz == null)
+                    { Util.Alert(c); return; }
+
+                    populateFields(pkz);
+                }
             }
             else
             {
@@ -1602,12 +1701,13 @@ namespace PKHeX
                 PKM pkx = preparePKM();
                 byte[] ekx = pkx.EncryptedBoxData;
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
-                Image qr = QR.getQRImage(ekx, server);
+                Image qr = QR.getQRImage(ekx, pkx.Format == 6 ? server : "null/#"); // pls no use QR on non gen6 -- bad user!
 
                 if (qr == null) return;
 
                 string[] r = pkx.QRText;
-                new QR(qr, dragout.Image, r[0], r[1], r[2], "PKHeX @ ProjectPokemon.org").ShowDialog();
+                const string refURL = "PKHeX @ ProjectPokemon.org";
+                new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})").ShowDialog();
             }
         }
         private void clickFriendship(object sender, EventArgs e)
@@ -1619,6 +1719,9 @@ namespace PKHeX
         }
         private void clickGender(object sender, EventArgs e)
         {
+            if (SAV.Generation == 2)
+                return;
+
             // Get Gender Threshold
             int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
 
@@ -1780,7 +1883,7 @@ namespace PKHeX
         private bool changingFields;
         private void updateEXPLevel(object sender, EventArgs e)
         {
-            if (changingFields) return;
+            if (changingFields || !fieldsInitialized) return;
 
             changingFields = true;
             if (sender == TB_EXP)
@@ -1801,18 +1904,17 @@ namespace PKHeX
             else
             {
                 // Change the XP
-                int Level = Util.ToInt32((MT_Level.Focused ? MT_Level : TB_Level).Text);
+                int Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
                 if (Level > 100) TB_Level.Text = "100";
                 if (Level > byte.MaxValue) MT_Level.Text = "255";
 
                 TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
-            if (fieldsLoaded)
+            if (fieldsLoaded) // store values back
             {
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
-                if (SAV.Generation < 3)
-                    pkm.Stat_Level = Util.ToInt32(TB_Level.Text);
+                pkm.Stat_Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
             }
             updateStats();
             updateLegality();
@@ -1977,13 +2079,8 @@ namespace PKHeX
         private void updateRandomPID(object sender, EventArgs e)
         {
             if (fieldsLoaded)
-            {
-                pkm.Version = Util.getIndex(CB_GameOrigin);
                 pkm.PID = Util.getHEXval(TB_PID.Text);
-                pkm.Species = Util.getIndex(CB_Species);
-                pkm.Nature = Util.getIndex(CB_Nature);
-                pkm.AltForm = CB_Form.SelectedIndex;
-            }
+
             if (sender == Label_Gender)
                 pkm.setPIDGender(pkm.Gender);
             else if (sender == CB_Nature && pkm.Nature != Util.getIndex(CB_Nature))
@@ -1995,7 +2092,7 @@ namespace PKHeX
 
             TB_PID.Text = pkm.PID.ToString("X8");
             getQuickFiller(dragout);
-            if (pkm.GenNumber < 6 && TB_EC.Visible)
+            if (pkm.GenNumber < 6 && SAV.Generation >= 6)
                 TB_EC.Text = TB_PID.Text;
         }
         private void updateRandomEC(object sender, EventArgs e)
@@ -2110,12 +2207,8 @@ namespace PKHeX
 
             // If no days are selected
             if (CB_PKRSStrain.SelectedIndex == 0)
-            {
-                // Never Infected
-                CHK_Cured.Checked = false;
-                CHK_Infected.Checked = false;
-            }
-            else CHK_Cured.Checked = true;
+                CHK_Cured.Checked = CHK_Infected.Checked = false; // No Strain = Never Cured / Infected, triggers Strain update
+            else CHK_Cured.Checked = true; // Any Strain = Cured
         }
         private void updatePKRSCured(object sender, EventArgs e)
         {
@@ -2171,21 +2264,22 @@ namespace PKHeX
         }
         private void updateSpecies(object sender, EventArgs e)
         {
-            // Change Species Prompted
-            int Species = Util.getIndex(CB_Species);
-            int Level = Util.ToInt32(TB_Level.Text);
-            if (MT_Level.Visible) Level = Util.ToInt32(MT_Level.Text);
-
-            // Get Forms for Given Species
+            // Get Species dependent information
+            setAbilityList();
             setForms();
+            updateForm(null, null);
+            
+            if (!fieldsLoaded)
+                return;
 
+            pkm.Species = Util.getIndex(CB_Species);
             // Recalculate EXP for Given Level
-            uint EXP = PKX.getEXP(Level, Species);
+            uint EXP = PKX.getEXP(pkm.CurrentLevel, pkm.Species);
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
             // Get Gender Threshold
-            int gt = SAV.Personal[Species].Gender;
+            int gt = SAV.Personal[pkm.Species].Gender;
             int cg = Array.IndexOf(gendersymbols, Label_Gender.Text);
             int Gender;
 
@@ -2202,8 +2296,6 @@ namespace PKHeX
             
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
-            setAbilityList();
-            updateForm(null, null);
 
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
@@ -2226,7 +2318,7 @@ namespace PKHeX
             {
                 case GameVersion.CXD:
                     if (SaveFormat == 3)
-                        return metGen3;
+                        return metGen3CXD;
                     break;
 
                 case GameVersion.R:
@@ -2296,7 +2388,7 @@ namespace PKHeX
             GameVersion Version = (GameVersion)Util.getIndex(CB_GameOrigin);
 
             // check if differs
-            GameVersion newTrack = SaveUtil.getVersionGroup(Version);
+            GameVersion newTrack = SaveUtil.getMetLocationVersionGroup(Version);
             if (newTrack != origintrack)
             {
                 var met_list = getLocationList(Version, SAV.Generation, egg:false);
@@ -2312,6 +2404,12 @@ namespace PKHeX
                 CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
 
                 origintrack = newTrack;
+
+                // Stretch C/XD met location dropdowns
+                int width = CB_EggLocation.DropDownWidth;
+                if (Version == GameVersion.CXD && SAV.Generation == 3)
+                    width = 2*width;
+                CB_MetLocation.DropDownWidth = width;
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
@@ -2397,7 +2495,6 @@ namespace PKHeX
                     ((PK1)pkm).setNotNicknamed();
                 if (SAV.Generation == 2)
                     ((PK2)pkm).setNotNicknamed();
-
             }
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
@@ -2425,27 +2522,38 @@ namespace PKHeX
         }
         private void updateIsEgg(object sender, EventArgs e)
         {
+            // Display hatch counter if it is an egg, Display Friendship if it is not.
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
+
+            if (!fieldsLoaded)
+                return;
+
+            pkm.IsEgg = CHK_IsEgg.Checked;
             if (CHK_IsEgg.Checked)
             {
-                CHK_Nicknamed.Checked = false;
                 TB_Friendship.Text = "1";
-                if (SAV.Generation == 2)
-                    pkm.IsEgg = true;
 
                 // If we are an egg, it won't have a met location.
                 CHK_AsEgg.Checked = true;
                 GB_EggConditions.Enabled = true;
 
                 CAL_MetDate.Value = new DateTime(2000, 01, 01);
-                CB_MetLocation.SelectedIndex = 2;
+
+                // if egg wasn't originally obtained by OT => Link Trade, else => None
+                bool isTraded = SAV.OT != TB_OT.Text || SAV.TID != Util.ToInt32(TB_TID.Text) || SAV.SID != Util.ToInt32(TB_SID.Text);
+                CB_MetLocation.SelectedIndex = isTraded ? 2 : 0;
+
+                if (!CHK_Nicknamed.Checked)
+                {
+                    TB_Nickname.Text = PKX.getSpeciesName(0, Util.getIndex(CB_Language));
+                    CHK_Nicknamed.Checked = true;
+                }
             }
             else // Not Egg
             {
                 if (!CHK_Nicknamed.Checked)
                     updateNickname(null, null);
-
-                if (SAV.Generation == 2)
-                    pkm.IsEgg = false;
 
                 TB_Friendship.Text = SAV.Personal[Util.getIndex(CB_Species)].BaseFriendship.ToString();
 
@@ -2455,21 +2563,26 @@ namespace PKHeX
                     CHK_AsEgg.Checked = false;
                     GB_EggConditions.Enabled = false;
                 }
+
+                if (TB_Nickname.Text == PKX.getSpeciesName(0, Util.getIndex(CB_Language)))
+                    CHK_Nicknamed.Checked = false;
             }
-            // Display hatch counter if it is an egg, Display Friendship if it is not.
-            Label_HatchCounter.Visible = CHK_IsEgg.Checked && SAV.Generation > 1;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
 
-
-            // Update image to (not) show egg.
-            if (!fieldsInitialized) return;
             updateNickname(null, null);
             getQuickFiller(dragout);
         }
         private void updateMetAsEgg(object sender, EventArgs e)
         {
             GB_EggConditions.Enabled = CHK_AsEgg.Checked;
-            if (CHK_AsEgg.Checked) return;
+            if (CHK_AsEgg.Checked)
+            {
+                if (!fieldsLoaded)
+                    return;
+
+                CAL_EggDate.Value = DateTime.Now;
+                CB_EggLocation.SelectedIndex = 1;
+                return;
+            }
             // Remove egg met data
             CHK_IsEgg.Checked = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
@@ -2542,6 +2655,28 @@ namespace PKHeX
                 fieldsLoaded = true;
             }
         }
+        private void updateShadowID(object sender, EventArgs e)
+        {
+            if (!fieldsLoaded)
+                return;
+            FLP_Purification.Visible = NUD_ShadowID.Value > 0;
+        }
+        private void updatePurification(object sender, EventArgs e)
+        {
+            if (!fieldsLoaded)
+                return;
+            fieldsLoaded = false;
+            CHK_Shadow.Checked = NUD_Purification.Value == 0;
+            fieldsLoaded = true;
+        }
+        private void updateShadowCHK(object sender, EventArgs e)
+        {
+            if (!fieldsLoaded)
+                return;
+            fieldsLoaded = false;
+            NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
+            fieldsLoaded = true;
+        }
         private void validateComboBox(object sender)
         {
             if (!formInitialized)
@@ -2580,7 +2715,10 @@ namespace PKHeX
                 if (sender == CB_Ability && SAV.Generation <= 5 && CB_Ability.SelectedIndex < 2) // not hidden
                     updateRandomPID(sender, e);
                 if (sender == CB_Nature && SAV.Generation <= 4)
+                {
+                    pkm.Nature = CB_Nature.SelectedIndex;
                     updateRandomPID(sender, e);
+                }
             }
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
@@ -2618,7 +2756,7 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void showLegality(PK6 pk, bool tabs, bool verbose)
+        private void showLegality(PKM pk, bool tabs, bool verbose)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
             if (tabs)
@@ -2651,14 +2789,14 @@ namespace PKHeX
         private void updateStats()
         {
             // Generate the stats.
-            ushort[] stats = pkm.getStats(SAV.Personal.getFormeEntry(pkm.Species, pkm.AltForm));
+            pkm.setStats(pkm.getStats(SAV.Personal.getFormeEntry(pkm.Species, pkm.AltForm)));
 
-            Stat_HP.Text = stats[0].ToString();
-            Stat_ATK.Text = stats[1].ToString();
-            Stat_DEF.Text = stats[2].ToString();
-            Stat_SPA.Text = stats[4].ToString();
-            Stat_SPD.Text = stats[5].ToString();
-            Stat_SPE.Text = stats[3].ToString();
+            Stat_HP.Text = pkm.Stat_HPCurrent.ToString();
+            Stat_ATK.Text = pkm.Stat_ATK.ToString();
+            Stat_DEF.Text = pkm.Stat_DEF.ToString();
+            Stat_SPA.Text = pkm.Stat_SPA.ToString();
+            Stat_SPD.Text = pkm.Stat_SPD.ToString();
+            Stat_SPE.Text = pkm.Stat_SPE.ToString();
 
             // Recolor the Stat Labels based on boosted stats.
             {
@@ -2709,10 +2847,8 @@ namespace PKHeX
         }
         private void openHistory(object sender, EventArgs e)
         {
-            if (pkm.Format < 6) return;
             // Write back current values
             PK6 pk6 = pkm as PK6;
-            pk6.Version = Util.getIndex(CB_GameOrigin);
             pk6.HT_Name = TB_OTt2.Text;
             pk6.OT_Name = TB_OT.Text;
             pk6.IsEgg = CHK_IsEgg.Checked;
@@ -2757,15 +2893,14 @@ namespace PKHeX
             List<string> errata = new List<string>();
             if (SAV.Generation > 1)
             {
-                if (pk.HeldItem > itemlist.Length)
-                    errata.Add($"Item Index beyond range: {pk.HeldItem}");
-                else
-                {
-                    if (pk.HeldItem > SAV.MaxItemID)
-                        errata.Add($"Game can't obtain item: {itemlist[pk.HeldItem]}");
-                    if (!pk.CanHoldItem(SAV.HeldItems))
-                        errata.Add($"Game can't hold item: {itemlist[pk.HeldItem]}");
-                }
+                ushort held = (ushort)pk.HeldItem;
+
+                if (held > itemlist.Length)
+                    errata.Add($"Item Index beyond range: {held}");
+                else if (held > SAV.MaxItemID)
+                    errata.Add($"Game can't obtain item: {itemlist[held]}");
+                else if (!pk.CanHoldItem(SAV.HeldItems))
+                    errata.Add($"Game can't hold item: {itemlist[held]}");
             }
 
             if (pk.Species > specieslist.Length)
@@ -2822,7 +2957,7 @@ namespace PKHeX
             // Create Temp File to Drag
             PKM pkx = preparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
-            string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" : ".pk") + pkx.Format}";
+            string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" + pkx.Format : "."+pkx.Extension) }";
             byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
             // Make file
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
@@ -2858,6 +2993,17 @@ namespace PKHeX
             e.Effect = DragDropEffects.Copy;
 
             Cursor = DefaultCursor;
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (SAV.Edited)
+            {
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.  Are you sure you want to close PKHeX?") != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
         #endregion
 
@@ -2919,6 +3065,7 @@ namespace PKHeX
 
             bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
             File.WriteAllBytes(main.FileName, SAV.Write(dsv));
+            SAV.Edited = false;
             Util.Alert("SAV exported to:", main.FileName);
         }
 
@@ -3028,7 +3175,6 @@ namespace PKHeX
                 Util.Error($"Slot read error @ slot {slot}.");
                 return;
             }
-
             // Load the PKX file
             PKM pk = 30 <= slot && slot < 36 ? SAV.getPartySlot(offset) : SAV.getStoredSlot(offset);
             if (pk.Valid && pk.Species != 0)
@@ -3071,12 +3217,26 @@ namespace PKHeX
             }
             else if (slot < 30 || HaX && slot >= 36 && slot < 42)
             {
+                if (slot < 30)
+                {
+                    UndoStack.Push(new SlotChange
+                    {
+                        Box = CB_BoxSelect.SelectedIndex,
+                        Slot = slot,
+                        Offset = offset,
+                        OriginalData = SAV.getStoredSlot(offset)
+                    });
+                    Menu_Undo.Enabled = true;
+                }
+
                 SAV.setStoredSlot(pk, offset);
                 getQuickFiller(SlotPictureBoxes[slot], pk);
                 getSlotColor(slot, Properties.Resources.slotSet);
             }
 
             updateBoxViewers();
+
+            RedoStack.Clear(); Menu_Redo.Enabled = false;
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -3097,25 +3257,92 @@ namespace PKHeX
                 return;
             }
             if (slot < 30 || HaX && slot >= 36 && slot < 42)
-            { SAV.setStoredSlot(SAV.BlankPKM, getPKXOffset(slot)); }
+            {
+                if (slot < 30)
+                {
+                    UndoStack.Push(new SlotChange
+                    {
+                        Box = CB_BoxSelect.SelectedIndex,
+                        Slot = slot,
+                        Offset = offset,
+                        OriginalData = SAV.getStoredSlot(offset)
+                    });
+                    Menu_Undo.Enabled = true;
+                }
+                SAV.setStoredSlot(SAV.BlankPKM, getPKXOffset(slot));
+            }
             else return;
 
             getQuickFiller(SlotPictureBoxes[slot], SAV.BlankPKM);
             getSlotColor(slot, Properties.Resources.slotDel);
             updateBoxViewers();
+
+            RedoStack.Clear(); Menu_Redo.Enabled = false;
+        }
+        private readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
+        private readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
+        private void clickUndo(object sender, EventArgs e)
+        {
+            if (!UndoStack.Any())
+                return;
+
+            SlotChange change = UndoStack.Pop();
+            if (change.Slot >= 30)
+                return;
+
+            RedoStack.Push(new SlotChange
+            {
+                Slot = change.Slot,
+                Box = change.Box,
+                Offset = change.Offset,
+                OriginalData = SAV.getStoredSlot(change.Offset)
+            });
+            undoSlotChange(change);
+        }
+        private void clickRedo(object sender, EventArgs e)
+        {
+            if (!RedoStack.Any())
+                return;
+
+            SlotChange change = RedoStack.Pop();
+            if (change.Slot >= 30)
+                return;
+
+            UndoStack.Push(new SlotChange
+            {
+                Slot = change.Slot,
+                Box = change.Box,
+                Offset = change.Offset,
+                OriginalData = SAV.getStoredSlot(change.Offset)
+            });
+            undoSlotChange(change);
+        }
+        private void undoSlotChange(SlotChange change)
+        {
+            int slot = change.Slot;
+            int offset = change.Offset;
+            PKM pk = (PKM)change.OriginalData;
+
+            if (CB_BoxSelect.SelectedIndex != change.Box)
+                CB_BoxSelect.SelectedIndex = change.Box;
+            SAV.setStoredSlot(pk, offset);
+            getQuickFiller(SlotPictureBoxes[slot], pk);
+            getSlotColor(slot, Properties.Resources.slotSet);
+
+            Menu_Undo.Enabled = UndoStack.Any();
+            Menu_Redo.Enabled = RedoStack.Any();
+
+            SystemSounds.Asterisk.Play();
         }
         private void clickClone(object sender, EventArgs e)
         {
             if (getSlot(sender) > 30) return; // only perform action if cloning to boxes
             if (!verifiedPKM()) return; // don't copy garbage to the box
 
-            PKM pk;
-            if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in {CB_BoxSelect.Text}?") == DialogResult.Yes)
-                pk = preparePKM();
-            else if (Util.Prompt(MessageBoxButtons.YesNo, $"Delete all Pokemon in {CB_BoxSelect.Text}?") == DialogResult.Yes)
-                pk = SAV.BlankPKM;
-            else
+            if (Util.Prompt(MessageBoxButtons.YesNo, $"Clone Pokemon from Editing Tabs to all slots in {CB_BoxSelect.Text}?") != DialogResult.Yes)
                 return;
+
+            PKM pk = preparePKM();
 
             for (int i = 0; i < 30; i++) // set to every slot in box
             {
@@ -3144,7 +3371,13 @@ namespace PKHeX
             }
             showLegality(pk as PK6, slot < 0, ModifierKeys == Keys.Control);
         }
-
+        private void updateSaveSlot(object sender, EventArgs e)
+        {
+            if (SAV.Version != GameVersion.BATREV)
+                return;
+            ((SAV4BR)SAV).CurrentSlot = Util.getIndex(CB_SaveSlot);
+            setPKXBoxes();
+        }
         private void updateEggRNGSeed(object sender, EventArgs e)
         {
             if (TB_RNGSeed.Text.Length == 0)
@@ -3222,9 +3455,11 @@ namespace PKHeX
                 SAV.Edited = true;
             }
         }
-
         private void updateIsNicknamed(object sender, EventArgs e)
         {
+            if (!fieldsLoaded)
+                return;
+
             if (!CHK_Nicknamed.Checked)
             {
                 int species = Util.getIndex(CB_Species);
@@ -3393,7 +3628,6 @@ namespace PKHeX
         {
             if (!SAV.HasBox)
                 return;
-            int selectedbox = CB_BoxSelect.SelectedIndex; // precache selected box
             // Build ComboBox Dropdown Items
             try
             {
@@ -3407,8 +3641,8 @@ namespace PKHeX
                 for (int i = 1; i <= SAV.BoxCount; i++)
                     CB_BoxSelect.Items.Add($"BOX {i}");
             }
-            if (selectedbox < CB_BoxSelect.Items.Count)
-                CB_BoxSelect.SelectedIndex = selectedbox; // restore selected box
+            if (SAV.CurrentBox < CB_BoxSelect.Items.Count)
+                CB_BoxSelect.SelectedIndex = SAV.CurrentBox; // restore selected box
         }
         private void getQuickFiller(PictureBox pb, PKM pk = null)
         {
@@ -3458,7 +3692,11 @@ namespace PKHeX
         }
         private void getBox(object sender, EventArgs e)
         {
-            SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
+            if (SAV.CurrentBox != CB_BoxSelect.SelectedIndex)
+            {
+                SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
+                SAV.Edited = true; // Dumb
+            }
             setPKXBoxes();
         }
         private void switchDaycare(object sender, EventArgs e)
@@ -3513,7 +3751,7 @@ namespace PKHeX
             {
                 string c;
                 PKM temp = PKMConverter.getPKMfromBytes(data);
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
 
                 if (pk != null) // Write to save
                 {
@@ -3791,16 +4029,17 @@ namespace PKHeX
                 DragInfo.slotSourceBoxNumber = DragInfo.slotSourceSlotNumber >= 30  ? -1 : CB_BoxSelect.SelectedIndex;
 
                 // Make a new file name based off the PID
+                bool encrypt = ModifierKeys == Keys.Control;
                 byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
                 Array.Resize(ref dragdata, SAV.SIZE_STORED);
                 PKM pkx = SAV.getPKM(dragdata);
-                string filename = pkx.FileName;
+                string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension) }";
 
                 // Make File
                 string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
                 try
                 {
-                    File.WriteAllBytes(newfile, dragdata);
+                    File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
                     var img = (Bitmap)pb.Image;
                     DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
                     pb.Image = null;
@@ -3862,7 +4101,7 @@ namespace PKHeX
                 PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data);
                 string c;
 
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.Generation, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                 { Util.Error(c); Console.WriteLine(c); return; }
 

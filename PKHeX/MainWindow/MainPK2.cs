@@ -12,14 +12,16 @@ namespace PKHeX
                 return;
 
             // Do first
-            pk2.Stat_Level = PKX.getLevel(pk2.Species, pk2.EXP);
-            if (pk2.Stat_Level == 100)
+            pk2.Stat_Level = HaX ? pk2.Stat_Level : PKX.getLevel(pk2.Species, pk2.EXP);
+            if (!HaX && pk2.Stat_Level == 100)
                 pk2.EXP = PKX.getEXP(pk2.Stat_Level, pk2.Species);
 
             CB_Species.SelectedValue = pk2.Species;
+            if (HaX)
+                MT_Level.Text = pk2.Stat_Level.ToString();
             TB_Level.Text = pk2.Stat_Level.ToString();
             TB_EXP.Text = pk2.EXP.ToString();
-            CB_HeldItem.SelectedValue = pk2.G2Item;
+            CB_HeldItem.SelectedValue = pk2.HeldItem;
             CB_Form.SelectedIndex = pk2.AltForm;
             CHK_IsEgg.Checked = pk2.IsEgg;
             TB_Friendship.Text = pk2.CurrentFriendship.ToString();
@@ -83,7 +85,7 @@ namespace PKHeX
             pk2.Species = Util.getIndex(CB_Species);
             pk2.TID = Util.ToInt32(TB_TID.Text);
             pk2.EXP = Util.ToUInt32(TB_EXP.Text);
-            pk2.G2Item = Util.getIndex(CB_HeldItem);
+            pk2.HeldItem = Util.getIndex(CB_HeldItem);
             pk2.IsEgg = CHK_IsEgg.Checked;
             pk2.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
             pk2.Met_Level = Util.ToInt32(TB_MetLevel.Text);

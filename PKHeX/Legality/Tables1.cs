@@ -11,7 +11,7 @@ namespace PKHeX
            .Concat(Enumerable.Range(45, 5))   // 45-49
            .Concat(Enumerable.Range(51, 8))   // 51-58
            .Concat(Enumerable.Range(60, 24))  // 60-83
-           .Concat(Enumerable.Range(196, 54)) // 196-249
+           .Concat(Enumerable.Range(196, 55)) // 196-250
            .Select(i => (ushort)i).ToArray();
 
         internal static readonly int[] MovePP_RBY =

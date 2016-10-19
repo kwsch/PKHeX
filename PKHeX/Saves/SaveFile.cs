@@ -20,13 +20,14 @@ namespace PKHeX
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public byte[] Header { protected get; set; } = new byte[0]; // .gci
-        public bool Japanese { protected get; set; }
+        public bool Japanese { get; set; }
         public string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes.ToString("00")}ː{PlayedSeconds.ToString("00")}"; // not :
-
-        public bool GetJapanese => Japanese;
+        public virtual bool IndeterminateGame => false;
+        public virtual bool IndeterminateLanguage => false;
+        public virtual bool IndeterminateSubVersion => false;
 
         // General PKM Properties
-        protected abstract Type PKMType { get; }
+        public abstract Type PKMType { get; }
         public abstract PKM getPKM(byte[] data);
         public abstract PKM BlankPKM { get; }
         public abstract byte[] decryptPKM(byte[] data);
@@ -109,9 +110,10 @@ namespace PKHeX
         public abstract int OTLength { get; }
         public abstract int NickLength { get; }
         public virtual int MaxMoney { get; } = 9999999;
+        public virtual int MaxShadowID { get; } = 0;
 
         // Offsets
-        protected int Box { get; set; } = int.MinValue;
+        protected virtual int Box { get; set; } = int.MinValue;
         protected int Party { get; set; } = int.MinValue;
         protected int Trainer1 { get; set; } = int.MinValue;
         protected int Daycare { get; set; } = int.MinValue;
@@ -342,11 +344,11 @@ namespace PKHeX
         // Storage
         public virtual int BoxSlotCount => 30;
 
-        public PKM getPartySlot(int offset)
+        public virtual PKM getPartySlot(int offset)
         {
             return getPKM(decryptPKM(getData(offset, SIZE_PARTY)));
         }
-        public PKM getStoredSlot(int offset)
+        public virtual PKM getStoredSlot(int offset)
         {
             return getPKM(decryptPKM(getData(offset, SIZE_STORED)));
         }
@@ -366,14 +368,13 @@ namespace PKHeX
                         PartyCount = i + 1;
 
             setData(pkm.EncryptedPartyData, offset);
-            Console.WriteLine("");
             Edited = true;
         }
         public virtual void setStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
         {
             if (pkm == null) return;
             if (pkm.GetType() != PKMType)
-                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a Gen{Generation} Save File.");
+                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a {GetType().Name.Last()} Save File.");
             if (trade ?? SetUpdatePKM)
                 setPKM(pkm);
             if (dex ?? SetUpdateDex)
@@ -437,6 +438,7 @@ namespace PKHeX
                 .OrderBy(p => p.Species == 0) // empty slots at end
                 .ThenBy(p => p.IsEgg) // eggs to the end
                 .ThenBy(p => p.Species) // species sorted
+                .ThenBy(p => p.AltForm) // altforms sorted
                 .ThenBy(p => p.IsNicknamed).ToArray();
 
             Array.Copy(Sorted, 0, BD, BoxStart*BoxSlotCount, Sorted.Length);

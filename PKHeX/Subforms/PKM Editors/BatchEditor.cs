@@ -161,13 +161,23 @@ namespace PKHeX
             for (int i = 0; i < data.Length; i++)
             {
                 var pkm = data[i];
+                if (!pkm.Valid)
+                {
+                    b.ReportProgress(i);
+                    continue;
+                }
+
                 ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
                 if (r != ModifyResult.Invalid)
                     len++;
                 if (r == ModifyResult.Error)
                     err++;
                 if (r == ModifyResult.Modified)
+                {
+                    if (pkm.Species != 0)
+                        pkm.RefreshChecksum();
                     ctr++;
+                }
 
                 b.ReportProgress(i);
             }
@@ -188,6 +198,13 @@ namespace PKHeX
 
                 byte[] data = File.ReadAllBytes(file);
                 var pkm = PKMConverter.getPKMfromBytes(data);
+                
+                if (!pkm.Valid)
+                {
+                    b.ReportProgress(i);
+                    continue;
+                }
+
                 ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
                 if (r != ModifyResult.Invalid)
                     len++;
@@ -197,8 +214,9 @@ namespace PKHeX
                 {
                     if (pkm.Species > 0)
                     {
-                        ctr++;
+                        pkm.RefreshChecksum();
                         File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
+                        ctr++;
                     }
                 }
 

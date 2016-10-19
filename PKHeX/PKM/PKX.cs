@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using PKHeX.Properties;
 
 namespace PKHeX
@@ -20,6 +21,8 @@ namespace PKHeX
         internal const int SIZE_2PARTY = 48;
         internal const int SIZE_2STORED = 32;
 
+        internal const int SIZE_3CSTORED = 312;
+        internal const int SIZE_3XSTORED = 196;
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
         internal const int SIZE_3BLOCK = 12;
@@ -48,6 +51,7 @@ namespace PKHeX
                 SIZE_1JLIST, SIZE_1ULIST,
                 SIZE_2ULIST, SIZE_2JLIST,
                 SIZE_3STORED, SIZE_3PARTY,
+                SIZE_3CSTORED, SIZE_3XSTORED,
                 SIZE_4STORED, SIZE_4PARTY,
                 SIZE_5PARTY,
                 SIZE_6STORED, SIZE_6PARTY
@@ -544,7 +548,7 @@ namespace PKHeX
         }
         public static Image getSprite(PKM pkm)
         {
-            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
+            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
 
         // Font Related
@@ -578,7 +582,7 @@ namespace PKHeX
         }
 
         // Personal.dat
-        public static string[] getFormList(int species, string[] t, string[] f, string[] g)
+        public static string[] getFormList(int species, string[] t, string[] f, string[] g, int generation = 6)
         {
             // Mega List            
             if (Array.IndexOf(new[] 
@@ -705,6 +709,49 @@ namespace PKHeX
                     };
 
                 case 493:
+                    if (generation == 4)
+                        return new[]
+                        {
+                            t[00], // Normal
+                            t[01], // Fighting
+                            t[02], // Flying
+                            t[03], // Poison
+                            t[04], // etc
+                            t[05],
+                            t[06],
+                            t[07],
+                            t[08],
+                            "???", // ???-type arceus
+                            t[09],
+                            t[10],
+                            t[11],
+                            t[12],
+                            t[13],
+                            t[14],
+                            t[15],
+                            t[16] // No Fairy Type
+                        };
+                    if (generation == 5)
+                        return new[]
+                        {
+                            t[00], // Normal
+                            t[01], // Fighting
+                            t[02], // Flying
+                            t[03], // Poison
+                            t[04], // etc
+                            t[05],
+                            t[06],
+                            t[07],
+                            t[08],
+                            t[09],
+                            t[10],
+                            t[11],
+                            t[12],
+                            t[13],
+                            t[14],
+                            t[15],
+                            t[16] // No Fairy type
+                        };
                     return new[]
                     {
                         t[00], // Normal
@@ -1046,6 +1093,35 @@ namespace PKHeX
                 if (val == 0xFFFF || chr == 0xFFFF)
                 { Array.Resize(ref strdata, i * 2); break; }
                 BitConverter.GetBytes(val).CopyTo(strdata, i * 2);
+            }
+            BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
+            return strdata;
+        }
+
+        public static string array2strG4BE(byte[] strdata)
+        {
+            string s = "";
+            for (int i = 0; i < strdata.Length; i += 2)
+            {
+                ushort val = BigEndian.ToUInt16(strdata, i);
+                if (val == 0xFFFF) break;
+                ushort chr = val2charG4(val);
+                if (chr == 0xFFFF) break;
+                s += (char)chr;
+            }
+            return s;
+        }
+
+        public static byte[] str2arrayG4BE(string str)
+        {
+            byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
+            for (int i = 0; i < str.Length; i++)
+            {
+                ushort chr = str[i];
+                ushort val = char2valG4(chr);
+                if (val == 0xFFFF || chr == 0xFFFF)
+                { Array.Resize(ref strdata, i * 2); break; }
+                BigEndian.GetBytes(val).CopyTo(strdata, i * 2);
             }
             BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
             return strdata;
@@ -2228,5 +2304,20 @@ namespace PKHeX
                 .ToArray();
         }
 
+        public static string getColoStr(byte[] data, int offset, int length)
+        {
+            return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length * 2));
+        }
+        public static byte[] setColoStr(string value, int length)
+        {
+            if (value.Length > length)
+                value = value.Substring(0, length); // Hard cap
+            string TempNick = value // Replace Special Characters and add Terminator
+                .Replace("\u2640", "\uE08F") // nidoran
+                .Replace("\u2642", "\uE08E") // nidoran
+                .Replace("\u0027", "\u2019") // farfetch'd
+                .PadRight(value.Length + 1, (char)0); // Null Terminator
+            return Encoding.BigEndianUnicode.GetBytes(TempNick);
+        }
     }
 }

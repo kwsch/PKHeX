@@ -29,7 +29,6 @@ namespace PKHeX
             Label_OTGender.ForeColor = pk6.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk6.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk6.HeldItem;
-            setAbilityList();
             TB_AbilityNumber.Text = pk6.AbilityNumber.ToString();
             CB_Ability.SelectedIndex = pk6.AbilityNumber < 6 ? pk6.AbilityNumber >> 1 : 0; // with some simple error handling
             CB_Nature.SelectedValue = pk6.Nature;

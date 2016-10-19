@@ -10725,23 +10725,12 @@ namespace PKHeX.Properties {
         ///http://projectpokemon.org/
         ///http://projectpokemon.org/forums/showthread.php?36986
         ///
-        ///02/09/14: 
-        /// - Initial Version
-        ///
-        ///02/15/14: 
-        /// - Finished Forms and Stat Calculations.
-        ///
-        ///02/18/14: 
-        /// - Added Hold Back as a move, fixed minor bugs, will have an update later with accurate Ribbon Labels.
-        ///
-        ///02/18/14ab: 
-        /// - More fixes regarding encryption and non-breaking for dumped data.
-        ///
-        ///02/21/14: 
-        /// - Added in Lati@site and Drag &amp; Drop support.
-        ///
-        ///02/22/14: 
-        /// - Updated for future-proofing; savin [rest of string was truncated]&quot;;.
+        ///09/18/16 - New Update:
+        /// - Added: Gen 1 &amp; 2 support. Thanks SciresM, and all those who tested!
+        /// - Added: Gen 1&lt;-&gt;2 conversion. Thanks SciresM!
+        /// - Added: Super Secret Training Completed flag. Thanks SciresM!
+        /// - Added: Program will now check for updates when the program starts. If an update is available, a URL label will appear.
+        /// - Added: Mystery Gift event database browser. Currently only views wc6, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -15636,7 +15625,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20160830.
+        ///   Looks up a localized string similar to 20160918.
         /// </summary>
         internal static string ProgramVersion {
             get {
@@ -16672,8 +16661,6 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to If you are having issues viewing certain symbols/text: Options -&gt; Toggle Font.
         ///
-        /////
-        ///
         ///// Main Window
         ///
         ///CTRL-O: Open
@@ -16692,7 +16679,7 @@ namespace PKHeX.Properties {
         ///Control + Click on...
         ///- Species: Import Showdown/Smogon set from Clipboard.
         ///- Nickname/OT box: Bring up the ingame-special characters.
-        ///-  [rest of string was truncated]&quot;;.
+        ///- Indivi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {
@@ -20519,6 +20506,34 @@ namespace PKHeX.Properties {
         internal static string text_character_zh {
             get {
                 return ResourceManager.GetString("text_character_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (None)
+        ///Outskirt Stand (C) Cipher Lab (XD)
+        ///Outskirt Stand (C)
+        ///Phenac City (C)
+        ///Phenac City (C)
+        ///Mayor&apos;s House (C)
+        ///Mayor&apos;s House (C)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Phenac City (C) Cipher Lab (XD)
+        ///Pre Gym (C) Cipher Lab (XD)
+        ///Pre Gym (C) Mt. Battle (XD)
+        ///Phenac Stadium (C) Mt. Battle (XD)
+        ///Phenac Stadium (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///Pyrite Town (C) Mt. Battle (XD)
+        ///P [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_cxd_00000_en {
+            get {
+                return ResourceManager.GetString("text_cxd_00000_en", resourceCulture);
             }
         }
         
@@ -26084,6 +26099,114 @@ namespace PKHeX.Properties {
         internal static string text_ItemsG3_zh {
             get {
                 return ResourceManager.GetString("text_ItemsG3_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jail Key
+        ///Elevator Key
+        ///Small Tablet
+        ///F-Disk
+        ///R-Disk
+        ///L-Disk
+        ///D-Disk
+        ///U-Disk
+        ///Subway Key
+        ///Maingate Key
+        ///Card Key
+        ///Down St. Key
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///DNA Sample
+        ///Data ROM
+        ///Steel Teeth
+        ///Gear
+        ///Red ID Badge
+        ///Grn ID Badge
+        ///Blu ID Badge
+        ///Ylw ID Badge
+        ///Time Flute
+        ///Ein File S
+        ///Ein File H
+        ///Ein File C
+        ///Ein File P
+        ///Cologne Case
+        ///Joy Scent
+        ///Excite Scent
+        ///Vivid Scent
+        ///Powerup Part
+        ///Ein  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3Colosseum_en {
+            get {
+                return ResourceManager.GetString("text_ItemsG3Colosseum_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safe Key
+        ///Elevator Key
+        ///Bonsly Card
+        ///Machine Part
+        ///Gonzap&apos;s Key
+        ///Data ROM
+        ///ID Card
+        ///Music Disc
+        ///System Lever
+        ///Mayor&apos;s Note
+        ///Miror Radar
+        ///Poké Snack
+        ///Cologne Case
+        ///Joy Scent
+        ///Excite Scent
+        ///Vivid Scent
+        ///Sun Shard
+        ///Moon Shard
+        ///Bonsly Photo
+        ///Cry Analyzer
+        ///???
+        ///???
+        ///???
+        ///Krane Memo 1
+        ///Krane Memo 2
+        ///Krane Memo 3
+        ///Krane Memo 4
+        ///Krane Memo 5
+        ///Voice Case 1
+        ///Voice Case 2
+        ///Voice Case 3
+        ///Voice Case 4
+        ///Voice Case 5
+        ///Disc Case
+        ///Battle CD 01
+        ///Battle CD 02
+        ///Battle CD 03
+        ///Battle CD 04
+        ///Battle CD 05
+        ///Battle CD 06
+        ///Battle CD 07
+        ///Battle CD 08
+        ///Battle CD 09
+        ///Battle CD 1 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3XD_en {
+            get {
+                return ResourceManager.GetString("text_ItemsG3XD_en", resourceCulture);
             }
         }
         

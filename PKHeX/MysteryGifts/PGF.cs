@@ -6,7 +6,6 @@ namespace PKHeX
     public sealed class PGF : MysteryGift
     {
         internal const int Size = 0xCC;
-        public override string Extension => "pgf";
         public override int Format => 5;
 
         public PGF(byte[] data = null)

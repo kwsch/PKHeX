@@ -9,6 +9,9 @@ namespace PKHeX
     public enum GameVersion
     {
         /* I don't want to assign Gen I/II... */
+        XD = -11,
+        COLO = -10,
+        BATREV = -7,
         RSBOX = -5,
         GS = -4,
         C = -3,
@@ -34,6 +37,9 @@ namespace PKHeX
         ORASDEMO = 107,
         ORAS = 108,
         SM = 109,
+        
+        // Extra Game Groupings (Generation)
+        Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7
     }
 
     public static class SaveUtil
@@ -46,9 +52,14 @@ namespace PKHeX
         internal const int SIZE_G5RAW = 0x80000;
         internal const int SIZE_G5BW = 0x24000;
         internal const int SIZE_G5B2W2 = 0x26000;
+        internal const int SIZE_G4BR = 0x380000;
         internal const int SIZE_G4RAW = 0x80000;
         internal const int SIZE_G3BOX = 0x76000;
         internal const int SIZE_G3BOXGCI = 0x76040; // +64 if has GCI data
+        internal const int SIZE_G3COLO = 0x60000;
+        internal const int SIZE_G3COLOGCI = 0x60040; // +64 if has GCI data
+        internal const int SIZE_G3XD = 0x56000;
+        internal const int SIZE_G3XDGCI = 0x56040; // +64 if has GCI data
         internal const int SIZE_G3RAW = 0x20000;
         internal const int SIZE_G3RAWHALF = 0x10000;
         internal const int SIZE_G2RAW_U = 0x8000;
@@ -60,28 +71,40 @@ namespace PKHeX
         internal const int SIZE_G1BAT = 0x802C;
 
         internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
-        internal static readonly byte[] HEADER_GCI = {0x47, 0x50, 0x58}; // GPX*
+        internal static readonly byte[] HEADER_BOX = Encoding.ASCII.GetBytes("GPX");
+        internal static readonly byte[] HEADER_COLO = Encoding.ASCII.GetBytes("GC6");
+        internal static readonly byte[] HEADER_XD = Encoding.ASCII.GetBytes("GXX");
 
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static int getSAVGeneration(byte[] data)
+        public static GameVersion getSAVGeneration(byte[] data)
         {
             if (getIsG1SAV(data) != GameVersion.Invalid)
-                return 1;
+                return GameVersion.Gen1;
             if (getIsG2SAV(data) != GameVersion.Invalid)
-                return 2;
+                return GameVersion.Gen2;
             if (getIsG3SAV(data) != GameVersion.Invalid)
-                return 3;
-            if (getIsG3BOXSAV(data) != GameVersion.Invalid)
-                return (int)GameVersion.RSBOX;
+                return GameVersion.Gen3;
             if (getIsG4SAV(data) != GameVersion.Invalid)
-                return 4;
+                return GameVersion.Gen4;
             if (getIsG5SAV(data) != GameVersion.Invalid)
-                return 5;
+                return GameVersion.Gen5;
             if (getIsG6SAV(data) != GameVersion.Invalid)
-                return 6;
-            return -1;
+                return GameVersion.Gen6;
+            if (getIsG7SAV(data) != GameVersion.Invalid)
+                return GameVersion.Gen7;
+
+            if (getIsG3COLOSAV(data) != GameVersion.Invalid)
+                return GameVersion.COLO;
+            if (getIsG3XDSAV(data) != GameVersion.Invalid)
+                return GameVersion.XD;
+            if (getIsG3BOXSAV(data) != GameVersion.Invalid)
+                return GameVersion.RSBOX;
+            if (getIsG4BRSAV(data) != GameVersion.Invalid)
+                return GameVersion.BATREV;
+
+            return GameVersion.Invalid;
         }
         /// <summary>Determines the type of 1st gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -197,27 +220,38 @@ namespace PKHeX
             if (data.Length != SIZE_G3RAW && data.Length != SIZE_G3RAWHALF)
                 return GameVersion.Invalid;
 
-            int[] BlockOrder = new int[14];
-            for (int i = 0; i < 14; i++)
-                BlockOrder[i] = BitConverter.ToInt16(data, i * 0x1000 + 0xFF4);
-
-            if (BlockOrder.Any(i => i > 0xD || i < 0))
-                return GameVersion.Invalid;
-
-            // Detect RS/E/FRLG
-            // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
-
-            int Block0 = Array.IndexOf(BlockOrder, 0);
-            uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC);
-            if (GameCode == uint.MaxValue)
-                return GameVersion.Unknown; // what a hack
-            
-            switch (GameCode)
+            // check the save file(s)
+            int count = data.Length/SIZE_G3RAWHALF;
+            for (int s = 0; s < count; s++)
             {
-                case 0: return GameVersion.RS;
-                case 1: return GameVersion.FRLG;
-                default: return GameVersion.E;
+                int ofs = 0xE000*s;
+                int[] BlockOrder = new int[14];
+                for (int i = 0; i < 14; i++)
+                    BlockOrder[i] = BitConverter.ToInt16(data, i * 0x1000 + 0xFF4 + ofs);
+
+                if (BlockOrder.Any(i => i > 0xD || i < 0))
+                    continue;
+
+                // Detect RS/E/FRLG
+                // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
+                int Block0 = Array.IndexOf(BlockOrder, 0);
+
+                // Sometimes not all blocks are present (start of game), yielding multiple block0's.
+                // Real 0th block comes before block1.
+                if (BlockOrder[0] == 1 && Block0 != BlockOrder.Length - 1)
+                    continue;
+                uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC + ofs);
+                if (GameCode == uint.MaxValue)
+                    return GameVersion.Unknown; // what a hack
+
+                switch (GameCode)
+                {
+                    case 0: return GameVersion.RS;
+                    case 1: return GameVersion.FRLG;
+                    default: return GameVersion.E;
+                }
             }
+            return GameVersion.Invalid;
         }
         /// <summary>Determines the type of 3rd gen Box RS</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -243,6 +277,44 @@ namespace PKHeX
             ushort CHK_B = (ushort)((sav[0x2002] << 8) | sav[0x2003]);
 
             return CHK_A == chkA && CHK_B == chkB ? GameVersion.RSBOX : GameVersion.Invalid;
+        }
+        /// <summary>Determines the type of 3rd gen Colosseum</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG3COLOSAV(byte[] data)
+        {
+            if (!new[] { SIZE_G3COLO, SIZE_G3COLOGCI }.Contains(data.Length))
+                return GameVersion.Invalid;
+
+            // Check the intro bytes for each save slot
+            byte[] slotintroColo = {0x01, 0x01, 0x00, 0x00};
+            int offset = data.Length - SIZE_G3COLO;
+            for (int i = 0; i < 3; i++)
+            {
+                var ident = data.Skip(0x6000 + offset + 0x1E000*i).Take(4).ToArray();
+                if (!ident.SequenceEqual(slotintroColo))
+                    return GameVersion.Invalid;
+            }
+            return GameVersion.COLO;
+        }
+        /// <summary>Determines the type of 3rd gen XD</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG3XDSAV(byte[] data)
+        {
+            if (!new[] {  SIZE_G3XD, SIZE_G3XDGCI }.Contains(data.Length))
+                return GameVersion.Invalid;
+
+            // Check the intro bytes for each save slot
+            byte[] slotintroXD = { 0x01, 0x01, 0x01, 0x00 };
+            int offset = data.Length - SIZE_G3XD;
+            for (int i = 0; i < 2; i++)
+            {
+                var ident = data.Skip(0x6000 + offset + 0x28000 * i).Take(4).ToArray();
+                if (!ident.SequenceEqual(slotintroXD))
+                    return GameVersion.Invalid;
+            }
+            return GameVersion.XD;
         }
         /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -277,6 +349,23 @@ namespace PKHeX
                 return GameVersion.HGSS;
 
             return GameVersion.Invalid;
+        }
+        /// <summary>Determines the type of 4th gen Battle Revolution</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        public static GameVersion getIsG4BRSAV(byte[] data)
+        {
+            if (data.Length != SIZE_G4BR)
+                return GameVersion.Invalid;
+
+            byte[] sav = SAV4BR.DecryptPBRSaveData(data);
+
+            bool valid = SAV4BR.VerifyChecksum(sav, 0, 0x1C0000, 0x1BFF80);
+            valid &= SAV4BR.VerifyChecksum(sav, 0, 0x100, 8);
+            valid &= SAV4BR.VerifyChecksum(sav, 0x1C0000, 0x1C0000, 0x1BFF80 + 0x1C0000);
+            valid &= SAV4BR.VerifyChecksum(sav, 0x1C0000, 0x100, 0x1C0008);
+
+            return  valid ? GameVersion.BATREV : GameVersion.Invalid;
         }
         /// <summary>Determines the type of 5th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -318,11 +407,16 @@ namespace PKHeX
             }
             return GameVersion.Invalid;
         }
+        public static GameVersion getIsG7SAV(byte[] data)
+        {
+            // return GameVersion.Gen7;
+            return GameVersion.Invalid;
+        }
 
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="Version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getVersionGroup(GameVersion Version)
+        public static GameVersion getMetLocationVersionGroup(GameVersion Version)
         {
             switch (Version)
             {
@@ -384,25 +478,34 @@ namespace PKHeX
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
         public static SaveFile getVariantSAV(byte[] data)
         {
+            // Pre-check for header/footer signatures
+            SaveFile sav;
+            byte[] header = new byte[0], footer = new byte[0];
+            CheckHeaderFooter(ref data, ref header, ref footer);
+
             switch (getSAVGeneration(data))
             {
-                case 1:
-                    return new SAV1(data);
-                case 2:
-                    return new SAV2(data);
-                case 3:
-                    return new SAV3(data);
-                case (int)GameVersion.RSBOX:
-                    return new SAV3RSBox(data);
-                case 4:
-                    return new SAV4(data);
-                case 5:
-                    return new SAV5(data);
-                case 6:
-                    return new SAV6(data);
-                default:
-                    return null;
+                // Main Games
+                case GameVersion.Gen1:      sav = new SAV1(data); break;
+                case GameVersion.Gen2:      sav = new SAV2(data); break;
+                case GameVersion.Gen3:      sav = new SAV3(data); break;
+                case GameVersion.Gen4:      sav = new SAV4(data); break;
+                case GameVersion.Gen5:      sav = new SAV5(data); break;
+                case GameVersion.Gen6:      sav = new SAV6(data); break;
+                //case GameVersion.Gen7:      sav = new SAV7(data); break;
+
+                // Side Games
+                case GameVersion.COLO:      sav = new SAV3Colosseum(data); break;
+                case GameVersion.XD:        sav = new SAV3XD(data); break;
+                case GameVersion.RSBOX:     sav = new SAV3RSBox(data); break;
+                case GameVersion.BATREV:    sav = new SAV4BR(data); break;
+                
+                // No pattern matched
+                default: return null;
             }
+            sav.Header = header;
+            sav.Footer = footer;
+            return sav;
         }
 
         /// <summary>
@@ -458,7 +561,7 @@ namespace PKHeX
         }
 
         /// <summary>
-        /// Determines whether the save data size is valid for 6th generation saves.
+        /// Determines whether the save data size is valid for autodetecting saves.
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
@@ -466,13 +569,14 @@ namespace PKHeX
         {
             switch (size)
             {
+                case SIZE_G3RAW:
+                case SIZE_G3RAWHALF:
+
+                case SIZE_G4RAW: // Gen4/5
+
                 case SIZE_G6XY:
                 case SIZE_G6ORASDEMO:
                 case SIZE_G6ORAS:
-                case SIZE_G5B2W2:
-                case SIZE_G4RAW:
-                case SIZE_G3RAW:
-                case SIZE_G3RAWHALF:
                     return true;
                 default:
                     return false;
@@ -511,6 +615,45 @@ namespace PKHeX
             for (int i = 0; i < data.Length; i += 4)
                 val += BitConverter.ToUInt32(data, i);
             return (ushort)((val & 0xFFFF) + (val >> 16));
+        }
+        internal static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
+        {
+            if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
+            {
+                bool dsv = FOOTER_DSV.SequenceEqual(input.Skip(input.Length - FOOTER_DSV.Length));
+                if (dsv)
+                {
+                    footer = input.Skip(SIZE_G4RAW).ToArray();
+                    input = input.Take(SIZE_G4RAW).ToArray();
+                }
+            }
+            if (input.Length == SIZE_G3BOXGCI)
+            {
+                bool gci = HEADER_BOX.SequenceEqual(input.Take(HEADER_BOX.Length));
+                if (gci)
+                {
+                    header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                }
+            }
+            if (input.Length == SIZE_G3COLOGCI)
+            {
+                bool gci = HEADER_COLO.SequenceEqual(input.Take(HEADER_COLO.Length));
+                if (gci)
+                {
+                    header = input.Take(SIZE_G3COLOGCI - SIZE_G3COLO).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                }
+            }
+            if (input.Length == SIZE_G3XDGCI)
+            {
+                bool gci = HEADER_XD.SequenceEqual(input.Take(HEADER_XD.Length));
+                if (gci)
+                {
+                    header = input.Take(SIZE_G3XDGCI - SIZE_G3XD).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                }
+            }
         }
 
         public static int getDexFormIndexBW(int species, int formct)
@@ -630,6 +773,82 @@ namespace PKHeX
                 case 676: return 261; // 10 Furfrou
                 default: return getDexFormIndexXY(species, formct);
             }
+        }
+
+        public static int getCXDVersionID(int gen3version)
+        {
+            switch ((GameVersion)gen3version)
+            {
+                case GameVersion.FR: return 1;
+                case GameVersion.LG: return 2;
+                case GameVersion.S: return 8;
+                case GameVersion.R: return 9;
+                case GameVersion.E: return 10;
+                case GameVersion.CXD: return 11;
+                default: return 0;
+            }
+        }
+        public static int getG3VersionID(int CXDversion)
+        {
+            switch (CXDversion)
+            {
+                case 1: return (int)GameVersion.FR;
+                case 2: return (int)GameVersion.LG;
+                case 8: return (int)GameVersion.S;
+                case 9: return (int)GameVersion.R;
+                case 10: return (int)GameVersion.E;
+                case 11: return (int)GameVersion.CXD;
+                default: return (int)GameVersion.Unknown;
+            }
+        }
+
+
+        internal static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
+        {
+            byte[] output = (byte[])input.Clone();
+            for (int ofs = start; ofs < end; ofs += 8)
+            {
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
+                    val -= keys[i];
+                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                }
+                keys = AdvanceGCKeys(keys);
+            }
+            return output;
+        }
+        internal static byte[] EncryptGC(byte[] input, int start, int end, ushort[] keys)
+        {
+            byte[] output = (byte[])input.Clone();
+            for (int ofs = start; ofs < end; ofs += 8)
+            {
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
+                    val += keys[i];
+                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                }
+                keys = AdvanceGCKeys(keys);
+            }
+            return output;
+        }
+
+        public static ushort[] AdvanceGCKeys(ushort[] oldKeys)
+        {
+            oldKeys[0] += 0x43;
+            oldKeys[1] += 0x29;
+            oldKeys[2] += 0x17;
+            oldKeys[3] += 0x13;
+
+            ushort[] keys = new ushort[4];
+
+            keys[0] = (ushort)(oldKeys[0] & 0xf         | oldKeys[1] << 4 & 0xf0    | oldKeys[2] << 8 & 0xf00   | oldKeys[3] << 12 & 0xf000);
+            keys[1] = (ushort)(oldKeys[0] >> 4 & 0xf    | oldKeys[1] & 0xf0         | oldKeys[2] << 4 & 0xf00   | oldKeys[3] << 8 & 0xf000);
+            keys[2] = (ushort)(oldKeys[2] & 0xf00       | (oldKeys[1] & 0xf00) >> 4 | (oldKeys[0] & 0xf00) >> 8 | oldKeys[3] << 4 & 0xf000);
+            keys[3] = (ushort)(oldKeys[0] >> 12 & 0xf   | oldKeys[1] >> 8 & 0xf0    | oldKeys[2] >> 4 & 0xf00   | oldKeys[3] & 0xf000);
+
+            return keys;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace PKHeX
     public sealed class SAV4 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav";
+        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
         public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
@@ -44,7 +44,7 @@ namespace PKHeX
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override PKM BlankPKM => new PK4();
-        protected override Type PKMType => typeof(PK4);
+        public override Type PKMType => typeof(PK4);
 
         public override int BoxCount => 18;
         public override int MaxEV => 255;
@@ -177,13 +177,13 @@ namespace PKHeX
             if (Data.Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { generalBlock = 1; return; }
             if (Data.Skip(0x40000).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
-            { generalBlock = 1; return; }
+            { generalBlock = 0; return; }
 
+            // Check SaveCount for current save
             if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
             else if (Version == GameVersion.Pt) ofs = 0xCF1C; // PT
-            else if (Version == GameVersion.HGSS) ofs = 0xF626; // HGSS
+            else if (Version == GameVersion.HGSS) ofs = 0xF618; // HGSS
             generalBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
-            
         }
         private void getActiveStorageBlock()
         {
@@ -191,6 +191,7 @@ namespace PKHeX
                 return;
             int ofs = 0;
 
+            // Check SaveCount for current save
             if (Version == GameVersion.DP) ofs = 0x1E2D0; // DP
             else if (Version == GameVersion.Pt) ofs = 0x1F100; // PT
             else if (Version == GameVersion.HGSS) ofs = 0x21A00; // HGSS

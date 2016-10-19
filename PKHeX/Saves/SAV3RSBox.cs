@@ -6,7 +6,7 @@ namespace PKHeX
     public sealed class SAV3RSBox : SaveFile
     {
         public override string BAKName => $"{FileName} [{Version} #{SaveCount.ToString("0000")}].bak";
-        public override string Filter => "GameCube Save File|*.gci";
+        public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
         public override string Extension => ".gci";
 
         public SAV3RSBox(byte[] data = null)
@@ -62,7 +62,8 @@ namespace PKHeX
             // Set Data Back
             foreach (RSBOX_Block b in Blocks)
                 b.Data.CopyTo(Data, b.Offset);
-            return Data.Take(Data.Length - SIZE_RESERVED).ToArray();
+            byte[] newFile = Data.Take(Data.Length - SIZE_RESERVED).ToArray();
+            return Header.Concat(newFile).ToArray();
         }
 
         // Configuration
@@ -71,7 +72,7 @@ namespace PKHeX
         public override int SIZE_STORED => PKX.SIZE_3STORED + 4;
         public override int SIZE_PARTY => PKX.SIZE_3PARTY; // unused
         public override PKM BlankPKM => new PK3();
-        protected override Type PKMType => typeof(PK3);
+        public override Type PKMType => typeof(PK3);
 
         public override int MaxMoveID => 354;
         public override int MaxSpeciesID => 386;
@@ -80,7 +81,7 @@ namespace PKHeX
         public override int MaxBallID => 0xC;
         public override int MaxGameID => 5;
         
-        public override int MaxEV => 252;
+        public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
         public override int OTLength => 8;

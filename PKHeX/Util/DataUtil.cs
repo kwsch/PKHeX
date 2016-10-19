@@ -7,6 +7,8 @@ namespace PKHeX
     public partial class Util
     {
 
+        #region String Lists        
+
         /// <summary>
         /// Gets a list of all Pokémon species names.
         /// </summary>
@@ -37,6 +39,58 @@ namespace PKHeX
             return getStringList("abilities", language);
         }
 
+        /// <summary>
+        /// Gets a list of all Pokémon nature names.
+        /// </summary>
+        /// <param name="language">Language of the Pokémon nature names to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon nature name.</returns>
+        public static string[] getNaturesList(string language)
+        {
+            return getStringList("natures", language);
+        }
+
+        /// <summary>
+        /// Gets a list of all Pokémon form names.
+        /// </summary>
+        /// <param name="language">Language of the Pokémon form names to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon form name.</returns>
+        public static string[] getFormsList(string language)
+        {
+            return getStringList("forms", language);
+        }
+
+        /// <summary>
+        /// Gets a list of all Pokémon type names.
+        /// </summary>
+        /// <param name="language">Language of the Pokémon type names to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon type name.</returns>
+        public static string[] getTypesList(string language)
+        {
+            return getStringList("types", language);
+        }
+
+        /// <summary>
+        /// Gets a list of all Pokémon characteristic.
+        /// </summary>
+        /// <param name="language">Language of the Pokémon characteristic to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon characteristic.</returns>
+        public static string[] getCharacteristicsList(string language)
+        {
+            return getStringList("character", language);
+        }
+
+        /// <summary>
+        /// Gets a list of all items.
+        /// </summary>
+        /// <param name="language">Language of the items to select (e.g. "en", "fr", "jp", etc.)</param>
+        /// <returns>An array of strings whose indexes correspond to the IDs of each item.</returns>
+        public static string[] getItemsList(string language)
+        {
+            return getStringList("items", language);
+        }
+
+        #endregion
+
         public static string[] getStringList(string f)
         {
             object txt = Properties.Resources.ResourceManager.GetObject(f); // Fetch File, \n to list.
@@ -62,7 +116,7 @@ namespace PKHeX
                 text = getStringList(f, fallback);
             return text;
         }
-        internal static string[] getNulledStringArray(string[] SimpleStringList)
+        public static string[] getNulledStringArray(string[] SimpleStringList)
         {
             try
             {
@@ -74,7 +128,7 @@ namespace PKHeX
             catch { return null; }
         }
         
-        // DataSource Providing
+        #region DataSource Providing
         internal static List<ComboItem> getCBList(string textfile, string lang)
         {
             // Set up
@@ -211,5 +265,6 @@ namespace PKHeX
             }
             return cbList;
         }
+        #endregion
     }
 }

@@ -59,8 +59,8 @@ namespace PKHeX
 
         #region Block A
         public override int Species { get { return PKX.getG4Species(BitConverter.ToUInt16(Data, 0x20)); } set { BitConverter.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x20); } }
-        public override int HeldItem { get { return PKX.getG4Item((ushort)G3Item); } set { } }
-        public int G3Item { get { return BitConverter.ToUInt16(Data, 0x22); } set { BitConverter.GetBytes((ushort) value).CopyTo(Data, 0x22); } }
+        public override int SpriteItem => PKX.getG4Item((ushort)HeldItem);
+        public override int HeldItem { get { return BitConverter.ToUInt16(Data, 0x22); } set { BitConverter.GetBytes((ushort) value).CopyTo(Data, 0x22); } }
 
         public override uint EXP { get { return BitConverter.ToUInt32(Data, 0x24); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x24); } }
         private byte PPUps { get { return Data[0x28]; } set { Data[0x28] = value; } }
@@ -124,8 +124,8 @@ namespace PKHeX
         public int RibbonCountG3Cool        { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7) << 00); } }
         public int RibbonCountG3Beauty      { get { return (int)(RIB0 >> 03) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7) << 03); } }
         public int RibbonCountG3Cute        { get { return (int)(RIB0 >> 06) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7) << 06); } }
-        public int RibbonCountG3Smart       { get { return (int)(RIB0 >> 09) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7) << 09); } }
-        public int RibbonCountG3Tough       { get { return (int)(RIB0 >> 12) & 3; } set { RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7) << 12); } }
+        public int RibbonCountG3Smart       { get { return (int)(RIB0 >> 09) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7) << 09); } }
+        public int RibbonCountG3Tough       { get { return (int)(RIB0 >> 12) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7) << 12); } }
         public bool RibbonChampionG3Hoenn   { get { return (RIB0 & (1 << 15)) == 1 << 15; } set { RIB0 = (uint)(RIB0 & ~(1 << 15) | (uint)(value ? 1 << 15 : 0)); } }
         public bool RibbonWinning           { get { return (RIB0 & (1 << 16)) == 1 << 16; } set { RIB0 = (uint)(RIB0 & ~(1 << 16) | (uint)(value ? 1 << 16 : 0)); } }
         public bool RibbonVictory           { get { return (RIB0 & (1 << 17)) == 1 << 17; } set { RIB0 = (uint)(RIB0 & ~(1 << 17) | (uint)(value ? 1 << 17 : 0)); } }
@@ -179,10 +179,6 @@ namespace PKHeX
                 return Gender == 1;
 
             return false;
-        }
-        public override bool CanHoldItem(ushort[] ValidArray)
-        {
-            return ValidArray.Contains((ushort)G3Item);
         }
 
         public PK4 convertToPK4()

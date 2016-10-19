@@ -105,10 +105,16 @@
     <Compile Include="Legality\Tables3.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="MainWindow\MainXK3.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainWindow\MainPK2.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow\MainPK1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainCK3.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow\MainPK6.cs">
@@ -123,6 +129,7 @@
     <Compile Include="MainWindow\MainPK3.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MainWindow\SlotChange.cs" />
     <Compile Include="Misc\ErrorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,8 +148,11 @@
     <Compile Include="PersonalInfo\PersonalInfoORAS.cs" />
     <Compile Include="PersonalInfo\PersonalInfoXY.cs" />
     <Compile Include="PersonalInfo\PersonalTable.cs" />
+    <Compile Include="PKM\CK3.cs" />
+    <Compile Include="PKM\XK3.cs" />
     <Compile Include="PKM\PK1.cs" />
     <Compile Include="PKM\PK2.cs" />
+    <Compile Include="PKM\BK4.cs" />
     <Compile Include="PKM\PKM.cs" />
     <Compile Include="PKM\PKMConverter.cs" />
     <Compile Include="PKM\ShowdownSet.cs" />
@@ -159,18 +169,25 @@
     <Compile Include="Misc\QR.Designer.cs">
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
-    <Compile Include="Saves\BlockInfo.cs" />
-    <Compile Include="Saves\BoxWallpaper.cs" />
-    <Compile Include="Saves\Inventory.cs" />
+    <Compile Include="Saves\Substructures\BlockInfo.cs" />
+    <Compile Include="Saves\Substructures\BoxWallpaper.cs" />
+    <Compile Include="Saves\Substructures\BV6.cs" />
+    <Compile Include="Saves\Substructures\Inventory.cs" />
     <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
+    <Compile Include="Saves\SAV3XD.cs" />
+    <Compile Include="Saves\SAV3Colosseum.cs" />
     <Compile Include="Saves\SAV3RSBox.cs" />
     <Compile Include="Saves\SAV3.cs" />
     <Compile Include="Saves\SAV4.cs" />
+    <Compile Include="Saves\SAV4BR.cs" />
     <Compile Include="Saves\SAV5.cs" />
     <Compile Include="Saves\SAV6.cs" />
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
+    <Compile Include="Saves\Substructures\ShadowInfo.cs" />
+    <Compile Include="Saves\Substructures\StrategyMemo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Subforms\PKM Editors\BatchEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -219,7 +236,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Saves\SaveObjects.cs" />
+    <Compile Include="Saves\Substructures\SaveObjects.cs" />
     <Compile Include="Saves\SaveUtil.cs" />
     <Compile Include="Subforms\Save Editors\Gen5\CGearBackground.cs" />
     <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.cs">
@@ -363,7 +380,7 @@
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\ComboItem.cs" />
-    <Compile Include="Util\ByteUtil.cs" />
+    <Compile Include="Util\BigEndian.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\DeployUtil.cs" />
@@ -2818,8 +2835,11 @@
     <None Include="Resources\text\gen3\text_ItemsG1_en.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\text\gen3\text_ItemsG3XD_en.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG3Colosseum_en.txt" />
     <None Include="Resources\img\Program\gift.png" />
-    <Content Include="Resources\text\gen3\text_ItemsG2_en.txt" />
+    <None Include="Resources\text\gen3\text_cxd_00000_en.txt" />
+    <None Include="Resources\text\gen3\text_ItemsG2_en.txt" />
     <None Include="Resources\img\Pokemon Sprites\172_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
