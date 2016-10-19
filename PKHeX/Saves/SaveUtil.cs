@@ -509,6 +509,24 @@ namespace PKHeX
         }
 
         /// <summary>
+        /// Determines if the given data is a valid save file with a valid checksum.
+        /// </summary>
+        /// <param name="data">Save data to check</param>
+        /// <returns>A boolean indicating whether or not the given data is a save file with valid checksums.</returns>
+        public static bool isVariantSAVValid(byte[] data)
+        {
+            var save = getVariantSAV(data);
+            if (save == null)
+            {
+                return false;                
+            }
+            else
+            {
+                return save.ChecksumsValid;
+            }
+        }
+
+        /// <summary>
         /// Detects a save file.
         /// </summary>
         /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
@@ -544,7 +562,7 @@ namespace PKHeX
                 possiblePaths.AddRange(getSavesFromFolder(Path.Combine(pathCache), false));
 
             // return newest save file path that is valid (oh man)
-            return possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p)).ChecksumsValid);
+            return possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => isVariantSAVValid(File.ReadAllBytes(p)));
         }
         /// <summary>
         /// Retrieves the full path of the most recent file based on LastWriteTime.
