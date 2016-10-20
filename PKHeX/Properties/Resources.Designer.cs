@@ -15607,6 +15607,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] personal_sm {
+            get {
+                object obj = ResourceManager.GetObject("personal_sm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] personal_xy {
             get {
                 object obj = ResourceManager.GetObject("personal_xy", resourceCulture);
@@ -16659,7 +16669,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you are having issues viewing certain symbols/text: Options -&gt; Toggle Font.
+        ///   Looks up a localized string similar to If you are having issues viewing certain symbols/text: Options -&gt; Unicode
         ///
         ///// Main Window
         ///
@@ -16679,7 +16689,7 @@ namespace PKHeX.Properties {
         ///Control + Click on...
         ///- Species: Import Showdown/Smogon set from Clipboard.
         ///- Nickname/OT box: Bring up the ingame-special characters.
-        ///- Indivi [rest of string was truncated]&quot;;.
+        ///- Individual  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {

@@ -129,6 +129,29 @@ namespace PKHeX
         protected virtual int Met_Year { get { return 0; } set { } }
         protected virtual int Met_Month { get { return 0; } set { } }
         protected virtual int Met_Day { get { return 0; } set { } }
+        public virtual string HT_Name { get; set; }
+        public virtual int HT_Affection { get; set; }
+        public virtual int HT_Friendship { get; set; }
+        public virtual int HT_Memory { get; set; }
+        public virtual int HT_TextVar { get; set; }
+        public virtual int HT_Feeling { get; set; }
+        public virtual int HT_Intensity { get; set; }
+        public virtual int OT_Memory { get; set; }
+        public virtual int OT_TextVar { get; set; }
+        public virtual int OT_Feeling { get; set; }
+        public virtual int OT_Intensity { get; set; }
+        public virtual int Geo1_Region { get; set; }
+        public virtual int Geo2_Region { get; set; }
+        public virtual int Geo3_Region { get; set; }
+        public virtual int Geo4_Region { get; set; }
+        public virtual int Geo5_Region { get; set; }
+        public virtual int Geo1_Country { get; set; }
+        public virtual int Geo2_Country { get; set; }
+        public virtual int Geo3_Country { get; set; }
+        public virtual int Geo4_Country { get; set; }
+        public virtual int Geo5_Country { get; set; }
+        public virtual byte Enjoyment { get; set; }
+        public virtual byte Fullness { get; set; }
 
         /// <summary>
         /// The date the Pokémon was met.
@@ -229,6 +252,7 @@ namespace PKHeX
         // Derived
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
+        public bool Gen7 => Version >= 30 && Version <= 31;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
@@ -243,6 +267,7 @@ namespace PKHeX
         {
             get
             {
+                if (Gen7) return 7;
                 if (Gen6) return 6;
                 if (Gen5) return 5;
                 if (Gen4) return 4;

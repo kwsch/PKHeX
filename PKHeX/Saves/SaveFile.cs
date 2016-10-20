@@ -55,6 +55,7 @@ namespace PKHeX
         public abstract int Generation { get; }
         public PersonalTable Personal { get; set; }
 
+        public bool SMDEMO => Data.Length == SaveUtil.SIZE_G7SMDEMO;
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Data.Length == SaveUtil.SIZE_G6ORAS;
         public bool XY => Data.Length == SaveUtil.SIZE_G6XY;
@@ -198,7 +199,7 @@ namespace PKHeX
         {
             get
             {
-                if (Generation < 5)
+                if (!HasBattleBox)
                     return new PKM[0];
 
                 PKM[] data = new PKM[6];
@@ -274,6 +275,7 @@ namespace PKHeX
         protected int OFS_BattleItems { get; set; } = int.MinValue;
         protected int OFS_MailItems { get; set; } = int.MinValue;
         protected int OFS_PCItem { get; set; } = int.MinValue;
+        protected int OFS_PouchZCrystals { get; set; } = int.MinValue;
 
         // Mystery Gift
         protected virtual bool[] MysteryGiftReceivedFlags { get { return null; } set { } }

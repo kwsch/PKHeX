@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class PK6 : PKM
+    public class PK7 : PKM
     {
         internal static readonly byte[] ExtraBytes =
         {
@@ -12,8 +12,8 @@ namespace PKHeX
         };
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
-        public override int Format => 6;
-        public PK6(byte[] decryptedData = null, string ident = null)
+        public override int Format => 7;
+        public PK7(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
             PKMConverter.checkEncrypted(ref Data);
@@ -21,7 +21,7 @@ namespace PKHeX
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new PK6(Data); }
+        public override PKM Clone() { return new PK7(Data); }
 
         // Structure
         #region Block A

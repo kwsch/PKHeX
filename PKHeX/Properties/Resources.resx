@@ -6457,4 +6457,7 @@
   <data name="text_cxd_00000_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\gen3\text_cxd_00000_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
+  <data name="personal_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_sm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
