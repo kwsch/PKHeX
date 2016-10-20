@@ -8,7 +8,8 @@ namespace PKHeX
     {
         internal static readonly byte[] ExtraBytes =
         {
-            0x36, 0x37, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
+            0x36, 0x37, // Unused Ribbons
+            0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
@@ -130,12 +131,14 @@ namespace PKHeX
         public bool SuperTrain7_2 { get { return (ST4 & (1 << 5)) == 1 << 5; } set { ST4 = (byte)(ST4 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
         public bool SuperTrain7_3 { get { return (ST4 & (1 << 6)) == 1 << 6; } set { ST4 = (byte)(ST4 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
         public bool SuperTrain8_1 { get { return (ST4 & (1 << 7)) == 1 << 7; } set { ST4 = (byte)(ST4 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
-        private byte RIB0 { get { return Data[0x30]; } set { Data[0x30] = value; } }
+        private byte RIB0 { get { return Data[0x30]; } set { Data[0x30] = value; } } // Ribbons are read as uints, but let's keep them per byte.
         private byte RIB1 { get { return Data[0x31]; } set { Data[0x31] = value; } }
         private byte RIB2 { get { return Data[0x32]; } set { Data[0x32] = value; } }
         private byte RIB3 { get { return Data[0x33]; } set { Data[0x33] = value; } }
         private byte RIB4 { get { return Data[0x34]; } set { Data[0x34] = value; } }
         private byte RIB5 { get { return Data[0x35]; } set { Data[0x35] = value; } }
+        private byte RIB6 { get { return Data[0x36]; } set { Data[0x36] = value; } } // Unused
+        private byte RIB7 { get { return Data[0x37]; } set { Data[0x37] = value; } } // Unused
         public bool RibbonChampionKalos         { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool RibbonChampionG3Hoenn       { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
         public bool RibbonChampionSinnoh        { get { return (RIB0 & (1 << 2)) == 1 << 2; } set { RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
@@ -184,8 +187,6 @@ namespace PKHeX
         public bool RibbonMasterToughness       { get { return (RIB5 & (1 << 5)) == 1 << 5; } set { RIB5 = (byte)(RIB5 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
         public bool RIB5_6 { get { return (RIB5 & (1 << 6)) == 1 << 6; } set { RIB5 = (byte)(RIB5 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Unused
         public bool RIB5_7 { get { return (RIB5 & (1 << 7)) == 1 << 7; } set { RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Unused
-        public byte _0x36 { get { return Data[0x36]; } set { Data[0x36] = value; } }
-        public byte _0x37 { get { return Data[0x37]; } set { Data[0x37] = value; } }
         public int RibbonCountMemoryContest { get { return Data[0x38]; } set { Data[0x38] = (byte)value; } }
         public int RibbonCountMemoryBattle { get { return Data[0x39]; } set { Data[0x39] = (byte)value; } }
         private byte DistByte { get { return Data[0x3A]; } set { Data[0x3A] = value; } }
