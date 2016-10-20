@@ -547,7 +547,7 @@ namespace PKHeX
                 possiblePaths.AddRange(getSavesFromFolder(Path.Combine(pathCache), false));
 
             // return newest save file path that is valid (oh man)
-            return possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p)).ChecksumsValid);
+            return possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p))?.ChecksumsValid ?? false);
         }
         /// <summary>
         /// Retrieves the full path of the most recent file based on LastWriteTime.
