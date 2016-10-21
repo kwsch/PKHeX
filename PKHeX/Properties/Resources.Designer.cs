@@ -15771,6 +15771,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ribbonbattleroyale {
+            get {
+                object obj = ResourceManager.GetObject("ribbonbattleroyale", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ribbonbattlerskillful {
             get {
                 object obj = ResourceManager.GetObject("ribbonbattlerskillful", resourceCulture);
@@ -15801,9 +15811,39 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ribbonc0 {
+            get {
+                object obj = ResourceManager.GetObject("ribbonc0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ribbonc1 {
+            get {
+                object obj = ResourceManager.GetObject("ribbonc1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ribboncareless {
             get {
                 object obj = ResourceManager.GetObject("ribboncareless", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ribbonchampionalola {
+            get {
+                object obj = ResourceManager.GetObject("ribbonchampionalola", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -25316,90 +25356,91 @@ namespace PKHeX.Properties {
         ///大师球
         ///高级球
         ///超级球
-        ///神奇宝贝球
+        ///精灵球
         ///狩猎球
-        ///网纹球
+        ///捕网球
         ///潜水球
         ///巢穴球
         ///重复球
         ///计时球
-        ///华丽球
-        ///首席球
+        ///豪华球
+        ///纪念球
         ///黑暗球
         ///治愈球
-        ///超速球
-        ///珍贵球
-        ///药水
-        ///解毒剂
+        ///先机球
+        ///贵重球
+        ///伤药
+        ///解毒药
         ///灼伤药
         ///解冻药
         ///解眠药
         ///解麻药
-        ///回复药水
-        ///全满药水
-        ///超高级药水
-        ///超级药水
-        ///万能药
-        ///更生剂
-        ///特级更生剂
+        ///全复药
+        ///全满药
+        ///厉害伤药
+        ///好伤药
+        ///万灵药
+        ///活力碎片
+        ///活力块
         ///美味之水
-        ///塞可汽水
-        ///综合调味乳
-        ///摩摩牛奶
-        ///元气之粉
-        ///元气之根
-        ///万能之粉
-        ///复活之草
-        ///PP小补剂
-        ///PP单补剂
-        ///PP大补剂
-        ///PP全补剂
+        ///劲爽汽水
+        ///果汁牛奶
+        ///哞哞鲜奶
+        ///元气粉
+        ///元气根
+        ///万能粉
+        ///复活草
+        ///ＰＰ单项小补剂
+        ///ＰＰ单项全补剂
+        ///ＰＰ多项小补剂
+        ///ＰＰ多项全补剂
         ///釜炎仙贝
         ///树果汁
-        ///神圣之灰
-        ///HP提升剂
-        ///攻击牛磺剂
-        ///防御提升剂
-        ///效果防护剂
-        ///特攻增加剂
+        ///圣灰
+        ///ＨＰ增强剂
+        ///攻击增强剂
+        ///防御增强剂
+        ///速度增强剂
+        ///特攻增强剂
         ///神奇糖果
-        ///PP提升剂
-        ///特防甲壳剂
-        ///PP增加剂
+        ///ＰＰ提升剂
+        ///特防增强剂
+        ///ＰＰ极限提升剂
         ///森之羊羹
-        ///防御效果
+        ///能力防守
         ///要害攻击
-        ///力量增强
-        ///伤害预防
-        ///速度增加
-        ///命中加强
-        ///特殊增强
+        ///力量强化
+        ///防御强化
+        ///速度强化
+        ///命中强化
+        ///特攻强化
         ///特防强化
         ///皮皮玩偶
         ///向尾喵的尾巴
-        ///蓝色哨子
-        ///黄色哨子
-        ///红色哨子
-        ///黑色哨子
-        ///白色哨子
+        ///蓝色玻璃哨
+        ///黄色玻璃哨
+        ///红色玻璃哨
+        ///黑色玻璃哨
+        ///白色玻璃哨
         ///浅滩海盐
         ///浅滩贝壳
         ///红色碎片
         ///蓝色碎片
         ///黄色碎片
         ///绿色碎片
-        ///白银喷雾器
-        ///黄金喷雾器
-        ///脱离洞穴的绳子
-        ///除虫喷雾器
-        ///太阳之石
+        ///白银喷雾
+        ///黄金喷雾
+        ///离洞绳
+        ///除虫喷雾
+        ///日之石
         ///月之石
         ///火之石
         ///雷之石
         ///水之石
         ///叶之石
         ///小蘑菇
-        /// [rest of string was truncated]&quot;;.
+        ///大蘑菇
+        ///珍珠 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_zh {
             get {
