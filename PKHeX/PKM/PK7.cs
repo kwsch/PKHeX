@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class PK6 : PKM
+    public class PK7 : PKM
     {
         internal static readonly byte[] ExtraBytes =
         {
@@ -13,8 +13,8 @@ namespace PKHeX
         };
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
-        public override int Format => 6;
-        public PK6(byte[] decryptedData = null, string ident = null)
+        public override int Format => 7;
+        public PK7(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
             PKMConverter.checkEncrypted(ref Data);
@@ -22,7 +22,7 @@ namespace PKHeX
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new PK6(Data); }
+        public override PKM Clone() { return new PK7(Data); }
 
         // Structure
         #region Block A
@@ -172,12 +172,12 @@ namespace PKHeX
         public bool RibbonSpecial               { get { return (RIB3 & (1 << 6)) == 1 << 6; } set { RIB3 = (byte)(RIB3 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
         public bool RibbonSouvenir              { get { return (RIB3 & (1 << 7)) == 1 << 7; } set { RIB3 = (byte)(RIB3 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         public bool RibbonWishing               { get { return (RIB4 & (1 << 0)) == 1 << 0; } set { RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RibbonChampionBattle      { get { return (RIB4 & (1 << 1)) == 1 << 1; } set { RIB4 = (byte)(RIB4 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
-        public bool RibbonChampionRegional    { get { return (RIB4 & (1 << 2)) == 1 << 2; } set { RIB4 = (byte)(RIB4 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
-        public bool RibbonChampionNational    { get { return (RIB4 & (1 << 3)) == 1 << 3; } set { RIB4 = (byte)(RIB4 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
-        public bool RibbonChampionWorld       { get { return (RIB4 & (1 << 4)) == 1 << 4; } set { RIB4 = (byte)(RIB4 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
-        public bool RIB4_5 { get { return (RIB4 & (1 << 5)) == 1 << 5; } set { RIB4 = (byte)(RIB4 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // Unused
-        public bool RIB4_6 { get { return (RIB4 & (1 << 6)) == 1 << 6; } set { RIB4 = (byte)(RIB4 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Unused
+        public bool RibbonChampionBattle        { get { return (RIB4 & (1 << 1)) == 1 << 1; } set { RIB4 = (byte)(RIB4 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonChampionRegional      { get { return (RIB4 & (1 << 2)) == 1 << 2; } set { RIB4 = (byte)(RIB4 & ~(1 << 2) | (value ? 1 << 2 : 0)); } }
+        public bool RibbonChampionNational      { get { return (RIB4 & (1 << 3)) == 1 << 3; } set { RIB4 = (byte)(RIB4 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
+        public bool RibbonChampionWorld         { get { return (RIB4 & (1 << 4)) == 1 << 4; } set { RIB4 = (byte)(RIB4 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
+        public bool RIB4_5                      { get { return (RIB4 & (1 << 5)) == 1 << 5; } set { RIB4 = (byte)(RIB4 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // Unused
+        public bool RIB4_6                      { get { return (RIB4 & (1 << 6)) == 1 << 6; } set { RIB4 = (byte)(RIB4 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Unused
         public bool RibbonChampionG6Hoenn       { get { return (RIB4 & (1 << 7)) == 1 << 7; } set { RIB4 = (byte)(RIB4 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
         public bool RibbonContestStar           { get { return (RIB5 & (1 << 0)) == 1 << 0; } set { RIB5 = (byte)(RIB5 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool RibbonMasterCoolness        { get { return (RIB5 & (1 << 1)) == 1 << 1; } set { RIB5 = (byte)(RIB5 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
@@ -185,8 +185,16 @@ namespace PKHeX
         public bool RibbonMasterCuteness        { get { return (RIB5 & (1 << 3)) == 1 << 3; } set { RIB5 = (byte)(RIB5 & ~(1 << 3) | (value ? 1 << 3 : 0)); } }
         public bool RibbonMasterCleverness      { get { return (RIB5 & (1 << 4)) == 1 << 4; } set { RIB5 = (byte)(RIB5 & ~(1 << 4) | (value ? 1 << 4 : 0)); } }
         public bool RibbonMasterToughness       { get { return (RIB5 & (1 << 5)) == 1 << 5; } set { RIB5 = (byte)(RIB5 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
-        public bool RIB5_6 { get { return (RIB5 & (1 << 6)) == 1 << 6; } set { RIB5 = (byte)(RIB5 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Unused
-        public bool RIB5_7 { get { return (RIB5 & (1 << 7)) == 1 << 7; } set { RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Unused
+        public bool RibbonChampionAlola         { get { return (RIB5 & (1 << 6)) == 1 << 6; } set { RIB5 = (byte)(RIB5 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
+        public bool RibbonBattleRoyale          { get { return (RIB5 & (1 << 7)) == 1 << 7; } set { RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
+        public bool RibbonC0                    { get { return (RIB6 & (1 << 0)) == 1 << 0; } set { RIB6 = (byte)(RIB6 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonC1                    { get { return (RIB6 & (1 << 1)) == 1 << 1; } set { RIB6 = (byte)(RIB6 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RIB6_2                      { get { return (RIB6 & (1 << 2)) == 1 << 2; } set { RIB6 = (byte)(RIB6 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Unused
+        public bool RIB6_3                      { get { return (RIB6 & (1 << 3)) == 1 << 3; } set { RIB6 = (byte)(RIB6 & ~(1 << 3) | (value ? 1 << 3 : 0)); } } // Unused
+        public bool RIB6_4                      { get { return (RIB6 & (1 << 4)) == 1 << 4; } set { RIB6 = (byte)(RIB6 & ~(1 << 4) | (value ? 1 << 4 : 0)); } } // Unused
+        public bool RIB6_5                      { get { return (RIB6 & (1 << 5)) == 1 << 5; } set { RIB6 = (byte)(RIB6 & ~(1 << 5) | (value ? 1 << 5 : 0)); } } // Unused
+        public bool RIB6_6                      { get { return (RIB6 & (1 << 6)) == 1 << 6; } set { RIB6 = (byte)(RIB6 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // Unused
+        public bool RIB6_7                      { get { return (RIB6 & (1 << 7)) == 1 << 7; } set { RIB6 = (byte)(RIB6 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Unused
         public int RibbonCountMemoryContest { get { return Data[0x38]; } set { Data[0x38] = (byte)value; } }
         public int RibbonCountMemoryBattle { get { return Data[0x39]; } set { Data[0x39] = (byte)value; } }
         private byte DistByte { get { return Data[0x3A]; } set { Data[0x3A] = value; } }

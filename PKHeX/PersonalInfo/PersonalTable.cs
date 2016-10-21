@@ -4,6 +4,7 @@ namespace PKHeX
 {
     public class PersonalTable
     {
+        internal static readonly PersonalTable SM = new PersonalTable(Properties.Resources.personal_sm, GameVersion.SM);
         internal static readonly PersonalTable AO = new PersonalTable(Properties.Resources.personal_ao, GameVersion.ORAS);
         internal static readonly PersonalTable XY = new PersonalTable(Properties.Resources.personal_xy, GameVersion.XY);
         internal static readonly PersonalTable B2W2 = new PersonalTable(Properties.Resources.personal_b2w2, GameVersion.B2W2);
@@ -48,6 +49,7 @@ namespace PKHeX
                 case GameVersion.B2W2: size = PersonalInfoB2W2.SIZE; break;
                 case GameVersion.XY: size = PersonalInfoXY.SIZE; break;
                 case GameVersion.ORAS: size = PersonalInfoORAS.SIZE; break;
+                case GameVersion.SM: size = PersonalInfoSM.SIZE; break;
             }
 
             if (size == 0)
@@ -96,6 +98,10 @@ namespace PKHeX
                 case GameVersion.ORAS:
                     for (int i = 0; i < d.Length; i++)
                         d[i] = new PersonalInfoORAS(entries[i]);
+                    break;
+                case GameVersion.SM:
+                    for (int i = 0; i < d.Length; i++)
+                        d[i] = new PersonalInfoSM(entries[i]);
                     break;
             }
             Table = d;

@@ -181,7 +181,10 @@ namespace PKHeX
                 if (path != null && File.Exists(path))
                     openQuick(path, force: true);
                 else
+                {
                     openSAV(SAV, null);
+                    SAV.Edited = false; // Prevents form close warning from showing until changes are made
+                }                    
             }
 
             // Splash Screen closes on its own.
@@ -1119,6 +1122,11 @@ namespace PKHeX
                     TB_GameSync.Text = sav6.GameSyncID.ToString("X16");
                     TB_Secure1.Text = sav6.Secure1.ToString("X16");
                     TB_Secure2.Text = sav6.Secure2.ToString("X16");
+                    break;
+                case 7:
+                    getFieldsfromPKM = populateFieldsPK7;
+                    getPKMfromFields = preparePK7;
+                    extraBytes = PK7.ExtraBytes;
                     break;
             }
             bool init = fieldsInitialized;
@@ -2848,13 +2856,12 @@ namespace PKHeX
         private void openHistory(object sender, EventArgs e)
         {
             // Write back current values
-            PK6 pk6 = pkm as PK6;
-            pk6.HT_Name = TB_OTt2.Text;
-            pk6.OT_Name = TB_OT.Text;
-            pk6.IsEgg = CHK_IsEgg.Checked;
-            pk6.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
+            pkm.HT_Name = TB_OTt2.Text;
+            pkm.OT_Name = TB_OT.Text;
+            pkm.IsEgg = CHK_IsEgg.Checked;
+            pkm.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
             new MemoryAmie().ShowDialog();
-            TB_Friendship.Text = pk6.CurrentFriendship.ToString();
+            TB_Friendship.Text = pkm.CurrentFriendship.ToString();
         }
         // Open/Save Array Manipulation //
         public bool verifiedPKM()

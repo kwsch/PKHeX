@@ -13,6 +13,8 @@ namespace PKHeX
         Balls,
         BattleItems,
         MailItems,
+        ZCrystals,
+        FreeSpace
     }
     public class InventoryItem
     {

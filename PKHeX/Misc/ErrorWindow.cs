@@ -18,7 +18,7 @@ namespace PKHeX.Misc
             var dialogResult = dialog.ShowDialog();
             if (dialogResult == DialogResult.Abort)
             {
-                Application.Exit();
+                Environment.Exit(1);
             }
             return dialogResult;
         }
