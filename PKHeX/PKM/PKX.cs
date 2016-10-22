@@ -624,6 +624,17 @@ namespace PKHeX
                         f[000], // Spiky
                     };
                 case 201:
+                    if (generation == 2)
+                    return new[]
+                    {
+                        "A", "B", "C", "D", "E",
+                        "F", "G", "H", "I", "J",
+                        "K", "L", "M", "N", "O",
+                        "P", "Q", "R", "S", "T",
+                        "U", "V", "W", "X", "Y",
+                        "Z",
+                        // "!", "?", not in Gen II
+                    };
                     return new[]
                     {
                         "A", "B", "C", "D", "E",
@@ -708,7 +719,8 @@ namespace PKHeX
                         f[823], // Sky
                     };
 
-                case 493:
+                case 493: // Arceus
+                case 773: // Silvally
                     if (generation == 4)
                         return new[]
                         {
@@ -939,6 +951,27 @@ namespace PKHeX
                     {
                         t[000], // Normal
                         f[912], // Unbound
+                    };
+
+                case 741: // Oricorio
+                    return new[]
+                    {
+                        "RED", // Baile
+                        "YLW", // Pom-Pom
+                        "PNK", // Pa'u
+                        "BLU", // Sensu
+                    };
+
+                case 744: // Minior
+                    return new[]
+                    {
+                        "R", // Red
+                        "O", // Orange
+                        "Y", // Yellow
+                        "G", // Green
+                        "B", // Blue
+                        "I", // Indigo
+                        "V", // Violet
                     };
             }
             return new[] {""};

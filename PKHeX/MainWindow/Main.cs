@@ -1620,10 +1620,6 @@ namespace PKHeX
                 return;
 
             CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols, SAV.Generation).ToList();
-            if (SAV.Generation < 3)
-            {
-                Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
-            }
         }
         private void setAbilityList()
         {
@@ -1980,7 +1976,8 @@ namespace PKHeX
                     Label_Gender.ForeColor = pkm.Gender == 2
                         ? Label_Species.ForeColor
                         : (pkm.Gender == 1 ? Color.Red : Color.Blue);
-                    CB_Form.SelectedIndex = pkm.AltForm;
+                    if (pkm.Species == 201 && e != null) // Unown
+                        CB_Form.SelectedIndex = pkm.AltForm;
                     setIsShiny(null);
                     getQuickFiller(dragout);
                 }
@@ -2052,15 +2049,15 @@ namespace PKHeX
             }
             else
             {
-                TB_HPIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
-                TB_ATKIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
-                TB_DEFIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
-                TB_SPAIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
-                TB_SPDIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
-                TB_SPEIV.Text = (Util.rnd32() & SAV.MaxIV).ToString();
+                TB_HPIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
+                TB_ATKIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
+                TB_DEFIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
+                TB_SPAIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
+                TB_SPDIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
+                TB_SPEIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
             }
             changingFields = false;
-            updateIVs(null, null);
+            updateIVs(null, e);
         }
         private void updateRandomEVs(object sender, EventArgs e)
         {
@@ -2163,12 +2160,18 @@ namespace PKHeX
             setAbilityList();
 
             // Gender Forms
-            if (Util.getIndex(CB_Species) == 201)
+            if (Util.getIndex(CB_Species) == 201 && fieldsLoaded)
             {
-                if (fieldsLoaded && SAV.Generation == 3)
+                if (SAV.Generation == 3)
                 {
                     pkm.setPIDUnown3(CB_Form.SelectedIndex);
                     TB_PID.Text = pkm.PID.ToString("X8");
+                }
+                else if (SAV.Generation == 2)
+                {
+                    int desiredForm = CB_Form.SelectedIndex;
+                    while (pkm.AltForm != desiredForm)
+                        updateRandomIVs(null, null);
                 }
             }
             else if (PKX.getGender(CB_Form.Text) < 2)
