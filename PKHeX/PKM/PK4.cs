@@ -443,6 +443,10 @@ namespace PKHeX
                 MetDate = moment
             };
 
+            // Arceus Type Changing -- Plate forcibly removed.
+            if (pk5.Species == 493)
+                pk5.AltForm = 0;
+
             // Fix PP
             pk5.Move1_PP = pk5.getMovePP(pk5.Move1, pk5.Move1_PPUps);
             pk5.Move2_PP = pk5.getMovePP(pk5.Move2, pk5.Move2_PPUps);
