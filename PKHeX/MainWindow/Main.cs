@@ -1604,7 +1604,7 @@ namespace PKHeX
         private void setForms()
         {
             int species = Util.getIndex(CB_Species);
-            if (SAV.Generation < 4 && species != 201 || SAV.Generation < 3)
+            if (SAV.Generation < 4 && species != 201)
             {
                 Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
                 return;
@@ -1620,6 +1620,10 @@ namespace PKHeX
                 return;
 
             CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols, SAV.Generation).ToList();
+            if (SAV.Generation < 3)
+            {
+                Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
+            }
         }
         private void setAbilityList()
         {
