@@ -46,7 +46,7 @@ namespace PKHeX
             }
             catch (Exception ex)
             {
-                Util.Error("An unexpected error has occurred.", ex);
+                Util.Error(ex.Message);
             }
         }
         private void B_ExportPNG_Click(object sender, EventArgs e)
@@ -109,6 +109,8 @@ namespace PKHeX
             if (bgdata.SequenceEqual(new byte[CGearBackground.SIZE_CGB]))
                 return;
 
+            // Data present
+
             bgdata = CGearBackground.CGBtoPSK(bgdata, SAV.B2W2);
 
             Array.Copy(bgdata, 0, Main.SAV.Data, SAV.CGearDataOffset, bgdata.Length);
@@ -119,6 +121,11 @@ namespace PKHeX
             byte[] skinchkdata = Main.SAV.Data.Skip(SAV.CGearDataOffset + bgdata.Length + 0x100).Take(4).ToArray();
             ushort skinchkval = SaveUtil.ccitt16(skinchkdata);
             BitConverter.GetBytes(skinchkval).CopyTo(Main.SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x112);
+
+            // Indicate in the save file that data is present
+            BitConverter.GetBytes((ushort)0xC21E).CopyTo(Main.SAV.Data, 0x19438);
+
+
 
             Main.SAV.Data[SAV.CGearInfoOffset + 0x26] = 1; // data present
             BitConverter.GetBytes(chk).CopyTo(Main.SAV.Data, SAV.CGearInfoOffset + 0x24);
