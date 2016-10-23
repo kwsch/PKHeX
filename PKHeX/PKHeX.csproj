@@ -165,7 +165,7 @@
     <Compile Include="MysteryGifts\PGT.cs" />
     <Compile Include="PKM\PK3.cs" />
     <Compile Include="PKM\PK4.cs" />
-    <Compile Include="Legality\Tables.cs" />
+    <Compile Include="Legality\Tables6.cs" />
     <Compile Include="MysteryGifts\PGF.cs" />
     <Compile Include="PKM\PK5.cs" />
     <Compile Include="PKM\PK6.cs" />
