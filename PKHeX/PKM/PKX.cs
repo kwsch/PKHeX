@@ -972,6 +972,13 @@ namespace PKHeX
                         "B", // Blue
                         "I", // Indigo
                         "V", // Violet
+                        "R-Core", // Core Red
+                        "O-Core", // Core Orange
+                        "Y-Core", // Core Yellow
+                        "G-Core", // Core Green
+                        "B-Core", // Core Blue
+                        "I-Core", // Core Indigo
+                        "V-Core", // Core Violet
                     };
             }
             return new[] {""};

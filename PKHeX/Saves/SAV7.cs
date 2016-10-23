@@ -117,7 +117,6 @@ namespace PKHeX
             {
                 Util.Alert(e.Message, "Checksums have been applied but MemeCrypto has not.");
             }
-
         }
         public override bool ChecksumsValid
         {
@@ -165,7 +164,7 @@ namespace PKHeX
                 /* 03 */ TrainerCard = 0x01200; // [0C0]
                 /* 04 */ Party = 0x01400; // [61C]
                 /* 05 */ // = 0x01C00; // [E00]
-                /* 06 */ // = 0x02A00; // [F78]
+                /* 06 */ PokeDex = 0x02A00; // [F78]
                 /* 07 */ // = 0x03A00; // [228]
                 /* 08 */ // = 0x03E00; // [104]
                 /* 09 */ // = 0x04000; // [200]
@@ -173,8 +172,6 @@ namespace PKHeX
                 /* 11 */ // = 0x04400; // [004]
                 /* 12 */ // = 0x04600; // [058]
                 /* 13 */ PCLayout = 0x04800; // [5E6]
-                PCBackgrounds = PCLayout + 0x5C0;
-                LastViewedBox = PCLayout + 0x5E5; // guess!?
                 /* 14 */ Box = 0x04E00; // [36600]
                 /* 15 */ // RentalPKM = 0x3B400; // [572C];
                 /* 16 */ PlayTime = 0x40C00; // [008];
@@ -200,11 +197,16 @@ namespace PKHeX
                 /* 36 */ // = 0x6BA00; // [200];
 
                 OFS_PouchHeldItem =     Item + 0; // 430
-                OFS_PouchKeyItem =      OFS_PouchHeldItem + 430*2; // 184
-                OFS_PouchTMHM =         OFS_PouchKeyItem + 184*2; // 108
-                OFS_PouchMedicine =     OFS_PouchTMHM + 108*2; // 64
-                OFS_PouchBerry =        OFS_PouchMedicine + 64*2; // 72
-                OFS_PouchZCrystals =    OFS_PouchBerry + 72*2; // 30
+                OFS_PouchKeyItem =      Item + 0x35C; // 184
+                OFS_PouchTMHM =         Item + 0x4CC; // 108
+                OFS_PouchMedicine =     Item + 0x5A4; // 64
+                OFS_PouchBerry =        Item + 0x624; // 72
+                OFS_PouchZCrystals =    Item + 0x6B4; // 30
+
+                PokeDexLanguageFlags =  PokeDex + 0x550;
+
+                PCBackgrounds =         PCLayout + 0x5C0;
+                LastViewedBox =         PCLayout + 0x5E5; // guess!?
             }
             else // Empty input
             {
@@ -245,7 +247,7 @@ namespace PKHeX
                 switch (Game)
                 {
                     case 30: return GameVersion.SN;
-                    // case 31: return GameVersion.MN;
+                    case 31: return GameVersion.MN;
                 }
                 return GameVersion.Unknown;
             }
@@ -461,54 +463,83 @@ namespace PKHeX
         }
         protected override void setDex(PKM pkm)
         {
-            return;
             if (PokeDex < 0)
                 return;
             if (pkm.Species == 0)
                 return;
-            if (pkm.Species > MaxSpeciesID)
+            if (pkm.Species > MaxSpeciesID) // Raw Max is 832
                 return;
             if (Version == GameVersion.Unknown)
                 return;
 
-            const int brSize = 0x60;
+            const int brSize = 0x68; // 832 bits, 32bit alignment is required (MaxSpeciesID > 800)
+            int baseOfs = PokeDex + 0x08;
             int bit = pkm.Species - 1;
-            int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
-            int origin = pkm.Version;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
-            int shiftoff = shiny * brSize * 2 + gender * brSize + brSize;
+            int shift = gender + shiny << 2;
+            if (pkm.Species == 327) // Spinda
+            {
+                if ((Data[PokeDex + 0x84] & (1 << (shift + 4))) != 0) // Already 2
+                {
+                    BitConverter.GetBytes(pkm.EncryptionConstant).CopyTo(Data, PokeDex + 0x8E8 + shift * 4);
+                    // Data[PokeDex + 0x84] |= (byte)(1 << (shift + 4)); // 2 -- pointless
+                    Data[PokeDex + 0x84] |= (byte)(1 << shift); // 1
+                }
+                else if ((Data[PokeDex + 0x84] & (1 << shift)) == 0) // Not yet 1
+                {
+                    Data[PokeDex + 0x84] |= (byte)(1 << shift); // 1
+                }
+            }
+            int ofs = PokeDex // Raw Offset
+                      + 0x08 // Magic + Flags
+                      + 0x80; // Misc Data (1024 bits)
 
-            // Set the [Species/Gender/Shiny] Owned Flag
-            Data[PokeDex + shiftoff + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+            // Set the Owned Flag
+            Data[ofs + bd] |= (byte)(1 << bm);
 
-            // Owned quality flag
-            if (origin < 0x18 && bit < 649 && !ORAS) // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
-                Data[PokeDex + 0x64C + bit / 8] |= (byte)(1 << (bit % 8));
-            else if (origin >= 0x18 || ORAS) // Set Native Owned Flag (should always happen)
-                Data[PokeDex + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+            // Set the [Species/Gender/Shiny] Seen Flag
+            int brSeen = (shift + 1) * brSize; // offset by 1 for the "Owned" Region
+            Data[ofs + brSeen + bd] |= (byte)(1 << bm);
 
             // Set the Display flag if none are set
             bool Displayed = false;
-            Displayed |= (Data[PokeDex + brSize * 5 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 6 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 7 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 8 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            if (!Displayed) // offset is already biased by brSize, reuse shiftoff but for the display flags.
-                Data[PokeDex + shiftoff + brSize * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+            for (int i = 0; i < 4; i++)
+            {
+                int brDisplayed = (5 + i) * brSize; // offset by 1 for the "Owned" Region, 4 for the Seen Regions
+                Displayed |= (Data[ofs + brDisplayed + bd] & (byte)(1 << bm)) != 0;
+            }
+            if (!Displayed)
+                Data[ofs + brSeen + brSize * 4 + bd] |= (byte)(1 << bm); // Adjust brSeen to the displayed flags.
 
             // Set the Language
-            if (lang < 0) lang = 1;
-            Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
-            
-            // Set Form flags
+            int lang = pkm.Language;
+            const int langCount = 9;
+            if (lang <= 10 && lang != 6 && lang != 0) // valid language
+            {
+                if (lang >= 7)
+                    lang--;
+                lang--; // 0-8 languages
+                if (lang < 0) lang = 1;
+                int lbit = bit * langCount + lang;
+                if (lbit >> 3 < 920) // Sanity check for max length of region
+                    Data[PokeDexLanguageFlags + (lbit >> 3)] |= (byte)(1 << (lbit & 7));
+            }
+            return;
+
+            // Set Form flags : TODO
+#pragma warning disable 162
             int fc = Personal[pkm.Species].FormeCount;
-            int f = ORAS ? SaveUtil.getDexFormIndexORAS(pkm.Species, fc) : SaveUtil.getDexFormIndexXY(pkm.Species, fc);
+            int f = SaveUtil.getDexFormIndexSM(pkm.Species, fc);
             if (f < 0) return;
 
             int FormLen = ORAS ? 0x26 : 0x18;
             int FormDex = PokeDex + 0x8 + brSize*9;
-            bit = f + pkm.AltForm;
+            int fbit = f + pkm.AltForm;
+            int fbd = fbit>>3;
+            int fbm = fbit&7;
 
             // Set Form Seen Flag
             Data[FormDex + FormLen*shiny + bit/8] |= (byte)(1 << (bit%8));
@@ -516,14 +547,16 @@ namespace PKHeX
             // Set Displayed Flag if necessary, check all flags
             for (int i = 0; i < fc; i++)
             {
-                bit = f + i;
-                if ((Data[FormDex + FormLen*2 + bit/8] & (byte) (1 << (bit%8))) != 0) // Nonshiny
+                int dfbit = f + i;
+                int dfbd = dfbit>>3;
+                int dfbm = dfbit&7;
+                if ((Data[FormDex + FormLen*2 + dfbd] & (byte) (1 << dfbm)) != 0) // Nonshiny
                     return; // already set
-                if ((Data[FormDex + FormLen*3 + bit/8] & (byte) (1 << (bit%8))) != 0) // Shiny
+                if ((Data[FormDex + FormLen*3 + dfbd] & (byte) (1 << dfbm)) != 0) // Shiny
                     return; // already set
             }
-            bit = f + pkm.AltForm;
-            Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
+            Data[FormDex + FormLen * (2 + shiny) + fbd] |= (byte)(1 << fbm);
+#pragma warning restore 162
         }
         public override byte[] decryptPKM(byte[] data)
         {
