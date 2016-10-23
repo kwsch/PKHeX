@@ -179,7 +179,7 @@ namespace PKHeX
         public override int OT_Gender { get { return (CaughtData >> 7) & 1; } set { CaughtData = (CaughtData & 0xFFEF) | ((value & 1) << 7); } }
         public override int Met_Location { get { return CaughtData & 0x7F; } set { CaughtData = (CaughtData & 0xFF80) | (value & 0x7F); } }
         
-public override int Stat_Level
+        public override int Stat_Level
         {
             get { return Data[0x1F]; }
             set { Data[0x1F] = (byte)value; }
