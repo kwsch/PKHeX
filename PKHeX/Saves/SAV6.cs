@@ -509,6 +509,7 @@ namespace PKHeX
         
         // Daycare
         public override int DaycareSeedSize => 16;
+        public override bool HasTwoDaycares => ORAS;
         public override int getDaycareSlotOffset(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;

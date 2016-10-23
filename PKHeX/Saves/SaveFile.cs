@@ -332,6 +332,7 @@ namespace PKHeX
 
         // Daycare
         public int DaycareIndex = 0;
+        public virtual bool HasTwoDaycares => false;
         public virtual int getDaycareSlotOffset(int loc, int slot) { return -1; }
         public virtual uint? getDaycareEXP(int loc, int slot) { return null; }
         public virtual ulong? getDaycareRNGSeed(int loc) { return null; }

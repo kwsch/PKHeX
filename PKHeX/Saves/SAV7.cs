@@ -158,43 +158,43 @@ namespace PKHeX
         {
             if (SMDEMO)
             {
-                /* 00 */ Item = 0x00000; // [DE0]
-                /* 01 */ // = 0x00E00; // [07C]
-                /* 02 */ // = 0x01000; // [014]
-                /* 03 */ TrainerCard = 0x01200; // [0C0]
-                /* 04 */ Party = 0x01400; // [61C]
-                /* 05 */ // = 0x01C00; // [E00]
-                /* 06 */ PokeDex = 0x02A00; // [F78]
-                /* 07 */ // = 0x03A00; // [228]
-                /* 08 */ // = 0x03E00; // [104]
-                /* 09 */ // = 0x04000; // [200]
-                /* 10 */ Trainer2 = 0x04200; // [020]
-                /* 11 */ // = 0x04400; // [004]
-                /* 12 */ // = 0x04600; // [058]
-                /* 13 */ PCLayout = 0x04800; // [5E6]
-                /* 14 */ Box = 0x04E00; // [36600]
-                /* 15 */ // RentalPKM = 0x3B400; // [572C];
-                /* 16 */ PlayTime = 0x40C00; // [008];
-                /* 17 */ // = 0x40E00; // [1080];
-                /* 18 */ // = 0x42000; // [1A08];
-                /* 19 */ // = 0x43C00; // [6408];
-                /* 20 */ // = 0x4A200; // [6408];
-                /* 21 */ // = 0x50800; // [3998];
-                /* 22 */ // = 0x54200; // [100];
-                /* 23 */ // = 0x54400; // [100];
-                /* 24 */ JPEG = 0x54600; // [10528];
-                /* 25 */ // = 0x64C00; // [204];
-                /* 26 */ // = 0x65000; // [B60];
-                /* 27 */ // = 0x65C00; // [3F50];
-                /* 28 */ // = 0x69C00; // [358];
-                /* 29 */ // = 0x6A000; // [728]; // Data Block
-                /* 30 */ // = 0x6A800; // [200];
-                /* 31 */ // = 0x6AA00; // [718];
-                /* 32 */ // = 0x6B200; // [1FC];
-                /* 33 */ // = 0x6B400; // [200];
-                /* 34 */ // = 0x6B600; // [120];
-                /* 35 */ // = 0x6B800; // [1C8];
-                /* 36 */ // = 0x6BA00; // [200];
+                /* 00 */ Item           = 0x00000;  // [DE0]    MyItem
+                /* 01 */            //  = 0x00E00;  // [07C]    Situation
+                /* 02 */            //  = 0x01000;  // [014]    RandomGroup
+                /* 03 */ TrainerCard    = 0x01200;  // [0C0]    MyStatus
+                /* 04 */ Party          = 0x01400;  // [61C]    PokePartySave
+                /* 05 */ EventFlag      = 0x01C00;  // [E00]    EventWork
+                /* 06 */ PokeDex        = 0x02A00;  // [F78]    ZukanData
+                /* 07 */ GTS            = 0x03A00;  // [228]    GtsData
+                /* 08 */ Fused          = 0x03E00;  // [104]    UnionPokemon 
+                /* 09 */            //  = 0x04000;  // [200]    Misc
+                /* 10 */ Trainer2       = 0x04200;  // [020]    FieldMenu
+                /* 11 */            //  = 0x04400;  // [004]    ConfigSave
+                /* 12 */ AdventureInfo  = 0x04600;  // [058]    GameTime
+                /* 13 */ PCLayout       = 0x04800;  // [5E6]    BOX
+                /* 14 */ Box            = 0x04E00;  // [36600]  BoxPokemon
+                /* 15 */ Resort         = 0x3B400;  // [572C]   ResortSave
+                /* 16 */ PlayTime       = 0x40C00;  // [008]    PlayTime
+                /* 17 */            //  = 0x40E00;  // [1080]   FieldMoveModelSave
+                /* 18 */            //  = 0x42000;  // [1A08]   Fashion
+                /* 19 */            //  = 0x43C00;  // [6408]   JoinFestaPersonalSave
+                /* 20 */            //  = 0x4A200;  // [6408]   JoinFestaPersonalSave
+                /* 21 */            //  = 0x50800;  // [3998]   JoinFestaDataSave
+                /* 22 */            //  = 0x54200;  // [100]    BerrySpot
+                /* 23 */            //  = 0x54400;  // [100]    FishingSpot
+                /* 24 */            //  = 0x54600;  // [10528]  LiveMatchData
+                /* 25 */            //  = 0x64C00;  // [204]    BattleSpotData
+                /* 26 */            //  = 0x65000;  // [B60]    PokeFinderSave
+                /* 27 */ WondercardFlags = 0x65C00; // [3F50]   MysteryGiftSave
+                /* 28 */            //  = 0x69C00;  // [358]    Record
+                /* 29 */            //  = 0x6A000;  // [728]    Data Block
+                /* 30 */            //  = 0x6A800;  // [200]    GameSyncSave
+                /* 31 */            //  = 0x6AA00;  // [718]    PokeDiarySave
+                /* 32 */            //  = 0x6B200;  // [1FC]    BattleInstSave
+                /* 33 */ Daycare        = 0x6B400;  // [200]    Sodateya
+                /* 34 */            //  = 0x6B600;  // [120]    WeatherSave
+                /* 35 */            //  = 0x6B800;  // [1C8]    QRReaderSaveData
+                /* 36 */            //  = 0x6BA00;  // [200]    TurtleSalmonSave
 
                 OFS_PouchHeldItem =     Item + 0; // 430
                 OFS_PouchKeyItem =      Item + 0x35C; // 184
@@ -204,6 +204,7 @@ namespace PKHeX
                 OFS_PouchZCrystals =    Item + 0x6B4; // 30
 
                 PokeDexLanguageFlags =  PokeDex + 0x550;
+                WondercardData = WondercardFlags + 0x100;
 
                 PCBackgrounds =         PCLayout + 0x5C0;
                 LastViewedBox =         PCLayout + 0x5E5; // guess!?
@@ -227,8 +228,9 @@ namespace PKHeX
         private int Daycare2 { get; set; } = int.MinValue;
         private int LinkInfo { get; set; } = int.MinValue;
 
-        // Accessible as SAV6
+        // Accessible as SAV7
         public int TrainerCard { get; private set; } = 0x14000;
+        public int Resort { get; set; }
         public int PCFlags { get; private set; } = int.MinValue;
         public int PSSStats { get; private set; } = int.MinValue;
         public int MaisonStats { get; private set; } = int.MinValue;
@@ -239,6 +241,29 @@ namespace PKHeX
         public int PokeDexLanguageFlags { get; private set; } = int.MinValue;
         public int Spinda { get; private set; } = int.MinValue;
         public int EncounterCount { get; private set; } = int.MinValue;
+
+        private const int ResortCount = 93;
+        public PKM[] ResortPKM
+        {
+            get
+            {
+                PKM[] data = new PKM[ResortCount];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = getPKM(getData(Resort + 0x12 + i * SIZE_STORED, SIZE_STORED));
+                    data[i].Identifier = $"Resort Slot {i}";
+                }
+                return data;
+            }
+            set
+            {
+                if (value?.Length != ResortCount)
+                    throw new ArgumentException();
+
+                for (int i = 0; i < value.Length; i++)
+                    setStoredSlot(value[i], Resort + 0x12 + i*SIZE_STORED);
+            }
+        }
 
         public override GameVersion Version
         {
@@ -339,14 +364,9 @@ namespace PKHeX
         public int ResumeHour { get { return Data[AdventureInfo + 0xB]; } set { Data[AdventureInfo + 0xB] = (byte)value; } }
         public int ResumeMinute { get { return Data[AdventureInfo + 0xC]; } set { Data[AdventureInfo + 0xC] = (byte)value; } }
         public int ResumeSeconds { get { return Data[AdventureInfo + 0xD]; } set { Data[AdventureInfo + 0xD] = (byte)value; } }
-        public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x18); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); } }
-        public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x20); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); } }
-
-        public uint getPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
-        public void setPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }
-        public ushort getMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + 2 * index); }
-        public void setMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + 2*index); }
-
+        public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x28); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); } }
+        public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x30); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); } }
+        
         public int[] SelectItems
         {
             // UP,RIGHT,DOWN,LEFT
@@ -566,6 +586,88 @@ namespace PKHeX
         {
             get { return Data[Party + 6 * SIZE_PARTY]; }
             protected set { Data[Party + 6 * SIZE_PARTY] = (byte)value; }
+        }
+        
+        public override int DaycareSeedSize => 16;
+        public override int getDaycareSlotOffset(int loc, int slot)
+        {
+            if (loc != 0)
+                return -1;
+            if (Daycare < 0)
+                return -1;
+            return Daycare + 8 + slot * (SIZE_STORED + 8);
+        }
+        public override uint? getDaycareEXP(int loc, int slot)
+        {
+            if (loc != 0)
+                return null;
+            if (Daycare < 0)
+                return null;
+
+            return BitConverter.ToUInt32(Data, Daycare + (SIZE_STORED + 8) * slot + 4);
+        }
+        public override bool? getDaycareOccupied(int loc, int slot)
+        {
+            if (loc != 0)
+                return null;
+            if (Daycare < 0)
+                return null;
+
+            return Data[Daycare + (SIZE_STORED + 8) * slot] == 1;
+        }
+        public override ulong? getDaycareRNGSeed(int loc)
+        {
+            if (loc != 0)
+                return null;
+            if (Daycare < 0)
+                return null;
+
+            return BitConverter.ToUInt64(Data, Daycare + 0x1E8);
+        }
+        public override bool? getDaycareHasEgg(int loc)
+        {
+            if (loc != 0)
+                return null;
+            if (Daycare < 0)
+                return null;
+
+            return Data[Daycare + 0x1E0] == 1;
+        }
+        public override void setDaycareEXP(int loc, int slot, uint EXP)
+        {
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+
+            BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + (SIZE_STORED + 8) * slot + 4);
+        }
+        public override void setDaycareOccupied(int loc, int slot, bool occupied)
+        {
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+
+            Data[Daycare + (SIZE_STORED + 8) * slot] = (byte)(occupied ? 1 : 0);
+        }
+        public override void setDaycareRNGSeed(int loc, ulong seed)
+        {
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+
+            BitConverter.GetBytes(seed).CopyTo(Data, Daycare + 0x1E8);
+        }
+        public override void setDaycareHasEgg(int loc, bool hasEgg)
+        {
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+
+            Data[Daycare + 0x1E0] = (byte)(hasEgg ? 1 : 0);
         }
 
         // Mystery Gift
