@@ -40,7 +40,7 @@ namespace PKHeX
         public bool RibbonChampionWorld { get { return (RIB1 & (1 << 6)) == 1 << 6; } set { RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } } // World Champ Ribbon
         public bool RIB1_7 { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Empty
 
-        public int Pokéball { get { return Data[0x0E]; } set { Data[0x0E] = (byte)value; } }
+        public override int Ball { get { return Data[0x0E]; } set { Data[0x0E] = (byte)value; } }
         public override int HeldItem { get { return BitConverter.ToUInt16(Data, 0x10); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); } }
         public int Move1 { get { return BitConverter.ToUInt16(Data, 0x12); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x12); } }
         public int Move2 { get { return BitConverter.ToUInt16(Data, 0x14); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x14); } }
@@ -79,7 +79,7 @@ namespace PKHeX
             get { return PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); } }
         public int OTGender { get { return Data[0x5A]; } set { Data[0x5A] = (byte)value; } }
-        public int Level { get { return Data[0x5B]; } set { Data[0x5C] = (byte)value; } }
+        public override int Level { get { return Data[0x5B]; } set { Data[0x5C] = (byte)value; } }
         public override bool IsEgg { get { return Data[0x5C] == 1; } set { Data[0x5C] = (byte)(value ? 1 : 0); } }
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle
@@ -174,7 +174,7 @@ namespace PKHeX
                 AltForm = Form,
                 Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
-                Ball = Pokéball,
+                Ball = Ball,
                 Move1 = Move1,
                 Move2 = Move2,
                 Move3 = Move3,

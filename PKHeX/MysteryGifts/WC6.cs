@@ -107,7 +107,7 @@ namespace PKHeX
         public uint EncryptionConstant {
             get { return BitConverter.ToUInt32(Data, 0x70); }
             set { BitConverter.GetBytes(value).CopyTo(Data, 0x70); } }
-        public int Pokéball {
+        public override int Ball {
             get { return Data[0x76]; } 
             set { Data[0x76] = (byte)value; } }
         public override int HeldItem {
@@ -174,7 +174,7 @@ namespace PKHeX
         public string OT {
             get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB6, 0x1A)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0xB6); } }
-        public int Level { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
+        public override int Level { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
         public override bool IsEgg { get { return Data[0xD1] == 1; } set { Data[0xD1] = (byte)(value ? 1 : 0); } }
         public uint PID {
             get { return BitConverter.ToUInt32(Data, 0xD4); }
@@ -223,7 +223,7 @@ namespace PKHeX
         {
             get { return new[] {Move1, Move2, Move3, Move4}; }
         }
-        public int[] RelearnMoves
+        public override int[] RelearnMoves
         {
             get { return new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 }; }
             set
@@ -254,7 +254,7 @@ namespace PKHeX
                 EncryptionConstant = EncryptionConstant == 0 ? Util.rnd32() : EncryptionConstant,
                 Version = OriginGame == 0 ? SAV.Game : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
-                Ball = Pokéball,
+                Ball = Ball,
                 Country = SAV.Country,
                 Region = SAV.SubRegion,
                 ConsoleRegion = SAV.ConsoleRegion,

@@ -166,7 +166,7 @@ namespace PKHeX
 
         public override int PKRS_Strain { get { return Data[0xCA] & 0xF; } set { Data[0xCA] = (byte)(value & 0xF); } }
         public override bool IsEgg { get { return Data[0xCB] == 1; } set { Data[0xCB] = (byte)(value ? 1 : 0); } }
-        public int AbilityNumber { get { return Data[0xCC]; } set { Data[0xCC] = (byte)(value & 1); } }
+        public override int AbilityNumber { get { return Data[0xCC]; } set { Data[0xCC] = (byte)(value & 1); } }
         public override bool Valid { get { return Data[0xCD] == 0; } set { if (value) Data[0xCD] = 0; } }
         // 0xCE unknown
         public override byte MarkByte { get { return Data[0xCF]; } protected set { Data[0xCF] = value; } }

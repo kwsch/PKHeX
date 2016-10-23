@@ -6,78 +6,116 @@ namespace PKHeX
 {
     public partial class LegalityAnalysis
     {
-        private readonly PK6 pk6;
-        private object EncounterMatch;
-        private List<WC6> CardMatch;
-        private Type EncounterType;
-        private LegalityCheck ECPID, Nickname, IDs, IVs, EVs, Encounter, Level, Ribbons, Ability, Ball, History, OTMemory, HTMemory, Region, Form, Misc, Gender;
-        private LegalityCheck[] Checks => new[] { Encounter, Level, Form, Ball, Ability, Ribbons, ECPID, Nickname, IVs, EVs, IDs, History, OTMemory, HTMemory, Region, Misc, Gender };
+        private PKM pkm;
+        private readonly List<CheckResult> Parse = new List<CheckResult>();
 
-        public bool Valid = true;
-        public bool SecondaryChecked;
-        public int[] RelearnBase;
-        public LegalityCheck[] vMoves = new LegalityCheck[4];
-        public LegalityCheck[] vRelearn = new LegalityCheck[4];
+        private object EncounterMatch;
+        private Type EncounterType;
+        private List<MysteryGift> EventGiftMatch;
+        private CheckResult Encounter, History;
+        private int[] RelearnBase;
+        // private bool SecondaryChecked;
+
+        public readonly bool Parsed;
+        public readonly bool Valid;
+        public CheckResult[] vMoves = new CheckResult[4];
+        public CheckResult[] vRelearn = new CheckResult[4];
         public string Report => getLegalityReport();
         public string VerboseReport => getVerboseLegalityReport();
+        public bool Native => pkm.GenNumber == pkm.Format;
 
         public LegalityAnalysis(PKM pk)
         {
-            if (!(pk is PK6))
-                return;
-            pk6 = (PK6) pk;
             try
             {
-                updateRelearnLegality();
-                updateMoveLegality();
-                updateChecks();
-                getLegalityReport();
+                switch (pk.Format)
+                {
+                    case 6: parsePK6(pk); break;
+                    case 7: parsePK7(pk); break;
+                    default: return;
+                }
+                Valid = Parse.Any() && Parse.All(chk => chk.Valid);
+                if (vMoves.Any(m => m.Valid != true))
+                    Valid = false;
+                else if (vRelearn.Any(m => m.Valid != true))
+                    Valid = false;
             }
             catch { Valid = false; }
+            Parsed = true;
         }
 
-        public void updateRelearnLegality()
+        private void AddLine(Severity s, string c, CheckIdentifier i)
+        {
+            AddLine(new CheckResult(s, c, i));
+        }
+        private void AddLine(CheckResult chk)
+        {
+            Parse.Add(chk);
+        }
+        private void parsePK6(PKM pk)
+        {
+            if (!(pk is PK6))
+                return;
+            pkm = pk;
+
+            updateRelearnLegality();
+            updateMoveLegality();
+            updateChecks();
+            getLegalityReport();
+        }
+        private void parsePK7(PKM pk)
+        {
+            if (!(pk is PK7))
+                return;
+            pkm = pk;
+
+            updateRelearnLegality();
+            updateMoveLegality();
+            updateChecks();
+            getLegalityReport();
+        }
+
+        private void updateRelearnLegality()
         {
             try { vRelearn = verifyRelearn(); }
-            catch { for (int i = 0; i < 4; i++) vRelearn[i] = new LegalityCheck(Severity.Invalid, "Internal error."); }
-            SecondaryChecked = false;
+            catch { for (int i = 0; i < 4; i++) vRelearn[i] = new CheckResult(Severity.Invalid, "Internal error.", CheckIdentifier.RelearnMove); }
+            // SecondaryChecked = false;
         }
-        public void updateMoveLegality()
+        private void updateMoveLegality()
         {
             try { vMoves = verifyMoves(); }
-            catch { for (int i = 0; i < 4; i++) vMoves[i] = new LegalityCheck(Severity.Invalid, "Internal error."); }
-            SecondaryChecked = false;
+            catch { for (int i = 0; i < 4; i++) vMoves[i] = new CheckResult(Severity.Invalid, "Internal error.", CheckIdentifier.Move); }
+            // SecondaryChecked = false;
         }
 
         private void updateChecks()
         {
             Encounter = verifyEncounter();
             EncounterType = EncounterMatch?.GetType();
-            ECPID = verifyECPID();
-            Nickname = verifyNickname();
-            IDs = verifyID();
-            IVs = verifyIVs();
-            EVs = verifyEVs();
-            Level = verifyLevel();
-            Ribbons = verifyRibbons();
-            Ability = verifyAbility();
-            Ball = verifyBall();
             History = verifyHistory();
-            OTMemory = verifyOTMemory();
-            HTMemory = verifyHTMemory();
-            Region = verifyRegion();
-            Form = verifyForm();
-            Misc = verifyMisc();
-            Gender = verifyGender();
-            SecondaryChecked = true;
+
+            verifyECPID();
+            verifyNickname();
+            verifyID();
+            verifyIVs();
+            verifyEVs();
+            verifyLevel();
+            verifyRibbons();
+            verifyAbility();
+            verifyBall();
+            verifyOTMemory();
+            verifyHTMemory();
+            verifyRegion();
+            verifyForm();
+            verifyMisc();
+            verifyGender();
+            // SecondaryChecked = true;
         }
         private string getLegalityReport()
         {
-            if (pk6 == null || !pk6.Gen6)
-                return "Analysis only available for Pokémon that originate from X/Y & OR/AS.";
+            if (!Parsed)
+                return "Analysis not available for this Pokémon.";
             
-            var chks = Checks;
-
             string r = "";
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid)
@@ -86,19 +124,18 @@ namespace PKHeX
                 if (!vRelearn[i].Valid)
                     r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
 
-            if (r.Length == 0 && chks.All(chk => chk.Valid))
+            if (r.Length == 0 && Parse.All(chk => chk.Valid))
                 return "Legal!";
-
-            Valid = false;
+            
             // Build result string...
-            r += chks.Where(chk => !chk.Valid).Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+            r += Parse.Where(chk => !chk.Valid).Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
 
             return r.TrimEnd();
         }
         private string getVerboseLegalityReport()
         {
             string r = getLegalityReport() + Environment.NewLine;
-            if (pk6 == null)
+            if (pkm == null)
                 return r;
             r += "===" + Environment.NewLine + Environment.NewLine;
             int rl = r.Length;
@@ -112,9 +149,8 @@ namespace PKHeX
 
             if (rl != r.Length) // move info added, break for next section
                 r += Environment.NewLine;
-
-            var chks = Checks;
-            r += chks.Where(chk => chk != null && chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
+            
+            r += Parse.Where(chk => chk != null && chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
                 .Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
             return r.TrimEnd();
         }
@@ -123,15 +159,17 @@ namespace PKHeX
         {
             if (RelearnBase == null)
                 return new int[4];
+            if (pkm.GenNumber < 6)
+                return new int[4];
 
-            if (!pk6.WasEgg)
+            if (!pkm.WasEgg)
                 return RelearnBase;
 
             List<int> window = new List<int>(RelearnBase);
 
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid || vMoves[i].Flag)
-                    window.Add(pk6.Moves[i]);
+                    window.Add(pkm.Moves[i]);
 
             if (window.Count < 4)
                 window.AddRange(new int[4 - window.Count]);

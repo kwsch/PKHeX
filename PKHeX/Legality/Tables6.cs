@@ -312,7 +312,13 @@ namespace PKHeX
         internal static readonly int[] Gen4EncounterTypes = { 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
         internal const int Struggle = 165;
         internal const int Chatter = 448;
-        internal static readonly int[] InvalidSketch = {Struggle, Chatter};
+        internal static readonly int[] InvalidSketch =
+        {
+            // Regular Moves
+            Struggle, Chatter
+            // Z-Moves
+
+        };
         internal static readonly int[] EggLocations = {60002, 30002};
         internal static readonly int[] LightBall = {25, 26, 172};
         internal static readonly int[] Fossils = {138, 140, 142, 345, 347, 408, 410, 564, 566, 696, 698};
@@ -861,7 +867,7 @@ namespace PKHeX
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
-        internal static readonly int[] WurmpleFamily =
+        internal static readonly int[] WurmpleEvolutions =
         {
             266, 267, // Silcoon Beautifly
             268, 269, // Cascoon Dustox

@@ -67,7 +67,7 @@ namespace PKHeX
             set { BitConverter.GetBytes(value).CopyTo(Data, 0x10); }
         }
         public override int Ability { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
-        public int AbilityNumber { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
+        public override int AbilityNumber { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
         public int TrainingBagHits { get { return Data[0x16]; } set { Data[0x16] = (byte)value; } }
         public int TrainingBag { get { return Data[0x17]; } set { Data[0x17] = (byte)value; } }
         public override uint PID
@@ -282,8 +282,8 @@ namespace PKHeX
             get { return BitConverter.ToUInt16(Data, 0x70); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
         }
-        public bool SecretSuperTrainingUnlocked { get { return (Data[0x72] & 1) == 1; } set { Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); } }
-        public bool SecretSuperTrainingComplete { get { return (Data[0x72] & 2) == 2; } set { Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); } }
+        public override bool SecretSuperTrainingUnlocked { get { return (Data[0x72] & 1) == 1; } set { Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); } }
+        public override bool SecretSuperTrainingComplete { get { return (Data[0x72] & 2) == 2; } set { Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); } }
         public byte _0x73 { get { return Data[0x73]; } set { Data[0x73] = value; } }
         private uint IV32 { get { return BitConverter.ToUInt32(Data, 0x74); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x74); } }
         public override int IV_HP { get { return (int)(IV32 >> 00) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); } }
@@ -389,9 +389,9 @@ namespace PKHeX
         public override int OT_Gender { get { return Data[0xDD] >> 7; } set { Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); } }
         public override int EncounterType { get { return Data[0xDE]; } set { Data[0xDE] = (byte)value; } }
         public override int Version { get { return Data[0xDF]; } set { Data[0xDF] = (byte)value; } }
-        public int Country { get { return Data[0xE0]; } set { Data[0xE0] = (byte)value; } }
-        public int Region { get { return Data[0xE1]; } set { Data[0xE1] = (byte)value; } }
-        public int ConsoleRegion { get { return Data[0xE2]; } set { Data[0xE2] = (byte)value; } }
+        public override int Country { get { return Data[0xE0]; } set { Data[0xE0] = (byte)value; } }
+        public override int Region { get { return Data[0xE1]; } set { Data[0xE1] = (byte)value; } }
+        public override int ConsoleRegion { get { return Data[0xE2]; } set { Data[0xE2] = (byte)value; } }
         public override int Language { get { return Data[0xE3]; } set { Data[0xE3] = (byte)value; } }
         #endregion
         #region Battle Stats
@@ -418,7 +418,6 @@ namespace PKHeX
         
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
-        public bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name);
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         
         // Complex Generated Attributes
@@ -632,11 +631,11 @@ namespace PKHeX
         }
 
         // Legality Properties
-        public bool WasLink => Met_Location == 30011;
-        public bool WasEgg => Legal.EggLocations.Contains(Egg_Location);
-        public bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter && Species != 386;
-        public bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
-        public bool WasTradedEgg => Egg_Location == 30002;
-        public bool WasIngameTrade => Met_Location == 30001;
+        public override bool WasLink => Met_Location == 30011;
+        public override bool WasEgg => Legal.EggLocations.Contains(Egg_Location);
+        public override bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter && Species != 386;
+        public override bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
+        public override bool WasTradedEgg => Egg_Location == 30002;
+        public override bool WasIngameTrade => Met_Location == 30001;
     }
 }

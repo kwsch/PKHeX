@@ -12,7 +12,17 @@ namespace PKHeX
     {
         internal const int Size = 0x358; // 856
         public override int Format => 4;
-        
+        public override int Level
+        {
+            get { return Gift.Level; }
+            set { Gift.Level = value; }
+        }
+        public override int Ball
+        {
+            get { return Gift.Ball; }
+            set { Gift.Ball = value; }
+        }
+
         public PCD(byte[] data = null)
         {
             Data = (byte[])(data?.Clone() ?? new byte[Size]);
@@ -25,6 +35,7 @@ namespace PKHeX
             Array.Copy(Data, PGT.Size, Information, 0, Information.Length);
         }
         public readonly PGT Gift;
+        public override object Content => Gift.PK;
 
         public readonly byte[] Information;
         public override bool GiftUsed { get { return Gift.GiftUsed; } set { Gift.GiftUsed = value; } }
@@ -65,6 +76,16 @@ namespace PKHeX
     {
         internal const int Size = 0x104; // 260
         public override int Format => 4;
+        public override int Level
+        {
+            get { return IsPokémon ? PK.Met_Level : 0; }
+            set { if (IsPokémon) PK.Met_Level = value; }
+        }
+        public override int Ball
+        {
+            get { return IsPokémon ? PK.Ball : 0; }
+            set { if (IsPokémon) PK.Ball = value; }
+        }
 
         private enum GiftType
         {
@@ -86,6 +107,7 @@ namespace PKHeX
         public override string CardTitle { get { return "Raw Gift (PGT)"; } set { } }
         public override int CardID { get { return -1; } set { } }
         public override bool GiftUsed { get { return false; } set { } }
+        public override object Content => PK;
 
         public PGT(byte[] data = null)
         {

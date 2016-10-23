@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace PKHeX
 {
@@ -90,10 +89,15 @@ namespace PKHeX
 
         // Search Properties
         public virtual int Species { get { return -1; } set { } }
-        public virtual int[] Moves => new int[0];
+        public virtual int[] Moves => new int[4];
+        public virtual int[] RelearnMoves { get { return new int[4]; } set { } }
         public virtual bool IsShiny => false;
         public virtual bool IsEgg { get { return false; } set { } }
         public virtual int HeldItem { get { return -1; } set { } }
+        public virtual object Content => this;
+
+        public abstract int Level { get; set; }
+        public abstract int Ball { get; set; }
         public bool Gen7 => Format == 7;
         public bool Gen6 => Format == 6;
         public bool Gen5 => Format == 5;

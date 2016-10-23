@@ -57,5 +57,9 @@ namespace PKHeX
             // Convert.ChangeType is suitable for most things
             return Convert.ChangeType(value, type);
         }
+        internal static bool? getBooleanState(object obj, string prop)
+        {
+            return obj.GetType().HasProperty(prop) ? GetValue(obj, prop) as bool? : null;
+        }
     }
 }

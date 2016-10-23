@@ -37,5 +37,10 @@ namespace PKHeX
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystal_SM).ToArray();
+
+        private static readonly EncounterStatic[] Encounter_SM =
+        {
+            
+        };
     }
 }

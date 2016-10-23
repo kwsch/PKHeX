@@ -152,6 +152,10 @@ namespace PKHeX
         public virtual int Geo5_Country { get; set; }
         public virtual byte Enjoyment { get; set; }
         public virtual byte Fullness { get; set; }
+        public virtual int AbilityNumber { get; set; }
+        public virtual int Country { get; set; }
+        public virtual int Region { get; set; }
+        public virtual int ConsoleRegion { get; set; }
 
         /// <summary>
         /// The date the Pokémon was met.
@@ -376,6 +380,17 @@ namespace PKHeX
                 IV_SPD = (IV_SPD & ~1) + PKX.hpivs[value, 5];
             }
         }
+
+        // Legality Extensions
+        public virtual bool WasLink => false;
+        public virtual bool WasEgg => Egg_Location > 0;
+        public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
+        public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
+        public virtual bool WasTradedEgg => Egg_Location == 30002;
+        public virtual bool WasIngameTrade => Met_Location == 30001;
+        public virtual bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name);
+        public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
+        public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
 
         // Methods
         public abstract bool getGenderIsValid();

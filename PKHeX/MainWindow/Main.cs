@@ -2113,7 +2113,7 @@ namespace PKHeX
                 Util.Alert("EC should match PID.");
             }
             
-            int wIndex = Array.IndexOf(Legal.WurmpleFamily, Util.getIndex(CB_Species));
+            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, Util.getIndex(CB_Species));
             if (wIndex < 0)
             {
                 TB_EC.Text = Util.rnd32().ToString("X8");
@@ -2774,6 +2774,11 @@ namespace PKHeX
         private void showLegality(PKM pk, bool tabs, bool verbose)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
+            if (!la.Native)
+            {
+                Util.Alert($"Checking legality of PK{pk.Format} files that originated from Gen{pk.GenNumber} is not supported.");
+                return;
+            }
             if (tabs)
                 updateLegality(la);
             Util.Alert(verbose ? la.VerboseReport : la.Report);
@@ -2782,11 +2787,15 @@ namespace PKHeX
         {
             if (!fieldsLoaded)
                 return;
-            if (!(pkm is PK6))
+            Legality = la ?? new LegalityAnalysis(pkm);
+            if (!Legality.Parsed || !Legality.Native || HaX)
+            {
+                PB_Legal.Visible = false;
                 return;
-            Legality = la ?? new LegalityAnalysis((PK6) pkm);
+            }
+            PB_Legal.Visible = true;
+
             PB_Legal.Image = Legality.Valid ? Properties.Resources.valid : Properties.Resources.warn;
-            PB_Legal.Visible = pkm.Gen6 /*&& pkm is PK6*/ && !HaX;
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
@@ -3378,12 +3387,7 @@ namespace PKHeX
 
             if (pk.Species == 0 || !pk.ChecksumValid)
             { SystemSounds.Asterisk.Play(); return; }
-            if (typeof (PK6) != pk.GetType())
-            {
-                Util.Alert($"Checking legality of {pk.GetType().Name} files is not supported.");
-                return;
-            }
-            showLegality(pk as PK6, slot < 0, ModifierKeys == Keys.Control);
+            showLegality(pk, slot < 0, ModifierKeys == Keys.Control);
         }
         private void updateSaveSlot(object sender, EventArgs e)
         {
@@ -3715,7 +3719,7 @@ namespace PKHeX
         }
         private void switchDaycare(object sender, EventArgs e)
         {
-            if (!SAV.ORAS) return;
+            if (!SAV.HasTwoDaycares) return;
             if (DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Would you like to switch the view to the other Daycare?",
                 $"Currently viewing daycare {SAV.DaycareIndex + 1}."))
                 // If ORAS, alter the daycare offset via toggle.
