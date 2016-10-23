@@ -150,7 +150,13 @@ namespace PKHeX
                 switch (fromType.Name)
                 {
                     case "PK1":
-                        pkm = (PKMType == typeof (PK2)) ? ((PK1) pk).convertToPK2() : null;
+                        if (toFormat == 2)
+                        {
+                            pkm = PKMType == typeof (PK2) ? ((PK1) pk).convertToPK2() : null;
+                            break;
+                        }
+                        if (toFormat == 7)
+                            pkm = null; // pkm.convertPK1toPK7();
                         break;
                     case "PK2":
                         if (PKMType == typeof (PK1))
@@ -197,6 +203,9 @@ namespace PKHeX
                         if (toFormat == 5)
                             break;
                         pkm = ((PK5)pkm).convertToPK6();
+                        if (toFormat == 6)
+                            break;
+                        pkm = new PK7(pkm.Data, pkm.Identifier);
                         break;
                     case "PK4":
                         if (PKMType == typeof(BK4))
@@ -208,6 +217,9 @@ namespace PKHeX
                         if (toFormat == 5)
                             break;
                         pkm = ((PK5)pkm).convertToPK6();
+                        if (toFormat == 6)
+                            break;
+                        pkm = new PK7(pkm.Data, pkm.Identifier);
                         break;
                     case "BK4":
                         pkm = ((BK4)pkm).convertToPK4();
@@ -217,6 +229,9 @@ namespace PKHeX
                         if (toFormat == 5)
                             break;
                         pkm = ((PK5)pkm).convertToPK6();
+                        if (toFormat == 6)
+                            break;
+                        pkm = new PK7(pkm.Data, pkm.Identifier);
                         break;
                     case "PK5":
                         pkm = ((PK5)pkm).convertToPK6();
