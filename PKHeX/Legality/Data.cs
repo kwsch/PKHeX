@@ -121,6 +121,9 @@ namespace PKHeX
         }
         public static EncounterArea[] getArray(byte[][] entries)
         {
+            if (entries == null)
+                return null;
+
             EncounterArea[] data = new EncounterArea[entries.Length];
             for (int i = 0; i < data.Length; i++)
                 data[i] = new EncounterArea(entries[i]);
@@ -239,6 +242,9 @@ namespace PKHeX
     {
         internal static byte[][] unpackMini(byte[] fileData, string identifier)
         {
+            if (fileData == null || fileData.Length < 4)
+                return null;
+
             using (var s = new MemoryStream(fileData))
             using (var br = new BinaryReader(s))
             {

@@ -110,8 +110,18 @@ namespace PKHeX
         private readonly PersonalInfo[] Table;
         public PersonalInfo this[int index]
         {
-            get { return Table[index]; }
-            set { Table[index] = value; }
+            get
+            {
+                if (index < Table.Length)
+                    return Table[index];
+                return Table[0];
+            }
+            set
+            {
+                if (index < Table.Length)
+                    return;
+                Table[index] = value; 
+            }
         }
 
         public int[] getAbilities(int species, int forme)
