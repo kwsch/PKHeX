@@ -42,6 +42,9 @@ namespace PKHeX
             }
             catch { Valid = false; }
             Parsed = true;
+
+            if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
+                AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
         }
 
         private void AddLine(Severity s, string c, CheckIdentifier i)
