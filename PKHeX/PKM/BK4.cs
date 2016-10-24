@@ -12,6 +12,7 @@ namespace PKHeX
         public sealed override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int Format => 4;
+        public override PersonalInfo PersonalInfo => PersonalTable.HGSS[Species];
 
         public override byte[] DecryptedBoxData => EncryptedBoxData;
 

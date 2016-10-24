@@ -9,6 +9,7 @@ namespace PKHeX
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
         public virtual string Extension => "pk" + Format;
+        public abstract PersonalInfo PersonalInfo { get; }
 
         // Internal Attributes set on creation
         public byte[] Data; // Raw Storage
@@ -388,9 +389,30 @@ namespace PKHeX
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
         public virtual bool WasTradedEgg => Egg_Location == 30002;
         public virtual bool WasIngameTrade => Met_Location == 30001;
-        public virtual bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name);
+        public virtual bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
         public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
+
+        public bool InhabitedGeneration(int Generation)
+        {
+            if (Format < Generation)
+                return false; // Future
+            if (GenNumber > Generation)
+                return false; // Past
+
+            switch (Generation) // Sanity Check Species ID
+            {
+                case 1: return Species <= Legal.MaxSpeciesID_1;
+                case 2: return Species <= Legal.MaxSpeciesID_2;
+                case 3: return Species <= Legal.MaxSpeciesID_3;
+                case 4: return Species <= Legal.MaxSpeciesID_4;
+                case 5: return Species <= Legal.MaxSpeciesID_5;
+                case 6: return Species <= Legal.MaxSpeciesID_6;
+                case 7: return Species <= Legal.MaxSpeciesID_7;
+                default:
+                    return false;
+            }
+        }
 
         // Methods
         public abstract bool getGenderIsValid();

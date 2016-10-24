@@ -13,6 +13,7 @@ namespace PKHeX.Tests.PKM
         public int EggMetYear { get; set; }
         public int EggMetMonth { get; set; }
         public int EggMetDay { get; set; }
+        public override PersonalInfo PersonalInfo => null;
 
         protected override int Met_Year
         {

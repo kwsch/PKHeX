@@ -14,6 +14,8 @@ namespace PKHeX
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 7;
+        public override PersonalInfo PersonalInfo => PersonalTable.SM.getFormeEntry(Species, AltForm);
+
         public PK7(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
@@ -538,6 +540,8 @@ namespace PKHeX
                 }
                 if (Geo1_Country == 0 && !IsUntraded && !IsUntradedEvent6)
                 {
+                    if ((Country | Region) == 0)
+                        break;
                     // Traded Non-Eggs/Events need to have a current location.
                     Geo1_Country = Country;
                     Geo1_Region = Region;

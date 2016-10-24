@@ -12,6 +12,8 @@ namespace PKHeX
         public sealed override int SIZE_PARTY => PKX.SIZE_3PARTY;
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int Format => 3;
+        public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
+
         public PK3(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();

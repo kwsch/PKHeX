@@ -13,6 +13,8 @@ namespace PKHeX
         public sealed override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         public override int Format => 5;
+        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.getFormeEntry(Species, AltForm);
+
         public PK5(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();

@@ -12,6 +12,8 @@ namespace PKHeX
         public sealed override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int Format => 4;
+        public override PersonalInfo PersonalInfo => PersonalTable.HGSS.getFormeEntry(Species, AltForm);
+
         public PK4(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
