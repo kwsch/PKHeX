@@ -162,7 +162,7 @@ namespace PKHeX
         public override Type PKMType => typeof(PK1);
 
         public override int MaxMoveID => 165;
-        public override int MaxSpeciesID => 151;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
         public override int MaxAbilityID => 0;
         public override int MaxItemID => 255;
         public override int MaxBallID => 0;

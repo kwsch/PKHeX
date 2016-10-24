@@ -45,7 +45,7 @@ namespace PKHeX
         public override int NickLength => 12;
 
         public override int MaxMoveID => 720;
-        public override int MaxSpeciesID => 802;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_7;
         public override int MaxItemID => 920;
         public override int MaxAbilityID => 232;
         public override int MaxBallID => 0x1A; // 26
@@ -225,7 +225,6 @@ namespace PKHeX
         private int PlayTime { get; set; } = int.MinValue;
         private int JPEG { get; set; } = int.MinValue;
         private int ItemInfo { get; set; } = int.MinValue;
-        private int Daycare2 { get; set; } = int.MinValue;
         private int LinkInfo { get; set; } = int.MinValue;
 
         // Accessible as SAV7
@@ -234,13 +233,10 @@ namespace PKHeX
         public int PCFlags { get; private set; } = int.MinValue;
         public int PSSStats { get; private set; } = int.MinValue;
         public int MaisonStats { get; private set; } = int.MinValue;
-        public int EonTicket { get; private set; } = int.MinValue;
         public int PCBackgrounds { get; private set; } = int.MinValue;
         public int Contest { get; private set; } = int.MinValue;
         public int Accessories { get; private set; } = int.MinValue;
         public int PokeDexLanguageFlags { get; private set; } = int.MinValue;
-        public int Spinda { get; private set; } = int.MinValue;
-        public int EncounterCount { get; private set; } = int.MinValue;
 
         private const int ResortCount = 93;
         public PKM[] ResortPKM

@@ -109,7 +109,7 @@ namespace PKHeX
         protected override int GiftCountMax => 12;
 
         public override int MaxMoveID => 559;
-        public override int MaxSpeciesID => 649;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
         public override int MaxItemID => Version == GameVersion.BW ? 632 : 638;
         public override int MaxAbilityID => 164;
         public override int MaxBallID => 0x19;

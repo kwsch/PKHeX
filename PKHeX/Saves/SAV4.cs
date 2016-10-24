@@ -57,7 +57,7 @@ namespace PKHeX
         public override int MaxMoney => 999999;
 
         public override int MaxMoveID => 467;
-        public override int MaxSpeciesID => 493;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
         public override int MaxItemID => Version == GameVersion.HGSS ? 536 : Version == GameVersion.Pt ? 467 : 464;
         public override int MaxAbilityID => 123;
         public override int MaxBallID => 0x18;

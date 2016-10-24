@@ -45,7 +45,7 @@ namespace PKHeX
         public override int NickLength => 12;
 
         public override int MaxMoveID => XY ? 617 : 621;
-        public override int MaxSpeciesID => 721;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_6;
         public override int MaxItemID => XY ? 717 : 775;
         public override int MaxAbilityID => XY ? 188 : 191;
         public override int MaxBallID => 0x19;
