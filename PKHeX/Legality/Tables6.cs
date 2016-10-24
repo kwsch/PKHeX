@@ -4,6 +4,8 @@ namespace PKHeX
 {
     public static partial class Legal
     {
+        internal const int MaxSpeciesID_6 = 721;
+
         // PKHeX Valid Array Storage
 
         internal static readonly int[] Items_Ball =

@@ -4,6 +4,8 @@ namespace PKHeX
 {
     public static partial class Legal
     {
+        internal const int MaxSpeciesID_4 = 493;
+
         // PKHeX Valid Array Storage
         #region DP
         internal static readonly ushort[] Pouch_Items_DP = {
