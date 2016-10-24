@@ -971,7 +971,7 @@ namespace PKHeX
                     return;
 
                 case 14:
-                    if (!Legal.getCanBeCaptured(pkm.OT_TextVar, pkm.Version))
+                    if (!Legal.getCanBeCaptured(pkm.OT_TextVar, pkm.GenNumber, pkm.Version))
                         AddLine(Severity.Invalid, "OT Memory: Captured Species can not be captured in game.", CheckIdentifier.Memory);
                     else
                         AddLine(Severity.Valid, "OT Memory: Captured Species can be captured in game.", CheckIdentifier.Memory);
@@ -1001,7 +1001,7 @@ namespace PKHeX
                     AddLine(Severity.Invalid, "HT Memory: Handling Trainer did not hatch this.", CheckIdentifier.Memory); return;
 
                 case 14:
-                    if (!Legal.getCanBeCaptured(pkm.HT_TextVar))
+                    if (!Legal.getCanBeCaptured(pkm.HT_TextVar, pkm.GenNumber))
                         AddLine(Severity.Invalid, "HT Memory: Captured Species can not be captured in game.", CheckIdentifier.Memory);
                     else
                         AddLine(Severity.Valid, "HT Memory: Captured Species can be captured in game.", CheckIdentifier.Memory);
@@ -1217,6 +1217,7 @@ namespace PKHeX
             int[] Moves = pkm.RelearnMoves;
             if (pkm.GenNumber < 6)
                 goto noRelearn;
+
             if (pkm.WasLink)
             {
                 var Link = Legal.getValidLinkGifts(pkm);
@@ -1239,7 +1240,7 @@ namespace PKHeX
             if (pkm.WasEvent || pkm.WasEventEgg)
             {
                 // Get WC6's that match
-                EventGiftMatch = new List<MysteryGift>(Legal.getValidWC6s(pkm));
+                EventGiftMatch = new List<MysteryGift>(Legal.getValidGifts(pkm));
                 foreach (MysteryGift mg in EventGiftMatch.ToArray())
                 {
                     int[] moves = mg.RelearnMoves;
@@ -1261,7 +1262,20 @@ namespace PKHeX
 
             if (pkm.WasEgg && !Legal.NoHatchFromEgg.Contains(pkm.Species))
             {
-                const int games = 2;
+                int games = 1;
+                GameVersion[] Games = { GameVersion.XY };
+                switch (pkm.GenNumber)
+                {
+                    case 6:
+                        games = 2;
+                        Games = new[] {GameVersion.XY, GameVersion.ORAS};
+                        break;
+                    case 7:
+                        games = 1;
+                        Games = new[] {GameVersion.SM};
+                        break;
+                }
+
                 bool checkAllGames = pkm.WasTradedEgg;
                 bool splitBreed = Legal.SplitBreed.Contains(pkm.Species);
 
@@ -1270,9 +1284,10 @@ namespace PKHeX
                 {
                     int gameSource = !checkAllGames ? -1 : i % iterate / (splitBreed ? 2 : 1);
                     int skipOption = splitBreed && iterate / 2 <= i ? 1 : 0;
+                    GameVersion ver = gameSource == -1 ? GameVersion.Any : Games[gameSource];
 
                     // Obtain level1 moves
-                    List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, skipOption, gameSource));
+                    List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, skipOption, ver));
                     int baseCt = baseMoves.Count;
                     if (baseCt > 4) baseCt = 4;
 
