@@ -760,7 +760,7 @@ namespace PKHeX
         #endregion
         #region Pokémon Link Gifts
 
-        private static readonly EncounterLink[] LinkGifts =
+        private static readonly EncounterLink[] LinkGifts6 =
         {
             new EncounterLink { Species = 154, Level = 50, Ability = 4 }, // Meganium
             new EncounterLink { Species = 157, Level = 50, Ability = 4 }, // Typhlosion
