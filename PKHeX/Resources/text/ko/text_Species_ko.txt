@@ -720,3 +720,84 @@
 디안시
 후파
 볼케니온
+Rowlet
+Dartrix
+[Dartrix Evo]
+Litten
+Torracat
+[Torracat Evo]
+Popplio
+Brionne
+[Brionne Evo]
+Pikipek
+[Pikipek Evo]
+[[Pikipek Evo] Evo]
+Yungoos
+Gumshoos
+Grubbin
+Charjabug
+Vikavolt
+Crabrawler
+[Crabrawler Evo]
+Oricorio
+Cutiefly
+Ribombee
+Rockruff
+Lycanroc
+Wishiwashi
+[Blue hair purple thing]
+[[Blue hair purple thing] Evo]
+Mudbray
+Mudsdale
+[Water Spider]
+[[Water Spider] Evo]
+Fomantis
+Lurantis
+Morelull
+[Morelull Evo]
+Salandit
+[Salandit Evo]
+Stufful
+Bewear
+Bounsweet
+Steenee
+Tsareena
+Comfey
+Oranguru
+Passimian
+Wimpod
+[Wimpod Evo]
+Sandygast
+Palossand
+Pyukumuku
+Type: Null
+Silvally
+Minior
+Komala
+Turtonator
+Togedemaru
+Mimikyu
+Bruxish
+Drampa
+[Sea Anchor]
+Jangmo-o
+Hakamo-o
+Kommo-o
+Tapu Koko
+[Pink Tapu Koko]
+[Red Tapu Koko]
+[Purple Tapu Koko]
+[Space Cloud]
+[Galaxy Eye]
+Solgaleo
+Lunala
+UB-01
+UB-02 Absorption
+UB-02 Beauty
+[UB-## Plugs]
+[UB-## Pillars]
+[UB-## Blades]
+[UB-## Krabs]
+[UB-## Crystals]
+Magearna
+Marshadow

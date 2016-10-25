@@ -26,3 +26,7 @@ X
 Y
 Zafiro Alfa
 Rubí Omega
+
+
+Sol
+Luna

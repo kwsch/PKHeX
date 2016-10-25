@@ -851,6 +851,14 @@ namespace PKHeX
                         t[014], // Chill
                     };
 
+                case 658:
+                    return new[]
+                    {
+                        t[000], // Normal
+                        "Ash",
+                        "Bonded"
+                    };
+
                 case 664:
                 case 665:
                 case 666:

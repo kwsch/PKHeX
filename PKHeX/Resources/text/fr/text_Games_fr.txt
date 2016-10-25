@@ -26,3 +26,7 @@ X
 Y
 AS
 OR
+
+
+Soleil
+Lune
