@@ -1432,7 +1432,7 @@ namespace PKHeX
             SpeciesDataSource = Util.getCBList(specieslist, null);
             NatureDataSource = Util.getCBList(natures, null);
             AbilityDataSource = Util.getCBList(abilitylist, null);
-            VersionDataSource = Util.getCBList(gamelist, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
+            VersionDataSource = Util.getCBList(gamelist, Legal.Games_7sm, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
 
             MoveDataSource = Util.getCBList(movelist, null);
 

@@ -100,6 +100,7 @@
     <Compile Include="Legality\Checks.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
+    <Compile Include="Legality\Tables.cs" />
     <Compile Include="Legality\Tables2.cs" />
     <Compile Include="Legality\Tables1.cs" />
     <Compile Include="Legality\Tables3.cs" />
