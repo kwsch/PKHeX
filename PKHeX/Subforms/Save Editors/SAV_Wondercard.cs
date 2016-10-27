@@ -329,6 +329,8 @@ namespace PKHeX
                     Util.Alert("Decoded data not valid for loaded save file.", $"QR Data Size: 0x{data.Length.ToString("X")}");
                 else if (types.All(type => type != giftType))
                     Util.Alert("Gift type is not compatible with the save file.", $"QR Gift Type: {gift.Type}" + Environment.NewLine + $"Expected Types: {string.Join(", ", types)}");
+                else if (gift.Species > SAV.MaxSpeciesID || gift.Moves.Any(move => move > SAV.MaxMoveID) || gift.HeldItem > SAV.MaxItemID)
+                    Util.Alert("Gift Details are not compatible with the save file.");
                 else
                     try { viewGiftData(gift); }
                     catch { Util.Alert("Error loading Mystery Gift data."); }

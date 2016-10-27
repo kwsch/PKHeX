@@ -18,7 +18,12 @@ namespace PKHeX
     }
     public class InventoryItem
     {
+        public bool New;
         public int Index, Count;
+        public InventoryItem Clone()
+        {
+            return new InventoryItem {Count = Count, Index = Index, New = New};
+        }
     }
 
     public class InventoryPouch
@@ -27,10 +32,12 @@ namespace PKHeX
         public readonly ushort[] LegalItems;
         public readonly int MaxCount;
         public int Count => Items.Count(it => it.Count > 0);
-        public readonly int Offset;
-        private readonly int PouchDataSize;
         public uint SecurityKey { private get; set; } // = 0 // Gen3 Only
         public InventoryItem[] Items;
+
+        private readonly int Offset;
+        private readonly int PouchDataSize;
+        private InventoryItem[] OriginalItems;
         
         public InventoryPouch(InventoryType type, ushort[] legal, int maxcount, int offset, int size = -1)
         {
@@ -65,6 +72,44 @@ namespace PKHeX
                 BitConverter.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + i*4 + 2);
             }
         }
+        public void getPouch7(ref byte[] Data)
+        {
+            InventoryItem[] items = new InventoryItem[PouchDataSize];
+            for (int i = 0; i < items.Length; i++)
+            {
+                // 10bit itemID
+                // 10bit count
+                // 12bit flags/reserved
+                uint val = BitConverter.ToUInt32(Data, Offset + i*4);
+                items[i] = new InventoryItem
+                {
+                    Index = (int)(val & 0x3FF),
+                    Count = (int)(val >> 10 & 0x3FF),
+                    New = (val & 0x40000000) == 1, // 30th bit is "NEW"
+                };
+            }
+            Items = items;
+            OriginalItems = Items.Select(i => i.Clone()).ToArray();
+        }
+        public void setPouch7(ref byte[] Data)
+        {
+            if (Items.Length != PouchDataSize)
+                throw new ArgumentException("Item array length does not match original pouch size.");
+
+            for (int i = 0; i < Items.Length; i++)
+            {
+                // Build Item Value
+                uint val = 0;
+                val |= (uint)(Items[i].Index & 0x3FF);
+                val |= (uint)(Items[i].Index & 0x3FF) << 10;
+                Items[i].New |= OriginalItems.All(z => z.Index != Items[i].Index);
+                if (Items[i].New)
+                    val |= 0x40000000;
+                BitConverter.GetBytes((ushort)val).CopyTo(Data, Offset + i * 4);
+            }
+        }
+
+
         public void getPouchBigEndian(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
@@ -89,6 +134,7 @@ namespace PKHeX
                 BigEndian.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + i * 4 + 2);
             }
         }
+
         public void getPouchG1(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
@@ -146,7 +192,6 @@ namespace PKHeX
             Items = items;
 
         }
-
         public void setPouchG1(ref byte[] Data)
         {
             if (Items.Length != PouchDataSize)

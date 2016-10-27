@@ -27,7 +27,7 @@ namespace PKHeX
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV6(Data); }
+        public override SaveFile Clone() { return new SAV7(Data); }
         
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int SIZE_PARTY => PKX.SIZE_6PARTY;
@@ -37,8 +37,8 @@ namespace PKHeX
         public override int BoxCount => 32;
         public override int MaxEV => 252;
         public override int Generation => 7;
-        protected override int GiftCountMax => -1;
-        protected override int GiftFlagMax => -1;
+        protected override int GiftCountMax => 48;
+        protected override int GiftFlagMax => 0x100 * 8;
         protected override int EventFlagMax => -1;
         protected override int EventConstMax => (EventFlag - EventConst) / 2;
         public override int OTLength => 12;
@@ -151,9 +151,19 @@ namespace PKHeX
                 // Return Outputs
                 rv += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
                 return rv;
-            }   
+            }
         }
-        
+        public override ulong? Secure1
+        {
+            get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14); }
+            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0x14); }
+        }
+        public override ulong? Secure2
+        {
+            get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC); }
+            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC); }
+        }
+
         private void getSAVOffsets()
         {
             if (SMDEMO)
@@ -175,7 +185,7 @@ namespace PKHeX
                 /* 14 */ Box            = 0x04E00;  // [36600]  BoxPokemon
                 /* 15 */ Resort         = 0x3B400;  // [572C]   ResortSave
                 /* 16 */ PlayTime       = 0x40C00;  // [008]    PlayTime
-                /* 17 */            //  = 0x40E00;  // [1080]   FieldMoveModelSave
+                /* 17 */ //Overworld//  = 0x40E00;  // [1080]   FieldMoveModelSave
                 /* 18 */            //  = 0x42000;  // [1A08]   Fashion
                 /* 19 */            //  = 0x43C00;  // [6408]   JoinFestaPersonalSave
                 /* 20 */            //  = 0x4A200;  // [6408]   JoinFestaPersonalSave
@@ -196,12 +206,12 @@ namespace PKHeX
                 /* 35 */            //  = 0x6B800;  // [1C8]    QRReaderSaveData
                 /* 36 */            //  = 0x6BA00;  // [200]    TurtleSalmonSave
 
-                OFS_PouchHeldItem =     Item + 0; // 430
-                OFS_PouchKeyItem =      Item + 0x35C; // 184
-                OFS_PouchTMHM =         Item + 0x4CC; // 108
-                OFS_PouchMedicine =     Item + 0x5A4; // 64
-                OFS_PouchBerry =        Item + 0x624; // 72
-                OFS_PouchZCrystals =    Item + 0x6B4; // 30
+                OFS_PouchHeldItem =     Item + 0; // 430 (Case 0)
+                OFS_PouchKeyItem =      Item + 0x6B8; // 184 (Case 4)
+                OFS_PouchTMHM =         Item + 0x998; // 108 (Case 2)
+                OFS_PouchMedicine =     Item + 0xB48; // 64 (Case 1)
+                OFS_PouchBerry =        Item + 0xC48; // 72 (Case 3)
+                OFS_PouchZCrystals =    Item + 0xD68; // 30 (Case 5)
 
                 PokeDexLanguageFlags =  PokeDex + 0x550;
                 WondercardData = WondercardFlags + 0x100;
@@ -295,30 +305,30 @@ namespace PKHeX
             get { return Data[TrainerCard + 5]; }
             set { Data[TrainerCard + 5] = (byte)value; }
         }
-        public ulong GameSyncID
+        public override ulong? GameSyncID
         {
             get { return BitConverter.ToUInt64(Data, TrainerCard + 0x18); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0x18); }
+            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, TrainerCard + 0x18); }
         }
         public override int SubRegion
         {
-            get { return Data[TrainerCard + 0x26]; }
-            set { Data[TrainerCard + 0x26] = (byte)value; }
+            get { return Data[TrainerCard + 0x2E]; }
+            set { Data[TrainerCard + 0x2E] = (byte)value; }
         }
         public override int Country
         {
-            get { return Data[TrainerCard + 0x27]; }
-            set { Data[TrainerCard + 0x27] = (byte)value; }
+            get { return Data[TrainerCard + 0x2F]; }
+            set { Data[TrainerCard + 0x2F] = (byte)value; }
         }
         public override int ConsoleRegion
         {
-            get { return Data[TrainerCard + 0x2C]; }
-            set { Data[TrainerCard + 0x2C] = (byte)value; }
+            get { return Data[TrainerCard + 0x34]; }
+            set { Data[TrainerCard + 0x34] = (byte)value; }
         }
         public override int Language
         {
-            get { return Data[TrainerCard + 0x2D]; }
-            set { Data[TrainerCard + 0x2D] = (byte)value; }
+            get { return Data[TrainerCard + 0x35]; }
+            set { Data[TrainerCard + 0x35] = (byte)value; }
         }
         public override string OT
         {
@@ -363,46 +373,6 @@ namespace PKHeX
         public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x28); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); } }
         public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x30); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); } }
         
-        public int[] SelectItems
-        {
-            // UP,RIGHT,DOWN,LEFT
-            get
-            {
-                int[] list = new int[4];
-                for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 10 + 2 * i);
-                return list;
-            }
-            set
-            {
-                if (value == null || value.Length > 4)
-                    return;
-                for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 10 + 2 * i);
-            }
-        }
-        public int[] RecentItems
-        {
-            // Items recently interacted with (Give, Use)
-            get
-            {
-                int[] list = new int[12];
-                for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, ItemInfo + 20 + 2 * i);
-                return list;
-            }
-            set
-            {
-                if (value == null || value.Length > 12)
-                    return;
-                for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 20 + 2 * i);
-            }
-        }
-
-        public override string JPEGTitle => JPEG < 0 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
-        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? null : Data.Skip(JPEG + 0x54).Take(0xE004).ToArray();
-
         // Inventory
         public override InventoryPouch[] Inventory
         {
@@ -418,13 +388,13 @@ namespace PKHeX
                     new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 995, OFS_PouchZCrystals),
                 };
                 foreach (var p in pouch)
-                    p.getPouch(ref Data);
+                    p.getPouch7(ref Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.setPouch(ref Data);
+                    p.setPouch7(ref Data);
             }
         }
 
@@ -711,8 +681,8 @@ namespace PKHeX
             {
                 if (value == null)
                     return;
-                if (value.Length > 24)
-                    Array.Resize(ref value, 24);
+                if (value.Length > GiftCountMax)
+                    Array.Resize(ref value, GiftCountMax);
                 
                 for (int i = 0; i < value.Length; i++)
                     setWC6(value[i], i);

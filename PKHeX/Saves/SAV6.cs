@@ -138,15 +138,15 @@ namespace PKHeX
                 return rv;
             }   
         }
-        public ulong Secure1
+        public override ulong? Secure1
         {
             get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14); }
+            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0x14); }
         }
-        public ulong Secure2
+        public override ulong? Secure2
         {
             get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC); }
+            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC); }
         }
         
         private void getSAVOffsets()
@@ -346,10 +346,10 @@ namespace PKHeX
             get { return Data[TrainerCard + 7]; }
             set { Data[TrainerCard + 7] = (byte)value; }
         }
-        public ulong GameSyncID
+        public override ulong? GameSyncID
         {
             get { return BitConverter.ToUInt64(Data, TrainerCard + 8); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 8); }
+            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, TrainerCard + 8); }
         }
         public override int SubRegion
         {
@@ -819,8 +819,8 @@ namespace PKHeX
             {
                 if (value == null)
                     return;
-                if (value.Length > 24)
-                    Array.Resize(ref value, 24);
+                if (value.Length > GiftCountMax)
+                    Array.Resize(ref value, GiftCountMax);
                 
                 for (int i = 0; i < value.Length; i++)
                     setWC6(value[i], i);

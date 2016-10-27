@@ -471,6 +471,10 @@ namespace PKHeX
                 case GameVersion.AS:
                     return GameVersion.ORAS;
 
+                case GameVersion.SN:
+                case GameVersion.MN:
+                    return GameVersion.SM;
+
                 default:
                     return GameVersion.Invalid;
             }
@@ -580,6 +584,8 @@ namespace PKHeX
                 case SIZE_G6XY:
                 case SIZE_G6ORASDEMO:
                 case SIZE_G6ORAS:
+                    
+                case SIZE_G7SMDEMO:
                     return true;
                 default:
                     return false;
@@ -653,7 +659,7 @@ namespace PKHeX
         /// <returns>Checksum</returns>
         internal static ushort check16(byte[] data, int blockID, ushort initial = 0)
         {
-            if (blockID == 0x24)
+            if (blockID == 36)
                 new byte[0x80].CopyTo(data, 0x100);
 
             int len = data.Length;
@@ -661,22 +667,20 @@ namespace PKHeX
             if (len > 1)
             {
                 int ofs = -1;
-                if (len % 2 == 0)
+                if (len % 2 == 0) // always true, always even length
                 {
                     ofs = 0;
-                    chk = (ushort)(crc16[(data[0] ^ chk) & 0xFF] ^ (chk >> 8));
+                    chk = (ushort)(crc16[(data[0] ^ chk) & 0xFF] ^ chk >> 8);
                 }
 
                 for (int i = (len - 1) / 2; i != 0; i--, ofs += 2)
                 {
-                    ushort temp1 = data[ofs + 1];
-                    ushort temp2 = data[ofs + 2];
-                    ushort temp3 = crc16[(temp1 ^ chk) & 0xFF];
-                    chk = (ushort)(crc16[(temp2 ^ temp3 ^ (chk >> 8)) & 0xFF] ^ ((temp3 ^ (chk >> 8)) >> 8));
+                    ushort temp = crc16[(data[ofs + 1] ^ chk) & 0xFF];
+                    chk = (ushort)(crc16[(data[ofs + 2] ^ temp ^ chk >> 8) & 0xFF] ^ (temp ^ chk >> 8) >> 8);
                 }
             }
-            if (len >= 1)
-                chk = (ushort)(crc16[(data[len - 1] ^ chk) & 0xFF] ^ (chk >> 8));
+            if (len > 0)
+                chk = (ushort)(crc16[(data[len - 1] ^ chk) & 0xFF] ^ chk >> 8);
 
             return (ushort)~chk;
         }

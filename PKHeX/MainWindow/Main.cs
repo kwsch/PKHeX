@@ -955,8 +955,9 @@ namespace PKHeX
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = SAV.Generation >= 6;
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
 
-            PB_MarkPentagon.Visible = SAV.Generation == 6;
-            TB_GameSync.Visible = TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation == 6;
+            PB_MarkPentagon.Visible = SAV.Generation >= 6;
+            TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
+            TB_GameSync.Visible = SAV.Exportable && SAV.Generation == 6;
 
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = SAV.Generation == 5;
 
@@ -1117,16 +1118,19 @@ namespace PKHeX
                     getFieldsfromPKM = populateFieldsPK6;
                     getPKMfromFields = preparePK6;
                     extraBytes = PK6.ExtraBytes;
-                    SAV6 sav6 = (SAV6)SAV;
-                    TB_GameSync.Enabled = sav6.GameSyncID != 0;
-                    TB_GameSync.Text = sav6.GameSyncID.ToString("X16");
-                    TB_Secure1.Text = sav6.Secure1.ToString("X16");
-                    TB_Secure2.Text = sav6.Secure2.ToString("X16");
+                    TB_GameSync.Enabled = (SAV.GameSyncID ?? 0) != 0;
+                    TB_GameSync.Text = SAV.GameSyncID?.ToString("X16");
+                    TB_Secure1.Text = SAV.Secure1?.ToString("X16");
+                    TB_Secure2.Text = SAV.Secure2?.ToString("X16");
                     break;
                 case 7:
                     getFieldsfromPKM = populateFieldsPK7;
                     getPKMfromFields = preparePK7;
                     extraBytes = PK7.ExtraBytes;
+                    TB_GameSync.Enabled = (SAV.GameSyncID ?? 0) != 0;
+                    TB_GameSync.Text = SAV.GameSyncID?.ToString("X16");
+                    TB_Secure1.Text = SAV.Secure1?.ToString("X16");
+                    TB_Secure2.Text = SAV.Secure2?.ToString("X16");
                     break;
             }
             bool init = fieldsInitialized;
@@ -3427,7 +3431,7 @@ namespace PKHeX
         private void updateU64(object sender, EventArgs e)
         {
             TextBox tb = sender as TextBox;
-            if (tb.Text.Length == 0)
+            if (tb?.Text.Length == 0)
             {
                 // Reset to 0
                 tb.Text = 0.ToString("X16");
@@ -3435,16 +3439,15 @@ namespace PKHeX
             }
 
             // Currently saved Value
-            ulong oldval = 0;
+            ulong? oldval = 0;
             if (SAV.Generation == 6)
             {
-                SAV6 sav6 = (SAV6) SAV;
                 if (tb == TB_GameSync)
-                    oldval = sav6.GameSyncID;
+                    oldval = SAV.GameSyncID;
                 else if (tb == TB_Secure1)
-                    oldval = sav6.Secure1;
+                    oldval = SAV.Secure1;
                 else if (tb == TB_Secure2)
-                    oldval = sav6.Secure2;
+                    oldval = SAV.Secure2;
             }
 
             string filterText = Util.getOnlyHex(tb.Text);
@@ -3453,23 +3456,22 @@ namespace PKHeX
             {
                 Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + tb.Text);
                 // Reset to Stored Value
-                tb.Text = oldval.ToString("X16");
+                tb.Text = (oldval ?? 0).ToString("X16");
                 return; // recursively triggers this method, no need to continue
             }
 
             // Write final value back to the save
-            ulong newval = Convert.ToUInt64(filterText, 16);
+            ulong? newval = Convert.ToUInt64(filterText, 16);
             if (newval == oldval) return;
 
-            if (SAV.Generation == 6)
+            if (SAV.Generation >= 6)
             {
-                SAV6 sav6 = (SAV6) SAV;
                 if (tb == TB_GameSync)
-                    sav6.GameSyncID = newval;
+                    SAV.GameSyncID = newval;
                 else if (tb == TB_Secure1)
-                    sav6.Secure1 = newval;
+                    SAV.Secure1 = newval;
                 else if (tb == TB_Secure2)
-                    sav6.Secure2 = newval;
+                    SAV.Secure2 = newval;
                 SAV.Edited = true;
             }
         }
