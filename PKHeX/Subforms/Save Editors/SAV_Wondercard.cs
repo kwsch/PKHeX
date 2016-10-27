@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,39 +14,28 @@ namespace PKHeX
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
             mga = Main.SAV.GiftAlbum;
-            pba = new[]
+            
+            switch (SAV.Generation)
             {
-                PB_Card01, PB_Card02, PB_Card03, PB_Card04, PB_Card05, PB_Card06,
-                PB_Card07, PB_Card08, PB_Card09, PB_Card10, PB_Card11, PB_Card12,
-                PB_Card13, PB_Card14, PB_Card15, PB_Card16, PB_Card17, PB_Card18,
-                PB_Card19, PB_Card20, PB_Card21, PB_Card22, PB_Card23, PB_Card24,
-            };
+                case 4:
+                    pba = popG4Gifts().ToArray();
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    pba = popG567Gifts().ToArray();
+                    break;
+                default:
+                    throw new ArgumentException("Game not supported.");
+            }
 
             foreach (PictureBox pb in pba)
             {
                 pb.AllowDrop = true;
-                // The PictureBoxes have their own drag&drop event handlers.
-            }
-
-            // Hide slots not present on game
-            for (int i = mga.Gifts.Length; i < pba.Length; i++)
-                pba[i].Visible = false;
-            if (mga.Gifts.Length < 7)
-                L_r2.Visible = false;
-            if (mga.Gifts.Length < 13)
-                L_r3.Visible = false;
-            if (mga.Gifts.Length < 19)
-                L_r4.Visible = false;
-
-            if (SAV.Generation == 4) // pgt & pcd, split up
-            {
-                PB_Card09.Location = PB_Card19.Location;
-                PB_Card10.Location = PB_Card20.Location;
-                PB_Card11.Location = PB_Card21.Location;
-                L_r4.Visible = true;
-                L_r1.Text = "PGT 1-6";
-                L_r2.Text = "PGT 7-8";
-                L_r4.Text = "PCD 1-3";
+                pb.DragDrop += pbBoxSlot_DragDrop;
+                pb.DragEnter += pbBoxSlot_DragEnter;
+                pb.MouseDown += pbBoxSlot_MouseDown;
+                pb.ContextMenuStrip = mnuVSD;
             }
 
             setGiftBoxes();
@@ -58,7 +48,7 @@ namespace PKHeX
             DragDrop += tabMain_DragDrop;
 
             if (g == null)
-                clickView(PB_Card01, null);
+                clickView(pba[0], null);
             else
                 viewGiftData(g);
         }
@@ -508,6 +498,98 @@ namespace PKHeX
             }
             s += "Unknown Wonder Card Type!";
             return s;
+        }
+
+        // UI Generation
+        private List<PictureBox> popG4Gifts()
+        {
+            List<PictureBox> pb = new List<PictureBox>();
+
+            // Row 1
+            var f1 = getFlowLayoutPanel();
+            f1.Controls.Add(getLabel("PGT 1-6"));
+            for (int i = 0; i < 6; i++)
+            {
+                var p = getPictureBox();
+                f1.Controls.Add(p);
+                pb.Add(p);
+            }
+            // Row 2
+            var f2 = getFlowLayoutPanel();
+            f2.Controls.Add(getLabel("PGT 7-8"));
+            for (int i = 6; i < 8; i++)
+            {
+                var p = getPictureBox();
+                f2.Controls.Add(p);
+                pb.Add(p);
+            }
+            // Row 3
+            var f3 = getFlowLayoutPanel();
+            f3.Margin = new Padding(0, f3.Height, 0, 0);
+            f3.Controls.Add(getLabel("PCD 1-3"));
+            for (int i = 8; i < 11; i++)
+            {
+                var p = getPictureBox();
+                f3.Controls.Add(p);
+                pb.Add(p);
+            }
+
+            FLP_Gifts.Controls.Add(f1);
+            FLP_Gifts.Controls.Add(f2);
+            FLP_Gifts.Controls.Add(f3);
+            return pb;
+        }
+        private List<PictureBox> popG567Gifts()
+        {
+            List<PictureBox> pb = new List<PictureBox>();
+
+            for (int i = 0; i < mga.Gifts.Length / 6; i++)
+            {
+                var flp = getFlowLayoutPanel();
+                flp.Controls.Add(getLabel($"{i * 6 + 1}-{i * 6 + 6}"));
+                for (int j = 0; j < 6; j++)
+                {
+                    var p = getPictureBox();
+                    flp.Controls.Add(p);
+                    pb.Add(p);
+                }
+                FLP_Gifts.Controls.Add(flp);
+            }
+            return pb;
+        }
+        private static FlowLayoutPanel getFlowLayoutPanel()
+        {
+            return new FlowLayoutPanel
+            {
+                Width = 305,
+                Height = 34,
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+            };
+        }
+        private static Label getLabel(string text)
+        {
+            return new Label
+            {
+                Size = new Size(40, 34),
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleRight,
+                Text = text,
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+            };
+        }
+        private static PictureBox getPictureBox()
+        {
+            return new PictureBox
+            {
+                Size = new Size(42, 32),
+                SizeMode = PictureBoxSizeMode.CenterImage,
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.Transparent,
+                Padding = new Padding(0),
+                Margin = new Padding(1),
+            };
         }
     }
 }
