@@ -380,12 +380,12 @@ namespace PKHeX
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 995, OFS_PouchHeldItem),
+                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
                     new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
                     new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 995, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 995, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 995, OFS_PouchZCrystals),
+                    new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 999, OFS_PouchZCrystals),
                 };
                 foreach (var p in pouch)
                     p.getPouch7(ref Data);

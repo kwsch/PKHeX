@@ -9253,6 +9253,36 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Bag_Free {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Free", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_PCItems {
+            get {
+                object obj = ResourceManager.GetObject("Bag_PCItems", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Bag_Z {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Z", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bak {
             get {
                 object obj = ResourceManager.GetObject("bak", resourceCulture);
@@ -19004,36 +19034,36 @@ namespace PKHeX.Properties {
         ///恶臭
         ///降雨
         ///加速
-        ///甲虫盔甲
-        ///坚硬
+        ///战斗盔甲
+        ///结实
         ///湿气
         ///柔软
-        ///沙隐术
+        ///沙隐
         ///静电
         ///蓄电
-        ///蓄水
+        ///储水
         ///迟钝
-        ///无天气
+        ///无关天气
         ///复眼
-        ///失眠
+        ///不眠
         ///变色
         ///免疫
         ///引火
         ///鳞粉
-        ///自我中心
+        ///我行我素
         ///吸盘
         ///威吓
         ///踩影
-        ///鲨鱼皮
-        ///奇异守护
-        ///浮游
+        ///粗糙皮肤
+        ///神奇守护
+        ///飘浮
         ///孢子
-        ///同步率
-        ///净体
+        ///同步
+        ///恒净之躯
         ///自然回复
         ///避雷针
-        ///天之恩惠
-        ///轻快
+        ///天恩
+        ///悠游自如
         ///叶绿素
         ///发光
         ///复制
@@ -19041,77 +19071,74 @@ namespace PKHeX.Properties {
         ///毒刺
         ///精神力
         ///熔岩铠甲
-        ///水之掩护
+        ///水幕
         ///磁力
-        ///防音
-        ///接雨盘
-        ///起沙
-        ///压力
+        ///隔音
+        ///雨盘
+        ///扬沙
+        ///压迫感
         ///厚脂肪
         ///早起
         ///火焰之躯
-        ///逃足
+        ///逃跑
         ///锐利目光
         ///怪力钳
-        ///拾取
+        ///捡拾
         ///懒惰
-        ///紧张
-        ///魅惑身躯
-        ///正极
-        ///负极
-        ///气象台
+        ///活力
+        ///迷人之躯
+        ///正电
+        ///负电
+        ///阴晴不定
         ///黏着
         ///蜕皮
-        ///根性
-        ///神秘鳞片
-        ///毒液
-        ///深绿
+        ///毅力
+        ///神奇鳞片
+        ///污泥浆
+        ///茂盛
         ///猛火
         ///激流
         ///虫之预感
-        ///石脑
-        ///干旱
-        ///蚁地狱
+        ///坚硬脑袋
+        ///日照
+        ///沙穴
         ///干劲
-        ///白烟
-        ///瑜珈之力
-        ///贝壳盔甲
-        ///天气锁
+        ///白色烟雾
+        ///瑜伽之力
+        ///硬壳盔甲
+        ///气闸
         ///蹒跚
-        ///电引擎
+        ///电气引擎
         ///斗争心
         ///不屈之心
         ///雪隐
-        ///贪吃
-        ///怒穴
-        ///轻身
+        ///贪吃鬼
+        ///愤怒穴位
+        ///轻装
         ///耐热
         ///单纯
-        ///干燥肌肤
+        ///干燥皮肤
         ///下载
         ///铁拳
         ///毒疗
         ///适应力
-        ///技能连锁
-        ///湿润身躯
-        ///太阳力量
-        ///早足
-        ///普通皮肤
+        ///连续攻击
+        ///湿润之躯
+        ///太阳之力
+        ///飞毛腿
+        ///一般皮肤
         ///狙击手
-        ///魔法守护
-        ///无防御
-        ///后出
-        ///技师
-        ///绿叶守护
-        ///不器用
+        ///魔法防守
+        ///无防守
+        ///慢出
+        ///技术高手
+        ///叶子防守
+        ///笨拙
         ///破格
-        ///强运
+        ///超幸运
         ///引爆
         ///危险预知
-        ///预知梦
-        ///天然
-        ///有色眼镜
-        /// [rest of string was truncated]&quot;;.
+        ///预知梦        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_abilities_zh {
             get {
@@ -20522,36 +20549,36 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 喜欢吃东西.
-        ///喜欢午睡.
-        ///经常打瞌睡.
-        ///总是把东西拆碎.
-        ///喜欢无拘无束.
-        ///以有力量为傲.
-        ///容易暴动.
-        ///有点容易着迷.
-        ///喜欢吵架.
-        ///血气方刚.
-        ///身体结实.
-        ///抗击打.
-        ///耐性很好.
-        ///很能忍耐.
-        ///自制力很好.
-        ///喜欢乱跑.
-        ///对声音敏感.
-        ///冲动莽撞.
-        ///有点粗鲁.
-        ///逃跑非常快.
-        ///好奇心超强.
-        ///喜欢恶作剧.
-        ///无孔不入.
-        ///总在想很多事.
-        ///非常一丝不苟.
-        ///精神强大.
-        ///有点点爱慕虚荣.
-        ///非常不服输.
-        ///讨厌失败.
-        ///有点固执..
+        ///   Looks up a localized string similar to 非常喜欢吃东西。
+        ///经常睡午觉。
+        ///常常打瞌睡。
+        ///经常乱扔东西。
+        ///喜欢悠然自在。
+        ///以力气大为傲。
+        ///喜欢胡闹。
+        ///有点容易生气。
+        ///喜欢打架。
+        ///血气方刚。
+        ///身体强壮。
+        ///抗打能力强。
+        ///顽强不屈。
+        ///能吃苦耐劳。
+        ///善于忍耐。
+        ///喜欢比谁跑得快。
+        ///对声音敏感。
+        ///冒冒失失。
+        ///有点容易得意忘形。
+        ///逃得快。
+        ///好奇心强。
+        ///喜欢恶作剧。
+        ///做事万无一失。
+        ///经常思考。
+        ///一丝不苟。
+        ///性格强势。
+        ///有一点点爱慕虚荣。
+        ///争强好胜。
+        ///不服输。
+        ///有一点点固执。.
         /// </summary>
         internal static string text_character_zh {
             get {
@@ -22960,7 +22987,11 @@ namespace PKHeX.Properties {
         ///X
         ///Y
         ///AS
-        ///OR.
+        ///OR
+        ///
+        ///
+        ///Sonne
+        ///Mond.
         /// </summary>
         internal static string text_games_de {
             get {
@@ -22996,7 +23027,11 @@ namespace PKHeX.Properties {
         ///X
         ///Y
         ///AS
-        ///OR.
+        ///OR
+        ///
+        ///
+        ///Sun
+        ///Moon.
         /// </summary>
         internal static string text_games_en {
             get {
@@ -23032,7 +23067,11 @@ namespace PKHeX.Properties {
         ///X
         ///Y
         ///Zafiro Alfa
-        ///Rubí Omega.
+        ///Rubí Omega
+        ///
+        ///
+        ///Sol
+        ///Luna.
         /// </summary>
         internal static string text_games_es {
             get {
@@ -23068,7 +23107,11 @@ namespace PKHeX.Properties {
         ///X
         ///Y
         ///AS
-        ///OR.
+        ///OR
+        ///
+        ///
+        ///Soleil
+        ///Lune.
         /// </summary>
         internal static string text_games_fr {
             get {
@@ -23104,7 +23147,11 @@ namespace PKHeX.Properties {
         ///X
         ///Y
         ///AS
-        ///OR.
+        ///OR
+        ///
+        ///
+        ///Sole
+        ///Luna.
         /// </summary>
         internal static string text_games_it {
             get {
@@ -23140,7 +23187,11 @@ namespace PKHeX.Properties {
         ///X
         ///Y
         ///AS
-        ///OR.
+        ///OR
+        ///
+        ///
+        ///サン
+        ///ムーン.
         /// </summary>
         internal static string text_games_ja {
             get {
@@ -23176,7 +23227,11 @@ namespace PKHeX.Properties {
         ///X
         ///Y
         ///AS
-        ///OR.
+        ///OR
+        ///
+        ///
+        ///썬
+        ///문.
         /// </summary>
         internal static string text_games_ko {
             get {
@@ -23213,7 +23268,10 @@ namespace PKHeX.Properties {
         ///Y
         ///始源蓝宝石
         ///终极红宝石
-        ///.
+        ///
+        ///
+        ///太阳
+        ///月亮.
         /// </summary>
         internal static string text_games_zh {
             get {
@@ -27024,55 +27082,55 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ―――――
         ///拍击
-        ///手刀
+        ///空手劈
         ///连环巴掌
         ///连续拳
-        ///百万吨拳击
+        ///百万吨重拳
         ///聚宝功
         ///火焰拳
-        ///急冻拳
-        ///雷光掌
-        ///利爪
-        ///剪断
-        ///剪刀断头台
+        ///冰冻拳
+        ///雷电拳
+        ///抓
+        ///夹住
+        ///断头钳
         ///旋风刀
         ///剑舞
-        ///一字斩
-        ///烈暴风
+        ///居合斩
+        ///起风
         ///翅膀攻击
-        ///旋风
+        ///吹飞
         ///飞翔
         ///绑紧
-        ///叩打
+        ///摔打
         ///藤鞭
-        ///践踏
-        ///连环腿
-        ///百万吨飞腿
+        ///踩踏
+        ///二连踢
+        ///百万吨重踢
         ///飞踢
-        ///旋风腿
-        ///飞沙脚
-        ///铁头功
+        ///回旋踢
+        ///泼沙
+        ///头锤
         ///角撞
-        ///疯狂攻击
-        ///独角钻
-        ///冲击
+        ///乱击
+        ///角钻
+        ///撞击
         ///泰山压顶
-        ///捆绑
+        ///紧束
         ///猛撞
-        ///横冲直撞
-        ///舍身攻击
+        ///大闹一番
+        ///舍身冲撞
         ///摇尾巴
         ///毒针
         ///双针
         ///飞弹针
         ///瞪眼
-        ///咬咬
-        ///嚎叫
+        ///咬住
+        ///叫声
         ///吼叫
         ///唱歌
         ///超音波
         ///音爆
-        ///石化功
+        ///定身法
         ///溶解液
         ///火花
         ///喷射火焰
@@ -27080,54 +27138,55 @@ namespace PKHeX.Properties {
         ///水枪
         ///水炮
         ///冲浪
-        ///急冻光线
+        ///冰冻光束
         ///暴风雪
-        ///幻象光
+        ///幻象光线
         ///泡沫光线
         ///极光束
-        ///破坏死光
+        ///破坏光线
         ///啄
-        ///冲钻
-        ///地狱滚动
-        ///下踢
-        ///返拳
+        ///啄钻
+        ///地狱翻滚
+        ///踢倒
+        ///双倍奉还
         ///地球上投
-        ///劲力
-        ///吸收
-        ///百万吨吸收
+        ///怪力
+        ///吸取
+        ///超级吸取
         ///寄生种子
         ///生长
         ///飞叶快刀
-        ///阳光烈焰
-        ///毒粉末
+        ///日光束
+        ///毒粉
         ///麻痹粉
-        ///睡眠粉
-        ///花之舞
+        ///催眠粉
+        ///花瓣舞
         ///吐丝
         ///龙之怒
-        ///火焰漩涡
+        ///火焰旋涡
         ///电击
         ///十万伏特
         ///电磁波
         ///打雷
-        ///滚石
+        ///落石
         ///地震
         ///地裂
-        ///挖地洞
-        ///猛毒素
+        ///挖洞
+        ///剧毒
         ///念力
-        ///幻象术
+        ///精神强念
         ///催眠术
         ///瑜伽姿势
         ///高速移动
         ///电光一闪
         ///愤怒
         ///瞬间移动
-        ///黑夜诅咒
+        ///黑夜魔影
         ///模仿
-        ///噪音
+        ///刺耳声
         ///影子分身
-        ///自 [rest of string was truncated]&quot;;.
+        ///自我再生
+        ///变硬        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_zh {
             get {
@@ -27367,29 +27426,29 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 努力
-        ///孤独
+        ///   Looks up a localized string similar to 勤奋
+        ///怕寂寞
         ///勇敢
         ///固执
-        ///调皮
+        ///顽皮
         ///大胆
-        ///直率
+        ///坦率
         ///悠闲
         ///淘气
         ///乐天
         ///胆小
         ///急躁
         ///认真
-        ///开朗
+        ///爽朗
         ///天真
-        ///保守
-        ///稳重
+        ///内敛
+        ///慢吞吞
         ///冷静
         ///害羞
         ///马虎
-        ///沉着
+        ///温和
         ///温顺
-        ///狂妄
+        ///自大
         ///慎重
         ///浮躁.
         /// </summary>
@@ -28667,13 +28726,13 @@ namespace PKHeX.Properties {
         ///水箭龟
         ///绿毛虫
         ///铁甲蛹
-        ///巴大蝴
+        ///巴大蝶
         ///独角虫
-        ///铁壳昆
+        ///铁壳蛹
         ///大针蜂
         ///波波
         ///比比鸟
-        ///比雕
+        ///大比鸟
         ///小拉达
         ///拉达
         ///烈雀
@@ -28684,10 +28743,10 @@ namespace PKHeX.Properties {
         ///雷丘
         ///穿山鼠
         ///穿山王
-        ///尼多兰♀
+        ///尼多兰
         ///尼多娜
         ///尼多后
-        ///尼多朗♂
+        ///尼多朗
         ///尼多力诺
         ///尼多王
         ///皮皮
@@ -28704,7 +28763,7 @@ namespace PKHeX.Properties {
         ///派拉斯
         ///派拉斯特
         ///毛球
-        ///末入蛾
+        ///摩鲁蛾
         ///地鼠
         ///三地鼠
         ///喵喵
@@ -28712,14 +28771,14 @@ namespace PKHeX.Properties {
         ///可达鸭
         ///哥达鸭
         ///猴怪
-        ///火爆猴
+        ///火暴猴
         ///卡蒂狗
         ///风速狗
         ///蚊香蝌蚪
-        ///蚊香蛙
-        ///快泳蛙
+        ///蚊香君
+        ///蚊香泳士
         ///凯西
-        ///勇吉拉
+        ///勇基拉
         ///胡地
         ///腕力
         ///豪力
@@ -28735,7 +28794,7 @@ namespace PKHeX.Properties {
         ///小火马
         ///烈焰马
         ///呆呆兽
-        ///呆河马
+        ///呆壳兽
         ///小磁怪
         ///三合一磁怪
         ///大葱鸭
@@ -28746,21 +28805,20 @@ namespace PKHeX.Properties {
         ///臭泥
         ///臭臭泥
         ///大舌贝
-        ///铁甲贝
+        ///刺甲贝
         ///鬼斯
         ///鬼斯通
         ///耿鬼
         ///大岩蛇
-        ///素利普
-        ///素利拍
+        ///催眠貘
+        ///引梦貘人
         ///大钳蟹
         ///巨钳蟹
-        ///雷电球
-        ///顽皮弹
+        ///霹雳电球
+        ///顽皮雷弹
         ///蛋蛋
         ///椰蛋树
-        ///可拉可拉
-        ///嘎 [rest of string was truncated]&quot;;.
+        ///卡拉卡拉 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_zh {
             get {

@@ -83,6 +83,9 @@
             this.IL_Pouch.Images.SetKeyName(5, "Bag_Balls.png");
             this.IL_Pouch.Images.SetKeyName(6, "Bag_Battle.png");
             this.IL_Pouch.Images.SetKeyName(7, "Bag_Mail.png");
+            this.IL_Pouch.Images.SetKeyName(8, "Bag_PCItems.png");
+            this.IL_Pouch.Images.SetKeyName(9, "Bag_Free.png");
+            this.IL_Pouch.Images.SetKeyName(10, "Bag_Z.png");
             // 
             // B_GiveAll
             // 
