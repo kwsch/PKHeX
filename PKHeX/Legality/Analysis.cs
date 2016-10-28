@@ -94,7 +94,7 @@ namespace PKHeX
         private void updateChecks()
         {
             Encounter = verifyEncounter();
-            EncounterType = EncounterMatch?.GetType();
+            EncounterType = EncounterMatch?.GetType().BaseType;
             History = verifyHistory();
 
             verifyECPID();
