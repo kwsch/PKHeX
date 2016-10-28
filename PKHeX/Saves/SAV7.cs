@@ -169,7 +169,7 @@ namespace PKHeX
             if (SMDEMO)
             {
                 /* 00 */ Item           = 0x00000;  // [DE0]    MyItem
-                /* 01 */            //  = 0x00E00;  // [07C]    Situation
+                /* 01 */ Trainer1       = 0x00E00;  // [07C]    Situation
                 /* 02 */            //  = 0x01000;  // [014]    RandomGroup
                 /* 03 */ TrainerCard    = 0x01200;  // [0C0]    MyStatus
                 /* 04 */ Party          = 0x01400;  // [61C]    PokePartySave
@@ -177,7 +177,7 @@ namespace PKHeX
                 /* 06 */ PokeDex        = 0x02A00;  // [F78]    ZukanData
                 /* 07 */ GTS            = 0x03A00;  // [228]    GtsData
                 /* 08 */ Fused          = 0x03E00;  // [104]    UnionPokemon 
-                /* 09 */            //  = 0x04000;  // [200]    Misc
+                /* 09 */ Misc           = 0x04000;  // [200]    Misc
                 /* 10 */ Trainer2       = 0x04200;  // [020]    FieldMenu
                 /* 11 */            //  = 0x04400;  // [004]    ConfigSave
                 /* 12 */ AdventureInfo  = 0x04600;  // [058]    GameTime
@@ -230,6 +230,7 @@ namespace PKHeX
         private int Item { get; set; } = int.MinValue;
         private int AdventureInfo { get; set; } = int.MinValue;
         private int Trainer2 { get; set; } = int.MinValue;
+        private int Misc { get; set; } = int.MinValue;
         private int LastViewedBox { get; set; } = int.MinValue;
         private int WondercardFlags { get; set; } = int.MinValue;
         private int PlayTime { get; set; } = int.MinValue;
@@ -335,11 +336,32 @@ namespace PKHeX
             get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x38, 0x1A)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(13, '\0')).CopyTo(Data, TrainerCard + 0x38); }
         }
-        
+        public int M
+        {
+            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x00); } // could be anywhere 0x0-0x7
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x00); }
+        }
+        public float X
+        {
+            get { return BitConverter.ToSingle(Data, Trainer1 + 0x08); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x08); }
+        }
+        // 0xC probably rotation
+        public float Z
+        {
+            get { return BitConverter.ToSingle(Data, Trainer1 + 0x10); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x10); }
+        }
+        public float Y
+        {
+            get { return (int)BitConverter.ToSingle(Data, Trainer1 + 0x20); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x20); }
+        }
+
         public override uint Money
         {
-            get { return BitConverter.ToUInt32(Data, Trainer2 + 0x4); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer2 + 0x4); }
+            get { return BitConverter.ToUInt32(Data, Misc + 0x4); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x4); }
         }
         public override int PlayedHours
         { 
@@ -380,11 +402,11 @@ namespace PKHeX
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
                     new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
+                    new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
                     new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                    new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
                     new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 999, OFS_PouchZCrystals),
                 };
                 foreach (var p in pouch)

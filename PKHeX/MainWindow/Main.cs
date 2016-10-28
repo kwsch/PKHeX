@@ -3851,6 +3851,8 @@ namespace PKHeX
                 new SAV_SimpleTrainer().ShowDialog();
             else if (SAV.Generation == 6)
                 new SAV_Trainer().ShowDialog();
+            else if (SAV.Generation == 7)
+                new SAV_Trainer7().ShowDialog();
             // Refresh conversion info
             PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
         }
