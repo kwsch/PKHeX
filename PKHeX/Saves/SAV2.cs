@@ -470,7 +470,7 @@ namespace PKHeX
                         new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? 0x2402 : 0x2420, 20),
                         new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, Japanese ? 0x242C : 0x244A, 26),
                         new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? 0x2447 : 0x2465, 12),
-                        new InventoryPouch(InventoryType.MailItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Japanese ? 0x2461 : 0x247F, 50)
+                        new InventoryPouch(InventoryType.PCItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Japanese ? 0x2461 : 0x247F, 50)
                     };
                 }
                 else
@@ -481,7 +481,7 @@ namespace PKHeX
                         new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? 0x2400 : 0x241F, 20),
                         new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 99, Japanese ? 0x242A : 0x2449, 26),
                         new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? 0x2445 : 0x2464, 12),
-                        new InventoryPouch(InventoryType.MailItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Japanese ? 0x245F : 0x247E, 50)
+                        new InventoryPouch(InventoryType.PCItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Japanese ? 0x245F : 0x247E, 50)
                     };
                 }
                 foreach (var p in pouch)
