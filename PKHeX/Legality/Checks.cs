@@ -60,7 +60,7 @@ namespace PKHeX
     {
         private void verifyGender()
         {
-            if (PersonalTable.AO[pkm.Species].Gender == 255 && pkm.Gender != 2)
+            if (pkm.PersonalInfo.Gender == 255 && pkm.Gender != 2)
             {
                 AddLine(Severity.Invalid, "Genderless Pokémon should not have a gender.", CheckIdentifier.Gender);
                 // return;
@@ -580,7 +580,7 @@ namespace PKHeX
         }
         private void verifyAbility()
         {
-            int[] abilities = PersonalTable.AO.getAbilities(pkm.Species, pkm.AltForm);
+            int[] abilities = pkm.PersonalInfo.Abilities;
             int abilval = Array.IndexOf(abilities, pkm.Ability);
             if (abilval < 0)
             {
@@ -822,7 +822,7 @@ namespace PKHeX
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
-                if (pkm.OT_Friendship != PersonalTable.AO[pkm.Species].BaseFriendship)
+                if (pkm.OT_Friendship != pkm.PersonalInfo.BaseFriendship)
                     return new CheckResult(Severity.Invalid, "Event OT Friendship does not match base friendship.", CheckIdentifier.History);
                 if (pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
