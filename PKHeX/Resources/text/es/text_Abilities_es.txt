@@ -196,7 +196,7 @@ Ráfaga Delta
 195
 196
 197
-Stakeout
+Vigilante
 199
 200
 201
@@ -208,7 +208,7 @@ Stakeout
 207
 208
 209
-Battle Bond
+Fuerte Afecto
 211
 212
 213

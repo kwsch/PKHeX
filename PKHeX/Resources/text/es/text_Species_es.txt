@@ -722,13 +722,13 @@ Hoopa
 Volcanion
 Rowlet
 Dartrix
-[Dartrix Evo]
+Decidueye
 Litten
 Torracat
-[Torracat Evo]
+Incineroar
 Popplio
 Brionne
-[Brionne Evo]
+Primarina
 Pikipek
 [Pikipek Evo]
 [[Pikipek Evo] Evo]
@@ -770,7 +770,7 @@ Wimpod
 Sandygast
 Palossand
 Pyukumuku
-Type: Null
+Código Cero
 Silvally
 Minior
 Komala
@@ -784,10 +784,10 @@ Jangmo-o
 Hakamo-o
 Kommo-o
 Tapu Koko
-[Pink Tapu Koko]
-[Red Tapu Koko]
-[Purple Tapu Koko]
-[Space Cloud]
+Tapu Lele
+Tapu Bulu
+Tapu Fini
+Cosmog
 [Galaxy Eye]
 Solgaleo
 Lunala
