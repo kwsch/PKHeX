@@ -3732,7 +3732,7 @@
             this.Menu_ShowdownImportPKM.ShowShortcutKeys = false;
             this.Menu_ShowdownImportPKM.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownImportPKM.Text = "Import Set from Clipboard";
-            this.Menu_ShowdownImportPKM.Click += new System.EventHandler(this.clickShowdownImportPK6);
+            this.Menu_ShowdownImportPKM.Click += new System.EventHandler(this.clickShowdownImportPKM);
             // 
             // Menu_ShowdownExportPKM
             // 
@@ -3743,7 +3743,7 @@
             this.Menu_ShowdownExportPKM.ShowShortcutKeys = false;
             this.Menu_ShowdownExportPKM.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportPKM.Text = "Export Set to Clipboard";
-            this.Menu_ShowdownExportPKM.Click += new System.EventHandler(this.clickShowdownExportPK6);
+            this.Menu_ShowdownExportPKM.Click += new System.EventHandler(this.clickShowdownExportPKM);
             // 
             // Menu_ShowdownExportParty
             // 

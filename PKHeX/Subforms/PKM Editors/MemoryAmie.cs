@@ -125,7 +125,7 @@ namespace PKHeX
                 RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
             }
             else
-                GB_M_OT.Text = GB_M_CT.Text = $"N/A: {Main.eggname}";
+                GB_M_OT.Text = GB_M_CT.Text = $"N/A: {Main.GameStrings.eggname}";
 
             init = true;
 
@@ -184,12 +184,12 @@ namespace PKHeX
         private void getLangStrings()
         {
             // Memory Chooser
-            int memorycount = Main.memories.Length - 38;
+            int memorycount = Main.GameStrings.memories.Length - 38;
             string[] memories = new string[memorycount];
             int[] allowed = new int[memorycount];
             for (int i = 0; i < memorycount; i++)
             {
-                memories[i] = Main.memories[38 + i];
+                memories[i] = Main.GameStrings.memories[38 + i];
                 allowed[i] = i + 1;
             }
             Array.Resize(ref allowed, allowed.Length - 1);
@@ -209,8 +209,8 @@ namespace PKHeX
             CB_OTQual.Items.Clear();
             for (int i = 0; i < 7; i++)
             {
-                CB_CTQual.Items.Add(Main.memories[2 + i]);
-                CB_OTQual.Items.Add(Main.memories[2 + i]);
+                CB_CTQual.Items.Add(Main.GameStrings.memories[2 + i]);
+                CB_OTQual.Items.Add(Main.GameStrings.memories[2 + i]);
             }
 
             // Feeling Chooser
@@ -218,8 +218,8 @@ namespace PKHeX
             CB_OTFeel.Items.Clear();
             for (int i = 0; i < 24; i++)
             {
-                CB_CTFeel.Items.Add(Main.memories[10 + i]);
-                CB_OTFeel.Items.Add(Main.memories[10 + i]);
+                CB_CTFeel.Items.Add(Main.GameStrings.memories[10 + i]);
+                CB_OTFeel.Items.Add(Main.GameStrings.memories[10 + i]);
             }
         }
         private void getMemoryArguments(string ARG, ComboBox sender)
@@ -235,11 +235,11 @@ namespace PKHeX
                     vs = "";
                     break;
                 case "PKM":
-                    argvals = Util.getCBList(Main.specieslist, null);
+                    argvals = Util.getCBList(Main.GameStrings.specieslist, null);
                     vs = vartypes[0];
                     break;
                 case "GENLOC":
-                    argvals = Util.getCBList(Main.genloc, null);
+                    argvals = Util.getCBList(Main.GameStrings.genloc, null);
                     vs = vartypes[1];
                     break;
                 case "ITEM":
@@ -265,18 +265,18 @@ namespace PKHeX
                         /* ORAS */
                         718,719,720,737,738,739,740,741,742,752,753,754,755,756,757,758,759,760,761,762,763,764,765,767,768, 769,770,775
                     };
-                    var item_list = Util.getCBList(Main.itemlist, items_allowed);
+                    var item_list = Util.getCBList(Main.GameStrings.itemlist, items_allowed);
                     #endregion
                     argvals = item_list;
                     vs = vartypes[2];
                 }
                     break;
                 case "MOVE":
-                    argvals = Util.getCBList(Main.movelist, null);
+                    argvals = Util.getCBList(Main.GameStrings.movelist, null);
                     vs = vartypes[3];
                     break;
                 case "LOCATION":
-                    argvals = Util.getCBList(Main.metXY_00000, Legal.Met_XY_0);
+                    argvals = Util.getCBList(Main.GameStrings.metXY_00000, Legal.Met_XY_0);
                     vs = vartypes[4];
                     break;
             }
@@ -307,10 +307,10 @@ namespace PKHeX
 
             bool enabled = false;
             if (mem == 0)
-                result = Main.memories[38];
+                result = Main.GameStrings.memories[38];
             else
             {
-                result = string.Format(Main.memories[mem + 38], nn, tr, a, f.Text, q.Text);
+                result = string.Format(Main.GameStrings.memories[mem + 38], nn, tr, a, f.Text, q.Text);
                 enabled = true;
             }
 

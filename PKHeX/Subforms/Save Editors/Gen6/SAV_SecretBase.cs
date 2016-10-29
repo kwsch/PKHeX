@@ -12,7 +12,7 @@ namespace PKHeX
         {
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            abilitylist = Main.abilitylist;
+            abilitylist = Main.GameStrings.abilitylist;
 
             setupComboBoxes();
             popFavorite();
@@ -35,16 +35,16 @@ namespace PKHeX
             CB_Ball.DisplayMember = CB_HeldItem.DisplayMember = CB_Species.DisplayMember = CB_Nature.DisplayMember = "Text";
             CB_Ball.ValueMember = CB_HeldItem.ValueMember = CB_Species.ValueMember = CB_Nature.ValueMember = "Value";
 
-            CB_Ball.DataSource = new BindingSource(Main.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
-            CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource.Where(i => i.Value < SAV.MaxItemID).ToList(), null);
-            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
-            CB_Nature.DataSource = new BindingSource(Main.NatureDataSource, null);
+            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
+            CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value < SAV.MaxItemID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
             
 
             CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
             CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
 
-            var MoveList = Main.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
+            var MoveList = GameInfo.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
             CB_Move1.DataSource = new BindingSource(MoveList, null);
             CB_Move2.DataSource = new BindingSource(MoveList, null);
             CB_Move3.DataSource = new BindingSource(MoveList, null);
@@ -434,7 +434,7 @@ namespace PKHeX
 
             CB_Form.DisplayMember = "Text";
             CB_Form.ValueMember = "Value";
-            CB_Form.DataSource = PKX.getFormList(species, Main.types, Main.forms, Main.gendersymbols).ToList();
+            CB_Form.DataSource = PKX.getFormList(species, Main.GameStrings.types, Main.GameStrings.forms, Main.gendersymbols).ToList();
         }
 
         private void updateSpecies(object sender, EventArgs e)

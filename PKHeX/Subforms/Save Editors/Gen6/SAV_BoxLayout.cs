@@ -14,7 +14,7 @@ namespace PKHeX
             
             // Repopulate Wallpaper names
             CB_BG.Items.Clear();
-            foreach (string wallpaper in Main.wallpapernames)
+            foreach (string wallpaper in Main.GameStrings.wallpapernames)
                 CB_BG.Items.Add(wallpaper);
             
             // Go

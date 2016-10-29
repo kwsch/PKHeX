@@ -8,14 +8,14 @@ namespace PKHeX
     {
         public SAV_SuperTrain()
         {
-            trba = Main.trainingbags;
+            trba = Main.GameStrings.trainingbags;
             trba[0] = "---";
             offsetTime = SAV.SuperTrain + 0x08;
             offsetSpec = SAV.SuperTrain + 0x188;
             offsetVal = SAV.SuperTrain + 0x18A;
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
-            string[] stages = Main.trainingstage;
+            string[] stages = Main.GameStrings.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 30; i++)
                 listBox1.Items.Add((i + 1).ToString("00") + " - " + stages[i + 2]);
@@ -35,11 +35,11 @@ namespace PKHeX
             {
                 CB_Species.DisplayMember = "Text";
                 CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+                CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
 
                 CB_S2.DisplayMember = "Text";
                 CB_S2.ValueMember = "Value";
-                CB_S2.DataSource = new BindingSource(Main.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+                CB_S2.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             }
             listBox1.SelectedIndex = 0;
             fillTrainingBags();

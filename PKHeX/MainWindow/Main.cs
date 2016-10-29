@@ -47,8 +47,8 @@ namespace PKHeX
             }).Start();
 
             CB_ExtraBytes.SelectedIndex = 0;
-            getFieldsfromPKM = populateFieldsPK6;
-            getPKMfromFields = preparePK6;
+            getFieldsfromPKM = populateFieldsPK7;
+            getPKMfromFields = preparePK7;
 
             // Set up form properties and arrays.
             SlotPictureBoxes = new[] {
@@ -141,7 +141,7 @@ namespace PKHeX
                 // Select Language
                 string l = Properties.Settings.Default.Language;
                 if (l.Length != 2) l = "en";
-                int lang = Array.IndexOf(lang_val, l);
+                int lang = Array.IndexOf(GameInfo.lang_val, l);
                 CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
 
                 // Version Check
@@ -158,6 +158,7 @@ namespace PKHeX
 
             InitializeFields();
             formInitialized = true;
+            
             #endregion
             #region Load Initial File(s)
             if (args.Length > 1) // Load the arguments
@@ -201,32 +202,20 @@ namespace PKHeX
 
         #region Important Variables
         public static PKM pkm = new PK6(); // Tab Pokemon Data Storage
-        public static SaveFile SAV = new SAV6 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
-        public static string eggname = "";
+        public static SaveFile SAV = new SAV7 { Game = (int)GameVersion.AS, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
+        public static GameInfo.GameStrings GameStrings;
+        private LegalityAnalysis Legality = new LegalityAnalysis(new PK3());
 
         public static string curlanguage = "en";
         public static string[] gendersymbols = { "♂", "♀", "-" };
-        public static string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
-            memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, 
-            g3coloitems, g3xditems, g3items, g2items, g1items = { };
-        public static string[] metGSC_00000, metRSEFRLG_00000, metCXD_00000 = { };
-        public static string[] metHGSS_00000, metHGSS_02000, metHGSS_03000 = { };
-        public static string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000 = { };
-        public static string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000 = { };
-        public static string[] wallpapernames, puffs = { };
         public static bool unicode;
-        public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6;
 
         public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
         private static int colorizedbox = -1;
         private static Image colorizedcolor;
         private static int colorizedslot;
         public static bool HaX;
-        private LegalityAnalysis Legality = new LegalityAnalysis(new PK3());
         private static readonly Image mixedHighlight = Util.ChangeOpacity(Properties.Resources.slotSet, 0.5);
-        private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "pt" };
         private static readonly string[] main_langlist =
             {
                 "日本語", // JPN
@@ -452,7 +441,7 @@ namespace PKHeX
             updateBoxViewers();
         }
         // Misc Options
-        private void clickShowdownImportPK6(object sender, EventArgs e)
+        private void clickShowdownImportPKM(object sender, EventArgs e)
         {
             if (!formInitialized)
                 return;
@@ -539,7 +528,7 @@ namespace PKHeX
             pkm = preparePKM();
             updateLegality();
         }
-        private void clickShowdownExportPK6(object sender, EventArgs e)
+        private void clickShowdownExportPKM(object sender, EventArgs e)
         {
             if (!formInitialized)
                 return;
@@ -1173,7 +1162,7 @@ namespace PKHeX
             if (SAV.Generation == 2)
                 updateOriginGame(null, null);
 
-            // Refresh PK#->PK6 conversion info
+            // Refresh PK* conversion info
             PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
 
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
@@ -1239,154 +1228,16 @@ namespace PKHeX
         private void InitializeStrings()
         {
             if (CB_MainLanguage.SelectedIndex < 8)
-                curlanguage = lang_val[CB_MainLanguage.SelectedIndex];
-
+                curlanguage = GameInfo.lang_val[CB_MainLanguage.SelectedIndex];
+            
             string l = curlanguage;
-
-            // Past Generation strings
-            g3items = Util.getStringListFallback("ItemsG3", l, "en");
-            // XD and Colosseum
-            {
-                g3coloitems = (string[])g3items.Clone();
-                string[] tmp = Util.getStringListFallback("ItemsG3Colosseum", l, "en");
-                Array.Resize(ref g3coloitems, 500 + tmp.Length);
-                for (int i = g3items.Length; i < g3coloitems.Length; i++)
-                    g3coloitems[i] = $"UNUSED {i}";
-                Array.Copy(tmp, 0, g3coloitems, g3coloitems.Length - tmp.Length, tmp.Length);
-
-                g3xditems = (string[])g3items.Clone();
-                string[] tmp2 = Util.getStringListFallback("ItemsG3XD", l, "en");
-                Array.Resize(ref g3xditems, 500 + tmp2.Length);
-                for (int i = g3items.Length; i < g3xditems.Length; i++)
-                    g3xditems[i] = $"UNUSED {i}";
-                Array.Copy(tmp2, 0, g3xditems, g3xditems.Length - tmp2.Length, tmp2.Length);
-            }
-            g2items = Util.getStringListFallback("ItemsG2", l, "en");
-            g1items = Util.getStringListFallback("ItemsG1", l, "en");
-            metRSEFRLG_00000 = Util.getStringListFallback("rsefrlg_00000", l, "en");
-            metGSC_00000 = Util.getStringListFallback("gsc_00000", l, "en");
-
-            metCXD_00000 = Util.getStringListFallback("cxd_00000", l, "en");
-            // Sanitize a little
-            var metSanitize = (string[])metCXD_00000.Clone();
-            for (int i = 0; i < metSanitize.Length; i++)
-                if (metCXD_00000.Count(r => r == metSanitize[i]) > 1)
-                    metSanitize[i] += $" [{i.ToString("000")}]";
-            metCXD_00000 = metSanitize;
-
-            // Current Generation strings
-            natures = Util.getNaturesList(l);
-            types = Util.getTypesList(l);
-            abilitylist = Util.getAbilitiesList(l);
-            movelist = Util.getMovesList(l);
-            itemlist = Util.getItemsList(l);
-            characteristics = Util.getCharacteristicsList(l);
-            specieslist = Util.getSpeciesList(l);
-            wallpapernames = Util.getStringList("wallpaper", l);
-            encountertypelist = Util.getStringList("encountertype", l);
-            gamelist = Util.getStringList("games", l);
-            gamelanguages = Util.getNulledStringArray(Util.getStringList("languages"));
-
-            balllist = new string[Legal.Items_Ball.Length];
-            for (int i = 0; i < balllist.Length; i++)
-                balllist[i] = itemlist[Legal.Items_Ball[i]];
-
-            if (l != "pt" || (l == "pt" && !fieldsInitialized)) // load initial binaries
-            {
-                pokeblocks = Util.getStringList("pokeblock", l);
-                forms = Util.getFormsList(l);
-                memories = Util.getStringList("memories", l);
-                genloc = Util.getStringList("genloc", l);
-                trainingbags = Util.getStringList("trainingbag", l);
-                trainingstage = Util.getStringList("supertraining", l);
-                puffs = Util.getStringList("puff", l);
-            }
-
-            // Gen4 Mail names not stored in future games. No clever solution like for HM's, so improvise.
-            for (int i = 137; i <= 148; i++)
-                itemlist[i] = $"Mail #{i-137+1} (G4)";
-
-            // Fix Item Names (Duplicate entries)
-            int len = itemlist[425].Length;
-            itemlist[426] = itemlist[425].Substring(0, len-1) + (char)(itemlist[425][len-1]+1) + " (G4)";
-            itemlist[427] = itemlist[425].Substring(0, len-1) + (char)(itemlist[425][len-1]+2) + " (G4)";
-            itemlist[456] += " (HG/SS)"; // S.S. Ticket
-            itemlist[736] += " (OR/AS)"; // S.S. Ticket
-            itemlist[463] += " (DPPt)"; // Storage Key
-            itemlist[734] += " (OR/AS)"; // Storage Key
-            itemlist[478] += " (HG/SS)"; // Basement Key
-            itemlist[478] += " (OR/AS)"; // Basement Key
-            itemlist[621] += " (M)"; // Xtransceiver
-            itemlist[626] += " (F)"; // Xtransceiver
-            itemlist[629] += " (2)"; // DNA Splicers
-            itemlist[637] += " (2)"; // Dropped Item
-            itemlist[707] += " (2)"; // Travel Trunk
-            itemlist[713] += " (2)"; // Alt Bike
-            itemlist[714] += " (2)"; // Holo Caster
-            itemlist[729] += " (1)"; // Meteorite
-            itemlist[740] += " (2)"; // Contest Costume
-            itemlist[751] += " (2)"; // Meteorite
-            itemlist[771] += " (3)"; // Meteorite
-            itemlist[772] += " (4)"; // Meteorite
-
-            // Get the Egg Name and then replace it with --- for the comboboxes.
-            eggname = specieslist[0];
-            specieslist[0] = "---";
-
-            // Get the met locations... for all of the games...
-            metHGSS_00000 = Util.getStringList("hgss_00000", l);
-            metHGSS_02000 = Util.getStringList("hgss_02000", l);
-            metHGSS_03000 = Util.getStringList("hgss_03000", l);
-
-            metBW2_00000 = Util.getStringList("bw2_00000", l);
-            metBW2_30000 = Util.getStringList("bw2_30000", l);
-            metBW2_40000 = Util.getStringList("bw2_40000", l);
-            metBW2_60000 = Util.getStringList("bw2_60000", l);
-
-            metXY_00000 = Util.getStringList("xy_00000", l);
-            metXY_30000 = Util.getStringList("xy_30000", l);
-            metXY_40000 = Util.getStringList("xy_40000", l);
-            metXY_60000 = Util.getStringList("xy_60000", l);
-
-            // Fix up some of the Location strings to make them more descriptive:
-            metHGSS_02000[1] += " (NPC)";         // Anything from an NPC
-            metHGSS_02000[2] += " (" + eggname + ")"; // Egg From Link Trade
-            metBW2_00000[36] = metBW2_00000[84] + "/" + metBW2_00000[36]; // Cold Storage in BW = PWT in BW2
-
-            // BW2 Entries from 76 to 105 are for Entralink in BW
-            for (int i = 76; i < 106; i++)
-                metBW2_00000[i] = metBW2_00000[i] + "●";
-
-            // Localize the Poketransfer to the language (30001)
-            string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
-            metBW2_30000[1 - 1] = ptransp[Array.IndexOf(lang_val, curlanguage)];
-            metBW2_30000[2 - 1] += " (NPC)";              // Anything from an NPC
-            metBW2_30000[3 - 1] += " (" + eggname + ")";  // Egg From Link Trade
-
-            // Zorua/Zoroark events
-            metBW2_30000[10 - 1] = specieslist[251] + " (" + specieslist[570] + " 1)"; // Celebi's Zorua Event
-            metBW2_30000[11 - 1] = specieslist[251] + " (" + specieslist[570] + " 2)"; // Celebi's Zorua Event
-            metBW2_30000[12 - 1] = specieslist[571] + " (" + "1)"; // Zoroark
-            metBW2_30000[13 - 1] = specieslist[571] + " (" + "2)"; // Zoroark
-
-            metBW2_60000[3 - 1] += " (" + eggname + ")";  // Egg Treasure Hunter/Breeder, whatever...
-
-            metXY_00000[104] += " (X/Y)";              // Victory Road
-            metXY_00000[106] += " (X/Y)";              // Pokémon League
-            metXY_00000[202] += " (OR/AS)";            // Pokémon League
-            metXY_00000[298] += " (OR/AS)";            // Victory Road
-            metXY_30000[0] += " (NPC)";                // Anything from an NPC
-            metXY_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
-
-            // Set the first entry of a met location to "" (nothing)
-            // Fix (None) tags
-            abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = "(" + itemlist[0] + ")";
+            GameStrings = GameInfo.getStrings(l);
 
             // Force an update to the met locations
             origintrack = GameVersion.Unknown;
 
             // Update Legality Analysis strings
-            LegalityAnalysis.movelist = movelist;
+            LegalityAnalysis.movelist = GameStrings.movelist;
 
             if (fieldsInitialized)
                 updateIVs(null, null); // Prompt an update for the characteristics
@@ -1409,7 +1260,7 @@ namespace PKHeX
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
                 CB_GameOrigin.SelectedIndex = 0;
-                int curlang = Array.IndexOf(lang_val, curlanguage);
+                int curlang = Array.IndexOf(GameInfo.lang_val, curlanguage);
                 CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
                 CB_BoxSelect.SelectedIndex = 0;
                 CB_Ball.SelectedIndex = 0;
@@ -1430,101 +1281,28 @@ namespace PKHeX
             setCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = Util.getUnsortedCBList("regions3ds");
             CB_Language.DataSource = Util.getUnsortedCBList("languages");
-            int[] ball_nums = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
-            int[] ball_vals = { 7, 25, 13, 17, 22, 14, 20, 18, 21, 19, 11, 23, 8, 6, 12, 15, 9, 5, 24, 10, 1, 16 };
-            BallDataSource = Util.getVariedCBList(itemlist, ball_nums, ball_vals);
-            SpeciesDataSource = Util.getCBList(specieslist, null);
-            NatureDataSource = Util.getCBList(natures, null);
-            AbilityDataSource = Util.getCBList(abilitylist, null);
-            VersionDataSource = Util.getCBList(gamelist, Legal.Games_7sm, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
 
-            MoveDataSource = Util.getCBList(movelist, null);
+            GameInfo.InitializeDataSources(GameStrings);
 
-            #region Met Locations
-            // Gen 2
-            {
-                var met_list = Util.getCBList(metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
-                met_list = Util.getOffsetCBList(met_list, metGSC_00000, 00000, new[] { 0x7E, 0x7F });
-                metGen2 = met_list;
-            }
-            // Gen 3
-            {
-                var met_list = Util.getCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-                met_list = Util.getOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
-                metGen3 = met_list;
-
-                var cxd_list = Util.getCBList(metCXD_00000, Enumerable.Range(0, metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
-                metGen3CXD = cxd_list;
-            }
-            // Gen 4
-            {
-                var met_list = Util.getCBList(metHGSS_00000, new[] { 0 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
-                met_list = Util.getOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                met_list = Util.getOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
-                metGen4 = met_list;
-            }
-            // Gen 5
-            {
-                var met_list = Util.getCBList(metBW2_00000, new[] { 0 });
-                met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, new[] { 60002 });
-                met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, new[] { 30003 });
-                met_list = Util.getOffsetCBList(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
-                met_list = Util.getOffsetCBList(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
-                met_list = Util.getOffsetCBList(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
-                met_list = Util.getOffsetCBList(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
-                metGen5 = met_list;
-            }
-            // Gen 6
-            {
-                var met_list = Util.getCBList(metXY_00000, new[] { 0 });
-                met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, new[] { 60002 });
-                met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, new[] { 30002 });
-                met_list = Util.getOffsetCBList(met_list, metXY_00000, 00000, Legal.Met_XY_0);
-                met_list = Util.getOffsetCBList(met_list, metXY_30000, 30001, Legal.Met_XY_3);
-                met_list = Util.getOffsetCBList(met_list, metXY_40000, 40001, Legal.Met_XY_4);
-                met_list = Util.getOffsetCBList(met_list, metXY_60000, 60001, Legal.Met_XY_6);
-                metGen6 = met_list;
-            }
-            #endregion
-
-            CB_EncounterType.DataSource = Util.getCBList(encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
-            CB_HPType.DataSource = Util.getCBList(types.Skip(1).Take(16).ToArray(), null);
-            CB_Nature.DataSource = new BindingSource(NatureDataSource, null);
+            CB_EncounterType.DataSource = Util.getCBList(GameStrings.encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
+            CB_HPType.DataSource = Util.getCBList(GameStrings.types.Skip(1).Take(16).ToArray(), null);
+            CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
 
             populateFilteredDataSources();
         }
         private void populateFilteredDataSources()
         {
+            GameInfo.setItemDataSource(HaX, SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameStrings);
             if (SAV.Generation > 1)
-            {
-                string[] items = itemlist;
-                if (SAV.Generation == 3)
-                {
-                    switch (SAV.Version)
-                    {
-                        case GameVersion.COLO: items = g3coloitems; break;
-                        case GameVersion.XD: items = g3xditems; break;
-                        default: items = g3items; break;
-                    }
-                }
-                if (SAV.Generation == 2)
-                    items = g2items;
+                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
-                ItemDataSource = Util.getCBList(items, (HaX ? Enumerable.Range(0, SAV.MaxItemID) : SAV.HeldItems.Select(i => (int)i)).ToArray());
-                CB_HeldItem.DataSource = new BindingSource(ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
-            }
-
-            CB_Ball.DataSource = new BindingSource(BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
-            CB_Species.DataSource = new BindingSource(SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
-            DEV_Ability.DataSource = new BindingSource(AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID).ToList(), null);
-            CB_GameOrigin.DataSource = new BindingSource(VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
+            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID).ToList(), null);
+            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            var moves = MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
+            var moves = GameInfo.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
@@ -1623,7 +1401,7 @@ namespace PKHeX
             if (!hasForms)
                 return;
 
-            CB_Form.DataSource = PKX.getFormList(species, types, forms, gendersymbols, SAV.Generation).ToList();
+            CB_Form.DataSource = PKX.getFormList(species, GameStrings.types, GameStrings.forms, gendersymbols, SAV.Generation).ToList();
         }
         private void setAbilityList()
         {
@@ -1639,9 +1417,9 @@ namespace PKHeX
             if (abils[1] == 0 && SAV.Generation != 3)
                 abils[1] = abils[0];
             string[] abilIdentifier = {" (1)", " (2)", " (H)"};
-            List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => abilitylist[t] + abilIdentifier[i]).ToList();
+            List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => GameStrings.abilitylist[t] + abilIdentifier[i]).ToList();
             if (!ability_list.Any())
-                ability_list.Add(abilitylist[0] + abilIdentifier[0]);
+                ability_list.Add(GameStrings.abilitylist[0] + abilIdentifier[0]);
 
             int abil = CB_Ability.SelectedIndex;
             CB_Ability.DataSource = ability_list;
@@ -1881,7 +1659,7 @@ namespace PKHeX
         {
             updateLegality();
             int[] m = Legality.getSuggestedRelearn();
-            string r = string.Join(Environment.NewLine, m.Select(v => v >= movelist.Length ? "ERROR" : movelist[v]));
+            string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
                 return;
 
@@ -2001,7 +1779,7 @@ namespace PKHeX
             int characteristic = pkm.Characteristic;
             L_Characteristic.Visible = Label_CharacteristicPrefix.Visible = characteristic > -1;
             if (characteristic > -1)
-                L_Characteristic.Text = characteristics[pkm.Characteristic];
+                L_Characteristic.Text = GameStrings.characteristics[pkm.Characteristic];
             updateStats();
         }
         private void updateEVs(object sender, EventArgs e)
@@ -2322,101 +2100,21 @@ namespace PKHeX
 
             updateLegality();
         }
-        private static List<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
-        {
-            if (SaveFormat == 2)
-                return metGen2;
-
-            if (egg)
-            {
-                if (Version < GameVersion.W && SaveFormat >= 5)
-                    return metGen4;
-            }
-
-            switch (Version)
-            {
-                case GameVersion.CXD:
-                    if (SaveFormat == 3)
-                        return metGen3CXD;
-                    break;
-
-                case GameVersion.R:
-                case GameVersion.S:
-                    if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value <= 87).ToList(); // Ferry
-                    break;
-                case GameVersion.E:
-                    if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)).ToList(); // Trainer Hill
-                    break;
-                case GameVersion.FR:
-                case GameVersion.LG:
-                    if (SaveFormat == 3)
-                        return metGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197).ToList(); // Celadon Dept.
-                    break;
-
-                case GameVersion.D:
-                case GameVersion.P:
-                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)).ToList(); // Battle Park
-                    break;
-
-                case GameVersion.Pt:
-                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)).ToList(); // Rock Peak Ruins
-                    break;
-
-                case GameVersion.HG:
-                case GameVersion.SS:
-                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
-                        return metGen4.Take(4).Concat(metGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)).ToList(); // Celadon Dept.
-                    break;
-
-                case GameVersion.B:
-                case GameVersion.W:
-                    return metGen5;
-
-                case GameVersion.B2:
-                case GameVersion.W2:
-                    return metGen5.Take(3).Concat(metGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)).ToList(); // Abyssal Ruins
-
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)).ToList(); // Unknown Dungeon
-
-                case GameVersion.OR:
-                case GameVersion.AS:
-                    return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)).ToList(); // Secret Base
-            }
-
-            // Currently on a future game, return corresponding list for generation
-            if (Version <= GameVersion.CXD && SaveFormat == 4)
-                return metGen4.Where(loc => loc.Value == 0x37) // Pal Park to front
-                    .Concat(metGen4.Take(4))
-                    .Concat(metGen4.Skip(4).Where(loc => loc.Value != 0x37)).ToList();
-
-            if (Version < GameVersion.X && SaveFormat >= 5) // PokéTransfer to front
-                return metGen5.Where(loc => loc.Value == 30001)
-                    .Concat(metGen5.Take(3))
-                    .Concat(metGen5.Skip(3).Where(loc => loc.Value != 30001)).ToList();
-
-            return metGen6;
-        }
         private void updateOriginGame(object sender, EventArgs e)
         {
             GameVersion Version = (GameVersion)Util.getIndex(CB_GameOrigin);
 
             // check if differs
-            GameVersion newTrack = SaveUtil.getMetLocationVersionGroup(Version);
+            GameVersion newTrack = GameUtil.getMetLocationVersionGroup(Version);
             if (newTrack != origintrack)
             {
-                var met_list = getLocationList(Version, SAV.Generation, egg:false);
+                var met_list = GameInfo.getLocationList(Version, SAV.Generation, egg:false);
                 CB_MetLocation.DisplayMember = "Text";
                 CB_MetLocation.ValueMember = "Value";
                 CB_MetLocation.DataSource = new BindingSource(met_list, null);
                 CB_MetLocation.SelectedIndex = 0; // transporter or pal park for past gen pkm
 
-                var egg_list = getLocationList(Version, SAV.Generation, egg:true);
+                var egg_list = GameInfo.getLocationList(Version, SAV.Generation, egg:true);
                 CB_EggLocation.DisplayMember = "Text";
                 CB_EggLocation.ValueMember = "Value";
                 CB_EggLocation.DataSource = new BindingSource(egg_list, null);
@@ -2488,9 +2186,9 @@ namespace PKHeX
         private void updateNickname(object sender, EventArgs e)
         {
             if (fieldsInitialized && ModifierKeys == Keys.Control && sender != null) // Import Showdown
-            { clickShowdownImportPK6(sender, e); return; }
+            { clickShowdownImportPKM(sender, e); return; }
             if (fieldsInitialized && ModifierKeys == Keys.Alt && sender != null) // Export Showdown
-            { clickShowdownExportPK6(sender, e); return; }
+            { clickShowdownExportPKM(sender, e); return; }
             if (!fieldsInitialized || CHK_Nicknamed.Checked)
                 return;
 
@@ -2922,28 +2620,28 @@ namespace PKHeX
             {
                 ushort held = (ushort)pk.HeldItem;
 
-                if (held > itemlist.Length)
+                if (held > GameStrings.itemlist.Length)
                     errata.Add($"Item Index beyond range: {held}");
                 else if (held > SAV.MaxItemID)
-                    errata.Add($"Game can't obtain item: {itemlist[held]}");
+                    errata.Add($"Game can't obtain item: {GameStrings.itemlist[held]}");
                 else if (!pk.CanHoldItem(SAV.HeldItems))
-                    errata.Add($"Game can't hold item: {itemlist[held]}");
+                    errata.Add($"Game can't hold item: {GameStrings.itemlist[held]}");
             }
 
-            if (pk.Species > specieslist.Length)
+            if (pk.Species > GameStrings.specieslist.Length)
                 errata.Add($"Species Index beyond range: {pk.HeldItem}");
             else if (SAV.MaxSpeciesID < pk.Species)
-                errata.Add($"Game can't obtain species: {specieslist[pk.Species]}");
+                errata.Add($"Game can't obtain species: {GameStrings.specieslist[pk.Species]}");
 
-            if (pk.Moves.Any(m => m > movelist.Length))
-                errata.Add($"Item Index beyond range: {string.Join(", ", pk.Moves.Where(m => m > movelist.Length).Select(m => m.ToString()))}");
+            if (pk.Moves.Any(m => m > GameStrings.movelist.Length))
+                errata.Add($"Item Index beyond range: {string.Join(", ", pk.Moves.Where(m => m > GameStrings.movelist.Length).Select(m => m.ToString()))}");
             else if (pk.Moves.Any(m => m > SAV.MaxMoveID))
-                errata.Add($"Game can't have move: {string.Join(", ", pk.Moves.Where(m => m > SAV.MaxMoveID).Select(m => movelist[m]))}");
+                errata.Add($"Game can't have move: {string.Join(", ", pk.Moves.Where(m => m > SAV.MaxMoveID).Select(m => GameStrings.movelist[m]))}");
 
-            if (pk.Ability > abilitylist.Length)
+            if (pk.Ability > GameStrings.abilitylist.Length)
                 errata.Add($"Ability Index beyond range: {pk.Ability}");
             else if (pk.Ability > SAV.MaxAbilityID)
-                errata.Add($"Game can't have ability: {abilitylist[pk.Ability]}");
+                errata.Add($"Game can't have ability: {GameStrings.abilitylist[pk.Ability]}");
 
             return errata.ToArray();
         }
@@ -3948,7 +3646,7 @@ namespace PKHeX
                     // ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
                     int favpkm = BitConverter.ToUInt16(SAV.Data, r_offset + 0x9C) & 0x7FF;
                     string gamename;
-                    try { gamename = gamelist[game]; }
+                    try { gamename = GameStrings.gamelist[game]; }
                     catch { gamename = "UNKNOWN GAME"; }
 
                     string[] cr = PKX.getCountryRegionText(country, region, curlanguage);
@@ -3958,7 +3656,7 @@ namespace PKHeX
                         "Game: " + gamename + Environment.NewLine +
                         "Country: " + cr[0] + Environment.NewLine +
                         "Region: " + cr[1] + Environment.NewLine +
-                        "Favorite: " + specieslist[favpkm];
+                        "Favorite: " + GameStrings.specieslist[favpkm];
 
                     r_offset += 0xC8; // Advance to next entry
                 }

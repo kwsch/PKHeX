@@ -5,6 +5,7 @@ namespace PKHeX
 {
     public partial class Main
     {
+        // Main Series
         private void populateFieldsPK4()
         {
             PK4 pk4 = pkm as PK4;
@@ -154,7 +155,7 @@ namespace PKHeX
             pk4.SID = Util.ToInt32(TB_SID.Text);
             pk4.EXP = Util.ToUInt32(TB_EXP.Text);
             pk4.PID = Util.getHEXval(TB_PID.Text);
-            pk4.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            pk4.Ability = (byte)Array.IndexOf(GameStrings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
 
             pk4.FatefulEncounter = CHK_Fateful.Checked;
             pk4.Gender = PKX.getGender(Label_Gender.Text);
@@ -250,6 +251,7 @@ namespace PKHeX
             return pk4;
         }
 
+        // Battle Revolution
         private void populateFieldsBK4()
         {
             BK4 pk4 = pkm as BK4;
@@ -400,7 +402,7 @@ namespace PKHeX
             pk4.SID = Util.ToInt32(TB_SID.Text);
             pk4.EXP = Util.ToUInt32(TB_EXP.Text);
             pk4.PID = Util.getHEXval(TB_PID.Text);
-            pk4.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            pk4.Ability = (byte)Array.IndexOf(GameStrings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
 
             pk4.FatefulEncounter = CHK_Fateful.Checked;
             pk4.Gender = PKX.getGender(Label_Gender.Text);
@@ -496,6 +498,4 @@ namespace PKHeX
             return pk4;
         }
     }
-
-
 }

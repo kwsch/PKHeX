@@ -260,7 +260,7 @@ namespace PKHeX
             }
             else
             {
-                pk5.Ability = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+                pk5.Ability = (byte)Array.IndexOf(GameStrings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
                 pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
             }
 

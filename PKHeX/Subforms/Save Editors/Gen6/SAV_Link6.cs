@@ -14,7 +14,7 @@ namespace PKHeX
             {
                 cb.DisplayMember = "Text";
                 cb.ValueMember = "Value";
-                cb.DataSource = new BindingSource(Main.ItemDataSource.Where(item => item.Value <= SAV.MaxItemID).ToArray(), null);
+                cb.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(item => item.Value <= SAV.MaxItemID).ToArray(), null);
             }
             Util.TranslateInterface(this, Main.curlanguage);
             byte[] data = SAV.LinkBlock;
@@ -99,12 +99,12 @@ namespace PKHeX
             NUD_Item6.Value = LinkInfo.Quantity_6;
 
             // Pokemon slots
-            TB_PKM1.Text = Main.specieslist[LinkInfo.Pokes[0].Species];
-            TB_PKM2.Text = Main.specieslist[LinkInfo.Pokes[1].Species];
-            TB_PKM3.Text = Main.specieslist[LinkInfo.Pokes[2].Species];
-            TB_PKM4.Text = Main.specieslist[LinkInfo.Pokes[3].Species];
-            TB_PKM5.Text = Main.specieslist[LinkInfo.Pokes[4].Species];
-            TB_PKM6.Text = Main.specieslist[LinkInfo.Pokes[5].Species];
+            TB_PKM1.Text = Main.GameStrings.specieslist[LinkInfo.Pokes[0].Species];
+            TB_PKM2.Text = Main.GameStrings.specieslist[LinkInfo.Pokes[1].Species];
+            TB_PKM3.Text = Main.GameStrings.specieslist[LinkInfo.Pokes[2].Species];
+            TB_PKM4.Text = Main.GameStrings.specieslist[LinkInfo.Pokes[3].Species];
+            TB_PKM5.Text = Main.GameStrings.specieslist[LinkInfo.Pokes[4].Species];
+            TB_PKM6.Text = Main.GameStrings.specieslist[LinkInfo.Pokes[5].Species];
         }
     }
 }

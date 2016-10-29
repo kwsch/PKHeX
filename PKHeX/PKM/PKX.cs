@@ -316,41 +316,46 @@ namespace PKHeX
 
         public static string getLocation(PKM pk, bool eggmet)
         {
+            if (pk.Format <= 2)
+                return "";
+
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
+
             if (pk.Format == 3)
-                return Main.metRSEFRLG_00000[locval%0x100];
-            if (pk.Version < 0x10 && (eggmet || pk.Format < 5))
+                return Main.GameStrings.metRSEFRLG_00000[locval%0x100];
+            if (pk.Gen4 && (eggmet || pk.Format == 4))
             {
-                if (locval < 2000) return Main.metHGSS_00000[locval];
-                if (locval < 3000) return Main.metHGSS_02000[locval % 2000];
-                                   return Main.metHGSS_03000[locval % 3000];
+                if (locval < 2000) return Main.GameStrings.metHGSS_00000[locval];
+                if (locval < 3000) return Main.GameStrings.metHGSS_02000[locval % 2000];
+                                   return Main.GameStrings.metHGSS_03000[locval % 3000];
             }
-            if (pk.Version < 24)
+            if (pk.Gen5 || pk.Format <= 5)
             {
-                if (locval < 30000) return Main.metBW2_00000[locval];
-                if (locval < 40000) return Main.metBW2_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.metBW2_40000[locval % 10000 - 1];
-                                    return Main.metBW2_60000[locval % 10000 - 1];
+                if (locval < 30000) return Main.GameStrings.metBW2_00000[locval];
+                if (locval < 40000) return Main.GameStrings.metBW2_30000[locval % 10000 - 1];
+                if (locval < 60000) return Main.GameStrings.metBW2_40000[locval % 10000 - 1];
+                                    return Main.GameStrings.metBW2_60000[locval % 10000 - 1];
             }
-            if (pk.Version > 23)
+            if (pk.Gen6 || pk.Format <= 6)
             {
-                if (locval < 30000) return Main.metXY_00000[locval];
-                if (locval < 40000) return Main.metXY_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.metXY_40000[locval % 10000 - 1];
-                                    return Main.metXY_60000[locval % 10000 - 1];
+                if (locval < 30000) return Main.GameStrings.metXY_00000[locval];
+                if (locval < 40000) return Main.GameStrings.metXY_30000[locval % 10000 - 1];
+                if (locval < 60000) return Main.GameStrings.metXY_40000[locval % 10000 - 1];
+                                    return Main.GameStrings.metXY_60000[locval % 10000 - 1];
             }
             return null; // Shouldn't happen.
         }
         public static string[] getQRText(PKM pkm)
         {
+            var s = Main.GameStrings;
             string[] response = new string[3];
             // Summarize
             string filename = pkm.Nickname;
-            if (pkm.Nickname != Main.specieslist[pkm.Species] && Main.specieslist[pkm.Species] != null)
-                filename += $" ({Main.specieslist[pkm.Species]})";
-            response[0] = $"{filename} [{Main.abilitylist[pkm.Ability]}] lv{pkm.Stat_Level} @ {Main.itemlist[pkm.HeldItem]} -- {Main.natures[pkm.Nature]}";
-            response[1] = $"{Main.movelist[pkm.Move1]} / {Main.movelist[pkm.Move2]} / {Main.movelist[pkm.Move3]} / {Main.movelist[pkm.Move4]}";
-            response[2] = String.Format(
+            if (pkm.Nickname != s.specieslist[pkm.Species] && s.specieslist[pkm.Species] != null)
+                filename += $" ({s.specieslist[pkm.Species]})";
+            response[0] = $"{filename} [{s.abilitylist[pkm.Ability]}] lv{pkm.Stat_Level} @ {s.itemlist[pkm.HeldItem]} -- {s.natures[pkm.Nature]}";
+            response[1] = $"{s.movelist[pkm.Move1]} / {s.movelist[pkm.Move2]} / {s.movelist[pkm.Move3]} / {s.movelist[pkm.Move4]}";
+            response[2] = string.Format(
                 "IVs:{0}{1}{2}{3}{4}{5}"
                 + Environment.NewLine + Environment.NewLine +
                 "EVs:{6}{7}{8}{9}{10}{11}",

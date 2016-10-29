@@ -23,10 +23,10 @@ namespace PKHeX
             // Fill List
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Skip(1).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
-                LB_Species.Items.Add(i.ToString("000") + " - " + Main.specieslist[i]);
+                LB_Species.Items.Add(i.ToString("000") + " - " + Main.GameStrings.specieslist[i]);
 
             getData();
             editing = false;
@@ -131,7 +131,7 @@ namespace PKHeX
             int f = SaveUtil.getDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
-            string[] forms = PKX.getFormList(species, Main.types, Main.forms, Main.gendersymbols);
+            string[] forms = PKX.getFormList(species, Main.GameStrings.types, Main.GameStrings.forms, Main.gendersymbols);
             if (forms.Length < 1)
                 return;
 

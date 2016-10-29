@@ -82,6 +82,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
@@ -96,6 +97,8 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\GameUtil.cs" />
+    <Compile Include="Game\GameVersion.cs" />
     <Compile Include="Legality\Analysis.cs" />
     <Compile Include="Legality\Checks.cs" />
     <Compile Include="Legality\Core.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Legality\Tables7.cs" />
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
+    <Compile Include="Game\GameInfo.cs" />
     <Compile Include="MainWindow\MainPK7.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -393,7 +397,7 @@
     <Compile Include="Misc\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\ComboItem.cs" />
+    <Compile Include="Game\ComboItem.cs" />
     <Compile Include="Util\BigEndian.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
@@ -514,7 +518,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="Misc\personal_gs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

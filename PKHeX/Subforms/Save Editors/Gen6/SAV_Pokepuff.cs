@@ -10,7 +10,7 @@ namespace PKHeX
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
 
-            pfa = Main.puffs;
+            pfa = Main.GameStrings.puffs;
             pfa[0] = "---";
             Setup();
 

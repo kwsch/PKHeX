@@ -26,8 +26,8 @@ namespace PKHeX
 
             CB_Bag.Items.Clear();
             CB_Bag.Items.Add("---");
-            for (int i = 1; i < Main.trainingbags.Length - 1; i++)
-                CB_Bag.Items.Add(Main.trainingbags[i]);
+            for (int i = 1; i < Main.GameStrings.trainingbags.Length - 1; i++)
+                CB_Bag.Items.Add(Main.GameStrings.trainingbags[i]);
 
             if (pkm is PK6)
             {
