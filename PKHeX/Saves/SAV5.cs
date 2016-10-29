@@ -450,9 +450,9 @@ namespace PKHeX
             Encoding.Unicode.GetBytes(val.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + 0x28 * box + 4);
             Edited = true;
         }
-        public override int getBoxWallpaper(int box)
+        protected override int getBoxWallpaperOffset(int box)
         {
-            return Data[PCLayout + 0x3C4 + box];
+            return PCLayout + 0x3C4 + box;
         }
         public override int CurrentBox
         {

@@ -434,12 +434,11 @@ namespace PKHeX
             get { return Data[Box]; }
             set { Data[Box] = (byte)value; }
         }
-        public override int getBoxWallpaper(int box)
+        protected override int getBoxWallpaperOffset(int box)
         {
-            // Box Wallpaper is directly after the Box Names
             int offset = getBoxOffset(BoxCount);
             offset += BoxCount * 0x9 + box;
-            return Data[offset];
+            return offset;
         }
         public override string getBoxName(int box)
         {

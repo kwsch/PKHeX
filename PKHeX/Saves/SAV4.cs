@@ -571,13 +571,13 @@ namespace PKHeX
             get { return Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4]; }
             set { Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4] = (byte)value; }
         }
-        public override int getBoxWallpaper(int box)
+        protected override int getBoxWallpaperOffset(int box)
         {
             // Box Wallpaper is directly after the Box Names
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x18;
             offset += BoxCount*0x28 + box;
-            return Data[offset];
+            return offset;
         }
         public override string getBoxName(int box)
         {

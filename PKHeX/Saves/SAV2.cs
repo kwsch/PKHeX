@@ -554,10 +554,6 @@ namespace PKHeX
             get { return Data[CurrentBoxIndexOffset] & 0x7F; }
             set { Data[CurrentBoxIndexOffset] = (byte)((Data[Japanese ? 0x2842 : 0x284C] & 0x80) | (value & 0x7F)); }
         }
-        public override int getBoxWallpaper(int box)
-        {
-            return 0;
-        }
         public override string getBoxName(int box)
         {
             return PKX.getG1Str(Data.Skip(BoxNamesOffset + box*9).Take(9).ToArray(), Japanese);

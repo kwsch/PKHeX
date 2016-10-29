@@ -255,11 +255,6 @@ namespace PKHeX
         {
             return Box + (30 * SIZE_STORED + 0x14)*box + 0x14;
         }
-        public override int CurrentBox { get { return 0; } set { } }
-        public override int getBoxWallpaper(int box)
-        {
-            return box;
-        }
         public override string getBoxName(int box)
         {
             return PKX.getColoStr(Data, Box + 0x24A4*box, 8);

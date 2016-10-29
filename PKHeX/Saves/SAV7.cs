@@ -430,10 +430,19 @@ namespace PKHeX
         {
             return Box + SIZE_STORED*box*30;
         }
-        public override int getBoxWallpaper(int box)
+        protected override int getBoxWallpaperOffset(int box)
         {
+            int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : -1;
+            if (ofs > -1)
+                return ofs + box;
+            return ofs;
+        }
+        public override void setBoxWallpaper(int box, int value)
+        {
+            if (PCBackgrounds < 0)
+                return;
             int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : 0;
-            return Data[ofs + box];
+            Data[ofs + box] = (byte)value;
         }
         public override string getBoxName(int box)
         {
@@ -575,7 +584,17 @@ namespace PKHeX
             get { return Data[Party + 6 * SIZE_PARTY]; }
             protected set { Data[Party + 6 * SIZE_PARTY] = (byte)value; }
         }
-        
+        public override int BoxesUnlocked { get { return -1; } set { Data[PCFlags + 1] = (byte)(value + 1); } }
+        public override byte[] BoxFlags {
+            get { return null; }
+            set
+            {
+                if (value.Length != 2) return;
+                Data[PCFlags] = value[0];
+                Data[PCFlags + 2] = value[1];
+            }
+        }
+
         public override int DaycareSeedSize => 16;
         public override int getDaycareSlotOffset(int loc, int slot)
         {
