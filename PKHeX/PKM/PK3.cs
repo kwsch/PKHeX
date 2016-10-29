@@ -33,7 +33,7 @@ namespace PKHeX
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
-        public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber]; } set { } }
+        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[abils[1] == 0 ? 0 : AbilityNumber]; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }
 
@@ -167,7 +167,7 @@ namespace PKHeX
         }
         public override bool getGenderIsValid()
         {
-            int gv = PersonalTable.RS[Species].Gender;
+            int gv = PersonalInfo.Gender;
 
             if (gv == 255)
                 return Gender == 2;

@@ -14,7 +14,7 @@ namespace PKHeX
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 6;
-        public override PersonalInfo PersonalInfo => (AO ? PersonalTable.AO : PersonalTable.XY).getFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.AO.getFormeEntry(Species, AltForm);
 
         public PK6(byte[] decryptedData = null, string ident = null)
         {
@@ -440,14 +440,14 @@ namespace PKHeX
         }
         public override bool getGenderIsValid()
         {
-            int gv = PersonalTable.AO[Species].Gender;
+            int gv = PersonalInfo.Gender;
 
             if (gv == 255)
                 return Gender == 2;
             if (gv == 254)
-                return Gender == 0;
-            if (gv == 0)
                 return Gender == 1;
+            if (gv == 0)
+                return Gender == 0;
             return true;
         }
 
@@ -622,7 +622,7 @@ namespace PKHeX
                 return;
 
             // Reset
-            HT_Friendship = PersonalTable.AO[Species].BaseFriendship;
+            HT_Friendship = PersonalInfo.BaseFriendship;
             HT_Affection = 0;
         }
 
