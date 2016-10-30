@@ -595,14 +595,14 @@ namespace PKHeX
             }
         }
 
-        public override int DaycareSeedSize => 16;
+        public override int DaycareSeedSize => 32; // 128 bits
         public override int getDaycareSlotOffset(int loc, int slot)
         {
             if (loc != 0)
                 return -1;
             if (Daycare < 0)
                 return -1;
-            return Daycare + 8 + slot * (SIZE_STORED + 8);
+            return Daycare + 6 + slot * (SIZE_STORED + 6);
         }
         public override uint? getDaycareEXP(int loc, int slot)
         {
@@ -611,7 +611,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return BitConverter.ToUInt32(Data, Daycare + (SIZE_STORED + 8) * slot + 4);
+            return BitConverter.ToUInt32(Data, Daycare + (SIZE_STORED + 6) * slot + 2);
         }
         public override bool? getDaycareOccupied(int loc, int slot)
         {
@@ -620,16 +620,17 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return Data[Daycare + (SIZE_STORED + 8) * slot] == 1;
+            return Data[Daycare + (SIZE_STORED + 6) * slot] != 0;
         }
-        public override ulong? getDaycareRNGSeed(int loc)
+        public override string getDaycareRNGSeed(int loc)
         {
             if (loc != 0)
                 return null;
             if (Daycare < 0)
                 return null;
 
-            return BitConverter.ToUInt64(Data, Daycare + 0x1E8);
+            var data = Data.Skip(Daycare + 0x1DC).Take(DaycareSeedSize / 2).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", "");
         }
         public override bool? getDaycareHasEgg(int loc)
         {
@@ -647,7 +648,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return;
 
-            BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + (SIZE_STORED + 8) * slot + 4);
+            BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + (SIZE_STORED + 6) * slot + 2);
         }
         public override void setDaycareOccupied(int loc, int slot, bool occupied)
         {
@@ -656,16 +657,25 @@ namespace PKHeX
             if (Daycare < 0)
                 return;
 
-            Data[Daycare + (SIZE_STORED + 8) * slot] = (byte)(occupied ? 1 : 0);
+            // Are they using species instead of a flag?
+            Data[Daycare + (SIZE_STORED + 6) * slot] = (byte)(occupied ? 1 : 0);
         }
-        public override void setDaycareRNGSeed(int loc, ulong seed)
+        public override void setDaycareRNGSeed(int loc, string seed)
         {
             if (loc != 0)
                 return;
             if (Daycare < 0)
                 return;
+            if (seed == null)
+                return;
+            if (seed.Length > DaycareSeedSize)
+                return;
 
-            BitConverter.GetBytes(seed).CopyTo(Data, Daycare + 0x1E8);
+            Enumerable.Range(0, seed.Length)
+                 .Where(x => x % 2 == 0)
+                 .Reverse()
+                 .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
+                 .Reverse().ToArray().CopyTo(Data, Daycare + 0x1DC);
         }
         public override void setDaycareHasEgg(int loc, bool hasEgg)
         {

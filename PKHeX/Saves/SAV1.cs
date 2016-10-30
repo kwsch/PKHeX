@@ -360,10 +360,6 @@ namespace PKHeX
         {
             return Daycare;
         }
-        public override ulong? getDaycareRNGSeed(int loc)
-        {
-            return null;
-        }
         public override uint? getDaycareEXP(int loc, int slot)
         {
             return null;

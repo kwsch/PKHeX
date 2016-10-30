@@ -368,11 +368,12 @@ namespace PKHeX
         {
             return Daycare + 4 + 0xE4 * slot;
         }
-        public override ulong? getDaycareRNGSeed(int loc)
+        public override string getDaycareRNGSeed(int loc)
         {
             if (Version != GameVersion.B2W2)
                 return null;
-            return BitConverter.ToUInt64(Data, Daycare + 0x1CC);
+            var data = Data.Skip(Daycare + 0x1CC).Take(DaycareSeedSize/2).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", "");
         }
         public override uint? getDaycareEXP(int loc, int slot)
         {
@@ -390,11 +391,14 @@ namespace PKHeX
         {
             BitConverter.GetBytes((uint)(occupied ? 1 : 0)).CopyTo(Data, Daycare + 0x1CC);
         }
-        public override void setDaycareRNGSeed(int loc, ulong seed)
+        public override void setDaycareRNGSeed(int loc, string seed)
         {
             if (Version != GameVersion.B2W2)
                 return;
-            BitConverter.GetBytes(seed).CopyTo(Data, Daycare + 0x1CC);
+            Enumerable.Range(0, seed.Length)
+                 .Where(x => x % 2 == 0)
+                 .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
+                 .Reverse().ToArray().CopyTo(Data, Daycare + 0x1CC);
         }
 
         // Inventory

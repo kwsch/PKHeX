@@ -607,10 +607,6 @@ namespace PKHeX
         {
             return Daycare + slot * SIZE_PARTY;
         }
-        public override ulong? getDaycareRNGSeed(int loc)
-        {
-            return null;
-        }
         public override uint? getDaycareEXP(int loc, int slot)
         {
             int ofs = Daycare + (slot+1)*SIZE_PARTY - 4;

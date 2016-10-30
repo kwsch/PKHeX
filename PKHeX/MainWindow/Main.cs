@@ -3114,12 +3114,12 @@ namespace PKHeX
                 // Reset to Stored Value
                 var seed = SAV.getDaycareRNGSeed(SAV.DaycareIndex);
                 if (seed != null)
-                    TB_RNGSeed.Text = ((ulong)seed).ToString("X"+SAV.DaycareSeedSize);
+                    TB_RNGSeed.Text = seed;
                 return; // recursively triggers this method, no need to continue
             }
 
             // Write final value back to the save
-            ulong value = Convert.ToUInt64(filterText, 16);
+            var value = filterText.PadLeft(SAV.DaycareSeedSize, '0');
             if (value != SAV.getDaycareRNGSeed(SAV.DaycareIndex))
             {
                 SAV.setDaycareRNGSeed(SAV.DaycareIndex, value);
@@ -3311,12 +3311,12 @@ namespace PKHeX
                 DayCare_HasEgg.Visible = egg != null;
                 DayCare_HasEgg.Checked = egg == true;
 
-                ulong? seed = SAV.getDaycareRNGSeed(SAV.DaycareIndex);
+                var seed = SAV.getDaycareRNGSeed(SAV.DaycareIndex);
                 L_DaycareSeed.Visible = TB_RNGSeed.Visible = seed != null;
                 if (seed != null)
                 {
                     TB_RNGSeed.MaxLength = SAV.DaycareSeedSize;
-                    TB_RNGSeed.Text = ((ulong)seed).ToString("X"+SAV.DaycareSeedSize);
+                    TB_RNGSeed.Text = seed;
                 }
             }
 

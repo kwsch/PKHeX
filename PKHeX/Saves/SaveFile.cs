@@ -336,12 +336,12 @@ namespace PKHeX
         public virtual bool HasTwoDaycares => false;
         public virtual int getDaycareSlotOffset(int loc, int slot) { return -1; }
         public virtual uint? getDaycareEXP(int loc, int slot) { return null; }
-        public virtual ulong? getDaycareRNGSeed(int loc) { return null; }
+        public virtual string getDaycareRNGSeed(int loc) { return null; }
         public virtual bool? getDaycareHasEgg(int loc) { return null; }
         public virtual bool? getDaycareOccupied(int loc, int slot) { return null; }
 
         public virtual void setDaycareEXP(int loc, int slot, uint EXP) { }
-        public virtual void setDaycareRNGSeed(int loc, ulong seed) { }
+        public virtual void setDaycareRNGSeed(int loc, string seed) { }
         public virtual void setDaycareHasEgg(int loc, bool hasEgg) { }
         public virtual void setDaycareOccupied(int loc, int slot, bool occupied) { }
 

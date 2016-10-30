@@ -327,7 +327,6 @@ namespace PKHeX
         // 0x02-0x03 -- unused?
         // 0x04-0x07 -- Initial EXP
         public override int getDaycareSlotOffset(int loc, int slot) { return Daycare + 8; }
-        public override ulong? getDaycareRNGSeed(int loc) { return null; }
         public override uint? getDaycareEXP(int loc, int slot) { return null; }
         public override bool? getDaycareOccupied(int loc, int slot) { return null; }
         public override void setDaycareEXP(int loc, int slot, uint EXP) { }
