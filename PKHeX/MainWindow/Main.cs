@@ -945,6 +945,7 @@ namespace PKHeX
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
 
             PB_MarkPentagon.Visible = SAV.Generation >= 6;
+            PB_MarkAlola.Visible = SAV.Generation >= 7;
             TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
             TB_GameSync.Visible = SAV.Exportable && SAV.Generation == 6;
 
@@ -1452,9 +1453,9 @@ namespace PKHeX
 
             PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, !BTN_Shinytize.Enabled ? 1 : 0.1);
             PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, CHK_Cured.Checked ? 1 : 0.1);
-
-            int Version = pkm.Version;
-            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, Version >= 24 && Version <= 29 ? 1 : 0.1);
+            
+            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, pkm.Gen6 ? 1 : 0.1);
+            PB_MarkAlola.Image = Util.ChangeOpacity(PB_MarkAlola.InitialImage, pkm.Gen7 ? 1 : 0.1);
         }
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)

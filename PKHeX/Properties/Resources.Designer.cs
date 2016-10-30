@@ -16711,6 +16711,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sanchi {
+            get {
+                object obj = ResourceManager.GetObject("sanchi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap savePKM {
             get {
                 object obj = ResourceManager.GetObject("savePKM", resourceCulture);
