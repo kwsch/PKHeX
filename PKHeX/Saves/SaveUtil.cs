@@ -7,42 +7,6 @@ using System.Text;
 
 namespace PKHeX
 {
-    public enum GameVersion
-    {
-        /* I don't want to assign Gen I/II... */
-        XD = -11,
-        COLO = -10,
-        BATREV = -7,
-        RSBOX = -5,
-        GS = -4,
-        C = -3,
-        Invalid = -2,
-        Any = -1,
-        Unknown = 0,
-        S = 1, R = 2, E = 3, FR = 4, LG = 5, CXD = 15,
-        D = 10, P = 11, Pt = 12, HG = 7, SS = 8, 
-        W = 20, B = 21, W2 = 22, B2 = 23,
-        X = 24, Y = 25, AS = 26, OR = 27,
-        SN = 30, MN = 31,
-
-        // Game Groupings (SaveFile type)
-        RBY = 98,
-        GSC = 99,
-        RS = 100,
-        FRLG = 101,
-        DP = 102,
-        HGSS = 103,
-        BW = 104,
-        B2W2 = 105,
-        XY = 106,
-        ORASDEMO = 107,
-        ORAS = 108,
-        SM = 109,
-        
-        // Extra Game Groupings (Generation)
-        Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7
-    }
-
     public static class SaveUtil
     {
         internal const int BEEF = 0x42454546;
@@ -416,69 +380,6 @@ namespace PKHeX
             return GameVersion.SM;
         }
 
-        /// <summary>Determines the Version Grouping of an input Version ID</summary>
-        /// <param name="Version">Version of which to determine the group</param>
-        /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getMetLocationVersionGroup(GameVersion Version)
-        {
-            switch (Version)
-            {
-                case GameVersion.CXD:
-                    return GameVersion.CXD;
-
-                case GameVersion.RBY:
-                    return GameVersion.RBY;
-
-                case GameVersion.GS:
-                case GameVersion.C:
-                    return GameVersion.GSC;
-
-                case GameVersion.R:
-                case GameVersion.S:
-                    return GameVersion.RS;
-
-                case GameVersion.E:
-                    return GameVersion.E;
-
-                case GameVersion.FR:
-                case GameVersion.LG:
-                    return GameVersion.FR;
-
-                case GameVersion.D:
-                case GameVersion.P:
-                    return GameVersion.DP;
-
-                case GameVersion.Pt:
-                    return GameVersion.Pt;
-
-                case GameVersion.HG:
-                case GameVersion.SS:
-                    return GameVersion.HGSS;
-
-                case GameVersion.B:
-                case GameVersion.W:
-                    return GameVersion.BW;
-
-                case GameVersion.B2:
-                case GameVersion.W2:
-                    return GameVersion.B2W2;
-
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return GameVersion.XY;
-
-                case GameVersion.OR:
-                case GameVersion.AS:
-                    return GameVersion.ORAS;
-
-                case GameVersion.SN:
-                case GameVersion.MN:
-                    return GameVersion.SM;
-
-                default:
-                    return GameVersion.Invalid;
-            }
-        }
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
@@ -616,7 +517,7 @@ namespace PKHeX
             return crc;
         }
 
-        internal static readonly ushort[] crc16 =
+        private static readonly ushort[] crc16 =
         {
             0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
             0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
@@ -943,7 +844,6 @@ namespace PKHeX
                 default: return (int)GameVersion.Unknown;
             }
         }
-
 
         internal static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
         {
