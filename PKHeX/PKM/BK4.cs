@@ -62,7 +62,7 @@ namespace PKHeX
         }
         public override int OT_Friendship { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
         public override int Ability { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
-        public override byte MarkByte { get { return Data[0x16]; } protected set { Data[0x16] = value; } }
+        public override int MarkValue { get { return Data[0x16]; } protected set { Data[0x16] = (byte)value; } }
         public override int Language { get { return Data[0x17]; } set { Data[0x17] = (byte)value; } }
         public override int EV_HP { get { return Data[0x18]; } set { Data[0x18] = (byte)value; } }
         public override int EV_ATK { get { return Data[0x19]; } set { Data[0x19] = (byte)value; } }

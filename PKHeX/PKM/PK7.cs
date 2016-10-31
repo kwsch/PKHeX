@@ -70,8 +70,7 @@ namespace PKHeX
         }
         public override int Ability { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
         public override int AbilityNumber { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
-        public int TrainingBagHits { get { return Data[0x16]; } set { Data[0x16] = (byte)value; } }
-        public int TrainingBag { get { return Data[0x17]; } set { Data[0x17] = (byte)value; } }
+        public override int MarkValue { get { return BitConverter.ToUInt16(Data, 0x16); } protected set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); } }
         public override uint PID
         {
             get { return BitConverter.ToUInt32(Data, 0x18); }
@@ -93,7 +92,7 @@ namespace PKHeX
         public override int CNT_Smart { get { return Data[0x27]; } set { Data[0x27] = (byte)value; } }
         public override int CNT_Tough { get { return Data[0x28]; } set { Data[0x28] = (byte)value; } }
         public override int CNT_Sheen { get { return Data[0x29]; } set { Data[0x29] = (byte)value; } }
-        public override byte MarkByte { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
+        // public override byte MarkValue { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
         private byte PKRS { get { return Data[0x2B]; } set { Data[0x2B] = value; } }
         public override int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
@@ -423,7 +422,6 @@ namespace PKHeX
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         
         // Complex Generated Attributes
-
         public override int Characteristic
         {
             get
@@ -437,6 +435,27 @@ namespace PKHeX
                     if (IVs[pm6stat = pm6++ % 6] == maxIV)
                         break;
                 return pm6stat*5 + maxIV%5;
+            }
+        }
+
+        public override int[] Markings
+        {
+            get
+            {
+                int[] marks = new int[8];
+                int val = MarkValue;
+                for (int i = 0; i < marks.Length; i++)
+                    marks[i] = (val >> (i*2)) & 3;
+                return marks;
+            }
+            set
+            {
+                if (value.Length > 8)
+                    return;
+                int v = 0;
+                for (int i = 0; i < value.Length; i++)
+                    v |= (value[i] & 3) << (i*2);
+                MarkValue = v;
             }
         }
 

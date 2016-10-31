@@ -1448,14 +1448,31 @@ namespace PKHeX
         private void setMarkings()
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
-            for (int i = 0; i < 6; i++)
-                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, pkm.Markings[i] ? 1 : 0.1);
+            for (int i = 0; i < pba.Length; i++)
+                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, pkm.Markings[i] != 0 ? 1 : 0.1);
 
             PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, !BTN_Shinytize.Enabled ? 1 : 0.1);
             PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, CHK_Cured.Checked ? 1 : 0.1);
             
             PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, pkm.Gen6 ? 1 : 0.1);
+
+            // Gen7 Markings
+            if (pkm.Format != 7)
+                return;
+
             PB_MarkAlola.Image = Util.ChangeOpacity(PB_MarkAlola.InitialImage, pkm.Gen7 ? 1 : 0.1);
+            for (int i = 0; i < pba.Length; i++)
+            {
+                switch (pkm.Markings[i])
+                {
+                    case 1:
+                        pba[i].Image = Util.ChangeAllColorTo(pba[i].Image, Color.FromArgb(000, 191, 255));
+                        break;
+                    case 2:
+                        pba[i].Image = Util.ChangeAllColorTo(pba[i].Image, Color.FromArgb(255, 117, 179));
+                        break;
+                }
+            }
         }
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)
@@ -1554,9 +1571,25 @@ namespace PKHeX
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             int index = Array.IndexOf(pba, sender);
-            bool[] markings = pkm.Markings;
-            markings[index] ^= true;
-            pkm.Markings = markings;
+
+            // Handling Gens 3-6
+            int[] markings = pkm.Markings;
+            switch (pkm.Format)
+            {
+                case 3:
+                case 4:
+                case 5:
+                case 6: // on/off
+                    markings[index] ^= 1; // toggle
+                    pkm.Markings = markings;
+                    break;
+                case 7: // 0 (none) | 1 (blue) | 2 (pink)
+                    markings[index] = (markings[index]+1)%3; // cycle
+                    pkm.Markings = markings;
+                    break;
+                default:
+                    return;
+            }
             setMarkings();
         }
         private void clickStatLabel(object sender, MouseEventArgs e)

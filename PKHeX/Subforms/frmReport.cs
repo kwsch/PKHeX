@@ -63,7 +63,7 @@ namespace PKHeX
             public int Smart => pkm.CNT_Smart;
             public int Tough => pkm.CNT_Tough;
             public int Sheen => pkm.CNT_Sheen;
-            public int Markings => pkm.MarkByte;
+            public int Markings => pkm.MarkValue;
 
             public string NotOT => pkm.Format > 5 ? ((PK6) pkm).HT_Name : "N/A";
 

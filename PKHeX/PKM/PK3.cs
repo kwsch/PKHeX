@@ -55,7 +55,7 @@ namespace PKHeX
                     Array.Resize(ref strdata, 7);
                 strdata.CopyTo(Data, 0x14); } }
 
-        public override byte MarkByte { get { return Data[0x1B]; } protected set { Data[0x1B] = value; } }
+        public override int MarkValue { get { return Data[0x1B]; } protected set { Data[0x1B] = (byte)value; } }
         public override ushort Checksum { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1C); } }
         public override ushort Sanity { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1E); } }
 

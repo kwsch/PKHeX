@@ -121,7 +121,7 @@ namespace PKHeX
         public abstract int TSV { get; }
         public abstract int PSV { get; }
         public abstract int Characteristic { get; }
-        public abstract byte MarkByte { get; protected set; }
+        public abstract int MarkValue { get; protected set; }
         public abstract int Met_Location { get; set; }
         public abstract int Egg_Location { get; set; }
         public abstract int OT_Friendship { get; set; }
@@ -285,12 +285,12 @@ namespace PKHeX
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel => PKX.getLevel(Species, EXP);
-        public bool MarkCircle      { get { return (MarkByte & (1 << 0)) == 1 << 0; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkTriangle    { get { return (MarkByte & (1 << 1)) == 1 << 1; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkSquare      { get { return (MarkByte & (1 << 2)) == 1 << 2; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkHeart       { get { return (MarkByte & (1 << 3)) == 1 << 3; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkStar        { get { return (MarkByte & (1 << 4)) == 1 << 4; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkDiamond     { get { return (MarkByte & (1 << 5)) == 1 << 5; } set { MarkByte = (byte)(MarkByte & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkCircle      { get { return (MarkValue & (1 << 0)) == 1 << 0; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkTriangle    { get { return (MarkValue & (1 << 1)) == 1 << 1; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkSquare      { get { return (MarkValue & (1 << 2)) == 1 << 2; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkHeart       { get { return (MarkValue & (1 << 3)) == 1 << 3; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkStar        { get { return (MarkValue & (1 << 4)) == 1 << 4; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool MarkDiamond     { get { return (MarkValue & (1 << 5)) == 1 << 5; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);
@@ -343,13 +343,13 @@ namespace PKHeX
             }
         }
 
-        public bool[] Markings
+        public virtual int[] Markings
         {
             get
             {
-                bool[] mark = new bool[8];
+                int[] mark = new int[8];
                 for (int i = 0; i < 8; i++)
-                    mark[i] = ((MarkByte >> i) & 1) == 1;
+                    mark[i] = (MarkValue >> i) & 1;
                 return mark;
             }
             set
@@ -358,8 +358,8 @@ namespace PKHeX
                     return;
                 byte b = 0;
                 for (int i = 0; i < value.Length; i++)
-                    b |= (byte)(value[i] ? 1 << i : 0);
-                MarkByte = b;
+                    b |= (byte)((value[i] & 1) << i);
+                MarkValue = b;
             }
         }
 

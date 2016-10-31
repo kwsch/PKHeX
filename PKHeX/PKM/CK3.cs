@@ -170,7 +170,7 @@ namespace PKHeX
         public override int AbilityNumber { get { return Data[0xCC]; } set { Data[0xCC] = (byte)(value & 1); } }
         public override bool Valid { get { return Data[0xCD] == 0; } set { if (value) Data[0xCD] = 0; } }
         // 0xCE unknown
-        public override byte MarkByte { get { return Data[0xCF]; } protected set { Data[0xCF] = value; } }
+        public override int MarkValue { get { return Data[0xCF]; } protected set { Data[0xCF] = (byte)value; } }
         public override int PKRS_Days { get { return Math.Max((sbyte)Data[0xD0], (sbyte)0); } set { Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); } }
         public int ShadowID { get { return BigEndian.ToUInt16(Data, 0xD8); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD8); } }
         public int Purification { get { return BigEndian.ToInt32(Data, 0xDC); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xDC); } }

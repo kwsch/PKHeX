@@ -240,7 +240,7 @@ namespace PKHeX
         public override int TSV => 0x0000;
         public override int PSV => 0xFFFF;
         public override int Characteristic => -1;
-        public override byte MarkByte { get { return 0; } protected set { } }
+        public override int MarkValue { get { return 0; } protected set { } }
         public override int CurrentFriendship { get { return 0; } set { } }
         public override int Ability { get { return 0; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }

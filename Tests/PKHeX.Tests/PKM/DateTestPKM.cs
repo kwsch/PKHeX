@@ -541,7 +541,7 @@ namespace PKHeX.Tests.PKM
             }
         }
 
-        public override byte MarkByte
+        public override int MarkValue
         {
             get
             {
