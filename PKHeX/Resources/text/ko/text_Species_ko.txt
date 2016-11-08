@@ -1,4 +1,4 @@
-﻿알
+알
 이상해씨
 이상해풀
 이상해꽃
@@ -720,84 +720,84 @@
 디안시
 후파
 볼케니온
-Rowlet
-Dartrix
-[Dartrix Evo]
-Litten
-Torracat
-[Torracat Evo]
-Popplio
-Brionne
-[Brionne Evo]
-Pikipek
-[Pikipek Evo]
-[[Pikipek Evo] Evo]
-Yungoos
-Gumshoos
-Grubbin
-Charjabug
-Vikavolt
-Crabrawler
-[Crabrawler Evo]
-Oricorio
-Cutiefly
-Ribombee
-Rockruff
-Lycanroc
-Wishiwashi
-[Blue hair purple thing]
-[[Blue hair purple thing] Evo]
-Mudbray
-Mudsdale
-[Water Spider]
-[[Water Spider] Evo]
-Fomantis
-Lurantis
-Morelull
-[Morelull Evo]
-Salandit
-[Salandit Evo]
-Stufful
-Bewear
-Bounsweet
-Steenee
-Tsareena
-Comfey
-Oranguru
-Passimian
-Wimpod
-[Wimpod Evo]
-Sandygast
-Palossand
-Pyukumuku
-Type: Null
-Silvally
-Minior
-Komala
-Turtonator
-Togedemaru
-Mimikyu
-Bruxish
-Drampa
-[Sea Anchor]
-Jangmo-o
-Hakamo-o
-Kommo-o
-Tapu Koko
-[Pink Tapu Koko]
-[Red Tapu Koko]
-[Purple Tapu Koko]
-[Space Cloud]
-[Galaxy Eye]
-Solgaleo
-Lunala
-UB-01
-UB-02 Absorption
-UB-02 Beauty
-[UB-## Plugs]
-[UB-## Pillars]
-[UB-## Blades]
-[UB-## Krabs]
-[UB-## Crystals]
-Magearna
-Marshadow
+나몰빼미
+빼미스로우
+모크나이퍼
+냐오불
+냐오히트
+어흥염
+누리공
+키요공
+누리레느
+콕코구리
+크라파
+왕큰부리
+영구스
+형사구스
+턱지충이
+전지충이
+투구뿌논
+오기지게
+모단단게
+춤추새
+에블리
+에리본
+암멍이
+루가루암
+약어리
+시마사리
+더시마사리
+머드나기
+만마드
+물거미
+깨비물거미
+짜랑랑
+라란티스
+자마슈
+마셰이드
+야도뇽
+염뉴트
+포곰곰
+이븐곰
+달콤아
+달무리나
+달코퀸
+큐아링
+하랑우탄
+내던숭이
+꼬시레
+갑주무사
+모래꿍
+모래성이당
+해무기
+타입:널
+실버디
+메테노
+자말라
+폭거북스
+토게데마루
+따라큐
+치갈기
+할비롱
+타타륜
+짜랑꼬
+짜랑고우
+짜랑고우거
+카푸꼬꼬꼭
+카푸나비나
+카푸브루루
+카푸느지느
+코스모그
+코스모움
+솔가레오
+루나아라
+텅비드
+매시붕
+페로코체
+전수목
+철화구야
+종이신도
+악식킹
+네크로즈마
+마기아나
+마샤도

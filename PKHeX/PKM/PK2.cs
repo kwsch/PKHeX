@@ -219,7 +219,7 @@ namespace PKHeX
 
         public override bool getGenderIsValid()
         {
-            int gv = PersonalTable.C[Species].Gender;
+            int gv = PersonalInfo.Gender;
 
             if (gv == 255)
                 return Gender == 2;
@@ -247,7 +247,7 @@ namespace PKHeX
         {
             get
             {
-                int gv = PersonalTable.C[Species].Gender;
+                int gv = PersonalInfo.Gender;
                 if (gv == 255)
                     return 2;
                 if (gv == 254)
@@ -314,7 +314,7 @@ namespace PKHeX
         public override int TSV => 0x0000;
         public override int PSV => 0xFFFF;
         public override int Characteristic => -1;
-        public override byte MarkByte { get { return 0; } protected set { } }
+        public override int MarkValue { get { return 0; } protected set { } }
         public override int Ability { get { return 0; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }

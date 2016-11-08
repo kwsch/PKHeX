@@ -143,17 +143,17 @@ namespace PKHeX
 
             var Any = new ComboItem {Text = "Any", Value = -1};
 
-            var DS_Species = new List<ComboItem>(Main.SpeciesDataSource);
+            var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
             DS_Species.RemoveAt(0);
             var filteredSpecies = DS_Species.Where(spec => RawDB.Any(mg => mg.Species == spec.Value)).ToList();
             filteredSpecies.Insert(0, Any);
             CB_Species.DataSource = filteredSpecies;
 
-            var DS_Item = new List<ComboItem>(Main.ItemDataSource);
+            var DS_Item = new List<ComboItem>(GameInfo.ItemDataSource);
             DS_Item.Insert(0, Any); CB_HeldItem.DataSource = DS_Item;
             
             // Set the Move ComboBoxes too..
-            var DS_Move = new List<ComboItem>(Main.MoveDataSource);
+            var DS_Move = new List<ComboItem>(GameInfo.MoveDataSource);
             DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })

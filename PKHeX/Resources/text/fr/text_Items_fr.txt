@@ -1,4 +1,4 @@
-﻿Aucun
+Aucun objet
 Master Ball
 Hyper Ball
 Super Ball
@@ -61,7 +61,7 @@ Vitesse +
 Précision +
 Spécial +
 Déf. Spé. +
-Poképoupée
+Poké Poupée
 Queue Skitty
 Flûte Bleue
 Flûte Jaune
@@ -74,7 +74,7 @@ Tesson Rouge
 Tesson Bleu
 Tesson Jaune
 Tesson Vert
-Superepousse
+Super Repousse
 Max Repousse
 Corde Sortie
 Repousse
@@ -142,11 +142,11 @@ Lettre Merci
 Lettre Demande
 Lettre Avis
 Lettre Réponse
-Lettre PontS
-Lettre PontY
-Lettre PontF
-Lettre PontH
-Lettre PontI
+Lettre Pont S
+Lettre Pont Y
+Lettre Pont F
+Lettre Pont H
+Lettre Pont I
 Baie Ceriz
 Baie Maron
 Baie Pêcha
@@ -237,7 +237,7 @@ Restes
 Balle Lumière
 Sable Doux
 Pierre Dure
-Grain Miracle
+Graine Miracle
 Lunettes Noires
 Ceinture Noire
 Aimant
@@ -308,7 +308,7 @@ Plaque Ciel
 Plaque Esprit
 Plaque Insecte
 Plaque Roc
-Plaque Fantô
+Plaque Fantôme
 Plaque Draco
 Plaque Ombre
 Plaque Fer
@@ -471,7 +471,7 @@ Carnet Zarbi
 Plante-Baies
 Cherch’Objet
 Carte Bleue
-Queueramolos
+Queue Ramoloss
 Glas Transparent
 Carte Magnétique
 Clé Sous-Sol
@@ -481,15 +481,15 @@ Objet perdu
 Passe Train
 Partie Machine
 Argent’Aile
-Arcenci’Aile
+Arc-en-Ci’Aile
 Œuf Mystère
-Noigrume Rge
-Noigrume Blu
-Noigrume Jne
-Noigrume Ver
-Noigrume Ros
-Noigrume Blc
-Noigrume Noi
+Noigrume Rouge
+Noigrume Bleu
+Noigrume Jaune
+Noigrume Vert
+Noigrume Rose
+Noigrume Blanc
+Noigrume Noir
 Speed Ball
 Niveau Ball
 Appât Ball
@@ -572,10 +572,10 @@ Aile Sprint
 Jolie Aile
 Fossile Plaque
 Fossile Plume
-Pass Liberté
+Passe Liberté
 Offrisphère
 Rêve Ball
-Poképlumet
+Poké Plumet
 Boîte Parure
 Crâne Dragon
 Champi Suave
@@ -704,7 +704,7 @@ Insigne de Kalos
 ABC Aventure
 Bibelot Bizarre
 Boîte Lentilles
-Malle Penderie
+Trousse Beauté
 Malle Penderie
 Galette Illumis
 Sablé Yantreizh
@@ -774,148 +774,148 @@ Météorite
 Gemme Sésame
 Éclat Météorite
 Flûte Éon
-776
-777
-778
-Electrium Z
-780
-781
-782
-783
-784
-785
-786
-787
-788
-789
-790
-791
-792
-793
-794
-795
-796
-Z-Ring
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-Electrium Z (K)
-811
-812
-813
-814
-815
-816
-817
-818
-819
-820
-821
-822
-823
-824
-825
-826
-827
-828
-829
-830
-831
-832
-833
-834
-835
-836
-837
-838
-839
-840
-841
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851
-852
-853
-854
-855
-856
-857
-858
-859
-860
-861
-862
-863
-864
-865
-866
-867
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900
-901
-902
-903
-904
-905
-906
-907
-908
-909
-910
-911
-912
-913
-914
-915
-916
-917
-918
-919
-920
+Normazélite
+Pyrozélite
+Aquazélite
+Voltazélite
+Florazélite
+Cryozélite
+Combazélite
+Toxizélite
+Terrazélite
+Aérozélite
+Psychézélite
+Insectozélite
+Rocazélite
+Spectrozélite
+Dracozélite
+Ténébrozélite
+Métallozélite
+Nymphézélite
+Pikazélite
+Capsule d’Argent
+Capsule d’Or
+Bracelet Z
+Archézélite
+Félinozélite
+Oratozélite
+Tokozélite
+Marshadozélite
+Aloraïzélite
+Ronflézélite
+Évolizélite
+Mewzélite
+Normazélite
+Pyrozélite
+Aquazélite
+Voltazélite
+Florazélite
+Cryozélite
+Combazélite
+Toxizélite
+Terrazélite
+Aérozélite
+Psychézélite
+Insectozélite
+Rocazélite
+Spectrozélite
+Dracozélite
+Ténébrozélite
+Métallozélite
+Nymphézélite
+Pikazélite
+Archézélite
+Félinozélite
+Oratozélite
+Tokozélite
+Marshadozélite
+Aloraïzélite
+Ronflézélite
+Évolizélite
+Mewzélite
+Pikachazélite
+Pikachazélite
+???
+???
+???
+???
+Sac Ingrédients
+Canne à Pêche
+Masque du Prof
+Festicket
+Gemme Lumière
+Orbe Frousse
+Boîte Zygarde
+???
+Pierre Glace
+Appel-Monture
+Ultra Ball
+Malasada Maxi
+Nectar Rouge
+Nectar Jaune
+Nectar Rose
+Nectar Mauve
+Flûte du Soleil
+Flûte de la Lune
+???
+Message Mystère
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+Champ’Duit
+Pare-Effet
+Graine Électrik
+Graine Psychique
+Graine Brume
+Graine Herbe
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+ROM Combat
+ROM Vol
+ROM Poison
+ROM Sol
+ROM Roche
+ROM Insecte
+ROM Spectre
+ROM Acier
+ROM Feu
+ROM Eau
+ROM Plante
+ROM Électrik
+ROM Psy
+ROM Glace
+ROM Dragon
+ROM Ténèbres
+ROM Fée

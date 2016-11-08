@@ -1,4 +1,4 @@
-﻿-
+-
 Destructor
 Golpe Kárate
 Doble Bofetón
@@ -163,7 +163,7 @@ Triataque
 Superdiente
 Cuchillada
 Sustituto
-Combate
+Forcejeo
 Esquema
 Triple Patada
 Ladrón
@@ -620,3 +620,101 @@ Pulso Primigenio
 Filo del Abismo
 Ascenso Draco
 Cerco Dimensión
+Carrera Arrolladora
+Carrera Arrolladora
+Ráfaga Demoledora
+Ráfaga Demoledora
+Picado Supersónico
+Picado Supersónico
+Diluvio Corrosivo
+Diluvio Corrosivo
+Barrena Telúrica
+Barrena Telúrica
+Aplastamiento Gigalítico
+Aplastamiento Gigalítico
+Guadaña Sedosa
+Guadaña Sedosa
+Presa Espectral
+Presa Espectral
+Hélice Trepanadora
+Hélice Trepanadora
+Hecatombe Pírica
+Hecatombe Pírica
+Hidrovórtice Abisal
+Hidrovórtice Abisal
+Megatón Floral
+Megatón Floral
+Gigavoltio Destructor
+Gigavoltio Destructor
+Disruptor Psíquico
+Disruptor Psíquico
+Crioaliento Despiadado
+Crioaliento Despiadado
+Dracoaliento Devastador
+Dracoaliento Devastador
+Agujero Negro Aniquilador
+Agujero Negro Aniquilador
+Arrumaco Sideral
+Arrumaco Sideral
+Pikavoltio Letal
+Recogearena
+Escaramuza
+Búnker
+Puntada Sombría
+Lariat Oscuro
+Aria Burbuja
+Martillo Hielo
+Cura Floral
+Fuerza Equina
+Absorbefuerza
+Cuchilla Solar
+Follaje
+Foco
+Hilo Venenoso
+Aguzar
+Piñón Auxiliar
+Golpe Mordaza
+Bola de Polen
+Anclaje
+Campo Psíquico
+Plancha
+Látigo Ígneo
+Chulería
+Llama Final
+Cambia Velocidad
+Cuerno Certero
+Purificación
+Danza Despertar
+Núcleo Castigo
+Patada Tropical
+Mandato
+Pico Cañón
+Fragor Escamas
+Martillo Dragón
+Giro Vil
+Velo Aurora
+Aluvión de Flechas Sombrías
+Hiperplancha Oscura
+Sinfonía de la Diva Marina
+Cólera del Guardián
+Constelación Robaalmas
+Surfeo Galvánico
+Arrojo Intempestivo
+Novena Potencia
+Supernova Original
+Coraza Trampa
+Cañón Floral
+Psicocolmillo
+Pataleta
+Hueso Sombrío
+Roca Veloz
+Hidroariete
+Láser Prisma
+Robasombra
+Meteoimpacto
+Rayo Umbrío
+Ojos Llorosos
+Electropunzada
+Furia Natural
+Multiataque
+Gigarrayo Fulminante

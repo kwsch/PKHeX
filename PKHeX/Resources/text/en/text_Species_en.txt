@@ -1,4 +1,4 @@
-﻿Egg
+Egg
 Bulbasaur
 Ivysaur
 Venusaur
@@ -722,41 +722,41 @@ Hoopa
 Volcanion
 Rowlet
 Dartrix
-[Dartrix Evo]
+Decidueye
 Litten
 Torracat
-[Torracat Evo]
+Incineroar
 Popplio
 Brionne
-[Brionne Evo]
+Primarina
 Pikipek
-[Pikipek Evo]
-[[Pikipek Evo] Evo]
+Trumbeak
+Toucannon
 Yungoos
 Gumshoos
 Grubbin
 Charjabug
 Vikavolt
 Crabrawler
-[Crabrawler Evo]
+Crabominable
 Oricorio
 Cutiefly
 Ribombee
 Rockruff
 Lycanroc
 Wishiwashi
-[Blue hair purple thing]
-[[Blue hair purple thing] Evo]
+Mareanie
+Toxapex
 Mudbray
 Mudsdale
-[Water Spider]
-[[Water Spider] Evo]
+Dewpider
+Araquanid
 Fomantis
 Lurantis
 Morelull
-[Morelull Evo]
+Shiinotic
 Salandit
-[Salandit Evo]
+Salazzle
 Stufful
 Bewear
 Bounsweet
@@ -766,7 +766,7 @@ Comfey
 Oranguru
 Passimian
 Wimpod
-[Wimpod Evo]
+Golisopod
 Sandygast
 Palossand
 Pyukumuku
@@ -779,25 +779,25 @@ Togedemaru
 Mimikyu
 Bruxish
 Drampa
-[Sea Anchor]
+Dhelmise
 Jangmo-o
 Hakamo-o
 Kommo-o
 Tapu Koko
-[Pink Tapu Koko]
-[Red Tapu Koko]
-[Purple Tapu Koko]
-[Space Cloud]
-[Galaxy Eye]
+Tapu Lele
+Tapu Bulu
+Tapu Fini
+Cosmog
+Cosmoem
 Solgaleo
 Lunala
-UB-01
-UB-02 Absorption
-UB-02 Beauty
-[UB-## Plugs]
-[UB-## Pillars]
-[UB-## Blades]
-[UB-## Krabs]
-[UB-## Crystals]
+Nihilego
+Buzzwole
+Pheromosa
+Xurkitree
+Celesteela
+Kartana
+Guzzlord
+Necrozma
 Magearna
 Marshadow

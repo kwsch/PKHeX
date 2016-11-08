@@ -482,7 +482,7 @@ namespace PKHeX
             string s = gift.getCardHeader() + Environment.NewLine;
             if (gift.IsItem)
             {
-                s += "Item: " + Main.itemlist[gift.Item] + Environment.NewLine + "Quantity: " + gift.Quantity;
+                s += "Item: " + Main.GameStrings.itemlist[gift.Item] + Environment.NewLine + "Quantity: " + gift.Quantity;
                 return s;
             }
             if (gift.IsPokémon)
@@ -491,9 +491,9 @@ namespace PKHeX
 
                 try
                 {
-                    s += $"{Main.specieslist[pk.Species]} @ {Main.itemlist[pk.HeldItem]}  --- ";
-                    s += (pk.IsEgg ? Main.eggname : $"{pk.OT_Name} - {pk.TID.ToString("00000")}/{pk.SID.ToString("00000")}") + Environment.NewLine;
-                    s += $"{Main.movelist[pk.Move1]} / {Main.movelist[pk.Move2]} / {Main.movelist[pk.Move3]} / {Main.movelist[pk.Move4]}" + Environment.NewLine;
+                    s += $"{Main.GameStrings.specieslist[pk.Species]} @ {Main.GameStrings.itemlist[pk.HeldItem]}  --- ";
+                    s += (pk.IsEgg ? Main.GameStrings.eggname : $"{pk.OT_Name} - {pk.TID.ToString("00000")}/{pk.SID.ToString("00000")}") + Environment.NewLine;
+                    s += $"{Main.GameStrings.movelist[pk.Move1]} / {Main.GameStrings.movelist[pk.Move2]} / {Main.GameStrings.movelist[pk.Move3]} / {Main.GameStrings.movelist[pk.Move4]}" + Environment.NewLine;
                 }
                 catch { s += "Unable to create gift description."; }
                 return s;

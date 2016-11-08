@@ -2,52 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection; // Temporary for MemeCrypto
 using System.Text;
 
 namespace PKHeX
 {
-    public enum GameVersion
-    {
-        /* I don't want to assign Gen I/II... */
-        XD = -11,
-        COLO = -10,
-        BATREV = -7,
-        RSBOX = -5,
-        GS = -4,
-        C = -3,
-        Invalid = -2,
-        Any = -1,
-        Unknown = 0,
-        S = 1, R = 2, E = 3, FR = 4, LG = 5, CXD = 15,
-        D = 10, P = 11, Pt = 12, HG = 7, SS = 8, 
-        W = 20, B = 21, W2 = 22, B2 = 23,
-        X = 24, Y = 25, AS = 26, OR = 27,
-        SN = 30, MN = 31,
-
-        // Game Groupings (SaveFile type)
-        RBY = 98,
-        GSC = 99,
-        RS = 100,
-        FRLG = 101,
-        DP = 102,
-        HGSS = 103,
-        BW = 104,
-        B2W2 = 105,
-        XY = 106,
-        ORASDEMO = 107,
-        ORAS = 108,
-        SM = 109,
-        
-        // Extra Game Groupings (Generation)
-        Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7
-    }
-
     public static class SaveUtil
     {
         internal const int BEEF = 0x42454546;
 
-        internal const int SIZE_G7SMDEMO = 0x6BE00;
+        internal const int SIZE_G7SM = 0x6BE00;
         internal const int SIZE_G6XY = 0x65600;
         internal const int SIZE_G6ORAS = 0x76000;
         internal const int SIZE_G6ORASDEMO = 0x5A00;
@@ -411,74 +374,11 @@ namespace PKHeX
         }
         public static GameVersion getIsG7SAV(byte[] data)
         {
-            if (!new [] {SIZE_G7SMDEMO}.Contains(data.Length))
+            if (!new [] {SIZE_G7SM}.Contains(data.Length))
                 return GameVersion.Invalid;
             return GameVersion.SM;
         }
 
-        /// <summary>Determines the Version Grouping of an input Version ID</summary>
-        /// <param name="Version">Version of which to determine the group</param>
-        /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getMetLocationVersionGroup(GameVersion Version)
-        {
-            switch (Version)
-            {
-                case GameVersion.CXD:
-                    return GameVersion.CXD;
-
-                case GameVersion.RBY:
-                    return GameVersion.RBY;
-
-                case GameVersion.GS:
-                case GameVersion.C:
-                    return GameVersion.GSC;
-
-                case GameVersion.R:
-                case GameVersion.S:
-                    return GameVersion.RS;
-
-                case GameVersion.E:
-                    return GameVersion.E;
-
-                case GameVersion.FR:
-                case GameVersion.LG:
-                    return GameVersion.FR;
-
-                case GameVersion.D:
-                case GameVersion.P:
-                    return GameVersion.DP;
-
-                case GameVersion.Pt:
-                    return GameVersion.Pt;
-
-                case GameVersion.HG:
-                case GameVersion.SS:
-                    return GameVersion.HGSS;
-
-                case GameVersion.B:
-                case GameVersion.W:
-                    return GameVersion.BW;
-
-                case GameVersion.B2:
-                case GameVersion.W2:
-                    return GameVersion.B2W2;
-
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return GameVersion.XY;
-
-                case GameVersion.OR:
-                case GameVersion.AS:
-                    return GameVersion.ORAS;
-
-                case GameVersion.SN:
-                case GameVersion.MN:
-                    return GameVersion.SM;
-
-                default:
-                    return GameVersion.Invalid;
-            }
-        }
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
@@ -585,7 +485,7 @@ namespace PKHeX
                 case SIZE_G6ORASDEMO:
                 case SIZE_G6ORAS:
                     
-                case SIZE_G7SMDEMO:
+                case SIZE_G7SM:
                     return true;
                 default:
                     return false;
@@ -616,7 +516,7 @@ namespace PKHeX
             return crc;
         }
 
-        internal static readonly ushort[] crc16 =
+        private static readonly ushort[] crc16 =
         {
             0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
             0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
@@ -686,18 +586,7 @@ namespace PKHeX
         }
         public static byte[] Resign7(byte[] sav7)
         {
-            // To be rewritten to include resigning code in the program at a later date. Private for now.
-            if (!File.Exists("MemeCrypto.dll"))
-                return new byte[0];
-            byte[] data = File.ReadAllBytes("MemeCrypto.dll");
-
-            Assembly assembly = Assembly.Load(data);
-            var type = assembly.GetType("MemeCrypto.MemeCrypto");
-            var method = type.GetMethod("Resign", new[] { typeof(byte[]) });
-            if (method == null)
-                return null;
-            object[] parameter = { sav7 };
-            return (byte[])method.Invoke(null, parameter);
+            return MemeCrypto.Resign(sav7);
         }
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
@@ -867,54 +756,54 @@ namespace PKHeX
                 default: return getDexFormIndexXY(species, formct);
             }
         }
-        public static int getDexFormIndexSM(int species, int formct)
+        public static int getDexFormIndexSM(int species, int formct, int start)
         {
             ushort[] formtable = // u16 species, u16 formcount
             {
                 0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
-                0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x001A, 0x0002,
-                0x001B, 0x0002, 0x001C, 0x0002, 0x0025, 0x0002, 0x0026, 0x0002,
-                0x0032, 0x0002, 0x0033, 0x0002, 0x0034, 0x0002, 0x0035, 0x0002,
-                0x0041, 0x0002, 0x004A, 0x0002, 0x004B, 0x0002, 0x004C, 0x0002,
-                0x0050, 0x0002, 0x0058, 0x0002, 0x0059, 0x0002, 0x005E, 0x0002,
-                0x0067, 0x0002, 0x0069, 0x0002, 0x0073, 0x0002, 0x007F, 0x0002,
-                0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003, 0x00B5, 0x0002,
-                0x00C9, 0x001C, 0x00D0, 0x0002, 0x00D4, 0x0002, 0x00D6, 0x0002,
-                0x00E5, 0x0002, 0x00F8, 0x0002, 0x00FE, 0x0002, 0x0101, 0x0002,
-                0x0104, 0x0002, 0x011A, 0x0002, 0x012E, 0x0002, 0x012F, 0x0002,
-                0x0132, 0x0002, 0x0134, 0x0002, 0x0136, 0x0002, 0x013F, 0x0002,
-                0x0143, 0x0002, 0x014E, 0x0002, 0x015F, 0x0004, 0x0162, 0x0002,
-                0x0167, 0x0002, 0x016A, 0x0002, 0x0175, 0x0002, 0x0178, 0x0002,
-                0x017C, 0x0002, 0x017D, 0x0002, 0x017E, 0x0002, 0x017F, 0x0002,
-                0x0180, 0x0002, 0x0182, 0x0004, 0x019C, 0x0003, 0x019D, 0x0003,
-                0x01A5, 0x0002, 0x01A6, 0x0002, 0x01A7, 0x0002, 0x01AC, 0x0002,
-                0x01BD, 0x0002, 0x01C0, 0x0002, 0x01CC, 0x0002, 0x01DB, 0x0002,
-                0x01DF, 0x0006, 0x01E7, 0x0002, 0x01EC, 0x0002, 0x01ED, 0x0012,
-                0x0213, 0x0002, 0x0226, 0x0002, 0x022B, 0x0002, 0x0249, 0x0004,
-                0x024A, 0x0004, 0x0281, 0x0002, 0x0282, 0x0002, 0x0285, 0x0002,
-                0x0286, 0x0003, 0x0287, 0x0002, 0x0288, 0x0002, 0x0289, 0x0005,
-                0x0292, 0x0003, 0x029A, 0x0014, 0x029D, 0x0005, 0x029E, 0x0006,
-                0x029F, 0x0005, 0x02A4, 0x000A, 0x02A6, 0x0002, 0x02A9, 0x0002,
-                0x02C6, 0x0004, 0x02C7, 0x0004, 0x02CC, 0x0002, 0x02CE, 0x0005,
-                0x02CF, 0x0002, 0x02D0, 0x0002, 0x02E5, 0x0004, 0x02E9, 0x0002,
-                0x02EA, 0x0002, 0x0306, 0x000E,
+                0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0007,
+                0x001A, 0x0002, 0x001B, 0x0002, 0x001C, 0x0002, 0x0025, 0x0002,
+                0x0026, 0x0002, 0x0032, 0x0002, 0x0033, 0x0002, 0x0034, 0x0002,
+                0x0035, 0x0002, 0x0041, 0x0002, 0x004A, 0x0002, 0x004B, 0x0002,
+                0x004C, 0x0002, 0x0050, 0x0002, 0x0058, 0x0002, 0x0059, 0x0002,
+                0x005E, 0x0002, 0x0067, 0x0002, 0x0069, 0x0002, 0x0073, 0x0002,
+                0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
+                0x00B5, 0x0002, 0x00C9, 0x001C, 0x00D0, 0x0002, 0x00D4, 0x0002,
+                0x00D6, 0x0002, 0x00E5, 0x0002, 0x00F8, 0x0002, 0x00FE, 0x0002,
+                0x0101, 0x0002, 0x0104, 0x0002, 0x011A, 0x0002, 0x012E, 0x0002,
+                0x012F, 0x0002, 0x0132, 0x0002, 0x0134, 0x0002, 0x0136, 0x0002,
+                0x013F, 0x0002, 0x0143, 0x0002, 0x014E, 0x0002, 0x015F, 0x0004,
+                0x0162, 0x0002, 0x0167, 0x0002, 0x016A, 0x0002, 0x0175, 0x0002,
+                0x0178, 0x0002, 0x017C, 0x0002, 0x017D, 0x0002, 0x017E, 0x0002,
+                0x017F, 0x0002, 0x0180, 0x0002, 0x0182, 0x0004, 0x019C, 0x0003,
+                0x019D, 0x0003, 0x01A5, 0x0002, 0x01A6, 0x0002, 0x01A7, 0x0002,
+                0x01AC, 0x0002, 0x01BD, 0x0002, 0x01C0, 0x0002, 0x01CC, 0x0002,
+                0x01DB, 0x0002, 0x01DF, 0x0006, 0x01E7, 0x0002, 0x01EC, 0x0002,
+                0x01ED, 0x0012, 0x0213, 0x0002, 0x0226, 0x0002, 0x022B, 0x0002,
+                0x0249, 0x0004, 0x024A, 0x0004, 0x0281, 0x0002, 0x0282, 0x0002,
+                0x0285, 0x0002, 0x0286, 0x0003, 0x0287, 0x0002, 0x0288, 0x0002,
+                0x0289, 0x0005, 0x0292, 0x0003, 0x029A, 0x0014, 0x029D, 0x0005,
+                0x029E, 0x0006, 0x029F, 0x0005, 0x02A4, 0x000A, 0x02A6, 0x0002,
+                0x02A9, 0x0002, 0x02C6, 0x0004, 0x02C7, 0x0004, 0x02CC, 0x0002,
+                0x02CE, 0x0005, 0x02CF, 0x0002, 0x02D0, 0x0002, 0x02DF, 0x0002,
+                0x02E2, 0x0002, 0x02E5, 0x0004, 0x02E9, 0x0002, 0x02EA, 0x0002,
+                0x02F2, 0x0002, 0x02F6, 0x0002, 0x0305, 0x0012, 0x0306, 0x000E,
+                0x030A, 0x0004, 0x0310, 0x0002, 0x0321, 0x0002,
             };
-            int ctr = 0;
-            int formindex = 0;
-            for (int i = 0; i < formtable.Length/2; i += 2, ctr++)
+            int formindex = start;
+            int f = 0;
+            for (int i = 0; i < formtable.Length; i += 2)
             {
                 int s = formtable[i];
-                int f = formtable[i + 1];
-                if (s != species)
-                {
-                    formindex += f;
-                    continue;
-                }
-                if (f > formct)
-                    return -1;
-                return formindex;
+                f = formtable[i + 1];
+                if (s == species)
+                    break;
+
+                formindex += f - 1;
             }
-            return -1;
+            if (f > formct)
+                return -1;
+            return formindex;
         }
 
         public static int getCXDVersionID(int gen3version)
@@ -943,7 +832,6 @@ namespace PKHeX
                 default: return (int)GameVersion.Unknown;
             }
         }
-
 
         internal static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
         {

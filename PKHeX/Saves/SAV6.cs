@@ -531,12 +531,14 @@ namespace PKHeX
                 return Data[ofs + (SIZE_STORED + 8) * slot] == 1;
             return null;
         }
-        public override ulong? getDaycareRNGSeed(int loc)
+        public override string getDaycareRNGSeed(int loc)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                return BitConverter.ToUInt64(Data, ofs + 0x1E8);
-            return null;
+            if (ofs <= 0)
+                return null;
+            
+            var data = Data.Skip(Daycare + 0x1E8).Take(DaycareSeedSize/2).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", "");
         }
         public override bool? getDaycareHasEgg(int loc)
         {
@@ -557,11 +559,21 @@ namespace PKHeX
             if (ofs > -1)
                 Data[ofs + (SIZE_STORED + 8)*slot] = (byte) (occupied ? 1 : 0);
         }
-        public override void setDaycareRNGSeed(int loc, ulong seed)
+        public override void setDaycareRNGSeed(int loc, string seed)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                BitConverter.GetBytes(seed).CopyTo(Data, ofs + 0x1E8);
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+            if (seed == null)
+                return;
+            if (seed.Length > DaycareSeedSize)
+                return;
+
+            Enumerable.Range(0, seed.Length)
+                 .Where(x => x % 2 == 0)
+                 .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
+                 .Reverse().ToArray().CopyTo(Data, Daycare + 0x1E8);
         }
         public override void setDaycareHasEgg(int loc, bool hasEgg)
         {
@@ -651,10 +663,12 @@ namespace PKHeX
         {
             return Box + SIZE_STORED*box*30;
         }
-        public override int getBoxWallpaper(int box)
+        protected override int getBoxWallpaperOffset(int box)
         {
-            int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : 0;
-            return Data[ofs + box];
+            int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : -1;
+            if (ofs > -1)
+                return ofs + box;
+            return ofs;
         }
         public override string getBoxName(int box)
         {
@@ -773,6 +787,17 @@ namespace PKHeX
             get { return Data[BattleBox + 6 * SIZE_STORED] != 0; }
             set { Data[BattleBox + 6 * SIZE_STORED] = (byte)(value ? 1 : 0); }
         }
+        public override int BoxesUnlocked { get { return Data[PCFlags + 1] - 1; } set { Data[PCFlags + 1] = (byte)(value + 1); } }
+        public override byte[] BoxFlags
+        {
+            get { return new[] { Data[PCFlags], Data[PCFlags + 2] }; }
+            set
+            {
+                if (value.Length != 2) return;
+                Data[PCFlags] = value[0];
+                Data[PCFlags + 2] = value[1];
+            }
+        }
 
         // Mystery Gift
         protected override bool[] MysteryGiftReceivedFlags
@@ -847,7 +872,7 @@ namespace PKHeX
             }
         }
 
-        private WC6 getWC6(int index)
+        private MysteryGift getWC6(int index)
         {
             if (WondercardData < 0)
                 return null;

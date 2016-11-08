@@ -14,7 +14,7 @@ namespace PKHeX
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 6;
-        public override PersonalInfo PersonalInfo => (AO ? PersonalTable.AO : PersonalTable.XY).getFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.AO.getFormeEntry(Species, AltForm);
 
         public PK6(byte[] decryptedData = null, string ident = null)
         {
@@ -93,7 +93,7 @@ namespace PKHeX
         public override int CNT_Smart { get { return Data[0x27]; } set { Data[0x27] = (byte)value; } }
         public override int CNT_Tough { get { return Data[0x28]; } set { Data[0x28] = (byte)value; } }
         public override int CNT_Sheen { get { return Data[0x29]; } set { Data[0x29] = (byte)value; } }
-        public override byte MarkByte { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
+        public override int MarkValue { get { return Data[0x2A]; } protected set { Data[0x2A] = (byte)value; } }
         private byte PKRS { get { return Data[0x2B]; } set { Data[0x2B] = value; } }
         public override int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
@@ -440,14 +440,14 @@ namespace PKHeX
         }
         public override bool getGenderIsValid()
         {
-            int gv = PersonalTable.AO[Species].Gender;
+            int gv = PersonalInfo.Gender;
 
             if (gv == 255)
                 return Gender == 2;
             if (gv == 254)
-                return Gender == 0;
-            if (gv == 0)
                 return Gender == 1;
+            if (gv == 0)
+                return Gender == 0;
             return true;
         }
 
@@ -622,7 +622,7 @@ namespace PKHeX
                 return;
 
             // Reset
-            HT_Friendship = PersonalTable.AO[Species].BaseFriendship;
+            HT_Friendship = PersonalInfo.BaseFriendship;
             HT_Affection = 0;
         }
 

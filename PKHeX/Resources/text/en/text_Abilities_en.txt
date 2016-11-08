@@ -1,4 +1,4 @@
-﻿—
+—
 Stench
 Drizzle
 Speed Boost
@@ -190,44 +190,44 @@ Aura Break
 Primordial Sea
 Desolate Land
 Delta Stream
-192
-193
-194
-195
-196
-197
+Stamina
+Wimp Out
+Emergency Exit
+Water Compaction
+Merciless
+Shields Down
 Stakeout
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
+Water Bubble
+Steelworker
+Berserk
+Slush Rush
+Long Reach
+Liquid Voice
+Triage
+Galvanize
+Surge Surfer
+Schooling
+Disguise
 Battle Bond
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
+Power Construct
+Corrosion
+Comatose
+Queenly Majesty
+Innards Out
+Dancer
+Battery
+Fluffy
+Dazzling
+Soul-Heart
+Tangling Hair
+Receiver
+Power of Alchemy
+Beast Boost
+RKS System
+Electric Surge
+Psychic Surge
+Misty Surge
+Grassy Surge
+Full Metal Body
+Shadow Shield
+Prism Armor

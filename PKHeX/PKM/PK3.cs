@@ -33,7 +33,7 @@ namespace PKHeX
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
-        public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber]; } set { } }
+        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[abils[1] == 0 ? 0 : AbilityNumber]; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }
 
@@ -55,7 +55,7 @@ namespace PKHeX
                     Array.Resize(ref strdata, 7);
                 strdata.CopyTo(Data, 0x14); } }
 
-        public override byte MarkByte { get { return Data[0x1B]; } protected set { Data[0x1B] = value; } }
+        public override int MarkValue { get { return Data[0x1B]; } protected set { Data[0x1B] = (byte)value; } }
         public override ushort Checksum { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1C); } }
         public override ushort Sanity { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1E); } }
 
@@ -167,7 +167,7 @@ namespace PKHeX
         }
         public override bool getGenderIsValid()
         {
-            int gv = PersonalTable.RS[Species].Gender;
+            int gv = PersonalInfo.Gender;
 
             if (gv == 255)
                 return Gender == 2;

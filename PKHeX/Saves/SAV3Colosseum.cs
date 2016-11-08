@@ -255,11 +255,6 @@ namespace PKHeX
         {
             return Box + (30 * SIZE_STORED + 0x14)*box + 0x14;
         }
-        public override int CurrentBox { get { return 0; } set { } }
-        public override int getBoxWallpaper(int box)
-        {
-            return box;
-        }
         public override string getBoxName(int box)
         {
             return PKX.getColoStr(Data, Box + 0x24A4*box, 8);
@@ -360,7 +355,6 @@ namespace PKHeX
         // 0x02-0x03 -- unused?
         // 0x04-0x07 -- Initial EXP
         public override int getDaycareSlotOffset(int loc, int slot) { return Daycare + 8; }
-        public override ulong? getDaycareRNGSeed(int loc) { return null; }
         public override uint? getDaycareEXP(int loc, int slot) { return null; }
         public override bool? getDaycareOccupied(int loc, int slot) { return null; }
         public override void setDaycareEXP(int loc, int slot, uint EXP) { }

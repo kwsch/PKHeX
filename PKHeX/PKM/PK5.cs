@@ -43,7 +43,7 @@ namespace PKHeX
         public override uint EXP { get { return BitConverter.ToUInt32(Data, 0x10); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x10); } }
         public override int OT_Friendship { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
         public override int Ability { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
-        public override byte MarkByte { get { return Data[0x16]; } protected set { Data[0x16] = value; } }
+        public override int MarkValue { get { return Data[0x16]; } protected set { Data[0x16] = (byte)value; } }
         public override int Language { get { return Data[0x17]; } set { Data[0x17] = (byte)value; } }
         public override int EV_HP { get { return Data[0x18]; } set { Data[0x18] = (byte)value; } }
         public override int EV_ATK { get { return Data[0x19]; } set { Data[0x19] = (byte)value; } }
@@ -302,7 +302,7 @@ namespace PKHeX
         // Methods
         public override bool getGenderIsValid()
         {
-            int gv = PersonalTable.B2W2[Species].Gender;
+            int gv = PersonalInfo.Gender;
 
             if (gv == 255)
                 return Gender == 2;
@@ -336,7 +336,7 @@ namespace PKHeX
                 Ability = Ability
             };
 
-            int[] abilities = PersonalTable.AO.getAbilities(Species, AltForm);
+            int[] abilities = PersonalInfo.Abilities;
             int abilval = Array.IndexOf(abilities, Ability);
             if (abilval >= 0)
                 pk6.AbilityNumber = 1 << abilval;
@@ -520,7 +520,7 @@ namespace PKHeX
             pk6.HT_Memory = 4;
             pk6.HT_Feeling = (int)(Util.rnd32() % 10);
             // When transferred, friendship gets reset.
-            pk6.OT_Friendship = pk6.HT_Friendship = PersonalTable.B2W2[Species].BaseFriendship;
+            pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
 
             // Antishiny Mechanism
             ushort LID = (ushort)(PID & 0xFFFF);

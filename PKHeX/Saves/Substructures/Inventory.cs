@@ -102,7 +102,7 @@ namespace PKHeX
                 // Build Item Value
                 uint val = 0;
                 val |= (uint)(Items[i].Index & 0x3FF);
-                val |= (uint)(Items[i].Index & 0x3FF) << 10;
+                val |= (uint)(Items[i].Count & 0x3FF) << 10;
                 Items[i].New |= OriginalItems.All(z => z.Index != Items[i].Index);
                 if (Items[i].New)
                     val |= 0x40000000;

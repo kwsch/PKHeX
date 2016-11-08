@@ -1,4 +1,4 @@
-﻿-----
+-----
 Botta
 Colpokarate
 Doppiasberla
@@ -620,3 +620,101 @@ Primopulsar
 Spade Telluriche
 Ascesa del Drago
 Urtodimensionale
+Carica Travolgente
+Carica Travolgente
+Iperscarica Furiosa
+Iperscarica Furiosa
+Picchiata Devastante
+Picchiata Devastante
+Acidiluvio Corrosivo
+Acidiluvio Corrosivo
+Furore della Terra
+Furore della Terra
+Gigamacigno Polverizzante
+Gigamacigno Polverizzante
+Bozzolo Fatale
+Bozzolo Fatale
+Abbraccio Spettrale
+Abbraccio Spettrale
+Spirale Perforante
+Spirale Perforante
+Fiammobomba Detonante
+Fiammobomba Detonante
+Idrovortice Abissale
+Idrovortice Abissale
+Floriscoppio Sfolgorante
+Floriscoppio Sfolgorante
+Gigascarica Folgorante
+Gigascarica Folgorante
+Impatto Psicocinetico
+Impatto Psicocinetico
+Criodistruzione Polare
+Criodistruzione Polare
+Dragoschianto Finale
+Dragoschianto Finale
+Buco Nero del Non Ritorno
+Buco Nero del Non Ritorno
+Astroimpatto Fatato
+Astroimpatto Fatato
+Super Pikaboom
+Sabbiaccumulo
+Schermaglia
+Fortino
+Cucitura d’Ombra
+Braccioteso
+Canto Effimero
+Martelgelo
+Cura Floreale
+Forza Equina
+Assorbiforza
+Lama Solare
+Fogliame
+Riflettore
+Velenotela
+Concentrazione
+Marciainpiù
+Colpo Infernale
+Sferapolline
+Colpo d’Ancora
+Campo Psichico
+Assalto
+Frusta di Fuoco
+Tracotanza
+Ultima Fiamma
+Velociscambio
+Sottilcorno
+Purificazione
+Mutadanza
+Nucleocastigo
+Tropicalcio
+Imposizione
+Cannonbecco
+Clamorsquame
+Marteldrago
+Vorticolpo
+Velaurora
+Dardoassalto Spettrale
+Iperschianto delle Tenebre
+Sinfonia del Mare
+Collera del Guardiano
+Colpo Eptastellare Rubanima
+Elettrosurf Folgorante
+Adesso Faccio sul Serio
+Potenziamento Eevolutivo
+Supernova delle Origini
+Gusciotrappola
+Cannonfiore
+Psicozanna
+Battipiedi
+Ossotetro
+Rocciarapida
+Idrobreccia
+Prismalaser
+Ombrafurto
+Astrocarica
+Raggio d’Ombra
+Occhionilucidi
+Elettropizzico
+Ira della Natura
+Multiattacco
+Iperfulmine

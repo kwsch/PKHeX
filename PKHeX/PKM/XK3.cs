@@ -57,7 +57,7 @@ namespace PKHeX
         public override int Stat_Level { get { return Data[0x11]; } set { Data[0x11] = (byte)value; } }
         public override int CNT_Sheen { get { return Data[0x12]; } set { Data[0x12] = (byte)value; } }
         public override int PKRS_Strain { get { return Data[0x13] & 0xF; } set { Data[0x13] = (byte)(value & 0xF); } }
-        public override byte MarkByte { get { return Data[0x14]; } protected set { Data[0x14] = value; } }
+        public override int MarkValue { get { return Data[0x14]; } protected set { Data[0x14] = (byte)value; } }
         public override int PKRS_Days { get { return Math.Max((sbyte)Data[0x15], (sbyte)0); } set { Data[0x15] = (byte)(value == 0 ? 0xFF : value & 0xF); } }
         // 0x16-0x1C Battle Related
         private int XDPKMFLAGS { get { return Data[0x1D]; } set { Data[0x1D] = (byte)value; } }

@@ -55,7 +55,7 @@ namespace PKHeX
         public abstract int Generation { get; }
         public PersonalTable Personal { get; set; }
 
-        public bool SMDEMO => Data.Length == SaveUtil.SIZE_G7SMDEMO;
+        public bool SM => Data.Length == SaveUtil.SIZE_G7SM;
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Data.Length == SaveUtil.SIZE_G6ORAS;
         public bool XY => Data.Length == SaveUtil.SIZE_G6XY;
@@ -95,7 +95,7 @@ namespace PKHeX
         public bool HasGTS => GTS > -1;
         public bool HasDaycare => Daycare > -1;
         public virtual bool HasPokeDex => PokeDex > -1;
-        public virtual bool HasBoxWallpapers => PCLayout > -1;
+        public virtual bool HasBoxWallpapers => getBoxWallpaperOffset(0) > -1;
         public virtual bool HasSUBE => SUBE > -1 && !ORAS;
         public virtual bool HasGeolocation => false;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
@@ -319,14 +319,12 @@ namespace PKHeX
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
         public virtual int PartyCount { get; protected set; }
-        public abstract int CurrentBox { get; set; }
         public abstract string Extension { get; }
 
         // Varied Methods
         protected abstract void setChecksums();
         public abstract int getBoxOffset(int box);
         public abstract int getPartyOffset(int slot);
-        public abstract int getBoxWallpaper(int box);
         public abstract string getBoxName(int box);
         public abstract void setBoxName(int box, string val);
         public virtual ulong? GameSyncID { get { return null; } set { } }
@@ -338,17 +336,36 @@ namespace PKHeX
         public virtual bool HasTwoDaycares => false;
         public virtual int getDaycareSlotOffset(int loc, int slot) { return -1; }
         public virtual uint? getDaycareEXP(int loc, int slot) { return null; }
-        public virtual ulong? getDaycareRNGSeed(int loc) { return null; }
+        public virtual string getDaycareRNGSeed(int loc) { return null; }
         public virtual bool? getDaycareHasEgg(int loc) { return null; }
         public virtual bool? getDaycareOccupied(int loc, int slot) { return null; }
 
         public virtual void setDaycareEXP(int loc, int slot, uint EXP) { }
-        public virtual void setDaycareRNGSeed(int loc, ulong seed) { }
+        public virtual void setDaycareRNGSeed(int loc, string seed) { }
         public virtual void setDaycareHasEgg(int loc, bool hasEgg) { }
         public virtual void setDaycareOccupied(int loc, int slot, bool occupied) { }
 
         // Storage
         public virtual int BoxSlotCount => 30;
+        public virtual int BoxesUnlocked { get { return -1; } set { } }
+        public virtual byte[] BoxFlags { get { return null; } set { } }
+        public virtual int CurrentBox { get { return 0; } set { } }
+
+        protected virtual int getBoxWallpaperOffset(int box) { return -1; }
+        public int getBoxWallpaper(int box)
+        {
+            int offset = getBoxWallpaperOffset(box);
+            if (offset < 0 || box > BoxCount)
+                return box;
+            return Data[offset];
+        }
+        public virtual void setBoxWallpaper(int box, int val)
+        {
+            int offset = getBoxWallpaperOffset(box);
+            if (offset < 0 || box > BoxCount)
+                return;
+            Data[offset] = (byte)val;
+        }
 
         public virtual PKM getPartySlot(int offset)
         {

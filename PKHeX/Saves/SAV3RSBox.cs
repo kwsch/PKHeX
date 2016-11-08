@@ -127,11 +127,11 @@ namespace PKHeX
             get { return Data[Box + 4]*2; }
             set { Data[Box + 4] = (byte)(value/2); }
         }
-        public override int getBoxWallpaper(int box)
+        protected override int getBoxWallpaperOffset(int box)
         {
             // Box Wallpaper is directly after the Box Names
             int offset = Box + 0x1ED19 + box/2;
-            return Data[offset];
+            return offset;
         }
         public override string getBoxName(int box)
         {

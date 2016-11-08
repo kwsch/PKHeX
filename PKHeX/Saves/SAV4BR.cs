@@ -126,8 +126,6 @@ namespace PKHeX
         }
 
         // Save file does not have Box Name / Wallpaper info
-        public override int CurrentBox { get { return 0; } set { } }
-        public override int getBoxWallpaper(int box) { return box; }
         public override string getBoxName(int box) { return $"BOX {box + 1}"; }
         public override void setBoxName(int box, string value) { }
 

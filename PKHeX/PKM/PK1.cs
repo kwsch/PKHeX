@@ -128,12 +128,14 @@ namespace PKHeX
             get { return PKX.getG1Species(Data[0]); }
             set
             {
-                // Before updating catch rate, check if non-standard
-                if (Catch_Rate == PersonalTable.RBY[Species].CatchRate)
-                    Catch_Rate = PersonalTable.RBY[value].CatchRate;
+                int currentRate = PersonalInfo.CatchRate;
                 Data[0] = (byte)PKX.setG1Species(value);
-                Type_A = PersonalTable.RBY[value].Types[0];
-                Type_B = PersonalTable.RBY[value].Types[1];
+
+                // Before updating catch rate, check if non-standard
+                if (Catch_Rate == currentRate)
+                    Catch_Rate = PersonalInfo.CatchRate;
+                Type_A = PersonalInfo.Types[0];
+                Type_B = PersonalInfo.Types[1];
             }
         }
 
@@ -238,7 +240,7 @@ namespace PKHeX
         public override int TSV => 0x0000;
         public override int PSV => 0xFFFF;
         public override int Characteristic => -1;
-        public override byte MarkByte { get { return 0; } protected set { } }
+        public override int MarkValue { get { return 0; } protected set { } }
         public override int CurrentFriendship { get { return 0; } set { } }
         public override int Ability { get { return 0; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
@@ -288,7 +290,7 @@ namespace PKHeX
                         pk2.HeldItem = 0xAD; // Berry
                         break;
                 }
-            pk2.CurrentFriendship = PersonalTable.C[Species].BaseFriendship;
+            pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
             // Pokerus = 0
             // Caught Data = 0
             pk2.Stat_Level = PKX.getLevel(Species, EXP);

@@ -12,7 +12,7 @@ namespace PKHeX
         public override string Extension => "";
         public SAV7(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G7SMDEMO] : (byte[])data.Clone();
+            Data = data == null ? new byte[SaveUtil.SIZE_G7SM] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
@@ -24,6 +24,12 @@ namespace PKHeX
             Personal = PersonalTable.SM;
             if (!Exportable)
                 resetBoxes();
+
+            var demo = new byte[0x4C4].SequenceEqual(Data.Skip(PCLayout).Take(0x4C4));
+            if (demo)
+            {
+                PokeDex = -1; // Disabled
+            }
         }
 
         // Configuration
@@ -102,21 +108,8 @@ namespace PKHeX
                 Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                 BitConverter.GetBytes(SaveUtil.check16(array, Blocks[i].ID)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
             }
-
-            // MemeCrypto -- provided dll is present.
-            try
-            {
-                byte[] mcSAV = SaveUtil.Resign7(Data);
-                if (mcSAV == new byte[0])
-                    throw new Exception("MemeCrypto is not present. Dll may not be public at this time.");
-                if (mcSAV == null)
-                    throw new Exception("MemeCrypto received an invalid input.");
-                Data = mcSAV;
-            }
-            catch (Exception e)
-            {
-                Util.Alert(e.Message, "Checksums have been applied but MemeCrypto has not.");
-            }
+            
+            Data = SaveUtil.Resign7(Data);
         }
         public override bool ChecksumsValid
         {
@@ -166,7 +159,7 @@ namespace PKHeX
 
         private void getSAVOffsets()
         {
-            if (SMDEMO)
+            if (SM)
             {
                 /* 00 */ Item           = 0x00000;  // [DE0]    MyItem
                 /* 01 */ Trainer1       = 0x00E00;  // [07C]    Situation
@@ -217,7 +210,8 @@ namespace PKHeX
                 WondercardData = WondercardFlags + 0x100;
 
                 PCBackgrounds =         PCLayout + 0x5C0;
-                LastViewedBox =         PCLayout + 0x5E5; // guess!?
+                LastViewedBox =         PCLayout + 0x5E0;
+                PCFlags =               PCLayout + 0x5E0;
             }
             else // Empty input
             {
@@ -407,7 +401,7 @@ namespace PKHeX
                     new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
                     new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
                     new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 999, OFS_PouchZCrystals),
+                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
                 };
                 foreach (var p in pouch)
                     p.getPouch7(ref Data);
@@ -430,10 +424,19 @@ namespace PKHeX
         {
             return Box + SIZE_STORED*box*30;
         }
-        public override int getBoxWallpaper(int box)
+        protected override int getBoxWallpaperOffset(int box)
         {
+            int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : -1;
+            if (ofs > -1)
+                return ofs + box;
+            return ofs;
+        }
+        public override void setBoxWallpaper(int box, int value)
+        {
+            if (PCBackgrounds < 0)
+                return;
             int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : 0;
-            return Data[ofs + box];
+            Data[ofs + box] = (byte)value;
         }
         public override string getBoxName(int box)
         {
@@ -471,23 +474,21 @@ namespace PKHeX
         }
         protected override void setDex(PKM pkm)
         {
-            if (PokeDex < 0)
+            if (PokeDex < 0 || Version == GameVersion.Unknown) // sanity
                 return;
-            if (pkm.Species == 0)
+            if (pkm.Species == 0 || pkm.Species > MaxSpeciesID) // out of range
                 return;
-            if (pkm.Species > MaxSpeciesID) // Raw Max is 832
-                return;
-            if (Version == GameVersion.Unknown)
+            if (pkm.IsEgg) // do not add
                 return;
 
-            const int brSize = 0x68; // 832 bits, 32bit alignment is required (MaxSpeciesID > 800)
-            int baseOfs = PokeDex + 0x08;
             int bit = pkm.Species - 1;
             int bd = bit >> 3; // div8
             int bm = bit & 7; // mod8
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
-            int shift = gender + shiny << 2;
+            if (pkm.Species == 351) // castform
+                shiny = 0;
+            int shift = gender | (shiny << 1);
             if (pkm.Species == 327) // Spinda
             {
                 if ((Data[PokeDex + 0x84] & (1 << (shift + 4))) != 0) // Already 2
@@ -504,23 +505,36 @@ namespace PKHeX
             int ofs = PokeDex // Raw Offset
                       + 0x08 // Magic + Flags
                       + 0x80; // Misc Data (1024 bits)
-
             // Set the Owned Flag
             Data[ofs + bd] |= (byte)(1 << bm);
 
-            // Set the [Species/Gender/Shiny] Seen Flag
-            int brSeen = (shift + 1) * brSize; // offset by 1 for the "Owned" Region
-            Data[ofs + brSeen + bd] |= (byte)(1 << bm);
+            // Starting with Gen7, form bits are stored in the same region as the species flags.
 
-            // Set the Display flag if none are set
-            bool Displayed = false;
-            for (int i = 0; i < 4; i++)
+            int formstart = pkm.AltForm;
+            int formend = pkm.AltForm;
+            int fs, fe;
+            bool reset = sanitizeFormsToIterate(pkm.Species, out fs, out fe, formstart);
+            if (reset)
             {
-                int brDisplayed = (5 + i) * brSize; // offset by 1 for the "Owned" Region, 4 for the Seen Regions
-                Displayed |= (Data[ofs + brDisplayed + bd] & (byte)(1 << bm)) != 0;
+                formstart = fs;
+                formend = fe;
             }
-            if (!Displayed)
-                Data[ofs + brSeen + brSize * 4 + bd] |= (byte)(1 << bm); // Adjust brSeen to the displayed flags.
+
+            for (int form = formstart; form <= formend; form++)
+            {
+                int bitIndex = bit;
+                if (form > 0) // Override the bit to overwrite
+                {
+                    int fc = Personal[pkm.Species].FormeCount;
+                    if (fc > 1) // actually has forms
+                    {
+                        int f = SaveUtil.getDexFormIndexSM(pkm.Species, fc, MaxSpeciesID - 1);
+                        if (f >= 0) // bit index valid
+                            bitIndex = f + form;
+                    }
+                }
+                setDexFlags(bitIndex, gender, shiny, pkm.Species - 1);
+            }
 
             // Set the Language
             int lang = pkm.Language;
@@ -535,36 +549,86 @@ namespace PKHeX
                 if (lbit >> 3 < 920) // Sanity check for max length of region
                     Data[PokeDexLanguageFlags + (lbit >> 3)] |= (byte)(1 << (lbit & 7));
             }
-            return;
-
-            // Set Form flags : TODO
-#pragma warning disable 162
-            int fc = Personal[pkm.Species].FormeCount;
-            int f = SaveUtil.getDexFormIndexSM(pkm.Species, fc);
-            if (f < 0) return;
-
-            int FormLen = ORAS ? 0x26 : 0x18;
-            int FormDex = PokeDex + 0x8 + brSize*9;
-            int fbit = f + pkm.AltForm;
-            int fbd = fbit>>3;
-            int fbm = fbit&7;
-
-            // Set Form Seen Flag
-            Data[FormDex + FormLen*shiny + bit/8] |= (byte)(1 << (bit%8));
-
-            // Set Displayed Flag if necessary, check all flags
-            for (int i = 0; i < fc; i++)
+        }
+        private static bool sanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
+        {
+            // 004AA370 in Moon
+            // Simplified in terms of usage -- only overrides to give all the battle forms for a pkm
+            formStart = 0;
+            formEnd = 0;
+            switch (species)
             {
-                int dfbit = f + i;
-                int dfbd = dfbit>>3;
-                int dfbm = dfbit&7;
-                if ((Data[FormDex + FormLen*2 + dfbd] & (byte) (1 << dfbm)) != 0) // Nonshiny
-                    return; // already set
-                if ((Data[FormDex + FormLen*3 + dfbd] & (byte) (1 << dfbm)) != 0) // Shiny
-                    return; // already set
+                case 351: // Castform
+                    formStart = 0;
+                    formEnd = 3;
+                    return true;
+                case 421: // Cherrim
+                case 555: // Darmanitan
+                case 648: // Meloetta
+                case 746: // Wishiwashi
+                case 778: // Mimikyu
+                    formStart = 0;
+                    formEnd = 1;
+                    return true;
+
+                case 774: // Minior
+                    // Cores forms are after Meteor forms, so the game iterator would give all meteor forms (NO!)
+                    // So the game so the game chooses to only award entries for Core forms after they appear in battle.
+                    return formIn > 6; // resets to 0/0 if an invalid request is made (non-form entry)
+                    
+                case 718:
+                    if (formIn == 3) // complete
+                        return true; // 0/0
+                    if (formIn != 2) // give
+                        return false;
+
+                    // Apparently form 2 is invalid (50% core-ability), set to 10%'s form
+                    formStart = 1; 
+                    formEnd = 1;
+                    return true;
+                default:
+                    return false;
             }
-            Data[FormDex + FormLen * (2 + shiny) + fbd] |= (byte)(1 << fbm);
-#pragma warning restore 162
+        }
+        private void setDexFlags(int index, int gender, int shiny, int baseSpecies)
+        {
+            const int brSize = 0x8C;
+            int shift = gender | (shiny << 1);
+            int ofs = PokeDex // Raw Offset
+                      + 0x08 // Magic + Flags
+                      + 0x80 // Misc Data (1024 bits)
+                      + 0x68; // Owned Flags
+
+            int bd = index >> 3; // div8
+            int bm = index & 7; // mod8
+            int bd1 = baseSpecies >> 3;
+            int bm1 = baseSpecies & 7;
+            // Set the [Species/Gender/Shiny] Seen Flag
+            int brSeen = shift * brSize;
+            Data[ofs + brSeen + bd] |= (byte)(1 << bm);
+
+            // Check Displayed Status for base form
+            bool Displayed = false;
+            for (int i = 0; i < 4; i++)
+            {
+                int brDisplayed = (4 + i) * brSize;
+                Displayed |= (Data[ofs + brDisplayed + bd1] & (byte)(1 << bm1)) != 0;
+            }
+
+            // If form is not base form, check form too
+            if (!Displayed && baseSpecies != index)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    int brDisplayed = (4 + i) * brSize;
+                    Displayed |= (Data[ofs + brDisplayed + bd] & (byte)(1 << bm)) != 0;
+                }
+            }
+            if (Displayed)
+                return;
+
+            // Set the Display flag if none are set
+            Data[ofs + (4 + shift) * brSize + bd] |= (byte)(1 << bm);
         }
         public override byte[] decryptPKM(byte[] data)
         {
@@ -575,15 +639,16 @@ namespace PKHeX
             get { return Data[Party + 6 * SIZE_PARTY]; }
             protected set { Data[Party + 6 * SIZE_PARTY] = (byte)value; }
         }
-        
-        public override int DaycareSeedSize => 16;
+        public override int BoxesUnlocked { get { return Data[PCFlags + 1]; } set { Data[PCFlags + 1] = (byte)value; } }
+
+        public override int DaycareSeedSize => 32; // 128 bits
         public override int getDaycareSlotOffset(int loc, int slot)
         {
             if (loc != 0)
                 return -1;
             if (Daycare < 0)
                 return -1;
-            return Daycare + 8 + slot * (SIZE_STORED + 8);
+            return Daycare + 6 + slot * (SIZE_STORED + 6);
         }
         public override uint? getDaycareEXP(int loc, int slot)
         {
@@ -592,7 +657,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return BitConverter.ToUInt32(Data, Daycare + (SIZE_STORED + 8) * slot + 4);
+            return BitConverter.ToUInt32(Data, Daycare + (SIZE_STORED + 6) * slot + 2);
         }
         public override bool? getDaycareOccupied(int loc, int slot)
         {
@@ -601,16 +666,17 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return Data[Daycare + (SIZE_STORED + 8) * slot] == 1;
+            return Data[Daycare + (SIZE_STORED + 6) * slot] != 0;
         }
-        public override ulong? getDaycareRNGSeed(int loc)
+        public override string getDaycareRNGSeed(int loc)
         {
             if (loc != 0)
                 return null;
             if (Daycare < 0)
                 return null;
 
-            return BitConverter.ToUInt64(Data, Daycare + 0x1E8);
+            var data = Data.Skip(Daycare + 0x1DC).Take(DaycareSeedSize / 2).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", "");
         }
         public override bool? getDaycareHasEgg(int loc)
         {
@@ -628,7 +694,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return;
 
-            BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + (SIZE_STORED + 8) * slot + 4);
+            BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + (SIZE_STORED + 6) * slot + 2);
         }
         public override void setDaycareOccupied(int loc, int slot, bool occupied)
         {
@@ -637,16 +703,25 @@ namespace PKHeX
             if (Daycare < 0)
                 return;
 
-            Data[Daycare + (SIZE_STORED + 8) * slot] = (byte)(occupied ? 1 : 0);
+            // Are they using species instead of a flag?
+            Data[Daycare + (SIZE_STORED + 6) * slot] = (byte)(occupied ? 1 : 0);
         }
-        public override void setDaycareRNGSeed(int loc, ulong seed)
+        public override void setDaycareRNGSeed(int loc, string seed)
         {
             if (loc != 0)
                 return;
             if (Daycare < 0)
                 return;
+            if (seed == null)
+                return;
+            if (seed.Length > DaycareSeedSize)
+                return;
 
-            BitConverter.GetBytes(seed).CopyTo(Data, Daycare + 0x1E8);
+            Enumerable.Range(0, seed.Length)
+                 .Where(x => x % 2 == 0)
+                 .Reverse()
+                 .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
+                 .Reverse().ToArray().CopyTo(Data, Daycare + 0x1DC);
         }
         public override void setDaycareHasEgg(int loc, bool hasEgg)
         {

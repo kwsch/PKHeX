@@ -8,6 +8,7 @@ namespace PKHeX
     {
         internal static readonly byte[] ExtraBytes =
         {
+            0x2A, // Old Marking Value
             // 0x36, 0x37, // Unused Ribbons
             0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
@@ -70,8 +71,7 @@ namespace PKHeX
         }
         public override int Ability { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
         public override int AbilityNumber { get { return Data[0x15]; } set { Data[0x15] = (byte)value; } }
-        public int TrainingBagHits { get { return Data[0x16]; } set { Data[0x16] = (byte)value; } }
-        public int TrainingBag { get { return Data[0x17]; } set { Data[0x17] = (byte)value; } }
+        public override int MarkValue { get { return BitConverter.ToUInt16(Data, 0x16); } protected set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); } }
         public override uint PID
         {
             get { return BitConverter.ToUInt32(Data, 0x18); }
@@ -93,7 +93,7 @@ namespace PKHeX
         public override int CNT_Smart { get { return Data[0x27]; } set { Data[0x27] = (byte)value; } }
         public override int CNT_Tough { get { return Data[0x28]; } set { Data[0x28] = (byte)value; } }
         public override int CNT_Sheen { get { return Data[0x29]; } set { Data[0x29] = (byte)value; } }
-        public override byte MarkByte { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
+        // public override byte MarkValue { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
         private byte PKRS { get { return Data[0x2B]; } set { Data[0x2B] = value; } }
         public override int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
@@ -189,8 +189,8 @@ namespace PKHeX
         public bool RibbonMasterToughness       { get { return (RIB5 & (1 << 5)) == 1 << 5; } set { RIB5 = (byte)(RIB5 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
         public bool RibbonChampionAlola         { get { return (RIB5 & (1 << 6)) == 1 << 6; } set { RIB5 = (byte)(RIB5 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
         public bool RibbonBattleRoyale          { get { return (RIB5 & (1 << 7)) == 1 << 7; } set { RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
-        public bool RibbonC0                    { get { return (RIB6 & (1 << 0)) == 1 << 0; } set { RIB6 = (byte)(RIB6 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RibbonC1                    { get { return (RIB6 & (1 << 1)) == 1 << 1; } set { RIB6 = (byte)(RIB6 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonBattleTreeGreat       { get { return (RIB6 & (1 << 0)) == 1 << 0; } set { RIB6 = (byte)(RIB6 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonBattleTreeMaster      { get { return (RIB6 & (1 << 1)) == 1 << 1; } set { RIB6 = (byte)(RIB6 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
         public bool RIB6_2                      { get { return (RIB6 & (1 << 2)) == 1 << 2; } set { RIB6 = (byte)(RIB6 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Unused
         public bool RIB6_3                      { get { return (RIB6 & (1 << 3)) == 1 << 3; } set { RIB6 = (byte)(RIB6 & ~(1 << 3) | (value ? 1 << 3 : 0)); } } // Unused
         public bool RIB6_4                      { get { return (RIB6 & (1 << 4)) == 1 << 4; } set { RIB6 = (byte)(RIB6 & ~(1 << 4) | (value ? 1 << 4 : 0)); } } // Unused
@@ -423,7 +423,6 @@ namespace PKHeX
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         
         // Complex Generated Attributes
-
         public override int Characteristic
         {
             get
@@ -440,6 +439,27 @@ namespace PKHeX
             }
         }
 
+        public override int[] Markings
+        {
+            get
+            {
+                int[] marks = new int[8];
+                int val = MarkValue;
+                for (int i = 0; i < marks.Length; i++)
+                    marks[i] = (val >> (i*2)) % 3;
+                return marks;
+            }
+            set
+            {
+                if (value.Length > 8)
+                    return;
+                int v = 0;
+                for (int i = 0; i < value.Length; i++)
+                    v |= (value[i] % 3) << (i*2);
+                MarkValue = v;
+            }
+        }
+
         // Methods
         public override byte[] Encrypt()
         {
@@ -448,14 +468,14 @@ namespace PKHeX
         }
         public override bool getGenderIsValid()
         {
-            int gv = PersonalTable.AO[Species].Gender;
+            int gv = PersonalInfo.Gender;
 
             if (gv == 255)
                 return Gender == 2;
             if (gv == 254)
-                return Gender == 0;
-            if (gv == 0)
                 return Gender == 1;
+            if (gv == 0)
+                return Gender == 0;
             return true;
         }
 
@@ -630,7 +650,7 @@ namespace PKHeX
                 return;
 
             // Reset
-            HT_Friendship = PersonalTable.AO[Species].BaseFriendship;
+            HT_Friendship = PersonalInfo.BaseFriendship;
             HT_Affection = 0;
         }
 

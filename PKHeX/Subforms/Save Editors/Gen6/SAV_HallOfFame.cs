@@ -67,12 +67,12 @@ namespace PKHeX
             
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = new BindingSource(Main.SpeciesDataSource.Skip(1).Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
 
             CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
             CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
 
-            var MoveList = Main.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
+            var MoveList = GameInfo.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
             CB_Move1.DataSource = new BindingSource(MoveList, null);
             CB_Move2.DataSource = new BindingSource(MoveList, null);
             CB_Move3.DataSource = new BindingSource(MoveList, null);
@@ -80,7 +80,7 @@ namespace PKHeX
             
             CB_HeldItem.DisplayMember = "Text";
             CB_HeldItem.ValueMember = "Value";
-            CB_HeldItem.DataSource = new BindingSource(Main.ItemDataSource, null);
+            CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource, null);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -154,15 +154,16 @@ namespace PKHeX
                 string genderstr=gendersymbols[gender];
                 string shinystr = shiny == 1 ? "Yes" : "No";
 
+                string[] movelist = Main.GameStrings.movelist;
                 s += "Name: " + nickname;
-                s += " (" + Main.specieslist[species] + " - " + genderstr + ")" + Environment.NewLine;
+                s += " (" + Main.GameStrings.specieslist[species] + " - " + genderstr + ")" + Environment.NewLine;
                 s += "Level: " + level + Environment.NewLine;
                 s += "Shiny: " + shinystr + Environment.NewLine;
-                s += "Held Item: " + Main.itemlist[helditem] + Environment.NewLine;
-                s += "Move 1: " + Main.movelist[move1] + Environment.NewLine;
-                s += "Move 2: " + Main.movelist[move2] + Environment.NewLine;
-                s += "Move 3: " + Main.movelist[move3] + Environment.NewLine;
-                s += "Move 4: " + Main.movelist[move4] + Environment.NewLine;
+                s += "Held Item: " + Main.GameStrings.itemlist[helditem] + Environment.NewLine;
+                s += "Move 1: " + movelist[move1] + Environment.NewLine;
+                s += "Move 2: " + movelist[move2] + Environment.NewLine;
+                s += "Move 3: " + movelist[move3] + Environment.NewLine;
+                s += "Move 4: " + movelist[move4] + Environment.NewLine;
                 s += "OT: " + OTname + " (" + TID + "/" + SID + ")" + Environment.NewLine;
                 s += Environment.NewLine;
 
@@ -326,7 +327,7 @@ namespace PKHeX
 
             CB_Form.DisplayMember = "Text";
             CB_Form.ValueMember = "Value";
-            CB_Form.DataSource = PKX.getFormList(species, Main.types, Main.forms, Main.gendersymbols).ToList();
+            CB_Form.DataSource = PKX.getFormList(species, Main.GameStrings.types, Main.GameStrings.forms, Main.gendersymbols).ToList();
         }
         private void updateSpecies(object sender, EventArgs e)
         {

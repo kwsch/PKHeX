@@ -360,10 +360,6 @@ namespace PKHeX
         {
             return Daycare;
         }
-        public override ulong? getDaycareRNGSeed(int loc)
-        {
-            return null;
-        }
         public override uint? getDaycareEXP(int loc, int slot)
         {
             return null;
@@ -402,10 +398,6 @@ namespace PKHeX
         {
             get { return Data[Japanese ? 0x2842 : 0x284C] & 0x7F; }
             set { Data[Japanese ? 0x2842 : 0x284C] = (byte)((Data[Japanese ? 0x2842 : 0x284C] & 0x80) | (value & 0x7F)); }
-        }
-        public override int getBoxWallpaper(int box)
-        {
-            return 0;
         }
         public override string getBoxName(int box)
         {

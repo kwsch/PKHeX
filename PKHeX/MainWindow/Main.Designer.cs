@@ -314,6 +314,8 @@
             this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
@@ -436,8 +438,7 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
+            this.PB_MarkAlola = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -601,6 +602,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             this.mnuL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -3358,6 +3360,7 @@
             // 
             // GB_Markings
             // 
+            this.GB_Markings.Controls.Add(this.PB_MarkAlola);
             this.GB_Markings.Controls.Add(this.PB_Mark6);
             this.GB_Markings.Controls.Add(this.PB_MarkPentagon);
             this.GB_Markings.Controls.Add(this.PB_Mark3);
@@ -3391,7 +3394,7 @@
             // 
             this.PB_MarkPentagon.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.Image")));
             this.PB_MarkPentagon.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.InitialImage")));
-            this.PB_MarkPentagon.Location = new System.Drawing.Point(83, 15);
+            this.PB_MarkPentagon.Location = new System.Drawing.Point(18, 15);
             this.PB_MarkPentagon.Name = "PB_MarkPentagon";
             this.PB_MarkPentagon.Size = new System.Drawing.Size(20, 20);
             this.PB_MarkPentagon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -3428,7 +3431,7 @@
             // 
             this.PB_MarkCured.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.Image")));
             this.PB_MarkCured.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.InitialImage")));
-            this.PB_MarkCured.Location = new System.Drawing.Point(57, 15);
+            this.PB_MarkCured.Location = new System.Drawing.Point(70, 15);
             this.PB_MarkCured.Name = "PB_MarkCured";
             this.PB_MarkCured.Size = new System.Drawing.Size(20, 20);
             this.PB_MarkCured.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -3452,7 +3455,7 @@
             // 
             this.PB_MarkShiny.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.Image")));
             this.PB_MarkShiny.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.InitialImage")));
-            this.PB_MarkShiny.Location = new System.Drawing.Point(31, 15);
+            this.PB_MarkShiny.Location = new System.Drawing.Point(44, 15);
             this.PB_MarkShiny.Name = "PB_MarkShiny";
             this.PB_MarkShiny.Size = new System.Drawing.Size(20, 20);
             this.PB_MarkShiny.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -3732,7 +3735,7 @@
             this.Menu_ShowdownImportPKM.ShowShortcutKeys = false;
             this.Menu_ShowdownImportPKM.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownImportPKM.Text = "Import Set from Clipboard";
-            this.Menu_ShowdownImportPKM.Click += new System.EventHandler(this.clickShowdownImportPK6);
+            this.Menu_ShowdownImportPKM.Click += new System.EventHandler(this.clickShowdownImportPKM);
             // 
             // Menu_ShowdownExportPKM
             // 
@@ -3743,7 +3746,7 @@
             this.Menu_ShowdownExportPKM.ShowShortcutKeys = false;
             this.Menu_ShowdownExportPKM.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportPKM.Text = "Export Set to Clipboard";
-            this.Menu_ShowdownExportPKM.Click += new System.EventHandler(this.clickShowdownExportPK6);
+            this.Menu_ShowdownExportPKM.Click += new System.EventHandler(this.clickShowdownExportPKM);
             // 
             // Menu_ShowdownExportParty
             // 
@@ -3900,7 +3903,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = global::PKHeX.Properties.Resources.language;
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -3919,7 +3922,7 @@
             this.Menu_Redo});
             this.Menu_Modify.Image = global::PKHeX.Properties.Resources.settings;
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -3942,13 +3945,33 @@
             this.Menu_ModifyPKM.Text = "Modify PKM Info";
             this.Menu_ModifyPKM.Click += new System.EventHandler(this.mainMenuModifyPKM);
             // 
+            // Menu_Undo
+            // 
+            this.Menu_Undo.Enabled = false;
+            this.Menu_Undo.Name = "Menu_Undo";
+            this.Menu_Undo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.Menu_Undo.ShowShortcutKeys = false;
+            this.Menu_Undo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Undo.Text = "Undo Last Change";
+            this.Menu_Undo.Click += new System.EventHandler(this.clickUndo);
+            // 
+            // Menu_Redo
+            // 
+            this.Menu_Redo.Enabled = false;
+            this.Menu_Redo.Name = "Menu_Redo";
+            this.Menu_Redo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.Menu_Redo.ShowShortcutKeys = false;
+            this.Menu_Redo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Redo.Text = "Redo Last Change";
+            this.Menu_Redo.Click += new System.EventHandler(this.clickRedo);
+            // 
             // Menu_Unicode
             // 
             this.Menu_Unicode.Checked = true;
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -3958,7 +3981,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(139, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
@@ -5607,25 +5630,16 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // Menu_Undo
+            // PB_MarkAlola
             // 
-            this.Menu_Undo.Enabled = false;
-            this.Menu_Undo.Name = "Menu_Undo";
-            this.Menu_Undo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.Menu_Undo.ShowShortcutKeys = false;
-            this.Menu_Undo.Size = new System.Drawing.Size(164, 22);
-            this.Menu_Undo.Text = "Undo Last Change";
-            this.Menu_Undo.Click += new System.EventHandler(this.clickUndo);
-            // 
-            // Menu_Redo
-            // 
-            this.Menu_Redo.Enabled = false;
-            this.Menu_Redo.Name = "Menu_Redo";
-            this.Menu_Redo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.Menu_Redo.ShowShortcutKeys = false;
-            this.Menu_Redo.Size = new System.Drawing.Size(164, 22);
-            this.Menu_Redo.Text = "Redo Last Change";
-            this.Menu_Redo.Click += new System.EventHandler(this.clickRedo);
+            this.PB_MarkAlola.Image = global::PKHeX.Properties.Resources.sanchi;
+            this.PB_MarkAlola.InitialImage = global::PKHeX.Properties.Resources.sanchi;
+            this.PB_MarkAlola.Location = new System.Drawing.Point(96, 15);
+            this.PB_MarkAlola.Name = "PB_MarkAlola";
+            this.PB_MarkAlola.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkAlola.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkAlola.TabIndex = 9;
+            this.PB_MarkAlola.TabStop = false;
             // 
             // Main
             // 
@@ -5851,6 +5865,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             this.mnuL.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6265,6 +6280,7 @@
         private System.Windows.Forms.NumericUpDown NUD_ShadowID;
         private System.Windows.Forms.ToolStripMenuItem Menu_Undo;
         private System.Windows.Forms.ToolStripMenuItem Menu_Redo;
+        private System.Windows.Forms.PictureBox PB_MarkAlola;
     }
 }
 

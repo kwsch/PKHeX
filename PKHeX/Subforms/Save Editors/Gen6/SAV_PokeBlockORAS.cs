@@ -14,7 +14,7 @@ namespace PKHeX
 
             for (int i = 0; i < lbl_spec.Length; i++)
             {
-                lbl_spec[i].Text = $"{Main.pokeblocks[94 + i]}:";
+                lbl_spec[i].Text = $"{Main.GameStrings.pokeblocks[94 + i]}:";
                 nup_spec[i].Value = BitConverter.ToUInt32(SAV.Data, SAV.Contest + i * 4);
             }
         }

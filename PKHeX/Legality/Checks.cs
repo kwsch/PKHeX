@@ -297,7 +297,7 @@ namespace PKHeX
         }
         private CheckResult verifyEncounter()
         {
-            if (!pkm.Gen6)
+            if (pkm.GenNumber < 6)
                 return new CheckResult(Severity.NotImplemented, "Not Implemented.", CheckIdentifier.Encounter);
 
             if (pkm.WasLink)
@@ -445,6 +445,31 @@ namespace PKHeX
             else
                 AddLine(Severity.Valid, "Current level is not below met level.", CheckIdentifier.Level);
         }
+        private void verifyMedals()
+        {
+            if (pkm.Format < 6)
+                return;
+
+            // Training Medals
+            var TrainNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "SuperTrain").ToArray();
+            var TrainCount = TrainNames.Count(MissionName => ReflectUtil.GetValue(pkm, MissionName) as bool? == true);
+            if (pkm.IsEgg && TrainCount > 0)
+            { AddLine(Severity.Invalid, "Super Training missions on Egg.", CheckIdentifier.Training); }
+            else if (TrainCount > 0 && pkm.GenNumber != 6)
+            { AddLine(Severity.Invalid, "Distribution Super Training missions are not available in game.", CheckIdentifier.Training); }
+            else if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
+            { AddLine(Severity.Invalid, "Super Training complete flag mismatch.", CheckIdentifier.Training); }
+
+            // Distribution Training Medals
+            var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "DistSuperTrain");
+            var DistCount = DistNames.Count(MissionName => ReflectUtil.GetValue(pkm, MissionName) as bool? == true);
+            if (pkm.IsEgg && DistCount > 0)
+            { AddLine(Severity.Invalid, "Distribution Super Training missions on Egg.", CheckIdentifier.Training); }
+            else if (DistCount > 0 && pkm.GenNumber != 6)
+            { AddLine(Severity.Invalid, "Distribution Super Training missions are not available in game.", CheckIdentifier.Training); }
+            else if (DistCount > 0)
+            { AddLine(Severity.Fishy, "Distribution Super Training missions are not released.", CheckIdentifier.Training); }
+        }
         private void verifyRibbons()
         {
             if (!Encounter.Valid)
@@ -463,23 +488,6 @@ namespace PKHeX
                     if ((RibbonValue as int?) > 0) // Count
                     { AddLine(Severity.Invalid, "Eggs should not have ribbons.", CheckIdentifier.Ribbon); return; }
                 }
-
-                if (pkm.Format < 6)
-                    return;
-
-                var TrainNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "SuperTrain").ToArray();
-                if (TrainNames.Count(MissionName => ReflectUtil.GetValue(pkm, MissionName) as bool? == true) == 30 ^ pkm.SecretSuperTrainingComplete)
-                {
-                    AddLine(Severity.Invalid, "Super Training complete flag mismatch.", CheckIdentifier.Training);
-                    return;
-                }
-
-                var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "DistSuperTrain");
-                if (DistNames.Select(MissionName => ReflectUtil.GetValue(pkm, MissionName)).Any(Flag => Flag as bool? == true))
-                    AddLine(Severity.Invalid, "Distribution Super Training missions on Egg.", CheckIdentifier.Training);
-                else if (TrainNames.Select(MissionName => ReflectUtil.GetValue(pkm, MissionName)).Any(Flag => Flag as bool? == true))
-                    AddLine(Severity.Invalid, "Super Training missions on Egg.", CheckIdentifier.Training);
-
                 return;
             }
 
@@ -562,12 +570,7 @@ namespace PKHeX
             
             if (missingRibbons.Count + invalidRibbons.Count == 0)
             {
-                var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "DistSuperTrain");
-                if (DistNames.Select(MissionName => ReflectUtil.GetValue(pkm, MissionName)).Any(Flag => Flag as bool? == true))
-                    AddLine(Severity.Fishy, "Distribution Super Training missions are not released.", CheckIdentifier.Training);
-                else
-                    AddLine(Severity.Valid, "All ribbons accounted for.", CheckIdentifier.Ribbon);
-
+                AddLine(Severity.Valid, "All ribbons accounted for.", CheckIdentifier.Ribbon);
                 return;
             }
 
@@ -672,6 +675,21 @@ namespace PKHeX
                 return;
             }
 
+            if (pkm.Ball == 26) // Beast Ball
+            {
+                if (pkm.Species >= 793 && pkm.Species <= 800) // UB
+                    AddLine(Severity.Valid, "Correct ball on UB.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Species cannot be obtained with Ball.", CheckIdentifier.Ball);
+                return;
+            }
+            if (pkm.Species >= 793 && pkm.Species <= 800) // UB
+            {
+                AddLine(Severity.Invalid, "Species cannot be obtained with Ball.", CheckIdentifier.Ball);
+                return;
+            }
+
+
             if (EncounterType == typeof(EncounterStatic))
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
@@ -679,25 +697,25 @@ namespace PKHeX
                 {
                     if (enc.Ball != pkm.Ball) // Pokéball by default
                         AddLine(Severity.Invalid, "Incorrect ball on ingame gift.", CheckIdentifier.Ball);
-                    else 
+                    else
                         AddLine(Severity.Valid, "Correct ball on ingame gift.", CheckIdentifier.Ball);
 
                     return;
                 }
 
-                if (!Legal.WildPokeballs.Contains(pkm.Ball))
-                    AddLine(Severity.Invalid, "Incorrect ball on ingame static encounter.", CheckIdentifier.Ball);
-                else
+                if (Legal.getWildBalls(pkm).Contains(pkm.Ball))
                     AddLine(Severity.Valid, "Correct ball on ingame static encounter.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Incorrect ball on ingame static encounter.", CheckIdentifier.Ball);
 
                 return;
             }
             if (EncounterType == typeof (EncounterSlot[]))
             {
-                if(!Legal.WildPokeballs.Contains(pkm.Ball))
-                    AddLine(Severity.Invalid, "Incorrect ball on ingame encounter.", CheckIdentifier.Ball);
-                else
+                if (Legal.getWildBalls(pkm).Contains(pkm.Ball))
                     AddLine(Severity.Valid, "Correct ball on ingame encounter.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Incorrect ball on ingame encounter.", CheckIdentifier.Ball);
 
                 return;
             }
@@ -715,8 +733,6 @@ namespace PKHeX
                 { AddLine(Severity.Invalid, "Master Ball on egg origin.", CheckIdentifier.Ball); return; }
                 if (pkm.Ball == 0x10) // Cherish Ball
                 { AddLine(Severity.Invalid, "Cherish Ball on non-event.", CheckIdentifier.Ball); return; }
-                if (pkm.Ball == 0x1A && !(pkm.Species >= 793 && pkm.Species <= 800)) // Aether Ball
-                { AddLine(Severity.Invalid, "Aether Ball on non-UB.", CheckIdentifier.Ball); return; }
 
                 if (pkm.Gender == 2) // Genderless
                 {
@@ -800,12 +816,20 @@ namespace PKHeX
                     return;
                 }
 
-                if (pkm.Species > 650 && pkm.Species != 700) // Sylveon
+                if (pkm.Format == 6 && pkm.Species > 650 && pkm.Species != 700) // Sylveon
                 {
-                    if (!Legal.WildPokeballs.Contains(pkm.Ball))
+                    if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
                         AddLine(Severity.Invalid, "Unobtainable ball for Kalos origin.", CheckIdentifier.Ball);
                     else
                         AddLine(Severity.Valid, "Obtainable ball for Kalos origin.", CheckIdentifier.Ball);
+                    return;
+                }
+                if (pkm.Format == 7 && pkm.Species > 721)
+                {
+                    if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
+                        AddLine(Severity.Invalid, "Unobtainable ball for Alola origin.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Valid, "Obtainable ball for Alola origin.", CheckIdentifier.Ball);
                     return;
                 }
             }
@@ -1139,7 +1163,7 @@ namespace PKHeX
             CheckResult[] res = new CheckResult[4];
             for (int i = 0; i < 4; i++)
                 res[i] = new CheckResult(CheckIdentifier.Move);
-            if (!pkm.Gen6)
+            if (pkm.GenNumber < 6)
                 return res;
 
             var validMoves = Legal.getValidMoves(pkm).ToArray();
@@ -1304,13 +1328,17 @@ namespace PKHeX
                     int[] moves = window.Skip(baseCt + relearnCt - 4).Take(4).ToArray();
                     Array.Resize(ref moves, 4);
 
-                    int req;
+                    int reqBase;
+                    int unique = baseMoves.Concat(relearn).Distinct().Count();
                     if (relearnCt == 4)
-                        req = 0;
+                        reqBase = 0;
                     else if (baseCt + relearnCt > 4)
-                        req = 4 - relearnCt;
+                        reqBase = 4 - relearnCt;
                     else
-                        req = baseCt;
+                        reqBase = baseCt;
+
+                    if (pkm.RelearnMoves.Where(m=>m != 0).Count() < Math.Min(4, baseMoves.Count))
+                        reqBase = Math.Min(4, unique);
 
                     // Movepool finalized! Check validity.
                     
@@ -1318,16 +1346,16 @@ namespace PKHeX
                     string em = string.Join(", ", baseMoves.Select(r => r >= movelist.Length ? "ERROR" : movelist[r]));
                     RelearnBase = baseMoves.ToArray();
                     // Base Egg Move
-                    for (int j = 0; j < req; j++)
+                    for (int j = 0; j < reqBase; j++)
                     {
                         if (baseMoves.Contains(rl[j]))
                             res[j] = new CheckResult(Severity.Valid, "Base egg move.", CheckIdentifier.RelearnMove);
                         else
                         {
                             res[j] = new CheckResult(Severity.Invalid, "Base egg move missing.", CheckIdentifier.RelearnMove);
-                            for (int f = j+1; f < req; f++)
+                            for (int f = j+1; f < reqBase; f++)
                                 res[f] = new CheckResult(Severity.Invalid, "Base egg move missing.", CheckIdentifier.RelearnMove);
-                            res[req-1].Comment += $"{Environment.NewLine}Expected the following Relearn Moves: {em}.";
+                            res[reqBase-1].Comment += $"{Environment.NewLine}Expected the following Relearn Moves: {em}.";
                             break;
                         }
                     }
@@ -1335,7 +1363,7 @@ namespace PKHeX
                     // Non-Base
                     if (Legal.LightBall.Contains(pkm.Species))
                         relearnMoves = relearnMoves.Concat(new[] { 344 }).ToArray();
-                    for (int j = req; j < 4; j++)
+                    for (int j = reqBase; j < 4; j++)
                         res[j] = !relearnMoves.Contains(rl[j])
                             ? new CheckResult(Severity.Invalid, "Not an expected relearn move.", CheckIdentifier.RelearnMove)
                             : new CheckResult(Severity.Valid, rl[j] == 0 ? "Empty" : "Relearn move.", CheckIdentifier.RelearnMove);
