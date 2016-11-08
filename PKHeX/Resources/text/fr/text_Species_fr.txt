@@ -1,4 +1,4 @@
-﻿Œuf
+Œuf
 Bulbizarre
 Herbizarre
 Florizarre
@@ -720,84 +720,84 @@ Zygarde
 Diancie
 Hoopa
 Volcanion
-Rowlet
-Dartrix
-[Dartrix Evo]
-Litten
-Torracat
-[Torracat Evo]
-Popplio
-Brionne
-[Brionne Evo]
-Pikipek
-[Pikipek Evo]
-[[Pikipek Evo] Evo]
-Yungoos
-Gumshoos
-Grubbin
-Charjabug
-Vikavolt
-Crabrawler
-[Crabrawler Evo]
-Oricorio
-Cutiefly
-Ribombee
-Rockruff
-Lycanroc
-Wishiwashi
-[Blue hair purple thing]
-[[Blue hair purple thing] Evo]
-Mudbray
-Mudsdale
-[Water Spider]
-[[Water Spider] Evo]
-Fomantis
-Lurantis
-Morelull
-[Morelull Evo]
-Salandit
-[Salandit Evo]
-Stufful
-Bewear
-Bounsweet
-Steenee
-Tsareena
-Comfey
-Oranguru
-Passimian
-Wimpod
-[Wimpod Evo]
-Sandygast
-Palossand
-Pyukumuku
-Type: Null
-Silvally
-Minior
-Komala
-Turtonator
+Brindibou
+Efflèche
+Archéduc
+Flamiaou
+Matoufeu
+Félinferno
+Otaquin
+Otarlette
+Oratoria
+Picassaut
+Piclairon
+Bazoucan
+Manglouton
+Argouste
+Larvibule
+Chrysapile
+Lucanon
+Crabagarre
+Crabominable
+Plumeline
+Bombydou
+Rubombelle
+Rocabot
+Lougaroc
+Froussardine
+Vorastérie
+Prédastérie
+Tiboudet
+Bourrinos
+Araqua
+Tarenbulle
+Mimantis
+Floramantis
+Spododo
+Lampignon
+Tritox
+Malamandre
+Nounourson
+Chelours
+Croquine
+Candine
+Sucreine
+Guérilande
+Gouroutan
+Quartermac
+Sovkipou
+Sarmuraï
+Bacabouh
+Trépassable
+Concombaffe
+Type:0
+Silvallié
+Météno
+Dodoala
+Boumata
 Togedemaru
-Mimikyu
-Bruxish
-Drampa
-[Sea Anchor]
-Jangmo-o
-Hakamo-o
-Kommo-o
-Tapu Koko
-[Pink Tapu Koko]
-[Red Tapu Koko]
-[Purple Tapu Koko]
-[Space Cloud]
-[Galaxy Eye]
+Mimiqui
+Denticrisse
+Draïeul
+Sinistrail
+Bébécaille
+Écaïd
+Ékaïser
+Tokorico
+Tokopiyon
+Tokotoro
+Tokopisco
+Cosmog
+Cosmovum
 Solgaleo
 Lunala
-UB-01
-UB-02 Absorption
-UB-02 Beauty
-[UB-## Plugs]
-[UB-## Pillars]
-[UB-## Blades]
-[UB-## Krabs]
-[UB-## Crystals]
+Zéroïd
+Mouscoto
+Cancrelove
+Câblifère
+Bamboiselle
+Katagami
+Engloutyran
+Necrozma
 Magearna
 Marshadow

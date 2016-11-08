@@ -8,6 +8,7 @@ namespace PKHeX
     {
         internal static readonly byte[] ExtraBytes =
         {
+            0x2A, // Old Marking Value
             // 0x36, 0x37, // Unused Ribbons
             0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
@@ -188,8 +189,8 @@ namespace PKHeX
         public bool RibbonMasterToughness       { get { return (RIB5 & (1 << 5)) == 1 << 5; } set { RIB5 = (byte)(RIB5 & ~(1 << 5) | (value ? 1 << 5 : 0)); } }
         public bool RibbonChampionAlola         { get { return (RIB5 & (1 << 6)) == 1 << 6; } set { RIB5 = (byte)(RIB5 & ~(1 << 6) | (value ? 1 << 6 : 0)); } }
         public bool RibbonBattleRoyale          { get { return (RIB5 & (1 << 7)) == 1 << 7; } set { RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } }
-        public bool RibbonC0                    { get { return (RIB6 & (1 << 0)) == 1 << 0; } set { RIB6 = (byte)(RIB6 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool RibbonC1                    { get { return (RIB6 & (1 << 1)) == 1 << 1; } set { RIB6 = (byte)(RIB6 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
+        public bool RibbonBattleTreeGreat       { get { return (RIB6 & (1 << 0)) == 1 << 0; } set { RIB6 = (byte)(RIB6 & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
+        public bool RibbonBattleTreeMaster      { get { return (RIB6 & (1 << 1)) == 1 << 1; } set { RIB6 = (byte)(RIB6 & ~(1 << 1) | (value ? 1 << 1 : 0)); } }
         public bool RIB6_2                      { get { return (RIB6 & (1 << 2)) == 1 << 2; } set { RIB6 = (byte)(RIB6 & ~(1 << 2) | (value ? 1 << 2 : 0)); } } // Unused
         public bool RIB6_3                      { get { return (RIB6 & (1 << 3)) == 1 << 3; } set { RIB6 = (byte)(RIB6 & ~(1 << 3) | (value ? 1 << 3 : 0)); } } // Unused
         public bool RIB6_4                      { get { return (RIB6 & (1 << 4)) == 1 << 4; } set { RIB6 = (byte)(RIB6 & ~(1 << 4) | (value ? 1 << 4 : 0)); } } // Unused
@@ -445,7 +446,7 @@ namespace PKHeX
                 int[] marks = new int[8];
                 int val = MarkValue;
                 for (int i = 0; i < marks.Length; i++)
-                    marks[i] = (val >> (i*2)) & 3;
+                    marks[i] = (val >> (i*2)) % 3;
                 return marks;
             }
             set
@@ -454,7 +455,7 @@ namespace PKHeX
                     return;
                 int v = 0;
                 for (int i = 0; i < value.Length; i++)
-                    v |= (value[i] & 3) << (i*2);
+                    v |= (value[i] % 3) << (i*2);
                 MarkValue = v;
             }
         }

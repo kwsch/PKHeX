@@ -55,7 +55,7 @@ namespace PKHeX
         public abstract int Generation { get; }
         public PersonalTable Personal { get; set; }
 
-        public bool SMDEMO => Data.Length == SaveUtil.SIZE_G7SMDEMO;
+        public bool SM => Data.Length == SaveUtil.SIZE_G7SM;
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
         public bool ORAS => Data.Length == SaveUtil.SIZE_G6ORAS;
         public bool XY => Data.Length == SaveUtil.SIZE_G6XY;

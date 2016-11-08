@@ -1641,8 +1641,8 @@ namespace PKHeX
             TB_OT.Text = SAV.OT;
             Label_OTGender.Text = gendersymbols[SAV.Gender % 2];
             Label_OTGender.ForeColor = SAV.Gender == 1 ? Color.Red : Color.Blue;
-            TB_TID.Text = SAV.TID.ToString();
-            TB_SID.Text = SAV.SID.ToString();
+            TB_TID.Text = SAV.TID.ToString("00000");
+            TB_SID.Text = SAV.SID.ToString("00000");
 
             if (SAV.Game >= 0)
                 CB_GameOrigin.SelectedValue = SAV.Game;
@@ -2374,9 +2374,13 @@ namespace PKHeX
             if (SAV.Generation < 6)
                 return;
 
-            var TSV = pkm.TSV;
-            Tip1.SetToolTip(TB_TID, "TSV: " + TSV.ToString("0000"));
-            Tip2.SetToolTip(TB_SID, "TSV: " + TSV.ToString("0000"));
+            var TSV = pkm.TSV.ToString("0000");
+            string IDstr = "TSV: " + TSV;
+            if (SAV.Generation > 6)
+                IDstr += Environment.NewLine + "G7TID: " + pkm.TrainerID7.ToString("000000");
+
+            Tip1.SetToolTip(TB_TID, IDstr);
+            Tip2.SetToolTip(TB_SID, IDstr);
 
             pkm.PID = Util.getHEXval(TB_PID.Text);
             var PSV = pkm.PSV;
@@ -3640,6 +3644,8 @@ namespace PKHeX
                 new SAV_PokedexXY().ShowDialog();
             else if (SAV.RBY || SAV.GSC)
                 new SAV_SimplePokedex().ShowDialog();
+            else if (SAV.SM)
+                new SAV_PokedexSM().ShowDialog();
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {

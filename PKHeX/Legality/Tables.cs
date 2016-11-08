@@ -6,6 +6,7 @@
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
             013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576,
+            851
         };
         internal static readonly int[] Items_CommonBall = { 4, 3, 2, 1 };
         internal static readonly int[] Items_UncommonBall =

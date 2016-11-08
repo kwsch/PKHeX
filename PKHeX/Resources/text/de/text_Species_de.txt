@@ -1,4 +1,4 @@
-﻿Ei
+Ei
 Bisasam
 Bisaknosp
 Bisaflor
@@ -720,84 +720,84 @@ Zygarde
 Diancie
 Hoopa
 Volcanion
-Rowlet
-Dartrix
-[Dartrix Evo]
-Litten
-Torracat
-[Torracat Evo]
-Popplio
-Brionne
-[Brionne Evo]
-Pikipek
-[Pikipek Evo]
-[[Pikipek Evo] Evo]
-Yungoos
-Gumshoos
-Grubbin
-Charjabug
-Vikavolt
-Crabrawler
-[Crabrawler Evo]
-Oricorio
-Cutiefly
-Ribombee
-Rockruff
-Lycanroc
-Wishiwashi
-[Blue hair purple thing]
-[[Blue hair purple thing] Evo]
-Mudbray
-Mudsdale
-[Water Spider]
-[[Water Spider] Evo]
-Fomantis
-Lurantis
-Morelull
-[Morelull Evo]
-Salandit
-[Salandit Evo]
-Stufful
-Bewear
-Bounsweet
-Steenee
-Tsareena
-Comfey
-Oranguru
-Passimian
-Wimpod
-[Wimpod Evo]
-Sandygast
-Palossand
-Pyukumuku
-Type: Null
-Silvally
-Minior
-Komala
-Turtonator
+Bauz
+Arboretoss
+Silvarro
+Flamiau
+Miezunder
+Fuegro
+Robball
+Marikeck
+Primarene
+Peppeck
+Trompeck
+Tukanon
+Mangunior
+Manguspektor
+Mabula
+Akkup
+Donarion
+Krabbox
+Krawell
+Choreogel
+Wommel
+Bandelby
+Wuffels
+Wolwerock
+Lusardin
+Garstella
+Aggrostella
+Pampuli
+Pampross
+Araqua
+Aranestro
+Imantis
+Mantidea
+Bubungus
+Lamellux
+Molunk
+Amfira
+Velursi
+Kosturso
+Frubberl
+Frubaila
+Fruyal
+Curelei
+Kommandutan
+Quartermak
+Reißlaus
+Tectass
+Sankabuh
+Colossand
+Gufa
+Typ:Null
+Amigento
+Meteno
+Koalelu
+Tortunator
 Togedemaru
-Mimikyu
-Bruxish
-Drampa
-[Sea Anchor]
-Jangmo-o
-Hakamo-o
-Kommo-o
-Tapu Koko
-[Pink Tapu Koko]
-[Red Tapu Koko]
-[Purple Tapu Koko]
-[Space Cloud]
-[Galaxy Eye]
+Mimigma
+Knirfish
+Sen-Long
+Moruda
+Miniras
+Mediras
+Grandiras
+Kapu-Riki
+Kapu-Fala
+Kapu-Toro
+Kapu-Kime
+Cosmog
+Cosmovum
 Solgaleo
 Lunala
-UB-01
-UB-02 Absorption
-UB-02 Beauty
-[UB-## Plugs]
-[UB-## Pillars]
-[UB-## Blades]
-[UB-## Krabs]
-[UB-## Crystals]
+Anego
+Masskito
+Schabelle
+Voltriant
+Kaguron
+Katagami
+Schlingking
+Necrozma
 Magearna
 Marshadow

@@ -94,8 +94,13 @@ namespace PKHeX
         private void updateChecks()
         {
             Encounter = verifyEncounter();
-            EncounterType = EncounterMatch?.GetType().BaseType;
+            EncounterType = EncounterMatch?.GetType();
+            if (EncounterType == typeof (MysteryGift))
+                EncounterType = EncounterType.BaseType;
             History = verifyHistory();
+
+            AddLine(Encounter);
+            AddLine(History);
 
             verifyECPID();
             verifyNickname();
@@ -103,6 +108,7 @@ namespace PKHeX
             verifyIVs();
             verifyEVs();
             verifyLevel();
+            verifyMedals();
             verifyRibbons();
             verifyAbility();
             verifyBall();
@@ -127,11 +133,14 @@ namespace PKHeX
                 if (!vRelearn[i].Valid)
                     r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
 
-            if (r.Length == 0 && Parse.All(chk => chk.Valid))
+            if (r.Length == 0 && Parse.All(chk => chk.Valid) && Valid)
                 return "Legal!";
             
             // Build result string...
             r += Parse.Where(chk => !chk.Valid).Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+
+            if (r.Length == 0)
+                r = "Internal Error.";
 
             return r.TrimEnd();
         }

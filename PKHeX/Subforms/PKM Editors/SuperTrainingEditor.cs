@@ -23,14 +23,14 @@ namespace PKHeX
             Util.TranslateInterface(this, Main.curlanguage);
             TLP_SuperTrain.ResumeLayout();
             TLP_DistSuperTrain.ResumeLayout();
-
-            CB_Bag.Items.Clear();
-            CB_Bag.Items.Add("---");
-            for (int i = 1; i < Main.GameStrings.trainingbags.Length - 1; i++)
-                CB_Bag.Items.Add(Main.GameStrings.trainingbags[i]);
-
+            
             if (pkm is PK6)
             {
+                CB_Bag.Items.Clear();
+                CB_Bag.Items.Add("---");
+                for (int i = 1; i < Main.GameStrings.trainingbags.Length - 1; i++)
+                    CB_Bag.Items.Add(Main.GameStrings.trainingbags[i]);
+
                 PK6 pk6 = (PK6) pkm;
                 CHK_SecretUnlocked.Checked = pk6.SecretSuperTrainingUnlocked;
                 CHK_SecretComplete.Checked = pk6.SecretSuperTrainingComplete;
@@ -41,7 +41,7 @@ namespace PKHeX
             }
             else
             {
-                CB_Bag.Visible = NUD_BagHits.Visible = false;
+                L_Bag.Visible = CB_Bag.Visible = L_Hits.Visible = NUD_BagHits.Visible = false;
             }
         }
 

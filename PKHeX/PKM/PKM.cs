@@ -390,6 +390,7 @@ namespace PKHeX
         public virtual bool WasTradedEgg => Egg_Location == 30002;
         public virtual bool WasIngameTrade => Met_Location == 30001;
         public virtual bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
+        public virtual bool IsNative => GenNumber == Format;
         public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
         public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
 
@@ -518,6 +519,7 @@ namespace PKHeX
                 case 4: pptable = Legal.MovePP_DP; break;
                 case 5: pptable = Legal.MovePP_BW; break;
                 case 6: pptable = Legal.MovePP_XY; break;
+                case 7: pptable = Legal.MovePP_SM; break;
                 default: pptable = new int[1]; break;
             }
             if (move >= pptable.Length)

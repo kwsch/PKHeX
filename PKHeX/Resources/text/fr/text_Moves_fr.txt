@@ -1,4 +1,4 @@
-﻿―――――
+―――――
 Écras’Face
 Poing-Karaté
 Torgnoles
@@ -307,7 +307,7 @@ Crochet Venin
 Éclate Griffe
 Rafale Feu
 Hydroblast
-Poing Météor
+Poing Météore
 Étonnement
 Ball’Météo
 Aromathérapie
@@ -432,7 +432,7 @@ Luminocanon
 Escalade
 Anti-Brume
 Distorsion
-Draco Météor
+Draco Météore
 Coup d’Jus
 Ébullilave
 Tempête Verte
@@ -452,7 +452,7 @@ Piqûre
 Rayon Chargé
 Martobois
 Aqua-Jet
-Appel Attak
+Appel Attaque
 Appel Défense
 Appel Soins
 Fracass’Tête
@@ -544,7 +544,7 @@ Vent Violent
 Peignée
 Lancécrou
 Incendie
-TechnoBuster
+Techno-Buster
 Chant Antique
 Lame Ointe
 Ère Glaciaire
@@ -620,3 +620,101 @@ Onde Originelle
 Lame Pangéenne
 Draco Ascension
 Furie Dimension
+Turbo-Charge Bulldozer
+Turbo-Charge Bulldozer
+Combo Hyper-Furie
+Combo Hyper-Furie
+Piqué Supersonique
+Piqué Supersonique
+Déluge Causti-Toxique
+Déluge Causti-Toxique
+Éruption Géo-Sismique
+Éruption Géo-Sismique
+Apocalypse Gigalithique
+Apocalypse Gigalithique
+Cocon Fatal
+Cocon Fatal
+Appel des Ombres Éternelles
+Appel des Ombres Éternelles
+Vrille Maximum
+Vrille Maximum
+Pyro-Explosion Cataclysmique
+Pyro-Explosion Cataclysmique
+Super Tourbillon Abyssal
+Super Tourbillon Abyssal
+Pétalexplosion Éblouissante
+Pétalexplosion Éblouissante
+Fulguro-Lance Gigavolt
+Fulguro-Lance Gigavolt
+Psycho-Pulvérisation EX
+Psycho-Pulvérisation EX
+Laser Cryogénique
+Laser Cryogénique
+Chaos Draconique
+Chaos Draconique
+Trou Noir des Ombres
+Trou Noir des Ombres
+Impact Choupinova
+Impact Choupinova
+Pikachute Foudroyante
+Amass’Sable
+Escarmouche
+Blockhaus
+Tisse Ombre
+Dark Lariat
+Aria de l’Écume
+Marteau de Glace
+Soin Floral
+Cavalerie Lourde
+Vol-Force
+Lame Solaire
+Feuillage
+Projecteur
+Fil Toxique
+Affilage
+Engrenage
+Exécu-Son
+Boule Pollen
+Ancrage
+Champ Psychique
+Furie-Bond
+Fouet de Feu
+Arrogance
+Flamme Ultime
+Permuvitesse
+Estocorne
+Purification
+Danse Éveil
+Sanction Suprême
+Botte Sucrette
+Sommation
+Bec-Canon
+Vibrécaille
+Draco-Marteau
+Centrifugifle
+Voile Aurore
+Fureur des Plumes Spectrales
+Dark Body Press
+Symphonie des Ondines
+Colère du Gardien d’Alola
+Fauche-Âme des Sept Étoiles
+Électro-Surf Survolté
+Gare au Ronflex
+Neuf pour Un
+Supernova Originelle
+Carapiège
+Canon Floral
+Psycho-Croc
+Trépignement
+Os’Ombre
+Vif Roc
+Aqua-Brèche
+Laser Prisme
+Clepto-Mânes
+Choc Météore
+Rayon Spectral
+Larme à l’Œil
+Électrikipik
+Ire de la Nature
+Coup Varia-Type
+Giga-Tonnerre

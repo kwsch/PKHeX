@@ -1,4 +1,4 @@
-﻿Ningún
+Ningún objeto
 Master Ball
 Ultra Ball
 Super Ball
@@ -84,11 +84,11 @@ Piedra Fuego
 Piedra Trueno
 Piedra Agua
 Piedra Hoja
-Mini Seta
+Miniseta
 Seta Grande
 Perla
 Perla Grande
-Polvoestelar
+Polvo Estelar
 Trozo Estrella
 Pepita
 Escama Corazón
@@ -233,8 +233,8 @@ Huevo Suerte
 Periscopio
 Revest. Metálico
 Restos
-Escamadragón
-Bolaluminosa
+Escama Dragón
+Bola Luminosa
 Arena Fina
 Piedra Dura
 Semilla Milagro
@@ -471,7 +471,7 @@ Bloc Unown
 Plantabayas
 Zahorí
 Tarjeta Azul
-Colaslowpoke
+Cola Slowpoke
 Campana Clara
 Llave Magnética
 Llave Sótano
@@ -704,7 +704,7 @@ Emblema Kalos
 Guía de Máximas
 Estatuilla Rara
 Portalentillas
-Maleta
+Kit Maquillaje
 Maleta
 Crêpe Luminalia
 Galleta Yantra
@@ -774,148 +774,148 @@ Meteorito
 Piedra Activadora
 Frag. Meteorito
 Flauta Eón
-776
-777
-778
-Electrium Z
-780
-781
-782
-783
-784
-785
-786
-787
-788
-789
-790
-791
-792
-793
-794
-795
-796
-Z-Ring
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-Electrium Z (K)
-811
-812
-813
-814
-815
-816
-817
-818
-819
-820
-821
-822
-823
-824
-825
-826
-827
-828
-829
-830
-831
-832
-833
-834
-835
-836
-837
-838
-839
-840
-841
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851
-852
-853
-854
-855
-856
-857
-858
-859
-860
-861
-862
-863
-864
-865
-866
-867
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900
-901
-902
-903
-904
-905
-906
-907
-908
-909
-910
-911
-912
-913
-914
-915
-916
-917
-918
-919
-920
+Normastal Z
+Pirostal Z
+Hidrostal Z
+Electrostal Z
+Fitostal Z
+Criostal Z
+Lizastal Z
+Toxistal Z
+Geostal Z
+Aerostal Z
+Psicostal Z
+Insectostal Z
+Litostal Z
+Espectrostal Z
+Dracostal Z
+Nictostal Z
+Metalostal Z
+Feeristal Z
+Pikastal Z
+Chapa Plateada
+Chapa Dorada
+Pulsera Z
+Dueyestal Z
+Incinostal Z
+Primastal Z
+Tapistal Z
+Marshastal Z
+Alo-Raistal Z
+Snorlastal Z
+Eeveestal Z
+Mewstal Z
+Normastal Z
+Pirostal Z
+Hidrostal Z
+Electrostal Z
+Fitostal Z
+Criostal Z
+Lizastal Z
+Toxistal Z
+Geostal Z
+Aerostal Z
+Psicostal Z
+Insectostal Z
+Litostal Z
+Espectrostal Z
+Dracostal Z
+Nictostal Z
+Metalostal Z
+Feeristal Z
+Pikastal Z
+Dueyestal Z
+Incinostal Z
+Primastal Z
+Tapistal Z
+Marshastal Z
+Alo-Raistal Z
+Snorlastal Z
+Eeveestal Z
+Mewstal Z
+Ash-Pikastal Z
+Ash-Pikastal Z
+(?)
+(?)
+(?)
+(?)
+Zurrón
+Caña
+Máscara Profesor
+Festicupón
+Piedra Brillante
+Nerviosfera
+Arca de Zygarde
+(?)
+Piedra Hielo
+Buscamontura
+Ente Ball
+Malasada Maxi
+Néctar Rojo
+Néctar Amarillo
+Néctar Rosa
+Néctar Violeta
+Flauta Solar
+Flauta Lunar
+(?)
+Nota Intrigante
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+Cubresuelos
+Paracontacto
+Semilla Electro
+Semilla Psique
+Semilla Bruma
+Semilla Hierba
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+(?)
+Disco Lucha
+Disco Volador
+Disco Veneno
+Disco Tierra
+Disco Roca
+Disco Bicho
+Disco Fantasma
+Disco Acero
+Disco Fuego
+Disco Agua
+Disco Planta
+Disco Eléctrico
+Disco Psíquico
+Disco Hielo
+Disco Dragón
+Disco Siniestro
+Disco Hada

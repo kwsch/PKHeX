@@ -1,4 +1,4 @@
-﻿
+
 Puanteur
 Crachin
 Turbo
@@ -69,7 +69,7 @@ Torrent
 Essaim
 Tête de Roc
 Sécheresse
-Piège
+Piège Sable
 Esprit Vital
 Écran Fumée
 Force Pure
@@ -190,44 +190,44 @@ Aura Inversée
 Mer Primaire
 Terre Finale
 Souffle Delta
-192
-193
-194
-195
-196
-197
-Stakeout
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-Battle Bond
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
+Endurance
+Escampette
+Repli Tactique
+Sable Humide
+Cruauté
+Bouclier-Carcan
+Filature
+Aquabulle
+Expert Acier
+Dracolère
+Chasse-Neige
+Longue Portée
+Hydrata-Son
+Prioguérison
+Peau Électrique
+Surf Caudal
+Banc
+Fantômasque
+Synergie
+Rassemblement
+Corrosion
+Hypersommeil
+Prestance Royale
+Expuls’Organes
+Danseuse
+Batterie
+Boule de Poils
+Corps Coloré
+Animacœur
+Mèche Rebelle
+Receveur
+Osmose
+Boost Chimère
+Système Alpha
+Créa-Élec
+Créa-Psy
+Créa-Brume
+Créa-Herbe
+Métallo-Garde
+Spectro-Bouclier
+Prisme-Armure

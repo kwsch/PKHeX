@@ -10,6 +10,8 @@ namespace PKHeX
             string s = "box_wp" + index.ToString("00");
             switch (SAV.Generation)
             {
+                case 7: s += "xy";
+                    break;
                 case 6: s += SAV.ORAS && index > 16 ? "ao" : "xy";
                     break;
                 case 5: s += SAV.B2W2 && index > 16 ? "b2w2" : "bw";

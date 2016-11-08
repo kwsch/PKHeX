@@ -1,4 +1,4 @@
-﻿Niente
+Niente
 Master Ball
 Ultra Ball
 Mega Ball
@@ -59,7 +59,7 @@ Attacco X
 Difesa X
 Velocità X
 Precisione X
-Special X
+Att. Speciale X
 Dif. Speciale X
 Poké Bambola
 Coda Skitty
@@ -471,7 +471,7 @@ UnownBloc
 Piantabacche
 Ricerca Strum.
 Carta Blu
-Codaslowpoke
+Coda Slowpoke
 Campana Chiara
 Apriporta
 Chiave sotterr.
@@ -592,19 +592,19 @@ Coronantica
 Conostropoli
 Supercolpo 2
 Velocità X-2
-Special X-2
+Att. Sp. X-2
 Dif. Spec. X-2
 Difesa X-2
 Attacco X-2
 Precisione X-2
 Velocità X-3
-Special X-3
+Att. Sp. X-3
 Dif. Spec. X-3
 Difesa X-3
 Attacco X-3
 Precisione X-3
 Velocità X-6
-Special X-6
+Att. Sp. X-6
 Dif. Spec. X-6
 Difesa X-6
 Attacco X-6
@@ -704,7 +704,7 @@ Emblema di Kalos
 Guida Avventura
 Strano ninnolo
 Portalenti
-Baule per abiti
+Trousse
 Baule per abiti
 Pan di Lumi
 Yantafrollino
@@ -774,148 +774,148 @@ Meteorite
 Pietrachiave
 Framm. meteorite
 Flauto Eone
-776
-777
-778
+Normium Z
+Pirium Z
+Idrium Z
 Electrium Z
-780
-781
-782
-783
-784
-785
-786
-787
-788
-789
-790
-791
-792
-793
-794
-795
-796
-Z-Ring
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-Electrium Z (K)
-811
-812
-813
-814
-815
-816
-817
-818
-819
-820
-821
-822
-823
-824
-825
-826
-827
-828
-829
-830
-831
-832
-833
-834
-835
-836
-837
-838
-839
-840
-841
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851
-852
-853
-854
-855
-856
-857
-858
-859
-860
-861
-862
-863
-864
-865
-866
-867
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900
-901
-902
-903
-904
-905
-906
-907
-908
-909
-910
-911
-912
-913
-914
-915
-916
-917
-918
-919
-920
+Herbium Z
+Glacium Z
+Luctium Z
+Venenium Z
+Terrium Z
+Volantium Z
+Psichium Z
+Insectium Z
+Petrium Z
+Spectrium Z
+Draconium Z
+Obscurium Z
+Metallium Z
+Follectium Z
+Pikacium Z
+Tappo d’argento
+Tappo d’oro
+Cerchio Z
+Deciduenium Z
+Incineronium Z
+Primarinium Z
+Tapium Z
+Marshadium Z
+Aloraicium Z
+Snorlactium Z
+Eevium Z
+Mewnium Z
+Normium Z
+Pirium Z
+Idrium Z
+Electrium Z
+Herbium Z
+Glacium Z
+Luctium Z
+Venenium Z
+Terrium Z
+Volantium Z
+Psichium Z
+Insectium Z
+Petrium Z
+Spectrium Z
+Draconium Z
+Obscurium Z
+Metallium Z
+Follectium Z
+Pikacium Z
+Deciduenium Z
+Incineronium Z
+Primarinium Z
+Tapium Z
+Marshadium Z
+Aloraicium Z
+Snorlactium Z
+Eevium Z
+Mewnium Z
+Ashpikacium Z
+Ashpikacium Z
+???
+???
+???
+???
+Portaingredienti
+Amo
+Maschera Prof.
+Festicket
+Pietra lucente
+Fifasfera
+Teca Zygarde
+???
+Pietragelo
+Chiamapassaggio
+UC Ball
+Malasada maxi
+Nettare rosso
+Nettare giallo
+Nettare rosa
+Nettare viola
+Flauto solare
+Flauto lunare
+???
+Lettera segreta
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+Fissacampo
+Smorzaurti
+Elettroseme
+Psicoseme
+Nebbiaseme
+Erbaseme
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+ROM Lotta
+ROM Volante
+ROM Veleno
+ROM Terra
+ROM Roccia
+ROM Coleottero
+ROM Spettro
+ROM Acciaio
+ROM Fuoco
+ROM Acqua
+ROM Erba
+ROM Elettro
+ROM Psico
+ROM Ghiaccio
+ROM Drago
+ROM Buio
+ROM Folletto

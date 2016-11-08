@@ -1,4 +1,4 @@
-﻿———
+———
 Pound
 Karate Chop
 Double Slap
@@ -620,3 +620,101 @@ Origin Pulse
 Precipice Blades
 Dragon Ascent
 Hyperspace Fury
+Breakneck Blitz
+Breakneck Blitz
+All-Out Pummeling
+All-Out Pummeling
+Supersonic Skystrike
+Supersonic Skystrike
+Acid Downpour
+Acid Downpour
+Tectonic Rage
+Tectonic Rage
+Continental Crush
+Continental Crush
+Savage Spin-Out
+Savage Spin-Out
+Never-Ending Nightmare
+Never-Ending Nightmare
+Corkscrew Crash
+Corkscrew Crash
+Inferno Overdrive
+Inferno Overdrive
+Hydro Vortex
+Hydro Vortex
+Bloom Doom
+Bloom Doom
+Gigavolt Havoc
+Gigavolt Havoc
+Shattered Psyche
+Shattered Psyche
+Subzero Slammer
+Subzero Slammer
+Devastating Drake
+Devastating Drake
+Black Hole Eclipse
+Black Hole Eclipse
+Twinkle Tackle
+Twinkle Tackle
+Catastropika
+Shore Up
+First Impression
+Baneful Bunker
+Spirit Shackle
+Darkest Lariat
+Sparkling Aria
+Ice Hammer
+Floral Healing
+High Horsepower
+Strength Sap
+Solar Blade
+Leafage
+Spotlight
+Toxic Thread
+Laser Focus
+Gear Up
+Throat Chop
+Pollen Puff
+Anchor Shot
+Psychic Terrain
+Lunge
+Fire Lash
+Power Trip
+Burn Up
+Speed Swap
+Smart Strike
+Purify
+Revelation Dance
+Core Enforcer
+Trop Kick
+Instruct
+Beak Blast
+Clanging Scales
+Dragon Hammer
+Brutal Swing
+Aurora Veil
+Sinister Arrow Raid
+Malicious Moonsault
+Oceanic Operetta
+Guardian of Alola
+Soul-Stealing 7-Star Strike
+Stoked Sparksurfer
+Pulverizing Pancake
+Extreme Evoboost
+Genesis Supernova
+Shell Trap
+Fleur Cannon
+Psychic Fangs
+Stomping Tantrum
+Shadow Bone
+Accelerock
+Liquidation
+Prismatic Laser
+Spectral Thief
+Sunsteel Strike
+Moongeist Beam
+Tearful Look
+Zing Zap
+Nature’s Madness
+Multi-Attack
+10,000,000 Volt Thunderbolt

@@ -133,6 +133,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _103_1 {
+            get {
+                object obj = ResourceManager.GetObject("_103_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _104 {
             get {
                 object obj = ResourceManager.GetObject("_104", resourceCulture);
@@ -146,6 +156,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _105 {
             get {
                 object obj = ResourceManager.GetObject("_105", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _105_1 {
+            get {
+                object obj = ResourceManager.GetObject("_105_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1183,6 +1203,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _19_1 {
+            get {
+                object obj = ResourceManager.GetObject("_19_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _190 {
             get {
                 object obj = ResourceManager.GetObject("_190", resourceCulture);
@@ -1296,6 +1326,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _20 {
             get {
                 object obj = ResourceManager.GetObject("_20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _20_1 {
+            get {
+                object obj = ResourceManager.GetObject("_20_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2363,6 +2403,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _26_1 {
+            get {
+                object obj = ResourceManager.GetObject("_26_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _260 {
             get {
                 object obj = ResourceManager.GetObject("_260", resourceCulture);
@@ -2483,6 +2533,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _27_1 {
+            get {
+                object obj = ResourceManager.GetObject("_27_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _270 {
             get {
                 object obj = ResourceManager.GetObject("_270", resourceCulture);
@@ -2586,6 +2646,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _28 {
             get {
                 object obj = ResourceManager.GetObject("_28", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _28_1 {
+            get {
+                object obj = ResourceManager.GetObject("_28_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -3753,6 +3823,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _37_1 {
+            get {
+                object obj = ResourceManager.GetObject("_37_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _370 {
             get {
                 object obj = ResourceManager.GetObject("_370", resourceCulture);
@@ -3876,6 +3956,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _38 {
             get {
                 object obj = ResourceManager.GetObject("_38", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _38_1 {
+            get {
+                object obj = ResourceManager.GetObject("_38_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -5493,6 +5583,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _50_1 {
+            get {
+                object obj = ResourceManager.GetObject("_50_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _500 {
             get {
                 object obj = ResourceManager.GetObject("_500", resourceCulture);
@@ -5603,6 +5703,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _51_1 {
+            get {
+                object obj = ResourceManager.GetObject("_51_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _510 {
             get {
                 object obj = ResourceManager.GetObject("_510", resourceCulture);
@@ -5706,6 +5816,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _52 {
             get {
                 object obj = ResourceManager.GetObject("_52", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _52_1 {
+            get {
+                object obj = ResourceManager.GetObject("_52_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -5826,6 +5946,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _53 {
             get {
                 object obj = ResourceManager.GetObject("_53", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _53_1 {
+            get {
+                object obj = ResourceManager.GetObject("_53_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -7503,6 +7633,26 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _658_1 {
+            get {
+                object obj = ResourceManager.GetObject("_658_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _658_2 {
+            get {
+                object obj = ResourceManager.GetObject("_658_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _659 {
             get {
                 object obj = ResourceManager.GetObject("_659", resourceCulture);
@@ -8683,6 +8833,46 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _718_1 {
+            get {
+                object obj = ResourceManager.GetObject("_718_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _718_2 {
+            get {
+                object obj = ResourceManager.GetObject("_718_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _718_3 {
+            get {
+                object obj = ResourceManager.GetObject("_718_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _718_4 {
+            get {
+                object obj = ResourceManager.GetObject("_718_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _719 {
             get {
                 object obj = ResourceManager.GetObject("_719", resourceCulture);
@@ -8753,9 +8943,179 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _723 {
+            get {
+                object obj = ResourceManager.GetObject("_723", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _724 {
+            get {
+                object obj = ResourceManager.GetObject("_724", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _725 {
+            get {
+                object obj = ResourceManager.GetObject("_725", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _726 {
+            get {
+                object obj = ResourceManager.GetObject("_726", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _727 {
+            get {
+                object obj = ResourceManager.GetObject("_727", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _728 {
+            get {
+                object obj = ResourceManager.GetObject("_728", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _729 {
+            get {
+                object obj = ResourceManager.GetObject("_729", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _73 {
             get {
                 object obj = ResourceManager.GetObject("_73", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _730 {
+            get {
+                object obj = ResourceManager.GetObject("_730", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _731 {
+            get {
+                object obj = ResourceManager.GetObject("_731", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _732 {
+            get {
+                object obj = ResourceManager.GetObject("_732", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _733 {
+            get {
+                object obj = ResourceManager.GetObject("_733", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _734 {
+            get {
+                object obj = ResourceManager.GetObject("_734", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _735 {
+            get {
+                object obj = ResourceManager.GetObject("_735", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _736 {
+            get {
+                object obj = ResourceManager.GetObject("_736", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _737 {
+            get {
+                object obj = ResourceManager.GetObject("_737", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _738 {
+            get {
+                object obj = ResourceManager.GetObject("_738", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _739 {
+            get {
+                object obj = ResourceManager.GetObject("_739", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -8773,9 +9133,279 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _74_1 {
+            get {
+                object obj = ResourceManager.GetObject("_74_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _740 {
+            get {
+                object obj = ResourceManager.GetObject("_740", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _741 {
+            get {
+                object obj = ResourceManager.GetObject("_741", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _741_1 {
+            get {
+                object obj = ResourceManager.GetObject("_741_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _741_2 {
+            get {
+                object obj = ResourceManager.GetObject("_741_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _741_3 {
+            get {
+                object obj = ResourceManager.GetObject("_741_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _742 {
+            get {
+                object obj = ResourceManager.GetObject("_742", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _743 {
+            get {
+                object obj = ResourceManager.GetObject("_743", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _744 {
+            get {
+                object obj = ResourceManager.GetObject("_744", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _745 {
+            get {
+                object obj = ResourceManager.GetObject("_745", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _745_1 {
+            get {
+                object obj = ResourceManager.GetObject("_745_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _746 {
+            get {
+                object obj = ResourceManager.GetObject("_746", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _746_1 {
+            get {
+                object obj = ResourceManager.GetObject("_746_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _747 {
+            get {
+                object obj = ResourceManager.GetObject("_747", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _748 {
+            get {
+                object obj = ResourceManager.GetObject("_748", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _749 {
+            get {
+                object obj = ResourceManager.GetObject("_749", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _75 {
             get {
                 object obj = ResourceManager.GetObject("_75", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _75_1 {
+            get {
+                object obj = ResourceManager.GetObject("_75_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _750 {
+            get {
+                object obj = ResourceManager.GetObject("_750", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _751 {
+            get {
+                object obj = ResourceManager.GetObject("_751", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _752 {
+            get {
+                object obj = ResourceManager.GetObject("_752", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _753 {
+            get {
+                object obj = ResourceManager.GetObject("_753", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _754 {
+            get {
+                object obj = ResourceManager.GetObject("_754", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _755 {
+            get {
+                object obj = ResourceManager.GetObject("_755", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _756 {
+            get {
+                object obj = ResourceManager.GetObject("_756", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _757 {
+            get {
+                object obj = ResourceManager.GetObject("_757", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _758 {
+            get {
+                object obj = ResourceManager.GetObject("_758", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _759 {
+            get {
+                object obj = ResourceManager.GetObject("_759", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -8793,9 +9423,349 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _76_1 {
+            get {
+                object obj = ResourceManager.GetObject("_76_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _760 {
+            get {
+                object obj = ResourceManager.GetObject("_760", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _761 {
+            get {
+                object obj = ResourceManager.GetObject("_761", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _762 {
+            get {
+                object obj = ResourceManager.GetObject("_762", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _763 {
+            get {
+                object obj = ResourceManager.GetObject("_763", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _764 {
+            get {
+                object obj = ResourceManager.GetObject("_764", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _765 {
+            get {
+                object obj = ResourceManager.GetObject("_765", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _766 {
+            get {
+                object obj = ResourceManager.GetObject("_766", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _767 {
+            get {
+                object obj = ResourceManager.GetObject("_767", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _768 {
+            get {
+                object obj = ResourceManager.GetObject("_768", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _769 {
+            get {
+                object obj = ResourceManager.GetObject("_769", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _77 {
             get {
                 object obj = ResourceManager.GetObject("_77", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _770 {
+            get {
+                object obj = ResourceManager.GetObject("_770", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _771 {
+            get {
+                object obj = ResourceManager.GetObject("_771", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _772 {
+            get {
+                object obj = ResourceManager.GetObject("_772", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _773 {
+            get {
+                object obj = ResourceManager.GetObject("_773", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774 {
+            get {
+                object obj = ResourceManager.GetObject("_774", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_1 {
+            get {
+                object obj = ResourceManager.GetObject("_774_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_10 {
+            get {
+                object obj = ResourceManager.GetObject("_774_10", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_11 {
+            get {
+                object obj = ResourceManager.GetObject("_774_11", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_12 {
+            get {
+                object obj = ResourceManager.GetObject("_774_12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_13 {
+            get {
+                object obj = ResourceManager.GetObject("_774_13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_2 {
+            get {
+                object obj = ResourceManager.GetObject("_774_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_3 {
+            get {
+                object obj = ResourceManager.GetObject("_774_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_4 {
+            get {
+                object obj = ResourceManager.GetObject("_774_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_5 {
+            get {
+                object obj = ResourceManager.GetObject("_774_5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_6 {
+            get {
+                object obj = ResourceManager.GetObject("_774_6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_7 {
+            get {
+                object obj = ResourceManager.GetObject("_774_7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_8 {
+            get {
+                object obj = ResourceManager.GetObject("_774_8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _774_9 {
+            get {
+                object obj = ResourceManager.GetObject("_774_9", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _775 {
+            get {
+                object obj = ResourceManager.GetObject("_775", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _776 {
+            get {
+                object obj = ResourceManager.GetObject("_776", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _777 {
+            get {
+                object obj = ResourceManager.GetObject("_777", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _778 {
+            get {
+                object obj = ResourceManager.GetObject("_778", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _779 {
+            get {
+                object obj = ResourceManager.GetObject("_779", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -8813,9 +9783,209 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _780 {
+            get {
+                object obj = ResourceManager.GetObject("_780", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _781 {
+            get {
+                object obj = ResourceManager.GetObject("_781", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _782 {
+            get {
+                object obj = ResourceManager.GetObject("_782", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _783 {
+            get {
+                object obj = ResourceManager.GetObject("_783", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _784 {
+            get {
+                object obj = ResourceManager.GetObject("_784", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _785 {
+            get {
+                object obj = ResourceManager.GetObject("_785", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _786 {
+            get {
+                object obj = ResourceManager.GetObject("_786", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _787 {
+            get {
+                object obj = ResourceManager.GetObject("_787", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _788 {
+            get {
+                object obj = ResourceManager.GetObject("_788", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _789 {
+            get {
+                object obj = ResourceManager.GetObject("_789", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _79 {
             get {
                 object obj = ResourceManager.GetObject("_79", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _790 {
+            get {
+                object obj = ResourceManager.GetObject("_790", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _791 {
+            get {
+                object obj = ResourceManager.GetObject("_791", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _792 {
+            get {
+                object obj = ResourceManager.GetObject("_792", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _793 {
+            get {
+                object obj = ResourceManager.GetObject("_793", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _794 {
+            get {
+                object obj = ResourceManager.GetObject("_794", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _795 {
+            get {
+                object obj = ResourceManager.GetObject("_795", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _796 {
+            get {
+                object obj = ResourceManager.GetObject("_796", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _797 {
+            get {
+                object obj = ResourceManager.GetObject("_797", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _798 {
+            get {
+                object obj = ResourceManager.GetObject("_798", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _799 {
+            get {
+                object obj = ResourceManager.GetObject("_799", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -8846,6 +10016,46 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap _80_1 {
             get {
                 object obj = ResourceManager.GetObject("_80_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _800 {
+            get {
+                object obj = ResourceManager.GetObject("_800", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _801 {
+            get {
+                object obj = ResourceManager.GetObject("_801", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _801_1 {
+            get {
+                object obj = ResourceManager.GetObject("_801_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _802 {
+            get {
+                object obj = ResourceManager.GetObject("_802", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -8933,9 +10143,29 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _88_1 {
+            get {
+                object obj = ResourceManager.GetObject("_88_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _89 {
             get {
                 object obj = ResourceManager.GetObject("_89", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _89_1 {
+            get {
+                object obj = ResourceManager.GetObject("_89_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10850,6 +12080,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] eggmove_sm {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_sm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] eggmove_xy {
             get {
                 object obj = ResourceManager.GetObject("eggmove_xy", resourceCulture);
@@ -10880,9 +12120,29 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] encounter_mn {
+            get {
+                object obj = ResourceManager.GetObject("encounter_mn", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] encounter_o {
             get {
                 object obj = ResourceManager.GetObject("encounter_o", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] encounter_sn {
+            get {
+                object obj = ResourceManager.GetObject("encounter_sn", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -10913,6 +12173,16 @@ namespace PKHeX.Properties {
         internal static byte[] evos_ao {
             get {
                 object obj = ResourceManager.GetObject("evos_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] evos_sm {
+            get {
+                object obj = ResourceManager.GetObject("evos_sm", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -14934,6 +16204,46 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_776 {
+            get {
+                object obj = ResourceManager.GetObject("item_776", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_777 {
+            get {
+                object obj = ResourceManager.GetObject("item_777", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_778 {
+            get {
+                object obj = ResourceManager.GetObject("item_778", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_779 {
+            get {
+                object obj = ResourceManager.GetObject("item_779", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_78 {
             get {
                 object obj = ResourceManager.GetObject("item_78", resourceCulture);
@@ -14944,9 +16254,199 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_780 {
+            get {
+                object obj = ResourceManager.GetObject("item_780", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_781 {
+            get {
+                object obj = ResourceManager.GetObject("item_781", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_782 {
+            get {
+                object obj = ResourceManager.GetObject("item_782", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_783 {
+            get {
+                object obj = ResourceManager.GetObject("item_783", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_784 {
+            get {
+                object obj = ResourceManager.GetObject("item_784", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_785 {
+            get {
+                object obj = ResourceManager.GetObject("item_785", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_786 {
+            get {
+                object obj = ResourceManager.GetObject("item_786", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_787 {
+            get {
+                object obj = ResourceManager.GetObject("item_787", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_788 {
+            get {
+                object obj = ResourceManager.GetObject("item_788", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_789 {
+            get {
+                object obj = ResourceManager.GetObject("item_789", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_79 {
             get {
                 object obj = ResourceManager.GetObject("item_79", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_790 {
+            get {
+                object obj = ResourceManager.GetObject("item_790", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_791 {
+            get {
+                object obj = ResourceManager.GetObject("item_791", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_792 {
+            get {
+                object obj = ResourceManager.GetObject("item_792", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_793 {
+            get {
+                object obj = ResourceManager.GetObject("item_793", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_794 {
+            get {
+                object obj = ResourceManager.GetObject("item_794", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_795 {
+            get {
+                object obj = ResourceManager.GetObject("item_795", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_796 {
+            get {
+                object obj = ResourceManager.GetObject("item_796", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_798 {
+            get {
+                object obj = ResourceManager.GetObject("item_798", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_799 {
+            get {
+                object obj = ResourceManager.GetObject("item_799", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -14967,6 +16467,76 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap item_80 {
             get {
                 object obj = ResourceManager.GetObject("item_80", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_800 {
+            get {
+                object obj = ResourceManager.GetObject("item_800", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_801 {
+            get {
+                object obj = ResourceManager.GetObject("item_801", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_802 {
+            get {
+                object obj = ResourceManager.GetObject("item_802", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_803 {
+            get {
+                object obj = ResourceManager.GetObject("item_803", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_804 {
+            get {
+                object obj = ResourceManager.GetObject("item_804", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_805 {
+            get {
+                object obj = ResourceManager.GetObject("item_805", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_806 {
+            get {
+                object obj = ResourceManager.GetObject("item_806", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -15004,6 +16574,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_836 {
+            get {
+                object obj = ResourceManager.GetObject("item_836", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_84 {
             get {
                 object obj = ResourceManager.GetObject("item_84", resourceCulture);
@@ -15014,9 +16594,89 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_846 {
+            get {
+                object obj = ResourceManager.GetObject("item_846", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_849 {
+            get {
+                object obj = ResourceManager.GetObject("item_849", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_85 {
             get {
                 object obj = ResourceManager.GetObject("item_85", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_851 {
+            get {
+                object obj = ResourceManager.GetObject("item_851", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_852 {
+            get {
+                object obj = ResourceManager.GetObject("item_852", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_853 {
+            get {
+                object obj = ResourceManager.GetObject("item_853", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_854 {
+            get {
+                object obj = ResourceManager.GetObject("item_854", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_855 {
+            get {
+                object obj = ResourceManager.GetObject("item_855", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_856 {
+            get {
+                object obj = ResourceManager.GetObject("item_856", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -15044,9 +16704,69 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_879 {
+            get {
+                object obj = ResourceManager.GetObject("item_879", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_88 {
             get {
                 object obj = ResourceManager.GetObject("item_88", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_880 {
+            get {
+                object obj = ResourceManager.GetObject("item_880", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_881 {
+            get {
+                object obj = ResourceManager.GetObject("item_881", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_882 {
+            get {
+                object obj = ResourceManager.GetObject("item_882", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_883 {
+            get {
+                object obj = ResourceManager.GetObject("item_883", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_884 {
+            get {
+                object obj = ResourceManager.GetObject("item_884", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -15084,6 +16804,66 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_904 {
+            get {
+                object obj = ResourceManager.GetObject("item_904", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_905 {
+            get {
+                object obj = ResourceManager.GetObject("item_905", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_906 {
+            get {
+                object obj = ResourceManager.GetObject("item_906", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_907 {
+            get {
+                object obj = ResourceManager.GetObject("item_907", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_908 {
+            get {
+                object obj = ResourceManager.GetObject("item_908", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_909 {
+            get {
+                object obj = ResourceManager.GetObject("item_909", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_91 {
             get {
                 object obj = ResourceManager.GetObject("item_91", resourceCulture);
@@ -15094,9 +16874,119 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap item_910 {
+            get {
+                object obj = ResourceManager.GetObject("item_910", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_911 {
+            get {
+                object obj = ResourceManager.GetObject("item_911", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_912 {
+            get {
+                object obj = ResourceManager.GetObject("item_912", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_913 {
+            get {
+                object obj = ResourceManager.GetObject("item_913", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_914 {
+            get {
+                object obj = ResourceManager.GetObject("item_914", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_915 {
+            get {
+                object obj = ResourceManager.GetObject("item_915", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_916 {
+            get {
+                object obj = ResourceManager.GetObject("item_916", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_917 {
+            get {
+                object obj = ResourceManager.GetObject("item_917", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_918 {
+            get {
+                object obj = ResourceManager.GetObject("item_918", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_919 {
+            get {
+                object obj = ResourceManager.GetObject("item_919", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap item_92 {
             get {
                 object obj = ResourceManager.GetObject("item_92", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap item_920 {
+            get {
+                object obj = ResourceManager.GetObject("item_920", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -15440,6 +17330,16 @@ namespace PKHeX.Properties {
         internal static byte[] lvlmove_ao {
             get {
                 object obj = ResourceManager.GetObject("lvlmove_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] lvlmove_sm {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_sm", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -18639,6 +20539,58 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -
+        ///Duftnote
+        ///Niesel
+        ///Temposchub
+        ///Kampfpanzer
+        ///Robustheit
+        ///Feuchtigkeit
+        ///Flexibilität
+        ///Sandschleier
+        ///Statik
+        ///Voltabsorber
+        ///H2O-Absorber
+        ///Dösigkeit
+        ///Wolke Sieben
+        ///Facettenauge
+        ///Insomnia
+        ///Farbwechsel
+        ///Immunität
+        ///Feuerfänger
+        ///Puderabwehr
+        ///Tempomacher
+        ///Saugnapf
+        ///Bedroher
+        ///Wegsperre
+        ///Rauhaut
+        ///Wunderwache
+        ///Schwebe
+        ///Sporenwirt
+        ///Synchro
+        ///Neutraltorso
+        ///Innere Kraft
+        ///Blitzfänger
+        ///Edelmut
+        ///Wassertempo
+        ///Chlorophyll
+        ///Erleuchtung
+        ///Fährte
+        ///Kraftkoloss
+        ///Giftdorn
+        ///Konzentrator
+        ///Magmapanzer
+        ///Aquahülle
+        ///Magnetfalle
+        ///Lärmschutz [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_de1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_de1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to —
         ///Stench
         ///Drizzle
@@ -18692,6 +20644,59 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to —
+        ///Stench
+        ///Drizzle
+        ///Speed Boost
+        ///Battle Armor
+        ///Sturdy
+        ///Damp
+        ///Limber
+        ///Sand Veil
+        ///Static
+        ///Volt Absorb
+        ///Water Absorb
+        ///Oblivious
+        ///Cloud Nine
+        ///Compound Eyes
+        ///Insomnia
+        ///Color Change
+        ///Immunity
+        ///Flash Fire
+        ///Shield Dust
+        ///Own Tempo
+        ///Suction Cups
+        ///Intimidate
+        ///Shadow Tag
+        ///Rough Skin
+        ///Wonder Guard
+        ///Levitate
+        ///Effect Spore
+        ///Synchronize
+        ///Clear Body
+        ///Natural Cure
+        ///Lightning Rod
+        ///Serene Grace
+        ///Swift Swim
+        ///Chlorophyll
+        ///Illuminate
+        ///Trace
+        ///Huge Power
+        ///Poison Point
+        ///Inner Focus
+        ///Magma Armor
+        ///Water Veil
+        ///Magnet Pull
+        ///Soundproof
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_en1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_en1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -
         ///Hedor
         ///Llovizna
@@ -18739,6 +20744,57 @@ namespace PKHeX.Properties {
         internal static string text_abilities_es {
             get {
                 return ResourceManager.GetString("text_abilities_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -
+        ///Hedor
+        ///Llovizna
+        ///Impulso
+        ///Armadura Batalla
+        ///Robustez
+        ///Humedad
+        ///Flexibilidad
+        ///Velo Arena
+        ///Elec. Estática
+        ///Absorbe Elec
+        ///Absorbe Agua
+        ///Despiste
+        ///Aclimatación
+        ///Ojo Compuesto
+        ///Insomnio
+        ///Cambio Color
+        ///Inmunidad
+        ///Absorbe Fuego
+        ///Polvo Escudo
+        ///Ritmo Propio
+        ///Ventosas
+        ///Intimidación
+        ///Sombra Trampa
+        ///Piel Tosca
+        ///Superguarda
+        ///Levitación
+        ///Efecto Espora
+        ///Sincronía
+        ///Cuerpo Puro
+        ///Cura Natural
+        ///Pararrayos
+        ///Dicha
+        ///Nado Rápido
+        ///Clorofila
+        ///Iluminación
+        ///Rastro
+        ///Potencia
+        ///Punto Tóxico
+        ///Foco Interno
+        ///Escudo Magma
+        ///Velo Agua
+        ///Imá [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_es1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_es1", resourceCulture);
             }
         }
         
@@ -18797,6 +20853,60 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Puanteur
+        ///Crachin
+        ///Turbo
+        ///Armurbaston
+        ///Fermeté
+        ///Moiteur
+        ///Échauffement
+        ///Voile Sable
+        ///Statik
+        ///Absorb Volt
+        ///Absorb Eau
+        ///Benêt
+        ///Ciel Gris
+        ///Œil Composé
+        ///Insomnia
+        ///Déguisement
+        ///Vaccin
+        ///Torche
+        ///Écran Poudre
+        ///Tempo Perso
+        ///Ventouse
+        ///Intimidation
+        ///Marque Ombre
+        ///Peau Dure
+        ///Garde Mystik
+        ///Lévitation
+        ///Pose Spore
+        ///Synchro
+        ///Corps Sain
+        ///Médic Nature
+        ///Paratonnerre
+        ///Sérénité
+        ///Glissade
+        ///Chlorophylle
+        ///Lumiattirance
+        ///Calque
+        ///Coloforce
+        ///Point Poison
+        ///Attention
+        ///Armumagma
+        ///Ignifu-Voile
+        ///Magnépiège
+        ///Anti-Bruit
+        ///Cuvette
+        ///Sable Vol [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_fr1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_fr1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to -
         ///Tanfo
         ///Piovischio
@@ -18836,16 +20946,69 @@ namespace PKHeX.Properties {
         ///Traccia
         ///Macroforza
         ///Velenopunto
-        ///Fuocodentro
+        ///Forza Interiore
         ///Magmascudo
         ///Idrovelo
         ///Magnetismo
         ///Antisuono
-        ///Copri [rest of string was truncated]&quot;;.
+        ///C [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_abilities_it {
             get {
                 return ResourceManager.GetString("text_abilities_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -
+        ///Tanfo
+        ///Piovischio
+        ///Acceleratore
+        ///Lottascudo
+        ///Vigore
+        ///Umidità
+        ///Scioltezza
+        ///Sabbiavelo
+        ///Statico
+        ///Assorbivolt
+        ///Assorbacqua
+        ///Indifferenza
+        ///Antimeteo
+        ///Insettocchi
+        ///Insonnia
+        ///Cambiacolore
+        ///Immunità
+        ///Fuocardore
+        ///Polvoscudo
+        ///Mente Locale
+        ///Ventose
+        ///Prepotenza
+        ///Pedinombra
+        ///Cartavetro
+        ///Magidifesa
+        ///Levitazione
+        ///Spargispora
+        ///Sincronismo
+        ///Corpochiaro
+        ///Alternacura
+        ///Parafulmine
+        ///Leggiadro
+        ///Nuotovelox
+        ///Clorofilla
+        ///Risplendi
+        ///Traccia
+        ///Macroforza
+        ///Velenopunto
+        ///Forza Interiore
+        ///Magmascudo
+        ///Idrovelo
+        ///Magnetismo
+        ///Antisuono
+        ///C [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_it1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_it1", resourceCulture);
             }
         }
         
@@ -18930,6 +21093,90 @@ namespace PKHeX.Properties {
         internal static string text_abilities_ja {
             get {
                 return ResourceManager.GetString("text_abilities_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ―
+        ///あくしゅう
+        ///あめふらし
+        ///かそく
+        ///カブトアーマー
+        ///がんじょう
+        ///しめりけ
+        ///じゅうなん
+        ///すながくれ
+        ///せいでんき
+        ///ちくでん
+        ///ちょすい
+        ///どんかん
+        ///ノーてんき
+        ///ふくがん
+        ///ふみん
+        ///へんしょく
+        ///めんえき
+        ///もらいび
+        ///りんぷん
+        ///マイペース
+        ///きゅうばん
+        ///いかく
+        ///かげふみ
+        ///さめはだ
+        ///ふしぎなまもり
+        ///ふゆう
+        ///ほうし
+        ///シンクロ
+        ///クリアボディ
+        ///しぜんかいふく
+        ///ひらいしん
+        ///てんのめぐみ
+        ///すいすい
+        ///ようりょくそ
+        ///はっこう
+        ///トレース
+        ///ちからもち
+        ///どくのトゲ
+        ///せいしんりょく
+        ///マグマのよろい
+        ///みずのベール
+        ///じりょく
+        ///ぼうおん
+        ///あめうけざら
+        ///すなおこし
+        ///プレッシャー
+        ///あついしぼう
+        ///はやおき
+        ///ほのおのからだ
+        ///にげあし
+        ///するどいめ
+        ///かいりきバサミ
+        ///ものひろい
+        ///なまけ
+        ///はりきり
+        ///メロメロボディ
+        ///プラス
+        ///マイナス
+        ///てんきや
+        ///ねんちゃく
+        ///だっぴ
+        ///こんじょう
+        ///ふしぎなうろこ
+        ///ヘドロえき
+        ///しんりょく
+        ///もうか
+        ///げきりゅう
+        ///むしのしらせ
+        ///いしあたま
+        ///ひでり
+        ///ありじごく
+        ///やるき
+        ///しろいけむり
+        ///ヨガパワー
+        ///シェルアーマー [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_ja1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_ja1", resourceCulture);
             }
         }
         
@@ -19036,6 +21283,112 @@ namespace PKHeX.Properties {
         internal static string text_abilities_ko {
             get {
                 return ResourceManager.GetString("text_abilities_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -
+        ///악취
+        ///잔비
+        ///가속
+        ///전투무장
+        ///옹골참
+        ///습기
+        ///유연
+        ///모래숨기
+        ///정전기
+        ///축전
+        ///저수
+        ///둔감
+        ///날씨부정
+        ///복안
+        ///불면
+        ///변색
+        ///면역
+        ///타오르는불꽃
+        ///인분
+        ///마이페이스
+        ///흡반
+        ///위협
+        ///그림자밟기
+        ///까칠한피부
+        ///불가사의부적
+        ///부유
+        ///포자
+        ///싱크로
+        ///클리어바디
+        ///자연회복
+        ///피뢰침
+        ///하늘의은총
+        ///쓱쓱
+        ///엽록소
+        ///발광
+        ///트레이스
+        ///천하장사
+        ///독가시
+        ///정신력
+        ///마그마의무장
+        ///수의베일
+        ///자력
+        ///방음
+        ///젖은접시
+        ///모래날림
+        ///프레셔
+        ///두꺼운지방
+        ///일찍기상
+        ///불꽃몸
+        ///도주
+        ///날카로운눈
+        ///괴력집게
+        ///픽업
+        ///게으름
+        ///의욕
+        ///헤롱헤롱바디
+        ///플러스
+        ///마이너스
+        ///기분파
+        ///점착
+        ///탈피
+        ///근성
+        ///이상한비늘
+        ///해감액
+        ///심록
+        ///맹화
+        ///급류
+        ///벌레의알림
+        ///돌머리
+        ///가뭄
+        ///개미지옥
+        ///의기양양
+        ///하얀연기
+        ///순수한힘
+        ///조가비갑옷
+        ///에어록
+        ///갈지자걸음
+        ///전기엔진
+        ///투쟁심
+        ///불굴의마음
+        ///눈숨기
+        ///먹보
+        ///분노의경혈
+        ///곡예
+        ///내열
+        ///단순
+        ///건조피부
+        ///다운로드
+        ///철주먹
+        ///포이즌힐
+        ///적응력
+        ///스킬링크
+        ///촉촉바디
+        ///선파워
+        ///속보
+        ///노말스킨
+        ///스나이퍼 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_ko1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_ko1", resourceCulture);
             }
         }
         
@@ -19153,6 +21506,123 @@ namespace PKHeX.Properties {
         internal static string text_abilities_zh {
             get {
                 return ResourceManager.GetString("text_abilities_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ―
+        ///恶臭
+        ///降雨
+        ///加速
+        ///战斗盔甲
+        ///结实
+        ///湿气
+        ///柔软
+        ///沙隐
+        ///静电
+        ///蓄电
+        ///储水
+        ///迟钝
+        ///无关天气
+        ///复眼
+        ///不眠
+        ///变色
+        ///免疫
+        ///引火
+        ///鳞粉
+        ///我行我素
+        ///吸盘
+        ///威吓
+        ///踩影
+        ///粗糙皮肤
+        ///神奇守护
+        ///飘浮
+        ///孢子
+        ///同步
+        ///恒净之躯
+        ///自然回复
+        ///避雷针
+        ///天恩
+        ///悠游自如
+        ///叶绿素
+        ///发光
+        ///复制
+        ///大力士
+        ///毒刺
+        ///精神力
+        ///熔岩铠甲
+        ///水幕
+        ///磁力
+        ///隔音
+        ///雨盘
+        ///扬沙
+        ///压迫感
+        ///厚脂肪
+        ///早起
+        ///火焰之躯
+        ///逃跑
+        ///锐利目光
+        ///怪力钳
+        ///捡拾
+        ///懒惰
+        ///活力
+        ///迷人之躯
+        ///正电
+        ///负电
+        ///阴晴不定
+        ///黏着
+        ///蜕皮
+        ///毅力
+        ///神奇鳞片
+        ///污泥浆
+        ///茂盛
+        ///猛火
+        ///激流
+        ///虫之预感
+        ///坚硬脑袋
+        ///日照
+        ///沙穴
+        ///干劲
+        ///白色烟雾
+        ///瑜伽之力
+        ///硬壳盔甲
+        ///气闸
+        ///蹒跚
+        ///电气引擎
+        ///斗争心
+        ///不屈之心
+        ///雪隐
+        ///贪吃鬼
+        ///愤怒穴位
+        ///轻装
+        ///耐热
+        ///单纯
+        ///干燥皮肤
+        ///下载
+        ///铁拳
+        ///毒疗
+        ///适应力
+        ///连续攻击
+        ///湿润之躯
+        ///太阳之力
+        ///飞毛腿
+        ///一般皮肤
+        ///狙击手
+        ///魔法防守
+        ///无防守
+        ///慢出
+        ///技术高手
+        ///叶子防守
+        ///笨拙
+        ///破格
+        ///超幸运
+        ///引爆
+        ///危险预知
+        ///预知梦        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Abilities_zh1 {
+            get {
+                return ResourceManager.GetString("text_Abilities_zh1", resourceCulture);
             }
         }
         
@@ -21090,7 +23560,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Ein
+        ///Eine
         ///
         ///
         ///
@@ -21140,8 +23610,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_de {
             get {
@@ -21351,7 +23820,6 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///One
         ///
         ///
         ///
@@ -21402,7 +23870,9 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        /// [rest of string was truncated]&quot;;.
+        ///
+        ///
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_en {
             get {
@@ -21411,7 +23881,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Picoreja
+        ///   Looks up a localized string similar to Spiky
         ///
         ///
         ///
@@ -21612,7 +24082,10 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///Una
+        ///
+        ///
+        ///
+        ///
         ///
         ///
         ///
@@ -21666,6 +24139,268 @@ namespace PKHeX.Properties {
         internal static string text_forms_es {
             get {
                 return ResourceManager.GetString("text_forms_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spiky
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Forms_es1 {
+            get {
+                return ResourceManager.GetString("text_Forms_es1", resourceCulture);
             }
         }
         
@@ -21925,6 +24660,265 @@ namespace PKHeX.Properties {
         internal static string text_forms_fr {
             get {
                 return ResourceManager.GetString("text_forms_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spiky
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///Unique
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Forms_fr1 {
+            get {
+                return ResourceManager.GetString("text_Forms_fr1", resourceCulture);
             }
         }
         
@@ -22390,6 +25384,266 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
+        ///Vaga
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Forms_it1 {
+            get {
+                return ResourceManager.GetString("text_Forms_it1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spiky
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
         ///あるすがた
         ///
         ///
@@ -22650,7 +25904,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///형태별
+        ///형태별 모습
         ///
         ///
         ///
@@ -22699,9 +25953,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_ko {
             get {
@@ -22911,7 +26163,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///字母形态
+        ///某种样子
         ///
         ///
         ///
@@ -25002,7 +28254,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kein
+        ///   Looks up a localized string similar to Kein Item
         ///Meisterball
         ///Hyperball
         ///Superball
@@ -25047,11 +28299,65 @@ namespace PKHeX.Properties {
         ///Lavakeks
         ///Beerensaft
         ///Zauberasche
-        ///KP-Pl [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_de {
             get {
                 return ResourceManager.GetString("text_items_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kein Item
+        ///Meisterball
+        ///Hyperball
+        ///Superball
+        ///Pokéball
+        ///Safariball
+        ///Netzball
+        ///Tauchball
+        ///Nestball
+        ///Wiederball
+        ///Timerball
+        ///Luxusball
+        ///Premierball
+        ///Finsterball
+        ///Heilball
+        ///Flottball
+        ///Jubelball
+        ///Trank
+        ///Gegengift
+        ///Feuerheiler
+        ///Eisheiler
+        ///Aufwecker
+        ///Para-Heiler
+        ///Top-Genesung
+        ///Top-Trank
+        ///Hypertrank
+        ///Supertrank
+        ///Hyperheiler
+        ///Beleber
+        ///Top-Beleber
+        ///Tafelwasser
+        ///Sprudel
+        ///Limonade
+        ///Kuhmuh-Milch
+        ///Energiestaub
+        ///Kraftwurzel
+        ///Heilpuder
+        ///Vitalkraut
+        ///Äther
+        ///Top-Äther
+        ///Elixier
+        ///Top-Elixier
+        ///Lavakeks
+        ///Beerensaft
+        ///Zauberasche
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Items_de1 {
+            get {
+                return ResourceManager.GetString("text_Items_de1", resourceCulture);
             }
         }
         
@@ -25108,7 +28414,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ningún
+        ///   Looks up a localized string similar to Ningún objeto
         ///Master Ball
         ///Ultra Ball
         ///Super Ball
@@ -25149,8 +28455,7 @@ namespace PKHeX.Properties {
         ///Éter
         ///Éter Máximo
         ///Elixir
-        ///Elixir Máximo
-        /// [rest of string was truncated]&quot;;.
+        ///Elixir M [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_es {
             get {
@@ -25159,7 +28464,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aucun
+        ///   Looks up a localized string similar to Aucun objet
         ///Master Ball
         ///Hyper Ball
         ///Super Ball
@@ -25202,8 +28507,7 @@ namespace PKHeX.Properties {
         ///Élixir
         ///Max Élixir
         ///Lava Cookie
-        ///Jus de Baie
-        ///Cend [rest of string was truncated]&quot;;.
+        ///Jus de Baie [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_fr {
             get {
@@ -27272,30 +30576,30 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Fuerte
-        ///Huraño
+        ///Huraña
         ///Audaz
         ///Firme
-        ///Pícaro
-        ///Osado
+        ///Pícara
+        ///Osada
         ///Dócil
-        ///Plácido
-        ///Agitado
-        ///Flojo
-        ///Miedoso
-        ///Activo
-        ///Serio
+        ///Plácida
+        ///Agitada
+        ///Floja
+        ///Miedosa
+        ///Activa
+        ///Seria
         ///Alegre
-        ///Ingenuo
-        ///Modesto
+        ///Ingenua
+        ///Modesta
         ///Afable
-        ///Manso
-        ///Tímido
-        ///Alocado
-        ///Sereno
+        ///Mansa
+        ///Tímida
+        ///Alocada
+        ///Serena
         ///Amable
-        ///Grosero
-        ///Cauto
-        ///Raro.
+        ///Grosera
+        ///Cauta
+        ///Rara.
         /// </summary>
         internal static string text_natures_es {
             get {
@@ -28211,6 +31515,1257 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to －－－－－－－－－－
+        ///
+        ///Mysteriöser Ort
+        ///
+        ///Ferner Ort
+        ///
+        ///Route 1
+        ///Hauholi-Stadtrand
+        ///Route 1
+        ///
+        ///Route 3
+        ///
+        ///Route 2
+        ///
+        ///Kala’e-Bucht
+        ///
+        ///Meer von Mele-Mele
+        ///
+        ///Hauholi City
+        ///Strandpromenade
+        ///Hauholi City
+        ///Einkaufsviertel
+        ///Hauholi City
+        ///Hafen
+        ///Lili’i
+        ///
+        ///Mahalo-Bergpfad
+        ///
+        ///Mahalo-Bergpfad
+        ///Hängebrücke
+        ///Ruinen des Krieges
+        ///
+        ///Ruinen des Krieges
+        ///[~ 33]
+        ///Tenkarat-Hügel
+        ///
+        ///Tenkarat-Hügel
+        ///Zentraler Felskessel
+        ///Hauholi-Friedhof
+        ///
+        ///Mele-Mele-Blumenmeer
+        ///
+        ///Meereshöhle
+        ///
+        ///Beerenfelder
+        ///
+        ///Vegetationshöhle
+        ///Prüfungsbereich
+        ///Vegetati [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_de {
+            get {
+                return ResourceManager.GetString("text_sm_00000_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ——————
+        ///
+        ///Mystery Zone
+        ///
+        ///Faraway Place
+        ///
+        ///Route 1
+        ///Hau’oli Outskirts
+        ///Route 1
+        ///
+        ///Route 3
+        ///
+        ///Route 2
+        ///
+        ///Kala’e Bay
+        ///
+        ///Melemele Sea
+        ///
+        ///Hau’oli City
+        ///Beachfront
+        ///Hau’oli City
+        ///Shopping District
+        ///Hau’oli City
+        ///Marina
+        ///Iki Town
+        ///
+        ///Mahalo Trail
+        ///
+        ///Mahalo Trail
+        ///Plank Bridge
+        ///Ruins of Conflict
+        ///
+        ///Ruins of Conflict
+        ///[~ 33]
+        ///Ten Carat Hill
+        ///
+        ///Ten Carat Hill
+        ///Farthest Hollow
+        ///Hau’oli Cemetery
+        ///
+        ///Melemele Meadow
+        ///
+        ///Seaward Cave
+        ///
+        ///Berry Fields
+        ///
+        ///Verdant Cavern
+        ///Trial Site
+        ///Verdant Cavern
+        ///Totem’s Den
+        ///Route 4
+        ///
+        ///Rou [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_en {
+            get {
+                return ResourceManager.GetString("text_sm_00000_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to －
+        ///
+        ///Lugar misterioso
+        ///
+        ///Lugar lejano
+        ///
+        ///Ruta 1
+        ///Afueras de Hauoli
+        ///Ruta 1
+        ///
+        ///Ruta 3
+        ///
+        ///Ruta 2
+        ///
+        ///Bahía Kalae
+        ///
+        ///Mar de Melemele
+        ///
+        ///Ciudad Hauoli
+        ///Paseo Marítimo
+        ///Ciudad Hauoli
+        ///Zona Comercial
+        ///Ciudad Hauoli
+        ///Puerto
+        ///Pueblo Lilii
+        ///
+        ///Senda Mahalo
+        ///
+        ///Senda Mahalo
+        ///Puente Colgante
+        ///Ruinas de la Guerra
+        ///
+        ///Ruinas de la Guerra
+        ///[~ 33]
+        ///Colina Dequilate
+        ///
+        ///Colina Dequilate
+        ///Caldera Remota
+        ///Cementerio de Hauoli
+        ///
+        ///Jardines de Melemele
+        ///
+        ///Gruta Unemar
+        ///
+        ///Huerto de Bayas
+        ///
+        ///Cueva Sotobosque
+        ///Sala de la Prueba
+        ///Cueva  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_es {
+            get {
+                return ResourceManager.GetString("text_sm_00000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to －－－－－－－－－－
+        ///
+        ///Endroit mystérieux
+        ///
+        ///Endroit lointain
+        ///
+        ///Route 1
+        ///Abords d’Ekaeka
+        ///Route 1
+        ///
+        ///Route 3
+        ///
+        ///Route 2
+        ///
+        ///Baie de Kala’e
+        ///
+        ///Mer de Mele-Mele
+        ///
+        ///Ekaeka
+        ///Plage
+        ///Ekaeka
+        ///Zone commerciale
+        ///Ekaeka
+        ///Port
+        ///Lili’i
+        ///
+        ///Sentier de Mahalo
+        ///
+        ///Sentier de Mahalo
+        ///Pont suspendu
+        ///Ruines du Conflit
+        ///
+        ///Ruines du Conflit
+        ///[~ 33]
+        ///Colline Dicarat
+        ///
+        ///Colline Dicarat
+        ///Caldeira Toutofon
+        ///Cimetière d’Ekaeka
+        ///
+        ///Jardin de Mele-Mele
+        ///
+        ///Grotte Verlamer
+        ///
+        ///Champ de Baies
+        ///
+        ///Grotte Verdoyante
+        ///Zone de l’Épreuve
+        ///Grotte Verdoyant [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_fr {
+            get {
+                return ResourceManager.GetString("text_sm_00000_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ----------
+        ///
+        ///Zona misteriosa
+        ///
+        ///Luogo remoto
+        ///
+        ///Percorso 1
+        ///Periferia di Hau’oli
+        ///Percorso 1
+        ///
+        ///Percorso 3
+        ///
+        ///Percorso 2
+        ///
+        ///Baia Kala’e
+        ///
+        ///Mare di Mele Mele
+        ///
+        ///Hau’oli
+        ///Lungomare
+        ///Hau’oli
+        ///Zona Commerciale
+        ///Hau’oli
+        ///Porto
+        ///Lili
+        ///
+        ///Sentiero Mahalo
+        ///
+        ///Sentiero Mahalo
+        ///Ponte Sospeso
+        ///Tempio del Conflitto
+        ///
+        ///Tempio del Conflitto
+        ///[~ 33]
+        ///Collina Diecicarati
+        ///
+        ///Collina Diecicarati
+        ///Caldera Recondita
+        ///Cimitero di Hau’oli
+        ///
+        ///Prato Mele Mele
+        ///
+        ///Grotta Pratomare
+        ///
+        ///Orto delle Bacche
+        ///
+        ///Grotta Sottobosco
+        ///Luogo dell [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_it {
+            get {
+                return ResourceManager.GetString("text_sm_00000_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to －－－－－－－－－－
+        ///
+        ///なぞのばしょ
+        ///
+        ///とおいばしょ
+        ///
+        ///１ばんどうろ
+        ///ハウオリシティはずれ
+        ///１ばんどうろ
+        ///
+        ///３ばんどうろ
+        ///
+        ///２ばんどうろ
+        ///
+        ///カーラエわん
+        ///
+        ///メレメレかい
+        ///
+        ///ハウオリシティ
+        ///ビーチサイドエリア
+        ///ハウオリシティ
+        ///ショッピングエリア
+        ///ハウオリシティ
+        ///ポートエリア
+        ///リリィタウン
+        ///
+        ///マハロさんどう
+        ///
+        ///マハロさんどう
+        ///つりばし
+        ///いくさのいせき
+        ///
+        ///いくさのいせき
+        ///[~ 33]
+        ///テンカラットヒル
+        ///
+        ///テンカラットヒル
+        ///さいおうくうどう
+        ///ハウオリれいえん
+        ///
+        ///メレメレのはなぞの
+        ///
+        ///うみつなぎのどうけつ
+        ///
+        ///きのみばたけ
+        ///
+        ///しげみのどうくつ
+        ///しれんのま
+        ///しげみのどうくつ
+        ///ぬしのま
+        ///４ばんどうろ
+        ///
+        ///５ばんどうろ
+        ///
+        ///６ばんどうろ
+        ///
+        ///７ばんどうろ
+        ///
+        ///８ばんどうろ
+        ///
+        ///９ばんどうろ
+        ///
+        ///ハノハノリゾート
+        ///
+        ///ハノハノビーチ
+        ///
+        ///アーカラのはなぞの
+        ///
+        ///オハナタウン
+        ///
+        ///カンタイシティ
+        ///
+        ///コニコシティ
+        ///
+        ///ロイヤルアベニュー
+        ///
+        ///メモリアルヒル
+        ///
+        ///オハナぼくじょう
+        ///
+        ///[~ 80]
+        ///
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_ja {
+            get {
+                return ResourceManager.GetString("text_sm_00000_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to －－－－－－－－－－
+        ///
+        ///수수께끼의 장소
+        ///
+        ///먼 곳
+        ///
+        ///1번도로
+        ///하우올리시티 변두리
+        ///1번도로
+        ///
+        ///3번도로
+        ///
+        ///2번도로
+        ///
+        ///칼라에만
+        ///
+        ///멜레멜레해
+        ///
+        ///하우올리시티
+        ///비치사이드에리어
+        ///하우올리시티
+        ///쇼핑에리어
+        ///하우올리시티
+        ///포트에리어
+        ///릴리마을
+        ///
+        ///마할로 산길
+        ///
+        ///마할로 산길
+        ///현수교
+        ///전쟁의 유적
+        ///
+        ///전쟁의 유적
+        ///[~ 33]
+        ///텐캐럿힐
+        ///
+        ///텐캐럿힐
+        ///가장 깊은 공동
+        ///하우올리 묘원
+        ///
+        ///멜레멜레 화원
+        ///
+        ///바다연결동굴
+        ///
+        ///나무열매 밭
+        ///
+        ///우거진 동굴
+        ///시련의 방
+        ///우거진 동굴
+        ///주인의 방
+        ///4번도로
+        ///
+        ///5번도로
+        ///
+        ///6번도로
+        ///
+        ///7번도로
+        ///
+        ///8번도로
+        ///
+        ///9번도로
+        ///
+        ///하노하노리조트
+        ///
+        ///하노하노비치
+        ///
+        ///아칼라 화원
+        ///
+        ///오하나마을
+        ///
+        ///환대시티
+        ///
+        ///코니코니시티
+        ///
+        ///로열 애버뉴
+        ///
+        ///메모리얼힐
+        ///
+        ///오하나목장
+        ///
+        ///[~ 80]
+        ///
+        ///벨라화산공원
+        ///
+        ///벨라화산공원
+        ///주인의 방
+        ///잔잔한물가언덕
+        ///
+        ///잔잔한물가언덕
+        ///주인의 방
+        ///셰이드정글
+        ///
+        ///생명의 유적
+        ///
+        ///아칼라외 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_ko {
+            get {
+                return ResourceManager.GetString("text_sm_00000_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to －－－－－－－－－－
+        ///
+        ///神秘的地方
+        ///
+        ///遥远的地方
+        ///
+        ///１号道路
+        ///好奥乐市郊
+        ///１号道路
+        ///
+        ///３号道路
+        ///
+        ///２号道路
+        ///
+        ///卡拉蔚湾
+        ///
+        ///美乐美乐海
+        ///
+        ///好奥乐市
+        ///海滩区
+        ///好奥乐市
+        ///商业区
+        ///好奥乐市
+        ///港口区
+        ///利利小镇
+        ///
+        ///马哈罗山路
+        ///
+        ///马哈罗山路
+        ///吊桥
+        ///战争遗迹
+        ///
+        ///战争遗迹
+        ///[~ 33]
+        ///十克拉山丘
+        ///
+        ///十克拉山丘
+        ///最深处的空洞
+        ///好奥乐墓园
+        ///
+        ///美乐美乐花园
+        ///
+        ///通海洞穴
+        ///
+        ///树果园
+        ///
+        ///葱郁洞窟
+        ///考验之地
+        ///葱郁洞窟
+        ///霸主居处
+        ///４号道路
+        ///
+        ///５号道路
+        ///
+        ///６号道路
+        ///
+        ///７号道路
+        ///
+        ///８号道路
+        ///
+        ///９号道路
+        ///
+        ///豪诺豪诺度假地
+        ///
+        ///豪诺豪诺海滩
+        ///
+        ///阿卡拉花园
+        ///
+        ///欧哈纳镇
+        ///
+        ///慷待市
+        ///
+        ///可霓可市
+        ///
+        ///皇家大道
+        ///
+        ///回忆之丘
+        ///
+        ///欧哈纳牧场
+        ///
+        ///[~ 80]
+        ///
+        ///维拉火山公园
+        ///
+        ///维拉火山公园
+        ///霸主居处
+        ///潺潺之丘
+        ///
+        ///潺潺之丘
+        ///霸主居处
+        ///树荫丛林
+        ///
+        ///生命遗迹
+        ///
+        ///阿卡拉岛郊外
+        ///
+        ///[~ 96]
+        ///[~ 97]
+        ///[~ 98]
+        ///[~ 99]
+        ///地鼠隧道
+        ///
+        ///豪诺豪诺度假地
+        ///
+        ///皇家巨蛋 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_00000_zh {
+            get {
+                return ResourceManager.GetString("text_sm_00000_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link-Tausch
+        ///Link-Tausch
+        ///Kanto-Region
+        ///Johto-Region
+        ///Hoenn-Region
+        ///Sinnoh-Region
+        ///Fernes Land
+        ///－－－－－－－－－－
+        ///Einall-Region
+        ///Kalos-Region
+        ///Pokémon-Link
+        ///Pokémon GO
+        ///Kanto-Region
+        ///Hoenn-Region
+        ///Alola-Region
+        ///Pokémon-Resort.
+        /// </summary>
+        internal static string text_sm_30000_de {
+            get {
+                return ResourceManager.GetString("text_sm_30000_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a Link Trade
+        ///a Link Trade
+        ///the Kanto region
+        ///the Johto region
+        ///the Hoenn region
+        ///the Sinnoh region
+        ///a distant land
+        ///——————
+        ///the Unova region
+        ///the Kalos region
+        ///Pokémon Link
+        ///Pokémon GO
+        ///the Kanto region
+        ///the Hoenn region
+        ///the Alola region
+        ///Poké Pelago.
+        /// </summary>
+        internal static string text_sm_30000_en {
+            get {
+                return ResourceManager.GetString("text_sm_30000_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intercambio en conexión
+        ///Intercambio en conexión
+        ///Kanto
+        ///Johto
+        ///Hoenn
+        ///Sinnoh
+        ///Tierra lejana
+        ///－－－－－－－－－－
+        ///Teselia
+        ///Kalos
+        ///Nexo Pokémon
+        ///Pokémon GO
+        ///Kanto
+        ///Hoenn
+        ///Alola
+        ///Poké Resort.
+        /// </summary>
+        internal static string text_sm_30000_es {
+            get {
+                return ResourceManager.GetString("text_sm_30000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Échanges Link
+        ///Échanges Link
+        ///Kanto
+        ///Johto
+        ///Hoenn
+        ///Sinnoh
+        ///Pays lointain
+        ///－－－－－－－－－－
+        ///Unys
+        ///Kalos
+        ///Poké Lien
+        ///Pokémon GO
+        ///Kanto
+        ///Hoenn
+        ///Alola
+        ///Poké Loisir.
+        /// </summary>
+        internal static string text_sm_30000_fr {
+            get {
+                return ResourceManager.GetString("text_sm_30000_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scambio in link
+        ///Scambio in link
+        ///Kanto
+        ///Johto
+        ///Hoenn
+        ///Sinnoh
+        ///Terra lontana
+        ///----------
+        ///Unima
+        ///Kalos
+        ///Pokémon Link
+        ///Pokémon GO
+        ///Kanto
+        ///Hoenn
+        ///Alola
+        ///Poké Resort.
+        /// </summary>
+        internal static string text_sm_30000_it {
+            get {
+                return ResourceManager.GetString("text_sm_30000_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to つうしんこうかん
+        ///つうしんこうかん
+        ///カントーちほう
+        ///ジョウトちほう
+        ///ホウエンちほう
+        ///シンオウちほう
+        ///とおくはなれたとち
+        ///－－－－－－－－－－
+        ///イッシュちほう
+        ///カロスちほう
+        ///ポケモンリンク
+        ///Pokémon GO
+        ///カントーちほう
+        ///ホウエンちほう
+        ///アローラちほう
+        ///ポケリゾート.
+        /// </summary>
+        internal static string text_sm_30000_ja {
+            get {
+                return ResourceManager.GetString("text_sm_30000_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 통신교환
+        ///통신교환
+        ///관동지방
+        ///성도지방
+        ///호연지방
+        ///신오지방
+        ///아주 먼 땅
+        ///－－－－－－－－－－
+        ///하나지방
+        ///칼로스지방
+        ///포켓몬링크
+        ///Pokémon GO
+        ///관동지방
+        ///호연지방
+        ///알로라지방
+        ///포켓리조트.
+        /// </summary>
+        internal static string text_sm_30000_ko {
+            get {
+                return ResourceManager.GetString("text_sm_30000_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 连接交换
+        ///连接交换
+        ///关都地区
+        ///城都地区
+        ///丰缘地区
+        ///神奥地区
+        ///遥远的土地
+        ///－－－－－－－－－－
+        ///合众地区
+        ///卡洛斯地区
+        ///宝可梦连接
+        ///Pokémon GO
+        ///关都地区
+        ///丰缘地区
+        ///阿罗拉地区
+        ///宝可度假地.
+        /// </summary>
+        internal static string text_sm_30000_zh {
+            get {
+                return ResourceManager.GetString("text_sm_30000_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Netter Ort
+        ///Ferner Ort
+        ///Pokémon-Film
+        ///Pokémon-Film 2016
+        ///Pokémon-Film 2017
+        ///Pokémon-Film 2018
+        ///Pokémon-Film 2019
+        ///Pokémon-Film 2020
+        ///Pokémon-Film 2021
+        ///Pokémon Center
+        ///Pokémon-Zeichentrickserie
+        ///Pokémon Center MEGA TOKYO
+        ///Pokémon Center Osaka
+        ///Pokémon Center Fukuoka
+        ///Pokémon Center Nagoya
+        ///Pokémon Center Sapporo
+        ///Pokémon Center Yokohama
+        ///Pokémon Center Tohoku
+        ///Pokémon Center TOKYO-BAY
+        ///Pokémon Center Hiroshima
+        ///Pokémon Center Kyoto
+        ///Pokémon Ctr. SKYTREE TOWN
+        ///Pokémon Store
+        ///WCS
+        ///WCS 2016
+        ///WCS 2017
+        ///WCS 2018 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_de {
+            get {
+                return ResourceManager.GetString("text_sm_40000_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a lovely place
+        ///a faraway place
+        ///a Pokémon movie
+        ///2016 Pokémon Movie
+        ///2017 Pokémon Movie
+        ///2018 Pokémon Movie
+        ///2019 Pokémon Movie
+        ///2020 Pokémon Movie
+        ///2021 Pokémon Movie
+        ///a Pokémon Center
+        ///the Pokémon animated show
+        ///Pokémon Ctr. MEGA TOKYO
+        ///Pokémon Center Osaka
+        ///Pokémon Center Fukuoka
+        ///Pokémon Center Nagoya
+        ///Pokémon Center Sapporo
+        ///Pokémon Center Yokohama
+        ///Pokémon Center Tohoku
+        ///Pokémon Center TOKYO-BAY
+        ///Pokémon Center Hiroshima
+        ///Pokémon Center Kyoto
+        ///Pokémon Ctr. SKYTREE TOWN
+        ///a Pokémon Store
+        ///a WCS
+        ///WCS 20 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_en {
+            get {
+                return ResourceManager.GetString("text_sm_40000_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lugar encantador
+        ///Lugar lejano
+        ///Película Pokémon
+        ///Película Pokémon 2016
+        ///Película Pokémon 2017
+        ///Película Pokémon 2018
+        ///Película Pokémon 2019
+        ///Película Pokémon 2020
+        ///Película Pokémon 2021
+        ///Pokémon Center
+        ///Dibujos animados Pokémon
+        ///Pokémon Center MEGA TOKYO
+        ///Pokémon Center Osaka
+        ///Pokémon Center Fukuoka
+        ///Pokémon Center Nagoya
+        ///Pokémon Center Sapporo
+        ///Pokémon Center Yokohama
+        ///Pokémon Center Tohoku
+        ///Pokémon Center TOKYO-BAY
+        ///Pokémon Center Hiroshima
+        ///Pokémon Center Kyoto
+        ///Pokémon Ctr. SKYTREE TOWN
+        ///Pokémon Store [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_es {
+            get {
+                return ResourceManager.GetString("text_sm_40000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Endroit superbe
+        ///Endroit lointain
+        ///Film Pokémon
+        ///Film Pokémon 2016
+        ///Film Pokémon 2017
+        ///Film Pokémon 2018
+        ///Film Pokémon 2019
+        ///Film Pokémon 2020
+        ///Film Pokémon 2021
+        ///Centre Pokémon
+        ///Dessin animé Pokémon
+        ///Pokémon Center MEGA TOKYO
+        ///Pokémon Center Osaka
+        ///Pokémon Center Fukuoka
+        ///Pokémon Center Nagoya
+        ///Pokémon Center Sapporo
+        ///Pokémon Center Yokohama
+        ///Pokémon Center Tohoku
+        ///Pokémon Center TOKYO-BAY
+        ///Pokémon Center Hiroshima
+        ///Pokémon Center Kyoto
+        ///Pokémon Ctr. SKYTREE TOWN
+        ///Pokémon Store
+        ///WCS
+        ///WCS 2016
+        ///WCS 2017
+        ///WC [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_fr {
+            get {
+                return ResourceManager.GetString("text_sm_40000_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Luogo grazioso
+        ///Luogo remoto
+        ///Film Pokémon
+        ///Film Pokémon 2016
+        ///Film Pokémon 2017
+        ///Film Pokémon 2018
+        ///Film Pokémon 2019
+        ///Film Pokémon 2020
+        ///Film Pokémon 2021
+        ///Pokémon Center
+        ///Cartone animato Pokémon
+        ///Pokémon Center MEGA TOKYO
+        ///Pokémon Center Osaka
+        ///Pokémon Center Fukuoka
+        ///Pokémon Center Nagoya
+        ///Pokémon Center Sapporo
+        ///Pokémon Center Yokohama
+        ///Pokémon Center Tohoku
+        ///Pokémon Center TOKYO-BAY
+        ///Pokémon Center Hiroshima
+        ///Pokémon Center Kyoto
+        ///Pokémon Ctr. SKYTREE TOWN
+        ///Pokémon Store
+        ///WCS
+        ///WCS 2016
+        ///WCS 2017
+        ///WCS  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_it {
+            get {
+                return ResourceManager.GetString("text_sm_40000_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to すてきなばしょ
+        ///とおいばしょ
+        ///ポケモンえいが
+        ///ポケモンえいが１６
+        ///ポケモンえいが１７
+        ///ポケモンえいが１８
+        ///ポケモンえいが１９
+        ///ポケモンえいが２０
+        ///ポケモンえいが２１
+        ///ポケモンセンター
+        ///ポケモンアニメ
+        ///ＰＣメガトウキョー
+        ///ＰＣオーサカ
+        ///ＰＣフクオカ
+        ///ＰＣナゴヤ
+        ///ＰＣサッポロ
+        ///ＰＣヨコハマ
+        ///ＰＣトウホク
+        ///ＰＣトウキョーベイ
+        ///ＰＣヒロシマ
+        ///ＰＣキョウト
+        ///ＰＣスカイツリーＴ
+        ///ポケモンストア
+        ///WCS
+        ///WCS２０１６
+        ///WCS２０１７
+        ///WCS２０１８
+        ///WCS２０１９
+        ///WCS２０２０
+        ///WCS２０２１
+        ///Ｗｏｒｌｄｓ
+        ///Ｗｏｒｌｄｓ２０１６
+        ///Ｗｏｒｌｄｓ２０１７
+        ///Ｗｏｒｌｄｓ２０１８
+        ///Ｗｏｒｌｄｓ２０１９
+        ///Ｗｏｒｌｄｓ２０２０
+        ///Ｗｏｒｌｄｓ２０２１
+        ///VGE
+        ///VGE２０１６
+        ///VGE２０１７
+        ///VGE２０１８
+        ///VGE２０１９
+        ///VGE２０２０
+        ///VGE２０２１
+        ///ポケモンイベント
+        ///バトルたいかい
+        ///ゲームイベント
+        ///だいすきクラブ
+        ///ポケモンばんぐみ
+        ///コンサート
+        ///オンラインプレゼント
+        ///PGL
+        ///ポケモンイベント１６
+        ///ポケモンイベント１７
+        ///ポケモ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_ja {
+            get {
+                return ResourceManager.GetString("text_sm_40000_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 근사한 장소
+        ///먼 곳
+        ///포켓몬영화
+        ///포켓몬영화16
+        ///포켓몬영화17
+        ///포켓몬영화18
+        ///포켓몬영화19
+        ///포켓몬영화20
+        ///포켓몬영화21
+        ///포켓몬센터
+        ///포켓몬 애니메이션
+        ///PC메가도쿄
+        ///PC오사카
+        ///PC후쿠오카
+        ///PC나고야
+        ///PC삿포로
+        ///PC요코하마
+        ///PC도호쿠
+        ///PC도쿄베이
+        ///PC히로시마
+        ///PC교토
+        ///PC스카이트리타운
+        ///a Pokémon Store
+        ///WCS
+        ///WCS2016
+        ///WCS2017
+        ///WCS2018
+        ///WCS2019
+        ///WCS2020
+        ///WCS2021
+        ///Worlds
+        ///Worlds2016
+        ///Worlds2017
+        ///Worlds2018
+        ///Worlds2019
+        ///Worlds2020
+        ///Worlds2021
+        ///VGE
+        ///VGE2016
+        ///VGE2017
+        ///VGE2018
+        ///VGE2019
+        ///VGE2020
+        ///VGE2021
+        ///포켓몬이벤트
+        ///배틀 대회
+        ///게임 이벤트
+        ///the Pokémon Daisuki Club
+        ///포켓몬 방송
+        ///콘서트
+        ///온라인 선물
+        ///PGL
+        ///포켓몬이벤트16
+        ///포켓몬이벤트17
+        ///포켓몬이벤트18
+        ///포켓몬이벤트19
+        ///포켓몬이벤 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_ko {
+            get {
+                return ResourceManager.GetString("text_sm_40000_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 美丽的地方
+        ///遥远的地方
+        ///宝可梦电影
+        ///宝可梦电影１６
+        ///宝可梦电影１７
+        ///宝可梦电影１８
+        ///宝可梦电影１９
+        ///宝可梦电影２０
+        ///宝可梦电影２１
+        ///宝可梦中心
+        ///宝可梦动画片
+        ///超级东京ＰＣ
+        ///大阪ＰＣ
+        ///福冈ＰＣ
+        ///名古屋ＰＣ
+        ///札幌ＰＣ
+        ///横滨ＰＣ
+        ///东北ＰＣ
+        ///东京湾ＰＣ
+        ///广岛ＰＣ
+        ///京都ＰＣ
+        ///晴空塔城ＰＣ
+        ///宝可梦商店
+        ///WCS
+        ///WCS２０１６
+        ///WCS２０１７
+        ///WCS２０１８
+        ///WCS２０１９
+        ///WCS２０２０
+        ///WCS２０２１
+        ///Ｗｏｒｌｄｓ
+        ///Ｗｏｒｌｄｓ２０１６
+        ///Ｗｏｒｌｄｓ２０１７
+        ///Ｗｏｒｌｄｓ２０１８
+        ///Ｗｏｒｌｄｓ２０１９
+        ///Ｗｏｒｌｄｓ２０２０
+        ///Ｗｏｒｌｄｓ２０２１
+        ///VGE
+        ///VGE２０１６
+        ///VGE２０１７
+        ///VGE２０１８
+        ///VGE２０１９
+        ///VGE２０２０
+        ///VGE２０２１
+        ///宝可梦活动
+        ///对战大赛
+        ///游戏活动
+        ///发烧友俱乐部
+        ///宝可梦节目
+        ///音乐会
+        ///在线礼物
+        ///PGL
+        ///宝可梦活动１６
+        ///宝可梦活动１７
+        ///宝可梦活动１８
+        ///宝可梦活动１９
+        ///宝可梦活动２０
+        ///宝可梦活动２１
+        ///宝可梦庆典
+        ///宝可梦庆典１６
+        ///宝可梦庆典１７
+        ///宝可梦庆典１８
+        ///宝可梦庆典１９ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_sm_40000_zh {
+            get {
+                return ResourceManager.GetString("text_sm_40000_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ferne Person
+        ///Hortleiterinnen
+        ///Schatzsucher
+        ///Dame der Heißen Quellen.
+        /// </summary>
+        internal static string text_sm_60000_de {
+            get {
+                return ResourceManager.GetString("text_sm_60000_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a stranger
+        ///Nursery helpers
+        ///a treasure hunter
+        ///an old hot-springs visitor.
+        /// </summary>
+        internal static string text_sm_60000_en {
+            get {
+                return ResourceManager.GetString("text_sm_60000_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Persona lejana
+        ///Cuidados Pokémon
+        ///Buscatesoros
+        ///Anciana del Balneario.
+        /// </summary>
+        internal static string text_sm_60000_es {
+            get {
+                return ResourceManager.GetString("text_sm_60000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personne lointaine
+        ///Responsable de la Garderie
+        ///Chercheur de Trésors
+        ///Dame des Eaux Thermales.
+        /// </summary>
+        internal static string text_sm_60000_fr {
+            get {
+                return ResourceManager.GetString("text_sm_60000_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Persona lontana
+        ///Ostello Pokémon
+        ///Cercatesori
+        ///Vecchina delle terme.
+        /// </summary>
+        internal static string text_sm_60000_it {
+            get {
+                return ResourceManager.GetString("text_sm_60000_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to とおくにいるひと
+        ///あずかりやさん
+        ///トレジャーハンター
+        ///おんせんばあさん.
+        /// </summary>
+        internal static string text_sm_60000_ja {
+            get {
+                return ResourceManager.GetString("text_sm_60000_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 멀리 있는 사람
+        ///맡기미집
+        ///트레져헌터
+        ///온천할머니.
+        /// </summary>
+        internal static string text_sm_60000_ko {
+            get {
+                return ResourceManager.GetString("text_sm_60000_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 远处的人
+        ///寄放屋
+        ///寻宝猎人
+        ///温泉婆婆.
+        /// </summary>
+        internal static string text_sm_60000_zh {
+            get {
+                return ResourceManager.GetString("text_sm_60000_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ei
         ///Bisasam
         ///Bisaknosp
@@ -28554,10 +33109,10 @@ namespace PKHeX.Properties {
         ///ライチュウ
         ///サンド
         ///サンドパン
-        ///ニドラン♀
+        ///ニドラン
         ///ニドリーナ
         ///ニドクイン
-        ///ニドラン♂
+        ///ニドラン
         ///ニドリーノ
         ///ニドキング
         ///ピッピ
@@ -28604,7 +33159,7 @@ namespace PKHeX.Properties {
         ///ゴローニャ
         ///ポニータ
         ///ギャロップ
-        ///ヤ [rest of string was truncated]&quot;;.
+        ///ヤドン [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_ja {
             get {
@@ -28724,111 +33279,111 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 蛋
-        ///妙蛙种子
-        ///妙蛙草
-        ///妙蛙花
-        ///小火龙
-        ///火恐龙
-        ///喷火龙
-        ///杰尼龟
-        ///卡咪龟
-        ///水箭龟
-        ///绿毛虫
-        ///铁甲蛹
-        ///巴大蝶
-        ///独角虫
-        ///铁壳蛹
-        ///大针蜂
-        ///波波
-        ///比比鸟
-        ///大比鸟
-        ///小拉达
-        ///拉达
-        ///烈雀
-        ///大嘴雀
-        ///阿柏蛇
-        ///阿柏怪
-        ///皮卡丘
-        ///雷丘
-        ///穿山鼠
-        ///穿山王
-        ///尼多兰
-        ///尼多娜
-        ///尼多后
-        ///尼多朗
-        ///尼多力诺
-        ///尼多王
-        ///皮皮
-        ///皮可西
-        ///六尾
-        ///九尾
-        ///胖丁
-        ///胖可丁
-        ///超音蝠
-        ///大嘴蝠
-        ///走路草
-        ///臭臭花
-        ///霸王花
-        ///派拉斯
-        ///派拉斯特
-        ///毛球
-        ///摩鲁蛾
-        ///地鼠
-        ///三地鼠
-        ///喵喵
-        ///猫老大
-        ///可达鸭
-        ///哥达鸭
-        ///猴怪
-        ///火暴猴
-        ///卡蒂狗
-        ///风速狗
-        ///蚊香蝌蚪
-        ///蚊香君
-        ///蚊香泳士
-        ///凯西
-        ///勇基拉
-        ///胡地
-        ///腕力
-        ///豪力
-        ///怪力
-        ///喇叭芽
-        ///口呆花
-        ///大食花
-        ///玛瑙水母
-        ///毒刺水母
-        ///小拳石
-        ///隆隆石
-        ///隆隆岩
-        ///小火马
-        ///烈焰马
-        ///呆呆兽
-        ///呆壳兽
-        ///小磁怪
-        ///三合一磁怪
-        ///大葱鸭
-        ///嘟嘟
-        ///嘟嘟利
-        ///小海狮
-        ///白海狮
-        ///臭泥
-        ///臭臭泥
-        ///大舌贝
-        ///刺甲贝
-        ///鬼斯
-        ///鬼斯通
-        ///耿鬼
-        ///大岩蛇
-        ///催眠貘
-        ///引梦貘人
-        ///大钳蟹
-        ///巨钳蟹
-        ///霹雳电球
-        ///顽皮雷弹
-        ///蛋蛋
-        ///椰蛋树
-        ///卡拉卡拉 [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to 
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_zh {
             get {

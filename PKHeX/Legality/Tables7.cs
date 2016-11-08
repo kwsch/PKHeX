@@ -6,6 +6,40 @@ namespace PKHeX
     {
         internal const int MaxSpeciesID_7 = 802;
         // PKHeX Valid Array Storage
+
+        #region Met Locations
+
+        internal static readonly int[] Met_SMc = { 0, 60002, 30002, };
+
+        internal static readonly int[] Met_SM_0 =
+        {
+            006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 034, 036, 038, 040, 042, 044, 046, 048,
+            050, 052, 054, 056, 058, 060, 062, 064, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
+            100, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
+            150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 192
+        };
+
+        internal static readonly int[] Met_SM_3 =
+        {
+            30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016,
+        };
+
+        internal static readonly int[] Met_SM_4 =
+        {
+            40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009, 40010,
+            40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019, 40020, 40021, 40022, 40023, 40024, 40025,
+            40026, 40027, 40028, 40029, 40030, 40031, 40032, 40033, 40034, 40035, 40036, 40037, 40038, 40039, 40040,
+            40041, 40042, 40043, 40044, 40045, 40046, 40047, 40048, 40049, 40050, 40051, 40052, 40053, 40054, 40055,
+            40056, 40057, 40058, 40059, 40060, 40061, 40062, 40063, 40064, 40065, 40066, 40067, 40068, 40069, 40070,
+            40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078, 40079,
+
+            40080, 40081, 40082, 40083, 40084, 40085, 40086, 40087, 40088,
+        };
+
+        internal static readonly int[] Met_SM_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, };
+
+        #endregion
+
         internal static readonly ushort[] Pouch_Regular_SM = { // 00
             44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 116, 117, 118, 119, 135, 136, 137, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 499, 534, 535, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 639, 640, 644, 645, 646, 647, 648, 649, 650, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 699, 704, 710, 711, 715, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 767, 768, 769, 770,
             795, 796, 844, 849, 853, 854, 855, 856, 879, 880, 881, 882, 883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920,
@@ -22,7 +56,7 @@ namespace PKHeX
         
         internal static readonly ushort[] Pouch_Key_SM = {
             216, 465, 466, 628, 629, 638, 696, 705, 706, 765, 773,
-            797, 841, 842, 843, 845, 847, 850, 857, 858, 859, 860,
+            797, 841, 842, 843, 845, 847, 850, 857, 858,      860,
         };
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 618, 619, 620
@@ -42,9 +76,177 @@ namespace PKHeX
         };
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
 
-        private static readonly EncounterStatic[] Encounter_SM =
+        private static readonly EncounterStatic[] Encounter_SM = // @ moon a\1\5\5
         {
+            // Gfits - 0.bin
+            new EncounterStatic { Gift = true, Species = 722, Level = 5,  Location = 24, }, // Rowlet
+            new EncounterStatic { Gift = true, Species = 725, Level = 5,  Location = 24, }, // Litten
+            new EncounterStatic { Gift = true, Species = 728, Level = 5,  Location = 24, }, // Popplio
+            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = -1, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = -1, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = -1, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = -1, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = -1, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = -1, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = -1, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = -1, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = -1, }, // Archen
+            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = -1, }, // Tyrunt
+            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = -1, }, // Amaura
+            new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = -1, }, // Eevee
+            new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -1, }, // Porygon
+            new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = -1, IV3 = true, }, // Type: Null
+            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -1, IV3 = true, }, // Magearna (Bottle Cap) 00 FF
+            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = -1, IV3 = true, }, // Cosmog                00 FF
+            new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = -1, }, // Aerodactyl
             
+            // Static Encounters - 1.bin
+            new EncounterStatic { Species = 731, Form = 0, Level = 03, Location = -1, IVs = new[] { -1, -1, -1, -1, -1,  1 }, }, // Pikipek
+            // new EncounterStatic { Species = 793, Form = 0, Level = 27, Location = -1, IVs = new[] { 31,  1, 31,  1, 31, 31 }, }, // Nihilego
+            new EncounterStatic { Species = 791, Form = 0, Level = 55, Location = -1, IV3 = true, }, // Solgaleo
+            new EncounterStatic { Species = 792, Form = 0, Level = 55, Location = -1, IV3 = true, }, // Lunala
+            new EncounterStatic { Species = 735, Form = 1, Level = 12, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, HeldItem = 151, }, // Gumshoos
+            new EncounterStatic { Species = 734, Form = 0, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Yungoos
+            new EncounterStatic { Species = 735, Form = 0, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Gumshoos
+            new EncounterStatic { Species = 734, Form = 0, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Yungoos
+            new EncounterStatic { Species = 734, Form = 0, Level = 10, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Yungoos
+            new EncounterStatic { Species = 020, Form = 2, Level = 12, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, HeldItem = 151, }, // Raticate
+            new EncounterStatic { Species = 019, Form = 1, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Rattata
+            new EncounterStatic { Species = 020, Form = 1, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Raticate
+            new EncounterStatic { Species = 019, Form = 1, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Rattata
+            new EncounterStatic { Species = 019, Form = 1, Level = 10, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Rattata
+            new EncounterStatic { Species = 746, Form = 1, Level = 20, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, HeldItem = 158, }, // Wishiwashi
+            new EncounterStatic { Species = 746, Form = 0, Level = 17, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Wishiwashi
+            new EncounterStatic { Species = 746, Form = 0, Level = 18, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Wishiwashi
+            new EncounterStatic { Species = 594, Form = 0, Level = 18, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Alomomola
+            new EncounterStatic { Species = 746, Form = 0, Level = 18, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Wishiwashi
+            new EncounterStatic { Species = 758, Form = 1, Level = 22, Location = -1, IVs = new[] { 31,  1, 15,  1, 15,  1 }, HeldItem = 204, }, // Salazzle
+            new EncounterStatic { Species = 105, Form = 1, Level = 18, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Marowak
+            new EncounterStatic { Species = 105, Form = 1, Level = 18, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Marowak
+            new EncounterStatic { Species = 025, Form = 0, Level = 20, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Pikachu
+            new EncounterStatic { Species = 757, Form = 0, Level = 20, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Salandit
+            new EncounterStatic { Species = 754, Form = 1, Level = 24, Location = -1, IVs = new[] { 31, 31, 31, 20, 31, 31 }, HeldItem = 271, }, // Lurantis
+            new EncounterStatic { Species = 047, Form = 0, Level = 22, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Parasect
+            new EncounterStatic { Species = 756, Form = 0, Level = 22, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Shiinotic
+            new EncounterStatic { Species = 753, Form = 0, Level = 23, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Fomantis
+            new EncounterStatic { Species = 753, Form = 0, Level = 23, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Fomantis
+            new EncounterStatic { Species = 753, Form = 0, Level = 23, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Fomantis
+            new EncounterStatic { Species = 753, Form = 0, Level = 23, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Fomantis
+            new EncounterStatic { Species = 351, Form = 0, Level = 22, Location = -1, IVs = new[] { 30, 15, 30, 30, 30, 15 }, }, // Castform
+            new EncounterStatic { Species = 732, Form = 0, Level = 22, Location = -1, IVs = new[] { 10, 10, 30, 10, 30, 10 }, }, // Trumbeak
+            new EncounterStatic { Species = 738, Form = 1, Level = 29, Location = -1, IVs = new[] { 31,  1, 31,  1, 31,  1 }, HeldItem = 184, }, // Vikavolt
+            new EncounterStatic { Species = 736, Form = 0, Level = 27, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Grubbin
+            new EncounterStatic { Species = 737, Form = 0, Level = 27, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Charjabug
+            new EncounterStatic { Species = 737, Form = 0, Level = 27, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Charjabug
+            new EncounterStatic { Species = 737, Form = 0, Level = 27, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Charjabug
+            new EncounterStatic { Species = 737, Form = 0, Level = 28, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Charjabug
+            new EncounterStatic { Species = 778, Form = 2, Level = 33, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, HeldItem = 157, }, // Mimikyu
+            new EncounterStatic { Species = 092, Form = 0, Level = 30, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Gastly
+            new EncounterStatic { Species = 093, Form = 0, Level = 30, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Haunter
+            new EncounterStatic { Species = 094, Form = 0, Level = 30, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Gengar
+            new EncounterStatic { Species = 093, Form = 0, Level = 27, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Haunter
+            new EncounterStatic { Species = 094, Form = 0, Level = 27, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Gengar
+            new EncounterStatic { Species = 784, Form = 1, Level = 45, Location = -1, IVs = new[] { 31,  1, 31,  1, 31,  1 }, HeldItem = 219, }, // Kommo-o
+            new EncounterStatic { Species = 782, Form = 0, Level = 40, Location = -1, IVs = new[] { 31, 31, 31, 31, 31, 31 }, }, // Jangmo-o
+            new EncounterStatic { Species = 783, Form = 0, Level = 40, Location = -1, IVs = new[] { 31, 31, 31, 31, 31, 31 }, }, // Hakamo-o
+            new EncounterStatic { Species = 783, Form = 0, Level = 32, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Hakamo-o
+            new EncounterStatic { Species = 212, Form = 0, Level = 32, Location = -1, IVs = new[] { 15, 15, 15, 15, 15, 15 }, }, // Scizor
+            new EncounterStatic { Species = 793, Form = 0, Level = 55, Location = -1, IV3 = true, }, // Nihilego
+            new EncounterStatic { Species = 793, Form = 0, Level = 55, Location = -1, IV3 = true, }, // Nihilego
+            new EncounterStatic { Species = 794, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Buzzwole
+            new EncounterStatic { Species = 794, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Buzzwole
+            new EncounterStatic { Species = 795, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Pheromosa
+            new EncounterStatic { Species = 795, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Pheromosa
+            new EncounterStatic { Species = 795, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Pheromosa
+            new EncounterStatic { Species = 795, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Pheromosa
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Xurkitree
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Location = -1, IV3 = true, }, // Celesteela
+            new EncounterStatic { Species = 799, Form = 0, Level = 70, Location = -1, IV3 = true, }, // Guzzlord
+            new EncounterStatic { Species = 800, Form = 0, Level = 75, Location = -1, IV3 = true, }, // Necrozma
+            new EncounterStatic { Species = 155, Form = 0, Level = 12, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Cyndaquil
+            new EncounterStatic { Species = 158, Form = 0, Level = 12, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Totodile
+            new EncounterStatic { Species = 633, Form = 0, Level = 13, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Deino
+            new EncounterStatic { Species = 116, Form = 0, Level = 18, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Horsea
+            new EncounterStatic { Species = 599, Form = 0, Level = 08, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Klink
+            new EncounterStatic { Species = 152, Form = 0, Level = 10, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Chikorita
+            new EncounterStatic { Species = 607, Form = 0, Level = 10, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Litwick
+            new EncounterStatic { Species = 574, Form = 0, Level = 17, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Gothita
+            new EncounterStatic { Species = 363, Form = 0, Level = 19, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Spheal
+            new EncounterStatic { Species = 404, Form = 0, Level = 20, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Luxio
+            new EncounterStatic { Species = 679, Form = 0, Level = 23, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Honedge
+            new EncounterStatic { Species = 543, Form = 0, Level = 14, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Venipede
+            new EncounterStatic { Species = 069, Form = 0, Level = 16, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Bellsprout
+            new EncounterStatic { Species = 183, Form = 0, Level = 17, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Marill
+            new EncounterStatic { Species = 111, Form = 0, Level = 30, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Rhyhorn
+            new EncounterStatic { Species = 220, Form = 0, Level = 31, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Swinub
+            new EncounterStatic { Species = 578, Form = 0, Level = 33, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Duosion
+            new EncounterStatic { Species = 315, Form = 0, Level = 34, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Roselia
+            new EncounterStatic { Species = 315, Form = 0, Level = 34, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Roselia
+            new EncounterStatic { Species = 397, Form = 0, Level = 27, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Staravia
+            new EncounterStatic { Species = 288, Form = 0, Level = 27, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Vigoroth
+            new EncounterStatic { Species = 610, Form = 0, Level = 28, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Axew
+            new EncounterStatic { Species = 604, Form = 0, Level = 55, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Eelektross
+            new EncounterStatic { Species = 534, Form = 0, Level = 57, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Conkeldurr
+            new EncounterStatic { Species = 468, Form = 0, Level = 59, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Togekiss
+            new EncounterStatic { Species = 542, Form = 0, Level = 57, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Leavanny
+            new EncounterStatic { Species = 497, Form = 0, Level = 43, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Serperior
+            new EncounterStatic { Species = 503, Form = 0, Level = 43, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Samurott
+            new EncounterStatic { Species = 500, Form = 0, Level = 43, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Emboar
+            new EncounterStatic { Species = 785, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Tapu Koko
+            new EncounterStatic { Species = 786, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Tapu Lele
+            new EncounterStatic { Species = 787, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Tapu Bulu
+            new EncounterStatic { Species = 788, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Tapu Fini
+            new EncounterStatic { Species = 296, Form = 0, Level = 09, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Makuhita
+            new EncounterStatic { Species = 103, Form = 1, Level = 40, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Exeggutor
+            new EncounterStatic { Species = 785, Form = 0, Level = 60, Location = -1, IV3 = true, }, // Tapu Koko
+            new EncounterStatic { Species = 542, Form = 0, Level = 57, Location = -1, IVs = new[] { -1, -1, -1, -1, -1, -1 }, }, // Leavanny
+
+            // Trades - 4.bin
+
+        };
+
+        private static readonly int[] WildPokeballs7 = {
+            0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
+            0x1A, // Beast
         };
 
         private static readonly int[] TMHM_SM =
@@ -61,6 +263,26 @@ namespace PKHeX
             430, 433, 528, 057, 555, 267, 399, 127, 605, 590,
 
             // No HMs
+        };
+
+        internal static readonly int[] MovePP_SM =
+        {
+            00,
+            35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,
+            30, 25, 15, 30, 25, 05, 15, 10, 05, 20, 20, 20, 05, 35, 20, 20, 20, 20, 20, 15, 25, 15, 10, 20, 25, 10, 35, 30, 15, 10, 40, 10, 15, 30, 15, 20, 10, 15, 10, 05, 10, 10, 25, 10, 20, 40, 30, 30, 20, 20,
+            15, 10, 40, 15, 10, 30, 10, 20, 10, 40, 40, 20, 30, 30, 20, 30, 10, 10, 20, 05, 10, 30, 20, 20, 20, 05, 15, 15, 20, 10, 15, 35, 20, 15, 10, 10, 30, 15, 40, 20, 10, 10, 05, 10, 30, 10, 15, 20, 15, 40,
+            20, 10, 05, 15, 10, 10, 10, 15, 30, 30, 10, 10, 20, 10, 01, 01, 10, 25, 10, 05, 15, 25, 15, 10, 15, 30, 05, 40, 15, 10, 25, 10, 30, 10, 20, 10, 10, 10, 10, 10, 20, 05, 40, 05, 05, 15, 05, 10, 05, 10,
+            10, 10, 10, 20, 20, 40, 15, 10, 20, 20, 25, 05, 15, 10, 05, 20, 15, 20, 25, 20, 05, 30, 05, 10, 20, 40, 05, 20, 40, 20, 15, 35, 10, 05, 05, 05, 15, 05, 20, 05, 05, 15, 20, 10, 05, 05, 15, 10, 15, 15,
+            10, 10, 10, 20, 10, 10, 10, 10, 15, 15, 15, 10, 20, 20, 10, 20, 20, 20, 20, 20, 10, 10, 10, 20, 20, 05, 15, 10, 10, 15, 10, 20, 05, 05, 10, 10, 20, 05, 10, 20, 10, 20, 20, 20, 05, 05, 15, 20, 10, 15,
+            20, 15, 10, 10, 15, 10, 05, 05, 10, 15, 10, 05, 20, 25, 05, 40, 15, 05, 40, 15, 20, 20, 05, 15, 20, 20, 15, 15, 05, 10, 30, 20, 30, 15, 05, 40, 15, 05, 20, 05, 15, 25, 25, 15, 20, 15, 20, 15, 20, 10,
+            20, 20, 05, 05, 10, 05, 40, 10, 10, 05, 10, 10, 15, 10, 20, 15, 30, 10, 20, 05, 10, 10, 15, 10, 10, 05, 15, 05, 10, 10, 30, 20, 20, 10, 10, 05, 05, 10, 05, 20, 10, 20, 10, 15, 10, 20, 20, 20, 15, 15,
+            10, 15, 15, 15, 10, 10, 10, 20, 10, 30, 05, 10, 15, 10, 10, 05, 20, 30, 10, 30, 15, 15, 15, 15, 30, 10, 20, 15, 10, 10, 20, 15, 05, 05, 15, 15, 05, 10, 05, 20, 05, 15, 20, 05, 20, 20, 20, 20, 10, 20,
+            10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 10, 05, 05, 10, 05, 05, 05, 15, 10, 10, 10, 10, 10, 10, 15, 20, 15, 10, 15, 10, 15, 10, 20, 10, 10, 10, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 20, 15, 10,
+            15, 15, 15, 15, 10, 10, 10, 10, 10, 15, 15, 15, 15, 05, 05, 15, 05, 10, 10, 10, 20, 20, 20, 10, 10, 30, 15, 15, 10, 15, 25, 10, 15, 10, 10, 10, 20, 10, 10, 10, 10, 10, 15, 15, 05, 05, 10, 10, 10, 05,
+            05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20,
+            10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
+            01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
+            01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01
         };
     }
 }

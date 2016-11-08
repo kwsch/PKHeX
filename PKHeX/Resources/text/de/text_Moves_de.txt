@@ -1,4 +1,4 @@
-﻿-----
+-----
 Pfund
 Karateschlag
 Duplexhieb
@@ -224,7 +224,7 @@ Intensität
 Wuchtschlag
 Vielender
 Feuerodem
-Staffette
+Stafette
 Zugabe
 Verfolgung
 Turbodreher
@@ -336,7 +336,7 @@ Eisenabwehr
 Rückentzug
 Jauler
 Drachenklaue
-Fauna-Statue
+Flora-Statue
 Protzer
 Sprungfeder
 Lehmschuss
@@ -518,7 +518,7 @@ Offerte
 Inferno
 Wassersäulen
 Feuersäulen
-Pflanzsäulen
+Pflanzensäulen
 Voltwechsel
 Käfertrutz
 Dampfwalze
@@ -620,3 +620,101 @@ Ursprungswoge
 Abgrundsklinge
 Zenitstürmer
 Dimensionswahn
+Hyper-Sprintangriff
+Hyper-Sprintangriff
+Fulminante Faustschläge
+Fulminante Faustschläge
+Finaler Steilflug
+Finaler Steilflug
+Vernichtender Säureregen
+Vernichtender Säureregen
+Seismische Eruption
+Seismische Eruption
+Apokalyptische Steinpresse
+Apokalyptische Steinpresse
+Wirbelnder Insektenhieb
+Wirbelnder Insektenhieb
+Ewige Nacht
+Ewige Nacht
+Turbo-Spiralkombo
+Turbo-Spiralkombo
+Dynamische Maxiflamme
+Dynamische Maxiflamme
+Super-Wassertornado
+Super-Wassertornado
+Brillante Blütenpracht
+Brillante Blütenpracht
+Gigavolt-Funkensalve
+Gigavolt-Funkensalve
+Psycho-Schmetterschlag
+Psycho-Schmetterschlag
+Tobender Geofrost
+Tobender Geofrost
+Drastisches Drachendröhnen
+Drastisches Drachendröhnen
+Schwarzes Loch des Grauens
+Schwarzes Loch des Grauens
+Entzückender Sternenstoß
+Entzückender Sternenstoß
+Perfektes Pika-Projektil
+Sandsammler
+Überrumpler
+Bunker
+Schattenfessel
+Dark Lariat
+Schaumserenade
+Eishammer
+Florakur
+Pferdestärke
+Kraftabsorber
+Solarklinge
+Blattwerk
+Rampenlicht
+Giftfaden
+Konzentration
+Hilfsmechanik
+Neck Strike
+Pollenknödel
+Ankerschuss
+Psychofeld
+Anfallen
+Feuerpeitsche
+Überheblichkeit
+Ausbrennen
+Initiativetausch
+Schmalhorn
+Läuterung
+Wecktanz
+Sanktionskern
+Tropenkick
+Kommando
+Schnabelkanone
+Schuppenrasseln
+Drachenhammer
+Wirbler
+Auroraschleier
+Schatten-Pfeilregen
+Hyper Dark Crusher
+Grandiose Meeressymphonie
+Alolas Wächter
+Sternbild des Seelenraubes
+Blitz-Wellenritt
+Schluss mit lustig
+Macht der Neun
+Supernova des Ursprungs
+Panzerfalle
+Kanonenbouquet
+Psychobeißer
+Fruststampfer
+Schattenknochen
+Turbofelsen
+Aquadurchstoß
+Prisma-Laser
+Diebesschatten
+Stahlgestirn
+Schattenstrahl
+Tränendrüse
+Elektropikser
+Naturzorn
+Multi-Angriff
+Tausendfacher Donnerblitz

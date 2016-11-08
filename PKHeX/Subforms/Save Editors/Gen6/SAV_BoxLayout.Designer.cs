@@ -32,15 +32,14 @@
             this.LB_BoxSelect = new System.Windows.Forms.ListBox();
             this.TB_BoxName = new System.Windows.Forms.TextBox();
             this.L_BoxName = new System.Windows.Forms.Label();
-            this.L_BG = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.CB_BG = new System.Windows.Forms.ComboBox();
             this.PAN_BG = new System.Windows.Forms.Panel();
             this.FLP_Misc = new System.Windows.Forms.FlowLayoutPanel();
-            this.CB_Unlocked = new System.Windows.Forms.ComboBox();
-            this.L_Unlocked = new System.Windows.Forms.Label();
             this.FLP_Unlocked = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_Unlocked = new System.Windows.Forms.Label();
+            this.CB_Unlocked = new System.Windows.Forms.ComboBox();
             this.FLP_Flags = new System.Windows.Forms.FlowLayoutPanel();
             this.L_Flag = new System.Windows.Forms.Label();
             this.FLP_Misc.SuspendLayout();
@@ -63,10 +62,10 @@
             // 
             // TB_BoxName
             // 
-            this.TB_BoxName.Location = new System.Drawing.Point(139, 35);
+            this.TB_BoxName.Location = new System.Drawing.Point(133, 35);
             this.TB_BoxName.MaxLength = 15;
             this.TB_BoxName.Name = "TB_BoxName";
-            this.TB_BoxName.Size = new System.Drawing.Size(130, 20);
+            this.TB_BoxName.Size = new System.Drawing.Size(136, 20);
             this.TB_BoxName.TabIndex = 1;
             this.TB_BoxName.WordWrap = false;
             this.TB_BoxName.TextChanged += new System.EventHandler(this.changeBoxDetails);
@@ -74,20 +73,11 @@
             // L_BoxName
             // 
             this.L_BoxName.AutoSize = true;
-            this.L_BoxName.Location = new System.Drawing.Point(137, 19);
+            this.L_BoxName.Location = new System.Drawing.Point(131, 19);
             this.L_BoxName.Name = "L_BoxName";
             this.L_BoxName.Size = new System.Drawing.Size(59, 13);
             this.L_BoxName.TabIndex = 2;
             this.L_BoxName.Text = "Box Name:";
-            // 
-            // L_BG
-            // 
-            this.L_BG.AutoSize = true;
-            this.L_BG.Location = new System.Drawing.Point(287, 37);
-            this.L_BG.Name = "L_BG";
-            this.L_BG.Size = new System.Drawing.Size(25, 13);
-            this.L_BG.TabIndex = 4;
-            this.L_BG.Text = "BG:";
             // 
             // B_Save
             // 
@@ -115,9 +105,9 @@
             // 
             this.CB_BG.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_BG.FormattingEnabled = true;
-            this.CB_BG.Location = new System.Drawing.Point(318, 34);
+            this.CB_BG.Location = new System.Drawing.Point(275, 34);
             this.CB_BG.Name = "CB_BG";
-            this.CB_BG.Size = new System.Drawing.Size(52, 21);
+            this.CB_BG.Size = new System.Drawing.Size(98, 21);
             this.CB_BG.TabIndex = 13;
             this.CB_BG.SelectedIndexChanged += new System.EventHandler(this.changeBoxBG);
             // 
@@ -143,15 +133,14 @@
             this.FLP_Misc.Size = new System.Drawing.Size(164, 73);
             this.FLP_Misc.TabIndex = 15;
             // 
-            // CB_Unlocked
+            // FLP_Unlocked
             // 
-            this.CB_Unlocked.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Unlocked.FormattingEnabled = true;
-            this.CB_Unlocked.Location = new System.Drawing.Point(76, 0);
-            this.CB_Unlocked.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Unlocked.Name = "CB_Unlocked";
-            this.CB_Unlocked.Size = new System.Drawing.Size(40, 21);
-            this.CB_Unlocked.TabIndex = 0;
+            this.FLP_Unlocked.Controls.Add(this.L_Unlocked);
+            this.FLP_Unlocked.Controls.Add(this.CB_Unlocked);
+            this.FLP_Unlocked.Location = new System.Drawing.Point(3, 3);
+            this.FLP_Unlocked.Name = "FLP_Unlocked";
+            this.FLP_Unlocked.Size = new System.Drawing.Size(161, 25);
+            this.FLP_Unlocked.TabIndex = 16;
             // 
             // L_Unlocked
             // 
@@ -162,14 +151,15 @@
             this.L_Unlocked.Text = "Unlocked:";
             this.L_Unlocked.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // FLP_Unlocked
+            // CB_Unlocked
             // 
-            this.FLP_Unlocked.Controls.Add(this.L_Unlocked);
-            this.FLP_Unlocked.Controls.Add(this.CB_Unlocked);
-            this.FLP_Unlocked.Location = new System.Drawing.Point(3, 3);
-            this.FLP_Unlocked.Name = "FLP_Unlocked";
-            this.FLP_Unlocked.Size = new System.Drawing.Size(161, 25);
-            this.FLP_Unlocked.TabIndex = 16;
+            this.CB_Unlocked.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Unlocked.FormattingEnabled = true;
+            this.CB_Unlocked.Location = new System.Drawing.Point(76, 0);
+            this.CB_Unlocked.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_Unlocked.Name = "CB_Unlocked";
+            this.CB_Unlocked.Size = new System.Drawing.Size(40, 21);
+            this.CB_Unlocked.TabIndex = 0;
             // 
             // FLP_Flags
             // 
@@ -198,7 +188,6 @@
             this.Controls.Add(this.CB_BG);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.L_BG);
             this.Controls.Add(this.L_BoxName);
             this.Controls.Add(this.TB_BoxName);
             this.Controls.Add(this.LB_BoxSelect);
@@ -222,7 +211,6 @@
         private System.Windows.Forms.ListBox LB_BoxSelect;
         private System.Windows.Forms.TextBox TB_BoxName;
         private System.Windows.Forms.Label L_BoxName;
-        private System.Windows.Forms.Label L_BG;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.ComboBox CB_BG;

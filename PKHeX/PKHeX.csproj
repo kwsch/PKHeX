@@ -85,6 +85,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -103,6 +104,17 @@
     <Compile Include="Legality\Checks.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
+    <Compile Include="Legality\Structures\DexLevel.cs" />
+    <Compile Include="Legality\Structures\EggMoves.cs" />
+    <Compile Include="Legality\Structures\EncounterArea.cs" />
+    <Compile Include="Legality\Structures\EncounterLink.cs" />
+    <Compile Include="Legality\Structures\EncounterSlot.cs" />
+    <Compile Include="Legality\Structures\EncounterStatic.cs" />
+    <Compile Include="Legality\Structures\EncounterTrade.cs" />
+    <Compile Include="Legality\Structures\EvolutionTree.cs" />
+    <Compile Include="Legality\Structures\Learnset.cs" />
+    <Compile Include="Legality\Structures\Nature.cs" />
+    <Compile Include="Legality\Structures\SlotType.cs" />
     <Compile Include="Legality\Tables.cs" />
     <Compile Include="Legality\Tables2.cs" />
     <Compile Include="Legality\Tables1.cs" />
@@ -197,6 +209,7 @@
     <Compile Include="Saves\SAV6.cs" />
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
+    <Compile Include="Saves\Substructures\MemeCrypto.cs" />
     <Compile Include="Saves\Substructures\ShadowInfo.cs" />
     <Compile Include="Saves\Substructures\StrategyMemo.cs" />
     <Compile Include="Settings.cs" />
@@ -268,6 +281,12 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.Designer.cs">
       <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.Designer.cs">
+      <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.cs">
       <SubType>Form</SubType>
@@ -448,6 +467,9 @@
     <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.resx">
       <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.resx">
+      <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7.resx">
       <DependentUpon>SAV_Trainer7.cs</DependentUpon>
     </EmbeddedResource>
@@ -527,6 +549,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\byte\eggmove_sm.pkl" />
+    <None Include="Resources\byte\encounter_mn.pkl" />
+    <None Include="Resources\byte\encounter_sn.pkl" />
+    <None Include="Resources\byte\evos_sm.pkl" />
+    <None Include="Resources\byte\lvlmove_sm.pkl" />
     <None Include="Resources\byte\personal_sm" />
     <None Include="Resources\text\gen3\text_gsc_00000_es.txt" />
     <None Include="Resources\text\gen3\text_ItemsG1_es.txt" />
@@ -2886,6 +2913,660 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\misc\sanchi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\105-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\658-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\658-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\718-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\718-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\718-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\718-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\723.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\724.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\725.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\726.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\727.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\728.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\729.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\730.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\731.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\732.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\733.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\734.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\735.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\736.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\737.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\738.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\739.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\740.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\741.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\741-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\741-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\741-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\742.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\743.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\744.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\745.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\745-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\746.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\746-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\747.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\748.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\749.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\750.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\751.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\752.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\753.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\754.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\755.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\756.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\757.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\758.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\759.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\760.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\761.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\762.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\763.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\764.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\765.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\766.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\767.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\768.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\769.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\770.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\771.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\772.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\773.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\774-13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\775.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\776.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\777.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\778.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\779.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\780.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\781.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\782.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\783.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\784.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\785.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\786.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\787.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\788.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\789.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\790.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\791.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\792.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\793.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\794.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\795.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\796.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\797.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\798.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\799.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\800.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\801.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\801-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\802.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\19-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\20-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\26-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\27-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\28-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\37-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\38-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\50-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\51-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\52-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\53-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\74-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\75-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\76-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\88-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\89-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\103-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\en\text_sm_30000_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\en\text_sm_60000_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ko\text_Species_zh.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ja\text_sm_60000_ja.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ja\text_sm_40000_ja.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ja\text_sm_30000_ja.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ja\text_sm_00000_ja.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\fr\text_sm_60000_fr.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\fr\text_sm_40000_fr.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\fr\text_sm_30000_fr.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\fr\text_sm_00000_fr.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\de\text_sm_00000_de.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\de\text_sm_30000_de.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\de\text_sm_40000_de.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\de\text_sm_60000_de.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\es\text_sm_00000_es.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\es\text_sm_30000_es.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\es\text_sm_40000_es.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\es\text_sm_60000_es.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\zh\text_sm_60000_zh.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\zh\text_sm_40000_zh.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\zh\text_sm_30000_zh.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\zh\text_sm_00000_zh.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ko\text_sm_30000_ko.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ko\text_sm_00000_ko.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ko\text_sm_40000_ko.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\ko\text_sm_60000_ko.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\it\text_sm_00000_it.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\it\text_sm_30000_it.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\it\text_sm_40000_it.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\it\text_sm_60000_it.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\en\text_sm_00000_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\en\text_sm_40000_en.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_776.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_777.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_778.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_779.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_780.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_781.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_782.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_783.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_784.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_785.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_786.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_787.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_788.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_789.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_790.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_791.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_792.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_793.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_794.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_795.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_796.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_798.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_799.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_800.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_801.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_802.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_803.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_804.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_805.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_806.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_836.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_846.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_849.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_851.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_852.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_853.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_854.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_855.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_856.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_879.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_880.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_881.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_882.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_883.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_884.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_904.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_905.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_906.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_907.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_908.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_909.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_910.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_911.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_912.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_913.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_914.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_915.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_916.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_917.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_918.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_919.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\item\item_920.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

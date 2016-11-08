@@ -162,6 +162,10 @@ namespace PKHeX
                 itemlist[771] += " (3)"; // Meteorite
                 itemlist[772] += " (4)"; // Meteorite
 
+                // Append Z-Crystal flagging
+                foreach (var i in Legal.Pouch_ZCrystal_SM)
+                    itemlist[i] += " [Z]";
+
                 // Replace the Egg Name with ---; egg name already stored to eggname
                 specieslist[0] = "---";
 
@@ -195,6 +199,8 @@ namespace PKHeX
                 metXY_00000[298] += " (OR/AS)";            // Victory Road
                 metXY_30000[0] += " (NPC)";                // Anything from an NPC
                 metXY_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
+
+                // Sun/Moon duplicates
 
                 // Set the first entry of a met location to "" (nothing)
                 // Fix (None) tags
@@ -236,11 +242,11 @@ namespace PKHeX
 
         // DataSource providing
         public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6;
+        private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6, metGen7;
         public static void InitializeDataSources(GameStrings s)
         {
-            int[] ball_nums = { 7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6, 12, 15, 9, 5, 499, 10, 1, 16 };
-            int[] ball_vals = { 7, 25, 13, 17, 22, 14, 20, 18, 21, 19, 11, 23, 8, 6, 12, 15, 9, 5, 24, 10, 1, 16 };
+            int[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
+            int[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
             BallDataSource = Util.getVariedCBList(s.itemlist, ball_nums, ball_vals);
             SpeciesDataSource = Util.getCBList(s.specieslist, null);
             NatureDataSource = Util.getCBList(s.natures, null);
@@ -296,6 +302,17 @@ namespace PKHeX
                 met_list = Util.getOffsetCBList(met_list, s.metXY_40000, 40001, Legal.Met_XY_4);
                 met_list = Util.getOffsetCBList(met_list, s.metXY_60000, 60001, Legal.Met_XY_6);
                 metGen6 = met_list;
+            }
+            // Gen 7
+            {
+                var met_list = Util.getCBList(s.metSM_00000, new[] { 0 });
+                met_list = Util.getOffsetCBList(met_list, s.metSM_60000, 60001, new[] { 60002 });
+                met_list = Util.getOffsetCBList(met_list, s.metSM_30000, 30001, new[] { 30002 });
+                met_list = Util.getOffsetCBList(met_list, s.metSM_00000, 00000, Legal.Met_SM_0);
+                met_list = Util.getOffsetCBList(met_list, s.metSM_30000, 30001, Legal.Met_SM_3);
+                met_list = Util.getOffsetCBList(met_list, s.metSM_40000, 40001, Legal.Met_SM_4);
+                met_list = Util.getOffsetCBList(met_list, s.metSM_60000, 60001, Legal.Met_SM_6);
+                metGen7 = met_list;
             }
             #endregion
         }
@@ -370,6 +387,10 @@ namespace PKHeX
                 case GameVersion.OR:
                 case GameVersion.AS:
                     return metGen6.Take(3).Concat(metGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)).ToList(); // Secret Base
+
+                case GameVersion.SN:
+                case GameVersion.MN:
+                    return metGen7.Take(3).Concat(metGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Secret Base
             }
 
             // Currently on a future game, return corresponding list for generation
