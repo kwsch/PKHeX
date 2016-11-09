@@ -150,9 +150,9 @@ namespace PKHeX
         // Moves
         internal static IEnumerable<int> getValidMoves(PKM pkm)
         {
-            int version = pkm.Version;
+            GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
-                version = -1;
+                version = GameVersion.Any;
             return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: true, Machine: true); 
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
@@ -453,25 +453,25 @@ namespace PKHeX
             return curr.Count() >= poss.Count();
         }
 
-        internal static bool getCanBeCaptured(int species, int gen, int version = -1)
+        internal static bool getCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
         {
             switch (gen)
             {
                 case 6:
                     switch (version)
                     {
-                        case -1:
+                        case GameVersion.Any:
                             return getCanBeCaptured(species, SlotsX, StaticX, XY:true)
                                 || getCanBeCaptured(species, SlotsY, StaticY, XY:true)
                                 || getCanBeCaptured(species, SlotsA, StaticA)
                                 || getCanBeCaptured(species, SlotsO, StaticO);
-                        case (int)GameVersion.X:
+                        case GameVersion.X:
                             return getCanBeCaptured(species, SlotsX, StaticX, XY:true);
-                        case (int)GameVersion.Y:
+                        case GameVersion.Y:
                             return getCanBeCaptured(species, SlotsY, StaticY, XY:true);
-                        case (int)GameVersion.AS:
+                        case GameVersion.AS:
                             return getCanBeCaptured(species, SlotsA, StaticA);
-                        case (int)GameVersion.OR:
+                        case GameVersion.OR:
                             return getCanBeCaptured(species, SlotsO, StaticO);
 
                         default:
@@ -480,12 +480,12 @@ namespace PKHeX
                 case 7:
                     switch (version)
                     {
-                        case -1:
+                        case GameVersion.Any:
                             return getCanBeCaptured(species, SlotsSN, StaticSN)
                                 || getCanBeCaptured(species, SlotsMN, StaticMN);
-                        case (int)GameVersion.SN:
+                        case GameVersion.SN:
                             return getCanBeCaptured(species, SlotsSN, StaticSN);
-                        case (int)GameVersion.MN:
+                        case GameVersion.MN:
                             return getCanBeCaptured(species, SlotsMN, StaticMN);
 
                         default:
@@ -506,19 +506,19 @@ namespace PKHeX
             return false;
         }
 
-        internal static bool getCanLearnMachineMove(PKM pkm, int move, int version = -1)
+        internal static bool getCanLearnMachineMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
             return getValidMoves(pkm, version, Machine: true).Contains(move);
         }
-        internal static bool getCanRelearnMove(PKM pkm, int move, int version = -1)
+        internal static bool getCanRelearnMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
             return getValidMoves(pkm, version, LVL: true, Relearn: true).Contains(move);
         }
-        internal static bool getCanLearnMove(PKM pkm, int move, int version = -1)
+        internal static bool getCanLearnMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
             return getValidMoves(pkm, version, Tutor: true, Machine: true).Contains(move);
         }
-        internal static bool getCanKnowMove(PKM pkm, int move, int version = -1)
+        internal static bool getCanKnowMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == 235 && !InvalidSketch.Contains(move))
                 return true;
@@ -698,14 +698,14 @@ namespace PKHeX
             IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
-        private static IEnumerable<int> getValidMoves(PKM pkm, int Version, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false)
+        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false)
         {
             List<int> r = new List<int> { 0 };
             int species = pkm.Species;
             int lvl = pkm.CurrentLevel;
 
             // Special (non Type) Tutor Availability
-            bool moveTutor = Version == -1 || pkm.Format != pkm.GenNumber;
+            bool moveTutor = Version == GameVersion.Any || pkm.Format != pkm.GenNumber;
             // Add extra cases where tutors
             moveTutor |= pkm.AO;
             moveTutor |= pkm.XY && !pkm.IsUntraded;
@@ -735,18 +735,18 @@ namespace PKHeX
             if (Relearn) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, int Version, bool LVL, bool Tutor, bool Machine)
+        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool Tutor, bool Machine)
         {
             List<int> r = new List<int> { 0 };
             for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
                r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, Tutor, Machine, gen));
             return r.Distinct();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, int Version, bool LVL, bool Tutor, bool Machine, int Generation)
+        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool Tutor, bool Machine, int Generation)
         {
             List<int> r = new List<int>();
 
-            var ver = (GameVersion) Version;
+            var ver = Version;
             switch (Generation)
             {
                 case 6:
