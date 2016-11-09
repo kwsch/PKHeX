@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -198,8 +199,10 @@ namespace PKHeX
             return sig;
         }
 
-        private static byte[] ReverseCrypt(byte[] input, bool alt = false)
+        private static byte[] ReverseCrypt(byte[] input)
         {
+            if (input.Length != 0x80)
+                throw new ArgumentException("Invalid Memecrypto decryption byte[]!");
             byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
             byte[] enc = new byte[0x60];
             Array.Copy(input, 0x20, enc, 0, 0x60);
@@ -210,9 +213,14 @@ namespace PKHeX
             byte[] key = new SHA1Managed().ComputeHash(keybuf).Take(0x10).ToArray();
 
             byte[] RSA = RSAEncrypt(enc);
-            if (alt)
-                RSA[0] |= 0x80;
-            return MemeCryptoAESDecrypt(key, RSA);
+            var dec = MemeCryptoAESDecrypt(key, RSA);
+            if (new SHA1Managed().ComputeHash(dec).Take(0x8).SequenceEqual(dec.Skip(0x58)))
+                return dec;
+            RSA[0] |= 0x80;
+            dec = MemeCryptoAESDecrypt(key, RSA);
+            if (new SHA1Managed().ComputeHash(dec).Take(0x8).SequenceEqual(dec.Skip(0x58)))
+                return dec;
+            return null;
         }
 
         public static byte[] Resign(byte[] sav7)
@@ -236,9 +244,10 @@ namespace PKHeX
             Array.Copy(Hash, 0, keybuf, PubKeyDer.Length, 0x20);
             byte[] key = new SHA1Managed().ComputeHash(keybuf).Take(0x10).ToArray();
 
-            byte[] secret = new byte[0x60];
+            byte[] secret = ReverseCrypt(CurSig) ?? new byte[0x60];
             byte[] secretWorkBuf = new byte[0x78];
             Hash.CopyTo(secretWorkBuf, 0);
+            Array.Copy(secret, 0, secretWorkBuf, 0x20, 0x58);
             Array.Copy(new SHA1Managed().ComputeHash(secretWorkBuf), 0, secret, 0x58, 8);
 
             Hash.CopyTo(outSav, 0x6BB00);
