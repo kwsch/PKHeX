@@ -2849,10 +2849,12 @@ namespace PKHeX
                 return;
 
             string modified;
+            bool all = false;
             if (ModifierKeys == (Keys.Alt | Keys.Shift) && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear ALL Boxes?!"))
             {
                 SAV.resetBoxes();
                 modified = "Boxes cleared!";
+                all = true;
             }
             else if (ModifierKeys == Keys.Alt && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear Current Box?"))
             {
@@ -2863,6 +2865,7 @@ namespace PKHeX
             {
                 SAV.sortBoxes();
                 modified = "Boxes sorted!";
+                all = true;
             }
             else if (ModifierKeys == Keys.Control && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Sort Current Box?"))
             {
@@ -2873,7 +2876,7 @@ namespace PKHeX
                 return;
 
             setPKXBoxes();
-            updateBoxViewers();
+            updateBoxViewers(all);
             Util.Alert(modified);
         }
         private void clickBoxDouble(object sender, MouseEventArgs e)
@@ -2909,10 +2912,10 @@ namespace PKHeX
             if (DragInfo.WasDragParticipant(this, CB_BoxSelect.SelectedIndex) == false)
                 setPKXBoxes();
         }
-        private void updateBoxViewers()
+        private void updateBoxViewers(bool all = false)
         {
             var views = Application.OpenForms.OfType<SAV_BoxViewer>();
-            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex))
+            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex || all))
                 v.setPKXBoxes();
         }
 
@@ -3579,7 +3582,7 @@ namespace PKHeX
             new SAV_BoxLayout(CB_BoxSelect.SelectedIndex).ShowDialog();
             setBoxNames(); // fix box names
             setPKXBoxes(); // refresh box background
-            updateBoxViewers(); // update subviewers
+            updateBoxViewers(all:true); // update subviewers
         }
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
