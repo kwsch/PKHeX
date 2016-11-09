@@ -446,7 +446,7 @@ namespace PKHeX
                 int[] marks = new int[8];
                 int val = MarkValue;
                 for (int i = 0; i < marks.Length; i++)
-                    marks[i] = (val >> (i*2)) % 3;
+                    marks[i] = ((val >> (i*2)) & 3) % 3;
                 return marks;
             }
             set
