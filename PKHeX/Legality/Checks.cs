@@ -159,9 +159,9 @@ namespace PKHeX
                 AddLine(Severity.Indeterminate, "Language ID > 8.", CheckIdentifier.Language);
                 return;
             }
-            if (pkm.Format <= 7 && pkm.Language > 9)
+            if (pkm.Format <= 7 && pkm.Language > 10)
             {
-                AddLine(Severity.Indeterminate, "Language ID > 9.", CheckIdentifier.Language);
+                AddLine(Severity.Indeterminate, "Language ID > 10.", CheckIdentifier.Language);
                 return;
             }
 
