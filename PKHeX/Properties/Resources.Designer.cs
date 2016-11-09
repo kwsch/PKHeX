@@ -17296,7 +17296,9 @@ namespace PKHeX.Properties {
         ///4,ITA (Italiano)
         ///5,GER (Deutsch)
         ///7,ESP (Español)
-        ///8,KOR (한국어).
+        ///8,KOR (한국어)
+        ///9,CHS (汉字简化方案)
+        ///10,CHT (漢字簡化方案).
         /// </summary>
         internal static string languages {
             get {
@@ -23881,7 +23883,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spiky
+        ///   Looks up a localized string similar to Picoreja
         ///
         ///
         ///
@@ -24133,8 +24135,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///        /// [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_es {
             get {
@@ -24143,7 +24144,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spiky
+        ///   Looks up a localized string similar to Picoreja
         ///
         ///
         ///
@@ -24395,8 +24396,7 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///
-        ///        /// [rest of string was truncated]&quot;;.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_es1 {
             get {
@@ -33388,6 +33388,119 @@ namespace PKHeX.Properties {
         internal static string text_species_zh {
             get {
                 return ResourceManager.GetString("text_species_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_species_zh2 {
+            get {
+                return ResourceManager.GetString("text_species_zh2", resourceCulture);
             }
         }
         

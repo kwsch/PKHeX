@@ -1223,7 +1223,7 @@ namespace PKHeX
             // Set the culture (makes it easy to pass language to other forms)
             Properties.Settings.Default.Language = curlanguage;
             Properties.Settings.Default.Save();
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage.Substring(0, 2));
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
         private void InitializeStrings()
@@ -1281,7 +1281,6 @@ namespace PKHeX
             // Set the various ComboBox DataSources up with their allowed entries
             setCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = Util.getUnsortedCBList("regions3ds");
-            CB_Language.DataSource = Util.getUnsortedCBList("languages");
 
             GameInfo.InitializeDataSources(GameStrings);
 
@@ -1296,6 +1295,11 @@ namespace PKHeX
             GameInfo.setItemDataSource(HaX, SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameStrings);
             if (SAV.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
+
+            var languages = Util.getUnsortedCBList("languages");
+            if (SAV.Generation < 7)
+                languages = languages.Where(l => l.Value <= 8).ToList(); // Korean
+            CB_Language.DataSource = languages;
 
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
@@ -2849,10 +2853,12 @@ namespace PKHeX
                 return;
 
             string modified;
+            bool all = false;
             if (ModifierKeys == (Keys.Alt | Keys.Shift) && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear ALL Boxes?!"))
             {
                 SAV.resetBoxes();
                 modified = "Boxes cleared!";
+                all = true;
             }
             else if (ModifierKeys == Keys.Alt && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear Current Box?"))
             {
@@ -2863,6 +2869,7 @@ namespace PKHeX
             {
                 SAV.sortBoxes();
                 modified = "Boxes sorted!";
+                all = true;
             }
             else if (ModifierKeys == Keys.Control && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Sort Current Box?"))
             {
@@ -2873,7 +2880,7 @@ namespace PKHeX
                 return;
 
             setPKXBoxes();
-            updateBoxViewers();
+            updateBoxViewers(all);
             Util.Alert(modified);
         }
         private void clickBoxDouble(object sender, MouseEventArgs e)
@@ -2909,10 +2916,10 @@ namespace PKHeX
             if (DragInfo.WasDragParticipant(this, CB_BoxSelect.SelectedIndex) == false)
                 setPKXBoxes();
         }
-        private void updateBoxViewers()
+        private void updateBoxViewers(bool all = false)
         {
             var views = Application.OpenForms.OfType<SAV_BoxViewer>();
-            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex))
+            foreach (var v in views.Where(v => v.CurrentBox == CB_BoxSelect.SelectedIndex || all))
                 v.setPKXBoxes();
         }
 
@@ -3579,7 +3586,7 @@ namespace PKHeX
             new SAV_BoxLayout(CB_BoxSelect.SelectedIndex).ShowDialog();
             setBoxNames(); // fix box names
             setPKXBoxes(); // refresh box background
-            updateBoxViewers(); // update subviewers
+            updateBoxViewers(all:true); // update subviewers
         }
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {

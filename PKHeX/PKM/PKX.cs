@@ -196,6 +196,8 @@ namespace PKHeX
             Util.getSpeciesList("es"), // none
             Util.getSpeciesList("es"), // 7
             Util.getSpeciesList("ko"), // 8
+            Util.getSpeciesList("zh"), // 9 Simplified
+            Util.getSpeciesList("zh2"), // 10 Traditional
         };
 
         public static string getSpeciesName(int species, int lang)
@@ -984,6 +986,16 @@ namespace PKHeX
                         f[1018], // Unbound
                     };
 
+                case 718: // Zygarde
+                    return new[]
+                    {
+                        t[000], // Normal (Aura Break)
+                        "10%", // (Aura Break)
+                        "10%-C", // Cell (Power Construct)
+                        "50%-C", // Cell (Power Construct)
+                        "100%-C" // Cell (Power Construct)
+                    };
+
                 case 741: // Oricorio
                     return new[]
                     {
@@ -996,15 +1008,15 @@ namespace PKHeX
                 case 745: // Lycanroc
                     return new[]
                     {
-                        f[745],
-                        f[1024],
+                        f[745], // Midday
+                        f[1024], // Midnight
                     };
 
                 case 746: // Wishiwashi
                     return new[]
                     {
                         f[746],
-                        f[1025],
+                        f[1025], // School
                     };
 
                 case 774: // Minior
@@ -1030,7 +1042,7 @@ namespace PKHeX
                     return new[]
                     {
                         t[000],
-                        f[1058],
+                        f[1058], // Busted
                     };
 
                 case 19: // Rattata
@@ -1055,8 +1067,8 @@ namespace PKHeX
                         break;
                     return new[]
                     {
-                        t[000], f[810]
-                    
+                        t[000],
+                        f[810] // Alolan
                     };
             }
             return new[] {""};

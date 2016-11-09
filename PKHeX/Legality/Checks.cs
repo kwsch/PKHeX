@@ -159,9 +159,9 @@ namespace PKHeX
                 AddLine(Severity.Indeterminate, "Language ID > 8.", CheckIdentifier.Language);
                 return;
             }
-            if (pkm.Format <= 7 && pkm.Language > 9)
+            if (pkm.Format <= 7 && pkm.Language > 10)
             {
-                AddLine(Severity.Indeterminate, "Language ID > 9.", CheckIdentifier.Language);
+                AddLine(Severity.Indeterminate, "Language ID > 10.", CheckIdentifier.Language);
                 return;
             }
 
@@ -360,6 +360,12 @@ namespace PKHeX
                     return Legal.ValidMet_AO.Contains(pkm.Met_Location)
                         ? new CheckResult(Severity.Valid, "Valid OR/AS hatched egg.", CheckIdentifier.Encounter)
                         : new CheckResult(Severity.Invalid, "Invalid OR/AS location for hatched egg.", CheckIdentifier.Encounter);
+                }
+                if (pkm.SM)
+                {
+                    return Legal.ValidMet_SM.Contains(pkm.Met_Location)
+                        ? new CheckResult(Severity.Valid, "Valid S/M hatched egg.", CheckIdentifier.Encounter)
+                        : new CheckResult(Severity.Invalid, "Invalid S/M location for hatched egg.", CheckIdentifier.Encounter);
                 }
                 return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
             }
@@ -641,7 +647,7 @@ namespace PKHeX
             if (!Encounter.Valid)
                 return;
 
-            if (EncounterType == typeof (MysteryGift))
+            if (EncounterIsMysteryGift)
             {
                 if (pkm.Ball != ((MysteryGift) EncounterMatch).Ball)
                     AddLine(Severity.Invalid, "Ball does not match specified Mystery Gift Ball.", CheckIdentifier.Ball);
@@ -938,11 +944,11 @@ namespace PKHeX
                 if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19))
                     return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.", CheckIdentifier.Memory);
             }
-            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, 1)))
+            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, GameVersion.Any)))
             {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.", CheckIdentifier.Memory);
             }
-            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, 1))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
+            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, GameVersion.Any))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
             {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.", CheckIdentifier.Memory);
             }
@@ -995,7 +1001,7 @@ namespace PKHeX
                     return;
 
                 case 14:
-                    if (!Legal.getCanBeCaptured(pkm.OT_TextVar, pkm.GenNumber, pkm.Version))
+                    if (!Legal.getCanBeCaptured(pkm.OT_TextVar, pkm.GenNumber, (GameVersion)pkm.Version))
                         AddLine(Severity.Invalid, "OT Memory: Captured Species can not be captured in game.", CheckIdentifier.Memory);
                     else
                         AddLine(Severity.Valid, "OT Memory: Captured Species can be captured in game.", CheckIdentifier.Memory);
@@ -1077,6 +1083,12 @@ namespace PKHeX
             if (pkm.Format < 4)
                 return;
 
+            if (pkm.AltForm > pkm.PersonalInfo.FormeCount)
+            {
+                AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form);
+                return;
+            }
+
             switch (pkm.Species)
             {
                 case 25:
@@ -1089,7 +1101,7 @@ namespace PKHeX
 
                         return;
                     }
-                    if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterType == typeof(MysteryGift))
+                    if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterIsMysteryGift)
                     {
                         var gift = EncounterMatch as WC6;
                         if (gift != null && gift.Form != pkm.AltForm)
@@ -1097,6 +1109,13 @@ namespace PKHeX
                             AddLine(Severity.Invalid, "Event Pikachu cannot have the default form.", CheckIdentifier.Form);
                             return;
                         }
+                    }
+                    break;
+                case 658:
+                    if (pkm.AltForm > 1) // Ash Battle Bond active
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        return;
                     }
                     break;
                 case 664:
@@ -1110,7 +1129,7 @@ namespace PKHeX
                 case 666:
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
-                        if (EncounterType != typeof (MysteryGift))
+                        if (!EncounterIsMysteryGift)
                             AddLine(Severity.Invalid, "Invalid Vivillon pattern.", CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, "Valid Vivillon pattern.", CheckIdentifier.Form);
@@ -1121,7 +1140,7 @@ namespace PKHeX
                 case 670:
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
-                        if (EncounterType != typeof(MysteryGift))
+                        if (!EncounterIsMysteryGift)
                             AddLine(Severity.Invalid, "Invalid Eternal Flower encounter.", CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, "Valid Eternal Flower encounter.", CheckIdentifier.Form);
@@ -1129,9 +1148,21 @@ namespace PKHeX
                         return;
                     }
                     break;
+                case 718:
+                    if (pkm.AltForm >= 4)
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
+                case 774:
+                    if (pkm.AltForm >= 7)
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
             }
-            if ((pkm.Species == 774 && pkm.AltForm >= 7) || (pkm.Species == 664 && pkm.AltForm > 1)) // Minior and Greninja
-            { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
             { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
 
@@ -1147,7 +1178,7 @@ namespace PKHeX
                 { AddLine(Severity.Invalid, "Cannot increase Contest Stats of an Egg.", CheckIdentifier.Misc); return; }
             }
 
-            if (Encounter.Valid && EncounterType == typeof(MysteryGift) ^ pkm.FatefulEncounter)
+            if (Encounter.Valid && EncounterIsMysteryGift ^ pkm.FatefulEncounter)
             {
                 if (pkm.AO && EncounterType == typeof(EncounterStatic) && pkm.Species == 386) // Deoxys Matched @ Sky Pillar
                 { AddLine(Severity.Valid, "Sky Pillar Deoxys matched Fateful Encounter.", CheckIdentifier.Fateful); return; }

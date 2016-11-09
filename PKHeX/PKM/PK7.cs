@@ -446,7 +446,7 @@ namespace PKHeX
                 int[] marks = new int[8];
                 int val = MarkValue;
                 for (int i = 0; i < marks.Length; i++)
-                    marks[i] = (val >> (i*2)) % 3;
+                    marks[i] = ((val >> (i*2)) & 3) % 3;
                 return marks;
             }
             set
@@ -638,10 +638,11 @@ namespace PKHeX
         }
         public void TradeMemory(bool Bank)
         {
-            HT_Memory = 4; // Link trade to [VAR: General Location]
-            HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
-            HT_Intensity = 1;
-            HT_Feeling = Util.rand.Next(0, Bank ? 9 : 19); // 0-9 Bank, 0-19 Trade
+            return; // appears no memories are set, ever?
+            // HT_Memory = 4; // Link trade to [VAR: General Location]
+            // HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
+            // HT_Intensity = 1;
+            // HT_Feeling = Util.rand.Next(0, Bank ? 9 : 19); // 0-9 Bank, 0-19 Trade
         }
         public void TradeFriendshipAffection(string SAV_TRAINER)
         {
