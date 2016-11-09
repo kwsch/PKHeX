@@ -647,7 +647,7 @@ namespace PKHeX
             if (!Encounter.Valid)
                 return;
 
-            if (EncounterType == typeof (MysteryGift))
+            if (EncounterIsMysteryGift)
             {
                 if (pkm.Ball != ((MysteryGift) EncounterMatch).Ball)
                     AddLine(Severity.Invalid, "Ball does not match specified Mystery Gift Ball.", CheckIdentifier.Ball);
@@ -1101,7 +1101,7 @@ namespace PKHeX
 
                         return;
                     }
-                    if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterType == typeof(MysteryGift))
+                    if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterIsMysteryGift)
                     {
                         var gift = EncounterMatch as WC6;
                         if (gift != null && gift.Form != pkm.AltForm)
@@ -1129,7 +1129,7 @@ namespace PKHeX
                 case 666:
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
-                        if (EncounterType != typeof (MysteryGift))
+                        if (!EncounterIsMysteryGift)
                             AddLine(Severity.Invalid, "Invalid Vivillon pattern.", CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, "Valid Vivillon pattern.", CheckIdentifier.Form);
@@ -1140,7 +1140,7 @@ namespace PKHeX
                 case 670:
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
-                        if (EncounterType != typeof(MysteryGift))
+                        if (!EncounterIsMysteryGift)
                             AddLine(Severity.Invalid, "Invalid Eternal Flower encounter.", CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, "Valid Eternal Flower encounter.", CheckIdentifier.Form);
@@ -1178,7 +1178,7 @@ namespace PKHeX
                 { AddLine(Severity.Invalid, "Cannot increase Contest Stats of an Egg.", CheckIdentifier.Misc); return; }
             }
 
-            if (Encounter.Valid && EncounterType == typeof(MysteryGift) ^ pkm.FatefulEncounter)
+            if (Encounter.Valid && EncounterIsMysteryGift ^ pkm.FatefulEncounter)
             {
                 if (pkm.AO && EncounterType == typeof(EncounterStatic) && pkm.Species == 386) // Deoxys Matched @ Sky Pillar
                 { AddLine(Severity.Valid, "Sky Pillar Deoxys matched Fateful Encounter.", CheckIdentifier.Fateful); return; }

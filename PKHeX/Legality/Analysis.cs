@@ -11,6 +11,7 @@ namespace PKHeX
 
         private object EncounterMatch;
         private Type EncounterType;
+        private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
         private List<MysteryGift> EventGiftMatch;
         private CheckResult Encounter, History;
         private int[] RelearnBase;
