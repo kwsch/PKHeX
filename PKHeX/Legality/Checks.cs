@@ -361,6 +361,12 @@ namespace PKHeX
                         ? new CheckResult(Severity.Valid, "Valid OR/AS hatched egg.", CheckIdentifier.Encounter)
                         : new CheckResult(Severity.Invalid, "Invalid OR/AS location for hatched egg.", CheckIdentifier.Encounter);
                 }
+                if (pkm.SM)
+                {
+                    return Legal.ValidMet_SM.Contains(pkm.Met_Location)
+                        ? new CheckResult(Severity.Valid, "Valid S/M hatched egg.", CheckIdentifier.Encounter)
+                        : new CheckResult(Severity.Invalid, "Invalid S/M location for hatched egg.", CheckIdentifier.Encounter);
+                }
                 return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
             }
 
@@ -1077,6 +1083,12 @@ namespace PKHeX
             if (pkm.Format < 4)
                 return;
 
+            if (pkm.AltForm > pkm.PersonalInfo.FormeCount)
+            {
+                AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form);
+                return;
+            }
+
             switch (pkm.Species)
             {
                 case 25:
@@ -1097,6 +1109,13 @@ namespace PKHeX
                             AddLine(Severity.Invalid, "Event Pikachu cannot have the default form.", CheckIdentifier.Form);
                             return;
                         }
+                    }
+                    break;
+                case 658:
+                    if (pkm.AltForm > 1) // Ash Battle Bond active
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        return;
                     }
                     break;
                 case 664:
@@ -1129,9 +1148,21 @@ namespace PKHeX
                         return;
                     }
                     break;
+                case 718:
+                    if (pkm.AltForm >= 4)
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
+                case 774:
+                    if (pkm.AltForm >= 7)
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
             }
-            if ((pkm.Species == 774 && pkm.AltForm >= 7) || (pkm.Species == 664 && pkm.AltForm > 1)) // Minior and Greninja
-            { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
             { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
 

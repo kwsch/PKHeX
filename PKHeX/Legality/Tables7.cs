@@ -77,6 +77,7 @@ namespace PKHeX
         };
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
 
+        #region Encounters
         private static readonly EncounterStatic[] Encounter_SM = // @ moon a\1\5\5
         {
             // Gfits - 0.bin
@@ -243,11 +244,21 @@ namespace PKHeX
             // Trades - 4.bin
 
         };
+        #endregion
 
         private static readonly int[] WildPokeballs7 = {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
             0x1A, // Beast
+        };
+
+        internal static readonly int[] ValidMet_SM = 
+        {
+            // TODO
+            006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 034, 036, 038, 040, 042, 044, 046, 048,
+            050, 052, 054, 056, 058, 060, 062, 064, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
+            100, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
+            150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 192
         };
 
         private static readonly int[] TMHM_SM =
