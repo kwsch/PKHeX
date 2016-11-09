@@ -267,9 +267,9 @@ namespace PKHeX
         public IEnumerable<DexLevel> getExplicitLineage(PKM pkm, int lvl)
         {
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
-            foreach (var link in Chain)
+            for (int i = Chain.Count-1; i >= 0; i--) // reverse evolution!
             {
-                foreach (var evo in link.StageEntryMethods)
+                foreach (var evo in Chain[i].StageEntryMethods)
                 {
                     if (!evo.Valid(pkm, lvl))
                         continue;
