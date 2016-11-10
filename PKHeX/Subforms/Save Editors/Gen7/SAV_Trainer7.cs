@@ -43,7 +43,9 @@ namespace PKHeX
                     new { Text = "ITA", Value = 4 },
                     new { Text = "GER", Value = 5 },
                     new { Text = "SPA", Value = 7 },
-                    new { Text = "KOR", Value = 8 }
+                    new { Text = "KOR", Value = 8 },
+                    new { Text = "CHS", Value = 9 },
+                    new { Text = "CHT", Value = 10},
                 };
 
             CB_3DSReg.DisplayMember = "Text";
