@@ -110,8 +110,8 @@ namespace PKHeX
             // Static Encounters - 1.bin
             new EncounterStatic { Species = 731, Form = 0, Level = 03, Location = -1, IVs = new[] { -1, -1, -1, -1, -1,  1 }, }, // Pikipek
             // new EncounterStatic { Species = 793, Form = 0, Level = 27, Location = -1, IVs = new[] { 31,  1, 31,  1, 31, 31 }, }, // Nihilego
-            new EncounterStatic { Species = 791, Form = 0, Level = 55, Location = -1, IV3 = true, }, // Solgaleo
-            new EncounterStatic { Species = 792, Form = 0, Level = 55, Location = -1, IV3 = true, }, // Lunala
+            new EncounterStatic { Species = 791, Form = 0, Level = 55, Location = 176, IV3 = true, Relearn = new[] { 713, 322, 242, 428 } }, // Solgaleo
+            new EncounterStatic { Species = 792, Form = 0, Level = 55, Location = 178, IV3 = true, Relearn = new[] { 714, 322, 539, 247 } }, // Lunala
             new EncounterStatic { Species = 735, Form = 1, Level = 12, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, HeldItem = 151, }, // Gumshoos
             new EncounterStatic { Species = 734, Form = 0, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Yungoos
             new EncounterStatic { Species = 735, Form = 0, Level = 11, Location = -1, IVs = new[] {  0,  0,  0,  0,  0,  0 }, }, // Gumshoos

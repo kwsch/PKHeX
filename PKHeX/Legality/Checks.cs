@@ -372,7 +372,16 @@ namespace PKHeX
 
             EncounterMatch = Legal.getValidStaticEncounter(pkm);
             if (EncounterMatch != null)
+            {
+                // Re-parse relearn moves
+                var s = (EncounterStatic)EncounterMatch;
+                for (int i = 0; i < 4; i++)
+                    vRelearn[i] = pkm.Moves[i] != s.Relearn[i]
+                        ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch", CheckIdentifier.RelearnMove)
+                        : new CheckResult(CheckIdentifier.RelearnMove);
+
                 return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
+            }
 
             if (Legal.getIsFossil(pkm))
             {
