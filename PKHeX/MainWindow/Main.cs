@@ -923,7 +923,7 @@ namespace PKHeX
                 B_OpenPokedex.Enabled = SAV.HasPokeDex;
                 B_OpenBerryField.Enabled = SAV.HasBerryField && SAV.XY;
                 B_OpenPokeblocks.Enabled = SAV.HasPokeBlock;
-                B_JPEG.Enabled = SAV.HasJPEG;
+                B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Enabled = SAV.HasEvents;
                 B_OpenLinkInfo.Enabled = SAV.HasLink;
                 B_CGearSkin.Enabled = SAV.Generation == 5;
