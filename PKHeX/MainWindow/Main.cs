@@ -691,16 +691,17 @@ namespace PKHeX
             }
             #endregion
             #region Battle Video
-            else if (input.Length == BV6.SIZE && BV6.getIsValid(input))
+            else if (BattleVideo.getIsValid(input))
             {
-                if (SAV.Generation != 6)
-                { Util.Alert("Cannot load a Gen6 Battle Video to a past generation save file."); return; }
+                BattleVideo b = BattleVideo.getVariantBattleVideo(input);
+                if (SAV.Generation != b.Generation)
+                { Util.Alert($"Cannot load a Gen{b.Generation} Battle Video to a different generation save file."); return; }
 
                 if (Util.Prompt(MessageBoxButtons.YesNo, $"Load Battle Video Pokémon data to {CB_BoxSelect.Text}?", "The box will be overwritten.") != DialogResult.Yes)
                     return;
 
                 bool? noSetb = getPKMSetOverride();
-                PKM[] data = new BV6(input).BattlePKMs;
+                PKM[] data = b.BattlePKMs;
                 int offset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
                 for (int i = 0; i < 24; i++)
                     SAV.setStoredSlot(data[i], offset + i*SAV.SIZE_STORED, noSetb);

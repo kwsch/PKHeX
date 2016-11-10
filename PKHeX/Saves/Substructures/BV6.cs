@@ -4,11 +4,13 @@ using System.Text;
 
 namespace PKHeX
 {
-    public class BV6
+    public class BV6 : BattleVideo
     {
         internal const int SIZE = 0x2E60;
-        internal static bool getIsValid(byte[] data)
+        internal new static bool getIsValid(byte[] data)
         {
+            if (data.Length != SIZE)
+                return false;
             return BitConverter.ToUInt64(data, 0xE18) != 0 && BitConverter.ToUInt16(data, 0xE12) == 0;
         }
 
@@ -48,7 +50,8 @@ namespace PKHeX
         private int MusicID { get { return BitConverter.ToUInt16(Data, 0x1F0); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); } }
 
 
-        public PKM[] BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
+        public override PKM[] BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
+        public override int Generation => 6;
 
         private const string NPC = "NPC";
         private string[] PlayerNames

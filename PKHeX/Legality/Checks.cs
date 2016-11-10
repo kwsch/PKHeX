@@ -898,7 +898,7 @@ namespace PKHeX
             }
             else // Is Traded
             {
-                if (pkm.HT_Memory == 0)
+                if (pkm.HT_Memory == 0 && pkm.Format == 6)
                     return new CheckResult(Severity.Invalid, "Memory -- missing Handling Trainer Memory.", CheckIdentifier.History);
             }
 
