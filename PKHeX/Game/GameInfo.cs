@@ -200,7 +200,15 @@ namespace PKHeX
                 metXY_30000[0] += " (NPC)";                // Anything from an NPC
                 metXY_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
 
-                // Sun/Moon duplicates
+                // Sun/Moon duplicates -- elaborate!
+                var metSM_00000_good = (string[])metSM_00000.Clone();
+                for (int i = 0; i < metSM_00000.Length; i += 2)
+                {
+                    var nextLoc = metSM_00000[i + 1];
+                    if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
+                        metSM_00000_good[i] += $" ({nextLoc})";
+                }
+                metSM_00000_good.CopyTo(metSM_00000, 0);
 
                 // Set the first entry of a met location to "" (nothing)
                 // Fix (None) tags
@@ -305,17 +313,10 @@ namespace PKHeX
             }
             // Gen 7
             {
-                var metSM_00000_good = new string[s.metSM_00000.Length];
-                for (int i = 0; i < s.metSM_00000.Length; i += 2)
-                {
-                    metSM_00000_good[i] = s.metSM_00000[i];
-                    if (!string.IsNullOrWhiteSpace(s.metSM_00000[i + 1]) && !s.metSM_00000[i + 1].StartsWith("["))
-                        metSM_00000_good[i] += $" ({s.metSM_00000[i + 1]})";
-                }
-                var met_list = Util.getCBList(metSM_00000_good, new[] { 0 });
+                var met_list = Util.getCBList(s.metSM_00000, new[] { 0 });
                 met_list = Util.getOffsetCBList(met_list, s.metSM_60000, 60001, new[] { 60002 });
                 met_list = Util.getOffsetCBList(met_list, s.metSM_30000, 30001, new[] { 30002 });
-                met_list = Util.getOffsetCBList(met_list, metSM_00000_good, 00000, Legal.Met_SM_0);
+                met_list = Util.getOffsetCBList(met_list, s.metSM_00000, 00000, Legal.Met_SM_0);
                 met_list = Util.getOffsetCBList(met_list, s.metSM_30000, 30001, Legal.Met_SM_3);
                 met_list = Util.getOffsetCBList(met_list, s.metSM_40000, 40001, Legal.Met_SM_4);
                 met_list = Util.getOffsetCBList(met_list, s.metSM_60000, 60001, Legal.Met_SM_6);
