@@ -1406,7 +1406,10 @@ namespace PKHeX
             if (!hasForms)
                 return;
 
-            CB_Form.DataSource = PKX.getFormList(species, GameStrings.types, GameStrings.forms, gendersymbols, SAV.Generation).ToList();
+            var ds = PKX.getFormList(species, GameStrings.types, GameStrings.forms, gendersymbols, SAV.Generation).ToList();
+            if (ds.Count == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
+                CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
+            else CB_Form.DataSource = ds;
         }
         private void setAbilityList()
         {

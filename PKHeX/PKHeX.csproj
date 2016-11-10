@@ -3571,6 +3571,24 @@
   <ItemGroup>
     <None Include="Resources\text\zh\text_Species_zh2.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-1c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-2c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-3c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-4c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-5c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-6c.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
