@@ -14,7 +14,7 @@ namespace PKHeX
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                using (var aes = new AesManaged())
+                using (var aes = new AesCryptoServiceProvider())
                 {
                     aes.Mode = CipherMode.ECB;
                     aes.Padding = PaddingMode.None;
@@ -34,7 +34,7 @@ namespace PKHeX
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                using (var aes = new AesManaged())
+                using (var aes = new AesCryptoServiceProvider())
                 {
                     aes.Mode = CipherMode.ECB;
                     aes.Padding = PaddingMode.None;
