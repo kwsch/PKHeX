@@ -196,6 +196,8 @@ namespace PKHeX
             Util.getSpeciesList("es"), // none
             Util.getSpeciesList("es"), // 7
             Util.getSpeciesList("ko"), // 8
+            Util.getSpeciesList("zh"), // 9 Simplified
+            Util.getSpeciesList("zh2"), // 10 Traditional
         };
 
         public static string getSpeciesName(int species, int lang)

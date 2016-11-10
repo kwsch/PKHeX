@@ -9,6 +9,12 @@ namespace PKHeX
         private PKM pkm;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
+        private enum Encounters
+        {
+            Unknown = -1,
+            Generic = 0
+        }
+
         private object EncounterMatch;
         private Type EncounterType;
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
@@ -95,6 +101,10 @@ namespace PKHeX
         private void updateChecks()
         {
             Encounter = verifyEncounter();
+
+            // If EncounterMatch is null, nullrefexception will prevent a lot of analysis from happening at all.
+            EncounterMatch = EncounterMatch ?? Encounters.Unknown;
+
             EncounterType = EncounterMatch?.GetType();
             if (EncounterType == typeof (MysteryGift))
                 EncounterType = EncounterType.BaseType;

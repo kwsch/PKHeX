@@ -106,7 +106,7 @@ namespace PKHeX
                 Items[i].New |= OriginalItems.All(z => z.Index != Items[i].Index);
                 if (Items[i].New)
                     val |= 0x40000000;
-                BitConverter.GetBytes((ushort)val).CopyTo(Data, Offset + i * 4);
+                BitConverter.GetBytes(val).CopyTo(Data, Offset + i * 4);
             }
         }
 

@@ -1223,7 +1223,7 @@ namespace PKHeX
             // Set the culture (makes it easy to pass language to other forms)
             Properties.Settings.Default.Language = curlanguage;
             Properties.Settings.Default.Save();
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage);
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage.Substring(0, 2));
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
         private void InitializeStrings()
@@ -1281,7 +1281,6 @@ namespace PKHeX
             // Set the various ComboBox DataSources up with their allowed entries
             setCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = Util.getUnsortedCBList("regions3ds");
-            CB_Language.DataSource = Util.getUnsortedCBList("languages");
 
             GameInfo.InitializeDataSources(GameStrings);
 
@@ -1296,6 +1295,11 @@ namespace PKHeX
             GameInfo.setItemDataSource(HaX, SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameStrings);
             if (SAV.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
+
+            var languages = Util.getUnsortedCBList("languages");
+            if (SAV.Generation < 7)
+                languages = languages.Where(l => l.Value <= 8).ToList(); // Korean
+            CB_Language.DataSource = languages;
 
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
