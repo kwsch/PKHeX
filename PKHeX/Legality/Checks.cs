@@ -309,6 +309,10 @@ namespace PKHeX
 
             var IVs = new[] { pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE };
             var HTs = new[] { pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE };
+
+            if (HTs.Any(ht => ht) && pkm.CurrentLevel != 100)
+                AddLine(Severity.Invalid, "Can't Hyper Train a pokemon that isn't level 100.", CheckIdentifier.IVs);
+
             if (IVs.All(iv => iv == 31) && HTs.Any(ht => ht))
                 AddLine(Severity.Invalid, "Can't Hyper Train a pokemon with perfect IVs.", CheckIdentifier.IVs);
             else
