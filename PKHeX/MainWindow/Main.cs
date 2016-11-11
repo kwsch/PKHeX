@@ -1346,7 +1346,7 @@ namespace PKHeX
             try { getFieldsfromPKM(); }
             catch { fieldsInitialized = oldInit; throw; }
 
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4 && SAV.Generation < 7;
             fieldsInitialized = oldInit;
             updateIVs(null, null);
             updatePKRSInfected(null, null);
@@ -2212,7 +2212,7 @@ namespace PKHeX
                 bool g4 = Version >= GameVersion.HG && Version <= GameVersion.Pt;
                 if ((int) Version == 9) // invalid
                     g4 = false;
-                CB_EncounterType.Visible = Label_EncounterType.Visible = g4;
+                CB_EncounterType.Visible = Label_EncounterType.Visible = g4 && SAV.Generation < 7;
                 if (!g4)
                     CB_EncounterType.SelectedValue = 0;
             }
