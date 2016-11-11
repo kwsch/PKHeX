@@ -83,7 +83,7 @@ namespace PKHeX
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
 
         #region Encounters
-        private static readonly EncounterStatic[] Encounter_SM = // @ moon a\1\5\5
+        private static readonly EncounterStatic[] Encounter_SM = // @ a\1\5\5
         {
             // Gfits - 0.bin
             new EncounterStatic { Gift = true, Species = 722, Level = 5,  Location = 24, }, // Rowlet
@@ -246,11 +246,11 @@ namespace PKHeX
             new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Tapu Koko
             new EncounterStatic { Species = 542, Form = 0, Level = 57, Relearn = new[]{382, 437, 014, 494}, Location = -1, }, // Leavanny
 
-            // Trades - 4.bin
 
         };
-        internal static EncounterTrade[] TradeGift_SM =
+        private static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
+            // Trades - 4.bin
             new EncounterTrade { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Machop
             new EncounterTrade { Species = 761, Form = 0, Level = 16, Ability = 1, TID = 20683, SID = 00009, OTGender = 0, Gender = 1, Nature = Nature.Adamant, }, // Bounsweet
             new EncounterTrade { Species = 061, Form = 0, Level = 22, Ability = 2, TID = 01092, SID = 00009, OTGender = 1, Gender = 1, Nature = Nature.Naughty, }, // Poliwhirl
