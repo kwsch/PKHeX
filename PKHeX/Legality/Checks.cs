@@ -927,7 +927,7 @@ namespace PKHeX
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
                     return new CheckResult(Severity.Invalid, "Memory -- missing Original Trainer Memory.", CheckIdentifier.History);
-                if (!pkm.Gen6 && pkm.OT_Affection != 0)
+                if (pkm.GenNumber < 6 && pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, "OT Affection should be zero.", CheckIdentifier.History);
             }
             // Unimplemented: Ingame Trade Memories
