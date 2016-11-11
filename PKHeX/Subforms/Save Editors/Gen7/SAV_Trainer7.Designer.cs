@@ -465,13 +465,10 @@ namespace PKHeX
             // CB_Game
             // 
             this.CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Game.Enabled = false;
             this.CB_Game.FormattingEnabled = true;
             this.CB_Game.Items.AddRange(new object[] {
-            "X",
-            "Y",
-            "AS",
-            "OR"});
+            "Sun",
+            "Moon"});
             this.CB_Game.Location = new System.Drawing.Point(141, 51);
             this.CB_Game.Name = "CB_Game";
             this.CB_Game.Size = new System.Drawing.Size(51, 21);
