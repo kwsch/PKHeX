@@ -301,6 +301,25 @@ namespace PKHeX
             else if (pkm.SID == 0)
                 AddLine(Severity.Fishy, "SID is zero.", CheckIdentifier.Trainer);
         }
+
+        private void verifyHyperTraining()
+        {
+            if (pkm.Format < 7)
+                return; // No Hyper Training before Gen VII
+
+            var IVs = new[] { pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE };
+            var HTs = new[] { pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE };
+            if (IVs.All(iv => iv == 31) && HTs.Any(ht => ht))
+                AddLine(Severity.Invalid, "Can't Hyper Train a pokemon with perfect IVs.", CheckIdentifier.IVs);
+            else
+            {
+                for (int i = 0; i < 6; i++) // Check individual IVs
+                {
+                    if ((IVs[i] == 31) && HTs[i])
+                        AddLine(Severity.Invalid, "Can't Hyper Train a perfect IV.", CheckIdentifier.IVs);
+                }
+            }
+        }
         private CheckResult verifyEncounter()
         {
             if (pkm.GenNumber < 6)

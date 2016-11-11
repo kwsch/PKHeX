@@ -117,6 +117,7 @@ namespace PKHeX
             verifyNickname();
             verifyID();
             verifyIVs();
+            verifyHyperTraining();
             verifyEVs();
             verifyLevel();
             verifyMedals();
