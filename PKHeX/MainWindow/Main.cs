@@ -1626,7 +1626,34 @@ namespace PKHeX
         private void clickIV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
-                ((MaskedTextBox) sender).Text = SAV.MaxIV.ToString();
+                if (SAV.Generation < 7)
+                    ((MaskedTextBox) sender).Text = SAV.MaxIV.ToString();
+                else
+                {
+                    var index = Array.IndexOf(new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV}, sender);
+                    switch (index)
+                    {
+                        case 0:
+                            pkm.HT_HP ^= true;
+                            break;
+                        case 1:
+                            pkm.HT_ATK ^= true;
+                            break;
+                        case 2:
+                            pkm.HT_DEF ^= true;
+                            break;
+                        case 3:
+                            pkm.HT_SPA ^= true;
+                            break;
+                        case 4:
+                            pkm.HT_SPD ^= true;
+                            break;
+                        case 5:
+                            pkm.HT_SPE ^= true;
+                            break;
+                    }
+                    updateIVs(sender, e);
+                }
             else if (ModifierKeys == Keys.Alt)
                 ((MaskedTextBox) sender).Text = 0.ToString();
         }
@@ -1789,6 +1816,14 @@ namespace PKHeX
             pkm.IV_SPE = Util.ToInt32(TB_SPEIV.Text);
             pkm.IV_SPA = Util.ToInt32(TB_SPAIV.Text);
             pkm.IV_SPD = Util.ToInt32(TB_SPDIV.Text);
+
+            var IV_Boxes = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV};
+            var HT_Vals = new[] {pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE};
+            for (int i = 0; i < IV_Boxes.Length; i++)
+                if (HT_Vals[i])
+                    IV_Boxes[i].BackColor = Color.LightGreen;
+                else
+                    IV_Boxes[i].ResetBackColor();
 
             if (SAV.Generation < 3)
             {
@@ -3758,6 +3793,7 @@ namespace PKHeX
             
             clickSlot(sender, e);
         }
+
         private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

@@ -260,6 +260,7 @@
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
+            this.PB_MarkAlola = new System.Windows.Forms.PictureBox();
             this.PB_Mark6 = new System.Windows.Forms.PictureBox();
             this.PB_MarkPentagon = new System.Windows.Forms.PictureBox();
             this.PB_Mark3 = new System.Windows.Forms.PictureBox();
@@ -438,7 +439,6 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.PB_MarkAlola = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -521,6 +521,7 @@
             this.FLP_PKMEditors.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark3)).BeginInit();
@@ -602,7 +603,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             this.mnuL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -3377,6 +3377,17 @@
             this.GB_Markings.TabStop = false;
             this.GB_Markings.Text = "Markings";
             // 
+            // PB_MarkAlola
+            // 
+            this.PB_MarkAlola.Image = global::PKHeX.Properties.Resources.sanchi;
+            this.PB_MarkAlola.InitialImage = global::PKHeX.Properties.Resources.sanchi;
+            this.PB_MarkAlola.Location = new System.Drawing.Point(96, 15);
+            this.PB_MarkAlola.Name = "PB_MarkAlola";
+            this.PB_MarkAlola.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkAlola.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkAlola.TabIndex = 9;
+            this.PB_MarkAlola.TabStop = false;
+            // 
             // PB_Mark6
             // 
             this.PB_Mark6.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.Image")));
@@ -5630,17 +5641,6 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // PB_MarkAlola
-            // 
-            this.PB_MarkAlola.Image = global::PKHeX.Properties.Resources.sanchi;
-            this.PB_MarkAlola.InitialImage = global::PKHeX.Properties.Resources.sanchi;
-            this.PB_MarkAlola.Location = new System.Drawing.Point(96, 15);
-            this.PB_MarkAlola.Name = "PB_MarkAlola";
-            this.PB_MarkAlola.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkAlola.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkAlola.TabIndex = 9;
-            this.PB_MarkAlola.TabStop = false;
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5773,6 +5773,7 @@
             this.GB_nOT.ResumeLayout(false);
             this.GB_nOT.PerformLayout();
             this.GB_Markings.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark3)).EndInit();
@@ -5865,7 +5866,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             this.mnuL.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

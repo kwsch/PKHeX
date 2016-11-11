@@ -394,6 +394,14 @@ namespace PKHeX
         public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
         public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
 
+        public virtual int HyperTrainFlags { get { return 0; } set { } }
+        public virtual bool HT_HP { get { return false; } set { } }
+        public virtual bool HT_ATK { get { return false; } set { } }
+        public virtual bool HT_DEF { get { return false; } set { } }
+        public virtual bool HT_SPA { get { return false; } set { } }
+        public virtual bool HT_SPD { get { return false; } set { } }
+        public virtual bool HT_SPE { get { return false; } set { } }
+
         public bool InhabitedGeneration(int Generation)
         {
             if (Format < Generation)
@@ -472,12 +480,12 @@ namespace PKHeX
         {
             int level = CurrentLevel;
             ushort[] Stats = new ushort[6];
-            Stats[0] = (ushort)(p.HP == 1 ? 1 : (IV_HP + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10);
-            Stats[1] = (ushort)((IV_ATK + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
-            Stats[2] = (ushort)((IV_DEF + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
-            Stats[4] = (ushort)((IV_SPA + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
-            Stats[5] = (ushort)((IV_SPD + 2 * p.SPD + EV_SPD / 4) * level / 100 + 5);
-            Stats[3] = (ushort)((IV_SPE + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : (((HT_HP ? 31 : IV_HP) + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10));
+            Stats[1] = (ushort)(((HT_ATK ? 31 : IV_ATK) + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
+            Stats[2] = (ushort)(((HT_DEF ? 31 : IV_DEF) + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
+            Stats[4] = (ushort)(((HT_SPA ? 31 : IV_SPA) + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
+            Stats[5] = (ushort)(((HT_SPD ? 31 : IV_SPD) + 2 * p.SPD + EV_SPD / 4) * level / 100 + 5);
+            Stats[3] = (ushort)(((HT_SPE ? 31 : IV_SPE) + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
 
             // Account for nature
             int incr = Nature / 5 + 1;
