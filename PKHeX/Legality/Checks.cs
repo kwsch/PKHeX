@@ -179,6 +179,12 @@ namespace PKHeX
                     validOT = Legal.TradeAO[pkm.Language];
                     index = Array.IndexOf(Legal.TradeGift_AO, EncounterMatch);
                 }
+                else if (pkm.SM)
+                {
+                    // TODO
+                    AddLine(Severity.Valid, "Ingame Trade for Sun/Moon un-implemented.", CheckIdentifier.EVs);
+                    return;
+                }
 
                 if (validOT.Length == 0)
                 {
@@ -206,7 +212,7 @@ namespace PKHeX
 
             if (pkm.IsEgg)
             {
-                if (!pkm.IsNicknamed)
+                if (!pkm.IsNicknamed && (pkm.Format != 7))
                     AddLine(Severity.Invalid, "Eggs must be nicknamed.", CheckIdentifier.EVs);
                 else if (PKX.SpeciesLang[pkm.Language][0] != pkm.Nickname)
                     AddLine(Severity.Invalid, "Egg name does not match language Egg name.", CheckIdentifier.EVs);
@@ -867,6 +873,11 @@ namespace PKHeX
                     return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
+            }
+            if (EncounterType == typeof (EncounterTrade) && pkm.Format == 7)
+            {
+                // TODO
+                return new CheckResult(Severity.Valid, "S/M History Block check skipped.", CheckIdentifier.History);
             }
             if (!pkm.WasEvent && !(pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0)) // Is not Traded
             {

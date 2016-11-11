@@ -252,16 +252,21 @@ namespace PKHeX
             if (!pkm.WasIngameTrade)
                 return null;
             int lang = pkm.Language;
-            if (lang == 0)
+            if (lang == 0 || lang == 6)
                 return null;
 
             // Get valid pre-evolutions
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
-            EncounterTrade z = null;
+
+            EncounterTrade[] table = null;
             if (pkm.XY)
-                z = lang == 6 ? null : TradeGift_XY.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+                table = TradeGift_XY;
             if (pkm.AO)
-                z = lang == 6 ? null : TradeGift_AO.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+                table = TradeGift_AO;
+            if (pkm.SM)
+                table = TradeGift_SM;
+
+            EncounterTrade z = table?.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
 
             if (z == null)
                 return null;
@@ -283,6 +288,8 @@ namespace PKHeX
             if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
                 return null;
             if (z.Gender != pkm.Gender)
+                return null;
+            if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
                 return null;
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
             //    return null;

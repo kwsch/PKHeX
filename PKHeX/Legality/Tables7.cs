@@ -249,6 +249,16 @@ namespace PKHeX
             // Trades - 4.bin
 
         };
+        internal static EncounterTrade[] TradeGift_SM =
+        {
+            new EncounterTrade { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Machop
+            new EncounterTrade { Species = 761, Form = 0, Level = 16, Ability = 1, TID = 20683, SID = 00009, OTGender = 0, Gender = 1, Nature = Nature.Adamant, }, // Bounsweet
+            new EncounterTrade { Species = 061, Form = 0, Level = 22, Ability = 2, TID = 01092, SID = 00009, OTGender = 1, Gender = 1, Nature = Nature.Naughty, }, // Poliwhirl
+            new EncounterTrade { Species = 440, Form = 0, Level = 27, Ability = 2, TID = 10913, SID = 00000, OTGender = 1, Gender = 1, Nature = Nature.Calm, }, // Happiny
+            new EncounterTrade { Species = 075, Form = 1, Level = 32, Ability = 1, TID = 20778, SID = 00009, OTGender = 0, Gender = 0, Nature = Nature.Impish, }, // Graveler-1
+            new EncounterTrade { Species = 762, Form = 0, Level = 43, Ability = 1, TID = 20679, SID = 00009, OTGender = 1, Gender = 1, Nature = Nature.Careful, }, // Steenee
+            new EncounterTrade { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
+        };
         #endregion
 
         private static readonly int[] WildPokeballs7 = {
