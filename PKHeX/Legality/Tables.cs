@@ -191,6 +191,13 @@
         };
         internal static readonly int[] BattlePrimals = { 382, 383 };
 
+        internal static readonly int[] Z_Moves =
+        {
+            622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
+            695, 696, 697, 698, 699, 700, 701, 702, 703,
+            719,
+        };
+
         #region Games
 
         internal static readonly int[] Games_7sm = { 30, 31 };
