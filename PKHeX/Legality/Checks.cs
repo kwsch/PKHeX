@@ -327,6 +327,19 @@ namespace PKHeX
                     : new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID.ToString("0000")} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
             }
 
+            EncounterMatch = Legal.getValidStaticEncounter(pkm);
+            if (EncounterMatch != null)
+            {
+                // Re-parse relearn moves
+                var s = (EncounterStatic)EncounterMatch;
+                for (int i = 0; i < 4; i++)
+                    vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
+                        ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch", CheckIdentifier.RelearnMove)
+                        : new CheckResult(CheckIdentifier.RelearnMove);
+
+                return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
+            }
+
             EncounterMatch = null; // Reset object
             if (pkm.WasEgg)
             {
@@ -368,19 +381,6 @@ namespace PKHeX
                         : new CheckResult(Severity.Invalid, "Invalid S/M location for hatched egg.", CheckIdentifier.Encounter);
                 }
                 return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
-            }
-
-            EncounterMatch = Legal.getValidStaticEncounter(pkm);
-            if (EncounterMatch != null)
-            {
-                // Re-parse relearn moves
-                var s = (EncounterStatic)EncounterMatch;
-                for (int i = 0; i < 4; i++)
-                    vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
-                        ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch", CheckIdentifier.RelearnMove)
-                        : new CheckResult(CheckIdentifier.RelearnMove);
-
-                return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
             }
 
             if (Legal.getIsFossil(pkm))
