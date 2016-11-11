@@ -104,15 +104,6 @@ namespace PKHeX
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
-            this.GB_Adventure = new System.Windows.Forms.GroupBox();
-            this.L_Fame = new System.Windows.Forms.Label();
-            this.CAL_HoFDate = new System.Windows.Forms.DateTimePicker();
-            this.CAL_HoFTime = new System.Windows.Forms.DateTimePicker();
-            this.L_Started = new System.Windows.Forms.Label();
-            this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
-            this.CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
-            this.CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
-            this.Tab_BadgeMap = new System.Windows.Forms.TabPage();
             this.GB_Map = new System.Windows.Forms.GroupBox();
             this.NUD_Z = new System.Windows.Forms.NumericUpDown();
             this.NUD_M = new System.Windows.Forms.NumericUpDown();
@@ -122,14 +113,25 @@ namespace PKHeX
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
+            this.GB_Adventure = new System.Windows.Forms.GroupBox();
+            this.L_Fame = new System.Windows.Forms.Label();
+            this.CAL_HoFDate = new System.Windows.Forms.DateTimePicker();
+            this.CAL_HoFTime = new System.Windows.Forms.DateTimePicker();
+            this.L_Started = new System.Windows.Forms.Label();
+            this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
+            this.CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
+            this.CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
+            this.Tab_BadgeMap = new System.Windows.Forms.TabPage();
+            this.L_AlolaTime = new System.Windows.Forms.Label();
+            this.CB_AlolaTime = new System.Windows.Forms.ComboBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
-            this.GB_Adventure.SuspendLayout();
             this.GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
+            this.GB_Adventure.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -738,6 +740,8 @@ namespace PKHeX
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.CB_AlolaTime);
+            this.Tab_Overview.Controls.Add(this.L_AlolaTime);
             this.Tab_Overview.Controls.Add(this.GB_Map);
             this.Tab_Overview.Controls.Add(this.GB_Adventure);
             this.Tab_Overview.Controls.Add(this.TB_OTName);
@@ -766,6 +770,114 @@ namespace PKHeX
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // GB_Map
+            // 
+            this.GB_Map.Controls.Add(this.NUD_Z);
+            this.GB_Map.Controls.Add(this.NUD_M);
+            this.GB_Map.Controls.Add(this.NUD_Y);
+            this.GB_Map.Controls.Add(this.NUD_X);
+            this.GB_Map.Controls.Add(this.L_Y);
+            this.GB_Map.Controls.Add(this.L_CurrentMap);
+            this.GB_Map.Controls.Add(this.L_Z);
+            this.GB_Map.Controls.Add(this.L_X);
+            this.GB_Map.Location = new System.Drawing.Point(223, 122);
+            this.GB_Map.Name = "GB_Map";
+            this.GB_Map.Size = new System.Drawing.Size(157, 125);
+            this.GB_Map.TabIndex = 57;
+            this.GB_Map.TabStop = false;
+            this.GB_Map.Text = "Map Position";
+            // 
+            // NUD_Z
+            // 
+            this.NUD_Z.Location = new System.Drawing.Point(93, 68);
+            this.NUD_Z.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Z.Minimum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            -2147483648});
+            this.NUD_Z.Name = "NUD_Z";
+            this.NUD_Z.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Z.TabIndex = 53;
+            // 
+            // NUD_M
+            // 
+            this.NUD_M.Location = new System.Drawing.Point(93, 16);
+            this.NUD_M.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.NUD_M.Name = "NUD_M";
+            this.NUD_M.Size = new System.Drawing.Size(50, 20);
+            this.NUD_M.TabIndex = 52;
+            // 
+            // NUD_Y
+            // 
+            this.NUD_Y.DecimalPlaces = 1;
+            this.NUD_Y.Location = new System.Drawing.Point(93, 94);
+            this.NUD_Y.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Y.Name = "NUD_Y";
+            this.NUD_Y.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Y.TabIndex = 51;
+            // 
+            // NUD_X
+            // 
+            this.NUD_X.DecimalPlaces = 1;
+            this.NUD_X.Location = new System.Drawing.Point(93, 42);
+            this.NUD_X.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_X.Name = "NUD_X";
+            this.NUD_X.Size = new System.Drawing.Size(50, 20);
+            this.NUD_X.TabIndex = 50;
+            // 
+            // L_Y
+            // 
+            this.L_Y.Location = new System.Drawing.Point(6, 94);
+            this.L_Y.Name = "L_Y";
+            this.L_Y.Size = new System.Drawing.Size(80, 20);
+            this.L_Y.TabIndex = 49;
+            this.L_Y.Text = "Y Coordinate:";
+            this.L_Y.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_CurrentMap
+            // 
+            this.L_CurrentMap.Location = new System.Drawing.Point(6, 16);
+            this.L_CurrentMap.Name = "L_CurrentMap";
+            this.L_CurrentMap.Size = new System.Drawing.Size(80, 20);
+            this.L_CurrentMap.TabIndex = 46;
+            this.L_CurrentMap.Text = "Current Map:";
+            this.L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Z
+            // 
+            this.L_Z.Location = new System.Drawing.Point(6, 68);
+            this.L_Z.Name = "L_Z";
+            this.L_Z.Size = new System.Drawing.Size(80, 20);
+            this.L_Z.TabIndex = 48;
+            this.L_Z.Text = "Z Coordinate:";
+            this.L_Z.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_X
+            // 
+            this.L_X.Location = new System.Drawing.Point(6, 42);
+            this.L_X.Name = "L_X";
+            this.L_X.Size = new System.Drawing.Size(80, 20);
+            this.L_X.TabIndex = 47;
+            this.L_X.Text = "X Coordinate:";
+            this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_Adventure
             // 
@@ -879,113 +991,23 @@ namespace PKHeX
             this.Tab_BadgeMap.Text = "Badges/Map";
             this.Tab_BadgeMap.UseVisualStyleBackColor = true;
             // 
-            // GB_Map
+            // L_AlolaTime
             // 
-            this.GB_Map.Controls.Add(this.NUD_Z);
-            this.GB_Map.Controls.Add(this.NUD_M);
-            this.GB_Map.Controls.Add(this.NUD_Y);
-            this.GB_Map.Controls.Add(this.NUD_X);
-            this.GB_Map.Controls.Add(this.L_Y);
-            this.GB_Map.Controls.Add(this.L_CurrentMap);
-            this.GB_Map.Controls.Add(this.L_Z);
-            this.GB_Map.Controls.Add(this.L_X);
-            this.GB_Map.Location = new System.Drawing.Point(223, 122);
-            this.GB_Map.Name = "GB_Map";
-            this.GB_Map.Size = new System.Drawing.Size(157, 125);
-            this.GB_Map.TabIndex = 57;
-            this.GB_Map.TabStop = false;
-            this.GB_Map.Text = "Map Position";
+            this.L_AlolaTime.Location = new System.Drawing.Point(209, 92);
+            this.L_AlolaTime.Name = "L_AlolaTime";
+            this.L_AlolaTime.Size = new System.Drawing.Size(72, 13);
+            this.L_AlolaTime.TabIndex = 58;
+            this.L_AlolaTime.Text = "Time Offset:";
+            this.L_AlolaTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NUD_Z
+            // CB_AlolaTime
             // 
-            this.NUD_Z.Location = new System.Drawing.Point(93, 68);
-            this.NUD_Z.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Z.Minimum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            -2147483648});
-            this.NUD_Z.Name = "NUD_Z";
-            this.NUD_Z.Size = new System.Drawing.Size(50, 20);
-            this.NUD_Z.TabIndex = 53;
-            // 
-            // NUD_M
-            // 
-            this.NUD_M.Location = new System.Drawing.Point(93, 16);
-            this.NUD_M.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.NUD_M.Name = "NUD_M";
-            this.NUD_M.Size = new System.Drawing.Size(50, 20);
-            this.NUD_M.TabIndex = 52;
-            // 
-            // NUD_Y
-            // 
-            this.NUD_Y.DecimalPlaces = 1;
-            this.NUD_Y.Location = new System.Drawing.Point(93, 94);
-            this.NUD_Y.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Y.Name = "NUD_Y";
-            this.NUD_Y.Size = new System.Drawing.Size(50, 20);
-            this.NUD_Y.TabIndex = 51;
-            // 
-            // NUD_X
-            // 
-            this.NUD_X.DecimalPlaces = 1;
-            this.NUD_X.Location = new System.Drawing.Point(93, 42);
-            this.NUD_X.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_X.Name = "NUD_X";
-            this.NUD_X.Size = new System.Drawing.Size(50, 20);
-            this.NUD_X.TabIndex = 50;
-            // 
-            // L_Y
-            // 
-            this.L_Y.Location = new System.Drawing.Point(6, 94);
-            this.L_Y.Name = "L_Y";
-            this.L_Y.Size = new System.Drawing.Size(80, 20);
-            this.L_Y.TabIndex = 49;
-            this.L_Y.Text = "Y Coordinate:";
-            this.L_Y.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_CurrentMap
-            // 
-            this.L_CurrentMap.Location = new System.Drawing.Point(6, 16);
-            this.L_CurrentMap.Name = "L_CurrentMap";
-            this.L_CurrentMap.Size = new System.Drawing.Size(80, 20);
-            this.L_CurrentMap.TabIndex = 46;
-            this.L_CurrentMap.Text = "Current Map:";
-            this.L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Z
-            // 
-            this.L_Z.Location = new System.Drawing.Point(6, 68);
-            this.L_Z.Name = "L_Z";
-            this.L_Z.Size = new System.Drawing.Size(80, 20);
-            this.L_Z.TabIndex = 48;
-            this.L_Z.Text = "Z Coordinate:";
-            this.L_Z.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_X
-            // 
-            this.L_X.Location = new System.Drawing.Point(6, 42);
-            this.L_X.Name = "L_X";
-            this.L_X.Size = new System.Drawing.Size(80, 20);
-            this.L_X.TabIndex = 47;
-            this.L_X.Text = "X Coordinate:";
-            this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CB_AlolaTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_AlolaTime.FormattingEnabled = true;
+            this.CB_AlolaTime.Location = new System.Drawing.Point(287, 89);
+            this.CB_AlolaTime.Name = "CB_AlolaTime";
+            this.CB_AlolaTime.Size = new System.Drawing.Size(93, 21);
+            this.CB_AlolaTime.TabIndex = 59;
             // 
             // SAV_Trainer7
             // 
@@ -1005,13 +1027,13 @@ namespace PKHeX
             this.TC_Editor.ResumeLayout(false);
             this.Tab_Overview.ResumeLayout(false);
             this.Tab_Overview.PerformLayout();
-            this.GB_Adventure.ResumeLayout(false);
-            this.GB_Adventure.PerformLayout();
             this.GB_Map.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
+            this.GB_Adventure.ResumeLayout(false);
+            this.GB_Adventure.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1111,5 +1133,7 @@ namespace PKHeX
         private System.Windows.Forms.NumericUpDown NUD_M;
         private System.Windows.Forms.NumericUpDown NUD_Z;
         private System.Windows.Forms.GroupBox GB_Map;
+        private System.Windows.Forms.Label L_AlolaTime;
+        private System.Windows.Forms.ComboBox CB_AlolaTime;
     }
 }
