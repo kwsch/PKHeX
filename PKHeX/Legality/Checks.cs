@@ -850,11 +850,11 @@ namespace PKHeX
             if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
             {
                 if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
-                    AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
                 else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
                     AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, "Obtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
 
                 return;
             }
@@ -872,6 +872,108 @@ namespace PKHeX
 
         private void verifyEggBallGen7()
         {
+            var Lineage = Legal.getLineage(pkm).ToArray();
+            if (pkm.Ball == 0x05) // Safari Ball
+            {
+                if (Lineage.Any(e => Legal.Inherit_Safari.Contains(e)))
+                    AddLine(Severity.Valid, "Safari Ball possible from Female parent.", CheckIdentifier.Ball);
+                else if (Lineage.Any(e => Legal.Inherit_SafariMale.Contains(e)))
+                    AddLine(Severity.Valid, "Safari Ball possible from Male parent.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Safari Ball not possible for species.", CheckIdentifier.Ball);
+
+                if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Safari Ball with Hidden Ability.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
+            {
+                if (Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    return;
+                }
+                if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
+                }
+                if (Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
+                }
+                else
+                    AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (pkm.Ball == 0x18) // Sport Ball
+            {
+                if (Lineage.All(e => !Legal.Inherit_Sport.Contains(e)))
+                    AddLine(Severity.Invalid, "Sport Ball not possible for species.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Sport Ball possible for species.", CheckIdentifier.Ball);
+
+                if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Sport Ball with Hidden Ability.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (pkm.Ball == 0x19) // Dream Ball
+            {
+                if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e)))
+                    AddLine(Severity.Valid, "Dream Ball inheritance possible from Female species.", CheckIdentifier.Ball);
+                else if (Lineage.Any(e => Legal.InheritDreamMale.Contains(e)))
+                {
+                    if (pkm.AbilityNumber != 4)
+                        AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
+                }
+
+                else
+                    AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
+            {
+                if (Legal.Ban_Gen4Ball.Contains(pkm.Species))
+                {
+                    if (!Legal.Ban_Gen4Ball_AllowG7.Contains(pkm.Species))
+                        AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                    else if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                }
+                else
+                    AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
+            {
+                if (Legal.Ban_Gen3Ball_AllowG7.Contains(pkm.Species))
+                {
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Valid, "Obtainable capture for Gen3Ball.", CheckIdentifier.Ball);
+                }
+                else if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
+                    AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
+                    AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Obtainable capture for Gen3Ball.", CheckIdentifier.Ball);
+
+                return;
+            }
             if (pkm.Format == 7 && pkm.Species > 721)
             {
                 if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
