@@ -51,6 +51,7 @@ namespace PKHeX
         private const string constLabelTag = "L_";
         private bool editing;
         private int constEntry = -1;
+        private string gamePrefix = "unk";
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -72,12 +73,24 @@ namespace PKHeX
 
         private string[] getStringList(string type)
         {
-            string[] text = null;
-            if (SAV.ORAS)
-                text = Util.getStringList($"{type}_oras");
-            else if (SAV.XY)
-                text = Util.getStringList($"{type}_xy");
-            return text;
+            switch (SAV.Version)
+            {
+                case GameVersion.X:
+                case GameVersion.Y:
+                    gamePrefix = "xy";
+                    break;
+                case GameVersion.OR:
+                case GameVersion.AS:
+                    gamePrefix = "oras";
+                    break;
+                case GameVersion.SN:
+                case GameVersion.MN:
+                    gamePrefix = "sm";
+                    break;
+                default:
+                    return null;
+            }
+            return Util.getStringList($"{type}_{gamePrefix}");
         }
         private void addFlagList(string[] list)
         {
@@ -113,7 +126,7 @@ namespace PKHeX
                 var lbl = new Label
                 {
                     Text = desc[i],
-                    Name = flagLabelTag + num[i].ToString("0000"),
+                    Name = gamePrefix + flagLabelTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,
                     AutoSize = true
                 };
@@ -165,7 +178,7 @@ namespace PKHeX
                 var lbl = new Label
                 {
                     Text = desc[i],
-                    Name = constLabelTag + num[i].ToString("0000"),
+                    Name = gamePrefix + constLabelTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,
                     AutoSize = true
                 };
@@ -184,12 +197,12 @@ namespace PKHeX
             }
         }
 
-        private int getControlNum(Control chk)
+        private int getControlNum(Control c)
         {
             try
             {
-                string source = chk.Name;
-                return Convert.ToInt32(source.Substring(Math.Max(0, source.Length - 4)));
+                string source = c.Name.Split('_')[1];
+                return Convert.ToInt32(source);
             }
             catch { return 0; }
         }

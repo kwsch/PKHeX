@@ -12071,6 +12071,15 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0	Test1.
+        /// </summary>
+        internal static string const_sm {
+            get {
+                return ResourceManager.GetString("const_sm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Country ID,JP,EN,FR,DE,IT,ES,ZH,KO
         ///1,日本,Japan,Japon,Japan,Giappone,Japón,日本,일본
         ///8,アンギラ,Anguilla,Anguilla,Anguilla,Anguilla,Anguila,安圭拉,앵귈라
@@ -12291,6 +12300,15 @@ namespace PKHeX.Properties {
         internal static string flags_oras {
             get {
                 return ResourceManager.GetString("flags_oras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0005	Test1.
+        /// </summary>
+        internal static string flags_sm {
+            get {
+                return ResourceManager.GetString("flags_sm", resourceCulture);
             }
         }
         

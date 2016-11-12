@@ -3654,6 +3654,12 @@
   <ItemGroup>
     <None Include="Resources\img\types\type_icon_05.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\other\const_sm.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\other\flags_sm.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
