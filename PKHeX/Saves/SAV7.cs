@@ -854,5 +854,13 @@ namespace PKHeX
             return Blocks.Aggregate("", (current, b) => current +
                 $"{b.ID.ToString("00")}: {b.Offset.ToString("X5")}-{(b.Offset + b.Length).ToString("X5")}, {b.Length.ToString("X5")}{Environment.NewLine}");
         }
+
+        public override bool RequiresMemeCrypto
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }
