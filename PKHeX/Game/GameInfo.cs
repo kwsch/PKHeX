@@ -207,6 +207,8 @@ namespace PKHeX
                     var nextLoc = metSM_00000[i + 1];
                     if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
                         metSM_00000_good[i] += $" ({nextLoc})";
+                    if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
+                        metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
                 }
                 metSM_00000_good.CopyTo(metSM_00000, 0);
 
