@@ -1,1 +1,2 @@
-0005	Test1
+3100	Magearna Event Active
+3487	Received Magearna Gift

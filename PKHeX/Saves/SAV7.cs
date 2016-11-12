@@ -45,7 +45,7 @@ namespace PKHeX
         public override int Generation => 7;
         protected override int GiftCountMax => 48;
         protected override int GiftFlagMax => 0x100 * 8;
-        protected override int EventFlagMax => -1;
+        protected override int EventFlagMax => 3968;
         protected override int EventConstMax => (EventFlag - EventConst) / 2;
         public override int OTLength => 12;
         public override int NickLength => 12;
@@ -56,6 +56,8 @@ namespace PKHeX
         public override int MaxAbilityID => 232;
         public override int MaxBallID => 0x1A; // 26
         public override int MaxGameID => 31; // MN
+
+        public int QRSaveData;
 
         // Feature Overrides
         public override bool HasGeolocation => true;
@@ -166,7 +168,7 @@ namespace PKHeX
                 /* 02 */            //  = 0x01000;  // [014]    RandomGroup
                 /* 03 */ TrainerCard    = 0x01200;  // [0C0]    MyStatus
                 /* 04 */ Party          = 0x01400;  // [61C]    PokePartySave
-                /* 05 */ EventFlag      = 0x01C00;  // [E00]    EventWork
+                /* 05 */ EventConst     = 0x01C00;  // [E00]    EventWork
                 /* 06 */ PokeDex        = 0x02A00;  // [F78]    ZukanData
                 /* 07 */ GTS            = 0x03A00;  // [228]    GtsData
                 /* 08 */ Fused          = 0x03E00;  // [104]    UnionPokemon 
@@ -196,8 +198,10 @@ namespace PKHeX
                 /* 32 */            //  = 0x6B200;  // [1FC]    BattleInstSave
                 /* 33 */ Daycare        = 0x6B400;  // [200]    Sodateya
                 /* 34 */            //  = 0x6B600;  // [120]    WeatherSave
-                /* 35 */            //  = 0x6B800;  // [1C8]    QRReaderSaveData
+                /* 35 */ QRSaveData     = 0x6B800;  // [1C8]    QRReaderSaveData
                 /* 36 */            //  = 0x6BA00;  // [200]    TurtleSalmonSave
+
+                EventFlag = EventConst + 0x7D0;
 
                 OFS_PouchHeldItem =     Item + 0; // 430 (Case 0)
                 OFS_PouchKeyItem =      Item + 0x6B8; // 184 (Case 4)
