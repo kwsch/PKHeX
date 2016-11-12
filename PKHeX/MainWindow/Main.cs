@@ -346,6 +346,16 @@ namespace PKHeX
         }
         private void mainMenuDatabase(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Shift)
+            {
+                var c = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(KChart)) as KChart;
+                if (c != null)
+                { Util.CenterToForm(c, this); c.BringToFront(); }
+                else
+                    new KChart().Show();
+                return;
+            }
+
             var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_Database)) as SAV_Database;
             if (z != null)
             { Util.CenterToForm(z, this); z.BringToFront(); return; }

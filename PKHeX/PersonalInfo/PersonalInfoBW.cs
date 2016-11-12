@@ -86,7 +86,7 @@ namespace PKHeX
             }
         }
         public override int EscapeRate { get { return Data[0x1B]; } set { Data[0x1B] = (byte)value; } }
-        protected override int FormStatsIndex { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); } }
+        protected internal override int FormStatsIndex { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); } }
         public override int FormeSprite { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); } }
         public override int FormeCount { get { return Data[0x20]; } set { Data[0x20] = (byte)value; } }
         public override int Color { get { return Data[0x21]; } set { Data[0x21] = (byte)value; } }

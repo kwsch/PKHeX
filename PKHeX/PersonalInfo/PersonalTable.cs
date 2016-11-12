@@ -140,5 +140,45 @@ namespace PKHeX
         {
             return this[getFormeIndex(species, forme)];
         }
+
+        public int TableLength => Table.Length;
+        public string[][] getFormList(string[] species, int MaxSpecies)
+        {
+            string[][] FormList = new string[MaxSpecies+1][];
+            for (int i = 0; i <= MaxSpecies; i++) //Hardcode 721 species + null
+            {
+                int FormCount = this[i].FormeCount;
+                FormList[i] = new string[FormCount];
+                if (FormCount <= 0) continue;
+                FormList[i][0] = species[i];
+                for (int j = 1; j < FormCount; j++)
+                {
+                    FormList[i][j] = $"{species[i]} " + j;
+                }
+            }
+
+            return FormList;
+        }
+        public string[] getPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
+        {
+            string[] result = new string[Table.Length];
+            baseForm = new int[result.Length];
+            formVal = new int[result.Length];
+            for (int i = 0; i <= MaxSpecies; i++)
+            {
+                result[i] = species[i];
+                if (AltForms[i].Length == 0) continue;
+                int altformpointer = this[i].FormStatsIndex;
+                if (altformpointer <= 0) continue;
+                for (int j = 1; j < AltForms[i].Length; j++)
+                {
+                    int ptr = altformpointer + j - 1;
+                    baseForm[ptr] = i;
+                    formVal[ptr] = j;
+                    result[ptr] = AltForms[i][j];
+                }
+            }
+            return result;
+        }
     }
 }

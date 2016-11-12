@@ -25,6 +25,6 @@ namespace PKHeX
 
         // Manually added attributes
         public override int FormeCount { get { return Data[0x29]; } set {} }
-        protected override int FormStatsIndex { get { return BitConverter.ToUInt16(Data, 0x2A); } set {} }
+        protected internal override int FormStatsIndex { get { return BitConverter.ToUInt16(Data, 0x2A); } set {} }
     }
 }
