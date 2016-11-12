@@ -1464,16 +1464,13 @@ namespace PKHeX
 
             if (pkm.WasEgg && !Legal.NoHatchFromEgg.Contains(pkm.Species))
             {
-                int games = 1;
                 GameVersion[] Games = { GameVersion.XY };
                 switch (pkm.GenNumber)
                 {
                     case 6:
-                        games = 2;
                         Games = new[] {GameVersion.XY, GameVersion.ORAS};
                         break;
                     case 7:
-                        games = 1;
                         Games = new[] {GameVersion.SM};
                         break;
                 }
@@ -1481,7 +1478,7 @@ namespace PKHeX
                 bool checkAllGames = pkm.WasTradedEgg;
                 bool splitBreed = Legal.SplitBreed.Contains(pkm.Species);
 
-                int iterate = (checkAllGames ? games : 1) * (splitBreed ? 2 : 1);
+                int iterate = (checkAllGames ? Games.Length : 1) * (splitBreed ? 2 : 1);
                 for (int i = 0; i < iterate; i++)
                 {
                     int gameSource = !checkAllGames ? -1 : i % iterate / (splitBreed ? 2 : 1);

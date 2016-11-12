@@ -197,7 +197,7 @@ namespace PKHeX
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.SM:
-                    int index = PersonalTable.SM.getFormeIndex(pkm.Species, pkm.AltForm);
+                    int index = PersonalTable.SM.getFormeIndex(species, pkm.AltForm);
                     if (pkm.InhabitedGeneration(7))
                         return LevelUpSM[index].getMoves(1);
                     break;
